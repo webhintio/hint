@@ -6,13 +6,29 @@
     "properties": {
         "collector": {
             "description": "The collector to use to gather information",
-            "type": "string"
+            "anyOf": [
+                {
+                    "type": "object",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                },
+                {
+                    "type": "string"
+                }
+            ]
         },
         "environment": {
             "description": "The environment under Sonar is running: local or live",
             "type": "string"
         },
-         "plugins":{
+        "formatter": {
+            "description": "The formatter to use for the results",
+            "type": "string"
+        },
+        "plugins": {
             "description": "The plugins to be used with the collector to gather information",
             "type": "array",
             "items": {
@@ -20,7 +36,7 @@
             },
             "uniqueItems": true
         },
-        "rules":{
+        "rules": {
             "description": "The rules to validate",
             "type": "object",
             "items": {
@@ -30,6 +46,9 @@
             "uniqueItems": true
         }
     },
-    "required": ["rules"],
+    "required": [
+        "collector",
+        "rules"
+    ],
     "additionalProperties": false
 }
