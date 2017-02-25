@@ -36,4 +36,14 @@ process.once('uncaughtException', (err) => {
     process.exitCode = 1;
 });
 
-process.exitCode = cli.execute(process.argv);
+process.once('unhandledRejection', (reason, promise) => {
+    console.log(reason);
+    console.log(promise);
+});
+
+const run = async () => {
+    process.exitCode = await cli.execute(process.argv);
+    console.log(`Exit code: ${process.exitCode}`);
+};
+
+run();
