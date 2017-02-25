@@ -191,7 +191,7 @@ module.exports = {
         "no-useless-rename": "error",
         "no-var": "error",
         "no-void": "off",
-        "no-warning-comments": ["off", {
+        "no-warning-comments": ["warn", {
             "terms": [
                 "todo",
                 "fixme",
