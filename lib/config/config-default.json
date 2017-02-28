@@ -1,12 +1,4 @@
 {
-    "collector": {
-        "name": "jsdom",
-        "options": {
-            "waitFor": 3000
-        }
-    },
-    "formatter": "json",
-    "rules": {
-        "no-double-slash": "warning"
-    }
+    "collector": "jsdom",
+    "formatter": "json"
 }
