@@ -36,9 +36,8 @@ process.once('uncaughtException', (err) => {
     process.exitCode = 1;
 });
 
-process.once('unhandledRejection', (reason, promise) => {
+process.once('unhandledRejection', (reason) => {
     console.log(reason);
-    console.log(promise);
 });
 
 const run = async () => {

@@ -9,11 +9,19 @@
             "anyOf": [
                 {
                     "type": "object",
-                    "items": {
-                        "type": "string"
+                    "properties": {
+                        "name": {
+                            "description": "The name of the collector to use",
+                            "type": "string"
+                        },
+                        "options": {
+                            "description": "The options to pass to the collector",
+                            "type": "object"
+                        }
                     },
-                    "minItems": 1,
-                    "uniqueItems": true
+                    "required": [
+                        "name"
+                    ]
                 },
                 {
                     "type": "string"
