@@ -2,10 +2,11 @@
   "name": "sonar",
   "version": "0.0.1",
   "description": "Best practices tool for the web",
-  "main": "./lib/sonar.js",
+  "main": "./dist/lib/sonar.js",
   "scripts": {
-    "test": "nyc node ./bin/sonar.js",
-    "lint": "eslint {bin,lib,conf}/**/*.js"
+    "build": "cpx src/**/*.js dist -C && tsc --outDir dist --rootDir src",
+    "lint": "eslint src/**/*.ts",
+    "test": "nyc node ./bin/sonar.js"
   },
   "repository": {
     "type": "git",
@@ -47,14 +48,19 @@
     "user-home": "^2.0.0"
   },
   "devDependencies": {
+    "@types/node": "^7.0.5",
     "babel-cli": "^6.23.0",
     "babel-plugin-istanbul": "^4.0.0",
     "babel-preset-es2017": "^6.22.0",
     "babel-register": "^6.23.0",
+    "cpx": "^1.5.0",
     "eslint": "^3.15.0",
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-plugin-import": "^2.2.0",
-    "nyc": "^10.1.2"
+    "nyc": "^10.1.2",
+    "typedoc": "^0.5.7",
+    "typescript": "^2.2.1",
+    "typescript-eslint-parser": "^2.0.0"
   },
   "babel": {
     "presets": [

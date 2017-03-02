@@ -8,6 +8,7 @@ module.exports = {
         "impliedStrict": true,
         "sourceType": "module"
     },
+    "parser": "typescript-eslint-parser",
     "plugins": [
         "import"
     ],
