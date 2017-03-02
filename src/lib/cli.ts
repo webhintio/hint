@@ -18,20 +18,16 @@ const options = require('./ui/options'),
     Config = require('./config'),
     sonar = require('./sonar'),
     validator = require('./config/config-validator'),
-    resourceLoader = require('./util/resource-loader'),
     pkg = require('../package.json');
+import * as  resourceLoader from './util/resource-loader';
 
 const debug = require('debug')('sonar:cli');
 
-module.exports = {
-    /**
-     * Executes the CLI based on an array of arguments that is passed in.
-     * @param {string|Array|Object} args The arguments to process.
-     * @returns {int} The exit code for the operation.
-     */
-    async execute(args) {
+
+/** Executes the CLI based on an array of arguments that is passed in. */
+export const execute = async (args: string | Array<string> | Object): Promise<number> => {
         const format = (results) => {
-            const formatters = resourceLoader.get(resourceLoader.TYPE.formatter);
+            const formatters = resourceLoader.getFormatters();
 
             formatters.forEach((formatter) => {
                 formatter(results);
@@ -84,4 +80,5 @@ module.exports = {
 
         return 0;
     }
-};
+
+
