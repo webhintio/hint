@@ -1,5 +1,6 @@
 const debug = require('debug')('sonar:rules:no-double-slash');
 
+/** @type {Rule} */
 module.exports = {
     /**
      * Creates a new instance of this rule with a given context (configuration, etc.)
