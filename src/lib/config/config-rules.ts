@@ -1,32 +1,18 @@
-const schemaValidator = require('is-my-json-valid');
+import * as schemaValidator from 'is-my-json-valid';
+import { Severity, RuleBuilder } from '../types';
 
 const debug = require('debug')('sonar:config-rules');
 
-/**
- * Enum with the possible severity values of a rule
- * @readonly
- * @enum {number}
- */
-const severity = {
-    error: 2,
-    off: 0,
-    warning: 1
-};
-
-/**
- * Returns the severity of a rule based on its configuration
- * @param {severity|number|Array} config The configuration of the rule
- * @returns {sevirity}
- */
-const getSeverity = (config) => {
+/** Returns the severity of a rule based on its configuration */
+export const getSeverity = (config): Severity => {
     let configuredSeverity;
 
     if (typeof config === 'string') {
         // Ex.: "rule-name": "warning"
-        configuredSeverity = severity[config];
+        configuredSeverity = Severity[config];
     } else if (typeof config === 'number') {
         // Ex.: "rule-name": 2
-        configuredSeverity = severity[config];
+        configuredSeverity = Severity[config];
     } else if (Array.isArray(config)) {
         // Ex.: "rule-name": ["warning", {}]
         configuredSeverity = getSeverity(config[0]);
@@ -40,12 +26,8 @@ const getSeverity = (config) => {
 };
 
 
-/**
- * Validates that a rule has a valid configuration based on its schema
- * @param {*} rule The rule to validate
- * @param {string|number|array} config The configuration for the given rule
- */
-const validate = (rule, config, ruleId) => {
+/** Validates that a rule has a valid configuration based on its schema */
+export const validate = (rule: RuleBuilder, config, ruleId: string): boolean => {
     debug('Validating rule');
     // We don't accept object as a valid configuration
     if (!Array.isArray(config) && typeof config === 'object') {
@@ -55,7 +37,6 @@ const validate = (rule, config, ruleId) => {
     const configuredSeverity = getSeverity(config);
 
     if (!configuredSeverity) {
-        // TODO: find a way to get the rule Id
         throw new Error(`Invalid severity configured for ${ruleId}`);
     }
 
@@ -85,10 +66,4 @@ const validate = (rule, config, ruleId) => {
     const validateRule = schemaValidator(schema);
 
     return validateRule(config[1]);
-};
-
-module.exports = {
-    getSeverity,
-    severity,
-    validate
 };
