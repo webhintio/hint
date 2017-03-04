@@ -4,9 +4,11 @@
   "description": "Best practices tool for the web",
   "main": "./dist/lib/sonar.js",
   "scripts": {
-    "build": "cpx src/**/*.js dist -C && tsc --outDir dist --rootDir src",
+    "build": "cpx \"./src/**/*.{js,json}\" dist -C -v && tsc --outDir dist --rootDir src",
     "lint": "eslint src/**/*.ts",
-    "test": "nyc node ./bin/sonar.js"
+    "site": "node dist\\bin\\sonar https://developer.microsoft.com/en-us/microsoft-edge/ --debug",
+    "test": "nyc node ./bin/sonar.js",
+    "watch": "tsc --outDir dist --rootDir src --watch --allowJs"
   },
   "repository": {
     "type": "git",

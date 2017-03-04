@@ -3,8 +3,9 @@
  * @author Anton Molleda (@molant) based on Nicholas C. Zakas ESLint (https://github.com/eslint/eslint/blob/master/lib/rule-context.js)
  */
 
-const ruleValidator = require('./config/config-rules');
-
+import { validate as ruleValidator } from './config/config-rules';
+import { Severity, Location } from './types';
+import {Sonar} from './sonar';
 // ------------------------------------------------------------------------------
 // Typedefs
 // ------------------------------------------------------------------------------
@@ -51,63 +52,47 @@ const findElementLocation = (element) => {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/**
- * Rule context class
- * Acts as an abstraction layer between rules and the main eslint object.
- */
-class RuleContext {
+/** Acts as an abstraction layer between rules and the main sonar object. */
+export class RuleContext {
+    private id: string
+    private options: Array<any>
+    private meta: { any }
+    private severity: Severity
+    private sonar: Sonar
 
-    /**
-     * @param {string} ruleId The ID of the rule using this object.
-     * @param {sonar} sonar The sonar object.
-     * @param {number} severity The configured severity level of the rule.
-     * @param {Array} options The configuration information to be added to the rule.
-     * @param {Object} meta The metadata of the rule
-     */
-    constructor(ruleId, sonar, severity, options, meta) {
-        // public.
+    constructor(ruleId: string, sonar: Sonar, severity: Severity | string, options, meta) {
         this.id = ruleId;
         this.options = options;
         this.meta = meta;
-
-        // private.
         this.sonar = sonar;
-        this.severity = typeof severity === 'string' ? ruleValidator.severity[severity] : severity;
+        this.severity = typeof severity === 'string' ? Severity[severity] : severity;
 
         Object.freeze(this);
     }
 
-    /**
-     * Passthrough to eslint.report() that automatically assigns the rule ID and severity.
-     * @param {Object} nodeOrDescriptor The node related to the message or a message
-     *      descriptor.
-     * @param {string} message The message to display to the user.
-     * @param {Object} position The position of the error in that element.
-     * @returns {void}
-     */
-    report(resource, nodeOrDescriptor, message, position = null) {
-        const descriptor = nodeOrDescriptor; // TODO: this should probably contain the info of the resource (HTML, image, font, etc.)
+    /** Reports a problem with the resource */
+    report(resource: string, nodeOrDescriptor, message: string, location? : Location) {
+        // TODO: this should probably contain the info of the resource (HTML, image, font, etc.)
+        const descriptor = nodeOrDescriptor;
 
-        let location;
+        let position;
 
-        if (position !== null && descriptor.outerHTML) {
-            location = findElementLocation(nodeOrDescriptor);
-            location.column += position.column;
-            location.line += position.line;
+        if (location !== null && descriptor.outerHTML) {
+            position = findElementLocation(nodeOrDescriptor);
+            position.column += location.column;
+            position.line += location.line;
         } else {
-            location = position;
+            position = location;
         }
 
         this.sonar.report(
             this.id,
             this.severity,
             descriptor.node,
-            location,
+            position,
             message,
             resource,
             this.meta
         );
     }
 }
-
-module.exports = RuleContext;

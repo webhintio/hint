@@ -1,19 +1,17 @@
+import { RuleContext } from '../rule-context';
+import { Rule, RuleBuilder } from '../types';
+
 const debug = require('debug')('sonar:rules:no-double-slash');
 
-/** @type {Rule} */
-module.exports = {
-    /**
-     * Creates a new instance of this rule with a given context (configuration, etc.)
-     * @param {RuleContext} The context of the rule (severity, settings, reporter)
-     * @return {Object} The events the rule needs to be notified of with their handlers
-     */
-    create(context) {
+const rule: RuleBuilder = {
+    /** Creates a new instance of this rule with a given context (configuration, etc.) */
+    create(context: RuleContext): Rule {
         /*
             We need to use getAttribute to get the exact value.
             If we access the src or href properties directly the browser already adds
             http(s):// so we cannot verify
         */
-        const validate = (resource, element) => {
+        const validate = (resource: string, element: HTMLElement) => {
             debug(`Analyzing link\n${element.outerHTML}`);
             const url = element.getAttribute('src') || element.getAttribute('href') || '';
 
@@ -47,3 +45,5 @@ module.exports = {
         schema: [] // no options
     }
 };
+
+module.exports = rule;
