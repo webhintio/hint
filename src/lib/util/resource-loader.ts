@@ -14,37 +14,11 @@ const _ = require('lodash'),
     globby = require('globby');
 const debug = require('debug')('sonar:util:resource-loader');
 
+import {Resource, CollectorBuilder, Formatter, RuleBuilder, PluginBuilder} from '../types';
+
 // ------------------------------------------------------------------------------
 // Interfaces
 // ------------------------------------------------------------------------------
-
-/** A rule to be used with Sonar */
-interface Rule {
-    /** Creates an instance of the rule.
-     * @returns {Object} The instance of the rule with
-     */
-    create(config: Object);
-    /** The metadata associated to the rule (docs, schema, etc.) */
-    meta: Object;
-}
-
-/** A collector to be used by Sonar */
-interface Collector {
-    /** Collects all the information for the given target */
-    collect(target: string): Promise<Array<Object>>;
-}
-
-/** A format function that will output the results obtained by Sonar */
-interface Formatter {
-    ({ })
-}
-
-/** A plugin to expand the collector's functionality */
-interface Plugin { }
-
-/** A resource required by Sonar: Collector, Formatter, Plugin, Rule,  */
-type Resource = Collector | Formatter | Plugin | Rule;
-
 
 /** The type of resource */
 const TYPE = {
@@ -57,7 +31,7 @@ const TYPE = {
 /** Loads all the resources available for the given type */
 const loadOfType = (type: string): Map<string, Resource> => {
 
-    const resourceFiles: string[] = globby.sync(`{./,./node_modules/sonar-*}lib/${type}s/*.js`,
+    const resourceFiles: string[] = globby.sync(`{./,./node_modules/sonar-*}dist/lib/${type}s/*.js`,
         { absolute: true });
 
     debug(`${resourceFiles.length} ${type} found`);
@@ -91,6 +65,7 @@ const resources = Object.freeze(_.reduce(TYPE, (acum, value, key) => {
 /** Loads all the resources for a given configuration. */
 const get = (type: string): (() => Map<string, any>) => {
     return () => {
+        // TODO: This should be taken care of by typescript somehow
         const isValidType = _.find(TYPE, (validType) => {
             return validType === type;
         });
@@ -99,22 +74,15 @@ const get = (type: string): (() => Map<string, any>) => {
             throw new Error(`Invalid type ${type}. It can only be ${Object.keys(TYPE).join(', ')}`);
         }
 
-        // Don't really like how we do this. There should be a cleaner way
-        if (type === TYPE.collector) {
-            for (const collector of resources[type]) {
-                return collector[1];
-            }
-        }
-
         return resources[type];
     };
 }
 
 /** Returns all the Collectors found */
-export const getCollectors: () => Map<string, Collector> = get(TYPE.collector);
+export const getCollectors: () => Map<string, CollectorBuilder> = get(TYPE.collector);
 /** Returns all the Formatters found */
 export const getFormatters: () => Map<string, Formatter> = get(TYPE.formatter);
 /** Returns all the Rules found */
-export const getRules: () => Map<string, Rule> = get(TYPE.rule);
+export const getRules: () => Map<string, RuleBuilder> = get(TYPE.rule);
 /** Returns all the Plugins found */
-export const getPlugins: () => Map<string, Plugin> = get(TYPE.plugin);
+export const getPlugins: () => Map<string, PluginBuilder> = get(TYPE.plugin);

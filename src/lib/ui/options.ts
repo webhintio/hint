@@ -7,19 +7,13 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-const optionator = require('optionator');
-
-// ------------------------------------------------------------------------------
-// Typedefs
-// ------------------------------------------------------------------------------
+import * as optionator from 'optionator';
 
 // ------------------------------------------------------------------------------
 // Initialization and Public Interface
 // ------------------------------------------------------------------------------
 
-// exports "parse(args)", "generateHelp()", and "generateHelpForOption(optionName)"
-
-const opts = optionator({
+export const opts = optionator({
     defaults: {
         concatRepeatedArrays: true,
         mergeRepeatedObjects: true
@@ -73,5 +67,3 @@ const opts = optionator({
     ],
     prepend: 'sonar [options] https://url.com [https://url2.com]'
 });
-
-module.exports = opts;

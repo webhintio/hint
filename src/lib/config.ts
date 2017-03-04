@@ -9,16 +9,21 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-const fs = require('fs'),
-    path = require('path');
+import * as fs from 'fs';
+import * as path from 'path';
 
-const shell = require('shelljs'),
-    stripBom = require('strip-bom'),
-    stripComments = require('strip-json-comments'),
-    // stringify = require('json-stable-stringify'),
-    requireUncached = require('require-uncached');
+import * as shell from 'shelljs';
+import * as stripBom from 'strip-bom';
+import * as stripComments from 'strip-json-comments';
+// stringify = require('json-stable-stringify'),
+import * as requireUncached from 'require-uncached';
 
 const debug = require('debug')('eslint:config-file');
+
+interface Config {
+    sonarConfig?
+}
+
 
 // ------------------------------------------------------------------------------
 // Private
@@ -32,24 +37,13 @@ const CONFIG_FILES = [
     'package.json'
 ];
 
-/**
- * Convenience wrapper for synchronously reading file contents.
- * @param {string} filePath The filename to read.
- * @returns {string} The file contents.
- * @private
- */
-const readFile = (filePath) => {
+/** Convenience wrapper for synchronously reading file contents. */
+const readFile = (filePath: string): Config => {
     return stripBom(fs.readFileSync(filePath, 'utf8')); // eslint-disable-line no-sync
 };
 
-/**
- * Loads a YAML configuration from a file.
- * @param {string} filePath The filename to load.
- * @returns {Object} The configuration object from the file.
- * @throws {Error} If the file cannot be read.
- * @private
- */
-const loadYAMLConfigFile = (filePath) => {
+/** Loads a YAML configuration from a file. */
+const loadYAMLConfigFile = (filePath: string): Config => {
     debug(`Loading YAML config file: ${filePath}`);
 
     // lazy load YAML to improve performance when not used
@@ -65,14 +59,8 @@ const loadYAMLConfigFile = (filePath) => {
     }
 };
 
-/**
- * Loads a JSON configuration from a file.
- * @param {string} filePath The filename to load.
- * @returns {Object} The configuration object from the file.
- * @throws {Error} If the file cannot be read.
- * @private
- */
-const loadJSONConfigFile = (filePath) => {
+/** Loads a JSON configuration from a file. */
+const loadJSONConfigFile = (filePath: string): Config => {
     debug(`Loading JSON config file: ${filePath}`);
 
     try {
@@ -84,14 +72,8 @@ const loadJSONConfigFile = (filePath) => {
     }
 };
 
-/**
- * Loads a JavaScript configuration from a file.
- * @param {string} filePath The filename to load.
- * @returns {Object} The configuration object from the file.
- * @throws {Error} If the file cannot be read.
- * @private
- */
-const loadJSConfigFile = (filePath) => {
+/** Loads a JavaScript configuration from a file. */
+const loadJSConfigFile = (filePath: string): Config => {
     debug(`Loading JS config file: ${filePath}`);
     try {
         return requireUncached(filePath);
@@ -102,14 +84,8 @@ const loadJSConfigFile = (filePath) => {
     }
 };
 
-/**
- * Loads a configuration from a package.json file.
- * @param {string} filePath The filename to load.
- * @returns {Object} The configuration object from the file.
- * @throws {Error} If the file cannot be read.
- * @private
- */
-const loadPackageJSONConfigFile = (filePath) => {
+/** Loads a configuration from a package.json file. */
+const loadPackageJSONConfigFile = (filePath: string): Config => {
     debug(`Loading package.json config file: ${filePath}`);
     try {
         return loadJSONConfigFile(filePath).sonarConfig || null;
@@ -123,11 +99,8 @@ const loadPackageJSONConfigFile = (filePath) => {
 /**
  * Loads a configuration file regardless of the source. Inspects the file path
  * to determine the correctly way to load the config file.
- * @param {Object} file The path to the configuration.
- * @returns {Object} The configuration information.
- * @private
  */
-const loadConfigFile = (filePath) => {
+const loadConfigFile = (filePath: string): Config => {
     let config;
 
     switch (path.extname(filePath)) {
@@ -158,15 +131,9 @@ const loadConfigFile = (filePath) => {
     return config;
 };
 
-/**
- * Loads a configuration file from the given file path.
- * @param {string} filePath The filename or package name to load the configuration
- *      information from.
- * @param {boolean} [applyEnvironments=false] Set to true to merge in environment settings.
- * @returns {Object} The configuration information.
- * @private
- */
-const load = (filePath) => {
+
+/** Loads a configuration file from the given file path. */
+export const load = (filePath: string): Config => {
     const resolvedPath = path.resolve(process.cwd(), filePath),
         config = loadConfigFile(resolvedPath);
 
@@ -196,11 +163,8 @@ const load = (filePath) => {
 /**
  * Retrieves the configuration filename for a given directory. It loops over all
  * of the valid configuration filenames in order to find the first one that exists.
- * @param {string} directory The directory to check for a config file.
- * @returns {?string} The filename of the configuration file for the directory
- *      or null if there is no configuration file in the directory.
  */
-const getFilenameForDirectory = function (directory) {
+export const getFilenameForDirectory = (directory: string): string | null => {
     for (let i = 0, len = CONFIG_FILES.length; i < len; i++) {
         const filename = path.join(directory, CONFIG_FILES[i]);
 
@@ -210,13 +174,4 @@ const getFilenameForDirectory = function (directory) {
     }
 
     return null;
-};
-// ------------------------------------------------------------------------------
-// Public interface
-// ------------------------------------------------------------------------------
-
-module.exports = {
-    CONFIG_FILES,
-    getFilenameForDirectory,
-    load
 };

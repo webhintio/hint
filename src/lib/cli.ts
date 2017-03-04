@@ -13,13 +13,14 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-const options = require('./ui/options'),
-    log = require('./util/logging'),
-    Config = require('./config'),
-    sonar = require('./sonar'),
-    validator = require('./config/config-validator'),
-    pkg = require('../package.json');
+import {opts as options} from './ui/options';
+import * as log from './util/logging';
+import * as Config from './config';
+import * as sonar from './sonar';
+import * as validator from './config/config-validator';
 import * as  resourceLoader from './util/resource-loader';
+
+const pkg = require('../../package.json');
 
 const debug = require('debug')('sonar:cli');
 
