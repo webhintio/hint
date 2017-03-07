@@ -37,44 +37,65 @@ const CONFIG_FILES = [
 
 /** Convenience wrapper for synchronously reading file contents. */
 const readFile = (filePath: string): Config => {
+
     return stripBom(fs.readFileSync(filePath, 'utf8')); // eslint-disable-line no-sync
+
 };
 
 /** Loads a JSON configuration from a file. */
 const loadJSONConfigFile = (filePath: string): Config => {
+
     debug(`Loading JSON config file: ${filePath}`);
 
     try {
+
         return JSON.parse(stripComments(readFile(filePath)));
+
     } catch (e) {
+
         debug(`Error reading JSON file: ${filePath}`);
         e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
+
         throw e;
+
     }
+
 };
 
 /** Loads a JavaScript configuration from a file. */
 const loadJSConfigFile = (filePath: string): Config => {
+
     debug(`Loading JS config file: ${filePath}`);
     try {
+
         return requireUncached(filePath);
+
     } catch (e) {
+
         debug(`Error reading JavaScript file: ${filePath}`);
         e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
         throw e;
+
     }
+
 };
 
 /** Loads a configuration from a package.json file. */
 const loadPackageJSONConfigFile = (filePath: string): Config => {
+
     debug(`Loading package.json config file: ${filePath}`);
     try {
+
         return loadJSONConfigFile(filePath).sonarConfig || null;
+
     } catch (e) {
+
         debug(`Error reading package.json file: ${filePath}`);
         e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
         throw e;
+
     }
+
 };
 
 /**
@@ -82,15 +103,20 @@ const loadPackageJSONConfigFile = (filePath: string): Config => {
  * to determine the correctly way to load the config file.
  */
 const loadConfigFile = (filePath: string): Config => {
+
     let config;
 
     switch (path.extname(filePath)) {
         case '':
         case '.json':
             if (path.basename(filePath) === 'package.json') {
+
                 config = loadPackageJSONConfigFile(filePath);
+
             } else {
+
                 config = loadJSONConfigFile(filePath);
+
             }
             break;
 
@@ -103,15 +129,19 @@ const loadConfigFile = (filePath: string): Config => {
     }
 
     return config;
+
 };
 
 /** Loads a configuration file from the given file path. */
 export const load = (filePath: string): Config => {
+
     const resolvedPath = path.resolve(process.cwd(), filePath);
     const config = loadConfigFile(resolvedPath);
 
     if (!config) {
+
         throw new Error(`Couldn't find any valid configuration`);
+
     }
 
     /*
@@ -131,6 +161,7 @@ export const load = (filePath: string): Config => {
     const defaultConfig = loadJSConfigFile('./config/config-default.json');
 
     return Object.assign({}, config, defaultConfig);
+
 };
 
 /**
@@ -138,13 +169,19 @@ export const load = (filePath: string): Config => {
  * of the valid configuration filenames in order to find the first one that exists.
  */
 export const getFilenameForDirectory = (directory: string): string | null => {
+
     for (let i = 0, len = CONFIG_FILES.length; i < len; i++) {
+
         const filename = path.join(directory, CONFIG_FILES[i]);
 
         if (shell.test('-f', filename)) {
+
             return filename;
+
         }
+
     }
 
     return null;
+
 };

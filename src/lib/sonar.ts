@@ -8,13 +8,11 @@
 // ------------------------------------------------------------------------------
 
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
-import * as _ from 'lodash';
 
 const debug = require('debug')('sonar:engine');
 
 import * as resourceLoader from './util/resource-loader';
 import { getSeverity } from './config/config-rules';
-import { Plugin, Rule, Collector, Problem, Severity, Location } from './types';
 import { RuleContext } from './rule-context';
 
 // import {RuleContext as RuleContext} from './rule-context';
@@ -32,13 +30,18 @@ export class Sonar extends EventEmitter {
     private _sourceHtml: string
 
     get sourceHtml() {
+
         return this._sourceHtml;
+
     }
     set sourceHtml(sourceHtml) {
+
         this._sourceHtml = sourceHtml;
+
     }
 
     constructor(config) {
+
         super({
             delimiter: '::',
             maxListeners: 0,
@@ -51,27 +54,35 @@ export class Sonar extends EventEmitter {
         debug('Loading plugins');
         this.plugins = new Map();
         if (config.plugins) {
+
             const plugins = resourceLoader.getPlugins();
 
             plugins.forEach((plugin) => {
+
                 const instance = plugin[1].create(config);
 
                 Object.keys(instance).forEach((eventName) => {
+
                     this.on(eventName, instance[eventName]);
+
                 });
                 this.plugins.set(plugin[0], instance);
+
             });
 
             debug(`Plugins loaded: ${this.plugins.size}`);
+
         }
 
         debug('Loading rules');
         this.rules = new Map();
         if (config.rules) {
+
             const rules = resourceLoader.getRules();
             const rulesIds = Object.keys(config.rules);
 
             rulesIds.forEach((id: string) => {
+
                 const rule = rules.get(id);
                 const ruleOptions = config.rules[id];
 
@@ -79,13 +90,17 @@ export class Sonar extends EventEmitter {
                 const instance = rule.create(context);
 
                 Object.keys(instance).forEach((eventName) => {
+
                     this.on(eventName, instance[eventName]);
+
                 });
 
                 this.rules.set(id, instance);
+
             });
 
             debug(`Rules loaded: ${this.rules.size}`);
+
         }
 
         debug('Loading collector');
@@ -93,24 +108,32 @@ export class Sonar extends EventEmitter {
             collectorConfig;
 
         if (typeof config.collector === 'string') {
+
             collectorId = config.collector;
             collectorConfig = {};
+
         } else {
+
             collectorId = config.collector.name;
             collectorConfig = config.collector.options;
+
         }
 
         const collectors = resourceLoader.getCollectors();
 
         if (!collectors.has(collectorId)) {
+
             throw new Error(`Collector "${collectorId}" not found`);
+
         }
 
         this.collector = collectors.get(collectorId)(this, collectorConfig);
+
     }
 
     /** Reports a message from one of the rules. */
-    report(ruleId: string, severity: Severity, node, location: Location, message: string, resource: string, meta) {
+    report(ruleId: string, severity: Severity, node, location: ProblemLocation, message: string, resource: string) {
+
         const problem = {
             column: location.column + 1,
             line: location.line,
@@ -121,10 +144,12 @@ export class Sonar extends EventEmitter {
         };
 
         this.messages.push(problem);
+
     }
 
     /** Runs all the configured rules and plugins on a target */
     async executeOn(target: string): Promise<Array<Problem>> {
+
         const start = Date.now();
 
         debug(`Starting the analysis on ${target}`);
@@ -133,11 +158,14 @@ export class Sonar extends EventEmitter {
         debug(`Total runtime ${Date.now() - start}`);
 
         return this.messages;
+
     }
 }
 
 export const create = (config): Sonar => {
+
     const sonar = new Sonar(config);
 
     return sonar;
+
 };

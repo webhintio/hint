@@ -10,7 +10,8 @@
     },
     "parser": "typescript-eslint-parser",
     "plugins": [
-        "import"
+        "import",
+        "typescript"
     ],
     "rules": {
         "accessor-pairs": "off",
@@ -127,7 +128,7 @@
         "no-mixed-requires": [1, true],
         "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
         "no-multiple-empty-lines": ["error", {
-            "max": 1,
+            "max": 2,
             "maxEOF": 0,
             "maxBOF": 0
         }],
@@ -169,7 +170,6 @@
         "no-ternary": "off",
         "no-throw-literal": "error",
         "no-trailing-spaces": "error",
-        "no-undef": "error",
         "no-undef-init": "error",
         "no-undefined": "error",
         "no-underscore-dangle": "off",
@@ -212,7 +212,6 @@
         "one-var": "off",
         "operator-assignment": ["error", "always"],
         "operator-linebreak": ["error", "after"],
-        "padded-blocks": ["error", "never"],
         "prefer-arrow-callback": "error",
         "prefer-const": "error",
         "prefer-numeric-literals": "error",
@@ -229,14 +228,13 @@
         "semi": ["error", "always"],
         "sort-keys": "error",
         "sort-vars": "off",
-        "spaced-comment": "error",
+        "spaced-comment": ["error", "always"],
         "space-in-parens": ["error", "never"],
-        "space-infix-ops": "error",
         "space-unary-ops": ["error", {
             "words": true,
             "nonwords": false
         }],
-        "strict": ["error", "global"],
+        "strict": ["error", "never"], // We are using alwaysStrict=true as a compiler option of TS
         "template-curly-spacing": "error",
         "use-isnan": "error",
         "unicode-bom": "error",
@@ -245,6 +243,8 @@
         "vars-on-top": "off",
         "wrap-iife": ["error", "outside"],
         "wrap-regex": "error",
-        "yoda": ["error", "never"]
+        "yoda": ["error", "never"],
+
+        "typescript/type-annotation-spacing": "error"
     }
 }

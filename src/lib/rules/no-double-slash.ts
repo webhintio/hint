@@ -8,8 +8,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { RuleContext } from '../rule-context';
-import { Rule, RuleBuilder } from '../types';
+import { RuleContext } from '../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = require('debug')('sonar:rules:no-double-slash');
 
@@ -20,16 +19,19 @@ const debug = require('debug')('sonar:rules:no-double-slash');
 const rule: RuleBuilder = {
     /** Creates a new instance of this rule with a given context (configuration, etc.) */
     create(context: RuleContext): Rule {
+
         /*
             We need to use getAttribute to get the exact value.
             If we access the src or href properties directly the browser already adds
             http(s):// so we cannot verify
         */
         const validate = (resource: string, element: HTMLElement) => {
+
             debug(`Analyzing link\n${element.outerHTML}`);
             const url = element.getAttribute('src') || element.getAttribute('href') || '';
 
             if (url.indexOf('//') === 0) {
+
                 debug('Invalid link found');
                 const startIndex = element.outerHTML.indexOf(url);
                 const html = element.outerHTML.substring(0, startIndex);
@@ -40,7 +42,9 @@ const rule: RuleBuilder = {
                 const location = { column, line };
 
                 context.report(resource, element, `Invalid link found: ${url}`, location);
+
             }
+
         };
 
         return {
@@ -48,6 +52,7 @@ const rule: RuleBuilder = {
             'element::link': validate,
             'element::script': validate
         };
+
     },
     meta: {
         docs: {
