@@ -1,0 +1,62 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Configuration",
+    "description": "A configuration file for Sonar",
+    "type": "object",
+    "properties": {
+        "collector": {
+            "description": "The collector to use to gather information",
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "The name of the collector to use",
+                            "type": "string"
+                        },
+                        "options": {
+                            "description": "The options to pass to the collector",
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "environment": {
+            "description": "The environment under Sonar is running: local or live",
+            "type": "string"
+        },
+        "formatter": {
+            "description": "The formatter to use for the results",
+            "type": "string"
+        },
+        "plugins": {
+            "description": "The plugins to be used with the collector to gather information",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "uniqueItems": true
+        },
+        "rules": {
+            "description": "The rules to validate",
+            "type": "object",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+        }
+    },
+    "required": [
+        "collector",
+        "rules"
+    ],
+    "additionalProperties": false
+}
