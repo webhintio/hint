@@ -25,8 +25,7 @@ import * as r from 'request';
 
 const debug = require('debug')('sonar:collector:jsdom');
 
-import { Collector, CollectorBuilder } from '../types';
-import { Sonar } from '../sonar';
+import { Sonar } from '../sonar'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Defaults
@@ -46,17 +45,21 @@ const defaultOptions = {
 };
 
 const builder: CollectorBuilder = (server: Sonar, config): Collector => {
+
     const options = Object.assign({}, defaultOptions, config);
     const headers = options.headers;
     const request = headers ? r.defaults({ headers }) : r;
 
     return ({
         async collect(target) {
+
             return new Promise(async (resolve, reject) => {
+
                 debug(`About to start fetching ${target}`);
                 await server.emitAsync('url');
 
                 const traverseAndNotify = async (element) => {
+
                     const eventName = `element::${element.localName}`;
 
                     debug(`emitting ${eventName}`);
@@ -64,27 +67,34 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     // maybe we create a custom object that only exposes read only properties?
                     await server.emitAsync(eventName, target, element);
                     for (const child of element.children) {
+
                         debug('next children');
                         await server.emitAsync(`traversing::down`, target);
                         await traverseAndNotify(child);  // eslint-disable-line no-await-for
+
                     }
                     await server.emitAsync(`traversing::up`, target);
 
                     return Promise.resolve();
+
                 };
 
                 jsdom.env({
                     done: async (err, window) => {
+
                         if (err) {
+
                             reject(err);
 
                             return;
+
                         }
 
                         /* Even though `done()` is called aver window.onload (so all resoruces and scripts executed),
                            we might want to wait a few seconds if the site is lazy loading something.
                         */
                         setTimeout(async () => {
+
                             debug(`${target} loaded, traversing`);
 
                             server.sourceHtml = window.document.children[0].outerHTML;
@@ -95,7 +105,9 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                             /* TODO: when we reach this moment we should wait for all pending request to be done and
                                 stop processing any more */
                             resolve();
+
                         }, options.waitFor);
+
                     },
                     features: {
                         FetchExternalResources: ['script', 'link', 'img'],
@@ -104,32 +116,43 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     },
                     headers,
                     async resourceLoader(resource, callback) {
+
                         const url = resource.url.href;
 
                         debug(`resource ${url} to be fetched`);
                         await server.emitAsync('fetch::start', url);
 
                         request(url, async (err, response, body) => {
+
                             debug(`resource ${url} fetched`);
                             if (err) {
+
                                 await server.emitAsync('fetch::error');
 
                                 return callback(err);
+
                             }
 
                             await server.emitAsync('fetch::end', url, body, response.headers);
 
                             return callback(null, body);
+
                         });
+
                     },
                     url: target
                 });
+
             });
+
         },
         get request() {
+
             return request;
+
         }
     });
+
 };
 
 module.exports = builder;
