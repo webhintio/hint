@@ -30,9 +30,8 @@ interface Config {
 // ------------------------------------------------------------------------------
 
 const CONFIG_FILES = [
+    '.sonarrc',
     '.sonarrc.js',
-    '.sonarrc.yaml',
-    '.sonarrc.yml',
     '.sonarrc.json',
     'package.json'
 ];
@@ -40,23 +39,6 @@ const CONFIG_FILES = [
 /** Convenience wrapper for synchronously reading file contents. */
 const readFile = (filePath: string): Config => {
     return stripBom(fs.readFileSync(filePath, 'utf8')); // eslint-disable-line no-sync
-};
-
-/** Loads a YAML configuration from a file. */
-const loadYAMLConfigFile = (filePath: string): Config => {
-    debug(`Loading YAML config file: ${filePath}`);
-
-    // lazy load YAML to improve performance when not used
-    const yaml = require('js-yaml');
-
-    try {
-        // empty YAML file can be null, so always use
-        return yaml.safeLoad(readFile(filePath)) || {};
-    } catch (e) {
-        debug(`Error reading YAML file: ${filePath}`);
-        e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
-        throw e;
-    }
 };
 
 /** Loads a JSON configuration from a file. */
@@ -104,10 +86,7 @@ const loadConfigFile = (filePath: string): Config => {
     let config;
 
     switch (path.extname(filePath)) {
-        case '.js':
-            config = loadJSConfigFile(filePath);
-            break;
-
+        case '':
         case '.json':
             if (path.basename(filePath) === 'package.json') {
                 config = loadPackageJSONConfigFile(filePath);
@@ -119,9 +98,8 @@ const loadConfigFile = (filePath: string): Config => {
             }
             break;
 
-        case '.yaml':
-        case '.yml':
-            config = loadYAMLConfigFile(filePath);
+        case '.js':
+            config = loadJSConfigFile(filePath);
             break;
 
         default:
@@ -134,8 +112,8 @@ const loadConfigFile = (filePath: string): Config => {
 
 /** Loads a configuration file from the given file path. */
 export const load = (filePath: string): Config => {
-    const resolvedPath = path.resolve(process.cwd(), filePath),
-        config = loadConfigFile(resolvedPath);
+    const resolvedPath = path.resolve(process.cwd(), filePath);
+    const config = loadConfigFile(resolvedPath);
 
     if (!config) {
         throw new Error(`Couldn't find any valid configuration`);
