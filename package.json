@@ -30,7 +30,6 @@
     "globby": "^6.1.0",
     "is-my-json-valid": "^2.15.0",
     "is-resolvable": "^1.0.0",
-    "js-yaml": "^3.8.1",
     "jsdom": "^9.11.0",
     "json-stable-stringify": "^1.0.1",
     "lodash": "^4.17.4",
