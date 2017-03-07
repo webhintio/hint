@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Validates that a given configuration is fully valid in terms of schema and options
+ * @author Anton Molleda
+ */
+
+// ------------------------------------------------------------------------------
+// Requirements
+// ------------------------------------------------------------------------------
+
 import * as _ from 'lodash';
 import * as schemaValidator from 'is-my-json-valid/require';
 
@@ -10,8 +19,6 @@ const debug = require('debug')('sonar:config-validator');
 
 /** Validates that a configuration is valid */
 const validate = schemaValidator('config-schema.json');
-
-
 
 // ------------------------------------------------------------------------------
 // Public

@@ -6,36 +6,23 @@
 import { validate as ruleValidator } from './config/config-rules';
 import { Severity, Location } from './types';
 import {Sonar} from './sonar';
-// ------------------------------------------------------------------------------
-// Typedefs
-// ------------------------------------------------------------------------------
-
-/**
- * An error message description
- * @typedef {Object} MessageDescriptor
- * @property {string} nodeType The type of node.
- * @property {Location} loc The location of the problem.
- * @property {string} message The problem message.
- * @property {Object} [data] Optional data to use to fill in placeholders in the
- *      message.
- * @property {Function} fix The function to call that creates a fix command.
- */
 
 // ------------------------------------------------------------------------------
 // Helper functions
 // ------------------------------------------------------------------------------
 
 // TODO: maybe this should go into another file for easier testing?
-const findElementLocation = (element) => {
+/** Finds the Location of an HTMLElement in the document */
+const findElementLocation = (element: HTMLElement): Location => {
     const html = element.ownerDocument.children[0].outerHTML;
-    const occurrences = (html.match(new RegExp(element.outerHtml, 'g')) || []).length;
+    const occurrences = (html.match(new RegExp(element.outerHTML, 'g')) || []).length;
     let initHtml;
 
     if (occurrences === 1) {
-        initHtml = html.substring(0, html.indexOf(element.outerHtml));
+        initHtml = html.substring(0, html.indexOf(element.outerHTML));
     } else if (occurrences > 1) {
         // TODO: return the right start place
-        initHtml = html.substring(0, html.indexOf(element.outerHtml));
+        initHtml = html.substring(0, html.indexOf(element.outerHTML));
     } else {
         return null;
     }
@@ -49,7 +36,7 @@ const findElementLocation = (element) => {
 };
 
 // ------------------------------------------------------------------------------
-// Rule Definition
+// Public
 // ------------------------------------------------------------------------------
 
 /** Acts as an abstraction layer between rules and the main sonar object. */
@@ -71,7 +58,7 @@ export class RuleContext {
     }
 
     /** Reports a problem with the resource */
-    report(resource: string, nodeOrDescriptor, message: string, location? : Location) {
+    report(resource: string, nodeOrDescriptor: HTMLElement, message: string, location? : Location) {
         // TODO: this should probably contain the info of the resource (HTML, image, font, etc.)
         const descriptor = nodeOrDescriptor;
 
@@ -88,7 +75,7 @@ export class RuleContext {
         this.sonar.report(
             this.id,
             this.severity,
-            descriptor.node,
+            descriptor,
             position,
             message,
             resource,

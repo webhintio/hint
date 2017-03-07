@@ -20,16 +20,20 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-const jsdom = require('jsdom'),
-    r = require('request');
+import * as jsdom from 'jsdom';
+import * as r from 'request';
 
 const debug = require('debug')('sonar:collector:jsdom');
+
+import { Collector, CollectorBuilder } from '../types';
+import { Sonar } from '../sonar';
 
 // ------------------------------------------------------------------------------
 // Defaults
 // ------------------------------------------------------------------------------
 
 const defaultOptions = {
+    followAllRedirects: true,
     gzip: true,
     headers: {
         'Accept-Language': 'en-US,en;q=0.8,es;q=0.6,fr;q=0.4',
@@ -41,7 +45,7 @@ const defaultOptions = {
     waitFor: 5000
 };
 
-module.exports = (server, config) => {
+const builder: CollectorBuilder = (server: Sonar, config): Collector => {
     const options = Object.assign({}, defaultOptions, config);
     const headers = options.headers;
     const request = headers ? r.defaults({ headers }) : r;
@@ -88,6 +92,8 @@ module.exports = (server, config) => {
                             await server.emitAsync('traverse::start', target);
                             await traverseAndNotify(window.document.children[0]);
                             await server.emitAsync('traverse::end', target);
+                            /* TODO: when we reach this moment we should wait for all pending request to be done and
+                                stop processing any more */
                             resolve();
                         }, options.waitFor);
                     },
@@ -125,3 +131,5 @@ module.exports = (server, config) => {
         }
     });
 };
+
+module.exports = builder;
