@@ -23,10 +23,19 @@ import { RuleContext } from './rule-context';
 // ------------------------------------------------------------------------------
 
 export class Sonar extends EventEmitter {
+    // TODO: review which ones need to be private or not
     private plugins: Map<string, Plugin>
     private rules: Map<string, Rule>
     private collector: Collector
     private messages: Array<Problem>
+    private _sourceHtml: string
+
+    get sourceHtml() {
+        return this._sourceHtml;
+    }
+    set sourceHtml(sourceHtml) {
+        this._sourceHtml = sourceHtml;
+    }
 
     constructor(config) {
         super({
@@ -34,29 +43,36 @@ export class Sonar extends EventEmitter {
             maxListeners: 0,
             wildcard: true
         });
+        debug('Initializing sonar engine');
 
         this.messages = [];
 
+        debug('Loading plugins');
         this.plugins = new Map();
         if (config.plugins) {
             const plugins = resourceLoader.getPlugins();
 
-            for (const plugin of plugins) {
+            plugins.forEach((plugin) => {
                 const instance = plugin[1].create(config);
 
                 Object.keys(instance).forEach((eventName) => {
                     this.on(eventName, instance[eventName]);
                 });
                 this.plugins.set(plugin[0], instance);
-            }
+            });
+
+            debug(`Plugins loaded: ${this.plugins.size}`);
         }
 
+        debug('Loading rules');
         this.rules = new Map();
         if (config.rules) {
             const rules = resourceLoader.getRules();
+            const rulesIds = Object.keys(config.rules);
 
-            _.filter(config.rules, (ruleOptions, id: string) => {
+            rulesIds.forEach((id: string) => {
                 const rule = rules.get(id);
+                const ruleOptions = config.rules[id];
 
                 const context = new RuleContext(id, this, getSeverity(ruleOptions), ruleOptions, rule.meta);
                 const instance = rule.create(context);
@@ -67,8 +83,11 @@ export class Sonar extends EventEmitter {
 
                 this.rules.set(id, instance);
             });
+
+            debug(`Rules loaded: ${this.rules.size}`);
         }
 
+        debug('Loading collector');
         let collectorId,
             collectorConfig;
 

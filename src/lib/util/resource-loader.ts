@@ -1,6 +1,8 @@
 /**
- * @fileoverview Locates and requires resources (collectors, plugins, rules, formatters) for Sonar across different places in the tree.
- * By convention, these resources need to be under {/, /node_modules/}lib/{collectors, formatters, plugins, rules}/*.js
+ * @fileoverview Locates and requires resources (collectors, plugins, rules, formatters)
+ * for Sonar across different places in the tree.
+ * By convention, these resources need to be under
+ * {/, /node_modules/}lib/{collectors, formatters, plugins, rules}/*.js
  * @author Anton Molleda (@molant)
  *
  */
@@ -9,16 +11,12 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-const path = require('path');
-const _ = require('lodash'),
-    globby = require('globby');
-const debug = require('debug')('sonar:util:resource-loader');
-
+import * as path from 'path';
+import * as _ from 'lodash';
+import * as globby from 'globby';
 import {Resource, CollectorBuilder, Formatter, RuleBuilder, PluginBuilder} from '../types';
 
-// ------------------------------------------------------------------------------
-// Interfaces
-// ------------------------------------------------------------------------------
+const debug = require('debug')('sonar:util:resource-loader');
 
 /** The type of resource */
 const TYPE = {
@@ -58,31 +56,22 @@ const resources = Object.freeze(_.reduce(TYPE, (acum, value, key) => {
     return acum;
 }, {}));
 
-// ------------------------------------------------------------------------------
-// Public interface
-// ------------------------------------------------------------------------------
-
-/** Loads all the resources for a given configuration. */
+/** Returns the resources for a given type. */
 const get = (type: string): (() => Map<string, any>) => {
     return () => {
-        // TODO: This should be taken care of by typescript somehow
-        const isValidType = _.find(TYPE, (validType) => {
-            return validType === type;
-        });
-
-        if (!isValidType) {
-            throw new Error(`Invalid type ${type}. It can only be ${Object.keys(TYPE).join(', ')}`);
-        }
-
         return resources[type];
     };
 }
 
-/** Returns all the Collectors found */
+// ------------------------------------------------------------------------------
+// Public
+// ------------------------------------------------------------------------------
+
+/** Returns all the available Collectors */
 export const getCollectors: () => Map<string, CollectorBuilder> = get(TYPE.collector);
-/** Returns all the Formatters found */
+/** Returns all the available Formatters */
 export const getFormatters: () => Map<string, Formatter> = get(TYPE.formatter);
-/** Returns all the Rules found */
+/** Returns all the available Rules */
 export const getRules: () => Map<string, RuleBuilder> = get(TYPE.rule);
-/** Returns all the Plugins found */
+/** Returns all the available Plugins */
 export const getPlugins: () => Map<string, PluginBuilder> = get(TYPE.plugin);

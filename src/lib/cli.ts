@@ -1,6 +1,7 @@
 /**
- * @fileoverview Main CLI object, it reads the configuration (from file and parameters) and passes it to the engine
- * @author Anton Molleda (@molant) *
+ * @fileoverview Main CLI object, it reads the configuration (from file and parameters)
+ * and passes it to the engine
+ * @author Anton Molleda (@molant)
  */
 
 /*
@@ -13,7 +14,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import {opts as options} from './ui/options';
+import {options} from './ui/options';
 import * as log from './util/logging';
 import * as Config from './config';
 import * as sonar from './sonar';
@@ -24,14 +25,18 @@ const pkg = require('../../package.json');
 
 const debug = require('debug')('sonar:cli');
 
+// ------------------------------------------------------------------------------
+// Public
+// ------------------------------------------------------------------------------
 
-/** Executes the CLI based on an array of arguments that is passed in. */
-export const execute = async (args: string | Array<string> | Object): Promise<number> => {
+export const cli = {
+    /** Executes the CLI based on an array of arguments that is passed in. */
+    execute : async (args: string | Array<string> | Object): Promise<number> => {
         const format = (results) => {
             const formatters = resourceLoader.getFormatters();
 
             formatters.forEach((formatter) => {
-                formatter(results);
+                formatter.format(results);
             });
         };
 
@@ -81,5 +86,4 @@ export const execute = async (args: string | Array<string> | Object): Promise<nu
 
         return 0;
     }
-
-
+};

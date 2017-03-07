@@ -13,7 +13,7 @@ import * as optionator from 'optionator';
 // Initialization and Public Interface
 // ------------------------------------------------------------------------------
 
-export const opts = optionator({
+export const options = optionator({
     defaults: {
         concatRepeatedArrays: true,
         mergeRepeatedObjects: true

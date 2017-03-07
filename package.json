@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cpx \"./src/**/*.{js,json}\" dist -C -v && tsc --outDir dist --rootDir src",
     "lint": "eslint src/**/*.ts",
-    "site": "node dist\\bin\\sonar https://developer.microsoft.com/en-us/microsoft-edge/ --debug",
+    "site": "node dist/bin/sonar --debug",
     "test": "nyc node ./bin/sonar.js",
     "watch": "tsc --outDir dist --rootDir src --watch --allowJs"
   },
