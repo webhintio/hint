@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Interfaces and enums used in different files in Sonar that do not belong in an specific place.
+ * @author Anton Molleda (@molant)
+ */
+
 /** The builder of a given Rule */
 export interface RuleBuilder {
     /** Creates an instance of the rule. */
@@ -17,34 +22,37 @@ export interface Rule {
 
 /** The builder of a Collector */
 export interface CollectorBuilder {
-    (sonar, options): Collector
+    (sonar, options): Collector,
 }
 
 /** A collector to be used by Sonar */
 export interface Collector {
     /** Collects all the information for the given target */
     collect(target: string): Promise<Array<Object>>;
+    request;
 }
 
 /** A format function that will output the results obtained by Sonar */
 export interface Formatter {
-    ({ })
+    format(problems: Array<Problem>): void
 }
 
-/** A plugin to expand the collector's functionality */
+/** A specialized builder of plugins to be used by Sonar */
 export interface PluginBuilder {
     /** Creates an instance of the Plugin. */
     create(config: Object): Plugin;
 }
 
+/** A plugin that expands the collector's functionality */
 export interface Plugin {
+    // TBD
     any
 }
 
 /** A resource required by Sonar: Collector, Formatter, Plugin, Rule,  */
 export type Resource = CollectorBuilder | Formatter | PluginBuilder | RuleBuilder;
 
-/** A problem found by Sonar for an especific resource */
+/** A problem found by a Rule in Sonar */
 export interface Problem {
     column: number,
     line: number,
@@ -61,6 +69,7 @@ export enum Severity {
     error = 2
 }
 
+/** The location of a Problem in the code */
 export interface Location {
     column: number,
     line: number

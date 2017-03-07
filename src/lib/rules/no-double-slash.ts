@@ -1,7 +1,21 @@
+/**
+ * @fileoverview This rule makes sure that all links are no links using //
+ * instead of http or https.
+ * @author Anton Molleda (@molant)
+ */
+
+// ------------------------------------------------------------------------------
+// Requirements
+// ------------------------------------------------------------------------------
+
 import { RuleContext } from '../rule-context';
 import { Rule, RuleBuilder } from '../types';
 
 const debug = require('debug')('sonar:rules:no-double-slash');
+
+// ------------------------------------------------------------------------------
+// Public
+// ------------------------------------------------------------------------------
 
 const rule: RuleBuilder = {
     /** Creates a new instance of this rule with a given context (configuration, etc.) */

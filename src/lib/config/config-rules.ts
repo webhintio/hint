@@ -1,7 +1,20 @@
+/**
+ * @fileoverview Makes sure that a rule is configured correctly (options, severity)
+ * @author Anton Molleda
+ */
+
+// ------------------------------------------------------------------------------
+// Requirements
+// ------------------------------------------------------------------------------
+
 import * as schemaValidator from 'is-my-json-valid';
 import { Severity, RuleBuilder } from '../types';
 
 const debug = require('debug')('sonar:config-rules');
+
+// ------------------------------------------------------------------------------
+// Public
+// ------------------------------------------------------------------------------
 
 /** Returns the severity of a rule based on its configuration */
 export const getSeverity = (config): Severity => {
@@ -24,7 +37,6 @@ export const getSeverity = (config): Severity => {
 
     return null;
 };
-
 
 /** Validates that a rule has a valid configuration based on its schema */
 export const validate = (rule: RuleBuilder, config, ruleId: string): boolean => {

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * @fileoverview Main CLI that is run via the eslint command.
- * @author Nicholas C. Zakas
+ * @fileoverview Main CLI that is run via the sonar command. Based on ESLint
+ * @author Anton Molleda
  */
 
 /* eslint no-console:off */
@@ -23,7 +23,7 @@ if (debug) {
 // ------------------------------------------------------------------------------
 
 // now we can safely include the other modules that use debug
-const cli = require('../lib/cli');
+import { cli } from '../lib/cli';
 
 // ------------------------------------------------------------------------------
 // Execution
