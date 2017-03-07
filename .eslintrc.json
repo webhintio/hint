@@ -1,4 +1,4 @@
-module.exports = {
+{
     "env": {
         "node": true,
         "es6": true
@@ -247,4 +247,4 @@ module.exports = {
         "wrap-regex": "error",
         "yoda": ["error", "never"]
     }
-};
+}
