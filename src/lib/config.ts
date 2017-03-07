@@ -30,6 +30,7 @@ interface Config {
 // ------------------------------------------------------------------------------
 
 const CONFIG_FILES = [
+    '.sonarrc',
     '.sonarrc.js',
     '.sonarrc.yaml',
     '.sonarrc.yml',
@@ -104,10 +105,7 @@ const loadConfigFile = (filePath: string): Config => {
     let config;
 
     switch (path.extname(filePath)) {
-        case '.js':
-            config = loadJSConfigFile(filePath);
-            break;
-
+        case '':
         case '.json':
             if (path.basename(filePath) === 'package.json') {
                 config = loadPackageJSONConfigFile(filePath);
@@ -117,6 +115,10 @@ const loadConfigFile = (filePath: string): Config => {
             } else {
                 config = loadJSONConfigFile(filePath);
             }
+            break;
+
+        case '.js':
+            config = loadJSConfigFile(filePath);
             break;
 
         case '.yaml':
@@ -134,8 +136,8 @@ const loadConfigFile = (filePath: string): Config => {
 
 /** Loads a configuration file from the given file path. */
 export const load = (filePath: string): Config => {
-    const resolvedPath = path.resolve(process.cwd(), filePath),
-        config = loadConfigFile(resolvedPath);
+    const resolvedPath = path.resolve(process.cwd(), filePath);
+    const config = loadConfigFile(resolvedPath);
 
     if (!config) {
         throw new Error(`Couldn't find any valid configuration`);

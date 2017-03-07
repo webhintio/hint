@@ -1,8 +1,4 @@
-module.exports = {
-    // "extends": "recommend",
-    // "plugins": [
-    //     "import"
-    // ],
+{
     "collector": {
         "name": "jsdom",
         "options": {
@@ -13,4 +9,4 @@ module.exports = {
     "rules": {
         "no-double-slash": "warning"
     }
-};
+}
