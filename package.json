@@ -10,10 +10,7 @@
     "test": "nyc node ./bin/sonar.js",
     "watch": "tsc --outDir dist --rootDir src --watch --allowJs"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MicrosoftEdge/Sonar.git"
-  },
+  "repository": "MicrosoftEdge/Sonar",
   "keywords": [
     "best",
     "practices",
@@ -23,9 +20,7 @@
   ],
   "author": "",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/MicrosoftEdge/Sonar/issues"
-  },
+  "bugs": "https://github.com/MicrosoftEdge/Sonar/issues",
   "homepage": "https://github.com/MicrosoftEdge/Sonar#readme",
   "dependencies": {
     "chalk": "^1.1.3",
