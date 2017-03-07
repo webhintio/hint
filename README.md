@@ -1,5 +1,4 @@
-# Sonar [![Build Status](https://travis-ci.com/MicrosoftEdge/Sonar.svg?token=ie6AidxpTLajKCNExwqL&branch=master)](https://travis-ci.com/MicrosoftEdge/Sonar)
-
+# Sonar [![Build Status](https://travis-ci.com/MicrosoftEdge/Sonar.svg?token=ie6AidxpTLajKCNExwqL&branch=master)](https://travis-ci.com/MicrosoftEdge/Sonar) [![Greenkeeper badge](https://badges.greenkeeper.io/MicrosoftEdge/Sonar.svg?token=b8370543b9160bd1bb844502495c4226139b92230cd84c3f5f4c58c669275c51)](https://greenkeeper.io/)
 
 ## Tasks
 
