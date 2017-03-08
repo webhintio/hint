@@ -1,4 +1,4 @@
-/**
+/*
  * @fileoverview Interfaces and enums used in different files in Sonar that do not belong in an specific place.
  * @author Anton Molleda (@molant)
  */
