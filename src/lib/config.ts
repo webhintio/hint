@@ -24,7 +24,6 @@ interface Config {
     sonarConfig?
 }
 
-
 // ------------------------------------------------------------------------------
 // Private
 // ------------------------------------------------------------------------------
@@ -108,7 +107,6 @@ const loadConfigFile = (filePath: string): Config => {
 
     return config;
 };
-
 
 /** Loads a configuration file from the given file path. */
 export const load = (filePath: string): Config => {

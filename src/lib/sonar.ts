@@ -6,6 +6,7 @@
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
+
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import * as _ from 'lodash';
 
@@ -13,7 +14,7 @@ const debug = require('debug')('sonar:engine');
 
 import * as resourceLoader from './util/resource-loader';
 import { getSeverity } from './config/config-rules';
-import { Plugin, Rule, Collector, Problem, Severity, Location } from './types'
+import { Plugin, Rule, Collector, Problem, Severity, Location } from './types';
 import { RuleContext } from './rule-context';
 
 // import {RuleContext as RuleContext} from './rule-context';
@@ -100,6 +101,7 @@ export class Sonar extends EventEmitter {
         }
 
         const collectors = resourceLoader.getCollectors();
+
         if (!collectors.has(collectorId)) {
             throw new Error(`Collector "${collectorId}" not found`);
         }
@@ -131,10 +133,11 @@ export class Sonar extends EventEmitter {
         debug(`Total runtime ${Date.now() - start}`);
 
         return this.messages;
-    };
+    }
 }
 
 export const create = (config): Sonar => {
     const sonar = new Sonar(config);
+
     return sonar;
-}
+};

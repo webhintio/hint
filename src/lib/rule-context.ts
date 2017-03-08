@@ -5,7 +5,7 @@
 
 import { validate as ruleValidator } from './config/config-rules';
 import { Severity, Location } from './types';
-import {Sonar} from './sonar';
+import { Sonar } from './sonar';
 
 // ------------------------------------------------------------------------------
 // Helper functions
