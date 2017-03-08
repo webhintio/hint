@@ -89,9 +89,6 @@ const loadConfigFile = (filePath: string): Config => {
         case '.json':
             if (path.basename(filePath) === 'package.json') {
                 config = loadPackageJSONConfigFile(filePath);
-                if (config === null) {
-                    return null;
-                }
             } else {
                 config = loadJSONConfigFile(filePath);
             }
