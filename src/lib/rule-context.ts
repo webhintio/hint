@@ -3,9 +3,10 @@
  * @author Anton Molleda (@molant) based on Nicholas C. Zakas ESLint (https://github.com/eslint/eslint/blob/master/lib/rule-context.js)
  */
 
-import { validate as ruleValidator } from './config/config-rules';
+/* eslint-disable no-unused-vars */
 import { Severity, Location } from './types';
 import { Sonar } from './sonar';
+/* eslint-enable no-unused-vars */
 
 // ------------------------------------------------------------------------------
 // Helper functions
@@ -41,11 +42,14 @@ const findElementLocation = (element: HTMLElement): Location => {
 
 /** Acts as an abstraction layer between rules and the main sonar object. */
 export class RuleContext {
+
+    /* eslint-disable no-undef */
     private id: string
     private options: Array<any>
     private meta: { any }
     private severity: Severity
     private sonar: Sonar
+    /* eslint-enable no-undef */
 
     constructor(ruleId: string, sonar: Sonar, severity: Severity | string, options, meta) {
         this.id = ruleId;

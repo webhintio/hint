@@ -8,13 +8,12 @@
 // ------------------------------------------------------------------------------
 
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
-import * as _ from 'lodash';
 
 const debug = require('debug')('sonar:engine');
 
 import * as resourceLoader from './util/resource-loader';
 import { getSeverity } from './config/config-rules';
-import { Plugin, Rule, Collector, Problem, Severity, Location } from './types';
+import { Plugin, Rule, Collector, Problem, Severity, Location } from './types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from './rule-context';
 
 // import {RuleContext as RuleContext} from './rule-context';
@@ -25,15 +24,18 @@ import { RuleContext } from './rule-context';
 
 export class Sonar extends EventEmitter {
     // TODO: review which ones need to be private or not
+    /* eslint-disable no-undef */
     private plugins: Map<string, Plugin>
     private rules: Map<string, Rule>
     private collector: Collector
     private messages: Array<Problem>
     private _sourceHtml: string
+    /* eslint-enable no-undef */
 
     get sourceHtml() {
         return this._sourceHtml;
     }
+
     set sourceHtml(sourceHtml) {
         this._sourceHtml = sourceHtml;
     }
@@ -110,7 +112,7 @@ export class Sonar extends EventEmitter {
     }
 
     /** Reports a message from one of the rules. */
-    report(ruleId: string, severity: Severity, node, location: Location, message: string, resource: string, meta) {
+    report(ruleId: string, severity: Severity, node, location: Location, message: string, resource: string) {
         const problem = {
             column: location.column + 1,
             line: location.line,
