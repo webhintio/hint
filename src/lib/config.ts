@@ -1,9 +1,7 @@
-/**
+/*
  * @fileoverview Loads the configuration file
  * @author Anton Molleda (based on ESLint code: https://github.com/eslint/eslint/blob/master/lib/config/config-file.js)
  */
-
-/* eslint no-use-before-define: 0 */
 
 // ------------------------------------------------------------------------------
 // Requirements
@@ -20,9 +18,11 @@ import * as requireUncached from 'require-uncached';
 
 const debug = require('debug')('eslint:config-file');
 
+/* eslint-disable no-undef */
 interface Config {
-    sonarConfig?
+    sonarConfig?: Object
 }
+/* eslint-enable no-undef */
 
 // ------------------------------------------------------------------------------
 // Private
