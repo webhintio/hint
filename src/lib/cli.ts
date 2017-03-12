@@ -71,8 +71,9 @@ const getTargets = (targets: Array<string>): Array<string> => {
         // If it does exist and it's a regular file.
         if (shell.test('-f', target)) {
             debug(`Adding valid target: ${target}`);
+            result.push(target);
 
-            return result.push(target);
+            return result;
         }
 
         // If it's not a regular file, ignore it.
