@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-/*
+/**
  * @fileoverview Main CLI that is run via the sonar command. Based on ESLint.
  * @author Anton Molleda
  */
