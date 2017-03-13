@@ -23,8 +23,12 @@ interface CollectorBuilder {
 /** A collector to be used by Sonar */
 interface Collector {
     /** Collects all the information for the given target */
-    collect(target: string): Promise<Array<Object>>;
+    collect(target: Target): Promise<Array<Object>>;
     request;
+}
+
+interface Config {
+    sonarConfig?
 }
 
 /** A format function that will output the results obtained by Sonar */
@@ -47,6 +51,12 @@ interface Plugin {
 /** A resource required by Sonar: Collector, Formatter, Plugin, Rule,  */
 type Resource = CollectorBuilder | Formatter | PluginBuilder | RuleBuilder; // eslint-disable-line no-unused-vars
 
+interface Page {
+    dom: HTMLElement,
+    isLocalFile: boolean,
+    responseHeaders?: object
+}
+
 /** A problem found by a Rule in Sonar */
 interface Problem {
     column: number,
@@ -68,4 +78,9 @@ enum Severity {
 interface ProblemLocation {
     column: number,
     line: number
+}
+
+interface Target {
+    path: string,
+    type: 'url' | 'file'
 }

@@ -35,8 +35,8 @@ const debug = require('debug')('sonar:cli');
 
 /** Removes targets that are not valid, and add `http://` to the ones
     that seem to omit it. */
-const getTargets = (targets: Array<string>): Array<string> => {
-    return targets.reduce((result: Array<string>, value: string): Array<string> => {
+const getTargets = (targets: Array<string>): Array<Target> => {
+    return targets.reduce((result: Array<Target>, value: string): Array<Target> => {
         const target = value.trim();
         const protocol = url.parse(target).protocol;
 
@@ -45,7 +45,10 @@ const getTargets = (targets: Array<string>): Array<string> => {
         // Check if the protocol is HTTP or HTTPS.
         if (protocol === 'http:' || protocol === 'https:') {
             debug(`Adding valid target: ${target}`);
-            result.push(target);
+            result.push({
+                path: target,
+                type: 'url'
+            });
 
             return result;
         }
@@ -63,7 +66,10 @@ const getTargets = (targets: Array<string>): Array<string> => {
         // And it doesn't exist locally, just assume it's a URL.
         if (!shell.test('-e', target)) {
             debug(`Adding modified target: http:// + ${target}`);
-            result.push(`http://${target}`);
+            result.push({
+                path: `http://${target}`,
+                type: 'url'
+            });
 
             return result;
         }
@@ -71,7 +77,10 @@ const getTargets = (targets: Array<string>): Array<string> => {
         // If it does exist and it's a regular file.
         if (shell.test('-f', target)) {
             debug(`Adding valid target: ${target}`);
-            result.push(target);
+            result.push({
+                path: target,
+                type: 'file'
+            });
 
             return result;
         }
@@ -92,68 +101,51 @@ export const cli = {
     execute: async (args: string | Array<string> | Object): Promise<number> => {
 
         const format = (results) => {
-
             const formatters = resourceLoader.getFormatters();
 
             formatters.forEach((formatter) => {
-
                 formatter.format(results);
-
             });
-
         };
 
         const currentOptions = options.parse(args);
         const targets = getTargets(currentOptions._);
 
         if (currentOptions.version) { // version from package.json
-
             log.info(`v${pkg.version}`);
 
             return 0;
-
         }
 
         if (currentOptions.help || !targets.length) {
-
             log.info(options.generateHelp());
 
             return 0;
-
         }
 
         let configPath;
 
         if (!currentOptions.config) {
-
             configPath = Config.getFilenameForDirectory(process.cwd());
-
         } else {
-
             configPath = currentOptions.config;
-
         }
 
         const config = Config.load(configPath);
 
         if (!validator.validateConfig(config)) {
-
             log.error('Configuration not valid');
 
             return 1;
-
         }
 
         const engine = sonar.create(config);
-
         const start = Date.now();
 
         for (const target of targets) {
-
             const results = await engine.executeOn(target); // eslint-disable-line no-await-in-loop
 
             format(results);
-
         }
 
         debug(`Total runtime: ${Date.now() - start}ms`);

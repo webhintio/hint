@@ -15,8 +15,6 @@ import * as resourceLoader from './util/resource-loader';
 import { getSeverity } from './config/config-rules';
 import { RuleContext } from './rule-context';
 
-// import {RuleContext as RuleContext} from './rule-context';
-
 // ------------------------------------------------------------------------------
 // Public interface
 // ------------------------------------------------------------------------------
@@ -27,17 +25,33 @@ export class Sonar extends EventEmitter {
     private rules: Map<string, Rule>
     private collector: Collector
     private messages: Array<Problem>
-    private _sourceHtml: string
+    private _page: Page
 
-    get sourceHtml() {
-
-        return this._sourceHtml;
-
+    get page() {
+        return this._page;
     }
-    set sourceHtml(sourceHtml) {
 
-        this._sourceHtml = sourceHtml;
+    // TODO: Hide the setter from the rules?
+    set page(page: { dom?: HTMLElement, isLocalFile?: boolean, responseHeaders?: object }) {
 
+        if (!this._page) {
+            this._page = {
+                dom: null,
+                isLocalFile: false
+            };
+        }
+
+        if (page.dom) {
+            this._page.dom = page.dom;
+        }
+
+        if (page.isLocalFile) {
+            this._page.isLocalFile = page.isLocalFile;
+        }
+
+        if (page.responseHeaders) {
+            this._page.responseHeaders = page.responseHeaders;
+        }
     }
 
     constructor(config) {
@@ -47,6 +61,7 @@ export class Sonar extends EventEmitter {
             maxListeners: 0,
             wildcard: true
         });
+
         debug('Initializing sonar engine');
 
         this.messages = [];
@@ -58,16 +73,13 @@ export class Sonar extends EventEmitter {
             const plugins = resourceLoader.getPlugins();
 
             plugins.forEach((plugin) => {
-
                 const instance = plugin[1].create(config);
 
                 Object.keys(instance).forEach((eventName) => {
-
                     this.on(eventName, instance[eventName]);
-
                 });
-                this.plugins.set(plugin[0], instance);
 
+                this.plugins.set(plugin[0], instance);
             });
 
             debug(`Plugins loaded: ${this.plugins.size}`);
@@ -90,9 +102,7 @@ export class Sonar extends EventEmitter {
                 const instance = rule.create(context);
 
                 Object.keys(instance).forEach((eventName) => {
-
                     this.on(eventName, instance[eventName]);
-
                 });
 
                 this.rules.set(id, instance);
@@ -108,23 +118,17 @@ export class Sonar extends EventEmitter {
             collectorConfig;
 
         if (typeof config.collector === 'string') {
-
             collectorId = config.collector;
             collectorConfig = {};
-
         } else {
-
             collectorId = config.collector.name;
             collectorConfig = config.collector.options;
-
         }
 
         const collectors = resourceLoader.getCollectors();
 
         if (!collectors.has(collectorId)) {
-
             throw new Error(`Collector "${collectorId}" not found`);
-
         }
 
         this.collector = collectors.get(collectorId)(this, collectorConfig);
@@ -148,12 +152,11 @@ export class Sonar extends EventEmitter {
     }
 
     /** Runs all the configured rules and plugins on a target */
-    async executeOn(target: string): Promise<Array<Problem>> {
+    async executeOn(target: Target): Promise<Array<Problem>> {
 
         const start = Date.now();
 
-        debug(`Starting the analysis on ${target}`);
-
+        debug(`Starting the analysis on ${target.path}`);
         await this.collector.collect(target);
         debug(`Total runtime ${Date.now() - start}`);
 
@@ -163,9 +166,7 @@ export class Sonar extends EventEmitter {
 }
 
 export const create = (config): Sonar => {
-
     const sonar = new Sonar(config);
 
     return sonar;
-
 };
