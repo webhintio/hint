@@ -14,7 +14,6 @@
 import * as path from 'path';
 import * as _ from 'lodash';
 import * as globby from 'globby';
-import {Resource, CollectorBuilder, Formatter, RuleBuilder, PluginBuilder} from '../types';
 
 const debug = require('debug')('sonar:util:resource-loader');
 
@@ -35,33 +34,46 @@ const loadOfType = (type: string): Map<string, Resource> => {
     debug(`${resourceFiles.length} ${type} found`);
 
     const resourcesOfType = resourceFiles.reduce((resourceMap, resource) => {
+
         debug(`Loading ${resource}`);
         const name = path.basename(resource, '.js');
 
         if (!resourceMap.has(name)) {
+
             resourceMap.set(name, require(resource));
+
         } else {
+
             throw new Error(`Failed to add resource ${name} from ${resource}. It already exists.`);
+
         }
 
         return resourceMap;
+
     }, new Map());
 
     return resourcesOfType;
+
 };
 
 const resources = Object.freeze(_.reduce(TYPE, (acum, value, key) => {
+
     acum[key] = loadOfType(value);
 
     return acum;
+
 }, {}));
 
 /** Returns the resources for a given type. */
 const get = (type: string): (() => Map<string, any>) => {
+
     return () => {
+
         return resources[type];
+
     };
-}
+
+};
 
 // ------------------------------------------------------------------------------
 // Public

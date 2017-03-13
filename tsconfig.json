@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "allowJs": true,
+        "alwaysStrict": true,
         "module": "commonjs",
         "sourceMap": true,
         "target": "esnext",
