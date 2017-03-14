@@ -22,13 +22,13 @@
 
 import * as jsdom from 'jsdom';
 import * as r from 'request';
-import * as request from 'request';
-import * as url from 'url';
+import * as pify from 'pify';
 
 const debug = require('debug')('sonar:collector:jsdom');
 
+import {readFileAsync} from '../util/misc';
 import { Sonar } from '../sonar'; // eslint-disable-line no-unused-vars
-import { readFile, getPage } from './../util/misc';
+import { Collector, CollectorBuilder, ElementFoundEvent, URL } from '../types'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Defaults
@@ -47,43 +47,38 @@ const defaultOptions = {
     waitFor: 5000
 };
 
-
-const getContent = async (target: Target, server: Sonar): Promise<string> => {
-
-    if (target.type === 'url') {
-        const response: request = await getPage(target.path);
-        server.page = {
-            responseHeaders: response.headers
-        };
-
-        return response.body;
-    }
-
-    if (target.type === 'file') {
-        server.page = {
-            isLocalFile: true
-        };
-
-        return readFile(target.path);
-    }
-
-};
-
 const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
     const options = Object.assign({}, defaultOptions, config);
     const headers = options.headers;
     const request = headers ? r.defaults({ headers }) : r;
 
-    return ({
-        async collect(target: Target) {
+    const getContent = async (target: URL) => {
+        if (target.protocol === 'file:') {
+            const html: string = await readFileAsync(target.path);
 
-            const path = target.path;
+            return {
+                headers: {},
+                html
+            };
+        }
+
+        const [response, body] = await pify(request, { multiArgs: true })(target.href);
+
+        return {
+            headers: response.headers,
+            html: body
+        };
+    };
+
+    let _html, _headers, _dom;
+
+    return ({
+        async collect(target: URL) {
+            /** The target in string format */
+            const href = target.href;
 
             return new Promise(async (resolve, reject) => {
-
-                debug(`About to start fetching ${path}`);
-                await server.emitAsync('url');
 
                 const traverseAndNotify = async (element) => {
 
@@ -92,25 +87,43 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     debug(`emitting ${eventName}`);
                     // should we freeze it? what about the other siblings, children, parents? We should have an option to not allow modifications
                     // maybe we create a custom object that only exposes read only properties?
-                    await server.emitAsync(eventName, path, element);
+                    const event: ElementFoundEvent = {
+                        element,
+                        resource: href
+                    };
+
+                    await server.emitAsync(eventName, event);
                     for (const child of element.children) {
 
                         debug('next children');
-                        await server.emitAsync(`traversing::down`, path);
+                        await server.emitAsync(`traversing::down`, href);
                         await traverseAndNotify(child);  // eslint-disable-line no-await-for
 
                     }
-                    await server.emitAsync(`traversing::up`, path);
+                    await server.emitAsync(`traversing::up`, href);
 
                     return Promise.resolve();
 
                 };
+
+                debug(`About to start fetching ${href}`);
+                await server.emitAsync('targetfetch::start', href);
+
+                const { headers: responseHeaders, html } = await getContent(target);
+
+                // making this data available to the outside world
+                _headers = responseHeaders;
+                _html = html;
+
+                debug(`HTML for ${href} downloaded`);
+                await server.emitAsync('targetfetch::end', href, html, responseHeaders);
 
                 jsdom.env({
                     done: async (err, window) => {
 
                         if (err) {
                             reject(err);
+
                             return;
                         }
 
@@ -119,15 +132,13 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                          */
                         setTimeout(async () => {
 
-                            debug(`${path} loaded, traversing`);
+                            debug(`${href} loaded, traversing`);
 
-                            server.page = {
-                                dom: window.document
-                            };
+                            _dom = window.document;
 
-                            await server.emitAsync('traverse::start', path);
+                            await server.emitAsync('traverse::start', href);
                             await traverseAndNotify(window.document.children[0]);
-                            await server.emitAsync('traverse::end', path);
+                            await server.emitAsync('traverse::end', href);
                             /* TODO: when we reach this moment we should wait for all pending request to be done and
                                stop processing any more */
                             resolve();
@@ -141,31 +152,47 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                         SkipExternalResources: false
                     },
                     headers,
+                    html,
                     async resourceLoader(resource, callback) {
 
-                        const url = resource.url.href;
+                        const resourceUrl = resource.url.href;
 
-                        debug(`resource ${url} to be fetched`);
-                        await server.emitAsync('fetch::start', url);
+                        debug(`resource ${resourceUrl} to be fetched`);
+                        await server.emitAsync('fetch::start', resourceUrl);
 
-                        request(url, async (err, response, body) => {
+                        request(resourceUrl, async (err, response, body) => {
 
-                            debug(`resource ${url} fetched`);
+                            debug(`resource ${resourceUrl} fetched`);
                             if (err) {
                                 await server.emitAsync('fetch::error');
+
                                 return callback(err);
                             }
 
-                            await server.emitAsync('fetch::end', resource, response);
+                            /*
+                             rules should have only access to:
+                              - the node that started the request (resource)
+                              - the content of the url (body)
+                              - headers of the response (headers)
+                             all other things shouldn't be required to the rules
+                             */
+                            await server.emitAsync('fetch::end', resourceUrl, resource, body, response.headers);
+
                             return callback(null, body);
                         });
-
-                    },
-                    html: await getContent(target, server)
+                    }
                 });
             });
         },
-
+        get dom(): HTMLElement {
+            return _dom;
+        },
+        get headers(): object {
+            return _headers;
+        },
+        get html(): string {
+            return _html;
+        },
         get request() {
             return request;
         }

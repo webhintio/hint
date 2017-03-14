@@ -9,6 +9,7 @@
 // ------------------------------------------------------------------------------
 
 import { RuleContext } from '../rule-context'; // eslint-disable-line no-unused-vars
+import { Rule, RuleBuilder, ElementFoundEvent } from '../types'; // eslint-disable-line no-unused-vars
 
 const debug = require('debug')('sonar:rules:no-double-slash');
 
@@ -25,7 +26,8 @@ const rule: RuleBuilder = {
             If we access the src or href properties directly the browser already adds
             http(s):// so we cannot verify
         */
-        const validate = (resource: string, element: HTMLElement) => {
+        const validate = (data: ElementFoundEvent) => {
+            const { element, resource } = data;
 
             debug(`Analyzing link\n${element.outerHTML}`);
             const url = element.getAttribute('src') || element.getAttribute('href') || '';

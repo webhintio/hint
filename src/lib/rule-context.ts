@@ -4,6 +4,7 @@
  */
 
 import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars
+import { ProblemLocation, Severity } from './types'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Helper functions

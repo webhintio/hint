@@ -14,6 +14,7 @@ const debug = require('debug')('sonar:engine');
 import * as resourceLoader from './util/resource-loader';
 import { getSeverity } from './config/config-rules';
 import { RuleContext } from './rule-context';
+import { Collector, ElementFoundEvent, FetchEndEvent, Page, Problem, ProblemLocation, Rule, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Public interface
@@ -25,33 +26,21 @@ export class Sonar extends EventEmitter {
     private rules: Map<string, Rule>
     private collector: Collector
     private messages: Array<Problem>
-    private _page: Page
 
-    get page() {
-        return this._page;
+    get page(): Page {
+        return {
+            dom: this.collector.dom,
+            html: this.collector.html,
+            responseHeaders: this.collector.headers
+        };
     }
 
-    // TODO: Hide the setter from the rules?
-    set page(page: { dom?: HTMLElement, isLocalFile?: boolean, responseHeaders?: object }) {
+    get pageContent() {
+        return this.collector.html;
+    }
 
-        if (!this._page) {
-            this._page = {
-                dom: null,
-                isLocalFile: false
-            };
-        }
-
-        if (page.dom) {
-            this._page.dom = page.dom;
-        }
-
-        if (page.isLocalFile) {
-            this._page.isLocalFile = page.isLocalFile;
-        }
-
-        if (page.responseHeaders) {
-            this._page.responseHeaders = page.responseHeaders;
-        }
+    get pageHeaders() {
+        return this.collector.headers;
     }
 
     constructor(config) {
@@ -151,8 +140,12 @@ export class Sonar extends EventEmitter {
 
     }
 
+    // async emitAysnc(eventName: string, data: ElementFoundEvent | FetchEndEvent) {
+    //     super.emitAsync(eventName, data);
+    // }
+
     /** Runs all the configured rules and plugins on a target */
-    async executeOn(target: Target): Promise<Array<Problem>> {
+    async executeOn(target: URL): Promise<Array<Problem>> {
 
         const start = Date.now();
 

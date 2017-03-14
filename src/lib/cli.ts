@@ -17,6 +17,7 @@
 import * as url from 'url';
 
 import * as shell from 'shelljs';
+import * as fileUrl from 'file-url';
 
 import { options } from './ui/options';
 import * as log from './util/logging';
@@ -35,58 +36,44 @@ const debug = require('debug')('sonar:cli');
 
 /** Removes targets that are not valid, and add `http://` to the ones
     that seem to omit it. */
-const getTargets = (targets: Array<string>): Array<Target> => {
-    return targets.reduce((result: Array<Target>, value: string): Array<Target> => {
-        const target = value.trim();
-        const protocol = url.parse(target).protocol;
+const getTargets = (targets: Array<string>): Array<url.Url> => {
+    return targets.reduce((result: Array<url.Url>, value: string): Array<url.Url> => {
+        value = value.trim(); // eslint-disable-line no-param-reassign
+        let target = url.parse(value);
+        const protocol = target.protocol;
 
         // If it's a URI.
 
         // Check if the protocol is HTTP or HTTPS.
-        if (protocol === 'http:' || protocol === 'https:') {
-            debug(`Adding valid target: ${target}`);
-            result.push({
-                path: target,
-                type: 'url'
-            });
-
-            return result;
-        }
-
-        // Otherwise, ignore all other protocols as they are not supported
-        // (e.g.: data:..., file://..., ftp://..., mailto:..., etc.).
-        if (protocol !== null) {
-            log.error(`Ignoring '${target}' as the protocol is not supported`);
+        if (protocol === 'http:' || protocol === 'https:' || protocol === 'file:') {
+            debug(`Adding valid target: ${url.format(target)}`);
+            result.push(target);
 
             return result;
         }
 
         // If it's not a URI
 
-        // And it doesn't exist locally, just assume it's a URL.
-        if (!shell.test('-e', target)) {
-            debug(`Adding modified target: http:// + ${target}`);
-            result.push({
-                path: `http://${target}`,
-                type: 'url'
-            });
+        // If it does exist and it's a regular file.
+        if (shell.test('-f', value)) {
+            target = fileUrl(value);
+            debug(`Adding valid target: ${url.format(target)}`);
+            result.push(target);
 
             return result;
         }
 
-        // If it does exist and it's a regular file.
-        if (shell.test('-f', target)) {
-            debug(`Adding valid target: ${target}`);
-            result.push({
-                path: target,
-                type: 'file'
-            });
+        // And it doesn't exist locally, just assume it's a URL.
+        if (!shell.test('-e', value)) {
+            target = url.parse(`http://${value}`);
+            debug(`Adding modified target: ${url.format(target)}`);
+            result.push(target);
 
             return result;
         }
 
         // If it's not a regular file, ignore it.
-        log.error(`Ignoring '${target}' as it's not a file`);
+        log.error(`Ignoring '${target}' as it's not a valid target`);
 
         return result;
     }, []);
