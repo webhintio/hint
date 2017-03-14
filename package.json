@@ -8,7 +8,7 @@
     "build": "cpx \"./src/**/*.{js,json}\" dist -C -v && tsc --outDir dist --rootDir src",
     "lint": "eslint src/**/*.ts",
     "site": "node dist/bin/sonar --debug",
-    "test": "nyc node ./bin/sonar.js",
+    "test": "nyc ava",
     "watch": "tsc --outDir dist --rootDir src --watch --allowJs"
   },
   "repository": "MicrosoftEdge/Sonar",
@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@types/node": "^7.0.5",
+    "ava": "^0.18.2",
     "babel-cli": "^6.23.0",
     "babel-plugin-istanbul": "^4.0.0",
     "babel-preset-es2017": "^6.22.0",
@@ -57,31 +58,26 @@
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-typescript": "^0.1.0",
+    "leche": "^2.1.2",
     "nyc": "^10.1.2",
+    "proxyquire": "^1.7.11",
+    "sinon": "^1.17.7",
     "typedoc": "^0.5.7",
     "typescript": "^2.2.1",
     "typescript-eslint-parser": "^2.0.0"
   },
-  "babel": {
-    "presets": [
-      "es2017"
+  "ava": {
+    "files": [
+      "tests/**/*.js"
     ],
-    "env": {
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
+    "failFast": true,
+    "timeout": "30s"
   },
   "nyc": {
     "include": [
-      "{bin,lib}/**/*.js"
+      "dist/**/*.js"
     ],
-    "require": [
-      "babel-register"
-    ],
-    "sourceMap": false,
-    "instrument": false
+    "sourceMap": true,
+    "instrument": true
   }
 }

@@ -9,14 +9,10 @@
 
 /** Cover for console.error */
 export const error = (message, ...optionalParams) => {
-
     console.error(message, ...optionalParams);
-
 };
 
 /** Cover for console.log */
-export const info = (message, ...optionalParams) => {
-
+export const log = (message, ...optionalParams) => {
     console.log(message, ...optionalParams);
-
 };
