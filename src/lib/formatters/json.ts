@@ -7,6 +7,9 @@
 // Requirements
 // ------------------------------------------------------------------------------
 import * as _ from 'lodash';
+
+import {Formatter} from '../types'; // eslint-disable-line no-unused-vars
+
 const debug = require('debug')('sonar:formatters:json');
 
 // ------------------------------------------------------------------------------
@@ -21,13 +24,10 @@ const formatter: Formatter = {
         const resources = _.groupBy(messages, 'resource');
 
         _.forEach(resources, (msgs, resource) => {
-
             console.log(`${resource}: ${msgs.length} issues`);
-
             const sortedMessages = _.sortBy(msgs, ['line', 'column']);
 
             console.log(sortedMessages);
-
         });
 
     }

@@ -15,6 +15,8 @@ import * as path from 'path';
 import * as _ from 'lodash';
 import * as globby from 'globby';
 
+import {CollectorBuilder, Formatter, PluginBuilder, Resource, RuleBuilder} from '../types'; // eslint-disable-line no-unused-vars
+
 const debug = require('debug')('sonar:util:resource-loader');
 
 /** The type of resource */

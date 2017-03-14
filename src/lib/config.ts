@@ -11,11 +11,12 @@
 
 import * as path from 'path';
 
-import { readFile } from './util/misc';
 import * as shell from 'shelljs';
 import * as stripComments from 'strip-json-comments';
-// stringify = require('json-stable-stringify'),
 import * as requireUncached from 'require-uncached';
+
+import { readFile } from './util/misc';
+import { Config } from './types'; //eslint-disable-line no-unused-vars
 
 const debug = require('debug')('eslint:config-file');
 
