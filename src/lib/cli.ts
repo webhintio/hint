@@ -19,7 +19,7 @@ import * as url from 'url';
 import * as shell from 'shelljs';
 
 import { options } from './ui/options';
-import * as log from './util/logging';
+import * as logger from './util/logging';
 import * as Config from './config';
 import * as sonar from './sonar';
 import * as validator from './config/config-validator';
@@ -53,7 +53,7 @@ const getTargets = (targets: Array<string>): Array<string> => {
         // Otherwise, ignore all other protocols as they are not supported
         // (e.g.: data:..., file://..., ftp://..., mailto:..., etc.).
         if (protocol !== null) {
-            log.error(`Ignoring '${target}' as the protocol is not supported`);
+            logger.error(`Ignoring '${target}' as the protocol is not supported`);
 
             return result;
         }
@@ -72,11 +72,13 @@ const getTargets = (targets: Array<string>): Array<string> => {
         if (shell.test('-f', target)) {
             debug(`Adding valid target: ${target}`);
 
-            return result.push(target);
+            result.push(target);
+
+            return result;
         }
 
         // If it's not a regular file, ignore it.
-        log.error(`Ignoring '${target}' as it's not a file`);
+        logger.error(`Ignoring '${target}' as it's not a file`);
 
         return result;
     }, []);
@@ -107,7 +109,7 @@ export const cli = {
 
         if (currentOptions.version) { // version from package.json
 
-            log.info(`v${pkg.version}`);
+            logger.log(`v${pkg.version}`);
 
             return 0;
 
@@ -115,7 +117,7 @@ export const cli = {
 
         if (currentOptions.help || !targets.length) {
 
-            log.info(options.generateHelp());
+            logger.log(options.generateHelp());
 
             return 0;
 
@@ -137,7 +139,7 @@ export const cli = {
 
         if (!validator.validateConfig(config)) {
 
-            log.error('Configuration not valid');
+            logger.error('Configuration not valid');
 
             return 1;
 
