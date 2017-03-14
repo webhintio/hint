@@ -9,20 +9,16 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as fs from 'fs';
 import * as path from 'path';
 
 import * as shell from 'shelljs';
-import * as stripBom from 'strip-bom';
 import * as stripComments from 'strip-json-comments';
-// stringify = require('json-stable-stringify'),
 import * as requireUncached from 'require-uncached';
 
-const debug = require('debug')('eslint:config-file');
+import { readFile } from './util/misc';
+import { Config } from './types'; //eslint-disable-line no-unused-vars
 
-interface Config {
-    sonarConfig?
-}
+const debug = require('debug')('eslint:config-file');
 
 // ------------------------------------------------------------------------------
 // Private
@@ -35,29 +31,17 @@ const CONFIG_FILES = [
     'package.json'
 ];
 
-/** Convenience wrapper for synchronously reading file contents. */
-const readFile = (filePath: string): Config => {
-
-    return stripBom(fs.readFileSync(filePath, 'utf8')); // eslint-disable-line no-sync
-
-};
-
 /** Loads a JSON configuration from a file. */
 const loadJSONConfigFile = (filePath: string): Config => {
 
     debug(`Loading JSON config file: ${filePath}`);
 
     try {
-
         return JSON.parse(stripComments(readFile(filePath)));
-
     } catch (e) {
-
         debug(`Error reading JSON file: ${filePath}`);
         e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
-
         throw e;
-
     }
 
 };
@@ -66,16 +50,13 @@ const loadJSONConfigFile = (filePath: string): Config => {
 const loadJSConfigFile = (filePath: string): Config => {
 
     debug(`Loading JS config file: ${filePath}`);
+
     try {
-
         return requireUncached(filePath);
-
     } catch (e) {
-
         debug(`Error reading JavaScript file: ${filePath}`);
         e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
         throw e;
-
     }
 
 };
@@ -84,16 +65,13 @@ const loadJSConfigFile = (filePath: string): Config => {
 const loadPackageJSONConfigFile = (filePath: string): Config => {
 
     debug(`Loading package.json config file: ${filePath}`);
+
     try {
-
         return loadJSONConfigFile(filePath).sonarConfig || null;
-
     } catch (e) {
-
         debug(`Error reading package.json file: ${filePath}`);
         e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
         throw e;
-
     }
 
 };
@@ -110,13 +88,9 @@ const loadConfigFile = (filePath: string): Config => {
         case '':
         case '.json':
             if (path.basename(filePath) === 'package.json') {
-
                 config = loadPackageJSONConfigFile(filePath);
-
             } else {
-
                 config = loadJSONConfigFile(filePath);
-
             }
             break;
 
@@ -139,9 +113,7 @@ export const load = (filePath: string): Config => {
     const config = loadConfigFile(resolvedPath);
 
     if (!config) {
-
         throw new Error(`Couldn't find any valid configuration`);
-
     }
 
     /*
@@ -171,15 +143,11 @@ export const load = (filePath: string): Config => {
 export const getFilenameForDirectory = (directory: string): string | null => {
 
     for (let i = 0, len = CONFIG_FILES.length; i < len; i++) {
-
         const filename = path.join(directory, CONFIG_FILES[i]);
 
         if (shell.test('-f', filename)) {
-
             return filename;
-
         }
-
     }
 
     return null;

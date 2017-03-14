@@ -17,6 +17,7 @@
 import * as url from 'url';
 
 import * as shell from 'shelljs';
+import * as fileUrl from 'file-url';
 
 import { options } from './ui/options';
 import * as logger from './util/logging';
@@ -35,43 +36,37 @@ const debug = require('debug')('sonar:cli');
 
 /** Removes targets that are not valid, and add `http://` to the ones
     that seem to omit it. */
-const getTargets = (targets: Array<string>): Array<string> => {
-    return targets.reduce((result: Array<string>, value: string): Array<string> => {
-        const target = value.trim();
-        const protocol = url.parse(target).protocol;
+const getTargets = (targets: Array<string>): Array<url.Url> => {
+    return targets.reduce((result: Array<url.Url>, value: string): Array<url.Url> => {
+        value = value.trim(); // eslint-disable-line no-param-reassign
+        let target = url.parse(value);
+        const protocol = target.protocol;
 
         // If it's a URI.
 
         // Check if the protocol is HTTP or HTTPS.
-        if (protocol === 'http:' || protocol === 'https:') {
-            debug(`Adding valid target: ${target}`);
+        if (protocol === 'http:' || protocol === 'https:' || protocol === 'file:') {
+            debug(`Adding valid target: ${url.format(target)}`);
             result.push(target);
-
-            return result;
-        }
-
-        // Otherwise, ignore all other protocols as they are not supported
-        // (e.g.: data:..., file://..., ftp://..., mailto:..., etc.).
-        if (protocol !== null) {
-            logger.error(`Ignoring '${target}' as the protocol is not supported`);
 
             return result;
         }
 
         // If it's not a URI
 
-        // And it doesn't exist locally, just assume it's a URL.
-        if (!shell.test('-e', target)) {
-            debug(`Adding modified target: http:// + ${target}`);
-            result.push(`http://${target}`);
+        // If it does exist and it's a regular file.
+        if (shell.test('-f', value)) {
+            target = fileUrl(value);
+            debug(`Adding valid target: ${url.format(target)}`);
+            result.push(target);
 
             return result;
         }
 
-        // If it does exist and it's a regular file.
-        if (shell.test('-f', target)) {
-            debug(`Adding valid target: ${target}`);
-
+        // And it doesn't exist locally, just assume it's a URL.
+        if (!shell.test('-e', value)) {
+            target = url.parse(`http://${value}`);
+            debug(`Adding modified target: ${url.format(target)}`);
             result.push(target);
 
             return result;
@@ -93,68 +88,51 @@ export const cli = {
     execute: async (args: string | Array<string> | Object): Promise<number> => {
 
         const format = (results) => {
-
             const formatters = resourceLoader.getFormatters();
 
             formatters.forEach((formatter) => {
-
                 formatter.format(results);
-
             });
-
         };
 
         const currentOptions = options.parse(args);
         const targets = getTargets(currentOptions._);
 
         if (currentOptions.version) { // version from package.json
-
             logger.log(`v${pkg.version}`);
 
             return 0;
-
         }
 
         if (currentOptions.help || !targets.length) {
-
             logger.log(options.generateHelp());
 
             return 0;
-
         }
 
         let configPath;
 
         if (!currentOptions.config) {
-
             configPath = Config.getFilenameForDirectory(process.cwd());
-
         } else {
-
             configPath = currentOptions.config;
-
         }
 
         const config = Config.load(configPath);
 
         if (!validator.validateConfig(config)) {
-
             logger.error('Configuration not valid');
 
             return 1;
-
         }
 
         const engine = sonar.create(config);
-
         const start = Date.now();
 
         for (const target of targets) {
-
             const results = await engine.executeOn(target); // eslint-disable-line no-await-in-loop
 
             format(results);
-
         }
 
         debug(`Total runtime: ${Date.now() - start}ms`);

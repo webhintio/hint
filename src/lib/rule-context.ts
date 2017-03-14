@@ -4,6 +4,7 @@
  */
 
 import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars
+import { ProblemLocation, Severity } from './types'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Helper functions
@@ -18,18 +19,12 @@ const findElementLocation = (element: HTMLElement): ProblemLocation => {
     let initHtml;
 
     if (occurrences === 1) {
-
         initHtml = html.substring(0, html.indexOf(element.outerHTML));
-
     } else if (occurrences > 1) {
-
         // TODO: return the right start place
         initHtml = html.substring(0, html.indexOf(element.outerHTML));
-
     } else {
-
         return null;
-
     }
 
     const lines = initHtml.split('\n');
@@ -74,15 +69,11 @@ export class RuleContext {
         let position;
 
         if (location !== null && descriptor.outerHTML) {
-
             position = findElementLocation(nodeOrDescriptor);
             position.column += location.column;
             position.line += location.line;
-
         } else {
-
             position = location;
-
         }
 
         this.sonar.report(
