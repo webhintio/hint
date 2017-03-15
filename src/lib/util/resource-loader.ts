@@ -30,7 +30,7 @@ const TYPE = {
 /** Loads all the resources available for the given type */
 const loadOfType = (type: string): Map<string, Resource> => {
 
-    const resourceFiles: string[] = globby.sync(`{./,./node_modules/sonar-*}dist/lib/${type}s/*.js`,
+    const resourceFiles: string[] = globby.sync(`{./,./node_modules/sonar-*}dist/lib/${type}s/**/*.js`,
         { absolute: true });
 
     debug(`${resourceFiles.length} ${type} found`);
