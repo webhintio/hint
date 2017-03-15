@@ -43,6 +43,10 @@ export class Sonar extends EventEmitter {
         return this.collector.headers;
     }
 
+    get pageRequest() {
+        return this.collector.request;
+    }
+
     constructor(config) {
 
         super({
@@ -103,8 +107,9 @@ export class Sonar extends EventEmitter {
         }
 
         debug('Loading collector');
-        let collectorId,
-            collectorConfig;
+
+        let collectorId;
+        let collectorConfig;
 
         if (typeof config.collector === 'string') {
             collectorId = config.collector;
@@ -128,7 +133,7 @@ export class Sonar extends EventEmitter {
     report(ruleId: string, severity: Severity, node, location: ProblemLocation, message: string, resource: string) {
 
         const problem = {
-            column: location.column + 1,
+            column: location.column,
             line: location.line,
             message,
             resource,
