@@ -5,36 +5,7 @@
 
 import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars
 import { ProblemLocation, Severity } from './types'; // eslint-disable-line no-unused-vars
-
-// ------------------------------------------------------------------------------
-// Helper functions
-// ------------------------------------------------------------------------------
-
-// TODO: maybe this should go into another file for easier testing?
-/** Finds the Location of an HTMLElement in the document */
-const findElementLocation = (element: HTMLElement): ProblemLocation => {
-
-    const html = element.ownerDocument.children[0].outerHTML;
-    const occurrences = (html.match(new RegExp(element.outerHTML, 'g')) || []).length;
-    let initHtml;
-
-    if (occurrences === 1) {
-        initHtml = html.substring(0, html.indexOf(element.outerHTML));
-    } else if (occurrences > 1) {
-        // TODO: return the right start place
-        initHtml = html.substring(0, html.indexOf(element.outerHTML));
-    } else {
-        return null;
-    }
-
-    const lines = initHtml.split('\n');
-
-    return {
-        column: lines.pop().length,
-        line: lines.length + 1
-    };
-
-};
+import { findElementLocation } from './util/find-element-location';
 
 // ------------------------------------------------------------------------------
 // Public
@@ -60,20 +31,35 @@ export class RuleContext {
 
     }
 
+    get pageContent() {
+        return this.sonar.pageContent;
+    }
+
+    get pageHeaders() {
+        return this.sonar.pageHeaders;
+    }
+
+    get pageRequest() {
+        return this.sonar.pageRequest;
+    }
+
     /** Reports a problem with the resource */
     report(resource: string, nodeOrDescriptor: HTMLElement, message: string, location?: ProblemLocation) {
 
         // TODO: this should probably contain the info of the resource (HTML, image, font, etc.)
         const descriptor = nodeOrDescriptor;
 
-        let position;
+        let position = location;
 
-        if (location !== null && descriptor.outerHTML) {
-            position = findElementLocation(nodeOrDescriptor);
-            position.column += location.column;
-            position.line += location.line;
-        } else {
-            position = location;
+        if (position === null && descriptor) {
+            position = findElementLocation(nodeOrDescriptor, this.pageContent);
+        }
+
+        if (position === null) {
+            position = {
+                column: null,
+                line: null
+            };
         }
 
         this.sonar.report(
