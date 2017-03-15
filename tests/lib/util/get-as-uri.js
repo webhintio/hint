@@ -2,17 +2,19 @@ import * as url from 'url';
 
 import test from 'ava';
 
-import { getAsUri, getAsUris } from '../../../dist/lib/util/getAsUri';
+import { getAsUri, getAsUris } from '../../../dist/lib/util/get-as-uri';
 
 const normalize = (path) => {
-    return path.replace(/\\/g, '/');
+    const prefix = path.indexOf('/') === 0 ? '' : '/';
+
+    return prefix + path.replace(/\\/g, '/');
 };
 
 const targets = [
-    [__filename, `file:///${normalize(__filename)}`],
+    [__filename, `file://${normalize(__filename)}`],
     ['https://www.wikipedia.org', 'https://www.wikipedia.org/'],
     ['www.wikipedia.org', 'http://www.wikipedia.org/'],
-    [`file:///${normalize(__filename)}`, `file:///${normalize(__filename)}`],
+    [`file://${normalize(__filename)}`, `file://${normalize(__filename)}`],
     [`${__filename}noexists`, null]
 ];
 
