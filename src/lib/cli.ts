@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------------------
 
 import { options } from './ui/options';
-import * as log from './util/logging';
+import * as logger from './util/logging';
 import * as Config from './config';
 import * as sonar from './sonar';
 import * as validator from './config/config-validator';
@@ -46,13 +46,13 @@ export const cli = {
         const targets = getAsUris(currentOptions._);
 
         if (currentOptions.version) { // version from package.json
-            log.info(`v${pkg.version}`);
+            logger.log(`v${pkg.version}`);
 
             return 0;
         }
 
         if (currentOptions.help || !targets.length) {
-            log.info(options.generateHelp());
+            logger.log(options.generateHelp());
 
             return 0;
         }
@@ -68,7 +68,7 @@ export const cli = {
         const config = Config.load(configPath);
 
         if (!validator.validateConfig(config)) {
-            log.error('Configuration not valid');
+            logger.error('Configuration not valid');
 
             return 1;
         }
