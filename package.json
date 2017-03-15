@@ -5,6 +5,7 @@
   "description": "Best practices tool for the web",
   "main": "./dist/lib/sonar.js",
   "scripts": {
+    "ava": "ava",
     "build": "cpx \"./src/**/*.{js,json}\" dist -C -v && tsc --outDir dist --rootDir src",
     "lint": "eslint src/**/*.ts",
     "site": "node dist/bin/sonar --debug",

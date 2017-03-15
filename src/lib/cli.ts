@@ -14,78 +14,17 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as url from 'url';
-
-import * as shell from 'shelljs';
-import * as fileUrl from 'file-url';
-
 import { options } from './ui/options';
 import * as logger from './util/logging';
 import * as Config from './config';
 import * as sonar from './sonar';
 import * as validator from './config/config-validator';
 import * as resourceLoader from './util/resource-loader';
+import {getAsUris} from './util/getAsUri';
 
 const pkg = require('../../package.json');
 
 const debug = require('debug')('sonar:cli');
-
-// ------------------------------------------------------------------------------
-// Private
-// ------------------------------------------------------------------------------
-
-/** Removes targets that are not valid, and add `http://` to the ones
-    that seem to omit it. */
-const getTargets = (targets: Array<string>): Array<url.Url> => {
-    return targets.reduce((result: Array<url.Url>, value: string): Array<url.Url> => {
-        value = value.trim(); // eslint-disable-line no-param-reassign
-        let target = url.parse(value);
-        const protocol = target.protocol;
-
-        // If it's a URI.
-
-        // Check if the protocol is HTTP or HTTPS.
-        if (protocol === 'http:' || protocol === 'https:' || protocol === 'file:') {
-            debug(`Adding valid target: ${url.format(target)}`);
-            result.push(target);
-
-            return result;
-        }
-
-        // Otherwise, ignore all other protocols as they are not supported
-        // (e.g.: data:..., file://..., ftp://..., mailto:..., etc.).
-        if (protocol !== null) {
-            logger.error(`Ignoring '${target}' as the protocol is not supported`);
-
-            return result;
-        }
-
-        // If it's not a URI
-
-        // If it does exist and it's a regular file.
-        if (shell.test('-f', value)) {
-            target = fileUrl(value);
-            debug(`Adding valid target: ${url.format(target)}`);
-            result.push(target);
-
-            return result;
-        }
-
-        // And it doesn't exist locally, just assume it's a URL.
-        if (!shell.test('-e', value)) {
-            target = url.parse(`http://${value}`);
-            debug(`Adding modified target: ${url.format(target)}`);
-            result.push(target);
-
-            return result;
-        }
-
-        // If it's not a regular file, ignore it.
-        logger.error(`Ignoring '${target}' as it's not a file`);
-
-        return result;
-    }, []);
-};
 
 // ------------------------------------------------------------------------------
 // Public
@@ -104,7 +43,7 @@ export const cli = {
         };
 
         const currentOptions = options.parse(args);
-        const targets = getTargets(currentOptions._);
+        const targets = getAsUris(currentOptions._);
 
         if (currentOptions.version) { // version from package.json
             logger.log(`v${pkg.version}`);
