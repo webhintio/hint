@@ -44,8 +44,10 @@ export const getAsUri = (source: string): url.Url | null => {
     if (!shell.test('-e', entry)) {
         target = url.parse(`http://${entry}`);
 
-        // hostname needs to have a . at least. Private domains should have http in front
-        if (target.hostname.includes('.')) {
+        // Except for the case of the well known and used `localhost`,
+        // for all other cases the `hostname` needs to contain at least
+        // a `.`. Private domains should have `http(s)://` in front.
+        if (target.hostname === 'localhost' || target.hostname.includes('.')) {
             debug(`Adding modified target: ${url.format(target)}`);
 
             return target;
