@@ -5,7 +5,7 @@
 
 import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars
 import { ProblemLocation, Severity } from './types'; // eslint-disable-line no-unused-vars
-import { findElementLocation } from './util/find-element-location';
+import { findProblemLocation } from './util/location-helpers';
 
 // ------------------------------------------------------------------------------
 // Public
@@ -31,16 +31,24 @@ export class RuleContext {
 
     }
 
+    /** The original HTML of the page */
     get pageContent() {
         return this.sonar.pageContent;
     }
 
+    /** The headers of the response when retrieving the HTML */
     get pageHeaders() {
         return this.sonar.pageHeaders;
     }
 
+    /** A useful way of making requests */
     get pageRequest() {
         return this.sonar.pageRequest;
+    }
+
+    /** Finds the exact location in the page's HTML for a match in an element */
+    findProblemLocation(element: HTMLElement, content?: string) {
+        return findProblemLocation(element, {column: 0, line: 0}, content);
     }
 
     /** Reports a problem with the resource */
@@ -51,8 +59,8 @@ export class RuleContext {
 
         let position = location;
 
-        if (position === null && descriptor) {
-            position = findElementLocation(nodeOrDescriptor, this.pageContent);
+        if (!position && descriptor) {
+            position = findProblemLocation(nodeOrDescriptor, {column: 0, line: 0});
         }
 
         if (position === null) {
@@ -66,7 +74,7 @@ export class RuleContext {
             this.id,
             this.severity,
             descriptor,
-            position,
+            location,
             message,
             resource
         );
