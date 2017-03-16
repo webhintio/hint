@@ -77,9 +77,13 @@ export const cli = {
         const start = Date.now();
 
         for (const target of targets) {
-            const results = await engine.executeOn(target); // eslint-disable-line no-await-in-loop
+            try {
+                const results = await engine.executeOn(target); // eslint-disable-line no-await-in-loop
 
-            format(results);
+                format(results);
+            } catch (e) {
+                debug(`Failed to analyze: ${target.href}`);
+            }
         }
 
         debug(`Total runtime: ${Date.now() - start}ms`);
