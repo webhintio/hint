@@ -9,7 +9,7 @@
     "build": "cpx \"./src/**/*.{js,json}\" dist -C -v && tsc --outDir dist --rootDir src",
     "lint": "eslint src/**/*.ts",
     "site": "node dist/bin/sonar --debug",
-    "test": "nyc ava",
+    "test": "npm run build && nyc ava",
     "watch": "tsc --outDir dist --rootDir src --watch --allowJs"
   },
   "repository": "MicrosoftEdge/Sonar",
