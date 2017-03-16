@@ -33,20 +33,12 @@ const rule: RuleBuilder = {
             const url = element.getAttribute('src') || element.getAttribute('href') || '';
 
             if (url.indexOf('//') === 0) {
-
                 debug('Invalid link found');
-                const startIndex = element.outerHTML.indexOf(url);
-                const html = element.outerHTML.substring(0, startIndex);
-                const lines = html.split('\n');
-                const line = lines.length;
-                const column = lines.length === 1 ? startIndex : lines.pop().length;
 
-                const location = { column, line };
+                const location = context.findProblemLocation(element, url);
 
                 context.report(resource, element, `Invalid link found: ${url}`, location);
-
             }
-
         };
 
         return {
