@@ -12,6 +12,7 @@ const normalize = (path) => {
 
 const targets = [
     [__filename, `file://${normalize(__filename)}`],
+    ['localhost', 'http://localhost/'],
     ['https://www.wikipedia.org', 'https://www.wikipedia.org/'],
     ['www.wikipedia.org', 'http://www.wikipedia.org/'],
     [`file://${normalize(__filename)}`, `file://${normalize(__filename)}`],
@@ -38,7 +39,7 @@ test('getAsUris converts to url.Url and removes invalid entries', (t) => {
 
     const results = getAsUris(urls);
 
-    t.is(results.length, 4);
+    t.is(results.length, 5);
     results.forEach((result) => {
         t.true(result instanceof url.Url);
     });
