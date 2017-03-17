@@ -1,12 +1,12 @@
 import test from 'ava';
-import sinon from 'sinon';
-import proxyquire from 'proxyquire';
+import * as sinon from 'sinon';
+import * as proxyquire from 'proxyquire';
 
 const logging = { log() { } };
 
-proxyquire('../../../dist/lib/formatters/json', { '../util/logging': logging });
+proxyquire('../../../lib/formatters/json', { '../util/logging': logging });
 
-const json = require('../../../dist/lib/formatters/json');
+const json = require('../../../lib/formatters/json');
 const problems = require('../../fixtures/formatters/list-of-problems');
 
 
@@ -28,6 +28,7 @@ test(`JSON formatter doesn't print anything if no values`, (t) => {
 });
 
 test(`JSON formatter is called twice per resource with problems and with sorted problems`, (t) => {
+
     json.format(problems.multipleproblems);
 
     const sortedMessages = [

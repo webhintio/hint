@@ -5,12 +5,16 @@
   "description": "Best practices tool for the web",
   "main": "./dist/lib/sonar.js",
   "scripts": {
-    "ava": "ava",
-    "build": "cpx \"./src/**/*.{js,json}\" dist -C -v && tsc --outDir dist --rootDir src",
+    "build:assets": "cpx \"./src/**/*.!(ts)\" dist",
+    "build:ts":"tsc --outDir dist --rootDir src",
+    "build": "npm-run-all build:*",
     "lint": "eslint src/**/*.ts",
     "site": "node dist/bin/sonar --debug",
-    "test": "npm run build && nyc ava",
-    "watch": "tsc --outDir dist --rootDir src --watch --allowJs"
+    "test": "nyc ava",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:ts": "npm run build:ts -- --watch",
+    "watch:test": "ava --watch",
+    "watch:resources": "npm run build:assets -- -w --no-initial"
   },
   "repository": "MicrosoftEdge/Sonar",
   "keywords": [
@@ -60,6 +64,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-typescript": "^0.1.0",
     "leche": "^2.1.2",
+    "npm-run-all": "^4.0.2",
     "nyc": "^10.1.2",
     "proxyquire": "^1.7.11",
     "sinon": "^1.17.7",
@@ -69,7 +74,7 @@
   },
   "ava": {
     "files": [
-      "tests/**/*.js"
+      "dist/tests/**/*.js"
     ],
     "failFast": true,
     "timeout": "30s"
