@@ -7,7 +7,7 @@ const logging = { log() { } };
 proxyquire('../../../lib/formatters/json', { '../util/logging': logging });
 
 const json = require('../../../lib/formatters/json');
-const problems = require('../../fixtures/formatters/list-of-problems');
+const problems = require('./fixtures/list-of-problems');
 
 
 test.beforeEach((t) => {
