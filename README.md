@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/MicrosoftEdge/Sonar.svg?token=ie6AidxpTLajKCNExwqL&branch=master)](https://travis-ci.com/MicrosoftEdge/sonar)
+
 # Sonar
 
 ## Tasks
