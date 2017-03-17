@@ -74,7 +74,7 @@ export class RuleContext {
             this.id,
             this.severity,
             descriptor,
-            location,
+            position,
             message,
             resource
         );
