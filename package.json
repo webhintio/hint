@@ -8,7 +8,7 @@
     "build:assets": "cpx \"./src/**/*.!(ts)\" dist",
     "build:ts":"tsc --outDir dist --rootDir src",
     "build": "npm-run-all build:*",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint \"src/**/*.ts\"",
     "site": "node dist/bin/sonar --debug",
     "test": "npm run build && nyc ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
