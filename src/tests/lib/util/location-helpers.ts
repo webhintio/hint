@@ -47,7 +47,7 @@ const findInElementEntries = [
         content: 'https://',
         position: {
             line: 1,
-            column: 9
+            column: 10
         }
     },
     {

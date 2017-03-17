@@ -108,7 +108,9 @@ export const findInElement = (element: HTMLElement, content?: string): ProblemLo
     const html = element.outerHTML.substring(0, startIndex);
     const lines = html.split('\n');
     const line = lines.length;
-    const column = lines.length === 1 ? startIndex : lines.pop().length;
+
+    // `startIndex + 1` because `indexOf` starts from `0`.
+    const column = lines.length === 1 ? startIndex + 1 : lines.pop().length;
 
     return {
         column,

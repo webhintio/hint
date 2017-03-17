@@ -41,13 +41,9 @@ const loadOfType = (type: string): Map<string, Resource> => {
         const name = path.basename(resource, '.js');
 
         if (!resourceMap.has(name)) {
-
             resourceMap.set(name, require(resource));
-
         } else {
-
             throw new Error(`Failed to add resource ${name} from ${resource}. It already exists.`);
-
         }
 
         return resourceMap;
@@ -55,26 +51,19 @@ const loadOfType = (type: string): Map<string, Resource> => {
     }, new Map());
 
     return resourcesOfType;
-
 };
 
 const resources = Object.freeze(_.reduce(TYPE, (acum, value, key) => {
-
     acum[key] = loadOfType(value);
 
     return acum;
-
 }, {}));
 
 /** Returns the resources for a given type. */
 const get = (type: string): (() => Map<string, any>) => {
-
     return () => {
-
         return resources[type];
-
     };
-
 };
 
 // ------------------------------------------------------------------------------
