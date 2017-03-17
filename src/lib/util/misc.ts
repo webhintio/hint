@@ -8,7 +8,8 @@ export const readFile = (filePath: string): string => {
 };
 
 /** Convenience wrapper for asynchronously reading file contents. */
-export const readFileAsync = (filePath: string): Promise<string> => {
+export const readFileAsync = async (filePath: string): Promise<string> => {
+    const content = await pify(fs.readFile)(filePath, 'utf8');
 
-    return stripBom(pify(fs.readFile)(filePath, 'utf8'));
+    return stripBom(content);
 };

@@ -1,12 +1,14 @@
 /* eslint sort-keys: 0 */
-import test from 'ava';
-import jsdom from 'jsdom';
-import pify from 'pify';
+import * as path from 'path';
 
-import { readFile } from '../../../dist/lib/util/misc';
+import test from 'ava';
+import * as jsdom from 'jsdom';
+import * as pify from 'pify';
+
+import { readFile } from '../../../lib/util/misc';
 const getPage = pify(jsdom.env);
 
-import { findInElement, findProblemLocation, findElementLocation } from '../../../dist/lib/util/location-helpers';
+import { findInElement, findProblemLocation, findElementLocation } from '../../../lib/util/location-helpers';
 
 
 // ------------------------------------------------------------------------------
@@ -25,7 +27,7 @@ const getElement = (markup) => {
 /** AVA Macro for findInElement */
 const findInElementMacro = async (t, info, expectedPosition) => {
     const element = getElement(info.markup);
-    const position = findInElement(element, info.content);
+    const position = findInElement(<HTMLElement>element, info.content);
 
     t.deepEqual(position, expectedPosition);
 };
@@ -68,8 +70,8 @@ findInElementEntries.forEach((entry) => {
 // findElementLocation tests
 // ------------------------------------------------------------------------------
 
-const loadHtmlAsWindow = async (path) => {
-    const html = readFile(path);
+const loadHtmlAsWindow = async (route) => {
+    const html = readFile(path.resolve(__dirname, route));
     const window = await getPage(html);
 
     return window;
@@ -116,7 +118,7 @@ const findElementLocationEntries = [
 ];
 
 test('findElementLocation tests', async (t) => {
-    const window = await loadHtmlAsWindow('./tests/fixtures/util/location-helpers/test-page.html');
+    const window = await loadHtmlAsWindow('../../fixtures/util/location-helpers/test-page.html');
 
     findElementLocationEntries.forEach((entry) => {
         const element = window.document.querySelectorAll(entry.selector)[entry.index];
@@ -136,6 +138,7 @@ const findProblemLocationEntries = [
         name: 'element without content',
         selector: `a[href="https://www.wikipedia.org"]`,
         index: 0,
+        content: null,
         position: {
             line: 6,
             column: 4
@@ -162,7 +165,7 @@ const findProblemLocationEntries = [
 ];
 
 test('findProblemLocation tests', async (t) => {
-    const window = await loadHtmlAsWindow('./tests/fixtures/util/location-helpers/test-page.html');
+    const window = await loadHtmlAsWindow('../../fixtures/util/location-helpers/test-page.html');
 
     findProblemLocationEntries.forEach((entry) => {
         const element = window.document.querySelectorAll(entry.selector)[entry.index];
