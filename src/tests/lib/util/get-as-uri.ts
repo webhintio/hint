@@ -2,7 +2,13 @@ import * as url from 'url';
 
 import test from 'ava';
 
-import { getAsUri, getAsUris } from '../../../dist/lib/util/get-as-uri';
+import { getAsUri, getAsUris } from '../../../lib/util/get-as-uri';
+
+/* TS complains that "Property Url does not exist on type 'typeof "url"'"
+    if we do `instanceof url.Url`
+    We bypasse the limitation this way
+*/
+const Url = url.parse('http://locahost').constructor;
 
 const normalize = (path) => {
     const prefix = path.indexOf('/') === 0 ? '' : '/';
@@ -24,7 +30,7 @@ test('getAsUri converts http, file and path strings to valid url.Url objects', (
         const uri = getAsUri(target[0]);
 
         if (target[1]) {
-            t.true(uri instanceof url.Url);
+            t.true(uri instanceof Url);
             t.is(url.format(uri).toLowerCase(), target[1].toLowerCase());
         } else {
             t.falsy(uri);
@@ -41,6 +47,6 @@ test('getAsUris converts to url.Url and removes invalid entries', (t) => {
 
     t.is(results.length, 5);
     results.forEach((result) => {
-        t.true(result instanceof url.Url);
+        t.true(result instanceof Url);
     });
 });
