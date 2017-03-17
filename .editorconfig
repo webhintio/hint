@@ -18,7 +18,7 @@ trim_trailing_whitespace = true
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-[package.json]
+[{package.json,.travis.yml}]
 
 # The indent size used in the `package.json` file cannot be changed.
 # https://github.com/npm/npm/pull/3180#issuecomment-16336516
