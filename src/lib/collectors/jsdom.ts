@@ -26,7 +26,8 @@ import * as pify from 'pify';
 
 const debug = require('debug')('sonar:collector:jsdom');
 
-import {readFileAsync} from '../util/misc';
+import * as logger from '../util/logging';
+import { readFileAsync } from '../util/misc';
 import { Sonar } from '../sonar'; // eslint-disable-line no-unused-vars
 import { Collector, CollectorBuilder, ElementFoundEvent, URL } from '../types'; // eslint-disable-line no-unused-vars
 
@@ -109,7 +110,20 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                 debug(`About to start fetching ${href}`);
                 await server.emitAsync('targetfetch::start', href);
 
-                const { headers: responseHeaders, html } = await getContent(target);
+                let getContentResult;
+
+                try {
+                    getContentResult = await getContent(target);
+                } catch (e) {
+                    await server.emitAsync('targetfetch::error', href);
+                    logger.error(`Failed to fetch: ${href}`);
+                    debug(e);
+                    reject(e);
+
+                    return;
+                }
+
+                const { headers: responseHeaders, html } = getContentResult;
 
                 // making this data available to the outside world
                 _headers = responseHeaders;

@@ -30,16 +30,14 @@ import { cli } from '../lib/cli';
 // ------------------------------------------------------------------------------
 
 process.once('uncaughtException', (err) => {
-
     console.log(err.message);
     console.log(err.stack);
-
     process.exitCode = 1;
-
 });
 
 process.once('unhandledRejection', (reason) => {
     console.log(reason);
+    process.exitCode = 1;
 });
 
 const run = async () => {

@@ -155,7 +155,13 @@ export class Sonar extends EventEmitter {
         const start = Date.now();
 
         debug(`Starting the analysis on ${target.path}`);
-        await this.collector.collect(target);
+
+        try {
+            await this.collector.collect(target);
+        } catch (e) {
+            return Promise.reject(e);
+        }
+
         debug(`Total runtime ${Date.now() - start}`);
 
         return this.messages;
