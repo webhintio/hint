@@ -118,7 +118,7 @@ const findElementLocationEntries = [
 ];
 
 test('findElementLocation tests', async (t) => {
-    const window = await loadHtmlAsWindow('../../fixtures/util/location-helpers/test-page.html');
+    const window = await loadHtmlAsWindow('./fixtures/test-page.html');
 
     findElementLocationEntries.forEach((entry) => {
         const element = window.document.querySelectorAll(entry.selector)[entry.index];
@@ -165,7 +165,7 @@ const findProblemLocationEntries = [
 ];
 
 test('findProblemLocation tests', async (t) => {
-    const window = await loadHtmlAsWindow('../../fixtures/util/location-helpers/test-page.html');
+    const window = await loadHtmlAsWindow('./fixtures/test-page.html');
 
     findProblemLocationEntries.forEach((entry) => {
         const element = window.document.querySelectorAll(entry.selector)[entry.index];
