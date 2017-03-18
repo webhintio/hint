@@ -6,11 +6,11 @@
   "main": "./dist/lib/sonar.js",
   "scripts": {
     "build:assets": "cpx \"./src/**/*.!(ts)\" dist",
-    "build:ts":"tsc --outDir dist --rootDir src",
+    "build:ts": "tsc --outDir dist --rootDir src",
     "build": "npm-run-all build:*",
     "lint": "eslint \"src/**/*.ts\"",
     "site": "node dist/bin/sonar --debug",
-    "test": "npm run build && nyc ava",
+    "test": "npm run lint && npm run build && nyc ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch",
     "watch:test": "ava --watch",
