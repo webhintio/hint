@@ -36,7 +36,14 @@ export interface Collector {
     /** The headers from the response if applicable */
     headers: object;
     /** A way for you to make requests if needed */
-    request;
+    fetchContent(target: URL | string, customHeaders?: object): Promise<FetchResponse>;
+}
+
+/** The response of fetching an item using the request of a collector */
+export interface FetchResponse {
+    body: string;
+    headers: object;
+    originalBytes?: Uint8Array // TODO: is this the right type?
 }
 
 export interface Config {

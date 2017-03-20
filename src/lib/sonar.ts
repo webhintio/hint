@@ -43,8 +43,8 @@ export class Sonar extends EventEmitter {
         return this.collector.headers;
     }
 
-    get pageRequest() {
-        return this.collector.request;
+    fetchContent(target, headers) {
+        return this.collector.fetchContent(target, headers);
     }
 
     constructor(config) {
