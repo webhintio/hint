@@ -76,12 +76,19 @@ const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
 
     for (const event of events) {
         const eventData = await getFixtureEvent(event);
+        const eventName = event.name.split('::')
+            .slice(0, 2)
+            .join('::');
 
-        t.context.rule[event.name](eventData);
+        t.context.rule[eventName](eventData);
     }
 
     if (!report) {
         t.true(t.context.report.notCalled);
+
+        return;
+    } else if (t.context.report.notCalled) {
+        t.fail(`report method should have been called`);
 
         return;
     }
