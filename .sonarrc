@@ -8,7 +8,7 @@
     "formatter": "json",
     "rules": {
         "lang-attribute": "warning",
-        "no-double-slash": "warning",
-        "web-app-manifest-file-extension": "warning"
+        "manifest-file-extension": "warning",
+        "no-double-slash": "warning"
     }
 }

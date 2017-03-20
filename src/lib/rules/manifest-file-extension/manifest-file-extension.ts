@@ -14,7 +14,7 @@ import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unus
 import { findInElement } from '../../util/location-helpers';
 
 
-const debug = require('debug')('sonar:rules:web-app-manifest-file-extension');
+const debug = require('debug')('sonar:rules:manifest-file-extension');
 
 // ------------------------------------------------------------------------------
 // Public
