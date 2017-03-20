@@ -21,6 +21,9 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as url from 'url';
+import * as path from 'path';
+
 import * as jsdom from 'jsdom';
 import * as r from 'request';
 import * as pify from 'pify';
@@ -30,7 +33,7 @@ const debug = require('debug')('sonar:collector:jsdom');
 import * as logger from '../util/logging';
 import { readFileAsync } from '../util/misc';
 import { Sonar } from '../sonar'; // eslint-disable-line no-unused-vars
-import { Collector, CollectorBuilder, ElementFoundEvent, URL } from '../types'; // eslint-disable-line no-unused-vars
+import { Collector, CollectorBuilder, ElementFoundEvent, FetchResponse, URL } from '../types'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Defaults
@@ -54,24 +57,70 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
     const options = Object.assign({}, defaultOptions, config);
     const headers = options.headers;
-    const request = headers ? r.defaults({ headers }) : r;
+    let request = headers ? r.defaults({ headers }) : r;
 
-    const getContent = async (target: URL) => {
-        if (target.protocol === 'file:') {
-            const html: string = await readFileAsync(target.path);
+    request = pify(request, { multiArgs: true });
 
-            return {
-                headers: {},
-                html
-            };
+    /** Loads a url that uses the `file://` protocol taking into account if the host is Windows or *nix */
+    const _fetchFile = async (target: URL): Promise<FetchResponse> => {
+        let targetPath = target.path;
+
+        /* targetPath in windows is like /c:/path/to/file.txt
+            readFileAsync will prepend c: so the final path will be:
+            c:/c:/path/to/file.txt which is not valid */
+        if (path.sep === '\\' && targetPath.indexOf('/') === 0) {
+            targetPath = targetPath.substr(1);
         }
 
-        const [response, body] = await pify(request, { multiArgs: true })(target.href);
+        const body = await readFileAsync(targetPath);
 
         return {
-            headers: response.headers,
-            html: body
+            body,
+            headers: null,
+            originalBody: null
         };
+    };
+
+    /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector */
+    const _fetchUrl = async (target: URL, customHeaders?: object): Promise<FetchResponse> => {
+        let req;
+        const href = typeof target === 'string' ? target : target.href;
+
+        if (customHeaders) {
+            const tempHeaders = Object.assign({}, headers, customHeaders);
+
+            req = pify(request.defaults({ tempHeaders }), { multiArgs: true });
+        } else {
+            req = request;
+        }
+
+        const [response, body] = await req(href);
+
+        return {
+            body,
+            headers: response.headers
+            // Add original compressed bytes here (originalBytes)
+        };
+    };
+
+    const _fetchContent = async (target: URL | string, customHeaders?: object): Promise<FetchResponse> => {
+        let parsedTarget = target;
+
+        if (typeof parsedTarget === 'string') {
+            /* TODO: We should be using `resource.element.ownerDocument.location` to get the right protocol
+            but it doesn't seem return the right value */
+            parsedTarget = parsedTarget.indexOf('//') === 0 ? `http:${parsedTarget}` : parsedTarget;
+            parsedTarget = url.parse(parsedTarget);
+
+            return _fetchContent(parsedTarget, customHeaders);
+        }
+
+        if (parsedTarget.protocol === 'file:') {
+            return _fetchFile(parsedTarget);
+        }
+
+        return _fetchUrl(parsedTarget, customHeaders);
+
     };
 
     let _html, _headers, _dom;
@@ -112,10 +161,10 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                 debug(`About to start fetching ${href}`);
                 await server.emitAsync('targetfetch::start', href);
 
-                let getContentResult;
+                let contentResult;
 
                 try {
-                    getContentResult = await getContent(target);
+                    contentResult = await _fetchContent(target);
                 } catch (e) {
                     await server.emitAsync('targetfetch::error', href);
                     logger.error(`Failed to fetch: ${href}`);
@@ -125,7 +174,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     return;
                 }
 
-                const { headers: responseHeaders, html } = getContentResult;
+                const { headers: responseHeaders, body: html } = contentResult;
 
                 // making this data available to the outside world
                 _headers = responseHeaders;
@@ -170,32 +219,31 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     headers,
                     html,
                     async resourceLoader(resource, callback) {
-
                         const resourceUrl = resource.url.href;
 
                         debug(`resource ${resourceUrl} to be fetched`);
                         await server.emitAsync('fetch::start', resourceUrl);
 
-                        request(resourceUrl, async (err, response, body) => {
+                        try {
+                            const { body: resourceBody, headers: resourceHeaders } = await _fetchContent(resourceUrl);
 
                             debug(`resource ${resourceUrl} fetched`);
-                            if (err) {
-                                await server.emitAsync('fetch::error');
-
-                                return callback(err);
-                            }
 
                             /*
-                             rules should have only access to:
+                             Rules should have only access to:
                               - the node that started the request (resource)
                               - the content of the url (body)
                               - headers of the response (headers)
                              all other things shouldn't be required to the rules
                              */
-                            await server.emitAsync('fetch::end', resourceUrl, resource, body, response.headers);
+                            await server.emitAsync('fetch::end', resourceUrl, resource, resourceBody, resourceHeaders);
 
-                            return callback(null, body);
-                        });
+                            return callback(null, resourceBody);
+                        } catch (err) {
+                            await server.emitAsync('fetch::error', resourceUrl, resource, err);
+
+                            return callback(err);
+                        }
                     }
                 });
             });
@@ -203,14 +251,29 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
         get dom(): HTMLElement {
             return _dom;
         },
+        /** Fetches a resource. It could be a file:// or http(s):// one.
+         *
+         * If target is:
+         * * a URL and doesn't have a valid protocol it will fail.
+         * * a string, if it starts with // it will treat it as a url, and as a file otherwise
+         *
+         * It will return an object with the body of the resource, the headers of the response and the
+         * original bytes (compressed if applicable)
+         */
+        fetchContent(target: URL | string, customHeaders?: object) {
+            let t = target;
+
+            if (typeof target === 'string') {
+                t = url.parse(target);
+            }
+
+            return _fetchContent(<URL>t, customHeaders);
+        },
         get headers(): object {
             return _headers;
         },
         get html(): string {
             return _html;
-        },
-        get request() {
-            return request;
         }
     });
 
