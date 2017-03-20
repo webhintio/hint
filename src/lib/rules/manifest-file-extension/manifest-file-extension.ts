@@ -11,8 +11,6 @@ import * as path from 'path';
 
 import { Rule, RuleBuilder, ElementFoundEvent } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
-import { findInElement } from '../../util/location-helpers';
-
 
 const debug = require('debug')('sonar:rules:manifest-file-extension');
 
@@ -35,9 +33,9 @@ const rule: RuleBuilder = {
                 if (fileExtension !== standardManifestFileExtension) {
                     debug('Web app manifest file with invalid extension found');
 
-                    const location = findInElement(element, fileExtension);
+                    const location = context.findProblemLocation(element, fileExtension);
 
-                    context.report(resource, element, `The file extension for '${href}' file should be '${standardManifestFileExtension}' not '${fileExtension}'`, location);
+                    context.report(resource, element, `The file extension for the web app manifest file ('${href}') should be '${standardManifestFileExtension}' not '${fileExtension}'`, location);
                 }
             }
         };
