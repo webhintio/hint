@@ -5,6 +5,7 @@
     gzip: true,
     headers: {
         'Accept-Language': 'en-US,en;q=0.8,es;q=0.6,fr;q=0.4',
+        'Cache-Control': 'no-cache',
         DNT: 1,
         Pragma: 'no-cache',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
@@ -40,6 +41,7 @@ const defaultOptions = {
     gzip: true,
     headers: {
         'Accept-Language': 'en-US,en;q=0.8,es;q=0.6,fr;q=0.4',
+        'Cache-Control': 'no-cache',
         DNT: 1,
         Pragma: 'no-cache',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
