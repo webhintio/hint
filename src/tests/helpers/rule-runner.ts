@@ -1,13 +1,11 @@
+import * as jsdom from 'jsdom';
 import * as path from 'path';
+import * as pify from 'pify';
+import * as sinon from 'sinon';
 
 import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
 import { Rule, RuleBuilder, ElementFoundEvent } from '../../lib/types'; // eslint-disable-line no-unused-vars
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
-
-
-import * as jsdom from 'jsdom';
-import * as pify from 'pify';
-import * as sinon from 'sinon';
 
 import { readFile } from '../../lib/util/misc';
 import { findProblemLocation } from '../../lib/util/location-helpers';
@@ -24,7 +22,7 @@ test.beforeEach((t) => {
         findProblemLocation: (element, content) => {
             return findProblemLocation(element, { column: 0, line: 0 }, content);
         },
-
+        pageRequest: getDOM, // TODO:
         report: sinon.spy()
     };
 
@@ -49,7 +47,10 @@ const getHTMLFixtureEvent = async (event): Promise<null | ElementFoundEvent> => 
     const elementType = eventNameParts[1];
     const elements = window.document.querySelectorAll(elementType);
     const elementIndex = eventNameParts.length === 3 ? parseInt(eventNameParts[2]) : 0;
-    const eventData = <ElementFoundEvent>{ element: elements[elementIndex] };
+    const eventData = <ElementFoundEvent>{
+        element: elements[elementIndex],
+        resource: event.fixture
+    };
 
     return Promise.resolve(eventData);
 };
