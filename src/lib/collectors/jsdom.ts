@@ -33,8 +33,7 @@ const debug = require('debug')('sonar:collector:jsdom');
 import * as logger from '../util/logging';
 import { readFileAsync } from '../util/misc';
 import { Sonar } from '../sonar'; // eslint-disable-line no-unused-vars
-import { Collector, CollectorBuilder, ElementFoundEvent, FetchResponse, URL } from '../types'; // eslint-disable-line no-unused-vars
-
+import { Collector, CollectorBuilder, ElementFoundEvent, NetworkData, URL } from '../types'; // eslint-disable-line no-unused-vars
 // ------------------------------------------------------------------------------
 // Defaults
 // ------------------------------------------------------------------------------
@@ -61,13 +60,14 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
     request = pify(request, { multiArgs: true });
 
-    /** Loads a url that uses the `file://` protocol taking into account if the host is Windows or *nix */
-    const _fetchFile = async (target: URL): Promise<FetchResponse> => {
+    /** Loads a url that uses the `file://` protocol taking into
+     *  account if the host is `Windows` or `*nix` */
+    const _fetchFile = async (target: URL): Promise<NetworkData> => {
         let targetPath = target.path;
 
-        /* targetPath in windows is like /c:/path/to/file.txt
-            readFileAsync will prepend c: so the final path will be:
-            c:/c:/path/to/file.txt which is not valid */
+        /* `targetPath` on `Windows` is like `/c:/path/to/file.txt`
+           `readFileAsync` will prepend `c:` so the final path will
+           be: `c:/c:/path/to/file.txt` which is not valid */
         if (path.sep === '\\' && targetPath.indexOf('/') === 0) {
             targetPath = targetPath.substr(1);
         }
@@ -77,12 +77,13 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
         return {
             body,
             headers: null,
-            originalBody: null
+            originalBody: null,
+            statusCode: null
         };
     };
 
     /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector */
-    const _fetchUrl = async (target: URL, customHeaders?: object): Promise<FetchResponse> => {
+    const _fetchUrl = async (target: URL, customHeaders?: object): Promise<NetworkData> => {
         let req;
         const href = typeof target === 'string' ? target : target.href;
 
@@ -98,12 +99,13 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
         return {
             body,
-            headers: response.headers
+            headers: response.headers,
+            statusCode: response.statusCode
             // Add original compressed bytes here (originalBytes)
         };
     };
 
-    const _fetchContent = async (target: URL | string, customHeaders?: object): Promise<FetchResponse> => {
+    const _fetchContent = async (target: URL | string, customHeaders?: object): Promise<NetworkData> => {
         let parsedTarget = target;
 
         if (typeof parsedTarget === 'string') {

@@ -1,4 +1,5 @@
 import { ProblemLocation } from '../../lib/types';
+import { NetworkData } from '../../lib/types';
 
 /** An event to fire while testing rules */
 export interface TestEvent {
@@ -9,7 +10,9 @@ export interface TestEvent {
      */
     name: string,
     /** The path to the fixture to use when sending the event */
-    fixture: string
+    fixture: string,
+    /** The response data that should be returned */
+    responses?: Array<NetworkData>
 }
 
 export interface Report {

@@ -1,13 +1,11 @@
-import * as path from 'path';
-
-import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
-import { Rule, RuleBuilder, ElementFoundEvent } from '../../lib/types'; // eslint-disable-line no-unused-vars
-import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
-
-
 import * as jsdom from 'jsdom';
+import * as path from 'path';
 import * as pify from 'pify';
 import * as sinon from 'sinon';
+
+import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
+import { Rule, RuleBuilder, ElementFoundEvent, NetworkData } from '../../lib/types'; // eslint-disable-line no-unused-vars
+import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 
 import { readFile } from '../../lib/util/misc';
 import { findProblemLocation } from '../../lib/util/location-helpers';
@@ -21,19 +19,21 @@ const getDOM = async (filePath) => {
 
 test.beforeEach((t) => {
     const ruleContext = {
+        async fetchContent() {
+            throw new Error('Request failed');
+        },
         findProblemLocation: (element, content) => {
             return findProblemLocation(element, { column: 0, line: 0 }, content);
         },
-
         report: sinon.spy()
     };
 
     t.context.rule = ruleBuilder.create(ruleContext);
-    t.context.report = ruleContext.report;
+    t.context.ruleContext = ruleContext;
 });
 
 test.afterEach((t) => {
-    t.context.report.reset();
+    t.context.ruleContext.report.reset();
 });
 
 /** Creates an event for HTML fixtures (`element::` events) */
@@ -49,7 +49,10 @@ const getHTMLFixtureEvent = async (event): Promise<null | ElementFoundEvent> => 
     const elementType = eventNameParts[1];
     const elements = window.document.querySelectorAll(elementType);
     const elementIndex = eventNameParts.length === 3 ? parseInt(eventNameParts[2]) : 0;
-    const eventData = <ElementFoundEvent>{ element: elements[elementIndex] };
+    const eventData = <ElementFoundEvent>{
+        element: elements[elementIndex],
+        resource: event.fixture
+    };
 
     return Promise.resolve(eventData);
 };
@@ -71,21 +74,37 @@ const getFixtureEvent = async (event): Promise<Object> => {
 
 /** Runs a test for the rule being tested */
 const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
+    const ruleContext = t.context.ruleContext;
     const { events, report } = ruleTest;
 
     for (const event of events) {
         const eventData = await getFixtureEvent(event);
+        const eventName = event.name.split('::')
+            .slice(0, 2)
+            .join('::');
 
-        t.context.rule[event.name](eventData);
+        if (event.responses) {
+            ruleContext.fetchContent = sinon.stub();
+
+            event.responses.forEach((response, i) => { // eslint-disable-line no-loop-func
+                ruleContext.fetchContent.onCall(i).returns(Promise.resolve(response));
+            });
+        }
+
+        await t.context.rule[eventName](eventData);
     }
 
     if (!report) {
-        t.true(t.context.report.notCalled);
+        t.true(ruleContext.report.notCalled);
+
+        return;
+    } else if (ruleContext.report.notCalled) {
+        t.fail(`report method should have been called`);
 
         return;
     }
 
-    const reportArguments = t.context.report.firstCall.args;
+    const reportArguments = ruleContext.report.firstCall.args;
 
     t.is(reportArguments[2], report.message);
     t.deepEqual(reportArguments[3], report.position);
