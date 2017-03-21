@@ -70,7 +70,6 @@
         "max-len": "off",
         "max-nested-callbacks": ["error", 5],
         "max-statements-per-line": "error",
-        // "mocha/no-exclusive-tests": "error",
         "new-cap": "error",
         "new-parens": "error",
         "newline-after-var": "error",
