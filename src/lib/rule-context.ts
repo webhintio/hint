@@ -42,8 +42,8 @@ export class RuleContext {
     }
 
     /** A useful way of making requests */
-    get fetchContent() {
-        return this.sonar.fetchContent;
+    fetchContent(target, headers?) {
+        return this.sonar.fetchContent(target, headers);
     }
 
     /** Finds the exact location in the page's HTML for a match in an element */

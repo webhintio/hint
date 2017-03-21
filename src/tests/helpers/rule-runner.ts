@@ -19,19 +19,24 @@ const getDOM = async (filePath) => {
 
 test.beforeEach((t) => {
     const ruleContext = {
+        async fetchContent(filePath) {
+            // TODO: we should have a special kind of fixture for this
+            const content = await readFile(filePath);
+
+            return { body: content };
+        },
         findProblemLocation: (element, content) => {
             return findProblemLocation(element, { column: 0, line: 0 }, content);
         },
-        pageRequest: getDOM, // TODO:
         report: sinon.spy()
     };
 
     t.context.rule = ruleBuilder.create(ruleContext);
-    t.context.report = ruleContext.report;
+    t.context.ruleContext = ruleContext;
 });
 
 test.afterEach((t) => {
-    t.context.report.reset();
+    t.context.ruleContext.report.reset();
 });
 
 /** Creates an event for HTML fixtures (`element::` events) */
@@ -72,6 +77,7 @@ const getFixtureEvent = async (event): Promise<Object> => {
 
 /** Runs a test for the rule being tested */
 const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
+    const ruleContext = t.context.ruleContext;
     const { events, report } = ruleTest;
 
     for (const event of events) {
@@ -80,20 +86,20 @@ const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
             .slice(0, 2)
             .join('::');
 
-        t.context.rule[eventName](eventData);
+        await t.context.rule[eventName](eventData);
     }
 
     if (!report) {
-        t.true(t.context.report.notCalled);
+        t.true(ruleContext.report.notCalled);
 
         return;
-    } else if (t.context.report.notCalled) {
+    } else if (ruleContext.report.notCalled) {
         t.fail(`report method should have been called`);
 
         return;
     }
 
-    const reportArguments = t.context.report.firstCall.args;
+    const reportArguments = ruleContext.report.firstCall.args;
 
     t.is(reportArguments[2], report.message);
     t.deepEqual(reportArguments[3], report.position);

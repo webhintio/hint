@@ -76,7 +76,7 @@ const rule: RuleBuilder = {
 
                 // TODO:
                 try {
-                    await context.pageRequest(manifestURL);
+                    await context.fetchContent(manifestURL);
                 } catch (e) {
                     debug('Failed to fetch the web app manifest file');
                     context.report(resource, element, `Web app manifest file cannot be fetched`);
