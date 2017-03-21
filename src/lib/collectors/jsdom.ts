@@ -33,8 +33,7 @@ const debug = require('debug')('sonar:collector:jsdom');
 import * as logger from '../util/logging';
 import { readFileAsync } from '../util/misc';
 import { Sonar } from '../sonar'; // eslint-disable-line no-unused-vars
-import { Collector, CollectorBuilder, ElementFoundEvent, FetchResponse, URL } from '../types'; // eslint-disable-line no-unused-vars
-
+import { Collector, CollectorBuilder, ElementFoundEvent, NetworkData, URL } from '../types'; // eslint-disable-line no-unused-vars
 // ------------------------------------------------------------------------------
 // Defaults
 // ------------------------------------------------------------------------------
@@ -63,7 +62,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
     /** Loads a url that uses the `file://` protocol taking into
      *  account if the host is `Windows` or `*nix` */
-    const _fetchFile = async (target: URL): Promise<FetchResponse> => {
+    const _fetchFile = async (target: URL): Promise<NetworkData> => {
         let targetPath = target.path;
 
         /* `targetPath` on `Windows` is like `/c:/path/to/file.txt`
@@ -84,7 +83,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
     };
 
     /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector */
-    const _fetchUrl = async (target: URL, customHeaders?: object): Promise<FetchResponse> => {
+    const _fetchUrl = async (target: URL, customHeaders?: object): Promise<NetworkData> => {
         let req;
         const href = typeof target === 'string' ? target : target.href;
 
@@ -106,7 +105,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
         };
     };
 
-    const _fetchContent = async (target: URL | string, customHeaders?: object): Promise<FetchResponse> => {
+    const _fetchContent = async (target: URL | string, customHeaders?: object): Promise<NetworkData> => {
         let parsedTarget = target;
 
         if (typeof parsedTarget === 'string') {

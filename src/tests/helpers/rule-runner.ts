@@ -4,7 +4,7 @@ import * as pify from 'pify';
 import * as sinon from 'sinon';
 
 import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
-import { Rule, RuleBuilder, ElementFoundEvent, FetchResponse} from '../../lib/types'; // eslint-disable-line no-unused-vars
+import { Rule, RuleBuilder, ElementFoundEvent, NetworkData } from '../../lib/types'; // eslint-disable-line no-unused-vars
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 
 import { readFile } from '../../lib/util/misc';
