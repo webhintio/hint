@@ -61,13 +61,14 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
     request = pify(request, { multiArgs: true });
 
-    /** Loads a url that uses the `file://` protocol taking into account if the host is Windows or *nix */
+    /** Loads a url that uses the `file://` protocol taking into
+     *  account if the host is `Windows` or `*nix` */
     const _fetchFile = async (target: URL): Promise<FetchResponse> => {
         let targetPath = target.path;
 
-        /* targetPath in windows is like /c:/path/to/file.txt
-            readFileAsync will prepend c: so the final path will be:
-            c:/c:/path/to/file.txt which is not valid */
+        /* `targetPath` on `Windows` is like `/c:/path/to/file.txt`
+           `readFileAsync` will prepend `c:` so the final path will
+           be: `c:/c:/path/to/file.txt` which is not valid */
         if (path.sep === '\\' && targetPath.indexOf('/') === 0) {
             targetPath = targetPath.substr(1);
         }
@@ -77,7 +78,8 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
         return {
             body,
             headers: null,
-            originalBody: null
+            originalBody: null,
+            statusCode: null
         };
     };
 
@@ -98,7 +100,8 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
         return {
             body,
-            headers: response.headers
+            headers: response.headers,
+            statusCode: response.statusCode
             // Add original compressed bytes here (originalBytes)
         };
     };

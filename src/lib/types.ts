@@ -43,7 +43,8 @@ export interface Collector {
 export interface FetchResponse {
     body: string;
     headers: object;
-    originalBytes?: Uint8Array // TODO: is this the right type?
+    originalBytes?: Uint8Array, // TODO: is this the right type?
+    statusCode: number
 }
 
 export interface Config {

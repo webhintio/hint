@@ -9,7 +9,7 @@ import * as rule from '../../../../lib/rules/manifest-exists/manifest-exists';
 
 const tests: Array<RuleTest> = [
     {
-        name: `Web app manifest file is not specified`,
+        name: `Web app manifest is not specified`,
         events: [{
             name: 'element::link',
             fixture: path.resolve(__dirname, './fixtures/no-manifest.html')
@@ -17,19 +17,27 @@ const tests: Array<RuleTest> = [
             name: 'traverse::end',
             fixture: path.resolve(__dirname, './fixtures/no-manifest.html')
         }],
-        report: { message: 'Web app manifest file not specified' }
+        report: { message: 'Web app manifest not specified' }
     },
     {
         name: `Web app manifest is already specified`,
-        // TODO:
         events: [{
             name: 'element::link::0',
-            fixture: path.resolve(__dirname, './fixtures/manifest-specified-multiple-times.html')
+            fixture: path.resolve(__dirname, './fixtures/manifest-specified-multiple-times.html'),
+            responses: [{
+                body: null,
+                headers: null,
+                statusCode: 200
+            }]
         }, {
             name: 'element::link::1',
             fixture: path.resolve(__dirname, './fixtures/manifest-specified-multiple-times.html')
+        },
+        {
+            name: 'traverse::end',
+            fixture: path.resolve(__dirname, './fixture/manifest-specified-multiple-times.html')
         }],
-        report: { message: 'Web app manifest file already specified' }
+        report: { message: 'Web app manifest already specified' }
     },
     {
         name: `Web app manifest is specified with no 'href'`,
@@ -37,7 +45,7 @@ const tests: Array<RuleTest> = [
             name: 'element::link',
             fixture: path.resolve(__dirname, './fixtures/manifest-specified-with-no-href.html')
         }],
-        report: { message: `Web app manifest file is specified with invalid 'href'` }
+        report: { message: `Web app manifest specified with invalid 'href'` }
     },
     {
         name: `Web app manifest is specified with empty 'href'`,
@@ -45,22 +53,65 @@ const tests: Array<RuleTest> = [
             name: 'element::link',
             fixture: path.resolve(__dirname, './fixtures/manifest-specified-with-empty-href.html')
         }],
-        report: { message: `Web app manifest file is specified with invalid 'href'` }
+        report: { message: `Web app manifest specified with invalid 'href'` }
     },
     {
-        name: `Web app manifest is specified but the file does not exists`,
+        name: `Web app manifest is specified as a full URL`,
         events: [{
             name: 'element::link',
-            fixture: path.resolve(__dirname, './fixtures/manifest-specified-and-file-does-not-exist.html')
-        }],
-        report: { message: `Web app manifest file cannot be fetched` }
+            fixture: path.resolve(__dirname, './fixtures/manifest-specified-as-full-url.html'),
+            responses: [{
+                body: null,
+                headers: null,
+                statusCode: 200
+            }]
+        }]
     },
     {
         name: `Web app manifest is specified and the file exists`,
         events: [{
             name: 'element::link',
-            fixture: path.resolve(__dirname, './fixtures/manifest-specified-and-file-does-exist.html')
+            fixture: path.resolve(__dirname, './fixtures/manifest-specified-and-file-does-exist.html'),
+            responses: [{
+                body: null,
+                headers: null,
+                statusCode: 200
+            }]
         }]
+    },
+    {
+        name: `Web app manifest is specified and request for file fails`,
+        events: [{
+            name: 'element::link',
+            fixture: path.resolve(__dirname, './fixtures/manifest-specified-and-file-does-not-exist.html')
+        }],
+        report: { message: `Web app manifest file request failed` }
+    },
+    {
+        name: `Web app manifest is specified and request for file fails with status code 404`,
+        events: [{
+            name: 'element::link',
+            fixture: path.resolve(__dirname, './fixtures/manifest-specified-and-file-does-exist.html'),
+            responses: [{
+                body: null,
+                headers: null,
+                statusCode: 404
+            }]
+        }],
+        report: { message: `Web app manifest file could not be fetched (status code: 404)` }
+    },
+    {
+        name: `Web app manifest is specified and request for file fails with status code 500`,
+        events: [{
+            name: 'element::link',
+            fixture: path.resolve(__dirname, './fixtures/manifest-specified-and-file-does-exist.html'),
+            responses: [{
+                body: null,
+                headers: null,
+                statusCode: 500
+            }]
+        }],
+        report: { message: `Web app manifest file could not be fetched (status code: 500)` }
     }
 ];
 

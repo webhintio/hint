@@ -4,7 +4,7 @@ import * as pify from 'pify';
 import * as sinon from 'sinon';
 
 import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
-import { Rule, RuleBuilder, ElementFoundEvent } from '../../lib/types'; // eslint-disable-line no-unused-vars
+import { Rule, RuleBuilder, ElementFoundEvent, FetchResponse} from '../../lib/types'; // eslint-disable-line no-unused-vars
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 
 import { readFile } from '../../lib/util/misc';
@@ -19,11 +19,8 @@ const getDOM = async (filePath) => {
 
 test.beforeEach((t) => {
     const ruleContext = {
-        async fetchContent(filePath) {
-            // TODO: we should have a special kind of fixture for this
-            const content = await readFile(filePath);
-
-            return { body: content };
+        async fetchContent() {
+            throw new Error('Request failed');
         },
         findProblemLocation: (element, content) => {
             return findProblemLocation(element, { column: 0, line: 0 }, content);
@@ -85,6 +82,14 @@ const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
         const eventName = event.name.split('::')
             .slice(0, 2)
             .join('::');
+
+        if (event.responses) {
+            ruleContext.fetchContent = sinon.stub();
+
+            event.responses.forEach((response, i) => { // eslint-disable-line no-loop-func
+                ruleContext.fetchContent.onCall(i).returns(Promise.resolve(response));
+            });
+        }
 
         await t.context.rule[eventName](eventData);
     }
