@@ -75,10 +75,13 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
         const body = await readFileAsync(targetPath);
 
         return {
-            body,
-            headers: null,
-            originalBody: null,
-            statusCode: null
+            request: { headers: null },
+            response: {
+                body,
+                headers: null,
+                originalBody: null,
+                statusCode: null
+            }
         };
     };
 
@@ -98,10 +101,13 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
         const [response, body] = await req(href);
 
         return {
-            body,
-            headers: response.headers,
-            statusCode: response.statusCode
-            // Add original compressed bytes here (originalBytes)
+            request: { headers: response.request.headers },
+            response: {
+                body,
+                headers: response.headers,
+                originalBody: null, // Add original compressed bytes here (originalBytes)
+                statusCode: response.statusCode
+            }
         };
     };
 
@@ -176,7 +182,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     return;
                 }
 
-                const { headers: responseHeaders, body: html } = contentResult;
+                const { response: { headers: responseHeaders, body: html } } = contentResult;
 
                 // making this data available to the outside world
                 _headers = responseHeaders;
@@ -227,7 +233,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                         await server.emitAsync('fetch::start', resourceUrl);
 
                         try {
-                            const { body: resourceBody, headers: resourceHeaders } = await _fetchContent(resourceUrl);
+                            const { response: { body: resourceBody, headers: resourceHeaders } } = await _fetchContent(resourceUrl);
 
                             debug(`resource ${resourceUrl} fetched`);
 

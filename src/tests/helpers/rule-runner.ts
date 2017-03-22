@@ -83,11 +83,11 @@ const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
             .slice(0, 2)
             .join('::');
 
-        if (event.responses) {
+        if (event.networkData) {
             ruleContext.fetchContent = sinon.stub();
 
-            event.responses.forEach((response, i) => { // eslint-disable-line no-loop-func
-                ruleContext.fetchContent.onCall(i).returns(Promise.resolve(response));
+            event.networkData.forEach((data, i) => { // eslint-disable-line no-loop-func
+                ruleContext.fetchContent.onCall(i).returns(Promise.resolve(data));
             });
         }
 

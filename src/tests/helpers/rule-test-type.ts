@@ -11,8 +11,8 @@ export interface TestEvent {
     name: string,
     /** The path to the fixture to use when sending the event */
     fixture: string,
-    /** The response data that should be returned */
-    responses?: Array<NetworkData>
+    /** The network data (i.e. request, response data) that should be returned */
+    networkData?: Array<NetworkData>
 }
 
 export interface Report {

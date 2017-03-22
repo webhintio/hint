@@ -79,7 +79,7 @@ const rule: RuleBuilder = {
                 // exists and is accesible.
 
                 try {
-                    const { statusCode } = await context.fetchContent(manifestURL);
+                    const { response: { statusCode } } = await context.fetchContent(manifestURL);
 
                     // If it's not a local file (has statusCode === null),
                     // check also if the status code is `200`.

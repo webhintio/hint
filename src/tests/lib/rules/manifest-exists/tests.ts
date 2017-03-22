@@ -24,10 +24,13 @@ const tests: Array<RuleTest> = [
         events: [{
             name: 'element::link::0',
             fixture: path.resolve(__dirname, './fixtures/manifest-specified-multiple-times.html'),
-            responses: [{
-                body: null,
-                headers: null,
-                statusCode: 200
+            networkData: [{
+                request: { headers: null },
+                response: {
+                    body: null,
+                    headers: null,
+                    statusCode: 200
+                }
             }]
         }, {
             name: 'element::link::1',
@@ -60,10 +63,13 @@ const tests: Array<RuleTest> = [
         events: [{
             name: 'element::link',
             fixture: path.resolve(__dirname, './fixtures/manifest-specified-as-full-url.html'),
-            responses: [{
-                body: null,
-                headers: null,
-                statusCode: 200
+            networkData: [{
+                request: { headers: null },
+                response: {
+                    body: null,
+                    headers: null,
+                    statusCode: 200
+                }
             }]
         }]
     },
@@ -72,10 +78,13 @@ const tests: Array<RuleTest> = [
         events: [{
             name: 'element::link',
             fixture: path.resolve(__dirname, './fixtures/manifest-specified-and-file-does-exist.html'),
-            responses: [{
-                body: null,
-                headers: null,
-                statusCode: 200
+            networkData: [{
+                request: { headers: null },
+                response: {
+                    body: null,
+                    headers: null,
+                    statusCode: 200
+                }
             }]
         }]
     },
@@ -92,10 +101,13 @@ const tests: Array<RuleTest> = [
         events: [{
             name: 'element::link',
             fixture: path.resolve(__dirname, './fixtures/manifest-specified-and-file-does-exist.html'),
-            responses: [{
-                body: null,
-                headers: null,
-                statusCode: 404
+            networkData: [{
+                request: { headers: null },
+                response: {
+                    body: null,
+                    headers: null,
+                    statusCode: 404
+                }
             }]
         }],
         report: { message: `Web app manifest file could not be fetched (status code: 404)` }
@@ -105,10 +117,13 @@ const tests: Array<RuleTest> = [
         events: [{
             name: 'element::link',
             fixture: path.resolve(__dirname, './fixtures/manifest-specified-and-file-does-exist.html'),
-            responses: [{
-                body: null,
-                headers: null,
-                statusCode: 500
+            networkData: [{
+                request: { headers: null },
+                response: {
+                    body: null,
+                    headers: null,
+                    statusCode: 500
+                }
             }]
         }],
         report: { message: `Web app manifest file could not be fetched (status code: 500)` }

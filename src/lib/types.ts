@@ -7,11 +7,11 @@ export interface RuleBuilder {
     /** The metadata associated to the rule (docs, schema, etc.) */
     meta: {
         /** Documentation related to the rule */
-        docs?: any,
+        docs?: any;
         /** If this rule can autofix the issue or not */
-        fixable?: string,
+        fixable?: string;
         /** The schema the rule configuration must follow in order to be valid */
-        schema: Array<any>
+        schema: Array<any>;
     };
 }
 
@@ -22,7 +22,7 @@ export interface Rule {
 
 /** The builder of a Collector */
 export interface CollectorBuilder {
-    (sonar, options): Collector,
+    (sonar, options): Collector;
 }
 
 /** A collector to be used by Sonar */
@@ -39,21 +39,32 @@ export interface Collector {
     fetchContent(target: URL | string, customHeaders?: object): Promise<NetworkData>;
 }
 
-/** The response of fetching an item using the request of a collector */
-export interface NetworkData {
+/** Request data from fetching an item using a collector */
+export interface Request {
+    headers: object;
+}
+
+/** Response data from fetching an item using a collector */
+export interface Response {
     body: string;
     headers: object;
-    originalBytes?: Uint8Array, // TODO: is this the right type?
-    statusCode: number
+    originalBytes?: Uint8Array; // TODO: is this the right type?
+    statusCode: number;
+}
+
+/** Network data from fetching an item using a collector */
+export interface NetworkData {
+    response: Response;
+    request: Request;
 }
 
 export interface Config {
-    sonarConfig?
+    sonarConfig?;
 }
 
 /** A format function that will output the results obtained by Sonar */
 export interface Formatter {
-    format(problems: Array<Problem>): void
+    format(problems: Array<Problem>): void;
 }
 
 /** A specialized builder of plugins to be used by Sonar */
@@ -65,7 +76,7 @@ export interface PluginBuilder {
 /** A plugin that expands the collector's functionality */
 export interface Plugin {
     // TBD
-    any
+    any;
 }
 
 /** A resource required by Sonar: Collector, Formatter, Plugin, Rule,  */
@@ -76,27 +87,27 @@ export type URL = url.Url; // eslint-disable-line no-unused-vars
 
 export interface Page {
     /** The document of page  */
-    dom: HTMLElement,
+    dom: HTMLElement;
     /** The original HTML string of the resource */
-    html: string,
+    html: string;
     /** The response headers obtained when requesting the page */
-    responseHeaders?: object
+    responseHeaders?: object;
 }
 
 /** A problem found by a Rule in Sonar */
 export interface Problem {
     /** The column number where the Problem is */
-    column: number,
+    column: number;
     /** The line number where the Problem is */
-    line: number,
+    line: number;
     /** A message providing more information about the Problem */
-    message: string,
+    message: string;
     /** The uri of the resource firing this event */
-    resource: string,
+    resource: string;
     /** The name of the triggered rule */
-    ruleId: string,
+    ruleId: string;
     /** The severity of the rule based on the actual configuration */
-    severity: Severity
+    severity: Severity;
 }
 
 /** The severity configuration of a Rule */
@@ -109,27 +120,27 @@ export enum Severity {
 /** The location of a Problem in the code */
 export interface ProblemLocation {
     /** The column number where a Problem is */
-    column: number,
+    column: number;
     /** The line number where a Problem is */
-    line: number
+    line: number;
 }
 
 /** The object emited by a collector on `fetch::end` */
 export interface FetchEndEvent {
     /** The uri of the resource firing this event */
-    resource: string,
+    resource: string;
     /** The HTMLElement that started the fetch */
-    element: HTMLElement,
+    element: HTMLElement;
     /** The content of target in the url or href of element */
-    content: string,
+    content: string;
     /** The headers of the response */
-    headers: object
+    headers: object;
 }
 
 /** The object emited by a collector on `element::TYPEOFELEMENT` */
 export interface ElementFoundEvent {
     /** The uri of the resource firing this event */
-    resource: string,
+    resource: string;
     /** The HTMLElement found */
-    element: HTMLElement
+    element: HTMLElement;
 }

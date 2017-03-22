@@ -28,6 +28,6 @@ test(async (t) => {
     const filePath = fileUrl(path.resolve(__dirname, './fixtures/file-protocol.txt'));
     const content = await collector.fetchContent(filePath);
 
-    t.is(content.body, 'This is a file read using file://', 'jsdom collector can read file://');
-    t.falsy(content.headers, 'no headers are returned for file:// target');
+    t.is(content.response.body, 'This is a file read using file://', 'jsdom collector can read file://');
+    t.falsy(content.response.headers, 'no headers are returned for file:// target');
 });
