@@ -26,18 +26,19 @@ const rule: RuleBuilder = {
             If we access the src or href properties directly the browser already adds
             http(s):// so we cannot verify
         */
-        const validate = (data: ElementFoundEvent) => {
+        const validate = async (data: ElementFoundEvent) => {
             const { element, resource } = data;
+            const html = await element.outerHTML();
 
-            debug(`Analyzing link\n${element.outerHTML}`);
+            debug(`Analyzing link\n${html}`);
             const url = element.getAttribute('src') || element.getAttribute('href') || '';
 
             if (url.indexOf('//') === 0) {
                 debug('Invalid link found');
 
-                const location = context.findProblemLocation(element, url);
+                const location = await context.findProblemLocation(element, url);
 
-                context.report(resource, element, `Invalid link found: ${url}`, location);
+                await context.report(resource, element, `Invalid link found: ${url}`, location);
             }
         };
 

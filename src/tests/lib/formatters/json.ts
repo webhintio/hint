@@ -4,9 +4,9 @@ import * as proxyquire from 'proxyquire';
 
 const logging = { log() { } };
 
-proxyquire('../../../lib/formatters/json', { '../util/logging': logging });
+proxyquire('../../../lib/formatters/json/json', { '../../util/logging': logging });
 
-const json = require('../../../lib/formatters/json');
+const json = require('../../../lib/formatters/json/json');
 const problems = require('./fixtures/list-of-problems');
 
 

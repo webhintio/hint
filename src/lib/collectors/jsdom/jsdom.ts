@@ -30,10 +30,11 @@ import * as pify from 'pify';
 
 const debug = require('debug')('sonar:collector:jsdom');
 
-import * as logger from '../util/logging';
-import { readFileAsync } from '../util/misc';
-import { Sonar } from '../sonar'; // eslint-disable-line no-unused-vars
-import { Collector, CollectorBuilder, ElementFoundEvent, NetworkData, URL } from '../types'; // eslint-disable-line no-unused-vars
+import * as logger from '../../util/logging';
+import { readFileAsync } from '../../util/misc';
+import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
+import { JSDOMAsyncHTMLElement } from './jsdom-async-html-types';
+import { AsyncHTMLDocument, AsyncHTMLElement, Collector, CollectorBuilder, ElementFoundEvent, NetworkData, URL } from '../../types'; // eslint-disable-line no-unused-vars
 // ------------------------------------------------------------------------------
 // Defaults
 // ------------------------------------------------------------------------------
@@ -51,6 +52,7 @@ const defaultOptions = {
     jar: true,
     waitFor: 5000
 };
+
 
 const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
@@ -142,7 +144,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     // should we freeze it? what about the other siblings, children, parents? We should have an option to not allow modifications
                     // maybe we create a custom object that only exposes read only properties?
                     const event: ElementFoundEvent = {
-                        element,
+                        element: new JSDOMAsyncHTMLElement(element),
                         resource: href
                     };
 
@@ -157,7 +159,6 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     await server.emitAsync(`traversing::up`, href);
 
                     return Promise.resolve();
-
                 };
 
                 debug(`About to start fetching ${href}`);

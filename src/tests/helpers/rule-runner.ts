@@ -9,7 +9,7 @@ import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-va
 
 import { readFile } from '../../lib/util/misc';
 import { findProblemLocation } from '../../lib/util/location-helpers';
-
+import { JSDOMAsyncHTMLElement } from '../../lib/collectors/jsdom/jsdom-async-html-types';
 
 let ruleBuilder;
 
@@ -50,7 +50,7 @@ const getHTMLFixtureEvent = async (event): Promise<null | ElementFoundEvent> => 
     const elements = window.document.querySelectorAll(elementType);
     const elementIndex = eventNameParts.length === 3 ? parseInt(eventNameParts[2]) : 0;
     const eventData = <ElementFoundEvent>{
-        element: elements[elementIndex],
+        element: new JSDOMAsyncHTMLElement(elements[elementIndex]),
         resource: event.fixture
     };
 

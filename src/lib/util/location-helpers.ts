@@ -1,4 +1,4 @@
-import { ProblemLocation } from './../types'; // eslint-disable-line no-unused-vars
+import { AsyncHTMLElement, ProblemLocation } from './../types'; // eslint-disable-line no-unused-vars
 
 const debug = require('debug')('sonar:util:problem-location');
 
@@ -7,7 +7,7 @@ const debug = require('debug')('sonar:util:problem-location');
  *
  * Ex.: <a href="www.wikipedia.org"></a> --> 'a[href="www.wikipedia.org"]'
  */
-const selectorFromElement = (element: HTMLElement): string => {
+const selectorFromElement = (element: AsyncHTMLElement): string => {
     let selector = `${element.nodeName.toLowerCase()}`;
 
     const attributes = element.attributes;
@@ -46,13 +46,12 @@ const getIndicesOf = (searchStr: string, str: string): Array<number> => {
 };
 
 /** Finds the Location of an HTMLElement in the document */
-export const findElementLocation = (element: HTMLElement): ProblemLocation | null => {
-    const document = element.ownerDocument;
-    const html = document.children[0].outerHTML;
-    const elementHTML = element.outerHTML;
+export const findElementLocation = async (element: AsyncHTMLElement): Promise<ProblemLocation | null> => {
+    const html = await element.ownerDocument.pageHTML();
+    const elementHTML = await element.outerHTML();
     const indexOccurences = getIndicesOf(elementHTML, html);
     const selector = selectorFromElement(element);
-    const elements = document.querySelectorAll(selector);
+    const elements = await element.ownerDocument.querySelectorAll(selector);
 
     let similarItems = 0;
 
@@ -64,9 +63,11 @@ export const findElementLocation = (element: HTMLElement): ProblemLocation | nul
             <a href="http://site1">Site1</a>
             <a href="http://site1">Site2</a>
         */
-        if (currentElement.outerHTML === elementHTML) {
+        const currentElementHTML = await currentElement.outerHTML();
+
+        if (currentElementHTML === elementHTML) {
             similarItems++;
-            if (element === currentElement) {
+            if (element.isSame(currentElement)) {
                 break;
             }
         }
@@ -88,7 +89,7 @@ export const findElementLocation = (element: HTMLElement): ProblemLocation | nul
  * * If no content is provided, the return value is {0, 0}
  * * If the content is not found, the return value is {-1, -1}
   */
-export const findInElement = (element: HTMLElement, content?: string): ProblemLocation => {
+export const findInElement = async (element: AsyncHTMLElement, content?: string): Promise<ProblemLocation> => {
     if (!content) {
         return {
             column: 0,
@@ -96,7 +97,9 @@ export const findInElement = (element: HTMLElement, content?: string): ProblemLo
         };
     }
 
-    const startIndex = element.outerHTML.indexOf(content);
+    const outerHTML = await element.outerHTML();
+
+    const startIndex = outerHTML.indexOf(content);
 
     if (startIndex === -1) {
         return {
@@ -105,7 +108,7 @@ export const findInElement = (element: HTMLElement, content?: string): ProblemLo
         };
     }
 
-    const html = element.outerHTML.substring(0, startIndex);
+    const html = outerHTML.substring(0, startIndex);
     const lines = html.split('\n');
     const line = lines.length;
 
@@ -119,9 +122,9 @@ export const findInElement = (element: HTMLElement, content?: string): ProblemLo
 };
 
 /** Returns the real location of a problem in the given HTML */
-export const findProblemLocation = (element: HTMLElement, offset: ProblemLocation, content?: string): ProblemLocation => {
-    const elementLocation = findElementLocation(element);
-    const problemLocation = findInElement(element, content);
+export const findProblemLocation = async (element: AsyncHTMLElement, offset: ProblemLocation, content?: string): Promise<ProblemLocation> => {
+    const elementLocation = await findElementLocation(element);
+    const problemLocation = await findInElement(element, content);
 
     if (problemLocation.line > 0) {
         problemLocation.line--; // problem location starts at 1 which is the same line where element is found
