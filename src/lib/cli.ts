@@ -20,7 +20,7 @@ import * as Config from './config';
 import * as sonar from './sonar';
 import * as validator from './config/config-validator';
 import * as resourceLoader from './util/resource-loader';
-import {getAsUris} from './util/get-as-uri';
+import { getAsUris } from './util/get-as-uri';
 
 const pkg = require('../../package.json');
 
@@ -76,19 +76,25 @@ export const cli = {
         const engine = sonar.create(config);
         const start = Date.now();
 
+        let exitCode = 0;
+
         for (const target of targets) {
             try {
                 const results = await engine.executeOn(target); // eslint-disable-line no-await-in-loop
 
-                format(results);
+                if (results.length > 0) {
+                    exitCode = 1;
+                    format(results);
+                }
             } catch (e) {
+                exitCode = 1;
                 debug(`Failed to analyze: ${target.href}`);
             }
         }
 
         debug(`Total runtime: ${Date.now() - start}ms`);
 
-        return 0;
+        return exitCode;
 
     }
 };
