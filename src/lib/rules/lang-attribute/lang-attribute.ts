@@ -18,22 +18,22 @@ const debug = require('debug')('sonar:rules:lang-attribute'); // eslint-disable-
 
 const rule: RuleBuilder = {
     create(context: RuleContext): Rule {
-        const validate = (data: ElementFoundEvent) => {
+        const validate = async (data: ElementFoundEvent) => {
             const { element, resource } = data;
             const langAttributeValue = element.getAttribute('lang');
 
             // Check if the `lang` attribute is specified.
             if (langAttributeValue === null) {
-                context.report(resource, element, `'lang' attribute not specified on the 'html' element`);
+                await context.report(resource, element, `'lang' attribute not specified on the 'html' element`);
 
                 return;
             }
 
             // Check if the `lang` has no value or the value is an empty string.
             if (langAttributeValue === '') {
-                const location = context.findProblemLocation(element, 'lang');
+                const location = await context.findProblemLocation(element, 'lang');
 
-                context.report(resource, element, `empty 'lang' attribute specified on the 'html' element`, location);
+                await context.report(resource, element, `empty 'lang' attribute specified on the 'html' element`, location);
             }
 
         };

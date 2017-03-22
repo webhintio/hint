@@ -8,18 +8,30 @@ import * as pify from 'pify';
 import { readFile } from '../../../lib/util/misc';
 const getPage = pify(jsdom.env);
 
+import { AsyncHTMLElement } from '../../../lib/types';
 import { findInElement, findProblemLocation, findElementLocation } from '../../../lib/util/location-helpers';
+import { JSDOMAsyncHTMLElement } from '../../../lib/collectors/jsdom/jsdom-async-html-types';
 
 
 // ------------------------------------------------------------------------------
 // findInElement tests
 // ------------------------------------------------------------------------------
 
-/** Returns an object that simulates an HTMLElement */
-const getElement = (markup) => {
+/** Returns an object that simulates an AsyncHTMLElement */
+const getElement = (markup: string) => {
+    // We don't specify the return value because ownerDocument isn't implemented here (nor needed)
     return {
-        get outerHTML() {
-            return markup;
+        outerHTML() {
+            return Promise.resolve(markup);
+        },
+        get attributes() {
+            return [];
+        },
+        getAttribute(name) {
+            return name;
+        },
+        isSame(element) {//eslint-disable-line
+            return false;
         }
     };
 };
@@ -27,7 +39,7 @@ const getElement = (markup) => {
 /** AVA Macro for findInElement */
 const findInElementMacro = async (t, info, expectedPosition) => {
     const element = getElement(info.markup);
-    const position = findInElement(<HTMLElement>element, info.content);
+    const position = await findInElement(<AsyncHTMLElement>element, info.content);
 
     t.deepEqual(position, expectedPosition);
 };
@@ -70,11 +82,22 @@ findInElementEntries.forEach((entry) => {
 // findElementLocation tests
 // ------------------------------------------------------------------------------
 
-const loadHtmlAsWindow = async (route) => {
+const loadHTML = async (route) => {
     const html = readFile(path.resolve(__dirname, route));
-    const window = await getPage(html);
+    const doc: HTMLDocument = (await getPage(html)).document;
 
-    return window;
+    const querySelectorAll = (function (document) {
+        return async (selector: string) => {
+            const elements = Array.prototype.slice.call(document.querySelectorAll(selector))
+                .map((entry) => {
+                    return new JSDOMAsyncHTMLElement(entry);
+                });
+
+            return elements;
+        };
+    }(doc));
+
+    return querySelectorAll;
 };
 
 
@@ -118,14 +141,14 @@ const findElementLocationEntries = [
 ];
 
 test('findElementLocation tests', async (t) => {
-    const window = await loadHtmlAsWindow('./fixtures/test-page.html');
+    const querySelectorAll = await loadHTML('./fixtures/test-page.html');
 
-    findElementLocationEntries.forEach((entry) => {
-        const element = window.document.querySelectorAll(entry.selector)[entry.index];
-        const position = findElementLocation(element);
+    for (const entry of findElementLocationEntries) {
+        const element = (await querySelectorAll(entry.selector))[entry.index];
+        const position = await findElementLocation(element);
 
         t.deepEqual(position, entry.position, `findElementLocation - ${entry.name}`);
-    });
+    }
 });
 
 
@@ -165,12 +188,12 @@ const findProblemLocationEntries = [
 ];
 
 test('findProblemLocation tests', async (t) => {
-    const window = await loadHtmlAsWindow('./fixtures/test-page.html');
+    const querySelectorAll = await loadHTML('./fixtures/test-page.html');
 
-    findProblemLocationEntries.forEach((entry) => {
-        const element = window.document.querySelectorAll(entry.selector)[entry.index];
-        const position = findProblemLocation(element, entry.offset, entry.content);
+    for (const entry of findProblemLocationEntries) {
+        const element = (await querySelectorAll(entry.selector))[entry.index];
+        const position = await findProblemLocation(element, entry.offset, entry.content);
 
         t.deepEqual(position, entry.position, `findElementLocation - ${entry.name}`);
-    });
+    }
 });

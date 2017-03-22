@@ -23,7 +23,7 @@ const rule: RuleBuilder = {
 
         const standardManifestFileExtension = '.webmanifest';
 
-        const validate = (data: ElementFoundEvent) => {
+        const validate = async (data: ElementFoundEvent) => {
             const { element, resource } = data;
 
             if (element.getAttribute('rel') === 'manifest') {
@@ -33,9 +33,9 @@ const rule: RuleBuilder = {
                 if (fileExtension !== standardManifestFileExtension) {
                     debug('Web app manifest file with invalid extension found');
 
-                    const location = context.findProblemLocation(element, fileExtension);
+                    const location = await context.findProblemLocation(element, fileExtension);
 
-                    context.report(resource, element, `The file extension for the web app manifest file ('${href}') should be '${standardManifestFileExtension}' not '${fileExtension}'`, location);
+                    await context.report(resource, element, `The file extension for the web app manifest file ('${href}') should be '${standardManifestFileExtension}' not '${fileExtension}'`, location);
                 }
             }
         };

@@ -23,13 +23,13 @@ const rule: RuleBuilder = {
 
         let manifestIsSpecified = false;
 
-        const manifestWasSpecified = () => {
+        const manifestWasSpecified = async () => {
 
             // If no web app manifest file was specified when
             // the parsing of the page ended, emit an error.
 
             if (!manifestIsSpecified) {
-                context.report(null, null, 'Web app manifest not specified');
+                await context.report(null, null, 'Web app manifest not specified');
             }
         };
 
@@ -42,7 +42,7 @@ const rule: RuleBuilder = {
                 // <link rel="manifest"...> declaration.
 
                 if (manifestIsSpecified) {
-                    context.report(resource, element, 'Web app manifest already specified');
+                    await context.report(resource, element, 'Web app manifest already specified');
 
                     return;
                 }
@@ -61,7 +61,7 @@ const rule: RuleBuilder = {
                 // value of empty string.
 
                 if (!manifestHref) {
-                    context.report(resource, element, `Web app manifest specified with invalid 'href'`);
+                    await context.report(resource, element, `Web app manifest specified with invalid 'href'`);
 
                     return;
                 }
@@ -85,14 +85,14 @@ const rule: RuleBuilder = {
                     // check also if the status code is `200`.
 
                     if (statusCode && statusCode !== 200) {
-                        context.report(resource, element, `Web app manifest file could not be fetched (status code: ${statusCode})`);
+                        await context.report(resource, element, `Web app manifest file could not be fetched (status code: ${statusCode})`);
                     }
 
                 // Check if fetching/reading the file failed.
 
                 } catch (e) {
                     debug('Failed to fetch the web app manifest file');
-                    context.report(resource, element, `Web app manifest file request failed`);
+                    await context.report(resource, element, `Web app manifest file request failed`);
                 }
 
             }

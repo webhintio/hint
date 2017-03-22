@@ -39,6 +39,30 @@ export interface Collector {
     fetchContent(target: URL | string, customHeaders?: object): Promise<NetworkData>;
 }
 
+/** A wrapper of an HTMLElement that gives access to the required resources asynchronously to be compatible with all collectors */
+export interface AsyncHTMLElement {
+    /** The attributes of the element */
+    readonly attributes: Array<any> | NamedNodeMap;
+    /** Returns the value for a given attribute */
+    getAttribute(attribute: string): string;
+    /** Checks if two AsyncHTMLElements are the same */
+    isSame(element: AsyncHTMLElement): boolean;
+    /** Returns the outerHTML of the element */
+    outerHTML(): Promise<string>;
+    /** Returns the document where the element lives */
+    readonly ownerDocument: AsyncHTMLDocument;
+    /** The nodeName of the element */
+    readonly nodeName: string
+}
+
+export interface AsyncHTMLDocument {
+    /** A wrapper around querySelectorAll that returns an Array of AsyncHTMLElements instead of a NodeList */
+    querySelectorAll(selector: string): Promise<Array<AsyncHTMLElement>>
+    /** The HTML of the page as returned by document.children[0].outerHTML or similar */
+    pageHTML(): Promise<string>;
+}
+
+
 /** Request data from fetching an item using a collector */
 export interface Request {
     headers: object;
@@ -142,5 +166,5 @@ export interface ElementFoundEvent {
     /** The uri of the resource firing this event */
     resource: string;
     /** The HTMLElement found */
-    element: HTMLElement;
+    element: AsyncHTMLElement;
 }

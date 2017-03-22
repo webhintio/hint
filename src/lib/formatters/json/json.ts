@@ -8,8 +8,8 @@
 // ------------------------------------------------------------------------------
 import * as _ from 'lodash';
 
-import * as logger from '../util/logging';
-import {Formatter} from '../types'; // eslint-disable-line no-unused-vars
+import * as logger from '../../util/logging';
+import {Formatter} from '../../types'; // eslint-disable-line no-unused-vars
 
 const debug = require('debug')('sonar:formatters:json');
 

@@ -15,7 +15,7 @@ import * as path from 'path';
 import * as _ from 'lodash';
 import * as globby from 'globby';
 
-import {CollectorBuilder, Formatter, PluginBuilder, Resource, RuleBuilder} from '../types'; // eslint-disable-line no-unused-vars
+import { CollectorBuilder, Formatter, PluginBuilder, Resource, RuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
 
 const debug = require('debug')('sonar:util:resource-loader');
 
@@ -29,9 +29,15 @@ const TYPE = {
 
 /** Loads all the resources available for the given type */
 const loadOfType = (type: string): Map<string, Resource> => {
-
-    const resourceFiles: string[] = globby.sync(`{./,./node_modules/sonar-*}dist/lib/${type}s/**/*.js`,
+    let resourceFiles: string[] = globby.sync(`{./,./node_modules/sonar-*}dist/lib/${type}s/**/*.js`,
         { absolute: true });
+
+    resourceFiles = resourceFiles.filter((resourceFile) => {
+        const resourceName = path.basename(resourceFile, '.js');
+
+        return path.dirname(resourceFile).includes(resourceName);
+    });
+
 
     debug(`${resourceFiles.length} ${type} found`);
 
