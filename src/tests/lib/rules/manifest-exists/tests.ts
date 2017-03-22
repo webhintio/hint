@@ -12,10 +12,10 @@ const tests: Array<RuleTest> = [
         name: `Web app manifest is not specified`,
         events: [{
             name: 'element::link',
-            fixture: path.resolve(__dirname, './fixtures/no-manifest.html')
+            fixture: path.resolve(__dirname, './fixtures/manifest-not-specified.html')
         }, {
             name: 'traverse::end',
-            fixture: path.resolve(__dirname, './fixtures/no-manifest.html')
+            fixture: path.resolve(__dirname, './fixtures/manifest-not-specified.html')
         }],
         report: { message: 'Web app manifest not specified' }
     },
