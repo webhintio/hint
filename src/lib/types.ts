@@ -74,6 +74,7 @@ export interface Response {
     headers: object;
     originalBytes?: Uint8Array; // TODO: is this the right type?
     statusCode: number;
+    url?: string;
 }
 
 /** Network data from fetching an item using a collector */

@@ -9,8 +9,6 @@ export interface TestEvent {
      * index is optional and represents a number with the index of the element to return.
      */
     name: string,
-    /** The path to the fixture to use when sending the event */
-    fixture: string,
     /** The network data (i.e. request, response data) that should be returned */
     networkData?: Array<NetworkData>
 }
