@@ -50,6 +50,8 @@ const rule: RuleBuilder = {
 
                     if (statusCode && statusCode !== 200) {
                         debug(`Web app manifest file could not be fetched (status code: ${statusCode})`);
+
+                        return;
                     }
 
                     // Validate the content of the web app manifest file.

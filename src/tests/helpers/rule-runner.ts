@@ -7,15 +7,10 @@ import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unu
 import { Rule, RuleBuilder, ElementFoundEvent, NetworkData } from '../../lib/types'; // eslint-disable-line no-unused-vars
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 
-import { readFile } from '../../lib/util/misc';
 import { findProblemLocation } from '../../lib/util/location-helpers';
 import { JSDOMAsyncHTMLElement } from '../../lib/collectors/jsdom/jsdom-async-html-types';
 
 let ruleBuilder;
-
-const getDOM = async (filePath) => {
-    return await pify(jsdom.env)(readFile(filePath));
-};
 
 test.beforeEach((t) => {
     const ruleContext = {
@@ -38,11 +33,15 @@ test.afterEach((t) => {
 
 /** Creates an event for HTML fixtures (`element::` events) */
 const getHTMLFixtureEvent = async (event): Promise<null | ElementFoundEvent> => {
-    if (path.extname(event.fixture) !== '.html' || event.name.indexOf('element::') !== 0) {
+
+    const url = event.networkData[0].response.url || '';
+
+    // TODO: Improve check.
+    if (path.extname(url) !== '.html' || event.name.indexOf('element::') !== 0) {
         return Promise.resolve(null);
     }
 
-    const window = await getDOM(event.fixture);
+    const window = await pify(jsdom.env)(event.networkData[0].response.body);
 
     const eventNameParts = event.name.split('::');
 
@@ -51,7 +50,7 @@ const getHTMLFixtureEvent = async (event): Promise<null | ElementFoundEvent> => 
     const elementIndex = eventNameParts.length === 3 ? parseInt(eventNameParts[2]) : 0;
     const eventData = <ElementFoundEvent>{
         element: new JSDOMAsyncHTMLElement(elements[elementIndex]),
-        resource: event.fixture
+        resource: url
     };
 
     return Promise.resolve(eventData);
@@ -83,12 +82,12 @@ const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
             .slice(0, 2)
             .join('::');
 
-        if (event.networkData) {
+        if (event.networkData.length > 1) {
             ruleContext.fetchContent = sinon.stub();
 
-            event.networkData.forEach((data, i) => { // eslint-disable-line no-loop-func
-                ruleContext.fetchContent.onCall(i).returns(Promise.resolve(data));
-            });
+            for (let i = 1; i < event.networkData.length; i++) {
+                ruleContext.fetchContent.onCall(i - 1).returns(Promise.resolve(event.networkData[i]));
+            }
         }
 
         await t.context.rule[eventName](eventData);
