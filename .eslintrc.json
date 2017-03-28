@@ -220,6 +220,7 @@
         "quotes": ["error", "single", { "allowTemplateLiterals": true }],
         "quote-props": ["error", "as-needed"],
         "radix": "off",
+        "require-await": "error",
         "semi-spacing": ["error", {
             "before": false,
             "after": true

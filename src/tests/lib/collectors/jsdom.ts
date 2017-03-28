@@ -9,9 +9,9 @@ import { Collector, CollectorBuilder } from '../../../lib/types';
 import * as builder from '../../../lib/collectors/jsdom/jsdom';
 import { Sonar } from '../../../lib/sonar'; // eslint-disable-line no-unused-vars
 
-test.beforeEach((t) => {
+test.beforeEach(async (t) => {
     const server = { emitAsync() { } };
-    const collector = (<CollectorBuilder>builder)(server, {});
+    const collector: Collector = await (<CollectorBuilder>builder)(server, {});
 
     sinon.spy(server, 'emitAsync');
     t.context.collector = collector;

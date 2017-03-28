@@ -8,6 +8,10 @@ export class JSDOMAsyncHTMLDocument implements AsyncHTMLDocument {
         this._document = document;
     }
 
+    // ------------------------------------------------------------------------------
+    // Public methods
+    // ------------------------------------------------------------------------------
+
     querySelectorAll(selector: string) {
         const elements = Array.prototype.slice.call(this._document.querySelectorAll(selector))
             .map((element) => {
@@ -16,6 +20,7 @@ export class JSDOMAsyncHTMLDocument implements AsyncHTMLDocument {
 
         return Promise.resolve(elements);
     }
+
     pageHTML() {
         return Promise.resolve(this._document.children[0].outerHTML);
     }
@@ -30,22 +35,35 @@ export class JSDOMAsyncHTMLElement implements AsyncHTMLElement {
         this._htmlelement = htmlelement;
         this._ownerDocument = new JSDOMAsyncHTMLDocument(htmlelement.ownerDocument);
     }
+
+    // ------------------------------------------------------------------------------
+    // Public methods
+    // ------------------------------------------------------------------------------
+
     getAttribute(name: string) {
         return this._htmlelement.getAttribute(name);
     }
+
     isSame(element: JSDOMAsyncHTMLElement) {
         return this._htmlelement === element._htmlelement;
     }
+
     outerHTML() {
         return Promise.resolve(this._htmlelement.outerHTML);
     }
 
+    // ------------------------------------------------------------------------------
+    // Getters
+    // ------------------------------------------------------------------------------
+
     get attributes() {
         return this._htmlelement.attributes;
     }
+
     get nodeName() {
         return this._htmlelement.nodeName;
     }
+
     get ownerDocument() {
         return this._ownerDocument;
     }

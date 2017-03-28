@@ -129,11 +129,7 @@ export const load = (filePath: string): Config => {
     //     configOptions = ConfigOps.applyEnvironments(configOptions);
     // }
 
-    // We load the default configuration so we have something to get started.
-    const defaultConfig = loadJSConfigFile('./config/config-default.json');
-
-    return Object.assign({}, config, defaultConfig);
-
+    return config;
 };
 
 /**

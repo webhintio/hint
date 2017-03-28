@@ -29,7 +29,7 @@ export class Sonar extends EventEmitter {
 
     get page(): Page {
         return {
-            dom: this.collector.dom,
+            // dom: this.collector.dom,
             html: this.collector.html,
             responseHeaders: this.collector.headers
         };
@@ -103,9 +103,10 @@ export class Sonar extends EventEmitter {
             });
 
             debug(`Rules loaded: ${this.rules.size}`);
-
         }
+    }
 
+    async init(config) {
         debug('Loading collector');
 
         let collectorId;
@@ -125,16 +126,14 @@ export class Sonar extends EventEmitter {
             throw new Error(`Collector "${collectorId}" not found`);
         }
 
-        this.collector = collectors.get(collectorId)(this, collectorConfig);
-
+        this.collector = await collectors.get(collectorId)(this, collectorConfig);
     }
 
     /** Reports a message from one of the rules. */
     report(ruleId: string, severity: Severity, node, location: ProblemLocation, message: string, resource: string) {
-
         const problem = {
-            column: location.column,
-            line: location.line,
+            column: location && location.column || -1,
+            line: location && location.line || -1,
             message,
             resource,
             ruleId,
@@ -169,8 +168,10 @@ export class Sonar extends EventEmitter {
     }
 }
 
-export const create = (config): Sonar => {
+export const create = async (config): Promise<Sonar> => {
     const sonar = new Sonar(config);
+
+    await sonar.init(config);
 
     return sonar;
 };

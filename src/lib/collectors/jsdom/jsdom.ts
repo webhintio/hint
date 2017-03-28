@@ -33,7 +33,7 @@ const debug = require('debug')('sonar:collector:jsdom');
 import * as logger from '../../util/logging';
 import { readFileAsync } from '../../util/misc';
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
-import { JSDOMAsyncHTMLElement } from './jsdom-async-html-types';
+import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
 import { AsyncHTMLDocument, AsyncHTMLElement, Collector, CollectorBuilder, ElementFoundEvent, NetworkData, URL } from '../../types'; // eslint-disable-line no-unused-vars
 // ------------------------------------------------------------------------------
 // Defaults
@@ -74,7 +74,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
         const body = await readFileAsync(targetPath);
 
-        return {
+        const collector = {
             request: { headers: null },
             response: {
                 body,
@@ -83,6 +83,8 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                 statusCode: null
             }
         };
+
+        return Promise.resolve(collector);
     };
 
     /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector */
@@ -112,7 +114,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
         };
     };
 
-    const _fetchContent = async (target: URL | string, customHeaders?: object): Promise<NetworkData> => {
+    const _fetchContent = (target: URL | string, customHeaders?: object): Promise<NetworkData> => {
         let parsedTarget = target;
 
         if (typeof parsedTarget === 'string') {
@@ -132,10 +134,10 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
     };
 
-    let _html, _headers, _dom;
+    let _html, _headers;
 
     return ({
-        async collect(target: URL) {
+        collect(target: URL) {
             /** The target in string format */
             const href = target.href;
 
@@ -143,7 +145,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
                 const traverseAndNotify = async (element) => {
 
-                    const eventName = `element::${element.localName}`;
+                    const eventName = `element::${element.nodeName.toLowerCase()}`;
 
                     debug(`emitting ${eventName}`);
                     // should we freeze it? what about the other siblings, children, parents? We should have an option to not allow modifications
@@ -192,7 +194,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                 await server.emitAsync('targetfetch::end', href, html, responseHeaders);
 
                 jsdom.env({
-                    done: async (err, window) => {
+                    done: (err, window) => {
 
                         if (err) {
                             reject(err);
@@ -206,8 +208,6 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                         setTimeout(async () => {
 
                             debug(`${href} loaded, traversing`);
-
-                            _dom = window.document;
 
                             await server.emitAsync('traverse::start', href);
                             await traverseAndNotify(window.document.children[0]);
@@ -256,9 +256,10 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                 });
             });
         },
-        get dom(): HTMLElement {
-            return _dom;
-        },
+        // get dom(): HTMLElement {
+        //     return _dom;
+        // },
+
         /** Fetches a resource. It could be a file:// or http(s):// one.
          *
          * If target is:
