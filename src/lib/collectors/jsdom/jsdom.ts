@@ -58,9 +58,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
     const options = Object.assign({}, defaultOptions, config);
     const headers = options.headers;
-    let request = headers ? r.defaults({ headers }) : r;
-
-    request = pify(request, { multiArgs: true });
+    const request = headers ? r.defaults({ headers }) : r;
 
     /** Loads a url that uses the `file://` protocol taking into
      *  account if the host is `Windows` or `*nix` */
@@ -95,10 +93,11 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
         if (customHeaders) {
             const tempHeaders = Object.assign({}, headers, customHeaders);
 
-            req = pify(request.defaults({ tempHeaders }), { multiArgs: true });
+            req = pify(request.defaults({ headers: tempHeaders }), { multiArgs: true });
         } else {
-            req = request;
+            req = pify(request, { multiArgs: true });
         }
+
 
         const [response, body] = await req(href);
 
