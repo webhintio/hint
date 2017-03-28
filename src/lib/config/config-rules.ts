@@ -52,7 +52,7 @@ export const getSeverity = (config): Severity => {
 /** Validates that a rule has a valid configuration based on its schema */
 export const validate = (rule: RuleBuilder, config, ruleId: string): boolean => {
 
-    debug('Validating rule');
+    debug(`Validating rule ${ruleId}`);
     // We don't accept object as a valid configuration
     if (!Array.isArray(config) && typeof config === 'object') {
         return false;

@@ -10,7 +10,7 @@ const getPage = pify(jsdom.env);
 
 import { AsyncHTMLElement } from '../../../lib/types';
 import { findInElement, findProblemLocation, findElementLocation } from '../../../lib/util/location-helpers';
-import { JSDOMAsyncHTMLElement } from '../../../lib/collectors/jsdom/jsdom-async-html-types';
+import { JSDOMAsyncHTMLElement } from '../../../lib/collectors/jsdom/jsdom-async-html';
 
 
 // ------------------------------------------------------------------------------
@@ -87,13 +87,13 @@ const loadHTML = async (route) => {
     const doc: HTMLDocument = (await getPage(html)).document;
 
     const querySelectorAll = (function (document) {
-        return async (selector: string) => {
+        return (selector: string) => {
             const elements = Array.prototype.slice.call(document.querySelectorAll(selector))
                 .map((entry) => {
                     return new JSDOMAsyncHTMLElement(entry);
                 });
 
-            return elements;
+            return Promise.resolve(elements);
         };
     }(doc));
 

@@ -8,13 +8,13 @@ import { Rule, RuleBuilder, ElementFoundEvent, NetworkData } from '../../lib/typ
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 
 import { findProblemLocation } from '../../lib/util/location-helpers';
-import { JSDOMAsyncHTMLElement } from '../../lib/collectors/jsdom/jsdom-async-html-types';
+import { JSDOMAsyncHTMLElement } from '../../lib/collectors/jsdom/jsdom-async-html';
 
 let ruleBuilder;
 
 test.beforeEach((t) => {
     const ruleContext = {
-        async fetchContent() {
+        fetchContent() {
             throw new Error('Request failed');
         },
         findProblemLocation: (element, content) => {

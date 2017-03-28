@@ -73,7 +73,7 @@ export const cli = {
             return 1;
         }
 
-        const engine = sonar.create(config);
+        const engine = await sonar.create(config);
         const start = Date.now();
 
         let exitCode = 0;

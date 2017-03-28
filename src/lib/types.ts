@@ -28,9 +28,9 @@ export interface CollectorBuilder {
 /** A collector to be used by Sonar */
 export interface Collector {
     /** Collects all the information for the given target */
-    collect(target: url.Url): Promise<Array<Object>>;
+    collect(target: url.Url): Promise<any>;
     /** The DOM of the page once it is loaded */
-    dom: HTMLElement;
+    // dom: HTMLElement;
     /** The original HTML of the resource collected */
     html: string;
     /** The headers from the response if applicable */
@@ -42,7 +42,7 @@ export interface Collector {
 /** A wrapper of an HTMLElement that gives access to the required resources asynchronously to be compatible with all collectors */
 export interface AsyncHTMLElement {
     /** The attributes of the element */
-    readonly attributes: Array<any> | NamedNodeMap;
+    readonly attributes: Array<{ name: string, value: string }> | NamedNodeMap;
     /** Returns the value for a given attribute */
     getAttribute(attribute: string): string;
     /** Checks if two AsyncHTMLElements are the same */
@@ -112,7 +112,7 @@ export type URL = url.Url; // eslint-disable-line no-unused-vars
 
 export interface Page {
     /** The document of page  */
-    dom: HTMLElement;
+    // dom: HTMLElement;
     /** The original HTML string of the resource */
     html: string;
     /** The response headers obtained when requesting the page */
