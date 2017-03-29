@@ -1,120 +1,77 @@
-import * as jsdom from 'jsdom';
-import * as path from 'path';
-import * as pify from 'pify';
-import * as sinon from 'sinon';
+/**
+ * @fileoverview Allows to tests rules individually creating a server
+ *
+ */
+
+import * as url from 'url';
 
 import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
 import { Rule, RuleBuilder, ElementFoundEvent, NetworkData } from '../../lib/types'; // eslint-disable-line no-unused-vars
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 
-import { findProblemLocation } from '../../lib/util/location-helpers';
-import { JSDOMAsyncHTMLElement } from '../../lib/collectors/jsdom/jsdom-async-html';
+import { createServer } from './test-server';
+import * as Sonar from '../../lib/sonar';
 
-let ruleBuilder;
+/** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
+export const testRule = (ruleId: string, ruleTests: Array<RuleTest>) => {
 
-test.beforeEach((t) => {
-    const ruleContext = {
-        fetchContent() {
-            throw new Error('Request failed');
-        },
-        findProblemLocation: (element, content) => {
-            return findProblemLocation(element, { column: 0, line: 0 }, content);
-        },
-        report: sinon.spy()
+    /** Creates a valid sonar configuration. Eventually we should test all available collectors and not only JSDOM */
+    const createConfig = (id) => {
+        const rules = {};
+
+        rules[id] = 'error';
+
+        return {
+            collector: { name: 'jsdom' },
+            rules
+        };
     };
 
-    t.context.rule = ruleBuilder.create(ruleContext);
-    t.context.ruleContext = ruleContext;
-});
+    /** Because tests are executed asynchronously in ava, we need a different server and
+     * sonar object for each one */
+    test.beforeEach(async (t) => {
+        const server = createServer();
 
-test.afterEach((t) => {
-    t.context.ruleContext.report.reset();
-});
+        t.context.server = server;
 
-/** Creates an event for HTML fixtures (`element::` events) */
-const getHTMLFixtureEvent = async (event): Promise<null | ElementFoundEvent> => {
+        const config = createConfig(ruleId);
+        const sonar: Sonar.Sonar = await Sonar.create(config);
 
-    const url = event.networkData[0].response.url || '';
+        t.context.sonar = sonar;
+    });
 
-    // TODO: Improve check.
-    if (path.extname(url) !== '.html' || event.name.indexOf('element::') !== 0) {
-        return Promise.resolve(null);
-    }
+    test.afterEach((t) => {
+        t.context.server.stop();
+    });
 
-    const window = await pify(jsdom.env)(event.networkData[0].response.body);
+    /** Runs a test for the rule being tested */
+    const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
+        const { sonar, server } = t.context;
+        const { reports } = ruleTest;
 
-    const eventNameParts = event.name.split('::');
+        await server.start();
 
-    const elementType = eventNameParts[1];
-    const elements = window.document.querySelectorAll(elementType);
-    const elementIndex = eventNameParts.length === 3 ? parseInt(eventNameParts[2]) : 0;
-    const eventData = <ElementFoundEvent>{
-        element: new JSDOMAsyncHTMLElement(elements[elementIndex]),
-        resource: url
-    };
+        // We need to configure it later because we don't know the port until the server starts
+        server.configure(ruleTest.serverConfig);
 
-    return Promise.resolve(eventData);
-};
+        const results = await sonar.executeOn(url.parse(`http://localhost:${server.port}/`));
 
-/** Contains all the possible ways of getting a fixture */
-const fixtureGetters = [getHTMLFixtureEvent];
-
-/** Returns an event of the specific type for a given fixture */
-const getFixtureEvent = async (event): Promise<Object> => {
-    const getters = fixtureGetters.slice();
-    let fixtureEvent = null;
-
-    while (getters.length && !fixtureEvent) {
-        fixtureEvent = await getters.shift()(event);
-    }
-
-    return fixtureEvent;
-};
-
-/** Runs a test for the rule being tested */
-const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
-    const ruleContext = t.context.ruleContext;
-    const { events, report } = ruleTest;
-
-    for (const event of events) {
-        const eventData = await getFixtureEvent(event);
-        const eventName = event.name.split('::')
-            .slice(0, 2)
-            .join('::');
-
-        if (event.networkData.length > 1) {
-            ruleContext.fetchContent = sinon.stub();
-
-            for (let i = 1; i < event.networkData.length; i++) {
-                ruleContext.fetchContent.onCall(i - 1).returns(Promise.resolve(event.networkData[i]));
-            }
+        if (!reports) {
+            return t.is(results.length, 0);
         }
 
-        await t.context.rule[eventName](eventData);
-    }
+        t.is(results.length, reports.length, `(${ruleTest.name}) The number of issues found is not ${reports.length}`);
 
-    if (!report) {
-        t.true(ruleContext.report.notCalled);
+        return reports.forEach((report, index) => {
+            t.is(results[index].message, report.message, `(${ruleTest.name}) different message`);
+            if (report.position) {
+                t.is(results[index].column, report.position.column, `(${ruleTest.name}) different column`);
+                t.is(results[index].line, report.position.line, `(${ruleTest.name}) different line`);
+            }
+        });
+    };
 
-        return;
-    } else if (ruleContext.report.notCalled) {
-        t.fail(`report method should have been called`);
-
-        return;
-    }
-
-    const reportArguments = ruleContext.report.firstCall.args;
-
-    t.is(reportArguments[2], report.message);
-    t.deepEqual(reportArguments[3], report.position);
-
-    return;
-};
-
-/** Runs all the tests for a given rule */
-export const testRule = (rule: Rule, ruleTests: Array<RuleTest>) => {
-    ruleBuilder = rule;
-
+    /** Runs all the tests for a given rule */
     ruleTests.forEach((ruleTest) => {
         test(ruleTest.name, runRule, ruleTest);
     });
