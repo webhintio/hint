@@ -35,8 +35,6 @@ class CDPCollector implements Collector {
     private _requests: Map<number, object>;
     /** The parsed and original HTML. */
     private _html: string;
-    /** A handy object to make requests until we find how to do them with the CDP. */
-    private _request: r;
     private _dom: CDPAsyncHTMLDocument;
 
     constructor(server: Sonar, config: object) {
@@ -48,8 +46,6 @@ class CDPCollector implements Collector {
         this._headers = this._options.headers;
 
         //TODO: setExtraHTTPHeaders with _headers in an async way
-
-        this._request = pify(r, { multiArgs: true });
 
         this._requests = new Map();
     }
@@ -165,9 +161,9 @@ class CDPCollector implements Collector {
         if (customHeaders) {
             const tempHeaders = Object.assign({}, this._headers, customHeaders);
 
-            req = pify(this._request.defaults({ tempHeaders }), { multiArgs: true });
+            req = pify(r.defaults({ headers: tempHeaders }), { multiArgs: true });
         } else {
-            req = this._request;
+            req = pify(r, { multiArgs: true });
         }
 
         const [response, body] = await req(href);
