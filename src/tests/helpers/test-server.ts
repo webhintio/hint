@@ -69,7 +69,6 @@ class Server {
                 }
 
                 res.send(content);
-
             });
         });
     }

@@ -126,7 +126,12 @@ export const findProblemLocation = async (element: AsyncHTMLElement, offset: Pro
     const elementLocation = await findElementLocation(element);
     const problemLocation = await findInElement(element, content);
 
-    if (problemLocation.line > 0) {
+    if (problemLocation.line === 1) {
+        return {
+            column: problemLocation.column + elementLocation.column + offset.column,
+            line: elementLocation.line + offset.line
+        };
+    } else if (problemLocation.line > 1) {
         problemLocation.line--; // problem location starts at 1 which is the same line where element is found
     }
 
