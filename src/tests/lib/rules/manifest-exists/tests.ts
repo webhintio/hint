@@ -6,7 +6,7 @@ import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-li
 import * as ruleRunner from '../../../helpers/rule-runner';
 
 const htmlWithManifestSpecified =
-    `<!doctype html>
+`<!doctype html>
 <html lang="en">
     <head>
         <title>test</title>
@@ -21,7 +21,7 @@ const tests: Array<RuleTest> = [
     {
         name: `Web app manifest is not specified`,
         serverConfig:
-        `<!doctype html>
+`<!doctype html>
 <html lang="en">
     <head>
         <title>test</title>
@@ -35,7 +35,7 @@ const tests: Array<RuleTest> = [
         name: `Web app manifest is already specified`,
         serverConfig: {
             '/':
-            `<!doctype html>
+`<!doctype html>
 <html lang="en">
     <head>
         <title>test</title>
@@ -52,7 +52,7 @@ const tests: Array<RuleTest> = [
     {
         name: `Web app manifest is specified with no 'href'`,
         serverConfig:
-        `<!doctype html>
+`<!doctype html>
 <html lang="en">
     <head>
         <title>test</title>
@@ -65,7 +65,7 @@ const tests: Array<RuleTest> = [
     {
         name: `Web app manifest is specified with empty 'href'`,
         serverConfig:
-        `<!doctype html>
+`<!doctype html>
 <html lang="en">
     <head>
         <title>test</title>
@@ -79,7 +79,7 @@ const tests: Array<RuleTest> = [
         name: `Web app manifest is specified as a full URL`,
         serverConfig: {
             '/':
-            `<!doctype html>
+`<!doctype html>
 <html lang="en">
     <head>
         <title>test</title>
@@ -97,12 +97,15 @@ const tests: Array<RuleTest> = [
             '/site.webmanifest': ''
         }
     },
-    // TODO: @alrra, not sure what you are trying to test here, is this for file:// ?
-    // {
-    //     name: `Web app manifest is specified and request for file fails`,
-    //     serverConfig: htmlWithManifestSpecified,
-    //     reports: [{ message: `Web app manifest file request failed` }]
-    // },
+    {
+        name: `Web app manifest is specified and request for file fails`,
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/site.webmanifest': null
+        },
+
+        reports: [{ message: `Web app manifest file request failed` }]
+    },
     {
         name: `Web app manifest is specified and request for file fails with status code 404`,
         serverConfig: {

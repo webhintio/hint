@@ -1,6 +1,5 @@
 /**
- * @fileoverview Allows to tests rules individually creating a server
- *
+ * @fileoverview Allows to tests rules individually creating a server.
  */
 
 import * as url from 'url';
@@ -15,7 +14,8 @@ import * as Sonar from '../../lib/sonar';
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
 export const testRule = (ruleId: string, ruleTests: Array<RuleTest>) => {
 
-    /** Creates a valid sonar configuration. Eventually we should test all available collectors and not only JSDOM */
+    /** Creates a valid sonar configuration. Eventually we should
+     * test all available collectors and not only JSDOM */
     const createConfig = (id) => {
         const rules = {};
 
@@ -27,8 +27,8 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>) => {
         };
     };
 
-    /** Because tests are executed asynchronously in ava, we need a different server and
-     * sonar object for each one */
+    /** Because tests are executed asynchronously in ava, we need
+     * a different server and sonar object for each one */
     test.beforeEach(async (t) => {
         const server = createServer();
 

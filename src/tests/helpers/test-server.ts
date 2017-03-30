@@ -44,19 +44,32 @@ class Server {
 
             if (typeof value === 'string') {
                 content = this.updateLocalhost(value);
-            } else if (typeof value.content === 'string') {
+            } else if (value && typeof value.content === 'string') {
                 content = this.updateLocalhost(value.content);
             } else {
                 content = '';
             }
 
             this._app.get(key, (req, res) => {
-                if (value.status) {
+
+                if (value && value.status) {
                     res.status(value.status).send(content);
 
                     return;
                 }
+
+                // Hacky way to make `request` fail, but required
+                // for testing cases such as the internet connection
+                // being down when a particular request is made.
+
+                if (value === null) {
+                    res.redirect(301, 'test://fa.il');
+
+                    return;
+                }
+
                 res.send(content);
+
             });
         });
     }
