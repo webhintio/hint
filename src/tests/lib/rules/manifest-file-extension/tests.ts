@@ -8,10 +8,7 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 const tests: Array<RuleTest> = [
     {
         name: `Web app manifest file is not specified`,
-        serverConfig:
-`<!doctype html>
-<html lang="en">
-    <head>
+        serverConfig: `<!doctype html><html lang="en"><head>
         <title>test</title>
         <link rel="stylesheet" href="style.css">
     </head>
@@ -20,10 +17,7 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `Web app manifest file has incorrect file extension`,
-        serverConfig:
-`<!doctype html>
-<html lang="en">
-    <head>
+        serverConfig: `<!doctype html><html lang="en"><head>
         <title>test</title>
         <link rel="manifest" href="site.json">
         <link rel="stylesheet" href="style.css">
@@ -32,15 +26,12 @@ const tests: Array<RuleTest> = [
 </html>`,
         reports: [{
             message: `The file extension for the web app manifest file ('site.json') should be '.webmanifest' not '.json'`,
-            position: { column: 32, line: 3 }
+            position: { column: 40, line: 3 }
         }]
     },
     {
         name: `Web app manifest file has correct file extension`,
-        serverConfig:
-`<!doctype html>
-<html lang="en">
-    <head>
+        serverConfig: `<!doctype html><html lang="en"><head>
         <title>test</title>
         <link rel="manifest" href="site.webmanifest">
         <link rel="stylesheet" href="style.css">
