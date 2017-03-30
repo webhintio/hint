@@ -36,6 +36,8 @@ class CDPCollector implements Collector {
     /** The parsed and original HTML. */
     private _html: string;
     private _dom: CDPAsyncHTMLDocument;
+    /** A list of all URLs that have triggered a redirect */
+    private _redirects: Map<string, string> = new Map();
 
     constructor(server: Sonar, config: object) {
         const defaultOptions = { waitFor: 5000 };
@@ -78,19 +80,56 @@ class CDPCollector implements Collector {
             this._headers = params.request.headers;
         }
 
-        debug(`About to start fetching ${requestUrl}`);
-        await this._server.emitAsync('targetfetch::start', requestUrl);
+        let eventName;
+
+        if (this._href === requestUrl) {
+            debug(`About to start fetching ${requestUrl}`);
+            eventName = 'targetfetch::start';
+        } else if (params.redirectResponse) {
+            // We store the redirects with the finalUrl as a key to do a reverse search in onResponseReceived
+            this._redirects.set(requestUrl, params.redirectResponse.url);
+
+            debug(`Redirect from ${params.redirectResponse.url} to ${requestUrl}`);
+            // TODO: maybe we should send a more complete event here?
+
+            // We trigger a redirect, the (target)fetch::start has already been sent
+            eventName = 'redirect';
+        } else {
+            debug(`About to start fetching ${requestUrl}`);
+            eventName = 'fetch::start';
+        }
+
+        await this._server.emitAsync(eventName, requestUrl);
     }
 
     /** Event handler fired when HTTP response is available. */
     private async onResponseReceived(params) {
-        const resourceUrl = params.response.url;
+        let resourceUrl = params.response.url;
         const resourceHeaders = params.response.headers;
         const resourceBody = await this._client.Network.getResponseBody({ requestId: params.requestId });
         const resource = null;
 
-        debug(`About to start fetching ${resourceUrl}`);
-        await this._server.emitAsync('fetch::end', resourceUrl, resource, resourceBody, resourceHeaders);
+        let eventName;
+
+        if (this._href === resourceUrl) {
+            eventName = 'targetfetch::end';
+        } else if (this._redirects.has(resourceUrl)) {
+            // TODO: maybe we should loop in here just in case there are multiple redirects?
+            const source = this._redirects.get(resourceUrl);
+
+            if (source === this._href) {
+                eventName = 'targetfetch::end';
+            } else {
+                eventName = 'fetch::end';
+            }
+
+            resourceUrl = source;
+        } else {
+            eventName = 'fetch::end';
+        }
+
+        debug(`Content for ${resourceUrl} downloaded`);
+        await this._server.emitAsync(eventName, resourceUrl, resource, resourceBody, resourceHeaders);
     }
 
     /** Traverses the DOM notifying when a new element is traversed */
