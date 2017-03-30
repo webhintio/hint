@@ -66,6 +66,7 @@
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-typescript": "^0.1.0",
+    "express": "^4.15.2",
     "leche": "^2.1.2",
     "npm-run-all": "^4.0.2",
     "nyc": "^10.1.2",
@@ -80,7 +81,7 @@
       "dist/tests/**/*.js"
     ],
     "failFast": true,
-    "timeout": "30s"
+    "timeout": "60s"
   },
   "nyc": {
     "include": [
