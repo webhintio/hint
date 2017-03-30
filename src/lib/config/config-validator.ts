@@ -29,42 +29,33 @@ export const validateConfig = (config): boolean => {
 
     debug('Validating configuration');
     if (!validate(config)) {
-
         logger.error('Configuration schema is not valid');
 
         return false;
-
     }
 
     // Validate also collectors, plugins, etc.
     const rules = resourceLoader.getRules();
 
     const areRulesValid = _.reduce(config.rules, (acum, ruleConfig, ruleId) => {
-
         const rule = rules.get(ruleId);
 
         if (!rule) {
-
             logger.error(`Rule "${ruleId}" not found`);
 
             return false;
-
         }
 
         const validConfig = validateRule(rule, ruleConfig, ruleId);
 
         if (!validConfig) {
-
             logger.error(`Invalid configuration for "${ruleId}"`);
 
             return false;
-
         }
 
         return true;
-
     }, true);
 
     return areRulesValid;
-
 };

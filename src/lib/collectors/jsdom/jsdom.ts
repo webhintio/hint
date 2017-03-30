@@ -36,6 +36,7 @@ import { readFileAsync } from '../../util/misc';
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
 import { AsyncHTMLDocument, AsyncHTMLElement, Collector, CollectorBuilder, ElementFoundEvent, NetworkData, URL } from '../../types'; // eslint-disable-line no-unused-vars
+
 // ------------------------------------------------------------------------------
 // Defaults
 // ------------------------------------------------------------------------------
@@ -192,7 +193,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                 _html = html;
 
                 debug(`HTML for ${href} downloaded`);
-                await server.emitAsync('targetfetch::end', href, html, responseHeaders);
+                await server.emitAsync('targetfetch::end', href, null, html, responseHeaders);
 
                 jsdom.env({
                     done: (err, window) => {
@@ -228,7 +229,11 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     headers,
                     html,
                     async resourceLoader(resource, callback) {
-                        const resourceUrl = resource.url.href;
+                        let resourceUrl = resource.url.href;
+
+                        if (!url.parse(resourceUrl).protocol) {
+                            resourceUrl = url.resolve(href, resourceUrl);
+                        }
 
                         debug(`resource ${resourceUrl} to be fetched`);
                         await server.emitAsync('fetch::start', resourceUrl);

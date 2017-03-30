@@ -1,4 +1,4 @@
-# Disallow non-standard file extension the web app manifest file (`manifest-file-extension`)
+# Disallow non-standard file extension for the web app manifest file (`manifest-file-extension`)
 
 `manifest-file-extension` warns against using non-standard file
 extensions for the [web app manifest](https://www.w3.org/TR/appmanifest)
@@ -17,7 +17,7 @@ by browsers, using it makes it:
     configurations](https://github.com/jshttp/mime-db/blob/67a4d013c31e73c47b5d975062f0088aea6cd5cd/src/custom-types.json#L85-L92)
 
 
-## What does it check?
+## What does the rule check?
 
 The rule checks if the recommended
 [`.webmanifest`](https://w3c.github.io/manifest/#media-type-registration)

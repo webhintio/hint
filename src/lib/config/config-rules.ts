@@ -7,10 +7,12 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as path from 'path';
 import * as d from 'debug';
+
 const debug = d('sonar:config-rules');
 
-import * as schemaValidator from 'is-my-json-valid';
+import * as schemaValidator from 'is-my-json-valid/require';
 
 import { RuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
 
@@ -54,6 +56,7 @@ export const getSeverity = (config): Severity => {
 export const validate = (rule: RuleBuilder, config, ruleId: string): boolean => {
 
     debug(`Validating rule ${ruleId}`);
+
     // We don't accept object as a valid configuration
     if (!Array.isArray(config) && typeof config === 'object') {
         return false;
@@ -67,9 +70,11 @@ export const validate = (rule: RuleBuilder, config, ruleId: string): boolean => 
 
     // Rule schema validation
     const schema = rule.meta.schema;
+    const rulePath = path.join('../rules', ruleId);
 
-    // Only way to have something else to validate is if rule config is similar to:  "rule-name": ["warning", {}]
-    // Otherwise it is already valid if we reach this point
+    // Only way to have something else to validate is if rule config
+    // is similar to:  "rule-name": ["warning", {}]. Otherwise it's
+    // already valid if we reach this point.
     if (!Array.isArray(config) && Array.isArray(schema) && schema.length === 0) {
         return true;
     }
@@ -83,13 +88,13 @@ export const validate = (rule: RuleBuilder, config, ruleId: string): boolean => 
         }
 
         return schema.find((sch) => {
-            const validateRule = schemaValidator(sch);
+            const validateRule = schemaValidator(path.join(rulePath, sch));
 
             return validateRule(config[1]);
         });
     }
 
-    const validateRule = schemaValidator(schema);
+    const validateRule = schemaValidator(path.join(rulePath, schema));
 
     return validateRule(config[1]);
 };

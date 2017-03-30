@@ -20,6 +20,7 @@ const htmlWithManifestSpecified =
 const tests: Array<RuleTest> = [
     {
         name: `Web app manifest is not specified`,
+        reports: [{ message: 'Web app manifest not specified' }],
         serverConfig:
 `<!doctype html>
 <html lang="en">
@@ -28,11 +29,11 @@ const tests: Array<RuleTest> = [
         <link rel="stylesheet" href="style.css">
     </head>
     <body></body>
-</html>`,
-        reports: [{ message: 'Web app manifest not specified' }]
+</html>`
     },
     {
         name: `Web app manifest is already specified`,
+        reports: [{ message: 'Web app manifest already specified' }],
         serverConfig: {
             '/':
 `<!doctype html>
@@ -46,11 +47,11 @@ const tests: Array<RuleTest> = [
 </html>`,
             '/site1.webmanifest': '',
             '/site2.webmanifest': ''
-        },
-        reports: [{ message: 'Web app manifest already specified' }]
+        }
     },
     {
         name: `Web app manifest is specified with no 'href'`,
+        reports: [{ message: `Web app manifest specified with invalid 'href'` }],
         serverConfig:
 `<!doctype html>
 <html lang="en">
@@ -59,11 +60,11 @@ const tests: Array<RuleTest> = [
         <link rel="manifest">
     </head>
     <body></body>
-</html>`,
-        reports: [{ message: `Web app manifest specified with invalid 'href'` }]
+</html>`
     },
     {
         name: `Web app manifest is specified with empty 'href'`,
+        reports: [{ message: `Web app manifest specified with invalid 'href'` }],
         serverConfig:
 `<!doctype html>
 <html lang="en">
@@ -72,8 +73,7 @@ const tests: Array<RuleTest> = [
         <link rel="manifest" href="">
     </head>
     <body></body>
-</html>`,
-        reports: [{ message: `Web app manifest specified with invalid 'href'` }]
+</html>`
     },
     {
         name: `Web app manifest is specified as a full URL`,
@@ -99,28 +99,27 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `Web app manifest is specified and request for file fails`,
+        reports: [{ message: `Web app manifest file request failed` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': null
-        },
-
-        reports: [{ message: `Web app manifest file request failed` }]
+        }
     },
     {
         name: `Web app manifest is specified and request for file fails with status code 404`,
+        reports: [{ message: `Web app manifest file could not be fetched (status code: 404)` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { status: 404 }
-        },
-        reports: [{ message: `Web app manifest file could not be fetched (status code: 404)` }]
+        }
     },
     {
         name: `Web app manifest is specified and request for file fails with status code 500`,
+        reports: [{ message: `Web app manifest file could not be fetched (status code: 500)` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { status: 500 }
-        },
-        reports: [{ message: `Web app manifest file could not be fetched (status code: 500)` }]
+        }
     }
 ];
 

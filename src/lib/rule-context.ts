@@ -41,6 +41,14 @@ export class RuleContext {
         return this.sonar.pageHeaders;
     }
 
+    get ruleOptions() {
+        if (Array.isArray(this.options)) {
+            return this.options[1];
+        }
+
+        return null;
+    }
+
     /** A useful way of making requests */
     fetchContent(target, headers?) {
         return this.sonar.fetchContent(target, headers);

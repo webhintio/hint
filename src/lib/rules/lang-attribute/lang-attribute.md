@@ -33,7 +33,7 @@ agents about the language of the content, which can help, among other:
    opened for `<input type="number">`](https://ctrl.blog/entry/html5-input-number-localization))
 
 
-## What does it check?
+## What does the rule check?
 
 The rule checks if the `lang` attribute was specified on the
 `html` element and it has a value different from an empty string.

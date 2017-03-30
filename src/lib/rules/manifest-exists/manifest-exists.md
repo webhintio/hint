@@ -23,7 +23,7 @@ to put metadata about your site/web app, and providing it:
    in deciding if they will show the add to homescreen prompt to users
 
 
-## What does it check?
+## What does the rule check?
 
 This rule checks if:
 

@@ -17,17 +17,17 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `Web app manifest file has incorrect file extension`,
+        reports: [{
+            message: `The file extension for the web app manifest file ('site.json') should be '.webmanifest' not '.json'`,
+            position: { column: 40, line: 3 }
+        }],
         serverConfig: `<!doctype html><html lang="en"><head>
         <title>test</title>
         <link rel="manifest" href="site.json">
         <link rel="stylesheet" href="style.css">
     </head>
     <body></body>
-</html>`,
-        reports: [{
-            message: `The file extension for the web app manifest file ('site.json') should be '.webmanifest' not '.json'`,
-            position: { column: 40, line: 3 }
-        }]
+</html>`
     },
     {
         name: `Web app manifest file has correct file extension`,
