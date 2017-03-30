@@ -20,6 +20,7 @@ class Server {
 
     constructor() {
         this._app = express();
+        this._app.disable('x-powered-by');
     }
 
     /** Because we don't know the port until we start the server, we need to update
@@ -52,12 +53,6 @@ class Server {
 
             this._app.get(key, (req, res) => {
 
-                if (value && value.status) {
-                    res.status(value.status).send(content);
-
-                    return;
-                }
-
                 // Hacky way to make `request` fail, but required
                 // for testing cases such as the internet connection
                 // being down when a particular request is made.
@@ -66,6 +61,14 @@ class Server {
                     res.redirect(301, 'test://fa.il');
 
                     return;
+                }
+
+                if (value && value.status) {
+                    res.status(value.status);
+                }
+
+                if (value && value.headers) {
+                    res.set(value.headers);
                 }
 
                 res.send(content);

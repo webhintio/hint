@@ -60,11 +60,11 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `Web app manifest is specified and its content is not valid JSON`,
+        reports: [{ message: `Web app manifest file doesn't contain valid JSON` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': 'x'
-        },
-        reports: [{ message: `Web app manifest file doesn't contain valid JSON` }]
+        }
     },
     {
         name: `Web app manifest is specified as a full URL and its content is valid JSON`,

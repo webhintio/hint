@@ -8,6 +8,7 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 const tests: Array<RuleTest> = [
     {
         name: `'lang' attribute is not specified`,
+        reports: [{ message: `'lang' attribute not specified on the 'html' element` }],
         serverConfig:
 `<!doctype html>
 <html>
@@ -15,38 +16,33 @@ const tests: Array<RuleTest> = [
         <title>test</title>
     </head>
     <body></body>
-</html>`,
-        reports: [{ message: `'lang' attribute not specified on the 'html' element` }]
+</html>`
     },
     {
         name: `'lang' attribute is specified with no value`,
-        serverConfig:
-`<!doctype html>
-<html lang>
-    <head>
-        <title>test</title>
-    </head>
-    <body></body>
-</html>`,
         reports: [{
             message: `empty 'lang' attribute specified on the 'html' element`,
             position: { column: 7, line: 1 }
-        }]
+        }],
+        serverConfig:
+`<!doctype html><html lang><head>
+        <title>test</title>
+    </head>
+    <body></body>
+</html>`
     },
     {
         name: `'lang' attribute is specified and its value is an empty string`,
-        serverConfig:
-`<!doctype html>
-<html lang="">
-    <head>
-        <title>test</title>
-    </head>
-    <body></body>
-</html>`,
         reports: [{
             message: `empty 'lang' attribute specified on the 'html' element`,
             position: { column: 7, line: 1 }
-        }]
+        }],
+        serverConfig:
+`<!doctype html><html lang=""><head>
+        <title>test</title>
+    </head>
+    <body></body>
+</html>`
     },
     {
         name: `'lang' attribute is specified and its value is not an empty string`,

@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "definitions": {
+        "array_of_strings": {
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+        }
+    },
+    "additionalProperties": false,
+    "properties": {
+        "ignore": {
+            "$ref": "#/definitions/array_of_strings"
+        },
+        "include": {
+            "$ref": "#/definitions/array_of_strings"
+        }
+    },
+    "type": ["object", null]
+}

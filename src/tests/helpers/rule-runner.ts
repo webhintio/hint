@@ -13,14 +13,18 @@ import { createServer } from './test-server';
 import * as Sonar from '../../lib/sonar';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
-export const testRule = (ruleId: string, ruleTests: Array<RuleTest>) => {
+export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: object) => {
 
     /** Creates a valid sonar configuration. Eventually we should
      * test all available collectors and not only JSDOM */
-    const createConfig = (id) => {
+    const createConfig = (id, opts?) => {
         const rules = {};
 
-        rules[id] = 'error';
+        if (!opts) {
+            rules[id] = 'error';
+        } else {
+            rules[id] = ['error', opts];
+        }
 
         return {
             collector: { name: 'jsdom' },
@@ -30,15 +34,8 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>) => {
 
     /** Because tests are executed asynchronously in ava, we need
      * a different server and sonar object for each one */
-    test.beforeEach(async (t) => {
-        const server = createServer();
-
-        t.context.server = server;
-
-        const config = createConfig(ruleId);
-        const sonar: Sonar.Sonar = await Sonar.create(config);
-
-        t.context.sonar = sonar;
+    test.beforeEach((t) => {
+        t.context.server = createServer();
     });
 
     test.afterEach((t) => {
@@ -47,8 +44,9 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>) => {
 
     /** Runs a test for the rule being tested */
     const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
-        const { sonar, server } = t.context;
+        const { server } = t.context;
         const { reports } = ruleTest;
+        const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, options));
 
         await server.start();
 

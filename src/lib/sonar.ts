@@ -142,7 +142,6 @@ export class Sonar extends EventEmitter {
         };
 
         this.messages.push(problem);
-
     }
 
     // async emitAysnc(eventName: string, data: ElementFoundEvent | FetchEndEvent) {
