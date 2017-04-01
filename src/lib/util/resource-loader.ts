@@ -11,13 +11,14 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as d from 'debug';
+const debug = d('sonar:util:resource-loader');
+
 import * as path from 'path';
 import * as _ from 'lodash';
 import * as globby from 'globby';
 
 import { CollectorBuilder, Formatter, PluginBuilder, Resource, RuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
-
-const debug = require('debug')('sonar:util:resource-loader');
 
 /** The type of resource */
 const TYPE = {
@@ -47,7 +48,10 @@ const loadOfType = (type: string): Map<string, Resource> => {
         const name = path.basename(resource, '.js');
 
         if (!resourceMap.has(name)) {
-            resourceMap.set(name, require(resource));
+            // We cannot do dynamic imports so we have to do this ugly thing
+            const r = require(resource);
+
+            resourceMap.set(name, r.default || r);
         } else {
             throw new Error(`Failed to add resource ${name} from ${resource}. It already exists.`);
         }

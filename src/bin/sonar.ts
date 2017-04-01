@@ -13,9 +13,11 @@
 
 const debug = (process.argv.includes('--debug'));
 
+import * as d from 'debug';
+
 // must do this initialization *before* other requires in order to work
 if (debug) {
-    require('debug').enable('sonar:*,-sonar:code-path');
+    d.enable('sonar:*');
 }
 
 // ------------------------------------------------------------------------------

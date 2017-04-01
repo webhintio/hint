@@ -1,10 +1,12 @@
-export const multipleproblems = [{
+import { Problem, Severity } from '../../../../lib/types'; //eslint-disable-line no-unused-vars
+
+const multipleproblems: Array<Problem> = [{
     column: 10,
     line: 1,
     message: 'This is a problem in line 1 column 10',
     resource: 'http://myresource.com/',
     ruleId: 'random-rule',
-    severity: 'warning'
+    severity: Severity.warning
 },
 {
     column: 1,
@@ -12,7 +14,7 @@ export const multipleproblems = [{
     message: 'This is a problem in line 10',
     resource: 'http://myresource.com/',
     ruleId: 'random-rule',
-    severity: 'warning'
+    severity: Severity.warning
 },
 {
     column: 1,
@@ -20,7 +22,7 @@ export const multipleproblems = [{
     message: 'This is a problem in line 5',
     resource: 'http://myresource.com/',
     ruleId: 'random-rule',
-    severity: 'warning'
+    severity: Severity.warning
 },
 {
     column: 1,
@@ -28,7 +30,12 @@ export const multipleproblems = [{
     message: 'This is a problem in line 1 column 1',
     resource: 'http://myresource.com/',
     ruleId: 'random-rule',
-    severity: 'warning'
+    severity: Severity.warning
 }];
 
-export const noproblems = [];
+const noproblems: Array<Problem> = [];
+
+export {
+    multipleproblems,
+    noproblems
+};

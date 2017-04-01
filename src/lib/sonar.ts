@@ -7,9 +7,10 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { EventEmitter2 as EventEmitter } from 'eventemitter2';
+import * as d from 'debug';
+const debug = d('sonar:engine');
 
-const debug = require('debug')('sonar:engine');
+import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import * as resourceLoader from './util/resource-loader';
 import { getSeverity } from './config/config-rules';

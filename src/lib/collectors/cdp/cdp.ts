@@ -7,12 +7,12 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-// import * as url from 'url';
+import * as d from 'debug';
+const debug = d('sonar:collector:cdp');
+
 import * as cdp from 'chrome-remote-interface';
 import * as r from 'request';
 import * as pify from 'pify';
-
-const debug = require('debug')('sonar:collector:cdp');
 
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { launchChrome } from './cdp-launcher';
@@ -237,4 +237,4 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
     return collector;
 };
 
-module.exports = builder;
+export default builder;

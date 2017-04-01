@@ -9,16 +9,15 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as d from 'debug';
+const debug = d('sonar:config-file');
+
 import * as path from 'path';
 
 import * as shell from 'shelljs';
-import * as stripComments from 'strip-json-comments';
-import * as requireUncached from 'require-uncached';
 
-import { readFile } from './util/misc';
+import { loadJSFile, loadJSONFile} from './util/file-loader';
 import { Config } from './types'; //eslint-disable-line no-unused-vars
-
-const debug = require('debug')('eslint:config-file');
 
 // ------------------------------------------------------------------------------
 // Private
@@ -31,43 +30,13 @@ const CONFIG_FILES = [
     'package.json'
 ];
 
-/** Loads a JSON configuration from a file. */
-const loadJSONConfigFile = (filePath: string): Config => {
-
-    debug(`Loading JSON config file: ${filePath}`);
-
-    try {
-        return JSON.parse(stripComments(readFile(filePath)));
-    } catch (e) {
-        debug(`Error reading JSON file: ${filePath}`);
-        e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
-        throw e;
-    }
-
-};
-
-/** Loads a JavaScript configuration from a file. */
-const loadJSConfigFile = (filePath: string): Config => {
-
-    debug(`Loading JS config file: ${filePath}`);
-
-    try {
-        return requireUncached(filePath);
-    } catch (e) {
-        debug(`Error reading JavaScript file: ${filePath}`);
-        e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
-        throw e;
-    }
-
-};
-
 /** Loads a configuration from a package.json file. */
 const loadPackageJSONConfigFile = (filePath: string): Config => {
 
     debug(`Loading package.json config file: ${filePath}`);
 
     try {
-        return loadJSONConfigFile(filePath).sonarConfig || null;
+        return loadJSONFile(filePath).sonarConfig || null;
     } catch (e) {
         debug(`Error reading package.json file: ${filePath}`);
         e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
@@ -90,12 +59,12 @@ const loadConfigFile = (filePath: string): Config => {
             if (path.basename(filePath) === 'package.json') {
                 config = loadPackageJSONConfigFile(filePath);
             } else {
-                config = loadJSONConfigFile(filePath);
+                config = loadJSONFile(filePath);
             }
             break;
 
         case '.js':
-            config = loadJSConfigFile(filePath);
+            config = loadJSFile(filePath);
             break;
 
         default:
