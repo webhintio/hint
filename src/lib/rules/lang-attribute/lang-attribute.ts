@@ -7,10 +7,11 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as d from 'debug';
+const debug = d('sonar:rules:lang-attribute');
+
 import { Rule, RuleBuilder, ElementFoundEvent } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
-
-const debug = require('debug')('sonar:rules:lang-attribute'); // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Public
@@ -24,7 +25,10 @@ const rule: RuleBuilder = {
 
             // Check if the `lang` attribute is specified.
             if (langAttributeValue === null) {
-                await context.report(resource, element, `'lang' attribute not specified on the 'html' element`);
+                const msg = `'lang' attribute not specified on the 'html' element`;
+
+                debug(msg);
+                await context.report(resource, element, msg);
 
                 return;
             }
@@ -32,8 +36,10 @@ const rule: RuleBuilder = {
             // Check if the `lang` has no value or the value is an empty string.
             if (langAttributeValue === '') {
                 const location = await context.findProblemLocation(element, 'lang');
+                const msg = `empty 'lang' attribute specified on the 'html' element`;
 
-                await context.report(resource, element, `empty 'lang' attribute specified on the 'html' element`, location);
+                debug(msg);
+                await context.report(resource, element, msg, location);
             }
 
         };
@@ -51,4 +57,4 @@ const rule: RuleBuilder = {
     }
 };
 
-module.exports = rule;
+export default rule;

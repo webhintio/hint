@@ -21,14 +21,15 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as d from 'debug';
+const debug = d('sonar:collector:jsdom');
+
 import * as url from 'url';
 import * as path from 'path';
 
 import * as jsdom from 'jsdom';
 import * as r from 'request';
 import * as pify from 'pify';
-
-const debug = require('debug')('sonar:collector:jsdom');
 
 import * as logger from '../../util/logging';
 import { readFileAsync } from '../../util/misc';
@@ -288,4 +289,4 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
 };
 
-module.exports = builder;
+export default builder;

@@ -1,6 +1,7 @@
-import { AsyncHTMLElement, ProblemLocation } from './../types'; // eslint-disable-line no-unused-vars
+import * as d from 'debug';
+const debug = d('sonar:util:problem-location');
 
-const debug = require('debug')('sonar:util:problem-location');
+import { AsyncHTMLElement, ProblemLocation } from './../types'; // eslint-disable-line no-unused-vars
 
 /**
  * Creates a CSS selector from a given element using its attributes and the type of node:

@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 
 
 import { Collector, CollectorBuilder } from '../../../lib/types';
-import * as builder from '../../../lib/collectors/jsdom/jsdom';
+import builder from '../../../lib/collectors/jsdom/jsdom';
 import { Sonar } from '../../../lib/sonar'; // eslint-disable-line no-unused-vars
 
 test.beforeEach(async (t) => {

@@ -1,3 +1,6 @@
+import * as d from 'debug';
+const debug = d('sonar:util:getAsUri');
+
 import * as url from 'url';
 
 import * as shell from 'shelljs';
@@ -5,9 +8,6 @@ import * as fileUrl from 'file-url';
 import * as _ from 'lodash';
 
 import * as logger from './logging';
-
-const debug = require('debug')('sonar:util:getAsUri');
-
 
 /**
  * Receives a string and returns a valid Uris that are either:

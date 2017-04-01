@@ -7,12 +7,13 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as d from 'debug';
+const debug = d('sonar:rules:manifest-exists');
+
 import * as url from 'url';
 
 import { Rule, RuleBuilder, ElementFoundEvent } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
-
-const debug = require('debug')('sonar:rules:manifest-exists');
 
 // ------------------------------------------------------------------------------
 // Public
@@ -114,4 +115,4 @@ const rule: RuleBuilder = {
     }
 };
 
-module.exports = rule;
+export default rule;

@@ -6,9 +6,9 @@ const logging = { log() { } };
 
 proxyquire('../../../lib/formatters/json/json', { '../../util/logging': logging });
 
-const json = require('../../../lib/formatters/json/json');
-const problems = require('./fixtures/list-of-problems');
-
+import json from '../../../lib/formatters/json/json';
+import * as problems from './fixtures/list-of-problems';
+import { Severity } from '../../../lib/types';
 
 test.beforeEach((t) => {
     // const log = sinon.spy(logger, 'log');
@@ -38,7 +38,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             message: 'This is a problem in line 1 column 1',
             resource: 'http://myresource.com/',
             ruleId: 'random-rule',
-            severity: 'warning'
+            severity: Severity.warning
         },
         {
             column: 10,
@@ -46,7 +46,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             message: 'This is a problem in line 1 column 10',
             resource: 'http://myresource.com/',
             ruleId: 'random-rule',
-            severity: 'warning'
+            severity: Severity.warning
         },
         {
             column: 1,
@@ -54,7 +54,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             message: 'This is a problem in line 5',
             resource: 'http://myresource.com/',
             ruleId: 'random-rule',
-            severity: 'warning'
+            severity: Severity.warning
         },
         {
             column: 1,
@@ -62,7 +62,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             message: 'This is a problem in line 10',
             resource: 'http://myresource.com/',
             ruleId: 'random-rule',
-            severity: 'warning'
+            severity: Severity.warning
         }
     ];
 

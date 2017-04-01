@@ -6,12 +6,14 @@
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
+
+import * as d from 'debug';
+const debug = d('sonar:formatters:json');
+
 import * as _ from 'lodash';
 
 import * as logger from '../../util/logging';
-import {Formatter} from '../../types'; // eslint-disable-line no-unused-vars
-
-const debug = require('debug')('sonar:formatters:json');
+import { Formatter } from '../../types'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Formatter
@@ -33,4 +35,4 @@ const formatter: Formatter = {
     }
 };
 
-module.exports = formatter;
+export default formatter;

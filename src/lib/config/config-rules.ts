@@ -7,11 +7,12 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as d from 'debug';
+const debug = d('sonar:config-rules');
+
 import * as schemaValidator from 'is-my-json-valid';
 
 import { RuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
-
-const debug = require('debug')('sonar:config-rules');
 
 // TODO: This is duplicated in types. Need to split types in different files as needed
 enum Severity {

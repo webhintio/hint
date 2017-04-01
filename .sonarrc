@@ -1,6 +1,6 @@
 {
     "collector": {
-        "name": "cdp",
+        "name": "jsdom",
         "options": {
             "waitFor": 100
         }
