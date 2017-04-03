@@ -33,6 +33,7 @@ import * as pify from 'pify';
 
 import * as logger from '../../util/logging';
 import { readFileAsync } from '../../util/misc';
+import { redirectManager } from '../helpers/redirects';
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, ICollector, ICollectorBuilder, IElementFoundEvent, INetworkData, URL } from '../../interfaces'; // eslint-disable-line no-unused-vars
@@ -42,7 +43,7 @@ import { IAsyncHTMLDocument, IAsyncHTMLElement, ICollector, ICollectorBuilder, I
 // ------------------------------------------------------------------------------
 
 const defaultOptions = {
-    followAllRedirects: true,
+    followRedirect: false,
     gzip: true,
     headers: {
         'Accept-Language': 'en-US,en;q=0.8,es;q=0.6,fr;q=0.4',
@@ -52,7 +53,7 @@ const defaultOptions = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
     },
     jar: true,
-    waitFor: 5000
+    waitFor: 1000
 };
 
 
@@ -60,7 +61,8 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
 
     const options = Object.assign({}, defaultOptions, config);
     const headers = options.headers;
-    const request = headers ? r.defaults({ headers }) : r;
+    const request = headers ? r.defaults(options) : r;
+    const redirects = redirectManager();
 
     /** Loads a url that uses the `file://` protocol taking into
      *  account if the host is `Windows` or `*nix` */
@@ -77,12 +79,17 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
         const body = await readFileAsync(targetPath);
 
         const collector = {
-            request: { headers: null },
+            request: {
+                headers: null,
+                url: targetPath
+            },
             response: {
                 body,
                 headers: null,
+                hops: [], //TODO: populate
                 originalBody: null,
-                statusCode: null
+                statusCode: null,
+                url: targetPath
             }
         };
 
@@ -92,7 +99,7 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
     /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector */
     const _fetchUrl = async (target: URL, customHeaders?: object): Promise<INetworkData> => {
         let req;
-        const href = typeof target === 'string' ? target : target.href;
+        const resourceUrl = typeof target === 'string' ? target : target.href;
 
         if (customHeaders) {
             const tempHeaders = Object.assign({}, headers, customHeaders);
@@ -102,16 +109,34 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
             req = pify(request, { multiArgs: true });
         }
 
+        const [response, body] = await req(resourceUrl);
 
-        const [response, body] = await req(href);
+        // Checking for valid redirect status codes: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#3xx_Redirection
+        const validRedirects = [301, 302, 303, 307, 308];
+
+        if (validRedirects.includes(response.statusCode)) {
+            // TypeScript says that `target` doesn't have `resolve` :(
+            const newTarget = url.resolve(resourceUrl, response.headers.location);
+
+            redirects.add(newTarget, resourceUrl);
+
+            return _fetchUrl(url.parse(newTarget), customHeaders);
+        }
+
+        const hops = redirects.calculate(resourceUrl);
 
         return {
-            request: { headers: response.request.headers },
+            request: {
+                headers: response.request.headers,
+                url: hops[0] || resourceUrl
+            },
             response: {
                 body,
                 headers: response.headers,
+                hops,
                 originalBody: null, // Add original compressed bytes here (originalBytes)
-                statusCode: response.statusCode
+                statusCode: response.statusCode,
+                url: resourceUrl
             }
         };
     };

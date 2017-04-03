@@ -1,4 +1,4 @@
-import builder from '../../../lib/collectors/jsdom/jsdom';
+import builder from '../../../lib/collectors/cdp/cdp';
 import { testCollector } from './_common';
 
 // First test that it passes the standard tests for all collectors
