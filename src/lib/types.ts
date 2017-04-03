@@ -11,7 +11,7 @@ export interface RuleBuilder {
         /** If this rule can autofix the issue or not */
         fixable?: string;
         /** The schema the rule configuration must follow in order to be valid */
-        schema: Array<any>;
+        schema: Array<any> | any; // TODO: this shouldn't be an any
     };
 }
 

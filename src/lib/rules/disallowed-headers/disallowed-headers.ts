@@ -70,7 +70,7 @@ const rule: RuleBuilder = {
             const headers = findDisallowedHeaders(resourceHeaders);
 
             if (headers.length > 0) {
-                context.report(resource, null, `Disallowed HTTP header${headers.length > 1 ? 's': ''} found: ${headers.join(', ')}`);
+                context.report(resource, null, `Disallowed HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
             }
         };
 
@@ -88,7 +88,22 @@ const rule: RuleBuilder = {
             recommended: true
         },
         fixable: 'code',
-        schema: ['schema.json']
+        schema: {
+            additionalProperties: false,
+            definitions: {
+                'string-array': {
+                    items: { type: 'string' },
+                    minItems: 1,
+                    type: 'array',
+                    uniqueItems: true
+                }
+            },
+            properties: {
+                ignore: { $ref: '#/definitions/string-array' },
+                include: { $ref: '#/definitions/string-array' }
+            },
+            type: ['object', null]
+        }
     }
 };
 
