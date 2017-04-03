@@ -7,12 +7,11 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as path from 'path';
 import * as d from 'debug';
 
 const debug = d('sonar:config-rules');
 
-import * as schemaValidator from 'is-my-json-valid/require';
+import * as schemaValidator from 'is-my-json-valid';
 
 import { RuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
 
@@ -70,7 +69,6 @@ export const validate = (rule: RuleBuilder, config, ruleId: string): boolean => 
 
     // Rule schema validation
     const schema = rule.meta.schema;
-    const rulePath = path.join('../rules', ruleId);
 
     // Only way to have something else to validate is if rule config
     // is similar to:  "rule-name": ["warning", {}]. Otherwise it's
@@ -88,13 +86,13 @@ export const validate = (rule: RuleBuilder, config, ruleId: string): boolean => 
         }
 
         return schema.find((sch) => {
-            const validateRule = schemaValidator(path.join(rulePath, sch));
+            const validateRule = schemaValidator(sch);
 
             return validateRule(config[1]);
         });
     }
 
-    const validateRule = schemaValidator(path.join(rulePath, schema));
+    const validateRule = schemaValidator(rule.meta.schema);
 
     return validateRule(config[1]);
 };

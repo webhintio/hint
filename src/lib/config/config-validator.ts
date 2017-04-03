@@ -54,7 +54,7 @@ export const validateConfig = (config): boolean => {
             return false;
         }
 
-        return true;
+        return acum && true;
     }, true);
 
     return areRulesValid;
