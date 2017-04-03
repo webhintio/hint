@@ -14,6 +14,7 @@ import * as cdp from 'chrome-remote-interface';
 import * as r from 'request';
 import * as pify from 'pify';
 
+import { redirectManager } from '../helpers/redirects';
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { launchChrome } from './cdp-launcher';
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
@@ -36,8 +37,8 @@ class CDPCollector implements ICollector {
     /** The parsed and original HTML. */
     private _html: string;
     private _dom: CDPAsyncHTMLDocument;
-    /** A list of all URLs that have triggered a redirect */
-    private _redirects: Map<string, string> = new Map();
+    /** A handy tool to calculate the `hop`s for a given url */
+    private _redirects = redirectManager();
 
     constructor(server: Sonar, config: object) {
         const defaultOptions = { waitFor: 5000 };
@@ -80,56 +81,53 @@ class CDPCollector implements ICollector {
             this._headers = params.request.headers;
         }
 
-        let eventName;
-
-        if (this._href === requestUrl) {
-            debug(`About to start fetching ${requestUrl}`);
-            eventName = 'targetfetch::start';
-        } else if (params.redirectResponse) {
+        if (params.redirectResponse) {
+            debug(`Redirect found for ${requestUrl}`);
             // We store the redirects with the finalUrl as a key to do a reverse search in onResponseReceived
-            this._redirects.set(requestUrl, params.redirectResponse.url);
+            this._redirects.add(requestUrl, params.redirectResponse.url);
 
-            debug(`Redirect from ${params.redirectResponse.url} to ${requestUrl}`);
-            // TODO: maybe we should send a more complete event here?
-
-            // We trigger a redirect, the (target)fetch::start has already been sent
-            eventName = 'redirect';
-        } else {
-            debug(`About to start fetching ${requestUrl}`);
-            eventName = 'fetch::start';
+            return;
         }
 
+        const eventName = this._href === requestUrl ? 'targetfetch::start' : 'fetch::start';
+
+        debug(`About to start fetching ${requestUrl}`);
         await this._server.emitAsync(eventName, requestUrl);
+    }
+
+    /** Event handler fired when HTTP request fails for some reason. */
+    private onLoadingFailed(params) {
+        //TODO: implement this for `fetch::error` and `targetfetch::error`
+        console.error(params);
     }
 
     /** Event handler fired when HTTP response is available. */
     private async onResponseReceived(params) {
-        let resourceUrl = params.response.url;
+        const resourceUrl = params.response.url;
         const resourceHeaders = params.response.headers;
         const resourceBody = await this._client.Network.getResponseBody({ requestId: params.requestId });
-        const resource = null;
+        const hops = this._redirects.calculate(resourceUrl);
+        const originalUrl = hops[0] || resourceUrl;
 
-        let eventName;
-
-        if (this._href === resourceUrl) {
-            eventName = 'targetfetch::end';
-        } else if (this._redirects.has(resourceUrl)) {
-            // TODO: maybe we should loop in here just in case there are multiple redirects?
-            const source = this._redirects.get(resourceUrl);
-
-            if (source === this._href) {
-                eventName = 'targetfetch::end';
-            } else {
-                eventName = 'fetch::end';
-            }
-
-            resourceUrl = source;
-        } else {
-            eventName = 'fetch::end';
-        }
+        const eventName = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
 
         debug(`Content for ${resourceUrl} downloaded`);
-        await this._server.emitAsync(eventName, resourceUrl, resource, resourceBody, resourceHeaders);
+        const data = {
+            request: {
+                headers: {},
+                url: originalUrl
+            },
+            response: {
+                body: resourceBody.body,
+                headers: resourceHeaders,
+                hops,
+                originalBytes: null,
+                statusCode: 200,
+                url: params.response.url
+            }
+        };
+
+        await this._server.emitAsync(eventName, null, data);
     }
 
     /** Traverses the DOM notifying when a new element is traversed */
@@ -170,8 +168,10 @@ class CDPCollector implements ICollector {
             this._client = client;
             this._href = target.href;
 
+            await Network.setCacheDisabled({ cacheDisabled: true });
             await Network.requestWillBeSent(this.onRequestWillBeSent.bind(this));
             await Network.responseReceived(this.onResponseReceived.bind(this));
+            await Network.loadingFailed(this.onLoadingFailed.bind(this));
 
             Page.loadEventFired(async () => {
                 // TODO: Wait a few seconds here before traversing or is this event fired when everything is quiet?
@@ -179,7 +179,10 @@ class CDPCollector implements ICollector {
                 this._dom = new CDPAsyncHTMLDocument(DOM);
 
                 await this._dom.load();
+
+                await this._server.emitAsync('traverse::start', this._href);
                 await this.traverseAndNotify(this._dom.root);
+                await this._server.emitAsync('traverse::end', this._href);
 
                 callback();
             });
@@ -208,12 +211,17 @@ class CDPCollector implements ICollector {
         const [response, body] = await req(href);
 
         return {
-            request: { headers: response.request.headers },
+            request: {
+                headers: response.request.headers,
+                url: href
+            },
             response: {
                 body,
                 headers: response.headers,
-                originalBody: null, // Add original compressed bytes here (originalBytes)
-                statusCode: response.statusCode
+                hops: [], // TODO: populate
+                originalBytes: null, // Add original compressed bytes here (originalBytes)
+                statusCode: response.statusCode,
+                url: href
             }
         };
     }

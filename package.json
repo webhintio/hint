@@ -7,7 +7,7 @@
   "scripts": {
     "build:assets": "cpx \"./src/**/*.!(ts)\" dist",
     "build:ts": "tsc --outDir dist --rootDir src",
-    "build": "npm-run-all build:*",
+    "build": "npm run clean && npm-run-all build:*",
     "clean": "rimraf dist",
     "lint": "eslint --ext ts src/ --ext md . --ignore-pattern dist/*",
     "site": "node dist/bin/sonar --debug",
@@ -68,7 +68,6 @@
     "eslint-plugin-markdown": "^1.0.0-beta.4",
     "eslint-plugin-typescript": "^0.1.0",
     "express": "^4.15.2",
-    "leche": "^2.1.2",
     "npm-run-all": "^4.0.2",
     "nyc": "^10.1.2",
     "proxyquire": "^1.7.11",
@@ -83,6 +82,7 @@
       "dist/tests/**/*.js"
     ],
     "failFast": true,
+    "concurrency": 5,
     "timeout": "60s"
   },
   "nyc": {
