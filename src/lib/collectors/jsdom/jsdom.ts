@@ -136,7 +136,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
     };
 
-    let _html, _headers;
+    let targetNetworkData;
 
     return ({
         collect(target: URL) {
@@ -173,10 +173,9 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                 debug(`About to start fetching ${href}`);
                 await server.emitAsync('targetfetch::start', href);
 
-                let contentResult;
 
                 try {
-                    contentResult = await _fetchContent(target);
+                    targetNetworkData = await _fetchContent(target);
                 } catch (e) {
                     await server.emitAsync('targetfetch::error', href);
                     logger.error(`Failed to fetch: ${href}`);
@@ -186,14 +185,9 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     return;
                 }
 
-                const { response: { headers: responseHeaders, body: html } } = contentResult;
-
-                // making this data available to the outside world
-                _headers = responseHeaders;
-                _html = html;
 
                 debug(`HTML for ${href} downloaded`);
-                await server.emitAsync('targetfetch::end', href, null, html, responseHeaders);
+                await server.emitAsync('targetfetch::end', null, targetNetworkData);
 
                 jsdom.env({
                     done: (err, window) => {
@@ -227,7 +221,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                         SkipExternalResources: false
                     },
                     headers,
-                    html,
+                    html: targetNetworkData.response.body,
                     async resourceLoader(resource, callback) {
                         let resourceUrl = resource.url.href;
 
@@ -239,20 +233,13 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                         await server.emitAsync('fetch::start', resourceUrl);
 
                         try {
-                            const { response: { body: resourceBody, headers: resourceHeaders } } = await _fetchContent(resourceUrl);
+                            const resourceNetworkData = await _fetchContent(resourceUrl);
 
                             debug(`resource ${resourceUrl} fetched`);
 
-                            /*
-                             Rules should have only access to:
-                              - the node that started the request (resource)
-                              - the content of the url (body)
-                              - headers of the response (headers)
-                             all other things shouldn't be required to the rules
-                             */
-                            await server.emitAsync('fetch::end', resourceUrl, resource, resourceBody, resourceHeaders);
+                            await server.emitAsync('fetch::end', resource, resourceNetworkData);
 
-                            return callback(null, resourceBody);
+                            return callback(null, resourceNetworkData.response.body);
                         } catch (err) {
                             await server.emitAsync('fetch::error', resourceUrl, resource, err);
 
@@ -285,10 +272,10 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
             return _fetchContent(<URL>t, customHeaders);
         },
         get headers(): object {
-            return _headers;
+            return targetNetworkData.response.headers;
         },
         get html(): string {
-            return _html;
+            return targetNetworkData.response.body;
         }
     });
 
