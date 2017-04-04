@@ -66,8 +66,8 @@ const rule: RuleBuilder = {
             return headersFound;
         };
 
-        const validate = (resourceUrl, resource, resourceBody, resourceHeaders) => {
-            const headers = findDisallowedHeaders(resourceHeaders);
+        const validate = (resource, networkData) => {
+            const headers = findDisallowedHeaders(networkData.response.headers);
 
             if (headers.length > 0) {
                 context.report(resource, null, `Disallowed HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
