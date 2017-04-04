@@ -33,7 +33,7 @@
     "chrome-remote-interface": "^0.18.0",
     "debug": "^2.6.1",
     "eslint": "^3.18.0",
-    "eventemitter2": "^3.0.0",
+    "eventemitter2": "^4.1.0",
     "file-url": "^2.0.2",
     "globby": "^6.1.0",
     "is-my-json-valid": "^2.15.0",
