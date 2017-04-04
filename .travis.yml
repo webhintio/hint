@@ -10,7 +10,6 @@ matrix:
 
     - os: linux
       dist: trusty
-
       addons:
         apt:
           sources:
@@ -25,8 +24,12 @@ matrix:
         - node
 
     - os: osx
-
       before_install:
         - brew cask install google-chrome
       node_js:
         - node
+
+notifications:
+  email:
+    on_failure: always
+    on_success: never
