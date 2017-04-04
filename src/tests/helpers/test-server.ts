@@ -63,6 +63,12 @@ class Server {
                     return;
                 }
 
+                if (value && (value.status === 301 || value.status === 302)) {
+                    res.redirect(value.status, content);
+
+                    return;
+                }
+
                 if (value && value.status) {
                     res.status(value.status);
                 }
