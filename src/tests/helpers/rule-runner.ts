@@ -6,7 +6,7 @@
 import * as url from 'url';
 
 import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
-import { Rule, RuleBuilder, ElementFoundEvent, NetworkData } from '../../lib/types'; // eslint-disable-line no-unused-vars
+import { IRule, IRuleBuilder, IElementFoundEvent, INetworkData } from '../../lib/interfaces'; // eslint-disable-line no-unused-vars
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 
 import { createServer } from './test-server';

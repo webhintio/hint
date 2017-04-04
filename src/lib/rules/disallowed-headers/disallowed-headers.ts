@@ -6,7 +6,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { Rule, RuleBuilder, ElementFoundEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { IRule, IRuleBuilder, IElementFoundEvent } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = require('debug')('sonar:rules:disallowed-headers'); // eslint-disable-line no-unused-vars
@@ -15,8 +15,8 @@ const debug = require('debug')('sonar:rules:disallowed-headers'); // eslint-disa
 // Public
 // ------------------------------------------------------------------------------
 
-const rule: RuleBuilder = {
-    create(context: RuleContext): Rule {
+const rule: IRuleBuilder = {
+    create(context: RuleContext): IRule {
 
         let disallowedHeaders = [
             'server',

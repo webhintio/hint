@@ -8,7 +8,7 @@ import * as pify from 'pify';
 import { readFile } from '../../../lib/util/misc';
 const getPage = pify(jsdom.env);
 
-import { AsyncHTMLElement } from '../../../lib/types';
+import { IAsyncHTMLElement } from '../../../lib/interfaces';
 import { findInElement, findProblemLocation, findElementLocation } from '../../../lib/util/location-helpers';
 import { JSDOMAsyncHTMLElement } from '../../../lib/collectors/jsdom/jsdom-async-html';
 
@@ -39,7 +39,7 @@ const getElement = (markup: string) => {
 /** AVA Macro for findInElement */
 const findInElementMacro = async (t, info, expectedPosition) => {
     const element = getElement(info.markup);
-    const position = await findInElement(<AsyncHTMLElement>element, info.content);
+    const position = await findInElement(<IAsyncHTMLElement>element, info.content);
 
     t.deepEqual(position, expectedPosition);
 };

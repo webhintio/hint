@@ -18,7 +18,7 @@ import * as path from 'path';
 import * as _ from 'lodash';
 import * as globby from 'globby';
 
-import { CollectorBuilder, Formatter, PluginBuilder, Resource, RuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
+import { ICollectorBuilder, IFormatter, IPluginBuilder, Resource, IRuleBuilder } from '../interfaces'; // eslint-disable-line no-unused-vars
 
 /** The type of resource */
 const TYPE = {
@@ -81,10 +81,10 @@ const get = (type: string): (() => Map<string, any>) => {
 // ------------------------------------------------------------------------------
 
 /** Returns all the available Collectors */
-export const getCollectors: () => Map<string, CollectorBuilder> = get(TYPE.collector);
+export const getCollectors: () => Map<string, ICollectorBuilder> = get(TYPE.collector);
 /** Returns all the available Formatters */
-export const getFormatters: () => Map<string, Formatter> = get(TYPE.formatter);
+export const getFormatters: () => Map<string, IFormatter> = get(TYPE.formatter);
 /** Returns all the available Rules */
-export const getRules: () => Map<string, RuleBuilder> = get(TYPE.rule);
+export const getRules: () => Map<string, IRuleBuilder> = get(TYPE.rule);
 /** Returns all the available Plugins */
-export const getPlugins: () => Map<string, PluginBuilder> = get(TYPE.plugin);
+export const getPlugins: () => Map<string, IPluginBuilder> = get(TYPE.plugin);

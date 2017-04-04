@@ -12,22 +12,22 @@ import * as d from 'debug';
 const debug = d('sonar:rules:no-double-slash');
 
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
-import { Rule, RuleBuilder, ElementFoundEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { IRule, IRuleBuilder, IElementFoundEvent } from '../../interfaces'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Public
 // ------------------------------------------------------------------------------
 
-const rule: RuleBuilder = {
+const rule: IRuleBuilder = {
     /** Creates a new instance of this rule with a given context (configuration, etc.) */
-    create(context: RuleContext): Rule {
+    create(context: RuleContext): IRule {
 
         /*
             We need to use getAttribute to get the exact value.
             If we access the src or href properties directly the browser already adds
             http(s):// so we cannot verify
         */
-        const validate = async (data: ElementFoundEvent) => {
+        const validate = async (data: IElementFoundEvent) => {
             const { element, resource } = data;
             const html = await element.outerHTML();
 

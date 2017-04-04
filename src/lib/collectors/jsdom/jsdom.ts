@@ -35,7 +35,7 @@ import * as logger from '../../util/logging';
 import { readFileAsync } from '../../util/misc';
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
-import { AsyncHTMLDocument, AsyncHTMLElement, Collector, CollectorBuilder, ElementFoundEvent, NetworkData, URL } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLDocument, IAsyncHTMLElement, ICollector, ICollectorBuilder, IElementFoundEvent, INetworkData, URL } from '../../interfaces'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Defaults
@@ -56,7 +56,7 @@ const defaultOptions = {
 };
 
 
-const builder: CollectorBuilder = (server: Sonar, config): Collector => {
+const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
 
     const options = Object.assign({}, defaultOptions, config);
     const headers = options.headers;
@@ -64,7 +64,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
 
     /** Loads a url that uses the `file://` protocol taking into
      *  account if the host is `Windows` or `*nix` */
-    const _fetchFile = async (target: URL): Promise<NetworkData> => {
+    const _fetchFile = async (target: URL): Promise<INetworkData> => {
         let targetPath = target.path;
 
         /* `targetPath` on `Windows` is like `/c:/path/to/file.txt`
@@ -90,7 +90,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
     };
 
     /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector */
-    const _fetchUrl = async (target: URL, customHeaders?: object): Promise<NetworkData> => {
+    const _fetchUrl = async (target: URL, customHeaders?: object): Promise<INetworkData> => {
         let req;
         const href = typeof target === 'string' ? target : target.href;
 
@@ -116,7 +116,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
         };
     };
 
-    const _fetchContent = (target: URL | string, customHeaders?: object): Promise<NetworkData> => {
+    const _fetchContent = (target: URL | string, customHeaders?: object): Promise<INetworkData> => {
         let parsedTarget = target;
 
         if (typeof parsedTarget === 'string') {
@@ -152,7 +152,7 @@ const builder: CollectorBuilder = (server: Sonar, config): Collector => {
                     debug(`emitting ${eventName}`);
                     // should we freeze it? what about the other siblings, children, parents? We should have an option to not allow modifications
                     // maybe we create a custom object that only exposes read only properties?
-                    const event: ElementFoundEvent = {
+                    const event: IElementFoundEvent = {
                         element: new JSDOMAsyncHTMLElement(element),
                         resource: href
                     };

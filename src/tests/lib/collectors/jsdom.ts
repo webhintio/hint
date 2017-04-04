@@ -5,13 +5,13 @@ import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unu
 import * as sinon from 'sinon';
 
 
-import { Collector, CollectorBuilder } from '../../../lib/types';
+import { ICollector, ICollectorBuilder } from '../../../lib/interfaces';
 import builder from '../../../lib/collectors/jsdom/jsdom';
 import { Sonar } from '../../../lib/sonar'; // eslint-disable-line no-unused-vars
 
 test.beforeEach(async (t) => {
     const server = { emitAsync() { } };
-    const collector: Collector = await (<CollectorBuilder>builder)(server, {});
+    const collector: ICollector = await (<ICollectorBuilder>builder)(server, {});
 
     sinon.spy(server, 'emitAsync');
     t.context.collector = collector;
@@ -24,7 +24,7 @@ test.afterEach((t) => {
 
 
 test(async (t) => {
-    const collector = <Collector>t.context.collector;
+    const collector = <ICollector>t.context.collector;
     const filePath = fileUrl(path.resolve(__dirname, './fixtures/file-protocol.txt'));
     const content = await collector.fetchContent(filePath);
 

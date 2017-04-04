@@ -1,6 +1,6 @@
-import { Problem, Severity } from '../../../../lib/types'; //eslint-disable-line no-unused-vars
+import { IProblem, Severity } from '../../../../lib/interfaces'; //eslint-disable-line no-unused-vars
 
-const multipleproblems: Array<Problem> = [{
+const multipleproblems: Array<IProblem> = [{
     column: 10,
     line: 1,
     message: 'This is a problem in line 1 column 10',
@@ -33,7 +33,7 @@ const multipleproblems: Array<Problem> = [{
     severity: Severity.warning
 }];
 
-const noproblems: Array<Problem> = [];
+const noproblems: Array<IProblem> = [];
 
 export {
     multipleproblems,

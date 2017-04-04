@@ -13,7 +13,7 @@ const debug = d('sonar:config-rules');
 
 import * as schemaValidator from 'is-my-json-valid';
 
-import { RuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
+import { IRuleBuilder } from '../interfaces'; // eslint-disable-line no-unused-vars
 
 // TODO: This is duplicated in types. Need to split types in different files as needed
 enum Severity {
@@ -52,7 +52,7 @@ export const getSeverity = (config): Severity => {
 };
 
 /** Validates that a rule has a valid configuration based on its schema */
-export const validate = (rule: RuleBuilder, config, ruleId: string): boolean => {
+export const validate = (rule: IRuleBuilder, config, ruleId: string): boolean => {
 
     debug(`Validating rule ${ruleId}`);
 

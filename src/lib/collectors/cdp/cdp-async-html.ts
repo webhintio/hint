@@ -1,7 +1,7 @@
-import { AsyncHTMLDocument, AsyncHTMLElement } from '../../types'; //eslint-disable-line
+import { IAsyncHTMLDocument, IAsyncHTMLElement } from '../../interfaces'; //eslint-disable-line
 
 /** An implementation of AsyncHTMLDocument on top of the Chrome Debugging Protocol */
-export class CDPAsyncHTMLDocument implements AsyncHTMLDocument {
+export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
     /** The DOM domain of the CDP client */
     private _DOM;
     /** The root element of the real DOM */
@@ -64,9 +64,9 @@ export class CDPAsyncHTMLDocument implements AsyncHTMLDocument {
 }
 
 /** An implementation of AsyncHTMLElement on top of the Chrome Debugging Protocol */
-export class CDPAsyncHTMLElement implements AsyncHTMLElement {
+export class CDPAsyncHTMLElement implements IAsyncHTMLElement {
     protected _htmlelement;
-    private _ownerDocument: AsyncHTMLDocument;
+    private _ownerDocument: IAsyncHTMLDocument;
     private _DOM;
     private _attributesArray: Array<{ name: string, value: string }> = [];
     private _attributesMap: Map<string, string> = new Map();

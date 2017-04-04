@@ -1,9 +1,9 @@
-import { ProblemLocation } from '../../lib/types';
+import { IProblemLocation } from '../../lib/interfaces';
 
 export interface Report {
     /** The message to validate */
     message: string,
-    position?: ProblemLocation
+    position?: IProblemLocation
 }
 
 export interface RuleTest {

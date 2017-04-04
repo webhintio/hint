@@ -17,7 +17,7 @@ import * as path from 'path';
 import * as shell from 'shelljs';
 
 import { loadJSFile, loadJSONFile} from './util/file-loader';
-import { Config } from './types'; //eslint-disable-line no-unused-vars
+import { IConfig } from './interfaces'; //eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Private
@@ -31,7 +31,7 @@ const CONFIG_FILES = [
 ];
 
 /** Loads a configuration from a package.json file. */
-const loadPackageJSONConfigFile = (filePath: string): Config => {
+const loadPackageJSONConfigFile = (filePath: string): IConfig => {
 
     debug(`Loading package.json config file: ${filePath}`);
 
@@ -49,7 +49,7 @@ const loadPackageJSONConfigFile = (filePath: string): Config => {
  * Loads a configuration file regardless of the source. Inspects the file path
  * to determine the correctly way to load the config file.
  */
-const loadConfigFile = (filePath: string): Config => {
+const loadConfigFile = (filePath: string): IConfig => {
 
     let config;
 
@@ -76,7 +76,7 @@ const loadConfigFile = (filePath: string): Config => {
 };
 
 /** Loads a configuration file from the given file path. */
-export const load = (filePath: string): Config => {
+export const load = (filePath: string): IConfig => {
 
     const resolvedPath = path.resolve(process.cwd(), filePath);
     const config = loadConfigFile(resolvedPath);
