@@ -1,6 +1,6 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
-import { Rule } from '../../../../lib/types'; // eslint-disable-line no-unused-vars
+import { IRule } from '../../../../lib/interfaces'; // eslint-disable-line no-unused-vars
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 

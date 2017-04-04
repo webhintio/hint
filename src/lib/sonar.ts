@@ -15,7 +15,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import * as resourceLoader from './util/resource-loader';
 import { getSeverity } from './config/config-rules';
 import { RuleContext } from './rule-context';
-import { Collector, ElementFoundEvent, FetchEndEvent, Page, Problem, ProblemLocation, Rule, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
+import { ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, Severity, URL } from './interfaces'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Public interface
@@ -24,17 +24,9 @@ import { Collector, ElementFoundEvent, FetchEndEvent, Page, Problem, ProblemLoca
 export class Sonar extends EventEmitter {
     // TODO: review which ones need to be private or not
     private plugins: Map<string, Plugin>
-    private rules: Map<string, Rule>
-    private collector: Collector
-    private messages: Array<Problem>
-
-    get page(): Page {
-        return {
-            // dom: this.collector.dom,
-            html: this.collector.html,
-            responseHeaders: this.collector.headers
-        };
-    }
+    private rules: Map<string, IRule>
+    private collector: ICollector
+    private messages: Array<IProblem>
 
     get pageContent() {
         return this.collector.html;
@@ -131,7 +123,7 @@ export class Sonar extends EventEmitter {
     }
 
     /** Reports a message from one of the rules. */
-    report(ruleId: string, severity: Severity, node, location: ProblemLocation, message: string, resource: string) {
+    report(ruleId: string, severity: Severity, node, location: IProblemLocation, message: string, resource: string) {
         const problem = {
             column: location && location.column || -1,
             line: location && location.line || -1,
@@ -149,7 +141,7 @@ export class Sonar extends EventEmitter {
     // }
 
     /** Runs all the configured rules and plugins on a target */
-    async executeOn(target: URL): Promise<Array<Problem>> {
+    async executeOn(target: URL): Promise<Array<IProblem>> {
 
         const start = Date.now();
 

@@ -18,9 +18,9 @@ import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { launchChrome } from './cdp-launcher';
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
-import { Collector, CollectorBuilder, ElementFoundEvent, NetworkData, URL } from '../../types'; // eslint-disable-line no-unused-vars
+import { ICollector, ICollectorBuilder, IElementFoundEvent, INetworkData, URL } from '../../interfaces'; // eslint-disable-line no-unused-vars
 
-class CDPCollector implements Collector {
+class CDPCollector implements ICollector {
     /** The final set of options resulting of merging the users, and default ones. */
     private _options;
     /** The default headers to do any request. */
@@ -139,7 +139,7 @@ class CDPCollector implements Collector {
         const wrappedElement = new CDPAsyncHTMLElement(element, this._dom, this._client.DOM);
 
         debug(`emitting ${eventName}`);
-        const event: ElementFoundEvent = {
+        const event: IElementFoundEvent = {
             element: wrappedElement,
             resource: this._href
         };
@@ -192,7 +192,7 @@ class CDPCollector implements Collector {
         })();
     }
 
-    async fetchContent(target: URL, customHeaders?: object) {
+    async fetchContent(target: URL | string, customHeaders?: object) {
         // TODO: This should create a new tab, navigate to the resource and control what is received somehow via an event
         let req;
         const href = typeof target === 'string' ? target : target.href;
@@ -231,7 +231,7 @@ class CDPCollector implements Collector {
     }
 }
 
-const builder: CollectorBuilder = (server: Sonar, config): Collector => {
+const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
     const collector = new CDPCollector(server, config);
 
     return collector;

@@ -12,19 +12,19 @@ const debug = d('sonar:rules:manifest-file-extension');
 
 import * as path from 'path';
 
-import { Rule, RuleBuilder, ElementFoundEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { IRule, IRuleBuilder, IElementFoundEvent } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Public
 // ------------------------------------------------------------------------------
 
-const rule: RuleBuilder = {
-    create(context: RuleContext): Rule {
+const rule: IRuleBuilder = {
+    create(context: RuleContext): IRule {
 
         const standardManifestFileExtension = '.webmanifest';
 
-        const validate = async (data: ElementFoundEvent) => {
+        const validate = async (data: IElementFoundEvent) => {
             const { element, resource } = data;
 
             if (element.getAttribute('rel') === 'manifest') {

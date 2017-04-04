@@ -4,7 +4,7 @@
  */
 
 import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars
-import { AsyncHTMLElement, ProblemLocation, Severity } from './types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IProblemLocation, Severity } from './interfaces'; // eslint-disable-line no-unused-vars
 import { findProblemLocation } from './util/location-helpers';
 
 // ------------------------------------------------------------------------------
@@ -55,12 +55,12 @@ export class RuleContext {
     }
 
     /** Finds the exact location in the page's HTML for a match in an element */
-    findProblemLocation(element: AsyncHTMLElement, content?: string) {
+    findProblemLocation(element: IAsyncHTMLElement, content?: string) {
         return findProblemLocation(element, {column: 0, line: 0}, content);
     }
 
     /** Reports a problem with the resource */
-    async report(resource: string, nodeOrDescriptor: AsyncHTMLElement, message: string, location?: ProblemLocation) {
+    async report(resource: string, nodeOrDescriptor: IAsyncHTMLElement, message: string, location?: IProblemLocation) {
 
         // TODO: this should probably contain the info of the resource (HTML, image, font, etc.)
         const descriptor = nodeOrDescriptor;

@@ -12,15 +12,15 @@ const debug = d('sonar:rules:manifest-exists');
 
 import * as url from 'url';
 
-import { Rule, RuleBuilder, ElementFoundEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { IRule, IRuleBuilder, IElementFoundEvent } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Public
 // ------------------------------------------------------------------------------
 
-const rule: RuleBuilder = {
-    create(context: RuleContext): Rule {
+const rule: IRuleBuilder = {
+    create(context: RuleContext): IRule {
 
         let manifestIsSpecified = false;
 
@@ -34,7 +34,7 @@ const rule: RuleBuilder = {
             }
         };
 
-        const manifestExists = async (data: ElementFoundEvent) => {
+        const manifestExists = async (data: IElementFoundEvent) => {
             const { element, resource } = data;
 
             if (element.getAttribute('rel') === 'manifest') {

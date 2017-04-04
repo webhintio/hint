@@ -1,14 +1,14 @@
 import * as d from 'debug';
 const debug = d('sonar:util:problem-location');
 
-import { AsyncHTMLElement, ProblemLocation } from './../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IProblemLocation } from './../interfaces'; // eslint-disable-line no-unused-vars
 
 /**
  * Creates a CSS selector from a given element using its attributes and the type of node:
  *
  * Ex.: <a href="www.wikipedia.org"></a> --> 'a[href="www.wikipedia.org"]'
  */
-const selectorFromElement = (element: AsyncHTMLElement): string => {
+const selectorFromElement = (element: IAsyncHTMLElement): string => {
     let selector = `${element.nodeName.toLowerCase()}`;
 
     const attributes = element.attributes;
@@ -47,7 +47,7 @@ const getIndicesOf = (searchStr: string, str: string): Array<number> => {
 };
 
 /** Finds the Location of an HTMLElement in the document */
-export const findElementLocation = async (element: AsyncHTMLElement): Promise<ProblemLocation | null> => {
+export const findElementLocation = async (element: IAsyncHTMLElement): Promise<IProblemLocation | null> => {
     const html = await element.ownerDocument.pageHTML();
     const elementHTML = await element.outerHTML();
     const indexOccurences = getIndicesOf(elementHTML, html);
@@ -90,7 +90,7 @@ export const findElementLocation = async (element: AsyncHTMLElement): Promise<Pr
  * * If no content is provided, the return value is {0, 0}
  * * If the content is not found, the return value is {-1, -1}
   */
-export const findInElement = async (element: AsyncHTMLElement, content?: string): Promise<ProblemLocation> => {
+export const findInElement = async (element: IAsyncHTMLElement, content?: string): Promise<IProblemLocation> => {
     if (!content) {
         return {
             column: 0,
@@ -123,7 +123,7 @@ export const findInElement = async (element: AsyncHTMLElement, content?: string)
 };
 
 /** Returns the real location of a problem in the given HTML */
-export const findProblemLocation = async (element: AsyncHTMLElement, offset: ProblemLocation, content?: string): Promise<ProblemLocation> => {
+export const findProblemLocation = async (element: IAsyncHTMLElement, offset: IProblemLocation, content?: string): Promise<IProblemLocation> => {
     const elementLocation = await findElementLocation(element);
     const problemLocation = await findInElement(element, content);
 

@@ -1,7 +1,7 @@
-import { AsyncHTMLDocument, AsyncHTMLElement } from '../../types'; //eslint-disable-line
+import { IAsyncHTMLDocument, IAsyncHTMLElement } from '../../interfaces'; //eslint-disable-line
 
 /** An implementation of AsyncHTMLDocument on top of JSDDOM */
-export class JSDOMAsyncHTMLDocument implements AsyncHTMLDocument {
+export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
     private _document: HTMLDocument
 
     constructor(document: HTMLDocument) {
@@ -27,9 +27,9 @@ export class JSDOMAsyncHTMLDocument implements AsyncHTMLDocument {
 }
 
 /** An implementation of AsyncHTMLElement on top of JSDOM */
-export class JSDOMAsyncHTMLElement implements AsyncHTMLElement {
+export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
     protected _htmlelement: HTMLElement;
-    private _ownerDocument: AsyncHTMLDocument;
+    private _ownerDocument: IAsyncHTMLDocument;
 
     constructor(htmlelement) {
         this._htmlelement = htmlelement;
