@@ -3,7 +3,7 @@
 
 ## Tasks
 
-* `npm run site -- https://mysite.com` will analyze the website with
+* `npm run site -- https://example.com` will analyze the website with
    the current configuration and using the latest build available in
    the `dist` folder.
 * `npm run lint` will lint the code under `src`.
