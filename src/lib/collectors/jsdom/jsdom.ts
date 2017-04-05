@@ -210,7 +210,6 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
                     return;
                 }
 
-
                 debug(`HTML for ${href} downloaded`);
                 await server.emitAsync('targetfetch::end', null, targetNetworkData);
 

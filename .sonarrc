@@ -12,6 +12,7 @@
         "manifest-exists": "warning",
         "manifest-file-extension": "warning",
         "manifest-is-valid": "warning",
-        "no-double-slash": "warning"
+        "no-double-slash": "warning",
+        "no-friendly-error-pages": "warning"
     }
 }
