@@ -20,12 +20,14 @@ matrix:
         - export DISPLAY=:99.0
         - sh -e /etc/init.d/xvfb start
         - sleep 3
+        - gem install awesome_bot
       node_js:
         - node
 
     - os: osx
       before_install:
         - brew cask install google-chrome
+        - gem install awesome_bot
       node_js:
         - node
 
@@ -33,3 +35,19 @@ notifications:
   email:
     on_failure: always
     on_success: never
+
+script:
+
+  # Run tests.
+  - npm test
+
+  # Check for broken links.
+  - |
+      find . -name "*.md" \
+              -not -path "./node_modules/*" \
+              -not -path "./dist/*" \
+              -not -path "./coverage/*" \
+      | xargs awesome_bot \
+              --allow-dupe \
+              --allow-redirect \
+              --set-timeout 150
