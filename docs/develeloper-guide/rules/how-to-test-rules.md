@@ -34,24 +34,28 @@ need to:
 * `string` containing the response for `/` (HTML, plain text, etc.).
 * `object` with paths as properties names and their content as values:
 
+  <!-- eslint-disable no-unused-vars -->
+
   ```js
-  {
-    '/': 'some HTML here',
-    'site.webmanifest': '{ "property1": "value1" }'
-  }
+    const tests = [{
+        '/': 'some HTML here',
+        'site.webmanifest': { property: 'value' }
+    }];
   ```
 
 * You can even specify the status code for the response for
   a specific path:
 
+  <!-- eslint-disable no-unused-vars -->
+
   ```js
-  {
-      '/': 'some HTML here',
-      '/site.webmanifest': {
-          statusCode: 200,
-          content: 'The content of the response'
-      }
-  }
+    const tests = [{
+        '/': 'some HTML here',
+        '/site.webmanifest': {
+            content: 'The content of the response',
+            statusCode: 200
+        }
+    }];
   ```
 
 In the last example, if you don't specify `content`, the response
