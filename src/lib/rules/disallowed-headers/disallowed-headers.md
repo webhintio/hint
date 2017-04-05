@@ -66,9 +66,9 @@ Yes, you can use:
 E.g. The following configuration will make the rule allow responses
 to be served with the `Server` HTTP headers, but not with `Custom-Header`.
 
-```js
+```json
 "disallowed-headers": [ "warning", {
-    ignore: ['Server'],
-    include: ['Custom-Header']
+    "ignore": ["Server"],
+    "include": ["Custom-Header"]
 }]
 ```

@@ -11,6 +11,7 @@
     "parser": "typescript-eslint-parser",
     "plugins": [
         "import",
+        "markdown",
         "typescript"
     ],
     "rules": {
