@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import * as d from 'debug';
+
 const debug = d('sonar:collector:cdp');
 
 import * as cdp from 'chrome-remote-interface';
