@@ -1,3 +1,5 @@
+# How to develop a collector
+
 You need to create a new test file (`name-of-your-collector.ts`) that
 will at least use `tests/lib/collectors/_common.ts`.
 

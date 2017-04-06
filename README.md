@@ -26,4 +26,16 @@ the tests are run twice initially.
 
 ## Documentation
 
-* [How to test rules](docs/develeloper-guide/rules/how-to-test-rules.md)
+#### Developer guides
+
+* [How to develop a collector](docs/developer-guide/collectors/how-to-develop-a-collector.md)
+* [How to test rules](docs/developer-guide/rules/how-to-test-rules.md)
+
+#### User guides
+
+* [Differences among collectors](docs/user-guide/differences-among-collectors.md)
+
+
+## License
+
+The code is available under the [Apache 2.0 license](LICENSE.txt).
