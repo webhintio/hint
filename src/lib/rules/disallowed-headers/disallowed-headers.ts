@@ -6,7 +6,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { IElementFoundEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IElementFoundEvent, IRule, IRuleBuilder, INetworkData } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
@@ -64,11 +64,11 @@ const rule: IRuleBuilder = {
             return headersFound;
         };
 
-        const validate = (resource, networkData) => {
+        const validate = (resourceURL: string, element: IAsyncHTMLElement, networkData: INetworkData) => {
             const headers = findDisallowedHeaders(networkData.response.headers);
 
             if (headers.length > 0) {
-                context.report(resource, null, `Disallowed HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
+                context.report(resourceURL, element, `Disallowed HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
             }
         };
 

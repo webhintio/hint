@@ -30,7 +30,7 @@ const rule: IRuleBuilder = {
 
         const foundErrorPages = {};
 
-        const checkForErrorPages = (resource, networkData) => {
+        const checkForErrorPages = (resourceURL, resource, networkData) => {
 
             // Ignore requests to local files.
 
@@ -88,7 +88,7 @@ const rule: IRuleBuilder = {
             try {
                 const networkData = await context.fetchContent(url.resolve(baseURL, `.well-known/${Math.random()}`));
 
-                checkForErrorPages(null, networkData);
+                checkForErrorPages(target, null, networkData);
             } catch (e) {
                 // This will most likely fail because target is a local file.
                 debug(`Custom request to generate 404 response failed for: ${target}`);
@@ -112,7 +112,7 @@ const rule: IRuleBuilder = {
             for (const key of Object.keys(foundErrorPages)) {
                 const threshold = statusCodesWith512Threshold.includes(Number.parseInt(key)) ? 512 : 256;
 
-                context.report(null, null, `Response with statusCode ${key} had less than ${threshold} bytes`);
+                context.report(href, null, `Response with statusCode ${key} had less than ${threshold} bytes`);
             }
         };
 

@@ -211,7 +211,7 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
                 }
 
                 debug(`HTML for ${href} downloaded`);
-                await server.emitAsync('targetfetch::end', null, targetNetworkData);
+                await server.emitAsync('targetfetch::end', href, null, targetNetworkData);
 
                 jsdom.env({
                     done: (err, window) => {
@@ -261,7 +261,9 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
 
                             debug(`resource ${resourceUrl} fetched`);
 
-                            await server.emitAsync('fetch::end', resource, resourceNetworkData);
+                            // TODO: Replace `null` with `resource` once it
+                            // can be converted to `JSDOMAsyncHTMLElement`.
+                            await server.emitAsync('fetch::end', resourceUrl, null, resourceNetworkData);
 
                             return callback(null, resourceNetworkData.response.body);
                         } catch (err) {

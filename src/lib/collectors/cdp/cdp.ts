@@ -49,7 +49,7 @@ class CDPCollector implements ICollector {
         this._options = Object.assign({}, defaultOptions, config);
         this._headers = this._options.headers;
 
-        //TODO: setExtraHTTPHeaders with _headers in an async way
+        // TODO: setExtraHTTPHeaders with _headers in an async way.
 
         this._requests = new Map();
     }
@@ -67,24 +67,24 @@ class CDPCollector implements ICollector {
             // const { lineNumber } = initiator;
             await DOM.querySelectorAll('[src]');
 
-            // do a query selector to get the asset that has this url and then do some magic
+            // do a query selector to get the asset that has this url and then do some magic.
         }
     }
 
-    /** Event handler for when the browser is about to make a request */
+    /** Event handler for when the browser is about to make a request. */
     private async onRequestWillBeSent(params) {
         const requestUrl = params.request.url;
 
         this._requests.set(params.requestId, params);
 
         if (!this._headers) {
-            // TODO: do some clean up, we probably don't want all the headers as the "defaults"
+            // TODO: do some clean up, we probably don't want all the headers as the "defaults".
             this._headers = params.request.headers;
         }
 
         if (params.redirectResponse) {
             debug(`Redirect found for ${requestUrl}`);
-            // We store the redirects with the finalUrl as a key to do a reverse search in onResponseReceived
+            // We store the redirects with the finalUrl as a key to do a reverse search in onResponseReceived.
             this._redirects.add(requestUrl, params.redirectResponse.url);
 
             return;
@@ -98,7 +98,7 @@ class CDPCollector implements ICollector {
 
     /** Event handler fired when HTTP request fails for some reason. */
     private onLoadingFailed(params) {
-        //TODO: implement this for `fetch::error` and `targetfetch::error`
+        // TODO: implement this for `fetch::error` and `targetfetch::error`.
         console.error(params);
     }
 
@@ -128,10 +128,11 @@ class CDPCollector implements ICollector {
             }
         };
 
-        await this._server.emitAsync(eventName, null, data);
+        // TODO: Replace `null` with `CDPAsyncHTMLElement` object.
+        await this._server.emitAsync(eventName, originalUrl, null, data);
     }
 
-    /** Traverses the DOM notifying when a new element is traversed */
+    /** Traverses the DOM notifying when a new element is traversed. */
     private async traverseAndNotify(element) {
         const eventName = `element::${element.nodeName.toLowerCase()}`;
 
@@ -187,7 +188,7 @@ class CDPCollector implements ICollector {
 
                 callback();
             });
-            // We enable all the domains we need to receive events from the CDP
+            // We enable all the domains we need to receive events from the CDP.
             await Promise.all([
                 Network.enable(),
                 Page.enable()
@@ -197,7 +198,7 @@ class CDPCollector implements ICollector {
     }
 
     async fetchContent(target: URL | string, customHeaders?: object) {
-        // TODO: This should create a new tab, navigate to the resource and control what is received somehow via an event
+        // TODO: This should create a new tab, navigate to the resource and control what is received somehow via an event.
         let req;
         const href = typeof target === 'string' ? target : target.href;
 
@@ -220,7 +221,7 @@ class CDPCollector implements ICollector {
                 body,
                 headers: response.headers,
                 hops: [], // TODO: populate
-                originalBytes: null, // Add original compressed bytes here (originalBytes)
+                originalBytes: null, // Add original compressed bytes here (originalBytes).
                 statusCode: response.statusCode,
                 url: href
             }

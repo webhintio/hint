@@ -106,7 +106,7 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'PWA',
+            category: 'pwa',
             description: 'Provide a web app manifest file',
             recommended: true
         },
