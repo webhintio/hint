@@ -26,7 +26,7 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
      */
     const events = [
         ['targetfetch::start', 'http://localhost/'],
-        ['targetfetch::end', null, {
+        ['targetfetch::end', 'http://localhost/', null, {
             request: { url: 'http://localhost/' },
             response: {
                 body: fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'),
@@ -50,7 +50,7 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
         ['element::p'],
         ['traverse::end', 'http://localhost/'],
         ['fetch::start', 'http://localhost/script3.js'],
-        ['fetch::end', undefined, { //eslint-disable-line no-undefined
+        ['fetch::end', 'http://localhost/script3.js', undefined, { //eslint-disable-line no-undefined
             request: { url: 'http://localhost/script3.js' },
             response: {
                 body: fs.readFileSync(path.join(__dirname, './fixtures/common/script.js'), 'utf8'),
@@ -61,7 +61,7 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
             }
         }],
         ['fetch::start', 'http://localhost/style.css'],
-        ['fetch::end', undefined, { //eslint-disable-line no-undefined
+        ['fetch::end', 'http://localhost/style.css', undefined, { //eslint-disable-line no-undefined
             request: { url: 'http://localhost/style.css' },
             response: {
                 body: fs.readFileSync(path.join(__dirname, './fixtures/common/style.css'), 'utf8'),

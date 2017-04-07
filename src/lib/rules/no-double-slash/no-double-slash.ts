@@ -52,7 +52,7 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'Security',
+            category: 'security',
             description: 'Use https over //',
             recommended: true
         },
