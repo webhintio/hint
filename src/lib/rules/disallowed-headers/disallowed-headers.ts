@@ -8,6 +8,7 @@
 
 import { IFetchEndEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../util/rule-helpers';
 
 // ------------------------------------------------------------------------------
 // Public
@@ -25,55 +26,23 @@ const rule: IRuleBuilder = {
             'x-version'
         ];
 
-        const init = () => {
+        const loadRuleConfigs = () => {
+            const includeHeaders = (context.ruleOptions && context.ruleOptions.include) || [];
+            const ignoreHeaders = (context.ruleOptions && context.ruleOptions.ignore) || [];
 
-            let includeHeaders = (context.ruleOptions && context.ruleOptions.include) || [];
-            let ignoreHeaders = (context.ruleOptions && context.ruleOptions.ignore) || [];
-
-            includeHeaders = includeHeaders.map((e) => {
-                return e.toLowerCase();
-            });
-
-            ignoreHeaders = ignoreHeaders.map((e) => {
-                return e.toLowerCase();
-            });
-
-            // Add headers specified under 'include'.
-            includeHeaders.forEach((e) => {
-                if (!disallowedHeaders.includes(e)) {
-                    disallowedHeaders.push(e);
-                }
-            });
-
-            // Remove headers specified under 'ignore'.
-            disallowedHeaders = disallowedHeaders.filter((e) => {
-                return !ignoreHeaders.includes(e);
-            });
-
-        };
-
-        const findDisallowedHeaders = (headers: object) => {
-            const headersFound = [];
-
-            for (const [key] of Object.entries(headers)) {
-                if (disallowedHeaders.includes(key.toLowerCase())) {
-                    headersFound.push(key);
-                }
-            }
-
-            return headersFound;
+            disallowedHeaders = mergeIgnoreIncludeArrays(disallowedHeaders, ignoreHeaders, includeHeaders);
         };
 
         const validate = (fetchEnd: IFetchEndEvent) => {
             const { element, resource } = fetchEnd;
-            const headers = findDisallowedHeaders(fetchEnd.response.headers);
+            const headers = getIncludedHeaders(fetchEnd.response.headers, disallowedHeaders);
 
             if (headers.length > 0) {
                 context.report(resource, element, `Disallowed HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
             }
         };
 
-        init();
+        loadRuleConfigs();
 
         return {
             'fetch::end': validate,

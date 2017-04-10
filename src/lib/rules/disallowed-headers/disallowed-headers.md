@@ -64,7 +64,7 @@ Yes, you can use:
     should be ignored
 
 E.g. The following configuration will make the rule allow responses
-to be served with the `Server` HTTP headers, but not with `Custom-Header`.
+to be served with the `Server` HTTP header, but not with `Custom-Header`.
 
 ```json
 "disallowed-headers": [ "warning", {

@@ -82,7 +82,7 @@ const testsForIgnoreConfigs: Array<RuleTest> = [
                 content: '',
                 headers: {
                     Server: 'test',
-                    'X-Test1': 'test'
+                    'X-Test-1': 'test'
                 }
             }
         }
@@ -93,23 +93,23 @@ const testsForIncludeConfigs: Array<RuleTest> = [
     {
         name: `Response contains headers that are disallowed because of the configurations`,
         reports: [
-            { message: `Disallowed HTTP headers found: server, x-test1, x-test2` },
-            { message: `Disallowed HTTP headers found: server, x-test2` }
+            { message: `Disallowed HTTP headers found: server, x-test-1, x-test-2` },
+            { message: `Disallowed HTTP headers found: server, x-test-2` }
         ],
         serverConfig: {
             '/': {
                 content: htmlPage,
                 headers: {
                     Server: 'test',
-                    'X-Test1': 'test',
-                    'X-Test2': 'test'
+                    'X-Test-1': 'test',
+                    'X-Test-2': 'test'
                 }
             },
             '/test.js': {
                 content: '',
                 headers: {
                     Server: 'test',
-                    'X-Test2': 'test'
+                    'X-Test-2': 'test'
                 }
             }
         }
@@ -120,7 +120,7 @@ const testsForConfigs: Array<RuleTest> = [
     {
         name: `Response contains headers that are both disallowed and ignored because of configurations`,
         reports: [
-            { message: `Disallowed HTTP headers found: x-powered-by, x-test1` },
+            { message: `Disallowed HTTP headers found: x-powered-by, x-test-1` },
             { message: `Disallowed HTTP header found: x-powered-by` }
         ],
         serverConfig: {
@@ -129,8 +129,8 @@ const testsForConfigs: Array<RuleTest> = [
                 headers: {
                     Server: 'test',
                     'X-Powered-By': 'test',
-                    'X-Test1': 'test',
-                    'X-Test2': 'test'
+                    'X-Test-1': 'test',
+                    'X-Test-2': 'test'
                 }
             },
             '/test.js': {
@@ -138,8 +138,8 @@ const testsForConfigs: Array<RuleTest> = [
                 headers: {
                     Server: 'test',
                     'X-Powered-By': 'test',
-                    'X-Test2': 'test',
-                    'X-Test3': 'test'
+                    'X-Test-2': 'test',
+                    'X-Test-3': 'test'
                 }
             }
         }
@@ -147,9 +147,9 @@ const testsForConfigs: Array<RuleTest> = [
 ];
 
 ruleRunner.testRule(ruleName, testsForDefaults);
-ruleRunner.testRule(ruleName, testsForIgnoreConfigs, { ignore: ['Server', 'X-Powered-By', 'X-Test1'] });
-ruleRunner.testRule(ruleName, testsForIncludeConfigs, { include: ['Server', 'X-Test1', 'X-Test2'] });
+ruleRunner.testRule(ruleName, testsForIgnoreConfigs, { ignore: ['Server', 'X-Powered-By', 'X-Test-1'] });
+ruleRunner.testRule(ruleName, testsForIncludeConfigs, { include: ['Server', 'X-Test-1', 'X-Test-2'] });
 ruleRunner.testRule(ruleName, testsForConfigs, {
-    ignore: ['Server', 'X-Test2', 'X-Test3'],
-    include: ['X-Powered-By', 'X-Test1', 'X-Test2']
+    ignore: ['Server', 'X-Test-2', 'X-Test-3'],
+    include: ['X-Powered-By', 'X-Test-1', 'X-Test-2']
 });
