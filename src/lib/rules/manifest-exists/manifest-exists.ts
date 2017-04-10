@@ -9,7 +9,7 @@
 
 import * as url from 'url';
 
-import { IElementFoundEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
+import { IElementFoundEvent, ITraverseEndEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 import { ruleDebug } from '../../util/rule-helpers';
 

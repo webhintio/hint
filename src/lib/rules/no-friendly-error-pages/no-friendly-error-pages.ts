@@ -9,7 +9,7 @@
 
 import * as url from 'url';
 
-import { IElementFoundEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
+import { IFetchEndEvent, ITraverseEndEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 import { ruleDebug } from '../../util/rule-helpers';
 
@@ -30,24 +30,23 @@ const rule: IRuleBuilder = {
 
         const foundErrorPages = {};
 
-        const checkForErrorPages = (resourceURL, resource, networkData) => {
-
+        const checkForErrorPages = (fetchEnd: IFetchEndEvent) => {
+            const { resource, response } = fetchEnd;
+            const statusCode = response.statusCode;
             // Ignore requests to local files.
 
-            if (!networkData.response.statusCode) {
+            if (!statusCode) {
                 debug(`Ignore request to local file: ${resource}`);
 
                 return;
             }
-
-            const statusCode = networkData.response.statusCode;
 
             // This is only accurate if the encoding used by the
             // collectors was also `utf8`.
             //
             // See: https://github.com/MicrosoftEdge/Sonar/issues/89
 
-            const size = Buffer.byteLength(networkData.response.body, 'utf8');
+            const size = Buffer.byteLength(response.body, 'utf8');
 
             // This rule doesn't care about individual responses, only
             // if, in general, for a certain error response the size
@@ -58,7 +57,7 @@ const rule: IRuleBuilder = {
                 ((size < 256) && statusCodesWith256Threshold.includes(statusCode))) {
                 foundErrorPages[statusCode] = {
                     size,
-                    url: networkData.response.url
+                    url: response.url
                 };
             }
         };
@@ -88,7 +87,12 @@ const rule: IRuleBuilder = {
             try {
                 const networkData = await context.fetchContent(url.resolve(baseURL, `.well-known/${Math.random()}`));
 
-                checkForErrorPages(target, null, networkData);
+                checkForErrorPages({
+                    element: null,
+                    request: networkData.request,
+                    resource: target,
+                    response: networkData.response
+                });
             } catch (e) {
                 // This will most likely fail because target is a local file.
                 debug(`Custom request to generate 404 response failed for: ${target}`);
@@ -96,7 +100,7 @@ const rule: IRuleBuilder = {
 
         };
 
-        const validate = async (href) => {
+        const validate = async (event: ITraverseEndEvent) => {
 
             // If no error responses were found, and more specifically,
             // if no 404 error response was found, try to generate one.
@@ -104,6 +108,8 @@ const rule: IRuleBuilder = {
             // (404 because the following function will most likely
             //  generate a 404 error response, other responses cannot
             //  be generated... so easily).
+
+            const { resource: href } = event;
 
             if (Object.keys(foundErrorPages).length === 0 || !foundErrorPages[404]) {
                 await tryToGenerateErrorPage(href);
