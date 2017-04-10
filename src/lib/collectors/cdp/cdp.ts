@@ -7,10 +7,9 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as url from 'url';
+
 import * as d from 'debug';
-
-const debug = d('sonar:collector:cdp');
-
 import * as cdp from 'chrome-remote-interface';
 import * as r from 'request';
 import * as pify from 'pify';
@@ -18,9 +17,16 @@ import * as pify from 'pify';
 import { redirectManager } from '../helpers/redirects';
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { launchChrome } from './cdp-launcher';
-import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
+/* eslint-disable no-unused-vars */
+import { Sonar } from '../../sonar';
+import {
+    ICollector, ICollectorBuilder,
+    IElementFoundEvent, IFetchEndEvent, ITraverseUpEvent, ITraverseDownEvent,
+    INetworkData, URL
+} from '../../interfaces';
+/* eslint-enable */
 
-import { ICollector, ICollectorBuilder, IElementFoundEvent, INetworkData, URL } from '../../interfaces'; // eslint-disable-line no-unused-vars
+const debug = d('sonar:collector:cdp');
 
 class CDPCollector implements ICollector {
     /** The final set of options resulting of merging the users, and default ones. */
@@ -34,12 +40,15 @@ class CDPCollector implements ICollector {
     /** The CDP client to talk to the browser. */
     private _client;
     /** A set of requests done by the collector to retrieve initial information more easily. */
-    private _requests: Map<number, object>;
+    private _requests: Map<string, any>;
     /** The parsed and original HTML. */
     private _html: string;
+    /** The DOM abstraction on top of CDP. */
     private _dom: CDPAsyncHTMLDocument;
-    /** A handy tool to calculate the `hop`s for a given url */
+    /** A handy tool to calculate the `hop`s for a given url. */
     private _redirects = redirectManager();
+    /** A collection of requests with their initial data. */
+    private _pendingResponseReceived: Array<Function>;
 
     constructor(server: Sonar, config: object) {
         const defaultOptions = { waitFor: 5000 };
@@ -52,23 +61,66 @@ class CDPCollector implements ICollector {
         // TODO: setExtraHTTPHeaders with _headers in an async way.
 
         this._requests = new Map();
+        this._pendingResponseReceived = [];
     }
 
     // ------------------------------------------------------------------------------
     // Private methods
     // ------------------------------------------------------------------------------
 
-    private async getElementFromRequest(request) {
-        const { initiator } = request;
-        const { DOM } = this._client;
+    private async getElementFromParser(parts: Array<string>): Promise<CDPAsyncHTMLElement> {
+        let basename: string = parts.pop();
+        let elements: Array<CDPAsyncHTMLElement> = [];
+
+        while (parts.length >= 0) {
+            const query = `[src$="${basename}"],[href$="${basename}"]`;
+            const newElements = await this._dom.querySelectorAll(query);
+
+            if (newElements.length === 0) {
+                if (elements.length > 0) {
+                    /* This could happen if the url is relative and we are adding the domain.*/
+                    return elements[0];
+                }
+                // No elements initiated the request. Maybe because of extension?
+                return null;
+            }
+
+            // Just one element easy peasy
+            if (elements.length === 1) {
+                return elements[0];
+            }
+
+            if (parts.length > 0) {
+                basename = `${parts.pop()}/${basename}`;
+            }
+
+            elements = newElements;
+        }
+
+        /* If we reach this point, we have several elements that have the same url so we return the first
+            because its the one that started the request. */
+
+        return Promise.resolve(elements[0]);
+    }
+
+    /** Returns the IAsyncHTMLElement that initiated a request */
+    private async getElementFromRequest(requestId: string): Promise<CDPAsyncHTMLElement> {
+        const element = this._requests.get(requestId);
+        const { initiator: { type } } = element;
+        let { request: { url: requestUrl } } = element;
+        // We need to calculate the original url because it might have redirects
+        const originalUrl = this._redirects.calculate(requestUrl);
+
+        requestUrl = url.parse(originalUrl[0] || requestUrl);
+        const parts = requestUrl.href.split('/');
 
         // TODO: Check what happens with prefetch, etc.
-        if (initiator.type === 'parser') {
-            // const { lineNumber } = initiator;
-            await DOM.querySelectorAll('[src]');
-
-            // do a query selector to get the asset that has this url and then do some magic.
+        // `type` can be "parser", "script", "preload", and "other": https://chromedevtools.github.io/debugger-protocol-viewer/tot/Network/#type-Initiator
+        if (type === 'parser' && requestUrl.protocol.indexOf('http') === 0) {
+            return await this.getElementFromParser(parts);
         }
+
+        return Promise.resolve(null);
     }
 
     /** Event handler for when the browser is about to make a request. */
@@ -93,7 +145,7 @@ class CDPCollector implements ICollector {
         const eventName = this._href === requestUrl ? 'targetfetch::start' : 'fetch::start';
 
         debug(`About to start fetching ${requestUrl}`);
-        await this._server.emitAsync(eventName, requestUrl);
+        await this._server.emitAsync(eventName, { resource: requestUrl });
     }
 
     /** Event handler fired when HTTP request fails for some reason. */
@@ -102,24 +154,37 @@ class CDPCollector implements ICollector {
         console.error(params);
     }
 
-    /** Event handler fired when HTTP response is available. */
+    /** Event handler fired when HTTP response is available and DOM loaded. */
     private async onResponseReceived(params) {
+
+        // DOM is not ready so we queued up the event for later
+        if (!this._dom) {
+
+            this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
+
+            return;
+        }
+
         const resourceUrl = params.response.url;
         const resourceHeaders = params.response.headers;
-        const resourceBody = await this._client.Network.getResponseBody({ requestId: params.requestId });
+        let resourceBody = '';
         const hops = this._redirects.calculate(resourceUrl);
         const originalUrl = hops[0] || resourceUrl;
-
         const eventName = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
 
+        resourceBody = (await this._client.Network.getResponseBody({ requestId: params.requestId })).body;
+
         debug(`Content for ${resourceUrl} downloaded`);
-        const data = {
+
+        const data: IFetchEndEvent = {
+            element: null,
             request: {
                 headers: {},
                 url: originalUrl
             },
+            resource: originalUrl,
             response: {
-                body: resourceBody.body,
+                body: resourceBody,
                 headers: resourceHeaders,
                 hops,
                 originalBytes: null,
@@ -128,8 +193,11 @@ class CDPCollector implements ICollector {
             }
         };
 
-        // TODO: Replace `null` with `CDPAsyncHTMLElement` object.
-        await this._server.emitAsync(eventName, originalUrl, null, data);
+        if (eventName === 'fetch::end') {
+            data.element = await this.getElementFromRequest(params.requestId);
+        }
+
+        await this._server.emitAsync(eventName, data);
     }
 
     /** Traverses the DOM notifying when a new element is traversed. */
@@ -149,11 +217,16 @@ class CDPCollector implements ICollector {
 
         for (const child of elementChildren) {
             debug('next children');
-            await this._server.emitAsync(`traversing::down`, this._href);
+            const traverseDown = { resource: this._href };
+
+            await this._server.emitAsync(`traverse::down`, traverseDown);
             await this.traverseAndNotify(child);  // eslint-disable-line no-await-for
 
         }
-        await this._server.emitAsync(`traversing::up`, this._href);
+
+        const traverseUp: ITraverseUpEvent = { resource: this._href };
+
+        await this._server.emitAsync(`traverse::up`, traverseUp);
     }
 
     // ------------------------------------------------------------------------------
@@ -182,9 +255,13 @@ class CDPCollector implements ICollector {
 
                 await this._dom.load();
 
-                await this._server.emitAsync('traverse::start', this._href);
+                while (this._pendingResponseReceived.length) {
+                    await this._pendingResponseReceived.shift()();
+                }
+
+                await this._server.emitAsync('traverse::start', { resource: this._href });
                 await this.traverseAndNotify(this._dom.root);
-                await this._server.emitAsync('traverse::end', this._href);
+                await this._server.emitAsync('traverse::end', { resource: this._href });
 
                 callback();
             });

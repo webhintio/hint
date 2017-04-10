@@ -12,7 +12,6 @@ const htmlWithManifestSpecified =
         <link rel="manifest" href="site.webmanifest">
     </head>
     <body>
-
     </body>
 </html>`;
 

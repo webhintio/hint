@@ -25,8 +25,9 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
      * We need to add here the `fetch::error` ones
      */
     const events = [
-        ['targetfetch::start', 'http://localhost/'],
-        ['targetfetch::end', 'http://localhost/', null, {
+        ['targetfetch::start', { resource: 'http://localhost/' }],
+        ['targetfetch::end', {
+            resource: 'http://localhost/',
             request: { url: 'http://localhost/' },
             response: {
                 body: fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'),
@@ -38,19 +39,29 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
         // TODO: need to know how many traverse::XX we need and how to be consistent among collectors
         // ['traverse::down', 'http://localhost/'],
         // ['traverse::up', 'http://localhost/'],
-        ['element::html'],
-        ['traverse::start', 'http://localhost/'],
-        ['element::head'],
-        ['element::title'],
-        ['element::script'],
-        ['element::script'],
-        ['element::style'],
-        ['element::body'],
-        ['element::h1'],
-        ['element::p'],
-        ['traverse::end', 'http://localhost/'],
-        ['fetch::start', 'http://localhost/script3.js'],
-        ['fetch::end', 'http://localhost/script3.js', undefined, { //eslint-disable-line no-undefined
+        ['element::html', { resource: 'http://localhost/' }],
+        ['traverse::start', { resource: 'http://localhost/' }],
+        ['element::head', { resource: 'http://localhost/' }],
+        ['element::title', { resource: 'http://localhost/' }],
+        ['element::script', { resource: 'http://localhost/' }],
+        ['element::script', { resource: 'http://localhost/' }],
+        ['element::style', { resource: 'http://localhost/' }],
+        ['element::body', { resource: 'http://localhost/' }],
+        ['element::h1', { resource: 'http://localhost/' }],
+        ['element::p', { resource: 'http://localhost/' }],
+        ['traverse::end', { resource: 'http://localhost/' }],
+        ['fetch::start', { resource: 'http://localhost/script3.js' }],
+        ['fetch::end', {
+            element: {
+                getAttribute(attr) {
+                    if (attr === 'src') {
+                        return '/script3.js';
+                    }
+
+                    return '';
+                }
+            },
+            resource: 'http://localhost/script3.js',
             request: { url: 'http://localhost/script3.js' },
             response: {
                 body: fs.readFileSync(path.join(__dirname, './fixtures/common/script.js'), 'utf8'),
@@ -60,8 +71,18 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
                 url: 'http://localhost/script.js'
             }
         }],
-        ['fetch::start', 'http://localhost/style.css'],
-        ['fetch::end', 'http://localhost/style.css', undefined, { //eslint-disable-line no-undefined
+        ['fetch::start', { resource: 'http://localhost/style.css' }],
+        ['fetch::end', {
+            element: {
+                getAttribute(attr) {
+                    if (attr === 'href') {
+                        return 'style.css';
+                    }
+
+                    return '';
+                }
+            },
+            resource: 'http://localhost/style.css',
             request: { url: 'http://localhost/style.css' },
             response: {
                 body: fs.readFileSync(path.join(__dirname, './fixtures/common/style.css'), 'utf8'),
@@ -83,6 +104,13 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
         // If `expected` doesn't have a value, then it is an enhacement and we can ignore it
         if (actualType !== 'undefined' && expectedType === 'undefined') {
             return true;
+        }
+
+        // We test here getAttribute.
+        if (expectedType === 'function' && actualType === 'function') {
+            return ['src', 'href'].some((attribute) => {
+                return actual(attribute) === expected(attribute);
+            });
         }
 
         if (expectedType !== 'object' || actual === null) {
@@ -196,7 +224,7 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
         }
 
         pendingEvents.forEach((event) => {
-            t.true(validEvent(invokes, event), `Event ${event[0]} is emitted with ${event[1]} - ${event[2]}`);
+            t.true(validEvent(invokes, event), `Event ${event[0]} is emitted with ${event[1]}`);
         });
     });
 };

@@ -33,8 +33,14 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
     // Public methods
     // ------------------------------------------------------------------------------
 
-    async querySelectorAll(selector: string) {
-        const { nodeIds } = await this._DOM.querySelectorAll({ nodeId: 1, selector });
+    async querySelectorAll(selector: string): Promise<Array<CDPAsyncHTMLElement>> {
+        let nodeIds;
+
+        try {
+            nodeIds = (await this._DOM.querySelectorAll({ nodeId: 1, selector })).nodeIds;
+        } catch (e) {
+            return [];
+        }
 
         return nodeIds.map((nodeId) => {
             return new CDPAsyncHTMLElement(this._nodes.get(nodeId), this, this._DOM); // eslint-disable-line no-use-before-define

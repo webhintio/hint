@@ -34,9 +34,15 @@ import * as pify from 'pify';
 import * as logger from '../../util/logging';
 import { readFileAsync } from '../../util/misc';
 import { redirectManager } from '../helpers/redirects';
-import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, ICollector, ICollectorBuilder, IElementFoundEvent, INetworkData, URL } from '../../interfaces'; // eslint-disable-line no-unused-vars
+/* eslint-disable no-unused-vars */
+import { Sonar } from '../../sonar';
+import {
+    IAsyncHTMLDocument, IAsyncHTMLElement, ICollector, ICollectorBuilder,
+    IElementFoundEvent, IFetchEndEvent, IFetchErrorEvent, ITraverseDownEvent, ITraverseUpEvent,
+    INetworkData, URL
+} from '../../interfaces';
+/* eslint-enable */
 
 // ------------------------------------------------------------------------------
 // Defaults
@@ -184,25 +190,34 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
 
                     await server.emitAsync(eventName, event);
                     for (const child of element.children) {
-
                         debug('next children');
-                        await server.emitAsync(`traversing::down`, href);
-                        await traverseAndNotify(child);  // eslint-disable-line no-await-for
+                        const traverseDown: ITraverseDownEvent = { resource: href };
 
+                        await server.emitAsync(`traverse::down`, traverseDown);
+                        await traverseAndNotify(child);  // eslint-disable-line no-await-for
                     }
-                    await server.emitAsync(`traversing::up`, href);
+
+                    const traverseUp: ITraverseUpEvent = { resource: href };
+
+                    await server.emitAsync(`traverse::up`, traverseUp);
 
                     return Promise.resolve();
                 };
 
                 debug(`About to start fetching ${href}`);
-                await server.emitAsync('targetfetch::start', href);
+                await server.emitAsync('targetfetch::start', { resource: href });
 
 
                 try {
                     targetNetworkData = await _fetchContent(target);
                 } catch (e) {
-                    await server.emitAsync('targetfetch::error', href);
+                    const fetchError: IFetchErrorEvent = {
+                        element: null,
+                        error: e,
+                        resource: href
+                    };
+
+                    await server.emitAsync('targetfetch::error', fetchError);
                     logger.error(`Failed to fetch: ${href}`);
                     debug(e);
                     reject(e);
@@ -211,7 +226,15 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
                 }
 
                 debug(`HTML for ${href} downloaded`);
-                await server.emitAsync('targetfetch::end', href, null, targetNetworkData);
+
+                const fetchEnd: IFetchEndEvent = {
+                    element: null,
+                    request: targetNetworkData.request,
+                    resource: href,
+                    response: targetNetworkData.response
+                };
+
+                await server.emitAsync('targetfetch::end', fetchEnd);
 
                 jsdom.env({
                     done: (err, window) => {
@@ -229,9 +252,9 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
 
                             debug(`${href} loaded, traversing`);
 
-                            await server.emitAsync('traverse::start', href);
+                            await server.emitAsync('traverse::start', { resource: href });
                             await traverseAndNotify(window.document.children[0]);
-                            await server.emitAsync('traverse::end', href);
+                            await server.emitAsync('traverse::end', { resource: href });
                             /* TODO: when we reach this moment we should wait for all pending request to be done and
                                stop processing any more */
                             resolve();
@@ -254,20 +277,31 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
                         }
 
                         debug(`resource ${resourceUrl} to be fetched`);
-                        await server.emitAsync('fetch::start', resourceUrl);
+                        await server.emitAsync('fetch::start', { resource: resourceUrl });
 
                         try {
                             const resourceNetworkData = await _fetchContent(resourceUrl);
 
                             debug(`resource ${resourceUrl} fetched`);
 
-                            // TODO: Replace `null` with `resource` once it
-                            // can be converted to `JSDOMAsyncHTMLElement`.
-                            await server.emitAsync('fetch::end', resourceUrl, null, resourceNetworkData);
+                            const fetchEndEvent: IFetchEndEvent = {
+                                element: new JSDOMAsyncHTMLElement(resource.element),
+                                request: resourceNetworkData.request,
+                                resource: resourceUrl,
+                                response: resourceNetworkData.response
+                            };
+
+                            await server.emitAsync('fetch::end', fetchEndEvent);
 
                             return callback(null, resourceNetworkData.response.body);
                         } catch (err) {
-                            await server.emitAsync('fetch::error', resourceUrl, resource, err);
+                            const fetchError: IFetchErrorEvent = {
+                                element: new JSDOMAsyncHTMLElement(resource.element),
+                                error: err,
+                                resource: resourceUrl
+                            };
+
+                            await server.emitAsync('fetch::error', fetchError);
 
                             return callback(err);
                         }
