@@ -1,8 +1,8 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
-
 import * as ruleRunner from '../../../helpers/rule-runner';
+import { getRuleName } from '../../../../lib/util/rule-helpers';
 
 const htmlPageWithLessThan256bytes =
 `<!doctype html>
@@ -95,4 +95,4 @@ tests.push({
 addTests(tests, statusCodesWith256Threshold, 256);
 addTests(tests, statusCodesWith512Threshold, 512);
 
-ruleRunner.testRule('no-friendly-error-pages', tests);
+ruleRunner.testRule(getRuleName(__dirname), tests);

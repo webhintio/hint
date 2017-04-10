@@ -7,11 +7,11 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as d from 'debug';
-const debug = d('sonar:rules:lang-attribute');
-
-import { IRule, IRuleBuilder, IElementFoundEvent } from '../../interfaces'; // eslint-disable-line no-unused-vars
+import { IElementFoundEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { ruleDebug } from '../../util/rule-helpers';
+
+const debug = ruleDebug(__dirname);
 
 // ------------------------------------------------------------------------------
 // Public

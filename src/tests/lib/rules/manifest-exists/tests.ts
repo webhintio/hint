@@ -1,8 +1,8 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
-
 import * as ruleRunner from '../../../helpers/rule-runner';
+import { getRuleName } from '../../../../lib/util/rule-helpers';
 
 const htmlWithManifestSpecified =
 `<!doctype html>
@@ -122,4 +122,4 @@ const tests: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule('manifest-exists', tests);
+ruleRunner.testRule(getRuleName(__dirname), tests);

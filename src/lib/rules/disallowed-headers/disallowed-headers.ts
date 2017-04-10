@@ -6,10 +6,8 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { IRule, IRuleBuilder, IElementFoundEvent } from '../../interfaces'; // eslint-disable-line no-unused-vars
+import { IElementFoundEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
-
-const debug = require('debug')('sonar:rules:disallowed-headers'); // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Public

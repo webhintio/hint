@@ -1,8 +1,8 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
-
 import * as ruleRunner from '../../../helpers/rule-runner';
+import { getRuleName } from '../../../../lib/util/rule-helpers';
 
 const tests: Array<RuleTest> = [
     {
@@ -56,4 +56,4 @@ const tests: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule('lang-attribute', tests);
+ruleRunner.testRule(getRuleName(__dirname), tests);

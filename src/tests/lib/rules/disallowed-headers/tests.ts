@@ -1,8 +1,10 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
-
 import * as ruleRunner from '../../../helpers/rule-runner';
+import { getRuleName } from '../../../../lib/util/rule-helpers';
+
+const ruleName = getRuleName(__dirname);
 
 const htmlPage =
 `<!doctype html>
@@ -144,10 +146,10 @@ const testsForConfigs: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule('disallowed-headers', testsForDefaults);
-ruleRunner.testRule('disallowed-headers', testsForIgnoreConfigs, { ignore: ['Server', 'X-Powered-By', 'X-Test1'] });
-ruleRunner.testRule('disallowed-headers', testsForIncludeConfigs, { include: ['Server', 'X-Test1', 'X-Test2'] });
-ruleRunner.testRule('disallowed-headers', testsForConfigs, {
+ruleRunner.testRule(ruleName, testsForDefaults);
+ruleRunner.testRule(ruleName, testsForIgnoreConfigs, { ignore: ['Server', 'X-Powered-By', 'X-Test1'] });
+ruleRunner.testRule(ruleName, testsForIncludeConfigs, { include: ['Server', 'X-Test1', 'X-Test2'] });
+ruleRunner.testRule(ruleName, testsForConfigs, {
     ignore: ['Server', 'X-Test2', 'X-Test3'],
     include: ['X-Powered-By', 'X-Test1', 'X-Test2']
 });
