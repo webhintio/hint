@@ -6,8 +6,8 @@
 ## Why is this important?
 
 Servers, frameworks, and server-side languages (e.g.: ASP.NET, PHP),
-often set, by default, HTTP headers with values that contains
-information about them: their name, version number, etc.
+often set, by default, HTTP headers with values that contain information
+about them: their name, version number, etc.
 
 Sending those types of HTTP headers does not provide any value to
 users, contributes to header bloat, and just gives more information

@@ -29,7 +29,7 @@ of the status codes specified above and their body’s byte length is
 under the required threshold.
 
 Additionally, the rule will try to generate an error response (more
-specifically a 404 response), if one wasn't found.
+specifically a `404` response), if one wasn't found.
 
 * Examples that **trigger** the rule:
 
