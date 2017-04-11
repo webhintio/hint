@@ -10,7 +10,7 @@
     "build": "npm run clean && npm-run-all build:*",
     "clean": "rimraf dist",
     "lint": "eslint --ext ts src/ --ext md . --ignore-pattern dist/*",
-    "site": "node dist/bin/sonar --debug",
+    "site": "node dist/bin/sonar",
     "test": "npm run lint && npm run clean && npm run build && nyc ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch",

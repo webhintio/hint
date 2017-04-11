@@ -9,7 +9,7 @@
 
 import * as url from 'url';
 
-import { IElementFoundEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
+import { IElementFoundEvent, ITraverseEndEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 import { ruleDebug } from '../../util/rule-helpers';
 
@@ -89,7 +89,7 @@ const rule: IRuleBuilder = {
                         await context.report(resource, element, `Web app manifest file could not be fetched (status code: ${statusCode})`);
                     }
 
-                // Check if fetching/reading the file failed.
+                    // Check if fetching/reading the file failed.
 
                 } catch (e) {
                     debug('Failed to fetch the web app manifest file');
