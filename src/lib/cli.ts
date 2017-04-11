@@ -29,7 +29,7 @@ import { getAsUris } from './util/get-as-uri';
 
 import { loadJSONFile } from './util/file-loader';
 
-const pkg = loadJSONFile(path.join(__dirname, '../../package.json'));
+const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
 
 // ------------------------------------------------------------------------------
 // Public
