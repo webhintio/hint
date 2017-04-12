@@ -30,6 +30,7 @@ the tests are run twice initially.
 
 * [How to develop a collector](docs/developer-guide/collectors/how-to-develop-a-collector.md)
 * [How to test rules](docs/developer-guide/rules/how-to-test-rules.md)
+* [List of events](docs/developer-guide/events/list-of-events.md)
 
 #### User guides
 

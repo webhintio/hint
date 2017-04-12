@@ -1,10 +1,9 @@
 import { IAsyncHTMLElement } from './asynchtml';
 import { IRequest, IResponse } from './network';
 
-
 /** The object emited by a collector on `targetfetch::start` or `fetch::start`. */
 export interface IFetchStartEvent {
-    /** The url to download. */
+    /** The URL to download. */
     resource: string;
 }
 
@@ -12,7 +11,7 @@ export interface IFetchStartEvent {
 export interface IFetchEndEvent {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
-    /** The url of the target. */
+    /** The URL of the target. */
     resource: string;
     /** The request made to fetch the target. */
     request: IRequest;
@@ -22,7 +21,7 @@ export interface IFetchEndEvent {
 
 /** The object emitted by a collector on `targetfetch::error` or `fetch::error` */
 export interface IFetchErrorEvent {
-    /** The url of the target. */
+    /** The URL of the target. */
     resource: string;
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
@@ -32,31 +31,31 @@ export interface IFetchErrorEvent {
 
 /** The object emitted by a collector on `traverse::start` */
 export interface ITraverseStartEvent {
-    /** The url of the target. */
+    /** The URL of the target. */
     resource: string;
 }
 
 /** The object emitted by a collector on `traverse::end` */
 export interface ITraverseEndEvent {
-    /** The url of the target. */
+    /** The URL of the target. */
     resource: string;
 }
 
 /** The object emitted by a collector on `traverse::up` */
 export interface ITraverseUpEvent {
-    /** The url of the target. */
+    /** The URL of the target. */
     resource: string;
 }
 
 /** The object emitted by a collector on `traverse::down` */
 export interface ITraverseDownEvent {
-    /** The url of the target. */
+    /** The URL of the target. */
     resource: string;
 }
 
-/** The object emited by a collector on `element::typeofelement`. */
+/** The object emited by a collector on `element::<element-type>`. */
 export interface IElementFoundEvent {
-    /** The uri of the resource firing this event. */
+    /** The URI of the resource firing this event. */
     resource: string;
     /** The visited element. */
     element: IAsyncHTMLElement;
