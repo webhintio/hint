@@ -69,6 +69,7 @@ class JSDOMCollector implements ICollector {
     private _redirects;
     private _server: Sonar;
     private _href: string;
+    private _finalHref: string;
     private _targetNetworkData;
 
     constructor(server: Sonar, config: object) {
@@ -169,7 +170,7 @@ class JSDOMCollector implements ICollector {
         // maybe we create a custom object that only exposes read only properties?
         const event: IElementFoundEvent = {
             element: new JSDOMAsyncHTMLElement(element),
-            resource: this._href
+            resource: this._finalHref
         };
 
         await this._server.emitAsync(eventName, event);
@@ -177,14 +178,14 @@ class JSDOMCollector implements ICollector {
             const child = <HTMLElement>element.children[i];
 
             debug('next children');
-            const traverseDown: ITraverseDownEvent = { resource: this._href };
+            const traverseDown: ITraverseDownEvent = { resource: this._finalHref };
 
             await this._server.emitAsync(`traversing::down`, traverseDown);
             await this.traverseAndNotify(child);  // eslint-disable-line no-await-for
 
         }
 
-        const traverseUp: ITraverseUpEvent = { resource: this._href };
+        const traverseUp: ITraverseUpEvent = { resource: this._finalHref };
 
         await this._server.emitAsync(`traversing::up`, traverseUp);
 
@@ -196,7 +197,7 @@ class JSDOMCollector implements ICollector {
         let resourceUrl = resource.url.href;
 
         if (!url.parse(resourceUrl).protocol) {
-            resourceUrl = url.resolve(this._href, resourceUrl);
+            resourceUrl = url.resolve(this._finalHref, resourceUrl);
         }
 
         debug(`resource ${resourceUrl} to be fetched`);
@@ -210,7 +211,7 @@ class JSDOMCollector implements ICollector {
             const fetchEndEvent: IFetchEndEvent = {
                 element: new JSDOMAsyncHTMLElement(resource.element),
                 request: resourceNetworkData.request,
-                resource: resourceUrl,
+                resource: resourceNetworkData.response.url,
                 response: resourceNetworkData.response
             };
 
@@ -263,12 +264,15 @@ class JSDOMCollector implements ICollector {
                 return;
             }
 
-            debug(`HTML for ${href} downloaded`);
+            // Update finalHref to point to the final URL.
+            this._finalHref = that._targetNetworkData.response.url;
+
+            debug(`HTML for ${this._finalHref} downloaded`);
 
             const fetchEnd: IFetchEndEvent = {
                 element: null,
                 request: that._targetNetworkData.request,
-                resource: href,
+                resource: this._finalHref,
                 response: that._targetNetworkData.response
             };
 
@@ -287,11 +291,12 @@ class JSDOMCollector implements ICollector {
                        we might want to wait a few seconds if the site is lazy loading something. */
                     setTimeout(async () => {
 
-                        debug(`${href} loaded, traversing`);
+                        debug(`${this._finalHref} loaded, traversing`);
 
-                        await that._server.emitAsync('traverse::start', { resource: href });
+                        await that._server.emitAsync('traverse::start', { resource: this._finalHref });
                         await that.traverseAndNotify(window.document.children[0]);
-                        await that._server.emitAsync('traverse::end', { resource: href });
+                        await that._server.emitAsync('traverse::end', { resource: this._finalHref });
+
                         /* TODO: when we reach this moment we should wait for all pending request to be done and
                            stop processing any more. */
                         resolve();

@@ -61,7 +61,7 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
                     return '';
                 }
             },
-            resource: 'http://localhost/script3.js',
+            resource: 'http://localhost/script.js',
             request: { url: 'http://localhost/script3.js' },
             response: {
                 body: fs.readFileSync(path.join(__dirname, './fixtures/common/script.js'), 'utf8'),
