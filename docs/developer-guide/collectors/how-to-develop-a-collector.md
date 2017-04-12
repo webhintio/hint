@@ -16,17 +16,4 @@ testCollector(builder);
 // You might want to `import ava` if you decide to do so
 ```
 
-The list of events that they need to implement is:
-
-* `targetfetch::start`
-* `targetfetch::end`
-* `targetfetch::error`
-* `fetch::start`
-* `fetch::end`
-* `fetch::error`
-* `traverse::start`
-* `traverse::end`
-* `traversing::up`
-* `traversing::down`
-* `element::XXXX` where `XXXX` is the `nodeName` in lower case.
-Sent during the DOM traversing phase.
+A collector needs to implement [this list of events](../events/list-of-events.md).
