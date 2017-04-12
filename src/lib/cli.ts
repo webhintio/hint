@@ -24,10 +24,9 @@ import * as Config from './config';
 import * as sonar from './sonar';
 import * as validator from './config/config-validator';
 import * as resourceLoader from './util/resource-loader';
-
 import { getAsUris } from './util/get-as-uri';
-
 import { loadJSONFile } from './util/file-loader';
+import { Severity } from './interfaces';
 
 const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
 
@@ -86,10 +85,15 @@ export const cli = {
         for (const target of targets) {
             try {
                 const results = await engine.executeOn(target); // eslint-disable-line no-await-in-loop
+                const hasError = results.some((result) => {
+                    return result.severity === Severity.error;
+                });
 
-                if (results.length > 0) {
+                format(results);
+
+                if (hasError) {
                     exitCode = 1;
-                    format(results);
+
                 }
             } catch (e) {
                 exitCode = 1;
