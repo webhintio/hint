@@ -1,6 +1,7 @@
 /**
-* @fileoverview Collector that uses the Chrome Debugging protocol to load a site and do the traversing. It also uses [request](https:/github.com/request/request) to
-* download the external resources (JS, CSS, images). *
+ * @fileoverview Collector that uses the Chrome Debugging protocol to
+ * load a site and do the traversing. It also uses [request](https:/github.com/request/request)
+ * to download the external resources (JS, CSS, images).
 */
 
 // ------------------------------------------------------------------------------
@@ -35,6 +36,8 @@ class CDPCollector implements ICollector {
     private _headers;
     /** The original URL to collect. */
     private _href;
+    /** The final URL after redirects (if they exist) */
+    private _finalHref;
     /** The instance of Sonar that is using this collector. */
     private _server: Sonar;
     /** The CDP client to talk to the browser. */
@@ -139,6 +142,11 @@ class CDPCollector implements ICollector {
             // We store the redirects with the finalUrl as a key to do a reverse search in onResponseReceived.
             this._redirects.add(requestUrl, params.redirectResponse.url);
 
+            // If needed, update the final URL.
+            if (this._redirects.calculate(requestUrl)[0] === this._href) {
+                this._finalHref = requestUrl;
+            }
+
             return;
         }
 
@@ -181,7 +189,7 @@ class CDPCollector implements ICollector {
                 headers: {},
                 url: originalUrl
             },
-            resource: originalUrl,
+            resource: resourceUrl,
             response: {
                 body: resourceBody,
                 headers: resourceHeaders,
@@ -208,7 +216,7 @@ class CDPCollector implements ICollector {
         debug(`emitting ${eventName}`);
         const event: IElementFoundEvent = {
             element: wrappedElement,
-            resource: this._href
+            resource: this._finalHref
         };
 
         await this._server.emitAsync(eventName, event);
@@ -216,13 +224,13 @@ class CDPCollector implements ICollector {
 
         for (const child of elementChildren) {
             debug('next children');
-            const traverseDown: ITraverseDownEvent = { resource: this._href };
+            const traverseDown: ITraverseDownEvent = { resource: this._finalHref };
 
             await this._server.emitAsync(`traverse::down`, traverseDown);
             await this.traverseAndNotify(child);  // eslint-disable-line no-await-for
         }
 
-        const traverseUp: ITraverseUpEvent = { resource: this._href };
+        const traverseUp: ITraverseUpEvent = { resource: this._finalHref };
 
         await this._server.emitAsync(`traverse::up`, traverseUp);
     }
@@ -240,6 +248,7 @@ class CDPCollector implements ICollector {
 
             this._client = client;
             this._href = target.href;
+            this._finalHref = target.href;
 
             await Network.setCacheDisabled({ cacheDisabled: true });
             await Network.requestWillBeSent(this.onRequestWillBeSent.bind(this));
@@ -247,7 +256,8 @@ class CDPCollector implements ICollector {
             await Network.loadingFailed(this.onLoadingFailed.bind(this));
 
             Page.loadEventFired(async () => {
-                // TODO: Wait a few seconds here before traversing or is this event fired when everything is quiet?
+                // TODO: Wait a few seconds here before traversing
+                // or is this event fired when everything is quiet?
 
                 this._dom = new CDPAsyncHTMLDocument(DOM);
 
@@ -257,23 +267,26 @@ class CDPCollector implements ICollector {
                     await this._pendingResponseReceived.shift()();
                 }
 
-                await this._server.emitAsync('traverse::start', { resource: this._href });
+                await this._server.emitAsync('traverse::start', { resource: this._finalHref });
                 await this.traverseAndNotify(this._dom.root);
-                await this._server.emitAsync('traverse::end', { resource: this._href });
+                await this._server.emitAsync('traverse::end', { resource: this._finalHref });
 
                 callback();
             });
+
             // We enable all the domains we need to receive events from the CDP.
             await Promise.all([
                 Network.enable(),
                 Page.enable()
             ]);
+
             await Page.navigate({ url: this._href });
         })();
     }
 
     async fetchContent(target: URL | string, customHeaders?: object) {
-        // TODO: This should create a new tab, navigate to the resource and control what is received somehow via an event.
+        // TODO: This should create a new tab, navigate to the
+        // resource and control what is received somehow via an event.
         let req;
         const href = typeof target === 'string' ? target : target.href;
 

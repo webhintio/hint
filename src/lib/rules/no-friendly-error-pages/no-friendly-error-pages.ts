@@ -62,8 +62,8 @@ const rule: IRuleBuilder = {
             }
         };
 
-        const tryToGenerateErrorPage = async (target: string) => {
-            const baseURL = url.format(Object.assign(url.parse(target), {
+        const tryToGenerateErrorPage = async (targetURL: string) => {
+            const baseURL = url.format(Object.assign(url.parse(targetURL), {
                 fragment: false,
                 search: false
             }));
@@ -90,12 +90,12 @@ const rule: IRuleBuilder = {
                 checkForErrorPages({
                     element: null,
                     request: networkData.request,
-                    resource: target,
+                    resource: targetURL,
                     response: networkData.response
                 });
             } catch (e) {
                 // This will most likely fail because target is a local file.
-                debug(`Custom request to generate 404 response failed for: ${target}`);
+                debug(`Custom request to generate 404 response failed for: ${targetURL}`);
             }
 
         };

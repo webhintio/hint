@@ -24,13 +24,13 @@ const rule: IRuleBuilder = {
 
         let manifestIsSpecified = false;
 
-        const manifestWasSpecified = async () => {
+        const manifestWasSpecified = async (event: ITraverseEndEvent) => {
 
             // If no web app manifest file was specified when
             // the parsing of the page ended, emit an error.
 
             if (!manifestIsSpecified) {
-                await context.report(null, null, 'Web app manifest not specified');
+                await context.report(event.resource, null, 'Web app manifest not specified');
             }
         };
 
