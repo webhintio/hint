@@ -62,17 +62,30 @@ const defaultOptions = {
     waitFor: 1000
 };
 
+class JSDOMCollector implements ICollector {
+    private _options;
+    private _headers;
+    private _request;
+    private _redirects;
+    private _server: Sonar;
+    private _href: string;
+    private _targetNetworkData;
 
-const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
+    constructor(server: Sonar, config: object) {
+        this._options = Object.assign({}, defaultOptions, config);
+        this._headers = this._options.headers;
+        this._request = this._headers ? r.defaults(this._options) : r;
+        this._redirects = redirectManager();
+        this._server = server;
+    }
 
-    const options = Object.assign({}, defaultOptions, config);
-    const headers = options.headers;
-    const request = headers ? r.defaults(options) : r;
-    const redirects = redirectManager();
+    // ------------------------------------------------------------------------------
+    // Private methods
+    // ------------------------------------------------------------------------------
 
     /** Loads a url that uses the `file://` protocol taking into
-     *  account if the host is `Windows` or `*nix` */
-    const _fetchFile = async (target: URL): Promise<INetworkData> => {
+     *  account if the host is `Windows` or `*nix`. */
+    private async _fetchFile(target: URL): Promise<INetworkData> {
         let targetPath = target.path;
 
         /* `targetPath` on `Windows` is like `/c:/path/to/file.txt`
@@ -100,19 +113,19 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
         };
 
         return Promise.resolve(collector);
-    };
+    }
 
-    /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector */
-    const _fetchUrl = async (target: URL, customHeaders?: object): Promise<INetworkData> => {
+    /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector. */
+    private async _fetchUrl(target: URL, customHeaders?: object): Promise<INetworkData> {
         let req;
         const resourceUrl = typeof target === 'string' ? target : target.href;
 
         if (customHeaders) {
-            const tempHeaders = Object.assign({}, headers, customHeaders);
+            const tempHeaders = Object.assign({}, this._headers, customHeaders);
 
-            req = pify(request.defaults({ headers: tempHeaders }), { multiArgs: true });
+            req = pify(this._request.defaults({ headers: tempHeaders }), { multiArgs: true });
         } else {
-            req = pify(request, { multiArgs: true });
+            req = pify(this._request, { multiArgs: true });
         }
 
         const [response, body] = await req(resourceUrl);
@@ -124,12 +137,12 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
             // TypeScript says that `target` doesn't have `resolve` :(
             const newTarget = url.resolve(resourceUrl, response.headers.location);
 
-            redirects.add(newTarget, resourceUrl);
+            this._redirects.add(newTarget, resourceUrl);
 
-            return _fetchUrl(url.parse(newTarget), customHeaders);
+            return this._fetchUrl(url.parse(newTarget), customHeaders);
         }
 
-        const hops = redirects.calculate(resourceUrl);
+        const hops = this._redirects.calculate(resourceUrl);
 
         return {
             request: {
@@ -145,9 +158,169 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
                 url: resourceUrl
             }
         };
-    };
+    }
 
-    const _fetchContent = (target: URL | string, customHeaders?: object): Promise<INetworkData> => {
+    /** Traverses the DOM while sending `element::typeofelement` events. */
+    private async traverseAndNotify(element: HTMLElement) {
+        const eventName = `element::${element.nodeName.toLowerCase()}`;
+
+        debug(`emitting ${eventName}`);
+        // should we freeze it? what about the other siblings, children, parents? We should have an option to not allow modifications
+        // maybe we create a custom object that only exposes read only properties?
+        const event: IElementFoundEvent = {
+            element: new JSDOMAsyncHTMLElement(element),
+            resource: this._href
+        };
+
+        await this._server.emitAsync(eventName, event);
+        for (let i = 0; i < element.children.length; i++) {
+            const child = <HTMLElement>element.children[i];
+
+            debug('next children');
+            const traverseDown: ITraverseDownEvent = { resource: this._href };
+
+            await this._server.emitAsync(`traversing::down`, traverseDown);
+            await this.traverseAndNotify(child);  // eslint-disable-line no-await-for
+
+        }
+
+        const traverseUp: ITraverseUpEvent = { resource: this._href };
+
+        await this._server.emitAsync(`traversing::up`, traverseUp);
+
+        return Promise.resolve();
+    }
+
+    /** Alternative method to download resource for `JSDOM` so we can get the headers. */
+    private async resourceLoader(resource, callback) {
+        let resourceUrl = resource.url.href;
+
+        if (!url.parse(resourceUrl).protocol) {
+            resourceUrl = url.resolve(this._href, resourceUrl);
+        }
+
+        debug(`resource ${resourceUrl} to be fetched`);
+        await this._server.emitAsync('fetch::start', { resource: resourceUrl });
+
+        try {
+            const resourceNetworkData = await this.fetchContent(resourceUrl);
+
+            debug(`resource ${resourceUrl} fetched`);
+
+            const fetchEndEvent: IFetchEndEvent = {
+                element: new JSDOMAsyncHTMLElement(resource.element),
+                request: resourceNetworkData.request,
+                resource: resourceUrl,
+                response: resourceNetworkData.response
+            };
+
+            // TODO: Replace `null` with `resource` once it
+            // can be converted to `JSDOMAsyncHTMLElement`.
+            await this._server.emitAsync('fetch::end', fetchEndEvent);
+
+            return callback(null, resourceNetworkData.response.body);
+        } catch (err) {
+            const fetchError: IFetchErrorEvent = {
+                element: new JSDOMAsyncHTMLElement(resource.element),
+                error: err,
+                resource: resourceUrl
+            };
+
+            await this._server.emitAsync('fetch::error', fetchError);
+
+            return callback(err);
+        }
+    }
+
+    // ------------------------------------------------------------------------------
+    // Private methods
+    // ------------------------------------------------------------------------------
+
+    public collect(target: URL) {
+        /** The target in string format */
+        const href = this._href = target.href;
+        const that = this;
+
+        return new Promise(async (resolve, reject) => {
+
+            debug(`About to start fetching ${href}`);
+            await that._server.emitAsync('targetfetch::start', { resource: href });
+
+            try {
+                that._targetNetworkData = await that.fetchContent(target);
+            } catch (e) {
+                const fetchError: IFetchErrorEvent = {
+                    element: null,
+                    error: e,
+                    resource: href
+                };
+
+                await that._server.emitAsync('targetfetch::error', fetchError);
+                logger.error(`Failed to fetch: ${href}`);
+                debug(e);
+                reject(e);
+
+                return;
+            }
+
+            debug(`HTML for ${href} downloaded`);
+
+            const fetchEnd: IFetchEndEvent = {
+                element: null,
+                request: that._targetNetworkData.request,
+                resource: href,
+                response: that._targetNetworkData.response
+            };
+
+            await that._server.emitAsync('targetfetch::end', fetchEnd);
+
+            jsdom.env({
+                done: (err, window) => {
+
+                    if (err) {
+                        reject(err);
+
+                        return;
+                    }
+
+                    /* Even though `done()` is called after window.onload (so all resoruces and scripts executed),
+                       we might want to wait a few seconds if the site is lazy loading something. */
+                    setTimeout(async () => {
+
+                        debug(`${href} loaded, traversing`);
+
+                        await that._server.emitAsync('traverse::start', { resource: href });
+                        await that.traverseAndNotify(window.document.children[0]);
+                        await that._server.emitAsync('traverse::end', { resource: href });
+                        /* TODO: when we reach this moment we should wait for all pending request to be done and
+                           stop processing any more. */
+                        resolve();
+
+                    }, that._options.waitFor);
+
+                },
+                features: {
+                    FetchExternalResources: ['script', 'link', 'img'],
+                    ProcessExternalResources: ['script'],
+                    SkipExternalResources: false
+                },
+                headers: that._headers,
+                html: that._targetNetworkData.response.body,
+                resourceLoader: that.resourceLoader.bind(that)
+            });
+        });
+    }
+
+    /** Fetches a resource. It could be a file:// or http(s):// one.
+     *
+     * If target is:
+     * * a URL and doesn't have a valid protocol it will fail.
+     * * a string, if it starts with // it will treat it as a url, and as a file otherwise.
+     *
+     * It will return an object with the body of the resource, the headers of the response and the
+     * original bytes (compressed if applicable).
+     */
+    public fetchContent(target: URL | string, customHeaders?: object) {
         let parsedTarget = target;
 
         if (typeof parsedTarget === 'string') {
@@ -156,189 +329,32 @@ const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
             parsedTarget = parsedTarget.indexOf('//') === 0 ? `http:${parsedTarget}` : parsedTarget;
             parsedTarget = url.parse(parsedTarget);
 
-            return _fetchContent(parsedTarget, customHeaders);
+            return this.fetchContent(parsedTarget, customHeaders);
         }
 
         if (parsedTarget.protocol === 'file:') {
-            return _fetchFile(parsedTarget);
+            return this._fetchFile(parsedTarget);
         }
 
-        return _fetchUrl(parsedTarget, customHeaders);
+        return this._fetchUrl(parsedTarget, customHeaders);
+    }
 
-    };
+    // ------------------------------------------------------------------------------
+    // Getters
+    // ------------------------------------------------------------------------------
 
-    let targetNetworkData;
+    get headers(): object {
+        return this._targetNetworkData.response.headers;
+    }
+    get html(): string {
+        return this._targetNetworkData.response.body;
+    }
+}
 
-    return ({
-        collect(target: URL) {
-            /** The target in string format */
-            const href = target.href;
+const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
+    const collector = new JSDOMCollector(server, config);
 
-            return new Promise(async (resolve, reject) => {
-
-                const traverseAndNotify = async (element) => {
-
-                    const eventName = `element::${element.nodeName.toLowerCase()}`;
-
-                    debug(`emitting ${eventName}`);
-                    // should we freeze it? what about the other siblings, children, parents? We should have an option to not allow modifications
-                    // maybe we create a custom object that only exposes read only properties?
-                    const event: IElementFoundEvent = {
-                        element: new JSDOMAsyncHTMLElement(element),
-                        resource: href
-                    };
-
-                    await server.emitAsync(eventName, event);
-                    for (const child of element.children) {
-                        debug('next children');
-                        const traverseDown: ITraverseDownEvent = { resource: href };
-
-                        await server.emitAsync(`traverse::down`, traverseDown);
-                        await traverseAndNotify(child);  // eslint-disable-line no-await-for
-                    }
-
-                    const traverseUp: ITraverseUpEvent = { resource: href };
-
-                    await server.emitAsync(`traverse::up`, traverseUp);
-
-                    return Promise.resolve();
-                };
-
-                debug(`About to start fetching ${href}`);
-                await server.emitAsync('targetfetch::start', { resource: href });
-
-
-                try {
-                    targetNetworkData = await _fetchContent(target);
-                } catch (e) {
-                    const fetchError: IFetchErrorEvent = {
-                        element: null,
-                        error: e,
-                        resource: href
-                    };
-
-                    await server.emitAsync('targetfetch::error', fetchError);
-                    logger.error(`Failed to fetch: ${href}`);
-                    debug(e);
-                    reject(e);
-
-                    return;
-                }
-
-                debug(`HTML for ${href} downloaded`);
-
-                const fetchEnd: IFetchEndEvent = {
-                    element: null,
-                    request: targetNetworkData.request,
-                    resource: href,
-                    response: targetNetworkData.response
-                };
-
-                await server.emitAsync('targetfetch::end', fetchEnd);
-
-                jsdom.env({
-                    done: (err, window) => {
-
-                        if (err) {
-                            reject(err);
-
-                            return;
-                        }
-
-                        /* Even though `done()` is called aver window.onload (so all resoruces and scripts executed),
-                           we might want to wait a few seconds if the site is lazy loading something.
-                         */
-                        setTimeout(async () => {
-
-                            debug(`${href} loaded, traversing`);
-
-                            await server.emitAsync('traverse::start', { resource: href });
-                            await traverseAndNotify(window.document.children[0]);
-                            await server.emitAsync('traverse::end', { resource: href });
-                            /* TODO: when we reach this moment we should wait for all pending request to be done and
-                               stop processing any more */
-                            resolve();
-
-                        }, options.waitFor);
-
-                    },
-                    features: {
-                        FetchExternalResources: ['script', 'link', 'img'],
-                        ProcessExternalResources: ['script'],
-                        SkipExternalResources: false
-                    },
-                    headers,
-                    html: targetNetworkData.response.body,
-                    async resourceLoader(resource, callback) {
-                        let resourceUrl = resource.url.href;
-
-                        if (!url.parse(resourceUrl).protocol) {
-                            resourceUrl = url.resolve(href, resourceUrl);
-                        }
-
-                        debug(`resource ${resourceUrl} to be fetched`);
-                        await server.emitAsync('fetch::start', { resource: resourceUrl });
-
-                        try {
-                            const resourceNetworkData = await _fetchContent(resourceUrl);
-
-                            debug(`resource ${resourceUrl} fetched`);
-
-                            const fetchEndEvent: IFetchEndEvent = {
-                                element: new JSDOMAsyncHTMLElement(resource.element),
-                                request: resourceNetworkData.request,
-                                resource: resourceUrl,
-                                response: resourceNetworkData.response
-                            };
-
-                            await server.emitAsync('fetch::end', fetchEndEvent);
-
-                            return callback(null, resourceNetworkData.response.body);
-                        } catch (err) {
-                            const fetchError: IFetchErrorEvent = {
-                                element: new JSDOMAsyncHTMLElement(resource.element),
-                                error: err,
-                                resource: resourceUrl
-                            };
-
-                            await server.emitAsync('fetch::error', fetchError);
-
-                            return callback(err);
-                        }
-                    }
-                });
-            });
-        },
-        // get dom(): HTMLElement {
-        //     return _dom;
-        // },
-
-        /** Fetches a resource. It could be a file:// or http(s):// one.
-         *
-         * If target is:
-         * * a URL and doesn't have a valid protocol it will fail.
-         * * a string, if it starts with // it will treat it as a url, and as a file otherwise
-         *
-         * It will return an object with the body of the resource, the headers of the response and the
-         * original bytes (compressed if applicable)
-         */
-        fetchContent(target: URL | string, customHeaders?: object) {
-            let t = target;
-
-            if (typeof target === 'string') {
-                t = url.parse(target);
-            }
-
-            return _fetchContent(<URL>t, customHeaders);
-        },
-        get headers(): object {
-            return targetNetworkData.response.headers;
-        },
-        get html(): string {
-            return targetNetworkData.response.body;
-        }
-    });
-
+    return collector;
 };
 
 export default builder;
