@@ -12,20 +12,21 @@
 
 /* eslint-disable no-process-env, no-empty */
 
-import * as d from 'debug';
-const debug = d('sonar:collectors:cdp:cdp-launcher');
-
 import { spawn } from 'child_process';
 import { accessSync as fsAccessSync, openSync } from 'fs';
 import * as net from 'net';
 import { tmpdir } from 'os';
 import * as path from 'path';
-
 import * as which from 'which';
+
+import { debug as d } from '../../util/debug';
 
 // ------------------------------------------------------------------------------
 // Common
 // ------------------------------------------------------------------------------
+
+const debug = d(__filename);
+
 let port = 9222;
 const retryDelay = 500;
 

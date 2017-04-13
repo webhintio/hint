@@ -21,20 +21,18 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as d from 'debug';
-const debug = d('sonar:collector:jsdom');
-
-import * as url from 'url';
 import * as path from 'path';
+import * as url from 'url';
 
 import * as jsdom from 'jsdom';
-import * as r from 'request';
 import * as pify from 'pify';
+import * as r from 'request';
 
 import * as logger from '../../util/logging';
+import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
+import { debug as d } from '../../util/debug';
 import { readFileAsync } from '../../util/misc';
 import { redirectManager } from '../helpers/redirects';
-import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
 /* eslint-disable no-unused-vars */
 import { Sonar } from '../../sonar';
 import {
@@ -47,6 +45,8 @@ import {
 // ------------------------------------------------------------------------------
 // Defaults
 // ------------------------------------------------------------------------------
+
+const debug = d(__filename);
 
 const defaultOptions = {
     followRedirect: false,

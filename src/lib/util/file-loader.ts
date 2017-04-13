@@ -1,10 +1,10 @@
-import * as d from 'debug';
-const debug = d('sonar:util:file-loader');
-
 import * as stripComments from 'strip-json-comments';
 import * as requireUncached from 'require-uncached';
 
+import { debug as d } from './debug';
 import { readFile } from './misc';
+
+const debug = d(__filename);
 
 /** Loads a JSON a file. */
 const loadJSONFile = (filePath: string): any => {

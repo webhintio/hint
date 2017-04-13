@@ -13,21 +13,21 @@
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
-import * as d from 'debug';
-const debug = d('sonar:cli');
 
 import * as path from 'path';
 
-import { options } from './ui/options';
-import * as logger from './util/logging';
 import * as Config from './config';
+import * as logger from './util/logging';
+import * as resourceLoader from './util/resource-loader';
 import * as sonar from './sonar';
 import * as validator from './config/config-validator';
-import * as resourceLoader from './util/resource-loader';
+import { Severity } from './interfaces';
+import { debug as d } from './util/debug';
 import { getAsUris } from './util/get-as-uri';
 import { loadJSONFile } from './util/file-loader';
-import { Severity } from './interfaces';
+import { options } from './ui/options';
 
+const debug = d(__filename);
 const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
 
 // ------------------------------------------------------------------------------

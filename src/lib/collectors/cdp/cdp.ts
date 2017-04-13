@@ -8,16 +8,15 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as cdp from 'chrome-remote-interface';
+import * as pify from 'pify';
+import * as r from 'request';
 import * as url from 'url';
 
-import * as d from 'debug';
-import * as cdp from 'chrome-remote-interface';
-import * as r from 'request';
-import * as pify from 'pify';
-
-import { redirectManager } from '../helpers/redirects';
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
+import { debug as d } from '../../util/debug';
 import { launchChrome } from './cdp-launcher';
+import { redirectManager } from '../helpers/redirects';
 /* eslint-disable no-unused-vars */
 import { Sonar } from '../../sonar';
 import {
@@ -27,7 +26,7 @@ import {
 } from '../../interfaces';
 /* eslint-enable */
 
-const debug = d('sonar:collector:cdp');
+const debug = d(__filename);
 
 class CDPCollector implements ICollector {
     /** The final set of options resulting of merging the users, and default ones. */

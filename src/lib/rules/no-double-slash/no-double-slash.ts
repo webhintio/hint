@@ -10,9 +10,9 @@
 
 import { IElementFoundEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
-import { ruleDebug } from '../../util/rule-helpers';
+import { debug as d } from '../../util/debug';
 
-const debug = ruleDebug(__dirname);
+const debug = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
