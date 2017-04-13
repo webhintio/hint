@@ -25,14 +25,13 @@ import * as path from 'path';
 import * as url from 'url';
 
 import * as jsdom from 'jsdom';
-import * as pify from 'pify';
-import * as r from 'request';
 
+import { debug as d } from '../../util/debug';
 import * as logger from '../../util/logging';
 import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
-import { debug as d } from '../../util/debug';
 import { readFileAsync } from '../../util/misc';
-import { redirectManager } from '../helpers/redirects';
+import { Requester } from '../helpers/requester'; //eslint-disable-line
+
 /* eslint-disable no-unused-vars */
 import { Sonar } from '../../sonar';
 import {
@@ -65,8 +64,7 @@ const defaultOptions = {
 class JSDOMCollector implements ICollector {
     private _options;
     private _headers;
-    private _request;
-    private _redirects;
+    private _request: Requester;
     private _server: Sonar;
     private _href: string;
     private _finalHref: string;
@@ -75,8 +73,7 @@ class JSDOMCollector implements ICollector {
     constructor(server: Sonar, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
         this._headers = this._options.headers;
-        this._request = this._headers ? r.defaults(this._options) : r;
-        this._redirects = redirectManager();
+        this._request = new Requester(this._options);
         this._server = server;
     }
 
@@ -106,8 +103,9 @@ class JSDOMCollector implements ICollector {
             response: {
                 body,
                 headers: null,
-                hops: [], //TODO: populate
-                originalBody: null,
+                hops: [],
+                rawBody: null,
+                rawBodyResponse: null,
                 statusCode: null,
                 url: targetPath
             }
@@ -117,48 +115,16 @@ class JSDOMCollector implements ICollector {
     }
 
     /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector. */
-    private async _fetchUrl(target: URL, customHeaders?: object): Promise<INetworkData> {
-        let req;
-        const resourceUrl = typeof target === 'string' ? target : target.href;
+    private _fetchUrl(target: URL, customHeaders?: object): Promise<INetworkData> {
+        const uri = url.format(target);
 
-        if (customHeaders) {
-            const tempHeaders = Object.assign({}, this._headers, customHeaders);
-
-            req = pify(this._request.defaults({ headers: tempHeaders }), { multiArgs: true });
-        } else {
-            req = pify(this._request, { multiArgs: true });
+        if (!customHeaders) {
+            return this._request.get(uri);
         }
 
-        const [response, body] = await req(resourceUrl);
+        const r = new Requester({ headers: customHeaders });
 
-        // Checking for valid redirect status codes: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#3xx_Redirection
-        const validRedirects = [301, 302, 303, 307, 308];
-
-        if (validRedirects.includes(response.statusCode)) {
-            // TypeScript says that `target` doesn't have `resolve` :(
-            const newTarget = url.resolve(resourceUrl, response.headers.location);
-
-            this._redirects.add(newTarget, resourceUrl);
-
-            return this._fetchUrl(url.parse(newTarget), customHeaders);
-        }
-
-        const hops = this._redirects.calculate(resourceUrl);
-
-        return {
-            request: {
-                headers: response.request.headers,
-                url: hops[0] || resourceUrl
-            },
-            response: {
-                body,
-                headers: response.headers,
-                hops,
-                originalBody: null, // Add original compressed bytes here (originalBytes)
-                statusCode: response.statusCode,
-                url: resourceUrl
-            }
-        };
+        return r.get(uri);
     }
 
     /** Traverses the DOM while sending `element::typeofelement` events. */
@@ -234,7 +200,7 @@ class JSDOMCollector implements ICollector {
     }
 
     // ------------------------------------------------------------------------------
-    // Private methods
+    // Public methods
     // ------------------------------------------------------------------------------
 
     public collect(target: URL) {
