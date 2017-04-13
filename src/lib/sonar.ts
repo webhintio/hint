@@ -7,15 +7,15 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as d from 'debug';
-const debug = d('sonar:engine');
-
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import * as resourceLoader from './util/resource-loader';
-import { getSeverity } from './config/config-rules';
-import { RuleContext } from './rule-context';
 import { ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, Severity, URL } from './interfaces'; // eslint-disable-line no-unused-vars
+import { RuleContext } from './rule-context';
+import { debug as d } from './util/debug';
+import { getSeverity } from './config/config-rules';
+
+const debug = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Public interface

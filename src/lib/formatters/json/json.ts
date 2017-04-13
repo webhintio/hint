@@ -7,17 +7,18 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as d from 'debug';
-const debug = d('sonar:formatters:json');
-
 import * as _ from 'lodash';
 
 import * as logger from '../../util/logging';
 import { IFormatter } from '../../interfaces'; // eslint-disable-line no-unused-vars
+import { debug as d } from '../../util/debug';
+
+const debug = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Formatter
 // ------------------------------------------------------------------------------
+
 const formatter: IFormatter = {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
     format(messages) {

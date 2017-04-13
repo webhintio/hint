@@ -11,14 +11,14 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as d from 'debug';
-const debug = d('sonar:util:resource-loader');
-
 import * as path from 'path';
 import * as _ from 'lodash';
 import * as globby from 'globby';
 
 import { ICollectorBuilder, IFormatter, IPluginBuilder, Resource, IRuleBuilder } from '../interfaces'; // eslint-disable-line no-unused-vars
+import { debug as d } from './debug';
+
+const debug = d(__filename);
 
 /** The type of resource */
 const TYPE = {

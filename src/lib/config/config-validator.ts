@@ -7,15 +7,15 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as d from 'debug';
-const debug = d('sonar:config-rules');
-
 import * as _ from 'lodash';
 import * as schemaValidator from 'is-my-json-valid/require';
 
-import * as resourceLoader from '../util/resource-loader';
 import * as logger from '../util/logging';
-import {validate as validateRule} from './config-rules';
+import * as resourceLoader from '../util/resource-loader';
+import { debug as d } from '../util/debug';
+import { validate as validateRule } from './config-rules';
+
+const debug = d(__filename);
 
 /** Validates that a configuration is valid */
 const validate = schemaValidator('config-schema.json');

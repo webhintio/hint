@@ -1,5 +1,4 @@
 import * as path from 'path';
-import * as d from 'debug';
 
 export const getIncludedHeaders = (headers: object = {}, headerList: Array<string> = []) => {
     const result = [];
@@ -45,8 +44,4 @@ export const mergeIgnoreIncludeArrays = (originalArray: Array<string> = [], igno
 
     return result;
 
-};
-
-export const ruleDebug = (dirname: string) => {
-    return d(`sonar:rules:${getRuleName(dirname)}`);
 };

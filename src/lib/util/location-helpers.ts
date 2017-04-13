@@ -1,7 +1,7 @@
-import * as d from 'debug';
-const debug = d('sonar:util:problem-location');
-
 import { IAsyncHTMLElement, IProblemLocation } from './../interfaces'; // eslint-disable-line no-unused-vars
+import { debug as d } from './debug';
+
+const debug = d(__filename);
 
 /**
  * Creates a CSS selector from a given element using its attributes and the type of node:
