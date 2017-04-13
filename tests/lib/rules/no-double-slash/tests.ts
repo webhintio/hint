@@ -128,6 +128,16 @@ const tests: Array<RuleTest> = [
             message: 'Invalid link found: //home',
             position: { column: 18, line: 5 }
         }]
+    },
+    {
+        name: `'script' with no "src" passes the rule`,
+        serverConfig: `<!doctype html><html lang="en"><head>
+        <title>test</title>
+        <script>var a = 10;</script>
+    </head>
+    <body>
+    </body>
+</html>`
     }
 ];
 
