@@ -16,6 +16,7 @@ import * as url from 'url';
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { debug as d } from '../../util/debug';
 import { launchChrome } from './cdp-launcher';
+import { normalizeHeaders } from '../helpers/normalize-headers';
 import { RedirectManager } from '../helpers/redirects';
 /* eslint-disable no-unused-vars */
 import { Sonar } from '../../sonar';
@@ -172,7 +173,7 @@ class CDPCollector implements ICollector {
         }
 
         const resourceUrl = params.response.url;
-        const resourceHeaders = params.response.headers;
+        const resourceHeaders = normalizeHeaders(params.response.headers);
         let resourceBody = '';
         const hops = this._redirects.calculate(resourceUrl);
         const originalUrl = hops[0] || resourceUrl;
@@ -307,7 +308,7 @@ class CDPCollector implements ICollector {
             },
             response: {
                 body,
-                headers: response.headers,
+                headers: normalizeHeaders(response.headers),
                 hops: [], // TODO: populate
                 rawBody: null,
                 rawBodyResponse: null, // Add original compressed bytes here (originalBytes).

@@ -35,7 +35,8 @@ const rule: IRuleBuilder = {
         };
 
         const willBeTreatedAsHTML = (response: IResponse) => {
-            const mediaType = response.headers['content-type'].split(';')[0].trim();
+            const contentTypeHeader = response.headers['content-type'];
+            const mediaType = contentTypeHeader ? contentTypeHeader.split(';')[0].trim() : '';
 
             // By default, browsers will treat resource sent with the
             // following media types as HTML documents.
