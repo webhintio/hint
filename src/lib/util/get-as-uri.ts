@@ -39,18 +39,16 @@ export const getAsUri = (source: string): url.Url | null => {
         return target;
     }
 
-    // And it doesn't exist locally, try checking if it is a valid URL.
-    if (!shell.test('-e', entry)) {
-        target = url.parse(`http://${entry}`);
+    target = url.parse(`http://${entry}`);
 
-        // Except for the case of the well known and used `localhost`,
-        // for all other cases the `hostname` needs to contain at least
-        // a `.`. Private domains should have `http(s)://` in front.
-        if (target.hostname === 'localhost' || target.hostname.includes('.')) {
-            debug(`Adding modified target: ${url.format(target)}`);
+    // And it doesn't exist locally, and is a valid URL:
+    // Except for the case of the well known and used `localhost`,
+    // for all other cases the `hostname` needs to contain at least
+    // a `.`. Private domains should have `http(s)://` in front.
+    if (!shell.test('-e', entry) && (target.hostname === 'localhost' || target.hostname.includes('.'))) {
+        debug(`Adding modified target: ${url.format(target)}`);
 
-            return target;
-        }
+        return target;
     }
 
     // If it's not a regular file or looks like a URL, ignore it.
