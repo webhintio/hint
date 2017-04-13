@@ -3,4 +3,6 @@
 /node_modules/
 /dist/
 /doc/
+/coverage/
 *.log
+

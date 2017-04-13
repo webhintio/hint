@@ -87,10 +87,20 @@
     "timeout": "60s"
   },
   "nyc": {
+    "cache": true,
+    "check-coverage": true,
+    "lines": 85,
+    "statements": 85,
+    "functions": 80,
+    "branches": 75,
     "include": [
-      "dist/**/*.js"
+      "dist/src/**/*.js"
     ],
     "sourceMap": true,
-    "instrument": true
+    "instrument": true,
+    "reporter": [
+      "lcov",
+      "text"
+    ]
   }
 }
