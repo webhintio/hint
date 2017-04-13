@@ -45,8 +45,8 @@ class Server {
 
             if (typeof value === 'string') {
                 content = this.updateLocalhost(value);
-            } else if (value && typeof value.content === 'string') {
-                content = this.updateLocalhost(value.content);
+            } else if (value && typeof value.content !== 'undefined') {
+                content = typeof value.content === 'string' ? this.updateLocalhost(value.content) : value.content;
             } else {
                 content = '';
             }
@@ -63,7 +63,9 @@ class Server {
                     return;
                 }
 
-                if (value && (value.status === 301 || value.status === 302)) {
+                const redirects = [301, 302, 303, 307, 308];
+
+                if (value && redirects.includes(value.status)) {
                     res.redirect(value.status, content);
 
                     return;

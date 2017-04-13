@@ -8,16 +8,19 @@ export interface IRequest {
 
 /** Response data from fetching an item using a collector. */
 export interface IResponse {
-    /** The uncompressed body of the response. */
+    /** The uncompressed response's body. A `string` if text, otherwise a `Buffer`. */
     body: string;
+    /** The uncompressed bytes of the response's body. */
+    rawBody: Buffer;
     /** The headers sent by the server. */
     headers: any;
     /** All the intermediate urls from the initial request until we got the response (if any). */
     hops: Array<string>;
     /** The original bytes of the body. They could be compressed or not. */
-    originalBytes?: Uint8Array; // TODO: is this the right type?
+    rawBodyResponse: Buffer;
+    /** The status code of the response. */
     statusCode: number;
-    /** The url that returned the data. In a redirect it will be the final one. */
+    /** The url that returned the data. When in a redirect it will be the final one and not the initiator. */
     url: string;
 }
 
