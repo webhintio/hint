@@ -37,6 +37,7 @@
     "eventemitter2": "^4.1.0",
     "file-url": "^2.0.2",
     "globby": "^6.1.0",
+    "iconv-lite": "^0.4.15",
     "is-my-json-valid": "^2.15.0",
     "is-resolvable": "^1.0.0",
     "jsdom": "^9.11.0",
@@ -86,10 +87,20 @@
     "timeout": "60s"
   },
   "nyc": {
+    "cache": true,
+    "check-coverage": true,
+    "lines": 85,
+    "statements": 85,
+    "functions": 80,
+    "branches": 75,
     "include": [
-      "dist/**/*.js"
+      "dist/src/**/*.js"
     ],
     "sourceMap": true,
-    "instrument": true
+    "instrument": true,
+    "reporter": [
+      "lcov",
+      "text"
+    ]
   }
 }

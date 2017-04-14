@@ -16,7 +16,7 @@ import * as url from 'url';
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { debug as d } from '../../util/debug';
 import { launchChrome } from './cdp-launcher';
-import { redirectManager } from '../helpers/redirects';
+import { RedirectManager } from '../helpers/redirects';
 /* eslint-disable no-unused-vars */
 import { Sonar } from '../../sonar';
 import {
@@ -48,7 +48,7 @@ class CDPCollector implements ICollector {
     /** The DOM abstraction on top of CDP. */
     private _dom: CDPAsyncHTMLDocument;
     /** A handy tool to calculate the `hop`s for a given url. */
-    private _redirects = redirectManager();
+    private _redirects = new RedirectManager();
     /** A collection of requests with their initial data. */
     private _pendingResponseReceived: Array<Function>;
 
@@ -193,7 +193,8 @@ class CDPCollector implements ICollector {
                 body: resourceBody,
                 headers: resourceHeaders,
                 hops,
-                originalBytes: null,
+                rawBody: null,
+                rawBodyResponse: null,
                 statusCode: 200,
                 url: params.response.url
             }
@@ -283,7 +284,7 @@ class CDPCollector implements ICollector {
         })();
     }
 
-    async fetchContent(target: URL | string, customHeaders?: object) {
+    async fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {
         // TODO: This should create a new tab, navigate to the
         // resource and control what is received somehow via an event.
         let req;
@@ -308,7 +309,8 @@ class CDPCollector implements ICollector {
                 body,
                 headers: response.headers,
                 hops: [], // TODO: populate
-                originalBytes: null, // Add original compressed bytes here (originalBytes).
+                rawBody: null,
+                rawBodyResponse: null, // Add original compressed bytes here (originalBytes).
                 statusCode: response.statusCode,
                 url: href
             }

@@ -224,7 +224,7 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
         }
 
         pendingEvents.forEach((event) => {
-            t.true(validEvent(invokes, event), `Event ${event[0]} is emitted with ${event[1]}`);
+            t.true(validEvent(invokes, event), `Event ${event[0]}/${event[1].resource} has the same properties`);
         });
     });
 };

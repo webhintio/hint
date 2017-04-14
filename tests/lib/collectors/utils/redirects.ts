@@ -1,9 +1,9 @@
 import test from 'ava';
 
-import { redirectManager } from '../../../../src/lib/collectors/helpers/redirects';
+import { RedirectManager } from '../../../../src/lib/collectors/helpers/redirects';
 
 test.beforeEach((t) => {
-    t.context.redirects = redirectManager();
+    t.context.redirects = new RedirectManager();
 });
 
 test(`redirectManager returns 0 hops if none added`, (t) => {
