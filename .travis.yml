@@ -39,7 +39,7 @@ notifications:
 script:
 
   # Run tests.
-  - npm test
+  - npm run test-on-travis
 
   # Check for broken links.
   - |

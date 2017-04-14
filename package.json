@@ -12,6 +12,7 @@
     "lint": "eslint --ext ts src/ --ext md . --ignore-pattern dist/*",
     "site": "node dist/src/bin/sonar",
     "test": "npm run lint && npm run build && nyc ava",
+    "test-on-travis": "npm run test -- --concurrency 2 --timeout 3m",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch",
     "watch:test": "ava --watch",
@@ -84,7 +85,7 @@
     ],
     "failFast": true,
     "concurrency": 5,
-    "timeout": "60s"
+    "timeout": "1m"
   },
   "nyc": {
     "cache": true,
