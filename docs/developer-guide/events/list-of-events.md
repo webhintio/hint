@@ -1,8 +1,20 @@
 # List of events emitted by a collector
 
 `collector`s communicate via events. The following is a list of all
-the events commont to all `collector`s, with their signature and the
+the events common to all `collector`s, with their signature, and the
 `interface` they implement.
+
+* [`targetfetch::start`](#targetfetchstart)
+* [`targetfetch::end`](#targetfetchend)
+* [`targetfetch::error`](#targetfetcherror)
+* [`fetch::start`](#fetchstart)
+* [`fetch::end`](#fetchend)
+* [`fetch::error`](#fetcherror)
+* [`traverse::start`](#traversestart)
+* [`traverse::end`](#traverseend)
+* [`traverse::down`](#traversedown)
+* [`traverse::up`](#traverseup)
+* [`element::<element-type>`](#elementelement-type)
 
 
 ## `targetfetch::start`
