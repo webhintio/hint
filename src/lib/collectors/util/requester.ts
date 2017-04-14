@@ -40,19 +40,11 @@ export class Requester {
         ['iso-8859-1', 'latin1']
     ])
     /** The content types we can decode. */
-    private static decodeableContentTypes: Array<string> = [
-        'application/javascript',
-        'application/json',
-        'application/x-javascript',
-        'application/xhtml+xml',
-        'application/xml',
-        'image/svg+xml',
-        'text/css',
-        'text/html',
-        'text/javascript',
-        'text/js',
-        'text/plain',
-        'text/xml'
+    private static decodeableContentTypes: Array<RegExp> = [
+        /application\/(?:javascript|json|x-javascript|xml)/i,
+        /application\/.*\+(?:json|xml)/i, // application/xhtml+xml
+        /image\/svg\+xml/i,
+        /text\/.*/i
     ]
 
     /** The valid status codes for redirects we follow. */
@@ -75,7 +67,7 @@ export class Requester {
         for (let i = 0; i < Requester.decodeableContentTypes.length && !requires; i++) {
             const ct = Requester.decodeableContentTypes[i];
 
-            requires = contentType.includes(ct);
+            requires = ct.test(contentType);
         }
 
         return requires;
