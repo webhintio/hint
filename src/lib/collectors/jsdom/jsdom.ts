@@ -21,16 +21,15 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as jsdom from 'jsdom';
 import * as path from 'path';
 import * as url from 'url';
 
-import * as jsdom from 'jsdom';
-
 import { debug as d } from '../../util/debug';
-import * as logger from '../../util/logging';
 import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
+import * as logger from '../../util/logging';
 import { readFileAsync } from '../../util/misc';
-import { Requester } from '../helpers/requester'; //eslint-disable-line
+import { Requester } from '../util/requester'; //eslint-disable-line
 
 /* eslint-disable no-unused-vars */
 import { Sonar } from '../../sonar';

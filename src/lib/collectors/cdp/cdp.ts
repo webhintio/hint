@@ -16,8 +16,8 @@ import * as url from 'url';
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { debug as d } from '../../util/debug';
 import { launchChrome } from './cdp-launcher';
-import { normalizeHeaders } from '../helpers/normalize-headers';
-import { RedirectManager } from '../helpers/redirects';
+import { normalizeHeaders } from '../util/normalize-headers';
+import { RedirectManager } from '../util/redirects';
 /* eslint-disable no-unused-vars */
 import { Sonar } from '../../sonar';
 import {
