@@ -12,8 +12,8 @@
         "manifest-exists": "warning",
         "manifest-file-extension": "warning",
         "manifest-is-valid": "warning",
-        "no-double-slash": "warning",
         "no-friendly-error-pages": "warning",
+        "no-protocol-relative-urls": "warning",
         "no-html-only-headers": "warning"
     }
 }
