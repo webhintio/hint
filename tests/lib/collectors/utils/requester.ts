@@ -46,10 +46,22 @@ const supportedEncodings = [
     'windows-1251'
 ];
 
+const contentTypes = [
+    'application/javascript',
+    'application/json',
+    'application/x-javascript',
+    'application/xml',
+    'application/xhtml+xml',
+    'application/something+json',
+    'image/svg+xml',
+    'text/html',
+    'text/something'
+];
+
 /** This function verifies that we can decode the bytes for the expected `Content-Type`s
  * and the supported `charset`s, even when the server response is compressed.
  * */
-const testTextDecoding = async (t, encoding: string, useCompression: boolean) => {
+const testTextDecoding = async (t, encoding: string, contentType: string, useCompression: boolean) => {
     const { requester, server } = t.context;
     const originalBytes = iconv.encode(text, encoding);
     const transformedText = iconv.decode(originalBytes, encoding);
@@ -60,7 +72,7 @@ const testTextDecoding = async (t, encoding: string, useCompression: boolean) =>
             content,
             headers: {
                 'Content-Encoding': useCompression ? 'gzip' : 'identity',
-                'Content-Type': `text/html; charset=${encoding}`
+                'Content-Type': `${contentType}; charset=${encoding}`
             }
         }
     });
@@ -76,8 +88,10 @@ const testTextDecoding = async (t, encoding: string, useCompression: boolean) =>
 };
 
 supportedEncodings.forEach((encoding) => {
-    test(`requester handles ${encoding}`, testTextDecoding, encoding, false);
-    test(`requester handles ${encoding}`, testTextDecoding, encoding, true);
+    contentTypes.forEach((contentType) => {
+        test(`requester handles ${encoding}`, testTextDecoding, encoding, contentType, false);
+        test(`requester handles ${encoding}`, testTextDecoding, encoding, contentType, true);
+    });
 });
 
 // ------------------------------------------------------------------------------
