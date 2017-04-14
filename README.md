@@ -34,6 +34,7 @@ the tests are run twice initially.
 
 #### User guides
 
+* [List of core rules](docs/user-guide/rules/index.md)
 * [Differences among collectors](docs/user-guide/differences-among-collectors.md)
 
 
