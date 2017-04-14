@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { RedirectManager } from '../../../../src/lib/collectors/helpers/redirects';
+import { RedirectManager } from '../../../../src/lib/collectors/util/redirects';
 
 test.beforeEach((t) => {
     t.context.redirects = new RedirectManager();
