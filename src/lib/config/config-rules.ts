@@ -9,7 +9,7 @@
 
 import * as schemaValidator from 'is-my-json-valid';
 
-import { debug as d } from '../util/debug';
+import { debug as d } from '../utils/debug';
 import { IRuleBuilder } from '../interfaces'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);

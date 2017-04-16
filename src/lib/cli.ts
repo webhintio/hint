@@ -17,14 +17,14 @@
 import * as path from 'path';
 
 import * as Config from './config';
-import * as logger from './util/logging';
-import * as resourceLoader from './util/resource-loader';
+import * as logger from './utils/logging';
+import * as resourceLoader from './utils/resource-loader';
 import * as sonar from './sonar';
 import * as validator from './config/config-validator';
 import { Severity } from './interfaces';
-import { debug as d } from './util/debug';
-import { getAsUris } from './util/get-as-uri';
-import { loadJSONFile } from './util/file-loader';
+import { debug as d } from './utils/debug';
+import { getAsUris } from './utils/get-as-uri';
+import { loadJSONFile } from './utils/file-loader';
 import { options } from './ui/options';
 
 const debug = d(__filename);

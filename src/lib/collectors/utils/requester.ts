@@ -12,7 +12,7 @@ import * as url from 'url';
 import * as request from 'request';
 import * as iconv from 'iconv-lite';
 
-import { debug as d } from '../../util/debug';
+import { debug as d } from '../../utils/debug';
 import { INetworkData } from '../../interfaces'; //eslint-disable-line
 import { RedirectManager } from './redirects';
 

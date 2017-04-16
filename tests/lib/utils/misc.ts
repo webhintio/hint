@@ -3,7 +3,7 @@ import * as path from 'path';
 
 import test from 'ava';
 
-import { readFile, readFileAsync } from '../../../src/lib/util/misc';
+import { readFile, readFileAsync } from '../../../src/lib/utils/misc';
 
 const testContext = [
     {

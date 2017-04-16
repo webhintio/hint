@@ -5,11 +5,11 @@ import test from 'ava';
 import * as jsdom from 'jsdom';
 import * as pify from 'pify';
 
-import { readFile } from '../../../src/lib/util/misc';
+import { readFile } from '../../../src/lib/utils/misc';
 const getPage = pify(jsdom.env);
 
 import { IAsyncHTMLElement } from '../../../src/lib/interfaces';
-import { findInElement, findProblemLocation, findElementLocation } from '../../../src/lib/util/location-helpers';
+import { findInElement, findProblemLocation, findElementLocation } from '../../../src/lib/utils/location-helpers';
 import { JSDOMAsyncHTMLElement } from '../../../src/lib/collectors/jsdom/jsdom-async-html';
 
 

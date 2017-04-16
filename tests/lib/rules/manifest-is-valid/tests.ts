@@ -2,7 +2,7 @@
 
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
-import { getRuleName } from '../../../../src/lib/util/rule-helpers';
+import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 
 const htmlWithManifestSpecified =
     `<!doctype html>

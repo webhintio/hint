@@ -4,7 +4,7 @@ import * as proxyquire from 'proxyquire';
 
 const logging = { log() { } };
 
-proxyquire('../../../src/lib/formatters/json/json', { '../../util/logging': logging });
+proxyquire('../../../src/lib/formatters/json/json', { '../../utils/logging': logging });
 
 import json from '../../../src/lib/formatters/json/json';
 import * as problems from './fixtures/list-of-problems';

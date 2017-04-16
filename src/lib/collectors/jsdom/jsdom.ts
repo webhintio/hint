@@ -25,11 +25,11 @@ import * as jsdom from 'jsdom';
 import * as path from 'path';
 import * as url from 'url';
 
-import { debug as d } from '../../util/debug';
+import { debug as d } from '../../utils/debug';
 import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
-import * as logger from '../../util/logging';
-import { readFileAsync } from '../../util/misc';
-import { Requester } from '../util/requester'; //eslint-disable-line
+import * as logger from '../../utils/logging';
+import { readFileAsync } from '../../utils/misc';
+import { Requester } from '../utils/requester'; //eslint-disable-line
 
 /* eslint-disable no-unused-vars */
 import { Sonar } from '../../sonar';

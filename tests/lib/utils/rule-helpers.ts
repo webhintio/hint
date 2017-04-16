@@ -1,5 +1,6 @@
 import test from 'ava';
-import * as ruleHelpers from '../../../src/lib/util/rule-helpers';
+
+import * as ruleHelpers from '../../../src/lib/utils/rule-helpers';
 
 // ------------------------------------------------------------------------------
 // getIncludedHeaders tests

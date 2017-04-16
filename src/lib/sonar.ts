@@ -9,10 +9,10 @@
 
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
-import * as resourceLoader from './util/resource-loader';
+import * as resourceLoader from './utils/resource-loader';
 import { ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, Severity, URL } from './interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from './rule-context';
-import { debug as d } from './util/debug';
+import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
 
 const debug = d(__filename);

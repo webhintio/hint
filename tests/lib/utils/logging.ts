@@ -1,7 +1,7 @@
 import test from 'ava';
 import * as sinon from 'sinon';
 
-import * as logging from '../../../src/lib/util/logging';
+import * as logging from '../../../src/lib/utils/logging';
 
 test.beforeEach((t) => {
     t.context.console = console;

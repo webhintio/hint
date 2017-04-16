@@ -9,9 +9,9 @@
 
 import * as _ from 'lodash';
 
-import * as logger from '../../util/logging';
+import * as logger from '../../utils/logging';
 import { IFormatter } from '../../interfaces'; // eslint-disable-line no-unused-vars
-import { debug as d } from '../../util/debug';
+import { debug as d } from '../../utils/debug';
 
 const debug = d(__filename);
 

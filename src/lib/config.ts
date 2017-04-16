@@ -13,8 +13,8 @@ import * as path from 'path';
 import * as shell from 'shelljs';
 
 import { IConfig } from './interfaces'; //eslint-disable-line no-unused-vars
-import { debug as d } from './util/debug';
-import { loadJSFile, loadJSONFile} from './util/file-loader';
+import { debug as d } from './utils/debug';
+import { loadJSFile, loadJSONFile} from './utils/file-loader';
 
 const debug = d(__filename);
 

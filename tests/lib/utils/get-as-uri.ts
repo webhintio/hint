@@ -2,7 +2,7 @@ import * as url from 'url';
 
 import test from 'ava';
 
-import { getAsUri, getAsUris } from '../../../src/lib/util/get-as-uri';
+import { getAsUri, getAsUris } from '../../../src/lib/utils/get-as-uri';
 
 /* TS complains that "Property Url does not exist on type 'typeof "url"'"
     if we do `instanceof url.Url`

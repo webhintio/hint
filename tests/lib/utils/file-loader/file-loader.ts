@@ -1,7 +1,7 @@
 import test from 'ava';
 import * as path from 'path';
 
-import { loadJSFile, loadJSONFile } from '../../../../src/lib/util/file-loader';
+import { loadJSFile, loadJSONFile } from '../../../../src/lib/utils/file-loader';
 
 const resolve = (route) => {
     return path.join(__dirname, route);

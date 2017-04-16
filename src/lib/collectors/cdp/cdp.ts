@@ -14,10 +14,10 @@ import * as r from 'request';
 import * as url from 'url';
 
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
-import { debug as d } from '../../util/debug';
+import { debug as d } from '../../utils/debug';
 import { launchChrome } from './cdp-launcher';
-import { normalizeHeaders } from '../util/normalize-headers';
-import { RedirectManager } from '../util/redirects';
+import { normalizeHeaders } from '../utils/normalize-headers';
+import { RedirectManager } from '../utils/redirects';
 /* eslint-disable no-unused-vars */
 import { Sonar } from '../../sonar';
 import {

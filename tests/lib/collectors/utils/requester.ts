@@ -7,7 +7,7 @@ import * as iconv from 'iconv-lite';
 
 import test from 'ava';
 import { createServer } from '../../../helpers/test-server';
-import { Requester } from '../../../../src/lib/collectors/util/requester';
+import { Requester } from '../../../../src/lib/collectors/utils/requester';
 import { INetworkData } from '../../../../src/lib/interfaces';
 
 const compress = pify(zlib.gzip);

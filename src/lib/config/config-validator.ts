@@ -10,9 +10,9 @@
 import * as _ from 'lodash';
 import * as schemaValidator from 'is-my-json-valid/require';
 
-import * as logger from '../util/logging';
-import * as resourceLoader from '../util/resource-loader';
-import { debug as d } from '../util/debug';
+import * as logger from '../utils/logging';
+import * as resourceLoader from '../utils/resource-loader';
+import { debug as d } from '../utils/debug';
 import { validate as validateRule } from './config-rules';
 
 const debug = d(__filename);

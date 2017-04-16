@@ -19,7 +19,7 @@ import { tmpdir } from 'os';
 import * as path from 'path';
 import * as which from 'which';
 
-import { debug as d } from '../../util/debug';
+import { debug as d } from '../../utils/debug';
 
 // ------------------------------------------------------------------------------
 // Common
