@@ -4,6 +4,8 @@
  * to download the external resources (JS, CSS, images).
 */
 
+/* eslint-disable new-cap  */
+
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
@@ -43,6 +45,8 @@ class CDPCollector implements ICollector {
     private _server: Sonar;
     /** The CDP client to talk to the browser. */
     private _client;
+    /** Browser's child process */
+    private _child;
     /** A set of requests done by the collector to retrieve initial information more easily. */
     private _requests: Map<string, any>;
     /** The parsed and original HTML. */
@@ -53,6 +57,8 @@ class CDPCollector implements ICollector {
     private _redirects = new RedirectManager();
     /** A collection of requests with their initial data. */
     private _pendingResponseReceived: Array<Function>;
+    /** List of all the tabs used by the collector. */
+    private _tabs = [];
 
     constructor(server: Sonar, config: object) {
         const defaultOptions = { waitFor: 5000 };
@@ -244,9 +250,9 @@ class CDPCollector implements ICollector {
     // Public methods
     // ------------------------------------------------------------------------------
 
-    collect(target: URL) {
+    public collect(target: URL) {
         return pify(async (callback) => {
-            await launchChrome('about:blank');
+            this._child = await launchChrome('about:blank');
 
             const client = await cdp();
             const { DOM, Network, Page } = client;
@@ -255,10 +261,12 @@ class CDPCollector implements ICollector {
             this._href = target.href;
             this._finalHref = target.href;
 
-            await Network.setCacheDisabled({ cacheDisabled: true });
-            await Network.requestWillBeSent(this.onRequestWillBeSent.bind(this));
-            await Network.responseReceived(this.onResponseReceived.bind(this));
-            await Network.loadingFailed(this.onLoadingFailed.bind(this));
+            await Promise.all([
+                Network.setCacheDisabled({ cacheDisabled: true }),
+                Network.requestWillBeSent(this.onRequestWillBeSent.bind(this)),
+                Network.responseReceived(this.onResponseReceived.bind(this)),
+                Network.loadingFailed(this.onLoadingFailed.bind(this))
+            ]);
 
             Page.loadEventFired(async () => {
                 // TODO: Wait a few seconds here before traversing
@@ -279,6 +287,8 @@ class CDPCollector implements ICollector {
                 callback();
             });
 
+            this._tabs = await cdp.List();
+
             // We enable all the domains we need to receive events from the CDP.
             await Promise.all([
                 Network.enable(),
@@ -287,6 +297,18 @@ class CDPCollector implements ICollector {
 
             await Page.navigate({ url: this._href });
         })();
+    }
+
+    public close() {
+        debug('Closing browsers used by CDP');
+
+        while (this._tabs.length > 0) {
+            const tab = this._tabs.pop();
+
+            cdp.closeTab(tab);
+        }
+
+        this._client.close();
     }
 
     async fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {

@@ -10,14 +10,15 @@
  *
  */
 
-/* eslint-disable no-process-env, no-empty */
+/* eslint-disable no-process-env, no-empty, no-unused-vars */
 
+
+import { ChildProcess, spawn } from 'child_process';
+import { accessSync as fsAccessSync, openSync } from 'fs';
 import * as net from 'net';
 import * as path from 'path';
-import { spawn } from 'child_process';
 import { tmpdir } from 'os';
 
-import { accessSync as fsAccessSync, openSync } from 'fs';
 import * as which from 'which';
 
 import { debug as d } from '../../utils/debug';
@@ -166,7 +167,7 @@ const getChrome = (): string => {
 };
 
 /** Launches chrome with the given url and ready to be used with the Chrome Debugging Protocol. */
-const launchChrome = async (url: string, options?) => {
+const launchChrome = async (url: string, options?): Promise<ChildProcess> => {
     port = options && options.port || port;
 
     const chromeFlags = [
@@ -202,15 +203,21 @@ const launchChrome = async (url: string, options?) => {
 
         debug(`Executing ${chromePath}`);
 
-        spawn(chromePath, chromeFlags, {
+        const child = spawn(chromePath, chromeFlags, {
             detached: true,
             stdio: ['ignore', outFile, errFile]
         });
+
+        child.unref();
         debug('Command executed correctly');
         await waitUntilReady();
+
+        return child;
     } catch (e) {
         debug('Error executing command');
         debug(e);
+
+        throw e;
     }
 };
 

@@ -282,6 +282,10 @@ class JSDOMCollector implements ICollector {
         });
     }
 
+    public close() {
+        // With JSDOM there is nothing to release
+    }
+
     /** Fetches a resource. It could be a file:// or http(s):// one.
      *
      * If target is:
