@@ -6,7 +6,7 @@
  */
 
 import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars
-import { IAsyncHTMLElement, IProblemLocation, Severity } from './types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, INetworkData, IProblemLocation, Severity } from './types'; // eslint-disable-line no-unused-vars
 import { findProblemLocation } from './utils/location-helpers';
 
 // ------------------------------------------------------------------------------
@@ -52,13 +52,13 @@ export class RuleContext {
     }
 
     /** A useful way of making requests */
-    fetchContent(target, headers?) {
+    fetchContent(target, headers?): Promise<INetworkData> {
         return this.sonar.fetchContent(target, headers);
     }
 
     /** Finds the exact location in the page's HTML for a match in an element */
     findProblemLocation(element: IAsyncHTMLElement, content?: string) {
-        return findProblemLocation(element, {column: 0, line: 0}, content);
+        return findProblemLocation(element, { column: 0, line: 0 }, content);
     }
 
     /** Reports a problem with the resource */
@@ -70,7 +70,7 @@ export class RuleContext {
         let position = location;
 
         if (!position && descriptor) {
-            position = await findProblemLocation(nodeOrDescriptor, {column: 0, line: 0});
+            position = await findProblemLocation(nodeOrDescriptor, { column: 0, line: 0 });
         }
 
         if (position === null) {

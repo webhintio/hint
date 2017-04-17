@@ -47,7 +47,7 @@ const loadOfType = (type: string): Map<string, Resource> => {
         const name = path.basename(resource, '.js');
 
         if (!resourceMap.has(name)) {
-            // We cannot do dynamic imports so we have to do this ugly thing
+            // HACK: We cannot do dynamic imports so we have to do this ugly thing
             const r = require(resource);
 
             resourceMap.set(name, r.default || r);
