@@ -252,9 +252,35 @@ class CDPCollector implements ICollector {
 
     public collect(target: URL) {
         return pify(async (callback) => {
-            this._child = await launchChrome('about:blank');
+            const newBrowser = await launchChrome('about:blank');
+            let client;
 
-            const client = await cdp();
+            /* We want a new tab for this session. If it is a new browser, a new tab
+                will be created automatically. If it was already there, then we need
+                to create it ourselves. */
+            if (newBrowser) {
+                client = await cdp();
+                this._tabs = await cdp.List();
+            } else {
+                const tab = await cdp.New();
+
+                this._tabs.push(tab);
+
+                client = await cdp({
+                    tab: (tabs) => {
+                        /* We can return a tab or an index. Also `tab` !== tab[index]
+                            even if the have the same `id`. */
+                        for (let index = 0; index < tabs.length; index++) {
+                            if (tabs[index].id === tab.id) {
+                                return tabs[index];
+                            }
+                        }
+
+                        return -1; //We should never reach this point...
+                    }
+                });
+            }
+
             const { DOM, Network, Page } = client;
 
             this._client = client;
@@ -286,8 +312,6 @@ class CDPCollector implements ICollector {
 
                 callback();
             });
-
-            this._tabs = await cdp.List();
 
             // We enable all the domains we need to receive events from the CDP.
             await Promise.all([
