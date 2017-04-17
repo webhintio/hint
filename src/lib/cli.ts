@@ -100,6 +100,8 @@ export const cli = {
             }
         }
 
+        await engine.close();
+
         debug(`Total runtime: ${Date.now() - start}ms`);
 
         return exitCode;

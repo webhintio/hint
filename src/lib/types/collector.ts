@@ -11,6 +11,8 @@ export interface ICollectorBuilder {
 export interface ICollector {
     /** Collects all the information for the given target */
     collect(target: url.Url): Promise<any>;
+    /** Releases any used resource and/or browser. */
+    close(): void;
     /** The DOM of the page once it is loaded */
     // dom: HTMLElement;
     /** The original HTML of the resource collected */
