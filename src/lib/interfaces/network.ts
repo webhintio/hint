@@ -6,18 +6,25 @@ export interface IRequest {
     url: string;
 }
 
+export interface IResponseBody {
+    /** The uncompressed response's body. A `string` if text, otherwise a `Buffer`. */
+    content: string | Buffer;
+    /** The encoding of the response's body. */
+    contentEncoding: string;
+    /** The uncompressed bytes of the response's body. */
+    rawContent: Buffer;
+    /** The original bytes of the body. They could be compressed or not. */
+    rawResponse: Buffer;
+}
+
 /** Response data from fetching an item using a collector. */
 export interface IResponse {
-    /** The uncompressed response's body. A `string` if text, otherwise a `Buffer`. */
-    body: string;
-    /** The uncompressed bytes of the response's body. */
-    rawBody: Buffer;
+    /** The content of the body sent by the server in different forms. */
+    body: IResponseBody;
     /** The headers sent by the server. */
     headers: any;
     /** All the intermediate urls from the initial request until we got the response (if any). */
     hops: Array<string>;
-    /** The original bytes of the body. They could be compressed or not. */
-    rawBodyResponse: Buffer;
     /** The status code of the response. */
     statusCode: number;
     /** The url that returned the data. When in a redirect it will be the final one and not the initiator. */

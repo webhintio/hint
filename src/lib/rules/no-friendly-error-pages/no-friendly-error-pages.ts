@@ -46,7 +46,9 @@ const rule: IRuleBuilder = {
             //
             // See: https://github.com/MicrosoftEdge/Sonar/issues/89
 
-            const size = Buffer.byteLength(response.body, 'utf8');
+            // TODO: replace the following with:
+            // const size = response.body.rawContent.length;
+            const size = Buffer.byteLength(<string>response.body.content, 'utf8');
 
             // This rule doesn't care about individual responses, only
             // if, in general, for a certain error response the size

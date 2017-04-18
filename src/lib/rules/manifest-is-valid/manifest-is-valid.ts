@@ -58,8 +58,13 @@ const rule: IRuleBuilder = {
                     // Validate the content of the web app manifest file.
 
                     try {
-                        JSON.parse(body);
-                        // TODO: Add more complex web app manifest file validation.
+                        if (typeof body.content === 'string') {
+                            // TODO: Add more complex web app manifest file validation.
+                            JSON.parse(body.content);
+                        } else {
+                            context.report(resource, element, `Web app manifest file is not a text file`);
+                            debug('Web app manifest file is not a text file');
+                        }
                     } catch (e) {
                         debug('Failed to parse the web app manifest file');
                         context.report(resource, element, `Web app manifest file doesn't contain valid JSON`);

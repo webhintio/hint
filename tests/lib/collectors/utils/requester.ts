@@ -1,11 +1,10 @@
 /* eslint-disable no-sync */
 
+import * as iconv from 'iconv-lite';
+import test from 'ava';
+import * as pify from 'pify';
 import * as zlib from 'zlib';
 
-import * as pify from 'pify';
-import * as iconv from 'iconv-lite';
-
-import test from 'ava';
 import { createServer } from '../../../helpers/test-server';
 import { Requester } from '../../../../src/lib/collectors/utils/requester';
 import { INetworkData } from '../../../../src/lib/interfaces';
@@ -77,14 +76,16 @@ const testTextDecoding = async (t, encoding: string, contentType: string, useCom
         }
     });
 
-    const { response: { body, rawBody, rawBodyResponse } } = await requester.get(`http://localhost:${server.port}`);
+    const { response: { body } } = await requester.get(`http://localhost:${server.port}`);
 
     // body is a `string`
-    t.is(body, transformedText);
+    t.is(body.content, transformedText);
+
     // rawBody is a `Buffer` with the uncompressed bytes of the response
-    t.deepEqual(rawBody, originalBytes);
+    t.deepEqual(body.rawContent, originalBytes);
+
     // rawBodyResponse is a `Buffer` with the original bytes of the response
-    t.deepEqual(rawBodyResponse, content);
+    t.deepEqual(body.rawResponse, content);
 };
 
 supportedEncodings.forEach((encoding) => {
@@ -116,11 +117,12 @@ const testBinaries = async (t, binType) => {
         }
     });
 
-    const { response: { rawBody, body } } = await requester.get(`http://localhost:${server.port}`);
+    const { response: { body } } = await requester.get(`http://localhost:${server.port}`);
 
-    t.deepEqual(rawBody, content);
+    t.deepEqual(body.rawContent, content);
+
     // Body should be null
-    t.is(body, null);
+    t.is(body.content, null);
 };
 
 binTypes.forEach((binType) => {
@@ -163,5 +165,5 @@ test(`Requester follows all hops, reports the right number and returns the final
     const { response } = await <INetworkData>requester.get(`http://localhost:${server.port}/hop301`);
 
     t.is(response.hops.length, Object.keys(hopsServerConfig).length - 1);
-    t.is(response.body, hopsServerConfig['/']);
+    t.is(response.body.content, hopsServerConfig['/']);
 });

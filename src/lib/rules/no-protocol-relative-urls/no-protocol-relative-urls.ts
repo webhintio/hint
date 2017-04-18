@@ -20,7 +20,6 @@ const debug = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-
         const validate = async (data: IElementFoundEvent) => {
             const { element, resource } = data;
             const html = await element.outerHTML();
