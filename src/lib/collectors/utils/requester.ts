@@ -145,11 +145,14 @@ export class Requester {
                         url: hops[0] || uri
                     },
                     response: {
-                        body,
+                        body: {
+                            content: body,
+                            contentEncoding: charset,
+                            rawContent: rawBody,
+                            rawResponse: rawBodyResponse
+                        },
                         headers: response.headers,
                         hops,
-                        rawBody,
-                        rawBodyResponse,
                         statusCode: response.statusCode,
                         url: uri
                     }
@@ -158,7 +161,7 @@ export class Requester {
                 return resolve(networkData);
             })
                 /* This will allow us to get the raw response's body, handy if it is compressed.
-                    See: https://github.com/request/request#examples for more info
+                   See: https://github.com/request/request/tree/6f286c81586a90e6a9d97055f131fdc68e523120#examples.
                  */
                 .on('response', (response) => {
                     response

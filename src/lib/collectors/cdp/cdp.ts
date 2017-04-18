@@ -191,11 +191,14 @@ class CDPCollector implements ICollector {
             },
             resource: resourceUrl,
             response: {
-                body: resourceBody,
+                body: {
+                    content: resourceBody,
+                    contentEncoding: null,
+                    rawContent: null,
+                    rawResponse: null
+                },
                 headers: resourceHeaders,
                 hops,
-                rawBody: null,
-                rawBodyResponse: null,
                 statusCode: 200,
                 url: params.response.url
             }
@@ -307,11 +310,14 @@ class CDPCollector implements ICollector {
                 url: href
             },
             response: {
-                body,
+                body: {
+                    content: body,
+                    contentEncoding: null,
+                    rawContent: null,
+                    rawResponse: null
+                },
                 headers: normalizeHeaders(response.headers),
                 hops: [], // TODO: populate
-                rawBody: null,
-                rawBodyResponse: null, // Add original compressed bytes here (originalBytes).
                 statusCode: response.statusCode,
                 url: href
             }

@@ -97,11 +97,14 @@ class JSDOMCollector implements ICollector {
                 url: targetPath
             },
             response: {
-                body,
+                body: {
+                    content: body,
+                    contentEncoding: null,
+                    rawContent: null,
+                    rawResponse: null
+                },
                 headers: null,
                 hops: [],
-                rawBody: null,
-                rawBodyResponse: null,
                 statusCode: null,
                 url: targetPath
             }
@@ -181,7 +184,7 @@ class JSDOMCollector implements ICollector {
             // can be converted to `JSDOMAsyncHTMLElement`.
             await this._server.emitAsync('fetch::end', fetchEndEvent);
 
-            return callback(null, resourceNetworkData.response.body);
+            return callback(null, resourceNetworkData.response.body.content);
         } catch (err) {
             const fetchError: IFetchErrorEvent = {
                 element: new JSDOMAsyncHTMLElement(resource.element),
@@ -272,7 +275,7 @@ class JSDOMCollector implements ICollector {
                     SkipExternalResources: false
                 },
                 headers: that._headers,
-                html: that._targetNetworkData.response.body,
+                html: that._targetNetworkData.response.body.content,
                 resourceLoader: that.resourceLoader.bind(that)
             });
         });
@@ -314,7 +317,7 @@ class JSDOMCollector implements ICollector {
         return this._targetNetworkData.response.headers;
     }
     get html(): string {
-        return this._targetNetworkData.response.body;
+        return this._targetNetworkData.response.body.content;
     }
 }
 

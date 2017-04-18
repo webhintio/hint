@@ -29,7 +29,12 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
             resource: 'http://localhost/',
             request: { url: 'http://localhost/' },
             response: {
-                body: fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'),
+                body: {
+                    content: fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'),
+                    contentEncoding: null,
+                    rawContent: null,
+                    rawResponse: null
+                },
                 hops: [],
                 statusCode: 200,
                 url: 'http://localhost/'
@@ -63,7 +68,12 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
             resource: 'http://localhost/script.js',
             request: { url: 'http://localhost/script3.js' },
             response: {
-                body: fs.readFileSync(path.join(__dirname, './fixtures/common/script.js'), 'utf8'),
+                body: {
+                    content: fs.readFileSync(path.join(__dirname, './fixtures/common/script.js'), 'utf8'),
+                    contentEncoding: null,
+                    rawContent: null,
+                    rawResponse: null
+                },
                 hops: ['http://localhost/script3.js',
                     'http://localhost/script2.js'],
                 statusCode: 200,
@@ -84,7 +94,12 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
             resource: 'http://localhost/style.css',
             request: { url: 'http://localhost/style.css' },
             response: {
-                body: fs.readFileSync(path.join(__dirname, './fixtures/common/style.css'), 'utf8'),
+                body: {
+                    content: fs.readFileSync(path.join(__dirname, './fixtures/common/style.css'), 'utf8'),
+                    contentEncoding: null,
+                    rawContent: null,
+                    rawResponse: null
+                },
                 hops: [],
                 statusCode: 200,
                 url: 'http://localhost/style.css'

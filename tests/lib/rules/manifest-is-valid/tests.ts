@@ -82,6 +82,14 @@ const tests: Array<RuleTest> = [
         }
     },
     {
+        name: `Web app manifest is specified and it's a binary file`,
+        reports: [{ message: `Web app manifest file is not a text file` }],
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/site.webmanifest': { headers: { 'Content-Type': 'image/png' } }
+        }
+    },
+    {
         name: `Web app manifest is specified and request for file fails`,
         serverConfig: {
             '/': htmlWithManifestSpecified,
