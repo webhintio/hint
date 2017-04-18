@@ -1,5 +1,5 @@
-import * as stripComments from 'strip-json-comments';
 import * as requireUncached from 'require-uncached';
+import * as stripComments from 'strip-json-comments';
 
 import { debug as d } from './debug';
 import { readFile } from './misc';

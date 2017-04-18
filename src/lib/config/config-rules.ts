@@ -1,6 +1,5 @@
 /**
- * @fileoverview Makes sure that a rule is configured correctly (options, severity)
- * @author Anton Molleda
+ * @fileoverview Makes sure that a rule is configured correctly (options, severity).
  */
 
 // ------------------------------------------------------------------------------

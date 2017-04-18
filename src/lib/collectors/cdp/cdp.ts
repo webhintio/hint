@@ -15,17 +15,17 @@ import * as url from 'url';
 
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { debug as d } from '../../utils/debug';
-import { launchChrome } from './cdp-launcher';
-import { normalizeHeaders } from '../utils/normalize-headers';
-import { RedirectManager } from '../utils/redirects';
 /* eslint-disable no-unused-vars */
-import { Sonar } from '../../sonar';
 import {
     ICollector, ICollectorBuilder,
     IElementFoundEvent, IFetchEndEvent, ITraverseUpEvent, ITraverseDownEvent,
     INetworkData, URL
 } from '../../interfaces';
 /* eslint-enable */
+import { launchChrome } from './cdp-launcher';
+import { normalizeHeaders } from '../utils/normalize-headers';
+import { RedirectManager } from '../utils/redirects';
+import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
 

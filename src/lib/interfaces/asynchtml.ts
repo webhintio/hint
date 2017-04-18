@@ -1,4 +1,5 @@
-/** A wrapper of an HTMLElement that gives access to the required resources asynchronously to be compatible with all collectors */
+/** A wrapper of an HTMLElement that gives access to the required resources
+  * asynchronously to be compatible with all collectors */
 export interface IAsyncHTMLElement {
     /** The attributes of the element */
     readonly attributes: Array<{ name: string, value: string }> | NamedNodeMap;

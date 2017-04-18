@@ -6,13 +6,12 @@
 
 /* eslint-disable no-sync */
 
+import * as _ from 'lodash';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as url from 'url';
-
-import test from 'ava';
 import * as sinon from 'sinon';
-import * as _ from 'lodash';
+import test from 'ava';
+import * as url from 'url';
 
 import { createServer } from '../../helpers/test-server';
 import { ICollector, ICollectorBuilder } from '../../../src/lib/interfaces'; // eslint-disable-line no-unused-vars

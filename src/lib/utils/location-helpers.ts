@@ -1,5 +1,5 @@
-import { IAsyncHTMLElement, IProblemLocation } from './../interfaces'; // eslint-disable-line no-unused-vars
 import { debug as d } from './debug';
+import { IAsyncHTMLElement, IProblemLocation } from './../interfaces'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
 

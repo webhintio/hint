@@ -3,8 +3,8 @@ import * as fileUrl from 'file-url';
 import * as shell from 'shelljs';
 import * as url from 'url';
 
-import * as logger from './logging';
 import { debug as d } from './debug';
+import * as logger from './logging';
 
 const debug = d(__filename);
 

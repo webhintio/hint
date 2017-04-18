@@ -1,6 +1,5 @@
 /**
  * @fileoverview Options configuration for optionator.
- * @author Anton Molleda (molant)
  */
 
 // ------------------------------------------------------------------------------

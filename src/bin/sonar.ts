@@ -2,7 +2,6 @@
 
 /**
  * @fileoverview Main CLI that is run via the sonar command. Based on ESLint.
- * @author Anton Molleda
  */
 
 /* eslint no-console:off */
@@ -15,7 +14,7 @@ const debug = (process.argv.includes('--debug'));
 
 import * as d from 'debug';
 
-// must do this initialization *before* other requires in order to work
+// This initialization needs to be done *before* other requires in order to work.
 if (debug) {
     d.enable('sonar:*');
 }
@@ -24,7 +23,7 @@ if (debug) {
 // Requirements
 // ------------------------------------------------------------------------------
 
-// now we can safely include the other modules that use debug
+// Now we can safely include the other modules that use debug.
 import { cli } from '../lib/cli';
 
 // ------------------------------------------------------------------------------
@@ -43,10 +42,8 @@ process.once('unhandledRejection', (reason) => {
 });
 
 const run = async () => {
-
     process.exitCode = await cli.execute(process.argv);
     console.log(`Exit code: ${process.exitCode}`);
-
 };
 
 run();

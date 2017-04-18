@@ -1,6 +1,8 @@
 /**
  * @fileoverview RuleContext utility for rules
- * @author Anton Molleda (@molant) based on Nicholas C. Zakas ESLint (https://github.com/eslint/eslint/blob/master/lib/rule-context.js)
+ *
+ * Based on ESLint's rule-context
+ * https://github.com/eslint/eslint/blob/master/lib/rule-context.js
  */
 
 import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars

@@ -1,16 +1,15 @@
 /**
- * @fileoverview This rule makes sure that all links are no links using //
+ * @fileoverview This rule makes sure that all links are no links using
  * instead of http or https.
- * @author Anton Molleda (@molant)
  */
 
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
+import { debug as d } from '../../utils/debug';
 import { IElementFoundEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
-import { debug as d } from '../../utils/debug';
 
 const debug = d(__filename);
 
@@ -19,19 +18,19 @@ const debug = d(__filename);
 // ------------------------------------------------------------------------------
 
 const rule: IRuleBuilder = {
-    /** Creates a new instance of this rule with a given context (configuration, etc.) */
     create(context: RuleContext): IRule {
 
-        /*
-            We need to use getAttribute to get the exact value.
-            If we access the src or href properties directly the browser already adds
-            http(s):// so we cannot verify
-        */
+
         const validate = async (data: IElementFoundEvent) => {
             const { element, resource } = data;
             const html = await element.outerHTML();
 
             debug(`Analyzing link\n${html}`);
+
+            // We need to use getAttribute to get the exact value.
+            // If we access the src or href properties directly the
+            // browser already adds http(s):// so we cannot verify.
+
             const url = element.getAttribute('src') || element.getAttribute('href') || '';
 
             if (url.indexOf('//') === 0) {

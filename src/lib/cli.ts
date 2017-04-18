@@ -1,7 +1,6 @@
 /**
  * @fileoverview Main CLI object, it reads the configuration (from file and parameters)
  * and passes it to the engine
- * @author Anton Molleda (@molant)
  */
 
 /*
@@ -17,15 +16,15 @@
 import * as path from 'path';
 
 import * as Config from './config';
-import * as logger from './utils/logging';
-import * as resourceLoader from './utils/resource-loader';
-import * as sonar from './sonar';
-import * as validator from './config/config-validator';
-import { Severity } from './interfaces';
 import { debug as d } from './utils/debug';
 import { getAsUris } from './utils/get-as-uri';
 import { loadJSONFile } from './utils/file-loader';
+import * as logger from './utils/logging';
 import { options } from './ui/options';
+import * as resourceLoader from './utils/resource-loader';
+import { Severity } from './interfaces';
+import * as sonar from './sonar';
+import * as validator from './config/config-validator';
 
 const debug = d(__filename);
 const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));

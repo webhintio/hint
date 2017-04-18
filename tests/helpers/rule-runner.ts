@@ -1,15 +1,13 @@
 /**
  * @fileoverview Allows to tests rules individually creating a server.
- *
  */
 
+import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
 import * as url from 'url';
 
-import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
-import { IRule, IRuleBuilder, IElementFoundEvent, INetworkData } from '../../src/lib/interfaces'; // eslint-disable-line no-unused-vars
-import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
-
 import { createServer } from './test-server';
+import { IElementFoundEvent, INetworkData, IRule, IRuleBuilder } from '../../src/lib/interfaces'; // eslint-disable-line no-unused-vars
+import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 import * as Sonar from '../../src/lib/sonar';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */

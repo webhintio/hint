@@ -1,6 +1,8 @@
 /**
  * @fileoverview Loads the configuration file
- * @author Anton Molleda (based on ESLint code: https://github.com/eslint/eslint/blob/master/lib/config/config-file.js)
+ *
+ * Based on ESLint's config-file
+ * https://github.com/eslint/eslint/blob/master/lib/config/config-file.js
  */
 
 /* eslint no-use-before-define: 0 */
@@ -12,8 +14,8 @@
 import * as path from 'path';
 import * as shell from 'shelljs';
 
-import { IConfig } from './interfaces'; //eslint-disable-line no-unused-vars
 import { debug as d } from './utils/debug';
+import { IConfig } from './interfaces'; //eslint-disable-line no-unused-vars
 import { loadJSFile, loadJSONFile} from './utils/file-loader';
 
 const debug = d(__filename);

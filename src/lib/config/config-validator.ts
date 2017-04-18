@@ -1,6 +1,6 @@
 /**
- * @fileoverview Validates that a given configuration is fully valid in terms of schema and options
- * @author Anton Molleda
+ * @fileoverview Validates that a given configuration is fully valid in terms
+ * of schema and options.
  */
 
 // ------------------------------------------------------------------------------
@@ -10,9 +10,9 @@
 import * as _ from 'lodash';
 import * as schemaValidator from 'is-my-json-valid/require';
 
+import { debug as d } from '../utils/debug';
 import * as logger from '../utils/logging';
 import * as resourceLoader from '../utils/resource-loader';
-import { debug as d } from '../utils/debug';
 import { validate as validateRule } from './config-rules';
 
 const debug = d(__filename);

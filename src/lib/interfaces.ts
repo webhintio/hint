@@ -19,8 +19,8 @@ export interface IConfig {
     sonarConfig?;
 }
 
-/** A resource required by Sonar: Collector, Formatter, Plugin, Rule,  */
+/** A resource required by Sonar: Collector, Formatter, Plugin, Rule. */
 export type Resource = ICollectorBuilder | IFormatter | IPluginBuilder | IRuleBuilder;
 
-/** An alias for url.Url */
+/** An alias for url.Url. */
 export type URL = url.Url;

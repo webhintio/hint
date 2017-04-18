@@ -1,6 +1,5 @@
 /**
  * @fileoverview Handle logging for Sonar (based on ESLint)
- * @author Gyandeep Singh, Anton Molleda (typescriptification)
  */
 
 /* eslint no-console: "off" */

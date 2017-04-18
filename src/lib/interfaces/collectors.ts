@@ -1,4 +1,5 @@
 import * as url from 'url'; // eslint-disable-line no-unused-vars
+
 import { INetworkData } from './network';
 
 /** The builder of a Collector */

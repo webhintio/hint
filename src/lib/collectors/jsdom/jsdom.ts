@@ -13,8 +13,6 @@
     jar: true,
     waitFor: 5000
 }
- * @author Anton Molleda (@molant)
- *
  */
 
 // ------------------------------------------------------------------------------
@@ -26,19 +24,18 @@ import * as path from 'path';
 import * as url from 'url';
 
 import { debug as d } from '../../utils/debug';
-import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
-import * as logger from '../../utils/logging';
-import { readFileAsync } from '../../utils/misc';
-import { Requester } from '../utils/requester'; //eslint-disable-line
-
 /* eslint-disable no-unused-vars */
-import { Sonar } from '../../sonar';
 import {
     IAsyncHTMLDocument, IAsyncHTMLElement, ICollector, ICollectorBuilder,
     IElementFoundEvent, IFetchEndEvent, IFetchErrorEvent, ITraverseDownEvent, ITraverseUpEvent,
     INetworkData, URL
 } from '../../interfaces';
 /* eslint-enable */
+import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
+import * as logger from '../../utils/logging';
+import { readFileAsync } from '../../utils/misc';
+import { Requester } from '../utils/requester'; //eslint-disable-line
+import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
 // Defaults

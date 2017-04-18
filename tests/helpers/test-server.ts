@@ -2,10 +2,10 @@
  * @fileoverview Simple HTTP server used in sonar's tests to mimick certain scenarios.
  *
  */
-import * as http from 'http';
 
-import * as express from 'express';
 import * as _ from 'lodash';
+import * as express from 'express';
+import * as http from 'http';
 
 type ServerConfiguration = string | object; //eslint-disable-line
 

@@ -12,11 +12,11 @@
 
 /* eslint-disable no-process-env, no-empty */
 
-import { spawn } from 'child_process';
 import { accessSync as fsAccessSync, openSync } from 'fs';
 import * as net from 'net';
-import { tmpdir } from 'os';
 import * as path from 'path';
+import { spawn } from 'child_process';
+import { tmpdir } from 'os';
 import * as which from 'which';
 
 import { debug as d } from '../../utils/debug';

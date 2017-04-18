@@ -8,9 +8,9 @@
 
 import * as url from 'url';
 
+import { debug as d } from '../../utils/debug';
 import { IElementFoundEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
-import { debug as d } from '../../utils/debug';
 
 const debug = d(__filename);
 

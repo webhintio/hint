@@ -1,6 +1,6 @@
 /**
- * @fileoverview The most basic formatter, it just stringifyes whatever object is passed to it
- * @author Anton Molleda (@molant)
+ * @fileoverview The most basic formatter, it just stringifyes whatever object
+ * is passed to it.
  */
 
 // ------------------------------------------------------------------------------
@@ -9,9 +9,9 @@
 
 import * as _ from 'lodash';
 
-import * as logger from '../../utils/logging';
-import { IFormatter } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { debug as d } from '../../utils/debug';
+import { IFormatter } from '../../interfaces'; // eslint-disable-line no-unused-vars
+import * as logger from '../../utils/logging';
 
 const debug = d(__filename);
 

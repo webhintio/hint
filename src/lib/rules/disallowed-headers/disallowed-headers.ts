@@ -6,9 +6,9 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
 import { IFetchEndEvent, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
-import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
 
 // ------------------------------------------------------------------------------
 // Public

@@ -1,6 +1,6 @@
 /**
- * @fileoverview Main Sonar object, gets the configuration and loads collectors, rules and analyzes.
- * @author Anton Molleda (@molant)
+ * @fileoverview Main Sonar object, gets the configuration and loads
+ * the collectors, rules and analyzes.
  */
 
 // ------------------------------------------------------------------------------
@@ -9,11 +9,11 @@
 
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
-import * as resourceLoader from './utils/resource-loader';
-import { ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, Severity, URL } from './interfaces'; // eslint-disable-line no-unused-vars
-import { RuleContext } from './rule-context';
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
+import { ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, Severity, URL } from './interfaces'; // eslint-disable-line no-unused-vars
+import * as resourceLoader from './utils/resource-loader';
+import { RuleContext } from './rule-context';
 
 const debug = d(__filename);
 
