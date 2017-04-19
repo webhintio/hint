@@ -15,6 +15,7 @@ import * as iconv from 'iconv-lite';
 import { debug as d } from '../../utils/debug';
 import { INetworkData } from '../../types'; //eslint-disable-line
 import { RedirectManager } from './redirects';
+import { getCharset } from './charset';
 
 const debug = d(__filename);
 
@@ -34,19 +35,6 @@ const defaults = {
 };
 
 export class Requester {
-
-    /** Charset aliases when receiving `charset` in a `content-type`. */
-    private static charsetAliases: Map<string, string> = new Map([
-        ['iso-8859-1', 'latin1']
-    ])
-    /** The content types we can decode. */
-    private static decodeableContentTypes: Array<RegExp> = [
-        /application\/(?:javascript|json|x-javascript|xml)/i,
-        /application\/.*\+(?:json|xml)/i, // application/xhtml+xml
-        /image\/svg\+xml/i,
-        /text\/.*/i
-    ]
-
     /** The valid status codes for redirects we follow. */
     private static validRedirects = [301, 302, 303, 307, 308]
     /** Internal `request` object. */
@@ -60,63 +48,23 @@ export class Requester {
         this._request = request.defaults(options);
     }
 
-    /** Checks if the given `contentType` is for text based on the `Requester.decodeableContentTypes` list  */
-    private requiresDecoding(contentType: string): boolean {
-        let requires = false;
-
-        for (let i = 0; i < Requester.decodeableContentTypes.length && !requires; i++) {
-            const ct = Requester.decodeableContentTypes[i];
-
-            requires = ct.test(contentType);
-        }
-
-        return requires;
-    }
-
-    /** Returns the charset specified in the `content-type` header if specified. Defaults to `utf-8` if
-     * `Content-Type` is of text type but `charset` is not specified.  it is a text, and `null` otherwise.
-     *
-     * Ex.:
-     * * 'Content-Type': 'text/html; charset=iso-8859-1' --> 'iso-8859-1'
-     * * 'Content-Type': 'text/html; charset=random-charset' --> 'random-charset'
-     * * 'Content-Type': 'text/html' --> 'utf-8'
-     * * 'Content-Type': 'image/jpeg' --> null
-     *  */
-    private getCharset(headers) {
-        const contentType: string = headers['content-type'];
-
-        if (!this.requiresDecoding(contentType)) {
-            debug(`Content Type ${contentType} doesn't require decoding`);
-
-            return null;
-        }
-
-        if (!contentType.includes('charset')) {
-            debug('No charset defined, falling back to utf-8');
-
-            return 'utf-8';
-        }
-
-        const charsetRegex = /.*charset=(\S+)/gi;
-        const results = charsetRegex.exec(contentType);
-
-        debug(`Charset for ${contentType} is ${results[1]}`);
-
-        return Requester.charsetAliases.get(results[1]) || results[1];
-    }
-
     /** Performs a `get` to the given `uri`.
      * If `Content-Type` is of type text and the charset is one of those supported by
      * [`iconv-lite`](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings)
      * it will decode the response.
      */
     public get(uri: string): Promise<INetworkData> {
+        debug(`Requesting ${uri}`);
+
         return new Promise((resolve, reject) => {
             const byteChunks = [];
             let rawBodyResponse: Buffer;
 
             this._request({ uri }, async (err, response, rawBody) => {
                 if (err) {
+                    debug(`Request for ${uri} failed`);
+                    debug(err);
+
                     return reject(err);
                 }
 
@@ -127,6 +75,7 @@ export class Requester {
                     this._redirects.add(newUri, uri);
 
                     try {
+                        debug(`Redirect found for ${uri}`);
                         const results = await this.get(newUri);
 
                         return resolve(results);
@@ -136,7 +85,7 @@ export class Requester {
                 }
 
                 const hops = this._redirects.calculate(uri);
-                const charset = this.getCharset(response.headers);
+                const charset = getCharset(response.headers);
                 const body = iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
 
                 const networkData = {
