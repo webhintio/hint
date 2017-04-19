@@ -27,8 +27,10 @@ import {
 } from '../../types';
 /* eslint-enable */
 import { launchChrome } from './cdp-launcher';
+import { getCharset } from '../utils/charset';
 import { normalizeHeaders } from '../utils/normalize-headers';
 import { RedirectManager } from '../utils/redirects';
+
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -194,20 +196,20 @@ class CDPCollector implements ICollector {
         const data: IFetchEndEvent = {
             element: null,
             request: {
-                headers: {},
+                headers: params.response.requestHeaders,
                 url: originalUrl
             },
             resource: resourceUrl,
             response: {
                 body: {
                     content: resourceBody,
-                    contentEncoding: null,
-                    rawContent: null,
-                    rawResponse: null
+                    contentEncoding: getCharset(resourceHeaders),
+                    rawContent: Buffer.alloc(params.response.encodedDataLength), //TODO: get the actual bytes!
+                    rawResponse: null //TODO: get the real response bytes
                 },
                 headers: resourceHeaders,
                 hops,
-                statusCode: 200,
+                statusCode: params.response.status,
                 url: params.response.url
             }
         };
