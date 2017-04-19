@@ -18,6 +18,7 @@ import * as r from 'request';
 
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { debug as d } from '../../utils/debug';
+
 /* eslint-disable no-unused-vars */
 import {
     ICollector, ICollectorBuilder,
@@ -220,6 +221,19 @@ class CDPCollector implements ICollector {
 
     /** Traverses the DOM notifying when a new element is traversed. */
     private async traverseAndNotify(element) {
+        /* CDP returns more elements than the ones we want. For example there
+            are 2 HTML elements. One has children and has `nodeType === 1`,
+            while the other doesn't have children and `nodeType === 10`.
+            We ignore those elements.
+
+            * 10: `HTML` with no children
+        */
+        const ignoredNodeTypes = [10];
+
+        if (ignoredNodeTypes.includes(element.nodeType)) {
+            return;
+        }
+
         const eventName = `element::${element.nodeName.toLowerCase()}`;
 
         const wrappedElement = new CDPAsyncHTMLElement(element, this._dom, this._client.DOM);
@@ -246,39 +260,56 @@ class CDPCollector implements ICollector {
         await this._server.emitAsync(`traverse::up`, traverseUp);
     }
 
+    /** Initiates Chrome if needed and a new tab to start the collection. */
+    private async initiateComms() {
+        const newBrowser = await launchChrome('about:blank');
+        let client;
+
+        /* We want a new tab for this session. If it is a new browser, a new tab
+            will be created automatically. If it was already there, then we need
+            to create it ourselves. */
+        if (newBrowser) {
+            client = await cdp();
+            this._tabs = await cdp.List();
+        } else {
+            const tab = await cdp.New();
+
+            this._tabs.push(tab);
+
+            client = await cdp({
+                tab: (tabs): number => {
+                    /* We can return a tab or an index. Also `tab` !== tab[index]
+                        even if the have the same `id`. */
+                    for (let index = 0; index < tabs.length; index++) {
+                        if (tabs[index].id === tab.id) {
+                            return index;
+                        }
+                    }
+
+                    return -1; //We should never reach this point...
+                }
+            });
+        }
+
+        return client;
+    }
+
     // ------------------------------------------------------------------------------
     // Public methods
     // ------------------------------------------------------------------------------
 
     public collect(target: URL) {
         return pify(async (callback) => {
-            const newBrowser = await launchChrome('about:blank');
             let client;
 
-            /* We want a new tab for this session. If it is a new browser, a new tab
-                will be created automatically. If it was already there, then we need
-                to create it ourselves. */
-            if (newBrowser) {
-                client = await cdp();
-                this._tabs = await cdp.List();
-            } else {
-                const tab = await cdp.New();
+            try {
+                client = await this.initiateComms();
+            } catch (e) {
+                debug('Error connecting to browser');
+                debug(e);
+                callback(e);
 
-                this._tabs.push(tab);
-
-                client = await cdp({
-                    tab: (tabs) => {
-                        /* We can return a tab or an index. Also `tab` !== tab[index]
-                            even if the have the same `id`. */
-                        for (let index = 0; index < tabs.length; index++) {
-                            if (tabs[index].id === tab.id) {
-                                return tabs[index];
-                            }
-                        }
-
-                        return -1; //We should never reach this point...
-                    }
-                });
+                return;
             }
 
             const { DOM, Network, Page } = client;
@@ -310,7 +341,7 @@ class CDPCollector implements ICollector {
                 await this.traverseAndNotify(this._dom.root);
                 await this._server.emitAsync('traverse::end', { resource: this._finalHref });
 
-                callback();
+                return callback();
             });
 
             // We enable all the domains we need to receive events from the CDP.
@@ -323,13 +354,17 @@ class CDPCollector implements ICollector {
         })();
     }
 
-    public close() {
+    public async close() {
         debug('Closing browsers used by CDP');
 
         while (this._tabs.length > 0) {
             const tab = this._tabs.pop();
 
-            cdp.closeTab(tab);
+            try {
+                await cdp.closeTab(tab);
+            } catch (e) {
+                debug(`Couldn't close tab ${tab.id}`);
+            }
         }
 
         this._client.close();

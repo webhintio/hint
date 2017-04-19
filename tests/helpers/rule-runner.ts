@@ -54,11 +54,13 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
 
         const results = await sonar.executeOn(url.parse(`http://localhost:${server.port}/`));
 
+        sonar.close();
+
         if (!reports) {
             return t.is(results.length, 0);
         }
 
-        t.is(results.length, reports.length, `(${ruleTest.name}) The number of issues found is not ${reports.length}`);
+        t.is(results.length, reports.length, `(${ruleTest.name}) The number of issues found is ${results.length} (should be ${reports.length})`);
 
         return reports.forEach((report, index) => {
             t.is(results[index].message, report.message, `(${ruleTest.name}) different message`);

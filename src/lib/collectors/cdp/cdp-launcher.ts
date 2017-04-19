@@ -19,6 +19,8 @@ import * as net from 'net';
 import * as path from 'path';
 import { tmpdir } from 'os';
 
+import * as lockfile from 'lockfile';
+import * as pify from 'pify';
 import * as which from 'which';
 
 import { debug as d } from '../../utils/debug';
@@ -27,6 +29,8 @@ import { debug as d } from '../../utils/debug';
 // Common
 // ------------------------------------------------------------------------------
 
+const lock = pify(lockfile.lock);
+const unlock = pify(lockfile.unlock);
 const debug = d(__filename);
 const pidFile = path.join(process.cwd(), 'cdp.pid');
 let port = 9222;
@@ -207,11 +211,26 @@ const writePid = (child: ChildProcess) => {
  * If the browser is a new instance it will return `true`, `false` otherwise.
 */
 const launchChrome = async (url: string, options?): Promise<boolean> => {
+    const cdpLock = 'cdp.lock';
 
+    try {
+        await lock(cdpLock, {
+            pollPeriod: 500,
+            retries: 20,
+            retryWait: 1000,
+            stale: 50000,
+            wait: 50000
+        });
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
     // If a browser is already launched using `cdp-launcher` then we return its PID.
     const currentPid = getPid();
 
     if (currentPid !== -1) {
+        await unlock(cdpLock);
+
         return false;
     }
 
@@ -262,10 +281,14 @@ const launchChrome = async (url: string, options?): Promise<boolean> => {
         debug('Command executed correctly');
         await waitUntilReady();
 
+        await unlock(cdpLock);
+
         return true;
     } catch (e) {
         debug('Error executing command');
         debug(e);
+
+        await unlock(cdpLock);
 
         throw e;
     }

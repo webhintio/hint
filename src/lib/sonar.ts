@@ -141,8 +141,8 @@ export class Sonar extends EventEmitter {
     }
 
     /** Releases any used resource and/or browser. */
-    public close() {
-        this.collector.close();
+    public async close() {
+        await this.collector.close();
     }
 
     /** Reports a message from one of the rules. */
