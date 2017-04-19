@@ -8,7 +8,7 @@ proxyquire('../../../src/lib/formatters/json/json', { '../../utils/logging': log
 
 import json from '../../../src/lib/formatters/json/json';
 import * as problems from './fixtures/list-of-problems';
-import { Severity } from '../../../src/lib/interfaces';
+import { Severity } from '../../../src/lib/types';
 
 test.beforeEach((t) => {
     // const log = sinon.spy(logger, 'log');

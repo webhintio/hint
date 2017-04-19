@@ -13,7 +13,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, Severity, URL } from './interfaces'; // eslint-disable-line no-unused-vars
+import { ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
 import * as resourceLoader from './utils/resource-loader';
 import { RuleContext } from './rule-context';
 

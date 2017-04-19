@@ -11,7 +11,7 @@ const fakeGlobby = { sync() { } };
 
 test.beforeEach((t) => {
     t.context.fakeGlobby = fakeGlobby;
-    sinon.stub(fakeGlobby, 'sync').returns(['src/lib/collectors/cdp/cdp.js', 'src/lib/collectors/cdp2/cdp.js']);
+    sinon.stub(fakeGlobby, 'sync').returns([path.join(process.cwd(), 'dist/src/lib/collectors/cdp/cdp.js'), path.join(process.cwd(), 'dist/src/lib/collectors/cdp2/cdp.js')]);
 });
 
 test.afterEach((t) => {

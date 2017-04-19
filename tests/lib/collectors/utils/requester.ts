@@ -8,7 +8,7 @@ import * as pify from 'pify';
 
 import { createServer } from '../../../helpers/test-server';
 import { Requester } from '../../../../src/lib/collectors/utils/requester';
-import { INetworkData } from '../../../../src/lib/interfaces';
+import { INetworkData } from '../../../../src/lib/types';
 
 const compress = pify(zlib.gzip);
 const text = `This is a text

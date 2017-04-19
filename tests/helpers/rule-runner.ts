@@ -7,7 +7,7 @@ import * as url from 'url';
 import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
 
 import { createServer } from './test-server';
-import { IElementFoundEvent, INetworkData, IRule, IRuleBuilder } from '../../src/lib/interfaces'; // eslint-disable-line no-unused-vars
+import { IElementFoundEvent, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 import * as Sonar from '../../src/lib/sonar';
 

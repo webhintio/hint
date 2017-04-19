@@ -21,7 +21,7 @@ import {
     ICollector, ICollectorBuilder,
     IElementFoundEvent, IFetchEndEvent, ITraverseUpEvent, ITraverseDownEvent,
     INetworkData, URL
-} from '../../interfaces';
+} from '../../types';
 /* eslint-enable */
 import { launchChrome } from './cdp-launcher';
 import { normalizeHeaders } from '../utils/normalize-headers';

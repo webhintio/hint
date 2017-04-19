@@ -9,16 +9,10 @@
 import * as schemaValidator from 'is-my-json-valid';
 
 import { debug as d } from '../utils/debug';
-import { IRuleBuilder } from '../interfaces'; // eslint-disable-line no-unused-vars
+import { IRuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
+import { Severity } from '../types/problems';
 
 const debug = d(__filename);
-
-// TODO: This is duplicated in types. Need to split types in different files as needed
-enum Severity {
-    off = 0,
-    warning = 1,
-    error = 2
-}
 
 // ------------------------------------------------------------------------------
 // Public
@@ -35,7 +29,7 @@ export const getSeverity = (config): Severity => {
 
     } else if (typeof config === 'number') {
         // Ex.: "rule-name": 2
-        configuredSeverity = Severity[config];
+        configuredSeverity = config;
     } else if (Array.isArray(config)) {
         // Ex.: "rule-name": ["warning", {}]
         configuredSeverity = getSeverity(config[0]);
@@ -47,6 +41,12 @@ export const getSeverity = (config): Severity => {
 
     return null;
 
+};
+
+const validateRule = (schema: Array<object>, ruleConfig: object): boolean => {
+    const validator = schemaValidator(schema);
+
+    return validator(ruleConfig);
 };
 
 /** Validates that a rule has a valid configuration based on its schema */
@@ -61,7 +61,7 @@ export const validate = (rule: IRuleBuilder, config, ruleId: string): boolean =>
 
     const configuredSeverity = getSeverity(config);
 
-    if (!configuredSeverity) {
+    if (configuredSeverity === null) {
         throw new Error(`Invalid severity configured for ${ruleId}`);
     }
 
@@ -71,26 +71,23 @@ export const validate = (rule: IRuleBuilder, config, ruleId: string): boolean =>
     // Only way to have something else to validate is if rule config
     // is similar to:  "rule-name": ["warning", {}]. Otherwise it's
     // already valid if we reach this point.
-    if (!Array.isArray(config) && Array.isArray(schema) && schema.length === 0) {
+    if (!Array.isArray(config) || (Array.isArray(schema) && schema.length === 0)) {
         return true;
     }
 
     // We could have several valid schemas for the same rule
     if (Array.isArray(schema)) {
-        // No schema configuration
 
-        if (schema.length === 0 && config.length === 1) {
+        // No schema configuration
+        if (config.length === 1) {
             return true;
         }
 
-        return schema.find((sch) => {
-            const validateRule = schemaValidator(sch);
-
-            return validateRule(config[1]);
+        // The result has to be a boolean
+        return schema.some((sch) => {
+            return validateRule(sch, config[1]);
         });
     }
 
-    const validateRule = schemaValidator(rule.meta.schema);
-
-    return validateRule(config[1]);
+    return validateRule(rule.meta.schema, config[1]);
 };

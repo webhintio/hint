@@ -1,4 +1,4 @@
-import { IProblemLocation } from '../../src/lib/interfaces';
+import { IProblemLocation } from '../../src/lib/types';
 
 export interface Report {
     /** The message to validate */
