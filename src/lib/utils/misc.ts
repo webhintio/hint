@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+
 import * as pify from 'pify';
 import * as stripBom from 'strip-bom';
 

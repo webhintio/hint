@@ -1,4 +1,5 @@
 /* eslint sort-keys:0 */
+
 import * as path from 'path';
 
 import test from 'ava';

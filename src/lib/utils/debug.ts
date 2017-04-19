@@ -1,5 +1,6 @@
-import * as d from 'debug';
 import * as path from 'path';
+
+import * as d from 'debug';
 
 export const debug = (filePath: string) => {
 

@@ -19,9 +19,10 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as jsdom from 'jsdom';
 import * as path from 'path';
 import * as url from 'url';
+
+import * as jsdom from 'jsdom';
 
 import { debug as d } from '../../utils/debug';
 /* eslint-disable no-unused-vars */

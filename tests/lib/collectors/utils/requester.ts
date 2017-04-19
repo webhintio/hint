@@ -1,9 +1,10 @@
 /* eslint-disable no-sync */
 
+import * as zlib from 'zlib';
+
 import * as iconv from 'iconv-lite';
 import test from 'ava';
 import * as pify from 'pify';
-import * as zlib from 'zlib';
 
 import { createServer } from '../../../helpers/test-server';
 import { Requester } from '../../../../src/lib/collectors/utils/requester';

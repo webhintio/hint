@@ -8,10 +8,11 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as url from 'url';
+
 import * as cdp from 'chrome-remote-interface';
 import * as pify from 'pify';
 import * as r from 'request';
-import * as url from 'url';
 
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { debug as d } from '../../utils/debug';

@@ -2,8 +2,9 @@
  * @fileoverview Allows to tests rules individually creating a server.
  */
 
-import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
 import * as url from 'url';
+
+import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
 
 import { createServer } from './test-server';
 import { IElementFoundEvent, INetworkData, IRule, IRuleBuilder } from '../../src/lib/interfaces'; // eslint-disable-line no-unused-vars

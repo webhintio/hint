@@ -9,9 +9,10 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as path from 'path';
+
 import * as _ from 'lodash';
 import * as globby from 'globby';
-import * as path from 'path';
 
 import { debug as d } from './debug';
 import { ICollectorBuilder, IFormatter, IPluginBuilder, Resource, IRuleBuilder } from '../interfaces'; // eslint-disable-line no-unused-vars

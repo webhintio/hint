@@ -1,5 +1,6 @@
-import test from 'ava';
 import * as path from 'path';
+
+import test from 'ava';
 
 import { loadJSFile, loadJSONFile } from '../../../../src/lib/utils/file-loader';
 
