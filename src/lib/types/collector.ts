@@ -9,11 +9,11 @@ export interface ICollectorBuilder {
 
 /** A collector to be used by Sonar */
 export interface ICollector {
-    /** Collects all the information for the given target */
-    collect(target: url.Url): Promise<any>;
+    /** Collects all the information for the given target. */
+    collect(target: url.Url): Promise<any>; // TODO: TS doesn't detect correctly `pify` promises
     /** Releases any used resource and/or browser. */
-    close(): void;
-    /** The DOM of the page once it is loaded */
+    close(): Promise<void>;
+    /** The DOM of the page once it is loaded. */
     // dom: HTMLElement;
     /** The original HTML of the resource collected */
     html: string;

@@ -165,10 +165,10 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
         t.context.server = server;
     });
 
-    test.afterEach((t) => {
+    test.afterEach(async (t) => {
         t.context.emitAsync.restore();
         t.context.server.stop();
-        // Maybe delete the collector?
+        await t.context.collector.close();
     });
 
     /**

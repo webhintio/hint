@@ -104,7 +104,9 @@ export class CDPAsyncHTMLElement implements IAsyncHTMLElement {
             this.initializeAttributes();
         }
 
-        return this._attributesMap.get(name);
+        const value = this._attributesMap.get(name);
+
+        return typeof value === 'string' ? value : null;
     }
     isSame(element: CDPAsyncHTMLElement) {
         return this._htmlelement.nodeId === element._htmlelement.nodeId;
