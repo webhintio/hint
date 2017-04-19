@@ -9,7 +9,7 @@ export interface IRuleBuilder {
         /** If this rule can autofix the issue or not */
         fixable?: string;
         /** The schema the rule configuration must follow in order to be valid */
-        schema: Array<any> | any; // TODO: this shouldn't be an any
+        schema: Array<any>; // TODO: this shouldn't be an Array of any
         /** If the rule works with local resources (file://...) */
         worksWithLocalFiles: boolean;
     };

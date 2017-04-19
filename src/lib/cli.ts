@@ -22,7 +22,7 @@ import { loadJSONFile } from './utils/file-loader';
 import * as logger from './utils/logging';
 import { options } from './ui/options';
 import * as resourceLoader from './utils/resource-loader';
-import { Severity } from './interfaces';
+import { Severity } from './types';
 import * as sonar from './sonar';
 import * as validator from './config/config-validator';
 

@@ -16,7 +16,7 @@ import * as path from 'path';
 import * as shell from 'shelljs';
 
 import { debug as d } from './utils/debug';
-import { IConfig } from './interfaces'; //eslint-disable-line no-unused-vars
+import { IConfig } from './types'; //eslint-disable-line no-unused-vars
 import { loadJSFile, loadJSONFile} from './utils/file-loader';
 
 const debug = d(__filename);

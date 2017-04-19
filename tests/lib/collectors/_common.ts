@@ -15,7 +15,7 @@ import * as sinon from 'sinon';
 import test from 'ava';
 
 import { createServer } from '../../helpers/test-server';
-import { ICollector, ICollectorBuilder } from '../../../src/lib/interfaces'; // eslint-disable-line no-unused-vars
+import { ICollector, ICollectorBuilder } from '../../../src/lib/types'; // eslint-disable-line no-unused-vars
 
 const testCollector = (collectorBuilder: ICollectorBuilder) => {
 

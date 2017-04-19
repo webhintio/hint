@@ -30,7 +30,7 @@ import {
     IAsyncHTMLDocument, IAsyncHTMLElement, ICollector, ICollectorBuilder,
     IElementFoundEvent, IFetchEndEvent, IFetchErrorEvent, ITraverseDownEvent, ITraverseUpEvent,
     INetworkData, URL
-} from '../../interfaces';
+} from '../../types';
 /* eslint-enable */
 import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
 import * as logger from '../../utils/logging';

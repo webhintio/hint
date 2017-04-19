@@ -6,7 +6,7 @@
  */
 
 import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars
-import { IAsyncHTMLElement, IProblemLocation, Severity } from './interfaces'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IProblemLocation, Severity } from './types'; // eslint-disable-line no-unused-vars
 import { findProblemLocation } from './utils/location-helpers';
 
 // ------------------------------------------------------------------------------

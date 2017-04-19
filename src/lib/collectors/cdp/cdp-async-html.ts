@@ -1,4 +1,4 @@
-import { IAsyncHTMLDocument, IAsyncHTMLElement } from '../../interfaces'; //eslint-disable-line
+import { IAsyncHTMLDocument, IAsyncHTMLElement } from '../../types'; //eslint-disable-line
 
 /** An implementation of AsyncHTMLDocument on top of the Chrome Debugging Protocol */
 export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {

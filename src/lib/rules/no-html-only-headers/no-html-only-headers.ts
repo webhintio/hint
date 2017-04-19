@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
-import { IFetchEndEvent, IResponse, IRule, IRuleBuilder } from '../../interfaces'; // eslint-disable-line no-unused-vars
+import { IFetchEndEvent, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ const rule: IRuleBuilder = {
             recommended: true
         },
         fixable: 'code',
-        schema: {
+        schema: [{
             additionalProperties: false,
             definitions: {
                 'string-array': {
@@ -107,7 +107,7 @@ const rule: IRuleBuilder = {
                 include: { $ref: '#/definitions/string-array' }
             },
             type: ['object', null]
-        },
+        }],
         worksWithLocalFiles: false
     }
 };
