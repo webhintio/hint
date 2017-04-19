@@ -33,8 +33,9 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
 
     /** Because tests are executed asynchronously in ava, we need
      * a different server and sonar object for each one */
-    test.beforeEach((t) => {
+    test.beforeEach(async (t) => {
         t.context.server = createServer();
+        await t.context.server.start();
     });
 
     test.afterEach((t) => {
@@ -46,8 +47,6 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
         const { server } = t.context;
         const { reports } = ruleTest;
         const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, options));
-
-        await server.start();
 
         // We need to configure it later because we don't know the port until the server starts
         server.configure(ruleTest.serverConfig);
