@@ -34,7 +34,7 @@ const rule: IRuleBuilder = {
             if (url.indexOf('//') === 0) {
                 debug('Protocol relative URL found');
 
-                const location = await context.findProblemLocation(element, url);
+                const location = await context.findInElement(element, url);
 
                 await context.report(resource, element, `Protocol relative URL found: ${url}`, location);
             }

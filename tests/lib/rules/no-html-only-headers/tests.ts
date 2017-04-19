@@ -7,7 +7,7 @@ import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 const ruleName = getRuleName(__dirname);
 
 const htmlPage =
-`<!doctype html>
+    `<!doctype html>
  <html lang="en">
     <head>
         <title>test</title>
@@ -24,7 +24,7 @@ const testsForDefaults: Array<RuleTest> = [
             '/': {
                 content: htmlPage,
                 headers: {
-                    'Content-Security-Policy': `default-src 'none'`,
+                    'X-Frame-Options': 'SAMEORIGIN',
                     'Content-Type': 'text/html; charset=utf-8'
                 }
             },
@@ -38,8 +38,8 @@ const testsForDefaults: Array<RuleTest> = [
             '/': {
                 content: htmlPage,
                 headers: {
-                    'Content-Security-Policy': `default-src 'none'`,
-                    'Content-Type': 'application/xhtml+xml; charset=utf-8'
+                    'X-Frame-Options': 'SAMEORIGIN',
+                    'Content-Type': 'text/html; charset=utf-8'
                 }
             },
             '/test.js': {
@@ -52,28 +52,28 @@ const testsForDefaults: Array<RuleTest> = [
     },
     {
         name: `Non HTML resource is served with multiple unneded headers`,
-        reports: [{ message: `Unneeded HTTP headers found: content-security-policy, x-content-security-policy, x-frame-options, x-ua-compatible, x-webkit-csp, x-xss-protection`}],
+        reports: [{ message: `Unneeded HTTP headers found: content-security-policy, x-content-security-policy, x-frame-options, x-ua-compatible, x-webkit-csp, x-xss-protection` }],
         serverConfig: {
             '/': {
                 content: htmlPage,
                 headers: {
-                    'Content-Security-Policy': `default-src 'none'`,
                     'Content-Type': 'text/html; charset=utf-8',
-                    'X-Content-Security-Policy': `default-src 'none'`,
+                    'X-Content-Security-Policy': 'default-src "none"',
                     'X-Frame-Options': 'DENY',
                     'X-UA-Compatible': 'IE=Edge',
-                    'X-WebKit-CSP': `default-src 'none'`,
+                    'X-WebKit-CSP': 'default-src "none"',
                     'X-XSS-Protection': '1; mode=block'
                 }
             },
             '/test.js': {
+                content: '',
                 headers: {
-                    'Content-Security-Policy': `default-src 'none'`,
                     'Content-Type': 'application/javascript; charset=utf-8',
-                    'X-Content-Security-Policy': `default-src 'none'`,
+                    'Content-Security-Policy': 'default-src "none"',
+                    'X-Content-Security-Policy': 'default-src "none"',
                     'X-Frame-Options': 'DENY',
                     'X-UA-Compatible': 'IE=Edge',
-                    'X-WebKit-CSP': `default-src 'none'`,
+                    'X-WebKit-CSP': 'default-src "none"',
                     'X-XSS-Protection': '1; mode=block'
                 }
             }
@@ -81,12 +81,13 @@ const testsForDefaults: Array<RuleTest> = [
     },
     {
         name: `HTML document with valid but incorrect media type is treated as non-HTML resource`,
-        reports: [{ message: `Unneeded HTTP headers found: content-security-policy, x-ua-compatible` }],
+        reports: [{ message: `Unneeded HTTP headers found: x-frame-options, x-ua-compatible` }],
         serverConfig: {
             '/': {
+                content: '',
                 headers: {
-                    'Content-Security-Policy': `default-src 'none'`,
-                    'Content-Type': 'x/x',
+                    'X-Frame-Options': 'SAMEORIGIN',
+                    'Content-Type': 'image/jpeg',
                     'X-UA-Compatible': 'IE=Edge'
                 }
             }
@@ -104,7 +105,7 @@ const testsForIgnoreConfigs: Array<RuleTest> = [
             '/': {
                 content: htmlPage,
                 headers: {
-                    'Content-Security-Policy': `default-src 'none'`,
+                    'X-Frame-Options': 'SAMEORIGIN',
                     'Content-Type': 'text/html; charset=utf-8',
                     'X-UA-Compatible': 'IE=Edge'
                 }
@@ -128,7 +129,7 @@ const testsForIncludeConfigs: Array<RuleTest> = [
             '/': {
                 content: htmlPage,
                 headers: {
-                    'Content-Security-Policy': `default-src 'none'`,
+                    'X-Frame-Options': 'SAMEORIGIN',
                     'Content-Type': 'text/html; charset=utf-8',
                     'X-Test-1': 'test',
                     'X-Test-2': 'test'
@@ -148,13 +149,13 @@ const testsForIncludeConfigs: Array<RuleTest> = [
 
 const testsForConfigs: Array<RuleTest> = [
     {
-        name: `Non HTML resource is served with unneded headers that are both ignore and because of the configurations`,
-        reports: [{ message: `Unneeded HTTP headers found: x-test-1, x-ua-compatible` }],
+        name: `Non HTML resource is served with unneded headers that are both ignored and because of the configuration`,
+        reports: [{ message: `Unneeded HTTP headers found: content-security-policy, x-test-1, x-ua-compatible` }],
         serverConfig: {
             '/': {
                 content: htmlPage,
                 headers: {
-                    'Content-Security-Policy': `default-src 'none'`,
+                    'X-Frame-Options': 'SAMEORIGIN',
                     'Content-Type': 'text/html; charset=utf-8',
                     'X-Test-1': 'test',
                     'X-Test-2': 'test'
@@ -177,6 +178,6 @@ ruleRunner.testRule(ruleName, testsForDefaults);
 ruleRunner.testRule(ruleName, testsForIgnoreConfigs, { ignore: ['Content-Security-Policy', 'X-UA-Compatible', 'X-Test-1'] });
 ruleRunner.testRule(ruleName, testsForIncludeConfigs, { include: ['Content-Security-Policy', 'X-Test-1', 'X-Test-2'] });
 ruleRunner.testRule(ruleName, testsForConfigs, {
-    ignore: ['Content-Security-Policy', 'X-Test-2', 'X-Test-3'],
+    ignore: ['X-Frame-Options', 'X-Test-2', 'X-Test-3'],
     include: ['X-Test-1', 'X-Test-2', 'X-UA-Compatible']
 });

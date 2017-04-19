@@ -24,7 +24,9 @@ const tests: Array<RuleTest> = [
             position: { column: 7, line: 1 }
         }],
         serverConfig:
-`<!doctype html><html lang><head>
+`<!doctype html>
+<html lang>
+    <head>
         <title>test</title>
     </head>
     <body></body>
@@ -37,7 +39,9 @@ const tests: Array<RuleTest> = [
             position: { column: 7, line: 1 }
         }],
         serverConfig:
-`<!doctype html><html lang=""><head>
+`<!doctype html>
+<html lang="">
+    <head>
         <title>test</title>
     </head>
     <body></body>

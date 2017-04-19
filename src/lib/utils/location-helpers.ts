@@ -90,7 +90,7 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<I
  * * If no content is provided, the return value is {0, 0}
  * * If the content is not found, the return value is {-1, -1}
   */
-export const findInElement = async (element: IAsyncHTMLElement, content?: string): Promise<IProblemLocation> => {
+export const findInElement = async (element: IAsyncHTMLElement, content: string): Promise<IProblemLocation> => {
     if (!content) {
         return {
             column: 0,
