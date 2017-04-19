@@ -71,7 +71,8 @@ const rule: IRuleBuilder = {
                 include: { $ref: '#/definitions/string-array' }
             },
             type: ['object', null]
-        }
+        },
+        worksWithLocalFiles: false
     }
 };
 

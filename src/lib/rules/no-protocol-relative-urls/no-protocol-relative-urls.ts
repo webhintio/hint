@@ -55,7 +55,8 @@ const rule: IRuleBuilder = {
             recommended: true
         },
         fixable: 'code',
-        schema: [] // no options
+        schema: [],
+        worksWithLocalFiles: true
     }
 };
 

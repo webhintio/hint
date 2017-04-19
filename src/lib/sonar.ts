@@ -7,6 +7,8 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as url from 'url';
+
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
@@ -79,20 +81,35 @@ export class Sonar extends EventEmitter {
             const rules = resourceLoader.getRules();
             const rulesIds = Object.keys(config.rules);
 
-            rulesIds.forEach((id: string) => {
+            const createEventHandler = (handler: Function, worksWithLocalFiles: boolean) => {
+                return (event) => {
+                    const localResource = url.parse(event.resource).protocol === 'file:';
 
+                    // Some rules don't work with local resource,
+                    // so it doesn't make sense to the event.
+
+                    if (localResource && !worksWithLocalFiles) {
+                        return null;
+                    }
+
+                    return handler(event);
+                };
+            };
+
+            rulesIds.forEach((id: string) => {
                 const rule = rules.get(id);
+
                 const ruleOptions = config.rules[id];
+                const ruleWorksWithLocalFiles = rule.meta.worksWithLocalFiles;
 
                 const context = new RuleContext(id, this, getSeverity(ruleOptions), ruleOptions, rule.meta);
                 const instance = rule.create(context);
 
                 Object.keys(instance).forEach((eventName) => {
-                    this.on(eventName, instance[eventName]);
+                    this.on(eventName, createEventHandler(instance[eventName], ruleWorksWithLocalFiles));
                 });
 
                 this.rules.set(id, instance);
-
             });
 
             debug(`Rules loaded: ${this.rules.size}`);
@@ -135,10 +152,6 @@ export class Sonar extends EventEmitter {
 
         this.messages.push(problem);
     }
-
-    // async emitAysnc(eventName: string, data: ElementFoundEvent | FetchEndEvent) {
-    //     super.emitAsync(eventName, data);
-    // }
 
     /** Runs all the configured rules and plugins on a target */
     async executeOn(target: URL): Promise<Array<IProblem>> {

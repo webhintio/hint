@@ -10,6 +10,8 @@ export interface IRuleBuilder {
         fixable?: string;
         /** The schema the rule configuration must follow in order to be valid */
         schema: Array<any> | any; // TODO: this shouldn't be an any
+        /** If the rule works with local resources (file://...) */
+        worksWithLocalFiles: boolean;
     };
 }
 
