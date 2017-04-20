@@ -8,7 +8,7 @@ export interface IRequest {
 
 export interface IResponseBody {
     /** The uncompressed response's body. A `string` if text, otherwise a `Buffer`. */
-    content: string | Buffer;
+    content: string;
     /** The encoding of the response's body. */
     contentEncoding: string;
     /** The uncompressed bytes of the response's body. */

@@ -22,6 +22,10 @@ class Server {
     constructor() {
         this._app = express();
         this._app.disable('x-powered-by');
+        this._app.use((req, res, next) => {
+            res.setHeader('Cache-Control', 'no-cache');
+            next();
+        });
     }
 
     /** Because we don't know the port until we start the server, we need to update

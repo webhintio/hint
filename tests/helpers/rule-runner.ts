@@ -26,7 +26,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
         }
 
         return {
-            collector: { name: 'jsdom' },
+            collector: { name: 'cdp' },
             rules
         };
     };
@@ -59,7 +59,13 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
             return t.is(results.length, 0);
         }
 
-        t.is(results.length, reports.length, `(${ruleTest.name}) The number of issues found is ${results.length} (should be ${reports.length})`);
+        if (results.length === 0) {
+            return t.fail(`No results for test "${ruleTest.name}". Should have ${reports.length}`);
+        }
+
+        if (results.length !== reports.length) {
+            return t.fail(`(${ruleTest.name}) The number of issues found is ${results.length} (should be ${reports.length})`);
+        }
 
         return reports.forEach((report, index) => {
             t.is(results[index].message, report.message, `(${ruleTest.name}) different message`);

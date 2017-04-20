@@ -7,10 +7,8 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as url from 'url';
-
 import { debug as d } from '../../utils/debug';
-import { IElementFoundEvent, ITraverseEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IElementFoundEvent, IManifestFetchEnd, IManifestFetchErrorEvent, ITraverseEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -24,11 +22,7 @@ const rule: IRuleBuilder = {
 
         let manifestIsSpecified = false;
 
-        const manifestWasSpecified = async (event: ITraverseEndEvent) => {
-
-            // If no web app manifest file was specified when
-            // the parsing of the page ended, emit an error.
-
+        const manifestMissing = async (event: ITraverseEndEvent) => {
             if (!manifestIsSpecified) {
                 await context.report(event.resource, null, 'Web app manifest not specified');
             }
@@ -37,71 +31,48 @@ const rule: IRuleBuilder = {
         const manifestExists = async (data: IElementFoundEvent) => {
             const { element, resource } = data;
 
-            if (element.getAttribute('rel') === 'manifest') {
+            if (element.getAttribute('rel') !== 'manifest') {
 
-                // Check if we encounter more than one
-                // <link rel="manifest"...> declaration.
-
-                if (manifestIsSpecified) {
-                    await context.report(resource, element, 'Web app manifest already specified');
-
-                    return;
-                }
-
-                manifestIsSpecified = true;
-
-                // Check if a web app manifest file is specified,
-                // and if the specified file actually exists.
-                //
-                // https://w3c.github.io/manifest/#obtaining
-
-                const manifestHref = element.getAttribute('href');
-                let manifestURL = '';
-
-                // Check if `href` doesn't exist or it has the
-                // value of empty string.
-
-                if (!manifestHref) {
-                    await context.report(resource, element, `Web app manifest specified with invalid 'href'`);
-
-                    return;
-                }
-
-                // If `href` exists and is not an empty string, try
-                // to figure out the full URL of the web app manifest.
-
-                if (url.parse(manifestHref).protocol) {
-                    manifestURL = manifestHref;
-                } else {
-                    manifestURL = url.resolve(resource, manifestHref);
-                }
-
-                // Try to see if the web app manifest file actually
-                // exists and is accesible.
-
-                try {
-                    const { response: { statusCode } } = await context.fetchContent(manifestURL);
-
-                    // If it's not a local file (has statusCode === null),
-                    // check also if the status code is `200`.
-
-                    if (statusCode && statusCode !== 200) {
-                        await context.report(resource, element, `Web app manifest file could not be fetched (status code: ${statusCode})`);
-                    }
-
-                // Check if fetching/reading the file failed.
-
-                } catch (e) {
-                    debug('Failed to fetch the web app manifest file');
-                    await context.report(resource, element, `Web app manifest file request failed`);
-                }
-
+                return;
             }
+
+            // Check if we encounter more than one
+            // <link rel="manifest"...> declaration.
+
+            if (manifestIsSpecified) {
+                await context.report(resource, element, 'Web app manifest already specified');
+
+                return;
+            }
+
+            manifestIsSpecified = true;
+
+            if (!element.getAttribute('href')) {
+                // `collector`s will ignore invalid `href` and will not even initiate the request so we have to check for those.
+                //TODO: find the relative location in the element
+                await context.report(data.resource, data.element, `Web app manifest specified with invalid 'href'`);
+            }
+        };
+
+        const manifestEnd = async (event: IManifestFetchEnd) => {
+            // TODO: check why CDP sends sometimes status 301
+            if (event.response.statusCode >= 400) {
+                await context.report(event.resource, null, `Web app manifest file could not be fetched (status code: ${event.response.statusCode})`);
+            }
+        };
+
+        const manifestError = async (event: IManifestFetchErrorEvent) => {
+            debug('Failed to fetch the web app manifest file');
+            await context.report(event.resource, null, `Web app manifest file request failed`);
+
+            return;
         };
 
         return {
             'element::link': manifestExists,
-            'traverse::end': manifestWasSpecified
+            'manifestfetch::end': manifestEnd,
+            'manifestfetch::error': manifestError,
+            'traverse::end': manifestMissing
         };
     },
     meta: {

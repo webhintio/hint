@@ -28,7 +28,7 @@ import { debug as d } from '../../utils/debug';
 /* eslint-disable no-unused-vars */
 import {
     IAsyncHTMLDocument, IAsyncHTMLElement, ICollector, ICollectorBuilder,
-    IElementFoundEvent, IFetchEndEvent, IFetchErrorEvent, ITraverseDownEvent, ITraverseUpEvent,
+    IElementFoundEvent, IFetchEndEvent, IFetchErrorEvent, IManifestFetchErrorEvent, IManifestFetchEnd, ITraverseDownEvent, ITraverseUpEvent,
     INetworkData, URL
 } from '../../types';
 /* eslint-enable */
@@ -65,7 +65,8 @@ class JSDOMCollector implements ICollector {
     private _server: Sonar;
     private _href: string;
     private _finalHref: string;
-    private _targetNetworkData;
+    private _targetNetworkData: INetworkData;
+    private _manifestIsSpecified: boolean = false;
 
     constructor(server: Sonar, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
@@ -139,6 +140,10 @@ class JSDOMCollector implements ICollector {
             resource: this._finalHref
         };
 
+        if (eventName === 'element::link' && element.getAttribute('rel') === 'manifest') {
+            await this.getManifest(element);
+        }
+
         await this._server.emitAsync(eventName, event);
         for (let i = 0; i < element.children.length; i++) {
             const child = <HTMLElement>element.children[i];
@@ -196,6 +201,83 @@ class JSDOMCollector implements ICollector {
             await this._server.emitAsync('fetch::error', fetchError);
 
             return callback(err);
+        }
+    }
+
+    /** When `element` is passed, tries to download the manifest specified by it
+     * sending `manifestfetch::end` or `manifestfetch::error`.
+     *
+     * If no `element`, then checks if it has been download previously and if not
+     * sends a `manifestfetch::missing`.
+     */
+    private async getManifest(element?: HTMLElement) {
+
+        if (!element) {
+            if (this._manifestIsSpecified) {
+                return;
+            }
+
+            await this._server.emitAsync('manifestfetch::missing', { resource: this._href });
+
+            return;
+        }
+
+        if (this._manifestIsSpecified) {
+            // Nothing to do, we already have the manifest. Double declarations should
+            // be handled at the rule level.
+            return;
+        }
+
+        this._manifestIsSpecified = true;
+
+        // Check if the specified file actually exists.
+        //
+        // https://w3c.github.io/manifest/#obtaining
+
+        const manifestHref = element.getAttribute('href');
+        let manifestURL = '';
+
+        if (!manifestHref) {
+            // Invalid href are handled at the rule level
+            return;
+        }
+
+        // If `href` exists and is not an empty string, try
+        // to figure out the full URL of the web app manifest.
+
+        if (url.parse(manifestHref).protocol) {
+            manifestURL = manifestHref;
+        } else {
+            manifestURL = url.resolve(this._href, manifestHref);
+        }
+
+        // Try to see if the web app manifest file actually
+        // exists and is accesible.
+
+        try {
+            const manifestData = await this.fetchContent(manifestURL);
+
+            const event: IManifestFetchEnd = {
+                element: null,
+                request: manifestData.request,
+                resource: manifestURL,
+                response: manifestData.response
+            };
+
+            await this._server.emitAsync('manifestfetch::end', event);
+
+            return;
+
+            // Check if fetching/reading the file failed.
+        } catch (e) {
+            debug('Failed to fetch the web app manifest file');
+
+            const event: IManifestFetchErrorEvent = {
+                error: e,
+                resource: manifestURL
+            };
+
+            await this._server.emitAsync('manifestfetch::error', event);
         }
     }
 
@@ -263,6 +345,8 @@ class JSDOMCollector implements ICollector {
                         await that.traverseAndNotify(window.document.children[0]);
                         await that._server.emitAsync('traverse::end', { resource: this._finalHref });
 
+                        await that.getManifest();
+
                         /* TODO: when we reach this moment we should wait for all pending request to be done and
                            stop processing any more. */
                         resolve();
@@ -292,11 +376,8 @@ class JSDOMCollector implements ICollector {
      * If target is:
      * * a URL and doesn't have a valid protocol it will fail.
      * * a string, if it starts with // it will treat it as a url, and as a file otherwise.
-     *
-     * It will return an object with the body of the resource, the headers of the response and the
-     * original bytes (compressed if applicable).
      */
-    public fetchContent(target: URL | string, customHeaders?: object) {
+    public fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {
         let parsedTarget = target;
 
         if (typeof parsedTarget === 'string') {

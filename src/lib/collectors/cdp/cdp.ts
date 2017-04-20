@@ -22,7 +22,7 @@ import { debug as d } from '../../utils/debug';
 /* eslint-disable no-unused-vars */
 import {
     ICollector, ICollectorBuilder,
-    IElementFoundEvent, IFetchEndEvent, ITraverseUpEvent, ITraverseDownEvent,
+    IElementFoundEvent, IFetchEndEvent, IManifestFetchEnd, IManifestFetchErrorEvent, ITraverseUpEvent, ITraverseDownEvent,
     INetworkData, URL
 } from '../../types';
 /* eslint-enable */
@@ -41,15 +41,15 @@ class CDPCollector implements ICollector {
     /** The default headers to do any request. */
     private _headers;
     /** The original URL to collect. */
-    private _href;
+    private _href: string;
     /** The final URL after redirects (if they exist) */
-    private _finalHref;
+    private _finalHref: string;
     /** The instance of Sonar that is using this collector. */
     private _server: Sonar;
     /** The CDP client to talk to the browser. */
     private _client;
     /** Browser's child process */
-    private _child;
+    private _child: number;
     /** A set of requests done by the collector to retrieve initial information more easily. */
     private _requests: Map<string, any>;
     /** The parsed and original HTML. */
@@ -62,6 +62,8 @@ class CDPCollector implements ICollector {
     private _pendingResponseReceived: Array<Function>;
     /** List of all the tabs used by the collector. */
     private _tabs = [];
+    /** Tells if the page has specified a manifest or not. */
+    private _manifestIsSpecified: boolean = false;
 
     constructor(server: Sonar, config: object) {
         const defaultOptions = { waitFor: 5000 };
@@ -167,9 +169,19 @@ class CDPCollector implements ICollector {
     }
 
     /** Event handler fired when HTTP request fails for some reason. */
-    private onLoadingFailed(params) {
+    private async onLoadingFailed(params) {
         // TODO: implement this for `fetch::error` and `targetfetch::error`.
-        console.error(params);
+        // console.error(params);
+        const { request: { url: resource } } = this._requests.get(params.requestId);
+
+        if (params.type === 'Manifest') {
+            const event: IManifestFetchErrorEvent = {
+                error: new Error(params.errorText),
+                resource
+            };
+
+            await this._server.emitAsync('manifestfetch::error', event);
+        }
     }
 
     /** Event handler fired when HTTP response is available and DOM loaded. */
@@ -187,7 +199,6 @@ class CDPCollector implements ICollector {
         let resourceBody = '';
         const hops = this._redirects.calculate(resourceUrl);
         const originalUrl = hops[0] || resourceUrl;
-        const eventName = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
 
         resourceBody = (await this._client.Network.getResponseBody({ requestId: params.requestId })).body;
 
@@ -213,6 +224,14 @@ class CDPCollector implements ICollector {
                 url: params.response.url
             }
         };
+
+        if (params.type === 'Manifest') {
+            await this._server.emitAsync('manifestfetch::end', data);
+
+            return;
+        }
+
+        const eventName = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
 
         if (eventName === 'fetch::end') {
             data.element = await this.getElementFromRequest(params.requestId);
@@ -247,6 +266,15 @@ class CDPCollector implements ICollector {
         };
 
         await this._server.emitAsync(eventName, event);
+
+        if (eventName === 'element::link' && wrappedElement.getAttribute('rel') === 'manifest') {
+            this._manifestIsSpecified = true;
+            // CDP will not download the manifest on its own, so we have to "force" it
+            // This will trigger the `onRequestWillBeSent`, `OnResponseReceived`, and
+            // `onLoadingFailed` for the manifest URL.
+            await this._client.Page.getAppManifest();
+        }
+
         const elementChildren = wrappedElement.children;
 
         for (const child of elementChildren) {
@@ -296,6 +324,60 @@ class CDPCollector implements ICollector {
         return client;
     }
 
+    /** Handles when there has been an unexpected error talking with the browser. */
+    private onError(err) {
+        debug(`Error: \n${err}`);
+    }
+
+    /** Handles when we have been disconnected from the browser. */
+    private onDisconnect() {
+        debug(`Disconnected`);
+    }
+
+    /** Sets the right configuration and enables all the required CDP features. */
+    private async configureAndEnableCDP() {
+        const { Network, Page } = this._client;
+
+        this._client.on('error', this.onError);
+        this._client.on('disconnect', this.onDisconnect);
+
+        await Promise.all([
+            Network.clearBrowserCache(),
+            Network.setCacheDisabled({ cacheDisabled: true }),
+            Network.requestWillBeSent(this.onRequestWillBeSent.bind(this)),
+            Network.responseReceived(this.onResponseReceived.bind(this)),
+            Network.loadingFailed(this.onLoadingFailed.bind(this))
+        ]);
+
+        await Promise.all([
+            Network.enable(),
+            Page.enable()
+        ]);
+    }
+
+    /** Initiates all the proce */
+    private onLoadEventFired(callback: Function): Function {
+        return async () => {
+            const { DOM } = this._client;
+            // TODO: Wait a few seconds here before traversing
+            // or is this event fired when everything is quiet?
+
+            this._dom = new CDPAsyncHTMLDocument(DOM);
+
+            await this._dom.load();
+
+            while (this._pendingResponseReceived.length) {
+                await this._pendingResponseReceived.shift()();
+            }
+
+            await this._server.emitAsync('traverse::start', { resource: this._finalHref });
+            await this.traverseAndNotify(this._dom.root);
+            await this._server.emitAsync('traverse::end', { resource: this._finalHref });
+
+            setTimeout(callback, 1000); //HACK: need to check if there is any pending request, wait for it and timeout after a few seconds
+        };
+    }
+
     // ------------------------------------------------------------------------------
     // Public methods
     // ------------------------------------------------------------------------------
@@ -314,43 +396,15 @@ class CDPCollector implements ICollector {
                 return;
             }
 
-            const { DOM, Network, Page } = client;
+            const { Page } = client;
 
             this._client = client;
             this._href = target.href;
             this._finalHref = target.href;
 
-            await Promise.all([
-                Network.setCacheDisabled({ cacheDisabled: true }),
-                Network.requestWillBeSent(this.onRequestWillBeSent.bind(this)),
-                Network.responseReceived(this.onResponseReceived.bind(this)),
-                Network.loadingFailed(this.onLoadingFailed.bind(this))
-            ]);
+            Page.loadEventFired(this.onLoadEventFired(callback));
 
-            Page.loadEventFired(async () => {
-                // TODO: Wait a few seconds here before traversing
-                // or is this event fired when everything is quiet?
-
-                this._dom = new CDPAsyncHTMLDocument(DOM);
-
-                await this._dom.load();
-
-                while (this._pendingResponseReceived.length) {
-                    await this._pendingResponseReceived.shift()();
-                }
-
-                await this._server.emitAsync('traverse::start', { resource: this._finalHref });
-                await this.traverseAndNotify(this._dom.root);
-                await this._server.emitAsync('traverse::end', { resource: this._finalHref });
-
-                return callback();
-            });
-
-            // We enable all the domains we need to receive events from the CDP.
-            await Promise.all([
-                Network.enable(),
-                Page.enable()
-            ]);
+            await this.configureAndEnableCDP();
 
             await Page.navigate({ url: this._href });
         })();
