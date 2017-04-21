@@ -46,7 +46,7 @@
         "default-case": "error",
         "dot-location": ["error", "property"],
         "dot-notation": "error",
-        "eol-last": "off",
+        "eol-last": "error",
         "eqeqeq": "error",
         "func-call-spacing": "error",
         "func-names": "off",
