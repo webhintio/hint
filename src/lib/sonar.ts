@@ -13,7 +13,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
+import { ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, IPlugin, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
 import * as resourceLoader from './utils/resource-loader';
 import { RuleContext } from './rule-context';
 
@@ -25,7 +25,7 @@ const debug = d(__filename);
 
 export class Sonar extends EventEmitter {
     // TODO: review which ones need to be private or not
-    private plugins: Map<string, Plugin>
+    private plugins: Map<string, IPlugin>
     private rules: Map<string, IRule>
     private collector: ICollector
     private messages: Array<IProblem>
@@ -60,18 +60,19 @@ export class Sonar extends EventEmitter {
 
             const plugins = resourceLoader.getPlugins();
 
-            plugins.forEach((plugin) => {
-                const instance = plugin[1].create(config);
+            config.plugins.forEach((id: string) => {
+                const plugin = plugins.get(id);
+
+                const instance = plugin.create(config);
 
                 Object.keys(instance).forEach((eventName) => {
                     this.on(eventName, instance[eventName]);
                 });
 
-                this.plugins.set(plugin[0], instance);
+                this.plugins.set(id, instance);
             });
 
             debug(`Plugins loaded: ${this.plugins.size}`);
-
         }
 
         debug('Loading rules');
@@ -160,11 +161,7 @@ export class Sonar extends EventEmitter {
 
         debug(`Starting the analysis on ${target.path}`);
 
-        try {
-            await this.collector.collect(target);
-        } catch (e) {
-            return Promise.reject(e);
-        }
+        await this.collector.collect(target);
 
         debug(`Total runtime ${Date.now() - start}`);
 
