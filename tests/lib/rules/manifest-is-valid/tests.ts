@@ -66,21 +66,21 @@ const tests: Array<RuleTest> = [
             '/site.webmanifest': 'x'
         }
     },
-    {
-        name: `Web app manifest is specified as a full URL and its content is valid JSON`,
-        serverConfig: {
-            '/':
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="manifest" href="https://example.com/site.webmanifest">
-    </head>
-    <body></body>
-</html>`,
-            '/site.webmanifest': '{}'
-        }
-    },
+//     {
+//         name: `Web app manifest is specified as a full URL and its content is valid JSON`,
+//         serverConfig: {
+//             '/':
+// `<!doctype html>
+// <html lang="en">
+//     <head>
+//         <title>test</title>
+//         <link rel="manifest" href="https://example.com/site.webmanifest">
+//     </head>
+//     <body></body>
+// </html>`,
+//             '/site.webmanifest': '{}'
+//         }
+//     },
     {
         name: `Web app manifest is specified and it's a binary file`,
         reports: [{ message: `Web app manifest file is not a text file` }],

@@ -47,7 +47,11 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
 
     /** Runs a test for the rule being tested */
     const runRule = (t: ContextualTestContext, ruleTest: RuleTest, collector: string) => {
-        return retry(async () => {
+        return retry(async (bail, attemp) => {
+            if (attemp > 1) {
+                console.log(`[${collector}]${ruleTest.name} - try ${attemp}`);
+            }
+
             const { server } = t.context;
             const { serverConfig, reports } = ruleTest;
             const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, collector, options));
@@ -57,7 +61,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
 
             const results = await sonar.executeOn(url.parse(`http://localhost:${server.port}/`));
 
-            sonar.close();
+            await sonar.close();
 
             if (!reports) {
                 return t.is(results.length, 0);
