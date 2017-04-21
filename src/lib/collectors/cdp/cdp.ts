@@ -423,7 +423,11 @@ class CDPCollector implements ICollector {
             }
         }
 
-        this._client.close();
+        try {
+            await this._client.close();
+        } catch (e) {
+            debug(`Couldn't close the client properly`);
+        }
     }
 
     async fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {

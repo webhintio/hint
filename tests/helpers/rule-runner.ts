@@ -14,9 +14,11 @@ import * as Sonar from '../../src/lib/sonar';
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
 export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: object) => {
 
+    const collectors = ['jsdom', 'cdp'];
+
     /** Creates a valid sonar configuration. Eventually we should
      * test all available collectors and not only JSDOM */
-    const createConfig = (id, opts?) => {
+    const createConfig = (id: string, collector: string, opts?) => {
         const rules = {};
 
         if (!opts) {
@@ -26,7 +28,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
         }
 
         return {
-            collector: { name: 'cdp' },
+            collector: { name: collector },
             rules
         };
     };
@@ -43,10 +45,10 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
     });
 
     /** Runs a test for the rule being tested */
-    const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
+    const runRule = async (t: ContextualTestContext, ruleTest: RuleTest, collector: string) => {
         const { server } = t.context;
         const { reports } = ruleTest;
-        const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, options));
+        const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, collector, options));
 
         // We need to configure it later because we don't know the port until the server starts
         server.configure(ruleTest.serverConfig);
@@ -76,8 +78,10 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
         });
     };
 
-    /** Runs all the tests for a given rule */
-    ruleTests.forEach((ruleTest) => {
-        test(ruleTest.name, runRule, ruleTest);
+    /* Run all the tests for a given rule in all collectors. */
+    collectors.forEach((collector) => {
+        ruleTests.forEach((ruleTest) => {
+            test(ruleTest.name, runRule, ruleTest, collector);
+        });
     });
 };
