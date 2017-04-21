@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "@types/node": "^7.0.5",
+    "async-retry": "^0.3.0",
     "ava": "^0.18.2",
     "babel-cli": "^6.23.0",
     "babel-plugin-istanbul": "^4.0.0",
