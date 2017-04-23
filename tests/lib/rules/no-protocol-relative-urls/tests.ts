@@ -34,16 +34,16 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `'link' with initial // fails the rule`,
+        reports: [{
+            message: 'Protocol relative URL found: //site.webmanifest',
+            position: { column: 36, line: 3 }
+        }],
         serverConfig: `<!doctype html><html lang="en"><head>
         <title>test</title>
         <link rel="manifest" href="//site.webmanifest">
     </head>
     <body></body>
-</html>`,
-        reports: [{
-            message: 'Invalid link found: //site.webmanifest',
-            position: { column: 36, line: 3 }
-        }]
+</html>`
     },
     {
         name: `'script' with no initial slashes passes the rule`,
@@ -74,16 +74,16 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `'script' with initial // fails the rule`,
+        reports: [{
+            message: 'Protocol relative URL found: //script.js',
+            position: { column: 22, line: 3 }
+        }],
         serverConfig: `<!doctype html><html lang="en"><head>
         <title>test</title>
         <script src="//script.js"></script>
     </head>
     <body></body>
-</html>`,
-        reports: [{
-            message: 'Invalid link found: //script.js',
-            position: { column: 22, line: 3 }
-        }]
+</html>`
     },
     {
         name: `'a' with no initial slashes passes the rule`,
@@ -117,17 +117,17 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `'a' with initial // fails the rule`,
+        reports: [{
+            message: 'Protocol relative URL found: //home',
+            position: { column: 18, line: 5 }
+        }],
         serverConfig: `<!doctype html><html lang="en"><head>
         <title>test</title>
     </head>
     <body>
         <a href="//home">home</a>
     </body>
-</html>`,
-        reports: [{
-            message: 'Invalid link found: //home',
-            position: { column: 18, line: 5 }
-        }]
+</html>`
     },
     {
         name: `'script' with no "src" passes the rule`,

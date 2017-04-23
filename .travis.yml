@@ -50,4 +50,5 @@ script:
       | xargs awesome_bot \
               --allow-dupe \
               --allow-redirect \
-              --set-timeout 150
+              --set-timeout 150 \
+              --white-list "example1.com,example2.com"

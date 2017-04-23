@@ -1,6 +1,5 @@
 /**
- * @fileoverview This rule makes sure that all links are no links using
- * instead of http or https.
+ * @fileoverview Check for protocol relative URLs.
  */
 
 // ------------------------------------------------------------------------------
@@ -33,11 +32,11 @@ const rule: IRuleBuilder = {
             const url = element.getAttribute('src') || element.getAttribute('href') || '';
 
             if (url.indexOf('//') === 0) {
-                debug('Invalid link found');
+                debug('Protocol relative URL found');
 
                 const location = await context.findProblemLocation(element, url);
 
-                await context.report(resource, element, `Invalid link found: ${url}`, location);
+                await context.report(resource, element, `Protocol relative URL found: ${url}`, location);
             }
         };
 
@@ -51,7 +50,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'security',
-            description: 'Use https over //',
+            description: 'Use `http(s)://` over //',
             recommended: true
         },
         fixable: 'code',
