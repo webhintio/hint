@@ -38,6 +38,12 @@ the tests are run twice initially.
 * [Differences among collectors](docs/user-guide/differences-among-collectors.md)
 
 
+## Code of Conduct
+
+This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md).
+By participating in this project you agree to abide by its terms.
+
+
 ## License
 
 The code is available under the [Apache 2.0 license](LICENSE.txt).
