@@ -6,3 +6,4 @@
 * [`manifest-file-extension`](manifest-file-extension.md)
 * [`no-friendly-error-pages`](no-friendly-error-pages.md)
 * [`no-html-only-headers`](no-html-only-headers.md)
+* [`x-content-type-options`](x-content-type-options.md)
