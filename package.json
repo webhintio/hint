@@ -9,7 +9,7 @@
     "build:ts": "tsc --outDir dist",
     "build": "npm run clean && npm-run-all build:*",
     "clean": "rimraf dist",
-    "lint": "eslint --ext ts src/ --ext md . --ignore-pattern dist/*",
+    "lint": "eslint --ext md --ext ts --ignore-pattern dist/* .",
     "site": "node dist/src/bin/sonar",
     "test": "npm run lint && npm run build && nyc ava",
     "test-on-travis": "npm run test -- --concurrency 2 --timeout 3m",
