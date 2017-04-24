@@ -13,7 +13,8 @@
         "manifest-file-extension": "warning",
         "manifest-is-valid": "warning",
         "no-friendly-error-pages": "warning",
+        "no-html-only-headers": "warning",
         "no-protocol-relative-urls": "warning",
-        "no-html-only-headers": "warning"
+        "x-content-type-options": "warning"
     }
 }
