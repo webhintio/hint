@@ -4,7 +4,7 @@
 
 import * as url from 'url';
 
-import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
+import { test } from 'ava'; // eslint-disable-line no-unused-vars
 import * as retry from 'async-retry';
 
 import { createServer } from './test-server';
@@ -46,7 +46,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
     });
 
     /** Runs a test for the rule being tested */
-    const runRule = (t: ContextualTestContext, ruleTest: RuleTest, collector: string) => {
+    const runRule = (t, ruleTest: RuleTest, collector: string) => {
         return retry(async (bail, attemp) => {
             if (attemp > 1) {
                 console.log(`[${collector}]${ruleTest.name} - try ${attemp}`);
@@ -56,8 +56,10 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
             const { serverConfig, reports } = ruleTest;
             const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, collector, options));
 
-            // We need to configure it later because we don't know the port until the server starts
-            server.configure(serverConfig);
+            // We only configure the server the first time
+            if (attemp === 1) {
+                server.configure(serverConfig);
+            }
 
             const results = await sonar.executeOn(url.parse(`http://localhost:${server.port}/`));
 

@@ -50,6 +50,6 @@ test('readFile throws exception if not found', (t) => {
     }, Error);
 });
 
-test('readFileAsync throws exception if not found', (t) => {
-    t.throws(readFileAsync('idontexist'), Error);
+test('readFileAsync throws exception if not found', async (t) => {
+    await t.throws(readFileAsync('idontexist'));
 });
