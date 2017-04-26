@@ -436,7 +436,7 @@ class CDPCollector implements ICollector {
         }
 
         try {
-            await this._client.close();
+            this._client.close();
         } catch (e) {
             debug(`Couldn't close the client properly`);
         }
