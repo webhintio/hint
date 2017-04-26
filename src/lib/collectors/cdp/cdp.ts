@@ -200,8 +200,20 @@ class CDPCollector implements ICollector {
         const hops = this._redirects.calculate(resourceUrl);
         const originalUrl = hops[0] || resourceUrl;
 
-        resourceBody = (await this._client.Network.getResponseBody({ requestId: params.requestId })).body;
-
+        try {
+            resourceBody = (await this._client.Network.getResponseBody({ requestId: params.requestId })).body;
+        } catch (e) {
+            debug(`Body requested afer connection closed for request ${params.requestId}`);
+            /* HACK: This is to make https://github.com/MicrosoftEdge/Sonar/pull/144 pass.
+                There are some concurrency issues at the moment that are more visible in low powered machines and
+                when the CPU is highly used. The problem is most likely related to having pending requests but
+                the analysis has finished already. The `setTimeout` in `onLoadEventFired` might be partially
+                responsible.
+                We should:
+                * Wait for all pending requests instead of doing a `setTimeout` (within reason)
+                * Cancel all requests/remove all listeners when we do `close()`
+            */
+        }
         debug(`Content for ${resourceUrl} downloaded`);
 
         const data: IFetchEndEvent = {
