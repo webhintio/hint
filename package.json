@@ -99,7 +99,7 @@
     "lines": 85,
     "statements": 85,
     "functions": 80,
-    "branches": 75,
+    "branches": 85,
     "include": [
       "dist/src/**/*.js"
     ],
