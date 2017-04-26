@@ -13,7 +13,7 @@
     "lint": "eslint --ext md --ext ts --ignore-pattern dist/* .",
     "site": "node dist/src/bin/sonar",
     "test": "npm run lint && npm run build && nyc ava",
-    "test-on-travis": "npm run test -- --concurrency 1 --timeout 3m",
+    "test-on-travis": "npm run test -- --concurrency 1 --timeout 5m",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch",
@@ -83,6 +83,9 @@
     "typescript-eslint-parser": "^2.1.0"
   },
   "ava": {
+    "babel": {
+      "presets": []
+    },
     "files": [
       "dist/tests/**/*.js"
     ],
