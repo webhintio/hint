@@ -35,7 +35,7 @@ const rule: IRuleBuilder = {
 
             // Check if the `lang` has no value or the value is an empty string.
             if (langAttributeValue === '') {
-                const location = await context.findProblemLocation(element, 'lang');
+                const location = await context.findInElement(element, 'lang');
                 const msg = `empty 'lang' attribute specified on the 'html' element`;
 
                 debug(msg);

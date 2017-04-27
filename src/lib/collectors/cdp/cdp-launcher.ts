@@ -10,14 +10,17 @@
  *
  */
 
-/* eslint-disable no-process-env, no-empty */
+/* eslint-disable no-process-env, no-empty, no-unused-vars, no-sync */
 
+
+import { ChildProcess, spawn } from 'child_process';
+import * as fs from 'fs';
 import * as net from 'net';
 import * as path from 'path';
-import { spawn } from 'child_process';
 import { tmpdir } from 'os';
 
-import { accessSync as fsAccessSync, openSync } from 'fs';
+import * as lockfile from 'lockfile';
+import * as pify from 'pify';
 import * as which from 'which';
 
 import { debug as d } from '../../utils/debug';
@@ -26,8 +29,10 @@ import { debug as d } from '../../utils/debug';
 // Common
 // ------------------------------------------------------------------------------
 
+const lock = pify(lockfile.lock);
+const unlock = pify(lockfile.unlock);
 const debug = d(__filename);
-
+const pidFile = path.join(process.cwd(), 'cdp.pid');
 let port = 9222;
 const retryDelay = 500;
 
@@ -106,7 +111,7 @@ const getChromeExe = (chromeDirName) => {
 
         try {
             windowsChromeDirectory = path.join(prefix, suffix);
-            fsAccessSync(windowsChromeDirectory);
+            fs.accessSync(windowsChromeDirectory);
 
             return windowsChromeDirectory;
         } catch (e) { }
@@ -140,7 +145,7 @@ const getChromeDarwin = (defaultPath) => {
     try {
         const homePath = path.join(process.env.HOME, defaultPath);
 
-        fsAccessSync(homePath);
+        fs.accessSync(homePath);
 
         return homePath;
     } catch (e) {
@@ -165,8 +170,70 @@ const getChrome = (): string => {
     return bin;
 };
 
-/** Launches chrome with the given url and ready to be used with the Chrome Debugging Protocol. */
-const launchChrome = async (url: string, options?) => {
+/** If a browser is already running, it returns its pid. Otherwise return value is -1.  */
+const getPid = (): number => {
+    let pid = -1;
+
+    try {
+        pid = parseInt(fs.readFileSync(pidFile, 'utf8'));
+    } catch (e) {
+        debug(`Error reading ${pidFile}`);
+        debug(e);
+        pid = -1;
+    }
+
+    if (Number.isNaN(pid)) {
+        return -1;
+    }
+
+    try {
+        // We test if the process is still running or is a leftover:
+        // https://nodejs.org/api/process.html#process_process_kill_pid_signal
+
+        process.kill(pid, 0);
+    } catch (e) {
+        debug(`Process with ${pid} doesn't seem to be running`);
+        pid = -1;
+    }
+
+    return pid;
+};
+
+/** Stores the pid of the give `child` into a file. */
+const writePid = (child: ChildProcess) => {
+    const pid = child.pid;
+
+    fs.writeFileSync(pidFile, pid, 'utf8');
+};
+
+/** Launches chrome with the given url and ready to be used with the Chrome Debugging Protocol.
+ *
+ * If the browser is a new instance it will return `true`, `false` otherwise.
+*/
+const launchChrome = async (url: string, options?): Promise<boolean> => {
+    const cdpLock = 'cdp.lock';
+
+    try {
+        await lock(cdpLock, {
+            pollPeriod: 500,
+            retries: 20,
+            retryWait: 1000,
+            stale: 50000,
+            wait: 50000
+        });
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
+    // If a browser is already launched using `cdp-launcher` then we return its PID.
+    const currentPid = getPid();
+
+    if (currentPid !== -1) {
+        await unlock(cdpLock);
+
+        return false;
+    }
+
     port = options && options.port || port;
 
     const chromeFlags = [
@@ -197,20 +264,33 @@ const launchChrome = async (url: string, options?) => {
 
     try {
         const chromePath = getChrome();
-        const outFile = openSync(path.join(process.cwd(), 'chrome-out.log'), 'a');
-        const errFile = openSync(path.join(process.cwd(), 'chrome-err.log'), 'a');
+        const outFile = fs.openSync(path.join(process.cwd(), 'chrome-out.log'), 'a');
+        const errFile = fs.openSync(path.join(process.cwd(), 'chrome-err.log'), 'a');
 
         debug(`Executing ${chromePath}`);
 
-        spawn(chromePath, chromeFlags, {
+        const child = spawn(chromePath, chromeFlags, {
             detached: true,
             stdio: ['ignore', outFile, errFile]
         });
+
+        child.unref();
+
+        writePid(child);
+
         debug('Command executed correctly');
         await waitUntilReady();
+
+        await unlock(cdpLock);
+
+        return true;
     } catch (e) {
         debug('Error executing command');
         debug(e);
+
+        await unlock(cdpLock);
+
+        throw e;
     }
 };
 

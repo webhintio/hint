@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import * as url from 'url';
 
-import { ICollectorBuilder } from './types/collectors';
+import { ICollectorBuilder } from './types/collector';
 import { IFormatter } from './types/formatters';
 import { IPluginBuilder } from './types/plugins';
 import { IRuleBuilder } from './types/rules';
 
 export * from './types/asynchtml';
-export * from './types/collectors';
+export * from './types/collector';
 export * from './types/events';
 export * from './types/formatters';
 export * from './types/network';

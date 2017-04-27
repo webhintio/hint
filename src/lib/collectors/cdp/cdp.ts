@@ -4,6 +4,8 @@
  * to download the external resources (JS, CSS, images).
 */
 
+/* eslint-disable new-cap  */
+
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
@@ -16,16 +18,19 @@ import * as r from 'request';
 
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { debug as d } from '../../utils/debug';
+
 /* eslint-disable no-unused-vars */
 import {
     ICollector, ICollectorBuilder,
-    IElementFoundEvent, IFetchEndEvent, ITraverseUpEvent, ITraverseDownEvent,
+    IElementFoundEvent, IFetchEndEvent, IManifestFetchEnd, IManifestFetchErrorEvent, ITraverseUpEvent, ITraverseDownEvent,
     INetworkData, URL
 } from '../../types';
 /* eslint-enable */
 import { launchChrome } from './cdp-launcher';
+import { getCharset } from '../utils/charset';
 import { normalizeHeaders } from '../utils/normalize-headers';
 import { RedirectManager } from '../utils/redirects';
+
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -36,13 +41,15 @@ class CDPCollector implements ICollector {
     /** The default headers to do any request. */
     private _headers;
     /** The original URL to collect. */
-    private _href;
+    private _href: string;
     /** The final URL after redirects (if they exist) */
-    private _finalHref;
+    private _finalHref: string;
     /** The instance of Sonar that is using this collector. */
     private _server: Sonar;
     /** The CDP client to talk to the browser. */
     private _client;
+    /** Browser's child process */
+    private _child: number;
     /** A set of requests done by the collector to retrieve initial information more easily. */
     private _requests: Map<string, any>;
     /** The parsed and original HTML. */
@@ -53,6 +60,10 @@ class CDPCollector implements ICollector {
     private _redirects = new RedirectManager();
     /** A collection of requests with their initial data. */
     private _pendingResponseReceived: Array<Function>;
+    /** List of all the tabs used by the collector. */
+    private _tabs = [];
+    /** Tells if the page has specified a manifest or not. */
+    private _manifestIsSpecified: boolean = false;
 
     constructor(server: Sonar, config: object) {
         const defaultOptions = { waitFor: 5000 };
@@ -158,9 +169,19 @@ class CDPCollector implements ICollector {
     }
 
     /** Event handler fired when HTTP request fails for some reason. */
-    private onLoadingFailed(params) {
+    private async onLoadingFailed(params) {
         // TODO: implement this for `fetch::error` and `targetfetch::error`.
-        console.error(params);
+        // console.error(params);
+        const { request: { url: resource } } = this._requests.get(params.requestId);
+
+        if (params.type === 'Manifest') {
+            const event: IManifestFetchErrorEvent = {
+                error: new Error(params.errorText),
+                resource
+            };
+
+            await this._server.emitAsync('manifestfetch::error', event);
+        }
     }
 
     /** Event handler fired when HTTP response is available and DOM loaded. */
@@ -178,32 +199,51 @@ class CDPCollector implements ICollector {
         let resourceBody = '';
         const hops = this._redirects.calculate(resourceUrl);
         const originalUrl = hops[0] || resourceUrl;
-        const eventName = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
 
-        resourceBody = (await this._client.Network.getResponseBody({ requestId: params.requestId })).body;
-
+        try {
+            resourceBody = (await this._client.Network.getResponseBody({ requestId: params.requestId })).body;
+        } catch (e) {
+            debug(`Body requested afer connection closed for request ${params.requestId}`);
+            /* HACK: This is to make https://github.com/MicrosoftEdge/Sonar/pull/144 pass.
+                There are some concurrency issues at the moment that are more visible in low powered machines and
+                when the CPU is highly used. The problem is most likely related to having pending requests but
+                the analysis has finished already. The `setTimeout` in `onLoadEventFired` might be partially
+                responsible.
+                We should:
+                * Wait for all pending requests instead of doing a `setTimeout` (within reason)
+                * Cancel all requests/remove all listeners when we do `close()`
+            */
+        }
         debug(`Content for ${resourceUrl} downloaded`);
 
         const data: IFetchEndEvent = {
             element: null,
             request: {
-                headers: {},
+                headers: params.response.requestHeaders,
                 url: originalUrl
             },
             resource: resourceUrl,
             response: {
                 body: {
                     content: resourceBody,
-                    contentEncoding: null,
-                    rawContent: null,
-                    rawResponse: null
+                    contentEncoding: getCharset(resourceHeaders),
+                    rawContent: Buffer.alloc(params.response.encodedDataLength), //TODO: get the actual bytes!
+                    rawResponse: null //TODO: get the real response bytes
                 },
                 headers: resourceHeaders,
                 hops,
-                statusCode: 200,
+                statusCode: params.response.status,
                 url: params.response.url
             }
         };
+
+        if (params.type === 'Manifest') {
+            await this._server.emitAsync('manifestfetch::end', data);
+
+            return;
+        }
+
+        const eventName = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
 
         if (eventName === 'fetch::end') {
             data.element = await this.getElementFromRequest(params.requestId);
@@ -214,6 +254,19 @@ class CDPCollector implements ICollector {
 
     /** Traverses the DOM notifying when a new element is traversed. */
     private async traverseAndNotify(element) {
+        /* CDP returns more elements than the ones we want. For example there
+            are 2 HTML elements. One has children and has `nodeType === 1`,
+            while the other doesn't have children and `nodeType === 10`.
+            We ignore those elements.
+
+            * 10: `HTML` with no children
+        */
+        const ignoredNodeTypes = [10];
+
+        if (ignoredNodeTypes.includes(element.nodeType)) {
+            return;
+        }
+
         const eventName = `element::${element.nodeName.toLowerCase()}`;
 
         const wrappedElement = new CDPAsyncHTMLElement(element, this._dom, this._client.DOM);
@@ -225,6 +278,15 @@ class CDPCollector implements ICollector {
         };
 
         await this._server.emitAsync(eventName, event);
+
+        if (eventName === 'element::link' && wrappedElement.getAttribute('rel') === 'manifest') {
+            this._manifestIsSpecified = true;
+            // CDP will not download the manifest on its own, so we have to "force" it
+            // This will trigger the `onRequestWillBeSent`, `OnResponseReceived`, and
+            // `onLoadingFailed` for the manifest URL.
+            await this._client.Page.getAppManifest();
+        }
+
         const elementChildren = wrappedElement.children;
 
         for (const child of elementChildren) {
@@ -240,53 +302,144 @@ class CDPCollector implements ICollector {
         await this._server.emitAsync(`traverse::up`, traverseUp);
     }
 
+    /** Initiates Chrome if needed and a new tab to start the collection. */
+    private async initiateComms() {
+        const newBrowser = await launchChrome('about:blank');
+        let client;
+
+        /* We want a new tab for this session. If it is a new browser, a new tab
+            will be created automatically. If it was already there, then we need
+            to create it ourselves. */
+        if (newBrowser) {
+            client = await cdp();
+            this._tabs = await cdp.List();
+        } else {
+            const tab = await cdp.New();
+
+            this._tabs.push(tab);
+
+            client = await cdp({
+                tab: (tabs): number => {
+                    /* We can return a tab or an index. Also `tab` !== tab[index]
+                        even if the have the same `id`. */
+                    for (let index = 0; index < tabs.length; index++) {
+                        if (tabs[index].id === tab.id) {
+                            return index;
+                        }
+                    }
+
+                    return -1; //We should never reach this point...
+                }
+            });
+        }
+
+        return client;
+    }
+
+    /** Handles when there has been an unexpected error talking with the browser. */
+    private onError(err) {
+        debug(`Error: \n${err}`);
+    }
+
+    /** Handles when we have been disconnected from the browser. */
+    private onDisconnect() {
+        debug(`Disconnected`);
+    }
+
+    /** Sets the right configuration and enables all the required CDP features. */
+    private async configureAndEnableCDP() {
+        const { Network, Page } = this._client;
+
+        this._client.on('error', this.onError);
+        this._client.on('disconnect', this.onDisconnect);
+
+        await Promise.all([
+            Network.clearBrowserCache(),
+            Network.setCacheDisabled({ cacheDisabled: true }),
+            Network.requestWillBeSent(this.onRequestWillBeSent.bind(this)),
+            Network.responseReceived(this.onResponseReceived.bind(this)),
+            Network.loadingFailed(this.onLoadingFailed.bind(this))
+        ]);
+
+        await Promise.all([
+            Network.enable(),
+            Page.enable()
+        ]);
+    }
+
+    /** Initiates all the proce */
+    private onLoadEventFired(callback: Function): Function {
+        return async () => {
+            const { DOM } = this._client;
+            // TODO: Wait a few seconds here before traversing
+            // or is this event fired when everything is quiet?
+
+            this._dom = new CDPAsyncHTMLDocument(DOM);
+
+            await this._dom.load();
+
+            while (this._pendingResponseReceived.length) {
+                await this._pendingResponseReceived.shift()();
+            }
+
+            await this._server.emitAsync('traverse::start', { resource: this._finalHref });
+            await this.traverseAndNotify(this._dom.root);
+            await this._server.emitAsync('traverse::end', { resource: this._finalHref });
+
+            setTimeout(callback, 1000); //HACK: need to check if there is any pending request, wait for it and timeout after a few seconds
+        };
+    }
+
     // ------------------------------------------------------------------------------
     // Public methods
     // ------------------------------------------------------------------------------
 
-    collect(target: URL) {
+    public collect(target: URL) {
         return pify(async (callback) => {
-            await launchChrome('about:blank');
+            let client;
 
-            const client = await cdp();
-            const { DOM, Network, Page } = client;
+            try {
+                client = await this.initiateComms();
+            } catch (e) {
+                debug('Error connecting to browser');
+                debug(e);
+                callback(e);
+
+                return;
+            }
+
+            const { Page } = client;
 
             this._client = client;
             this._href = target.href;
             this._finalHref = target.href;
 
-            await Network.setCacheDisabled({ cacheDisabled: true });
-            await Network.requestWillBeSent(this.onRequestWillBeSent.bind(this));
-            await Network.responseReceived(this.onResponseReceived.bind(this));
-            await Network.loadingFailed(this.onLoadingFailed.bind(this));
+            Page.loadEventFired(this.onLoadEventFired(callback));
 
-            Page.loadEventFired(async () => {
-                // TODO: Wait a few seconds here before traversing
-                // or is this event fired when everything is quiet?
-
-                this._dom = new CDPAsyncHTMLDocument(DOM);
-
-                await this._dom.load();
-
-                while (this._pendingResponseReceived.length) {
-                    await this._pendingResponseReceived.shift()();
-                }
-
-                await this._server.emitAsync('traverse::start', { resource: this._finalHref });
-                await this.traverseAndNotify(this._dom.root);
-                await this._server.emitAsync('traverse::end', { resource: this._finalHref });
-
-                callback();
-            });
-
-            // We enable all the domains we need to receive events from the CDP.
-            await Promise.all([
-                Network.enable(),
-                Page.enable()
-            ]);
+            await this.configureAndEnableCDP();
 
             await Page.navigate({ url: this._href });
         })();
+    }
+
+    public async close() {
+        debug('Closing browsers used by CDP');
+
+        while (this._tabs.length > 0) {
+            const tab = this._tabs.pop();
+
+            try {
+                await cdp.closeTab(tab);
+            } catch (e) {
+                debug(`Couldn't close tab ${tab.id}`);
+            }
+        }
+
+        try {
+            this._client.close();
+        } catch (e) {
+            debug(`Couldn't close the client properly`);
+        }
     }
 
     async fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {

@@ -60,3 +60,10 @@ export interface IElementFoundEvent {
     /** The visited element. */
     element: IAsyncHTMLElement;
 }
+
+export interface IManifestFetchErrorEvent {
+    resource: string;
+    error: Error
+}
+
+export type IManifestFetchEnd = IFetchEndEvent;

@@ -140,6 +140,11 @@ export class Sonar extends EventEmitter {
         this.collector = await collectors.get(collectorId)(this, collectorConfig);
     }
 
+    /** Releases any used resource and/or browser. */
+    public async close() {
+        await this.collector.close();
+    }
+
     /** Reports a message from one of the rules. */
     report(ruleId: string, severity: Severity, node, location: IProblemLocation, message: string, resource: string) {
         const problem = {

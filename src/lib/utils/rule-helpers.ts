@@ -7,7 +7,7 @@ const toLowerCase = (list: Array<string>) => {
     });
 };
 
-/** Returns a list of all the headers in `headerList` that are in `headers` */
+/** Returns a list of all the headers in `headerList` that are in `headers` sorted alphabetically. */
 export const getIncludedHeaders = (headers: object, headerList: Array<string> = []) => {
     const result = [];
     const list = toLowerCase(headerList);
@@ -20,7 +20,9 @@ export const getIncludedHeaders = (headers: object, headerList: Array<string> = 
         }
     }
 
-    return result;
+    const shortedResult = result.sort();
+
+    return shortedResult;
 };
 
 /** Returns the name of the folder for a given `dirname`.

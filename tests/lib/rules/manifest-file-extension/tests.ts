@@ -18,7 +18,7 @@ const tests: Array<RuleTest> = [
         name: `Web app manifest file has incorrect file extension`,
         reports: [{
             message: `The file extension for the web app manifest file ('site.json') should be '.webmanifest' not '.json'`,
-            position: { column: 40, line: 3 }
+            position: { column: 32, line: 1 }
         }],
         serverConfig: `<!doctype html><html lang="en"><head>
         <title>test</title>

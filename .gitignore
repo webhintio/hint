@@ -5,3 +5,5 @@
 /doc/
 /coverage/
 *.log
+*.pid
+*STALE

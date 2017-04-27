@@ -6,10 +6,8 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as url from 'url';
-
 import { debug as d } from '../../utils/debug';
-import { IElementFoundEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IManifestFetchEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -21,63 +19,31 @@ const debug = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        const manifestIsValid = async (data: IElementFoundEvent) => {
-            const { element, resource } = data;
+        const manifestIsValid = (data: IManifestFetchEnd) => {
+            const { resource, response: { body: { content }, statusCode } } = data;
 
-            if (element.getAttribute('rel') === 'manifest') {
+            if (statusCode !== 200) {
+                return;
+            }
 
-                const manifestHref = element.getAttribute('href');
+            // null, empty string, etc. are not valid manifests
+            if (!content) {
+                context.report(resource, null, `Web app manifest file is not a text file`);
+                debug('Web app manifest file is not a text file');
 
-                if (!manifestHref) {
-                    debug(`Web app manifest specified with invalid 'href'`);
+                return;
+            }
 
-                    return;
-                }
-
-                let manifestURL = '';
-
-                // Try to figure out the URL of the web app manifest file.
-
-                if (url.parse(manifestHref).protocol) {
-                    manifestURL = manifestHref;
-                } else {
-                    manifestURL = url.resolve(resource, manifestHref);
-                }
-
-                // Try to get the content of the web app manifest file.
-
-                try {
-                    const { response: { body, statusCode } } = await context.fetchContent(manifestURL);
-
-                    if (statusCode && statusCode !== 200) {
-                        debug(`Web app manifest file could not be fetched (status code: ${statusCode})`);
-
-                        return;
-                    }
-
-                    // Validate the content of the web app manifest file.
-
-                    try {
-                        if (typeof body.content === 'string') {
-                            // TODO: Add more complex web app manifest file validation.
-                            JSON.parse(body.content);
-                        } else {
-                            context.report(resource, element, `Web app manifest file is not a text file`);
-                            debug('Web app manifest file is not a text file');
-                        }
-                    } catch (e) {
-                        debug('Failed to parse the web app manifest file');
-                        context.report(resource, element, `Web app manifest file doesn't contain valid JSON`);
-                    }
-
-                } catch (e) {
-                    debug('Failed to fetch the web app manifest file');
-                }
-
+            try {
+                // TODO: Add more complex web app manifest file validation.
+                JSON.parse(content);
+            } catch (e) {
+                debug('Failed to parse the web app manifest file');
+                context.report(resource, null, `Web app manifest file doesn't contain valid JSON`);
             }
         };
 
-        return { 'element::link': manifestIsValid };
+        return { 'manifestfetch::end': manifestIsValid };
     },
     meta: {
         docs: {

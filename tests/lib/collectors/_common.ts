@@ -159,16 +159,18 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
         const collector: ICollector = await (collectorBuilder)(sonar, {});
         const server = createServer();
 
+        await server.start();
+
         sinon.spy(sonar, 'emitAsync');
         t.context.collector = collector;
         t.context.emitAsync = sonar.emitAsync;
         t.context.server = server;
     });
 
-    test.afterEach((t) => {
+    test.afterEach(async (t) => {
         t.context.emitAsync.restore();
         t.context.server.stop();
-        // Maybe delete the collector?
+        await t.context.collector.close();
     });
 
     /**
@@ -205,8 +207,6 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
     test(async (t) => {
         const collector = <ICollector>t.context.collector;
         const server = t.context.server;
-
-        await server.start();
 
         server.configure({
             /* JSDOM currently has a bug where link href are not downloaded when passing the HTML because the baseUrl is about:blank

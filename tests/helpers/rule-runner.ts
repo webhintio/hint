@@ -4,7 +4,8 @@
 
 import * as url from 'url';
 
-import { test, ContextualTestContext } from 'ava'; // eslint-disable-line no-unused-vars
+import { test } from 'ava'; // eslint-disable-line no-unused-vars
+import * as retry from 'async-retry';
 
 import { createServer } from './test-server';
 import { IElementFoundEvent, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
@@ -14,9 +15,11 @@ import * as Sonar from '../../src/lib/sonar';
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
 export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: object) => {
 
+    const collectors = ['jsdom', 'cdp'];
+
     /** Creates a valid sonar configuration. Eventually we should
      * test all available collectors and not only JSDOM */
-    const createConfig = (id, opts?) => {
+    const createConfig = (id: string, collector: string, opts?) => {
         const rules = {};
 
         if (!opts) {
@@ -26,15 +29,16 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
         }
 
         return {
-            collector: { name: 'jsdom' },
+            collector: { name: collector },
             rules
         };
     };
 
     /** Because tests are executed asynchronously in ava, we need
      * a different server and sonar object for each one */
-    test.beforeEach((t) => {
+    test.beforeEach(async (t) => {
         t.context.server = createServer();
+        await t.context.server.start();
     });
 
     test.afterEach((t) => {
@@ -42,35 +46,51 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
     });
 
     /** Runs a test for the rule being tested */
-    const runRule = async (t: ContextualTestContext, ruleTest: RuleTest) => {
-        const { server } = t.context;
-        const { reports } = ruleTest;
-        const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, options));
-
-        await server.start();
-
-        // We need to configure it later because we don't know the port until the server starts
-        server.configure(ruleTest.serverConfig);
-
-        const results = await sonar.executeOn(url.parse(`http://localhost:${server.port}/`));
-
-        if (!reports) {
-            return t.is(results.length, 0);
-        }
-
-        t.is(results.length, reports.length, `(${ruleTest.name}) The number of issues found is not ${reports.length}`);
-
-        return reports.forEach((report, index) => {
-            t.is(results[index].message, report.message, `(${ruleTest.name}) different message`);
-            if (report.position) {
-                t.is(results[index].column, report.position.column, `(${ruleTest.name}) different column`);
-                t.is(results[index].line, report.position.line, `(${ruleTest.name}) different line`);
+    const runRule = (t, ruleTest: RuleTest, collector: string) => {
+        return retry(async (bail, attemp) => {
+            if (attemp > 1) {
+                console.log(`[${collector}]${ruleTest.name} - try ${attemp}`);
             }
+
+            const { server } = t.context;
+            const { serverConfig, reports } = ruleTest;
+            const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, collector, options));
+
+            // We only configure the server the first time
+            if (attemp === 1) {
+                server.configure(serverConfig);
+            }
+
+            const results = await sonar.executeOn(url.parse(`http://localhost:${server.port}/`));
+
+            await sonar.close();
+
+            if (!reports) {
+                return t.is(results.length, 0);
+            }
+
+            if (results.length === 0) {
+                return t.fail(`No results found, should be ${reports.length}`);
+            }
+
+            if (results.length !== reports.length) {
+                return t.fail(`Wrong number of results "${results.length}", should be ${reports.length}`);
+            }
+
+            return reports.forEach((report, index) => {
+                t.is(results[index].message, report.message, `Different message`);
+                if (report.position) {
+                    t.is(results[index].column, report.position.column, `Different column`);
+                    t.is(results[index].line, report.position.line, `Different line`);
+                }
+            });
         });
     };
 
-    /** Runs all the tests for a given rule */
-    ruleTests.forEach((ruleTest) => {
-        test(ruleTest.name, runRule, ruleTest);
+    /* Run all the tests for a given rule in all collectors. */
+    collectors.forEach((collector) => {
+        ruleTests.forEach((ruleTest) => {
+            test(`[${collector}]${ruleTest.name}`, runRule, ruleTest, collector);
+        });
     });
 };

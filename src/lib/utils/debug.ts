@@ -2,6 +2,13 @@ import * as path from 'path';
 
 import * as d from 'debug';
 
+const debugEnabled = (process.argv.includes('--debug'));
+
+// must do this initialization *before* other requires in order to work
+if (debugEnabled) {
+    d.enable('sonar:*');
+}
+
 export const debug = (filePath: string) => {
 
     let output = path.basename(filePath, path.extname(filePath));
