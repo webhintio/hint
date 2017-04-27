@@ -288,15 +288,14 @@ class JSDOMCollector implements ICollector {
     public collect(target: URL) {
         /** The target in string format */
         const href = this._href = target.href;
-        const that = this;
 
         return new Promise(async (resolve, reject) => {
 
             debug(`About to start fetching ${href}`);
-            await that._server.emitAsync('targetfetch::start', { resource: href });
+            await this._server.emitAsync('targetfetch::start', { resource: href });
 
             try {
-                that._targetNetworkData = await that.fetchContent(target);
+                this._targetNetworkData = await this.fetchContent(target);
             } catch (e) {
                 const fetchError: IFetchErrorEvent = {
                     element: null,
@@ -304,7 +303,7 @@ class JSDOMCollector implements ICollector {
                     resource: href
                 };
 
-                await that._server.emitAsync('targetfetch::error', fetchError);
+                await this._server.emitAsync('targetfetch::error', fetchError);
                 logger.error(`Failed to fetch: ${href}`);
                 debug(e);
                 reject(e);
@@ -313,18 +312,18 @@ class JSDOMCollector implements ICollector {
             }
 
             // Update finalHref to point to the final URL.
-            this._finalHref = that._targetNetworkData.response.url;
+            this._finalHref = this._targetNetworkData.response.url;
 
             debug(`HTML for ${this._finalHref} downloaded`);
 
             const fetchEnd: IFetchEndEvent = {
                 element: null,
-                request: that._targetNetworkData.request,
+                request: this._targetNetworkData.request,
                 resource: this._finalHref,
-                response: that._targetNetworkData.response
+                response: this._targetNetworkData.response
             };
 
-            await that._server.emitAsync('targetfetch::end', fetchEnd);
+            await this._server.emitAsync('targetfetch::end', fetchEnd);
 
             jsdom.env({
                 done: (err, window) => {
@@ -341,17 +340,17 @@ class JSDOMCollector implements ICollector {
 
                         debug(`${this._finalHref} loaded, traversing`);
 
-                        await that._server.emitAsync('traverse::start', { resource: this._finalHref });
-                        await that.traverseAndNotify(window.document.children[0]);
-                        await that._server.emitAsync('traverse::end', { resource: this._finalHref });
+                        await this._server.emitAsync('traverse::start', { resource: this._finalHref });
+                        await this.traverseAndNotify(window.document.children[0]);
+                        await this._server.emitAsync('traverse::end', { resource: this._finalHref });
 
-                        await that.getManifest();
+                        await this.getManifest();
 
                         /* TODO: when we reach this moment we should wait for all pending request to be done and
                            stop processing any more. */
                         resolve();
 
-                    }, that._options.waitFor);
+                    }, this._options.waitFor);
 
                 },
                 features: {
@@ -359,9 +358,10 @@ class JSDOMCollector implements ICollector {
                     ProcessExternalResources: ['script'],
                     SkipExternalResources: false
                 },
-                headers: that._headers,
-                html: that._targetNetworkData.response.body.content,
-                resourceLoader: that.resourceLoader.bind(that)
+                headers: this._headers,
+                html: this._targetNetworkData.response.body.content,
+                resourceLoader: this.resourceLoader.bind(this),
+                url: this._finalHref
             });
         });
     }
