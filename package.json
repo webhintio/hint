@@ -78,7 +78,7 @@
     "proxyquire": "^1.7.11",
     "rimraf": "^2.6.1",
     "sinon": "^2.1.0",
-    "typedoc": "^0.5.7",
+    "typedoc": "^0.6.0",
     "typescript": "^2.2.2",
     "typescript-eslint-parser": "^2.1.0"
   },
