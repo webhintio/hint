@@ -33,7 +33,6 @@ import {
 } from '../../types';
 /* eslint-enable */
 import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
-import * as logger from '../../utils/logging';
 import { readFileAsync } from '../../utils/misc';
 import { Requester } from '../utils/requester'; //eslint-disable-line
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
@@ -192,15 +191,17 @@ class JSDOMCollector implements ICollector {
 
             return callback(null, resourceNetworkData.response.body.content);
         } catch (err) {
+            const hops = this._request.getRedirects(err.uri);
             const fetchError: IFetchErrorEvent = {
                 element: new JSDOMAsyncHTMLElement(resource.element),
-                error: err,
-                resource: resourceUrl
+                error: err.error,
+                hops,
+                resource: err.uri || resourceUrl
             };
 
             await this._server.emitAsync('fetch::error', fetchError);
 
-            return callback(err);
+            return callback(fetchError);
         }
     }
 
@@ -296,17 +297,18 @@ class JSDOMCollector implements ICollector {
 
             try {
                 this._targetNetworkData = await this.fetchContent(target);
-            } catch (e) {
+            } catch (err) {
+                const hops = this._request.getRedirects(err.uri);
                 const fetchError: IFetchErrorEvent = {
                     element: null,
-                    error: e,
+                    error: err.error ? err.error : err,
+                    hops,
                     resource: href
                 };
 
                 await this._server.emitAsync('targetfetch::error', fetchError);
-                logger.error(`Failed to fetch: ${href}`);
-                debug(e);
-                reject(e);
+                debug(`Failed to fetch: ${href}\n${err}`);
+                reject(fetchError);
 
                 return;
             }

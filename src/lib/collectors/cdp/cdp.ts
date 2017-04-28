@@ -22,7 +22,7 @@ import { debug as d } from '../../utils/debug';
 /* eslint-disable no-unused-vars */
 import {
     ICollector, ICollectorBuilder,
-    IElementFoundEvent, IFetchEndEvent, IManifestFetchEnd, IManifestFetchErrorEvent, ITraverseUpEvent, ITraverseDownEvent,
+    IElementFoundEvent, IFetchEndEvent, IFetchErrorEvent, IManifestFetchEnd, IManifestFetchErrorEvent, ITraverseUpEvent, ITraverseDownEvent,
     INetworkData, URL
 } from '../../types';
 /* eslint-enable */
@@ -84,10 +84,11 @@ class CDPCollector implements ICollector {
     // ------------------------------------------------------------------------------
 
     private async getElementFromParser(parts: Array<string>): Promise<CDPAsyncHTMLElement> {
-        let basename: string = parts.pop();
+        let basename: string = null;
         let elements: Array<CDPAsyncHTMLElement> = [];
 
-        while (parts.length >= 0) {
+        while (parts.length > 0) {
+            basename = !basename ? parts.pop() : `${parts.pop()}/${basename}`;
             const query = `[src$="${basename}"],[href$="${basename}"]`;
             const newElements = await this._dom.querySelectorAll(query);
 
@@ -101,12 +102,8 @@ class CDPCollector implements ICollector {
             }
 
             // Just one element easy peasy
-            if (elements.length === 1) {
-                return elements[0];
-            }
-
-            if (parts.length > 0) {
-                basename = `${parts.pop()}/${basename}`;
+            if (newElements.length === 1) {
+                return newElements[0];
             }
 
             elements = newElements;
@@ -115,7 +112,7 @@ class CDPCollector implements ICollector {
         /* If we reach this point, we have several elements that have the same url so we return the first
             because its the one that started the request. */
 
-        return Promise.resolve(elements[0]);
+        return elements[0];
     }
 
     /** Returns the IAsyncHTMLElement that initiated a request */
@@ -170,24 +167,54 @@ class CDPCollector implements ICollector {
 
     /** Event handler fired when HTTP request fails for some reason. */
     private async onLoadingFailed(params) {
-        // TODO: implement this for `fetch::error` and `targetfetch::error`.
-        // console.error(params);
-        const { request: { url: resource } } = this._requests.get(params.requestId);
-
         if (params.type === 'Manifest') {
+            const { request: { url: resource } } = this._requests.get(params.requestId);
             const event: IManifestFetchErrorEvent = {
                 error: new Error(params.errorText),
                 resource
             };
 
             await this._server.emitAsync('manifestfetch::error', event);
+
+            return;
         }
+
+        // DOM is not ready so we queue up the event for later
+        if (!this._dom) {
+            this._pendingResponseReceived.push(this.onLoadingFailed.bind(this, params));
+
+            return;
+        }
+
+        /* If `requestId` is not in `this._requests` it means that we already processed the request in `onResponseReceived` */
+        if (!this._requests.has(params.requestId)) {
+            debug(`requestId doesn't exist, skipping this error`);
+
+            return;
+        }
+
+        debug(`Error found:\n${JSON.stringify(params)}`);
+        const element = await this.getElementFromRequest(params.requestId);
+        const { request: { url: resource } } = this._requests.get(params.requestId);
+        const eventName = this._href === resource ? 'targetfetch::error' : 'fetch::error';
+
+        const hops = this._redirects.calculate(resource);
+
+        console.log(`Error: ${resource}`);
+
+        const event: IFetchErrorEvent = {
+            element,
+            error: params,
+            hops,
+            resource
+        };
+
+        await this._server.emitAsync(eventName, event);
     }
 
     /** Event handler fired when HTTP response is available and DOM loaded. */
     private async onResponseReceived(params) {
-
-        // DOM is not ready so we queued up the event for later
+        // DOM is not ready so we queue up the event for later
         if (!this._dom) {
             this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
 
@@ -248,6 +275,11 @@ class CDPCollector implements ICollector {
         if (eventName === 'fetch::end') {
             data.element = await this.getElementFromRequest(params.requestId);
         }
+
+        /* We don't need to store the request anymore so we can remove it and ignore it
+         * if we receive it in `onLoadingFailed` (used only for "catastrophic" failures).
+         */
+        this._requests.delete(params.requestId);
 
         await this._server.emitAsync(eventName, data);
     }
