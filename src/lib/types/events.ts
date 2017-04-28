@@ -27,6 +27,8 @@ export interface IFetchErrorEvent {
     element: IAsyncHTMLElement;
     /** The error found. */
     error: any;
+    /** The redirects performed for the url. */
+    hops: Array<string>
 }
 
 /** The object emitted by a collector on `traverse::start` */

@@ -48,6 +48,11 @@ export class Requester {
         this._request = request.defaults(options);
     }
 
+    /** Return the redirects for a given `uri`. */
+    public getRedirects(uri: string): Array<string> {
+        return this._redirects.calculate(uri);
+    }
+
     /** Performs a `get` to the given `uri`.
      * If `Content-Type` is of type text and the charset is one of those supported by
      * [`iconv-lite`](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings)
@@ -62,10 +67,12 @@ export class Requester {
 
             this._request({ uri }, async (err, response, rawBody) => {
                 if (err) {
-                    debug(`Request for ${uri} failed`);
-                    debug(err);
+                    debug(`Request for ${uri} failed\n${err}`);
 
-                    return reject(err);
+                    return reject({
+                        error: err,
+                        uri
+                    });
                 }
 
                 // We check if we need to redirect and call ourselves again with the new target

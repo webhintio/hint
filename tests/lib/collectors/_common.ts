@@ -20,10 +20,7 @@ import { ICollector, ICollectorBuilder } from '../../../src/lib/types'; // eslin
 const testCollector = (collectorBuilder: ICollectorBuilder) => {
 
     /* eslint-disable sort-keys */
-    /** The minimum set of events the collectors need to implement
-     *
-     * We need to add here the `fetch::error` ones
-     */
+    /** The minimum set of events the collectors need to implement. */
     const events = [
         ['targetfetch::start', { resource: 'http://localhost/' }],
         ['targetfetch::end', {
@@ -105,6 +102,37 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
                 statusCode: 200,
                 url: 'http://localhost/style.css'
             }
+        }],
+        ['fetch::start', { resource: 'http://localhost/script4.js' }],
+        ['fetch::end', {
+            element: {
+                getAttribute(attr) {
+                    if (attr === 'href') {
+                        return 'style.css';
+                    }
+
+                    return '';
+                }
+            },
+            resource: 'http://localhost/script4.js',
+            request: { url: 'http://localhost/script4.js' },
+            response: {
+                statusCode: 404,
+                url: 'http://localhost/script4.js'
+            }
+        }],
+        ['fetch::error', {
+            element: {
+                getAttribute(attr) {
+                    if (attr === 'href') {
+                        return 'test://fa.il';
+                    }
+
+                    return '';
+                }
+            },
+            resource: 'test://fa.il',
+            hops: ['http://localhost/script5.js']
         }]
     ];
     /* eslint-enable sort-keys */
@@ -222,6 +250,11 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
                 content: 'script2.js',
                 status: 302
             },
+            '/script4.js': {
+                content: 'script4.js',
+                status: 404
+            },
+            '/script5.js': null,
             '/style.css': fs.readFileSync(path.join(__dirname, './fixtures/common/style.css'), 'utf8')
         });
 
@@ -237,6 +270,13 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
         for (let i = 0; i < emitAsync.callCount; i++) {
             invokes.push(emitAsync.getCall(i).args);
         }
+
+        /* We tests there was just a single `fetch::error` emitted. */
+        const fetchErrorEvents = _.filter(invokes, (invoke) => {
+            return invoke[0] === 'fetch::error';
+        });
+
+        t.is(fetchErrorEvents.length, 1);
 
         pendingEvents.forEach((event) => {
             t.true(validEvent(invokes, event), `Event ${event[0]}/${event[1].resource} has the same properties`);
