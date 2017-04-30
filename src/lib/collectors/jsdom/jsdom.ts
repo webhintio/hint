@@ -21,18 +21,19 @@
 
 import * as path from 'path';
 import * as url from 'url';
+import * as vm from 'vm';
 
 import * as jsdom from 'jsdom/lib/old-api';
 
 import { debug as d } from '../../utils/debug';
 /* eslint-disable no-unused-vars */
 import {
-    IAsyncHTMLDocument, IAsyncHTMLElement, ICollector, ICollectorBuilder,
+    IAsyncHTMLElement, ICollector, ICollectorBuilder,
     IElementFoundEvent, IFetchEndEvent, IFetchErrorEvent, IManifestFetchErrorEvent, IManifestFetchEnd, ITraverseDownEvent, ITraverseUpEvent,
     INetworkData, URL
 } from '../../types';
 /* eslint-enable */
-import { JSDOMAsyncHTMLElement } from './jsdom-async-html';
+import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
 import { readFileAsync } from '../../utils/misc';
 import { Requester } from '../utils/requester'; //eslint-disable-line
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
@@ -66,6 +67,8 @@ class JSDOMCollector implements ICollector {
     private _finalHref: string;
     private _targetNetworkData: INetworkData;
     private _manifestIsSpecified: boolean = false;
+    private _window: Window;
+    private _document: JSDOMAsyncHTMLDocument;
 
     constructor(server: Sonar, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
@@ -345,6 +348,9 @@ class JSDOMCollector implements ICollector {
                         return;
                     }
 
+                    this._window = window;
+                    this._document = new JSDOMAsyncHTMLDocument(window.document);
+
                     /* Even though `done()` is called after window.onload (so all resoruces and scripts executed),
                        we might want to wait a few seconds if the site is lazy loading something. */
                     setTimeout(async () => {
@@ -381,7 +387,8 @@ class JSDOMCollector implements ICollector {
     }
 
     public close() {
-        // With JSDOM there is nothing to release
+        this._window.close();
+
         return Promise.resolve();
     }
 
@@ -408,6 +415,22 @@ class JSDOMCollector implements ICollector {
         }
 
         return this._fetchUrl(parsedTarget, customHeaders);
+    }
+
+    public evaluate(source: string) {
+        //TODO: Have a timeout the same way CDP does
+        const script = new vm.Script(source);
+        const result = jsdom.evalVMScript(this._window, script);
+
+        if (result[Symbol.toStringTag] === 'Promise') {
+            return result;
+        }
+
+        return Promise.resolve(result);
+    }
+
+    public querySelectorAll(selector: string): Promise<JSDOMAsyncHTMLElement[]> {
+        return this._document.querySelectorAll(selector);
     }
 
     // ------------------------------------------------------------------------------

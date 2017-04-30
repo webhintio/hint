@@ -14,7 +14,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, IPlugin, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, IPlugin, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
 import * as resourceLoader from './utils/resource-loader';
 import { RuleContext } from './rule-context';
 
@@ -44,12 +44,7 @@ export class Sonar extends EventEmitter {
         return this.browsersList;
     }
 
-    fetchContent(target, headers) {
-        return this.collector.fetchContent(target, headers);
-    }
-
     constructor(config) {
-
         super({
             delimiter: '::',
             maxListeners: 0,
@@ -151,13 +146,21 @@ export class Sonar extends EventEmitter {
         this.collector = await collectors.get(collectorId)(this, collectorConfig);
     }
 
+    public fetchContent(target, headers) {
+        return this.collector.fetchContent(target, headers);
+    }
+
+    public evaluate(source: string) {
+        return this.collector.evaluate(source);
+    }
+
     /** Releases any used resource and/or browser. */
     public async close() {
         await this.collector.close();
     }
 
     /** Reports a message from one of the rules. */
-    report(ruleId: string, severity: Severity, node, location: IProblemLocation, message: string, resource: string) {
+    public report(ruleId: string, severity: Severity, node, location: IProblemLocation, message: string, resource: string) {
         const problem = {
             column: location && location.column || -1,
             line: location && location.line || -1,
@@ -171,7 +174,7 @@ export class Sonar extends EventEmitter {
     }
 
     /** Runs all the configured rules and plugins on a target */
-    async executeOn(target: URL): Promise<Array<IProblem>> {
+    public async executeOn(target: URL): Promise<Array<IProblem>> {
 
         const start = Date.now();
 
@@ -182,7 +185,10 @@ export class Sonar extends EventEmitter {
         debug(`Total runtime ${Date.now() - start}`);
 
         return this.messages;
+    }
 
+    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
+        return this.collector.querySelectorAll(selector);
     }
 }
 
