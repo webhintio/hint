@@ -495,7 +495,7 @@ class CDPCollector implements ICollector {
         }
     }
 
-    async fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {
+    public async fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {
         // TODO: This should create a new tab, navigate to the
         // resource and control what is received somehow via an event.
         let req;
@@ -529,6 +529,86 @@ class CDPCollector implements ICollector {
                 url: href
             }
         };
+    }
+
+    /**
+     * The `exceptionDetails` provided by the debugger protocol does not contain the useful
+     * information such as name, message, and stack trace of the error when it's wrapped in a
+     * promise. Instead, map to a successful object that contains this information.
+     * @param {string|Error} err The error to convert
+     * istanbul ignore next
+     */
+    private wrapRuntimeEvalErrorInBrowser(e) {
+        const err = e || new Error();
+        const fallbackMessage = typeof err === 'string' ? err : 'unknown error';
+
+        return {
+            __failedInBrowser: true,
+            message: err.message || fallbackMessage,
+            name: err.name || 'Error',
+            stack: err.stack || (new Error()).stack
+        };
+    }
+
+    /** Asynchronoulsy evaluates the given JavaScript code into the browser.
+     *
+     * This awesomeness comes from lighthouse
+     */
+    public evaluate(code): Promise<any> {
+
+        return new Promise(async (resolve, reject) => {
+            // If this gets to 60s and it hasn't been resolved, reject the Promise.
+            const asyncTimeout = setTimeout(
+                (() => {
+                    reject(new Error('The asynchronous expression exceeded the allotted time of 60s'));
+                }), 60000);
+
+            try {
+                const expression = `(function wrapInNativePromise() {
+          const __nativePromise = window.__nativePromise || Promise;
+          return new __nativePromise(function (resolve) {
+            return __nativePromise.resolve()
+              .then(_ => ${code})
+              .catch(function ${this.wrapRuntimeEvalErrorInBrowser.toString()})
+              .then(resolve);
+          });
+        }())`;
+
+                const result = await this._client.Runtime.evaluate({
+                    awaitPromise: true,
+                    // We need to explicitly wrap the raw expression for several purposes:
+                    // 1. Ensure that the expression will be a native Promise and not a polyfill/non-Promise.
+                    // 2. Ensure that errors in the expression are captured by the Promise.
+                    // 3. Ensure that errors captured in the Promise are converted into plain-old JS Objects
+                    //    so that they can be serialized properly b/c JSON.stringify(new Error('foo')) === '{}'
+                    expression,
+                    includeCommandLineAPI: true,
+                    returnByValue: true
+                });
+
+                clearTimeout(asyncTimeout);
+                const value = result.result.value;
+
+                if (result.exceptionDetails) {
+                    // An error occurred before we could even create a Promise, should be *very* rare
+                    return reject(new Error('an unexpected driver error occurred'));
+                }
+
+                if (value && value.__failedInBrowser) {
+                    return reject(Object.assign(new Error(), value));
+                }
+
+                return resolve(value);
+            } catch (err) {
+                clearTimeout(asyncTimeout);
+
+                return reject(err);
+            }
+        });
+    }
+
+    public querySelectorAll(selector: string) {
+        return this._dom.querySelectorAll(selector);
     }
 
     // ------------------------------------------------------------------------------

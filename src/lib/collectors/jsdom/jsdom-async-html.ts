@@ -12,7 +12,7 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
     // Public methods
     // ------------------------------------------------------------------------------
 
-    querySelectorAll(selector: string) {
+    querySelectorAll(selector: string): Promise<JSDOMAsyncHTMLElement[]> {
         const elements = Array.prototype.slice.call(this._document.querySelectorAll(selector))
             .map((element) => {
                 return new JSDOMAsyncHTMLElement(element); // eslint-disable-line no-use-before-define

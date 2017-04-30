@@ -9,9 +9,6 @@ import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars
 import { IAsyncHTMLElement, INetworkData, IProblemLocation, Severity } from './types'; // eslint-disable-line no-unused-vars
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
 
 /** Acts as an abstraction layer between rules and the main sonar object. */
 export class RuleContext {
@@ -56,23 +53,36 @@ export class RuleContext {
         return null;
     }
 
+    // ------------------------------------------------------------------------------
+    // Public methods
+    // ------------------------------------------------------------------------------
+
+    /** Injects JavaScript into the target. */
+    public evaluate(source: string) {
+        return this.sonar.evaluate(source);
+    }
+
     /** A useful way of making requests. */
-    fetchContent(target, headers?): Promise<INetworkData> {
+    public fetchContent(target, headers?): Promise<INetworkData> {
         return this.sonar.fetchContent(target, headers);
     }
 
+    public querySelectorAll(selector: string) {
+        return this.sonar.querySelectorAll(selector);
+    }
+
     /** Finds the exact location of the given content in the HTML that represents the `element`. */
-    findInElement(element: IAsyncHTMLElement, content: string): Promise<IProblemLocation> {
+    public findInElement(element: IAsyncHTMLElement, content: string): Promise<IProblemLocation> {
         return findInElement(element, content);
     }
 
     /** Finds the approximative location in the page's HTML for a match in an element. */
-    findProblemLocation(element: IAsyncHTMLElement, content?: string) {
+    public findProblemLocation(element: IAsyncHTMLElement, content?: string) {
         return findProblemLocation(element, { column: 0, line: 0 }, content);
     }
 
     /** Reports a problem with the resource. */
-    async report(resource: string, descriptor: IAsyncHTMLElement, message: string, location?: IProblemLocation) { //eslint-disable-line require-await
+    public async report(resource: string, descriptor: IAsyncHTMLElement, message: string, location?: IProblemLocation) { //eslint-disable-line require-await
         // let position = location;
 
         // if (!position && descriptor) {

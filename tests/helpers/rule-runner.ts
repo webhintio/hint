@@ -7,6 +7,7 @@ import * as url from 'url';
 import { test } from 'ava'; // eslint-disable-line no-unused-vars
 import * as retry from 'async-retry';
 
+import { ids as collectors} from './collectors';
 import { createServer } from './test-server';
 import { IElementFoundEvent, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
@@ -14,8 +15,6 @@ import * as Sonar from '../../src/lib/sonar';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
 export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, collectorOptions?, serial: boolean = false) => {
-
-    const collectors = ['jsdom', 'cdp'];
 
     /** Creates a valid sonar configuration. Eventually we should
      * test all available collectors and not only JSDOM */
