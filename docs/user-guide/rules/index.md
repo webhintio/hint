@@ -1,6 +1,7 @@
 # List of core rules
 
 * [`disallowed-headers`](disallowed-headers.md)
+* [`disown-opener`](disown-opener.md)
 * [`lang-attribute`](lang-attribute.md)
 * [`manifest-exists`](manifest-exists.md)
 * [`manifest-file-extension`](manifest-file-extension.md)

@@ -1,6 +1,5 @@
 /**
  * @fileoverview Simple HTTP server used in sonar's tests to mimick certain scenarios.
- *
  */
 
 import * as http from 'http';
