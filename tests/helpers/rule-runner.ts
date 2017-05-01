@@ -78,7 +78,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
             }
 
             return reports.forEach((report, index) => {
-                t.is(results[index].message, report.message, `Different message`);
+                t.is(results[index].message, report.message.replace(/http:\/\/localhost\//g, `http://localhost:${server.port}/`), `Different message`);
                 if (report.position) {
                     t.is(results[index].column, report.position.column, `Different column`);
                     t.is(results[index].line, report.position.line, `Different line`);
