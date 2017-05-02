@@ -33,7 +33,7 @@
   "homepage": "https://github.com/MicrosoftEdge/Sonar#readme",
   "dependencies": {
     "chalk": "^1.1.3",
-    "chrome-remote-interface": "^0.21.0",
+    "chrome-remote-interface": "^0.22.0",
     "debug": "^2.6.1",
     "eslint": "^3.19.0",
     "eventemitter2": "^4.1.0",
