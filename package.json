@@ -7,7 +7,7 @@
   "scripts": {
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
-    "build:assets": "cpx \"./{src,tests}/**/*.!(ts)\" dist",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc --outDir dist",
     "clean": "rimraf dist",
     "lint": "eslint --ext md --ext ts --ignore-pattern dist/* .",
