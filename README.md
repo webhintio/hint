@@ -1,11 +1,16 @@
-# Sonar [![Build Status](https://travis-ci.com/MicrosoftEdge/Sonar.svg?token=ie6AidxpTLajKCNExwqL&branch=master)](https://travis-ci.com/MicrosoftEdge/Sonar) [![Greenkeeper badge](https://badges.greenkeeper.io/MicrosoftEdge/Sonar.svg?token=b8370543b9160bd1bb844502495c4226139b92230cd84c3f5f4c58c669275c51&ts=1493307106026)](https://greenkeeper.io/)
+# Sonar
+
+[![Build Status](https://travis-ci.com/MicrosoftEdge/Sonar.svg?token=ie6AidxpTLajKCNExwqL&branch=master)](https://travis-ci.com/MicrosoftEdge/Sonar) [![Greenkeeper badge](https://badges.greenkeeper.io/MicrosoftEdge/Sonar.svg?token=b8370543b9160bd1bb844502495c4226139b92230cd84c3f5f4c58c669275c51&ts=1493307106026)](https://greenkeeper.io/)
+
 
 ## Tasks
 
-* `npm run site -- https://example.com` will analyze the website with
-   the current configuration and using the latest build available in
-   the `dist` folder.
-* `npm run lint` will lint the code under `src`.
+* `npm run site <url>` will analyze the website with the current
+   configuration and using the latest build available in the `dist`
+   directory.
+* `npm run site -- --debug <url>` same as above, but will show all
+   the debug information.
+* `npm run lint` will lint the code.
 * `npm run watch` will start watchmode. This is the recommended task
    to run in the background while developing. It does the following:
   * sync all the resources from `src` to `dist` (basically anything
