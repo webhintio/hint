@@ -9,10 +9,11 @@ need to:
 * Have the following template:
 
   ```typescript
-  import { Rule } from '../../../../lib/types'; // eslint-disable-line no-unused-vars
   import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
-
   import * as ruleRunner from '../../../helpers/rule-runner';
+  import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
+
+  const ruleName = getRuleName(__dirname);
 
   const tests: Array<RuleTest> = [
       {
@@ -26,8 +27,14 @@ need to:
       { ... }
   ];
 
-  ruleRunner.testRule('<rule-id>', tests);
+  ruleRunner.testRule(ruleName, tests);
   ```
+
+The signature of `ruleRunner.testRule` is:
+* `ruleName`, the name of the rule.
+* `tests`, an `Array<RuleTest>`.
+* `ruleConfig`, (optional) to modify the defaults of the rule.
+* `serial`, (optional, defaults to `false`) to run the tests of that rule serially.
 
 `serverConfig` can be of different types depending on particular needs:
 
@@ -37,10 +44,10 @@ need to:
   <!-- eslint-disable no-unused-vars -->
 
   ```js
-    const tests = [{
+    const serverConfig = {
         '/': 'some HTML here',
-        'site.webmanifest': { property: 'value' }
-    }];
+        'site.webmanifest': 'other content'
+    };
   ```
 
 * You can even specify the status code for the response for
@@ -49,17 +56,66 @@ need to:
   <!-- eslint-disable no-unused-vars -->
 
   ```js
-    const tests = [{
+    const serverConfig = {
         '/': 'some HTML here',
         '/site.webmanifest': {
             content: 'The content of the response',
             statusCode: 200
         }
-    }];
+    };
   ```
 
 In the last example, if you don't specify `content`, the response
 will be an empty string `''`.
 
-`rule-runner` allows us to easily test all the rules in all the
-supported collectors.
+`rule-runner` will automatically test the rule in all the supported collectors.
+
+
+## Throwing an error
+
+If you need to force an error in the `collector` when visiting a url you just
+have to make the content `null`. This will force a redirect to `test://fail`
+and thus causing an exception.
+
+
+## Testing an external url
+
+If you need to test an external resource (because you are integrating with a
+third party service) you need to use the property `serverUrl`:
+
+```typescript
+const tests: Array<RuleTest> = [
+      {
+          name: 'Name of the tests',
+          serverUrl: 'https://example.com',
+          reports: [{
+              message: 'Message the error will have'
+          }]
+      },
+      { ... }
+  ];
+```
+
+## Execute code `before` or `after` collecting the results
+
+In some scenarios you need to execute some code `before` or `after` the actual tests. For example, if you need to mock a dependency. For those cases you can
+use the `before` and `after` properties of `RuleTest`:
+
+```typescript
+const tests: Array<RuleTest> = [
+      {
+          after() {
+              // Code to execute right before calling `collector.close` goes here
+          }
+          before() {
+              // Code to execute before the creation of the sonar object here
+          },
+          name: 'Name of the tests',
+          serverUrl: 'https://example.com',
+          reports: [{
+              message: 'Message the error will have'
+          }]
+      },
+      { ... }
+  ];
+```

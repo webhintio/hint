@@ -22,6 +22,7 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
     /* eslint-disable sort-keys */
     /** The minimum set of events the collectors need to implement. */
     const events = [
+        ['scan::start', { resource: 'http://localhost/' }],
         ['targetfetch::start', { resource: 'http://localhost/' }],
         ['targetfetch::end', {
             resource: 'http://localhost/',
@@ -133,7 +134,8 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
             },
             resource: 'test://fa.il',
             hops: ['http://localhost/script5.js']
-        }]
+        }],
+        ['scan::end', { resource: 'http://localhost/' }]
     ];
     /* eslint-enable sort-keys */
 
@@ -183,20 +185,25 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
 
 
     test.beforeEach(async (t) => {
-        const sonar = { emitAsync() { } };
+        const sonar = {
+            emit() { },
+            emitAsync() { }
+        };
         const collector: ICollector = await (collectorBuilder)(sonar, {});
         const server = createServer();
 
         await server.start();
 
         sinon.spy(sonar, 'emitAsync');
+        sinon.spy(sonar, 'emit');
         t.context.collector = collector;
-        t.context.emitAsync = sonar.emitAsync;
+        t.context.sonar = sonar;
         t.context.server = server;
     });
 
     test.afterEach(async (t) => {
-        t.context.emitAsync.restore();
+        t.context.sonar.emitAsync.restore();
+        t.context.sonar.emit.restore();
         t.context.server.stop();
         await t.context.collector.close();
     });
@@ -264,19 +271,26 @@ const testCollector = (collectorBuilder: ICollectorBuilder) => {
 
         await collector.collect(url.parse(`http://localhost:${server.port}/`));
 
-        const emitAsync = t.context.emitAsync;
+        const { emit, emitAsync } = t.context.sonar;
         const invokes = [];
 
         for (let i = 0; i < emitAsync.callCount; i++) {
             invokes.push(emitAsync.getCall(i).args);
         }
 
-        /* We tests there was just a single `fetch::error` emitted. */
-        const fetchErrorEvents = _.filter(invokes, (invoke) => {
-            return invoke[0] === 'fetch::error';
+        for (let i = 0; i < emit.callCount; i++) {
+            invokes.push(emit.getCall(i).args);
+        }
+
+        // List of events that only have to be called once per execution
+        const singles = ['fetch::error', 'scan::start', 'scan::end'];
+        const groupedEvents = _.groupBy(invokes, (invoke) => {
+            return invoke[0];
         });
 
-        t.is(fetchErrorEvents.length, 1);
+        singles.forEach((single) => {
+            t.is(groupedEvents[single].length, 1, `${single} should be called once`);
+        });
 
         pendingEvents.forEach((event) => {
             t.true(validEvent(invokes, event), `Event ${event[0]}/${event[1].resource} has the same properties`);

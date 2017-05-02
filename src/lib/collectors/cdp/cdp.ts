@@ -118,6 +118,11 @@ class CDPCollector implements ICollector {
     /** Returns the IAsyncHTMLElement that initiated a request */
     private async getElementFromRequest(requestId: string): Promise<CDPAsyncHTMLElement> {
         const element = this._requests.get(requestId);
+
+        if (!element) {
+            return null;
+        }
+
         const { initiator: { type } } = element;
         let { request: { url: requestUrl } } = element;
         // We need to calculate the original url because it might have redirects
@@ -132,7 +137,7 @@ class CDPCollector implements ICollector {
             return await this.getElementFromParser(parts);
         }
 
-        return Promise.resolve(null);
+        return null;
     }
 
     /** Event handler for when the browser is about to make a request. */
@@ -403,6 +408,7 @@ class CDPCollector implements ICollector {
     private onLoadEventFired(callback: Function): Function {
         return async () => {
             const { DOM } = this._client;
+            const event = { resource: this._finalHref };
             // TODO: Wait a few seconds here before traversing
             // or is this event fired when everything is quiet?
 
@@ -414,9 +420,11 @@ class CDPCollector implements ICollector {
                 await this._pendingResponseReceived.shift()();
             }
 
-            await this._server.emitAsync('traverse::start', { resource: this._finalHref });
+            await this._server.emitAsync('traverse::start', event);
             await this.traverseAndNotify(this._dom.root);
-            await this._server.emitAsync('traverse::end', { resource: this._finalHref });
+            await this._server.emitAsync('traverse::end', event);
+
+            await this._server.emitAsync('scan::end', event);
 
             setTimeout(callback, 1000); //HACK: need to check if there is any pending request, wait for it and timeout after a few seconds
         };
@@ -428,29 +436,42 @@ class CDPCollector implements ICollector {
 
     public collect(target: URL) {
         return pify(async (callback) => {
+            this._href = target.href;
+            this._finalHref = target.href; // This value will be updated if we load the site
+            const event = { resource: this._href };
             let client;
+
+            await this._server.emit('scan::start', event);
 
             try {
                 client = await this.initiateComms();
             } catch (e) {
                 debug('Error connecting to browser');
                 debug(e);
+
+                await this._server.emitAsync('scan::end', event);
+
                 callback(e);
 
                 return;
             }
 
-            const { Page } = client;
-
             this._client = client;
-            this._href = target.href;
-            this._finalHref = target.href;
+            const { Page } = client;
 
             Page.loadEventFired(this.onLoadEventFired(callback));
 
-            await this.configureAndEnableCDP();
+            try {
+                await this.configureAndEnableCDP();
 
-            await Page.navigate({ url: this._href });
+                await Page.navigate({ url: this._href });
+            } catch (e) {
+                await this._server.emitAsync('scan::end', event);
+
+                callback(e);
+
+                return;
+            }
         })();
     }
 
