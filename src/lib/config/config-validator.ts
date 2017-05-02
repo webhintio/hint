@@ -46,7 +46,14 @@ export const validateConfig = (config): boolean => {
             return false;
         }
 
-        const validConfig = validateRule(rule, ruleConfig, ruleId);
+        let validConfig = true;
+
+        try {
+            validConfig = validateRule(rule, ruleConfig, ruleId);
+        } catch (err) {
+            // if severity is invalid
+            validConfig = false;
+        }
 
         if (!validConfig) {
             logger.error(`Invalid configuration for "${ruleId}"`);

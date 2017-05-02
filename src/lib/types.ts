@@ -16,7 +16,8 @@ export * from './types/problems';
 export * from './types/rules';
 
 export interface IConfig {
-    sonarConfig?;
+    collector;
+    rules;
 }
 
 /** A resource required by Sonar: Collector, Formatter, Plugin, Rule. */

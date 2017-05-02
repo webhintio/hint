@@ -70,7 +70,7 @@ const loadConfigFile = (filePath: string): IConfig => {
             break;
 
         default:
-            config = {};
+            config = null;
     }
 
     return config;
