@@ -7,7 +7,16 @@ export interface Report {
 }
 
 export interface RuleTest {
-    name: string
-    serverConfig: any
-    reports?: Array<Report>
+    /** The code to execute before `closing` the collector. */
+    after?();
+    /** The code to execute before creating the collector. */
+    before?();
+    /** The name of the test. */
+    name: string;
+    /** The expected results of the execution. */
+    reports?: Array<Report>;
+    /** The configuration `test-server` should use. */
+    serverConfig?: any;
+    /** The url to `executeOn` if different than `localhost`. */
+    serverUrl?: string;
 }

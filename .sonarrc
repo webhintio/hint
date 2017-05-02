@@ -1,6 +1,6 @@
 {
     "collector": {
-        "name": "cdp",
+        "name": "jsdom",
         "options": {
             "waitFor": 100
         }
@@ -16,6 +16,7 @@
         "no-friendly-error-pages": "warning",
         "no-html-only-headers": "warning",
         "no-protocol-relative-urls": "warning",
+        "ssllabs": "warning",
         "x-content-type-options": "warning"
     }
 }
