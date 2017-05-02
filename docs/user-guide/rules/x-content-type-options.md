@@ -57,7 +57,7 @@ HTTP/1.1 200 OK
 X-Content-Type-Options: no-sniff
 ```
 
-Examples that **pass** the rule:
+Example that **passes** the rule:
 
 ```text
 HTTP/1.1 200 OK

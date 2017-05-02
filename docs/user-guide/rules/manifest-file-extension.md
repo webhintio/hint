@@ -33,7 +33,7 @@ Examples that **trigger** the rule:
 <link rel="manifest" href="site.manifest">
 ```
 
-Examples that **pass** the rule:
+Example that **passes** the rule:
 
 ```html
 <link rel="manifest" href="site.webmanifest">

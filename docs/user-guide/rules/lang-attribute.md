@@ -88,7 +88,7 @@ Examples that **trigger** the rule:
   </html>
   ```
 
-Examples that **pass** the rule:
+Example that **passes** the rule:
 
 ```html
 <!doctype html>
