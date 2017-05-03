@@ -13,7 +13,7 @@ import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-va
 import * as Sonar from '../../src/lib/sonar';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
-export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: object) => {
+export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, collectorOptions?, serial: boolean = false) => {
 
     const collectors = ['jsdom', 'cdp'];
 
@@ -45,6 +45,62 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
         t.context.server.stop();
     });
 
+    /** Validates that the results from the execution match the expected ones. */
+    const validateResults = (t, results, reports) => {
+        const { server } = t.context;
+
+        if (!reports) {
+            return t.is(results.length, 0);
+        }
+
+        if (results.length === 0) {
+            return t.fail(`No results found, should be ${reports.length}`);
+        }
+
+        if (results.length !== reports.length) {
+            return t.fail(`Result count is ${results.length}, should be ${reports.length}`);
+        }
+
+        return reports.forEach((report, index) => {
+            t.is(results[index].message, report.message.replace(/http:\/\/localhost\//g, `http://localhost:${server.port}/`), `Different message`);
+
+            if (report.position) {
+                t.is(results[index].column, report.position.column, `Different column`);
+                t.is(results[index].line, report.position.line, `Different line`);
+            }
+        });
+    };
+
+    /** Creates a new collector with just the rule to be tested and executing
+     * any required `before` task as indicated by `ruleTest`. */
+    const createCollector = async (t, ruleTest: RuleTest, collector: string, attemp: number): Promise<Sonar.Sonar> => {
+        const { server } = t.context;
+        const { serverConfig } = ruleTest;
+
+        if (ruleTest.before) {
+            await ruleTest.before();
+        }
+
+        const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, collector, collectorOptions));
+
+        // We only configure the server the first time
+        if (attemp === 1 && serverConfig) {
+            server.configure(serverConfig);
+        }
+
+        return sonar;
+    };
+
+    /** Stops a collector executing any required `after` task as indicated by
+     * `ruleTest`. */
+    const stopCollector = async (ruleTest: RuleTest, collector): Promise<void> => {
+        if (ruleTest.after) {
+            await ruleTest.after();
+        }
+
+        await collector.close();
+    };
+
     /** Runs a test for the rule being tested */
     const runRule = (t, ruleTest: RuleTest, collector: string) => {
         return retry(async (bail, attemp) => {
@@ -53,44 +109,28 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, options?: o
             }
 
             const { server } = t.context;
-            const { serverConfig, reports } = ruleTest;
-            const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, collector, options));
+            const { serverUrl, reports } = ruleTest;
+            const target = serverUrl ? serverUrl : `http://localhost:${server.port}/`;
 
-            // We only configure the server the first time
-            if (attemp === 1) {
-                server.configure(serverConfig);
-            }
+            const sonar = await createCollector(t, ruleTest, collector, attemp);
+            const results = await sonar.executeOn(url.parse(target));
 
-            const results = await sonar.executeOn(url.parse(`http://localhost:${server.port}/`));
+            await stopCollector(ruleTest, sonar);
 
-            await sonar.close();
-
-            if (!reports) {
-                return t.is(results.length, 0);
-            }
-
-            if (results.length === 0) {
-                return t.fail(`No results found, should be ${reports.length}`);
-            }
-
-            if (results.length !== reports.length) {
-                return t.fail(`Wrong number of results "${results.length}", should be ${reports.length}`);
-            }
-
-            return reports.forEach((report, index) => {
-                t.is(results[index].message, report.message.replace(/http:\/\/localhost\//g, `http://localhost:${server.port}/`), `Different message`);
-                if (report.position) {
-                    t.is(results[index].column, report.position.column, `Different column`);
-                    t.is(results[index].line, report.position.line, `Different line`);
-                }
+            return validateResults(t, results, reports);
+        },
+            {
+                minTimeout: 10000,
+                retries: 3
             });
-        });
     };
 
     /* Run all the tests for a given rule in all collectors. */
     collectors.forEach((collector) => {
         ruleTests.forEach((ruleTest) => {
-            test(`[${collector}]${ruleTest.name}`, runRule, ruleTest, collector);
+            const runner = serial ? test.serial : test;
+
+            runner(`[${collector}]${ruleTest.name}`, runRule, ruleTest, collector);
         });
     });
 };

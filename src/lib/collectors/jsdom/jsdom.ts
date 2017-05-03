@@ -290,10 +290,14 @@ class JSDOMCollector implements ICollector {
         /** The target in string format */
         const href = this._href = target.href;
 
+        const initialEvent = { resource: href };
+
+        this._server.emit('scan::start', initialEvent);
+
         return new Promise(async (resolve, reject) => {
 
             debug(`About to start fetching ${href}`);
-            await this._server.emitAsync('targetfetch::start', { resource: href });
+            await this._server.emitAsync('targetfetch::start', initialEvent);
 
             try {
                 this._targetNetworkData = await this.fetchContent(target);
@@ -308,6 +312,9 @@ class JSDOMCollector implements ICollector {
 
                 await this._server.emitAsync('targetfetch::error', fetchError);
                 debug(`Failed to fetch: ${href}\n${err}`);
+
+                await this._server.emitAsync('scan::end', initialEvent);
+
                 reject(fetchError);
 
                 return;
@@ -328,9 +335,11 @@ class JSDOMCollector implements ICollector {
             await this._server.emitAsync('targetfetch::end', fetchEnd);
 
             jsdom.env({
-                done: (err, window) => {
+                done: async (err, window) => {
 
                     if (err) {
+                        await this._server.emitAsync('scan::end', { resource: this._finalHref });
+
                         reject(err);
 
                         return;
@@ -339,17 +348,20 @@ class JSDOMCollector implements ICollector {
                     /* Even though `done()` is called after window.onload (so all resoruces and scripts executed),
                        we might want to wait a few seconds if the site is lazy loading something. */
                     setTimeout(async () => {
+                        const event = { resource: this._finalHref };
 
                         debug(`${this._finalHref} loaded, traversing`);
 
-                        await this._server.emitAsync('traverse::start', { resource: this._finalHref });
+                        await this._server.emitAsync('traverse::start', event);
                         await this.traverseAndNotify(window.document.children[0]);
-                        await this._server.emitAsync('traverse::end', { resource: this._finalHref });
+                        await this._server.emitAsync('traverse::end', event);
 
                         await this.getManifest();
 
                         /* TODO: when we reach this moment we should wait for all pending request to be done and
                            stop processing any more. */
+
+                        await this._server.emitAsync('scan::end', event);
                         resolve();
 
                     }, this._options.waitFor);

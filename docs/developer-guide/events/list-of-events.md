@@ -4,6 +4,8 @@
 the events common to all `collector`s, with their signature, and the
 `interface` they implement.
 
+* [`scan::start`](#scanstart)
+* [`scan::end`](#scanend)
 * [`targetfetch::start`](#targetfetchstart)
 * [`targetfetch::end`](#targetfetchend)
 * [`targetfetch::error`](#targetfetcherror)
@@ -15,6 +17,40 @@ the events common to all `collector`s, with their signature, and the
 * [`traverse::down`](#traversedown)
 * [`traverse::up`](#traverseup)
 * [`element::<element-type>`](#elementelement-type)
+
+
+## `scan::start`
+
+* **When?** When the `collector` is about to start the analysis. This is the
+  first event to emit.
+
+* **Format**
+
+  ```typescript
+  export interface IScanStartEvent {
+      /** The URL to analyze. */
+      resource: string;
+  }
+  ```
+
+* **Remarks:** This event is fired synchronously. You should not return a `Promise`
+  because it will not wait for it to be resolved. If you need to perform an `async`
+  operation you should combine it with `scan::end`. You can find more information in
+  [how to interact with other services](../rules/how to interact with other services.md).
+
+## `scan::end`
+
+* **When?** When the `collector` has finished sending all events and its about
+  to return. This is the last event to emit.
+
+* **Format**
+
+  ```typescript
+  export interface IScanEndEvent {
+       /** The final URL analyzed. */
+      resource: string;
+  }
+  ```
 
 
 ## `targetfetch::start`

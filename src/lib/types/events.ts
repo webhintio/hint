@@ -1,13 +1,25 @@
 import { IAsyncHTMLElement } from './asynchtml';
 import { IRequest, IResponse } from './network';
 
-/** The object emited by a collector on `targetfetch::start` or `fetch::start`. */
+/** The object emitted when the collector is going to start the process. */
+export interface IScanStartEvent {
+    /** The URL that is going to be analyzed. */
+    resource: string;
+}
+
+/** The object emitted when the collector has finished the process. */
+export interface IScanEndEvent {
+    /** The final URL analyzed after redirects. */
+    resource: string;
+}
+
+/** The object emitted by a collector on `targetfetch::start` or `fetch::start`. */
 export interface IFetchStartEvent {
     /** The URL to download. */
     resource: string;
 }
 
-/** The object emited by a collector on `targetfetch::end` or `fetch::end`. */
+/** The object emitted by a collector on `targetfetch::end` or `fetch::end`. */
 export interface IFetchEndEvent {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
@@ -18,6 +30,9 @@ export interface IFetchEndEvent {
     /** The response sent while fetching the target. */
     response: IResponse;
 }
+
+export type ITargetFetchEnd = IFetchEndEvent;
+export type ITargetFetchStart = IFetchStartEvent;
 
 /** The object emitted by a collector on `targetfetch::error` or `fetch::error` */
 export interface IFetchErrorEvent {
@@ -55,7 +70,7 @@ export interface ITraverseDownEvent {
     resource: string;
 }
 
-/** The object emited by a collector on `element::<element-type>`. */
+/** The object emitted by a collector on `element::<element-type>`. */
 export interface IElementFoundEvent {
     /** The URI of the resource firing this event. */
     resource: string;
