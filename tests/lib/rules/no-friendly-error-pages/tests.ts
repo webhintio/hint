@@ -1,42 +1,21 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
+import { generateHTMLPage } from '../../../helpers/misc';
+import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
-import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 
-const htmlPageWithLessThan256bytes =
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>title</title>
-    </head>
-    <body>
-        &lt; 256 bytes
-        สวัสดีค่ะ 你好 もしもし مرحبا 🐛
-    </body>
-</html>`;
+const htmlPageWithLessThan256bytes = generateHTMLPage(null,
+       `&lt; 256 bytes
+        สวัสดีค่ะ 你好 もしもし مرحبا 🐛`);
 
-const htmlPageWithLessThan512bytes =
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-    </head>
-    <body>
-        <h1>This pages has over 256 bytes but less the 512 bytes</h1>
+const htmlPageWithLessThan512bytes = generateHTMLPage(null,
+       `<h1>This pages has over 256 bytes but less the 512 bytes</h1>
         <p>สวัสดีค่ะ 你好 もしもし مرحبا</p>
-        <p>🐛🐛🐛🐛🐛</p>
-    </body>
-</html>`;
+        <p>🐛🐛🐛🐛🐛</p>`);
 
-const htmlPageWithMoreThan512bytes =
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-    </head>
-    <body>
-        <h1>This pages has more than 512 bytes</h1>
+const htmlPageWithMoreThan512bytes = generateHTMLPage(null,
+       `<h1>This pages has more than 512 bytes</h1>
         <p>สวัสดีค่ะ 你好 もしもし مرحبا</p>
         <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
         <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
@@ -44,9 +23,7 @@ const htmlPageWithMoreThan512bytes =
         <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
         <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
         <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
-        <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
-    </body>
-</html>`;
+        <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>`);
 
 const tests: Array<RuleTest> = [];
 
