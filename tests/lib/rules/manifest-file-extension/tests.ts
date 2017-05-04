@@ -1,18 +1,14 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
+import { generateHTMLPage } from '../../../helpers/misc';
+import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
-import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 
 const tests: Array<RuleTest> = [
     {
         name: `Web app manifest file is not specified`,
-        serverConfig: `<!doctype html><html lang="en"><head>
-        <title>test</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')
     },
     {
         name: `Web app manifest file has incorrect file extension`,
@@ -20,23 +16,13 @@ const tests: Array<RuleTest> = [
             message: `The file extension for the web app manifest file ('site.json') should be '.webmanifest' not '.json'`,
             position: { column: 32, line: 1 }
         }],
-        serverConfig: `<!doctype html><html lang="en"><head>
-        <title>test</title>
-        <link rel="manifest" href="site.json">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage(`<link rel="manifest" href="site.json">
+        <link rel="stylesheet" href="style.css">`)
     },
     {
         name: `Web app manifest file has correct file extension`,
-        serverConfig: `<!doctype html><html lang="en"><head>
-        <title>test</title>
-        <link rel="manifest" href="site.webmanifest">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage(`<link rel="manifest" href="site.webmanifest">
+        <link rel="stylesheet" href="style.css">`)
     }
 ];
 

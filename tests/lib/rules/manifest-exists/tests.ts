@@ -1,48 +1,23 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
+import { generateHTMLPage } from '../../../helpers/misc';
+import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
-import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 
-const htmlWithManifestSpecified =
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="manifest" href="site.webmanifest">
-    </head>
-    <body>
-    </body>
-</html>`;
+const htmlWithManifestSpecified = generateHTMLPage(`<link rel="manifest" href="site.webmanifest">`);
 
 const tests: Array<RuleTest> = [
     {
         name: `Web app manifest is not specified`,
         reports: [{ message: 'Web app manifest not specified' }],
-        serverConfig:
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')
     },
     {
         name: `Web app manifest is already specified`,
         reports: [{ message: 'Web app manifest already specified' }],
         serverConfig: {
-            '/':
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="manifest" href="site1.webmanifest">
-        <link rel="manifest" href="site2.webmanifest">
-    </head>
-    <body></body>
-</html>`,
+            '/': generateHTMLPage(`<link rel="manifest" href="site1.webmanifest"><link rel="manifest" href="site2.webmanifest">`),
             '/site1.webmanifest': '',
             '/site2.webmanifest': ''
         }
@@ -50,41 +25,17 @@ const tests: Array<RuleTest> = [
     {
         name: `Web app manifest is specified with no 'href'`,
         reports: [{ message: `Web app manifest specified with invalid 'href'` }],
-        serverConfig:
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="manifest">
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage('<link rel="manifest">')
     },
     {
         name: `Web app manifest is specified with empty 'href'`,
         reports: [{ message: `Web app manifest specified with invalid 'href'` }],
-        serverConfig:
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="manifest" href="">
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage('<link rel="manifest" href="">')
     },
     {
         name: `Web app manifest is specified as a full URL`,
         serverConfig: {
-            '/':
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="manifest" href="http://localhost/site.webmanifest">
-    </head>
-    <body></body>
-</html>`,
+            '/': generateHTMLPage('<link rel="manifest" href="http://localhost/site.webmanifest">'),
             '/site.webmanifest': ''
         }
     },
