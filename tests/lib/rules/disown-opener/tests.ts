@@ -1,30 +1,19 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
+import { generateHTMLPage } from '../../../helpers/misc';
+import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
-import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 
 const ruleName = getRuleName(__dirname);
-
-const generateHTML = (body: string): string => {
-    return `<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-    </head>
-    <body>
-        ${body}
-    </body>
-</html>`;
-};
 
 const testsForDefaults: Array<RuleTest> = [
     {
         name: 'Elements do not have `target="_blank"`',
         serverConfig: {
             '/': {
-                content: generateHTML(`
-        <a href="/">test</a>
+                content: generateHTMLPage(undefined,
+       `<a href="/">test</a>
         <a href="test.html">test</a>
         <a href="https://example.com">test</a>
         <img src="test.png" width="10" height="10" usemap="#test">
@@ -44,8 +33,8 @@ const testsForDefaults: Array<RuleTest> = [
         ],
         serverConfig: {
             '/': {
-                content: generateHTML(`
-        <a href="/" target="_blank">test</a>
+                content: generateHTMLPage(undefined,
+       `<a href="/" target="_blank">test</a>
         <a href="test.html" target="_blank">test</a>
         <a href="http://localhost/test.html" target="_blank">test</a>
         <a href="//example.com" target="_blank">test</a>
@@ -62,8 +51,8 @@ const testsForDefaults: Array<RuleTest> = [
         name: 'Elements have `target="_blank"` and no `href`',
         serverConfig: {
             '/': {
-                content: generateHTML(`
-        <a target="_blank">test</a>
+                content: generateHTMLPage(undefined,
+       `<a target="_blank">test</a>
         <img src="test.png" width="10" height="10" usemap="#test">
         <map name="test">
             <area shape="rect" coords="0,0,5,5" target="_blank">
@@ -75,8 +64,8 @@ const testsForDefaults: Array<RuleTest> = [
         name: 'Elements have `target="_blank"` and empty `href`',
         serverConfig: {
             '/': {
-                content: generateHTML(`
-        <a href target="_blank">test</a>
+                content: generateHTMLPage(undefined,
+       `<a href target="_blank">test</a>
         <a href="" target="_blank">test</a>
         <img src="test.png" width="10" height="10" usemap="#test">
         <map name="test">
@@ -94,8 +83,8 @@ const testsForDefaults: Array<RuleTest> = [
         ],
         serverConfig: {
             '/': {
-                content: generateHTML(`
-        <a href="https://example.com" target="_blank" rel="noopener">test</a>
+                content: generateHTMLPage(undefined,
+       `<a href="https://example.com" target="_blank" rel="noopener">test</a>
         <img src="test.png" width="10" height="10" usemap="#test">
         <map name="test">
             <area shape="rect" coords="0,0,5,5" href="https://example.com" target="_blank" rel="noopener">
@@ -111,8 +100,8 @@ const testsForDefaults: Array<RuleTest> = [
         ],
         serverConfig: {
             '/': {
-                content: generateHTML(`
-        <a href="https://example.com" target="_blank" rel="noreferrer">test</a>
+                content: generateHTMLPage(undefined,
+       `<a href="https://example.com" target="_blank" rel="noreferrer">test</a>
         <img src="test.png" width="10" height="10" usemap="#test">
         <map name="test">
             <area shape="rect" coords="0,0,5,5" href="https://example.com" target="_blank" rel="noreferrer">
@@ -124,8 +113,8 @@ const testsForDefaults: Array<RuleTest> = [
         name: 'Elements have `target="_blank"` and `rel="noopener noreferrer"`',
         serverConfig: {
             '/': {
-                content: generateHTML(`
-        <a href="https://example.com" target="_blank" rel="noopener noreferrer">test</a>
+                content: generateHTMLPage(undefined,
+       `<a href="https://example.com" target="_blank" rel="noopener noreferrer">test</a>
         <img src="test.png" width="10" height="10" usemap="#test">
         <map name="test">
             <area shape="rect" coords="0,0,5,5" href="https://example.com" target="_blank" rel="noopener noreferrer">
@@ -148,8 +137,8 @@ const testsForConfigs: Array<RuleTest> = [
         ],
         serverConfig: {
             '/': {
-                content: generateHTML(`
-        <a href="" target="_blank">test</a>
+                content: generateHTMLPage(undefined,
+       `<a href="" target="_blank">test</a>
         <a href="/test.html" target="_blank">test</a>
         <a href="http://localhost/test.html" target="_blank">test</a>
         <img src="test.png" width="10" height="10" usemap="#test">

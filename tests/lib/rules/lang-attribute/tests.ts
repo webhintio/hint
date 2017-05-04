@@ -1,21 +1,25 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
+import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
-import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
+
+const generateHTMLPage = (langAttributeValue: string = ''): string => {
+    return `<!doctype html>
+<html ${langAttributeValue}>
+    <head>
+        <title>test</title>
+    </head>
+    <body></body>
+</html>`;
+};
 
 const tests: Array<RuleTest> = [
     {
         name: `'lang' attribute is not specified`,
         reports: [{ message: `'lang' attribute not specified on the 'html' element` }],
-        serverConfig:
-`<!doctype html>
-<html>
-    <head>
-        <title>test</title>
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage()
+
     },
     {
         name: `'lang' attribute is specified with no value`,
@@ -23,14 +27,7 @@ const tests: Array<RuleTest> = [
             message: `empty 'lang' attribute specified on the 'html' element`,
             position: { column: 7, line: 1 }
         }],
-        serverConfig:
-`<!doctype html>
-<html lang>
-    <head>
-        <title>test</title>
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage('lang')
     },
     {
         name: `'lang' attribute is specified and its value is an empty string`,
@@ -38,25 +35,11 @@ const tests: Array<RuleTest> = [
             message: `empty 'lang' attribute specified on the 'html' element`,
             position: { column: 7, line: 1 }
         }],
-        serverConfig:
-`<!doctype html>
-<html lang="">
-    <head>
-        <title>test</title>
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage('lang=""')
     },
     {
         name: `'lang' attribute is specified and its value is not an empty string`,
-        serverConfig:
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage('lang="en"')
     }
 ];
 

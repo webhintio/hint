@@ -1,21 +1,13 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
+import { generateHTMLPage } from '../../../helpers/misc';
+import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
-import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 
 const ruleName = getRuleName(__dirname);
 
-const htmlPage =
-`<!doctype html>
- <html lang="en">
-    <head>
-        <title>test</title>
-    </head>
-    <body>
-        <script src="test.js"></script>
-    </body>
-</html>`;
+const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
 
 const testsForDefaults: Array<RuleTest> = [
     {

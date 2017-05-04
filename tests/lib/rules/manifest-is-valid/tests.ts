@@ -1,55 +1,24 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
+import { generateHTMLPage } from '../../../helpers/misc';
+import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
-import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 
-const htmlWithManifestSpecified =
-    `<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="manifest" href="site.webmanifest">
-    </head>
-    <body></body>
-</html>`;
+const htmlWithManifestSpecified = generateHTMLPage('<link rel="manifest" href="site.webmanifest">');
 
 const tests: Array<RuleTest> = [
     {
         name: `Web app manifest is not specified`,
-        serverConfig:
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')
     },
     {
         name: `Web app manifest is specified with no 'href'`,
-        serverConfig:
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="manifest">
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage('<link rel="manifest">')
     },
     {
         name: `Web app manifest is specified with empty 'href'`,
-        serverConfig:
-`<!doctype html>
-<html lang="en">
-    <head>
-        <title>test</title>
-        <link rel="manifest" href="">
-    </head>
-    <body></body>
-</html>`
+        serverConfig: generateHTMLPage('<link rel="manifest" href="">')
     },
     {
         name: `Web app manifest is specified and its content is valid JSON`,
