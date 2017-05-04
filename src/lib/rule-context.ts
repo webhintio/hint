@@ -43,6 +43,11 @@ export class RuleContext {
         return this.sonar.pageHeaders;
     }
 
+    /** List of browsers to target as specified by the sonar configuration. */
+    get targetedBrowsers() {
+        return this.sonar.targetedBrowsers;
+    }
+
     get ruleOptions() {
         if (Array.isArray(this.options)) {
             return this.options[1];

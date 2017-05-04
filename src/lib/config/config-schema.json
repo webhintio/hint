@@ -52,6 +52,21 @@
             },
             "minItems": 1,
             "uniqueItems": true
+        },
+        "browserslist": {
+            "description": "The browsers supported",
+            "anyOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "uniqueItems": true
+                },
+                {
+                    "type": "string"
+                }
+            ]
         }
     },
     "required": [
