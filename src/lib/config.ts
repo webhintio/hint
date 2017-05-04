@@ -17,7 +17,7 @@ import * as shell from 'shelljs';
 
 import { debug as d } from './utils/debug';
 import { IConfig } from './types'; //eslint-disable-line no-unused-vars
-import { loadJSFile, loadJSONFile} from './utils/file-loader';
+import { loadJSFile, loadJSONFile } from './utils/file-loader';
 
 const debug = d(__filename);
 
@@ -77,6 +77,35 @@ const loadConfigFile = (filePath: string): IConfig => {
 
 };
 
+const loadBrowsersList = (config: IConfig): void => {
+    const directory = process.cwd();
+    const files = CONFIG_FILES.reduce((total, configFile) => {
+        const filename = path.join(directory, configFile);
+
+        if (shell.test('-f', filename)) {
+            total.push(filename);
+        }
+
+        return total;
+    }, []);
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const tmpConfig = loadConfigFile(file);
+
+        if (tmpConfig && tmpConfig.browserslist) {
+            config.browserslist = tmpConfig.browserslist;
+            break;
+        }
+
+        if (file.endsWith('package.json')) {
+            const packagejson = loadJSONFile(file);
+
+            config.browserslist = packagejson.browserslist;
+        }
+    }
+};
+
 /** Loads a configuration file from the given file path. */
 export const load = (filePath: string): IConfig => {
 
@@ -85,6 +114,10 @@ export const load = (filePath: string): IConfig => {
 
     if (!config) {
         throw new Error(`Couldn't find any valid configuration`);
+    }
+
+    if (!config.browserslist) {
+        loadBrowsersList(config);
     }
 
     /*

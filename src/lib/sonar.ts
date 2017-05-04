@@ -9,6 +9,7 @@
 
 import * as url from 'url';
 
+import * as browserslist from 'browserslist';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
@@ -29,6 +30,7 @@ export class Sonar extends EventEmitter {
     private rules: Map<string, IRule>
     private collector: ICollector
     private messages: Array<IProblem>
+    private browsersList: Array<String> = [];
 
     get pageContent() {
         return this.collector.html;
@@ -36,6 +38,10 @@ export class Sonar extends EventEmitter {
 
     get pageHeaders() {
         return this.collector.headers;
+    }
+
+    get targetedBrowsers() {
+        return this.browsersList;
     }
 
     fetchContent(target, headers) {
@@ -53,6 +59,11 @@ export class Sonar extends EventEmitter {
         debug('Initializing sonar engine');
 
         this.messages = [];
+
+        debug('Loading supported browsers');
+        if (config.browserslist) {
+            this.browsersList = browserslist(config.browserslist);
+        }
 
         debug('Loading plugins');
         this.plugins = new Map();

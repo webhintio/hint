@@ -49,6 +49,18 @@ test(`If config is an empty object, we shouldn't create any plugin nor rules`, (
     t.false(t.context.resourceLoader.getRules.called);
 });
 
+test(`If config.browserslist is an string, we should initilize the property targetedBrowsers`, (t) => {
+    sinon.spy(t.context.resourceLoader, 'getPlugins');
+    sinon.spy(t.context.resourceLoader, 'getRules');
+
+    const sonarObject = new sonar.Sonar({browserslist: '> 5%'}); //eslint-disable-line no-unused-vars
+
+    t.true(sonarObject.targetedBrowsers.length > 0);
+
+    t.false(t.context.resourceLoader.getPlugins.called);
+    t.false(t.context.resourceLoader.getRules.called);
+});
+
 test('If config.plugins is an array we should create just those plugins', (t) => {
     const plugin = {
         create() {

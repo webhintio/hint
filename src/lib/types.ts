@@ -18,6 +18,7 @@ export * from './types/rules';
 export interface IConfig {
     collector;
     rules;
+    browserslist;
 }
 
 /** A resource required by Sonar: Collector, Formatter, Plugin, Rule. */
