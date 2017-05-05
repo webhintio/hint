@@ -4,7 +4,6 @@
 on `a` and `area` elements that have `target="_blank"` and link to
 other origins.
 
-
 ## Why is this important?
 
 Links that have `target="_blank"`, such as
@@ -41,30 +40,29 @@ Links that have `target="_blank"`, such as
 
 Notes:
 
- * Not all browsers [support](http://caniuse.com/#feat=rel-noopener)
+* Not all browsers [support](http://caniuse.com/#feat=rel-noopener)
    `rel="noopener"`, so in order to ensure that things work as expected
    in all browsers, for the time being, this rule requires
    `rel="noopener noreferrer"`.
 
- * The reason why the rule does not check the same origin links by
+* The reason why the rule does not check the same origin links by
    default is because:
 
-   * Security isn't really a problem here.
-   * When it comes to performance, making same origin links open in
+  * Security isn't really a problem here.
+  * When it comes to performance, making same origin links open in
      their own process actually works against optimizations that some
      browsers do in order to keep multiple same origin tabs within
      the same process (e.g. share the same event loop).
 
-   Check [`Can the rule be configured?`](#can-the-rule-be-configured)
-   section to see how the rule can be made to also check same origin
-   links.
+  Check [`Can the rule be configured?`](#can-the-rule-be-configured)
+  section to see how the rule can be made to also check same origin
+  links.
 
- * [`noopener` and `noreferrer` only work for `a` and `area` elements](https://html5sec.org/#143).
+* [`noopener` and `noreferrer` only work for `a` and `area` elements](https://html5sec.org/#143).
 
- * In the future there may be a [CSP valueless
-   property](https://github.com/w3c/webappsec/issues/139) property that
-   will prevent the `window.opener` reference from being set.
-
+* In the future there may be a [CSP valueless
+  property](https://github.com/w3c/webappsec/issues/139) property that
+  will prevent the `window.opener` reference from being set.
 
 ## What does the rule check?
 
@@ -143,7 +141,6 @@ Examples that **pass** the rule:
 </map>
 ```
 
-
 ## Can the rule be configured?
 
 `includeSameOriginURLs` can be used to specify that same origin URLs
@@ -154,7 +151,6 @@ should also include `rel="noopener noreferrer"`.
     "includeSameOriginURLs": true
 }]
 ```
-
 
 ## Further Reading
 

@@ -3,24 +3,22 @@
 `no-friendly-error-pages` warns against using error pages that have the
 size under a certain threshold.
 
-
 ## Why is this important?
 
 By default [`Internet Explorer 5-11` will show its custom error
 pages](https://blogs.msdn.microsoft.com/ieinternals/2010/08/18/friendly-http-error-pages/)
 if the response body’s byte length is shorter than:
 
-  * `256` bytes for responses with the status code: `403`, `405`,
-    or `410`
-  * `512` bytes for responses with the status code: `400`, `404`,
-    `406`, `408`, `409`, `500`, `501`, or `505`
+* `256` bytes for responses with the status code: `403`, `405`,
+  or `410`
+* `512` bytes for responses with the status code: `400`, `404`,
+  `406`, `408`, `409`, `500`, `501`, or `505`
 
 Similar behavior existed in older versions of other browsers, such as
 [Chrome](https://bugs.chromium.org/p/chromium/issues/detail?id=36558).
 
 While in `Internet Explorer` users can disabled the `Show friendly HTTP
 error messages` functionality, that is not usually the case.
-
 
 ## What does the rule check?
 
@@ -137,7 +135,6 @@ specifically a `404` response), if one wasn't found.
         </body>
     </html>
     ```
-
 
 ## Further Reading
 
