@@ -3,7 +3,6 @@
 `no-protocol-relative-urls` warns against using scheme-relative URLs
 (commonly known as protocol-relative URLs).
 
-
 ## Why is this important?
 
 Nowadays the tendency of the [web is to move to
@@ -42,7 +41,6 @@ URLs can have some drawbacks, which among other include:
   exposed to those types of attacks, but in general CDNs constitute
   a high-value target, and therefore, are much more likely to be
   attacked than most of the individual sites that use them.
-
 
 ## What does the rule check?
 
@@ -83,7 +81,6 @@ Example that **passes** the rule:
     </body>
 </html>
 ```
-
 
 ## Further Reading
 

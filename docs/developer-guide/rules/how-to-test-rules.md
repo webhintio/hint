@@ -4,7 +4,7 @@ Testing a new rule is really easy if you use `rule-runner.ts`. You just
 need to:
 
 * Create a `tests.ts` file in a folder with the name of the rule
-(e.g.: `src/tests/rules/<rule-id>/tests.ts`)
+  (e.g.: `src/tests/rules/<rule-id>/tests.ts`)
 
 * Have the following template:
 
@@ -31,6 +31,7 @@ need to:
   ```
 
 The signature of `ruleRunner.testRule` is:
+
 * `ruleName`, the name of the rule.
 * `tests`, an `Array<RuleTest>`.
 * `ruleConfig`, (optional) to modify the defaults of the rule.
@@ -70,13 +71,11 @@ will be an empty string `''`.
 
 `rule-runner` will automatically test the rule in all the supported collectors.
 
-
 ## Throwing an error
 
 If you need to force an error in the `collector` when visiting a url you just
 have to make the content `null`. This will force a redirect to `test://fail`
 and thus causing an exception.
-
 
 ## Testing an external url
 
@@ -98,7 +97,8 @@ const tests: Array<RuleTest> = [
 
 ## Execute code `before` or `after` collecting the results
 
-In some scenarios you need to execute some code `before` or `after` the actual tests. For example, if you need to mock a dependency. For those cases you can
+In some scenarios you need to execute some code `before` or `after` the actual
+tests. For example, if you need to mock a dependency. For those cases you can
 use the `before` and `after` properties of `RuleTest`:
 
 ```typescript

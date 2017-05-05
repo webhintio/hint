@@ -2,11 +2,10 @@
 
 To create a new rule you just need to:
 
-* Create a `new-rule.ts` file in a folder with the same name of the rule file
-(e.g.: `src\rules\new-rule\new-rule.ts)
+* Create a `new-rule.ts` file in a folder with the same name of the rule
+  file (e.g.: `src\rules\new-rule\new-rule.ts)
 
 * Have the following template:
-
   ```typescript
   import * from '../../utils/rule-helpers';
   //The list of types depends on the [events](../events/list-of-events.md) you want to capture
@@ -36,7 +35,9 @@ To create a new rule you just need to:
   ```
 
 ## Target specific browsers
-If your rule only applies to specific browsers you should use `context.targetedBrowsers` and check if you need to get executed or not.
+
+If your rule only applies to specific browsers you should use
+`context.targetedBrowsers` and check if you need to get executed or not.
 
 ```typescript
 const validateFetchEnd = (fetchEnd: IFetchEndEvent) => {

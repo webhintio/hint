@@ -18,7 +18,6 @@ the events common to all `collector`s, with their signature, and the
 * [`traverse::up`](#traverseup)
 * [`element::<element-type>`](#elementelement-type)
 
-
 ## `scan::start`
 
 * **When?** When the `collector` is about to start the analysis. This is the
@@ -35,7 +34,8 @@ the events common to all `collector`s, with their signature, and the
 
 * **Remarks:** This event is fired synchronously. You should not return a `Promise`
   because it will not wait for it to be resolved. If you need to perform an `async`
-  operation you should combine it with `scan::end`. You can find more information in
+  operation you should combine it with `scan::end`. You can find more
+  information in
   [how to interact with other services](../rules/how to interact with other services.md).
 
 ## `scan::end`
@@ -52,7 +52,6 @@ the events common to all `collector`s, with their signature, and the
   }
   ```
 
-
 ## `targetfetch::start`
 
 * **When?** When the `collector` is about to start the request to
@@ -68,7 +67,6 @@ the events common to all `collector`s, with their signature, and the
   ```
 
 * **Remarks:** The event is the same for [`fetch::start`](#fetch::start)
-
 
 ## `targetfetch::end`
 
@@ -92,7 +90,6 @@ the events common to all `collector`s, with their signature, and the
 * **Remarks:** The event is the same for [`fetch::end`](#fetch::end).
   In this case `element` will be null.
 
-
 ## `targetfetch::error`
 
 * **When?** When the `collector` has found a problem downloading
@@ -113,7 +110,6 @@ the events common to all `collector`s, with their signature, and the
 * **Remarks:** The event is the same for [`fetch::error`](#fetch::error).
   In this case `element` will be null.
 
-
 ## `fetch::start`
 
 * **When?** When the `collector` is about to start the request to
@@ -129,7 +125,6 @@ the events common to all `collector`s, with their signature, and the
   ```
 
 * **Remarks:** The event is the same for [`targetfetch::start`](#targetfetch::start).
-
 
 ## `fetch::end`
 
@@ -173,7 +168,6 @@ the events common to all `collector`s, with their signature, and the
 
 * **Remarks:** The event is the same for [`targetfetch::error`](#targetfetch::error).
 
-
 ## `traverse::start`
 
 * **When?** When the `collector` is going to start traversing the DOM.
@@ -187,7 +181,6 @@ the events common to all `collector`s, with their signature, and the
   }
   ```
 
-
 ## `traverse::end`
 
 * **When?** When the `collector` has finished traversing the DOM entirely.
@@ -200,7 +193,6 @@ the events common to all `collector`s, with their signature, and the
       resource: string;
   }
   ```
-
 
 ## `traverse::down`
 
