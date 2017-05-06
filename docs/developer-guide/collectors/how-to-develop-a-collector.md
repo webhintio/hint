@@ -5,7 +5,7 @@ will at least use `tests/lib/collectors/_common.ts`.
 
 A minimum test for your collector will look as follows:
 
-```typescript
+```ts
 import builder from 'path/to/your/collector';
 import { testCollector } from './_common';
 

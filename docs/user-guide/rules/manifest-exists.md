@@ -8,7 +8,8 @@
 The web app manifest file constitutes a standard centralized place
 to put metadata about your site/web app, and providing it:
 
-* informs browsers (and possible [others](https://medium.com/web-on-the-edge/progressive-web-apps-on-windows-8d8eb68d524e#62d2))
+* informs browsers (and possible
+  [others](https://medium.com/web-on-the-edge/progressive-web-apps-on-windows-8d8eb68d524e#62d2))
   where to look for information about your site/web app, information
   that they may need in different contexts (e.g. what icon and name
   should they use for your site/web app when the user adds it to the

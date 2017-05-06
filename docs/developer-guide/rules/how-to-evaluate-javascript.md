@@ -1,11 +1,11 @@
 # How to evaluate JavaScript
 
-Sometimes a rule needs to evaluate some JavaScript in the context of the page.
-To do that you need to use `context.evaluate`. This method will always return
-a `Promise` even if your code does not return one.
+Sometimes a rule needs to evaluate some JavaScript in the context of
+the page. To do that you need to use `context.evaluate`. This method
+will always return a `Promise` even if your code does not return one.
 
-One important thing is that your code needs to be wrapped in an Immediate
-Invoked Function Expression to work.
+One important thing is that your code needs to be wrapped in an
+Immediate Invoked Function Expression to work.
 
 The following scripts will work:
 

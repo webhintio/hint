@@ -8,7 +8,7 @@ need to:
 
 * Have the following template:
 
-  ```typescript
+  ```ts
   import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
   import * as ruleRunner from '../../../helpers/rule-runner';
   import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
@@ -21,7 +21,7 @@ need to:
           serverConfig: 'HTML to use',
           reports: [{
               message: 'Message the error will have',
-              position: { column: 0, line: 0 } // Where the error will show
+              position: { column: 0, line: 0 } // Where the error will show.
           }]
       },
       { ... }
@@ -35,7 +35,8 @@ The signature of `ruleRunner.testRule` is:
 * `ruleName`, the name of the rule.
 * `tests`, an `Array<RuleTest>`.
 * `ruleConfig`, (optional) to modify the defaults of the rule.
-* `serial`, (optional, defaults to `false`) to run the tests of that rule serially.
+* `serial`, (optional, defaults to `false`) to run the tests of that
+  rule serially.
 
 `serverConfig` can be of different types depending on particular needs:
 
@@ -69,20 +70,21 @@ The signature of `ruleRunner.testRule` is:
 In the last example, if you don't specify `content`, the response
 will be an empty string `''`.
 
-`rule-runner` will automatically test the rule in all the supported collectors.
+`rule-runner` will automatically test the rule in all the supported
+collectors.
 
 ## Throwing an error
 
-If you need to force an error in the `collector` when visiting a url you just
-have to make the content `null`. This will force a redirect to `test://fail`
-and thus causing an exception.
+If you need to force an error in the `collector` when visiting a URL
+you just have to make the content `null`. This will force a redirect
+to `test://fail`, thus, causing an exception.
 
 ## Testing an external url
 
-If you need to test an external resource (because you are integrating with a
-third party service) you need to use the property `serverUrl`:
+If you need to test an external resource (because you are integrating
+with a third party service) you need to use the property `serverUrl`:
 
-```typescript
+```ts
 const tests: Array<RuleTest> = [
       {
           name: 'Name of the tests',
@@ -97,18 +99,18 @@ const tests: Array<RuleTest> = [
 
 ## Execute code `before` or `after` collecting the results
 
-In some scenarios you need to execute some code `before` or `after` the actual
-tests. For example, if you need to mock a dependency. For those cases you can
-use the `before` and `after` properties of `RuleTest`:
+In some scenarios you need to execute some code `before` or `after`
+the actual tests (e.g.: if you need to mock a dependency). For those
+cases you can use the `before` and `after` properties of `RuleTest`:
 
-```typescript
+```ts
 const tests: Array<RuleTest> = [
       {
           after() {
-              // Code to execute right before calling `collector.close` goes here
+              // Code to execute right before calling `collector.close` goes here.
           }
           before() {
-              // Code to execute before the creation of the sonar object here
+              // Code to execute before the creation of the sonar object here.
           },
           name: 'Name of the tests',
           serverUrl: 'https://example.com',

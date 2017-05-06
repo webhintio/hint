@@ -2,7 +2,7 @@
 
 ## Commit messages
 
-Commit messages should look similar to the following structure:
+Commit messages should have the following structure:
 
 ```text
 Capitalized, short (50 characters or less) summary

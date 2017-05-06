@@ -26,7 +26,6 @@ Examples that **trigger** the rule:
 Response for `/test.js`:
 
 ```text
-
 HTTP/1.1 200 OK
 
 Content-Type: application/javascript

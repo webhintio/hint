@@ -10,30 +10,29 @@ events respectively.
 The `create` method of your rule should be similar to the following:
 
 ```ts
- create(context: RuleContext): IRule {
-        /** The promise that represents the connection to the online service. */
-        let promise: Promise<any>;
+create(context: RuleContext): IRule {
+    /** The promise that represents the connection to the online service. */
+    let promise: Promise<any>;
 
-        const start = (data: IScanStartEvent) => {
-            // Initialize promise to service here but do not return it.
-        };
+    const start = (data: IScanStartEvent) => {
+        // Initialize promise to service here but do not return it.
+    };
 
-        const end = (data: IScanEndEvent): Promise<any> => {
+    const end = (data: IScanEndEvent): Promise<any> => {
+        return promise
+            .then((results) => {
+                // Report any results via `context.report` here.
+            })
+            .catch((e) => {
+                // Always good to handle errors.
+            });
+    };
 
-            return promise
-                .then((results) => {
-                    // Report any results via `context.report` here
-                })
-                .catch((e) => {
-                    // Always good to handle errors
-                });
-        };
-
-        return {
-            'scan::start': start,
-            'scan::end': end
-        };
-    },
+    return {
+        'scan::start': start,
+        'scan::end': end
+    };
+},
 ```
 
 In case you need a more complete example, please look at the `ssllabs.ts`
