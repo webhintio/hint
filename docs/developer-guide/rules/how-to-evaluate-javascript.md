@@ -10,6 +10,7 @@ Invoked Function Expression to work.
 The following scripts will work:
 
 <!-- eslint-disable -->
+
 ```js
 const script =
 `(function() {

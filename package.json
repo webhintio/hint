@@ -12,7 +12,7 @@
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint --ext md --ext ts --ignore-pattern dist/* .",
-    "lint:md": "markdownlint docs",
+    "lint:md": "markdownlint *.md .github docs",
     "site": "node dist/src/bin/sonar",
     "test": "npm run lint && npm run build && nyc ava",
     "test-on-travis": "npm run test -- --concurrency 1 --timeout 5m",

@@ -53,9 +53,9 @@ Some examples of configurations:
   {
     "axe": ["error", {
         "runOnly": {
-	      "type": "tag",
-	      "values": ["wcag2a"]
-	  }
+        "type": "tag",
+          "values": ["wcag2a"]
+        }
     }]
   }
   ```

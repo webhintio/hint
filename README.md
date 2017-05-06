@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.com/MicrosoftEdge/Sonar.svg?token=ie6AidxpTLajKCNExwqL&branch=master)](https://travis-ci.com/MicrosoftEdge/Sonar) [![Greenkeeper badge](https://badges.greenkeeper.io/MicrosoftEdge/Sonar.svg?token=b8370543b9160bd1bb844502495c4226139b92230cd84c3f5f4c58c669275c51&ts=1493307106026)](https://greenkeeper.io/)
 
-
 ## Tasks
 
 * `npm run site <url>` will analyze the website with the current
@@ -27,26 +26,23 @@ compile and copy the assets before starting to watch for new files
 to copy, build, or test. Because of concurrency, it might be that
 the tests are run twice initially.
 
-
 ## Documentation
 
-#### Developer guides
+### Developer guides
 
 * [How to develop a collector](docs/developer-guide/collectors/how-to-develop-a-collector.md)
 * [How to test rules](docs/developer-guide/rules/how-to-test-rules.md)
 * [List of events](docs/developer-guide/events/list-of-events.md)
 
-#### User guides
+### User guides
 
 * [List of core rules](docs/user-guide/rules/index.md)
 * [Differences among collectors](docs/user-guide/differences-among-collectors.md)
-
 
 ## Code of Conduct
 
 This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
-
 
 ## License
 
