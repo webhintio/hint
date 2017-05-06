@@ -1,8 +1,9 @@
-/.nyc_output/
-/.vscode/
-/node_modules/
-/dist/
-/doc/
-/coverage/
 *.log
 *.pid
+.DS_Store
+/.nyc_output/
+/.vscode/
+/coverage/
+/dist/
+/doc/
+/node_modules/
