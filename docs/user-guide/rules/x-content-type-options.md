@@ -3,7 +3,6 @@
 `x-content-type-options` warns against not serving resources with the
 `X-Content-Type-Options: nosniff` HTTP response header.
 
-
 ## Why is this important?
 
 Sometimes the metadata browsers need in order to know how to interpret
@@ -36,7 +35,6 @@ and it wasn't served with one of the [JavaScript media
 type](https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type),
 it will block it.
 
-
 ## What does the rule check?
 
 The rule checks if responses include the `X-Content-Type-Options`
@@ -65,7 +63,6 @@ HTTP/1.1 200 OK
 ...
 X-Content-Type-Options: nosniff
 ```
-
 
 ## Further Reading
 

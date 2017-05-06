@@ -3,13 +3,11 @@
 `no-html-only-headers` warns against responding with HTTP headers that
 are not needed for non-HTML resources.
 
-
 ## Why is this important?
 
 Some HTTP headers do not make sense to be send for non-HTML
 resources, as sending them does not provide any value to users,
 and just contributes to header bloat.
-
 
 ## What does the rule check?
 
@@ -88,15 +86,14 @@ X-XSS-Protection: 1; mode=block
 ...
 ```
 
-
 ## Can the rule be configured?
 
 Yes, you can use:
 
-  * `include` to specify additional HTTP headers that should
-    be disallowed for non-HTML resources
-  * `ignore` to specify which of the disallowed HTTP headers
-    should be ignored
+* `include` to specify additional HTTP headers that should
+  be disallowed for non-HTML resources
+* `ignore` to specify which of the disallowed HTTP headers
+  should be ignored
 
 E.g. The following configuration will make the rule allow non-HTML
 resources to be served with the `Content-Security-Policy` HTTP header,

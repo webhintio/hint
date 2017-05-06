@@ -24,11 +24,11 @@ Please look at [SSL Labs' Methodology Overview](https://github.com/ssllabs/resea
 if you want to know more about the process.
 
 Notes:
+
 * Only servers on the public Internet can be scanned by SSL Labs. Internal
   domains will fail.
 * SSL Labs might have decided not to allow scanning of a domain (if, for example,
   the owner has requested it).
-
 
 ## Can the rule be configured?
 
@@ -45,6 +45,7 @@ E.g. The following configuration will change the minium grade to `A+`:
 ```
 
 SSL Labs' scanner also allows some configuration. By default the one used is:
+
 ```json
 {
     "all": "done",
@@ -54,6 +55,7 @@ SSL Labs' scanner also allows some configuration. By default the one used is:
 ```
 
 You can override the defaults with the following configuration:
+
 ```json
 "ssllabs": [ "error", {
     "ssllabs": {
