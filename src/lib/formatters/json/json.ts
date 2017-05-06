@@ -31,7 +31,7 @@ const formatter: IFormatter = {
             const sortedMessages = _.sortBy(msgs, ['line', 'column']);
 
             logger.log(`${resource}: ${msgs.length} issues`);
-            logger.log(sortedMessages);
+            logger.log(JSON.stringify(sortedMessages, null, 2));
         });
     }
 };

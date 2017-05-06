@@ -7,6 +7,7 @@
     },
     "formatter": "json",
     "rules": {
+        "axe": "warning",
         "disallowed-headers": "warning",
         "disown-opener": "warning",
         "lang-attribute": "warning",

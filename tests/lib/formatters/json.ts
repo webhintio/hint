@@ -73,5 +73,5 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
 
     t.is(log.callCount, 2);
     t.is(firstCall.args[0], 'http://myresource.com/: 4 issues');
-    t.deepEqual(secondCall.args[0], sortedMessages);
+    t.deepEqual(secondCall.args[0], JSON.stringify(sortedMessages, null, 2));
 });
