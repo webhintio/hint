@@ -5,7 +5,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # If something changed in `docs/` in the last 3 commits, trigger
-# a rebuild of the documentation in# the repository of the website.
+# an update of the documentation in the repository of the website.
 
 if ! git diff --quiet @~3..@ docs; then
 
@@ -19,7 +19,7 @@ if ! git diff --quiet @~3..@ docs; then
             "message": "Rebuild docs (API request)",
             "branch": "master",
             "config": {
-                "script": "npm run rebuild-docs"
+                "script": "npm run update-docs"
             }
         }
     }'
