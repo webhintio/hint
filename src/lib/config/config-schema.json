@@ -67,6 +67,17 @@
                     "type": "string"
                 }
             ]
+        },
+        "ignoredUrls": {
+            "description": "The urls to ignore by the rules",
+            "type": "object",
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "uniqueItems": true
+            }
         }
     },
     "required": [

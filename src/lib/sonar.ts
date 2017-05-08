@@ -7,10 +7,11 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import * as url from 'url';
 
+import * as _ from 'lodash';
 import * as browserslist from 'browserslist';
-import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
@@ -31,6 +32,7 @@ export class Sonar extends EventEmitter {
     private collector: ICollector
     private messages: Array<IProblem>
     private browsersList: Array<String> = [];
+    private ignoredUrls: Map<string, RegExp[]>;
 
     get pageContent() {
         return this.collector.html;
@@ -42,6 +44,16 @@ export class Sonar extends EventEmitter {
 
     get targetedBrowsers() {
         return this.browsersList;
+    }
+
+    private isIgnored(urls: RegExp[], resource: string) {
+        if (!urls) {
+            return false;
+        }
+
+        return urls.some((urlIgnored) => {
+            return urlIgnored.test(resource);
+        });
     }
 
     constructor(config) {
@@ -58,6 +70,25 @@ export class Sonar extends EventEmitter {
         debug('Loading supported browsers');
         if (config.browserslist) {
             this.browsersList = browserslist(config.browserslist);
+        }
+
+        debug('Initializing ignored urls');
+        this.ignoredUrls = new Map();
+        if (config.ignoredUrls) {
+            _.forEach(config.ignoredUrls, (rules, urlRegexString) => {
+                rules.forEach((rule) => {
+                    const ruleName = rule === '*' ? 'all' : rule;
+
+                    const urlsInRule = this.ignoredUrls.get(ruleName);
+                    const urlRegex = new RegExp(urlRegexString, 'i');
+
+                    if (!urlsInRule) {
+                        this.ignoredUrls.set(ruleName, [urlRegex]);
+                    } else {
+                        urlsInRule.push(urlRegex);
+                    }
+                });
+            });
         }
 
         debug('Loading plugins');
@@ -88,14 +119,15 @@ export class Sonar extends EventEmitter {
             const rules = resourceLoader.getRules();
             const rulesIds = Object.keys(config.rules);
 
-            const createEventHandler = (handler: Function, worksWithLocalFiles: boolean) => {
+            const createEventHandler = (handler: Function, worksWithLocalFiles: boolean, ruleId: string) => {
                 return (event) => {
                     const localResource = url.parse(event.resource).protocol === 'file:';
+                    const urlsIgnored = this.ignoredUrls.get(ruleId);
 
                     // Some rules don't work with local resource,
                     // so it doesn't make sense to the event.
 
-                    if (localResource && !worksWithLocalFiles) {
+                    if ((localResource && !worksWithLocalFiles) || this.isIgnored(urlsIgnored, event.resource)) {
                         return null;
                     }
 
@@ -113,7 +145,7 @@ export class Sonar extends EventEmitter {
                 const instance = rule.create(context);
 
                 Object.keys(instance).forEach((eventName) => {
-                    this.on(eventName, createEventHandler(instance[eventName], ruleWorksWithLocalFiles));
+                    this.on(eventName, createEventHandler(instance[eventName], ruleWorksWithLocalFiles, id));
                 });
 
                 this.rules.set(id, instance);
@@ -189,6 +221,16 @@ export class Sonar extends EventEmitter {
 
     public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
         return this.collector.querySelectorAll(selector);
+    }
+
+    emitAsync(event: string | string[], ...values: any[]): Promise<any[]> {
+        const ignoredUrls = this.ignoredUrls.get('all');
+
+        if (this.isIgnored(ignoredUrls, values[0].resource)) {
+            return Promise.resolve([]);
+        }
+
+        return super.emitAsync(event, ...values);
     }
 }
 
