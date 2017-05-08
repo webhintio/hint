@@ -12,6 +12,9 @@ const resourceLoader = {
 const eventEmitter = { EventEmitter2: function EventEmitter2() { } };
 
 eventEmitter.EventEmitter2.prototype.on = () => { };
+eventEmitter.EventEmitter2.prototype.emitAsync = () => {
+    return Promise.resolve([]);
+};
 
 proxyquire('../../src/lib/sonar', {
     './utils/resource-loader': resourceLoader,
@@ -22,12 +25,10 @@ import * as sonar from '../../src/lib/sonar';
 
 test.beforeEach((t) => {
     t.context.resourceLoader = resourceLoader;
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
     t.context.eventemitter = eventEmitter.EventEmitter2;
 });
 
 test.afterEach((t) => {
-    t.context.eventemitter.prototype.on.restore();
     if (t.context.resourceLoader.getPlugins.restore) {
         t.context.resourceLoader.getPlugins.restore();
     }
@@ -53,7 +54,7 @@ test(`If config.browserslist is an string, we should initilize the property targ
     sinon.spy(t.context.resourceLoader, 'getPlugins');
     sinon.spy(t.context.resourceLoader, 'getRules');
 
-    const sonarObject = new sonar.Sonar({browserslist: '> 5%'}); //eslint-disable-line no-unused-vars
+    const sonarObject = new sonar.Sonar({ browserslist: '> 5%' }); //eslint-disable-line no-unused-vars
 
     t.true(sonarObject.targetedBrowsers.length > 0);
 
@@ -61,13 +62,14 @@ test(`If config.browserslist is an string, we should initilize the property targ
     t.false(t.context.resourceLoader.getRules.called);
 });
 
-test('If config.plugins is an array we should create just those plugins', (t) => {
+test.serial('If config.plugins is an array we should create just those plugins', (t) => {
     const plugin = {
         create() {
             return {};
         }
     };
 
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
     t.context.plugin = plugin;
     sinon.stub(t.context.resourceLoader, 'getPlugins').returns(new Map([
         ['plugin1Name', plugin],
@@ -91,9 +93,11 @@ test('If config.plugins is an array we should create just those plugins', (t) =>
     t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
     t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::end');
     t.is(t.context.eventemitter.prototype.on.args[2][0], 'fetch::error');
+
+    t.context.eventemitter.prototype.on.restore();
 });
 
-test('If config.rules is an array of ids we should create just those rules', (t) => {
+test.serial('If config.rules is an array of ids we should create just those rules', (t) => {
     const rule = {
         create() {
             return {};
@@ -101,6 +105,7 @@ test('If config.rules is an array of ids we should create just those rules', (t)
         meta: {}
     };
 
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
     t.context.rule = rule;
     sinon.stub(t.context.resourceLoader, 'getRules').returns(new Map([
         ['disallowed-headers', rule],
@@ -125,9 +130,11 @@ test('If config.rules is an array of ids we should create just those rules', (t)
     t.true(t.context.eventemitter.prototype.on.calledTwice);
     t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
     t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
+
+    t.context.eventemitter.prototype.on.restore();
 });
 
-test(`If an event is emitted for a local file and the rule doesn't work with those then the handler should be null`, (t) => {
+test.serial(`If an event is emitted for a local file and the rule doesn't work with those then the handler should be null`, (t) => {
     const rule = {
         create() {
             return {};
@@ -135,6 +142,7 @@ test(`If an event is emitted for a local file and the rule doesn't work with tho
         meta: { worksWithLocalFiles: false }
     };
 
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
     t.context.rule = rule;
     sinon.stub(t.context.resourceLoader, 'getRules').returns(new Map([
         ['disallowed-headers', rule]
@@ -148,6 +156,62 @@ test(`If an event is emitted for a local file and the rule doesn't work with tho
     const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
 
     t.is(eventHandler({ resource: 'file://file.txt' }), null);
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test(`If an event is emitted for an ignored url, it shouldn't propagate`, async (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+
+    t.context.rule = rule;
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'emitAsync');
+    sinon.stub(t.context.resourceLoader, 'getRules').returns(new Map([
+        ['disallowed-headers', rule]
+    ]));
+    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
+
+    const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        ignoredUrls: { '.*\\.domain1\.com/.*': ['*'] }, //eslint-disable-line no-useless-escape
+        rules: { 'disallowed-headers': 'warning' }
+    });
+
+    await sonarObject.emitAsync('event', { resource: 'http://www.domain1.com/test' });
+
+    t.false(t.context.eventemitter.prototype.emitAsync.called);
+
+    t.context.eventemitter.prototype.emitAsync.restore();
+});
+
+test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    sinon.stub(t.context.resourceLoader, 'getRules').returns(new Map([
+        ['disallowed-headers', rule]
+    ]));
+    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
+
+    const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        ignoredUrls: { '.*\\.domain1\.com/.*': ['disallowed-headers'] }, //eslint-disable-line no-useless-escape
+        rules: { 'disallowed-headers': 'warning' }
+    });
+
+    const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
+
+    t.is(eventHandler({ resource: 'http://www.domain1.com/test' }), null);
+
+    t.context.eventemitter.prototype.on.restore();
 });
 
 test.serial(`If collectorId doesn't exist, it should throw an error`, async (t) => {

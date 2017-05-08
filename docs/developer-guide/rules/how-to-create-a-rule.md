@@ -50,3 +50,14 @@ const validateFetchEnd = (fetchEnd: IFetchEndEvent) => {
     // Your validations
 }
 ```
+
+## Ignore some urls
+
+If your rule doesn't apply to specific urls you use the property `ignoredUrls` in your configuration file
+
+```json
+"ignoredUrls": {
+    ".*\\.domain1\\.com/.*": ["*"], //Apply to all the rules, events won't be emitted for that urls
+    ".*\\.domain2\\.net/.*": ["disallowed-headers"] //Just apply to the rule disallowed-headers
+}
+```
