@@ -11,7 +11,6 @@ const validConfig = {
     formatter: 'json',
     rules: {
         'disallowed-headers': ['warning', {}],
-        'lang-attribute': 'warning',
         'manifest-exists': 'warning',
         'manifest-file-extension': 'warning',
         'manifest-is-valid': 'warning',
