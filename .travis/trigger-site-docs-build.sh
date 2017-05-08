@@ -1,8 +1,19 @@
 #!/bin/bash
 
-cd "$(dirname "${BASH_SOURCE[0]}")/.."
+cd "$(dirname "${BASH_SOURCE[0]}")/.." \
+    || exit 1
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Only execute the following if the commit:
+#
+#   * doesn't come from a pull request
+#   * is made to the `master` branch
+
+if [ "$TRAVIS_PULL_REQUEST" = "true" ] ||
+   [ "$TRAVIS_BRANCH" != "master" ]; then
+    exit 0
+fi
 
 # If something changed in `docs/` in the last 3 commits, trigger
 # an update of the documentation in the repository of the website.
