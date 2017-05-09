@@ -37,12 +37,11 @@ export const cli = {
     /** Executes the CLI based on an array of arguments that is passed in. */
     execute: async (args: string | Array<string> | Object): Promise<number> => {
 
-        const format = (results) => {
+        const format = (formatterName, results) => {
             const formatters = resourceLoader.getFormatters();
+            const formatter = formatters.get(formatterName) || formatters.get('json');
 
-            formatters.forEach((formatter) => {
-                formatter.format(results);
-            });
+            formatter.format(results);
         };
 
         const currentOptions = options.parse(args);
@@ -88,7 +87,7 @@ export const cli = {
                     return result.severity === Severity.error;
                 });
 
-                format(results);
+                format(engine.formatter, results);
 
                 if (hasError) {
                     exitCode = 1;

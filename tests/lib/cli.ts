@@ -14,7 +14,9 @@ const sonar = {
 const formatter = { format: () => { } };
 const resourceLoader = {
     getFormatters() {
-        return [formatter];
+        return new Map([
+            ['json', formatter]
+        ]);
     }
 };
 const logger = {

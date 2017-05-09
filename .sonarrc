@@ -1,11 +1,11 @@
 {
     "collector": {
-        "name": "jsdom",
+        "name": "cdp",
         "options": {
             "waitFor": 100
         }
     },
-    "formatter": "json",
+    "formatter": "stylish",
     "rules": {
         "axe": "warning",
         "disallowed-headers": "warning",

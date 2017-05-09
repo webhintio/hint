@@ -34,8 +34,8 @@
   "bugs": "https://github.com/MicrosoftEdge/Sonar/issues",
   "homepage": "https://github.com/MicrosoftEdge/Sonar#readme",
   "dependencies": {
-    "browserslist": "^2.1.1",
     "axe-core": "^2.2.0",
+    "browserslist": "^2.1.1",
     "chalk": "^1.1.3",
     "chrome-remote-interface": "^0.22.0",
     "debug": "^2.6.1",
