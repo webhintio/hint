@@ -11,7 +11,6 @@ import * as problems from './fixtures/list-of-problems';
 import { Severity } from '../../../src/lib/types';
 
 test.beforeEach((t) => {
-    // const log = sinon.spy(logger, 'log');
     sinon.spy(logging, 'log');
 
     t.context.logger = logging;

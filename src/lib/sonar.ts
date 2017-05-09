@@ -33,6 +33,7 @@ export class Sonar extends EventEmitter {
     private messages: Array<IProblem>
     private browsersList: Array<String> = [];
     private ignoredUrls: Map<string, RegExp[]>;
+    private _formatter: string
 
     get pageContent() {
         return this.collector.html;
@@ -44,6 +45,10 @@ export class Sonar extends EventEmitter {
 
     get targetedBrowsers() {
         return this.browsersList;
+    }
+
+    get formatter() {
+        return this._formatter;
     }
 
     private isIgnored(urls: RegExp[], resource: string) {
@@ -71,6 +76,9 @@ export class Sonar extends EventEmitter {
         if (config.browserslist) {
             this.browsersList = browserslist(config.browserslist);
         }
+
+        debug('Setting the selected formatter');
+        this._formatter = config.formatter;
 
         debug('Initializing ignored urls');
         this.ignoredUrls = new Map();
