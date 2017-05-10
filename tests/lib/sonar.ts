@@ -97,7 +97,7 @@ test.serial('If config.plugins is an array we should create just those plugins',
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial('If config.rules is an array of ids we should create just those rules', (t) => {
+test.serial('If config.rules is an object with rules, we should create just those rules', (t) => {
     const rule = {
         create() {
             return {};
@@ -130,6 +130,36 @@ test.serial('If config.rules is an array of ids we should create just those rule
     t.true(t.context.eventemitter.prototype.on.calledTwice);
     t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
     t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test.serial(`If config.rules has some rules "off", we shouldn't create those rules`, (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    sinon.stub(t.context.resourceLoader, 'getRules').returns(new Map([
+        ['disallowed-headers', rule],
+        ['lang-attribute', rule],
+        ['manifest-exists', rule]
+    ]));
+    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
+
+    const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        rules: {
+            'disallowed-headers': 'warning',
+            'manifest-exists': 'off'
+        }
+    });
+
+    t.true(t.context.resourceLoader.getRules.called);
+    t.true(t.context.rule.create.calledOnce);
 
     t.context.eventemitter.prototype.on.restore();
 });
