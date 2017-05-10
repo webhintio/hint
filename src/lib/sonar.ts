@@ -148,15 +148,20 @@ export class Sonar extends EventEmitter {
 
                 const ruleOptions = config.rules[id];
                 const ruleWorksWithLocalFiles = rule.meta.worksWithLocalFiles;
+                const severity = getSeverity(ruleOptions);
 
-                const context = new RuleContext(id, this, getSeverity(ruleOptions), ruleOptions, rule.meta);
-                const instance = rule.create(context);
+                if (severity) {
+                    const context = new RuleContext(id, this, severity, ruleOptions, rule.meta);
+                    const instance = rule.create(context);
 
-                Object.keys(instance).forEach((eventName) => {
-                    this.on(eventName, createEventHandler(instance[eventName], ruleWorksWithLocalFiles, id));
-                });
+                    Object.keys(instance).forEach((eventName) => {
+                        this.on(eventName, createEventHandler(instance[eventName], ruleWorksWithLocalFiles, id));
+                    });
 
-                this.rules.set(id, instance);
+                    this.rules.set(id, instance);
+                } else {
+                    debug(`Rule "${id}" is disabled`);
+                }
             });
 
             debug(`Rules loaded: ${this.rules.size}`);
