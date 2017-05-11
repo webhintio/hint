@@ -1,38 +1,15 @@
 {
-  "private": true,
-  "name": "sonar",
-  "version": "0.0.1",
-  "description": "Best practices tool for the web",
-  "main": "./dist/src/lib/sonar.js",
-  "scripts": {
-    "ava": "ava",
-    "build": "npm run clean && npm-run-all build:*",
-    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
-    "build:ts": "tsc --outDir dist",
-    "clean": "rimraf dist",
-    "lint": "npm-run-all lint:*",
-    "lint:js": "eslint --ext md --ext ts --ignore-pattern dist/* .",
-    "lint:md": "markdownlint ./.github CHANGELOG.md CODE_OF_CONDUCT.md README.md docs",
-    "site": "node dist/src/bin/sonar",
-    "test": "npm run lint && npm run build && nyc ava",
-    "test-on-travis": "npm run test -- --concurrency 1 --timeout 5m",
-    "watch": "npm run build && npm-run-all --parallel -c watch:*",
-    "watch:test": "ava --watch",
-    "watch:ts": "npm run build:ts -- --watch",
-    "watch:resources": "npm run build:assets -- -w --no-initial"
+  "ava": {
+    "babel": {
+      "presets": []
+    },
+    "concurrency": 5,
+    "failFast": true,
+    "files": [
+      "dist/tests/**/*.js"
+    ],
+    "timeout": "1m"
   },
-  "repository": "MicrosoftEdge/Sonar",
-  "keywords": [
-    "best",
-    "practices",
-    "security",
-    "a11y",
-    "lint"
-  ],
-  "author": "",
-  "license": "Apache-2.0",
-  "bugs": "https://github.com/MicrosoftEdge/Sonar/issues",
-  "homepage": "https://github.com/MicrosoftEdge/Sonar#readme",
   "dependencies": {
     "axe-core": "^2.2.0",
     "browserslist": "^2.1.2",
@@ -65,6 +42,7 @@
     "user-home": "^2.0.0",
     "which": "^1.2.14"
   },
+  "description": "Best practices tool for the web",
   "devDependencies": {
     "@types/node": "^7.0.18",
     "async-retry": "^0.3.0",
@@ -92,32 +70,54 @@
     "typescript": "^2.3.2",
     "typescript-eslint-parser": "^2.1.0"
   },
-  "ava": {
-    "babel": {
-      "presets": []
-    },
-    "files": [
-      "dist/tests/**/*.js"
-    ],
-    "failFast": true,
-    "concurrency": 5,
-    "timeout": "1m"
-  },
+  "homepage": "https://sonarwhal.com/",
+  "keywords": [
+    "a11y",
+    "accessibility",
+    "best-practices",
+    "interoperability",
+    "lint",
+    "performance",
+    "security"
+  ],
+  "license": "Apache-2.0",
+  "main": "./dist/src/lib/sonar.js",
+  "name": "sonar",
   "nyc": {
+    "branches": 85,
     "cache": true,
     "check-coverage": true,
-    "lines": 85,
-    "statements": 85,
     "functions": 80,
-    "branches": 85,
     "include": [
       "dist/src/**/*.js"
     ],
-    "sourceMap": true,
     "instrument": true,
+    "lines": 85,
     "reporter": [
       "lcov",
       "text"
-    ]
-  }
+    ],
+    "sourceMap": true,
+    "statements": 85
+  },
+  "private": true,
+  "repository": "MicrosoftEdge/Sonar",
+  "scripts": {
+    "ava": "ava",
+    "build": "npm run clean && npm-run-all build:*",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc --outDir dist",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint --ext md --ext ts --ignore-pattern dist/* .",
+    "lint:md": "markdownlint ./.github CHANGELOG.md CODE_OF_CONDUCT.md README.md docs",
+    "site": "node dist/src/bin/sonar",
+    "test": "npm run lint && npm run build && nyc ava",
+    "test-on-travis": "npm run test -- --concurrency 1 --timeout 5m",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:resources": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "0.0.1"
 }
