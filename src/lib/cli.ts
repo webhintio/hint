@@ -53,6 +53,12 @@ export const cli = {
             return 0;
         }
 
+        if (currentOptions.init) {
+            await Config.generate();
+
+            return 0;
+        }
+
         if (currentOptions.help || !targets.length) {
             logger.log(options.generateHelp());
 

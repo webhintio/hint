@@ -21,6 +21,7 @@
     "file-url": "^2.0.2",
     "globby": "^6.1.0",
     "iconv-lite": "^0.4.17",
+    "inquirer": "^3.0.6",
     "is-my-json-valid": "^2.15.0",
     "is-resolvable": "^1.0.0",
     "jsdom": "^10.1.0",

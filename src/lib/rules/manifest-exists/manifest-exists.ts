@@ -82,6 +82,7 @@ const rule: IRuleBuilder = {
             recommended: true
         },
         fixable: 'code',
+        recommended: true,
         schema: [],
         worksWithLocalFiles: true
     }

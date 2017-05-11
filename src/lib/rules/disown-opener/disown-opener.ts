@@ -109,6 +109,7 @@ const rule: IRuleBuilder = {
             recommended: true
         },
         fixable: 'code',
+        recommended: true,
         schema: [{
             additionalProperties: false,
             properties: { includeSameOriginURLs: { type: 'boolean' } },

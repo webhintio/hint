@@ -8,6 +8,8 @@ export interface IRuleBuilder {
         docs?: any;
         /** If this rule can autofix the issue or not */
         fixable?: string;
+        /** Use this rule to autogenerate the configuration file */
+        recommended?: boolean;
         /** The schema the rule configuration must follow in order to be valid */
         schema: Array<any>; // TODO: this shouldn't be an Array of any
         /** If the rule works with local resources (file://...) */
