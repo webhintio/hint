@@ -108,9 +108,11 @@ export class CDPAsyncHTMLElement implements IAsyncHTMLElement {
 
         return typeof value === 'string' ? value : null;
     }
+
     isSame(element: CDPAsyncHTMLElement) {
         return this._htmlelement.nodeId === element._htmlelement.nodeId;
     }
+
     async outerHTML() {
         const { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._htmlelement.nodeId });
 

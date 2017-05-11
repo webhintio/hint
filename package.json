@@ -4,7 +4,7 @@
       "presets": []
     },
     "concurrency": 5,
-    "failFast": true,
+    "failFast": false,
     "files": [
       "dist/tests/**/*.js"
     ],

@@ -5,6 +5,7 @@
 * [`disown-opener`](disown-opener.md)
 * [`manifest-exists`](manifest-exists.md)
 * [`manifest-file-extension`](manifest-file-extension.md)
+* [`meta-charset-utf-8`](meta-charset-utf-8.md)
 * [`no-friendly-error-pages`](no-friendly-error-pages.md)
 * [`no-html-only-headers`](no-html-only-headers.md)
 * [`no-protocol-relative-urls`](no-protocol-relative-urls.md)

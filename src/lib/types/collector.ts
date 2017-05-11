@@ -10,6 +10,8 @@ export interface ICollectorBuilder {
 
 /** A collector to be used by Sonar */
 export interface ICollector {
+    /** The original DOM of the resource collected. */
+    dom: object;
     /** The original HTML of the resource collected. */
     html: string;
     /** The headers from the response if applicable. */

@@ -35,6 +35,10 @@ export class Sonar extends EventEmitter {
     private ignoredUrls: Map<string, RegExp[]>;
     private _formatter: string
 
+    get pageDOM() {
+        return this.collector.dom;
+    }
+
     get pageContent() {
         return this.collector.html;
     }

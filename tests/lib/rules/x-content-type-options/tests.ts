@@ -5,9 +5,8 @@ import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
-
 const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
+const ruleName = getRuleName(__dirname);
 
 const tests: Array<RuleTest> = [
     {
