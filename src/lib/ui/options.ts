@@ -25,6 +25,12 @@ export const options = optionator({
             option: 'config',
             type: 'path::String'
         },
+        {
+            alias: 'i',
+            description: 'Generate a configuration file',
+            option: 'init',
+            type: 'Boolean'
+        },
         // {
         //     option: 'env',
         //     type: '[String]',

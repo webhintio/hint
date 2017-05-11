@@ -25,6 +25,7 @@ const logger = {
 };
 const validator = { validateConfig() { } };
 const config = {
+    generate() { },
     getFilenameForDirectory() { },
     load() { }
 };
@@ -45,6 +46,7 @@ test.beforeEach((t) => {
     sinon.spy(logger, 'error');
     sinon.spy(config, 'getFilenameForDirectory');
     sinon.spy(config, 'load');
+    sinon.stub(config, 'generate').resolves();
 
     t.context.logger = logger;
     t.context.config = config;
@@ -55,6 +57,7 @@ test.afterEach((t) => {
     t.context.logger.error.restore();
     t.context.config.getFilenameForDirectory.restore();
     t.context.config.load.restore();
+    t.context.config.generate.restore();
 });
 
 test.serial('if version option is defined, it should print the current version and return with exit code 0', async (t) => {
@@ -70,6 +73,13 @@ test.serial('if help option is defined, it should print the help and return with
 
     t.true(t.context.logger.log.calledOnce);
     t.true(t.context.logger.log.args[0][0].includes('Basic configuration'));
+    t.is(exitCode, 0);
+});
+
+test.serial('if init option is defined, it should generate the configuration file and return with exit code 0', async (t) => {
+    const exitCode = await cli.execute('--init');
+
+    t.true(t.context.config.generate.calledOnce);
     t.is(exitCode, 0);
 });
 

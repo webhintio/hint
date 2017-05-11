@@ -145,6 +145,7 @@ There might be something wrong with SSL Labs servers.`;
             recommended: true
         },
         fixable: 'none',
+        recommended: true,
         schema: [{
             additionalProperties: false,
             properties: {

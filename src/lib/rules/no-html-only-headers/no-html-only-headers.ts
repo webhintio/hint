@@ -92,6 +92,7 @@ const rule: IRuleBuilder = {
             recommended: true
         },
         fixable: 'code',
+        recommended: true,
         schema: [{
             additionalProperties: false,
             definitions: {
