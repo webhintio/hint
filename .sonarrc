@@ -13,6 +13,7 @@
         "manifest-exists": "warning",
         "manifest-file-extension": "warning",
         "manifest-is-valid": "warning",
+        "meta-charset-utf-8": "warning",
         "no-friendly-error-pages": "warning",
         "no-html-only-headers": "warning",
         "no-protocol-relative-urls": "warning",

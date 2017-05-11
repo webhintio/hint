@@ -30,6 +30,11 @@ export class RuleContext {
 
     }
 
+    /** The DOM of the page. */
+    get pageDOM() {
+        return this.sonar.pageDOM;
+    }
+
     /** The original HTML of the page. */
     get pageContent() {
         return this.sonar.pageContent;

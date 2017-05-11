@@ -437,9 +437,14 @@ class JSDOMCollector implements ICollector {
     // Getters
     // ------------------------------------------------------------------------------
 
+    get dom(): JSDOMAsyncHTMLDocument {
+        return this._document;
+    }
+
     get headers(): object {
         return this._targetNetworkData.response.headers;
     }
+
     get html(): string {
         return this._targetNetworkData.response.body.content;
     }

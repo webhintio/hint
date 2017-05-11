@@ -23,7 +23,7 @@ import { debug as d } from '../../utils/debug';
 import {
     ICollector, ICollectorBuilder,
     IElementFoundEvent, IFetchEndEvent, IFetchErrorEvent, IManifestFetchEnd, IManifestFetchErrorEvent, ITraverseUpEvent, ITraverseDownEvent,
-    INetworkData, URL
+    IResponse, IRequest, INetworkData, URL
 } from '../../types';
 /* eslint-enable */
 import { launchChrome } from './cdp-launcher';
@@ -64,6 +64,8 @@ class CDPCollector implements ICollector {
     private _tabs = [];
     /** Tells if the page has specified a manifest or not. */
     private _manifestIsSpecified: boolean = false;
+
+    private _targetNetworkData: INetworkData;
 
     constructor(server: Sonar, config: object) {
         const defaultOptions = { waitFor: 5000 };
@@ -248,25 +250,29 @@ class CDPCollector implements ICollector {
         }
         debug(`Content for ${resourceUrl} downloaded`);
 
+        const response: IResponse = {
+            body: {
+                content: resourceBody,
+                contentEncoding: getCharset(resourceHeaders),
+                rawContent: Buffer.alloc(params.response.encodedDataLength), //TODO: get the actual bytes!
+                rawResponse: null //TODO: get the real response bytes
+            },
+            headers: resourceHeaders,
+            hops,
+            statusCode: params.response.status,
+            url: params.response.url
+        };
+
+        const request: IRequest = {
+            headers: params.response.requestHeaders,
+            url: originalUrl
+        };
+
         const data: IFetchEndEvent = {
             element: null,
-            request: {
-                headers: params.response.requestHeaders,
-                url: originalUrl
-            },
+            request,
             resource: resourceUrl,
-            response: {
-                body: {
-                    content: resourceBody,
-                    contentEncoding: getCharset(resourceHeaders),
-                    rawContent: Buffer.alloc(params.response.encodedDataLength), //TODO: get the actual bytes!
-                    rawResponse: null //TODO: get the real response bytes
-                },
-                headers: resourceHeaders,
-                hops,
-                statusCode: params.response.status,
-                url: params.response.url
-            }
+            response
         };
 
         if (params.type === 'Manifest') {
@@ -279,6 +285,11 @@ class CDPCollector implements ICollector {
 
         if (eventName === 'fetch::end') {
             data.element = await this.getElementFromRequest(params.requestId);
+        } else {
+            this._targetNetworkData = {
+                request,
+                response
+            };
         }
 
         /* We don't need to store the request anymore so we can remove it and ignore it
@@ -615,8 +626,12 @@ class CDPCollector implements ICollector {
     // Getters
     // ------------------------------------------------------------------------------
 
+    get dom(): CDPAsyncHTMLDocument {
+        return this._dom;
+    }
+
     get headers() {
-        return this._headers;
+        return this._targetNetworkData.response.headers;
     }
 
     get html() {
