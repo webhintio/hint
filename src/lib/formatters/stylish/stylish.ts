@@ -33,7 +33,13 @@ const formatter: IFormatter = {
 
         debug('Formatting results');
 
+        if (messages.length === 0) {
+            return;
+        }
+
         const resources = _.groupBy(messages, 'resource');
+        let totalErrors = 0;
+        let totalWarnings = 0;
 
         _.forEach(resources, (msgs, resource) => {
             let warnings = 0;
@@ -57,9 +63,16 @@ const formatter: IFormatter = {
 
             const color = errors > 0 ? chalk.red : chalk.yellow;
 
+            totalErrors += errors;
+            totalWarnings += warnings;
+
             logger.log(color.bold(`\u2716 Found ${errors} ${pluralize('error', errors)} and ${warnings} ${pluralize('warning', warnings)}`));
             logger.log('');
         });
+
+        const color = totalErrors > 0 ? chalk.red : chalk.yellow;
+
+        logger.log(color.bold(`\u2716 Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
     }
 };
 
