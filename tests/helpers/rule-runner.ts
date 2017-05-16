@@ -7,7 +7,7 @@ import * as url from 'url';
 import { test } from 'ava'; // eslint-disable-line no-unused-vars
 import * as retry from 'async-retry';
 
-import { ids as collectors} from './collectors';
+import { ids as collectors } from './collectors';
 import { createServer } from './test-server';
 import { IElementFoundEvent, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
