@@ -139,9 +139,11 @@ const testsForConfigs: Array<RuleTest> = [
 ];
 
 ruleRunner.testRule(ruleName, testsForDefaults);
-ruleRunner.testRule(ruleName, testsForIgnoreConfigs, { ignore: ['Server', 'X-Powered-By', 'X-Test-1'] });
-ruleRunner.testRule(ruleName, testsForIncludeConfigs, { include: ['Server', 'X-Test-1', 'X-Test-2'] });
+ruleRunner.testRule(ruleName, testsForIgnoreConfigs, { ruleOptions: { ignore: ['Server', 'X-Powered-By', 'X-Test-1'] } });
+ruleRunner.testRule(ruleName, testsForIncludeConfigs, { ruleOptions: { include: ['Server', 'X-Test-1', 'X-Test-2'] } });
 ruleRunner.testRule(ruleName, testsForConfigs, {
-    ignore: ['Server', 'X-Test-2', 'X-Test-3'],
-    include: ['X-Powered-By', 'X-Test-1', 'X-Test-2']
+    ruleOptions: {
+        ignore: ['Server', 'X-Test-2', 'X-Test-3'],
+        include: ['X-Powered-By', 'X-Test-1', 'X-Test-2']
+    }
 });

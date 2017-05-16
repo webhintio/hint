@@ -14,7 +14,7 @@ import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-va
 import * as Sonar from '../../src/lib/sonar';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
-export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, collectorOptions?, serial: boolean = false) => {
+export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: object = {}) => {
 
     /** Creates a valid sonar configuration. Eventually we should
      * test all available collectors and not only JSDOM */
@@ -24,10 +24,11 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, collectorOp
         if (!opts) {
             rules[id] = 'error';
         } else {
-            rules[id] = ['error', opts];
+            rules[id] = ['error', opts.ruleOptions];
         }
 
         return {
+            browserslist: opts.browserslist || [],
             collector: { name: collector },
             rules
         };
@@ -80,7 +81,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, collectorOp
             await ruleTest.before();
         }
 
-        const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, collector, collectorOptions));
+        const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, collector, configs));
 
         // We only configure the server the first time
         if (attemp === 1 && serverConfig) {
@@ -127,7 +128,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, collectorOp
     /* Run all the tests for a given rule in all collectors. */
     collectors.forEach((collector) => {
         ruleTests.forEach((ruleTest) => {
-            const runner = serial ? test.serial : test;
+            const runner = configs['serial'] ? test.serial : test; // eslint-disable-line dot-notation
 
             runner(`[${collector}]${ruleTest.name}`, runRule, ruleTest, collector);
         });
