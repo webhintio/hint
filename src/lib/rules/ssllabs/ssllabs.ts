@@ -13,7 +13,7 @@
 import * as pify from 'pify';
 
 import { debug as d } from '../../utils/debug';
-import { IScanStartEvent, IScanEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { ITargetFetchEnd, IScanEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -87,8 +87,17 @@ const rule: IRuleBuilder = {
             };
         };
 
-        const start = (data: IScanStartEvent) => {
+        const start = (data: ITargetFetchEnd) => {
             const { resource } = data;
+
+            if (!resource.startsWith('https://')) {
+                const message = `${resource} doesn't support HTTPS.`;
+
+                debug(message);
+                context.report(resource, null, message);
+
+                return;
+            }
 
             /* HACK: Need to do a require here in order to be capable of mocking
                 when testing the rule and `import` doesn't work here. */
@@ -103,6 +112,10 @@ const rule: IRuleBuilder = {
 
         const end = async (data: IScanEndEvent): Promise<any> => {
             const { resource } = data;
+
+            if (!promise) {
+                return;
+            }
 
             debug(`Waiting for SSL Labs results for ${resource}`);
             let host;
@@ -133,9 +146,15 @@ There might be something wrong with SSL Labs servers.`;
 
         loadRuleConfig();
 
+        /* We are using `targetfetch::end` instead of `scan::start`
+         * or `targetfetch::start` because the `ssllabs` API doesn't
+         * follow the redirects, so we need to use the final url
+         * (e.g.: https://developer.microsoft.com/en-us/microsoft-edge/
+         * instead of http://edge.ms).
+         */
         return {
             'scan::end': end,
-            'scan::start': start
+            'targetfetch::end': start
         };
     },
     meta: {

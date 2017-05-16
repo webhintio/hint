@@ -18,6 +18,7 @@ import * as r from 'request';
 
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
 import { debug as d } from '../../utils/debug';
+import { delay } from '../../utils/misc';
 
 /* eslint-disable no-unused-vars */
 import {
@@ -425,19 +426,23 @@ class CDPCollector implements ICollector {
 
             this._dom = new CDPAsyncHTMLDocument(DOM);
 
-            await this._dom.load();
+            try {
+                await this._dom.load();
 
-            while (this._pendingResponseReceived.length) {
-                await this._pendingResponseReceived.shift()();
+                while (this._pendingResponseReceived.length) {
+                    await this._pendingResponseReceived.shift()();
+                }
+
+                await this._server.emitAsync('traverse::start', event);
+                await this.traverseAndNotify(this._dom.root);
+                await this._server.emitAsync('traverse::end', event);
+
+                await this._server.emitAsync('scan::end', event);
+            } catch (err) {
+                return callback(err);
             }
 
-            await this._server.emitAsync('traverse::start', event);
-            await this.traverseAndNotify(this._dom.root);
-            await this._server.emitAsync('traverse::end', event);
-
-            await this._server.emitAsync('scan::end', event);
-
-            setTimeout(callback, 1000); //HACK: need to check if there is any pending request, wait for it and timeout after a few seconds
+            return setTimeout(callback, 1000); //HACK: need to check if there is any pending request, wait for it and timeout after a few seconds
         };
     }
 
@@ -501,6 +506,11 @@ class CDPCollector implements ICollector {
 
         try {
             this._client.close();
+            /* We need this delay overall because in test if we close the
+             * client and at the same time the next test try to open a new
+             * tab then an error is thrown.
+             */
+            await delay(300);
         } catch (e) {
             debug(`Couldn't close the client properly`);
         }

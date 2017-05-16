@@ -14,3 +14,9 @@ export const readFileAsync = async (filePath: string): Promise<string> => {
 
     return stripBom(content);
 };
+
+export const delay = (millisecs) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, millisecs);
+    });
+};
