@@ -121,6 +121,9 @@ There might be something wrong with SSL Labs servers.`
     }
 ];
 
-ruleRunner.testRule(ruleName, testsForDefaults, null, true);
-ruleRunner.testRule(ruleName, testsForConfigs, { grade: 'A+' }, true);
-ruleRunner.testRule(ruleName, testsForErrors, null, true);
+ruleRunner.testRule(ruleName, testsForDefaults, { serial: true });
+ruleRunner.testRule(ruleName, testsForConfigs, {
+    ruleOptions: { grade: 'A+' },
+    serial: true
+});
+ruleRunner.testRule(ruleName, testsForErrors, { serial: true });

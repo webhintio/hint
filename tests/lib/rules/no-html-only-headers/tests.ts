@@ -166,9 +166,11 @@ const testsForConfigs: Array<RuleTest> = [
 ];
 
 ruleRunner.testRule(ruleName, testsForDefaults);
-ruleRunner.testRule(ruleName, testsForIgnoreConfigs, { ignore: ['Content-Security-Policy', 'X-UA-Compatible', 'X-Test-1'] });
-ruleRunner.testRule(ruleName, testsForIncludeConfigs, { include: ['Content-Security-Policy', 'X-Test-1', 'X-Test-2'] });
+ruleRunner.testRule(ruleName, testsForIgnoreConfigs, { ruleOptions: { ignore: ['Content-Security-Policy', 'X-UA-Compatible', 'X-Test-1'] } });
+ruleRunner.testRule(ruleName, testsForIncludeConfigs, { ruleOptions: { include: ['Content-Security-Policy', 'X-Test-1', 'X-Test-2'] } });
 ruleRunner.testRule(ruleName, testsForConfigs, {
-    ignore: ['X-Frame-Options', 'X-Test-2', 'X-Test-3'],
-    include: ['X-Test-1', 'X-Test-2', 'X-UA-Compatible']
+    ruleOptions: {
+        ignore: ['X-Frame-Options', 'X-Test-2', 'X-Test-3'],
+        include: ['X-Test-1', 'X-Test-2', 'X-UA-Compatible']
+    }
 });

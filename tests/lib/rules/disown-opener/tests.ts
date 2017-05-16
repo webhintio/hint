@@ -153,4 +153,4 @@ const testsForConfigs: Array<RuleTest> = [
 ];
 
 ruleRunner.testRule(ruleName, testsForDefaults);
-ruleRunner.testRule(ruleName, testsForConfigs, { includeSameOriginURLs: true });
+ruleRunner.testRule(ruleName, testsForConfigs, { ruleOptions: { includeSameOriginURLs: true } });

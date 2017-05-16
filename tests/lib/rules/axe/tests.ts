@@ -54,8 +54,10 @@ const testsWithCustomConfiguration: Array<RuleTest> = [
 
 ruleRunner.testRule(ruleName, tests);
 ruleRunner.testRule(ruleName, testsWithCustomConfiguration, {
-    runOnly: {
-        type: 'rule',
-        values: ['color-contrast']
+    ruleOptions: {
+        runOnly: {
+            type: 'rule',
+            values: ['color-contrast']
+        }
     }
 });
