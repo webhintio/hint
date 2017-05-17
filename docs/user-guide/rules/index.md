@@ -1,4 +1,4 @@
-# List of core rules
+# Rules
 
 * [`axe`](axe.md)
 * [`disallowed-headers`](disallowed-headers.md)
