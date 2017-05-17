@@ -47,8 +47,35 @@
         "rules": {
             "description": "The rules to validate",
             "type": "object",
-            "items": {
-                "type": "string"
+            "patternProperties": {
+                "^.+$": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/errorlevelstring"
+                        },
+                        {
+                            "$ref": "#/definitions/errorlevelnumber"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/definitions/errorlevelstring"
+                                    },
+                                    {
+                                        "$ref": "#/definitions/errorlevelnumber"
+                                    },
+                                    {
+                                        "type": "object"
+                                    }
+                                ]
+                            },
+                            "minItems": 1,
+                            "uniqueItems": true
+                        }
+                    ]
+                }
             },
             "minItems": 1,
             "uniqueItems": true
@@ -84,5 +111,23 @@
         "collector",
         "rules"
     ],
-    "additionalProperties": false
+    "additionalProperties": false,
+    "definitions": {
+        "errorlevelstring": {
+            "type": "string",
+            "enum": [
+                "off",
+                "warning",
+                "error"
+            ]
+        },
+        "errorlevelnumber": {
+            "type": "number",
+            "enum": [
+                0,
+                1,
+                2
+            ]
+        }
+    }
 }

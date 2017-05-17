@@ -11,13 +11,13 @@ const validConfig = {
     formatter: 'json',
     rules: {
         'disallowed-headers': ['warning', {}],
-        'manifest-exists': 'warning',
-        'manifest-file-extension': 'warning',
-        'manifest-is-valid': 'warning',
-        'no-friendly-error-pages': 'warning',
-        'no-html-only-headers': 'warning',
-        'no-protocol-relative-urls': 'warning',
-        'x-content-type-options': 'warning'
+        'manifest-exists': 1,
+        'manifest-file-extension': ['warning'],
+        'manifest-is-valid': [2],
+        'no-friendly-error-pages': [2, {}],
+        'no-html-only-headers': 'error',
+        'no-protocol-relative-urls': 'off',
+        'x-content-type-options': 0
     }
 };
 const invalidConfig = { formatter: 'json' };
