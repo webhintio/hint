@@ -88,6 +88,7 @@ const rule: IRuleBuilder = {
 
                 const elementPromises = violation.nodes.map(async (node) => {
                     const element = await getElement(node);
+
                     //TODO: find the right element here using node.target[0] ?
                     context.report(resource, element, violation.help);
 
