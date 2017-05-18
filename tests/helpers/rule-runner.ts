@@ -12,6 +12,7 @@ import { createServer } from './test-server';
 import { IElementFoundEvent, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 import * as Sonar from '../../src/lib/sonar';
+import * as resourceLoader from '../../src/lib/utils/resource-loader';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
 export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: object = {}) => {
@@ -125,12 +126,17 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
             });
     };
 
+    const rules = resourceLoader.getRules();
+    const rule = rules.get(ruleId);
+
     /* Run all the tests for a given rule in all collectors. */
     collectors.forEach((collector) => {
-        ruleTests.forEach((ruleTest) => {
-            const runner = configs['serial'] ? test.serial : test; // eslint-disable-line dot-notation
+        if (!rule.meta.ignoredCollectors || !rule.meta.ignoredCollectors.includes(collector)) { // If the rule ignore the collector, then we don't run the tests for this rule in this collector
+            ruleTests.forEach((ruleTest) => {
+                const runner = configs['serial'] ? test.serial : test; // eslint-disable-line dot-notation
 
-            runner(`[${collector}]${ruleTest.name}`, runRule, ruleTest, collector);
-        });
+                runner(`[${collector}]${ruleTest.name}`, runRule, ruleTest, collector);
+            });
+        }
     });
 };

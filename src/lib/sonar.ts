@@ -11,11 +11,13 @@ import * as url from 'url';
 
 import * as _ from 'lodash';
 import * as browserslist from 'browserslist';
+import * as chalk from 'chalk';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, ICollector, IElementFoundEvent, IFetchEndEvent, IProblem, IProblemLocation, IRule, IPlugin, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, ICollector, IProblem, IProblemLocation, IRule, IPlugin, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
+import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import { RuleContext } from './rule-context';
 
@@ -30,6 +32,8 @@ export class Sonar extends EventEmitter {
     private plugins: Map<string, IPlugin>
     private rules: Map<string, IRule>
     private collector: ICollector
+    private collectorId: string
+    private collectorConfig: object
     private messages: Array<IProblem>
     private browsersList: Array<String> = [];
     private ignoredUrls: Map<string, RegExp[]>;
@@ -75,6 +79,20 @@ export class Sonar extends EventEmitter {
         debug('Initializing sonar engine');
 
         this.messages = [];
+
+        debug('Loading collector');
+
+        if (!config.collector) {
+            throw new Error(`Collector not found in the configuration`);
+        }
+
+        if (typeof config.collector === 'string') {
+            this.collectorId = config.collector;
+            this.collectorConfig = {};
+        } else {
+            this.collectorId = config.collector.name;
+            this.collectorConfig = config.collector.options;
+        }
 
         debug('Loading supported browsers');
         if (config.browserslist) {
@@ -147,6 +165,16 @@ export class Sonar extends EventEmitter {
                 };
             };
 
+            const ignoreCollector = (rule) => {
+                const ignoredCollectors = rule.meta.ignoredCollectors;
+
+                if (!ignoredCollectors) {
+                    return false;
+                }
+
+                return ignoredCollectors.includes(this.collectorId);
+            };
+
             rulesIds.forEach((id: string) => {
                 const rule = rules.get(id);
 
@@ -154,7 +182,10 @@ export class Sonar extends EventEmitter {
                 const ruleWorksWithLocalFiles = rule.meta.worksWithLocalFiles;
                 const severity = getSeverity(ruleOptions);
 
-                if (severity) {
+                if (ignoreCollector(rule)) {
+                    debug(`Rule "${id}" is disable for the collector "${this.collectorId}"`);
+                    logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the collector "${this.collectorId}"`));
+                } else if (severity) {
                     const context = new RuleContext(id, this, severity, ruleOptions, rule.meta);
                     const instance = rule.create(context);
 
@@ -172,27 +203,14 @@ export class Sonar extends EventEmitter {
         }
     }
 
-    async init(config) {
-        debug('Loading collector');
-
-        let collectorId;
-        let collectorConfig;
-
-        if (typeof config.collector === 'string') {
-            collectorId = config.collector;
-            collectorConfig = {};
-        } else {
-            collectorId = config.collector.name;
-            collectorConfig = config.collector.options;
-        }
-
+    async init() {
         const collectors = resourceLoader.getCollectors();
 
-        if (!collectors.has(collectorId)) {
-            throw new Error(`Collector "${collectorId}" not found`);
+        if (!collectors.has(this.collectorId)) {
+            throw new Error(`Collector "${this.collectorId}" not found`);
         }
 
-        this.collector = await collectors.get(collectorId)(this, collectorConfig);
+        this.collector = await collectors.get(this.collectorId)(this, this.collectorConfig);
     }
 
     public fetchContent(target, headers) {
@@ -254,7 +272,7 @@ export class Sonar extends EventEmitter {
 export const create = async (config): Promise<Sonar> => {
     const sonar = new Sonar(config);
 
-    await sonar.init(config);
+    await sonar.init();
 
     return sonar;
 };
