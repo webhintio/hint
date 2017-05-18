@@ -105,8 +105,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'security',
-            description: 'Use `noopener` and `noreferrer` on `a` and `area` element with target="_blank"',
-            recommended: true
+            description: 'Use `noopener` and `noreferrer` on `a` and `area` element with target="_blank"'
         },
         fixable: 'code',
         recommended: true,

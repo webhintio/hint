@@ -88,8 +88,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'performance',
-            description: 'Disallow unneeded HTTP headers for non-HTML resources',
-            recommended: true
+            description: 'Disallow unneeded HTTP headers for non-HTML resources'
         },
         fixable: 'code',
         recommended: true,

@@ -48,8 +48,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'pwa',
-            description: 'Check if the content of the web app manifest is valid',
-            recommended: true
+            description: 'Check if the content of the web app manifest is valid'
         },
         fixable: 'code',
         recommended: true,

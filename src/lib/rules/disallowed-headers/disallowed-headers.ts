@@ -52,8 +52,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'security',
-            description: 'Disallow certain HTTP headers',
-            recommended: true
+            description: 'Disallow certain HTTP headers'
         },
         fixable: 'code',
         recommended: true,

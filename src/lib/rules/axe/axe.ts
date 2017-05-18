@@ -108,8 +108,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'accessibility',
-            description: 'Runs axe-core tests in the target',
-            recommended: true
+            description: 'Runs axe-core tests in the target'
         },
         fixable: 'code',
         recommended: true,

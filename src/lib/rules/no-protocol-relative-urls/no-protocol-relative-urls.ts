@@ -50,8 +50,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'security',
-            description: 'Use `http(s)://` over //',
-            recommended: true
+            description: 'Use `http(s)://` over //'
         },
         fixable: 'code',
         recommended: true,

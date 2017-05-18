@@ -40,8 +40,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'security',
-            description: `Require 'X-Content-Type-Options' HTTP response header`,
-            recommended: true
+            description: `Require 'X-Content-Type-Options' HTTP response header`
         },
         fixable: 'code',
         recommended: true,

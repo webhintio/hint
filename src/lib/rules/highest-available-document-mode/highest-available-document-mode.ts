@@ -185,10 +185,10 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'interoperability',
-            description: 'Use highest available document mode',
-            recommended: true
+            description: 'Use highest available document mode'
         },
         fixable: 'code',
+        recommended: true,
         schema: [{
             additionalProperties: false,
             properties: { requireMetaTag: { type: 'boolean' } },

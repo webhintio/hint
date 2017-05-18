@@ -133,8 +133,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'interoperability',
-            description: 'Disallow small error pages',
-            recommended: true
+            description: 'Disallow small error pages'
         },
         fixable: 'code',
         recommended: true,

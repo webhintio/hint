@@ -140,10 +140,10 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'misc',
-            description: 'Use `<meta charset="utf-8">`',
-            recommended: true
+            description: 'Use `<meta charset="utf-8">`'
         },
         fixable: 'code',
+        recommended: true,
         schema: [],
         worksWithLocalFiles: true
     }

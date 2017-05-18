@@ -160,8 +160,7 @@ There might be something wrong with SSL Labs servers.`;
     meta: {
         docs: {
             category: 'security',
-            description: 'Strength of your SSL configuration',
-            recommended: true
+            description: 'Strength of your SSL configuration'
         },
         fixable: 'none',
         recommended: true,

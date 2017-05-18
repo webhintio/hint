@@ -46,8 +46,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'pwa',
-            description: 'Use `.webmanifest` as the file extension for the web app manifest file',
-            recommended: true
+            description: 'Use `.webmanifest` as the file extension for the web app manifest file'
         },
         fixable: 'code',
         recommended: true,
