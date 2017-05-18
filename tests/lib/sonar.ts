@@ -40,11 +40,17 @@ test.afterEach((t) => {
     }
 });
 
-test(`If config is an empty object, we shouldn't create any plugin nor rules`, (t) => {
+test(`If config is an empty object, we shouldn't throw an error`, (t) => {
+    t.throws(() => {
+        const sonarObject = new sonar.Sonar({}); //eslint-disable-line no-unused-vars
+    }, Error);
+});
+
+test(`If config doesn't have any rule nor plugins, we shouldn't create any plugin nor rules`, (t) => {
     sinon.spy(t.context.resourceLoader, 'getPlugins');
     sinon.spy(t.context.resourceLoader, 'getRules');
 
-    const sonarObject = new sonar.Sonar({}); //eslint-disable-line no-unused-vars
+    const sonarObject = new sonar.Sonar({ collector: 'collector' }); //eslint-disable-line no-unused-vars
 
     t.false(t.context.resourceLoader.getPlugins.called);
     t.false(t.context.resourceLoader.getRules.called);
@@ -54,7 +60,10 @@ test(`If config.browserslist is an string, we should initilize the property targ
     sinon.spy(t.context.resourceLoader, 'getPlugins');
     sinon.spy(t.context.resourceLoader, 'getRules');
 
-    const sonarObject = new sonar.Sonar({ browserslist: '> 5%' }); //eslint-disable-line no-unused-vars
+    const sonarObject = new sonar.Sonar({
+        browserslist: '> 5%',
+        collector: 'collector'
+    }); //eslint-disable-line no-unused-vars
 
     t.true(sonarObject.targetedBrowsers.length > 0);
 
@@ -85,7 +94,7 @@ test.serial('If config.plugins is an array we should create just those plugins',
             'fetch::error': () => { }
         });
 
-    const sonarObject = new sonar.Sonar({ plugins: ['plugin1Name', 'plugin2Name'] }); //eslint-disable-line no-unused-vars
+    const sonarObject = new sonar.Sonar({ collector: 'collector', plugins: ['plugin1Name', 'plugin2Name'] }); //eslint-disable-line no-unused-vars
 
     t.true(t.context.resourceLoader.getPlugins.called);
     t.is(t.context.plugin.create.callCount, 2);
@@ -119,6 +128,7 @@ test.serial('If config.rules is an object with rules, we should create just thos
         .returns({ 'fetch::error': () => { } });
 
     const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'collector',
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
@@ -152,6 +162,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
     const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'collector',
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'off'
@@ -159,6 +170,83 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     });
 
     t.true(t.context.resourceLoader.getRules.called);
+    t.true(t.context.rule.create.calledOnce);
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test.serial(`If a rule has the metadata "ignoredCollectors" set up, we shouldn't ignore those rules if the collector isn't in that property`, (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: { ignoredCollectors: ['cdp'] }
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    sinon.stub(t.context.resourceLoader, 'getRules').returns(new Map([
+        ['disallowed-headers', rule],
+        ['lang-attribute', rule],
+        ['manifest-exists', rule]
+    ]));
+    sinon.stub(rule, 'create')
+        .onFirstCall()
+        .returns({ 'fetch::end': () => { } })
+        .onSecondCall()
+        .returns({ 'fetch::error': () => { } });
+
+    const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'jsdom',
+        rules: {
+            'disallowed-headers': 'warning',
+            'manifest-exists': 'warning'
+        }
+    });
+
+    t.true(t.context.resourceLoader.getRules.called);
+    t.true(t.context.rule.create.calledTwice);
+    t.true(t.context.eventemitter.prototype.on.calledTwice);
+    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
+    t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test.serial(`If a rule has the metadata "ignoredCollectors" set up, we should ignore those rules if the collector is in that property`, (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+    const ruleWithIgnoredCollector = {
+        create() {
+            return {};
+        },
+        meta: { ignoredCollectors: ['cdp'] }
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    t.context.ruleWithIgnoredCollector = ruleWithIgnoredCollector;
+    sinon.stub(t.context.resourceLoader, 'getRules').returns(new Map([
+        ['disallowed-headers', ruleWithIgnoredCollector],
+        ['lang-attribute', rule],
+        ['manifest-exists', rule]
+    ]));
+    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
+    sinon.spy(ruleWithIgnoredCollector, 'create');
+    const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'cdp',
+        rules: {
+            'disallowed-headers': 'warning',
+            'manifest-exists': 'warning'
+        }
+    });
+
+    t.true(t.context.resourceLoader.getRules.called);
+    t.false(t.context.ruleWithIgnoredCollector.create.called);
     t.true(t.context.rule.create.calledOnce);
 
     t.context.eventemitter.prototype.on.restore();
@@ -180,6 +268,7 @@ test.serial(`If an event is emitted for a local file and the rule doesn't work w
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
     const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'collector',
         rules: { 'disallowed-headers': 'warning' }
     });
 
@@ -206,6 +295,7 @@ test(`If an event is emitted for an ignored url, it shouldn't propagate`, async 
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
     const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'collector',
         ignoredUrls: { '.*\\.domain1\.com/.*': ['*'] }, //eslint-disable-line no-useless-escape
         rules: { 'disallowed-headers': 'warning' }
     });
@@ -233,6 +323,7 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
     const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'collector',
         ignoredUrls: { '.*\\.domain1\.com/.*': ['disallowed-headers'] }, //eslint-disable-line no-useless-escape
         rules: { 'disallowed-headers': 'warning' }
     });

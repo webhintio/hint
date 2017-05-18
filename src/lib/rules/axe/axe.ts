@@ -111,6 +111,7 @@ const rule: IRuleBuilder = {
             description: 'Runs axe-core tests in the target'
         },
         fixable: 'code',
+        ignoredCollectors: ['jsdom'],
         recommended: true,
         schema: [{
             additionalProperties: false,
