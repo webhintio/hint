@@ -357,17 +357,19 @@ class JSDOMCollector implements ICollector {
                         const event = { resource: this._finalHref };
 
                         debug(`${this._finalHref} loaded, traversing`);
+                        try {
+                            await this._server.emitAsync('traverse::start', event);
+                            await this.traverseAndNotify(window.document.children[0]);
+                            await this._server.emitAsync('traverse::end', event);
 
-                        await this._server.emitAsync('traverse::start', event);
-                        await this.traverseAndNotify(window.document.children[0]);
-                        await this._server.emitAsync('traverse::end', event);
+                            await this.getManifest();
 
-                        await this.getManifest();
-
-                        /* TODO: when we reach this moment we should wait for all pending request to be done and
-                           stop processing any more. */
-
-                        await this._server.emitAsync('scan::end', event);
+                            /* TODO: when we reach this moment we should wait for all pending request to be done and
+                               stop processing any more. */
+                            await this._server.emitAsync('scan::end', event);
+                        } catch (e) {
+                            reject(e);
+                        }
                         resolve();
 
                     }, this._options.waitFor);
