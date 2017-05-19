@@ -11,7 +11,7 @@ import * as path from 'path';
 
 import { readFile } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
-import { ITraverseEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { ITraverseEndEvent, IRule, IRuleBuilder, Severity } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -66,6 +66,7 @@ const rule: IRuleBuilder = {
             try {
                 result = await context.evaluate(script);
             } catch (e) {
+                context.report(resource, null, `Error executing script: "${e.message}". Please try with another collector`, null, Severity.warning);
                 debug('Error executing script %O', e);
 
                 return;
@@ -111,7 +112,6 @@ const rule: IRuleBuilder = {
             description: 'Runs axe-core tests in the target'
         },
         fixable: 'code',
-        ignoredCollectors: ['jsdom'],
         recommended: true,
         schema: [{
             additionalProperties: false,

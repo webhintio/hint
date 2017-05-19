@@ -87,7 +87,7 @@ export class RuleContext {
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, descriptor: IAsyncHTMLElement, message: string, location?: IProblemLocation) { //eslint-disable-line require-await
+    public async report(resource: string, descriptor: IAsyncHTMLElement, message: string, location?: IProblemLocation, severity?: Severity) { //eslint-disable-line require-await
         // let position = location;
 
         // if (!position && descriptor) {
@@ -103,7 +103,7 @@ export class RuleContext {
 
         this.sonar.report(
             this.id,
-            this.severity,
+            severity || this.severity,
             descriptor,
             location,
             message,
