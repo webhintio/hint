@@ -30,10 +30,6 @@ Example that **triggers** the rule:
 ```text
 HTTP/1.1 200 OK
 
-Content-Encoding: gzip
-Accept-Ranges: bytes
-Cache-Control: max-age=604800
-Content-Type: text/html
 ...
 Server: Apache/2.2.27 (Unix) mod_ssl/2.2.27 OpenSSL/1.0.1e-fips mod_bwlimited/1.4
 X-Powered-By: PHP/5.3.28
@@ -44,11 +40,7 @@ Example that **passes** the rule:
 ```text
 HTTP/1.1 200 OK
 
-Content-Encoding: gzip
-Accept-Ranges: bytes
-Cache-Control: max-age=604800
-Content-Type: text/html
-....
+...
 ```
 
 ## Can the rule be configured?
@@ -56,12 +48,12 @@ Content-Type: text/html
 Yes, you can use:
 
 * `include` to specify additional HTTP headers that should
-    be disallowed
+  be disallowed
 * `ignore` to specify which of the disallowed HTTP headers
-    should be ignored
+  should be ignored
 
-E.g. The following configuration will make the rule allow responses
-to be served with the `Server` HTTP header, but not with `Custom-Header`.
+E.g. The following configuration will make the rule allow responses to
+be served with the `Server` HTTP header, but not with `Custom-Header`.
 
 ```json
 "disallowed-headers": [ "warning", {

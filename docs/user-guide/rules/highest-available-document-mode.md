@@ -15,7 +15,7 @@ page using the Internet Explorer 5.5 rendering engine.
 Serving the page with the following HTTP response header:
 
 ```text
-X-UA-Compatible: IE=edge
+X-UA-Compatible: ie=edge
 ```
 
 or specifying the `x-ua-compatible` meta tag:
@@ -68,12 +68,14 @@ HTTP/1.1 200 OK
 ```text
 HTTP/1.1 200 OK
 
+...
 X-UA-Compatible: IE=7
 ```
 
 ```text
 HTTP/1.1 200 OK
 
+...
 X-UA-Compatible: ie=edge,chrome=1
 ```
 
@@ -83,6 +85,7 @@ X-UA-Compatible: ie=edge,chrome=1
 ```text
 HTTP/1.1 200 OK
 
+...
 X-UA-Compatible: ie=edge
 ```
 
@@ -92,9 +95,10 @@ X-UA-Compatible: ie=edge
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>test</title>
+        <title>example</title>
+        ...
     </head>
-    <body></body>
+    <body>...</body>
 </html>
 ```
 
@@ -103,6 +107,7 @@ Example that **passes** the rule:
 ```text
 HTTP/1.1 200 OK
 
+...
 X-UA-Compatible: ie=edge
 ```
 
@@ -119,9 +124,10 @@ Examples that **trigger** the rule:
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>test</title>
+        <title>example</title>
+        ...
     </head>
-    <body></body>
+    <body>...</body>
 </html>
 ```
 
@@ -134,9 +140,10 @@ Examples that **trigger** the rule:
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=9">
-        <title>test</title>
+        <title>example</title>
+        ...
     </head>
-    <body></body>
+    <body>...</body>
 </html>
 ```
 
@@ -146,9 +153,10 @@ Examples that **trigger** the rule:
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
-        <title>test</title>
+        <title>example</title>
+        ...
     </head>
-    <body></body>
+    <body>...</body>
 </html>
 ```
 
@@ -159,11 +167,13 @@ Examples that **trigger** the rule:
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>test</title>
-        <script src="test.js"></script>
+        <title>example</title>
+        ...
     </head>
     <body>
+        ...
         <meta http-equiv="x-ua-compatible" content="ie=edge">
+        ...
     </body>
 </html>
 ```
@@ -177,11 +187,12 @@ Examples that **trigger** the rule:
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>test</title>
-        <script src="test.js"></script>
+        <title>example</title>
+        <script src="example.js"></script>
         <meta http-equiv="x-ua-compatible" content="ie=9">
+        ...
     </head>
-    <body></body>
+    <body>...</body>
 </html>
 ```
 
@@ -190,6 +201,7 @@ Example that **passes** the rule:
 ```text
 HTTP/1.1 200 OK
 
+...
 X-UA-Compatible: ie=edge
 ```
 
@@ -198,11 +210,12 @@ X-UA-Compatible: ie=edge
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>test</title>
+        <title>example</title>
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <script src="test.js"></script>
+        <script src="example.js"></script>
+        ...
     </head>
-    <body></body>
+    <body>...</body>
 </html>
 ```
 

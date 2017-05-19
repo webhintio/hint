@@ -41,18 +41,18 @@ Links that have `target="_blank"`, such as
 Notes:
 
 * Not all browsers [support](http://caniuse.com/#feat=rel-noopener)
-   `rel="noopener"`, so in order to ensure that things work as expected
-   in all browsers, for the time being, this rule requires
-   `rel="noopener noreferrer"`.
+  `rel="noopener"`, so in order to ensure that things work as expected
+  in all browsers, for the time being, this rule requires
+  `rel="noopener noreferrer"`.
 
 * The reason why the rule does not check the same origin links by
-   default is because:
+  default is because:
 
   * Security isn't really a problem here.
   * When it comes to performance, making same origin links open in
-     their own process actually works against optimizations that some
-     browsers do in order to keep multiple same origin tabs within
-     the same process (e.g. share the same event loop).
+    their own process actually works against optimizations that some
+    browsers do in order to keep multiple same origin tabs within
+    the same process (e.g. share the same event loop).
 
   Check [`Can the rule be configured?`](#can-the-rule-be-configured)
   section to see how the rule can be made to also check same origin

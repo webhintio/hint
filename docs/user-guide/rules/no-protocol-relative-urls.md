@@ -55,31 +55,21 @@ Let's presume `example1.com` does not support HTTPS and
 Example that **triggers** the rule:
 
 ```html
-<!doctype html>
-<html lang="en">
-    <head>
-        <title>example</title>
-        <link rel="stylesheet" href="//example1.com/style.css">
-    </head>
-    <body>
-        <script src="//example2.com/script.js"></script>
-    </body>
-</html>
+<link rel="stylesheet" href="//example1.com/style.css">
+```
+
+```html
+<script src="//example2.com/script.js"></script>
 ```
 
 Example that **passes** the rule:
 
 ```html
-<!doctype html>
-<html lang="en">
-    <head>
-        <title>example</title>
-        <link rel="stylesheet" href="http://example1.com/style.css">
-    </head>
-    <body>
-        <script src="https://example2.com/script.js"></script>
-    </body>
-</html>
+<link rel="stylesheet" href="http://example1.com/style.css">
+```
+
+```html
+<script src="https://example2.com/script.js"></script>
 ```
 
 ## Further Reading

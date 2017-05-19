@@ -36,20 +36,17 @@ specifically a `404` response), if one wasn't found.
     ```text
     HTTP/1.1 403 Forbidden
 
-    Content-Length:
-    Content-Type: text/html; charset=utf-8
     ...
-
     ```
 
-    ``` html
+    ```html
     <!doctype html>
     <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>403 Forbidden</title>
-    </head>
-    <body>This page has under 256 bytes, so it will be displayed by all browsers.</body>
+        <head>
+            <meta charset="utf-8">
+            <title>403 Forbidden</title>
+        </head>
+        <body>This page has under 256 bytes, so it will be displayed by all browsers.</body>
     </html>
     ```
 
@@ -58,10 +55,7 @@ specifically a `404` response), if one wasn't found.
     ```text
     HTTP/1.1 500 Internal Server Error
 
-    Content-Length:
-    Content-Type: text/html; charset=utf-8
     ...
-
     ```
 
     ```html
@@ -85,10 +79,7 @@ specifically a `404` response), if one wasn't found.
     ```text
     HTTP/1.1 500 Internal Server Error
 
-    Content-Length:
-    Content-Type: text/html; charset=utf-8
     ...
-
     ```
 
     ```html
@@ -113,10 +104,7 @@ specifically a `404` response), if one wasn't found.
     ```text
     HTTP/1.1 500 Internal Server Error
 
-    Content-Length:
-    Content-Type: text/html; charset=utf-8
     ...
-
     ```
 
     ```html

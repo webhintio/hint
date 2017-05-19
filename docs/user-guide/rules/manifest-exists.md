@@ -36,11 +36,12 @@ This rule checks if:
 
      ```html
      <!doctype html>
-     <html>
+     <html lang="en">
          <head>
-             <title>example</title>
+            <title>example</title>
+            ...
          </head>
-         <body></body>
+         <body>...</body>
      </html>
      ```
 
@@ -48,34 +49,37 @@ This rule checks if:
 
      ```html
      <!doctype html>
-     <html>
+     <html lang="en">
          <head>
              <title>example</title>
              <link rel="manifest">
+             ...
          </head>
-         <body></body>
+         <body>...</body>
      </html>
      ```
 
      ```html
      <!doctype html>
-     <html>
+     <html lang="en">
          <head>
              <title>example</title>
              <link rel="manifest" href="">
+             ...
          </head>
-         <body></body>
+         <body>...</body>
      </html>
      ```
 
      ```html
      <!doctype html>
-     <html>
+     <html lang="en">
          <head>
              <title>example</title>
              <link rel="manifest" hrref="site.webmanifest">
+             ...
          </head>
-         <body></body>
+         <body>...</body>
      </html>
      ```
 
@@ -83,13 +87,14 @@ This rule checks if:
 
      ```html
      <!doctype html>
-     <html>
+     <html lang="en">
          <head>
              <title>example</title>
              <link rel="manifest" href="site.webmanifest">
              <link rel="manifest" href="another-site.webmanifest">
+             ...
          </head>
-         <body></body>
+         <body>...</body>
      </html>
      ```
 
@@ -101,8 +106,9 @@ This rule checks if:
          <head>
              <title>example</title>
              <link rel="manifest" href="site.webmanifest">
+             ...
          </head>
-         <body></body>
+         <body>...</body>
      </html>
     ```
 
