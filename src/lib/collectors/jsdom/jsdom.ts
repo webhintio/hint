@@ -24,6 +24,7 @@ import * as url from 'url';
 import * as vm from 'vm';
 
 import * as jsdom from 'jsdom/lib/old-api';
+import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
 
 import { debug as d } from '../../utils/debug';
 /* eslint-disable no-unused-vars */
@@ -428,9 +429,8 @@ class JSDOMCollector implements ICollector {
     }
 
     public evaluate(source: string) {
-        //TODO: Have a timeout the same way CDP does
         const script = new vm.Script(source);
-        const result = jsdom.evalVMScript(this._window, script);
+        const result = script.runInContext(jsdomutils.implForWrapper(this._window.document)._global, { timeout: 60000 });
 
         if (result[Symbol.toStringTag] === 'Promise') {
             return result;
