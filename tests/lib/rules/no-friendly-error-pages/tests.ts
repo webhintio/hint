@@ -5,6 +5,8 @@ import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
+const ruleName = getRuleName(__dirname);
+
 const htmlPageWithLessThan256bytes = generateHTMLPage(undefined,
        `&lt; 256 bytes
         สวัสดีค่ะ 你好 もしもし مرحبا 🐛`);
@@ -24,8 +26,6 @@ const htmlPageWithMoreThan512bytes = generateHTMLPage(undefined,
         <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
         <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
         <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>`);
-
-const tests: Array<RuleTest> = [];
 
 const statusCodesWith256Threshold = [403, 405, 410];
 const statusCodesWith512Threshold = [400, 404, 406, 408, 409, 500, 501, 505];
@@ -57,6 +57,22 @@ const addTests = (t, statusCodes, threshold) => {
     });
 };
 
+const testsForWhenRuleDoesNotApply = [{
+    name: `Response has statusCode 404 and less than 512 bytes, but targeted browsers don't include affected browsers`,
+    serverConfig: {
+        '/': {
+            content: htmlPageWithLessThan512bytes,
+            status: 400
+        },
+        '*': ''
+    }
+}];
+
+const tests: Array<RuleTest> = [];
+
+addTests(tests, statusCodesWith256Threshold, 256);
+addTests(tests, statusCodesWith512Threshold, 512);
+
 tests.push({
     name: `Response has statusCode 200 but 404 page has less than 512 bytes`,
     reports: [{ message: `Response with statusCode 404 had less than 512 bytes` }],
@@ -69,7 +85,10 @@ tests.push({
     }
 });
 
-addTests(tests, statusCodesWith256Threshold, 256);
-addTests(tests, statusCodesWith512Threshold, 512);
-
-ruleRunner.testRule(getRuleName(__dirname), tests);
+ruleRunner.testRule(ruleName, tests, {
+    browserslist: [
+        'ie 6-11',
+        'last 2 versions'
+    ]
+});
+ruleRunner.testRule(ruleName, testsForWhenRuleDoesNotApply, { browserslist: ['Edge 15'] });

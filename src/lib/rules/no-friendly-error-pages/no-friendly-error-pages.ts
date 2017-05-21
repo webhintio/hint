@@ -22,17 +22,30 @@ const debug = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
+        // This rule mainly applies to Internet Explorer 5-11.
+
+        if (!['ie 5', 'ie 6', 'ie 7', 'ie 8', 'ie 9', 'ie 10', 'ie 11'].some((e) => {
+            return context.targetedBrowsers.includes(e);
+        })) {
+            debug(`Rule does not apply for targeted browsers`);
+
+            return {};
+        }
+
+        const foundErrorPages = {};
+
         // Default thresholds:
         // https://blogs.msdn.microsoft.com/ieinternals/2010/08/18/friendly-http-error-pages/
 
         const statusCodesWith256Threshold = [403, 405, 410];
         const statusCodesWith512Threshold = [400, 404, 406, 408, 409, 500, 501, 505];
 
-        const foundErrorPages = {};
 
         const checkForErrorPages = (fetchEnd: IFetchEndEvent) => {
+
             const { resource, response } = fetchEnd;
             const statusCode = response.statusCode;
+
             // Ignore requests to local files.
 
             if (!statusCode) {
