@@ -13,9 +13,9 @@ language: node_js
 matrix:
   include:
 
-    # Build used for checking links and, if needed,
-    # to trigger a rebuild of the documentation in
-    # the repository of the website.
+    # 1. Build used for checking links and, if needed,
+    #    to trigger a rebuild of the documentation in
+    #    the repository of the website.
 
     - os: linux
       dist: trusty
@@ -24,10 +24,9 @@ matrix:
       node_js:
         - node
       script:
-        - ./.travis/check-links.sh && ./.travis/trigger-site-docs-build.sh
+        - ./.travis/check-links.sh && ./.travis/trigger-site-update.sh
 
-
-    # Builds used for running the tests for Sonar.
+    # 2. Build used for running the tests for Sonar on Ubuntu.
 
     - os: linux
       dist: trusty
@@ -45,6 +44,8 @@ matrix:
         - node
       script:
         - npm run test-on-travis
+
+    # 3. Build used for running the tests for Sonar on macOS.
 
     - os: osx
       osx_image: xcode8.3

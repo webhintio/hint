@@ -7,7 +7,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.." \
 
 # Only execute the following if the commit:
 #
-#   * doesn't come from a pull request
+#   * does not come from a pull request
 #   * is made to the `master` branch
 
 if [ "$TRAVIS_PULL_REQUEST" = "true" ] ||
@@ -15,10 +15,13 @@ if [ "$TRAVIS_PULL_REQUEST" = "true" ] ||
     exit 0
 fi
 
-# If something changed in `docs/` in the last 3 commits, trigger
-# an update of the documentation in the repository of the website.
+# If something that that should be added to the site changed in the
+# last 3 commits, trigger an update in the repository of the website.
 
-if ! git diff --quiet @~3..@ docs; then
+if ! git diff --quiet @~3..@ \
+        docs \
+        CHANGELOG.md \
+    ; then
 
     # Triggering Travis CI builds
     # https://docs.travis-ci.com/user/triggering-builds/
@@ -27,11 +30,8 @@ if ! git diff --quiet @~3..@ docs; then
 
     declare -r BODY='{
         "request": {
-            "message": "Rebuild docs (API request)",
-            "branch": "master",
-            "config": {
-                "script": "npm run update-docs"
-            }
+            "message": "Update site (API request)",
+            "branch": "master"
         }
     }'
 
