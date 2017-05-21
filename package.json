@@ -24,7 +24,7 @@
     "inquirer": "^3.0.6",
     "is-my-json-valid": "^2.15.0",
     "is-resolvable": "^1.0.0",
-    "jsdom": "^10.1.0",
+    "jsdom": "^11.0.0",
     "json-stable-stringify": "^1.0.1",
     "lockfile": "^1.0.3",
     "lodash": "^4.17.4",
