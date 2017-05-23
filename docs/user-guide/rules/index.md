@@ -1,5 +1,7 @@
 # Rules
 
+> The rules should be groupped by category
+
 * [`axe`](axe.md)
 * [`disallowed-headers`](disallowed-headers.md)
 * [`disown-opener`](disown-opener.md)
