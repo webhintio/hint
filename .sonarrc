@@ -6,6 +6,7 @@
         }
     },
     "formatter": "stylish",
+    "rulesTimeout": 120000,
     "rules": {
         "axe": "warning",
         "disallowed-headers": "warning",

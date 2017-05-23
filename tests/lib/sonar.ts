@@ -4,6 +4,8 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import test from 'ava';
 
+import { delay } from '../../src/lib/utils/misc';
+
 const resourceLoader = {
     getCollectors() { },
     getPlugins() { },
@@ -324,13 +326,47 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
 
     const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
         collector: 'collector',
-        ignoredUrls: { '.*\\.domain1\.com/.*': ['disallowed-headers'] }, //eslint-disable-line no-useless-escape
+        ignoredUrls: { '.*\\.domain1\.com/.*': ['disallowed-headers'], '.*\\.domain2\.com/.*': ['disallowed-headers'] }, //eslint-disable-line no-useless-escape
         rules: { 'disallowed-headers': 'warning' }
     });
 
     const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
 
     t.is(eventHandler({ resource: 'http://www.domain1.com/test' }), null);
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test.serial(`If a rule is taking too much time, it should be ignored after the configured timeout`, async (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    sinon.stub(t.context.resourceLoader, 'getRules').returns(new Map([
+        ['disallowed-headers', rule]
+    ]));
+    sinon.stub(rule, 'create').returns({
+        'fetch::end': async () => {
+            await delay(5000);
+
+            return 'finish';
+        }
+    });
+
+    const sonarObject = new sonar.Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'collector',
+        rules: { 'disallowed-headers': 'warning' },
+        rulesTimeout: 1000
+    });
+
+    const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
+
+    t.is(await eventHandler({ resource: 'http://www.test.com/' }), null);
 
     t.context.eventemitter.prototype.on.restore();
 });
@@ -375,6 +411,15 @@ test.serial('If collector is an object with valid data, we should init the colle
     });
 
     t.true(t.context.collectorFunction.called);
+});
+
+test.serial('formatter should return the formatter configured', (t) => {
+    const sonarObject = new sonar.Sonar({
+        collector: 'collector',
+        formatter: 'formatter'
+    });
+
+    t.is(sonarObject.formatter, 'formatter');
 });
 
 test.serial('pageContent should return the HTML', async (t) => {
