@@ -1,4 +1,4 @@
-# List of events emitted by a collector
+# Events
 
 `collector`s communicate via events. The following is a list of all
 the events common to all `collector`s, with their signature, and the
