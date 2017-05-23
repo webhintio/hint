@@ -1,7 +1,7 @@
 # How to test rules
 
-Testing a new rule is really easy if you use `rule-runner.ts`. You just
-need to:
+Testing a new rule is really easy if you use `rule-runner.ts`.
+You just need to:
 
 * Create a `tests.ts` file in a folder with the name of the rule
   (e.g.: `src/tests/rules/<rule-id>/tests.ts`)

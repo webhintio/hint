@@ -2,8 +2,8 @@
 
 To create a new rule you just need to:
 
-* Create a `<rule_name>.ts` file in a folder with the same name of the rule
-  file (e.g.: `src/rules/<rule_name>/<rule_name>.ts`)
+* Create a `<rule_name>.ts` file in a folder with the same name
+  of the rule file (e.g.: `src/rules/<rule_name>/<rule_name>.ts`).
 
 * Have the following template:
 
@@ -41,7 +41,8 @@ To create a new rule you just need to:
 ## Target specific browsers
 
 If your rule only applies to specific browsers you should use
-`context.targetedBrowsers` and check if the rule needs to be executed or not.
+`context.targetedBrowsers` and check if the rule needs to be
+executed or not.
 
 <!-- eslint-disable no-unused-vars -->
 
@@ -57,17 +58,23 @@ const validateFetchEnd = (fetchEnd) => {
 
 ## Reporting an error if not run
 
-Sometimes what a rule checks is mandatory, and if it does not have the change
-to test it, it should fail. These are the types of rules that enforce certain things to be used in a certain way, and if included, in order for the rule to pass, the expectation should be that the thing the rule checks for should exist and be valid/used correctly.
-Examples here are the rules that check for different fields of the manifest file. They should not pass if, for example, the web manifest file doesn't exist (even if there is a rule that checks exactly that).
+Sometimes what a rule checks is mandatory, and if it does not have
+the change to test it, it should fail. These are the types of rules
+that enforce certain things to be used in a certain way, and if
+included, in order for the rule to pass, the expectation should be
+that the thing the rule checks for should exist and be valid/used
+correctly. Examples here are the rules that check for different fields
+of the manifest file. They should not pass if, for example, the web
+manifest file doesn't exist (even if there is a rule that checks
+exactly that).
 
-The recommended way to implement a rule like this is to subscribe to the
-event `scan::end`. If your rule receives that event and has not run any
-validation you should report it.
+The recommended way to implement a rule like this is to subscribe
+to the event `scan::end`. If your rule receives that event and has
+not run any validation you should report it.
 
 ## Interact with other services
 
-You can develop a rule that integrates with other services. Sonar
+You can develop a rule that integrates with other services. `sonar`
 integrates with a few like `ssllabs`.
 Because these online tools usually take a few seconds to return the
 results the guidance is to start the analysis as soon as possible
@@ -102,8 +109,8 @@ create(context: RuleContext): IRule {
 },
 ```
 
-In case you need a more complete example, please look at the `ssllabs.ts`
-source code.
+In case you need a more complete example, please look at the
+`ssllabs.ts` source code.
 
 ## Evaluate JavaScript in the page context
 
@@ -152,8 +159,8 @@ context.evaluate(script);
 
 ## Ignore collectors
 
-If your rule does not work propertly with certain collectors you can use the
-property `ignoreCollectors` so it is not run if using them.
+If your rule does not work propertly with certain collectors you can
+use the property `ignoreCollectors` so it is not run if using them.
 
 <!-- eslint-disable no-unused-vars, object-curly-newline -->
 
