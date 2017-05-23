@@ -33,7 +33,8 @@ them and you will end up with something similar to the following:
         "rule1": "error",
         "rule2": "error",
         "rule3": "error"
-    }
+    },
+    "rulesTimeout": 120000
 }
 ```
 
@@ -102,6 +103,16 @@ In the previous example we will:
 
 * Ignore all rules for any resource that matches the regex `.*\\.domain1\\.com/.*`.
 * Ignore the rule `disallowed-headers` for the domain `www.domain2.net`.
+
+## Rules timeout
+
+Even though rules are executed in parallel, sometimes one can take too
+long and prevent `sonar` to finish (e.g.: when using an external service,
+long script execution, etc.).
+
+To prevent this situation, each rule needs to finish in under 2 minutes.
+You can modify this threshold by using the property `rulesTimeout` in
+your `.sonarrc` file.
 
 ## Collectors
 
