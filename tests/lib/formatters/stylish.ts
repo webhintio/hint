@@ -17,7 +17,7 @@ test.beforeEach((t) => {
     t.context.logger = logging;
 });
 
-test.afterEach((t) => {
+test.afterEach.always((t) => {
     t.context.logger.log.restore();
 });
 

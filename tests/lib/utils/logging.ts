@@ -9,7 +9,7 @@ test.beforeEach((t) => {
     console.error = sinon.spy(console, 'error');
 });
 
-test.afterEach((t) => {
+test.afterEach.always((t) => {
     t.context.console.log.restore();
     t.context.console.error.restore();
 });

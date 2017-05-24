@@ -25,7 +25,7 @@ test.beforeEach(async (t) => {
     t.context.requester = requester;
 });
 
-test.afterEach((t) => {
+test.afterEach.always((t) => {
     const { server } = t.context;
 
     server.stop();

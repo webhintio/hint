@@ -42,7 +42,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
         await t.context.server.start();
     });
 
-    test.afterEach((t) => {
+    test.afterEach.always((t) => {
         t.context.server.stop();
     });
 

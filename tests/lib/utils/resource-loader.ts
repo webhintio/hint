@@ -14,7 +14,7 @@ test.beforeEach((t) => {
     sinon.stub(fakeGlobby, 'sync').returns([path.join(process.cwd(), 'dist/src/lib/collectors/cdp/cdp.js'), path.join(process.cwd(), 'dist/src/lib/collectors/cdp2/cdp.js')]);
 });
 
-test.afterEach((t) => {
+test.afterEach.always((t) => {
     t.context.fakeGlobby.sync.restore();
 });
 
