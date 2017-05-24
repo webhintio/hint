@@ -44,6 +44,10 @@
             },
             "uniqueItems": true
         },
+        "rulesTimeout": {
+            "description": "Time in milliseconds that a rule has to finish",
+            "type": "number"
+        },
         "rules": {
             "description": "The rules to validate",
             "type": "object",

@@ -161,7 +161,32 @@ export class Sonar extends EventEmitter {
                         return null;
                     }
 
-                    return handler(event);
+                    // If a rule is spending a lot of time to finish we should ignore it.
+
+                    return new Promise((resolve) => {
+                        let immediateId;
+
+                        const timeoutId = setTimeout(() => {
+                            if (immediateId) {
+                                clearImmediate(immediateId);
+                                immediateId = null;
+                            }
+
+                            debug(`Rule ${ruleId} timeout`);
+
+                            resolve(null);
+                        }, config.rulesTimeout || 120000);
+
+                        immediateId = setImmediate(async () => {
+                            const result = await handler(event);
+
+                            if (timeoutId) {
+                                clearTimeout(timeoutId);
+                            }
+
+                            resolve(result);
+                        });
+                    });
                 };
             };
 

@@ -172,7 +172,8 @@ export const generate = async () => {
         },
         formatter: 'json',
         ignoredUrls: {},
-        rules: {}
+        rules: {},
+        rulesTimeout: 120000
     };
 
     for (const [key, rule] of rules) {
