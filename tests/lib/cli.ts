@@ -52,7 +52,7 @@ test.beforeEach((t) => {
     t.context.config = config;
 });
 
-test.afterEach((t) => {
+test.afterEach.always((t) => {
     t.context.logger.log.restore();
     t.context.logger.error.restore();
     t.context.config.getFilenameForDirectory.restore();

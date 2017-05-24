@@ -28,7 +28,7 @@ test.beforeEach((t) => {
     t.context.eventemitter = eventEmitter.EventEmitter2;
 });
 
-test.afterEach((t) => {
+test.afterEach.always((t) => {
     if (t.context.resourceLoader.getPlugins.restore) {
         t.context.resourceLoader.getPlugins.restore();
     }

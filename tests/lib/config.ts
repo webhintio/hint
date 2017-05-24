@@ -35,7 +35,7 @@ test.beforeEach((t) => {
     t.context.pifyMethod = stubPifyMethodObject.pifyMethod;
 });
 
-test.afterEach((t) => {
+test.afterEach.always((t) => {
     t.context.pify.restore();
     t.context.pifyMethod.restore();
 });
