@@ -29,100 +29,100 @@ under the required threshold.
 Additionally, the rule will try to generate an error response (more
 specifically a `404` response), if one wasn't found.
 
-* Examples that **trigger** the rule:
+### Examples that **trigger** the rule
 
-  * Response with the status code `403` and the body under 256 bytes
+Response with the status code `403` and the body under `256` bytes:
 
-    ```text
-    HTTP/1.1 403 Forbidden
+```text
+HTTP/1.1 403 Forbidden
 
-    ...
-    ```
+...
+```
 
-    ```html
-    <!doctype html>
-    <html lang="en">
-        <head>
-            <meta charset="utf-8">
-            <title>403 Forbidden</title>
-        </head>
-        <body>This page has under 256 bytes, so it will be displayed by all browsers.</body>
-    </html>
-    ```
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>403 Forbidden</title>
+    </head>
+    <body>This page has under 256 bytes, so it will be displayed by all browsers.</body>
+</html>
+```
 
-  * Response with the status code `500` and the body under 512 bytes
+Response with the status code `500` and the body under `512` bytes:
 
-    ```text
-    HTTP/1.1 500 Internal Server Error
+```text
+HTTP/1.1 500 Internal Server Error
 
-    ...
-    ```
+...
+```
 
-    ```html
-    <!doctype html>
-    <html lang="en">
-        <head>
-            <meta charset="utf-8">
-            <title>HTTP 500 - Internal Server Error</title>
-        </head>
-        <body>
-            <h1>HTTP 500 - Internal Server Error</h1>
-            <p>This page has under 512 bytes, therefore, it will not be displayed by some older browsers.</p>
-        </body>
-    </html>
-    ```
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>HTTP 500 - Internal Server Error</title>
+    </head>
+    <body>
+        <h1>HTTP 500 - Internal Server Error</h1>
+        <p>This page has under 512 bytes, therefore, it will not be displayed by some older browsers.</p>
+    </body>
+</html>
+```
 
-* Examples that **pass** the rule:
+### Examples that **pass** the rule
 
-  * Response with the status code `403` and the body over 256 bytes
+Response with the status code `403` and the body over `256` bytes:
 
-    ```text
-    HTTP/1.1 500 Internal Server Error
+```text
+HTTP/1.1 500 Internal Server Error
 
-    ...
-    ```
+...
+```
 
-    ```html
-    <!doctype html>
-    <html lang="en">
-        <head>
-            <meta charset="utf-8">
-            <title>HTTP 403 - Forbidden</title>
-        </head>
-        <body>
-            <h1>HTTP 403 - Forbidden</h1>
-            <p>......................................................................</p>
-            <p>This page has over 256 bytes, so it will be displayed by all browsers.</p>
-            <p>......................................................................</p>
-            <p>......................................................................</p>
-        </body>
-    </html>
-    ```
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>HTTP 403 - Forbidden</title>
+    </head>
+    <body>
+        <h1>HTTP 403 - Forbidden</h1>
+        <p>......................................................................</p>
+        <p>This page has over 256 bytes, so it will be displayed by all browsers.</p>
+        <p>......................................................................</p>
+        <p>......................................................................</p>
+    </body>
+</html>
+```
 
-  * Response with the status code `500` and the body over 512 bytes
+Response with the status code `500` and the body over `512` bytes:
 
-    ```text
-    HTTP/1.1 500 Internal Server Error
+```text
+HTTP/1.1 500 Internal Server Error
 
-    ...
-    ```
+...
+```
 
-    ```html
-    <!doctype html>
-    <html lang="en">
-        <head>
-            <meta charset="utf-8">
-            <title>HTTP 500 - Internal Server Error</title>
-        </head>
-        <body>
-            <h1>HTTP 500 - Internal Server Error</h1>
-            <p>......................................................................</p>
-            <p>This page has over 512 bytes, so it will be displayed by all browsers.</p>
-            <p>......................................................................</p>
-            <p>......................................................................</p>
-        </body>
-    </html>
-    ```
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>HTTP 500 - Internal Server Error</title>
+    </head>
+    <body>
+        <h1>HTTP 500 - Internal Server Error</h1>
+        <p>......................................................................</p>
+        <p>This page has over 512 bytes, so it will be displayed by all browsers.</p>
+        <p>......................................................................</p>
+        <p>......................................................................</p>
+    </body>
+</html>
+```
 
 ## Further Reading
 

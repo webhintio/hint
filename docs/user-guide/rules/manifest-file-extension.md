@@ -21,7 +21,7 @@ The rule checks if the recommended
 [`.webmanifest`](https://w3c.github.io/manifest/#media-type-registration)
 file extension is used for the web app manifest file.
 
-Examples that **trigger** the rule:
+### Examples that **trigger** the rule
 
 ```html
 <link rel="manifest" href="site.json">
@@ -31,7 +31,7 @@ Examples that **trigger** the rule:
 <link rel="manifest" href="site.manifest">
 ```
 
-Example that **passes** the rule:
+### Examples that **pass** the rule
 
 ```html
 <link rel="manifest" href="site.webmanifest">

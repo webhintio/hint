@@ -72,7 +72,7 @@ origins.
 
 Let's presume the original page is `https://example1.com`.
 
-Examples that **trigger** the rule:
+### Examples that **trigger** the rule
 
 ```html
 <a href="http://example1.com/example.html" target="_blank">example</a>
@@ -97,7 +97,7 @@ Examples that **trigger** the rule:
 </map>
 ```
 
-Examples that **pass** the rule:
+### Examples that **pass** the rule
 
 ```html
 <a href="/" target="_blank">example</a>

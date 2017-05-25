@@ -40,7 +40,7 @@ it will block it.
 The rule checks if responses include the `X-Content-Type-Options`
 HTTP headers with the value of `nosniff`.
 
-Examples that **trigger** the rule:
+### Examples that **trigger** the rule
 
 ```text
 HTTP/1.1 200 OK
@@ -55,7 +55,7 @@ HTTP/1.1 200 OK
 X-Content-Type-Options: no-sniff
 ```
 
-Example that **passes** the rule:
+### Examples that **pass** the rule
 
 ```text
 HTTP/1.1 200 OK

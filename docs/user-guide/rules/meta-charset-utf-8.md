@@ -54,64 +54,64 @@ For the charset meta tag `<meta charset="utf-8">` should be used.
 The rule checks if `<meta charset="utf-8">` is specified as the first
 thing in the `<head>`.
 
-Examples that **trigger** the rule:
+### Examples that **trigger** the rule
 
-* The character encoding is not specified in the html.
+The character encoding is not specified in `html>`:
 
- ```html
-  <!doctype html>
-  <html lang="en">
-      <head>
-          <title>example</title>
-          ...
-      </head>
-      <body>...</body>
-  </html>
-  ```
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>example</title>
+        ...
+    </head>
+    <body>...</body>
+</html>
+```
 
-* The character encoding is specified using the meta `http-equiv`.
+The character encoding is specified using the `meta http-equiv`:
 
-  ```html
-  <!doctype html>
-  <html lang="en">
-      <head>
-          <meta http-equiv="content-type" content="text/html; charset=utf-8">
-          <title>example</title>
-          ...
-      </head>
-      <body>...</body>
-  </html>
-  ```
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>example</title>
+        ...
+    </head>
+    <body>...</body>
+</html>
+```
 
-* The charset value is not `utf-8`.
+The `charset` value is not `utf-8`:
 
-  ```html
-  <!doctype html>
-  <html lang="en">
-      <head>
-          <meta charset="utf8">
-          <title>example</title>
-          ...
-      </head>
-      <body>...</body>
-  </html>
-  ```
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf8">
+        <title>example</title>
+        ...
+    </head>
+    <body>...</body>
+</html>
+```
 
-* The meta charset is not the first thing in `<head>`.
+The `meta charset` is not the first thing in `<head>`:
 
-  ```html
-  <!doctype html>
-  <html lang="en">
-      <head>
-          <title>example</title>
-          <meta charset="utf8">
-          ...
-      </head>
-      <body>...</body>
-  </html>
-  ```
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>example</title>
+        <meta charset="utf8">
+        ...
+    </head>
+    <body>...</body>
+</html>
+```
 
-Example that **passes** the rule:
+### Examples that **pass** the rule
 
 ```html
 <!doctype html>
