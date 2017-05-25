@@ -2,39 +2,39 @@
 
 To create a new rule you just need to:
 
-* Create a `<rule_name>.ts` file in a folder with the same name
-  of the rule file (e.g.: `src/rules/<rule_name>/<rule_name>.ts`).
+1\) Create a `<rule_name>.ts` file in a folder with the same name
+of the rule file (e.g.: `src/rules/<rule_name>/<rule_name>.ts`).
 
-* Have the following template:
+2\) Have the following template:
 
-  ```ts
-  import * from '../../utils/rule-helpers';
-  // The list of types depends on the [events](../events/list-of-events.md) you want to capture.
-  import { IFetchEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
-  import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+```ts
+import * from '../../utils/rule-helpers';
+// The list of types depends on the [events](../events/list-of-events.md) you want to capture.
+import { IFetchEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-  const rule: IRuleBuilder = {
-      create(context: RuleContext): IRule {
-          // Your code here.
+const rule: IRuleBuilder = {
+    create(context: RuleContext): IRule {
+        // Your code here.
 
-          const validateFetchEnd = (fetchEnd: IFetchEndEvent) => {
-              // Code to validate the rule on the event fetch::end.
-          }
+        const validateFetchEnd = (fetchEnd: IFetchEndEvent) => {
+            // Code to validate the rule on the event fetch::end.
+        }
 
-          const validateTargetFetchEnd = (targetFetchEnd: IFetchEndEvent) => {
-              // Code to validate the rule on the event targetfetch::end.
-          }
+        const validateTargetFetchEnd = (targetFetchEnd: IFetchEndEvent) => {
+            // Code to validate the rule on the event targetfetch::end.
+        }
 
-          return {
-            'fetch::end': validateFetchEnd,
-            'targetfetch::end': validateTargetFetchEnd
-            // As many events as you need, you can see the
-            // list of events [here](../events/list-of-events.md).
-        };
-      },
-      meta: {}
-  }
-  ```
+        return {
+          'fetch::end': validateFetchEnd,
+          'targetfetch::end': validateTargetFetchEnd
+          // As many events as you need, you can see the
+          // list of events [here](../events/list-of-events.md).
+      };
+    },
+    meta: {}
+}
+```
 
 > More content here
 

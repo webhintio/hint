@@ -52,9 +52,9 @@ Notes:
 By default the rule checks if the `X-UA-Compatible` response header is
 sent with the value of `IE=edge`, and that the `meta` tag isn't used.
 
-Examples that **trigger** the rule:
+### Examples that **trigger** the rule for defaults
 
-* `X-UA-Compatible` response header is not sent.
+`X-UA-Compatible` response header is not sent:
 
 ```text
 HTTP/1.1 200 OK
@@ -62,8 +62,8 @@ HTTP/1.1 200 OK
 ...
 ```
 
-* `X-UA-Compatible` response header is sent a value different
-  than `ie=edge`.
+`X-UA-Compatible` response header is sent with a value different
+than `ie=edge`:
 
 ```text
 HTTP/1.1 200 OK
@@ -79,8 +79,8 @@ HTTP/1.1 200 OK
 X-UA-Compatible: ie=edge,chrome=1
 ```
 
-* `X-UA-Compatible` response header is sent but the meta tag is
-  also specified.
+`X-UA-Compatible` response header is sent, but the `meta` tag is
+also specified:
 
 ```text
 HTTP/1.1 200 OK
@@ -102,7 +102,7 @@ X-UA-Compatible: ie=edge
 </html>
 ```
 
-Example that **passes** the rule:
+### Examples that **pass** the rule for defaults
 
 ```text
 HTTP/1.1 200 OK
@@ -115,9 +115,9 @@ The rule [can be configured](#can-the-rule-be-configured) to require
 the `X-UA-Compatible` meta tag. This option is indicated mainly for the
 case when the HTTP response header cannot be set.
 
-Examples that **trigger** the rule:
+### Examples that **trigger** the rule
 
-* `X-UA-Compatible` meta tag is not specified.
+`X-UA-Compatible` meta tag is not specified:
 
 ```html
 <!doctype html>
@@ -131,8 +131,8 @@ Examples that **trigger** the rule:
 </html>
 ```
 
-* `X-UA-Compatible` meta tag is specified with a value different than
-  `ie=edge`.
+`X-UA-Compatible` meta tag is specified with a value different than
+`ie=edge`:
 
 ```html
 <!doctype html>
@@ -160,7 +160,7 @@ Examples that **trigger** the rule:
 </html>
 ```
 
-* `X-UA-Compatible` meta tag is specified in the `<body>`.
+`X-UA-Compatible` meta tag is specified in the `<body>`:
 
 ```html
 <!doctype html>
@@ -178,9 +178,9 @@ Examples that **trigger** the rule:
 </html>
 ```
 
-* `X-UA-Compatible` meta tag is specified in the `<head>`, but it's
-  not included before all other tags except for the `<title>` and the
-  other `<meta>` tags.
+`X-UA-Compatible` meta tag is specified in the `<head>`, but it's
+not included before all other tags except for the `<title>` and the
+other `<meta>` tags:
 
 ```html
 <!doctype html>
@@ -196,7 +196,7 @@ Examples that **trigger** the rule:
 </html>
 ```
 
-Example that **passes** the rule:
+### Examples that **pass** the rule
 
 ```text
 HTTP/1.1 200 OK

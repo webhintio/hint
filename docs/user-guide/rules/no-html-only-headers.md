@@ -21,7 +21,7 @@ HTTP headers:
 * `X-WebKit-CSP`
 * `X-XSS-Protection`
 
-Examples that **trigger** the rule:
+### Examples that **trigger** the rule
 
 Response for `/test.js`:
 
@@ -57,7 +57,7 @@ X-XSS-Protection: 1; mode=block
 ...
 ```
 
-Examples that **pass** the rule:
+### Examples that **pass** the rule
 
 Response for `/test.js`:
 

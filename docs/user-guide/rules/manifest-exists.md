@@ -26,96 +26,96 @@ to put metadata about your site/web app, and providing it:
 
 This rule checks if:
 
-1. The web app manifest file is specified correctly in the page
-   (i.e. the page contains a single, valid declaration such as:
-   `<link rel="manifest" href="site.webmanifest">`)
+* The web app manifest file is specified correctly in the page
+  (i.e. the page contains a single, valid declaration such as:
+  `<link rel="manifest" href="site.webmanifest">`)
 
-   Examples that **trigger** the rule:
+* The specified web app manifest file is accessible (i.e. requesting
+  it doesn't result in a `404`, `500`, etc.)
 
-   * The web app manifest file is not specified.
+### Examples that **trigger** the rule
 
-     ```html
-     <!doctype html>
-     <html lang="en">
-         <head>
-            <title>example</title>
-            ...
-         </head>
-         <body>...</body>
-     </html>
-     ```
+The web app manifest file is not specified:
 
-   * The location of the web app manifest file is not specified.
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+       <title>example</title>
+       ...
+    </head>
+    <body>...</body>
+</html>
+```
 
-     ```html
-     <!doctype html>
-     <html lang="en">
-         <head>
-             <title>example</title>
-             <link rel="manifest">
-             ...
-         </head>
-         <body>...</body>
-     </html>
-     ```
+The location of the web app manifest file is not specified:
 
-     ```html
-     <!doctype html>
-     <html lang="en">
-         <head>
-             <title>example</title>
-             <link rel="manifest" href="">
-             ...
-         </head>
-         <body>...</body>
-     </html>
-     ```
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>example</title>
+        <link rel="manifest">
+        ...
+    </head>
+    <body>...</body>
+</html>
+```
 
-     ```html
-     <!doctype html>
-     <html lang="en">
-         <head>
-             <title>example</title>
-             <link rel="manifest" hrref="site.webmanifest">
-             ...
-         </head>
-         <body>...</body>
-     </html>
-     ```
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>example</title>
+        <link rel="manifest" href="">
+        ...
+    </head>
+    <body>...</body>
+</html>
+```
 
-   * More than one web app manifest file is specified.
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>example</title>
+        <link rel="manifest" hrref="site.webmanifest">
+        ...
+    </head>
+    <body>...</body>
+</html>
+```
 
-     ```html
-     <!doctype html>
-     <html lang="en">
-         <head>
-             <title>example</title>
-             <link rel="manifest" href="site.webmanifest">
-             <link rel="manifest" href="another-site.webmanifest">
-             ...
-         </head>
-         <body>...</body>
-     </html>
-     ```
+More than one web app manifest file is specified:
 
-   Example that **passes** the rule:
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>example</title>
+        <link rel="manifest" href="site.webmanifest">
+        <link rel="manifest" href="another-site.webmanifest">
+        ...
+    </head>
+    <body>...</body>
+</html>
+```
 
-    ```html
-     <!doctype html>
-     <html lang="en">
-         <head>
-             <title>example</title>
-             <link rel="manifest" href="site.webmanifest">
-             ...
-         </head>
-         <body>...</body>
-     </html>
-    ```
+### Examples that **pass** the rule
 
-2. The specified web app manifest file is accessible (i.e. requesting
-   it doesn't result in a `404`, `500`, etc.)
+```html
+ <!doctype html>
+ <html lang="en">
+     <head>
+         <title>example</title>
+         <link rel="manifest" href="site.webmanifest">
+         ...
+     </head>
+     <body>...</body>
+ </html>
+```
 
-   TODO: Add information on CORS.
+TODO: Add information on CORS.
 
 ## Further Reading
 

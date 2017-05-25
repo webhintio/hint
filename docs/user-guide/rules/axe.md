@@ -48,44 +48,44 @@ rules or categories are executed via an `options` object that follows
 
 Some examples of configurations:
 
-* Run only WCAG 2.0 Level A rules:
+Run only WCAG 2.0 Level A rules:
 
-  ```json
-  {
+```json
+{
+  "axe": ["error", {
+      "runOnly": {
+      "type": "tag",
+        "values": ["wcag2a"]
+      }
+  }]
+}
+```
+
+Run only a specified set of rules:
+
+```json
+{
     "axe": ["error", {
         "runOnly": {
-        "type": "tag",
-          "values": ["wcag2a"]
+            "type": "rule",
+            "values": ["ruleId1", "ruleId2", "ruleId3" ]
         }
     }]
-  }
-  ```
+}
+```
 
-* Run only a specified set of rules:
+Run all enabled rules except for a list of rules:
 
-  ```json
-  {
-      "axe": ["error", {
-          "runOnly": {
-              "type": "rule",
-              "values": ["ruleId1", "ruleId2", "ruleId3" ]
-          }
-      }]
-  }
-  ```
-
-* Run all enabled rules except for a list of rules:
-
-  ```json
-  {
-      "axe": ["error",{
-          "rules": {
-              "color-contrast": { "enabled": false },
-              "valid-lang": { "enabled": false }
-          }
-      }]
-  }
-  ```
+```json
+{
+    "axe": ["error",{
+        "rules": {
+            "color-contrast": { "enabled": false },
+            "valid-lang": { "enabled": false }
+        }
+    }]
+}
+```
 
 ## Further Reading
 

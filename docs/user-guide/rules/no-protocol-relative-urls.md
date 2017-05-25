@@ -49,10 +49,10 @@ The rule checks for protocol-relative URLs.
 Note: Currently the rule does not check for protocol-relative URLs
 inside of stylesheets and scripts.
 
-Let's presume `example1.com` does not support HTTPS and
-`example2.com` does.
+Let's presume `example1.com` does not support HTTPS and `example2.com`
+does.
 
-Example that **triggers** the rule:
+### Examples that **trigger** the rule
 
 ```html
 <link rel="stylesheet" href="//example1.com/style.css">
@@ -62,7 +62,7 @@ Example that **triggers** the rule:
 <script src="//example2.com/script.js"></script>
 ```
 
-Example that **passes** the rule:
+### Examples that **pass** the rule
 
 ```html
 <link rel="stylesheet" href="http://example1.com/style.css">
