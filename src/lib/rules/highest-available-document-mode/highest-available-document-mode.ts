@@ -152,7 +152,6 @@ const rule: IRuleBuilder = {
                     await context.report(resource, metaTag, `A 'X-UA-Compatible' meta tag was already specified`);
                 }
             }
-
         };
 
         const loadRuleConfigs = () => {
@@ -166,7 +165,7 @@ const rule: IRuleBuilder = {
             });
         };
 
-        const validate = (event: ITraverseEndEvent) => {
+        const validate = async (event: ITraverseEndEvent) => {
             const { resource } = event;
 
             // The following check don't make sense for local files.
@@ -175,7 +174,7 @@ const rule: IRuleBuilder = {
                 checkHeader(resource, context.pageHeaders);
             }
 
-            checkMetaTag(resource);
+            await checkMetaTag(resource);
         };
 
         loadRuleConfigs();

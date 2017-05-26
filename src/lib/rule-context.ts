@@ -87,25 +87,25 @@ export class RuleContext {
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, descriptor: IAsyncHTMLElement, message: string, location?: IProblemLocation, severity?: Severity) { //eslint-disable-line require-await
-        // let position = location;
+    public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: IProblemLocation, severity?: Severity) { //eslint-disable-line require-await
+        let position = location;
 
-        // if (!position && descriptor) {
-        //     position = await findProblemLocation(descriptor, { column: 0, line: 0 });
-        // }
+        if (element) {
+            position = await findProblemLocation(element, { column: 0, line: 0 }, content);
+        }
 
-        // if (position === null) {
-        //     position = {
-        //         column: null,
-        //         line: null
-        //     };
-        // }
+        if (position === null) {
+            position = {
+                column: null,
+                line: null
+            };
+        }
 
         this.sonar.report(
             this.id,
             severity || this.severity,
-            descriptor,
-            location,
+            element,
+            position,
             message,
             resource
         );

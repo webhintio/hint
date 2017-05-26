@@ -69,7 +69,11 @@ class CDPCollector implements ICollector {
     private _targetNetworkData: INetworkData;
 
     constructor(server: Sonar, config: object) {
-        const defaultOptions = { waitFor: 5000 };
+        const defaultOptions = {
+            loadCompleteRetryInterval: 500,
+            maxLoadWaitTime: 30000,
+            waitFor: 5000
+        };
 
         this._server = server;
 
@@ -217,6 +221,8 @@ class CDPCollector implements ICollector {
             resource
         };
 
+        this._requests.delete(params.requestId);
+
         await this._server.emitAsync(eventName, event);
     }
 
@@ -278,6 +284,7 @@ class CDPCollector implements ICollector {
 
         if (params.type === 'Manifest') {
             await this._server.emitAsync('manifestfetch::end', data);
+            this._requests.delete(params.requestId);
 
             return;
         }
@@ -418,31 +425,43 @@ class CDPCollector implements ICollector {
 
     /** Initiates all the proce */
     private onLoadEventFired(callback: Function): Function {
-        return async () => {
+        return () => {
             const { DOM } = this._client;
             const event = { resource: this._finalHref };
-            // TODO: Wait a few seconds here before traversing
-            // or is this event fired when everything is quiet?
 
             this._dom = new CDPAsyncHTMLDocument(DOM);
 
-            try {
-                await this._dom.load();
+            setTimeout(async () => {
+                try {
+                    await this._dom.load();
 
-                while (this._pendingResponseReceived.length) {
-                    await this._pendingResponseReceived.shift()();
+                    while (this._pendingResponseReceived.length) {
+                        await this._pendingResponseReceived.shift()();
+                    }
+
+                    await this._server.emitAsync('traverse::start', event);
+                    await this.traverseAndNotify(this._dom.root);
+                    await this._server.emitAsync('traverse::end', event);
+
+                    await this._server.emitAsync('scan::end', event);
+
+                    // We are going to wait until all the requests are finished or this._options.maxLoadWaitTime seconds before finish
+                    let retries = Math.ceil(this._options.maxLoadWaitTime / this._options.loadCompleteRetryInterval);
+
+                    const isFinish = () => {
+                        if (this._requests.size === 0 || !retries) {
+                            return callback();
+                        }
+                        retries--;
+
+                        return setTimeout(isFinish, this._options.loadCompleteRetryInterval);
+                    };
+
+                    return isFinish();
+                } catch (err) {
+                    return callback(err);
                 }
-
-                await this._server.emitAsync('traverse::start', event);
-                await this.traverseAndNotify(this._dom.root);
-                await this._server.emitAsync('traverse::end', event);
-
-                await this._server.emitAsync('scan::end', event);
-            } catch (err) {
-                return callback(err);
-            }
-
-            return setTimeout(callback, 1000); //HACK: need to check if there is any pending request, wait for it and timeout after a few seconds
+            }, this._options.waitFor);
         };
     }
 
@@ -644,8 +663,8 @@ class CDPCollector implements ICollector {
         return this._targetNetworkData.response.headers;
     }
 
-    get html() {
-        return this._html;
+    get html(): Promise<string> {
+        return this._dom.pageHTML();
     }
 }
 

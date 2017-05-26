@@ -66,7 +66,7 @@ const rule: IRuleBuilder = {
             try {
                 result = await context.evaluate(script);
             } catch (e) {
-                context.report(resource, null, `Error executing script: "${e.message}". Please try with another collector`, null, Severity.warning);
+                await context.report(resource, null, `Error executing script: "${e.message}". Please try with another collector`, null, null, Severity.warning);
                 debug('Error executing script %O', e);
 
                 return;
@@ -91,7 +91,7 @@ const rule: IRuleBuilder = {
                     const element = await getElement(node);
 
                     //TODO: find the right element here using node.target[0] ?
-                    context.report(resource, element, violation.help);
+                    await context.report(resource, element, violation.help);
 
                     return;
                 });

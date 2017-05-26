@@ -33,12 +33,12 @@ const rule: IRuleBuilder = {
             disallowedHeaders = mergeIgnoreIncludeArrays(disallowedHeaders, ignoreHeaders, includeHeaders);
         };
 
-        const validate = (fetchEnd: IFetchEndEvent) => {
+        const validate = async (fetchEnd: IFetchEndEvent) => {
             const { element, resource } = fetchEnd;
             const headers = getIncludedHeaders(fetchEnd.response.headers, disallowedHeaders);
 
             if (headers.length > 0) {
-                context.report(resource, element, `Disallowed HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
+                await context.report(resource, element, `Disallowed HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
             }
         };
 

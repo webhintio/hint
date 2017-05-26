@@ -78,9 +78,7 @@ const rule: IRuleBuilder = {
             });
 
             if (missingRelValues.length > 0) {
-                const location = await context.findInElement(element, hrefValue);
-
-                await context.report(resource, element, `Missing link type${missingRelValues.length === 1 ? '' : 's'} on \`${await element.outerHTML()}\`: ${missingRelValues.join(', ')}`, location);
+                await context.report(resource, element, `Missing link type${missingRelValues.length === 1 ? '' : 's'} on \`${await element.outerHTML()}\`: ${missingRelValues.join(', ')}`, hrefValue);
             }
         };
 

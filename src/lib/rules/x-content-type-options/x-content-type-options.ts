@@ -17,18 +17,18 @@ import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unus
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        const validate = (fetchEnd: IFetchEndEvent) => {
+        const validate = async (fetchEnd: IFetchEndEvent) => {
             const { element, resource, response } = fetchEnd;
             const headerValue = (response.headers && response.headers['x-content-type-options']);
 
             if (typeof headerValue === 'undefined') {
-                context.report(resource, element, `Resource served without the 'X-Content-Type-Options' HTTP response header`);
+                await context.report(resource, element, `Resource served without the 'X-Content-Type-Options' HTTP response header`);
 
                 return;
             }
 
             if (headerValue.toLowerCase() !== 'nosniff') {
-                context.report(resource, element, `Resource served with invalid value ('${headerValue}') for the 'X-Content-Type-Options' HTTP response header`);
+                await context.report(resource, element, `Resource served with invalid value ('${headerValue}') for the 'X-Content-Type-Options' HTTP response header`);
             }
         };
 

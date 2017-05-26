@@ -21,7 +21,7 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
         return Promise.resolve(elements);
     }
 
-    pageHTML() {
+    pageHTML(): Promise<string> {
         return Promise.resolve(this._document.children[0].outerHTML);
     }
 }

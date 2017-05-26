@@ -2,7 +2,9 @@
     "collector": {
         "name": "cdp",
         "options": {
-            "waitFor": 100
+            "waitFor": 100,
+            "loadCompleteRetryInterval": 500,
+            "maxLoadWaitTime": 30000
         }
     },
     "formatter": "stylish",

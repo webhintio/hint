@@ -124,7 +124,7 @@ const rule: IRuleBuilder = {
                 host = await promise;
             } catch (e) {
                 debug(`Error getting data for ${resource} %O`, e);
-                context.report(resource, null, `Couldn't get results from SSL Labs for ${resource}.`);
+                await context.report(resource, null, `Couldn't get results from SSL Labs for ${resource}.`);
 
                 return;
             }
@@ -136,7 +136,7 @@ const rule: IRuleBuilder = {
 There might be something wrong with SSL Labs servers.`;
 
                 debug(msg);
-                context.report(resource, null, msg);
+                await context.report(resource, null, msg);
 
                 return;
             }

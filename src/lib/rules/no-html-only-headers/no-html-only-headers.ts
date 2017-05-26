@@ -66,14 +66,14 @@ const rule: IRuleBuilder = {
             return false;
         };
 
-        const checkHeaders = (fetchEnd: IFetchEndEvent) => {
+        const checkHeaders = async (fetchEnd: IFetchEndEvent) => {
             const { element, resource, response } = fetchEnd;
 
             if (!willBeTreatedAsHTML(response)) {
                 const headers = getIncludedHeaders(response.headers, unneededHeaders);
 
                 if (headers.length > 0) {
-                    context.report(resource, element, `Unneeded HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
+                    await context.report(resource, element, `Unneeded HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
                 }
             }
         };

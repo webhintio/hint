@@ -43,7 +43,7 @@ export class Sonar extends EventEmitter {
         return this.collector.dom;
     }
 
-    get pageContent() {
+    get pageContent(): Promise<string> {
         return this.collector.html;
     }
 

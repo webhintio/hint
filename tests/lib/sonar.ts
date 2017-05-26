@@ -438,7 +438,7 @@ test.serial('pageContent should return the HTML', async (t) => {
         }
     });
 
-    t.is(sonarObject.pageContent, html);
+    t.is(await sonarObject.pageContent, html);
 });
 
 test.serial(`pageHeaders should return the page's response headers`, async (t) => {
