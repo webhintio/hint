@@ -47,7 +47,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
         });
     }
 
-    async pageHTML() {
+    async pageHTML(): Promise<string> {
         const { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._dom.nodeId });
 
         return outerHTML;

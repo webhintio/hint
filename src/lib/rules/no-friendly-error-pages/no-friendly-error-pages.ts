@@ -133,7 +133,7 @@ const rule: IRuleBuilder = {
             for (const key of Object.keys(foundErrorPages)) {
                 const threshold = statusCodesWith512Threshold.includes(Number.parseInt(key)) ? 512 : 256;
 
-                context.report(href, null, `Response with statusCode ${key} had less than ${threshold} bytes`);
+                await context.report(href, null, `Response with statusCode ${key} had less than ${threshold} bytes`);
             }
         };
 

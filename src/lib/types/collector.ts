@@ -13,7 +13,7 @@ export interface ICollector {
     /** The original DOM of the resource collected. */
     dom: object;
     /** The original HTML of the resource collected. */
-    html: string;
+    html: Promise<string>;
     /** The headers from the response if applicable. */
     headers: object;
     /** Collects all the information for the given target. */

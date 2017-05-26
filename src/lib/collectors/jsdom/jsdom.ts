@@ -455,8 +455,8 @@ class JSDOMCollector implements ICollector {
         return this._targetNetworkData.response.headers;
     }
 
-    get html(): string {
-        return this._targetNetworkData.response.body.content;
+    get html(): Promise<string> {
+        return this._document.pageHTML();
     }
 }
 
