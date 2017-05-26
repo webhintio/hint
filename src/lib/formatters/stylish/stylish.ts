@@ -23,6 +23,24 @@ const pluralize = (text, count) => {
     return `${text}${count !== 1 ? 's' : ''}`;
 };
 
+const cutString = (txt: string, length: number = 50) => {
+    if (txt.length <= length) {
+        return txt;
+    }
+
+    const partialLength = Math.floor(length - 3) / 2;
+
+    return `${txt.substring(0, partialLength)}...${txt.substring(txt.length - partialLength, txt.length)}`;
+};
+
+const printPosition = (position, text) => {
+    if (position === -1) {
+        return '';
+    }
+
+    return `${text} ${position}`;
+};
+
 // ------------------------------------------------------------------------------
 // Formatter
 // ------------------------------------------------------------------------------
@@ -46,8 +64,9 @@ const formatter: IFormatter = {
             let errors = 0;
             const sortedMessages = _.sortBy(msgs, ['line', 'column']);
             const tableData = [];
+            let hasPosition = false;
 
-            logger.log(chalk.cyan(`${resource}`));
+            logger.log(chalk.cyan(`${cutString(resource, 80)}`));
             _.forEach(sortedMessages, (msg) => {
                 const severity = Severity.error === msg.severity ? chalk.red('Error') : chalk.yellow('Warning');
 
@@ -56,8 +75,25 @@ const formatter: IFormatter = {
                 } else {
                     warnings++;
                 }
-                tableData.push([severity, msg.message, msg.ruleId]);
+
+                const line = printPosition(msg.line, 'line');
+                const column = printPosition(msg.column, 'col');
+
+                if (line) {
+                    hasPosition = true;
+                }
+
+                tableData.push([line, column, severity, msg.message, msg.ruleId]);
             });
+
+            /* If no message in this resource has a position, then we remove the
+             * position components from the array to avoid unnecessary white spaces
+             */
+            if (!hasPosition) {
+                tableData.forEach((row) => {
+                    row.splice(0, 2);
+                });
+            }
 
             logger.log(table(tableData));
 
