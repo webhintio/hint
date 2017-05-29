@@ -71,22 +71,44 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
-        name: `HTML document with valid but incorrect media type is treated as non-HTML resource`,
-        reports: [{ message: `Unneeded HTTP headers found: x-frame-options, x-ua-compatible` }],
+        name: `HTML document without media type is treated as non-HTML resource`,
+        reports: [{ message: `Unneeded HTTP header found: x-ua-compatible` }],
         serverConfig: {
             '/': {
                 content: '',
                 headers: {
-                    'X-Frame-Options': 'SAMEORIGIN',
+                    'Content-Type': null,
+                    'X-UA-Compatible': 'IE=Edge'
+                }
+            }
+        }
+    },
+    {
+        name: `HTML document with invalid media type is treated as non-HTML resource`,
+        reports: [{ message: `Unneeded HTTP header found: x-ua-compatible` }],
+        serverConfig: {
+            '/': {
+                content: '',
+                headers: {
+                    'Content-Type': 'invalid',
+                    'X-UA-Compatible': 'IE=Edge'
+                }
+            }
+        }
+    },
+    {
+        name: `HTML document with valid but incorrect media type is treated as non-HTML resource`,
+        reports: [{ message: `Unneeded HTTP header found: x-ua-compatible` }],
+        serverConfig: {
+            '/': {
+                content: '',
+                headers: {
                     'Content-Type': 'image/jpeg',
                     'X-UA-Compatible': 'IE=Edge'
                 }
             }
         }
     }
-
-    // Note: There are no tests for invalid media types as Express
-    // (more specifically, content-type) doesn't allow them.
 ];
 
 const testsForIgnoreConfigs: Array<RuleTest> = [

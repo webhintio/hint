@@ -6,6 +6,7 @@ import * as http from 'http';
 
 import * as _ from 'lodash';
 import * as express from 'express';
+import * as onHeaders from 'on-headers';
 
 type ServerConfiguration = string | object; //eslint-disable-line
 
@@ -33,6 +34,18 @@ class Server {
     private updateLocalhost(html: string): string {
         return html.replace(/http:\/\/localhost\//g, `http://localhost:${this._port}/`);
     }
+
+    private handleHeaders = (res, headers) => {
+        onHeaders(res, () => {
+            Object.entries(headers).forEach(([header, value]) => {
+                if (value) {
+                    res.setHeader(header, value);
+                } else {
+                    res.removeHeader(header);
+                }
+            });
+        });
+    };
 
     /** Applies the configuration for routes to the server. */
     configure(configuration: ServerConfiguration) {
@@ -80,7 +93,7 @@ class Server {
                 }
 
                 if (value && value.headers) {
-                    res.set(value.headers);
+                    this.handleHeaders(res, value.headers);
                 }
 
                 res.send(content);

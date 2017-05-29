@@ -40,13 +40,13 @@ const requiresDecoding = (contentType: string): boolean => {
 export const getCharset = (headers) => {
     const contentType: string = headers['content-type'];
 
-    if (!requiresDecoding(contentType)) {
+    if (contentType && !requiresDecoding(contentType)) {
         debug(`Content Type ${contentType} doesn't require decoding`);
 
         return null;
     }
 
-    if (!contentType.includes('charset')) {
+    if (!contentType || !contentType.includes('charset')) {
         debug('No charset defined, falling back to utf-8');
 
         return 'utf-8';

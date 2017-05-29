@@ -52,23 +52,33 @@ The signature of `ruleRunner.testRule` is:
   };
 ```
 
-You can even specify the status code for the response for a specific
-path:
+You can even specify the headers and status code for the response for
+a specific path, by using the `headers` and `status` properties:
 
 <!-- eslint-disable no-unused-vars -->
 
 ```js
-  const serverConfig = {
-      '/': 'some HTML here',
-      '/site.webmanifest': {
-          content: 'The content of the response',
-          statusCode: 200
-      }
-  };
+const serverConfig = {
+    '/': 'page content goes here...',
+    '/example.js': {
+        content: 'script content goes here...',
+        headers: {
+            'Content-Type': 'application/javascript; charset=utf-8',
+            Header: 'value'
+            // ...
+        },
+        status: statusCode
+    }
+};
 ```
 
-In the last example, if you don't specify `content`, the response
-will be an empty string `''`.
+Notes:
+
+* If `content` is not specified, it will default to an empty string `''`.
+* To remove any of the default HTTP response headers, just set their
+  value to `null` (e.g.: `headers: { '<response_header>': null }`).
+* `status` defaults to `200`, so it only needs to be specified if its
+  value is different.
 
 `rule-runner` will automatically test the rule in all the supported
 collectors.
