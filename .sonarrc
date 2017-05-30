@@ -11,6 +11,7 @@
     "rulesTimeout": 120000,
     "rules": {
         "axe": "warning",
+        "content-type": "warning",
         "disallowed-headers": "warning",
         "disown-opener": "warning",
         "highest-available-document-mode": "warning",

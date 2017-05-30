@@ -263,7 +263,7 @@ class JSDOMCollector implements ICollector {
             const manifestData = await this.fetchContent(manifestURL);
 
             const event: IManifestFetchEnd = {
-                element: null,
+                element: new JSDOMAsyncHTMLElement(element),
                 request: manifestData.request,
                 resource: manifestURL,
                 response: manifestData.response
