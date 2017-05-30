@@ -140,7 +140,7 @@ class CDPCollector implements ICollector {
 
         // TODO: Check what happens with prefetch, etc.
         // `type` can be "parser", "script", "preload", and "other": https://chromedevtools.github.io/debugger-protocol-viewer/tot/Network/#type-Initiator
-        if (type === 'parser' && requestUrl.protocol.indexOf('http') === 0) {
+        if (['parser', 'other'].includes(type) && requestUrl.protocol.indexOf('http') === 0) {
             return await this.getElementFromParser(parts);
         }
 
@@ -282,16 +282,13 @@ class CDPCollector implements ICollector {
             response
         };
 
-        if (params.type === 'Manifest') {
-            await this._server.emitAsync('manifestfetch::end', data);
-            this._requests.delete(params.requestId);
+        let eventName = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
 
-            return;
+        if (params.type === 'Manifest') {
+            eventName = 'manifestfetch::end';
         }
 
-        const eventName = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
-
-        if (eventName === 'fetch::end') {
+        if (eventName !== 'targetfetch::end') {
             data.element = await this.getElementFromRequest(params.requestId);
         } else {
             this._targetNetworkData = {

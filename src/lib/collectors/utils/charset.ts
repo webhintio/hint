@@ -1,3 +1,5 @@
+import { parse } from 'content-type';
+
 import { debug as d } from '../../utils/debug';
 
 const debug = d(__filename);
@@ -15,14 +17,14 @@ const decodeableContentTypes: Array<RegExp> = [
     /text\/.*/i
 ];
 
-/** Checks if the given `contentType` is for text based on the `Requester.decodeableContentTypes` list  */
-const requiresDecoding = (contentType: string): boolean => {
+/** Checks if the given `mediaType` is for text based on the `Requester.decodeableContentTypes` list  */
+const requiresDecoding = (mediaType: string): boolean => {
     let requires = false;
 
     for (let i = 0; i < decodeableContentTypes.length && !requires; i++) {
         const ct = decodeableContentTypes[i];
 
-        requires = ct.test(contentType);
+        requires = ct.test(mediaType);
     }
 
     return requires;
@@ -38,24 +40,33 @@ const requiresDecoding = (contentType: string): boolean => {
  * * 'Content-Type': 'image/jpeg' --> null
  */
 export const getCharset = (headers) => {
-    const contentType: string = headers['content-type'];
+    const headerValue: string = headers['content-type'];
+    let contentType;
 
-    if (contentType && !requiresDecoding(contentType)) {
-        debug(`Content Type ${contentType} doesn't require decoding`);
+    try {
+        contentType = parse(headerValue);
+    } catch (e) {
+        debug(`Invalid value ('${headerValue}') for the 'Content-Type' header: ${e.message}`);
 
         return null;
     }
 
-    if (!contentType || !contentType.includes('charset')) {
-        debug('No charset defined, falling back to utf-8');
+    const charset = contentType.parameters.charset || '';
+    const mediaType = contentType.type;
+
+    if (!requiresDecoding(mediaType)) {
+        debug(`Content Type '${headerValue}' doesn't require decoding`);
+
+        return null;
+    }
+
+    if (!charset) {
+        debug(`No 'charset' defined, falling back to 'utf-8'`);
 
         return 'utf-8';
     }
 
-    const charsetRegex = /.*charset=(\S+)/gi;
-    const results = charsetRegex.exec(contentType);
+    debug(`Charset for '${headerValue}' is '${charset}'`);
 
-    debug(`Charset for ${contentType} is ${results[1]}`);
-
-    return charsetAliases.get(results[1]) || results[1];
+    return charsetAliases.get(charset) || charset;
 };

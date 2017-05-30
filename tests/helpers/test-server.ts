@@ -38,7 +38,7 @@ class Server {
     private handleHeaders = (res, headers) => {
         onHeaders(res, () => {
             Object.entries(headers).forEach(([header, value]) => {
-                if (value) {
+                if (value !== null) {
                     res.setHeader(header, value);
                 } else {
                     res.removeHeader(header);
