@@ -26,7 +26,7 @@ matrix:
       script:
         - ./.travis/check-links.sh && ./.travis/trigger-site-update.sh
 
-    # 2. Build used for running the tests for Sonar on Ubuntu.
+    # 2. Build used for running the tests for sonar on Ubuntu.
 
     - os: linux
       dist: trusty
@@ -34,22 +34,31 @@ matrix:
         apt:
           sources:
             - google-chrome
+            - ubuntu-toolchain-r-test
           packages:
             - google-chrome-stable
+            - libcairo2-dev
+            - libjpeg8-dev
+            - libpango1.0-dev
+            - libgif-dev
+            - g++-4.9
       before_script:
         - export DISPLAY=:99.0
         - sh -e /etc/init.d/xvfb start
         - sleep 3
+      env:
+        - CXX=g++-4.9
       node_js:
         - node
       script:
         - npm run test-on-travis
 
-    # 3. Build used for running the tests for Sonar on macOS.
+    # 3. Build used for running the tests for sonar on macOS.
 
     - os: osx
       osx_image: xcode8.3
       before_install:
+        - brew install pkg-config cairo libpng jpeg giflib
         - brew cask install google-chrome
       node_js:
         - node
