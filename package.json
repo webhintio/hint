@@ -63,7 +63,7 @@
     "markdownlint-cli": "^0.3.1",
     "mock-require": "^2.0.2",
     "npm-run-all": "^4.0.2",
-    "nyc": "^10.3.2",
+    "nyc": "^11.0.1",
     "on-headers": "^1.0.1",
     "proxyquire": "^1.8.0",
     "rimraf": "^2.6.1",
