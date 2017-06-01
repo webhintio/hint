@@ -14,12 +14,11 @@ matrix:
   include:
 
     # 1. Build used for checking links and, if needed,
-    #    to trigger a rebuild of the documentation in
-    #    the repository of the website.
+    #    to trigger a rebuild of the site.
 
     - os: linux
       dist: trusty
-      before_script:
+      install:
         - gem install awesome_bot
       node_js:
         - node
