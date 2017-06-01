@@ -57,7 +57,7 @@ sent with the value of `IE=edge`, and that the `meta` tag isn't used.
 `X-UA-Compatible` response header is not sent:
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 ...
 ```
@@ -66,14 +66,14 @@ HTTP/1.1 200 OK
 than `ie=edge`:
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 ...
 X-UA-Compatible: IE=7
 ```
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 ...
 X-UA-Compatible: ie=edge,chrome=1
@@ -83,7 +83,7 @@ X-UA-Compatible: ie=edge,chrome=1
 also specified:
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 ...
 X-UA-Compatible: ie=edge
@@ -105,7 +105,7 @@ X-UA-Compatible: ie=edge
 ### Examples that **pass** the rule for defaults
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 ...
 X-UA-Compatible: ie=edge
@@ -199,7 +199,7 @@ other `<meta>` tags:
 ### Examples that **pass** the rule
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 ...
 X-UA-Compatible: ie=edge

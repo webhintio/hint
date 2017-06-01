@@ -34,7 +34,7 @@ specifically a `404` response), if one wasn't found.
 Response with the status code `403` and the body under `256` bytes:
 
 ```text
-HTTP/1.1 403 Forbidden
+HTTP/... 403 Forbidden
 
 ...
 ```
@@ -53,7 +53,7 @@ HTTP/1.1 403 Forbidden
 Response with the status code `500` and the body under `512` bytes:
 
 ```text
-HTTP/1.1 500 Internal Server Error
+HTTP/... 500 Internal Server Error
 
 ...
 ```
@@ -77,7 +77,7 @@ HTTP/1.1 500 Internal Server Error
 Response with the status code `403` and the body over `256` bytes:
 
 ```text
-HTTP/1.1 500 Internal Server Error
+HTTP/... 500 Internal Server Error
 
 ...
 ```
@@ -102,7 +102,7 @@ HTTP/1.1 500 Internal Server Error
 Response with the status code `500` and the body over `512` bytes:
 
 ```text
-HTTP/1.1 500 Internal Server Error
+HTTP/... 500 Internal Server Error
 
 ...
 ```

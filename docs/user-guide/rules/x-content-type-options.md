@@ -43,13 +43,13 @@ HTTP headers with the value of `nosniff`.
 ### Examples that **trigger** the rule
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 ...
 ```
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 ...
 X-Content-Type-Options: no-sniff
@@ -58,7 +58,7 @@ X-Content-Type-Options: no-sniff
 ### Examples that **pass** the rule
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 ...
 X-Content-Type-Options: nosniff

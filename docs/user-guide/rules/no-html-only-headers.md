@@ -26,7 +26,7 @@ HTTP headers:
 Response for `/test.js`:
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 Content-Type: application/javascript
 ...
@@ -43,7 +43,7 @@ X-XSS-Protection: 1; mode=block
 Response for `/test.html`:
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 Content-Type: x/y
 ...
@@ -62,7 +62,7 @@ X-XSS-Protection: 1; mode=block
 Response for `/test.js`:
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 Content-Type: application/javascript
 ...
@@ -71,7 +71,7 @@ Content-Type: application/javascript
 Response for `/test.html`:
 
 ```text
-HTTP/1.1 200 OK
+HTTP/... 200 OK
 
 Content-Type: text/html
 ...
