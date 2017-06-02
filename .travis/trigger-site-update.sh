@@ -10,7 +10,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.." \
 #   * does not come from a pull request
 #   * is made to the `master` branch
 
-if [ "$TRAVIS_PULL_REQUEST" = "true" ] ||
+if [ "$TRAVIS_PULL_REQUEST" != "false" ] ||
    [ "$TRAVIS_BRANCH" != "master" ]; then
     exit 0
 fi
