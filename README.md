@@ -30,14 +30,27 @@ the tests are run twice initially.
 
 ### Developer guides
 
-* [How to develop a collector](docs/developer-guide/collectors/how-to-develop-a-collector.md)
-* [How to test rules](docs/developer-guide/rules/how-to-test-rules.md)
-* [List of events](docs/developer-guide/events/list-of-events.md)
+#### Collectors
+
+* [How to develop a collector](docs/developer-guide/collectors/index.md)
+* [List of events emitted by a collector](docs/developer-guide/collectors/events.md)
+
+#### Formatters
+
+* [How to develop a formatter](docs/developer-guide/formatters/index.md)
+
+#### Rules
+
+* [How to develop a rule](docs/developer-guide/rules/index.md)
+* [How to test a rule](docs/developer-guide/rules/how-to-test-rules.md)
 
 ### User guides
 
-* [List of core rules](docs/user-guide/rules/index.md)
-* [Differences among collectors](docs/user-guide/differences-among-collectors.md)
+* [Getting started](docs/user-guide/index.md)
+
+  * [Collectors](docs/user-guide/collectors/index.md)
+  * [Formatters](docs/user-guide/formatters/index.md)
+  * [Rules](docs/user-guide/rules/index.md)
 
 ## Code of Conduct
 

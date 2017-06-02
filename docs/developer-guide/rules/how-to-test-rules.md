@@ -1,4 +1,4 @@
-# How to test rules
+# How to test a rule
 
 Testing a new rule is really easy if you use `rule-runner.ts`.
 You just need to:
