@@ -22,11 +22,13 @@
 import * as path from 'path';
 import * as url from 'url';
 import * as vm from 'vm';
+import * as util from 'util';
 
 import * as jsdom from 'jsdom/lib/old-api';
 import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
 
 import { debug as d } from '../../utils/debug';
+import { resolveUrl } from '../utils/resolver';
 /* eslint-disable no-unused-vars */
 import {
     IAsyncHTMLElement, ICollector, ICollectorBuilder,
@@ -167,8 +169,9 @@ class JSDOMCollector implements ICollector {
     }
 
     /** Alternative method to download resource for `JSDOM` so we can get the headers. */
-    private async resourceLoader(resource, callback) {
+    private async resourceLoader(resource: { element: HTMLElement, url: URL }, callback: Function) {
         let resourceUrl = resource.url.href;
+        const element = resource.element ? new JSDOMAsyncHTMLElement(resource.element) : null;
 
         if (!url.parse(resourceUrl).protocol) {
             resourceUrl = url.resolve(this._finalHref, resourceUrl);
@@ -183,7 +186,7 @@ class JSDOMCollector implements ICollector {
             debug(`resource ${resourceUrl} fetched`);
 
             const fetchEndEvent: IFetchEnd = {
-                element: new JSDOMAsyncHTMLElement(resource.element),
+                element,
                 request: resourceNetworkData.request,
                 resource: resourceNetworkData.response.url,
                 response: resourceNetworkData.response
@@ -197,7 +200,7 @@ class JSDOMCollector implements ICollector {
         } catch (err) {
             const hops = this._request.getRedirects(err.uri);
             const fetchError: IFetchError = {
-                element: new JSDOMAsyncHTMLElement(resource.element),
+                element,
                 error: err.error,
                 hops,
                 resource: err.uri || resourceUrl
@@ -207,6 +210,18 @@ class JSDOMCollector implements ICollector {
 
             return callback(fetchError);
         }
+    }
+
+    /** JSDOM doesn't download the favicon automatically, this method:
+     *
+     * * uses the `src` attribute of `<link rel="icon">` if present.
+     * * uses `favicon.ico` and the final url after redirects.
+     */
+    private async getFavicon(element?: HTMLElement) {
+        const href = element ? element.getAttribute('href') : '/favicon.ico';
+
+        //TODO: remove "as any" once https://github.com/DefinitelyTyped/DefinitelyTyped/issues/16860 is fixed
+        await (util as any).promisify(this.resourceLoader).call(this, { element, url: url.parse(href) });
     }
 
     /** When `element` is passed, tries to download the manifest specified by it
@@ -249,12 +264,7 @@ class JSDOMCollector implements ICollector {
 
         // If `href` exists and is not an empty string, try
         // to figure out the full URL of the web app manifest.
-
-        if (url.parse(manifestHref).protocol) {
-            manifestURL = manifestHref;
-        } else {
-            manifestURL = url.resolve(this._href, manifestHref);
-        }
+        manifestURL = resolveUrl(manifestHref, this._finalHref);
 
         // Try to see if the web app manifest file actually
         // exists and is accesible.
@@ -363,6 +373,8 @@ class JSDOMCollector implements ICollector {
                             await this.traverseAndNotify(window.document.children[0]);
                             await this._server.emitAsync('traverse::end', event);
 
+                            // We download only the first favicon found
+                            await this.getFavicon(window.document.querySelector('link[rel~="icon"]'));
                             await this.getManifest();
 
                             /* TODO: when we reach this moment we should wait for all pending request to be done and

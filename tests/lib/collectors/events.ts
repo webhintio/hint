@@ -254,6 +254,7 @@ const testCollectorEvents = (collectorInfo) => {
 
         server.configure({
             '/': updateLocalhost(fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'), server.port),
+            '/edge.png': { content: fs.readFileSync(path.join(__dirname, './fixtures/common/edge.png')) },
             '/script.js': fs.readFileSync(path.join(__dirname, './fixtures/common/script.js'), 'utf8'),
             '/script2.js': {
                 content: 'script.js',

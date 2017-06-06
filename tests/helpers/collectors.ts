@@ -2,7 +2,7 @@ import cdpBuilder from '../../src/lib/collectors/cdp/cdp';
 import jsdomBuilder from '../../src/lib/collectors/jsdom/jsdom';
 
 /** The ids of the available collectors to test. */
-export const ids = ['jsdom', 'cdp'];
+export const ids = ['cdp'];
 
 /** The builders of the available collectors to test. */
 export const builders = [
