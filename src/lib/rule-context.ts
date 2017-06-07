@@ -89,9 +89,11 @@ export class RuleContext {
     /** Reports a problem with the resource. */
     public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: IProblemLocation, severity?: Severity) { //eslint-disable-line require-await
         let position = location;
+        let sourceCode = null;
 
         if (element) {
             position = await findProblemLocation(element, { column: 0, line: 0 }, content);
+            sourceCode = (await element.outerHTML()).replace(/[\t]/g, '    ');
         }
 
         if (position === null) {
@@ -104,7 +106,7 @@ export class RuleContext {
         this.sonar.report(
             this.id,
             severity || this.severity,
-            element,
+            sourceCode,
             position,
             message,
             resource

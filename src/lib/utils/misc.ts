@@ -15,6 +15,7 @@ export const readFileAsync = async (filePath: string): Promise<string> => {
     return stripBom(content);
 };
 
+/** Convenience wrapper to add a delay using promises. */
 export const delay = (millisecs) => {
     return new Promise((resolve) => {
         setTimeout(resolve, millisecs);
@@ -27,4 +28,17 @@ export const normalizeString = (value: string) => {
     }
 
     return value.toLowerCase().trim();
+};
+
+/** Cut a given string adding ` … ` in the middle.
+ * The default length is 50 characters.
+ */
+export const cutString = (txt: string, length: number = 50) => {
+    if (txt.length <= length) {
+        return txt;
+    }
+
+    const partialLength = Math.floor(length - 3) / 2;
+
+    return `${txt.substring(0, partialLength)} … ${txt.substring(txt.length - partialLength, txt.length)}`;
 };

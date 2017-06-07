@@ -66,8 +66,8 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
             t.is(results[index].message, report.message.replace(/http:\/\/localhost\//g, `http://localhost:${server.port}/`), `Different message`);
 
             if (report.position) {
-                t.is(results[index].column, report.position.column, `Different column`);
-                t.is(results[index].line, report.position.line, `Different line`);
+                t.is(results[index].location.column, report.position.column, `Different column`);
+                t.is(results[index].location.line, report.position.line, `Different line`);
             }
         });
     };

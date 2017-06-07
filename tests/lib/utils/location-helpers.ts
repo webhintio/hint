@@ -49,7 +49,7 @@ const findInElementEntries = [
         name: 'missing content',
         markup: `<a href="https://www.wikipedia.org">wikipedia</a>`,
         position: {
-            line: 0,
+            line: 1,
             column: 0
         }
     },
@@ -108,7 +108,7 @@ const findElementLocationEntries = [
         index: 0,
         position: {
             line: 6,
-            column: 4
+            column: 5
         }
     },
     {
@@ -117,7 +117,7 @@ const findElementLocationEntries = [
         index: 1,
         position: {
             line: 9,
-            column: 57
+            column: 58
         }
     },
     {
@@ -126,7 +126,7 @@ const findElementLocationEntries = [
         index: 2,
         position: {
             line: 12,
-            column: 8
+            column: 9
         }
     },
     {
@@ -135,7 +135,7 @@ const findElementLocationEntries = [
         index: 3,
         position: {
             line: 17,
-            column: 4
+            column: 5
         }
     }
 ];
@@ -163,8 +163,10 @@ const findProblemLocationEntries = [
         index: 0,
         content: null,
         position: {
+            elementColumn: 0,
+            elementLine: 1,
             line: 6,
-            column: 4
+            column: 5
         },
         offset: {
             line: 0,
@@ -177,8 +179,10 @@ const findProblemLocationEntries = [
         index: 3,
         content: 'similar',
         position: {
-            line: 19,
-            column: 4
+            elementColumn: 5,
+            elementLine: 3,
+            line: 20,
+            column: 5
         },
         offset: {
             line: 1,
