@@ -36,15 +36,17 @@ test(`Stylish formatter prints a table and a summary for each resource`, (t) => 
 
     tableData.push(['', '', chalk.yellow('Warning'), problem.message, problem.ruleId]);
     problem = problems.multipleproblemsandresources[0];
-    tableData.push([`line ${problem.line}`, `col ${problem.column}`, chalk.yellow('Warning'), problem.message, problem.ruleId]);
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.ruleId]);
+    problem = problems.multipleproblemsandresources[4];
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.ruleId]);
 
     let tableString = table(tableData);
 
     t.is(log.args[0][0], chalk.cyan('http://myresource.com/'));
     t.is(log.args[1][0], tableString);
-    t.is(log.args[2][0], chalk.yellow.bold(`\u2716 Found 0 errors and 2 warnings`));
+    t.is(log.args[2][0], chalk.yellow.bold(`\u2716 Found 0 errors and 3 warnings`));
     t.is(log.args[3][0], '');
-    t.is(log.args[4][0], chalk.cyan('http://myresource2.com/this/resource/i.../resources/image/imagewithalongname.jpg'));
+    t.is(log.args[4][0], chalk.cyan('http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.jpg'));
 
     tableData = [];
     problem = problems.multipleproblemsandresources[2];

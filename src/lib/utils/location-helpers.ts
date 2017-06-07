@@ -78,7 +78,7 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<I
 
     const lines = htmlBeforeElement.split('\n');
     const line = lines.length;
-    const column = lines.pop().length;
+    const column = lines.pop().replace(/[\t]/g, '    ').length + 1;
 
     return {
         column,
@@ -94,7 +94,7 @@ export const findInElement = async (element: IAsyncHTMLElement, content: string)
     if (!content) {
         return {
             column: 0,
-            line: 0
+            line: 1
         };
     }
 
@@ -114,7 +114,7 @@ export const findInElement = async (element: IAsyncHTMLElement, content: string)
     const line = lines.length;
 
     // `startIndex + 1` because `indexOf` starts from `0`.
-    const column = lines.length === 1 ? startIndex + 1 : lines.pop().length;
+    const column = (lines.length === 1 ? startIndex : lines.pop().replace(/[\t]/g, '    ').length) + 1;
 
     return {
         column,
@@ -130,14 +130,16 @@ export const findProblemLocation = async (element: IAsyncHTMLElement, offset: IP
     if (problemLocation.line === 1) {
         return {
             column: problemLocation.column + elementLocation.column + offset.column,
+            elementColumn: problemLocation.column + offset.column,
+            elementLine: problemLocation.line + offset.line,
             line: elementLocation.line + offset.line
         };
-    } else if (problemLocation.line > 1) {
-        problemLocation.line--; // problem location starts at 1 which is the same line where element is found
     }
 
     return {
-        column: (problemLocation.column || elementLocation.column) + offset.column, // offset.column should usually be 0
+        column: (elementLocation.column || problemLocation.column) + offset.column, // offset.column should usually be 0
+        elementColumn: problemLocation.column + offset.column,
+        elementLine: problemLocation.line + offset.line,
         line: elementLocation.line + problemLocation.line + offset.line
     };
 };

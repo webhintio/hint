@@ -22,7 +22,7 @@ const tests: Array<RuleTest> = [
         name: `'link' with initial // fails the rule`,
         reports: [{
             message: 'Protocol relative URL found: //site.webmanifest',
-            position: { column: 36, line: 2 }
+            position: { column: 37, line: 2 }
         }],
         serverConfig: generateHTMLPage('<link rel="manifest" href="//site.webmanifest">')
     },
@@ -42,7 +42,7 @@ const tests: Array<RuleTest> = [
         name: `'script' with initial // fails the rule`,
         reports: [{
             message: 'Protocol relative URL found: //script.js',
-            position: { column: 22, line: 5 }
+            position: { column: 23, line: 5 }
         }],
         serverConfig: generateHTMLPage(undefined, '<script src="//script.js"></script>')
     },
@@ -62,7 +62,7 @@ const tests: Array<RuleTest> = [
         name: `'a' with initial // fails the rule`,
         reports: [{
             message: 'Protocol relative URL found: //home',
-            position: { column: 18, line: 5 }
+            position: { column: 19, line: 5 }
         }],
         serverConfig: generateHTMLPage(undefined, '<a href="//home">home</a>')
     },

@@ -170,7 +170,7 @@ export const generate = async () => {
             name: '',
             options: {}
         },
-        formatter: 'json',
+        formatter: 'stylish',
         ignoredUrls: {},
         rules: {},
         rulesTimeout: 120000

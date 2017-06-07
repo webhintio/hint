@@ -1,6 +1,5 @@
 /**
- * @fileoverview The basic formatter, it just a table format with diferent colors
- * for errors and warnings.
+ * @fileoverview The stylish formatter, it outputs the results in a table format with different colors.
  *
  * This formatter is based on [eslint stylish formatter](https://github.com/eslint/eslint/blob/master/lib/formatters/stylish.js)
  */
@@ -12,26 +11,14 @@
 import * as chalk from 'chalk';
 import * as _ from 'lodash';
 import * as table from 'text-table';
+import * as pluralize from 'pluralize';
 
+import { cutString } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
 import { IFormatter, Severity } from '../../types'; // eslint-disable-line no-unused-vars
 import * as logger from '../../utils/logging';
 
 const debug = d(__filename);
-
-const pluralize = (text, count) => {
-    return `${text}${count !== 1 ? 's' : ''}`;
-};
-
-const cutString = (txt: string, length: number = 50) => {
-    if (txt.length <= length) {
-        return txt;
-    }
-
-    const partialLength = Math.floor(length - 3) / 2;
-
-    return `${txt.substring(0, partialLength)}...${txt.substring(txt.length - partialLength, txt.length)}`;
-};
 
 const printPosition = (position, text) => {
     if (position === -1) {
@@ -62,7 +49,7 @@ const formatter: IFormatter = {
         _.forEach(resources, (msgs, resource) => {
             let warnings = 0;
             let errors = 0;
-            const sortedMessages = _.sortBy(msgs, ['line', 'column']);
+            const sortedMessages = _.sortBy(msgs, ['location.line', 'location.column']);
             const tableData = [];
             let hasPosition = false;
 
@@ -76,8 +63,8 @@ const formatter: IFormatter = {
                     warnings++;
                 }
 
-                const line = printPosition(msg.line, 'line');
-                const column = printPosition(msg.column, 'col');
+                const line = printPosition(msg.location.line, 'line');
+                const column = printPosition(msg.location.column, 'col');
 
                 if (line) {
                     hasPosition = true;

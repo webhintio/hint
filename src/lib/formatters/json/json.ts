@@ -28,7 +28,7 @@ const formatter: IFormatter = {
         const resources = _.groupBy(messages, 'resource');
 
         _.forEach(resources, (msgs, resource) => {
-            const sortedMessages = _.sortBy(msgs, ['line', 'column']);
+            const sortedMessages = _.sortBy(msgs, ['location.line', 'location.column']);
 
             logger.log(`${resource}: ${msgs.length} issues`);
             logger.log(JSON.stringify(sortedMessages, null, 2));

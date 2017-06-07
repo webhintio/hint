@@ -252,14 +252,14 @@ export class Sonar extends EventEmitter {
     }
 
     /** Reports a message from one of the rules. */
-    public report(ruleId: string, severity: Severity, node, location: IProblemLocation, message: string, resource: string) {
-        const problem = {
-            column: location && location.column || -1,
-            line: location && location.line || -1,
+    public report(ruleId: string, severity: Severity, sourceCode: string, location: IProblemLocation, message: string, resource: string) {
+        const problem: IProblem = {
+            location: location || { column: -1, line: -1 },
             message,
             resource,
             ruleId,
-            severity
+            severity,
+            sourceCode
         };
 
         this.messages.push(problem);
