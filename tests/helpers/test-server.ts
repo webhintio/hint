@@ -49,6 +49,8 @@ class Server {
 
     /** Applies the configuration for routes to the server. */
     configure(configuration: ServerConfiguration) {
+        let customFavicon = false;
+
         if (typeof configuration === 'string') {
             this._app.get('/', (req, res) => {
                 res.send(configuration);
@@ -58,6 +60,7 @@ class Server {
         }
 
         _.forEach(configuration, (value, key) => {
+            customFavicon = customFavicon || key === '/favicon.ico';
             let content;
 
             if (typeof value === 'string') {
@@ -99,6 +102,14 @@ class Server {
                 res.send(content);
             });
         });
+
+        if (!customFavicon) {
+            this._app.get('/favicon.ico', (req, res) => {
+                res.status(200);
+                res.setHeader('Content-Length', '0');
+                res.setHeader('Content-Type', 'image/x-icon');
+            });
+        }
     }
 
     /** Starts listening on the given port. */
