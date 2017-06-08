@@ -50,7 +50,6 @@
   },
   "description": "Best practices tool for the web",
   "devDependencies": {
-    "@types/axe-core": "^2.0.7",
     "@types/content-type": "^1.0.33",
     "@types/debug": "0.0.29",
     "@types/file-type": "0.0.2",
