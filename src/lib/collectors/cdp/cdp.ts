@@ -70,7 +70,7 @@ class CDPCollector implements ICollector {
 
     constructor(server: Sonar, config: object) {
         const defaultOptions = {
-            loadCompleteRetryInterval: 500,
+            loadCompleteRetryInterval: 250,
             maxLoadWaitTime: 30000,
             waitFor: 5000
         };
@@ -226,25 +226,30 @@ class CDPCollector implements ICollector {
         await this._server.emitAsync(eventName, event);
     }
 
-    /** Event handler fired when HTTP response is available and DOM loaded. */
-    private async onResponseReceived(params) {
-        // DOM is not ready so we queue up the event for later
-        if (!this._dom) {
-            this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
+    private async getResponseBody(cdpResponse) {
+        let content = '';
+        let rawContent = null;
+        let rawResponse = null;
 
-            return;
+        if (cdpResponse.response.status !== 200) {
+            return { content, rawContent, rawResponse };
         }
 
-        const resourceUrl = params.response.url;
-        const resourceHeaders = normalizeHeaders(params.response.headers);
-        let resourceBody = '';
-        const hops = this._redirects.calculate(resourceUrl);
-        const originalUrl = hops[0] || resourceUrl;
-
         try {
-            resourceBody = (await this._client.Network.getResponseBody({ requestId: params.requestId })).body;
+            const { body, base64Encoded } = await this._client.Network.getResponseBody({ requestId: cdpResponse.requestId });
+            const encoding = base64Encoded ? 'base64' : 'utf8';
+
+            content = body;
+            rawContent = new Buffer(body, encoding);
+
+            if (rawContent.length.toString() === cdpResponse.response.headers['Content-Length']) {
+                // Response wasn't compressed so both buffers are the same
+                rawResponse = rawContent;
+            } else {
+                rawResponse = null; //TODO: Find a way to get this data
+            }
         } catch (e) {
-            debug(`Body requested after connection closed for request ${params.requestId}`);
+            debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
             /* HACK: This is to make https://github.com/MicrosoftEdge/Sonar/pull/144 pass.
                 There are some concurrency issues at the moment that are more visible in low powered machines and
                 when the CPU is highly used. The problem is most likely related to having pending requests but
@@ -255,20 +260,48 @@ class CDPCollector implements ICollector {
                 * Cancel all requests/remove all listeners when we do `close()`
             */
         }
-        debug(`Content for ${resourceUrl} downloaded`);
+        debug(`Content for ${cdpResponse.response.url} downloaded`);
+
+        return { content, rawContent, rawResponse };
+    }
+
+    /** Returns a Response for the given request  */
+    private async createResponse(cdpResponse): Promise<IResponse> {
+        const resourceUrl = cdpResponse.response.url;
+        const hops = this._redirects.calculate(resourceUrl);
+        const resourceHeaders = normalizeHeaders(cdpResponse.response.headers);
+
+        const {content, rawContent, rawResponse} = await this.getResponseBody(cdpResponse);
 
         const response: IResponse = {
             body: {
-                content: resourceBody,
+                content,
                 contentEncoding: getCharset(resourceHeaders),
-                rawContent: Buffer.alloc(params.response.encodedDataLength), //TODO: get the actual bytes!
-                rawResponse: null //TODO: get the real response bytes
+                rawContent,
+                rawResponse
             },
             headers: resourceHeaders,
             hops,
-            statusCode: params.response.status,
-            url: params.response.url
+            statusCode: cdpResponse.response.status,
+            url: resourceUrl
         };
+
+        return response;
+    }
+
+    /** Event handler fired when HTTP response is available and DOM loaded. */
+    private async onResponseReceived(params) {
+        // DOM is not ready so we queue up the event for later
+        if (!this._dom) {
+            this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
+
+            return;
+        }
+        const resourceUrl = params.response.url;
+        const hops = this._redirects.calculate(resourceUrl);
+        const originalUrl = hops[0] || resourceUrl;
+
+        const response = await this.createResponse(params);
 
         const request: IRequest = {
             headers: params.response.requestHeaders,

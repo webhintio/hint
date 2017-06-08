@@ -256,7 +256,6 @@ const rule: IRuleBuilder = {
             description: 'Check usage of `Content-Type` HTTP response header'
         },
         fixable: 'code',
-        ignoredCollectors: ['cdp'], // TODO: Remove once #71 and #164 are fixed.
         recommended: true,
         schema: [{
             items: { type: 'string' },
