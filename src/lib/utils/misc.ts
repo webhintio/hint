@@ -20,3 +20,11 @@ export const delay = (millisecs) => {
         setTimeout(resolve, millisecs);
     });
 };
+
+export const normalizeString = (value: string) => {
+    if (typeof value === 'undefined' || value === null) {
+        return null;
+    }
+
+    return value.toLowerCase().trim();
+};

@@ -5,257 +5,303 @@ import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
-const pngContent = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
-const svgContent = '<svg xmlns="http://www.w3.org/2000/svg"/>';
-
 const ruleName = getRuleName(__dirname);
 
+// File content.
+
+const pngFileContent = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+const svgFileContent = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M1,1"/></svg>';
+
+// Error messages.
+
+const incorrectCharsetMessage = `'Content-Type' header should have 'charset=utf-8' (not 'iso-8859-1')`;
+const invalidMediaTypeMessage = `'Content-Type' header value is invalid (invalid media type)`;
+const invalidParameterFormatMessage = `'Content-Type' header value is invalid (invalid parameter format)`;
+const noCharsetMessage = `'Content-Type' header should have 'charset=utf-8'`;
+const noContentTypeMessage = `'Content-Type' header was not specified`;
+const unneededCharsetMessage = `'Content-Type' header should not have 'charset=utf-8'`;
+
+const generateIncorrectMediaTypeMessage = (expectedType: string, actualType: string) => {
+    return `'Content-Type' header should have media type: '${expectedType}' (not '${actualType}')`;
+};
+
+const generateRequireValueMessage = (expectedValue: string) => {
+    return `'Content-Type' header should have the value: '${expectedValue}'`;
+};
+
+// Other.
+
+const generateHTMLPageData = (content: string) => {
+    return {
+        content,
+        headers: { 'Content-Type': 'text/html; charset=utf-8' }
+    };
+};
+
+// Tests.
+
 const testsForDefaults: Array<RuleTest> = [
+
+    // No `Content-Type` header.
+
     {
-        name: `Page is served without the 'Content-Type' response header`,
-        reports: [{ message: `'Content-Type' header was not specified` }],
+        name: `HTML page is served without the 'Content-Type' header`,
+        reports: [{ message: noContentTypeMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': null } } }
     },
     {
-        name: `Resources are served without the 'Content-Type' response header`,
-        reports: [
-            { message: `'Content-Type' header was not specified` },
-            { message: `'Content-Type' header was not specified` },
-            { message: `'Content-Type' header was not specified` }
-        ],
+        name: `Resource is served without the 'Content-Type' header`,
+        reports: [{ message: noContentTypeMessage }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage('<link rel="stylesheet" href="test.css">', `
-                    <script src="test.js"></script>
-                    <img src="test.png">`
-                ),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
-            '/test.css': { headers: { 'Content-Type': null } },
-            '/test.js': { headers: { 'Content-Type': null } },
-            '/test.png': { headers: { 'Content-Type': null } }
+            '/': generateHTMLPageData(generateHTMLPage('<link rel="stylesheet" href="test.css">')),
+            '/test.css': { headers: { 'Content-Type': null } }
         }
     },
+
+    // `Content-Type` value contains invalid media type.
+
     {
-        name: `Page is served with the 'Content-Type' response header with an invalid media type`,
-        reports: [{ message: `'Content-Type' header value is invalid (invalid media type)` }],
+        name: `HTML page is served with the 'Content-Type' header with invalid media type`,
+        reports: [{ message: invalidMediaTypeMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': 'invalid' } } }
     },
     {
-        name: `Resources are served with the 'Content-Type' response headers with invalid media types`,
-        reports: [
-            { message: `'Content-Type' header value is invalid (invalid media type)` },
-            { message: `'Content-Type' header value is invalid (invalid media type)` },
-            { message: `'Content-Type' header value is invalid (invalid media type)` }
-        ],
+        name: `Resource is served with the 'Content-Type' header with invalid media type (empty media type)`,
+        reports: [{ message: invalidMediaTypeMessage }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage('<link rel="stylesheet" href="test.css">', `
-                    <script src="test.js"></script>
-                    <img src="test.png">
-                `),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
-            '/test.css': { headers: { 'Content-Type': 'invalid' } },
-            '/test.js': { headers: { 'Content-Type': ';charset=utf-8' } },
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
             '/test.png': { headers: { 'Content-Type': '' } }
         }
     },
+
+    // `Content-Type` value contains invalid parameter format.
+
     {
-        name: `Page is served with the 'Content-Type' response header with an invalid parameter format`,
-        reports: [{ message: `'Content-Type' header value is invalid (invalid parameter format)` }],
+        name: `HTML page is served with the 'Content-Type' header with an invalid parameter format`,
+        reports: [{ message: invalidParameterFormatMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': 'text/html; invalid' } } }
     },
     {
-        name: `Resources are served with the 'Content-Type' response headers with invalid parameter formats`,
-        reports: [
-            { message: `'Content-Type' header value is invalid (invalid parameter format)` },
-            { message: `'Content-Type' header value is invalid (invalid parameter format)` },
-            { message: `'Content-Type' header value is invalid (invalid parameter format)` }
-        ],
+        name: `Resource is served with the 'Content-Type' header with an invalid parameter format`,
+        reports: [{ message: invalidParameterFormatMessage }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage('<link rel="stylesheet" href="test.css">', `
-                    <script src="test1.js"></script>
-                    <script src="test2.js"></script>
-                `),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
-            '/test.css': { headers: { 'Content-Type': 'text/cSS;; charset=utf-8' } },
-            '/test1.js': { headers: { 'Content-Type': 'application/javascript; charset=' } },
-            '/test2.js': { headers: { 'Content-Type': 'APPlication/JavaScript; charset=/utf-8' } }
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
+            '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=inva/id' } }
         }
     },
+
+    // `Content-Type` value doesn't contain `charset` parameter were needed.
+
     {
-        name: `Resources are served with the 'Content-Type' response header without 'charset'`,
-        reports: [
-            { message: `'Content-Type' header should have 'charset=utf-8'` },
-            { message: `'Content-Type' header should have 'charset=utf-8'` }
-        ],
+        name: `HTML page is served with the 'Content-Type' header without 'charset' parameter`,
+        reports: [{ message: noCharsetMessage }],
+        serverConfig: { '/': { headers: { 'Content-Type': 'text/html' } } }
+    },
+    {
+        name: `Image is served with the 'Content-Type' header without 'charset' parameter`,
         serverConfig: {
-            '/': {
-                content: generateHTMLPage('<link rel="manifest" href="test.json">', `<img src="test.png"><script src="test.js"></script>`),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
-            '/test.js': { headers: { 'Content-Type': 'application/javascript' } },
-            '/test.json': { headers: { 'Content-Type': 'application/manifest+json' } },
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
             '/test.png': { headers: { 'Content-Type': 'image/png' } }
         }
     },
     {
-        name: `Resources are served with the 'Content-Type' response header with incorrect 'charset' value`,
-        reports: [
-            { message: `'Content-Type' header should have 'charset=utf-8' (not 'iso-8859-1')` },
-            { message: `'Content-Type' header should have 'charset=utf-8' (not 'iso-8859-1')` }
-        ],
+        name: `Script is served with the 'Content-Type' header without 'charset' parameter`,
+        reports: [{ message: noCharsetMessage }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage('<link rel="manifest" href="test.json">', `<script src="test.js"></script>`),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
-            '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=iso-8859-1' } },
-            '/test.json': { headers: { 'Content-Type': 'application/manifest+json; charset=iso-8859-1' } }
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
+            '/test.js': { headers: { 'Content-Type': 'application/javascript' } }
         }
     },
+
+    // `Content-Type` value contain wrong `charset`.
+
     {
-        name: `Resources are served with the 'Content-Type' response header with unneeded 'charset'`,
-        reports: [{ message: `'Content-Type' header should not have 'charset=utf-8'` }],
+        name: `HTML page is served with the 'Content-Type' header with wrong 'charset'`,
+        reports: [{ message: incorrectCharsetMessage }],
+        serverConfig: { '/': { headers: { 'Content-Type': 'text/html; charset=iso-8859-1' } } }
+    },
+    {
+        name: `Image is served with the 'Content-Type' header with unneeded 'charset' parameter`,
+        reports: [{ message: unneededCharsetMessage }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined, '<img src="test.png">'),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
             '/test.png': { headers: { 'Content-Type': 'image/png; charset=utf-8' } }
         }
     },
     {
-        name: `Image resources are served with 'Content-Type' response headers with the wrong media types`,
-        reports: [
-            { message: `'Content-Type' header should have media type: 'image/png' (not 'font/woff2')` },
-            { message: `'Content-Type' header should have media type: 'image/png' (not 'font/woff2')` },
-            { message: `'Content-Type' header should have media type: 'image/svg+xml' (not 'font/woff2')` }
-        ],
+        name: `Manifest is served with the 'Content-Type' header with wrong 'charset'`,
+        reports: [{ message: incorrectCharsetMessage }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined, '<img src="test.png"><img src="test"><img src="test.svg">'),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
-            '/test': {
-                content: pngContent,
-                headers: { 'Content-Type': 'font/woff2' }
-            },
+            '/': generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.json">')),
+            '/test.json': { headers: { 'Content-Type': 'application/manifest+json; charset=iso-8859-1' } }
+        }
+    },
+    {
+        name: `Script is served with the 'Content-Type' header with wrong 'charset'`,
+        reports: [{ message: incorrectCharsetMessage }],
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
+            '/test.js': { headers: { 'Content-Type': 'application/javascript;charset=iso-8859-1' } }
+        }
+    },
+
+    // `Content-Type` value contain wrong `media type`.
+
+    {
+        name: `Image is served with 'Content-Type' header with the wrong media type`,
+        reports: [{ message: generateIncorrectMediaTypeMessage('image/png', 'font/woff') }],
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
             '/test.png': {
-                content: pngContent,
-                headers: { 'Content-Type': 'font/woff2' }
-            },
-            '/test.svg': {
-                content: svgContent,
-                headers: { 'Content-Type': 'font/woff2' }
+                content: pngFileContent,
+                headers: { 'Content-Type': 'font/woff' }
             }
         }
     },
     {
-        name: `Web app manifest resource is served with 'Content-Type' response header with the wrong media type`,
-        reports: [{ message: `'Content-Type' header should have media type: 'application/manifest+json' (not 'font/woff2')` }],
+        name: `Manifest is served with 'Content-Type' header with the wrong media type`,
+        reports: [{ message: generateIncorrectMediaTypeMessage('application/manifest+json', 'font/woff') }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage('<link rel="manifest" href="/test.json">'),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
-            '/test.json': { headers: { 'Content-Type': 'font/woff2; charset=utf-8' } }
+            '/': generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="/test.json">')),
+            '/test.json': {
+                content: pngFileContent,
+                headers: { 'Content-Type': 'font/woff; charset=utf-8' }
+            }
         }
     },
     {
-        name: `Script resource is served with 'Content-Type' response header with the wrong media type`,
-        reports: [{ message: `'Content-Type' header should have media type: 'application/javascript' (not 'application/x-javascript')` }],
+        name: `Script is served with 'Content-Type' header with the wrong media type`,
+        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/javascript') }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined, `<script src="test.js"></script>`),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
-            '/test.js': { headers: { 'Content-Type': 'application/x-javascript; charset=utf-8' } }
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
+            '/test.js': { headers: { 'Content-Type': 'text/javascript; charset=utf-8' } }
         }
     },
     {
-        name: `Script resource is served with 'Content-Type' response header with the wrong media type (has wrong file extension)`,
-        reports: [{ message: `'Content-Type' header should have media type: 'application/javascript' (not 'text/css')` }],
+        name: `Script is served with 'Content-Type' header with the wrong media type (has wrong file extension)`,
+        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/css') }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined, `<script src="test.css"></script>`),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.css"></script>')),
             '/test.css': { headers: { 'Content-Type': 'text/css; charset=utf-8' } }
         }
     },
     {
-        name: `Script resources are served with 'Content-Type' response headers with the wrong media types (have type attributes)`,
-        reports: [
-            { message: `'Content-Type' header should have media type: 'application/javascript' (not 'text/plain')` },
-            { message: `'Content-Type' header should have media type: 'application/javascript' (not 'text/plain')` },
-            { message: `'Content-Type' header should have media type: 'application/javascript' (not 'text/plain')` },
-            { message: `'Content-Type' header should have media type: 'application/javascript' (not 'text/plain')` },
-            { message: `'Content-Type' header should have media type: 'application/javascript' (not 'text/plain')` }
-        ],
+        name: `Script is served with 'Content-Type' header with the wrong media type (has empty 'type' attribute)`,
+        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined, `
-                    <script type src="test1"></script>
-                    <script type="" src="test2"></script>
-                    <script type="text/javascript" src="test3"></script>
-                    <script type="module" src="test4"></script>
-                    <script type="text/plain" src="test5.js"></script>
-                    <script type="text/plain" src="test6.tmpl"></script>
-                    <script type="text/plain" src="test7.txt"></script>
-                `),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
-            '/test1': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
-            '/test2': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
-            '/test3': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
-            '/test4': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
-            '/test5.js': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
-            '/test6.tmpl': { headers: { 'Content-Type': 'text/plain' } },
-            '/test7.txt': { headers: { 'Content-Type': 'text/plain' } }
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type src="test"></script>')),
+            '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
         }
     },
     {
-        name: `Resources are served with the 'Content-Type' response headers with valid and correct values`,
+        name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/javascript')`,
+        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(`
-                    <link rel="manifest" href="test.json">
-                `, `
-                    <script src="test.js"></script>
-                    <img src="test.png">
-                `),
-                headers: { 'cOnTent-Type': '  Text/HTML;    charset=UTF-8  ' }
-            },
-            '/test.js': { headers: { 'coNtEnt-tyPe': 'APPlication/JavaScript; charset=utf-8' } },
-            '/test.json': { headers: { 'content-TYPE': 'application/MANIFEST+json; CHARset=UTF-8' } },
-            '/test.png': { headers: { 'CONTENT-TYPE': 'IMAGE/PNG' } }
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/javascript" src="test"></script>')),
+            '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+        }
+    },
+    {
+        name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=module')`,
+        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="module" src="test"></script>')),
+            '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+        }
+    },
+    {
+        name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'js' file extension)`,
+        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.js"></script>')),
+            '/test.js': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+        }
+    },
+    {
+        name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'tmpl' file extension)`,
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.tmpl"></script>')),
+            '/test.tmpl': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+        }
+    },
+    {
+        name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=simple/template' and 'tmpl' file extension)`,
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.txt"></script>')),
+            '/test.txt': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+        }
+    },
+    {
+        name: `Stylesheet is served with 'Content-Type' header with the wrong media type`,
+        reports: [{ message: generateIncorrectMediaTypeMessage('text/css', 'font/woff') }],
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage('<link rel="stylesheet" href="test.css">')),
+            '/test.css': { headers: { 'Content-Type': 'font/woff' } }
+        }
+    },
+    {
+        name: `SVG is served with 'Content-Type' header with the wrong media type`,
+        reports: [{ message: generateIncorrectMediaTypeMessage('image/svg+xml', 'font/woff') }],
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.svg">')),
+            '/test.svg': {
+                content: svgFileContent,
+                headers: { 'Content-Type': 'font/woff' }
+            }
+        }
+    },
+
+    // `Content-Type` value contain correct value.
+
+    {
+        name: `HTML page is served with correct value for the 'Content-Type' header`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'text/html;charset=utf-8' } } }
+    },
+    {
+        name: `Image is served with the correct 'Content-Type' header`,
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
+            '/test.png': { headers: { 'content-Type': 'image/PNG' } }
+        }
+    },
+    {
+        name: `Manifest is served with the 'Content-Type' header with wrong 'charset'`,
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.json">')),
+            '/test.json': { headers: { 'CONTENT-TYPE': 'APPLICATION/MANIFEST+JSON; CHARSET=UTF-8' } }
+        }
+    },
+    {
+        name: `Script is served with the correct 'Content-Type' header`,
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
+            '/test.js': { headers: { 'content-type': '   application/JavaScript;   Charset=UTF-8' } }
         }
     }
 ];
 
 const testsForConfigs: Array<RuleTest> = [
     {
-        name: `Resources are served with the 'Content-Type' HTTP response header with the wrong media types because of the configs`,
-        reports: [
-            { message: `'Content-Type' header should have the value: 'text/javascript'` },
-            { message: `'Content-Type' header should have the value: 'application/x-javascript'` }
-        ],
+        name: `Script is served with the 'Content-Type' header with the correct media type but wrong because of the configs`,
+        reports: [{ message: generateRequireValueMessage('text/javascript') }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined, `
-                    <script src="test1.js"></script>
-                    <script src="test/test2.js"></script>
-                    <script src="test3.js"></script>
-                `),
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            },
-            '/test/test2.js': { headers: { 'Content-Type': 'text/javascript; charset=utf-8' } },
-            '/test1.js': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } },
-            '/test3.js': { headers: { 'Content-Type': 'application/x-javascript; charset=utf-8' } }
+            '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test.js"></script>`)),
+            '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }
+        }
+    },
+    {
+        name: `Script is served with the 'Content-Type' header with the correct media type but wrong because of the overwritten configs`,
+        reports: [{ message: generateRequireValueMessage('application/x-javascript; charset=utf-8') }],
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test/test2.js"></script>`)),
+            '/test.js': { headers: { 'Content-Type': 'text/javascript' } }
+        }
+    },
+    {
+        name: `Script is served with the 'Content-Type' header with the incorrect media type but correct because of the configs`,
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test3.js"></script>`)),
+            '/test3.js': { headers: { 'Content-Type': 'application/x-javascript' } }
         }
     }
 ];
@@ -264,7 +310,7 @@ ruleRunner.testRule(ruleName, testsForDefaults);
 ruleRunner.testRule(ruleName, testsForConfigs, {
     ruleOptions: {
         '.*\\.js': 'text/javascript',
-        'test/test2\\.js': 'text/javascript; charset=utf-8',
+        'test/test2\\.js': 'application/x-javascript; charset=utf-8',
         'test3\\.js': 'application/x-javascript'
     }
 });

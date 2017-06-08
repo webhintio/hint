@@ -15,6 +15,7 @@ import * as mimeDB from 'mime-db';
 import { parse } from 'content-type';
 
 import { IAsyncHTMLElement, IResponseBody, IRule, IRuleBuilder, IFetchEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
@@ -47,8 +48,31 @@ const rule: IRuleBuilder = {
             return results && results[1];
         };
 
+        const determineCharset = (determinedMediaType: string, originalMediaType: string) => {
+            const typeInfo = mimeDB[determinedMediaType];
+
+            if (typeInfo && typeInfo.charset) {
+                return normalizeString(typeInfo.charset);
+            }
+
+            const textMediaTypes: Array<RegExp> = [
+                /application\/(?:javascript|json|x-javascript|xml)/i,
+                /application\/.*\+(?:json|xml)/i,
+                /image\/svg\+xml/i,
+                /text\/.*/i
+            ];
+
+            if (textMediaTypes.some((regex) => {
+                return regex.test(originalMediaType);
+            })) {
+                return 'utf-8';
+            }
+
+            return null;
+        };
+
         const determineMediaTypeForScript = (element: IAsyncHTMLElement) => {
-            const typeAttribute = (element.getAttribute('type') || '').toLowerCase().trim();
+            const typeAttribute = normalizeString(element.getAttribute('type'));
 
             // Valid JavaScript media types:
             // https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
@@ -86,6 +110,7 @@ const rule: IRuleBuilder = {
             if (!typeAttribute ||
                 validJavaScriptMediaTypes.includes(typeAttribute) ||
                 typeAttribute === 'module') {
+                // https://tools.ietf.org/html/rfc4329#page-10
                 return 'application/javascript';
             }
 
@@ -93,7 +118,7 @@ const rule: IRuleBuilder = {
         };
 
         const determineMediaTypeBasedOnElement = (element: IAsyncHTMLElement) => {
-            const nodeName = element && element.nodeName.toLowerCase();
+            const nodeName = element && normalizeString(element.nodeName);
 
             if (nodeName) {
 
@@ -110,6 +135,7 @@ const rule: IRuleBuilder = {
                             // https://html.spec.whatwg.org/multipage/semantics.html#processing-the-type-attribute
                             return 'text/css';
                         case 'manifest':
+                            // https://w3c.github.io/manifest/#media-type-registration
                             return 'application/manifest+json';
                     }
                     /* eslint-enable no-default */
@@ -135,7 +161,8 @@ const rule: IRuleBuilder = {
             }
 
             if (isSvg(rawContent)) {
-                return getMediaTypeBasedOnFileExtension('svg');
+                // https://www.w3.org/TR/SVG/mimereg.html
+                return 'image/svg+xml';
             }
 
             return null;
@@ -143,11 +170,11 @@ const rule: IRuleBuilder = {
 
         const validate = async (fetchEnd: IFetchEndEvent) => {
             const { element, resource, response } = fetchEnd;
-            const contentTypeHeaderValue = response.headers['content-type'];
+            const contentTypeHeaderValue = normalizeString(response.headers['content-type']);
 
             // Check if the `Content-Type` header was sent.
 
-            if (typeof contentTypeHeaderValue === 'undefined') {
+            if (contentTypeHeaderValue === null) {
                 await context.report(resource, element, `'Content-Type' header was not specified`);
 
                 return;
@@ -159,21 +186,12 @@ const rule: IRuleBuilder = {
             const userDefinedMediaType = getLastRegexThatMatches(resource);
 
             if (userDefinedMediaType) {
-                if (userDefinedMediaType.toLowerCase() !== (contentTypeHeaderValue && contentTypeHeaderValue.toLowerCase())) {
+                if (normalizeString(userDefinedMediaType) !== contentTypeHeaderValue) {
                     await context.report(resource, element, `'Content-Type' header should have the value: '${userDefinedMediaType}'`);
                 }
 
                 return;
             }
-
-            // Try to determine the media type and charset of the resource.
-
-            const mediaType =
-                determineMediaTypeBasedOnElement(element) ||
-                determineMediaTypeBasedOnFileType(response.body.rawContent) ||
-                determineMediaTypeBasedOnFileExtension(resource);
-
-            const charset = ((mimeDB[mediaType] && mimeDB[mediaType].charset) || '').toLowerCase();
 
             let contentType;
 
@@ -191,24 +209,34 @@ const rule: IRuleBuilder = {
                 return;
             }
 
+            const originalCharset = normalizeString(contentType.parameters.charset);
+            const originalMediaType = contentType.type;
+
+            // Try to determine the media type and charset of the resource.
+
+            const mediaType =
+                determineMediaTypeBasedOnElement(element) ||
+                determineMediaTypeBasedOnFileType(response.body.rawContent) ||
+                determineMediaTypeBasedOnFileExtension(resource);
+
+            const charset = determineCharset(mediaType, originalMediaType);
+
             // Check if the determined values differ
             // from the ones from the `Content-Type` header.
 
             // * media type
 
-            if (mediaType && (mediaType !== contentType.type)) {
-                await context.report(resource, element, `'Content-Type' header should have media type: '${mediaType}' (not '${contentType.type}')`);
+            if (mediaType && (mediaType !== originalMediaType)) {
+                await context.report(resource, element, `'Content-Type' header should have media type: '${mediaType}' (not '${originalMediaType}')`);
             }
 
             // * charset value
 
-            const originalCharset = contentType.parameters.charset;
-
             if (charset) {
-                if (!originalCharset || (charset !== originalCharset.toLowerCase())) {
+                if (!originalCharset || (charset !== originalCharset)) {
                     await context.report(resource, element, `'Content-Type' header should have 'charset=${charset}'${originalCharset ? ` (not '${originalCharset}')` : ''}`);
                 }
-            } else if (originalCharset && !['text/html', 'application/xhtml+xml'].includes(contentType.type)) {
+            } else if (originalCharset && !['text/html', 'application/xhtml+xml'].includes(originalMediaType)) {
                 await context.report(resource, element, `'Content-Type' header should not have 'charset=${originalCharset}'`);
             }
 
