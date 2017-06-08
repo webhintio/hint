@@ -135,7 +135,7 @@
     "lint:md": "markdownlint ./.github CHANGELOG.md CODE_OF_CONDUCT.md README.md docs",
     "site": "node dist/src/bin/sonar",
     "test": "npm run lint && npm run build && nyc ava",
-    "test-on-travis": "npm run test -- --concurrency 1 --timeout 5m",
+    "test-on-travis": "npm run lint && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=1 --timeout=2m",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:resources": "npm run build:assets -- -w --no-initial",
     "watch:test": "ava --watch",
