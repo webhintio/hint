@@ -1,5 +1,7 @@
 /* eslint no-undefined: 0 */
 
+import * as fs from 'fs';
+
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
@@ -8,8 +10,7 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 const ruleName = getRuleName(__dirname);
 
 // File content.
-
-const pngFileContent = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+const pngFileContent = fs.readFileSync(`${__dirname}/fixtures/image.png`); // eslint-disable-line no-sync
 const svgFileContent = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M1,1"/></svg>';
 
 // Error messages.
@@ -201,36 +202,40 @@ const testsForDefaults: Array<RuleTest> = [
             '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
         }
     },
-    {
-        name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=module')`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
-        serverConfig: {
-            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="module" src="test"></script>')),
-            '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
-        }
-    },
-    {
-        name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'js' file extension)`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
-        serverConfig: {
-            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.js"></script>')),
-            '/test.js': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
-        }
-    },
-    {
-        name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'tmpl' file extension)`,
-        serverConfig: {
-            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.tmpl"></script>')),
-            '/test.tmpl': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
-        }
-    },
-    {
-        name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=simple/template' and 'tmpl' file extension)`,
-        serverConfig: {
-            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.txt"></script>')),
-            '/test.txt': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
-        }
-    },
+    // TODO: Enable once Chrome has support for modules without a flag (https://www.chromestatus.com/feature/5365692190687232)
+    // {
+    //     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=module')`,
+    //     reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
+    //     serverConfig: {
+    //         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="module" src="test"></script>')),
+    //         '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+    //     }
+    // },
+    // TODO: Chrome will not download if it doesn't like the type: https://github.com/MicrosoftEdge/Sonar/pull/245#discussion_r120083650, #250
+    // {
+    //     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'js' file extension)`,
+    //     reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
+    //     serverConfig: {
+    //         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.js"></script>')),
+    //         '/test.js': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+    //     }
+    // },
+    // TODO: The following test passes in CDP because it doesn't download anything so no errors. Need to do #250 so we can keep testing elsewhere
+    // {
+    //     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'tmpl' file extension)`,
+    //     serverConfig: {
+    //         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.tmpl"></script>')),
+    //         '/test.tmpl': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+    //     }
+    // },
+    // TODO: The following test passes in CDP because it doesn't download anything so no errors. Need to do #250 so we can keep testing elsewhere
+    // {
+    //     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=simple/template' and 'tmpl' file extension)`,
+    //     serverConfig: {
+    //         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.txt"></script>')),
+    //         '/test.txt': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+    //     }
+    // },
     {
         name: `Stylesheet is served with 'Content-Type' header with the wrong media type`,
         reports: [{ message: generateIncorrectMediaTypeMessage('text/css', 'font/woff') }],
@@ -282,7 +287,7 @@ const testsForDefaults: Array<RuleTest> = [
 
 const testsForConfigs: Array<RuleTest> = [
     {
-        name: `Script is served with the 'Content-Type' header with the correct media type but wrong because of the configs`,
+        name: `Script is served with the 'Content-Type' header with the correct media type but wrong because of the custom config`,
         reports: [{ message: generateRequireValueMessage('text/javascript') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test.js"></script>`)),
@@ -290,15 +295,15 @@ const testsForConfigs: Array<RuleTest> = [
         }
     },
     {
-        name: `Script is served with the 'Content-Type' header with the correct media type but wrong because of the overwritten configs`,
+        name: `Script is served with the 'Content-Type' header with the correct media type but fails because of the custom config`,
         reports: [{ message: generateRequireValueMessage('application/x-javascript; charset=utf-8') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test/test2.js"></script>`)),
-            '/test.js': { headers: { 'Content-Type': 'text/javascript' } }
+            '/test/test2.js': { headers: { 'Content-Type': 'text/javascript' } }
         }
     },
     {
-        name: `Script is served with the 'Content-Type' header with the incorrect media type but correct because of the configs`,
+        name: `Script is served with the 'Content-Type' header with the incorrect media type but passes because of the custom config`,
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test3.js"></script>`)),
             '/test3.js': { headers: { 'Content-Type': 'application/x-javascript' } }

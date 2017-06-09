@@ -109,7 +109,7 @@ const events = [
         element: {
             getAttribute(attr) {
                 if (attr === 'href') {
-                    return 'style.css';
+                    return '/script4.js';
                 }
 
                 return '';
