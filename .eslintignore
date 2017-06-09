@@ -1,0 +1,2 @@
+# there is an issue with eslint and abstract methods so we need to ignore this file
+**/launcher.ts

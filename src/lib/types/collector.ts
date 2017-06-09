@@ -28,3 +28,9 @@ export interface ICollector {
     querySelectorAll(source: string): Promise<IAsyncHTMLElement[]>
 
 }
+
+export interface ILauncher {
+    launch(url: string, options?): Promise<boolean>
+}
+
+export type LauncherOptions = { flags?: string[], port?: number };
