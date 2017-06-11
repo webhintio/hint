@@ -11,6 +11,7 @@ import * as path from 'path';
 
 import { debug as d} from '../../utils/debug';
 import { IElementFoundEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -27,14 +28,14 @@ const rule: IRuleBuilder = {
         const validate = async (data: IElementFoundEvent) => {
             const { element, resource } = data;
 
-            if (element.getAttribute('rel') === 'manifest') {
-                const href = element.getAttribute('href');
+            if (normalizeString(element.getAttribute('rel')) === 'manifest') {
+                const href = normalizeString(element.getAttribute('href'));
                 const fileExtension = path.extname(href);
 
                 if (fileExtension !== standardManifestFileExtension) {
                     debug('Web app manifest file with invalid extension found');
 
-                    await context.report(resource, element, `The file extension for the web app manifest file ('${href}') should be '${standardManifestFileExtension}' not '${fileExtension}'`, fileExtension);
+                    await context.report(resource, element, `The file extension should be '${standardManifestFileExtension}' (not '${fileExtension}')`, fileExtension);
                 }
             }
         };
@@ -44,7 +45,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'pwa',
-            description: 'Use `.webmanifest` as the file extension for the web app manifest file'
+            description: 'Require `.webmanifest` as the file extension for the web app manifest file'
         },
         fixable: 'code',
         recommended: true,

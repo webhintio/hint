@@ -5,45 +5,70 @@ import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
-const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
-const ruleName = getRuleName(__dirname);
+// Error messages.
+
+const noHeaderMessage = `'x-content-type-options' header was not specified`;
+const generateInvalidValueMessage = (value: string = '') => {
+    return `'x-content-type-options' header value (${value}) is invalid`;
+};
+
+// Page data.
+
+const generateHTMLPageData = (content: string) => {
+    return {
+        content,
+        headers: { 'X-Content-Type-Options': 'nosniff' }
+    };
+};
+
+const htmlPageWithScriptData = generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>'));
+const htmlPageWithManifestData = generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.webmanifest">'));
+
+// Tests.
 
 const tests: Array<RuleTest> = [
     {
-        name: `Resources are served with the 'X-Content-Type-Options' HTTP response header`,
+        name: `HTML page is served without 'X-Content-Type-Options' header`,
+        reports: [{ message: noHeaderMessage }],
+        serverConfig: { '/': '' }
+    },
+    {
+        name: `Manifest is served without 'X-Content-Type-Options' header`,
+        reports: [{ message: noHeaderMessage }],
         serverConfig: {
-            '/': {
-                content: htmlPage,
-                headers: { 'X-Content-Type-Options': 'nosniff' }
-            },
-            '/test.js': { headers: { 'X-Content-Type-Options': 'NoSniff' } }
+            '/': htmlPageWithManifestData,
+            '/test.webmanifest': ''
         }
     },
     {
-        name: `Resources are served without the 'X-Content-Type-Options' HTTP response header`,
-        reports: [
-            { message: `Resource served without the 'X-Content-Type-Options' HTTP response header` },
-            { message: `Resource served without the 'X-Content-Type-Options' HTTP response header` }
-        ],
+        name: `Resource is served without 'X-Content-Type-Options' header`,
+        reports: [{ message: noHeaderMessage }],
         serverConfig: {
-            '/': htmlPage,
+            '/': htmlPageWithScriptData,
             '/test.js': ''
         }
     },
     {
-        name: `Resources are served with invalid value for the 'X-Content-Type-Options' HTTP response header`,
-        reports: [
-            { message: `Resource served with invalid value ('test1') for the 'X-Content-Type-Options' HTTP response header` },
-            { message: `Resource served with invalid value ('test2') for the 'X-Content-Type-Options' HTTP response header` }
-        ],
+        name: `HTML page is served with 'X-Content-Type-Options' header with invalid value`,
+        reports: [{ message: generateInvalidValueMessage('no-sniff') }],
+        serverConfig: { '/': { headers: { 'X-Content-Type-Options': 'no-sniff' } } }
+    },
+    {
+        name: `Manifest is served with 'X-Content-Type-Options' header with invalid value`,
+        reports: [{ message: generateInvalidValueMessage() }],
         serverConfig: {
-            '/': {
-                content: htmlPage,
-                headers: { 'X-Content-Type-Options': 'test1' }
-            },
-            '/test.js': { headers: { 'X-Content-Type-Options': 'test2' } }
+            '/': htmlPageWithManifestData,
+            '/test.webmanifest': { headers: { 'X-Content-Type-Options': '' } }
+        }
+    },
+    {
+        name: `Resource is served with 'X-Content-Type-Options' header with invalid value`,
+        reports: [{ message: generateInvalidValueMessage('invalid') }],
+        serverConfig: {
+            '/': htmlPageWithScriptData,
+            '/test.js': { headers: { 'X-Content-Type-Options': 'invalid' } }
         }
     }
 ];
 
-ruleRunner.testRule(ruleName, tests);
+ruleRunner.testRule(getRuleName(__dirname), tests);

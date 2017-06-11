@@ -1,5 +1,8 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
+import * as pluralize from 'pluralize';
+
+import { cutString } from '../../../../src/lib/utils/misc';
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
@@ -7,147 +10,169 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
 
+const generateMissingMessage = (value: string, linkTypes: Array<string>): string => {
+    return `'${cutString(value, 100)}' is missing link ${pluralize('type', linkTypes.length)} '${linkTypes.join('\', \'')}'`;
+};
+
 const testsForDefaults: Array<RuleTest> = [
+
+    // No 'target="_blank"'
+
     {
-        name: 'Elements do not have `target="_blank"`',
+        name: `'a' with 'href="test.html"' does not have 'target="_blank"'`,
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="test.html">test</a>`) }
+    },
+    {
+        name: `'a' with 'href="https://example.com"' does not have 'target="_blank"'`,
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com">test</a>`) }
+    },
+    {
+        name: `'map' with 'href="test.html" does not have 'target="_blank"'`,
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined,
-       `<a href="/">test</a>
-        <a href="test.html">test</a>
-        <a href="https://example.com">test</a>
-        <img src="test.png" width="10" height="10" usemap="#test">
-        <map name="test">
-            <area shape="rect" coords="0,0,82,126" href="https://example.com">
-        </map>`)
-            }
+            '/': generateHTMLPage(undefined, `
+                    <img src="test.png" width="10" height="10" usemap="#test">
+                    <map name="test">
+                        <area shape="rect" coords="0,0,100,100" href="test.html">
+                    </map>`)
         }
     },
     {
-        name: 'Elements have `target="_blank"`',
-        reports: [
-            { message: 'Missing link types on `<a href="//example.com" target="_blank">test</a>`: noopener, noreferrer' },
-            { message: 'Missing link types on `<a href="https://example.com" target="_blank">test</a>`: noopener, noreferrer' },
-            { message: 'Missing link types on `<area shape="rect" coords="0,0,5,5" href="//example.com" target="_blank">`: noopener, noreferrer' },
-            { message: 'Missing link types on `<area shape="rect" coords="0,0,50,50" href="https://example.com" target="_blank">`: noopener, noreferrer' }
-        ],
+        name: `'map' with 'href="https://example.com" does not have 'target="_blank"'`,
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined,
-       `<a href="/" target="_blank">test</a>
-        <a href="test.html" target="_blank">test</a>
-        <a href="http://localhost/test.html" target="_blank">test</a>
-        <a href="//example.com" target="_blank">test</a>
-        <a href="https://example.com" target="_blank">test</a>
-        <img src="test.png" width="10" height="10" usemap="#test">
-        <map name="test">
-            <area shape="rect" coords="0,0,5,5" href="//example.com" target="_blank">
-            <area shape="rect" coords="0,0,50,50" href="https://example.com" target="_blank">
-        </map>`)
-            }
+            '/': generateHTMLPage(undefined, `
+                    <img src="test.png" width="10" height="10" usemap="#test">
+                    <map name="test">
+                        <area shape="rect" coords="0,0,100,100" href="https://example.com">
+                    </map>`)
         }
     },
+
+    // 'target="_blank"' but no 'noopener' and 'noreferrer'.
+
     {
-        name: 'Elements have `target="_blank"` and no `href`',
-        serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined,
-       `<a target="_blank">test</a>
-        <img src="test.png" width="10" height="10" usemap="#test">
-        <map name="test">
-            <area shape="rect" coords="0,0,5,5" target="_blank">
-        </map>`)
-            }
-        }
+        name: `'a' has 'target="_blank"'`,
+        serverConfig: { '/': generateHTMLPage(undefined, `<a target="_blank">test</a>`) }
     },
     {
-        name: 'Elements have `target="_blank"` and empty `href`',
-        serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined,
-       `<a href target="_blank">test</a>
-        <a href="" target="_blank">test</a>
-        <img src="test.png" width="10" height="10" usemap="#test">
-        <map name="test">
-            <area shape="rect" coords="0,0,5,5" href target="_blank">
-            <area shape="rect" coords="0,0,5,5" href="" target="_blank">
-        </map>`)
-            }
-        }
+        name: `'a' with 'href=""' has 'target="_blank"'`,
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="" target="_blank">test</a>`) }
     },
     {
-        name: 'Elements have `target="_blank"` and `rel="noopener"`',
-        reports: [
-            { message: 'Missing link type on `<a href="https://example.com" target="_blank" rel="noopener">test</a>`: noreferrer' },
-            { message: 'Missing link type on `<area shape="rect" coords="0,0,5,5" href="https://example.com" target="_blank" rel="noopener">`: noreferrer' }
-        ],
-        serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined,
-       `<a href="https://example.com" target="_blank" rel="noopener">test</a>
-        <img src="test.png" width="10" height="10" usemap="#test">
-        <map name="test">
-            <area shape="rect" coords="0,0,5,5" href="https://example.com" target="_blank" rel="noopener">
-        </map>`)
-            }
-        }
+        name: `'a' with 'href="/"' has 'target="_blank"'`,
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="/" target="_blank">test</a>`) }
     },
     {
-        name: 'Elements have `target="_blank"` and `rel="noreferrer"`',
-        reports: [
-            { message: 'Missing link type on `<a href="https://example.com" target="_blank" rel="noreferrer">test</a>`: noopener' },
-            { message: 'Missing link type on `<area shape="rect" coords="0,0,5,5" href="https://example.com" target="_blank" rel="noreferrer">`: noopener' }
-        ],
-        serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined,
-       `<a href="https://example.com" target="_blank" rel="noreferrer">test</a>
-        <img src="test.png" width="10" height="10" usemap="#test">
-        <map name="test">
-            <area shape="rect" coords="0,0,5,5" href="https://example.com" target="_blank" rel="noreferrer">
-        </map>`)
-            }
-        }
+        name: `'a' with 'href="test.html"' has 'target="_blank"' and rel="nofollow"`,
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="test.html" target="_blank" rel="nofollow">test</a>`) }
     },
     {
-        name: 'Elements have `target="_blank"` and `rel="noopener noreferrer"`',
+        name: `'a' with 'href="https://example.com"' has 'target="_blank"'`,
+        reports: [{ message: generateMissingMessage('<a href="https://example.com" id="test" class="t … test4 test5 test5 test6" target="_blank">test</a>', ['noopener', 'noreferrer']) }],
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" id="test" class="test1 test2 test3 test4 test5 test5 test6" target="_blank">test</a>`) }
+    },
+    {
+        name: `'a' with 'href="//example.com"' has 'target="_blank"'`,
+        reports: [{ message: generateMissingMessage('<a href="//example.com" target="_blank">test</a>', ['noopener', 'noreferrer']) }],
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="//example.com" target="_blank">test</a>`) }
+    },
+    {
+        name: `'map' href="//example.com" has 'target="_blank"'`,
+        reports: [{ message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="//example.com" target="_blank" rel="nofollow">', ['noopener', 'noreferrer']) }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined,
-       `<a href="https://example.com" target="_blank" rel="noopener noreferrer">test</a>
-        <img src="test.png" width="10" height="10" usemap="#test">
-        <map name="test">
-            <area shape="rect" coords="0,0,5,5" href="https://example.com" target="_blank" rel="noopener noreferrer">
-        </map>`)
-            }
+            '/': generateHTMLPage(undefined, `
+                    <img src="test.png" width="10" height="10" usemap="#test">
+                    <map name="test">
+                        <area shape="rect" coords="0,0,100,100" href="//example.com" target="_blank" rel="nofollow">
+                    </map>`)
+        }
+    },
+
+    // 'target="_blank"' but no 'noopener'
+
+    {
+        name: `'a' with 'href="https://example.com"' has 'target="_blank"' and 'noopener'`,
+        reports: [{ message: generateMissingMessage('<a href="https://example.com" target="_blank" rel="noopener">test</a>', ['noreferrer']) }],
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" target="_blank" rel="noopener">test</a>`) }
+    },
+    {
+        name: `'map' with href="https://example.com" has 'target="_blank"' and 'noopener'`,
+        reports: [{ message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="https://example.com" target="_blank" rel="noopener">', ['noreferrer']) }],
+        serverConfig: {
+            '/': generateHTMLPage(undefined, `
+                    <img src="test.png" width="10" height="10" usemap="#test">
+                    <map name="test">
+                        <area shape="rect" coords="0,0,100,100" href="https://example.com" target="_blank" rel="noopener">
+                    </map>`)
+        }
+    },
+
+    // 'target="_blank"' but no 'noreferrer'
+
+    {
+        name: `'a' with 'href="https://example.com"' has 'target="_blank"' and 'noreferrer'`,
+        reports: [{ message: generateMissingMessage('<a href="https://example.com" target="_blank" rel="noreferrer">test</a>', ['noopener']) }],
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" target="_blank" rel="noreferrer">test</a>`) }
+    },
+    {
+        name: `'map' with href="https://example.com" has 'target="_blank"' and 'noreferrer'`,
+        reports: [{ message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="https://example.com" target="_blank" rel="noreferrer">', ['noopener']) }],
+        serverConfig: {
+            '/': generateHTMLPage(undefined, `
+                    <img src="test.png" width="10" height="10" usemap="#test">
+                    <map name="test">
+                        <area shape="rect" coords="0,0,100,100" href="https://example.com" target="_blank" rel="noreferrer">
+                    </map>`)
+        }
+    },
+
+    // 'target="_blank"', 'noopener', and 'noreferrer'
+
+    {
+        name: `'a' with 'href="https://example.com"' has 'target="_blank"' and 'noreferrer'`,
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" target="_blank" rel="noopener noreferrer">test</a>`) }
+    },
+    {
+        name: `'map' with href="https://example.com" has 'target="_blank"' and 'noreferrer'`,
+        serverConfig: {
+            '/': generateHTMLPage(undefined, `
+                    <img src="test.png" width="10" height="10" usemap="#test">
+                    <map name="test">
+                        <area shape="rect" coords="0,0,100,100" href="https://example.com" target="_blank" rel="noreferrer noopener">
+                    </map>`)
         }
     }
 ];
 
 const testsForConfigs: Array<RuleTest> = [
     {
-        name: `Elements that point to the same origin have target="_blank"`,
-        reports: [
-            { message: 'Missing link types on `<a href="" target="_blank">test</a>`: noopener, noreferrer' },
-            { message: 'Missing link types on `<a href="/test.html" target="_blank">test</a>`: noopener, noreferrer' },
-            { message: 'Missing link types on `<a href="http://localhost/test.html" target="_blank">test</a>`: noopener, noreferrer' },
-            { message: 'Missing link types on `<area shape="rect" coords="0,0,5,5" href="" target="_blank">`: noopener, noreferrer' },
-            { message: 'Missing link types on `<area shape="rect" coords="0,0,5,5" href="/test.html" target="_blank">`: noopener, noreferrer' },
-            { message: 'Missing link types on `<area shape="rect" coords="0,0,5,5" href="http://localhost/test.html" target="_blank">`: noopener, noreferrer' }
-        ],
+        name: `'a' with 'href=""' has 'target="_blank"'`,
+        reports: [{ message: generateMissingMessage('<a href="" target="_blank">test</a>', ['noopener', 'noreferrer']) }],
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="" target="_blank">test</a>`) }
+    },
+    {
+        name: `'a' with 'href="/"' has 'target="_blank"'`,
+        reports: [{ message: generateMissingMessage('<a href="/" target="_blank">test</a>', ['noopener', 'noreferrer']) }],
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="/" target="_blank">test</a>`) }
+    },
+    {
+        name: `'a' with 'href="test.html"' has 'target="_blank"'`,
+        reports: [{ message: generateMissingMessage('<a href="test.html" target="_blank">test</a>', ['noopener', 'noreferrer']) }],
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="test.html" target="_blank">test</a>`) }
+    },
+    {
+        name: `'a' with 'href="http://localhost/test.html"' has 'target="_blank"'`,
+        reports: [{ message: generateMissingMessage('<a href="http://localhost/test.html" target="_blank">test</a>', ['noopener', 'noreferrer']) }],
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="http://localhost/test.html" target="_blank">test</a>`) }
+    },
+    {
+        name: `'map' href="test.html" has 'target="_blank"'`,
+        reports: [{ message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="test.html" target="_blank" rel="nofollow">', ['noopener', 'noreferrer']) }],
         serverConfig: {
-            '/': {
-                content: generateHTMLPage(undefined,
-       `<a href="" target="_blank">test</a>
-        <a href="/test.html" target="_blank">test</a>
-        <a href="http://localhost/test.html" target="_blank">test</a>
-        <img src="test.png" width="10" height="10" usemap="#test">
-        <map name="test">
-            <area shape="rect" coords="0,0,5,5" href="" target="_blank">
-            <area shape="rect" coords="0,0,5,5" href="/test.html" target="_blank">
-            <area shape="rect" coords="0,0,5,5" href="http://localhost/test.html" target="_blank">
-        </map>`)
-            }
+            '/': generateHTMLPage(undefined, `
+                    <img src="test.png" width="10" height="10" usemap="#test">
+                    <map name="test">
+                        <area shape="rect" coords="0,0,100,100" href="test.html" target="_blank" rel="nofollow">
+                    </map>`)
         }
     }
 ];

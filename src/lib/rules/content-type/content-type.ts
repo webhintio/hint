@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import * as path from 'path';
+import * as url from 'url';
 
 import * as fileType from 'file-type';
 import * as isSvg from 'is-svg';
@@ -146,8 +147,8 @@ const rule: IRuleBuilder = {
         };
 
         const determineMediaTypeBasedOnFileExtension = (resource: string) => {
-            const fileExtension = path.extname(resource).split('.')
-                                                        .pop();
+            const fileExtension = path.extname(url.parse(resource).pathname).split('.')
+                                                                            .pop();
 
             return getMediaTypeBasedOnFileExtension(fileExtension);
         };
@@ -175,7 +176,7 @@ const rule: IRuleBuilder = {
             // Check if the `Content-Type` header was sent.
 
             if (contentTypeHeaderValue === null) {
-                await context.report(resource, element, `'Content-Type' header was not specified`);
+                await context.report(resource, element, `'content-type' header was not specified`);
 
                 return;
             }
@@ -187,7 +188,7 @@ const rule: IRuleBuilder = {
 
             if (userDefinedMediaType) {
                 if (normalizeString(userDefinedMediaType) !== contentTypeHeaderValue) {
-                    await context.report(resource, element, `'Content-Type' header should have the value: '${userDefinedMediaType}'`);
+                    await context.report(resource, element, `'content-type' header should have the value '${userDefinedMediaType}'`);
                 }
 
                 return;
@@ -204,7 +205,7 @@ const rule: IRuleBuilder = {
 
                 contentType = parse(contentTypeHeaderValue);
             } catch (e) {
-                await context.report(resource, element, `'Content-Type' header value is invalid (${e.message})`);
+                await context.report(resource, element, `'content-type' header value is invalid (${e.message})`);
 
                 return;
             }
@@ -227,17 +228,17 @@ const rule: IRuleBuilder = {
             // * media type
 
             if (mediaType && (mediaType !== originalMediaType)) {
-                await context.report(resource, element, `'Content-Type' header should have media type: '${mediaType}' (not '${originalMediaType}')`);
+                await context.report(resource, element, `'content-type' header should have media type '${mediaType}' (not '${originalMediaType}')`);
             }
 
             // * charset value
 
             if (charset) {
                 if (!originalCharset || (charset !== originalCharset)) {
-                    await context.report(resource, element, `'Content-Type' header should have 'charset=${charset}'${originalCharset ? ` (not '${originalCharset}')` : ''}`);
+                    await context.report(resource, element, `'content-type' header should have 'charset=${charset}'${originalCharset ? ` (not '${originalCharset}')` : ''}`);
                 }
             } else if (originalCharset && !['text/html', 'application/xhtml+xml'].includes(originalMediaType)) {
-                await context.report(resource, element, `'Content-Type' header should not have 'charset=${originalCharset}'`);
+                await context.report(resource, element, `'content-type' header should not have 'charset=${originalCharset}'`);
             }
 
         };
@@ -253,7 +254,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'interoperability',
-            description: 'Check usage of `Content-Type` HTTP response header'
+            description: 'Required `Content-Type` header with appropriate value'
         },
         fixable: 'code',
         recommended: true,

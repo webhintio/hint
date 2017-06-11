@@ -1,3 +1,4 @@
+*.lock
 *.log
 *.pid
 .DS_Store

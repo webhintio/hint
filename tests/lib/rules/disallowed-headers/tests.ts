@@ -1,5 +1,7 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
+import * as pluralize from 'pluralize';
+
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
@@ -7,49 +9,42 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
 
-const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
+const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></script>');
+const htmlPageWithManifest = generateHTMLPage('<link rel="manifest" href="test.webmanifest">');
+
+const generateMessage = (values: Array<string>): string => {
+    return `'${values.join('\', \'')}' ${pluralize('header', values.length)} ${pluralize('is', values.length)} disallowed`;
+};
 
 const testsForDefaults: Array<RuleTest> = [
     {
-        name: `Response does not contain any of the disallowed headers`,
+        name: `HTML page is served without any of the disallowed headers`,
+        serverConfig: { '/': '' }
+    },
+    {
+        name: `Manifest is served without any of the disallowed headers`,
         serverConfig: {
-            '/': htmlPage,
-            '/test.js': ''
+            '/': htmlPageWithManifest,
+            'test.webmanifest': ''
         }
     },
     {
-        name: `Response contains one disallowed header`,
-        reports: [
-            { message: `Disallowed HTTP header found: x-powered-by` },
-            { message: `Disallowed HTTP header found: x-aspnetmvc-version` }
-        ],
+        name: `Resource is served without any of the disallowed headers`,
         serverConfig: {
-            '/': {
-                content: htmlPage,
-                headers: { 'X-Powered-By': 'test' }
-            },
-            '/test.js': {
-                content: '',
-                headers: { 'X-AspNetMvc-Version': 'test' }
-            }
+            '/': htmlPageWithScript,
+            'test.js': ''
         }
     },
     {
-        name: `Response contains multiple disallowed headers`,
-        reports: [
-            { message: `Disallowed HTTP headers found: server, x-powered-by` },
-            { message: `Disallowed HTTP headers found: server, x-aspnetmvc-version` }
-        ],
+        name: `HTML page is served with one disallowed header`,
+        reports: [{ message: generateMessage(['x-powered-by']) }],
+        serverConfig: { '/': { headers: { 'X-Powered-By': 'test' } } }
+    },
+    {
+        name: `HTML page is served with multiple disallowed headers`,
+        reports: [{ message: generateMessage(['server', 'x-aspnetmvc-version']) }],
         serverConfig: {
             '/': {
-                content: htmlPage,
-                headers: {
-                    Server: 'test',
-                    'X-Powered-By': 'test'
-                }
-            },
-            '/test.js': {
-                content: '',
                 headers: {
                     Server: 'test',
                     'X-AspNetMvc-Version': 'test'
@@ -61,17 +56,9 @@ const testsForDefaults: Array<RuleTest> = [
 
 const testsForIgnoreConfigs: Array<RuleTest> = [
     {
-        name: `Response contains default disallowed headers that are ignored because of the configurations`,
+        name: `HTML page is served with disallowed headers that are ignored because of configs`,
         serverConfig: {
             '/': {
-                content: htmlPage,
-                headers: {
-                    Server: 'test',
-                    'X-Powered-By': 'test'
-                }
-            },
-            '/test.js': {
-                content: '',
                 headers: {
                     Server: 'test',
                     'X-Test-1': 'test'
@@ -83,22 +70,11 @@ const testsForIgnoreConfigs: Array<RuleTest> = [
 
 const testsForIncludeConfigs: Array<RuleTest> = [
     {
-        name: `Response contains headers that are disallowed because of the configurations`,
-        reports: [
-            { message: `Disallowed HTTP headers found: server, x-test-1, x-test-2` },
-            { message: `Disallowed HTTP headers found: server, x-test-2` }
-        ],
+        name: `HTML page is served with disallowed headers that are enforced because of configs`,
+        reports: [{ message: generateMessage(['server', 'x-test-2']) }],
         serverConfig: {
-            '/': {
-                content: htmlPage,
-                headers: {
-                    Server: 'test',
-                    'X-Test-1': 'test',
-                    'X-Test-2': 'test'
-                }
-            },
+            '/': htmlPageWithScript,
             '/test.js': {
-                content: '',
                 headers: {
                     Server: 'test',
                     'X-Test-2': 'test'
@@ -110,28 +86,15 @@ const testsForIncludeConfigs: Array<RuleTest> = [
 
 const testsForConfigs: Array<RuleTest> = [
     {
-        name: `Response contains headers that are both disallowed and ignored because of configurations`,
-        reports: [
-            { message: `Disallowed HTTP headers found: x-powered-by, x-test-1` },
-            { message: `Disallowed HTTP header found: x-powered-by` }
-        ],
+        name: `HTML page is served with disallowed headers that are both ignored and enforced because of configs`,
+        reports: [{ message: generateMessage(['x-powered-by', 'x-test-1']) }],
         serverConfig: {
             '/': {
-                content: htmlPage,
                 headers: {
                     Server: 'test',
                     'X-Powered-By': 'test',
                     'X-Test-1': 'test',
                     'X-Test-2': 'test'
-                }
-            },
-            '/test.js': {
-                content: '',
-                headers: {
-                    Server: 'test',
-                    'X-Powered-By': 'test',
-                    'X-Test-2': 'test',
-                    'X-Test-3': 'test'
                 }
             }
         }

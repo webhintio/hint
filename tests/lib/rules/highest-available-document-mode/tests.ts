@@ -7,29 +7,29 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
 
+const metaTag = '<meta http-equiv="x-ua-compatible" content="ie=edge">';
+
 const generateHTMLPageWithMetaTag = (metaTagValue: string = 'iE=eDgE') => {
     return generateHTMLPage(`<MEtA hTTp-EqUIv="X-Ua-CompATible" ConTenT="${metaTagValue}">`);
 };
 
-const metaTag = '<meta http-equiv="x-ua-compatible" content="ie=edge">';
-
 const testsForDefaults: Array<RuleTest> = [
     {
-        name: `Response does not include the 'X-UA-Compatible' header`,
-        reports: [{ message: `Response does not include the 'X-UA-Compatible' header` }],
-        serverConfig: generateHTMLPage()
+        name: `HTML page is served without 'X-UA-Compatible' header`,
+        reports: [{ message: `'x-ua-compatible' header was not specified` }],
+        serverConfig: { '/': '' }
     },
     {
-        name: `Response includes the 'X-UA-Compatible' header with a value different than 'ie=edge'`,
-        reports: [{ message: `The value of the 'X-UA-Compatible' HTTP response header should be 'ie=edge'` }],
+        name: `HTML page is served with 'X-UA-Compatible' header with a value different than 'ie=edge'`,
+        reports: [{ message: `'x-ua-compatible' header value should be 'ie=edge'` }],
         serverConfig: { '/': { headers: { 'X-UA-Compatible': 'IE=7,9,10' } } }
     },
     {
-        name: `Response includes the 'X-UA-Compatible' header with the value 'ie=edge'`,
+        name: `HTML page is served with 'X-UA-Compatible' header with the value 'ie=edge'`,
         serverConfig: { '/': { headers: { 'X-ua-Compatible': 'iE=EdGe' } } }
     },
     {
-        name: `Response includes the 'X-UA-Compatible' header and also the meta tag`,
+        name: `HTML page is served with 'X-UA-Compatible' header and the meta tag`,
         reports: [{ message: `Meta tag is not needed` }],
         serverConfig: {
             '/': {
@@ -43,8 +43,8 @@ const testsForDefaults: Array<RuleTest> = [
 const testsForRequireMetaTagConfig: Array<RuleTest> = [
     {
         name: `'X-UA-Compatible' meta tag is not specified`,
-        reports: [{ message: `No 'X-UA-Compatible' meta tag was specified` }],
-        serverConfig: generateHTMLPage()
+        reports: [{ message: `No 'x-ua-compatible' meta tag was specified` }],
+        serverConfig: { '/': '' }
     },
     {
         name: `'X-UA-Compatible' meta tag is specified with the value of 'ie=edge'`,
@@ -56,7 +56,7 @@ const testsForRequireMetaTagConfig: Array<RuleTest> = [
         serverConfig: generateHTMLPage('<meta http-equiv="x-ua-compatible">')
     },
     {
-        name: `'X-UA-Compatible' meta tag is specified with no empty 'content' attribute`,
+        name: `'X-UA-Compatible' meta tag is specified with an empty 'content' attribute`,
         reports: [{ message: `The value of 'content' should be 'ie=edge'` }],
         serverConfig: generateHTMLPage('<meta http-equiv="x-ua-compatible" content>')
     },
@@ -77,11 +77,11 @@ const testsForRequireMetaTagConfig: Array<RuleTest> = [
     },
     {
         name: `Multiple 'X-UA-Compatible' meta tags are specified`,
-        reports: [{ message: `A 'X-UA-Compatible' meta tag was already specified` }],
+        reports: [{ message: `A 'x-ua-compatible' meta tag was already specified` }],
         serverConfig: generateHTMLPage(`${metaTag}${metaTag}`)
     },
     {
-        name: `'X-UA-Compatible' HTTP response header is specified and so is the meta tag`,
+        name: `'X-UA-Compatible' meta tag is specified and HTML page is served with 'X-UA-Compatible header'`,
         serverConfig: {
             '/': {
                 content: generateHTMLPageWithMetaTag(),
@@ -93,17 +93,14 @@ const testsForRequireMetaTagConfig: Array<RuleTest> = [
 
 const testsForTargetBrowsersConfig: Array<RuleTest> = [
     {
-        name: `'X-UA-Compatible' HTTP response header is specified and so is the meta tag but the targeted browsers don't support document modes`,
-        reports: [
-            { message: `'X-UA-Compatible' HTTP response header is not needed` },
-            { message: `Meta tag is not needed` }
-        ],
-        serverConfig: {
-            '/': {
-                content: generateHTMLPageWithMetaTag(),
-                headers: { 'X-UA-Compatible': 'ie=edge' }
-            }
-        }
+        name: `HTML page is served with 'X-UA-Compatible' header but the targeted browsers don't support document modes`,
+        reports: [{ message: `'x-ua-compatible' header is not needed` }],
+        serverConfig: { '/': { headers: { 'X-UA-Compatible': 'ie=edge' } } }
+    },
+    {
+        name: `'X-UA-Compatible' meta tag is not specified but the targeted browsers don't support document modes`,
+        reports: [{ message: `Meta tag is not needed` }],
+        serverConfig: { '/': { content: generateHTMLPageWithMetaTag() } }
     }
 ];
 

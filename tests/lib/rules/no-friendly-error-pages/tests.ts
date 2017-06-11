@@ -33,8 +33,8 @@ const statusCodesWith512Threshold = [400, 404, 406, 408, 409, 500, 501, 505];
 const addTests = (t, statusCodes, threshold) => {
     statusCodes.forEach((statusCode) => {
         t.push({
-            name: `Response has statusCode ${statusCode} and less than ${threshold} bytes`,
-            reports: [{ message: `Response with statusCode ${statusCode} had less than ${threshold} bytes` }],
+            name: `Response has status code ${statusCode} and less than ${threshold} bytes`,
+            reports: [{ message: `Response with status code ${statusCode} had less than ${threshold} bytes` }],
             serverConfig: {
                 '/': {
                     content: (threshold === 512 ? htmlPageWithLessThan512bytes : htmlPageWithLessThan256bytes),
@@ -45,7 +45,7 @@ const addTests = (t, statusCodes, threshold) => {
         });
 
         t.push({
-            name: `Response has statusCode ${statusCode} and more than ${threshold} bytes`,
+            name: `Response has status code ${statusCode} and more than ${threshold} bytes`,
             serverConfig: {
                 '/': {
                     content: htmlPageWithMoreThan512bytes,
@@ -58,7 +58,7 @@ const addTests = (t, statusCodes, threshold) => {
 };
 
 const testsForWhenRuleDoesNotApply = [{
-    name: `Response has statusCode 404 and less than 512 bytes, but targeted browsers don't include affected browsers`,
+    name: `Response has status code 404 and less than 512 bytes, but targeted browsers don't include affected browsers`,
     serverConfig: {
         '/': {
             content: htmlPageWithLessThan512bytes,
@@ -74,14 +74,22 @@ addTests(tests, statusCodesWith256Threshold, 256);
 addTests(tests, statusCodesWith512Threshold, 512);
 
 tests.push({
-    name: `Response has statusCode 200 but 404 page has less than 512 bytes`,
-    reports: [{ message: `Response with statusCode 404 had less than 512 bytes` }],
+    name: `Response has status code 200 and 404 page was generated and has less than 512 bytes`,
+    reports: [{ message: `Response with status code 404 had less than 512 bytes` }],
     serverConfig: {
         '/': '',
         '*': {
             content: htmlPageWithLessThan512bytes,
             status: 404
         }
+    }
+});
+
+tests.push({
+    name: `Response has status code 200 and error page cannot be generated`,
+    serverConfig: {
+        '/': '',
+        '*': { status: 200 }
     }
 });
 

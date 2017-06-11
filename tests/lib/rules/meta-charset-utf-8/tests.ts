@@ -10,26 +10,26 @@ const metaHttpEquiv = '<MeTa HTTP-EquiV="ConTent-Type" Content="TexT/HTML; CharS
 
 const tests: Array<RuleTest> = [
     {
-        name: `The charset meta tag is not specified`,
+        name: `'charset' meta tag is not specified`,
         reports: [{ message: `No charset meta tag was specified` }],
         serverConfig: generateHTMLPage()
     },
     {
-        name: `A 'http-equiv' meta tag is specified`,
+        name: `'http-equiv' meta tag is specified`,
         reports: [{ message: `Use shorter '<meta charset="utf-8">'` }],
         serverConfig: generateHTMLPage(metaHttpEquiv)
     },
     {
-        name: `The charset meta tag is specified with a value different then 'utf-8'`,
+        name: `'charset' meta tag is specified with a value different then 'utf-8'`,
         reports: [{ message: `The value of 'charset' is not 'utf-8'` }],
         serverConfig: generateHTMLPage('<meta charset="utf8">')
     },
     {
-        name: `The charset meta tag is specified with the value of 'utf-8'`,
+        name: `'charset' meta tag is specified with the value of 'utf-8'`,
         serverConfig: generateHTMLPage(metaCharset)
     },
     {
-        name: `The charset meta tag is specified in the '<body>'`,
+        name: `'charset' meta tag is specified in the '<body>'`,
         reports: [
             { message: `Charset meta tag should be the first thing in '<head>'`},
             { message: `Meta tag should not be specified in the '<body>'`}
@@ -37,23 +37,19 @@ const tests: Array<RuleTest> = [
         serverConfig: generateHTMLPage(null, metaCharset)
     },
     {
-        name: `The charset meta tag is specified but it is not the first element in '<head>'`,
+        name: `'charset' meta tag is specified in '<head>' after another tag`,
         reports: [{ message: `Charset meta tag should be the first thing in '<head>'` }],
         serverConfig: generateHTMLPage('<title>test</title><meta charset="utf-8">')
     },
     {
-        name: `The charset meta tag is specified but it is not the first thing in '<head>'`,
+        name: `'charset' meta tag is specified in '<head>' after an HTML comment`,
         reports: [{ message: `Charset meta tag should be the first thing in '<head>'` }],
         serverConfig: generateHTMLPage('<!-- test --><meta charset="utf-8">')
     },
     {
-        name: `Multiple meta charset tags are specified`,
-        reports: [
-            { message: 'A charset meta tag was already specified' },
-            { message: 'A charset meta tag was already specified' },
-            { message: 'A charset meta tag was already specified' }
-        ],
-        serverConfig: generateHTMLPage(`${metaCharset}${metaHttpEquiv}`, `${metaCharset}${metaHttpEquiv}`)
+        name: `Multiple meta 'charset' tags are specified`,
+        reports: [{ message: 'A charset meta tag was already specified' }],
+        serverConfig: generateHTMLPage(`${metaCharset}${metaHttpEquiv}`)
     },
     {
         name: `Target is not a HTML document`,
