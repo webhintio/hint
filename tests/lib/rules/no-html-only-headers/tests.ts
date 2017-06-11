@@ -1,5 +1,7 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
+import * as pluralize from 'pluralize';
+
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
@@ -8,9 +10,13 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 const ruleName = getRuleName(__dirname);
 const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
 
+const generateMessage = (values: Array<string>): string => {
+    return `'${values.join('\', \'')}' ${pluralize('header', values.length)} ${pluralize('is', values.length)} not needed`;
+};
+
 const testsForDefaults: Array<RuleTest> = [
     {
-        name: `Non HTML resource is not served with unneded headers`,
+        name: `Non HTML resource is served without unneded headers`,
         serverConfig: {
             '/': {
                 content: htmlPage,
@@ -23,8 +29,8 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
-        name: `Non HTML resource is served with one unneded headers`,
-        reports: [{ message: `Unneeded HTTP header found: content-security-policy` }],
+        name: `Non HTML resource is served with unneded header`,
+        reports: [{ message: generateMessage(['content-security-policy']) }],
         serverConfig: {
             '/': {
                 content: htmlPage,
@@ -43,7 +49,7 @@ const testsForDefaults: Array<RuleTest> = [
     },
     {
         name: `Non HTML resource is served with multiple unneded headers`,
-        reports: [{ message: `Unneeded HTTP headers found: content-security-policy, x-content-security-policy, x-frame-options, x-ua-compatible, x-webkit-csp, x-xss-protection` }],
+        reports: [{ message: generateMessage(['content-security-policy', 'x-content-security-policy', 'x-frame-options', 'x-ua-compatible', 'x-webkit-csp', 'x-xss-protection']) }],
         serverConfig: {
             '/': {
                 content: htmlPage,
@@ -57,7 +63,6 @@ const testsForDefaults: Array<RuleTest> = [
                 }
             },
             '/test.js': {
-                content: '',
                 headers: {
                     'Content-Type': 'application/javascript; charset=utf-8',
                     'Content-Security-Policy': 'default-src "none"',
@@ -71,8 +76,8 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
-        name: `HTML document without media type is treated as non-HTML resource`,
-        reports: [{ message: `Unneeded HTTP header found: x-ua-compatible` }],
+        name: `HTML document treated as non-HTML resource (no media type) is served with unneded header`,
+        reports: [{ message: generateMessage(['x-ua-compatible']) }],
         serverConfig: {
             '/': {
                 content: '',
@@ -84,8 +89,8 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
-        name: `HTML document with invalid media type is treated as non-HTML resource`,
-        reports: [{ message: `Unneeded HTTP header found: x-ua-compatible` }],
+        name: `HTML document treated as non-HTML resource (invalid media type) is served with unneded header`,
+        reports: [{ message: generateMessage(['x-ua-compatible']) }],
         serverConfig: {
             '/': {
                 content: '',
@@ -97,8 +102,8 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
-        name: `HTML document with valid but incorrect media type is treated as non-HTML resource`,
-        reports: [{ message: `Unneeded HTTP header found: x-ua-compatible` }],
+        name: `HTML document treated as non-HTML resource (valid, but incorrect media type) is served with unneded header`,
+        reports: [{ message: generateMessage(['x-ua-compatible']) }],
         serverConfig: {
             '/': {
                 content: '',
@@ -113,7 +118,7 @@ const testsForDefaults: Array<RuleTest> = [
 
 const testsForIgnoreConfigs: Array<RuleTest> = [
     {
-        name: `Non HTML resource is served with one unneded headers but ignored because of the configurations`,
+        name: `Non HTML resource is served with one unneded headers but ignored because of configs`,
         serverConfig: {
             '/': {
                 content: htmlPage,
@@ -136,8 +141,8 @@ const testsForIgnoreConfigs: Array<RuleTest> = [
 
 const testsForIncludeConfigs: Array<RuleTest> = [
     {
-        name: `Non HTML resource is served with unneded headers also because of the configurations`,
-        reports: [{ message: `Unneeded HTTP headers found: content-security-policy, x-test-1, x-ua-compatible` }],
+        name: `Non HTML resource is served with unneded headers because of configs`,
+        reports: [{ message: generateMessage(['content-security-policy', 'x-test-1', 'x-ua-compatible']) }],
         serverConfig: {
             '/': {
                 content: htmlPage,
@@ -162,8 +167,8 @@ const testsForIncludeConfigs: Array<RuleTest> = [
 
 const testsForConfigs: Array<RuleTest> = [
     {
-        name: `Non HTML resource is served with unneded headers that are both ignored and because of the configuration`,
-        reports: [{ message: `Unneeded HTTP headers found: content-security-policy, x-test-1, x-ua-compatible` }],
+        name: `Non HTML resource is served with unneded headers that are both ignored and enforced because of configs`,
+        reports: [{ message: generateMessage(['content-security-policy', 'x-test-1', 'x-ua-compatible']) }],
         serverConfig: {
             '/': {
                 content: htmlPage,

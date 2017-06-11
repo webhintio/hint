@@ -38,6 +38,7 @@
     "optionator": "^0.8.2",
     "path-is-inside": "^1.0.2",
     "pify": "^3.0.0",
+    "pluralize": "^5.0.0",
     "request": "^2.79.0",
     "require-uncached": "^1.0.3",
     "same-origin": "^0.1.1",

@@ -10,8 +10,10 @@
 
 import * as url from 'url';
 
+import * as pluralize from 'pluralize';
 import * as sameOrigin from 'same-origin';
 
+import { cutString } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
 import { IElementFoundEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
@@ -78,7 +80,7 @@ const rule: IRuleBuilder = {
             });
 
             if (missingRelValues.length > 0) {
-                await context.report(resource, element, `Missing link type${missingRelValues.length === 1 ? '' : 's'} on \`${await element.outerHTML()}\`: ${missingRelValues.join(', ')}`, hrefValue);
+                await context.report(resource, element, `'${cutString(await element.outerHTML(), 100)}' is missing link ${pluralize('type', missingRelValues.length)} '${missingRelValues.join('\', \'')}'`, hrefValue);
             }
         };
 
@@ -103,7 +105,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'security',
-            description: 'Use `noopener` and `noreferrer` on `a` and `area` element with target="_blank"'
+            description: 'Require `noopener` (and `noreferrer`) on `a` and `area` element with target="_blank"'
         },
         fixable: 'code',
         recommended: true,

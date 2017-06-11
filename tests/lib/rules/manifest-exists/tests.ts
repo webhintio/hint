@@ -14,7 +14,7 @@ const tests: Array<RuleTest> = [
         serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')
     },
     {
-        name: `Web app manifest is already specified`,
+        name: `Web app manifest is specified multiple times`,
         reports: [{ message: 'Web app manifest already specified' }],
         serverConfig: {
             '/': generateHTMLPage(`<link rel="manifest" href="site1.webmanifest"><link rel="manifest" href="site2.webmanifest">`),

@@ -8,6 +8,7 @@
 
 import { debug as d } from '../../utils/debug';
 import { IElementFoundEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -29,7 +30,11 @@ const rule: IRuleBuilder = {
             // If we access the src or href properties directly the
             // browser already adds http(s):// so we cannot verify.
 
-            const url = element.getAttribute('src') || element.getAttribute('href') || '';
+            const url = normalizeString(
+                element.getAttribute('src') ||
+                element.getAttribute('href') ||
+                ''
+            );
 
             if (url.indexOf('//') === 0) {
                 debug('Protocol relative URL found');
@@ -48,7 +53,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'security',
-            description: 'Use `http(s)://` over //'
+            description: 'Disallow protocol relative URLs'
         },
         fixable: 'code',
         recommended: true,

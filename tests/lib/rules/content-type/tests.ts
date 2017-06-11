@@ -9,28 +9,23 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
 
-// File content.
 const pngFileContent = fs.readFileSync(`${__dirname}/fixtures/image.png`); // eslint-disable-line no-sync
 const svgFileContent = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M1,1"/></svg>';
 
-// Error messages.
-
-const incorrectCharsetMessage = `'Content-Type' header should have 'charset=utf-8' (not 'iso-8859-1')`;
-const invalidMediaTypeMessage = `'Content-Type' header value is invalid (invalid media type)`;
-const invalidParameterFormatMessage = `'Content-Type' header value is invalid (invalid parameter format)`;
-const noCharsetMessage = `'Content-Type' header should have 'charset=utf-8'`;
-const noContentTypeMessage = `'Content-Type' header was not specified`;
-const unneededCharsetMessage = `'Content-Type' header should not have 'charset=utf-8'`;
+const incorrectCharsetMessage = `'content-type' header should have 'charset=utf-8' (not 'iso-8859-1')`;
+const invalidMediaTypeMessage = `'content-type' header value is invalid (invalid media type)`;
+const invalidParameterFormatMessage = `'content-type' header value is invalid (invalid parameter format)`;
+const noCharsetMessage = `'content-type' header should have 'charset=utf-8'`;
+const noHeaderMessage = `'content-type' header was not specified`;
+const unneededCharsetMessage = `'content-type' header should not have 'charset=utf-8'`;
 
 const generateIncorrectMediaTypeMessage = (expectedType: string, actualType: string) => {
-    return `'Content-Type' header should have media type: '${expectedType}' (not '${actualType}')`;
+    return `'content-type' header should have media type '${expectedType}' (not '${actualType}')`;
 };
 
 const generateRequireValueMessage = (expectedValue: string) => {
-    return `'Content-Type' header should have the value: '${expectedValue}'`;
+    return `'content-type' header should have the value '${expectedValue}'`;
 };
-
-// Other.
 
 const generateHTMLPageData = (content: string) => {
     return {
@@ -39,20 +34,18 @@ const generateHTMLPageData = (content: string) => {
     };
 };
 
-// Tests.
-
 const testsForDefaults: Array<RuleTest> = [
 
     // No `Content-Type` header.
 
     {
-        name: `HTML page is served without the 'Content-Type' header`,
-        reports: [{ message: noContentTypeMessage }],
+        name: `HTML page is served without 'Content-Type' header`,
+        reports: [{ message: noHeaderMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': null } } }
     },
     {
-        name: `Resource is served without the 'Content-Type' header`,
-        reports: [{ message: noContentTypeMessage }],
+        name: `Resource is served without 'Content-Type' header`,
+        reports: [{ message: noHeaderMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage('<link rel="stylesheet" href="test.css">')),
             '/test.css': { headers: { 'Content-Type': null } }
@@ -62,12 +55,12 @@ const testsForDefaults: Array<RuleTest> = [
     // `Content-Type` value contains invalid media type.
 
     {
-        name: `HTML page is served with the 'Content-Type' header with invalid media type`,
+        name: `HTML page is served with 'Content-Type' header with invalid media type`,
         reports: [{ message: invalidMediaTypeMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': 'invalid' } } }
     },
     {
-        name: `Resource is served with the 'Content-Type' header with invalid media type (empty media type)`,
+        name: `Resource is served with 'Content-Type' header with invalid media type (empty media type)`,
         reports: [{ message: invalidMediaTypeMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
@@ -78,12 +71,12 @@ const testsForDefaults: Array<RuleTest> = [
     // `Content-Type` value contains invalid parameter format.
 
     {
-        name: `HTML page is served with the 'Content-Type' header with an invalid parameter format`,
+        name: `HTML page is served with 'Content-Type' header with an invalid parameter format`,
         reports: [{ message: invalidParameterFormatMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': 'text/html; invalid' } } }
     },
     {
-        name: `Resource is served with the 'Content-Type' header with an invalid parameter format`,
+        name: `Resource is served with 'Content-Type' header with an invalid parameter format`,
         reports: [{ message: invalidParameterFormatMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
@@ -94,19 +87,19 @@ const testsForDefaults: Array<RuleTest> = [
     // `Content-Type` value doesn't contain `charset` parameter were needed.
 
     {
-        name: `HTML page is served with the 'Content-Type' header without 'charset' parameter`,
+        name: `HTML page is served with 'Content-Type' header without 'charset' parameter`,
         reports: [{ message: noCharsetMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': 'text/html' } } }
     },
     {
-        name: `Image is served with the 'Content-Type' header without 'charset' parameter`,
+        name: `Image is served with 'Content-Type' header without 'charset' parameter`,
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
             '/test.png': { headers: { 'Content-Type': 'image/png' } }
         }
     },
     {
-        name: `Script is served with the 'Content-Type' header without 'charset' parameter`,
+        name: `Script is served with 'Content-Type' header without 'charset' parameter`,
         reports: [{ message: noCharsetMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
@@ -117,12 +110,12 @@ const testsForDefaults: Array<RuleTest> = [
     // `Content-Type` value contain wrong `charset`.
 
     {
-        name: `HTML page is served with the 'Content-Type' header with wrong 'charset'`,
+        name: `HTML page is served with 'Content-Type' header with wrong 'charset'`,
         reports: [{ message: incorrectCharsetMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': 'text/html; charset=iso-8859-1' } } }
     },
     {
-        name: `Image is served with the 'Content-Type' header with unneeded 'charset' parameter`,
+        name: `Image is served with 'Content-Type' header with unneeded 'charset' parameter`,
         reports: [{ message: unneededCharsetMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
@@ -130,7 +123,7 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
-        name: `Manifest is served with the 'Content-Type' header with wrong 'charset'`,
+        name: `Manifest is served with 'Content-Type' header with wrong 'charset'`,
         reports: [{ message: incorrectCharsetMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.json">')),
@@ -138,7 +131,7 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
-        name: `Script is served with the 'Content-Type' header with wrong 'charset'`,
+        name: `Script is served with 'Content-Type' header with wrong 'charset'`,
         reports: [{ message: incorrectCharsetMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
@@ -259,25 +252,25 @@ const testsForDefaults: Array<RuleTest> = [
     // `Content-Type` value contain correct value.
 
     {
-        name: `HTML page is served with correct value for the 'Content-Type' header`,
+        name: `HTML page is served with correct value for 'Content-Type' header`,
         serverConfig: { '/': { headers: { 'Content-Type': 'text/html;charset=utf-8' } } }
     },
     {
-        name: `Image is served with the correct 'Content-Type' header`,
+        name: `Image is served with correct value for 'Content-Type' header`,
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
             '/test.png': { headers: { 'content-Type': 'image/PNG' } }
         }
     },
     {
-        name: `Manifest is served with the 'Content-Type' header with wrong 'charset'`,
+        name: `Manifest is served with correct value for 'Content-Type' header`,
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.json">')),
             '/test.json': { headers: { 'CONTENT-TYPE': 'APPLICATION/MANIFEST+JSON; CHARSET=UTF-8' } }
         }
     },
     {
-        name: `Script is served with the correct 'Content-Type' header`,
+        name: `Script is served with correct value for 'Content-Type' header`,
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
             '/test.js': { headers: { 'content-type': '   application/JavaScript;   Charset=UTF-8' } }
@@ -287,7 +280,7 @@ const testsForDefaults: Array<RuleTest> = [
 
 const testsForConfigs: Array<RuleTest> = [
     {
-        name: `Script is served with the 'Content-Type' header with the correct media type but wrong because of the custom config`,
+        name: `Script is served with 'Content-Type' header with the correct media type but wrong because of the custom config`,
         reports: [{ message: generateRequireValueMessage('text/javascript') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test.js"></script>`)),
@@ -295,7 +288,7 @@ const testsForConfigs: Array<RuleTest> = [
         }
     },
     {
-        name: `Script is served with the 'Content-Type' header with the correct media type but fails because of the custom config overwrites`,
+        name: `Script is served with 'Content-Type' header with the correct media type but fails because of the custom config overwrites`,
         reports: [{ message: generateRequireValueMessage('application/x-javascript; charset=utf-8') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test/test2.js"></script>`)),
@@ -303,7 +296,7 @@ const testsForConfigs: Array<RuleTest> = [
         }
     },
     {
-        name: `Script is served with the 'Content-Type' header with the incorrect media type but passes because of the custom config`,
+        name: `Script is served with 'Content-Type' header with the incorrect media type but passes because of the custom config`,
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test3.js"></script>`)),
             '/test3.js': { headers: { 'Content-Type': 'application/x-javascript' } }

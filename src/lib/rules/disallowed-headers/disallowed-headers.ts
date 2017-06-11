@@ -6,6 +6,8 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as pluralize from 'pluralize';
+
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
 import { IFetchEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
@@ -36,9 +38,10 @@ const rule: IRuleBuilder = {
         const validate = async (fetchEnd: IFetchEndEvent) => {
             const { element, resource } = fetchEnd;
             const headers = getIncludedHeaders(fetchEnd.response.headers, disallowedHeaders);
+            const numberOfHeaders = headers.length;
 
-            if (headers.length > 0) {
-                await context.report(resource, element, `Disallowed HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
+            if (numberOfHeaders > 0) {
+                await context.report(resource, element, `'${headers.join('\', \'')}' ${pluralize('header', numberOfHeaders)} ${pluralize('is', numberOfHeaders)} disallowed`);
             }
         };
 
@@ -46,13 +49,14 @@ const rule: IRuleBuilder = {
 
         return {
             'fetch::end': validate,
+            'manifestfetch::end': validate,
             'targetfetch::end': validate
         };
     },
     meta: {
         docs: {
             category: 'security',
-            description: 'Disallow certain HTTP headers'
+            description: 'Disallow certain HTTP response headers'
         },
         fixable: 'code',
         recommended: true,

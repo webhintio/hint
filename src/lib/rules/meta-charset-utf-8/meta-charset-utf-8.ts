@@ -9,7 +9,9 @@
 
 import * as url from 'url';
 
-import { IAsyncHTMLDocument, IElementFoundEvent, IRule, IRuleBuilder, ITraverseEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLDocument, IRule, IRuleBuilder, ITraverseEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { normalizeString } from '../../utils/misc';
+import { parse } from 'content-type';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
@@ -27,7 +29,7 @@ const rule: IRuleBuilder = {
         const getCharsetMetaTags = (elements) => {
             return elements.filter((element) => {
                 return (element.getAttribute('charset') !== null) ||
-                       (element.getAttribute('http-equiv') !== null && element.getAttribute('http-equiv').toLowerCase() === 'content-type');
+                       (element.getAttribute('http-equiv') !== null && normalizeString(element.getAttribute('http-equiv')) === 'content-type');
             });
         };
 
@@ -42,11 +44,16 @@ const rule: IRuleBuilder = {
 
             // Otherwise, check.
 
-            const contentTypeHeader = responseHeaders['content-type'];
-            const mediaType = contentTypeHeader ? contentTypeHeader.split(';')[0].trim() : null;
+            const contentTypeHeaderValue = responseHeaders['content-type'];
+            let mediaType;
+
+            try {
+                mediaType = parse(contentTypeHeaderValue).type;
+            } catch (e) {
+                return false;
+            }
 
             return mediaType === 'text/html';
-
         };
 
         const validate = async (event: ITraverseEndEvent) => {
@@ -87,7 +94,7 @@ const rule: IRuleBuilder = {
 
             if (charsetMetaTag.getAttribute('http-equiv') !== null) {
                 await context.report(resource, charsetMetaTag, `Use shorter '<meta charset="utf-8">'`);
-            } else if (charsetMetaTag.getAttribute('charset').toLowerCase() !== 'utf-8') {
+            } else if (normalizeString(charsetMetaTag.getAttribute('charset')) !== 'utf-8') {
                 await context.report(resource, charsetMetaTag, `The value of 'charset' is not 'utf-8'`);
             }
 
@@ -140,7 +147,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'misc',
-            description: 'Use `<meta charset="utf-8">`'
+            description: 'Require `<meta charset="utf-8">`'
         },
         fixable: 'code',
         recommended: true,

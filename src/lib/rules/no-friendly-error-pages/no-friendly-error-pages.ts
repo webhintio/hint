@@ -54,14 +54,7 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            // This is only accurate if the encoding used by the
-            // collectors was also `utf8`.
-            //
-            // See: https://github.com/MicrosoftEdge/Sonar/issues/89
-
-            // TODO: replace the following with:
-            // const size = response.body.rawContent.length;
-            const size = Buffer.byteLength(<string>response.body.content, 'utf8');
+            const size = (response.body.rawContent || []).length;
 
             // This rule doesn't care about individual responses, only
             // if, in general, for a certain error response the size
@@ -110,7 +103,7 @@ const rule: IRuleBuilder = {
                 });
             } catch (e) {
                 // This will most likely fail because target is a local file.
-                debug(`Custom request to generate 404 response failed for: ${targetURL}`);
+                debug(`Custom request to generate error response failed for: ${targetURL}`);
             }
 
         };
@@ -133,12 +126,13 @@ const rule: IRuleBuilder = {
             for (const key of Object.keys(foundErrorPages)) {
                 const threshold = statusCodesWith512Threshold.includes(Number.parseInt(key)) ? 512 : 256;
 
-                await context.report(href, null, `Response with statusCode ${key} had less than ${threshold} bytes`);
+                await context.report(href, null, `Response with status code ${key} had less than ${threshold} bytes`);
             }
         };
 
         return {
             'fetch::end': checkForErrorPages,
+            'manifestfetch::end': checkForErrorPages,
             'targetfetch::end': checkForErrorPages,
             'traverse::end': validate
         };

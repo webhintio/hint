@@ -7,6 +7,8 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as pluralize from 'pluralize';
+
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
 import { IFetchEndEvent, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
@@ -66,14 +68,15 @@ const rule: IRuleBuilder = {
             return false;
         };
 
-        const checkHeaders = async (fetchEnd: IFetchEndEvent) => {
+        const validate = async (fetchEnd: IFetchEndEvent) => {
             const { element, resource, response } = fetchEnd;
 
             if (!willBeTreatedAsHTML(response)) {
                 const headers = getIncludedHeaders(response.headers, unneededHeaders);
+                const numberOfHeaders = headers.length;
 
-                if (headers.length > 0) {
-                    await context.report(resource, element, `Unneeded HTTP header${headers.length > 1 ? 's' : ''} found: ${headers.join(', ')}`);
+                if (numberOfHeaders > 0) {
+                    await context.report(resource, element, `'${headers.join('\', \'')}' ${pluralize('header', numberOfHeaders)} ${pluralize('is', numberOfHeaders)} not needed`);
                 }
             }
         };
@@ -81,8 +84,9 @@ const rule: IRuleBuilder = {
         loadRuleConfigs();
 
         return {
-            'fetch::end': checkHeaders,
-            'targetfetch::end': checkHeaders
+            'fetch::end': validate,
+            'manifestfetch::end': validate,
+            'targetfetch::end': validate
         };
     },
     meta: {

@@ -9,7 +9,8 @@
 
 import * as url from 'url';
 
-import { IAsyncHTMLDocument, IElementFoundEvent, IRule, IRuleBuilder, ITraverseEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLDocument, IRule, IRuleBuilder, ITraverseEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
@@ -30,14 +31,14 @@ const rule: IRuleBuilder = {
         const getXUACompatibleMetaTags = (elements) => {
             return elements.filter((element) => {
                 return (element.getAttribute('http-equiv') !== null &&
-                        element.getAttribute('http-equiv').toLowerCase() === 'x-ua-compatible');
+                        normalizeString(element.getAttribute('http-equiv')) === 'x-ua-compatible');
             });
         };
 
         const checkHeader = async (resource: string, responseHeaders: object) => {
-            const headerValue = responseHeaders['x-ua-compatible'];
+            const headerValue = normalizeString(responseHeaders['x-ua-compatible']);
 
-            if (typeof headerValue === 'undefined') {
+            if (headerValue === null) {
 
                 // There is no need to require the HTTP header if:
                 //
@@ -46,7 +47,7 @@ const rule: IRuleBuilder = {
                 //    support document modes
 
                 if (!requireMetaTag && !suggestRemoval) {
-                    await context.report(resource, null, `Response does not include the 'X-UA-Compatible' header`);
+                    await context.report(resource, null, `'x-ua-compatible' header was not specified`);
                 }
 
                 return;
@@ -57,13 +58,13 @@ const rule: IRuleBuilder = {
             // modes, suggest not sending the header.
 
             if (suggestRemoval) {
-                await context.report(resource, null, `'X-UA-Compatible' HTTP response header is not needed`);
+                await context.report(resource, null, `'x-ua-compatible' header is not needed`);
 
                 return;
             }
 
-            if (headerValue.toLowerCase() !== 'ie=edge') {
-                await context.report(resource, null, `The value of the 'X-UA-Compatible' HTTP response header should be 'ie=edge'`);
+            if (headerValue !== 'ie=edge') {
+                await context.report(resource, null, `'x-ua-compatible' header value should be 'ie=edge'`);
             }
 
             // Note: The check if the X-UA-Compatible HTTP response
@@ -94,7 +95,7 @@ const rule: IRuleBuilder = {
             // If the user requested the meta tag to be specified.
 
             if (XUACompatibleMetaTags.length === 0) {
-                await context.report(resource, null, `No 'X-UA-Compatible' meta tag was specified`);
+                await context.report(resource, null, `No 'x-ua-compatible' meta tag was specified`);
 
                 return;
             }
@@ -103,7 +104,7 @@ const rule: IRuleBuilder = {
             // the user intended to use, and check if:
 
             const XUACompatibleMetaTag = XUACompatibleMetaTags[0];
-            const contentValue = (XUACompatibleMetaTag.getAttribute('content') || '').toLowerCase();
+            const contentValue = normalizeString(XUACompatibleMetaTag.getAttribute('content'));
 
             // * it has the value `ie=edge`.
 
@@ -149,7 +150,7 @@ const rule: IRuleBuilder = {
                 const metaTags = XUACompatibleMetaTags.slice(1);
 
                 for (const metaTag of metaTags) {
-                    await context.report(resource, metaTag, `A 'X-UA-Compatible' meta tag was already specified`);
+                    await context.report(resource, metaTag, `A 'x-ua-compatible' meta tag was already specified`);
                 }
             }
         };
@@ -184,7 +185,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'interoperability',
-            description: 'Use highest available document mode'
+            description: 'Require highest available document mode'
         },
         fixable: 'code',
         recommended: true,

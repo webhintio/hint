@@ -9,6 +9,7 @@
 
 import { debug as d } from '../../utils/debug';
 import { IElementFoundEvent, IManifestFetchEnd, IManifestFetchErrorEvent, ITraverseEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -31,7 +32,7 @@ const rule: IRuleBuilder = {
         const manifestExists = async (data: IElementFoundEvent) => {
             const { element, resource } = data;
 
-            if (element.getAttribute('rel') !== 'manifest') {
+            if (normalizeString(element.getAttribute('rel')) !== 'manifest') {
 
                 return;
             }
@@ -78,7 +79,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'pwa',
-            description: 'Provide a web app manifest file'
+            description: 'Require a web app manifest'
         },
         fixable: 'code',
         recommended: true,
