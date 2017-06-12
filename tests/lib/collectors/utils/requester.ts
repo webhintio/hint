@@ -37,7 +37,7 @@ test.afterEach.always((t) => {
 
 /** Supported encodings to test. `iconv-lite` supports more (as well as us)
  * but these are the most common that we want to verify
- * https://github.com/MicrosoftEdge/Sonar/issues/89#issuecomment-292480515
+ * https://github.com/sonarwhal/sonar/issues/89#issuecomment-292480515
  */
 
 const supportedEncodings = [

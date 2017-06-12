@@ -250,7 +250,7 @@ class CDPCollector implements ICollector {
             }
         } catch (e) {
             debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
-            /* HACK: This is to make https://github.com/MicrosoftEdge/Sonar/pull/144 pass.
+            /* HACK: This is to make https://github.com/sonarwhal/sonar/pull/144 pass.
                 There are some concurrency issues at the moment that are more visible in low powered machines and
                 when the CPU is highly used. The problem is most likely related to having pending requests but
                 the analysis has finished already. The `setTimeout` in `onLoadEventFired` might be partially

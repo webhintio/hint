@@ -1,9 +1,3 @@
----
-title: Changelog | sonar
-tocTitle: changelog
-category: about
-permalink: about/changelog.html
----
 # Changelog
 
 sonar is currently in active development with lots of moving pieces. Once it

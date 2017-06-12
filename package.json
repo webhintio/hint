@@ -137,7 +137,7 @@
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint --ext md --ext ts --ignore-pattern dist/* .",
-    "lint:md": "markdownlint ./.github CHANGELOG.md CODE_OF_CONDUCT.md README.md docs",
+    "lint:md": "markdownlint ./.github docs",
     "prepublishOnly": "npm i && npm run build",
     "site": "node dist/src/bin/sonar",
     "test": "npm run lint && npm run build && nyc ava",

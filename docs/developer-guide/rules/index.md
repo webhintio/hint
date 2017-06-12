@@ -1,15 +1,20 @@
 # How to develop a rule
 
-To create a new rule you just need to:
+A `rule` is a check that sonar will validate. The API should be flexible enough
+to allow you to implement anything you want easily:
 
-1\) Create a `<rule_name>.ts` file in a folder with the same name
-of the rule file (e.g.: `src/rules/<rule_name>/<rule_name>.ts`).
+* validate that all links are `https`,
+* integrate with a third party service,
+* inject JavaScript to execute in the context of the page
+* etc.
 
-2\) Have the following template:
+If there is something you want to do and you can't or it is not clear how to do
+it, please open an issue.
+
+The following is a basic template for a core rule (you might need to adapt the
+paths in your case):
 
 ```ts
-import * from '../../utils/rule-helpers';
-// The list of types depends on the [events](../events/list-of-events.md) you want to capture.
 import { IFetchEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -25,18 +30,80 @@ const rule: IRuleBuilder = {
             // Code to validate the rule on the event targetfetch::end.
         }
 
+        const validateElement = (element: IElementFoundEvent) => {
+            // Code to validate the rule on the event element::element-type.
+        }
+
         return {
+          'element': validateElement,
           'fetch::end': validateFetchEnd,
           'targetfetch::end': validateTargetFetchEnd
           // As many events as you need, you can see the
-          // list of events [here](../events/list-of-events.md).
+          // list of events [here](../collectors/events.md).
       };
     },
     meta: {}
 }
 ```
 
-> More content here
+Rules are executed via [events](../collectors/events.md). There are several
+events exposed by the collectors. The way to indicate which ones the rule cares
+about is via the method `create`. This method returns an objects whose keys
+are the names of the events and the values the event handlers:
+
+```json
+{
+    "eventName1": "eventHandler1",
+    "eventName2": "eventHandler2"
+}
+```
+
+There is no limit in the number of events a rule can listen to, but you want
+to keep it as simple as possible.
+
+Rule constructors receive a `context` object that makes it easier to interact
+with the website and report errors.
+
+To report an error, the rule has to do the following:
+
+```ts
+await context.report(resource, element, message);
+```
+
+* `context.report()` is an asynchronous method, you should always `await`.
+* `resource` is the URL of what is being analyzed (HTML, JS, CSS, manifest,
+  etc.)
+* `element` is the `IAsyncHTMLElement` that triggered the problem. Not always
+  necessary. In the case of an image, script, style, it will be an `img`,
+  `script`, `link`, etc.
+
+On top or reporting errors, the `context` object exposes more information
+to enable more complex scenarios. Some of the following sections describe them.
+
+## The `meta` property
+
+Rules have an object `meta` that defines several properties:
+
+```json
+{
+    "docs": {
+            "category": "string",
+            "description": "string"
+    },
+    "recommended": "boolean", // If the rule is part of the recommended options
+    "schema": ["json schema"], // An array of valid JSON schemas
+    "worksWithLocalFiles": "boolean" // If the rule works with `file://`
+}
+```
+
+One of the most useful properties is `schema`. This property specifies if the
+rule allows the user to configure it (other than the severity). By default it
+should be an empty array if it doesn't, or an array of valid [JSON schemas](http://json-schema.org/).
+These schemas will be used when validating a `.sonarrc` file. As long as there
+is one of the schemas that passes, the configuration will be valid. This allows
+writting simpler templates.
+
+The rule can access the custom configuration via `context.ruleOptions`.
 
 ## Target specific browsers
 
@@ -47,7 +114,7 @@ executed or not.
 <!-- eslint-disable no-unused-vars -->
 
 ```js
-const validateFetchEnd = (fetchEnd) => {
+const validate = (fetchEnd) => {
     if (!context.targetedBrowsers.includes('Edge 14')) {
         return;
     }
@@ -72,46 +139,6 @@ The recommended way to implement a rule like this is to subscribe
 to the event `scan::end`. If your rule receives that event and has
 not run any validation you should report it.
 
-## Interact with other services
-
-You can develop a rule that integrates with other services. `sonar`
-integrates with a few like `ssllabs`.
-Because these online tools usually take a few seconds to return the
-results the guidance is to start the analysis as soon as possible
-and then collect the results as late as possible. This means you
-will have to listen to `scan::start` and `scan::end`
-events respectively.
-The `create` method of your rule should be similar to the following:
-
-```ts
-create(context: RuleContext): IRule {
-    /** The promise that represents the connection to the online service. */
-    let promise: Promise<any>;
-
-    const start = (data: IScanStartEvent) => {
-        // Initialize promise to service here but do not return it.
-    };
-
-    const end = (data: IScanEndEvent): Promise<any> => {
-        return promise
-            .then((results) => {
-                // Report any results via `context.report` here.
-            })
-            .catch((e) => {
-                // Always good to handle errors.
-            });
-    };
-
-    return {
-        'scan::start': start,
-        'scan::end': end
-    };
-},
-```
-
-In case you need a more complete example, please look at the
-`ssllabs.ts` source code.
-
 ## Evaluate JavaScript in the page context
 
 Sometimes a rule needs to evaluate some JavaScript in the context of
@@ -122,8 +149,6 @@ One important thing is that your code needs to be wrapped in an
 immediate invoked function expression (IIFE)
 
 The following scripts will work:
-
-<!-- eslint-disable -->
 
 ```js
 const script =
@@ -172,4 +197,177 @@ const rule = {
         ignoredCollectors: ['jsdom']
     }
 };
+```
+
+## Interact with other services
+
+You can develop a rule that integrates with other services. `sonar`
+integrates with a few like `ssllabs`.
+Because these online tools usually take a few seconds to return the
+results the guidance is to start the analysis as soon as possible
+and then collect the results as late as possible. This means you
+will have to listen to `scan::start` and `scan::end`
+events respectively.
+The `create` method of your rule should be similar to the following:
+
+```ts
+create(context: RuleContext): IRule {
+    /** The promise that represents the connection to the online service. */
+    let promise: Promise<any>;
+
+    const start = (data: IScanStartEvent) => {
+        // Initialize promise to service here but do not return it.
+    };
+
+    const end = (data: IScanEndEvent): Promise<any> => {
+        return promise
+            .then((results) => {
+                // Report any results via `context.report` here.
+            })
+            .catch((e) => {
+                // Always good to handle errors.
+            });
+    };
+
+    return {
+        'scan::start': start,
+        'scan::end': end
+    };
+}
+```
+
+In case you need a more complete example, please look at the
+`ssllabs.ts` source code.
+
+## How to test a rule
+
+Testing a new rule is really easy if you use `rule-runner.ts`.
+You just need to:
+
+1. Create a `tests.ts` file in a folder with the name of the rule
+   (e.g.: `src/tests/rules/<rule-id>/tests.ts`)
+1. Have the following template:
+
+```ts
+import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import * as ruleRunner from '../../../helpers/rule-runner';
+import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
+
+const ruleName = getRuleName(__dirname);
+
+const tests: Array<RuleTest> = [
+    {
+        name: 'Name of the tests',
+        serverConfig: 'HTML to use',
+        reports: [{
+            message: 'Message the error will have',
+            position: { column: 0, line: 0 } // Where the error will show.
+        }]
+    },
+    { ... }
+];
+
+ruleRunner.testRule(ruleName, tests);
+```
+
+The signature of `ruleRunner.testRule` is:
+
+* `ruleName`, the name of the rule.
+* `tests`, an `Array<RuleTest>`.
+* `ruleConfig`, (optional) to modify the defaults of the rule.
+* `serial`, (optional, defaults to `false`) to run the tests of that
+  rule serially.
+
+`serverConfig` can be of different types depending on particular needs:
+
+* `string` containing the response for `/` (HTML, plain text, etc.).
+* `object` with paths as properties names and their content as values:
+
+<!-- eslint-disable no-unused-vars -->
+
+```js
+  const serverConfig = {
+      '/': 'some HTML here',
+      'site.webmanifest': 'other content'
+  };
+```
+
+You can even specify the headers and status code for the response for
+a specific path, by using the `headers` and `status` properties:
+
+<!-- eslint-disable no-unused-vars -->
+
+```js
+const serverConfig = {
+    '/': 'page content goes here...',
+    '/example.js': {
+        content: 'script content goes here...',
+        headers: {
+            'Content-Type': 'application/javascript; charset=utf-8',
+            Header: 'value'
+            // ...
+        },
+        status: statusCode
+    }
+};
+```
+
+Notes:
+
+* If `content` is not specified, it will default to an empty string `''`.
+* To remove any of the default HTTP response headers, just set their
+  value to `null` (e.g.: `headers: { '<response_header>': null }`).
+* `status` defaults to `200`, so it only needs to be specified if its
+  value is different.
+
+`rule-runner` will automatically test the rule in all the supported
+collectors.
+
+### Throwing an error
+
+If you need to force an error in the `collector` when visiting a URL
+you just have to make the content `null`. This will force a redirect
+to `test://fail`, thus, causing an exception.
+
+### Testing an external url
+
+If you need to test an external resource (because you are integrating
+with a third party service) you need to use the property `serverUrl`:
+
+```ts
+const tests: Array<RuleTest> = [
+      {
+          name: 'Name of the tests',
+          serverUrl: 'https://example.com',
+          reports: [{
+              message: 'Message the error will have'
+          }]
+      },
+      { ... }
+  ];
+```
+
+### Execute code `before` or `after` collecting the results
+
+In some scenarios you need to execute some code `before` or `after`
+the actual tests (e.g.: if you need to mock a dependency). For those
+cases you can use the `before` and `after` properties of `RuleTest`:
+
+```ts
+const tests: Array<RuleTest> = [
+      {
+          after() {
+              // Code to execute right before calling `collector.close` goes here.
+          }
+          before() {
+              // Code to execute before the creation of the sonar object here.
+          },
+          name: 'Name of the tests',
+          serverUrl: 'https://example.com',
+          reports: [{
+              message: 'Message the error will have'
+          }]
+      },
+      { ... }
+  ];
 ```

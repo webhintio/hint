@@ -11,7 +11,7 @@ Links that have `target="_blank"`, such as
 
 * [a security problem](https://mathiasbynens.github.io/rel-noopener/)
 
-  When using `typeof="_blank"` the page that was linked to gains access
+  When using `target="_blank"` the page that was linked to gains access
   to the original page's [`window.opener`](https://developer.mozilla.org/en-US/docs/Web/API/Window/opener).
   This allows it to redirect the original page to whatever it wants,
   like for example, a phishing page designed to look like a real page

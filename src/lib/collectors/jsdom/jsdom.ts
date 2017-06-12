@@ -395,7 +395,7 @@ class JSDOMCollector implements ICollector {
         } catch (e) {
             // We could have some pending network requests and this could fail.
             // Because the process is going to end so we don't care if this fails.
-            // https://github.com/MicrosoftEdge/Sonar/issues/203
+            // https://github.com/sonarwhal/sonar/issues/203
             debug(`Exception ignored while closing JSDOM collector (most likely pending network requests)`);
             debug(e);
         }

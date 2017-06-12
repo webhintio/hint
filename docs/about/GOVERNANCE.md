@@ -1,9 +1,3 @@
----
-title: Governance | sonar
-tocTitle: governance
-category: about
-permalink: about/governance.html
----
 # Governance
 
 sonar is an open source project that depends on contributions from the

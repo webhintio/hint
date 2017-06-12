@@ -1,9 +1,3 @@
----
-title: Frequently asked questions | sonar
-tocTitle: faq
-category: about
-permalink: about/faq.html
----
 <!-- markdownlint-disable MD026 -->
 
 # FAQ
@@ -41,7 +35,7 @@ difficulty level. Also don't hesitate to ask for help.
 
 ## What browsers are supported?
 
-sonar currently supports [JSDOM](https://github.com/tmpvar/jsdom), Chrome, and Edge 15.
+sonar currently supports [jsdom](https://github.com/tmpvar/jsdom), Chrome, and Edge 15.
 We hope to add support for Firefox soon. If your favorite browser is not
 supported you can always
 [develop a collector](/docs/developer-guide/collectors/index.md) for it!
@@ -53,7 +47,7 @@ Editor plugins are not yet available, but it is high in our priority list.
 ## Is there an online service?
 
 Currently there isn't an online service, but having one is part of our
-priorities for the V1.
+priorities for the v1.
 
 ## What is the logo?
 

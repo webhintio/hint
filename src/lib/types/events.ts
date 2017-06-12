@@ -78,9 +78,18 @@ export interface IElementFound {
     element: IAsyncHTMLElement;
 }
 
+/** The object emitted by a collector on `manifestfetch::error`. */
 export interface IManifestFetchError {
     resource: string;
+    /** The error when downloading the manifest.  */
     error: Error
 }
 
+/** The object emitted by a collector on `manifestfetch::missing`. */
+export interface IManifestFetchMissingEvent {
+    /** The URL of the web manifest. */
+    resource: string;
+}
+
+/** The object emitted by a collector on ` manifestfetch::end`. */
 export type IManifestFetchEnd = IFetchEnd;
