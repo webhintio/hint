@@ -8,24 +8,24 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 const ruleName = getRuleName(__dirname);
 
 const htmlPageWithLessThan256bytes = generateHTMLPage(undefined,
-       `&lt; 256 bytes
-        สวัสดีค่ะ 你好 もしもし مرحبا 🐛`);
+    `&lt; 256 bytes
+     สวัสดีค่ะ 你好 もしもし مرحبا 🐛`);
 
 const htmlPageWithLessThan512bytes = generateHTMLPage(undefined,
-       `<h1>This pages has over 256 bytes but less the 512 bytes</h1>
-        <p>สวัสดีค่ะ 你好 もしもし مرحبا</p>
-        <p>🐛🐛🐛🐛🐛</p>`);
+    `<h1>This pages has over 256 bytes but less the 512 bytes</h1>
+     <p>สวัสดีค่ะ 你好 もしもし مرحبا</p>
+     <p>🐛🐛🐛🐛🐛</p>`);
 
 const htmlPageWithMoreThan512bytes = generateHTMLPage(undefined,
-       `<h1>This pages has more than 512 bytes</h1>
-        <p>สวัสดีค่ะ 你好 もしもし مرحبا</p>
-        <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
-        <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
-        <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
-        <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
-        <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
-        <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
-        <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>`);
+    `<h1>This pages has more than 512 bytes</h1>
+     <p>สวัสดีค่ะ 你好 もしもし مرحبا</p>
+     <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
+     <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
+     <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
+     <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
+     <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
+     <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>
+     <p>🐛🐛🐛🐛🐛🐛🐛🐛</p>`);
 
 const statusCodesWith256Threshold = [403, 405, 410];
 const statusCodesWith512Threshold = [400, 404, 406, 408, 409, 500, 501, 505];

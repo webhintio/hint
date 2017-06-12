@@ -164,7 +164,7 @@ class JSDOMConnector implements IConnector {
             const traverseDown: ITraverseDown = { resource: this._finalHref };
 
             await this._server.emitAsync(`traversing::down`, traverseDown);
-            await this.traverseAndNotify(child);  // eslint-disable-line no-await-for
+            await this.traverseAndNotify(child); // eslint-disable-line no-await-for
 
         }
 
@@ -175,7 +175,7 @@ class JSDOMConnector implements IConnector {
         return Promise.resolve();
     }
 
-    //TODO: resourceLoader is async but also needs the callback because of jsdom library
+    // TODO: resourceLoader is async but also needs the callback because of jsdom library
     /** Alternative method to download resource for `JSDOM` so we can get the headers. */
     private async resourceLoader(resource: { element: HTMLElement, url: URL }, callback: Function) {
         let resourceUrl: string = resource.url.href;

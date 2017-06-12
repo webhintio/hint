@@ -107,6 +107,7 @@ export class Connector implements IConnector {
                     /* This could happen if the url is relative and we are adding the domain.*/
                     return elements[0];
                 }
+
                 // No elements initiated the request. Maybe because of extension?
                 return null;
             }
@@ -243,13 +244,13 @@ export class Connector implements IConnector {
             const encoding = base64Encoded ? 'base64' : 'utf8';
 
             content = body;
-            rawContent = new Buffer(body, encoding);
+            rawContent = Buffer.from(body, encoding);
 
             if (rawContent.length.toString() === cdpResponse.response.headers['Content-Length']) {
                 // Response wasn't compressed so both buffers are the same
                 rawResponse = rawContent;
             } else {
-                rawResponse = null; //TODO: Find a way to get this data
+                rawResponse = null; // TODO: Find a way to get this data
             }
         } catch (e) {
             debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
@@ -379,7 +380,7 @@ export class Connector implements IConnector {
             const traverseDown: ITraverseDown = { resource: this._finalHref };
 
             await this._server.emitAsync(`traverse::down`, traverseDown);
-            await this.traverseAndNotify(child);  // eslint-disable-line no-await-for
+            await this.traverseAndNotify(child); // eslint-disable-line no-await-for
         }
 
         const traverseUp: ITraverseUp = { resource: this._finalHref };
@@ -420,14 +421,14 @@ export class Connector implements IConnector {
             to create it ourselves. */
         if (launcher.isNew) {
             // Chrome Launcher return also some extensions tabs but we don't need them.
-            const tabs = _.filter(await cdp.List({ port: launcher.port }), (tab: any) => { //eslint-disable-line new-cap
+            const tabs = _.filter(await cdp.List({ port: launcher.port }), (tab: any) => { // eslint-disable-line new-cap
                 return !tab.url.startsWith('chrome-extension');
             });
 
             client = await this.getClient(launcher.port, tabs[0]);
             this._tabs = tabs;
         } else {
-            const tab = await cdp.New({ port: launcher.port }); //eslint-disable-line new-cap
+            const tab = await cdp.New({ port: launcher.port }); // eslint-disable-line new-cap
 
             this._tabs.push(tab);
 
@@ -442,7 +443,7 @@ export class Connector implements IConnector {
                         }
                     }
 
-                    return -1; //We should never reach this point...
+                    return -1; // We should never reach this point...
                 }
             });
         }
@@ -677,13 +678,15 @@ export class Connector implements IConnector {
         };
     }
 
+    /* eslint-disable indent */
     /**
-     * The `exceptionDetails` provided by the debugger protocol does not contain the useful
-     * information such as name, message, and stack trace of the error when it's wrapped in a
-     * promise. Instead, map to a successful object that contains this information.
-     * @param {string|Error} err The error to convert
-     * istanbul ignore next
+     * The `exceptionDetails` provided by the debugger protocol
+     * does not contain the useful information such as name, message,
+     * and stack trace of the error when it's wrapped in a promise.
+     * Instead, map to a successful object that contains this information.
+     * @param {string|Error} err The error to convert istanbul ignore next
      */
+    /* eslint-enable indent */
     private wrapRuntimeEvalErrorInBrowser(e) {
         const err = e || new Error();
         const fallbackMessage: string = typeof err === 'string' ? err : 'unknown error';

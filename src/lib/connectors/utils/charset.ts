@@ -1,4 +1,4 @@
-import { parse, MediaType } from 'content-type'; //eslint-disable-line no-unused-vars
+import { parse, MediaType } from 'content-type'; // eslint-disable-line no-unused-vars
 
 import { debug as d } from '../../utils/debug';
 

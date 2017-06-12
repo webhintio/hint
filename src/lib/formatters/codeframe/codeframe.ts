@@ -56,7 +56,7 @@ const codeFrame = (code: string, location: IProblemLocation) => {
         if (i === 1 || !canTrim) {
             result = codeInLines[i];
         } else {
-            //The first line doesn't have spaces but the other elements keep the original format
+            // The first line doesn't have spaces but the other elements keep the original format
             result = codeInLines[i].substr(whiteSpacesToRemove);
         }
 

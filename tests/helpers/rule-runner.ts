@@ -120,10 +120,10 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
 
             return validateResults(t, results, reports);
         },
-            {
-                minTimeout: 10000,
-                retries: 3
-            });
+        {
+            minTimeout: 10000,
+            retries: 3
+        });
     };
 
     const rule = resourceLoader.loadRule(ruleId);

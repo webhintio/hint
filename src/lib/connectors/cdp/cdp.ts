@@ -10,9 +10,9 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html'; //eslint-disable-line no-unused-vars
+import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html'; // eslint-disable-line no-unused-vars
 import { Connector } from '../shared/remote-debugging-connector';
-import { IConnector, IConnectorBuilder, ILauncher } from '../../types'; //eslint-disable-line no-unused-vars
+import { IConnector, IConnectorBuilder, ILauncher } from '../../types'; // eslint-disable-line no-unused-vars
 import { CDPLauncher } from './cdp-launcher';
 
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars

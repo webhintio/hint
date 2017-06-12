@@ -8,12 +8,12 @@ import * as stripBom from 'strip-bom';
 import * as requireUncached from 'require-uncached';
 import * as stripComments from 'strip-json-comments';
 
-import { IAsyncHTMLElement } from '../types'; //eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement } from '../types'; // eslint-disable-line no-unused-vars
 import { debug as d } from './debug';
 const debug: debug.IDebugger = d(__filename);
 
 // const readdir = promisify(fs.readdir);
-const readdir = fs.readdirSync; //eslint-disable-line no-sync
+const readdir = fs.readdirSync; // eslint-disable-line no-sync
 
 /** Cut a given string adding ` … ` in the middle.
  * The default length is 50 characters.

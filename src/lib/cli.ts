@@ -20,7 +20,7 @@ import * as ora from 'ora';
 import * as Config from './config';
 import { debug as d } from './utils/debug';
 import { getAsUris } from './utils/get-as-uri';
-import { CLIOptions, IConfig, IFormatter, IORA, IProblem, URL } from './types'; //eslint-disable-line no-unused-vars
+import { CLIOptions, IConfig, IFormatter, IORA, IProblem, URL } from './types'; // eslint-disable-line no-unused-vars
 import { loadJSONFile } from './utils/misc';
 import * as logger from './utils/logging';
 import { cutString } from './utils/misc';

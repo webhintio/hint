@@ -13,7 +13,7 @@ import { promisify } from 'util';
 import * as inquirer from 'inquirer';
 
 import { debug as d } from '../utils/debug';
-import { IConfig, IRuleBuilder } from '../types'; //eslint-disable-line no-unused-vars
+import { IConfig, IRuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
 import * as logger from '../utils/logging';
 import * as resourceLoader from '../utils/resource-loader';
 

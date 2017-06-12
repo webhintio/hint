@@ -10,7 +10,7 @@
 import * as schemaValidator from 'is-my-json-valid/require';
 
 import { debug as d } from '../utils/debug';
-import { IConfig } from '../types'; //eslint-disable-line no-unused-vars
+import { IConfig } from '../types'; // eslint-disable-line no-unused-vars
 import * as logger from '../utils/logging';
 
 const debug = d(__filename);

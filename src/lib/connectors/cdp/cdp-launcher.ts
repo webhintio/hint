@@ -12,13 +12,13 @@
 
 /* eslint-disable no-sync */
 
-import { spawn } from 'child_process'; //eslint-disable-line no-unused-vars
+import { spawn } from 'child_process'; // eslint-disable-line no-unused-vars
 
 import * as chromeLauncher from 'chrome-launcher';
 import * as isCI from 'is-ci';
 
 import { Launcher } from '../shared/launcher';
-import { BrowserInfo, LauncherOptions } from '../../types'; //eslint-disable-line no-unused-vars
+import { BrowserInfo, LauncherOptions } from '../../types'; // eslint-disable-line no-unused-vars
 
 
 export class CDPLauncher extends Launcher {

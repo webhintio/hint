@@ -204,7 +204,7 @@ export class Sonar extends EventEmitter {
 
             if (ignoreConnector(rule)) {
                 debug(`Rule "${id}" is disabled for the connector "${this.connectorId}"`);
-                //TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
+                // TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
                 logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the connector "${this.connectorId}"`));
             } else if (severity) {
                 const context: RuleContext = new RuleContext(id, this, severity, ruleOptions, rule.meta);

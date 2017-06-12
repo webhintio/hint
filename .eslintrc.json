@@ -48,6 +48,7 @@
         "dot-notation": "error",
         "eol-last": "error",
         "eqeqeq": "error",
+        "for-direction": "error",
         "func-call-spacing": "error",
         "func-names": "off",
         "func-style": ["error", "expression"],
@@ -67,17 +68,15 @@
         "keyword-spacing": "error",
         "linebreak-style": "off",
         "lines-around-comment": "off",
-        "lines-around-directive": "error",
         "max-len": "off",
         "max-nested-callbacks": ["error", 5],
         "max-statements-per-line": "error",
         "new-cap": "error",
         "new-parens": "error",
-        "newline-after-var": "error",
-        "newline-before-return": "error",
         "newline-per-chained-call": "error",
         "no-alert": "error",
         "no-array-constructor": "error",
+        "no-buffer-constructor": "error",
         "no-caller": "error",
         "no-case-declarations": "error",
         "no-catch-shadow": "error",
@@ -193,11 +192,7 @@
         "no-var": "error",
         "no-void": "off",
         "no-warning-comments": ["warn", {
-            "terms": [
-                "todo",
-                "fixme",
-                "xxx"
-            ],
+            "terms": [ "fixme" ],
             "location": "start"
         }],
         "no-with": "error",
@@ -212,6 +207,15 @@
         "one-var": "off",
         "operator-assignment": ["error", "always"],
         "operator-linebreak": ["error", "after"],
+        "padding-line-between-statements": [ "error",
+            { "blankLine": "always", "prev": "*", "next": "return" },
+
+            { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*"},
+            { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"]},
+
+            { "blankLine": "always", "prev": "directive", "next": "*" },
+            { "blankLine": "any", "prev": "directive", "next": "directive" }
+        ],
         "prefer-arrow-callback": "error",
         "prefer-const": "error",
         "prefer-numeric-literals": "error",
@@ -227,6 +231,7 @@
             "after": true
         }],
         "semi": ["error", "always"],
+        "semi-style": ["error", "last"],
         "sort-keys": "error",
         "sort-vars": "off",
         "spaced-comment": ["error", "always"],
@@ -236,6 +241,7 @@
             "nonwords": false
         }],
         "strict": ["error", "never"], // We are using alwaysStrict=true as a compiler option of TS
+        "switch-colon-spacing": ["error", { "after" : true, "before" : false }],
         "template-curly-spacing": "error",
         "use-isnan": "error",
         "unicode-bom": "error",
