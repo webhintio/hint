@@ -71,7 +71,7 @@ const rule: IRuleBuilder = {
             // TODO: In the future, only recommended `noreferrer`
             // if target browsers don't support `noopener`.
             //
-            // https://github.com/MicrosoftEdge/Sonar/issues/134
+            // https://github.com/sonarwhal/sonar/issues/134
 
             ['noopener', 'noreferrer'].forEach((e) => {
                 if (!relValues.includes(e)) {

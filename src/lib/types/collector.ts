@@ -20,11 +20,10 @@ export interface ICollector {
     collect(target: url.Url): Promise<any>;
     /** Releases any used resource and/or browser. */
     close(): Promise<void>;
-    /** A way for you to make requests if needed. */
+    /** Download an external resource using ` customHeaders` if needed. */
     fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData>;
-    /** Evaluates the give JavaScript asynchronously in the target. */
-    evaluate(source: string): Promise<any>;
-
-    querySelectorAll(source: string): Promise<IAsyncHTMLElement[]>
-
+    /** Evaluates the given JavaScript `code` asynchronously in the target. */
+    evaluate(code: string): Promise<any>;
+    /** Finds all the nodes that match the given query. */
+    querySelectorAll(query: string): Promise<IAsyncHTMLElement[]>
 }

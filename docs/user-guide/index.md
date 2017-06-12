@@ -38,15 +38,35 @@ them and you will end up with something similar to the following:
 }
 ```
 
+Then you just have to run the following command to scan a website:
+
+```bash
+sonar https://example.com
+```
+
+Wait a few seconds and you will get the results. It might take a while
+to get some of the results. Some of the rules can take a few minutes to
+report the results (e.g.: [`SSL Labs`](./rules/ssllabs.md)).
+
+Now that you have your first result, is time to learn a bit more about
+the different pieces:
+
+* [Rules](#rules)
+* [Collectors](#collectors)
+* [Formatters](#formatters)
+
 ## Rules
 
 A `rule` is a test that your website needs to pass. `sonar` comes with
 a few [built in ones](./rules/), but you can easily create your own or
-download them from `npm`.
+download them from `npm`. You can read more about
+[how to create rules in the developer guide](../developer-guide/rules/index.md).
 
 ### Rule configuration
 
-Rule severity can be one of the following:
+When using sonar, you are always in control. This means that you can
+decide what rules are relevant to your use case and what severity a rule
+should have:
 
 * `off`: The rule will not be executed. This is the same as not having
   the rule under the `rules` section of a `.sonarrc` file.
@@ -70,16 +90,17 @@ in that case it will be similar to the following:
 You can check which rules accept this kind of configuration by
 visiting the [rules documentation](./rules/).
 
-Sometimes you want to enable a rule but not for all the domains
-a website depends on. For example, if your website loads some external
-library from a CDN you might not have control over the HTTP headers
-sent. To disable some rules for just some specific domains you need to
-add a `ignoredUrls` to your `.sonarrc` file:
+Sometimes you don't have control over all the infrastructure and there
+is nothing you can do about it. Reporting errors in those cases just
+generates noise and frustration. Instead of globally disabling a rule
+you might just want to turn it off for a domain, or directly ignore
+completely one (like a third party analytics, ads, etc.). To achieve
+this you need to add the `ignoredUrls` property to your `.sonarrc` file:
 
 ```json
 "ignoredUrls": {
-    ".*\\.domain1\\.com/.*": ["*"], // Apply to all the rules, events won't be emitted for that URLs.
-    "www.domain2.net": ["disallowed-headers"] // Just apply to the rule `disallowed-headers`.
+    ".*\\.domain1\\.com/.*": ["*"],
+    "www.domain2.net": ["disallowed-headers"]
 }
 ```
 
@@ -101,10 +122,11 @@ strings can be:
 
 In the previous example we will:
 
-* Ignore all rules for any resource that matches the regex `.*\\.domain1\\.com/.*`.
+* Ignore all rules for any resource that matches the regex
+  `.*\\.domain1\\.com/.*`.
 * Ignore the rule `disallowed-headers` for the domain `www.domain2.net`.
 
-## Rules timeout
+### Rules timeout
 
 Even though rules are executed in parallel, sometimes one can take too
 long and prevent `sonar` to finish (e.g.: when using an external service,
@@ -114,17 +136,42 @@ To prevent this situation, each rule needs to finish in under 2 minutes.
 You can modify this threshold by using the property `rulesTimeout` in
 your `.sonarrc` file.
 
+## Browser configuration
+
+sonar allows you to define your browser support matrix by adding the property
+`browserlist` to your `.sonarrc` file. This property follows the same
+convention as [`browserlist`](https://github.com/ai/browserslist):
+
+```json
+{
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}
+```
+
+By specifying this property, you are giving more information to the rules and
+they might decide to adapt their behavior. An example of a rule taking
+advantageSome of this property is
+[`highest-available-document-mode`](./rules/highest-available-document-mode.md).
+This rule will advice you to use `edge` mode if you need to support versions of
+IE prior IE10, or tell you to remove that tag or header it you only need IE11+
+because document modes were removed at that version.
+
 ## Collectors
 
 A `collector` is the interface between the `rule`s and the website
-you are testing. `sonar` currently supports the following `collector`s:
+you are testing.
 
 To configure a collector you need to update your `.sonarrc` file to
 make it look like the following:
 
 ```json
-"collector": {
-    "name": "collectorName"
+{
+    "collector": {
+        "name": "collectorName"
+    }
 }
 ```
 
@@ -142,7 +189,7 @@ property with the values you want to modify:
 }
 ```
 
-The [`collector`s documentation](./collectors/) has more information
+The [`collector`s documentation](./collectors/index.md) has more information
 of what can be configured in each one.
 
 ## Formatters
@@ -152,5 +199,5 @@ transforms them to be consumed by the user. A `formatter` can output
 the results via the `console` in different formats, a `JSON` file,
 `XML`, etc.
 
-Please see [the current list of supported `formatter`s](./formatters/)
+Please see [the current list of supported `formatter`s](./formatters/index.md)
 to know more.

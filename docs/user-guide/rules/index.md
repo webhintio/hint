@@ -1,4 +1,4 @@
-# Rules
+# Rules categories
 
 * [Accessibility (a11y)](#accessibility)
 * [Interoperability](#interoperability)

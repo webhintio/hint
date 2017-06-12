@@ -8,6 +8,9 @@ the events common to all `collector`s, with their signature, and the
 * [`fetch::end`](#fetchend)
 * [`fetch::error`](#fetcherror)
 * [`fetch::start`](#fetchstart)
+* [`manifestfetch::end`](#manifestfetchend)
+* [`manifestfetch::error`](#manifestfetcherror)
+* [`manifestfetch::start`](#manifestfetchstart)
 * [`scan::end`](#scanend)
 * [`scan::start`](#scanstart)
 * [`targetfetch::end`](#targetfetchend)
@@ -60,7 +63,7 @@ export interface IFetchEnd {
 
 ## `fetch::error`
 
-Event is emitted **when** the `collector` has encounter a problem
+Event is emitted **when** the `collector` has encountered a problem
 downloading the content of a `resource`.
 
 **Format:**
@@ -87,6 +90,62 @@ to fetch the `target`.
 
 ```ts
 export interface IFetchStart {
+    /** The URL to download */
+    resource: string;
+}
+```
+
+**Note:** The event is the same for [`targetfetch::start`](#targetfetchstart).
+
+## `manifestfetch::end`
+
+Event is emitted **when** the `collector` has finished downloading
+the web manifest of a page.
+
+**Format:**
+
+```ts
+export interface IFetchEndEvent {
+    /** The element that initiated the request. */
+    element: IAsyncHTMLElement;
+    /** The URL of the target */
+    resource: string;
+    /** The request made to fetch the target. */
+    request: IRequest;
+    /** The response sent while fetching the target. */
+    response: IResponse;
+}
+```
+
+**Note:** The event is the same for [`targetfetch::end`](#targetfetchend).
+
+## `manifestfetch::error`
+
+Event is emitted **when** the `collector` has encountered a problem
+downloading the web manifest.
+
+**Format:**
+
+```ts
+export interface IFetchErrorEvent {
+    /** The URL of the target. */
+    resource: string;
+    /** The error found. */
+    error: any;
+}
+```
+
+**Note:** The event is the same for [`targetfetch::error`](#targetfetcherror).
+
+## `manifestfetch::missing`
+
+Event is emitted **when** the `collector` hasn't found any manifest to
+download.
+
+**Format:**
+
+```ts
+export interface IManifestFetchMissingEvent {
     /** The URL to download */
     resource: string;
 }
@@ -153,7 +212,7 @@ In this case `element` will be `null`.
 
 ## `targetfetch::error`
 
-Event is emitted **when** the `collector` has encounter a problem
+Event is emitted **when** the `collector` has encountered a problem
 downloading the `target`.
 
 **Format:**
@@ -175,7 +234,7 @@ In this case `element` will be `null`.
 ## `targetfetch::start`
 
 Event is emitted **when** the `collector` is about to start the
-request to fetch the `target`.
+request to fetch the `target`. Redirects are followed if needed.
 
 **Format:**
 

@@ -1,9 +1,3 @@
----
-title: Contributors | sonar
-tocTitle: contributors
-category: about
-permalink: about/contributors.html
----
 # Contributors
 
 * [Stephanie (Stimac) Drescher ![image](https://avatars1.githubusercontent.com/u/18073131?v=3&s=100)](https://github.com/ststimac)

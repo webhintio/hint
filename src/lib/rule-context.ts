@@ -50,6 +50,7 @@ export class RuleContext {
         return this.sonar.targetedBrowsers;
     }
 
+    /** Custom configuration (if any) for the given rule */
     get ruleOptions() {
         if (Array.isArray(this.options)) {
             return this.options[1];

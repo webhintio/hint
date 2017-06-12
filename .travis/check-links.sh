@@ -13,5 +13,5 @@ find . -name "*.md" \
                 --allow-dupe \
                 --allow-redirect \
                 --set-timeout 150 \
-                --white-list "example1.com,example2.com,example3.com" \
+                --white-list "example1.com,example2.com,example3.com,github.com/sonarwhal/" \
                 {} +

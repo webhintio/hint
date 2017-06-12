@@ -1,11 +1,14 @@
 # How to develop a formatter
 
-You just need to create a module that exports an object with a method
+A `formatter` is used to format the results of sonar. It can be as simple as
+just outputing the results in `JSON` format, or as complex as connecting to a
+database and storing the results in it.
+
+To create one, you just need a module that exports an object with a method
 named `format()`. This method will receive an array of `message`s if
 any issues have been found.
 
-The following is a basic `formatter` that just `.stringify()` the array
-into the console:
+The following is a basic `formatter` that just `.stringify()`s the results:
 
 ```js
 const formatter = {
