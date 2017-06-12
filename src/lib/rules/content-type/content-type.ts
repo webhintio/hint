@@ -10,14 +10,17 @@
 import * as path from 'path';
 import * as url from 'url';
 
+import { debug as d } from '../../utils/debug';
 import * as fileType from 'file-type';
 import * as isSvg from 'is-svg';
 import * as mimeDB from 'mime-db';
 import { parse } from 'content-type';
 
 import { IAsyncHTMLElement, IResponseBody, IRule, IRuleBuilder, IFetchEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
-import { normalizeString } from '../../utils/misc';
+import { isDataURI, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+
+const debug = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -171,6 +174,15 @@ const rule: IRuleBuilder = {
 
         const validate = async (fetchEnd: IFetchEndEvent) => {
             const { element, resource, response } = fetchEnd;
+
+            // This check does not make sense for data URIs.
+
+            if (isDataURI(resource)) {
+                debug(`Check does not apply for data URIs`);
+
+                return;
+            }
+
             const contentTypeHeaderValue = normalizeString(response.headers['content-type']);
 
             // Check if the `Content-Type` header was sent.
@@ -254,7 +266,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: 'interoperability',
-            description: 'Required `Content-Type` header with appropriate value'
+            description: 'Require `Content-Type` header with appropriate value'
         },
         fixable: 'code',
         recommended: true,

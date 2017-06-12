@@ -51,6 +51,10 @@ const testsForDefaults: Array<RuleTest> = [
             '/test.css': { headers: { 'Content-Type': null } }
         }
     },
+    {
+        name: `Resource is specified as a data URI`,
+        serverConfig: { '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">')) }
+    },
 
     // `Content-Type` value contains invalid media type.
 

@@ -7,10 +7,8 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as url from 'url';
-
 import { IAsyncHTMLDocument, IRule, IRuleBuilder, ITraverseEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
-import { normalizeString } from '../../utils/misc';
+import { isLocalFile, normalizeString } from '../../utils/misc';
 import { parse } from 'content-type';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -38,7 +36,7 @@ const rule: IRuleBuilder = {
             // If it's a local file, just presume it's a HTML document.
             // TODO: Change this!
 
-            if (url.parse(targetURL).protocol === 'file:') {
+            if (isLocalFile(targetURL)) {
                 return true;
             }
 

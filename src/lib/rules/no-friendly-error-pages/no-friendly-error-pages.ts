@@ -11,6 +11,7 @@ import * as url from 'url';
 
 import { debug as d } from '../../utils/debug';
 import { IFetchEndEvent, ITraverseEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { isDataURI } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -40,20 +41,18 @@ const rule: IRuleBuilder = {
         const statusCodesWith256Threshold = [403, 405, 410];
         const statusCodesWith512Threshold = [400, 404, 406, 408, 409, 500, 501, 505];
 
-
         const checkForErrorPages = (fetchEnd: IFetchEndEvent) => {
-
             const { resource, response } = fetchEnd;
-            const statusCode = response.statusCode;
 
-            // Ignore requests to local files.
+            // This check does not make sense for data URI.
 
-            if (!statusCode) {
-                debug(`Ignore request to local file: ${resource}`);
+            if (isDataURI(resource)) {
+                debug(`Check does not apply for data URI: ${resource}`);
 
                 return;
             }
 
+            const statusCode = response.statusCode;
             const size = (response.body.rawContent || []).length;
 
             // This rule doesn't care about individual responses, only
@@ -145,7 +144,7 @@ const rule: IRuleBuilder = {
         fixable: 'code',
         recommended: true,
         schema: [],
-        worksWithLocalFiles: true
+        worksWithLocalFiles: false
     }
 };
 

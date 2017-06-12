@@ -36,6 +36,10 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
+        name: `Resource is specified as a data URI`,
+        serverConfig: { '/': generateHTMLPage(undefined, '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">') }
+    },
+    {
         name: `HTML page is served with one disallowed header`,
         reports: [{ message: generateMessage(['x-powered-by']) }],
         serverConfig: { '/': { headers: { 'X-Powered-By': 'test' } } }

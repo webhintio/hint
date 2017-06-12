@@ -7,10 +7,8 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as url from 'url';
-
 import { IAsyncHTMLDocument, IRule, IRuleBuilder, ITraverseEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
-import { normalizeString } from '../../utils/misc';
+import { isLocalFile, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
@@ -169,9 +167,9 @@ const rule: IRuleBuilder = {
         const validate = async (event: ITraverseEndEvent) => {
             const { resource } = event;
 
-            // The following check don't make sense for local files.
+            // The following check don't make for local files.
 
-            if (url.parse(resource).protocol !== 'file:') {
+            if (!isLocalFile(resource)) {
                 checkHeader(resource, context.pageHeaders);
             }
 

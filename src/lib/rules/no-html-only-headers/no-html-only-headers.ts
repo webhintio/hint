@@ -9,9 +9,13 @@
 
 import * as pluralize from 'pluralize';
 
+import { debug as d } from '../../utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
 import { IFetchEndEvent, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { isDataURI } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+
+const debug = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -70,6 +74,14 @@ const rule: IRuleBuilder = {
 
         const validate = async (fetchEnd: IFetchEndEvent) => {
             const { element, resource, response } = fetchEnd;
+
+            // This check does not make sense for data URI.
+
+            if (isDataURI(resource)) {
+                debug(`Check does not apply for data URI: ${resource}`);
+
+                return;
+            }
 
             if (!willBeTreatedAsHTML(response)) {
                 const headers = getIncludedHeaders(response.headers, unneededHeaders);

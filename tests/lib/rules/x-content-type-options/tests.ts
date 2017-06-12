@@ -49,6 +49,10 @@ const tests: Array<RuleTest> = [
         }
     },
     {
+        name: `Resource is specified as a data URI`,
+        serverConfig: { '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">')) }
+    },
+    {
         name: `HTML page is served with 'X-Content-Type-Options' header with invalid value`,
         reports: [{ message: generateInvalidValueMessage('no-sniff') }],
         serverConfig: { '/': { headers: { 'X-Content-Type-Options': 'no-sniff' } } }
