@@ -73,25 +73,40 @@ const tests: Array<RuleTest> = [];
 addTests(tests, statusCodesWith256Threshold, 256);
 addTests(tests, statusCodesWith512Threshold, 512);
 
-tests.push({
-    name: `Response has status code 200 and 404 page was generated and has less than 512 bytes`,
-    reports: [{ message: `Response with status code 404 had less than 512 bytes` }],
-    serverConfig: {
-        '/': '',
-        '*': {
-            content: htmlPageWithLessThan512bytes,
-            status: 404
+tests.push(
+    {
+        name: `Response has status code 200 and 404 page was generated and has less than 512 bytes`,
+        reports: [{ message: `Response with status code 404 had less than 512 bytes` }],
+        serverConfig: {
+            '/': '',
+            '*': {
+                content: htmlPageWithLessThan512bytes,
+                status: 404
+            }
+        }
+    },
+    {
+        name: `Response has status code 200 and error page cannot be generated`,
+        serverConfig: {
+            '/': '',
+            '*': { status: 200 }
+        }
+    },
+    {
+        name: `Response has status code 200 and error page cannot be generated (request fails)`,
+        serverConfig: {
+            '/': '',
+            '*': null
+        }
+    },
+    {
+        name: `Response has status code 200, contains resource specified as a data URI, and error page cannot be generated`,
+        serverConfig: {
+            '/': generateHTMLPage(undefined, '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">'),
+            '*': { status: 200 }
         }
     }
-});
-
-tests.push({
-    name: `Response has status code 200 and error page cannot be generated`,
-    serverConfig: {
-        '/': '',
-        '*': { status: 200 }
-    }
-});
+);
 
 ruleRunner.testRule(ruleName, tests, {
     browserslist: [

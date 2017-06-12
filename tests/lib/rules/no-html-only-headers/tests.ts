@@ -29,6 +29,10 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
+        name: `Non HTML resource is specified as a data URI`,
+        serverConfig: { '/': generateHTMLPage(undefined, '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">') }
+    },
+    {
         name: `Non HTML resource is served with unneded header`,
         reports: [{ message: generateMessage(['content-security-policy']) }],
         serverConfig: {

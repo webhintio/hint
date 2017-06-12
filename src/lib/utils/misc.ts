@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as url from 'url';
 
 import * as pify from 'pify';
 import * as stripBom from 'strip-bom';
@@ -21,6 +22,22 @@ export const delay = (millisecs) => {
     return new Promise((resolve) => {
         setTimeout(resolve, millisecs);
     });
+};
+
+/** Convenience function to check if a resource uses a specific protocol. */
+
+export const hasProtocol = (resource: string, protocol: string): boolean => {
+    return url.parse(resource).protocol === protocol;
+};
+
+/** Convenience function to check if a resource is a data URI. */
+export const isDataURI = (resource: string): boolean => {
+    return hasProtocol(resource, 'data:');
+};
+
+/** Convenience function to check if a resource is a local file. */
+export const isLocalFile = (resource: string): boolean => {
+    return hasProtocol(resource, 'file:');
 };
 
 /** Remove whitespace from both ends of a string and lowercase it. */

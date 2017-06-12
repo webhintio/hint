@@ -52,14 +52,14 @@ const tests: Array<RuleTest> = [
         serverConfig: generateHTMLPage(`${metaCharset}${metaHttpEquiv}`)
     },
     {
-        name: `Target is not a HTML document`,
-        serverConfig: {
-            '/': {
-                content: '',
-                headers: { 'Content-Type': 'application/javascript; charset=utf-8' }
-            }
-        }
+        name: `Target is not served with a valid media type`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'invalid' } } }
+    },
+    {
+        name: `Target is served with a non-HTML specific media type`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } } }
     }
+
     // TODO: Enable it once `jsdom` returns the correct content.
 //     {
 //         name: `The XML charset declaration is used'`,

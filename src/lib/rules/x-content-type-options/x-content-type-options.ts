@@ -7,9 +7,12 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import { debug as d } from '../../utils/debug';
 import { IFetchEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
-import { normalizeString } from '../../utils/misc';
+import { isDataURI, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+
+const debug = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -20,6 +23,15 @@ const rule: IRuleBuilder = {
 
         const validate = async (fetchEnd: IFetchEndEvent) => {
             const { element, resource, response } = fetchEnd;
+
+            // This check does not make sense for data URI.
+
+            if (isDataURI(resource)) {
+                debug(`Check does not apply for data URI: ${resource}`);
+
+                return;
+            }
+
             const headerValue = normalizeString(response.headers && response.headers['x-content-type-options']);
 
             if (headerValue === null) {

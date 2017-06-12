@@ -32,11 +32,10 @@ const rule: IRuleBuilder = {
 
             const url = normalizeString(
                 element.getAttribute('src') ||
-                element.getAttribute('href') ||
-                ''
+                element.getAttribute('href')
             );
 
-            if (url.indexOf('//') === 0) {
+            if (url && (url.indexOf('//') === 0)) {
                 debug('Protocol relative URL found');
 
                 await context.report(resource, element, `Protocol relative URL found: ${url}`, url);
