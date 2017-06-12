@@ -1,3 +1,9 @@
+---
+title: Contributor Covenant Code of Conduct | sonar
+tocTitle: code-of-conduct
+category: about
+permalink: about/code-of-conduct.html
+---
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge
