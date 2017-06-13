@@ -1,0 +1,17 @@
+/* eslint sort-keys: 0, no-undefined: 0 */
+
+import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import * as ruleRunner from '../../../helpers/rule-runner';
+import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
+const ruleName = getRuleName(__dirname);
+const tests: Array<RuleTest> = [
+    {
+        name: 'Name of the tests',
+        serverConfig: 'HTML to use',
+        reports: [{
+            message: 'Message the error will have',
+            position: { column: 0, line: 0 } // Where the error will show.
+        }]
+    }
+];
+ruleRunner.testRule(ruleName, tests);
