@@ -1,0 +1,83 @@
+/**
+ * @fileoverview {{description}}
+ */
+
+import * from '../../utils/rule-helpers';
+// The list of types depends on the events you want to capture.
+import { IRule, IRuleBuilder } from '../../types';
+import { RuleContext } from '../../rule-context';
+
+import { {{events}} } from '../../types';
+
+// ------------------------------------------------------------------------------
+// Public
+// ------------------------------------------------------------------------------
+
+const rule: IRuleBuilder = {
+    create(context: RuleContext): IRule {
+        // Your code here.
+        {{#useCase.dom}}
+        const validateElement = (elementFound: IElementFound) => {
+            // Code to validate the rule on the event when an element is visited.
+        };
+        {{/useCase.dom}}
+        {{#useCase.request}}
+        const validateFetchStart = (fetchStart: IFetchStart) => {
+            // Code to validate the rule on the event fetch::start.
+        };
+        const validateFetchEnd = (fetchEnd: IFetchEnd) => {
+            // Code to validate the rule on the event fetch::end.
+        };
+        const validateFetchError = (fetchError: IFetchError) => {
+            // Code to validate the rule on the event fetch::error.
+        };
+        {{/useCase.request}}
+        {{#useCase.thirdPartyService}}
+        const validateFetchStart = (fetchStart: IFetchStart) => {
+            // Code to validate the rule on the event fetch::start.
+        };
+        const validateFetchEnd = (fetchEnd: IFetchEnd) => {
+            // Code to validate the rule on the event fetch::end.
+        };
+        {{/useCase.thirdPartyService}}
+        {{#useCase.jsInjection}}
+        const validateScanEnd = async (scanEnd: IScanEnd) => {
+            const jsCode = 'var a = 1 + 1;';
+            const result = await context.evaluate(jsCode);
+
+            return;
+        };
+        {{/useCase.jsInjection}}
+
+        return {
+            {{#useCase.dom}}
+            'element::{{elementType}}': validateElement
+            {{/useCase.dom}}
+            {{#useCase.request}}
+            'fetch::end': validateFetchEnd,
+            'fetch::error': validateFetchError,
+            'fetch::start': validateFetchStart
+            {{/useCase.request}}
+            {{#useCase.thirdPartyService}}
+            'fetch::end': validateFetchEnd,
+            'fetch::start': validateFetchStart
+            {{/useCase.thirdPartyService}}
+            {{#useCase.jsInjection}}
+            'scan::end': validateScanEnd
+            {{/useCase.jsInjection}}
+            // As many events as you need
+        };
+    },
+    meta: {
+        docs: {
+            category: '{{category}}',
+            description: '{{description}}'
+        },
+        fixable: 'code',
+        recommended: {{isCore}},
+        schema: [],
+        worksWithLocalFiles: false
+    }
+}
+
+module.exports = rule;

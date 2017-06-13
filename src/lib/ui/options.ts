@@ -68,6 +68,18 @@ export const options = optionator({
             description: 'Output the version number',
             option: 'version',
             type: 'Boolean'
+        },
+        {
+            alias: 'n',
+            description: `Generate a new rule (in sonar's main repo)`,
+            option: 'new-rule',
+            type: 'Boolean'
+        },
+        {
+            alias: 'r',
+            description: `Remove an existing rule (in sonar's main repo)`,
+            option: 'remove-rule',
+            type: 'Boolean'
         }
     ],
     prepend: 'sonar [options] https://url.com [https://url2.com]'

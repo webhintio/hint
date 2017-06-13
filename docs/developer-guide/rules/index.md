@@ -105,6 +105,56 @@ writting simpler templates.
 
 The rule can access the custom configuration via `context.ruleOptions`.
 
+## Easy start from CLI
+
+If you are working in `sonar`'s main repo, one of the easiest ways to get started is to use `sonar`'s CLI, which helps to generate the template files and insert them at the right location. First you need to install the CLI:
+
+```bash
+npm install -g @sonarwhal/sonar
+```
+
+You can also install it as a `devDependency` if you prefer not to
+have it globally.
+
+```bash
+npm install -D @sonarwhal/sonar
+```
+
+Then you can proceed to start generating a new rule using the flag `--new-rule`:
+
+```bash
+sonar --new-rule
+```
+
+This command will start a wizard that will ask you a series of questions related to this new rule. A complete list of the questions are shown as below:
+
+* What's the name of this new rule?
+* Please select the category of this new rule:
+* Accessibility
+  * Interoperability
+  * Performance
+  * PWAs
+  * Security
+* What's the description of this new rule?
+* Please select the category of use case:
+  * DOM
+    * What DOM element does the rule need access to?
+  * Resource Request
+  * Third Party Service
+  * JS injection
+
+Answer these questions and you will end up with a template rule file. Events determined to be relevant to this use case will be subscribed to automatically in the script. If this is a core rule, templates for documentation and tests will be generated, with the [rule index page](../../user-guide/rules/index.md) under `user guide` updated to include the new rule item.
+
+## Remove a rule from CLI
+
+Similarly, you can also use CLI to remove an existing rule by using the flag `--remove-rule`:
+
+```bash
+sonar --remove
+```
+
+You will be asked to type in the normalized name of the rule. And all files associated with this rule (script, documentation and test) will be removed.
+
 ## Target specific browsers
 
 If your rule only applies to specific browsers you should use

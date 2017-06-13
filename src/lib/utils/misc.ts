@@ -55,6 +55,11 @@ const normalizeString = (value: string, defaultValue?: string) => {
     return value.toLowerCase().trim();
 };
 
+/** Normalize String and then replace characters with delimiter */
+export const normalizeStringByDelimiter = (value: string, delimiter: string) => {
+    return normalizeString(value).replace(/[^a-z0-9]/gi, delimiter);
+};
+
 /** Convenience wrapper for synchronously reading file contents. */
 const readFile = (filePath: string): string => {
     return stripBom(fs.readFileSync(filePath, 'utf8')); // eslint-disable-line no-sync

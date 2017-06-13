@@ -18,6 +18,7 @@ import * as path from 'path';
 import * as ora from 'ora';
 
 import * as Config from './config';
+import * as Rule from './rule-generator';
 import { debug as d } from './utils/debug';
 import { getAsUris } from './utils/get-as-uri';
 import { loadJSONFile } from './utils/misc';
@@ -85,6 +86,18 @@ export const cli = {
 
         if (currentOptions.init) {
             await Config.generate();
+
+            return 0;
+        }
+
+        if (currentOptions.newRule) {
+            await Rule.generate();
+
+            return 0;
+        }
+
+        if (currentOptions.removeRule) {
+            await Rule.remove();
 
             return 0;
         }
