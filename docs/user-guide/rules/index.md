@@ -13,6 +13,7 @@
 
 ## Interoperability
 
+* [`content-type`](content-type.md)
 * [`highest-available-document-mode`](highest-available-document-mode.md)
 * [`no-friendly-error-pages`](no-friendly-error-pages.md)
 
