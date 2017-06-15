@@ -14,7 +14,7 @@ const resourceLoader = {
 const stubPifyMethodObject = { pifyMethod() { } };
 
 const stubPifyObject = {
-    pify() {
+    promisify() {
         return stubPifyMethodObject.pifyMethod;
     }
 };
@@ -22,16 +22,16 @@ const stubPifyObject = {
 proxyquire('../../src/lib/config', {
     './utils/resource-loader': resourceLoader,
     inquirer,
-    pify: stubPifyObject.pify
+    util: stubPifyObject
 });
 
 import * as config from '../../src/lib/config';
 
 test.beforeEach((t) => {
     sinon.stub(stubPifyMethodObject, 'pifyMethod').resolves();
-    sinon.spy(stubPifyObject, 'pify');
+    sinon.spy(stubPifyObject, 'promisify');
 
-    t.context.pify = stubPifyObject.pify;
+    t.context.pify = stubPifyObject.promisify;
     t.context.pifyMethod = stubPifyMethodObject.pifyMethod;
 });
 
