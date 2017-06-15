@@ -13,9 +13,9 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
-import * as pify from 'pify';
 import * as shell from 'shelljs';
 
 import { debug as d } from './utils/debug';
@@ -249,5 +249,5 @@ export const generate = async () => {
 
     const filePath = path.join(process.cwd(), '.sonarrc');
 
-    return pify(fs.writeFile)(filePath, JSON.stringify(sonarConfig, null, 4), 'utf8');
+    return promisify(fs.writeFile)(filePath, JSON.stringify(sonarConfig, null, 4), 'utf8');
 };

@@ -13,7 +13,7 @@
 import * as url from 'url';
 
 import * as cdp from 'chrome-remote-interface';
-import * as pify from 'pify';
+import { promisify } from 'util';
 import * as r from 'request';
 
 import { CDPAsyncHTMLDocument, CDPAsyncHTMLElement } from './cdp-async-html';
@@ -271,7 +271,7 @@ class CDPCollector implements ICollector {
         const hops = this._redirects.calculate(resourceUrl);
         const resourceHeaders = normalizeHeaders(cdpResponse.response.headers);
 
-        const {content, rawContent, rawResponse} = await this.getResponseBody(cdpResponse);
+        const { content, rawContent, rawResponse } = await this.getResponseBody(cdpResponse);
 
         const response: IResponse = {
             body: {
@@ -500,7 +500,7 @@ class CDPCollector implements ICollector {
     // ------------------------------------------------------------------------------
 
     public collect(target: URL) {
-        return pify(async (callback) => {
+        return promisify(async (callback) => {
             this._href = target.href;
             this._finalHref = target.href; // This value will be updated if we load the site
             const event = { resource: this._href };
@@ -574,12 +574,14 @@ class CDPCollector implements ICollector {
         if (customHeaders) {
             const tempHeaders = Object.assign({}, this._headers, customHeaders);
 
-            req = pify(r.defaults({ headers: tempHeaders }), { multiArgs: true });
+            req = promisify(r.defaults({ headers: tempHeaders }));
         } else {
-            req = pify(r, { multiArgs: true });
+            req = promisify(r);
         }
 
-        const [response, body] = await req(href);
+        const response = await req(href);
+        // Promisify doesn't support {multiArgs: true} like pify does, so we take the body from the response directly
+        const { body } = response;
 
         return {
             request: {

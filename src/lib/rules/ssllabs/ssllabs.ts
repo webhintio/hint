@@ -10,7 +10,7 @@
 // HACK: Needed here because with TS `eslint-disable-line` doesn't work fine.
 /* eslint-disable no-useless-escape */
 
-import * as pify from 'pify';
+import { promisify } from 'util';
 
 import { debug as d } from '../../utils/debug';
 import { ITargetFetchEnd, IScanEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
@@ -102,12 +102,12 @@ const rule: IRuleBuilder = {
             /* HACK: Need to do a require here in order to be capable of mocking
                 when testing the rule and `import` doesn't work here. */
             const ssl = require('node-ssllabs');
-            const sslabs = pify(ssl);
+            const ssllabs = promisify(ssl.scan);
 
             debug(`Starting SSL Labs scan for ${resource}`);
             scanOptions.host = resource;
 
-            promise = sslabs.scan(scanOptions);
+            promise = ssllabs(scanOptions);
         };
 
         const end = async (data: IScanEnd): Promise<any> => {

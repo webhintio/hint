@@ -4,13 +4,13 @@ import * as zlib from 'zlib';
 
 import * as iconv from 'iconv-lite';
 import test from 'ava';
-import * as pify from 'pify';
+import { promisify } from 'util';
 
 import { createServer } from '../../../helpers/test-server';
 import { Requester } from '../../../../src/lib/collectors/utils/requester';
 import { INetworkData } from '../../../../src/lib/types';
 
-const compress = pify(zlib.gzip);
+const compress = promisify(zlib.gzip);
 const text = `This is a text
     with several characters <> "'
     áéíóúàèìòùâêîôûäëïöü`;

@@ -1,12 +1,12 @@
 /* eslint sort-keys: 0 */
 import * as path from 'path';
+import { promisify } from 'util';
 
 import test from 'ava';
 import * as jsdom from 'jsdom/lib/old-api';
-import * as pify from 'pify';
 
 import { readFile } from '../../../src/lib/utils/misc';
-const getPage = pify(jsdom.env);
+const getPage = promisify(jsdom.env);
 
 import { IAsyncHTMLElement } from '../../../src/lib/types';
 import { findInElement, findProblemLocation, findElementLocation } from '../../../src/lib/utils/location-helpers';
