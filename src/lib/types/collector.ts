@@ -17,7 +17,7 @@ export interface ICollector {
     /** The headers from the response if applicable. */
     headers: object;
     /** Collects all the information for the given target. */
-    collect(target: url.Url): Promise<any>; // TODO: TS doesn't detect correctly `pify` promises
+    collect(target: url.Url): Promise<any>;
     /** Releases any used resource and/or browser. */
     close(): Promise<void>;
     /** A way for you to make requests if needed. */

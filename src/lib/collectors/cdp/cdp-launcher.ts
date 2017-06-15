@@ -18,9 +18,9 @@ import * as fs from 'fs';
 import * as net from 'net';
 import * as path from 'path';
 import { tmpdir } from 'os';
+import { promisify } from 'util';
 
 import * as lockfile from 'lockfile';
-import * as pify from 'pify';
 import * as which from 'which';
 import * as isCI from 'is-ci';
 
@@ -30,8 +30,8 @@ import { debug as d } from '../../utils/debug';
 // Common
 // ------------------------------------------------------------------------------
 
-const lock = pify(lockfile.lock);
-const unlock = pify(lockfile.unlock);
+const lock = promisify(lockfile.lock);
+const unlock = promisify(lockfile.unlock);
 const debug = d(__filename);
 const pidFile = path.join(process.cwd(), 'cdp.pid');
 let port = 9222;

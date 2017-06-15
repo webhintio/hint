@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as url from 'url';
+import { promisify } from 'util';
 
-import * as pify from 'pify';
 import * as stripBom from 'strip-bom';
 
 /** Cut a given string adding ` … ` in the middle.
@@ -56,7 +56,7 @@ export const readFile = (filePath: string): string => {
 
 /** Convenience wrapper for asynchronously reading file contents. */
 export const readFileAsync = async (filePath: string): Promise<string> => {
-    const content = await pify(fs.readFile)(filePath, 'utf8');
+    const content = await promisify(fs.readFile)(filePath, 'utf8');
 
     return stripBom(content);
 };
