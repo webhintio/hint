@@ -1,11 +1,14 @@
+import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-const engine = {
-    close: () => { },
-    executeOn: () => { }
-};
+class Sonar extends EventEmitter {
+    public close() { }
+    public executeOn() { }
+}
+
+const engine = new Sonar();
 const sonar = {
     create: () => {
         return engine;
@@ -30,12 +33,24 @@ const config = {
     load() { }
 };
 
+const spinner = {
+    fail() { },
+    start() { },
+    succeed() { },
+    text: ''
+};
+
+const ora = () => {
+    return spinner;
+};
+
 proxyquire('../../src/lib/cli', {
     './config': config,
     './config/config-validator': validator,
     './sonar': sonar,
     './utils/logging': logger,
-    './utils/resource-loader': resourceLoader
+    './utils/resource-loader': resourceLoader,
+    ora
 });
 
 import { cli } from '../../src/lib/cli';
@@ -47,9 +62,13 @@ test.beforeEach((t) => {
     sinon.spy(config, 'getFilenameForDirectory');
     sinon.spy(config, 'load');
     sinon.stub(config, 'generate').resolves();
+    sinon.spy(spinner, 'start');
+    sinon.spy(spinner, 'fail');
+    sinon.spy(spinner, 'succeed');
 
     t.context.logger = logger;
     t.context.config = config;
+    t.context.spinner = spinner;
 });
 
 test.afterEach.always((t) => {
@@ -58,6 +77,9 @@ test.afterEach.always((t) => {
     t.context.config.getFilenameForDirectory.restore();
     t.context.config.load.restore();
     t.context.config.generate.restore();
+    t.context.spinner.start.restore();
+    t.context.spinner.fail.restore();
+    t.context.spinner.succeed.restore();
 });
 
 test.serial('if version option is defined, it should print the current version and return with exit code 0', async (t) => {
@@ -137,6 +159,21 @@ test.serial('if executeOn returns an error, it should exit with code 1 and call 
     t.context.formatter.format.restore();
 });
 
+test.serial('if executeOn returns an error, it should call to spinner.fail()', async (t) => {
+    sinon.stub(validator, 'validateConfig').returns(true);
+    sinon.stub(engine, 'executeOn').returns([{ severity: Severity.error }]);
+
+    t.context.validator = validator;
+    t.context.engine = engine;
+
+    await cli.execute('http://localhost/');
+
+    t.true(t.context.spinner.fail.calledOnce);
+
+    t.context.validator.validateConfig.restore();
+    t.context.engine.executeOn.restore();
+});
+
 test.serial('if executeOn throws an exception, it should exit with code 1', async (t) => {
     sinon.stub(validator, 'validateConfig').returns(true);
     sinon.stub(engine, 'executeOn').throws(new Error());
@@ -146,6 +183,20 @@ test.serial('if executeOn throws an exception, it should exit with code 1', asyn
     const exitCode = await cli.execute('http://localhost/');
 
     t.is(exitCode, 1);
+
+    t.context.validator.validateConfig.restore();
+    t.context.engine.executeOn.restore();
+});
+
+test.serial('if executeOn throws an exception, it should call to spinner.fail()', async (t) => {
+    sinon.stub(validator, 'validateConfig').returns(true);
+    sinon.stub(engine, 'executeOn').throws(new Error());
+    t.context.validator = validator;
+    t.context.engine = engine;
+
+    await cli.execute('http://localhost/');
+
+    t.true(t.context.spinner.fail.calledOnce);
 
     t.context.validator.validateConfig.restore();
     t.context.engine.executeOn.restore();
@@ -167,4 +218,104 @@ test.serial('if executeOn returns no errors, it should exit with code 0 and call
     t.context.validator.validateConfig.restore();
     t.context.engine.executeOn.restore();
     t.context.formatter.format.restore();
+});
+
+test.serial('if executeOn returns no errors, it should call to spinner.succeed()', async (t) => {
+    sinon.stub(validator, 'validateConfig').returns(true);
+    sinon.stub(engine, 'executeOn').returns([{ severity: 0 }]);
+    t.context.validator = validator;
+    t.context.engine = engine;
+    t.context.formatter = formatter;
+
+    await cli.execute('http://localhost/');
+
+    t.true(t.context.spinner.succeed.calledOnce);
+
+    t.context.validator.validateConfig.restore();
+    t.context.engine.executeOn.restore();
+});
+
+test.serial('Event fetch::start should write a message in the spinner', async (t) => {
+    sinon.stub(validator, 'validateConfig').returns(true);
+    sinon.stub(engine, 'executeOn').callsFake(async () => {
+        await engine.emitAsync('fetch::start', { resource: 'http://localhost/' });
+    });
+
+    t.context.validator = validator;
+    t.context.engine = engine;
+
+    await cli.execute('http://localhost/');
+
+    t.is(spinner.text, 'Downloading http://localhost/');
+
+    t.context.validator.validateConfig.restore();
+    t.context.engine.executeOn.restore();
+});
+
+test.serial('Event fetch::end should write a message in the spinner', async (t) => {
+    sinon.stub(validator, 'validateConfig').returns(true);
+    sinon.stub(engine, 'executeOn').callsFake(async () => {
+        await engine.emitAsync('fetch::end', { resource: 'http://localhost/' });
+    });
+
+    t.context.validator = validator;
+    t.context.engine = engine;
+
+    await cli.execute('http://localhost/');
+
+    t.is(spinner.text, 'http://localhost/ Downloaded');
+
+    t.context.validator.validateConfig.restore();
+    t.context.engine.executeOn.restore();
+});
+
+test.serial('Event traverse::up should write a message in the spinner', async (t) => {
+    sinon.stub(validator, 'validateConfig').returns(true);
+    sinon.stub(engine, 'executeOn').callsFake(async () => {
+        await engine.emitAsync('traverse::up', { resource: 'http://localhost/' });
+    });
+
+    t.context.validator = validator;
+    t.context.engine = engine;
+
+    await cli.execute('http://localhost/');
+
+    t.is(spinner.text, 'Traversing the DOM');
+
+    t.context.validator.validateConfig.restore();
+    t.context.engine.executeOn.restore();
+});
+
+test.serial('Event traverse::end should write a message in the spinner', async (t) => {
+    sinon.stub(validator, 'validateConfig').returns(true);
+    sinon.stub(engine, 'executeOn').callsFake(async () => {
+        await engine.emitAsync('traverse::end', { resource: 'http://localhost/' });
+    });
+
+    t.context.validator = validator;
+    t.context.engine = engine;
+
+    await cli.execute('http://localhost/');
+
+    t.is(spinner.text, 'Traversing finished');
+
+    t.context.validator.validateConfig.restore();
+    t.context.engine.executeOn.restore();
+});
+
+test.serial('Event scann::end should write a message in the spinner', async (t) => {
+    sinon.stub(validator, 'validateConfig').returns(true);
+    sinon.stub(engine, 'executeOn').callsFake(async () => {
+        await engine.emitAsync('scan::end', { resource: 'http://localhost/' });
+    });
+
+    t.context.validator = validator;
+    t.context.engine = engine;
+
+    await cli.execute('http://localhost/');
+
+    t.is(spinner.text, 'Finishing...');
+
+    t.context.validator.validateConfig.restore();
+    t.context.engine.executeOn.restore();
 });

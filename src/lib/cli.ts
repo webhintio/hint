@@ -15,11 +15,14 @@
 
 import * as path from 'path';
 
+import * as ora from 'ora';
+
 import * as Config from './config';
 import { debug as d } from './utils/debug';
 import { getAsUris } from './utils/get-as-uri';
 import { loadJSONFile } from './utils/file-loader';
 import * as logger from './utils/logging';
+import { cutString } from './utils/misc';
 import { options } from './ui/options';
 import * as resourceLoader from './utils/resource-loader';
 import { Severity } from './types';
@@ -28,6 +31,33 @@ import * as validator from './config/config-validator';
 
 const debug = d(__filename);
 const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
+
+const messages = {
+    'fetch::end': '%url% downloaded',
+    'fetch::start': 'Downloading %url%',
+    'manifestfetch::end': '%url% downloaded',
+    'manifestfetch::start': 'Downloading %url%',
+    'scan::end': 'Finishing...',
+    'scan::start': 'Analizing %url%',
+    'targetfetch::end': '%url% downloaded',
+    'targetfetch::start': 'Downloading %url%',
+    'traverse::down': 'Traversing the DOM',
+    'traverse::end': 'Traversing finished',
+    'traverse::start': 'Traversing the DOM',
+    'traverse::up': 'Traversing the DOM'
+};
+
+const setUpUserFeedback = (sonarInstance: sonar.Sonar, spinner: { text: string }) => {
+    sonarInstance.prependAny((event: string, value: { resource: string }) => {
+        const message = messages[event];
+
+        if (!message) {
+            return;
+        }
+
+        spinner.text = message.replace('%url%', cutString(value.resource));
+    });
+};
 
 // ------------------------------------------------------------------------------
 // Public
@@ -84,23 +114,41 @@ export const cli = {
         const engine = await sonar.create(config);
         const start = Date.now();
 
+
         let exitCode = 0;
+
+        const spinner = ora({ spinner: 'line' });
+
+        if (!currentOptions.debug) {
+            spinner.start();
+            setUpUserFeedback(engine, spinner);
+        }
+
+        const endSpinner = (method: string) => {
+            if (!currentOptions.debug) {
+                spinner[method]();
+            }
+        };
 
         for (const target of targets) {
             try {
+                // spinner.text = `Scanning ${target.href}`;
                 const results = await engine.executeOn(target); // eslint-disable-line no-await-in-loop
                 const hasError = results.some((result) => {
                     return result.severity === Severity.error;
                 });
 
-                format(engine.formatter, results);
-
                 if (hasError) {
                     exitCode = 1;
-
+                    endSpinner('fail');
+                } else {
+                    endSpinner('succeed');
                 }
+
+                format(engine.formatter, results);
             } catch (e) {
                 exitCode = 1;
+                endSpinner('fail');
                 debug(`Failed to analyze: ${target.href}`);
             }
         }
