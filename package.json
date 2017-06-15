@@ -25,6 +25,7 @@
     "globby": "^6.1.0",
     "iconv-lite": "^0.4.17",
     "inquirer": "^3.0.6",
+    "is-ci": "^1.0.10",
     "is-my-json-valid": "^2.15.0",
     "is-resolvable": "^1.0.0",
     "is-svg": "^2.1.0",
