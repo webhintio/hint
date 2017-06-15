@@ -11,7 +11,7 @@ import * as pluralize from 'pluralize';
 
 import { debug as d } from '../../utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
-import { IFetchEndEvent, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -72,7 +72,7 @@ const rule: IRuleBuilder = {
             return false;
         };
 
-        const validate = async (fetchEnd: IFetchEndEvent) => {
+        const validate = async (fetchEnd: IFetchEnd) => {
             const { element, resource, response } = fetchEnd;
 
             // This check does not make sense for data URI.

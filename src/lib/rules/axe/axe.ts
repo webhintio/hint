@@ -11,7 +11,7 @@ import * as path from 'path';
 
 import { readFile } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
-import { ITraverseEndEvent, IRule, IRuleBuilder, Severity } from '../../types'; // eslint-disable-line no-unused-vars
+import { ITraverseEnd, IRule, IRuleBuilder, Severity } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -52,7 +52,7 @@ const rule: IRuleBuilder = {
             return elements[0];
         };
 
-        const validate = async (traverseEnd: ITraverseEndEvent) => {
+        const validate = async (traverseEnd: ITraverseEnd) => {
             const { resource } = traverseEnd;
             const axeCore = await readFile(path.join(process.cwd(), 'node_modules', 'axe-core', 'axe.js'));
             const script = `(function () {

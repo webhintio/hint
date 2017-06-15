@@ -15,7 +15,7 @@ import * as sameOrigin from 'same-origin';
 
 import { cutString } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
-import { IElementFoundEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -33,7 +33,7 @@ const rule: IRuleBuilder = {
             includeSameOriginURLs = (context.ruleOptions && context.ruleOptions.includeSameOriginURLs) || false;
         };
 
-        const validate = async (data: IElementFoundEvent) => {
+        const validate = async (data: IElementFound) => {
             const { element, resource } = data;
 
             if (element.getAttribute('target') !== '_blank') {

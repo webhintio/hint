@@ -13,7 +13,7 @@
 import * as pify from 'pify';
 
 import { debug as d } from '../../utils/debug';
-import { ITargetFetchEnd, IScanEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { ITargetFetchEnd, IScanEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -110,7 +110,7 @@ const rule: IRuleBuilder = {
             promise = sslabs.scan(scanOptions);
         };
 
-        const end = async (data: IScanEndEvent): Promise<any> => {
+        const end = async (data: IScanEnd): Promise<any> => {
             const { resource } = data;
 
             if (!promise) {

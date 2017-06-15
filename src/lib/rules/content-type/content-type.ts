@@ -16,7 +16,7 @@ import * as isSvg from 'is-svg';
 import * as mimeDB from 'mime-db';
 import { parse } from 'content-type';
 
-import { IAsyncHTMLElement, IResponseBody, IRule, IRuleBuilder, IFetchEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IResponseBody, IRule, IRuleBuilder, IFetchEnd } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -172,7 +172,7 @@ const rule: IRuleBuilder = {
             return null;
         };
 
-        const validate = async (fetchEnd: IFetchEndEvent) => {
+        const validate = async (fetchEnd: IFetchEnd) => {
             const { element, resource, response } = fetchEnd;
 
             // This check does not make sense for data URIs.

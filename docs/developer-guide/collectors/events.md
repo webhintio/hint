@@ -28,7 +28,7 @@ lower cased.
 **Format:**
 
 ```ts
-export interface IElementFoundEvent {
+export interface IElementFound {
     /** The URI of the resource firing this event. */
     resource: string;
     /** The visited element. */
@@ -44,7 +44,7 @@ the content of a `resource` (`js`, `css`, `image`, etc.).
 **Format:**
 
 ```ts
-export interface IFetchEndEvent {
+export interface IFetchEnd {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
     /** The URL of the target */
@@ -66,7 +66,7 @@ downloading the content of a `resource`.
 **Format:**
 
 ```ts
-export interface IFetchErrorEvent {
+export interface IFetchError {
     /** The URL of the target. */
     resource: string;
     /** The element that initiated the request. */
@@ -86,7 +86,7 @@ to fetch the `target`.
 **Format:**
 
 ```ts
-export interface IFetchStartEvent {
+export interface IFetchStart {
     /** The URL to download */
     resource: string;
 }
@@ -102,7 +102,7 @@ events and its about to return. This is the last event to be emitted.
 **Format:**
 
 ```ts
-export interface IScanEndEvent {
+export interface IScanEnd {
      /** The final URL analyzed. */
     resource: string;
 }
@@ -116,7 +116,7 @@ analysis. This is the first event to be emitted.
 **Format:**
 
 ```ts
-export interface IScanStartEvent {
+export interface IScanStart {
     /** The URL to analyze. */
     resource: string;
 }
@@ -136,7 +136,7 @@ the `target`.
 **Format:**
 
 ```ts
-export interface IFetchEndEvent {
+export interface IFetchEnd {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
     /** The URL of the target. */
@@ -159,7 +159,7 @@ downloading the `target`.
 **Format:**
 
 ```ts
-export interface IFetchErrorEvent {
+export interface IFetchError {
     /** The URL of the target. */
     resource: string;
     /** The element that initiated the request. */
@@ -180,7 +180,7 @@ request to fetch the `target`.
 **Format:**
 
 ```typescript
-export interface IFetchStartEvent {
+export interface IFetchStart {
     /** The URL to download */
     resource: string;
 }
@@ -196,7 +196,7 @@ visiting the children of a node.
 **Format:**
 
 ```ts
-export interface ITraverseDownEvent {
+export interface ITraverseDown {
     /** The URL of the target. */
     resource: string;
 }
@@ -210,7 +210,7 @@ the DOM entirely.
 **Format:**
 
 ```ts
-export interface ITraverseEndEvent {
+export interface ITraverseEnd {
     /** The URL of the target. */
     resource: string;
 }
@@ -224,7 +224,7 @@ the DOM.
 **Format:**
 
 ```ts
-export interface ITraverseStartEvent {
+export interface ITraverseStart {
     /** The URL of the target. */
     resource: string;
 }
@@ -238,7 +238,7 @@ children of a node and goes to the next one.
 **Format:**
 
 ```ts
-export interface ITraverseUpEvent {
+export interface ITraverseUp {
     /** The URL of the target. */
     resource: string;
 }
