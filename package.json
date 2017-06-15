@@ -10,6 +10,7 @@
     ],
     "timeout": "1m"
   },
+  "bin": "./dist/src/bin/sonar.js",
   "dependencies": {
     "axe-core": "^2.2.2",
     "browserslist": "^2.1.4",
