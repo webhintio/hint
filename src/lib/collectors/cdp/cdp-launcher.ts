@@ -22,6 +22,7 @@ import { tmpdir } from 'os';
 import * as lockfile from 'lockfile';
 import * as pify from 'pify';
 import * as which from 'which';
+import * as isCI from 'is-ci';
 
 import { debug as d } from '../../utils/debug';
 
@@ -259,6 +260,7 @@ const launchChrome = async (url: string, options?): Promise<boolean> => {
         `--user-data-dir=${tmpdir()}`,
         // We don't want the message in case chrome isn't the default one
         '--no-default-browser-check',
+        isCI ? '--headless' : '',
         url
     ].concat(options && options.flags || []);
 

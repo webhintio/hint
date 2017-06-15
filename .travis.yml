@@ -35,10 +35,6 @@ matrix:
             - google-chrome
           packages:
             - google-chrome-stable
-      before_script:
-        - export DISPLAY=:99.0
-        - sh -e /etc/init.d/xvfb start
-        - sleep 3
       node_js:
         - node
       script:
