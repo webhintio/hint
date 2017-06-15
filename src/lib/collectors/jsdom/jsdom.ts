@@ -30,7 +30,7 @@ import { debug as d } from '../../utils/debug';
 /* eslint-disable no-unused-vars */
 import {
     IAsyncHTMLElement, ICollector, ICollectorBuilder,
-    IElementFoundEvent, IFetchEndEvent, IFetchErrorEvent, IManifestFetchErrorEvent, IManifestFetchEnd, ITraverseDownEvent, ITraverseUpEvent,
+    IElementFound, IFetchEnd, IFetchError, IManifestFetchError, IManifestFetchEnd, ITraverseDown, ITraverseUp,
     INetworkData, URL
 } from '../../types';
 /* eslint-enable */
@@ -138,7 +138,7 @@ class JSDOMCollector implements ICollector {
         debug(`emitting ${eventName}`);
         // should we freeze it? what about the other siblings, children, parents? We should have an option to not allow modifications
         // maybe we create a custom object that only exposes read only properties?
-        const event: IElementFoundEvent = {
+        const event: IElementFound = {
             element: new JSDOMAsyncHTMLElement(element),
             resource: this._finalHref
         };
@@ -152,14 +152,14 @@ class JSDOMCollector implements ICollector {
             const child = <HTMLElement>element.children[i];
 
             debug('next children');
-            const traverseDown: ITraverseDownEvent = { resource: this._finalHref };
+            const traverseDown: ITraverseDown = { resource: this._finalHref };
 
             await this._server.emitAsync(`traversing::down`, traverseDown);
             await this.traverseAndNotify(child);  // eslint-disable-line no-await-for
 
         }
 
-        const traverseUp: ITraverseUpEvent = { resource: this._finalHref };
+        const traverseUp: ITraverseUp = { resource: this._finalHref };
 
         await this._server.emitAsync(`traversing::up`, traverseUp);
 
@@ -182,7 +182,7 @@ class JSDOMCollector implements ICollector {
 
             debug(`resource ${resourceUrl} fetched`);
 
-            const fetchEndEvent: IFetchEndEvent = {
+            const fetchEndEvent: IFetchEnd = {
                 element: new JSDOMAsyncHTMLElement(resource.element),
                 request: resourceNetworkData.request,
                 resource: resourceNetworkData.response.url,
@@ -196,7 +196,7 @@ class JSDOMCollector implements ICollector {
             return callback(null, resourceNetworkData.response.body.content);
         } catch (err) {
             const hops = this._request.getRedirects(err.uri);
-            const fetchError: IFetchErrorEvent = {
+            const fetchError: IFetchError = {
                 element: new JSDOMAsyncHTMLElement(resource.element),
                 error: err.error,
                 hops,
@@ -277,7 +277,7 @@ class JSDOMCollector implements ICollector {
         } catch (e) {
             debug('Failed to fetch the web app manifest file');
 
-            const event: IManifestFetchErrorEvent = {
+            const event: IManifestFetchError = {
                 error: e,
                 resource: manifestURL
             };
@@ -307,7 +307,7 @@ class JSDOMCollector implements ICollector {
                 this._targetNetworkData = await this.fetchContent(target);
             } catch (err) {
                 const hops = this._request.getRedirects(err.uri);
-                const fetchError: IFetchErrorEvent = {
+                const fetchError: IFetchError = {
                     element: null,
                     error: err.error ? err.error : err,
                     hops,
@@ -329,7 +329,7 @@ class JSDOMCollector implements ICollector {
 
             debug(`HTML for ${this._finalHref} downloaded`);
 
-            const fetchEnd: IFetchEndEvent = {
+            const fetchEnd: IFetchEnd = {
                 element: null,
                 request: this._targetNetworkData.request,
                 resource: this._finalHref,

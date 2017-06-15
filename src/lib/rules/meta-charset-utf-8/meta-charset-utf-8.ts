@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { IAsyncHTMLDocument, IRule, IRuleBuilder, ITraverseEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLDocument, IRule, IRuleBuilder, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
 import { isLocalFile, normalizeString } from '../../utils/misc';
 import { parse } from 'content-type';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
@@ -54,7 +54,7 @@ const rule: IRuleBuilder = {
             return mediaType === 'text/html';
         };
 
-        const validate = async (event: ITraverseEndEvent) => {
+        const validate = async (event: ITraverseEnd) => {
             const { resource } = event;
 
             // The following checks don't make sense for non-HTML documents.

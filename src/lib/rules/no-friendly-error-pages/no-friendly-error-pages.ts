@@ -10,7 +10,7 @@
 import * as url from 'url';
 
 import { debug as d } from '../../utils/debug';
-import { IFetchEndEvent, ITraverseEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IFetchEnd, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -41,7 +41,7 @@ const rule: IRuleBuilder = {
         const statusCodesWith256Threshold = [403, 405, 410];
         const statusCodesWith512Threshold = [400, 404, 406, 408, 409, 500, 501, 505];
 
-        const checkForErrorPages = (fetchEnd: IFetchEndEvent) => {
+        const checkForErrorPages = (fetchEnd: IFetchEnd) => {
             const { resource, response } = fetchEnd;
 
             // This check does not make sense for data URI.
@@ -107,7 +107,7 @@ const rule: IRuleBuilder = {
 
         };
 
-        const validate = async (event: ITraverseEndEvent) => {
+        const validate = async (event: ITraverseEnd) => {
 
             // If no error responses were found, and more specifically,
             // if no 404 error response was found, try to generate one.

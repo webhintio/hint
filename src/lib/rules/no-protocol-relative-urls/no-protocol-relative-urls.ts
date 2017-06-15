@@ -7,7 +7,7 @@
 // ------------------------------------------------------------------------------
 
 import { debug as d } from '../../utils/debug';
-import { IElementFoundEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -20,7 +20,7 @@ const debug = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        const validate = async (data: IElementFoundEvent) => {
+        const validate = async (data: IElementFound) => {
             const { element, resource } = data;
             const html = await element.outerHTML();
 

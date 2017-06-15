@@ -2,25 +2,25 @@ import { IAsyncHTMLElement } from './asynchtml';
 import { IRequest, IResponse } from './network';
 
 /** The object emitted when the collector is going to start the process. */
-export interface IScanStartEvent {
+export interface IScanStart {
     /** The URL that is going to be analyzed. */
     resource: string;
 }
 
 /** The object emitted when the collector has finished the process. */
-export interface IScanEndEvent {
+export interface IScanEnd {
     /** The final URL analyzed after redirects. */
     resource: string;
 }
 
 /** The object emitted by a collector on `targetfetch::start` or `fetch::start`. */
-export interface IFetchStartEvent {
+export interface IFetchStart {
     /** The URL to download. */
     resource: string;
 }
 
 /** The object emitted by a collector on `targetfetch::end` or `fetch::end`. */
-export interface IFetchEndEvent {
+export interface IFetchEnd {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
     /** The URL of the target. */
@@ -31,11 +31,11 @@ export interface IFetchEndEvent {
     response: IResponse;
 }
 
-export type ITargetFetchEnd = IFetchEndEvent;
-export type ITargetFetchStart = IFetchStartEvent;
+export type ITargetFetchEnd = IFetchEnd;
+export type ITargetFetchStart = IFetchStart;
 
 /** The object emitted by a collector on `targetfetch::error` or `fetch::error` */
-export interface IFetchErrorEvent {
+export interface IFetchError {
     /** The URL of the target. */
     resource: string;
     /** The element that initiated the request. */
@@ -47,40 +47,40 @@ export interface IFetchErrorEvent {
 }
 
 /** The object emitted by a collector on `traverse::start` */
-export interface ITraverseStartEvent {
+export interface ITraverseStart {
     /** The URL of the target. */
     resource: string;
 }
 
 /** The object emitted by a collector on `traverse::end` */
-export interface ITraverseEndEvent {
+export interface ITraverseEnd {
     /** The URL of the target. */
     resource: string;
 }
 
 /** The object emitted by a collector on `traverse::up` */
-export interface ITraverseUpEvent {
+export interface ITraverseUp {
     /** The URL of the target. */
     resource: string;
 }
 
 /** The object emitted by a collector on `traverse::down` */
-export interface ITraverseDownEvent {
+export interface ITraverseDown {
     /** The URL of the target. */
     resource: string;
 }
 
 /** The object emitted by a collector on `element::<element-type>`. */
-export interface IElementFoundEvent {
+export interface IElementFound {
     /** The URI of the resource firing this event. */
     resource: string;
     /** The visited element. */
     element: IAsyncHTMLElement;
 }
 
-export interface IManifestFetchErrorEvent {
+export interface IManifestFetchError {
     resource: string;
     error: Error
 }
 
-export type IManifestFetchEnd = IFetchEndEvent;
+export type IManifestFetchEnd = IFetchEnd;

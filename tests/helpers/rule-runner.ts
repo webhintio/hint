@@ -9,7 +9,7 @@ import * as retry from 'async-retry';
 
 import { ids as collectors } from './collectors';
 import { createServer } from './test-server';
-import { IElementFoundEvent, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
+import { IElementFound, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 import * as Sonar from '../../src/lib/sonar';

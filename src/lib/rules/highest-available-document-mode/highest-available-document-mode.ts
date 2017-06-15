@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { IAsyncHTMLDocument, IRule, IRuleBuilder, ITraverseEndEvent } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLDocument, IRule, IRuleBuilder, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
 import { isLocalFile, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -164,7 +164,7 @@ const rule: IRuleBuilder = {
             });
         };
 
-        const validate = async (event: ITraverseEndEvent) => {
+        const validate = async (event: ITraverseEnd) => {
             const { resource } = event;
 
             // The following check don't make for local files.

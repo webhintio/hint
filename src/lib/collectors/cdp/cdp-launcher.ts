@@ -237,7 +237,7 @@ const launchChrome = async (url: string, options?): Promise<boolean> => {
 
     port = options && options.port || port;
 
-    const chromeFlags = [
+    let chromeFlags = [
         '--remote-debugging-port=9222',
         // Disable built-in Google Translate service
         '--disable-translate',
@@ -260,9 +260,13 @@ const launchChrome = async (url: string, options?): Promise<boolean> => {
         `--user-data-dir=${tmpdir()}`,
         // We don't want the message in case chrome isn't the default one
         '--no-default-browser-check',
-        isCI ? '--headless' : '',
         url
-    ].concat(options && options.flags || []);
+    ];
+
+    if (isCI) {
+        chromeFlags.push('--headless');
+    }
+    chromeFlags = chromeFlags.concat(options && options.flags || []);
 
     try {
         const chromePath = getChrome();

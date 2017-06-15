@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import { debug as d } from '../../utils/debug';
-import { IElementFoundEvent, IManifestFetchEnd, IManifestFetchErrorEvent, ITraverseEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IElementFound, IManifestFetchEnd, IManifestFetchError, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -23,13 +23,13 @@ const rule: IRuleBuilder = {
 
         let manifestIsSpecified = false;
 
-        const manifestMissing = async (event: ITraverseEndEvent) => {
+        const manifestMissing = async (event: ITraverseEnd) => {
             if (!manifestIsSpecified) {
                 await context.report(event.resource, null, 'Web app manifest not specified');
             }
         };
 
-        const manifestExists = async (data: IElementFoundEvent) => {
+        const manifestExists = async (data: IElementFound) => {
             const { element, resource } = data;
 
             if (normalizeString(element.getAttribute('rel')) !== 'manifest') {
@@ -62,7 +62,7 @@ const rule: IRuleBuilder = {
             }
         };
 
-        const manifestError = async (event: IManifestFetchErrorEvent) => {
+        const manifestError = async (event: IManifestFetchError) => {
             debug('Failed to fetch the web app manifest file');
             await context.report(event.resource, null, `Web app manifest file request failed`);
 

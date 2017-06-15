@@ -23,7 +23,7 @@ import { delay } from '../../utils/misc';
 /* eslint-disable no-unused-vars */
 import {
     ICollector, ICollectorBuilder,
-    IElementFoundEvent, IFetchEndEvent, IFetchErrorEvent, IManifestFetchEnd, IManifestFetchErrorEvent, ITraverseUpEvent, ITraverseDownEvent,
+    IElementFound, IFetchEnd, IFetchError, IManifestFetchEnd, IManifestFetchError, ITraverseUp, ITraverseDown,
     IResponse, IRequest, INetworkData, URL
 } from '../../types';
 /* eslint-enable */
@@ -181,7 +181,7 @@ class CDPCollector implements ICollector {
     private async onLoadingFailed(params) {
         if (params.type === 'Manifest') {
             const { request: { url: resource } } = this._requests.get(params.requestId);
-            const event: IManifestFetchErrorEvent = {
+            const event: IManifestFetchError = {
                 error: new Error(params.errorText),
                 resource
             };
@@ -214,7 +214,7 @@ class CDPCollector implements ICollector {
 
         console.log(`Error: ${resource}`);
 
-        const event: IFetchErrorEvent = {
+        const event: IFetchError = {
             element,
             error: params,
             hops,
@@ -308,7 +308,7 @@ class CDPCollector implements ICollector {
             url: originalUrl
         };
 
-        const data: IFetchEndEvent = {
+        const data: IFetchEnd = {
             element: null,
             request,
             resource: resourceUrl,
@@ -358,7 +358,7 @@ class CDPCollector implements ICollector {
         const wrappedElement = new CDPAsyncHTMLElement(element, this._dom, this._client.DOM);
 
         debug(`emitting ${eventName}`);
-        const event: IElementFoundEvent = {
+        const event: IElementFound = {
             element: wrappedElement,
             resource: this._finalHref
         };
@@ -377,13 +377,13 @@ class CDPCollector implements ICollector {
 
         for (const child of elementChildren) {
             debug('next children');
-            const traverseDown: ITraverseDownEvent = { resource: this._finalHref };
+            const traverseDown: ITraverseDown = { resource: this._finalHref };
 
             await this._server.emitAsync(`traverse::down`, traverseDown);
             await this.traverseAndNotify(child);  // eslint-disable-line no-await-for
         }
 
-        const traverseUp: ITraverseUpEvent = { resource: this._finalHref };
+        const traverseUp: ITraverseUp = { resource: this._finalHref };
 
         await this._server.emitAsync(`traverse::up`, traverseUp);
     }
