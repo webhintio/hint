@@ -3,11 +3,16 @@ import * as url from 'url';
 import { promisify } from 'util';
 
 import * as stripBom from 'strip-bom';
+import * as requireUncached from 'require-uncached';
+import * as stripComments from 'strip-json-comments';
+
+import { debug as d } from './debug';
+const debug = d(__filename);
 
 /** Cut a given string adding ` … ` in the middle.
  * The default length is 50 characters.
  */
-export const cutString = (txt: string, length: number = 50) => {
+const cutString = (txt: string, length: number = 50) => {
     if (txt.length <= length) {
         return txt;
     }
@@ -18,30 +23,29 @@ export const cutString = (txt: string, length: number = 50) => {
 };
 
 /** Convenience wrapper to add a delay using promises. */
-export const delay = (millisecs) => {
+const delay = (millisecs) => {
     return new Promise((resolve) => {
         setTimeout(resolve, millisecs);
     });
 };
 
 /** Convenience function to check if a resource uses a specific protocol. */
-
-export const hasProtocol = (resource: string, protocol: string): boolean => {
+const hasProtocol = (resource: string, protocol: string): boolean => {
     return url.parse(resource).protocol === protocol;
 };
 
 /** Convenience function to check if a resource is a data URI. */
-export const isDataURI = (resource: string): boolean => {
+const isDataURI = (resource: string): boolean => {
     return hasProtocol(resource, 'data:');
 };
 
 /** Convenience function to check if a resource is a local file. */
-export const isLocalFile = (resource: string): boolean => {
+const isLocalFile = (resource: string): boolean => {
     return hasProtocol(resource, 'file:');
 };
 
 /** Remove whitespace from both ends of a string and lowercase it. */
-export const normalizeString = (value: string) => {
+const normalizeString = (value: string) => {
     if (typeof value === 'undefined' || value === null) {
         return null;
     }
@@ -50,13 +54,43 @@ export const normalizeString = (value: string) => {
 };
 
 /** Convenience wrapper for synchronously reading file contents. */
-export const readFile = (filePath: string): string => {
+const readFile = (filePath: string): string => {
     return stripBom(fs.readFileSync(filePath, 'utf8')); // eslint-disable-line no-sync
 };
 
 /** Convenience wrapper for asynchronously reading file contents. */
-export const readFileAsync = async (filePath: string): Promise<string> => {
+const readFileAsync = async (filePath: string): Promise<string> => {
     const content = await promisify(fs.readFile)(filePath, 'utf8');
 
     return stripBom(content);
+};
+
+
+/** Loads a JSON a file. */
+const loadJSONFile = (filePath: string) => {
+
+    debug(`Loading JSON file: ${filePath}`);
+
+    return JSON.parse(stripComments(readFile(filePath)));
+};
+
+/** Loads a JavaScript file. */
+const loadJSFile = (filePath: string): any => {
+
+    debug(`Loading JS file: ${filePath}`);
+
+    return requireUncached(filePath);
+};
+
+export {
+    cutString,
+    delay,
+    hasProtocol,
+    isDataURI,
+    isLocalFile,
+    loadJSFile,
+    loadJSONFile,
+    normalizeString,
+    readFile,
+    readFileAsync
 };

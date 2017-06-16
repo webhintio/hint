@@ -5,7 +5,7 @@ import { promisify } from 'util';
 import test from 'ava';
 import * as jsdom from 'jsdom/lib/old-api';
 
-import { readFile } from '../../../src/lib/utils/misc';
+import { readFileAsync } from '../../../src/lib/utils/misc';
 const getPage = promisify(jsdom.env);
 
 import { IAsyncHTMLElement } from '../../../src/lib/types';
@@ -83,7 +83,7 @@ findInElementEntries.forEach((entry) => {
 // ------------------------------------------------------------------------------
 
 const loadHTML = async (route) => {
-    const html = readFile(path.resolve(__dirname, route));
+    const html: string = await readFileAsync(path.resolve(__dirname, route));
     const doc: HTMLDocument = (await getPage(html)).document;
 
     const querySelectorAll = (function (document) {
