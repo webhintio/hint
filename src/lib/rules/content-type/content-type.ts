@@ -136,7 +136,7 @@ const rule: IRuleBuilder = {
                     /* eslint-disable default-case */
                     switch (relValue) {
                         case 'stylesheet':
-                            // https://html.spec.whatwg.org/multipage/semantics.html#processing-the-type-attribute
+                            // https://tools.ietf.org/html/rfc2318
                             return 'text/css';
                         case 'manifest':
                             // https://w3c.github.io/manifest/#media-type-registration
@@ -164,7 +164,7 @@ const rule: IRuleBuilder = {
                 return getMediaTypeBasedOnFileExtension(detectedFileType.ext);
             }
 
-            if (isSvg(rawContent)) {
+            if (rawContent && isSvg(rawContent)) {
                 // https://www.w3.org/TR/SVG/mimereg.html
                 return 'image/svg+xml';
             }
