@@ -4,7 +4,7 @@ import * as path from 'path';
 
 import test from 'ava';
 
-import { readFile, readFileAsync } from '../../../src/lib/utils/misc';
+import { loadJSFile, loadJSONFile, readFileAsync } from '../../../src/lib/utils/misc';
 
 const testContext = [
     {
@@ -23,13 +23,55 @@ const testContext = [
         content: 'dummy'
     }];
 
-/** AVA macro for readFile regular tests */
-const readFileMacro = (t, context) => {
-    const location = path.join(__dirname, `./fixtures/${context.file}`);
-    const content = readFile(location);
-
-    t.is(content, context.content);
+const resolve = (route) => {
+    return path.join(__dirname, route);
 };
+
+test('loadJSFile throws an exception if missing file', (t) => {
+    t.throws(() => {
+        loadJSFile(resolve('./fixtures/dontexists.js'));
+    });
+});
+
+// HACK: With ava 0.19 and node 7.9.0 this test fails even though it throws an exception
+test.skip('loadJSFile throws an exception if invalid JS file', (t) => {
+    t.throws(() => {
+        loadJSFile(resolve('./fixtures/fixture.json'));
+    });
+});
+
+test('loadJSFile loads a valid JS module', (t) => {
+    try {
+        const a = loadJSFile(resolve('./fixtures/fixture.js'));
+
+        t.is(a.property1, 'value1');
+    } catch (e) {
+        t.fail('Throws unexpected exception');
+    }
+});
+
+test('loadJSONFile throws an exception if missing file', (t) => {
+    t.throws(() => {
+        loadJSONFile(resolve('./fixture/dontexists.json'));
+    });
+});
+
+test('loadJSONFile throws an exception if invalid JSON file', (t) => {
+    t.throws(() => {
+        loadJSONFile(resolve('./fixture/fixture.js'));
+    });
+});
+
+test('loadJSONFile loads a valid JSON file', (t) => {
+    try {
+        const a = loadJSONFile(resolve('./fixtures/fixture.json'));
+
+        t.is(a.property1, 'value1');
+    } catch (e) {
+        t.fail('Throws unexpected exception');
+    }
+});
+
 
 /** AVA macro for readFileAsync regular tests */
 const readFileAsyncMacro = async (t, context) => {
@@ -40,14 +82,7 @@ const readFileAsyncMacro = async (t, context) => {
 };
 
 testContext.forEach((context) => {
-    test(context.name, readFileMacro, context);
     test(`${context.name} - async`, readFileAsyncMacro, context);
-});
-
-test('readFile throws exception if not found', (t) => {
-    t.throws(() => {
-        readFile('idontexist');
-    }, Error);
 });
 
 test('readFileAsync throws exception if not found', async (t) => {
