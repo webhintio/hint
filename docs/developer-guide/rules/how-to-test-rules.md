@@ -46,10 +46,10 @@ The signature of `ruleRunner.testRule` is:
 <!-- eslint-disable no-unused-vars -->
 
 ```js
-  const serverConfig = {
-      '/': 'some HTML here',
-      'site.webmanifest': 'other content'
-  };
+const serverConfig = {
+    '/': 'some HTML here',
+    'site.webmanifest': 'other content'
+};
 ```
 
 You can even specify the headers and status code for the response for

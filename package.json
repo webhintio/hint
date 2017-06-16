@@ -19,7 +19,7 @@
     "chrome-remote-interface": "^0.23.2",
     "content-type": "^1.0.2",
     "debug": "^2.6.8",
-    "eslint": "^3.19.0",
+    "eslint": "^4.0.0",
     "eventemitter2": "^4.1.0",
     "file-type": "^5.0.0",
     "file-url": "^2.0.2",
