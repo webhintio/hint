@@ -65,6 +65,7 @@ class CDPCollector implements ICollector {
     private _tabs = [];
     /** Tells if the page has specified a manifest or not. */
     private _manifestIsSpecified: boolean = false;
+    private _faviconLoaded: boolean = false;
 
     private _targetNetworkData: INetworkData;
 
@@ -318,6 +319,10 @@ class CDPCollector implements ICollector {
             };
         }
 
+        if (data.element && data.element.nodeName.toLowerCase() === 'link' && data.element.getAttribute('rel') === 'icon') {
+            this._faviconLoaded = true;
+        }
+
         /* We don't need to store the request anymore so we can remove it and ignore it
          * if we receive it in `onLoadingFailed` (used only for "catastrophic" failures).
          */
@@ -441,6 +446,42 @@ class CDPCollector implements ICollector {
         ]);
     }
 
+    /** CDP sometimes doesn't download the favicon automatically, this method:
+     *
+     * * uses the `src` attribute of `<link rel="icon">` if present.
+     * * uses `favicon.ico` and the final url after redirects.
+     */
+    private async getFavicon(element?: CDPAsyncHTMLElement) {
+        const href = element ? element.getAttribute('href') : '/favicon.ico';
+
+        try {
+            debug(`resource ${href} to be fetched`);
+            await this._server.emitAsync('fetch::start', { resource: href });
+
+            const content = await this.fetchContent(url.parse(this._finalHref + href.substr(1)));
+
+            const data: IFetchEnd = {
+                element: null,
+                request: content.request,
+                resource: content.response.url,
+                response: content.response
+            };
+
+            await this._server.emitAsync('fetch::end', data);
+        } catch (error) {
+            const hops = this._redirects.calculate(href);
+
+            const event: IFetchError = {
+                element,
+                error,
+                hops,
+                resource: href
+            };
+
+            await this._server.emitAsync('fetch::error', event);
+        }
+    }
+
     /** Initiates all the proce */
     private onLoadEventFired(callback: Function): Function {
         return () => {
@@ -460,6 +501,14 @@ class CDPCollector implements ICollector {
                     await this._server.emitAsync('traverse::start', event);
                     await this.traverseAndNotify(this._dom.root);
                     await this._server.emitAsync('traverse::end', event);
+
+                    if (!this._manifestIsSpecified) {
+                        await this._server.emitAsync('manifestfetch::missing', { resource: this._href });
+                    }
+
+                    if (!this._faviconLoaded) {
+                        await this.getFavicon((await this._dom.querySelectorAll('link[rel~="icon"]'))[0]);
+                    }
 
                     await this._server.emitAsync('scan::end', event);
 

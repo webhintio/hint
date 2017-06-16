@@ -168,6 +168,7 @@ class JSDOMCollector implements ICollector {
         return Promise.resolve();
     }
 
+    //TODO: resourceLoader is async but also needs the callback because of jsdom library
     /** Alternative method to download resource for `JSDOM` so we can get the headers. */
     private async resourceLoader(resource: { element: HTMLElement, url: URL }, callback: Function) {
         let resourceUrl = resource.url.href;
