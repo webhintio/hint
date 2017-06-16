@@ -110,7 +110,7 @@
   ],
   "license": "Apache-2.0",
   "main": "./dist/src/lib/sonar.js",
-  "name": "sonar",
+  "name": "@sonarwhal/sonar",
   "nyc": {
     "branches": 85,
     "cache": true,
@@ -128,7 +128,6 @@
     "sourceMap": true,
     "statements": 85
   },
-  "private": true,
   "repository": "MicrosoftEdge/Sonar",
   "scripts": {
     "ava": "ava",
@@ -148,5 +147,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "0.0.1"
+  "version": "0.0.2"
 }
