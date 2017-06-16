@@ -29,7 +29,9 @@ const TYPE = {
 
 /** Loads all the resources available for the given type */
 const loadOfType = (type: string): Map<string, Resource> => {
-    let resourceFiles: string[] = globby.sync(`{./,./node_modules/sonar-*}dist/src/lib/${type}s/**/*.js`,
+    const PROJECT_ROOT = path.join(__dirname, '../../../../');
+
+    let resourceFiles: string[] = globby.sync(`${PROJECT_ROOT}/dist/src/lib/${type}s/**/*.js`,
         { absolute: true });
 
     resourceFiles = resourceFiles.filter((resourceFile) => {
