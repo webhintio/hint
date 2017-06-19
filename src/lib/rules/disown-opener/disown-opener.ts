@@ -10,12 +10,14 @@
 
 import * as url from 'url';
 
+import { isSupported } from 'caniuse-api';
 import * as pluralize from 'pluralize';
 import * as sameOrigin from 'same-origin';
 
 import { cutString } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
-import { IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -33,22 +35,21 @@ const rule: IRuleBuilder = {
             includeSameOriginURLs = (context.ruleOptions && context.ruleOptions.includeSameOriginURLs) || false;
         };
 
-        const validate = async (data: IElementFound) => {
-            const { element, resource } = data;
+        const checkForRelValues = async (resource: string, element: IAsyncHTMLElement, relValuesToCheckFor: Array<string>) => {
+            const relValues = normalizeString(element.getAttribute('rel'), '').split(' ');
+            const hrefValue = normalizeString(element.getAttribute('href'));
 
-            if (element.getAttribute('target') !== '_blank') {
-                debug('No `target="_blank"` found');
+            const requiredValues = relValuesToCheckFor.filter((value) => {
+                return !relValues.includes(value);
+            });
 
-                return;
+            if (requiredValues.length !== 0) {
+                await context.report(resource, element, `'${cutString(await element.outerHTML(), 100)}' is missing 'rel' ${pluralize('value', requiredValues.length)} '${requiredValues.join('\', \'')}'`, hrefValue);
             }
+        };
 
-            const hrefValue = element.getAttribute('href');
-
-            if (hrefValue === null) {
-                debug('`href` is not specified');
-
-                return;
-            }
+        const checkSameOrigin = (resource: string, element: IAsyncHTMLElement): boolean => {
+            const hrefValue = normalizeString(element.getAttribute('href'));
 
             let fullURL = hrefValue;
 
@@ -60,28 +61,60 @@ const rule: IRuleBuilder = {
             // change that by setting `includeSameOriginURLs` to `true`.
 
             if (sameOrigin(resource, fullURL) && !includeSameOriginURLs) {
-                debug('Same origin not included and same origin link');
+                debug('Is same origin');
+
+                return false;
+            }
+
+            return true;
+
+        };
+
+        const hasHrefValue = (element: IAsyncHTMLElement): boolean => {
+            if (normalizeString(element.getAttribute('href')) !== null) {
+                return true;
+            }
+
+            debug(`'href' is not specified`);
+
+            return false;
+        };
+
+        const hasTargetBlank = (element: IAsyncHTMLElement): boolean => {
+            if (normalizeString(element.getAttribute('target')) === '_blank') {
+                return true;
+            }
+
+            debug('No `target="_blank"` found');
+
+            return false;
+        };
+
+        const validate = async (data: IElementFound) => {
+            const { element, resource } = data;
+
+            if (!hasTargetBlank(element) ||
+                !hasHrefValue(element) ||
+                !checkSameOrigin(resource, element)) {
 
                 return;
             }
 
-            const relValues = (element.getAttribute('rel') || '').split(' ');
-            const missingRelValues = [];
+            // TODO: In the future, change this to not use caniuse data.
+            // https://github.com/MicrosoftEdge/Sonar/issues/30
 
-            // TODO: In the future, only recommended `noreferrer`
-            // if target browsers don't support `noopener`.
-            //
-            // https://github.com/sonarwhal/sonar/issues/134
+            const targetedBrowsers = context.targetedBrowsers.join();
+            const relValuesToCheckFor = ['noopener'];
 
-            ['noopener', 'noreferrer'].forEach((e) => {
-                if (!relValues.includes(e)) {
-                    missingRelValues.push(e);
-                }
-            });
+            // If no browsers were targeted, or `noopener`
+            // is not supported by all targeted browsers,
+            // also check for 'noreferrer'.
 
-            if (missingRelValues.length > 0) {
-                await context.report(resource, element, `'${cutString(await element.outerHTML(), 100)}' is missing link ${pluralize('type', missingRelValues.length)} '${missingRelValues.join('\', \'')}'`, hrefValue);
+            if (!targetedBrowsers || !isSupported('rel-noopener', targetedBrowsers)) {
+                relValuesToCheckFor.push('noreferrer');
             }
+
+            await checkForRelValues(resource, element, relValuesToCheckFor);
         };
 
         loadRuleConfigs();

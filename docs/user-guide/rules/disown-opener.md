@@ -1,8 +1,10 @@
 # Require external links to disown opener (`disown-opener`)
 
-`disown-opener` warns against not using `rel="noopener noreferrer"`
-on `a` and `area` elements that have `target="_blank"` and link to
-other origins.
+`disown-opener` warns against not specifying the `rel` attribute
+with both the `noopener` and `noreferrer` values (or only `noopener`
+if all the [targeted browsers](../index.md#browser-configuration)
+support it) on `a` and `area` elements that have `target="_blank"`
+and link to other origins.
 
 ## Why is this important?
 
@@ -33,7 +35,7 @@ Links that have `target="_blank"`, such as
 
   In Chromium based browser, using `ref="noopener"` (or
   [`rel="noreferrer"`](https://blog.chromium.org/2009/12/links-that-open-in-new-processes.html)
-  for older version), and thus, preventing the `window.opener` reference
+  for older versions), and thus, preventing the `window.opener` reference
   from being set, allows new pages to be opened in their own process.
 
   Edge is not affected by this.
@@ -42,8 +44,10 @@ Notes:
 
 * Not all browsers [support](http://caniuse.com/#feat=rel-noopener)
   `rel="noopener"`, so in order to ensure that things work as expected
-  in all browsers, for the time being, this rule requires
-  `rel="noopener noreferrer"`.
+  in as many browsers as possible, by default, the rule requires both
+  the `noopener` and `noreferrer` values to be specified. However, if
+  all the [targeted browsers](../index.md#browser-configuration) support
+  `noopener`, only `noopener` will be required.
 
 * The reason why the rule does not check the same origin links by
   default is because:
@@ -58,7 +62,8 @@ Notes:
   section to see how the rule can be made to also check same origin
   links.
 
-* [`noopener` and `noreferrer` only work for `a` and `area` elements](https://html5sec.org/#143).
+* [`noopener` and `noreferrer` only work for `a` and `area`
+  elements](https://html5sec.org/#143).
 
 * In the future there may be a [CSP valueless
   property](https://github.com/w3c/webappsec/issues/139) property that
@@ -66,9 +71,12 @@ Notes:
 
 ## What does the rule check?
 
-By default, the rule checks if `rel="noopener noreferrer"` was specified
-on `a` and `area` elements that have `target="_blank"` and link to other
-origins.
+By default, the rule checks if the `rel` attribute was specified with
+both the `noopener` and `noreferrer` values on `a` and `area` elements
+that have `target="_blank"` and link to other origins.
+
+If the [targeted browsers are specified](#can-the-rule-be-configured),
+based on their support, the rule might only require the `noopener` value.
 
 Let's presume the original page is `https://example1.com`.
 
@@ -151,6 +159,11 @@ should also include `rel="noopener noreferrer"`.
     "includeSameOriginURLs": true
 }]
 ```
+
+Also, note that this rule takes into consideration the [targeted
+browsers](../index.md#browser-configuration), and if all of them
+support the `noopener` value, the rule won't require the `noreferrer`
+value.
 
 ## Further Reading
 

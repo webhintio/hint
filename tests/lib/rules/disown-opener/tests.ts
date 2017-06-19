@@ -11,7 +11,7 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 const ruleName = getRuleName(__dirname);
 
 const generateMissingMessage = (value: string, linkTypes: Array<string>): string => {
-    return `'${cutString(value, 100)}' is missing link ${pluralize('type', linkTypes.length)} '${linkTypes.join('\', \'')}'`;
+    return `'${cutString(value, 100)}' is missing 'rel' ${pluralize('value', linkTypes.length)} '${linkTypes.join('\', \'')}'`;
 };
 
 const testsForDefaults: Array<RuleTest> = [
@@ -128,11 +128,11 @@ const testsForDefaults: Array<RuleTest> = [
     // 'target="_blank"', 'noopener', and 'noreferrer'
 
     {
-        name: `'a' with 'href="https://example.com"' has 'target="_blank"' and 'noreferrer'`,
+        name: `'a' with 'href="https://example.com"' has 'target="_blank"', 'noopener', and noreferrer'`,
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" target="_blank" rel="noopener noreferrer">test</a>`) }
     },
     {
-        name: `'map' with href="https://example.com" has 'target="_blank"' and 'noreferrer'`,
+        name: `'map' with href="https://example.com" has 'target="_blank"', 'noopener', and noreferrer'`,
         serverConfig: {
             '/': generateHTMLPage(undefined, `
                     <img src="test.png" width="10" height="10" usemap="#test">
@@ -143,7 +143,19 @@ const testsForDefaults: Array<RuleTest> = [
     }
 ];
 
-const testsForConfigs: Array<RuleTest> = [
+const testsForBrowsersListConfig: Array<RuleTest> = [
+    {
+        name: `'a' with 'href="https://example.com"' has 'target="_blank"', and 'noopener' is supported by all targeted browsers`,
+        reports: [{ message: generateMissingMessage('<a href="https://example.com" id="test" class="t … test4 test5 test5 test6" target="_blank">test</a>', ['noopener']) }],
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" id="test" class="test1 test2 test3 test4 test5 test5 test6" target="_blank">test</a>`) }
+    },
+    {
+        name: `'a' with 'href="https://example.com"' has 'target="_blank"', 'noopener', and 'noreferrer', and 'noopener' is supported by all targeted browsers`,
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" target="_blank" rel="noopener noreferrer">test</a>`) }
+    }
+];
+
+const testsForIncludeSameOriginURLsConfig: Array<RuleTest> = [
     {
         name: `'a' with 'href=""' has 'target="_blank"'`,
         reports: [{ message: generateMissingMessage('<a href="" target="_blank">test</a>', ['noopener', 'noreferrer']) }],
@@ -178,4 +190,5 @@ const testsForConfigs: Array<RuleTest> = [
 ];
 
 ruleRunner.testRule(ruleName, testsForDefaults);
-ruleRunner.testRule(ruleName, testsForConfigs, { ruleOptions: { includeSameOriginURLs: true } });
+ruleRunner.testRule(ruleName, testsForBrowsersListConfig, { browserslist: ['Firefox >= 52'] });
+ruleRunner.testRule(ruleName, testsForIncludeSameOriginURLsConfig, { ruleOptions: { includeSameOriginURLs: true } });
