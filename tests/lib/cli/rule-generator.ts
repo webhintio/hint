@@ -3,15 +3,15 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { readFileAsync } from '../../src/lib/utils/misc';
+import { readFileAsync } from '../../../src/lib/utils/misc';
 
 const ruleScriptDir = 'src/lib/rules';
 const ruleDocDir = 'docs/user-guide/rules';
 const ruleTestDir = 'tests/lib/rules';
 const ruleDistScriptDir = `dist/${ruleScriptDir}`;
 
-const expectedScriptDir = 'tests/lib/fixtures/generate/new.txt';
-const scriptTemplateDir = 'src/lib/templates/rule-script-ts.hbs';
+const expectedScriptDir = 'tests/lib/cli/fixtures/new.txt';
+const scriptTemplateDir = 'src/lib/cli/templates/rule-script-ts.hbs';
 const existingRuleName = 'Content Type';
 const normalizedExistingRuleName = 'content-type';
 const newRuleName = 'new';
@@ -35,23 +35,10 @@ const stubUtilObject = {
     }
 };
 
-const resourceLoader = { getRules() { } };
-const rules = new Map([
-    ['axe', {
-        meta: {
-            docs: { description: 'description rule axe' },
-            recommended: false
-        }
-    }],
-    ['content-type', {
-        meta: {
-            docs: { description: 'description rule content-type' },
-            recommended: true
-        }
-    }]
-]);
+const resourceLoader = { getCoreRules() { } };
+const rules = ['axe', 'content-type'];
 
-proxyquire('../../src/lib/rule-generator', {
+proxyquire('../../../src/lib/cli/rule-generator', {
     fs,
     inquirer,
     resourceLoader,
@@ -59,33 +46,32 @@ proxyquire('../../src/lib/rule-generator', {
     util: stubUtilObject
 });
 
-import * as rule from '../../src/lib/rule-generator';
+import * as rule from '../../../src/lib/cli/rule-generator';
 
 test.beforeEach((t) => {
     sinon.stub(stubPromisifiedMethodObject, 'mkdirAsync').resolves();
     sinon.stub(stubPromisifiedMethodObject, 'rimrafAsync').resolves();
     sinon.stub(stubPromisifiedMethodObject, 'writeFileAsync').resolves();
-    sinon.stub(resourceLoader, 'getRules').resolves(rules);
+    sinon.stub(resourceLoader, 'getCoreRules').resolves(rules);
     sinon.spy(stubUtilObject, 'promisify');
 
     t.context.promisify = stubUtilObject.promisify;
     t.context.mkdirAsync = stubPromisifiedMethodObject.mkdirAsync;
     t.context.rimrafAsync = stubPromisifiedMethodObject.rimrafAsync;
     t.context.writeFileAsync = stubPromisifiedMethodObject.writeFileAsync;
-    t.context.getRules = resourceLoader.getRules;
+    t.context.loadRules = resourceLoader.getCoreRules;
 });
 
 test.afterEach.always((t) => {
     t.context.promisify.restore();
     t.context.mkdirAsync.restore();
-    t.context.readFileAsync.restore();
     t.context.rimrafAsync.restore();
     t.context.writeFileAsync.restore();
-    t.context.getRules.restore();
+    t.context.loadRules.restore();
 });
 
 test.serial(`if core, 'generate' should call to write script, documentation, test file and update the index page`, async (t) => {
-    const sandbox = sinon.sandbox;
+    const sandbox = sinon.sandbox.create();
     const results = {
         category: 'PWAs',
         description: 'An important new rule',
@@ -99,9 +85,7 @@ test.serial(`if core, 'generate' should call to write script, documentation, tes
     sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves('');
     sandbox.stub(inquirer, 'prompt').resolves(results);
 
-    t.context.sandbox = sandbox;
-    t.context.readFileAsync = stubPromisifiedMethodObject.readFileAsync;
-    await rule.generate();
+    await rule.newRule();
 
     const mkdirAsyncFn = t.context.mkdirAsync;
     const writeFileAsyncFn = t.context.writeFileAsync;
@@ -122,7 +106,7 @@ test.serial(`if core, 'generate' should call to write script, documentation, tes
     // Add to index page
     t.true(writeFileAsyncFn.args[3][0].includes(path.join(ruleDocDir, 'index.md')));
 
-    t.context.sandbox.restore();
+    sandbox.restore();
 });
 
 // test.serial(`if not core, 'generate' should only call to write script`, async (t) => {
@@ -159,7 +143,7 @@ test.serial(`if core, 'generate' should call to write script, documentation, tes
 // });
 
 test.serial(`The right script template should be used in 'generate'`, async (t) => {
-    const sandbox = sinon.sandbox;
+    const sandbox = sinon.sandbox.create();
     const results = {
         category: 'PWAs',
         description: 'An important new rule',
@@ -176,16 +160,14 @@ test.serial(`The right script template should be used in 'generate'`, async (t) 
     sandbox.stub(inquirer, 'prompt').resolves(results);
     sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves(scriptTemplate);
 
-    t.context.sandbox = sandbox;
-    t.context.readFileAsync = stubPromisifiedMethodObject.readFileAsync;
-    await rule.generate();
+    await rule.newRule();
 
     const expectedContent = await readFileAsync(expectedScriptDir);
     const actualContent = t.context.writeFileAsync.args[0][1];
 
     t.is(actualContent, expectedContent);
 
-    t.context.sandbox.restore();
+    sandbox.restore();
 });
 
 // test.serial(`Throw an error if it's a core rule but 'js' is used as an extension when calling 'generate'`, async (t) => {
@@ -214,7 +196,7 @@ test.serial(`The right script template should be used in 'generate'`, async (t) 
 // });
 
 test.serial(`Throw an error if a new rule already exists when calling 'generate'`, async (t) => {
-    const sandbox = sinon.sandbox;
+    const sandbox = sinon.sandbox.create();
     const results = {
         category: 'PWAs',
         description: 'An important new rule',
@@ -228,26 +210,21 @@ test.serial(`Throw an error if a new rule already exists when calling 'generate'
     sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves('');
     sandbox.stub(inquirer, 'prompt').resolves(results);
 
-    t.context.sandbox = sandbox;
-    t.context.readFileAsync = stubPromisifiedMethodObject.readFileAsync;
-
-    const error = await t.throws(rule.generate());
+    const error = await t.throws(rule.newRule());
 
     t.is(error.message, `This rule already exists!`);
 
-    t.context.sandbox.restore();
+    sandbox.restore();
 });
 
 test.serial(`'remove' should call to remove the correct rule`, async (t) => {
-    const sandbox = sinon.sandbox;
+    const sandbox = sinon.sandbox.create();
     const results = { name: existingRuleName };
 
     sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves('');
     sandbox.stub(inquirer, 'prompt').resolves(results);
 
-    t.context.sandbox = sandbox;
-    t.context.readFileAsync = stubPromisifiedMethodObject.readFileAsync;
-    await rule.remove();
+    await rule.removeRule();
 
     const rimrafAsyncFn = t.context.rimrafAsync;
     const writeFileAsyncFn = t.context.writeFileAsync;
@@ -268,22 +245,19 @@ test.serial(`'remove' should call to remove the correct rule`, async (t) => {
     // UPdate index page
     t.true(writeFileAsyncFn.args[0][0].includes(path.join(ruleDocDir, 'index.md')));
 
-    t.context.sandbox.restore();
+    sandbox.restore();
 });
 
 test.serial(`Throw an error if a rule doesn't exist when calling 'remove'`, async (t) => {
-    const sandbox = sinon.sandbox;
+    const sandbox = sinon.sandbox.create();
     const results = { name: newRuleName };
 
     sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves('');
     sandbox.stub(inquirer, 'prompt').resolves(results);
 
-    t.context.sandbox = sandbox;
-    t.context.readFileAsync = stubPromisifiedMethodObject.readFileAsync;
-
-    const error = await t.throws(rule.remove());
+    const error = await t.throws(rule.removeRule());
 
     t.is(error.message, `This rule doesn't exist!`);
 
-    t.context.sandbox.restore();
+    sandbox.restore();
 });

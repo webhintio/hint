@@ -1,5 +1,7 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as url from 'url';
+
 import { promisify } from 'util';
 
 import * as stripBom from 'strip-bom';
@@ -8,6 +10,9 @@ import * as stripComments from 'strip-json-comments';
 
 import { debug as d } from './debug';
 const debug = d(__filename);
+
+// const readdir = promisify(fs.readdir);
+const readdir = fs.readdirSync; //eslint-disable-line no-sync
 
 /** Cut a given string adding ` … ` in the middle.
  * The default length is 50 characters.
@@ -87,9 +92,34 @@ const loadJSFile = (filePath: string): any => {
     return requireUncached(filePath);
 };
 
+/**
+ * Searches for the first folder that contains the `fileToFind` going up the
+ * tree.
+ *
+ * By default, it looks for `package.json` in the current `__dirname` and goes
+ * up the tree until one is found. If none, it throws an `Error`:
+ * `No package found`.
+ */
+const findPackageRoot = (dirname = __dirname, fileToFind = 'package.json') => {
+    const content = readdir(dirname);
+
+    if (content.includes(fileToFind)) {
+        return dirname;
+    }
+
+    const parentFolder = path.resolve(dirname, '..');
+
+    if (parentFolder === dirname) {
+        throw new Error('No package found');
+    }
+
+    return findPackageRoot(parentFolder, fileToFind);
+};
+
 export {
     cutString,
     delay,
+    findPackageRoot,
     hasProtocol,
     isDataURI,
     isLocalFile,
