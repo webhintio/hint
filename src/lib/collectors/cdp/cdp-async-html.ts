@@ -37,7 +37,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
         let nodeIds;
 
         try {
-            nodeIds = (await this._DOM.querySelectorAll({ nodeId: 1, selector })).nodeIds;
+            nodeIds = (await this._DOM.querySelectorAll({ nodeId: this._dom.nodeId, selector })).nodeIds;
         } catch (e) {
             return [];
         }
