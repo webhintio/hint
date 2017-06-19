@@ -121,121 +121,103 @@ export class Sonar extends EventEmitter {
             });
         }
 
-        debug('Loading plugins');
-        this.plugins = new Map();
-        if (config.plugins) {
+        const collectorBuillder = resourceLoader.loadCollector(this.collectorId);
 
-            const plugins = resourceLoader.getPlugins();
-
-            config.plugins.forEach((id: string) => {
-                const plugin = plugins.get(id);
-
-                const instance = plugin.create(config);
-
-                Object.keys(instance).forEach((eventName) => {
-                    this.on(eventName, instance[eventName]);
-                });
-
-                this.plugins.set(id, instance);
-            });
-
-            debug(`Plugins loaded: ${this.plugins.size}`);
-        }
-
-        debug('Loading rules');
-        this.rules = new Map();
-        if (config.rules) {
-
-            const rules = resourceLoader.getRules();
-            const rulesIds = Object.keys(config.rules);
-
-            const createEventHandler = (handler: Function, worksWithLocalFiles: boolean, ruleId: string) => {
-                return (event) => {
-                    const localResource = url.parse(event.resource).protocol === 'file:';
-                    const urlsIgnored = this.ignoredUrls.get(ruleId);
-
-                    // Some rules don't work with local resource,
-                    // so it doesn't make sense to the event.
-
-                    if ((localResource && !worksWithLocalFiles) || this.isIgnored(urlsIgnored, event.resource)) {
-                        return null;
-                    }
-
-                    // If a rule is spending a lot of time to finish we should ignore it.
-
-                    return new Promise((resolve) => {
-                        let immediateId;
-
-                        const timeoutId = setTimeout(() => {
-                            if (immediateId) {
-                                clearImmediate(immediateId);
-                                immediateId = null;
-                            }
-
-                            debug(`Rule ${ruleId} timeout`);
-
-                            resolve(null);
-                        }, config.rulesTimeout || 120000);
-
-                        immediateId = setImmediate(async () => {
-                            const result = await handler(event);
-
-                            if (timeoutId) {
-                                clearTimeout(timeoutId);
-                            }
-
-                            resolve(result);
-                        });
-                    });
-                };
-            };
-
-            const ignoreCollector = (rule) => {
-                const ignoredCollectors = rule.meta.ignoredCollectors;
-
-                if (!ignoredCollectors) {
-                    return false;
-                }
-
-                return ignoredCollectors.includes(this.collectorId);
-            };
-
-            rulesIds.forEach((id: string) => {
-                const rule = rules.get(id);
-
-                const ruleOptions = config.rules[id];
-                const ruleWorksWithLocalFiles = rule.meta.worksWithLocalFiles;
-                const severity = getSeverity(ruleOptions);
-
-                if (ignoreCollector(rule)) {
-                    debug(`Rule "${id}" is disable for the collector "${this.collectorId}"`);
-                    logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the collector "${this.collectorId}"`));
-                } else if (severity) {
-                    const context = new RuleContext(id, this, severity, ruleOptions, rule.meta);
-                    const instance = rule.create(context);
-
-                    Object.keys(instance).forEach((eventName) => {
-                        this.on(eventName, createEventHandler(instance[eventName], ruleWorksWithLocalFiles, id));
-                    });
-
-                    this.rules.set(id, instance);
-                } else {
-                    debug(`Rule "${id}" is disabled`);
-                }
-            });
-
-            debug(`Rules loaded: ${this.rules.size}`);
-        }
-    }
-
-    async init() {
-        const collectors = resourceLoader.getCollectors();
-
-        if (!collectors.has(this.collectorId)) {
+        if (!collectorBuillder) {
             throw new Error(`Collector "${this.collectorId}" not found`);
         }
 
-        this.collector = await collectors.get(this.collectorId)(this, this.collectorConfig);
+        this.collector = collectorBuillder(this, this.collectorConfig);
+        this.initRules(config);
+    }
+
+    private initRules(config) {
+        debug('Loading rules');
+        this.rules = new Map();
+        if (!config.rules) {
+            return;
+        }
+
+        const rules = resourceLoader.loadRules(config.rules);
+        const rulesIds = Object.keys(config.rules);
+
+        const createEventHandler = (handler: Function, worksWithLocalFiles: boolean, ruleId: string) => {
+            return (event) => {
+                const localResource = url.parse(event.resource).protocol === 'file:';
+                const urlsIgnored = this.ignoredUrls.get(ruleId);
+
+                // Some rules don't work with local resource,
+                // so it doesn't make sense to the event.
+
+                if ((localResource && !worksWithLocalFiles) || this.isIgnored(urlsIgnored, event.resource)) {
+                    return null;
+                }
+
+                // If a rule is spending a lot of time to finish we should ignore it.
+
+                return new Promise((resolve) => {
+                    let immediateId;
+
+                    const timeoutId = setTimeout(() => {
+                        if (immediateId) {
+                            clearImmediate(immediateId);
+                            immediateId = null;
+                        }
+
+                        debug(`Rule ${ruleId} timeout`);
+
+                        resolve(null);
+                    }, config.rulesTimeout || 120000);
+
+                    immediateId = setImmediate(async () => {
+                        const result = await handler(event);
+
+                        if (timeoutId) {
+                            clearTimeout(timeoutId);
+                        }
+
+                        resolve(result);
+                    });
+                });
+            };
+        };
+
+        const ignoreCollector = (rule) => {
+            const ignoredCollectors = rule.meta.ignoredCollectors;
+
+            if (!ignoredCollectors) {
+                return false;
+            }
+
+            return ignoredCollectors.includes(this.collectorId);
+        };
+
+        rulesIds.forEach((id: string) => {
+            const rule = rules.get(id);
+
+            const ruleOptions = config.rules[id];
+            const ruleWorksWithLocalFiles = rule.meta.worksWithLocalFiles;
+            const severity = getSeverity(ruleOptions);
+
+            if (ignoreCollector(rule)) {
+                debug(`Rule "${id}" is disabled for the collector "${this.collectorId}"`);
+                //TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
+                logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the collector "${this.collectorId}"`));
+            } else if (severity) {
+                const context = new RuleContext(id, this, severity, ruleOptions, rule.meta);
+                const instance = rule.create(context);
+
+                Object.keys(instance).forEach((eventName) => {
+                    this.on(eventName, createEventHandler(instance[eventName], ruleWorksWithLocalFiles, id));
+                });
+
+                this.rules.set(id, instance);
+            } else {
+                debug(`Rule "${id}" is disabled`);
+            }
+        });
+
+        debug(`Rules loaded: ${this.rules.size}`);
     }
 
     public fetchContent(target, headers) {
@@ -293,11 +275,3 @@ export class Sonar extends EventEmitter {
         return super.emitAsync(event, ...values);
     }
 }
-
-export const create = async (config): Promise<Sonar> => {
-    const sonar = new Sonar(config);
-
-    await sonar.init();
-
-    return sonar;
-};

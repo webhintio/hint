@@ -24,7 +24,7 @@ if (debug) {
 // ------------------------------------------------------------------------------
 
 // Now we can safely include the other modules that use debug.
-import { cli } from '../lib/cli';
+import * as cli from '../lib/cli';
 
 // ------------------------------------------------------------------------------
 // Execution

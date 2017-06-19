@@ -18,17 +18,17 @@ import * as path from 'path';
 import * as ora from 'ora';
 
 import * as Config from './config';
-import * as Rule from './rule-generator';
 import { debug as d } from './utils/debug';
 import { getAsUris } from './utils/get-as-uri';
 import { loadJSONFile } from './utils/misc';
 import * as logger from './utils/logging';
 import { cutString } from './utils/misc';
-import { options } from './ui/options';
+import { options } from './cli/options';
+import { newRule, removeRule } from './cli/rule-generator';
+import { initSonarrc } from './cli/sonarrc-generator';
 import * as resourceLoader from './utils/resource-loader';
 import { Severity } from './types';
-import * as sonar from './sonar';
-import * as validator from './config/config-validator';
+import { Sonar } from './sonar';
 
 const debug = d(__filename);
 const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
@@ -48,7 +48,7 @@ const messages = {
     'traverse::up': 'Traversing the DOM'
 };
 
-const setUpUserFeedback = (sonarInstance: sonar.Sonar, spinner: { text: string }) => {
+const setUpUserFeedback = (sonarInstance: Sonar, spinner: { text: string }) => {
     sonarInstance.prependAny((event: string, value: { resource: string }) => {
         const message = messages[event];
 
@@ -64,113 +64,104 @@ const setUpUserFeedback = (sonarInstance: sonar.Sonar, spinner: { text: string }
 // Public
 // ------------------------------------------------------------------------------
 
-export const cli = {
-    /** Executes the CLI based on an array of arguments that is passed in. */
-    execute: async (args: string | Array<string> | Object): Promise<number> => {
+// HACK: we need this to correctly test the messages in tests/lib/cli.ts.
+export let sonar: Sonar = null;
 
-        const format = (formatterName, results) => {
-            const formatters = resourceLoader.getFormatters();
-            const formatter = formatters.get(formatterName) || formatters.get('json');
+/** Executes the CLI based on an array of arguments that is passed in. */
+export const execute = async (args: string | Array<string> | Object): Promise<number> => {
 
-            formatter.format(results);
-        };
+    const format = (formatterName, results) => {
+        const formatter = resourceLoader.loadFormatter(formatterName) || resourceLoader.loadFormatter('json');
 
-        const currentOptions = options.parse(args);
-        const targets = getAsUris(currentOptions._);
+        formatter.format(results);
+    };
 
-        if (currentOptions.version) { // version from package.json
-            logger.log(`v${pkg.version}`);
+    const currentOptions = options.parse(args);
+    const targets = getAsUris(currentOptions._);
 
-            return 0;
-        }
+    if (currentOptions.version) { // version from package.json
+        logger.log(`v${pkg.version}`);
 
-        if (currentOptions.init) {
-            await Config.generate();
+        return 0;
+    }
 
-            return 0;
-        }
+    if (currentOptions.init) {
+        await initSonarrc();
 
-        if (currentOptions.newRule) {
-            await Rule.generate();
+        return 0;
+    }
 
-            return 0;
-        }
+    if (currentOptions.newRule) {
+        await newRule();
 
-        if (currentOptions.removeRule) {
-            await Rule.remove();
+        return 0;
+    }
 
-            return 0;
-        }
+    if (currentOptions.removeRule) {
+        await removeRule();
 
-        if (currentOptions.help || !targets.length) {
-            logger.log(options.generateHelp());
+        return 0;
+    }
 
-            return 0;
-        }
+    if (currentOptions.help || !targets.length) {
+        logger.log(options.generateHelp());
 
-        let configPath;
+        return 0;
+    }
 
-        if (!currentOptions.config) {
-            configPath = Config.getFilenameForDirectory(process.cwd());
-        } else {
-            configPath = currentOptions.config;
-        }
+    let configPath;
 
-        const config = Config.load(configPath);
+    if (!currentOptions.config) {
+        configPath = Config.getFilenameForDirectory(process.cwd());
+    } else {
+        configPath = currentOptions.config;
+    }
 
-        if (!validator.validateConfig(config)) {
-            logger.error('Configuration not valid');
+    const config = Config.load(configPath);
 
-            return 1;
-        }
+    sonar = new Sonar(config);
+    const start = Date.now();
+    const spinner = ora({ spinner: 'line' });
+    let exitCode = 0;
 
-        const engine = await sonar.create(config);
-        const start = Date.now();
+    if (!currentOptions.debug) {
+        spinner.start();
+        setUpUserFeedback(sonar, spinner);
+    }
 
-
-        let exitCode = 0;
-
-        const spinner = ora({ spinner: 'line' });
-
+    const endSpinner = (method: string) => {
         if (!currentOptions.debug) {
-            spinner.start();
-            setUpUserFeedback(engine, spinner);
+            spinner[method]();
         }
+    };
 
-        const endSpinner = (method: string) => {
-            if (!currentOptions.debug) {
-                spinner[method]();
-            }
-        };
+    for (const target of targets) {
+        try {
+            // spinner.text = `Scanning ${target.href}`;
+            const results = await sonar.executeOn(target); // eslint-disable-line no-await-in-loop
+            const hasError = results.some((result) => {
+                return result.severity === Severity.error;
+            });
 
-        for (const target of targets) {
-            try {
-                // spinner.text = `Scanning ${target.href}`;
-                const results = await engine.executeOn(target); // eslint-disable-line no-await-in-loop
-                const hasError = results.some((result) => {
-                    return result.severity === Severity.error;
-                });
-
-                if (hasError) {
-                    exitCode = 1;
-                    endSpinner('fail');
-                } else {
-                    endSpinner('succeed');
-                }
-
-                format(engine.formatter, results);
-            } catch (e) {
+            if (hasError) {
                 exitCode = 1;
                 endSpinner('fail');
-                debug(`Failed to analyze: ${target.href}`);
+            } else {
+                endSpinner('succeed');
             }
+
+            format(sonar.formatter, results);
+        } catch (e) {
+            exitCode = 1;
+            endSpinner('fail');
+            debug(`Failed to analyze: ${target.href}`);
+            debug(e);
         }
-
-        await engine.close();
-
-        debug(`Total runtime: ${Date.now() - start}ms`);
-
-        return exitCode;
-
     }
+
+    await sonar.close();
+
+    debug(`Total runtime: ${Date.now() - start}ms`);
+
+    return exitCode;
 };

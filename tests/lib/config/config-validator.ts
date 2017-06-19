@@ -28,30 +28,10 @@ test('if config has an invalid schema, it should return false', (t) => {
     t.false(valid);
 });
 
-test(`if there is a rule in the config that doesn't exist, it should return false`, (t) => {
-    const config = _.cloneDeep(validConfig);
-
-    config.rules['no-rule'] = 'warning';
-
-    const valid = configValidator.validateConfig(config);
-
-    t.false(valid);
-});
-
 test(`if rule severity isn't valid, it should return false`, (t) => {
     const config = _.cloneDeep(validConfig);
 
     config.rules['disallowed-headers'] = ['no-valid-severity', {}];
-
-    const valid = configValidator.validateConfig(config);
-
-    t.false(valid);
-});
-
-test(`if rule schema isn't valid, it should return false`, (t) => {
-    const config = _.cloneDeep(validConfig);
-
-    config.rules['disallowed-headers'] = ['warning', { ignore: 'Server' }];
 
     const valid = configValidator.validateConfig(config);
 

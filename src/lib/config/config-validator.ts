@@ -7,13 +7,10 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as _ from 'lodash';
 import * as schemaValidator from 'is-my-json-valid/require';
 
 import { debug as d } from '../utils/debug';
 import * as logger from '../utils/logging';
-import * as resourceLoader from '../utils/resource-loader';
-import { validate as validateRule } from './config-rules';
 
 const debug = d(__filename);
 
@@ -34,35 +31,5 @@ export const validateConfig = (config): boolean => {
         return false;
     }
 
-    // Validate also collectors, plugins, etc.
-    const rules = resourceLoader.getRules();
-
-    const areRulesValid = _.reduce(config.rules, (acum, ruleConfig, ruleId) => {
-        const rule = rules.get(ruleId);
-
-        if (!rule) {
-            logger.error(`Rule "${ruleId}" not found`);
-
-            return false;
-        }
-
-        let validConfig = true;
-
-        try {
-            validConfig = validateRule(rule, ruleConfig, ruleId);
-        } catch (err) {
-            // if severity is invalid
-            validConfig = false;
-        }
-
-        if (!validConfig) {
-            logger.error(`Invalid configuration for "${ruleId}"`);
-
-            return false;
-        }
-
-        return acum && true;
-    }, true);
-
-    return areRulesValid;
+    return true;
 };
