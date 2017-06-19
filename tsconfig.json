@@ -5,7 +5,13 @@
         "module": "commonjs",
         "sourceMap": true,
         "target": "esnext",
-        "lib": ["es2017", "dom","dom.iterable"]
+        "lib": [
+            "es2017",
+            "esnext",
+            "esnext.asynciterable",
+            "dom",
+            "dom.iterable"
+        ]
     },
     "exclude": [
         "node_modules"

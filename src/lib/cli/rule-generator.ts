@@ -15,15 +15,15 @@ import * as Handlebars from 'handlebars';
 import * as rimraf from 'rimraf';
 import * as _ from 'lodash';
 
-import { debug as d } from './utils/debug';
-import * as logger from './utils/logging';
-import { normalizeStringByDelimiter as normalize } from './utils/misc';
-import * as resourceLoader from './utils/resource-loader';
+import { debug as d } from '../utils/debug';
+import * as logger from '../utils/logging';
+import { normalizeStringByDelimiter as normalize, findPackageRoot as packageRoot } from '../utils/misc';
+import * as resourceLoader from '../utils/resource-loader';
 
 const debug = d(__filename);
-const dir = process.cwd();
+const dir = packageRoot();
 
-const ruleTemplateDir = 'src/lib/templates';
+const ruleTemplateDir = './templates';
 const ruleScriptDir = 'src/lib/rules';
 const ruleDocDir = 'docs/user-guide/rules';
 const ruleTestDir = 'tests/lib/rules';
@@ -94,21 +94,21 @@ const loadRuleScriptContent = (rule: NewRule): Promise<string> => {
     if (!rule.extension) {
         rule.extension = 'ts';
     }
-    const templatePath = path.join(dir, ruleTemplateDir, `rule-script-${rule.extension}.hbs`);
+    const templatePath = path.join(__dirname, ruleTemplateDir, `rule-script-${rule.extension}.hbs`);
 
     return loadPopulatedTemplate(templatePath, rule);
 };
 
 /** Loads generated sample documentation content with a given `rule`. */
 const loadRuleDocContent = (rule: NewRule): Promise<string> => {
-    const templatePath = path.join(dir, ruleTemplateDir, 'rule-doc.hbs');
+    const templatePath = path.join(__dirname, ruleTemplateDir, 'rule-doc.hbs');
 
     return loadPopulatedTemplate(templatePath, rule);
 };
 
 /** Loads generated sample test content with a given `rule`. */
 const loadRuleTestContent = (rule: NewRule): Promise<string> => {
-    const templatePath = path.join(dir, ruleTemplateDir, 'rule-test.hbs');
+    const templatePath = path.join(__dirname, ruleTemplateDir, 'rule-test.hbs');
 
     return loadPopulatedTemplate(templatePath, rule);
 };
@@ -203,9 +203,9 @@ const ruleExists = (ruleName: string, currentRules: Array<string>): boolean => {
 };
 
 /** Generates a new rule */
-export const generate = async (): Promise<void> => {
+export const newRule = async (): Promise<void> => {
     // const fileTypes = ['ts', 'js'];
-    const newRule: NewRule = {
+    const rule: NewRule = {
         category: '',
         description: '',
         elementType: '',
@@ -314,25 +314,25 @@ export const generate = async (): Promise<void> => {
 
     logger.log('Welcome to Sonar rule generator');
     const results = await inquirer.prompt(questions);
-    const currentRules: Array<string> = [...resourceLoader.getRules().keys()];
+    const currentRules: Array<string> = resourceLoader.getCoreRules();
 
-    newRule.name = normalize(results.name, '-');
-    newRule.description = results.description;
-    newRule.category = results.category;
-    newRule.isCore = results.isCore || true;
-    newRule.extension = results.extension || 'ts';
-    newRule.useCase[results.useCase] = true;
-    newRule.events = getEventsByUseCase(results.useCase);
+    rule.name = normalize(results.name, '-');
+    rule.description = results.description;
+    rule.category = results.category;
+    rule.isCore = results.isCore || true;
+    rule.extension = results.extension || 'ts';
+    rule.useCase[results.useCase] = true;
+    rule.events = getEventsByUseCase(results.useCase);
 
     if (results.elementType) {
-        newRule.elementType = results.elementType;
+        rule.elementType = results.elementType;
     }
 
-    if (!newRule.name) {
+    if (!rule.name) {
         throw new Error(`Rule name can't be empty.`);
     }
 
-    if (ruleExists(newRule.name, currentRules)) {
+    if (ruleExists(rule.name, currentRules)) {
         throw new Error(`This rule already exists!`);
     }
 
@@ -340,24 +340,24 @@ export const generate = async (): Promise<void> => {
     //     throw new Error(`The core rule can't be a 'js' file.`);
     // }
 
-    await generateRuleScript(newRule);
+    await generateRuleScript(rule);
 
-    logger.log(`Script ${newRule.name}.${newRule.extension} was created.`);
+    logger.log(`Script ${rule.name}.${rule.extension} was created.`);
 
-    if (newRule.isCore) {
-        await generateRuleDoc(newRule);
-        logger.log(`Documentation file ${newRule.name}.md was created.`);
+    if (rule.isCore) {
+        await generateRuleDoc(rule);
+        logger.log(`Documentation file ${rule.name}.md was created.`);
 
-        await generateRuleTest(newRule);
-        logger.log(`Test file for rule ${newRule.name} was created.`);
+        await generateRuleTest(rule);
+        logger.log(`Test file for rule ${rule.name} was created.`);
 
-        await updateRuleIndex(newRule);
-        logger.log(`Rule ${newRule.name} was added to the list of rules.`);
+        await updateRuleIndex(rule);
+        logger.log(`Rule ${rule.name} was added to the list of rules.`);
     }
 };
 
 /** Removes an existing rule. */
-export const remove = async (): Promise<void> => {
+export const removeRule = async (): Promise<void> => {
     const questions = [
         {
             message: 'What\'s the file name of this rule to be removed? (No file extension needed)',
@@ -369,7 +369,7 @@ export const remove = async (): Promise<void> => {
 
     logger.log('Welcome to Sonar rule remover');
     const results = await inquirer.prompt(questions);
-    const currentRules: Array<string> = [...resourceLoader.getRules().keys()];
+    const currentRules: Array<string> = resourceLoader.getCoreRules();
 
     const normalizedName = normalize(results.name, '-');
     const scriptPath = path.join(dir, ruleScriptDir, normalizedName);

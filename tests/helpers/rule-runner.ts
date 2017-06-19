@@ -12,7 +12,7 @@ import { createServer } from './test-server';
 import { IElementFound, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
-import * as Sonar from '../../src/lib/sonar';
+import { Sonar } from '../../src/lib/sonar';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
 export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: object = {}) => {
@@ -22,14 +22,14 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
     const createConfig = (id: string, collector: string, opts?) => {
         const rules = {};
 
-        if (!opts) {
-            rules[id] = 'error';
-        } else {
+        if (opts && opts.ruleOptions) {
             rules[id] = ['error', opts.ruleOptions];
+        } else {
+            rules[id] = 'error';
         }
 
         return {
-            browserslist: opts.browserslist || [],
+            browserslist: opts && opts.browserslist || [],
             collector: { name: collector },
             rules
         };
@@ -74,7 +74,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
 
     /** Creates a new collector with just the rule to be tested and executing
      * any required `before` task as indicated by `ruleTest`. */
-    const createCollector = async (t, ruleTest: RuleTest, collector: string, attemp: number): Promise<Sonar.Sonar> => {
+    const createCollector = async (t, ruleTest: RuleTest, collector: string, attemp: number): Promise<Sonar> => {
         const { server } = t.context;
         const { serverConfig } = ruleTest;
 
@@ -82,7 +82,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
             await ruleTest.before();
         }
 
-        const sonar: Sonar.Sonar = await Sonar.create(createConfig(ruleId, collector, configs));
+        const sonar: Sonar = new Sonar(createConfig(ruleId, collector, configs));
 
         // We only configure the server the first time
         if (attemp === 1 && serverConfig) {
@@ -126,8 +126,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
             });
     };
 
-    const rules = resourceLoader.getRules();
-    const rule = rules.get(ruleId);
+    const rule = resourceLoader.loadRule(ruleId);
 
     /* Run all the tests for a given rule in all collectors. */
     collectors.forEach((collector) => {

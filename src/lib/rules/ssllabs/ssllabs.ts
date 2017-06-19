@@ -168,11 +168,10 @@ There might be something wrong with SSL Labs servers.`;
             additionalProperties: false,
             properties: {
                 grade: {
-                    pattern: '^(A\+|A\-|[A-F]|T|M)$',
+                    pattern: '^(A\\+|A\\-|[A-F]|T|M)$',
                     type: 'string'
                 },
                 ssllabs: {
-                    additionalProperties: false,
                     properties: {
                         all: {
                             pattern: '^(on|done)$',
