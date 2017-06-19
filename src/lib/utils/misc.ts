@@ -44,10 +44,12 @@ const isLocalFile = (resource: string): boolean => {
     return hasProtocol(resource, 'file:');
 };
 
-/** Remove whitespace from both ends of a string and lowercase it. */
-const normalizeString = (value: string) => {
+/** Remove whitespace from both ends of a string and lowercase it.
+ *  If `defaultValue` is provided, it will return it if the return
+ *  value would be `null`. */
+const normalizeString = (value: string, defaultValue?: string) => {
     if (typeof value === 'undefined' || value === null) {
-        return null;
+        return typeof defaultValue !== 'undefined' ? defaultValue : null;
     }
 
     return value.toLowerCase().trim();
