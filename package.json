@@ -90,7 +90,7 @@
     "sinon": "^2.3.2",
     "ts-node": "^3.0.4",
     "typedoc": "^0.7.1",
-    "typescript": "^2.3.3",
+    "typescript": "^2.3.4",
     "typescript-eslint-parser": "^3.0.0"
   },
   "files": [
