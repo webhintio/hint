@@ -230,10 +230,10 @@ X-UA-Compatible: ie=edge
 }]
 ```
 
-Also, this rule takes into consideration the specified
-`targetedBrowsers`, and if Internet Explorer 8/9/10 aren't among
-them, will suggest removing the `meta` tag or/and not sending the
-HTTP response header.
+Also, note that this rule takes into consideration the [targeted
+browsers](../index.md#browser-configuration), and if Internet Explorer
+8/9/10 aren't among them, it will suggest removing the `meta` tag or/and
+not sending the HTTP response header.
 
 ## Further Reading
 
