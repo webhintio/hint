@@ -51,7 +51,7 @@
     "user-home": "^2.0.0",
     "which": "^1.2.14"
   },
-  "description": "Best practices tool for the web",
+  "description": "The linting tool for the web",
   "devDependencies": {
     "@types/content-type": "^1.0.33",
     "@types/debug": "0.0.29",
