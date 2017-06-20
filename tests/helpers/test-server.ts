@@ -99,7 +99,9 @@ class Server {
                     this.handleHeaders(res, value.headers);
                 }
 
-                res.send(content);
+                if (content !== 'timeout') { // if `content === 'timeout'`, leaves the server hanging to test the implementation of timeout.
+                    res.send(content);
+                }
             });
         });
 

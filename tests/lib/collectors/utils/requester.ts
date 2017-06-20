@@ -4,8 +4,8 @@ import * as zlib from 'zlib';
 
 import * as iconv from 'iconv-lite';
 import test from 'ava';
-import { promisify } from 'util';
 
+import { promisify } from 'util';
 import { createServer } from '../../../helpers/test-server';
 import { Requester } from '../../../../src/lib/collectors/utils/requester';
 import { INetworkData } from '../../../../src/lib/types';
@@ -167,4 +167,28 @@ test(`Requester follows all hops, reports the right number and returns the final
 
     t.is(response.hops.length, Object.keys(hopsServerConfig).length - 1);
     t.is(response.body.content, hopsServerConfig['/']);
+});
+
+test(`Throws an error if number of hops exceeds the redirect limit`, async (t) => {
+    const maxRedirectsRequester = new Requester({ maxRedirects: 4 });
+    const server = t.context.server;
+
+    server.configure(hopsServerConfig);
+
+    const maxRedirectsRequesterError = await t.throws(maxRedirectsRequester.get(`http://localhost:${server.port}/hop301`));
+
+    t.is(maxRedirectsRequesterError, 'The number of redirects(5) exceeds the limit(4).');
+});
+
+test(`Aborts the request if it exceeds the time limit to get response`, async (t) => {
+    const timeoutRequester = new Requester({ timeout: 3000 });
+    const server = t.context.server;
+    const timeOutServerConfig = { '/timeout': { content: 'timeout' } };
+
+    server.configure(timeOutServerConfig);
+
+    const { error, uri } = await t.throws(timeoutRequester.get(`http://localhost:${server.port}/timeout`));
+
+    t.is(error.code, 'ESOCKETTIMEDOUT');
+    t.is(uri, 'http://localhost:3058/timeout');
 });
