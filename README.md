@@ -1,8 +1,41 @@
-# Sonar
+# sonar
 
-[![Build Status](https://travis-ci.com/MicrosoftEdge/Sonar.svg?token=ie6AidxpTLajKCNExwqL&branch=master)](https://travis-ci.com/MicrosoftEdge/Sonar) [![Greenkeeper badge](https://badges.greenkeeper.io/MicrosoftEdge/Sonar.svg?token=b8370543b9160bd1bb844502495c4226139b92230cd84c3f5f4c58c669275c51&ts=1493307106026)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/sonarwhal/sonar.svg?branch=master)](https://travis-ci.org/sonarwhal/sonar) [![Greenkeeper badge](https://badges.greenkeeper.io/sonarwhal/sonar.svg?ts=1493307106027)](https://greenkeeper.io/)
 
-## Tasks
+## Quick start user guide
+
+Install sonar in your machine:
+
+```bash
+npm install -g @sonarwhal/sonar
+```
+
+Create a `.sonarrc` file by running this command and following the
+instructions:
+
+```bash
+sonar --init
+```
+
+Scan a website:
+
+```bash
+sonar https://example.com
+```
+
+You can find more information in the online
+[user guide](https://sonarwhal.com/docs/user-guide/), or the [local
+version](./docs/user-guide/index.md) for the most recent (and unstable)
+one.
+
+## Quick start developer guide
+
+To know more about the internals of sonar, how to create new rules,
+collectors, formatters, etc, take a look at the online
+[developer guide](https://sonarwhal.com/docs/user-guide/),
+or the [local version](./docs/developer-guide/index.md).
+
+The following are meant only if you are working on sonar's codebase:
 
 * `npm run site <url>` will analyze the website with the current
    configuration and using the latest build available in the `dist`
@@ -25,32 +58,6 @@ The initialization of the `watch` task is a bit especial: it will
 compile and copy the assets before starting to watch for new files
 to copy, build, or test. Because of concurrency, it might be that
 the tests are run twice initially.
-
-## Documentation
-
-### Developer guides
-
-#### Collectors
-
-* [How to develop a collector](docs/developer-guide/collectors/index.md)
-* [List of events emitted by a collector](docs/developer-guide/collectors/events.md)
-
-#### Formatters
-
-* [How to develop a formatter](docs/developer-guide/formatters/index.md)
-
-#### Rules
-
-* [How to develop a rule](docs/developer-guide/rules/index.md)
-* [How to test a rule](docs/developer-guide/rules/how-to-test-rules.md)
-
-### User guides
-
-* [Getting started](docs/user-guide/index.md)
-
-  * [Collectors](docs/user-guide/collectors/index.md)
-  * [Formatters](docs/user-guide/formatters/index.md)
-  * [Rules](docs/user-guide/rules/index.md)
 
 ## Code of Conduct
 
