@@ -130,7 +130,7 @@
     "sourceMap": true,
     "statements": 85
   },
-  "repository": "MicrosoftEdge/Sonar",
+  "repository": "sonarwhal/sonar",
   "scripts": {
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
