@@ -4,7 +4,7 @@
 
 ## Quick start user guide
 
-Install sonar in your machine:
+Install `sonar` on your machine:
 
 ```bash
 npm install -g @sonarwhal/sonar
@@ -26,16 +26,16 @@ sonar https://example.com
 You can find more information in the online
 [user guide](https://sonarwhal.com/docs/user-guide/), or the [local
 version](./docs/user-guide/index.md) for the most recent (and unstable)
-one.
+content.
 
 ## Quick start developer guide
 
-To know more about the internals of sonar, how to create new rules,
-collectors, formatters, etc, take a look at the online
-[developer guide](https://sonarwhal.com/docs/user-guide/),
-or the [local version](./docs/developer-guide/index.md).
+To know more about the internals of `sonar`, how to create new
+rules, collectors, formatters, etc, take a look at the online
+[developer guide](https://sonarwhal.com/docs/user-guide/) (or
+the [local version](./docs/developer-guide/index.md).
 
-The following are meant only if you are working on sonar's codebase:
+The following are meant only if you are working on `sonar`'s codebase:
 
 * `npm run site <url>` will analyze the website with the current
    configuration and using the latest build available in the `dist`
@@ -61,8 +61,9 @@ the tests are run twice initially.
 
 ## Code of Conduct
 
-This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md).
-By participating in this project you agree to abide by its terms.
+This project adheres to the JS Foundation's [code of
+conduct](docs/about/CODE_OF_CONDUCT.md). By participating in this
+project you agree to abide by its terms.
 
 ## License
 
