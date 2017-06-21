@@ -21,7 +21,7 @@ community uses for communication. In addition, violations of this code outside
 these spaces may affect a person's ability to participate within them.
 
 If you believe someone is violating the Code of Conduct, we ask that you report
-it by emailing [conduct@js.foundation][mailto:conduct@js.foundation]. For more
+it by emailing [conduct@js.foundation](mailto:conduct@js.foundation). For more
 details, please see our [Reporting Guidelines](https://js.foundation/community/code-of-conduct/reporting).
 
 ## Be friendly and patient
