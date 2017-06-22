@@ -10,7 +10,7 @@ import * as pluralize from 'pluralize';
 
 import { debug as d } from '../../utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
-import { IFetchEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IFetchEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -23,7 +23,7 @@ const debug = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        let disallowedHeaders = [
+        let disallowedHeaders: Array<string> = [
             'server',
             'x-aspnet-version',
             'x-aspnetmvc-version',
@@ -40,7 +40,7 @@ const rule: IRuleBuilder = {
         };
 
         const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource } = fetchEnd;
+            const { element, resource }: {element: IAsyncHTMLElement, resource: string} = fetchEnd;
 
             // This check does not make sense for data URI.
 
@@ -50,8 +50,8 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            const headers = getIncludedHeaders(fetchEnd.response.headers, disallowedHeaders);
-            const numberOfHeaders = headers.length;
+            const headers: Array<string> = getIncludedHeaders(fetchEnd.response.headers, disallowedHeaders);
+            const numberOfHeaders: number = headers.length;
 
             if (numberOfHeaders > 0) {
                 await context.report(resource, element, `'${headers.join('\', \'')}' ${pluralize('header', numberOfHeaders)} ${pluralize('is', numberOfHeaders)} disallowed`);

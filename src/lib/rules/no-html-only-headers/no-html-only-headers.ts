@@ -11,7 +11,7 @@ import * as pluralize from 'pluralize';
 
 import { debug as d } from '../../utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
-import { IFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -24,7 +24,7 @@ const debug = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        let unneededHeaders = [
+        let unneededHeaders: Array<string> = [
             'content-security-policy',
             'x-content-security-policy',
             'x-frame-options',
@@ -40,9 +40,9 @@ const rule: IRuleBuilder = {
             unneededHeaders = mergeIgnoreIncludeArrays(unneededHeaders, ignoreHeaders, includeHeaders);
         };
 
-        const willBeTreatedAsHTML = (response: IResponse) => {
-            const contentTypeHeader = response.headers['content-type'];
-            const mediaType = contentTypeHeader ? contentTypeHeader.split(';')[0].trim() : '';
+        const willBeTreatedAsHTML = (response: IResponse): boolean => {
+            const contentTypeHeader: string = response.headers['content-type'];
+            const mediaType: string = contentTypeHeader ? contentTypeHeader.split(';')[0].trim() : '';
 
             // By default, browsers will treat resource sent with the
             // following media types as HTML documents.
@@ -73,7 +73,7 @@ const rule: IRuleBuilder = {
         };
 
         const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource, response } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse} = fetchEnd;
 
             // This check does not make sense for data URI.
 
@@ -84,8 +84,8 @@ const rule: IRuleBuilder = {
             }
 
             if (!willBeTreatedAsHTML(response)) {
-                const headers = getIncludedHeaders(response.headers, unneededHeaders);
-                const numberOfHeaders = headers.length;
+                const headers: Array<string> = getIncludedHeaders(response.headers, unneededHeaders);
+                const numberOfHeaders: number = headers.length;
 
                 if (numberOfHeaders > 0) {
                     await context.report(resource, element, `'${headers.join('\', \'')}' ${pluralize('header', numberOfHeaders)} ${pluralize('is', numberOfHeaders)} not needed`);

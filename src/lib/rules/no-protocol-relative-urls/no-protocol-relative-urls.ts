@@ -7,7 +7,7 @@
 // ------------------------------------------------------------------------------
 
 import { debug as d } from '../../utils/debug';
-import { IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -21,8 +21,8 @@ const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
         const validate = async (data: IElementFound) => {
-            const { element, resource } = data;
-            const html = await element.outerHTML();
+            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
+            const html: string = await element.outerHTML();
 
             debug(`Analyzing link\n${html}`);
 
@@ -30,7 +30,7 @@ const rule: IRuleBuilder = {
             // If we access the src or href properties directly the
             // browser already adds http(s):// so we cannot verify.
 
-            const url = normalizeString(
+            const url: string = normalizeString(
                 element.getAttribute('src') ||
                 element.getAttribute('href')
             );

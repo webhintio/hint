@@ -29,17 +29,17 @@ const debug = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        let includeSameOriginURLs = false;
+        let includeSameOriginURLs: boolean = false;
 
         const loadRuleConfigs = () => {
             includeSameOriginURLs = (context.ruleOptions && context.ruleOptions.includeSameOriginURLs) || false;
         };
 
         const checkForRelValues = async (resource: string, element: IAsyncHTMLElement, relValuesToCheckFor: Array<string>) => {
-            const relValues = normalizeString(element.getAttribute('rel'), '').split(' ');
-            const hrefValue = normalizeString(element.getAttribute('href'));
+            const relValues: Array<string> = normalizeString(element.getAttribute('rel'), '').split(' ');
+            const hrefValue: string = normalizeString(element.getAttribute('href'));
 
-            const requiredValues = relValuesToCheckFor.filter((value) => {
+            const requiredValues: Array<string> = relValuesToCheckFor.filter((value) => {
                 return !relValues.includes(value);
             });
 
@@ -49,9 +49,9 @@ const rule: IRuleBuilder = {
         };
 
         const checkSameOrigin = (resource: string, element: IAsyncHTMLElement): boolean => {
-            const hrefValue = normalizeString(element.getAttribute('href'));
+            const hrefValue: string = normalizeString(element.getAttribute('href'));
 
-            let fullURL = hrefValue;
+            let fullURL: string = hrefValue;
 
             if (!url.parse(hrefValue).protocol) {
                 fullURL = url.resolve(resource, hrefValue);
@@ -91,7 +91,7 @@ const rule: IRuleBuilder = {
         };
 
         const validate = async (data: IElementFound) => {
-            const { element, resource } = data;
+            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
 
             if (!hasTargetBlank(element) ||
                 !hasHrefValue(element) ||
@@ -103,8 +103,8 @@ const rule: IRuleBuilder = {
             // TODO: In the future, change this to not use caniuse data.
             // https://github.com/MicrosoftEdge/Sonar/issues/30
 
-            const targetedBrowsers = context.targetedBrowsers.join();
-            const relValuesToCheckFor = ['noopener'];
+            const targetedBrowsers: string = context.targetedBrowsers.join();
+            const relValuesToCheckFor: Array<string> = ['noopener'];
 
             // If no browsers were targeted, or `noopener`
             // is not supported by all targeted browsers,

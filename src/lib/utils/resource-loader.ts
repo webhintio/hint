@@ -19,14 +19,14 @@ import { ICollectorBuilder, IFormatter, IPluginBuilder, Resource, IRuleBuilder }
 import { validate as validateRule } from '../config/config-rules';
 
 
-const debug = d(__filename);
-const PROJECT_ROOT = findPackageRoot();
+const debug: debug.IDebugger = d(__filename);
+const PROJECT_ROOT: string = findPackageRoot();
 
 /** Cache of resource builders, indexex by resource Id. */
-const resources = new Map<string, Resource>();
+const resources: Map<string, Resource> = new Map<string, Resource>();
 
 /** Cache of resources ids. */
-const resourceIds = new Map<string, Array<string>>();
+const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>();
 
 /** The type of resource */
 export const TYPE = {
@@ -41,10 +41,10 @@ const getCoreResources = (type: string): Array<string> => {
         return resourceIds.get(type);
     }
 
-    const resourcesFiles: string[] = globby.sync(`${PROJECT_ROOT}/dist/src/lib/${type}s/**/*.js`, { absolute: true });
+    const resourcesFiles: Array<string> = globby.sync(`${PROJECT_ROOT}/dist/src/lib/${type}s/**/*.js`, { absolute: true });
 
-    const ids = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
-        const resourceName = path.basename(resourceFile, '.js');
+    const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
+        const resourceName: string = path.basename(resourceFile, '.js');
 
         if (path.dirname(resourceFile).includes(resourceName)) {
             list.push(resourceName);
@@ -63,8 +63,8 @@ const getCoreResources = (type: string): Array<string> => {
 // ------------------------------------------------------------------------------
 
 /** Tries to load a module from `resourcePath`. */
-export const tryToLoadFrom = (resourcePath: string) => {
-    let builder = null;
+export const tryToLoadFrom = (resourcePath: string): any => {
+    let builder: any = null;
 
     try {
         // The following link has more info on how `require` resolves modules:
@@ -93,21 +93,21 @@ export const tryToLoadFrom = (resourcePath: string) => {
  */
 export const loadResource = (name: string, type: string) => {
     debug(`Searching ${name}…`);
-    const key = `${type}-${name}`;
+    const key: string = `${type}-${name}`;
 
     if (resources.has(key)) {
         return resources.get(key);
     }
 
-    const sources: string[] = [
+    const sources: Array<string> = [
         `${PROJECT_ROOT}/dist/src/lib/${type}s/${name}/${name}.js`,
         `@sonarwhal/${name}`,
         `sonarwhal-${name}`
     ];
 
-    let resource;
+    let resource: any;
 
-    sources.some((source) => {
+    sources.some((source: string) => {
         resource = tryToLoadFrom(source);
         debug(`${name} found in ${source}`);
 
@@ -137,11 +137,11 @@ export const getCoreCollectors = (): Array<string> => {
 };
 
 export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
-    const rulesIds = Object.keys(config);
+    const rulesIds: Array<string> = Object.keys(config);
 
-    const rules = rulesIds.reduce((acum, ruleId) => {
-        const rule = loadResource(ruleId, TYPE.rule);
-        const valid = validateRule(rule, config[ruleId], ruleId);
+    const rules: Map<string, IRuleBuilder> = rulesIds.reduce((acum: Map<string, IRuleBuilder>, ruleId: string) => {
+        const rule: IRuleBuilder = loadResource(ruleId, TYPE.rule);
+        const valid: boolean = validateRule(rule, config[ruleId], ruleId);
 
         if (!valid) {
             throw new Error(`Rule ${ruleId} doesn't have a valid configuration`);
@@ -155,14 +155,14 @@ export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
     return rules;
 };
 
-export const loadRule = (ruleId: string) => {
+export const loadRule = (ruleId: string): IRuleBuilder => {
     return loadResource(ruleId, TYPE.rule);
 };
 
-export const loadCollector = (collectorId: string) => {
+export const loadCollector = (collectorId: string): ICollectorBuilder => {
     return loadResource(collectorId, TYPE.collector);
 };
 
-export const loadFormatter = (formatterId: string) => {
+export const loadFormatter = (formatterId: string): IFormatter => {
     return loadResource(formatterId, TYPE.formatter);
 };

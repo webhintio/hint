@@ -19,7 +19,7 @@ import { debug as d } from './utils/debug';
 import { IConfig, IRuleBuilder } from './types'; //eslint-disable-line no-unused-vars
 import { loadJSFile, loadJSONFile } from './utils/misc';
 
-const debug = d(__filename);
+const debug: debug.IDebugger = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Private
@@ -52,7 +52,7 @@ const loadPackageJSONConfigFile = (filePath: string): IConfig => {
  */
 const loadConfigFile = (filePath: string): IConfig => {
 
-    let config;
+    let config: IConfig;
 
     switch (path.extname(filePath)) {
         case '':
@@ -77,9 +77,9 @@ const loadConfigFile = (filePath: string): IConfig => {
 };
 
 const loadBrowsersList = (config: IConfig): void => {
-    const directory = process.cwd();
-    const files = CONFIG_FILES.reduce((total, configFile) => {
-        const filename = path.join(directory, configFile);
+    const directory: string = process.cwd();
+    const files: Array<string> = CONFIG_FILES.reduce((total, configFile) => {
+        const filename: string = path.join(directory, configFile);
 
         if (shell.test('-f', filename)) {
             total.push(filename);
@@ -89,8 +89,8 @@ const loadBrowsersList = (config: IConfig): void => {
     }, []);
 
     for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const tmpConfig = loadConfigFile(file);
+        const file: string = files[i];
+        const tmpConfig: IConfig = loadConfigFile(file);
 
         if (tmpConfig && tmpConfig.browserslist) {
             config.browserslist = tmpConfig.browserslist;
@@ -108,8 +108,8 @@ const loadBrowsersList = (config: IConfig): void => {
 /** Loads a configuration file from the given file path. */
 export const load = (filePath: string): IConfig => {
 
-    const resolvedPath = path.resolve(process.cwd(), filePath);
-    const config = loadConfigFile(resolvedPath);
+    const resolvedPath: string = path.resolve(process.cwd(), filePath);
+    const config: IConfig = loadConfigFile(resolvedPath);
 
     if (!config) {
         throw new Error(`Couldn't find any valid configuration`);
@@ -142,7 +142,7 @@ export const load = (filePath: string): IConfig => {
 export const getFilenameForDirectory = (directory: string): string | null => {
 
     for (let i = 0, len = CONFIG_FILES.length; i < len; i++) {
-        const filename = path.join(directory, CONFIG_FILES[i]);
+        const filename: string = path.join(directory, CONFIG_FILES[i]);
 
         if (shell.test('-f', filename)) {
             return filename;

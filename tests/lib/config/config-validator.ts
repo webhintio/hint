@@ -23,7 +23,7 @@ const validConfig = {
 const invalidConfig = { formatter: 'json' };
 
 test('if config has an invalid schema, it should return false', (t) => {
-    const valid = configValidator.validateConfig(invalidConfig);
+    const valid = configValidator.validateConfig(<any>invalidConfig);
 
     t.false(valid);
 });
@@ -33,13 +33,13 @@ test(`if rule severity isn't valid, it should return false`, (t) => {
 
     config.rules['disallowed-headers'] = ['no-valid-severity', {}];
 
-    const valid = configValidator.validateConfig(config);
+    const valid = configValidator.validateConfig(<any>config);
 
     t.false(valid);
 });
 
 test('if config is valid, it should return true', (t) => {
-    const valid = configValidator.validateConfig(validConfig);
+    const valid = configValidator.validateConfig(<any>validConfig);
 
     t.true(valid);
 });

@@ -22,7 +22,7 @@ export interface IResponse {
     /** The content of the body sent by the server in different forms. */
     body: IResponseBody;
     /** The headers sent by the server. */
-    headers: any;
+    headers: object;
     /** All the intermediate urls from the initial request until we got the response (if any). */
     hops: Array<string>;
     /** The status code of the response. */

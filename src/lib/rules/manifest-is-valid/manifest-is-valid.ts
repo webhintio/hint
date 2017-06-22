@@ -7,7 +7,7 @@
 // ------------------------------------------------------------------------------
 
 import { debug as d } from '../../utils/debug';
-import { IManifestFetchEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IManifestFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -20,7 +20,7 @@ const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
         const manifestIsValid = async (data: IManifestFetchEnd) => {
-            const { resource, response: { body: { content }, statusCode } } = data;
+            const { resource, response: { body: { content }, statusCode } }: { resource: string, response: IResponse } = data;
 
             if (statusCode !== 200) {
                 return;

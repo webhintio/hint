@@ -1,8 +1,16 @@
+export interface IAsyncHTMLAttribute {
+    /** Attribute name of the element */
+    name: string;
+
+    /** Attribute value of the element */
+    value: string;
+}
+
 /** A wrapper of an HTMLElement that gives access to the required resources
   * asynchronously to be compatible with all collectors */
 export interface IAsyncHTMLElement {
     /** The attributes of the element */
-    readonly attributes: Array<{ name: string, value: string }> | NamedNodeMap;
+    readonly attributes: Array<IAsyncHTMLAttribute> | NamedNodeMap;
     /** Returns the value for a given attribute */
     getAttribute(attribute: string): string;
     /** Checks if two AsyncHTMLElements are the same */
