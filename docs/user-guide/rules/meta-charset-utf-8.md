@@ -43,7 +43,7 @@ For the charset meta tag `<meta charset="utf-8">` should be used.
   bytes of the HTML](https://html.spec.whatwg.org/multipage/semantics.html#charset),
   as some browsers only look at those bytes before choosing an encoding.
 
-  Moreover, it is recomanded that the meta tag be the first thing
+  Moreover, it is recommended that the meta tag be the first thing
   in the `<head>`. This ensures it is before any content that could
   be controlled by an attacker, such as a `<title>` element, thus,
   avoiding potential encoding-related security issues ([such as the
