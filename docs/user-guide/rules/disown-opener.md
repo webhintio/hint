@@ -9,7 +9,7 @@ and link to other origins.
 ## Why is this important?
 
 Links that have `target="_blank"`, such as
-`<a href="https://example.com" typeof="_blank">` constitute:
+`<a href="https://example.com" target="_blank">` constitute:
 
 * [a security problem](https://mathiasbynens.github.io/rel-noopener/)
 
