@@ -3,7 +3,8 @@
 ## Getting started
 
 Getting started with `sonar`'s CLI is really easy. First you need
-to install it:
+to have [node 8.x](https://nodejs.org/en/download/current/) installed
+and then run:
 
 ```bash
 npm install -g @sonarwhal/sonar

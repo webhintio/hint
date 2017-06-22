@@ -4,7 +4,7 @@
 
 ## Quick start user guide
 
-Install `sonar` on your machine:
+Once you have node 8.x in your machine, install `sonar`:
 
 ```bash
 npm install -g @sonarwhal/sonar
