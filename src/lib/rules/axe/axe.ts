@@ -7,8 +7,6 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import * as path from 'path';
-
 import { readFileAsync } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
 import { ITraverseEnd, IRule, IRuleBuilder, Severity } from '../../types'; // eslint-disable-line no-unused-vars
@@ -54,7 +52,7 @@ const rule: IRuleBuilder = {
 
         const validate = async (traverseEnd: ITraverseEnd) => {
             const { resource } = traverseEnd;
-            const axeCore = await readFileAsync(path.join(process.cwd(), 'node_modules', 'axe-core', 'axe.js'));
+            const axeCore = await readFileAsync(require.resolve('axe-core'));
             const script = `(function () {
     ${axeCore};
     return (${generateScript()}());
