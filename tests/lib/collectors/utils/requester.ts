@@ -190,5 +190,5 @@ test(`Aborts the request if it exceeds the time limit to get response`, async (t
     const { error, uri } = await t.throws(timeoutRequester.get(`http://localhost:${server.port}/timeout`));
 
     t.is(error.code, 'ESOCKETTIMEDOUT');
-    t.is(uri, 'http://localhost:3058/timeout');
+    t.is(uri, `http://localhost:${server.port}/timeout`);
 });
