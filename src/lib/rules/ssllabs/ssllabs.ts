@@ -13,7 +13,7 @@
 import { promisify } from 'util';
 
 import { debug as d } from '../../utils/debug';
-import { ITargetFetchEnd, IScanEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { ITargetFetchEnd, IScanEnd, IRule, IRuleBuilder, SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
@@ -25,11 +25,11 @@ const debug = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
         /** The promise that represents the scan by SSL Labs. */
-        let promise: Promise<any>;
+        let promise: Promise<SSLLabsResult>;
         /** The minimum grade required to pass. */
-        let minimumGrade = 'A-';
+        let minimumGrade: string = 'A-';
         /** The options to pass to the SSL Labs scanner. */
-        let scanOptions = {
+        let scanOptions: SSLLabsOptions = {
             all: 'done',
             fromCache: true,
             host: '',
@@ -60,9 +60,9 @@ const rule: IRuleBuilder = {
             scanOptions = Object.assign(scanOptions, userSslOptions);
         };
 
-        const verifyEndpoint = (resource) => {
-            return (endpoint) => {
-                const { grade, serverName = resource, details } = endpoint;
+        const verifyEndpoint = (resource: string) => {
+            return (endpoint: SSLLabsEndpoint) => {
+                const { grade, serverName = resource, details }: { grade: string, serverName: string, details: SSLLabsEndpointDetail } = endpoint;
 
                 if (!grade && details.protocols.length === 0) {
                     const message = `${resource} doesn't support HTTPS.`;
@@ -73,11 +73,11 @@ const rule: IRuleBuilder = {
                     return;
                 }
 
-                const calculatedGrade = Grades[grade];
-                const calculatedMiniumGrade = Grades[minimumGrade];
+                const calculatedGrade: Grades = Grades[grade];
+                const calculatedMiniumGrade: Grades = Grades[minimumGrade];
 
                 if (calculatedGrade > calculatedMiniumGrade) {
-                    const message = `${serverName}'s grade ${grade} doesn't meet the minimum ${minimumGrade} required.`;
+                    const message: string = `${serverName}'s grade ${grade} doesn't meet the minimum ${minimumGrade} required.`;
 
                     debug(message);
                     context.report(resource, null, message);
@@ -88,10 +88,10 @@ const rule: IRuleBuilder = {
         };
 
         const start = (data: ITargetFetchEnd) => {
-            const { resource } = data;
+            const { resource }: { resource: string } = data;
 
             if (!resource.startsWith('https://')) {
-                const message = `${resource} doesn't support HTTPS.`;
+                const message: string = `${resource} doesn't support HTTPS.`;
 
                 debug(message);
                 context.report(resource, null, message);
@@ -102,7 +102,7 @@ const rule: IRuleBuilder = {
             /* HACK: Need to do a require here in order to be capable of mocking
                 when testing the rule and `import` doesn't work here. */
             const ssl = require('node-ssllabs');
-            const ssllabs = promisify(ssl.scan);
+            const ssllabs: Function = promisify(ssl.scan);
 
             debug(`Starting SSL Labs scan for ${resource}`);
             scanOptions.host = resource;
@@ -110,15 +110,15 @@ const rule: IRuleBuilder = {
             promise = ssllabs(scanOptions);
         };
 
-        const end = async (data: IScanEnd): Promise<any> => {
-            const { resource } = data;
+        const end = async (data: IScanEnd) => {
+            const { resource }: { resource: string } = data;
 
             if (!promise) {
                 return;
             }
 
             debug(`Waiting for SSL Labs results for ${resource}`);
-            let host;
+            let host: SSLLabsResult;
 
             try {
                 host = await promise;

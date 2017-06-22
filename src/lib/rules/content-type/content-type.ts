@@ -14,9 +14,9 @@ import { debug as d } from '../../utils/debug';
 import * as fileType from 'file-type';
 import * as isSvg from 'is-svg';
 import * as mimeDB from 'mime-db';
-import { parse } from 'content-type';
+import { parse, MediaType } from 'content-type'; // eslint-disable-line no-unused-vars
 
-import { IAsyncHTMLElement, IResponseBody, IRule, IRuleBuilder, IFetchEnd } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IResponse, IResponseBody, IRule, IRuleBuilder, IFetchEnd } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -35,13 +35,13 @@ const rule: IRuleBuilder = {
             userDefinedMediaTypes = context.ruleOptions || {};
         };
 
-        const getMediaTypeBasedOnFileExtension = (fileExtension: string) => {
+        const getMediaTypeBasedOnFileExtension = (fileExtension: string): string => {
             return fileExtension && Object.keys(mimeDB).find((key) => {
                 return mimeDB[key].extensions && mimeDB[key].extensions.includes(fileExtension);
             });
         };
 
-        const getLastRegexThatMatches = (resource: string) => {
+        const getLastRegexThatMatches = (resource: string): string => {
             const results = (Object.entries(userDefinedMediaTypes).filter(([regex]) => {
                 const re = new RegExp(regex, 'i');
 
@@ -52,7 +52,7 @@ const rule: IRuleBuilder = {
             return results && results[1];
         };
 
-        const determineCharset = (determinedMediaType: string, originalMediaType: string) => {
+        const determineCharset = (determinedMediaType: string, originalMediaType: string): string => {
             const typeInfo = mimeDB[determinedMediaType];
 
             if (typeInfo && typeInfo.charset) {
@@ -75,7 +75,7 @@ const rule: IRuleBuilder = {
             return null;
         };
 
-        const determineMediaTypeForScript = (element: IAsyncHTMLElement) => {
+        const determineMediaTypeForScript = (element: IAsyncHTMLElement): string => {
             const typeAttribute = normalizeString(element.getAttribute('type'));
 
             // Valid JavaScript media types:
@@ -121,7 +121,7 @@ const rule: IRuleBuilder = {
             return null;
         };
 
-        const determineMediaTypeBasedOnElement = (element: IAsyncHTMLElement) => {
+        const determineMediaTypeBasedOnElement = (element: IAsyncHTMLElement): string => {
             const nodeName = element && normalizeString(element.nodeName);
 
             if (nodeName) {
@@ -149,14 +149,14 @@ const rule: IRuleBuilder = {
             return null;
         };
 
-        const determineMediaTypeBasedOnFileExtension = (resource: string) => {
+        const determineMediaTypeBasedOnFileExtension = (resource: string): string => {
             const fileExtension = path.extname(url.parse(resource).pathname).split('.')
-                                                                            .pop();
+                .pop();
 
             return getMediaTypeBasedOnFileExtension(fileExtension);
         };
 
-        const determineMediaTypeBasedOnFileType = (rawContent: Buffer) => {
+        const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string => {
             const detectedFileType = fileType(rawContent);
 
             if (detectedFileType) {
@@ -173,7 +173,7 @@ const rule: IRuleBuilder = {
         };
 
         const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource, response } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
 
             // This check does not make sense for data URIs.
 
@@ -183,7 +183,7 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            const contentTypeHeaderValue = normalizeString(response.headers['content-type']);
+            const contentTypeHeaderValue: string = normalizeString(response.headers['content-type']);
 
             // Check if the `Content-Type` header was sent.
 
@@ -196,7 +196,7 @@ const rule: IRuleBuilder = {
             // If the current resource matches any of the regexes
             // defined by the user, use that value to validate.
 
-            const userDefinedMediaType = getLastRegexThatMatches(resource);
+            const userDefinedMediaType: string = getLastRegexThatMatches(resource);
 
             if (userDefinedMediaType) {
                 if (normalizeString(userDefinedMediaType) !== contentTypeHeaderValue) {
@@ -206,7 +206,7 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            let contentType;
+            let contentType: MediaType;
 
             // Check if the `Content-Type` value is valid.
 
@@ -222,17 +222,17 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            const originalCharset = normalizeString(contentType.parameters.charset);
-            const originalMediaType = contentType.type;
+            const originalCharset: string = normalizeString(contentType.parameters.charset);
+            const originalMediaType: string = contentType.type;
 
             // Try to determine the media type and charset of the resource.
 
-            const mediaType =
+            const mediaType: string =
                 determineMediaTypeBasedOnElement(element) ||
                 determineMediaTypeBasedOnFileType(response.body.rawContent) ||
                 determineMediaTypeBasedOnFileExtension(resource);
 
-            const charset = determineCharset(mediaType, originalMediaType);
+            const charset: string = determineCharset(mediaType, originalMediaType);
 
             // Check if the determined values differ
             // from the ones from the `Content-Type` header.

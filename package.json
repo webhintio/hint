@@ -55,6 +55,7 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
+    "@types/chalk": "^0.4.31",
     "@types/content-type": "^1.0.33",
     "@types/debug": "0.0.29",
     "@types/file-type": "0.0.2",

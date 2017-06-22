@@ -9,7 +9,7 @@ import * as retry from 'async-retry';
 
 import { ids as collectors } from './collectors';
 import { createServer } from './test-server';
-import { IElementFound, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
+import { IConfig, IElementFound, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
 import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 import { Sonar } from '../../src/lib/sonar';
@@ -19,7 +19,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
 
     /** Creates a valid sonar configuration. Eventually we should
      * test all available collectors and not only JSDOM */
-    const createConfig = (id: string, collector: string, opts?) => {
+    const createConfig = (id: string, collector: string, opts?): IConfig => {
         const rules = {};
 
         if (opts && opts.ruleOptions) {

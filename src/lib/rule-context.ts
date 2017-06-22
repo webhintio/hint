@@ -6,7 +6,7 @@
  */
 
 import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars
-import { IAsyncHTMLElement, INetworkData, IProblemLocation, Severity } from './types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, INetworkData, IProblemLocation, IRuleMetadata, Severity } from './types'; // eslint-disable-line no-unused-vars
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 
 
@@ -14,11 +14,11 @@ import { findInElement, findProblemLocation } from './utils/location-helpers';
 export class RuleContext {
     private id: string
     private options: Array<any>
-    private meta: { any }
+    private meta: IRuleMetadata
     private severity: Severity
     private sonar: Sonar
 
-    constructor(ruleId: string, sonar: Sonar, severity: Severity | string, options, meta) {
+    constructor(ruleId: string, sonar: Sonar, severity: Severity | string, options, meta: IRuleMetadata) {
 
         this.id = ruleId;
         this.options = options;
@@ -46,7 +46,7 @@ export class RuleContext {
     }
 
     /** List of browsers to target as specified by the sonar configuration. */
-    get targetedBrowsers() {
+    get targetedBrowsers(): Array<string> {
         return this.sonar.targetedBrowsers;
     }
 
@@ -64,7 +64,7 @@ export class RuleContext {
     // ------------------------------------------------------------------------------
 
     /** Injects JavaScript into the target. */
-    public evaluate(source: string) {
+    public evaluate(source: string): Promise<any> {
         return this.sonar.evaluate(source);
     }
 
@@ -73,7 +73,7 @@ export class RuleContext {
         return this.sonar.fetchContent(target, headers);
     }
 
-    public querySelectorAll(selector: string) {
+    public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
         return this.sonar.querySelectorAll(selector);
     }
 
@@ -83,14 +83,14 @@ export class RuleContext {
     }
 
     /** Finds the approximative location in the page's HTML for a match in an element. */
-    public findProblemLocation(element: IAsyncHTMLElement, content?: string) {
+    public findProblemLocation(element: IAsyncHTMLElement, content?: string): Promise<IProblemLocation> {
         return findProblemLocation(element, { column: 0, line: 0 }, content);
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: IProblemLocation, severity?: Severity) { //eslint-disable-line require-await
-        let position = location;
-        let sourceCode = null;
+    public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: IProblemLocation, severity?: Severity): Promise<void> { //eslint-disable-line require-await
+        let position: IProblemLocation = location;
+        let sourceCode: string = null;
 
         if (element) {
             position = await findProblemLocation(element, { column: 0, line: 0 }, content);

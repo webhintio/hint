@@ -74,7 +74,7 @@ export interface ICollector {
     /** Evaluates the given JavaScript `code` asynchronously in the target. */
     evaluate(code: string): Promise<any>;
     /** Finds all the nodes that match the given query. */
-    querySelectorAll(query: string): Promise<IAsyncHTMLElement[]>
+    querySelectorAll(query: string): Promise<Array<IAsyncHTMLElement>>
 }
 ```
 

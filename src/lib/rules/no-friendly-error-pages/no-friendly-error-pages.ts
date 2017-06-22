@@ -10,7 +10,7 @@
 import * as url from 'url';
 
 import { debug as d } from '../../utils/debug';
-import { IFetchEnd, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IFetchEnd, INetworkData, IResponse, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -38,11 +38,11 @@ const rule: IRuleBuilder = {
         // Default thresholds:
         // https://blogs.msdn.microsoft.com/ieinternals/2010/08/18/friendly-http-error-pages/
 
-        const statusCodesWith256Threshold = [403, 405, 410];
-        const statusCodesWith512Threshold = [400, 404, 406, 408, 409, 500, 501, 505];
+        const statusCodesWith256Threshold: Array<number> = [403, 405, 410];
+        const statusCodesWith512Threshold: Array<number> = [400, 404, 406, 408, 409, 500, 501, 505];
 
         const checkForErrorPages = (fetchEnd: IFetchEnd) => {
-            const { resource, response } = fetchEnd;
+            const { resource, response }: { resource: string, response: IResponse } = fetchEnd;
 
             // This check does not make sense for data URI.
 
@@ -52,8 +52,8 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            const statusCode = response.statusCode;
-            const size = (response.body.rawContent || []).length;
+            const statusCode: number = response.statusCode;
+            const size: number = (response.body.rawContent || []).length;
 
             // This rule doesn't care about individual responses, only
             // if, in general, for a certain error response the size
@@ -70,7 +70,7 @@ const rule: IRuleBuilder = {
         };
 
         const tryToGenerateErrorPage = async (targetURL: string) => {
-            const baseURL = url.format(Object.assign(url.parse(targetURL), {
+            const baseURL: string = url.format(Object.assign(url.parse(targetURL), {
                 fragment: false,
                 search: false
             }));
@@ -92,7 +92,7 @@ const rule: IRuleBuilder = {
             // which might actually be mapped to something.
 
             try {
-                const networkData = await context.fetchContent(url.resolve(baseURL, `.well-known/${Math.random()}`));
+                const networkData: INetworkData = await context.fetchContent(url.resolve(baseURL, `.well-known/${Math.random()}`));
 
                 checkForErrorPages({
                     element: null,
@@ -116,7 +116,7 @@ const rule: IRuleBuilder = {
             //  generate a 404 error response, other responses cannot
             //  be generated... so easily).
 
-            const { resource: href } = event;
+            const { resource: href }: { resource: string } = event;
 
             if (Object.keys(foundErrorPages).length === 0 || !foundErrorPages[404]) {
                 await tryToGenerateErrorPage(href);

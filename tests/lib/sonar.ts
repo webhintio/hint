@@ -42,7 +42,8 @@ test.afterEach.always((t) => {
 
 test(`If config is an empty object, we should throw an error`, (t) => {
     t.throws(() => {
-        const sonarObject = new Sonar({}); //eslint-disable-line no-unused-vars
+        //<any>{} to avoid the type checking if not is not possible to use just {}
+        const sonarObject = new Sonar(<any>{}); //eslint-disable-line no-unused-vars
     }, Error);
 });
 
@@ -56,7 +57,7 @@ test(`If config doesn't have any rule, we shouldn't create any rules`, (t) => {
 
 test(`If the config object is invalid, we should throw an error`, (t) => {
     t.throws(() => {
-        const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
+        const sonarObject = new Sonar(<any>{ //eslint-disable-line no-unused-vars
             invalidProperty: 'invalid',
             randomProperty: 'random'
         });
