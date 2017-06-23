@@ -15,7 +15,7 @@ const maxPort = 65535;
 
 /** A testing server for Sonar rules */
 class Server {
-    private _app: express;
+    private _app;
     private _server: http.Server;
     private _port: number = startPort;
 
