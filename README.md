@@ -1,6 +1,8 @@
 # sonar
 
-[![Build Status](https://travis-ci.org/sonarwhal/sonar.svg?branch=master)](https://travis-ci.org/sonarwhal/sonar) [![Greenkeeper badge](https://badges.greenkeeper.io/sonarwhal/sonar.svg?ts=1493307106027)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/sonarwhal/sonar.svg?branch=master)](https://travis-ci.org/sonarwhal/sonar)
+[![Greenkeeper badge](https://badges.greenkeeper.io/sonarwhal/sonar.svg?ts=1493307106027)](https://greenkeeper.io/)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sonarwhal/Lobby)
 
 ## Quick start user guide
 
