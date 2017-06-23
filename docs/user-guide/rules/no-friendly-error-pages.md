@@ -46,7 +46,7 @@ HTTP/... 403 Forbidden
         <meta charset="utf-8">
         <title>403 Forbidden</title>
     </head>
-    <body>This page has under 256 bytes, so it will be displayed by all browsers.</body>
+    <body>This page has under 256 bytes, so it will not be displayed by all browsers.</body>
 </html>
 ```
 
