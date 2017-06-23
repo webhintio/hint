@@ -1,5 +1,7 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as url from 'url';
+
 import { promisify } from 'util';
 
 import * as stripBom from 'strip-bom';
@@ -7,23 +9,26 @@ import * as requireUncached from 'require-uncached';
 import * as stripComments from 'strip-json-comments';
 
 import { debug as d } from './debug';
-const debug = d(__filename);
+const debug: debug.IDebugger = d(__filename);
+
+// const readdir = promisify(fs.readdir);
+const readdir = fs.readdirSync; //eslint-disable-line no-sync
 
 /** Cut a given string adding ` … ` in the middle.
  * The default length is 50 characters.
  */
-const cutString = (txt: string, length: number = 50) => {
+const cutString = (txt: string, length: number = 50): string => {
     if (txt.length <= length) {
         return txt;
     }
 
-    const partialLength = Math.floor(length - 3) / 2;
+    const partialLength: number = Math.floor(length - 3) / 2;
 
     return `${txt.substring(0, partialLength)} … ${txt.substring(txt.length - partialLength, txt.length)}`;
 };
 
 /** Convenience wrapper to add a delay using promises. */
-const delay = (millisecs) => {
+const delay = (millisecs: number): Promise<object> => {
     return new Promise((resolve) => {
         setTimeout(resolve, millisecs);
     });
@@ -47,7 +52,7 @@ const isLocalFile = (resource: string): boolean => {
 /** Remove whitespace from both ends of a string and lowercase it.
  *  If `defaultValue` is provided, it will return it if the return
  *  value would be `null`. */
-const normalizeString = (value: string, defaultValue?: string) => {
+const normalizeString = (value: string, defaultValue?: string): string => {
     if (typeof value === 'undefined' || value === null) {
         return typeof defaultValue !== 'undefined' ? defaultValue : null;
     }
@@ -67,7 +72,7 @@ const readFile = (filePath: string): string => {
 
 /** Convenience wrapper for asynchronously reading file contents. */
 const readFileAsync = async (filePath: string): Promise<string> => {
-    const content = await promisify(fs.readFile)(filePath, 'utf8');
+    const content: string = await promisify(fs.readFile)(filePath, 'utf8');
 
     return stripBom(content);
 };
@@ -87,9 +92,34 @@ const loadJSFile = (filePath: string): any => {
     return requireUncached(filePath);
 };
 
+/**
+ * Searches for the first folder that contains the `fileToFind` going up the
+ * tree.
+ *
+ * By default, it looks for `package.json` in the current `__dirname` and goes
+ * up the tree until one is found. If none, it throws an `Error`:
+ * `No package found`.
+ */
+const findPackageRoot = (dirname = __dirname, fileToFind = 'package.json') => {
+    const content = readdir(dirname);
+
+    if (content.includes(fileToFind)) {
+        return dirname;
+    }
+
+    const parentFolder = path.resolve(dirname, '..');
+
+    if (parentFolder === dirname) {
+        throw new Error('No package found');
+    }
+
+    return findPackageRoot(parentFolder, fileToFind);
+};
+
 export {
     cutString,
     delay,
+    findPackageRoot,
     hasProtocol,
     isDataURI,
     isLocalFile,

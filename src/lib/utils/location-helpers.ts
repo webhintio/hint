@@ -1,7 +1,7 @@
 import { debug as d } from './debug';
-import { IAsyncHTMLElement, IProblemLocation } from './../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLAttribute, IAsyncHTMLElement, IProblemLocation } from './../types'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const debug: debug.IDebugger = d(__filename);
 
 /**
  * Creates a CSS selector from a given element using its attributes and the type of node:
@@ -9,13 +9,13 @@ const debug = d(__filename);
  * Ex.: <a href="www.wikipedia.org"></a> --> 'a[href="www.wikipedia.org"]'
  */
 const selectorFromElement = (element: IAsyncHTMLElement): string => {
-    let selector = `${element.nodeName.toLowerCase()}`;
+    let selector: string = element.nodeName.toLowerCase();
 
-    const attributes = element.attributes;
+    const attributes: Array<IAsyncHTMLAttribute> | NamedNodeMap = element.attributes;
 
     // attributes doesn't have the Symbol.Iterator();
     for (let i = 0; i < attributes.length; i++) {
-        const attribute = attributes[i];
+        const attribute: IAsyncHTMLAttribute | NamedNodeMap = attributes[i];
 
         selector += `[${attribute.name}="${attribute.value}"]`;
     }
@@ -31,10 +31,11 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
  * Original code: http://stackoverflow.com/a/3410557/414145
  */
 const getIndicesOf = (searchStr: string, str: string): Array<number> => {
-    const searchStrLen = searchStr.length;
+    const searchStrLen: number = searchStr.length;
 
-    let startIndex = 0, index;
-    const indices = [];
+    let startIndex: number = 0;
+    let index: number;
+    const indices: Array<number> = [];
 
     while ((index = str.indexOf(searchStr, startIndex)) > -1) {
         indices.push(index);
@@ -47,24 +48,24 @@ const getIndicesOf = (searchStr: string, str: string): Array<number> => {
 };
 
 /** Finds the Location of an HTMLElement in the document */
-export const findElementLocation = async (element: IAsyncHTMLElement): Promise<IProblemLocation | null> => {
-    const html = await element.ownerDocument.pageHTML();
-    const elementHTML = await element.outerHTML();
-    const indexOccurences = getIndicesOf(elementHTML, html);
-    const selector = selectorFromElement(element);
-    const elements = await element.ownerDocument.querySelectorAll(selector);
+export const findElementLocation = async (element: IAsyncHTMLElement): Promise<IProblemLocation> => {
+    const html: string = await element.ownerDocument.pageHTML();
+    const elementHTML: string = await element.outerHTML();
+    const indexOccurences: Array<number> = getIndicesOf(elementHTML, html);
+    const selector: string = selectorFromElement(element);
+    const elements: Array<IAsyncHTMLElement> = await element.ownerDocument.querySelectorAll(selector);
 
-    let similarItems = 0;
+    let similarItems: number = 0;
 
     // We found the exact number of occurrences so we can access the right index
     for (let index = 0; index < elements.length; index++) {
-        const currentElement = elements[index];
+        const currentElement: IAsyncHTMLElement = elements[index];
 
         /* We compare the HTML because the selector might not be enough to distinguish:
             <a href="http://site1">Site1</a>
             <a href="http://site1">Site2</a>
         */
-        const currentElementHTML = await currentElement.outerHTML();
+        const currentElementHTML: string = await currentElement.outerHTML();
 
         if (currentElementHTML === elementHTML) {
             similarItems++;
@@ -74,11 +75,11 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<I
         }
     }
 
-    const htmlBeforeElement = html.substring(0, indexOccurences[similarItems - 1]);
+    const htmlBeforeElement: string = html.substring(0, indexOccurences[similarItems - 1]);
 
-    const lines = htmlBeforeElement.split('\n');
-    const line = lines.length;
-    const column = lines.pop().replace(/[\t]/g, '    ').length + 1;
+    const lines: Array<string> = htmlBeforeElement.split('\n');
+    const line: number = lines.length;
+    const column: number = lines.pop().replace(/[\t]/g, '    ').length + 1;
 
     return {
         column,
@@ -98,9 +99,9 @@ export const findInElement = async (element: IAsyncHTMLElement, content: string)
         };
     }
 
-    const outerHTML = await element.outerHTML();
+    const outerHTML: string = await element.outerHTML();
 
-    const startIndex = outerHTML.indexOf(content);
+    const startIndex: number = outerHTML.indexOf(content);
 
     if (startIndex === -1) {
         return {
@@ -109,12 +110,12 @@ export const findInElement = async (element: IAsyncHTMLElement, content: string)
         };
     }
 
-    const html = outerHTML.substring(0, startIndex);
-    const lines = html.split('\n');
-    const line = lines.length;
+    const html: string = outerHTML.substring(0, startIndex);
+    const lines: Array<string> = html.split('\n');
+    const line: number = lines.length;
 
     // `startIndex + 1` because `indexOf` starts from `0`.
-    const column = (lines.length === 1 ? startIndex : lines.pop().replace(/[\t]/g, '    ').length) + 1;
+    const column: number = (lines.length === 1 ? startIndex : lines.pop().replace(/[\t]/g, '    ').length) + 1;
 
     return {
         column,
@@ -124,8 +125,8 @@ export const findInElement = async (element: IAsyncHTMLElement, content: string)
 
 /** Returns the real location of a problem in the given HTML */
 export const findProblemLocation = async (element: IAsyncHTMLElement, offset: IProblemLocation, content?: string): Promise<IProblemLocation> => {
-    const elementLocation = await findElementLocation(element);
-    const problemLocation = await findInElement(element, content);
+    const elementLocation: IProblemLocation = await findElementLocation(element);
+    const problemLocation: IProblemLocation = await findInElement(element, content);
 
     if (problemLocation.line === 1) {
         return {

@@ -55,6 +55,7 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
+    "@types/chalk": "^0.4.31",
     "@types/content-type": "^1.0.33",
     "@types/debug": "0.0.29",
     "@types/file-type": "0.0.2",
@@ -68,6 +69,7 @@
     "@types/mkdirp": "^0.3.29",
     "@types/node": "^8.0.0",
     "@types/shelljs": "^0.7.2",
+    "@types/sinon": "^2.3.1",
     "@types/user-home": "^2.0.0",
     "@types/which": "^1.0.28",
     "async-retry": "^1.1.0",

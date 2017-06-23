@@ -21,9 +21,9 @@ export interface ICollector {
     /** Releases any used resource and/or browser. */
     close(): Promise<void>;
     /** Download an external resource using ` customHeaders` if needed. */
-    fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData>;
+    fetchContent(target: url.Url | string, customHeaders?: object): Promise<INetworkData>;
     /** Evaluates the given JavaScript `code` asynchronously in the target. */
     evaluate(code: string): Promise<any>;
     /** Finds all the nodes that match the given query. */
-    querySelectorAll(query: string): Promise<IAsyncHTMLElement[]>
+    querySelectorAll(query: string): Promise<Array<IAsyncHTMLElement>>
 }

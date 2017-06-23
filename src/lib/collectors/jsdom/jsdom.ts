@@ -439,7 +439,7 @@ class JSDOMCollector implements ICollector {
         return Promise.resolve(result);
     }
 
-    public querySelectorAll(selector: string): Promise<JSDOMAsyncHTMLElement[]> {
+    public querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {
         return this._document.querySelectorAll(selector);
     }
 

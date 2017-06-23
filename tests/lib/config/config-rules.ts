@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import * as configRules from '../../../src/lib/config/config-rules';
-import { IRuleBuilder } from '../../../src/lib/types/rules'; //eslint-disable-line no-unused-vars
+import { IRuleBuilder, RuleConfig } from '../../../src/lib/types'; //eslint-disable-line no-unused-vars
 
 const ruleEmptySchema: IRuleBuilder = {
     create(config) { //eslint-disable-line no-unused-vars
@@ -68,16 +68,16 @@ test('getSeverity with a number should return the right value', (t) => {
 });
 
 test('getSeverity with an array should return the right value', (t) => {
-    const data = new Map([
-        [['off', {}], 0],
-        [['warning', {}], 1],
-        [['error', {}], 2],
-        [['invalid', {}], null],
-        [[0, {}], 0],
-        [[1, {}], 1],
-        [[2, {}], 2],
-        [[3, {}], null],
-        [[-1, {}], null]
+    const data: Map<RuleConfig | Array<RuleConfig>, number> = new Map([
+        [(['off', {}] as RuleConfig), 0],
+        [(['warning', {}] as RuleConfig), 1],
+        [(['error', {}] as RuleConfig), 2],
+        [(['invalid', {}] as RuleConfig), null],
+        [([0, {}] as RuleConfig), 0],
+        [([1, {}] as RuleConfig), 1],
+        [([2, {}] as RuleConfig), 2],
+        [([3, {}] as RuleConfig), null],
+        [([-1, {}] as RuleConfig), null]
     ]);
 
     for (const [key, value] of data) {

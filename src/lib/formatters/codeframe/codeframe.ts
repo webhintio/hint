@@ -15,12 +15,12 @@ import * as pluralize from 'pluralize';
 
 import { cutString } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
-import { IFormatter, IProblemLocation, Severity } from '../../types'; // eslint-disable-line no-unused-vars
+import { IFormatter, IProblem, IProblemLocation, Severity } from '../../types'; // eslint-disable-line no-unused-vars
 import * as logger from '../../utils/logging';
 
 const debug = d(__filename);
 
-const countLeftWhiteSpaces = (txt: string) => {
+const countLeftWhiteSpaces = (txt: string): number => {
     const match = txt.match(/(\s+)/);
 
     if (!match) {
@@ -37,18 +37,18 @@ const safeTrim = (txt: string, charsToRemove: number): boolean => {
 const codeFrame = (code: string, location: IProblemLocation) => {
     const codeInLines: Array<string> = `\n${code}`.split('\n');
     const whiteSpacesToRemove: number = countLeftWhiteSpaces(codeInLines[codeInLines.length - 1]);
-    const line = location.elementLine;
-    const column = location.elementColumn;
-    const offsetColumn = location.column;
-    const extraLinesToShow = 2;
-    const firstLine = line - extraLinesToShow > 0 ? line - extraLinesToShow : 0;
-    const lastLine = line + (extraLinesToShow + 1) < codeInLines.length ? line + (extraLinesToShow + 1) : codeInLines.length;
+    const line: number = location.elementLine;
+    const column: number = location.elementColumn;
+    const offsetColumn: number = location.column;
+    const extraLinesToShow: number = 2;
+    const firstLine: number = line - extraLinesToShow > 0 ? line - extraLinesToShow : 0;
+    const lastLine: number = line + (extraLinesToShow + 1) < codeInLines.length ? line + (extraLinesToShow + 1) : codeInLines.length;
 
     if (firstLine !== 0) {
         logger.log('…');
     }
 
-    for (let i = firstLine; i < lastLine; i++) {
+    for (let i: number = firstLine; i < lastLine; i++) {
         let result: string = null;
         let mark: string = null;
         const canTrim: boolean = safeTrim(codeInLines[i], whiteSpacesToRemove);
@@ -61,7 +61,7 @@ const codeFrame = (code: string, location: IProblemLocation) => {
         }
 
         if (i === line) {
-            let markPosition = column;
+            let markPosition: number = column;
 
             if (canTrim) {
                 markPosition -= whiteSpacesToRemove;
@@ -75,7 +75,7 @@ const codeFrame = (code: string, location: IProblemLocation) => {
                 markPosition = 0;
             }
 
-            const cutPosition = line !== 1 ? markPosition : column;
+            const cutPosition: number = line !== 1 ? markPosition : column;
 
             if (cutPosition > 50) {
                 markPosition = 50 + 3;
@@ -109,22 +109,22 @@ const formatter: IFormatter = {
     /** Format the problems grouped by `resource` name and sorted by line and column number,
      *  indicating where in the element there is an error.
      */
-    format(messages) {
+    format(messages: Array<IProblem>) {
         debug('Formatting results');
 
         if (messages.length === 0) {
             return;
         }
 
-        const resources = _.groupBy(messages, 'resource');
-        let totalErrors = 0;
-        let totalWarnings = 0;
+        const resources: _.Dictionary<Array<IProblem>> = _.groupBy(messages, 'resource');
+        let totalErrors: number = 0;
+        let totalWarnings: number = 0;
 
-        _.forEach(resources, (msgs, resource) => {
-            const sortedMessages = _.sortBy(msgs, ['location.line', 'location.column']);
+        _.forEach(resources, (msgs: Array<IProblem>, resource: string) => {
+            const sortedMessages: Array<IProblem> = _.sortBy(msgs, ['location.line', 'location.column']);
             const resourceString = chalk.cyan(`${cutString(resource, 80)}`);
 
-            _.forEach(sortedMessages, (msg) => {
+            _.forEach(sortedMessages, (msg: IProblem) => {
                 const severity = Severity.error === msg.severity ? chalk.red('Error') : chalk.yellow('Warning');
                 const location = msg.location;
 
@@ -144,7 +144,7 @@ const formatter: IFormatter = {
             });
         });
 
-        const color = totalErrors > 0 ? chalk.red : chalk.yellow;
+        const color: chalk.ChalkChain = totalErrors > 0 ? chalk.red : chalk.yellow;
 
         logger.log(color.bold(`\u2716 Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
     }

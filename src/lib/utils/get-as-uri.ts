@@ -7,7 +7,7 @@ import * as shell from 'shelljs';
 import { debug as d } from './debug';
 import * as logger from './logging';
 
-const debug = d(__filename);
+const debug: debug.IDebugger = d(__filename);
 
 /**
  * Receives a string and returns a valid Uris that are either:
@@ -16,10 +16,10 @@ const debug = d(__filename);
  * * null if not valid
  *
  */
-export const getAsUri = (source: string): url.Url | null => {
-    const entry = source.trim(); // eslint-disable-line no-param-reassign
-    let target = url.parse(entry);
-    const protocol = target.protocol;
+export const getAsUri = (source: string): url.Url => {
+    const entry: string = source.trim(); // eslint-disable-line no-param-reassign
+    let target: url.Url = url.parse(entry);
+    const protocol: string = target.protocol;
 
     // If it's a URI.
 
@@ -66,8 +66,8 @@ export const getAsUri = (source: string): url.Url | null => {
  *
  */
 export const getAsUris = (source: Array<string>): Array<url.Url> => {
-    const targets = source.reduce((uris: Array<url.Url>, entry: string): Array<url.Url> => {
-        const uri = getAsUri(entry);
+    const targets: Array<url.Url> = source.reduce((uris: Array<url.Url>, entry: string): Array<url.Url> => {
+        const uri: url.Url = getAsUri(entry);
 
         if (uri) {
             uris.push(uri);

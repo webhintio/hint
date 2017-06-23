@@ -16,12 +16,12 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, ICollector, IProblem, IProblemLocation, IRule, IPlugin, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, ICollector, ICollectorBuilder, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IRuleConfigList, IPlugin, RuleConfig, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
 import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import { RuleContext } from './rule-context';
 
-const debug = d(__filename);
+const debug: debug.IDebugger = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Public interface
@@ -35,11 +35,11 @@ export class Sonar extends EventEmitter {
     private collectorId: string
     private collectorConfig: object
     private messages: Array<IProblem>
-    private browsersList: Array<String> = [];
-    private ignoredUrls: Map<string, RegExp[]>;
+    private browsersList: Array<string> = [];
+    private ignoredUrls: Map<string, Array<RegExp>>;
     private _formatter: string
 
-    get pageDOM() {
+    get pageDOM(): object {
         return this.collector.dom;
     }
 
@@ -47,29 +47,29 @@ export class Sonar extends EventEmitter {
         return this.collector.html;
     }
 
-    get pageHeaders() {
+    get pageHeaders(): object {
         return this.collector.headers;
     }
 
-    get targetedBrowsers() {
+    get targetedBrowsers(): Array<string> {
         return this.browsersList;
     }
 
-    get formatter() {
+    get formatter(): string {
         return this._formatter;
     }
 
-    private isIgnored(urls: RegExp[], resource: string) {
+    private isIgnored(urls: Array<RegExp>, resource: string): boolean {
         if (!urls) {
             return false;
         }
 
-        return urls.some((urlIgnored) => {
+        return urls.some((urlIgnored: RegExp) => {
             return urlIgnored.test(resource);
         });
     }
 
-    constructor(config) {
+    constructor(config: IConfig) {
         super({
             delimiter: '::',
             maxListeners: 0,
@@ -105,12 +105,12 @@ export class Sonar extends EventEmitter {
         debug('Initializing ignored urls');
         this.ignoredUrls = new Map();
         if (config.ignoredUrls) {
-            _.forEach(config.ignoredUrls, (rules, urlRegexString) => {
-                rules.forEach((rule) => {
+            _.forEach(config.ignoredUrls, (rules: Array<string>, urlRegexString: string) => {
+                rules.forEach((rule: string) => {
                     const ruleName = rule === '*' ? 'all' : rule;
 
-                    const urlsInRule = this.ignoredUrls.get(ruleName);
-                    const urlRegex = new RegExp(urlRegexString, 'i');
+                    const urlsInRule: Array<RegExp> = this.ignoredUrls.get(ruleName);
+                    const urlRegex: RegExp = new RegExp(urlRegexString, 'i');
 
                     if (!urlsInRule) {
                         this.ignoredUrls.set(ruleName, [urlRegex]);
@@ -121,124 +121,106 @@ export class Sonar extends EventEmitter {
             });
         }
 
-        debug('Loading plugins');
-        this.plugins = new Map();
-        if (config.plugins) {
+        const collectorBuillder: ICollectorBuilder = resourceLoader.loadCollector(this.collectorId);
 
-            const plugins = resourceLoader.getPlugins();
-
-            config.plugins.forEach((id: string) => {
-                const plugin = plugins.get(id);
-
-                const instance = plugin.create(config);
-
-                Object.keys(instance).forEach((eventName) => {
-                    this.on(eventName, instance[eventName]);
-                });
-
-                this.plugins.set(id, instance);
-            });
-
-            debug(`Plugins loaded: ${this.plugins.size}`);
-        }
-
-        debug('Loading rules');
-        this.rules = new Map();
-        if (config.rules) {
-
-            const rules = resourceLoader.getRules();
-            const rulesIds = Object.keys(config.rules);
-
-            const createEventHandler = (handler: Function, worksWithLocalFiles: boolean, ruleId: string) => {
-                return (event) => {
-                    const localResource = url.parse(event.resource).protocol === 'file:';
-                    const urlsIgnored = this.ignoredUrls.get(ruleId);
-
-                    // Some rules don't work with local resource,
-                    // so it doesn't make sense to the event.
-
-                    if ((localResource && !worksWithLocalFiles) || this.isIgnored(urlsIgnored, event.resource)) {
-                        return null;
-                    }
-
-                    // If a rule is spending a lot of time to finish we should ignore it.
-
-                    return new Promise((resolve) => {
-                        let immediateId;
-
-                        const timeoutId = setTimeout(() => {
-                            if (immediateId) {
-                                clearImmediate(immediateId);
-                                immediateId = null;
-                            }
-
-                            debug(`Rule ${ruleId} timeout`);
-
-                            resolve(null);
-                        }, config.rulesTimeout || 120000);
-
-                        immediateId = setImmediate(async () => {
-                            const result = await handler(event);
-
-                            if (timeoutId) {
-                                clearTimeout(timeoutId);
-                            }
-
-                            resolve(result);
-                        });
-                    });
-                };
-            };
-
-            const ignoreCollector = (rule) => {
-                const ignoredCollectors = rule.meta.ignoredCollectors;
-
-                if (!ignoredCollectors) {
-                    return false;
-                }
-
-                return ignoredCollectors.includes(this.collectorId);
-            };
-
-            rulesIds.forEach((id: string) => {
-                const rule = rules.get(id);
-
-                const ruleOptions = config.rules[id];
-                const ruleWorksWithLocalFiles = rule.meta.worksWithLocalFiles;
-                const severity = getSeverity(ruleOptions);
-
-                if (ignoreCollector(rule)) {
-                    debug(`Rule "${id}" is disable for the collector "${this.collectorId}"`);
-                    logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the collector "${this.collectorId}"`));
-                } else if (severity) {
-                    const context = new RuleContext(id, this, severity, ruleOptions, rule.meta);
-                    const instance = rule.create(context);
-
-                    Object.keys(instance).forEach((eventName) => {
-                        this.on(eventName, createEventHandler(instance[eventName], ruleWorksWithLocalFiles, id));
-                    });
-
-                    this.rules.set(id, instance);
-                } else {
-                    debug(`Rule "${id}" is disabled`);
-                }
-            });
-
-            debug(`Rules loaded: ${this.rules.size}`);
-        }
-    }
-
-    async init() {
-        const collectors = resourceLoader.getCollectors();
-
-        if (!collectors.has(this.collectorId)) {
+        if (!collectorBuillder) {
             throw new Error(`Collector "${this.collectorId}" not found`);
         }
 
-        this.collector = await collectors.get(this.collectorId)(this, this.collectorConfig);
+        this.collector = collectorBuillder(this, this.collectorConfig);
+        this.initRules(config);
     }
 
-    public fetchContent(target, headers) {
+    private initRules(config: IConfig) {
+        debug('Loading rules');
+        this.rules = new Map();
+        if (!config.rules) {
+            return;
+        }
+
+        const rules: Map<string, IRuleBuilder> = resourceLoader.loadRules(config.rules);
+        const rulesIds: Array<string> = Object.keys(config.rules);
+
+        const createEventHandler = (handler: Function, worksWithLocalFiles: boolean, ruleId: string) => {
+            return (event: IEvent): Promise<any> => {
+                const localResource: boolean = url.parse(event.resource).protocol === 'file:';
+                const urlsIgnored: Array<RegExp> = this.ignoredUrls.get(ruleId);
+
+                // Some rules don't work with local resource,
+                // so it doesn't make sense to the event.
+
+                if ((localResource && !worksWithLocalFiles) || this.isIgnored(urlsIgnored, event.resource)) {
+                    return null;
+                }
+
+                // If a rule is spending a lot of time to finish we should ignore it.
+
+                return new Promise((resolve) => {
+                    let immediateId: any;
+
+                    const timeoutId = setTimeout(() => {
+                        if (immediateId) {
+                            clearImmediate(immediateId);
+                            immediateId = null;
+                        }
+
+                        debug(`Rule ${ruleId} timeout`);
+
+                        resolve(null);
+                    }, config.rulesTimeout || 120000);
+
+                    immediateId = setImmediate(async () => {
+                        const result: any = await handler(event);
+
+                        if (timeoutId) {
+                            clearTimeout(timeoutId);
+                        }
+
+                        resolve(result);
+                    });
+                });
+            };
+        };
+
+        const ignoreCollector = (rule): boolean => {
+            const ignoredCollectors: Array<string> = rule.meta.ignoredCollectors;
+
+            if (!ignoredCollectors) {
+                return false;
+            }
+
+            return ignoredCollectors.includes(this.collectorId);
+        };
+
+        rulesIds.forEach((id: string) => {
+            const rule: IRuleBuilder = rules.get(id);
+
+            const ruleOptions: RuleConfig | Array<RuleConfig> = config.rules[id];
+            const ruleWorksWithLocalFiles: boolean = rule.meta.worksWithLocalFiles;
+            const severity: Severity = getSeverity(ruleOptions);
+
+            if (ignoreCollector(rule)) {
+                debug(`Rule "${id}" is disabled for the collector "${this.collectorId}"`);
+                //TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
+                logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the collector "${this.collectorId}"`));
+            } else if (severity) {
+                const context: RuleContext = new RuleContext(id, this, severity, ruleOptions, rule.meta);
+                const instance: IRule = rule.create(context);
+
+                Object.keys(instance).forEach((eventName: string) => {
+                    this.on(eventName, createEventHandler(instance[eventName], ruleWorksWithLocalFiles, id));
+                });
+
+                this.rules.set(id, instance);
+            } else {
+                debug(`Rule "${id}" is disabled`);
+            }
+        });
+
+        debug(`Rules loaded: ${this.rules.size}`);
+    }
+
+    public fetchContent(target: string | url.Url, headers: object) {
         return this.collector.fetchContent(target, headers);
     }
 
@@ -266,9 +248,9 @@ export class Sonar extends EventEmitter {
     }
 
     /** Runs all the configured rules and plugins on a target */
-    public async executeOn(target: URL): Promise<Array<IProblem>> {
+    public async executeOn(target: url.Url): Promise<Array<IProblem>> {
 
-        const start = Date.now();
+        const start: number = Date.now();
 
         debug(`Starting the analysis on ${target.path}`);
 
@@ -279,12 +261,12 @@ export class Sonar extends EventEmitter {
         return this.messages;
     }
 
-    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
+    public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
         return this.collector.querySelectorAll(selector);
     }
 
-    emitAsync(event: string | string[], ...values: any[]): Promise<any[]> {
-        const ignoredUrls = this.ignoredUrls.get('all');
+    emitAsync(event: string | Array<string>, ...values: Array<any>): Promise<Array<any>> {
+        const ignoredUrls: Array<RegExp> = this.ignoredUrls.get('all');
 
         if (this.isIgnored(ignoredUrls, values[0].resource)) {
             return Promise.resolve([]);
@@ -293,11 +275,3 @@ export class Sonar extends EventEmitter {
         return super.emitAsync(event, ...values);
     }
 }
-
-export const create = async (config): Promise<Sonar> => {
-    const sonar = new Sonar(config);
-
-    await sonar.init();
-
-    return sonar;
-};

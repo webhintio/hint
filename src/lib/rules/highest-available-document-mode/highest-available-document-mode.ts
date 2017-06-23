@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { IAsyncHTMLDocument, IRule, IRuleBuilder, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
 import { isLocalFile, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -18,18 +18,18 @@ import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unus
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        let requireMetaTag = false;
-        let suggestRemoval = false;
+        let requireMetaTag: boolean = false;
+        let suggestRemoval: boolean = false;
 
         // This function exists because not all collector (e.g.: jsdom)
         // support matching attribute values case-insensitively.
         //
         // https://www.w3.org/TR/selectors4/#attribute-case
 
-        const getXUACompatibleMetaTags = (elements) => {
-            return elements.filter((element) => {
+        const getXUACompatibleMetaTags = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
+            return elements.filter((element: IAsyncHTMLElement) => {
                 return (element.getAttribute('http-equiv') !== null &&
-                        normalizeString(element.getAttribute('http-equiv')) === 'x-ua-compatible');
+                    normalizeString(element.getAttribute('http-equiv')) === 'x-ua-compatible');
             });
         };
 
@@ -74,7 +74,7 @@ const rule: IRuleBuilder = {
         const checkMetaTag = async (resource: string) => {
 
             const pageDOM = <IAsyncHTMLDocument>context.pageDOM;
-            const XUACompatibleMetaTags = getXUACompatibleMetaTags(await pageDOM.querySelectorAll('meta'));
+            const XUACompatibleMetaTags: Array<IAsyncHTMLElement> = getXUACompatibleMetaTags(await pageDOM.querySelectorAll('meta'));
 
             // By default, if the user did not request the meta tag to
             // be specified, prefer the HTTP response header over using
@@ -101,8 +101,8 @@ const rule: IRuleBuilder = {
             // Treat the first X-UA-Compatible meta tag as the one
             // the user intended to use, and check if:
 
-            const XUACompatibleMetaTag = XUACompatibleMetaTags[0];
-            const contentValue = normalizeString(XUACompatibleMetaTag.getAttribute('content'));
+            const XUACompatibleMetaTag: IAsyncHTMLElement = XUACompatibleMetaTags[0];
+            const contentValue: string = normalizeString(XUACompatibleMetaTag.getAttribute('content'));
 
             // * it has the value `ie=edge`.
 
@@ -115,8 +115,8 @@ const rule: IRuleBuilder = {
             //
             //   https://msdn.microsoft.com/en-us/library/jj676915.aspx
 
-            const headElements = await pageDOM.querySelectorAll('head *');
-            let metaTagIsBeforeRequiredElements = true;
+            const headElements: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('head *');
+            let metaTagIsBeforeRequiredElements: boolean = true;
 
             for (const headElement of headElements) {
                 if (headElement.isSame(XUACompatibleMetaTag)) {
@@ -134,7 +134,7 @@ const rule: IRuleBuilder = {
 
             // * it's specified in the `<body>`.
 
-            const bodyMetaTags = getXUACompatibleMetaTags(await pageDOM.querySelectorAll('body meta'));
+            const bodyMetaTags: Array<IAsyncHTMLElement> = getXUACompatibleMetaTags(await pageDOM.querySelectorAll('body meta'));
 
             if ((bodyMetaTags.length > 0) && bodyMetaTags[0].isSame(XUACompatibleMetaTag)) {
                 await context.report(resource, XUACompatibleMetaTag, `Meta tag should not be specified in the '<body>'`);
@@ -165,7 +165,7 @@ const rule: IRuleBuilder = {
         };
 
         const validate = async (event: ITraverseEnd) => {
-            const { resource } = event;
+            const { resource }: { resource: string } = event;
 
             // The following check don't make for local files.
 

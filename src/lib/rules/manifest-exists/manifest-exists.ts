@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import { debug as d } from '../../utils/debug';
-import { IElementFound, IManifestFetchEnd, IManifestFetchError, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IElementFound, IManifestFetchEnd, IManifestFetchError, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
@@ -30,7 +30,7 @@ const rule: IRuleBuilder = {
         };
 
         const manifestExists = async (data: IElementFound) => {
-            const { element, resource } = data;
+            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
 
             if (normalizeString(element.getAttribute('rel')) !== 'manifest') {
 

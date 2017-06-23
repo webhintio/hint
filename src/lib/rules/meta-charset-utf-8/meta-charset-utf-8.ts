@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { IAsyncHTMLDocument, IRule, IRuleBuilder, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
 import { isLocalFile, normalizeString } from '../../utils/misc';
 import { parse } from 'content-type';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
@@ -24,14 +24,14 @@ const rule: IRuleBuilder = {
         //
         // https://www.w3.org/TR/selectors4/#attribute-case
 
-        const getCharsetMetaTags = (elements) => {
+        const getCharsetMetaTags = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
             return elements.filter((element) => {
                 return (element.getAttribute('charset') !== null) ||
-                       (element.getAttribute('http-equiv') !== null && normalizeString(element.getAttribute('http-equiv')) === 'content-type');
+                    (element.getAttribute('http-equiv') !== null && normalizeString(element.getAttribute('http-equiv')) === 'content-type');
             });
         };
 
-        const isHTMLDocument = (targetURL: string, responseHeaders: object) => {
+        const isHTMLDocument = (targetURL: string, responseHeaders: object): boolean => {
 
             // If it's a local file, just presume it's a HTML document.
             // TODO: Change this!
@@ -42,8 +42,8 @@ const rule: IRuleBuilder = {
 
             // Otherwise, check.
 
-            const contentTypeHeaderValue = responseHeaders['content-type'];
-            let mediaType;
+            const contentTypeHeaderValue: string = responseHeaders['content-type'];
+            let mediaType: string;
 
             try {
                 mediaType = parse(contentTypeHeaderValue).type;
@@ -55,7 +55,7 @@ const rule: IRuleBuilder = {
         };
 
         const validate = async (event: ITraverseEnd) => {
-            const { resource } = event;
+            const { resource }: { resource: string } = event;
 
             // The following checks don't make sense for non-HTML documents.
 
@@ -74,8 +74,8 @@ const rule: IRuleBuilder = {
             //
             // but for regular HTML, it should not be used.
 
-            const pageDOM = <IAsyncHTMLDocument>context.pageDOM;
-            const charsetMetaTags = getCharsetMetaTags(await pageDOM.querySelectorAll('meta'));
+            const pageDOM: IAsyncHTMLDocument = <IAsyncHTMLDocument>context.pageDOM;
+            const charsetMetaTags: Array<IAsyncHTMLElement> = getCharsetMetaTags(await pageDOM.querySelectorAll('meta'));
 
             if (charsetMetaTags.length === 0) {
                 await context.report(resource, null, 'No charset meta tag was specified');
@@ -86,7 +86,7 @@ const rule: IRuleBuilder = {
             // Treat the first charset meta tag as the one
             // the user intended to use, and check if it's:
 
-            const charsetMetaTag = charsetMetaTags[0];
+            const charsetMetaTag: IAsyncHTMLElement = charsetMetaTags[0];
 
             // * `<meta charset="utf-8">`
 
@@ -102,8 +102,8 @@ const rule: IRuleBuilder = {
             //       within the first 1024 bytes of the document, but
             //       that check will be done by the html/markup validator.
 
-            const firstHeadElement = (await pageDOM.querySelectorAll('head :first-child'))[0];
-            const headElementContent = await (await pageDOM.querySelectorAll('head'))[0].outerHTML();
+            const firstHeadElement: IAsyncHTMLElement = (await pageDOM.querySelectorAll('head :first-child'))[0];
+            const headElementContent: string = await (await pageDOM.querySelectorAll('head'))[0].outerHTML();
 
             if (!firstHeadElement || !firstHeadElement.isSame(charsetMetaTag) ||
                 !(/^<head[^>]*>\s*<meta/).test(headElementContent)) {
@@ -112,7 +112,7 @@ const rule: IRuleBuilder = {
 
             // * specified in the `<body>`.
 
-            const bodyMetaTags = getCharsetMetaTags(await pageDOM.querySelectorAll('body meta'));
+            const bodyMetaTags: Array<IAsyncHTMLElement> = getCharsetMetaTags(await pageDOM.querySelectorAll('body meta'));
 
             if ((bodyMetaTags.length > 0) && bodyMetaTags[0].isSame(charsetMetaTag)) {
                 await context.report(resource, charsetMetaTag, `Meta tag should not be specified in the '<body>'`);
