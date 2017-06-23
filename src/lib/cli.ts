@@ -39,7 +39,7 @@ const messages = {
     'manifestfetch::end': '%url% downloaded',
     'manifestfetch::start': 'Downloading %url%',
     'scan::end': 'Finishing...',
-    'scan::start': 'Analizing %url%',
+    'scan::start': 'Analyzing %url%',
     'targetfetch::end': '%url% downloaded',
     'targetfetch::start': 'Downloading %url%',
     'traverse::down': 'Traversing the DOM',
