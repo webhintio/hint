@@ -55,7 +55,7 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
-    "@types/content-type": "^1.0.33",
+    "@types/content-type": "^1.1.0",
     "@types/debug": "0.0.29",
     "@types/file-type": "0.0.2",
     "@types/iconv-lite": "0.0.1",
