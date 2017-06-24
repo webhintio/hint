@@ -12,6 +12,7 @@ import * as url from 'url';
 import * as _ from 'lodash';
 import * as browserslist from 'browserslist';
 import * as chalk from 'chalk';
+import * as minimatch from 'minimatch';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
@@ -36,7 +37,7 @@ export class Sonar extends EventEmitter {
     private collectorConfig: object
     private messages: Array<IProblem>
     private browsersList: Array<String> = [];
-    private ignoredUrls: Map<string, RegExp[]>;
+    private ignoredUrls: Map<string, string[]>;
     private _formatter: string
 
     get pageDOM() {
@@ -59,13 +60,13 @@ export class Sonar extends EventEmitter {
         return this._formatter;
     }
 
-    private isIgnored(urls: RegExp[], resource: string) {
+    private isIgnored(urls: string[], resource: string) {
         if (!urls) {
             return false;
         }
 
         return urls.some((urlIgnored) => {
-            return urlIgnored.test(resource);
+            return minimatch(resource, urlIgnored);
         });
     }
 
@@ -105,17 +106,16 @@ export class Sonar extends EventEmitter {
         debug('Initializing ignored urls');
         this.ignoredUrls = new Map();
         if (config.ignoredUrls) {
-            _.forEach(config.ignoredUrls, (rules, urlRegexString) => {
+            _.forEach(config.ignoredUrls, (rules, urlGlobPattern) => {
                 rules.forEach((rule) => {
                     const ruleName = rule === '*' ? 'all' : rule;
 
                     const urlsInRule = this.ignoredUrls.get(ruleName);
-                    const urlRegex = new RegExp(urlRegexString, 'i');
 
                     if (!urlsInRule) {
-                        this.ignoredUrls.set(ruleName, [urlRegex]);
+                        this.ignoredUrls.set(ruleName, [urlGlobPattern]);
                     } else {
-                        urlsInRule.push(urlRegex);
+                        urlsInRule.push(urlGlobPattern);
                     }
                 });
             });
