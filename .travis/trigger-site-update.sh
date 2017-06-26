@@ -18,10 +18,7 @@ fi
 # If something that that should be added to the site changed in the
 # last 3 commits, trigger an update in the repository of the website.
 
-if ! git diff --quiet @~3..@ \
-        docs \
-        CHANGELOG.md \
-    ; then
+if ! git diff --quiet @~3..@ docs; then
 
     # Triggering Travis CI builds
     # https://docs.travis-ci.com/user/triggering-builds/
