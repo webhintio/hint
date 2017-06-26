@@ -23,7 +23,7 @@ if ! git diff --quiet @~3..@ docs; then
     # Triggering Travis CI builds
     # https://docs.travis-ci.com/user/triggering-builds/
 
-    declare -r SITE_REPO="MicrosoftEdge%2Fsonarwhal.com"
+    declare -r SITE_REPO="sonarwhal%2Fsonarwhal.com"
 
     declare -r BODY='{
         "request": {

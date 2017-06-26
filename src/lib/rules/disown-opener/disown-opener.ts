@@ -101,7 +101,7 @@ const rule: IRuleBuilder = {
             }
 
             // TODO: In the future, change this to not use caniuse data.
-            // https://github.com/MicrosoftEdge/Sonar/issues/30
+            // https://github.com/sonarwhal/sonar/issues/30
 
             const targetedBrowsers: string = context.targetedBrowsers.join();
             const relValuesToCheckFor: Array<string> = ['noopener'];
