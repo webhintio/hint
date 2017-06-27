@@ -27,3 +27,9 @@ export interface ICollector {
     /** Finds all the nodes that match the given query. */
     querySelectorAll(query: string): Promise<Array<IAsyncHTMLElement>>
 }
+
+export interface ILauncher {
+    launch(url: string, options?): Promise<boolean>
+}
+
+export type LauncherOptions = { flags?: string[], port?: number };

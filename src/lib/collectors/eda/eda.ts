@@ -13,7 +13,7 @@
 import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html'; //eslint-disable-line no-unused-vars
 import { Collector } from '../shared/collector';
 import { ICollector, ICollectorBuilder, ILauncher } from '../../types'; //eslint-disable-line no-unused-vars
-import { CDPLauncher } from './cdp-launcher';
+import { EDALauncher } from './eda-launcher';
 
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
@@ -24,7 +24,7 @@ class CDPCollector extends Collector {
 }
 
 const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
-    const launcher = new CDPLauncher({});
+    const launcher = new EDALauncher({});
     const collector = new CDPCollector(server, config, launcher);
 
     return collector;
