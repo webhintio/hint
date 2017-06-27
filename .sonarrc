@@ -15,6 +15,7 @@
         "disallowed-headers": "warning",
         "disown-opener": "warning",
         "highest-available-document-mode": "warning",
+        "html-checker": "warning",
         "manifest-exists": "warning",
         "manifest-file-extension": "warning",
         "manifest-is-valid": "warning",
