@@ -9,7 +9,7 @@ experience: easy to configure, develop, and well documented.
 
 sonar doesn't want to reinvent the wheel. For that reason it tries to integrate
 other tools and services that do a great job and contribute back where
-appropriate. For example, we are using [axe](https://www.deque.com/products/axe/)
+appropriate. For example, we are using [aXe](https://www.deque.com/products/axe/)
 for accessibility, [SSL Server Test](https://www.ssllabs.com/ssltest/) for
 checking the certificate configuration, etc.
 
