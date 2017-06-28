@@ -5,51 +5,55 @@
 
 env:
   global:
+
+    # GITHUB_API_TOKEN
+    - secure: "JR33kTopJFpEwCnFoh6UGgYYBiU480vltMfui3BRpz8G3zc75KctlChOq1lnzZXLm7Yx+7fx+zEOSoffOL2UrW5RnjfZeoWXb1M8IPfQGF7+AVkTm5fI+O7Z2v/Rq40zEDqT8J4Y5G/k+x3Wvsx6bywAKAUU6PO1zbdnZgKBblR63dDgmHWyrdwatpFQK7VF1DtTXtt+j7P4FiBXN2z2FB/6Uidboqf3DNIBH1wmhZXRFLeBpBubLcJR2FdPbzIE/OaU0iJ0kL4Zm0BecoEX4gfKmgZBtuE3Zr83O0UCXj8XkPWDA/m1I3QJB5BNl3pzv+PkmXxI05ioza5JeM5FmHc6I4X3X6x1GHpppXVZkxwe8WYCtgyfKWFcTy9YC2CV+7t0B0dj1ClzV+RS7q4wWdNKc020bzPle4A0u8FaqK4+IE7s9ciC2qr8r3hIkqgX2a4cDKD57V+fiLZG7BHdYLACmzTLx7rRpAnwhuUW9GUcxG0kb8fVgUZjaM/CI0rrf7kHut2gEDzeOpP9I8d13Oj+Ji1+TDZw8sxEopko5pxaoH8LmCnDn4GfA2b8vOMzJnrF2mcbumTwXLUzC8DNZZb8V/b00TZgCxkaeITDzPM9PpLcKNH4C2wTecc6O9vMRsWpEeirK8NaMpdE4GoSh1F2n+j4c0rxnCVM0ijidzk="
+
     # TRAVIS_API_TOKEN
-    - secure: "onk4EVKZzabHQB+P1RrzSsnZDm9KGqvZrSHCqkPV/3FYz7FDYGfsXtDvY64Zdjyb3EMfZL4A+DV+O5nCIzD/P0fIPDXZMH6pDy77Mnxg93+jwyCwuA40erLG8SQ5jMF8RK/UPun4yA1p3f0mns3pozYf5F4Ron/CiSsfsMnAYbm9kw5wPPQGVHae+vDOJ82fFgxwYuXpQ6lFIdBUtEg2wiIH0xs/YLr8w07a2NDXBOli/9xTqFFzUV9cjcIx1+/QIBVMY1lVRsY4kLj17orD8dMejMFnprroJrUGG66CgBMq5ZPQNGahI+aZ9cLippbbSFu1eZgB5E1tQjptrMIP5jpNGcD7KHZLG8KdzBr+3UuNul4fZpl+UHmnX4C1itFkr18HRd2pJJynLio2O2hMjHz6o7YfV5Bsj4qF+tbemx3491K3vwNH5HU+4//DN1Rvj+7CK25Lsm8R/TDJbMwuHVZoXjaGYrot5S4cLvNj82gEXuzkNlyWCKKuFfrie206rAnAgJ1TNq0Q8BUpgFETv/P/F5z40Efi2V9dsXy0QpaAFAZOxKF3wB337u6nZT6oM6GjVL446XVRqENtRGUdXreccBzmBZTa81nz8XHg6C0vtdNP8/GG4pRnCoxMYKHmoQtvYuKhly3vjgoc3Yt+ZyCuDQs066r9s76noXhBFYY="
+    - secure: "IaW1CfeF12i16seRoO3tPQXw0IrF3ve/umcRpwCkmVgaxM0z/q5mJ+VCV25R67idqaGiSfVkdR5qb1q3q8eVKcMBhg/o6s4/7j3GGdm/5ixU5r8TOOfNUadsX2/e/pt4s5YE6+9NgSWshkwk81j9VBmmfQ1ClE0N0xS9uvjzn4YsZ7YSacrM02lEd5riPkVe0slxN0j0eGm50aum75MsPShM1WTGq9WdJyxd/Xpaia+2eBuiRCHu822dASLnoeVL6kyBmE4x86Ss17eR2VseaOS3XKRmFkdIDiPVO85B2EBaeqiyr4fHOqXTQm/WmWGCMSuzpQMRdksSNOCVrN/csmgajnhdye9f2kUdxTduu17TBcYzvkkoP2MRLglINcSCDHspDbI5177oIIBlE6nB9iawUWIIaiRATAmCBpllIGSA/zmvuztQM8YedjHA9E9o0yBXgyaFCHqz9N5fiZldKLU7do2OblPhwQoKzbUhs7+egpuVTnYp76NiqqipRV8gyCDjXCNWtXR/yba3UT5/3PIozL29mxxM41WIuhVhSXgVKhOzDSTYO5z8kB4S8L5dhVY9gLgXi0qnFU4d+Gsiy69lbZ9zXeK0occjMi/b0rkSOwovGmAZU2ArwUh7XRPbFZuCwxwaF/HBqaInsodRveuuOw7RbZh978kQKDf5J9g="
 
 language: node_js
 
 matrix:
   include:
 
-    # 1. Build used for checking links and, if needed,
-    #    to trigger a rebuild of the site.
+    # The following cron job checks are needed because
+    # conditional builds are not yet possible.
+    #
+    # https://github.com/travis-ci/travis-ci/issues/7181
 
     - os: linux
       dist: trusty
-      install:
-        - gem install awesome_bot
-      node_js:
-        - node
-      script:
-        - ./.travis/check-links.sh && ./.travis/trigger-site-update.sh
 
-    # 2. Build used for running the tests for sonar on Ubuntu.
-
-    - os: linux
-      dist: trusty
       addons:
-        apt:
-          sources:
-            - google-chrome
-          packages:
-            - google-chrome-stable
+        chrome: stable
       node_js:
         - node
       script:
-        - npm run test-on-travis
+        - |
+              # For a regular job, just run the tests, and if
+              # they pass, and if needed, trigger a site update.
 
-    # 3. Build used for running the tests for sonar on macOS.
+              if ! ./.travis/is-cron-job.sh; then
+                npm run test-on-travis \
+                  && ./.travis/trigger-site-update.sh
+
+              # If it's a cron job, check the links and report
+              # any broken ones by opening an issue.
+
+              else
+                ./.travis/check-links.sh
+              fi
 
     - os: osx
       osx_image: xcode8.3
-      before_install:
-        - brew cask install google-chrome
+
+      addons:
+        chrome: stable
       node_js:
         - node
       script:
-        - npm run test-on-travis
+        - ./.travis/is-cron-job.sh || npm run test-on-travis
 
 notifications:
   email:

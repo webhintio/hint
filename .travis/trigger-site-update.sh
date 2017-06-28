@@ -5,15 +5,10 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.." \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Only execute the following if the commit:
-#
-#   * does not come from a pull request
-#   * is made to the `master` branch
+./.travis/is-master.sh \
+    || exit 0
 
-if [ "$TRAVIS_PULL_REQUEST" != "false" ] ||
-   [ "$TRAVIS_BRANCH" != "master" ]; then
-    exit 0
-fi
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # If something that that should be added to the site changed in the
 # last 3 commits, trigger an update in the repository of the website.
