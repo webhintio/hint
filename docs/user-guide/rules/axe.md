@@ -52,12 +52,12 @@ Run only WCAG 2.0 Level A rules:
 
 ```json
 {
-  "axe": ["error", {
-      "runOnly": {
-      "type": "tag",
-        "values": ["wcag2a"]
-      }
-  }]
+    "axe": ["error", {
+        "runOnly": {
+            "type": "tag",
+            "values": ["wcag2a"]
+        }
+    }]
 }
 ```
 

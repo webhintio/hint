@@ -3,7 +3,7 @@
 `sonar` was designed with extensibility in mind. There are 3 main
 concepts that a developer needs to know about:
 
-* `rule`: Is a test that is run on an asset (website, HTML file,
+* `rule`: Is a test that is run on an asset (website, HTML document,
   image, request, etc.). E.g.: Verify that the HTML document has
   a valid language declared.
 * `collector`: Is the way in which `sonar` obtains information about
@@ -19,7 +19,7 @@ Any developer can create their own `rule`s, `collector`s, and/or
 main project. They can even be distributed as [`npm`](https://www.npmjs.com/)
 packages.
 
-Even though sonar is developed using [TypeScript](https://www.typescriptlang.org/),
+Even though `sonar` is developed using [`TypeScript`](https://www.typescriptlang.org/),
 there is no need for it if you are writting your own `rule`, `collector`
 or `formatter`. Just follow the examples for each area and you should
 be good.

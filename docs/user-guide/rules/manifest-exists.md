@@ -104,15 +104,15 @@ More than one web app manifest file is specified:
 ### Examples that **pass** the rule
 
 ```html
- <!doctype html>
- <html lang="en">
-     <head>
-         <title>example</title>
-         <link rel="manifest" href="site.webmanifest">
-         ...
-     </head>
-     <body>...</body>
- </html>
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>example</title>
+        <link rel="manifest" href="site.webmanifest">
+        ...
+    </head>
+    <body>...</body>
+</html>
 ```
 
 TODO: Add information on CORS.

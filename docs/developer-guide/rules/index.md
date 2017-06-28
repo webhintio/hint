@@ -1,18 +1,18 @@
 # How to develop a rule
 
-A `rule` is a check that sonar will validate. The API should be flexible enough
-to allow you to implement anything you want easily:
+A `rule` is a check that `sonar` will validate. The API should be
+flexible enough to allow you to implement anything you want easily:
 
-* validate that all links are `https`,
-* integrate with a third party service,
-* inject JavaScript to execute in the context of the page
+* Validate that all links are `HTTPS`.
+* Integrate with a third party service.
+* Inject JavaScript to execute in the context of the page.
 * etc.
 
-If there is something you want to do and you can't or it is not clear how to do
-it, please open an issue.
+If there is something you want to do and you can't, or it is not clear
+how to do it, please open an issue.
 
-The following is a basic template for a core rule (you might need to adapt the
-paths in your case):
+The following is a basic template for a core rule (you might need to
+adapt the paths for your case):
 
 ```ts
 import { IFetchEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
@@ -87,8 +87,8 @@ Rules have an object `meta` that defines several properties:
 ```json
 {
     "docs": {
-            "category": "string",
-            "description": "string"
+        "category": "string",
+        "description": "string"
     },
     "recommended": "boolean", // If the rule is part of the recommended options
     "schema": ["json schema"], // An array of valid JSON schemas
@@ -96,18 +96,23 @@ Rules have an object `meta` that defines several properties:
 }
 ```
 
-One of the most useful properties is `schema`. This property specifies if the
-rule allows the user to configure it (other than the severity). By default it
-should be an empty array if it doesn't, or an array of valid [JSON schemas](http://json-schema.org/).
-These schemas will be used when validating a `.sonarrc` file. As long as there
-is one of the schemas that passes, the configuration will be valid. This allows
+One of the most useful properties is `schema`. This property specifies
+if the rule allows the user to configure it (other than the severity).
+By default it should be an empty array if it doesn't, or an array of
+valid [JSON schemas](http://json-schema.org/). These schemas will be
+used when validating a `.sonarrc` file. As long as there is one of the
+schemas that passes, the configuration will be valid. This allows
 writting simpler templates.
 
 The rule can access the custom configuration via `context.ruleOptions`.
 
 ## Easy start from CLI
 
-If you are working in `sonar`'s main repo, one of the easiest ways to get started is to use `sonar`'s CLI, which helps to generate the template files and insert them at the right location. First you need to install the CLI:
+If you are working in `sonar`'s main repository, one of the easiest ways
+to get started is to use `sonar`'s CLI, which helps to generate the template
+files and insert them at the right location.
+
+First you need to install the CLI:
 
 ```bash
 npm install -g @sonarwhal/sonar
@@ -126,7 +131,8 @@ Then you can proceed to start generating a new rule using the flag `--new-rule`:
 sonar --new-rule
 ```
 
-This command will start a wizard that will ask you a series of questions related to this new rule. A complete list of the questions are shown as below:
+This command will start a wizard that will ask you a series of questions
+related to this new rule. A complete list of the questions is shown below:
 
 * What's the name of this new rule?
 * Please select the category of this new rule:
@@ -143,17 +149,25 @@ This command will start a wizard that will ask you a series of questions related
   * Third Party Service
   * JS injection
 
-Answer these questions and you will end up with a template rule file. Events determined to be relevant to this use case will be subscribed to automatically in the script. If this is a core rule, templates for documentation and tests will be generated, with the [rule index page](../../user-guide/rules/index.md) under `user guide` updated to include the new rule item.
+Answer these questions and you will end up with a template rule file.
+Events determined to be relevant to this use case will be subscribed
+to automatically in the script. If this is a core rule, templates for
+documentation and tests will be generated, with the [rule index
+page](../../user-guide/rules/index.md) under `user guide` updated to
+include the new rule item.
 
 ## Remove a rule from CLI
 
-Similarly, you can also use CLI to remove an existing rule by using the flag `--remove-rule`:
+Similarly, you can also use CLI to remove an existing rule by using the
+flag `--remove-rule`:
 
 ```bash
 sonar --remove
 ```
 
-You will be asked to type in the normalized name of the rule. And all files associated with this rule (script, documentation and test) will be removed.
+You will be asked to type in the normalized name of the rule, and all
+files associated with this rule (script, documentation, and tests) will
+be removed.
 
 ## Target specific browsers
 
@@ -241,8 +255,10 @@ use the property `ignoreCollectors` so it is not run if using them.
 
 ```js
 const rule = {
-    create(context) { // Your code here
+    create(context) {
+        // Your code here
     },
+
     meta: {
         ignoredCollectors: ['jsdom']
     }
@@ -253,11 +269,11 @@ const rule = {
 
 You can develop a rule that integrates with other services. `sonar`
 integrates with a few like `ssllabs`.
+
 Because these online tools usually take a few seconds to return the
 results the guidance is to start the analysis as soon as possible
 and then collect the results as late as possible. This means you
-will have to listen to `scan::start` and `scan::end`
-events respectively.
+will have to listen to `scan::start` and `scan::end` events respectively.
 The `create` method of your rule should be similar to the following:
 
 ```ts
@@ -336,10 +352,10 @@ The signature of `ruleRunner.testRule` is:
 <!-- eslint-disable no-unused-vars -->
 
 ```js
-  const serverConfig = {
-      '/': 'some HTML here',
-      'site.webmanifest': 'other content'
-  };
+const serverConfig = {
+    '/': 'some HTML here',
+    'site.webmanifest': 'other content'
+};
 ```
 
 You can even specify the headers and status code for the response for
@@ -379,22 +395,22 @@ If you need to force an error in the `collector` when visiting a URL
 you just have to make the content `null`. This will force a redirect
 to `test://fail`, thus, causing an exception.
 
-### Testing an external url
+### Testing an external URL
 
 If you need to test an external resource (because you are integrating
 with a third party service) you need to use the property `serverUrl`:
 
 ```ts
 const tests: Array<RuleTest> = [
-      {
-          name: 'Name of the tests',
-          serverUrl: 'https://example.com',
-          reports: [{
-              message: 'Message the error will have'
-          }]
-      },
-      { ... }
-  ];
+    {
+        name: 'Name of the tests',
+        serverUrl: 'https://example.com',
+        reports: [{
+            message: 'Message the error will have'
+        }]
+    },
+    { ... }
+];
 ```
 
 ### Execute code `before` or `after` collecting the results
@@ -405,19 +421,19 @@ cases you can use the `before` and `after` properties of `RuleTest`:
 
 ```ts
 const tests: Array<RuleTest> = [
-      {
-          after() {
-              // Code to execute right before calling `collector.close` goes here.
-          }
-          before() {
-              // Code to execute before the creation of the sonar object here.
-          },
-          name: 'Name of the tests',
-          serverUrl: 'https://example.com',
-          reports: [{
-              message: 'Message the error will have'
-          }]
-      },
-      { ... }
-  ];
+    {
+        after() {
+            // Code to execute right before calling `collector.close` goes here.
+        }
+        before() {
+            // Code to execute before the creation of the sonar object here.
+        },
+        name: 'Name of the tests',
+        serverUrl: 'https://example.com',
+        reports: [{
+            message: 'Message the error will have'
+        }]
+    },
+    { ... }
+];
 ```

@@ -3,8 +3,8 @@
 ## Getting started
 
 Getting started with `sonar`'s CLI is really easy. First you need
-to have [node 8.x](https://nodejs.org/en/download/current/) installed
-and then run:
+to have [Node.js v8.x](https://nodejs.org/en/download/current/)
+installed and then run:
 
 ```bash
 npm install -g @sonarwhal/sonar
@@ -46,8 +46,9 @@ sonar https://example.com
 ```
 
 Wait a few seconds and you will get the results. It might take a while
-to get some of the results. Some of the rules can take a few minutes to
-report the results (e.g.: [`SSL Labs`](./rules/ssllabs.md)).
+to get some of the results. Some of the rules (e.g.:
+[`SSL Labs`](./rules/ssllabs.md)) can take a few minutes to report the
+results.
 
 Now that you have your first result, is time to learn a bit more about
 the different pieces:
@@ -65,7 +66,7 @@ download them from `npm`. You can read more about
 
 ### Rule configuration
 
-When using sonar, you are always in control. This means that you can
+When using `sonar`, you are always in control. This means that you can
 decide what rules are relevant to your use case and what severity a rule
 should have:
 
@@ -145,10 +146,10 @@ convention as [`browserlist`](https://github.com/ai/browserslist):
 
 ```json
 {
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+    "browserslist": [
+        "> 1%",
+        "last 2 versions"
+    ]
 }
 ```
 
