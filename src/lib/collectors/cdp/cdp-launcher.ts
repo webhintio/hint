@@ -204,7 +204,7 @@ const getPid = (): number => {
 const writePid = (child: ChildProcess) => {
     const pid = child.pid;
 
-    fs.writeFileSync(pidFile, pid, 'utf8');
+    fs.writeFileSync(pidFile, pid, { encoding: 'utf8' });
 };
 
 /** Launches chrome with the given url and ready to be used with the Chrome Debugging Protocol.
