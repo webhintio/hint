@@ -77,6 +77,11 @@ const readFileAsync = async (filePath: string): Promise<string> => {
     return stripBom(content);
 };
 
+/** Convenience wrapper for asynchronously write a file. */
+const writeFileAsync = async (filePath: string, data: string): Promise<void> => {
+    await promisify(fs.writeFile)(filePath, data, { encoding: 'utf8' });
+};
+
 
 /** Loads a JSON a file. */
 const loadJSONFile = (filePath: string) => {
@@ -127,5 +132,6 @@ export {
     loadJSONFile,
     normalizeString,
     readFile,
-    readFileAsync
+    readFileAsync,
+    writeFileAsync
 };

@@ -27,3 +27,18 @@ export interface ICollector {
     /** Finds all the nodes that match the given query. */
     querySelectorAll(query: string): Promise<Array<IAsyncHTMLElement>>
 }
+
+export type BrowserInfo = {
+    isNew?: boolean,
+    pid: number,
+    port: number
+};
+
+export interface ILauncher {
+    launch(url: string, options?): Promise<BrowserInfo>
+}
+
+export type LauncherOptions = {
+    flags?: string[],
+    port?: number
+};

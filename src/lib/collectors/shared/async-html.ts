@@ -1,7 +1,7 @@
 import { IAsyncHTMLDocument, IAsyncHTMLElement } from '../../types'; //eslint-disable-line
 
 /** An implementation of AsyncHTMLDocument on top of the Chrome Debugging Protocol */
-export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
+export class AsyncHTMLDocument implements IAsyncHTMLDocument {
     /** The DOM domain of the CDP client */
     private _DOM;
     /** The root element of the real DOM */
@@ -33,7 +33,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
     // Public methods
     // ------------------------------------------------------------------------------
 
-    async querySelectorAll(selector: string): Promise<Array<CDPAsyncHTMLElement>> {
+    async querySelectorAll(selector: string): Promise<Array<AsyncHTMLElement>> {
         let nodeIds;
 
         try {
@@ -43,7 +43,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
         }
 
         return nodeIds.map((nodeId) => {
-            return new CDPAsyncHTMLElement(this._nodes.get(nodeId), this, this._DOM); // eslint-disable-line no-use-before-define
+            return new AsyncHTMLElement(this._nodes.get(nodeId), this, this._DOM); // eslint-disable-line no-use-before-define
         });
     }
 
@@ -70,7 +70,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
 }
 
 /** An implementation of AsyncHTMLElement on top of the Chrome Debugging Protocol */
-export class CDPAsyncHTMLElement implements IAsyncHTMLElement {
+export class AsyncHTMLElement implements IAsyncHTMLElement {
     protected _htmlelement;
     private _ownerDocument: IAsyncHTMLDocument;
     private _DOM;
@@ -99,7 +99,7 @@ export class CDPAsyncHTMLElement implements IAsyncHTMLElement {
     // Public methods
     // ------------------------------------------------------------------------------
 
-    getAttribute(name: string) {
+    getAttribute(name: string): string {
         if (this._attributesArray.length === 0) {
             this.initializeAttributes();
         }
@@ -109,11 +109,11 @@ export class CDPAsyncHTMLElement implements IAsyncHTMLElement {
         return typeof value === 'string' ? value : null;
     }
 
-    isSame(element: CDPAsyncHTMLElement) {
+    isSame(element: AsyncHTMLElement): boolean {
         return this._htmlelement.nodeId === element._htmlelement.nodeId;
     }
 
-    async outerHTML() {
+    async outerHTML(): Promise<string> {
         const { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._htmlelement.nodeId });
 
         return outerHTML;
@@ -137,10 +137,10 @@ export class CDPAsyncHTMLElement implements IAsyncHTMLElement {
 
         return [];
     }
-    get nodeName() {
+    get nodeName(): string {
         return this._htmlelement.nodeName;
     }
-    get ownerDocument() {
+    get ownerDocument(): IAsyncHTMLDocument {
         return this._ownerDocument;
     }
 }
