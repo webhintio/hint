@@ -40,15 +40,15 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
     // Public methods
     // ------------------------------------------------------------------------------
 
-    getAttribute(name: string) {
+    getAttribute(name: string): string {
         return this._htmlelement.getAttribute(name);
     }
 
-    isSame(element: JSDOMAsyncHTMLElement) {
+    isSame(element: JSDOMAsyncHTMLElement): boolean {
         return this._htmlelement === element._htmlelement;
     }
 
-    outerHTML() {
+    outerHTML(): Promise<string> {
         return Promise.resolve(this._htmlelement.outerHTML);
     }
 
@@ -56,15 +56,15 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
     // Getters
     // ------------------------------------------------------------------------------
 
-    get attributes() {
+    get attributes(): NamedNodeMap {
         return this._htmlelement.attributes;
     }
 
-    get nodeName() {
+    get nodeName(): string {
         return this._htmlelement.nodeName;
     }
 
-    get ownerDocument() {
+    get ownerDocument(): IAsyncHTMLDocument {
         return this._ownerDocument;
     }
 }

@@ -1,0 +1,2 @@
+# TODO: Remove this file from .eslintignore when the eslint issue with abstract methods is fixed
+**/launcher.ts

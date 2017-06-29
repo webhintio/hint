@@ -30,7 +30,7 @@ import { debug as d } from '../../utils/debug';
 /* eslint-disable no-unused-vars */
 import {
     IAsyncHTMLElement, ICollector, ICollectorBuilder,
-    IElementFound, IFetchEnd, IFetchError, IManifestFetchError, IManifestFetchEnd, ITraverseDown, ITraverseUp,
+    IElementFound, IEvent, IFetchEnd, IFetchError, IManifestFetchError, IManifestFetchEnd, ITraverseDown, ITraverseUp,
     INetworkData, URL
 } from '../../types';
 /* eslint-enable */
@@ -43,7 +43,7 @@ import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 // Defaults
 // ------------------------------------------------------------------------------
 
-const debug = d(__filename);
+const debug: debug.IDebugger = d(__filename);
 
 const defaultOptions = {
     followRedirect: false,
@@ -85,7 +85,7 @@ class JSDOMCollector implements ICollector {
     /** Loads a url that uses the `file://` protocol taking into
      *  account if the host is `Windows` or `*nix`. */
     private async _fetchFile(target: URL): Promise<INetworkData> {
-        let targetPath = target.path;
+        let targetPath: string = target.path;
 
         /* `targetPath` on `Windows` is like `/c:/path/to/file.txt`
            `readFileAsync` will prepend `c:` so the final path will
@@ -94,7 +94,7 @@ class JSDOMCollector implements ICollector {
             targetPath = targetPath.substr(1);
         }
 
-        const body = await readFileAsync(targetPath);
+        const body: string = await readFileAsync(targetPath);
 
         const collector = {
             request: {
@@ -120,20 +120,20 @@ class JSDOMCollector implements ICollector {
 
     /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector. */
     private _fetchUrl(target: URL, customHeaders?: object): Promise<INetworkData> {
-        const uri = url.format(target);
+        const uri: string = url.format(target);
 
         if (!customHeaders) {
             return this._request.get(uri);
         }
 
-        const r = new Requester({ headers: customHeaders });
+        const r: Requester = new Requester({ headers: customHeaders });
 
         return r.get(uri);
     }
 
     /** Traverses the DOM while sending `element::typeofelement` events. */
     private async traverseAndNotify(element: HTMLElement) {
-        const eventName = `element::${element.nodeName.toLowerCase()}`;
+        const eventName: string = `element::${element.nodeName.toLowerCase()}`;
 
         debug(`emitting ${eventName}`);
         // should we freeze it? what about the other siblings, children, parents? We should have an option to not allow modifications
@@ -149,7 +149,7 @@ class JSDOMCollector implements ICollector {
 
         await this._server.emitAsync(eventName, event);
         for (let i = 0; i < element.children.length; i++) {
-            const child = <HTMLElement>element.children[i];
+            const child: HTMLElement = <HTMLElement>element.children[i];
 
             debug('next children');
             const traverseDown: ITraverseDown = { resource: this._finalHref };
@@ -168,7 +168,7 @@ class JSDOMCollector implements ICollector {
 
     /** Alternative method to download resource for `JSDOM` so we can get the headers. */
     private async resourceLoader(resource, callback) {
-        let resourceUrl = resource.url.href;
+        let resourceUrl: string = resource.url.href;
 
         if (!url.parse(resourceUrl).protocol) {
             resourceUrl = url.resolve(this._finalHref, resourceUrl);
@@ -178,7 +178,7 @@ class JSDOMCollector implements ICollector {
         await this._server.emitAsync('fetch::start', { resource: resourceUrl });
 
         try {
-            const resourceNetworkData = await this.fetchContent(resourceUrl);
+            const resourceNetworkData: INetworkData = await this.fetchContent(resourceUrl);
 
             debug(`resource ${resourceUrl} fetched`);
 
@@ -195,7 +195,7 @@ class JSDOMCollector implements ICollector {
 
             return callback(null, resourceNetworkData.response.body.content);
         } catch (err) {
-            const hops = this._request.getRedirects(err.uri);
+            const hops: Array<string> = this._request.getRedirects(err.uri);
             const fetchError: IFetchError = {
                 element: new JSDOMAsyncHTMLElement(resource.element),
                 error: err.error,
@@ -239,8 +239,8 @@ class JSDOMCollector implements ICollector {
         //
         // https://w3c.github.io/manifest/#obtaining
 
-        const manifestHref = element.getAttribute('href');
-        let manifestURL = '';
+        const manifestHref: string = element.getAttribute('href');
+        let manifestURL: string = '';
 
         if (!manifestHref) {
             // Invalid href are handled at the rule level
@@ -260,7 +260,7 @@ class JSDOMCollector implements ICollector {
         // exists and is accesible.
 
         try {
-            const manifestData = await this.fetchContent(manifestURL);
+            const manifestData: INetworkData = await this.fetchContent(manifestURL);
 
             const event: IManifestFetchEnd = {
                 element: new JSDOMAsyncHTMLElement(element),
@@ -292,9 +292,9 @@ class JSDOMCollector implements ICollector {
 
     public collect(target: URL) {
         /** The target in string format */
-        const href = this._href = target.href;
+        const href: string = this._href = target.href;
 
-        const initialEvent = { resource: href };
+        const initialEvent: IEvent = { resource: href };
 
         this._server.emit('scan::start', initialEvent);
 
@@ -306,7 +306,7 @@ class JSDOMCollector implements ICollector {
             try {
                 this._targetNetworkData = await this.fetchContent(target);
             } catch (err) {
-                const hops = this._request.getRedirects(err.uri);
+                const hops: Array<string> = this._request.getRedirects(err.uri);
                 const fetchError: IFetchError = {
                     element: null,
                     error: err.error ? err.error : err,
@@ -355,7 +355,7 @@ class JSDOMCollector implements ICollector {
                     /* Even though `done()` is called after window.onload (so all resoruces and scripts executed),
                        we might want to wait a few seconds if the site is lazy loading something. */
                     setTimeout(async () => {
-                        const event = { resource: this._finalHref };
+                        const event: IEvent = { resource: this._finalHref };
 
                         debug(`${this._finalHref} loaded, traversing`);
                         try {
@@ -410,7 +410,7 @@ class JSDOMCollector implements ICollector {
      * * a string, if it starts with // it will treat it as a url, and as a file otherwise.
      */
     public fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {
-        let parsedTarget = target;
+        let parsedTarget: URL | string = target;
 
         if (typeof parsedTarget === 'string') {
             /* TODO: We should be using `resource.element.ownerDocument.location` to get the right protocol
@@ -428,8 +428,8 @@ class JSDOMCollector implements ICollector {
         return this._fetchUrl(parsedTarget, customHeaders);
     }
 
-    public evaluate(source: string) {
-        const script = new vm.Script(source);
+    public evaluate(source: string): Promise<any> {
+        const script: vm.Script = new vm.Script(source);
         const result = script.runInContext(jsdomutils.implForWrapper(this._window.document)._global, { timeout: 60000 });
 
         if (result[Symbol.toStringTag] === 'Promise') {
