@@ -30,11 +30,11 @@ them and you will end up with something similar to the following:
         "name": "collectorName"
     },
     "formatter": "formatterName",
-    "rules": {
-        "rule1": "error",
-        "rule2": "error",
-        "rule3": "error"
-    },
+    "rules": [
+        "rule1",
+        "rule2:warning",
+        "rule3:off"
+    ],
     "rulesTimeout": 120000
 }
 ```
@@ -77,16 +77,53 @@ should have:
 * `error`: The rule will be executed and will change the exit status
   code to `1` if an issue is found.
 
+Rules can be configured using the array or object syntax:
+
+```json
+{
+    "rules": [
+        "rule1:warning"
+    ]
+}
+```
+
+```json
+{
+    "rules": {
+        "rule1": "warning"
+    }
+}
+```
+
+The `off` and `warning` rule severities may be applied with shorthand
+characters `-` and `?` respectfully when using the array syntax:
+
+A rule that has the `off` severity applied:
+
+```json
+"rules": [
+    "-rule1"
+]
+```
+
+A rule that has the `warning` severity applied:
+
+```json
+"rules": [
+    "?rule1"
+]
+```
+
 Additionally, some rules allow further customization. The configuration
 in that case it will be similar to the following:
 
 ```json
-"rules": {
-    "rule1": ["severity", {
+"rules": [
+    ["rule1:warning", {
         "customization1": "value1",
         "customization2": "value2"
     }]
-}
+]
 ```
 
 You can check which rules accept this kind of configuration by

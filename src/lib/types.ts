@@ -38,7 +38,7 @@ export interface IIgnoredUrlList {
 
 export interface IConfig {
     collector: ICollectorConfig | string;
-    rules?: IRuleConfigList;
+    rules?: IRuleConfigList | Array<RuleConfig>;
     browserslist?: string | Array<string>;
     rulesTimeout?: number;
     formatter?: string;

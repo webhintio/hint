@@ -142,7 +142,6 @@ test.serial('If config.rules is an object with rules, we should create just thos
     t.context.rule = rule;
     sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
         ['disallowed-headers', rule],
-        ['lang-attribute', rule],
         ['manifest-exists', rule]
     ]));
     sinon.stub(rule, 'create')
@@ -180,7 +179,6 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     t.context.rule = rule;
     sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
         ['disallowed-headers', rule],
-        ['lang-attribute', rule],
         ['manifest-exists', rule]
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
@@ -199,6 +197,139 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     t.context.eventemitter.prototype.on.restore();
 });
 
+test.serial('If config.rules is an array with rules, we should create just those rules', (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
+        ['disallowed-headers', rule],
+        ['manifest-exists', rule]
+    ]));
+    sinon.stub(rule, 'create')
+        .onFirstCall()
+        .returns({ 'fetch::end': () => { } })
+        .onSecondCall()
+        .returns({ 'fetch::error': () => { } });
+
+    const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'collector',
+        rules: [
+            'disallowed-headers:warning',
+            'manifest-exists:warning'
+        ]
+    });
+
+    t.true(t.context.resourceLoader.loadRules.called);
+    t.true(t.context.rule.create.calledTwice);
+    t.true(t.context.eventemitter.prototype.on.calledTwice);
+    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
+    t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test.serial(`If config.rules is an array and has some rules "off", we shouldn't create those rules`, (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
+        ['disallowed-headers', rule],
+        ['manifest-exists', rule]
+    ]));
+    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
+
+    const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'collector',
+        rules: [
+            'disallowed-headers:warning',
+            'manifest-exists:off'
+        ]
+    });
+
+    t.true(t.context.resourceLoader.loadRules.called);
+    t.true(t.context.rule.create.calledOnce);
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test.serial('If config.rules is an array with shorthand warning rules, we should create just those rules', (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
+        ['disallowed-headers', rule],
+        ['manifest-exists', rule]
+    ]));
+    sinon.stub(rule, 'create')
+        .onFirstCall()
+        .returns({ 'fetch::end': () => { } })
+        .onSecondCall()
+        .returns({ 'fetch::error': () => { } });
+
+    const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'collector',
+        rules: [
+            '?disallowed-headers',
+            'manifest-exists:warning'
+        ]
+    });
+
+    t.true(t.context.resourceLoader.loadRules.called);
+    t.true(t.context.rule.create.calledTwice);
+    t.true(t.context.eventemitter.prototype.on.calledTwice);
+    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
+    t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test.serial(`If config.rules is an array and has some rules "off", we shouldn't create those rules`, (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
+        ['disallowed-headers', rule],
+        ['manifest-exists', rule]
+    ]));
+    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
+
+    const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
+        collector: 'collector',
+        rules: [
+            'disallowed-headers:warning',
+            '-manifest-exists'
+        ]
+    });
+
+    t.true(t.context.resourceLoader.loadRules.called);
+    t.true(t.context.rule.create.calledOnce);
+
+    t.context.eventemitter.prototype.on.restore();
+});
 test.serial(`If a rule has the metadata "ignoredCollectors" set up, we shouldn't ignore those rules if the collector isn't in that property`, (t) => {
     const rule = {
         create() {
@@ -211,7 +342,6 @@ test.serial(`If a rule has the metadata "ignoredCollectors" set up, we shouldn't
     t.context.rule = rule;
     sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
         ['disallowed-headers', rule],
-        ['lang-attribute', rule],
         ['manifest-exists', rule]
     ]));
     sinon.stub(rule, 'create')
@@ -256,7 +386,6 @@ test.serial(`If a rule has the metadata "ignoredCollectors" set up, we should ig
     t.context.ruleWithIgnoredCollector = ruleWithIgnoredCollector;
     sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
         ['disallowed-headers', ruleWithIgnoredCollector],
-        ['lang-attribute', rule],
         ['manifest-exists', rule]
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
