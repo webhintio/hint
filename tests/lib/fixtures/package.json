@@ -4,7 +4,7 @@
     "collector": {
       "name": "cdp",
       "options": {
-        "waitFor": 100
+        "waitFor": 1000
       }
     },
     "formatter": "json",
