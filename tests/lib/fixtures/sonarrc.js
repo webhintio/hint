@@ -1,7 +1,7 @@
 module.exports = {
     collector: {
         name: 'cdp',
-        options: { waitFor: 100 }
+        options: { waitFor: 1000 }
     },
     formatter: 'json',
     rules: {
