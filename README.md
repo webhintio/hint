@@ -6,7 +6,8 @@
 
 ## Quick start user guide
 
-Once you have node 8.x in your machine, install `sonar`:
+Once you have [`Node.js`](https://nodejs.org/en/download/current/)
+v8.x on your machine, install `sonar`:
 
 ```bash
 npm install -g @sonarwhal/sonar
@@ -25,10 +26,10 @@ Scan a website:
 sonar https://example.com
 ```
 
-You can find more information in the online
-[user guide](https://sonarwhal.com/docs/user-guide/), or the [local
-version](./docs/user-guide/index.md) for the most recent (and unstable)
-content.
+For more in depth information on how to get started, configurations,
+and more, see the online [user guide](https://sonarwhal.com/docs/user-guide/),
+or the [local version](./docs/user-guide/index.md) for the most recent
+(and unstable) content.
 
 ## Quick start developer guide
 
