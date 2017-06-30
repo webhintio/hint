@@ -6,7 +6,7 @@ import * as configValidator from '../../../src/lib/config/config-validator';
 const validConfig = {
     collector: {
         name: 'cdp',
-        options: { waitFor: 100 }
+        options: { waitFor: 1000 }
     },
     formatter: 'json',
     rules: {

@@ -1,6 +1,5 @@
 /**
  * @fileoverview Generates a valid `.sonarrc` file based on user responses.
- *
  */
 
 // ------------------------------------------------------------------------------
@@ -39,7 +38,7 @@ export const initSonarrc = async () => {
         browserslist: '',
         collector: {
             name: '',
-            options: {}
+            options: { waitFor: 1000 }
         },
         formatter: 'stylish',
         ignoredUrls: {},
