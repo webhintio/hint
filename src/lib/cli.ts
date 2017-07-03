@@ -18,11 +18,9 @@ import * as path from 'path';
 import * as ora from 'ora';
 
 import * as Config from './config';
-import { debug as d } from './utils/debug';
 import { getAsUris } from './utils/get-as-uri';
 import { CLIOptions, IConfig, IFormatter, IORA, IProblem, URL } from './types'; //eslint-disable-line no-unused-vars
 import { loadJSONFile } from './utils/misc';
-import * as logger from './utils/logging';
 import { cutString } from './utils/misc';
 import { options } from './cli/options';
 import { newRule, removeRule } from './cli/rule-generator';
@@ -31,7 +29,6 @@ import * as resourceLoader from './utils/resource-loader';
 import { Severity } from './types';
 import { Sonar } from './sonar';
 
-const debug: debug.IDebugger = d(__filename);
 const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
 
 const messages = {
@@ -70,7 +67,7 @@ export let sonar: Sonar = null;
 
 /** Executes the CLI based on an array of arguments that is passed in. */
 export const execute = async (args: string | Array<string> | Object): Promise<number> => {
-
+    const logger = require('./utils/logging')(__filename); // Initiate logger here to allow stub for methods in the tests
     const format = (formatterName: string, results: IProblem[]) => {
         const formatter: IFormatter = resourceLoader.loadFormatter(formatterName) || resourceLoader.loadFormatter('json');
 
@@ -155,14 +152,14 @@ export const execute = async (args: string | Array<string> | Object): Promise<nu
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');
-            debug(`Failed to analyze: ${target.href}`);
-            debug(e);
+            logger.debug(`Failed to analyze: ${target.href}`);
+            logger.debug(e);
         }
     }
 
     await sonar.close();
 
-    debug(`Total runtime: ${Date.now() - start}ms`);
+    logger.debug(`Total runtime: ${Date.now() - start}ms`);
 
     return exitCode;
 };

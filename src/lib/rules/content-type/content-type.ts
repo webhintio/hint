@@ -10,7 +10,7 @@
 import * as path from 'path';
 import * as url from 'url';
 
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 import * as fileType from 'file-type';
 import * as isSvg from 'is-svg';
 import * as mimeDB from 'mime-db';
@@ -20,7 +20,7 @@ import { IAsyncHTMLElement, IResponse, IResponseBody, IRule, IRuleBuilder, IFetc
 import { isDataURI, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -178,7 +178,7 @@ const rule: IRuleBuilder = {
             // This check does not make sense for data URIs.
 
             if (isDataURI(resource)) {
-                debug(`Check does not apply for data URIs`);
+                logger.debug(`Check does not apply for data URIs`);
 
                 return;
             }

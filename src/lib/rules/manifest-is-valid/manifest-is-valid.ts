@@ -6,11 +6,11 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 import { IManifestFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -29,7 +29,7 @@ const rule: IRuleBuilder = {
             // null, empty string, etc. are not valid manifests
             if (!content) {
                 await context.report(resource, null, `Web app manifest file is not a text file`);
-                debug('Web app manifest file is not a text file');
+                logger.debug('Web app manifest file is not a text file');
 
                 return;
             }
@@ -38,7 +38,7 @@ const rule: IRuleBuilder = {
                 // TODO: Add more complex web app manifest file validation.
                 JSON.parse(content);
             } catch (e) {
-                debug('Failed to parse the web app manifest file');
+                logger.debug('Failed to parse the web app manifest file');
                 await context.report(resource, null, `Web app manifest file doesn't contain valid JSON`);
             }
         };

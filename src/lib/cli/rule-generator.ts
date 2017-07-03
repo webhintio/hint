@@ -15,12 +15,12 @@ import * as Handlebars from 'handlebars';
 import * as rimraf from 'rimraf';
 import * as _ from 'lodash';
 
-import { debug as d } from '../utils/debug';
-import * as logger from '../utils/logging';
+import { loggerInitiator } from '../utils/logging';
+
 import { normalizeStringByDelimiter as normalize, findPackageRoot as packageRoot } from '../utils/misc';
 import * as resourceLoader from '../utils/resource-loader';
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 const dir = packageRoot();
 
 const ruleTemplateDir = './templates';
@@ -80,7 +80,7 @@ const loadPopulatedTemplate = async (filePath: string, data: Object): Promise<st
     try {
         content = await util.promisify(fs.readFile)(filePath, 'utf8');
     } catch (e) {
-        debug(`Error reading file: ${filePath}`);
+        logger.debug(`Error reading file: ${filePath}`);
         throw (e);
     }
 
@@ -156,7 +156,7 @@ const updateRuleIndex = async (rule: NewRule): Promise<void> => {
     try {
         text = await util.promisify(fs.readFile)(indexPath, 'utf8');
     } catch (e) {
-        debug(`Error reading file: ${indexPath}`);
+        logger.debug(`Error reading file: ${indexPath}`);
         throw (e);
     }
 
@@ -181,7 +181,7 @@ const removeFromRuleIndex = async (ruleName: string): Promise<void> => {
     try {
         text = await util.promisify(fs.readFile)(indexPath, 'utf8');
     } catch (e) {
-        debug(`Error reading file: ${indexPath}`);
+        logger.debug(`Error reading file: ${indexPath}`);
         throw (e);
     }
 

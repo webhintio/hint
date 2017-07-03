@@ -12,12 +12,12 @@ import * as url from 'url';
 import * as request from 'request';
 import * as iconv from 'iconv-lite';
 
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 import { INetworkData } from '../../types'; //eslint-disable-line
 import { RedirectManager } from './redirects';
 import { getCharset } from './charset';
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 const defaults = {
     encoding: null,
@@ -66,7 +66,7 @@ export class Requester {
      * it will decode the response.
      */
     public get(uri: string): Promise<INetworkData> {
-        debug(`Requesting ${uri}`);
+        logger.debug(`Requesting ${uri}`);
 
         return new Promise((resolve: Function, reject: Function) => {
             const byteChunks: Array<Buffer> = [];
@@ -74,7 +74,7 @@ export class Requester {
 
             this._request({ uri }, async (err, response, rawBody) => {
                 if (err) {
-                    debug(`Request for ${uri} failed\n${err}`);
+                    logger.debug(`Request for ${uri} failed\n${err}`);
 
                     return reject({
                         error: err,
@@ -95,7 +95,7 @@ export class Requester {
                     }
 
                     try {
-                        debug(`Redirect found for ${uri}`);
+                        logger.debug(`Redirect found for ${uri}`);
                         const results = await this.get(newUri);
 
                         return resolve(results);

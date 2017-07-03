@@ -15,11 +15,11 @@ import * as path from 'path';
 
 import * as shell from 'shelljs';
 
-import { debug as d } from './utils/debug';
+import { loggerInitiator } from './utils/logging';
 import { IConfig, IRuleBuilder } from './types'; //eslint-disable-line no-unused-vars
 import { loadJSFile, loadJSONFile } from './utils/misc';
 
-const debug: debug.IDebugger = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Private
@@ -35,12 +35,12 @@ const CONFIG_FILES = [
 /** Loads a configuration from a package.json file. */
 const loadPackageJSONConfigFile = (filePath: string): IConfig => {
 
-    debug(`Loading package.json config file: ${filePath}`);
+    logger.debug(`Loading package.json config file: ${filePath}`);
 
     try {
         return loadJSONFile(filePath).sonarConfig || null;
     } catch (e) {
-        debug(`Error reading package.json file: ${filePath}`);
+        logger.debug(`Error reading package.json file: ${filePath}`);
         e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
         throw e;
     }

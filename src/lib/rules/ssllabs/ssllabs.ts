@@ -12,11 +12,11 @@
 
 import { promisify } from 'util';
 
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 import { ITargetFetchEnd, IScanEnd, IRule, IRuleBuilder, SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -67,7 +67,7 @@ const rule: IRuleBuilder = {
                 if (!grade && details.protocols.length === 0) {
                     const message = `${resource} doesn't support HTTPS.`;
 
-                    debug(message);
+                    logger.debug(message);
                     context.report(resource, null, message);
 
                     return;
@@ -79,10 +79,10 @@ const rule: IRuleBuilder = {
                 if (calculatedGrade > calculatedMiniumGrade) {
                     const message: string = `${serverName}'s grade ${grade} doesn't meet the minimum ${minimumGrade} required.`;
 
-                    debug(message);
+                    logger.debug(message);
                     context.report(resource, null, message);
                 } else {
-                    debug(`Grade ${grade} for ${resource} is ok.`);
+                    logger.debug(`Grade ${grade} for ${resource} is ok.`);
                 }
             };
         };
@@ -93,7 +93,7 @@ const rule: IRuleBuilder = {
             if (!resource.startsWith('https://')) {
                 const message: string = `${resource} doesn't support HTTPS.`;
 
-                debug(message);
+                logger.debug(message);
                 context.report(resource, null, message);
 
                 return;
@@ -104,7 +104,7 @@ const rule: IRuleBuilder = {
             const ssl = require('node-ssllabs');
             const ssllabs: Function = promisify(ssl.scan);
 
-            debug(`Starting SSL Labs scan for ${resource}`);
+            logger.debug(`Starting SSL Labs scan for ${resource}`);
             scanOptions.host = resource;
 
             promise = ssllabs(scanOptions);
@@ -117,25 +117,25 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            debug(`Waiting for SSL Labs results for ${resource}`);
+            logger.debug(`Waiting for SSL Labs results for ${resource}`);
             let host: SSLLabsResult;
 
             try {
                 host = await promise;
             } catch (e) {
-                debug(`Error getting data for ${resource} %O`, e);
+                logger.debug(`Error getting data for ${resource} %O`, e);
                 await context.report(resource, null, `Couldn't get results from SSL Labs for ${resource}.`);
 
                 return;
             }
 
-            debug(`Received SSL Labs results for ${resource}`);
+            logger.debug(`Received SSL Labs results for ${resource}`);
 
             if (!host.endpoints || host.endpoints.length === 0) {
                 const msg = `Didn't get any result for ${resource}.
 There might be something wrong with SSL Labs servers.`;
 
-                debug(msg);
+                logger.debug(msg);
                 await context.report(resource, null, msg);
 
                 return;

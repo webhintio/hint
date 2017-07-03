@@ -6,12 +6,12 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -24,7 +24,7 @@ const rule: IRuleBuilder = {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
             const html: string = await element.outerHTML();
 
-            debug(`Analyzing link\n${html}`);
+            logger.debug(`Analyzing link\n${html}`);
 
             // We need to use getAttribute to get the exact value.
             // If we access the src or href properties directly the
@@ -36,7 +36,7 @@ const rule: IRuleBuilder = {
             );
 
             if (url && (url.indexOf('//') === 0)) {
-                debug('Protocol relative URL found');
+                logger.debug('Protocol relative URL found');
 
                 await context.report(resource, element, `Protocol relative URL found: ${url}`, url);
             }

@@ -1,7 +1,9 @@
 import test from 'ava';
 import * as sinon from 'sinon';
 
-import * as logging from '../../../src/lib/utils/logging';
+import { loggerInitiator } from '../../../src/lib/utils/logging';
+
+const logger = loggerInitiator(__filename, false);
 
 test.beforeEach((t) => {
     t.context.console = console;
@@ -15,13 +17,13 @@ test.afterEach.always((t) => {
 });
 
 test.serial('logging calls console.log', (t) => {
-    logging.log('Log');
+    logger.log('Log');
     t.true(t.context.console.log.calledOnce);
     t.true(t.context.console.error.notCalled);
 });
 
 test.serial('logging calls console.log', (t) => {
-    logging.error('Error');
+    logger.error('Error');
     t.true(t.context.console.log.notCalled);
     t.true(t.context.console.error.calledOnce);
 });

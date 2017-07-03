@@ -1,8 +1,8 @@
 import { parse, MediaType } from 'content-type'; //eslint-disable-line no-unused-vars
 
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 /** Charset aliases when receiving `charset` in a `content-type`. */
 const charsetAliases: Map<string, string> = new Map([
@@ -46,7 +46,7 @@ export const getCharset = (headers: object): string => {
     try {
         contentType = parse(headerValue);
     } catch (e) {
-        debug(`Invalid value ('${headerValue}') for the 'Content-Type' header: ${e.message}`);
+        logger.debug(`Invalid value ('${headerValue}') for the 'Content-Type' header: ${e.message}`);
 
         return null;
     }
@@ -55,18 +55,18 @@ export const getCharset = (headers: object): string => {
     const mediaType = contentType.type;
 
     if (!requiresDecoding(mediaType)) {
-        debug(`Content Type '${headerValue}' doesn't require decoding`);
+        logger.debug(`Content Type '${headerValue}' doesn't require decoding`);
 
         return null;
     }
 
     if (!charset) {
-        debug(`No 'charset' defined, falling back to 'utf-8'`);
+        logger.debug(`No 'charset' defined, falling back to 'utf-8'`);
 
         return 'utf-8';
     }
 
-    debug(`Charset for '${headerValue}' is '${charset}'`);
+    logger.debug(`Charset for '${headerValue}' is '${charset}'`);
 
     return charsetAliases.get(charset) || charset;
 };

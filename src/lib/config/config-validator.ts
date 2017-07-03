@@ -9,11 +9,10 @@
 
 import * as schemaValidator from 'is-my-json-valid/require';
 
-import { debug as d } from '../utils/debug';
+import { loggerInitiator } from '../utils/logging';
 import { IConfig } from '../types'; //eslint-disable-line no-unused-vars
-import * as logger from '../utils/logging';
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 /** Validates that a configuration is valid */
 const validate = schemaValidator('config-schema.json');
@@ -25,7 +24,7 @@ const validate = schemaValidator('config-schema.json');
 /** Validates that a given config object is valid */
 export const validateConfig = (config: IConfig): boolean => {
 
-    debug('Validating configuration');
+    logger.debug('Validating configuration');
     if (!validate(config)) {
         logger.error('Configuration schema is not valid');
 

@@ -8,8 +8,9 @@ import * as stripBom from 'strip-bom';
 import * as requireUncached from 'require-uncached';
 import * as stripComments from 'strip-json-comments';
 
-import { debug as d } from './debug';
-const debug: debug.IDebugger = d(__filename);
+import { loggerInitiator } from './logging';
+
+const logger = loggerInitiator(__filename);
 
 // const readdir = promisify(fs.readdir);
 const readdir = fs.readdirSync; //eslint-disable-line no-sync
@@ -85,14 +86,14 @@ const writeFileAsync = async (filePath: string, data: string): Promise<void> => 
 
 /** Loads a JSON a file. */
 const loadJSONFile = (filePath: string) => {
-    debug(`Loading JSON file: ${filePath}`);
+    logger.debug(`Loading JSON file: ${filePath}`);
 
     return JSON.parse(stripComments(readFile(filePath)));
 };
 
 /** Loads a JavaScript file. */
 const loadJSFile = (filePath: string): any => {
-    debug(`Loading JS file: ${filePath}`);
+    logger.debug(`Loading JS file: ${filePath}`);
 
     return requireUncached(filePath);
 };

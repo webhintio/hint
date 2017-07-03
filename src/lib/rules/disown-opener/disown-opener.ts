@@ -15,12 +15,12 @@ import * as pluralize from 'pluralize';
 import * as sameOrigin from 'same-origin';
 
 import { cutString } from '../../utils/misc';
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -61,7 +61,7 @@ const rule: IRuleBuilder = {
             // change that by setting `includeSameOriginURLs` to `true`.
 
             if (sameOrigin(resource, fullURL) && !includeSameOriginURLs) {
-                debug('Is same origin');
+                logger.debug('Is same origin');
 
                 return false;
             }
@@ -75,7 +75,7 @@ const rule: IRuleBuilder = {
                 return true;
             }
 
-            debug(`'href' is not specified`);
+            logger.debug(`'href' is not specified`);
 
             return false;
         };
@@ -85,7 +85,7 @@ const rule: IRuleBuilder = {
                 return true;
             }
 
-            debug('No `target="_blank"` found');
+            logger.debug('No `target="_blank"` found');
 
             return false;
         };

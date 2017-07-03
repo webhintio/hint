@@ -14,15 +14,14 @@ import * as browserslist from 'browserslist';
 import * as chalk from 'chalk';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
-import { debug as d } from './utils/debug';
+import { loggerInitiator } from './utils/logging';
 import { getSeverity } from './config/config-rules';
 import { IAsyncHTMLElement, ICollector, ICollectorBuilder, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IRuleConfigList, IPlugin, RuleConfig, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
-import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
 import { RuleContext } from './rule-context';
 
-const debug: debug.IDebugger = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public interface
@@ -77,11 +76,11 @@ export class Sonar extends EventEmitter {
             wildcard: true
         });
 
-        debug('Initializing sonar engine');
+        logger.debug('Initializing sonar engine');
 
         this.messages = [];
 
-        debug('Loading collector');
+        logger.debug('Loading collector');
 
         if (!config.collector) {
             throw new Error(`Collector not found in the configuration`);
@@ -95,15 +94,15 @@ export class Sonar extends EventEmitter {
             this.collectorConfig = config.collector.options;
         }
 
-        debug('Loading supported browsers');
+        logger.debug('Loading supported browsers');
         if (config.browserslist) {
             this.browsersList = browserslist(config.browserslist);
         }
 
-        debug('Setting the selected formatter');
+        logger.debug('Setting the selected formatter');
         this._formatter = config.formatter;
 
-        debug('Initializing ignored urls');
+        logger.debug('Initializing ignored urls');
         this.ignoredUrls = new Map();
         if (config.ignoredUrls) {
             _.forEach(config.ignoredUrls, (rules: Array<string>, urlRegexString: string) => {
@@ -133,7 +132,7 @@ export class Sonar extends EventEmitter {
     }
 
     private initRules(config: IConfig) {
-        debug('Loading rules');
+        logger.debug('Loading rules');
         this.rules = new Map();
         if (!config.rules) {
             return;
@@ -167,7 +166,7 @@ export class Sonar extends EventEmitter {
                             immediateId = null;
                         }
 
-                        debug(`Rule ${ruleId} timeout`);
+                        logger.debug(`Rule ${ruleId} timeout`);
 
                         resolve(null);
                     }, config.rulesTimeout || 120000);
@@ -203,7 +202,7 @@ export class Sonar extends EventEmitter {
             const severity: Severity = getSeverity(ruleOptions);
 
             if (ignoreCollector(rule)) {
-                debug(`Rule "${id}" is disabled for the collector "${this.collectorId}"`);
+                logger.debug(`Rule "${id}" is disabled for the collector "${this.collectorId}"`);
                 //TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
                 logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the collector "${this.collectorId}"`));
             } else if (severity) {
@@ -216,11 +215,11 @@ export class Sonar extends EventEmitter {
 
                 this.rules.set(id, instance);
             } else {
-                debug(`Rule "${id}" is disabled`);
+                logger.debug(`Rule "${id}" is disabled`);
             }
         });
 
-        debug(`Rules loaded: ${this.rules.size}`);
+        logger.debug(`Rules loaded: ${this.rules.size}`);
     }
 
     public fetchContent(target: string | url.Url, headers: object) {
@@ -255,11 +254,11 @@ export class Sonar extends EventEmitter {
 
         const start: number = Date.now();
 
-        debug(`Starting the analysis on ${target.path}`);
+        logger.debug(`Starting the analysis on ${target.path}`);
 
         await this.collector.collect(target);
 
-        debug(`Total runtime ${Date.now() - start}`);
+        logger.debug(`Total runtime ${Date.now() - start}`);
 
         return this.messages;
     }

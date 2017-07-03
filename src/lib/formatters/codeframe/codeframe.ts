@@ -14,11 +14,7 @@ import * as _ from 'lodash';
 import * as pluralize from 'pluralize';
 
 import { cutString } from '../../utils/misc';
-import { debug as d } from '../../utils/debug';
 import { IFormatter, IProblem, IProblemLocation, Severity } from '../../types'; // eslint-disable-line no-unused-vars
-import * as logger from '../../utils/logging';
-
-const debug = d(__filename);
 
 const countLeftWhiteSpaces = (txt: string): number => {
     const match = txt.match(/(\s+)/);
@@ -35,6 +31,7 @@ const safeTrim = (txt: string, charsToRemove: number): boolean => {
 };
 
 const codeFrame = (code: string, location: IProblemLocation) => {
+    const logger = require('../../utils/logging')(__filename, false); // Initiate logger here so that methods could be stubbed in the tests
     const codeInLines: Array<string> = `\n${code}`.split('\n');
     const whiteSpacesToRemove: number = countLeftWhiteSpaces(codeInLines[codeInLines.length - 1]);
     const line: number = location.elementLine;
@@ -110,7 +107,9 @@ const formatter: IFormatter = {
      *  indicating where in the element there is an error.
      */
     format(messages: Array<IProblem>) {
-        debug('Formatting results');
+        const logger = require('../../utils/logging')(__filename, false); // Initiate logger here so that methods could be stubbed in tests
+
+        logger.debug('Formatting results');
 
         if (messages.length === 0) {
             return;

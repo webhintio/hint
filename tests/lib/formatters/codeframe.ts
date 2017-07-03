@@ -3,17 +3,27 @@ import * as chalk from 'chalk';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-const logging = { log() { } };
+const loggerMethods = {
+    debug() { },
+    error() { },
+    log() { }
+};
 
-proxyquire('../../../src/lib/formatters/codeframe/codeframe', { '../../utils/logging': logging });
+const logging = {
+    loggerInitiator: () => {
+        return loggerMethods;
+    }
+};
+
+proxyquire('../../../src/lib/formatters/codeframe/codeframe', { '../../utils/logging': logging.loggerInitiator });
 
 import codeframe from '../../../src/lib/formatters/codeframe/codeframe';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
-    sinon.spy(logging, 'log');
+    sinon.spy(loggerMethods, 'log');
 
-    t.context.logger = logging;
+    t.context.logger = loggerMethods;
 });
 
 test.afterEach.always((t) => {

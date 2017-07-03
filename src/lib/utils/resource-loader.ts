@@ -14,12 +14,11 @@ import * as path from 'path';
 import * as globby from 'globby';
 
 import { findPackageRoot } from './misc';
-import { debug as d } from './debug';
+import { loggerInitiator } from './logging';
 import { ICollectorBuilder, IFormatter, IPluginBuilder, Resource, IRuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
 import { validate as validateRule } from '../config/config-rules';
 
-
-const debug: debug.IDebugger = d(__filename);
+const logger = loggerInitiator(__filename);
 const PROJECT_ROOT: string = findPackageRoot();
 
 /** Cache of resource builders, indexex by resource Id. */
@@ -74,7 +73,7 @@ export const tryToLoadFrom = (resourcePath: string): any => {
 
         builder = resource.default || resource;
     } catch (e) {
-        debug(`Can't require ${resourcePath}`);
+        logger.debug(`Can't require ${resourcePath}`);
     }
 
     return builder;
@@ -92,7 +91,7 @@ export const tryToLoadFrom = (resourcePath: string): any => {
  *
  */
 export const loadResource = (name: string, type: string) => {
-    debug(`Searching ${name}…`);
+    logger.debug(`Searching ${name}…`);
     const key: string = `${type}-${name}`;
 
     if (resources.has(key)) {
@@ -109,13 +108,13 @@ export const loadResource = (name: string, type: string) => {
 
     sources.some((source: string) => {
         resource = tryToLoadFrom(source);
-        debug(`${name} found in ${source}`);
+        logger.debug(`${name} found in ${source}`);
 
         return resource;
     });
 
     if (!resource) {
-        debug(`Resource ${name} not found`);
+        logger.debug(`Resource ${name} not found`);
         throw new Error(`Resource ${name} not found`);
     }
 

@@ -8,11 +8,11 @@
 
 import * as schemaValidator from 'is-my-json-valid';
 
-import { debug as d } from '../utils/debug';
+import { loggerInitiator } from '../utils/logging';
 import { IRuleBuilder, RuleConfig } from '../types'; // eslint-disable-line no-unused-vars
 import { Severity } from '../types/problems';
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -52,7 +52,7 @@ const validateRule = (schema: Array<object>, ruleConfig: object): boolean => {
 /** Validates that a rule has a valid configuration based on its schema */
 export const validate = (rule: IRuleBuilder, config, ruleId: string): boolean => {
 
-    debug(`Validating rule ${ruleId}`);
+    logger.debug(`Validating rule ${ruleId}`);
 
     // We don't accept object as a valid configuration
     if (!Array.isArray(config) && typeof config === 'object') {
