@@ -163,7 +163,7 @@ There might be something wrong with SSL Labs servers.`;
             description: 'Strength of your SSL configuration'
         },
         fixable: 'none',
-        recommended: true,
+        recommended: false,
         schema: [{
             additionalProperties: false,
             properties: {
