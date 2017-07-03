@@ -22,7 +22,7 @@
         "no-friendly-error-pages": "warning",
         "no-html-only-headers": "warning",
         "no-protocol-relative-urls": "warning",
-        "ssllabs": "warning",
+        "ssllabs": "off",
         "x-content-type-options": "warning"
     }
 }
