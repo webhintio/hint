@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { normalizeHeaders } from '../../../../src/lib/collectors/utils/normalize-headers';
+import { normalizeHeaders } from '../../../../src/lib/connectors/utils/normalize-headers';
 
 test(`'normalizeHeaders' returns 'null' for 'null'`, (t) => {
     t.is(normalizeHeaders(null), null);

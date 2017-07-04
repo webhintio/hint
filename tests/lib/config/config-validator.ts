@@ -4,7 +4,7 @@ import test from 'ava';
 import * as configValidator from '../../../src/lib/config/config-validator';
 
 const validConfig = {
-    collector: {
+    connector: {
         name: 'cdp',
         options: { waitFor: 1000 }
     },

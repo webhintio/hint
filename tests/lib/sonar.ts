@@ -7,7 +7,7 @@ import test from 'ava';
 import { delay } from '../../src/lib/utils/misc';
 
 const resourceLoader = {
-    loadCollector() {
+    loadConnector() {
         return () => { };
     },
     loadRules() { }
@@ -35,8 +35,8 @@ test.afterEach.always((t) => {
     if (t.context.resourceLoader.loadRules.restore) {
         t.context.resourceLoader.loadRules.restore();
     }
-    if (t.context.resourceLoader.loadCollector.restore) {
-        t.context.resourceLoader.loadCollector.restore();
+    if (t.context.resourceLoader.loadConnector.restore) {
+        t.context.resourceLoader.loadConnector.restore();
     }
 });
 
@@ -50,7 +50,7 @@ test(`If config is an empty object, we should throw an error`, (t) => {
 test(`If config doesn't have any rule, we shouldn't create any rules`, (t) => {
     sinon.spy(t.context.resourceLoader, 'loadRules');
 
-    const sonarObject = new Sonar({ collector: 'collector' }); //eslint-disable-line no-unused-vars
+    const sonarObject = new Sonar({ connector: 'connector' }); //eslint-disable-line no-unused-vars
 
     t.false(t.context.resourceLoader.loadRules.called);
 });
@@ -67,7 +67,7 @@ test(`If the config object is invalid, we should throw an error`, (t) => {
 test(`If a rule config is invalid, we should throw an error`, (t) => {
     t.throws(() => {
         const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-            collector: 'collector',
+            connector: 'connector',
             rules: { 'disallowed-headers': 'invalid-severity' }
         });
     }, Error);
@@ -76,7 +76,7 @@ test(`If a rule config is invalid, we should throw an error`, (t) => {
 test(`If a rule doesn't exist, we should throw an error`, (t) => {
     t.throws(() => {
         const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-            collector: 'collector',
+            connector: 'connector',
             rules: { 'invalid-rule': 'error' }
         });
     }, Error);
@@ -87,7 +87,7 @@ test(`If config.browserslist is an string, we should initilize the property targ
 
     const sonarObject = new Sonar({
         browserslist: '> 5%',
-        collector: 'collector'
+        connector: 'connector'
     }); //eslint-disable-line no-unused-vars
 
     t.true(sonarObject.targetedBrowsers.length > 0);
@@ -118,7 +118,7 @@ test(`If config.browserslist is an string, we should initilize the property targ
 //             'fetch::error': () => { }
 //         });
 
-//     const sonarObject = new Sonar({ collector: 'collector', plugins: ['plugin1Name', 'plugin2Name'] }); //eslint-disable-line no-unused-vars
+//     const sonarObject = new Sonar({ connector: 'connector', plugins: ['plugin1Name', 'plugin2Name'] }); //eslint-disable-line no-unused-vars
 
 //     t.true(t.context.resourceLoader.getPlugins.called);
 //     t.is(t.context.plugin.create.callCount, 2);
@@ -151,7 +151,7 @@ test.serial('If config.rules is an object with rules, we should create just thos
         .returns({ 'fetch::error': () => { } });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'collector',
+        connector: 'connector',
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
@@ -184,7 +184,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'collector',
+        connector: 'connector',
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'off'
@@ -218,7 +218,7 @@ test.serial('If config.rules is an array with rules, we should create just those
         .returns({ 'fetch::error': () => { } });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'collector',
+        connector: 'connector',
         rules: [
             'disallowed-headers:warning',
             'manifest-exists:warning'
@@ -251,7 +251,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'collector',
+        connector: 'connector',
         rules: [
             'disallowed-headers:warning',
             'manifest-exists:off'
@@ -285,7 +285,7 @@ test.serial('If config.rules is an array with shorthand warning rules, we should
         .returns({ 'fetch::error': () => { } });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'collector',
+        connector: 'connector',
         rules: [
             '?disallowed-headers',
             'manifest-exists:warning'
@@ -318,7 +318,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'collector',
+        connector: 'connector',
         rules: [
             'disallowed-headers:warning',
             '-manifest-exists'
@@ -330,12 +330,12 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
 
     t.context.eventemitter.prototype.on.restore();
 });
-test.serial(`If a rule has the metadata "ignoredCollectors" set up, we shouldn't ignore those rules if the collector isn't in that property`, (t) => {
+test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't ignore those rules if the connector isn't in that property`, (t) => {
     const rule = {
         create() {
             return {};
         },
-        meta: { ignoredCollectors: ['cdp'] }
+        meta: { ignoredConnectors: ['cdp'] }
     };
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
@@ -351,7 +351,7 @@ test.serial(`If a rule has the metadata "ignoredCollectors" set up, we shouldn't
         .returns({ 'fetch::error': () => { } });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'jsdom',
+        connector: 'jsdom',
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
@@ -367,31 +367,31 @@ test.serial(`If a rule has the metadata "ignoredCollectors" set up, we shouldn't
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If a rule has the metadata "ignoredCollectors" set up, we should ignore those rules if the collector is in that property`, (t) => {
+test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ignore those rules if the connector is in that property`, (t) => {
     const rule = {
         create() {
             return {};
         },
         meta: {}
     };
-    const ruleWithIgnoredCollector = {
+    const ruleWithIgnoredConnector = {
         create() {
             return {};
         },
-        meta: { ignoredCollectors: ['cdp'] }
+        meta: { ignoredConnectors: ['cdp'] }
     };
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
     t.context.rule = rule;
-    t.context.ruleWithIgnoredCollector = ruleWithIgnoredCollector;
+    t.context.ruleWithIgnoredConnector = ruleWithIgnoredConnector;
     sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', ruleWithIgnoredCollector],
+        ['disallowed-headers', ruleWithIgnoredConnector],
         ['manifest-exists', rule]
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
-    sinon.spy(ruleWithIgnoredCollector, 'create');
+    sinon.spy(ruleWithIgnoredConnector, 'create');
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'cdp',
+        connector: 'cdp',
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
@@ -399,7 +399,7 @@ test.serial(`If a rule has the metadata "ignoredCollectors" set up, we should ig
     });
 
     t.true(t.context.resourceLoader.loadRules.called);
-    t.false(t.context.ruleWithIgnoredCollector.create.called);
+    t.false(t.context.ruleWithIgnoredConnector.create.called);
     t.true(t.context.rule.create.calledOnce);
 
     t.context.eventemitter.prototype.on.restore();
@@ -421,7 +421,7 @@ test.serial(`If an event is emitted for a local file and the rule doesn't work w
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'collector',
+        connector: 'connector',
         rules: { 'disallowed-headers': 'warning' }
     });
 
@@ -448,7 +448,7 @@ test(`If an event is emitted for an ignored url, it shouldn't propagate`, async 
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'collector',
+        connector: 'connector',
         ignoredUrls: { '.*\\.domain1\.com/.*': ['*'] }, //eslint-disable-line no-useless-escape
         rules: { 'disallowed-headers': 'warning' }
     });
@@ -476,7 +476,7 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'collector',
+        connector: 'connector',
         ignoredUrls: { '.*\\.domain1\.com/.*': ['disallowed-headers'], '.*\\.domain2\.com/.*': ['disallowed-headers'] }, //eslint-disable-line no-useless-escape
         rules: { 'disallowed-headers': 'warning' }
     });
@@ -510,7 +510,7 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
     });
 
     const sonarObject = new Sonar({ //eslint-disable-line no-unused-vars
-        collector: 'collector',
+        connector: 'connector',
         rules: { 'disallowed-headers': 'warning' },
         rulesTimeout: 1000
     });
@@ -522,48 +522,48 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If collectorId doesn't exist, it should throw an error`, (t) => {
-    sinon.stub(t.context.resourceLoader, 'loadCollector').returns(null);
+test.serial(`If connectorId doesn't exist, it should throw an error`, (t) => {
+    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(null);
 
     try {
-        const sonar = new Sonar({ collector: 'invalidCollector' }); //eslint-disable-line no-unused-vars
+        const sonar = new Sonar({ connector: 'invalidConnector' }); //eslint-disable-line no-unused-vars
 
         t.false(true);
     } catch (err) {
-        t.is(err.message, 'Collector "invalidCollector" not found');
+        t.is(err.message, 'Connector "invalidConnector" not found');
     }
 });
 
-test.serial('If collectorId is valid, we should init the collector', (t) => {
-    t.context.collectorFunction = () => { };
+test.serial('If connectorId is valid, we should init the connector', (t) => {
+    t.context.connectorFunction = () => { };
 
-    sinon.stub(t.context, 'collectorFunction').returns({});
-    sinon.stub(t.context.resourceLoader, 'loadCollector').returns(t.context.collectorFunction);
+    sinon.stub(t.context, 'connectorFunction').returns({});
+    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonar = new Sonar({ collector: 'mycollector' }); //eslint-disable-line no-unused-vars
+    const sonar = new Sonar({ connector: 'myconnector' }); //eslint-disable-line no-unused-vars
 
-    t.true(t.context.collectorFunction.called);
+    t.true(t.context.connectorFunction.called);
 });
 
-test.serial('If collector is an object with valid data, we should init the collector', (t) => {
-    t.context.collectorFunction = () => { };
+test.serial('If connector is an object with valid data, we should init the connector', (t) => {
+    t.context.connectorFunction = () => { };
 
-    sinon.stub(t.context, 'collectorFunction').returns({});
-    sinon.stub(t.context.resourceLoader, 'loadCollector').returns(t.context.collectorFunction);
+    sinon.stub(t.context, 'connectorFunction').returns({});
+    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
     const sonar = new Sonar({  //eslint-disable-line no-unused-vars
-        collector: {
-            name: 'mycollector',
+        connector: {
+            name: 'myconnector',
             options: {}
         }
     });
 
-    t.true(t.context.collectorFunction.called);
+    t.true(t.context.connectorFunction.called);
 });
 
 test.serial('formatter should return the formatter configured', (t) => {
     const sonarObject = new Sonar({
-        collector: 'collector',
+        connector: 'connector',
         formatter: 'formatter'
     });
 
@@ -573,13 +573,13 @@ test.serial('formatter should return the formatter configured', (t) => {
 test.serial('pageContent should return the HTML', async (t) => {
     const html = '<html></html>';
 
-    t.context.collectorFunction = () => { };
-    sinon.stub(t.context, 'collectorFunction').returns({ html });
-    sinon.stub(t.context.resourceLoader, 'loadCollector').returns(t.context.collectorFunction);
+    t.context.connectorFunction = () => { };
+    sinon.stub(t.context, 'connectorFunction').returns({ html });
+    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
     const sonarObject = new Sonar({
-        collector: {
-            name: 'mycollector',
+        connector: {
+            name: 'myconnector',
             options: {}
         }
     });
@@ -590,13 +590,13 @@ test.serial('pageContent should return the HTML', async (t) => {
 test.serial(`pageHeaders should return the page's response headers`, (t) => {
     const headers = { header1: 'value1' };
 
-    t.context.collectorFunction = () => { };
-    sinon.stub(t.context, 'collectorFunction').returns({ headers });
-    sinon.stub(t.context.resourceLoader, 'loadCollector').returns(t.context.collectorFunction);
+    t.context.connectorFunction = () => { };
+    sinon.stub(t.context, 'connectorFunction').returns({ headers });
+    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
     const sonarObject = new Sonar({
-        collector: {
-            name: 'mycollector',
+        connector: {
+            name: 'myconnector',
             options: {}
         }
     });
@@ -604,17 +604,17 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
     t.is(sonarObject.pageHeaders, headers);
 });
 
-test.serial('If collector.collect fails, it should return an error', async (t) => {
+test.serial('If connector.collect fails, it should return an error', async (t) => {
     t.context.collect = () => {
         throw new Error('Error runing collect');
     };
-    t.context.collectorFunction = () => { };
-    sinon.stub(t.context, 'collectorFunction').returns({ collect: t.context.collect });
-    sinon.stub(t.context.resourceLoader, 'loadCollector').returns(t.context.collectorFunction);
+    t.context.connectorFunction = () => { };
+    sinon.stub(t.context, 'connectorFunction').returns({ collect: t.context.collect });
+    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
     const sonarObject = new Sonar({
-        collector: {
-            name: 'mycollector',
+        connector: {
+            name: 'myconnector',
             options: {}
         }
     });
@@ -631,13 +631,13 @@ test.serial('If collector.collect fails, it should return an error', async (t) =
 
 test.serial('executeOn should return all messages', async (t) => {
     t.context.collect = () => { };
-    t.context.collectorFunction = () => { };
-    sinon.stub(t.context, 'collectorFunction').returns({ collect: t.context.collect });
-    sinon.stub(t.context.resourceLoader, 'loadCollector').returns(t.context.collectorFunction);
+    t.context.connectorFunction = () => { };
+    sinon.stub(t.context, 'connectorFunction').returns({ collect: t.context.collect });
+    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
     const sonarObject = new Sonar({
-        collector: {
-            name: 'mycollector',
+        connector: {
+            name: 'myconnector',
             options: {}
         }
     });

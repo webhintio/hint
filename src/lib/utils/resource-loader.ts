@@ -1,8 +1,8 @@
 /**
- * @fileoverview Locates and requires resources (collectors, plugins, rules, formatters)
+ * @fileoverview Locates and requires resources (Connectors, plugins, rules, formatters)
  * for Sonar across different places in the tree.
  * By convention, these resources need to be under
- * {/, /node_modules/}lib/{collectors, formatters, plugins, rules}/*.js
+ * {/, /node_modules/}lib/{connectors, formatters, plugins, rules}/*.js
  */
 
 // ------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ import * as globby from 'globby';
 
 import { findPackageRoot } from './misc';
 import { debug as d } from './debug';
-import { ICollectorBuilder, IFormatter, IPluginBuilder, Resource, IRuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
+import { IConnectorBuilder, IFormatter, IPluginBuilder, Resource, IRuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
 import { validate as validateRule } from '../config/config-rules';
 
 
@@ -30,7 +30,7 @@ const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>()
 
 /** The type of resource */
 export const TYPE = {
-    collector: 'collector',
+    connector: 'connector',
     formatter: 'formatter',
     rule: 'rule'
 };
@@ -132,8 +132,8 @@ export const getCoreFormatters = (): Array<string> => {
     return getCoreResources(TYPE.formatter);
 };
 
-export const getCoreCollectors = (): Array<string> => {
-    return getCoreResources(TYPE.collector);
+export const getCoreConnectors = (): Array<string> => {
+    return getCoreResources(TYPE.connector);
 };
 
 export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
@@ -159,8 +159,8 @@ export const loadRule = (ruleId: string): IRuleBuilder => {
     return loadResource(ruleId, TYPE.rule);
 };
 
-export const loadCollector = (collectorId: string): ICollectorBuilder => {
-    return loadResource(collectorId, TYPE.collector);
+export const loadConnector = (connectorId: string): IConnectorBuilder => {
+    return loadResource(connectorId, TYPE.connector);
 };
 
 export const loadFormatter = (formatterId: string): IFormatter => {

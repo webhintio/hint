@@ -39,7 +39,7 @@ have a difficulty level. Also don't hesitate to ask for help.
 `sonar` currently supports [jsdom](https://github.com/tmpvar/jsdom),
 Chrome, and Edge 15. We hope to add support for Firefox soon. If your
 favorite browser is not supported you can always
-[develop a collector](/docs/developer-guide/collectors/index.md) for it!
+[develop a connector](/docs/developer-guide/connectors/index.md) for it!
 
 ## Is there a plugin for my favorite editor?
 

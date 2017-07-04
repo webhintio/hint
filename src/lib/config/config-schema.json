@@ -4,18 +4,18 @@
     "description": "A configuration file for Sonar",
     "type": "object",
     "properties": {
-        "collector": {
-            "description": "The collector to use to gather information",
+        "connector": {
+            "description": "The connector to use to gather information",
             "anyOf": [
                 {
                     "type": "object",
                     "properties": {
                         "name": {
-                            "description": "The name of the collector to use",
+                            "description": "The name of the connector to use",
                             "type": "string"
                         },
                         "options": {
-                            "description": "The options to pass to the collector",
+                            "description": "The options to pass to the connector",
                             "type": "object"
                         }
                     },
@@ -37,7 +37,7 @@
             "type": "string"
         },
         "plugins": {
-            "description": "The plugins to be used with the collector to gather information",
+            "description": "The plugins to be used with the connector to gather information",
             "type": "array",
             "items": {
                 "type": "string"
@@ -112,7 +112,7 @@
         }
     },
     "required": [
-        "collector",
+        "connector",
         "rules"
     ],
     "additionalProperties": false,

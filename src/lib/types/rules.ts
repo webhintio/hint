@@ -3,8 +3,8 @@ export interface IRuleMetadata {
     docs?: any;
     /** If this rule can autofix the issue or not */
     fixable?: string;
-    /** List of collectors that should not run the rule */
-    ignoredCollectors?: Array<string>,
+    /** List of connectors that should not run the rule */
+    ignoredConnectors?: Array<string>,
     /** Use this rule to autogenerate the configuration file */
     recommended?: boolean;
     /** The schema the rule configuration must follow in order to be valid */

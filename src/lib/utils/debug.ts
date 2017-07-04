@@ -17,13 +17,13 @@ export const debug = (filePath: string): d.IDebugger => {
 
     // The debug message is generated from the file path, e.g.:
     //
-    //  * src/lib/collectors/cdp/cdp-launcher.ts => sonar:collectors:cdp:cdp-launcher
-    //  * src/lib/collectors/cdp/cdp.ts => sonar:collectors:cdp
+    //  * src/lib/connectors/cdp/cdp-launcher.ts => sonar:connectors:cdp:cdp-launcher
+    //  * src/lib/connectors/cdp/cdp.ts => sonar:connectors:cdp
 
     while (currentDir && currentDir !== 'lib') {
 
         // If the file is in a directory with the same name, do not add
-        // its parent directory (this is the case for collectors & rules).
+        // its parent directory (this is the case for connectors & rules).
 
         if (currentDir !== output) {
             output = `${currentDir}:${output}`;

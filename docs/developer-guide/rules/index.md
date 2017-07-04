@@ -39,15 +39,15 @@ const rule: IRuleBuilder = {
           'fetch::end': validateFetchEnd,
           'targetfetch::end': validateTargetFetchEnd
           // As many events as you need, you can see the
-          // list of events [here](../collectors/events.md).
+          // list of events [here](../connectors/events.md).
       };
     },
     meta: {}
 }
 ```
 
-Rules are executed via [events](../collectors/events.md). There are several
-events exposed by the collectors. The way to indicate which ones the rule cares
+Rules are executed via [events](../connectors/events.md). There are several
+events exposed by the connectors. The way to indicate which ones the rule cares
 about is via the method `create`. This method returns an objects whose keys
 are the names of the events and the values the event handlers:
 
@@ -246,10 +246,10 @@ const script = `return Promise.resolve(true);`;
 context.evaluate(script);
 ```
 
-## Ignore collectors
+## Ignore connectors
 
-If your rule does not work propertly with certain collectors you can
-use the property `ignoreCollectors` so it is not run if using them.
+If your rule does not work propertly with certain connectors you can
+use the property `ignoreConnectors` so it is not run if using them.
 
 <!-- eslint-disable no-unused-vars, object-curly-newline -->
 
@@ -260,7 +260,7 @@ const rule = {
     },
 
     meta: {
-        ignoredCollectors: ['jsdom']
+        ignoredConnectors: ['jsdom']
     }
 };
 ```
@@ -387,11 +387,11 @@ Notes:
   value is different.
 
 `rule-runner` will automatically test the rule in all the supported
-collectors.
+connectors.
 
 ### Throwing an error
 
-If you need to force an error in the `collector` when visiting a URL
+If you need to force an error in the `connector` when visiting a URL
 you just have to make the content `null`. This will force a redirect
 to `test://fail`, thus, causing an exception.
 
@@ -423,7 +423,7 @@ cases you can use the `before` and `after` properties of `RuleTest`:
 const tests: Array<RuleTest> = [
     {
         after() {
-            // Code to execute right before calling `collector.close` goes here.
+            // Code to execute right before calling `connector.close` goes here.
         }
         before() {
             // Code to execute before the creation of the sonar object here.

@@ -1,4 +1,4 @@
 {
-    "collector": "jsdom",
+    "connector": "jsdom",
     "formatter": "json"
 }
