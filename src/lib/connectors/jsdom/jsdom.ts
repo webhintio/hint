@@ -1,6 +1,10 @@
 /**
- * @fileoverview Collector that uses JSDOM to load a site and do the traversing. It also uses [request](https:/github.com/request/request) to
- * download the external resources (JS, CSS, images). By defautl it has the following configuration:
+ * @fileoverview Connector that uses JSDOM to load a site and do the
+ * traversing. It also uses request (https:/github.com/request/request)
+ * to * download the external resources (JS, CSS, images).
+ *
+ * By defautl it has the following configuration:
+ *
  * {
     gzip: true,
     headers: {
@@ -29,7 +33,7 @@ import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
 import { debug as d } from '../../utils/debug';
 /* eslint-disable no-unused-vars */
 import {
-    IAsyncHTMLElement, ICollector, ICollectorBuilder,
+    IAsyncHTMLElement, IConnector, IConnectorBuilder,
     IElementFound, IEvent, IFetchEnd, IFetchError, IManifestFetchError, IManifestFetchEnd, ITraverseDown, ITraverseUp,
     INetworkData, URL
 } from '../../types';
@@ -59,7 +63,7 @@ const defaultOptions = {
     waitFor: 1000
 };
 
-class JSDOMCollector implements ICollector {
+class JSDOMConnector implements IConnector {
     private _options;
     private _headers;
     private _request: Requester;
@@ -96,7 +100,7 @@ class JSDOMCollector implements ICollector {
 
         const body: string = await readFileAsync(targetPath);
 
-        const collector = {
+        const connector = {
             request: {
                 headers: null,
                 url: targetPath
@@ -115,10 +119,12 @@ class JSDOMCollector implements ICollector {
             }
         };
 
-        return Promise.resolve(collector);
+        return Promise.resolve(connector);
     }
 
-    /** Loads a url (`http(s)`) combining the customHeaders with the configured ones for the collector. */
+    /** Loads a URL (`http(s)`) combining the customHeaders with
+     * the configured ones for the connector. */
+
     private _fetchUrl(target: URL, customHeaders?: object): Promise<INetworkData> {
         const uri: string = url.format(target);
 
@@ -396,7 +402,7 @@ class JSDOMCollector implements ICollector {
             // We could have some pending network requests and this could fail.
             // Because the process is going to end so we don't care if this fails.
             // https://github.com/sonarwhal/sonar/issues/203
-            debug(`Exception ignored while closing JSDOM collector (most likely pending network requests)`);
+            debug(`Exception ignored while closing JSDOM connector (most likely pending network requests)`);
             debug(e);
         }
 
@@ -460,10 +466,10 @@ class JSDOMCollector implements ICollector {
     }
 }
 
-const builder: ICollectorBuilder = (server: Sonar, config): ICollector => {
-    const collector = new JSDOMCollector(server, config);
+const builder: IConnectorBuilder = (server: Sonar, config): IConnector => {
+    const connector = new JSDOMConnector(server, config);
 
-    return collector;
+    return connector;
 };
 
 export default builder;

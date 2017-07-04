@@ -10,7 +10,7 @@ const fakeGlobby = { sync() { } };
 
 test.beforeEach((t) => {
     t.context.fakeGlobby = fakeGlobby;
-    sinon.stub(fakeGlobby, 'sync').returns([path.join(process.cwd(), 'dist/src/lib/collectors/cdp/cdp.js'), path.join(process.cwd(), 'dist/src/lib/collectors/jsdom/jsdom.js')]);
+    sinon.stub(fakeGlobby, 'sync').returns([path.join(process.cwd(), 'dist/src/lib/connectors/cdp/cdp.js'), path.join(process.cwd(), 'dist/src/lib/connectors/jsdom/jsdom.js')]);
 });
 
 test.afterEach.always((t) => {
@@ -52,7 +52,7 @@ const getResourceFiles = (type) => {
     }, []);
 };
 
-['collector', 'formatter', 'rule'].forEach((e) => {
+['connector', 'formatter', 'rule'].forEach((e) => {
     const functionName = `getCore${e.charAt(0).toUpperCase()}${e.slice(1)}s`;
 
     test(`'${functionName}' should return all ${e}s`, (t) => {

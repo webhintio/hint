@@ -21,13 +21,13 @@ sonar --init
 ```
 
 This command will start a wizard that will ask you a series of questions
-(e.g.: what collector to use, what formatter, which rules, etc.). Answer
+(e.g.: what connector to use, what formatter, which rules, etc.). Answer
 them and you will end up with something similar to the following:
 
 ```json
 {
-    "collector": {
-        "name": "collectorName"
+    "connector": {
+        "name": "connectorName"
     },
     "formatter": "formatterName",
     "rules": [
@@ -54,7 +54,7 @@ Now that you have your first result, is time to learn a bit more about
 the different pieces:
 
 * [Rules](#rules)
-* [Collectors](#collectors)
+* [Connectors](#connectors)
 * [Formatters](#formatters)
 
 ## Rules
@@ -198,37 +198,37 @@ This rule will advice you to use `edge` mode if you need to support versions of
 IE prior IE10, or tell you to remove that tag or header it you only need IE11+
 because document modes were removed at that version.
 
-## Collectors
+## Connectors
 
-A `collector` is the interface between the `rule`s and the website
+A `connector` is the interface between the `rule`s and the website
 you are testing.
 
-To configure a collector you need to update your `.sonarrc` file to
+To configure a connector you need to update your `.sonarrc` file to
 make it look like the following:
 
 ```json
 {
-    "collector": {
-        "name": "collectorName"
+    "connector": {
+        "name": "connectorName"
     }
 }
 ```
 
-Where `collectorName` is the name of the collector.
+Where `connectorName` is the name of the connector.
 
-`collector`s can be configured as well. Maybe you want to do request
+`connector`s can be configured as well. Maybe you want to do request
 with another `userAgent`, change some of the other defaults, etc. To
-do that, you just have to add a property `options` to your `collector`
+do that, you just have to add a property `options` to your `connector`
 property with the values you want to modify:
 
 ```json
-"collector": {
-    "name": "collectorName",
+"connector": {
+    "name": "connectorName",
     "options": {}
 }
 ```
 
-The [`collector`s documentation](./collectors/index.md) has more information
+The [`connector`s documentation](./connectors/index.md) has more information
 of what can be configured in each one.
 
 ## Formatters

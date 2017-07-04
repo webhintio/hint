@@ -4,7 +4,7 @@ import test from 'ava';
 
 const inquirer = { prompt() { } };
 const resourceLoader = {
-    getCoreCollectors() { },
+    getCoreConnectors() { },
     getCoreFormatters() { },
     getCoreRules() { },
     loadRules() { }
@@ -39,9 +39,9 @@ test.afterEach.always((t) => {
     t.context.promisify.restore();
 });
 
-const collectors = [
-    'collector1',
-    'collector2'];
+const connectors = [
+    'connector1',
+    'connector2'];
 
 const rules = ['rule1', 'rule2'];
 
@@ -67,12 +67,12 @@ const formatters = [
 test.serial(`generate should call to "inquirer.prompt" with the right data`, async (t) => {
     const sandbox = sinon.sandbox.create();
 
-    sandbox.stub(resourceLoader, 'getCoreCollectors').returns(collectors);
+    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
     sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
     sandbox.stub(resourceLoader, 'getCoreRules').returns(rules);
     sandbox.stub(resourceLoader, 'loadRules').returns(rulesData);
     sandbox.stub(inquirer, 'prompt').resolves({
-        collector: '',
+        connector: '',
         default: '',
         formatter: '',
         rules: []
@@ -83,7 +83,7 @@ test.serial(`generate should call to "inquirer.prompt" with the right data`, asy
     const questions = (inquirer.prompt as sinon.SinonStub).args[0][0];
     const rulesKeys = rules;
 
-    t.is(questions[0].choices.length, collectors.length);
+    t.is(questions[0].choices.length, connectors.length);
     t.is(questions[1].choices.length, formatters.length);
     t.is(questions[2].choices.length, 2);
     t.is(questions[3].choices.length, rulesKeys.length);
@@ -98,13 +98,13 @@ test.serial(`generate should call to "inquirer.prompt" with the right data`, asy
 test.serial(`generate should call to "fs.writeFile" with the right data`, async (t) => {
     const sandbox = sinon.sandbox.create();
     const questionsResults = {
-        collector: 'cdp',
+        connector: 'cdp',
         default: false,
         formatter: 'json',
         rules: ['rule1']
     };
 
-    sandbox.stub(resourceLoader, 'getCoreCollectors').returns(collectors);
+    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
     sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
     sandbox.stub(resourceLoader, 'getCoreRules').returns(rules);
     sandbox.stub(resourceLoader, 'loadRules').returns(rulesData);
@@ -114,7 +114,7 @@ test.serial(`generate should call to "fs.writeFile" with the right data`, async 
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
-    t.is(fileData.collector.name, questionsResults.collector);
+    t.is(fileData.connector.name, questionsResults.connector);
     t.is(fileData.formatter, questionsResults.formatter);
     t.is(fileData.rules.rule1, 'error');
     t.is(fileData.rules.rule2, 'off');
@@ -125,13 +125,13 @@ test.serial(`generate should call to "fs.writeFile" with the right data`, async 
 test.serial(`if the user choose to use the default rules configuration, all recommended rules should be set to "error" in the configuration file`, async (t) => {
     const sandbox = sinon.sandbox.create();
     const questionsResults = {
-        collector: 'cdp',
+        connector: 'cdp',
         default: true,
         formatter: 'json',
         rules: []
     };
 
-    sandbox.stub(resourceLoader, 'getCoreCollectors').returns(collectors);
+    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
     sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
     sandbox.stub(resourceLoader, 'getCoreRules').returns(rules);
     sandbox.stub(resourceLoader, 'loadRules').returns(rulesData);
@@ -141,7 +141,7 @@ test.serial(`if the user choose to use the default rules configuration, all reco
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
-    t.is(fileData.collector.name, questionsResults.collector);
+    t.is(fileData.connector.name, questionsResults.connector);
     t.is(fileData.formatter, questionsResults.formatter);
     t.is(fileData.rules.rule2, 'error');
     t.is(fileData.rules.rule1, 'off');

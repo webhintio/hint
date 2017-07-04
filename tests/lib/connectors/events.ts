@@ -1,7 +1,6 @@
 /**
- * @fileoverview Minimum event functionality a collector must implement in order to be valid.
- *
- * File starts with `_` so it isn't executed by `ava` directly.
+ * @fileoverview Minimum event functionality a connector must implement
+ * in order to be valid.
  */
 
 /* eslint-disable no-sync */
@@ -14,13 +13,13 @@ import * as _ from 'lodash';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { builders } from '../../helpers/collectors';
+import { builders } from '../../helpers/connectors';
 import { createServer } from '../../helpers/test-server';
-import { ICollector, ICollectorBuilder } from '../../../src/lib/types'; // eslint-disable-line no-unused-vars
+import { IConnector, IConnectorBuilder } from '../../../src/lib/types'; // eslint-disable-line no-unused-vars
 
 
 /* eslint-disable sort-keys */
-/** The minimum set of events the collectors need to implement. */
+/** The minimum set of events the connectors need to implement. */
 const events = [
     ['scan::start', { resource: 'http://localhost/' }],
     ['targetfetch::start', { resource: 'http://localhost/' }],
@@ -39,7 +38,7 @@ const events = [
             url: 'http://localhost/'
         }
     }],
-    // TODO: need to know how many traverse::XX we need and how to be consistent among collectors
+    // TODO: need to know how many traverse::XX we need and how to be consistent among connectors
     // ['traverse::down', 'http://localhost/'],
     // ['traverse::up', 'http://localhost/'],
     ['element::html', { resource: 'http://localhost/' }],
@@ -207,7 +206,7 @@ test.afterEach.always(async (t) => {
     t.context.sonar.emitAsync.restore();
     t.context.sonar.emit.restore();
     t.context.server.stop();
-    await t.context.collector.close();
+    await t.context.connector.close();
 });
 
 /**
@@ -241,16 +240,16 @@ const updateLocalhost = (content, port) => {
     return transformed;
 };
 
-const testCollectorEvents = (collectorInfo) => {
-    const collectorBuilder: ICollectorBuilder = collectorInfo.builder;
-    const name: string = collectorInfo.name;
+const testConnectorEvents = (connectorInfo) => {
+    const connectorBuilder: IConnectorBuilder = connectorInfo.builder;
+    const name: string = connectorInfo.name;
 
     test(`[${name}] Events`, async (t) => {
         const { sonar } = t.context;
-        const collector: ICollector = await (collectorBuilder)(sonar, {});
+        const connector: IConnector = await (connectorBuilder)(sonar, {});
         const server = t.context.server;
 
-        t.context.collector = collector;
+        t.context.connector = connector;
 
         server.configure({
             '/': updateLocalhost(fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'), server.port),
@@ -275,7 +274,7 @@ const testCollectorEvents = (collectorInfo) => {
             return updateLocalhost(event, server.port);
         });
 
-        await collector.collect(url.parse(`http://localhost:${server.port}/`));
+        await connector.collect(url.parse(`http://localhost:${server.port}/`));
 
         const { emit, emitAsync } = t.context.sonar;
         const invokes = [];
@@ -304,6 +303,6 @@ const testCollectorEvents = (collectorInfo) => {
     });
 };
 
-builders.forEach((collector) => {
-    testCollectorEvents(collector);
+builders.forEach((connector) => {
+    testConnectorEvents(connector);
 });

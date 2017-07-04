@@ -49,8 +49,11 @@ const rule: IRuleBuilder = {
             manifestIsSpecified = true;
 
             if (!element.getAttribute('href')) {
-                // `collector`s will ignore invalid `href` and will not even initiate the request so we have to check for those.
-                //TODO: find the relative location in the element
+                // `connector`s will ignore invalid `href` and will
+                // not even initiate the request so we have to check
+                // for those.
+                //
+                // TODO: find the relative location in the element
                 await context.report(data.resource, data.element, `Web app manifest specified with invalid 'href'`);
             }
         };

@@ -7,7 +7,7 @@ import * as url from 'url';
 import { test } from 'ava'; // eslint-disable-line no-unused-vars
 import * as retry from 'async-retry';
 
-import { ids as collectors } from './collectors';
+import { ids as connectors } from './connectors';
 import { createServer } from './test-server';
 import { IConfig, IElementFound, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
@@ -18,8 +18,8 @@ import { Sonar } from '../../src/lib/sonar';
 export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: object = {}) => {
 
     /** Creates a valid sonar configuration. Eventually we should
-     * test all available collectors and not only JSDOM */
-    const createConfig = (id: string, collector: string, opts?): IConfig => {
+     * test all available connectors and not only JSDOM */
+    const createConfig = (id: string, connector: string, opts?): IConfig => {
         const rules = {};
 
         if (opts && opts.ruleOptions) {
@@ -30,7 +30,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
 
         return {
             browserslist: opts && opts.browserslist || [],
-            collector: { name: collector },
+            connector: { name: connector },
             rules
         };
     };
@@ -72,9 +72,9 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
         });
     };
 
-    /** Creates a new collector with just the rule to be tested and executing
+    /** Creates a new connector with just the rule to be tested and executing
      * any required `before` task as indicated by `ruleTest`. */
-    const createCollector = async (t, ruleTest: RuleTest, collector: string, attemp: number): Promise<Sonar> => {
+    const createConnector = async (t, ruleTest: RuleTest, connector: string, attemp: number): Promise<Sonar> => {
         const { server } = t.context;
         const { serverConfig } = ruleTest;
 
@@ -82,7 +82,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
             await ruleTest.before();
         }
 
-        const sonar: Sonar = new Sonar(createConfig(ruleId, collector, configs));
+        const sonar: Sonar = new Sonar(createConfig(ruleId, connector, configs));
 
         // We only configure the server the first time
         if (attemp === 1 && serverConfig) {
@@ -92,31 +92,31 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
         return sonar;
     };
 
-    /** Stops a collector executing any required `after` task as indicated by
+    /** Stops a connector executing any required `after` task as indicated by
      * `ruleTest`. */
-    const stopCollector = async (ruleTest: RuleTest, collector): Promise<void> => {
+    const stopConnector = async (ruleTest: RuleTest, connector): Promise<void> => {
         if (ruleTest.after) {
             await ruleTest.after();
         }
 
-        await collector.close();
+        await connector.close();
     };
 
     /** Runs a test for the rule being tested */
-    const runRule = (t, ruleTest: RuleTest, collector: string) => {
+    const runRule = (t, ruleTest: RuleTest, connector: string) => {
         return retry(async (bail, attemp) => {
             if (attemp > 1) {
-                console.log(`[${collector}]${ruleTest.name} - try ${attemp}`);
+                console.log(`[${connector}]${ruleTest.name} - try ${attemp}`);
             }
 
             const { server } = t.context;
             const { serverUrl, reports } = ruleTest;
             const target = serverUrl ? serverUrl : `http://localhost:${server.port}/`;
 
-            const sonar = await createCollector(t, ruleTest, collector, attemp);
+            const sonar = await createConnector(t, ruleTest, connector, attemp);
             const results = await sonar.executeOn(url.parse(target));
 
-            await stopCollector(ruleTest, sonar);
+            await stopConnector(ruleTest, sonar);
 
             return validateResults(t, results, reports);
         },
@@ -128,13 +128,17 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
 
     const rule = resourceLoader.loadRule(ruleId);
 
-    /* Run all the tests for a given rule in all collectors. */
-    collectors.forEach((collector) => {
-        if (!rule.meta.ignoredCollectors || !rule.meta.ignoredCollectors.includes(collector)) { // If the rule ignore the collector, then we don't run the tests for this rule in this collector
+    /* Run all the tests for a given rule in all connectors. */
+    connectors.forEach((connector) => {
+
+        // If the rule ignore the connector, then we don't
+        // run the tests for this rule in this connector.
+
+        if (!rule.meta.ignoredConnectors || !rule.meta.ignoredConnectors.includes(connector)) {
             ruleTests.forEach((ruleTest) => {
                 const runner = configs['serial'] ? test.serial : test; // eslint-disable-line dot-notation
 
-                runner(`[${collector}]${ruleTest.name}`, runRule, ruleTest, collector);
+                runner(`[${connector}]${ruleTest.name}`, runRule, ruleTest, connector);
             });
         }
     });

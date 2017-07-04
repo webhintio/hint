@@ -7,9 +7,9 @@ export interface Report {
 }
 
 export interface RuleTest {
-    /** The code to execute before `closing` the collector. */
+    /** The code to execute before `closing` the connector. */
     after?();
-    /** The code to execute before creating the collector. */
+    /** The code to execute before creating the connector. */
     before?();
     /** The name of the test. */
     name: string;

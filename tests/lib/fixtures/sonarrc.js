@@ -1,12 +1,11 @@
 module.exports = {
-    collector: {
+    connector: {
         name: 'cdp',
         options: { waitFor: 1000 }
     },
     formatter: 'json',
     rules: {
         'disallowed-headers': 'warning',
-        'lang-attribute': 'warning',
         'manifest-exists': 'warning',
         'manifest-file-extension': 'warning',
         'manifest-is-valid': 'warning',

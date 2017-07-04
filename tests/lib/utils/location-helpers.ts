@@ -10,8 +10,7 @@ const getPage = promisify(jsdom.env);
 
 import { IAsyncHTMLElement } from '../../../src/lib/types';
 import { findInElement, findProblemLocation, findElementLocation } from '../../../src/lib/utils/location-helpers';
-import { JSDOMAsyncHTMLElement } from '../../../src/lib/collectors/jsdom/jsdom-async-html';
-
+import { JSDOMAsyncHTMLElement } from '../../../src/lib/connectors/jsdom/jsdom-async-html';
 
 // ------------------------------------------------------------------------------
 // findInElement tests
