@@ -9,12 +9,12 @@
 
 import * as url from 'url';
 
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 import { IFetchEnd, INetworkData, IResponse, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -28,7 +28,7 @@ const rule: IRuleBuilder = {
         if (!['ie 5', 'ie 6', 'ie 7', 'ie 8', 'ie 9', 'ie 10', 'ie 11'].some((e) => {
             return context.targetedBrowsers.includes(e);
         })) {
-            debug(`Rule does not apply for targeted browsers`);
+            logger.debug(`Rule does not apply for targeted browsers`);
 
             return {};
         }
@@ -47,7 +47,7 @@ const rule: IRuleBuilder = {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
-                debug(`Check does not apply for data URI: ${resource}`);
+                logger.debug(`Check does not apply for data URI: ${resource}`);
 
                 return;
             }
@@ -102,7 +102,7 @@ const rule: IRuleBuilder = {
                 });
             } catch (e) {
                 // This will most likely fail because target is a local file.
-                debug(`Custom request to generate error response failed for: ${targetURL}`);
+                logger.debug(`Custom request to generate error response failed for: ${targetURL}`);
             }
 
         };

@@ -15,13 +15,12 @@ import * as lockfile from 'lockfile';
 import { promisify } from 'util';
 
 import { BrowserInfo, ILauncher, LauncherOptions } from '../../types';
-import * as logger from '../../utils/logging';
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 import { readFileAsync, writeFileAsync } from '../../utils/misc';
 
 const lock = promisify(lockfile.lock);
 const unlock = promisify(lockfile.unlock);
-const debug: debug.IDebugger = d(__filename);
+const logger = loggerInitiator(__filename);
 
 
 // ------------------------------------------------------------------------------
@@ -47,8 +46,8 @@ export abstract class Launcher implements ILauncher {
         try {
             result = JSON.parse(await readFileAsync(this.pidFile));
         } catch (e) {
-            debug(`Error reading ${this.pidFile}`);
-            debug(e);
+            logger.debug(`Error reading ${this.pidFile}`);
+            logger.debug(e);
             result = {
                 pid: -1,
                 port: this.port
@@ -68,7 +67,7 @@ export abstract class Launcher implements ILauncher {
 
             process.kill(result.pid, 0);
         } catch (e) {
-            debug(`Process with ${result.pid} doesn't seem to be running`);
+            logger.debug(`Process with ${result.pid} doesn't seem to be running`);
             result = {
                 pid: -1,
                 port: this.port
@@ -122,14 +121,14 @@ export abstract class Launcher implements ILauncher {
             this.port = browserInfo.port;
             await this.writePid(browserInfo);
 
-            debug('Browser launched correctly');
+            logger.debug('Browser launched correctly');
 
             await unlock(cdpLock);
 
             return browserInfo;
         } catch (e) {
-            debug('Error launching browser');
-            debug(e);
+            logger.debug('Error launching browser');
+            logger.debug(e);
 
             await unlock(cdpLock);
 

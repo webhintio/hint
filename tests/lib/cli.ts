@@ -17,9 +17,16 @@ const resourceLoader = {
         return formatter;
     }
 };
-const logger = {
+const loggerMethods = {
+    debug() { },
     error() { },
     log() { }
+};
+
+const logging = {
+    loggerInitiator: () => {
+        return loggerMethods;
+    }
 };
 
 const generator = { initSonarrc() { } };
@@ -39,7 +46,7 @@ proxyquire('../../src/lib/cli', {
     './cli/sonarrc-generator': generator,
     './config': config,
     './sonar': { Sonar },
-    './utils/logging': logger,
+    './utils/logging': logging.loggerInitiator,
     './utils/resource-loader': resourceLoader,
     ora
 });
@@ -48,8 +55,8 @@ import * as cli from '../../src/lib/cli';
 import { Severity } from '../../src/lib/types';
 
 test.beforeEach((t) => {
-    sinon.spy(logger, 'log');
-    sinon.spy(logger, 'error');
+    sinon.spy(loggerMethods, 'log');
+    sinon.spy(loggerMethods, 'error');
     sinon.spy(config, 'getFilenameForDirectory');
     sinon.spy(config, 'load');
     sinon.stub(generator, 'initSonarrc').resolves();
@@ -59,7 +66,7 @@ test.beforeEach((t) => {
 
     t.context.config = config;
     t.context.generator = generator;
-    t.context.logger = logger;
+    t.context.logger = loggerMethods;
     t.context.spinner = spinner;
 });
 

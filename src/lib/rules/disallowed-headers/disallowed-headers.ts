@@ -8,13 +8,14 @@
 
 import * as pluralize from 'pluralize';
 
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
+
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
 import { IAsyncHTMLElement, IFetchEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -40,12 +41,12 @@ const rule: IRuleBuilder = {
         };
 
         const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource }: {element: IAsyncHTMLElement, resource: string} = fetchEnd;
+            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = fetchEnd;
 
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
-                debug(`Check does not apply for data URI: ${resource}`);
+                logger.debug(`Check does not apply for data URI: ${resource}`);
 
                 return;
             }

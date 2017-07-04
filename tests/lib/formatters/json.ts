@@ -2,18 +2,28 @@ import test from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-const logging = { log() { } };
+const loggerMethods = {
+    debug() { },
+    error() { },
+    log() { }
+};
 
-proxyquire('../../../src/lib/formatters/json/json', { '../../utils/logging': logging });
+const logging = {
+    loggerInitiator: () => {
+        return loggerMethods;
+    }
+};
+
+proxyquire('../../../src/lib/formatters/json/json', { '../../utils/logging': logging.loggerInitiator });
 
 import json from '../../../src/lib/formatters/json/json';
 import * as problems from './fixtures/list-of-problems';
 import { Severity } from '../../../src/lib/types';
 
 test.beforeEach((t) => {
-    sinon.spy(logging, 'log');
+    sinon.spy(loggerMethods, 'log');
 
-    t.context.logger = logging;
+    t.context.logger = loggerMethods;
 });
 
 test.afterEach.always((t) => {

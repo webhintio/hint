@@ -10,11 +10,11 @@
 import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'axe-core'; // eslint-disable-line no-unused-vars
 
 import { readFileAsync } from '../../utils/misc';
-import { debug as d } from '../../utils/debug';
+import {loggerInitiator} from '../../utils/logging';
 import { IAsyncHTMLElement, ITraverseEnd, IRule, IRuleBuilder, Severity } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -67,20 +67,20 @@ const rule: IRuleBuilder = {
                 result = await context.evaluate(script);
             } catch (e) {
                 await context.report(resource, null, `Error executing script: "${e.message}". Please try with another collector`, null, null, Severity.warning);
-                debug('Error executing script %O', e);
+                logger.debug('Error executing script %O', e);
 
                 return;
             }
 
             /* istanbul ignore next */
             if (!result || !Array.isArray(result.violations)) {
-                debug(`Unable to parse axe results ${result}`);
+                logger.debug(`Unable to parse axe results ${result}`);
 
                 return;
             }
 
             if (result.violations.length === 0) {
-                debug('No accessibility issues found');
+                logger.debug('No accessibility issues found');
 
                 return;
             }

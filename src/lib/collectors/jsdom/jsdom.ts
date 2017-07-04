@@ -25,8 +25,8 @@ import * as vm from 'vm';
 
 import * as jsdom from 'jsdom/lib/old-api';
 import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
+import { loggerInitiator } from '../../utils/logging';
 
-import { debug as d } from '../../utils/debug';
 /* eslint-disable no-unused-vars */
 import {
     IAsyncHTMLElement, ICollector, ICollectorBuilder,
@@ -43,7 +43,7 @@ import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 // Defaults
 // ------------------------------------------------------------------------------
 
-const debug: debug.IDebugger = d(__filename);
+const logger = loggerInitiator(__filename);
 
 const defaultOptions = {
     followRedirect: false,
@@ -135,7 +135,7 @@ class JSDOMCollector implements ICollector {
     private async traverseAndNotify(element: HTMLElement) {
         const eventName: string = `element::${element.nodeName.toLowerCase()}`;
 
-        debug(`emitting ${eventName}`);
+        logger.debug(`emitting ${eventName}`);
         // should we freeze it? what about the other siblings, children, parents? We should have an option to not allow modifications
         // maybe we create a custom object that only exposes read only properties?
         const event: IElementFound = {
@@ -151,7 +151,7 @@ class JSDOMCollector implements ICollector {
         for (let i = 0; i < element.children.length; i++) {
             const child: HTMLElement = <HTMLElement>element.children[i];
 
-            debug('next children');
+            logger.debug('next children');
             const traverseDown: ITraverseDown = { resource: this._finalHref };
 
             await this._server.emitAsync(`traversing::down`, traverseDown);
@@ -174,13 +174,13 @@ class JSDOMCollector implements ICollector {
             resourceUrl = url.resolve(this._finalHref, resourceUrl);
         }
 
-        debug(`resource ${resourceUrl} to be fetched`);
+        logger.debug(`resource ${resourceUrl} to be fetched`);
         await this._server.emitAsync('fetch::start', { resource: resourceUrl });
 
         try {
             const resourceNetworkData: INetworkData = await this.fetchContent(resourceUrl);
 
-            debug(`resource ${resourceUrl} fetched`);
+            logger.debug(`resource ${resourceUrl} fetched`);
 
             const fetchEndEvent: IFetchEnd = {
                 element: new JSDOMAsyncHTMLElement(resource.element),
@@ -275,7 +275,7 @@ class JSDOMCollector implements ICollector {
 
             // Check if fetching/reading the file failed.
         } catch (e) {
-            debug('Failed to fetch the web app manifest file');
+            logger.debug('Failed to fetch the web app manifest file');
 
             const event: IManifestFetchError = {
                 error: e,
@@ -300,7 +300,7 @@ class JSDOMCollector implements ICollector {
 
         return new Promise(async (resolve, reject) => {
 
-            debug(`About to start fetching ${href}`);
+            logger.debug(`About to start fetching ${href}`);
             await this._server.emitAsync('targetfetch::start', initialEvent);
 
             try {
@@ -315,7 +315,7 @@ class JSDOMCollector implements ICollector {
                 };
 
                 await this._server.emitAsync('targetfetch::error', fetchError);
-                debug(`Failed to fetch: ${href}\n${err}`);
+                logger.debug(`Failed to fetch: ${href}\n${err}`);
 
                 await this._server.emitAsync('scan::end', initialEvent);
 
@@ -327,7 +327,7 @@ class JSDOMCollector implements ICollector {
             // Update finalHref to point to the final URL.
             this._finalHref = this._targetNetworkData.response.url;
 
-            debug(`HTML for ${this._finalHref} downloaded`);
+            logger.debug(`HTML for ${this._finalHref} downloaded`);
 
             const fetchEnd: IFetchEnd = {
                 element: null,
@@ -357,7 +357,7 @@ class JSDOMCollector implements ICollector {
                     setTimeout(async () => {
                         const event: IEvent = { resource: this._finalHref };
 
-                        debug(`${this._finalHref} loaded, traversing`);
+                        logger.debug(`${this._finalHref} loaded, traversing`);
                         try {
                             await this._server.emitAsync('traverse::start', event);
                             await this.traverseAndNotify(window.document.children[0]);
@@ -396,8 +396,8 @@ class JSDOMCollector implements ICollector {
             // We could have some pending network requests and this could fail.
             // Because the process is going to end so we don't care if this fails.
             // https://github.com/sonarwhal/sonar/issues/203
-            debug(`Exception ignored while closing JSDOM collector (most likely pending network requests)`);
-            debug(e);
+            logger.debug(`Exception ignored while closing JSDOM collector (most likely pending network requests)`);
+            logger.debug(e);
         }
 
         return Promise.resolve();

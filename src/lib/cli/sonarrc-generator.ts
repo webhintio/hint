@@ -12,16 +12,16 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { debug as d } from '../utils/debug';
+import { loggerInitiator } from '../utils/logging';
+
 import { IConfig, IRuleBuilder } from '../types'; //eslint-disable-line no-unused-vars
-import * as logger from '../utils/logging';
 import * as resourceLoader from '../utils/resource-loader';
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 /** Initiates a wizard to gnerate a valid `.sonarrc` file based on user responses. */
 export const initSonarrc = async () => {
-    debug('Initiating generator');
+    logger.debug('Initiating generator');
 
     const collectorKeys = resourceLoader.getCoreCollectors();
     const formattersKeys = resourceLoader.getCoreFormatters();

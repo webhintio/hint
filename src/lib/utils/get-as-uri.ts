@@ -4,10 +4,9 @@ import * as _ from 'lodash';
 import * as fileUrl from 'file-url';
 import * as shell from 'shelljs';
 
-import { debug as d } from './debug';
-import * as logger from './logging';
+import { loggerInitiator } from './logging';
 
-const debug: debug.IDebugger = d(__filename);
+const logger = loggerInitiator(__filename);
 
 /**
  * Receives a string and returns a valid Uris that are either:
@@ -25,7 +24,7 @@ export const getAsUri = (source: string): url.Url => {
 
     // Check if the protocol is HTTP or HTTPS.
     if (protocol === 'http:' || protocol === 'https:' || protocol === 'file:') {
-        debug(`Adding valid target: ${url.format(target)}`);
+        logger.debug(`Adding valid target: ${url.format(target)}`);
 
         return target;
     }
@@ -35,7 +34,7 @@ export const getAsUri = (source: string): url.Url => {
     // If it does exist and it's a regular file.
     if (shell.test('-f', entry)) {
         target = url.parse(fileUrl(entry));
-        debug(`Adding valid target: ${url.format(target)}`);
+        logger.debug(`Adding valid target: ${url.format(target)}`);
 
         return target;
     }
@@ -47,7 +46,7 @@ export const getAsUri = (source: string): url.Url => {
     // for all other cases the `hostname` needs to contain at least
     // a `.`. Private domains should have `http(s)://` in front.
     if (!shell.test('-e', entry) && (target.hostname === 'localhost' || target.hostname.includes('.'))) {
-        debug(`Adding modified target: ${url.format(target)}`);
+        logger.debug(`Adding modified target: ${url.format(target)}`);
 
         return target;
     }

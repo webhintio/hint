@@ -9,12 +9,13 @@
 
 import * as path from 'path';
 
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
+
 import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -33,7 +34,7 @@ const rule: IRuleBuilder = {
                 const fileExtension: string = path.extname(href);
 
                 if (fileExtension !== standardManifestFileExtension) {
-                    debug('Web app manifest file with invalid extension found');
+                    logger.debug('Web app manifest file with invalid extension found');
 
                     await context.report(resource, element, `The file extension should be '${standardManifestFileExtension}' (not '${fileExtension}')`, fileExtension);
                 }

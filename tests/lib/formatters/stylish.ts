@@ -4,17 +4,27 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import * as table from 'text-table';
 
-const logging = { log() { } };
+const loggerMethods = {
+    debug() { },
+    error() { },
+    log() { }
+};
 
-proxyquire('../../../src/lib/formatters/stylish/stylish', { '../../utils/logging': logging });
+const logging = {
+    loggerInitiator: () => {
+        return loggerMethods;
+    }
+};
+
+proxyquire('../../../src/lib/formatters/stylish/stylish', { '../../utils/logging': logging.loggerInitiator });
 
 import stylish from '../../../src/lib/formatters/stylish/stylish';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
-    sinon.spy(logging, 'log');
+    sinon.spy(loggerMethods, 'log');
 
-    t.context.logger = logging;
+    t.context.logger = loggerMethods;
 });
 
 test.afterEach.always((t) => {

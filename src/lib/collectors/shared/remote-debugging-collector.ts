@@ -16,7 +16,7 @@ import { promisify } from 'util';
 import * as r from 'request';
 
 import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html';
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 import { delay } from '../../utils/misc';
 
 /* eslint-disable no-unused-vars */
@@ -32,7 +32,7 @@ import { RedirectManager } from '../utils/redirects';
 
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
-const debug: debug.IDebugger = d(__filename);
+const logger = loggerInitiator(__filename);
 
 export class Collector implements ICollector {
     /** The final set of options resulting of merging the users, and default ones. */
@@ -160,7 +160,7 @@ export class Collector implements ICollector {
         }
 
         if (params.redirectResponse) {
-            debug(`Redirect found for ${requestUrl}`);
+            logger.debug(`Redirect found for ${requestUrl}`);
             // We store the redirects with the finalUrl as a key to do a reverse search in onResponseReceived.
             this._redirects.add(requestUrl, params.redirectResponse.url);
 
@@ -174,7 +174,7 @@ export class Collector implements ICollector {
 
         const eventName: string = this._href === requestUrl ? 'targetfetch::start' : 'fetch::start';
 
-        debug(`About to start fetching ${requestUrl}`);
+        logger.debug(`About to start fetching ${requestUrl}`);
         await this._server.emitAsync(eventName, { resource: requestUrl });
     }
 
@@ -201,12 +201,12 @@ export class Collector implements ICollector {
 
         /* If `requestId` is not in `this._requests` it means that we already processed the request in `onResponseReceived` */
         if (!this._requests.has(params.requestId)) {
-            debug(`requestId doesn't exist, skipping this error`);
+            logger.debug(`requestId doesn't exist, skipping this error`);
 
             return;
         }
 
-        debug(`Error found:\n${JSON.stringify(params)}`);
+        logger.debug(`Error found:\n${JSON.stringify(params)}`);
         const element: AsyncHTMLElement = await this.getElementFromRequest(params.requestId);
         const { request: { url: resource } } = this._requests.get(params.requestId);
         const eventName: string = this._href === resource ? 'targetfetch::error' : 'fetch::error';
@@ -250,7 +250,7 @@ export class Collector implements ICollector {
                 rawResponse = null; //TODO: Find a way to get this data
             }
         } catch (e) {
-            debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
+            logger.debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
             /* HACK: This is to make https://github.com/sonarwhal/sonar/pull/144 pass.
                 There are some concurrency issues at the moment that are more visible in low powered machines and
                 when the CPU is highly used. The problem is most likely related to having pending requests but
@@ -261,7 +261,7 @@ export class Collector implements ICollector {
                 * Cancel all requests/remove all listeners when we do `close()`
             */
         }
-        debug(`Content for ${cdpResponse.response.url} downloaded`);
+        logger.debug(`Content for ${cdpResponse.response.url} downloaded`);
 
         return { content, rawContent, rawResponse };
     }
@@ -358,7 +358,7 @@ export class Collector implements ICollector {
 
         const wrappedElement: AsyncHTMLElement = new AsyncHTMLElement(element, this._dom, this._client.DOM);
 
-        debug(`emitting ${eventName}`);
+        logger.debug(`emitting ${eventName}`);
         const event: IElementFound = {
             element: wrappedElement,
             resource: this._finalHref
@@ -377,7 +377,7 @@ export class Collector implements ICollector {
         const elementChildren = wrappedElement.children;
 
         for (const child of elementChildren) {
-            debug('next children');
+            logger.debug('next children');
             const traverseDown: ITraverseDown = { resource: this._finalHref };
 
             await this._server.emitAsync(`traverse::down`, traverseDown);
@@ -454,12 +454,12 @@ export class Collector implements ICollector {
 
     /** Handles when there has been an unexpected error talking with the browser. */
     private onError(err) {
-        debug(`Error: \n${err}`);
+        logger.debug(`Error: \n${err}`);
     }
 
     /** Handles when we have been disconnected from the browser. */
     private onDisconnect() {
-        debug(`Disconnected`);
+        logger.debug(`Disconnected`);
     }
 
     /** Sets the right configuration and enables all the required CDP features. */
@@ -543,8 +543,8 @@ export class Collector implements ICollector {
             try {
                 client = await this.initiateComms();
             } catch (e) {
-                debug('Error connecting to browser');
-                debug(e);
+                logger.debug('Error connecting to browser');
+                logger.debug(e);
 
                 await this._server.emitAsync('scan::end', event);
 
@@ -573,7 +573,7 @@ export class Collector implements ICollector {
     }
 
     public async close() {
-        debug('Closing browsers used by CDP');
+        logger.debug('Closing browsers used by CDP');
 
         while (this._tabs.length > 0) {
             const tab = this._tabs.pop();
@@ -581,7 +581,7 @@ export class Collector implements ICollector {
             try {
                 await cdp.closeTab({ id: tab.id, port: this._client.port });
             } catch (e) {
-                debug(`Couldn't close tab ${tab.id}`);
+                logger.debug(`Couldn't close tab ${tab.id}`);
             }
         }
 
@@ -593,7 +593,7 @@ export class Collector implements ICollector {
              */
             await delay(300);
         } catch (e) {
-            debug(`Couldn't close the client properly`);
+            logger.debug(`Couldn't close the client properly`);
         }
     }
 

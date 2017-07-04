@@ -1,7 +1,8 @@
-import { debug as d } from './debug';
+import { loggerInitiator } from './logging';
+
 import { IAsyncHTMLAttribute, IAsyncHTMLElement, IProblemLocation } from './../types'; // eslint-disable-line no-unused-vars
 
-const debug: debug.IDebugger = d(__filename);
+const logger = loggerInitiator(__filename);
 
 const doubleQuotesRegex: RegExp = /"/g;
 
@@ -22,7 +23,7 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
         selector += `[${attribute.name}="${attribute.value.replace(doubleQuotesRegex, '\\"')}"]`;
     }
 
-    debug(`Selector created: ${selector}`);
+    logger.debug(`Selector created: ${selector}`);
 
     return selector;
 };
@@ -44,7 +45,7 @@ const getIndicesOf = (searchStr: string, str: string): Array<number> => {
         startIndex = index + searchStrLen;
     }
 
-    debug(`Indices found: ${indices.length} (${JSON.stringify(indices)})`);
+    logger.debug(`Indices found: ${indices.length} (${JSON.stringify(indices)})`);
 
     return indices;
 };

@@ -14,11 +14,7 @@ import * as table from 'text-table';
 import * as pluralize from 'pluralize';
 
 import { cutString } from '../../utils/misc';
-import { debug as d } from '../../utils/debug';
 import { IFormatter, IProblem, Severity } from '../../types'; // eslint-disable-line no-unused-vars
-import * as logger from '../../utils/logging';
-
-const debug = d(__filename);
 
 const printPosition = (position: number, text: string) => {
     if (position === -1) {
@@ -35,8 +31,9 @@ const printPosition = (position: number, text: string) => {
 const formatter: IFormatter = {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
     format(messages: Array<IProblem>) {
+        const logger = require('../../utils/logging')(__filename, false); // Initiate here to allow stubbing of methods in tests
 
-        debug('Formatting results');
+        logger.debug('Formatting results');
 
         if (messages.length === 0) {
             return;

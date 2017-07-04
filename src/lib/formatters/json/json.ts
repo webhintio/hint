@@ -9,11 +9,7 @@
 
 import * as _ from 'lodash';
 
-import { debug as d } from '../../utils/debug';
 import { IFormatter, IProblem } from '../../types'; // eslint-disable-line no-unused-vars
-import * as logger from '../../utils/logging';
-
-const debug = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Formatter
@@ -22,8 +18,9 @@ const debug = d(__filename);
 const formatter: IFormatter = {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
     format(messages: Array<IProblem>) {
+        const logger = require('../../utils/logging')(__filename, false); //Initiate logger here so that methods could be stubbed in the tests
 
-        debug('Formatting results');
+        logger.debug('Formatting results');
 
         const resources: _.Dictionary<Array<IProblem>> = _.groupBy(messages, 'resource');
 

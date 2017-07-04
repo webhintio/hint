@@ -7,12 +7,12 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { debug as d } from '../../utils/debug';
+import { loggerInitiator } from '../../utils/logging';
 import { IAsyncHTMLElement, IElementFound, IManifestFetchEnd, IManifestFetchError, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
-const debug = d(__filename);
+const logger = loggerInitiator(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -63,7 +63,7 @@ const rule: IRuleBuilder = {
         };
 
         const manifestError = async (event: IManifestFetchError) => {
-            debug('Failed to fetch the web app manifest file');
+            logger.debug('Failed to fetch the web app manifest file');
             await context.report(event.resource, null, `Web app manifest file request failed`);
 
             return;
