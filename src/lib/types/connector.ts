@@ -3,13 +3,13 @@ import * as url from 'url'; // eslint-disable-line no-unused-vars
 import { IAsyncHTMLElement } from './asynchtml';
 import { INetworkData } from './network';
 
-/** The builder of a Collector */
-export interface ICollectorBuilder {
-    (sonar, options): ICollector;
+/** The builder of a Connector */
+export interface IConnectorBuilder {
+    (sonar, options): IConnector;
 }
 
-/** A collector to be used by Sonar */
-export interface ICollector {
+/** A connector to be used by Sonar */
+export interface IConnector {
     /** The original DOM of the resource collected. */
     dom: object;
     /** The original HTML of the resource collected. */

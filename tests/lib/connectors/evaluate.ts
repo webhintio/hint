@@ -1,19 +1,13 @@
-/**
- * @fileoverview Minimum event functionality a collector must implement in order to be valid.
- *
- * File starts with `_` so it isn't executed by `ava` directly.
- */
-
 /* eslint-disable no-sync */
 
 import * as url from 'url';
 
 import test from 'ava';
 
-import { builders } from '../../helpers/collectors';
+import { builders } from '../../helpers/connectors';
 import { createServer } from '../../helpers/test-server';
 import { generateHTMLPage } from '../../helpers/misc';
-import { ICollector, ICollectorBuilder } from '../../../src/lib/types'; // eslint-disable-line no-unused-vars
+import { IConnector, IConnectorBuilder } from '../../../src/lib/types'; // eslint-disable-line no-unused-vars
 
 const scripts = [
     {
@@ -69,30 +63,30 @@ test.beforeEach(async (t) => {
 
 test.afterEach.always(async (t) => {
     t.context.server.stop();
-    await t.context.collector.close();
+    await t.context.connector.close();
 });
 
-const testCollectorEvaluate = (collectorInfo) => {
-    const collectorBuilder: ICollectorBuilder = collectorInfo.builder;
-    const name: string = collectorInfo.name;
+const testConnectorEvaluate = (connectorInfo) => {
+    const connectorBuilder: IConnectorBuilder = connectorInfo.builder;
+    const name: string = connectorInfo.name;
 
     test(`[${name}] Evaluate JavaScript`, async (t) => {
         const { sonar } = t.context;
-        const collector: ICollector = await (collectorBuilder)(sonar, {});
+        const connector: IConnector = await (connectorBuilder)(sonar, {});
         const server = t.context.server;
 
         t.plan(scripts.length);
-        t.context.collector = collector;
+        t.context.connector = connector;
 
         server.configure(generateHTMLPage(null, ''));
 
-        await collector.collect(url.parse(`http://localhost:${server.port}/`));
+        await connector.collect(url.parse(`http://localhost:${server.port}/`));
 
         for (let i = 0; i < scripts.length; i++) {
             const { code, result: expectedResult } = scripts[i];
 
             try {
-                const result = await collector.evaluate(code);
+                const result = await connector.evaluate(code);
 
                 t.is(result, expectedResult, `Result value "${result}" is the same`);
             } catch (error) {
@@ -110,7 +104,7 @@ const testCollectorEvaluate = (collectorInfo) => {
 
                     //     t.is(error.message, message, `Error message "${message}" is the same`);
                     // } else {
-                    //     t.pass('Expected exception with different collector responses');
+                    //     t.pass('Expected exception with different connector responses');
                     // }
                 } else {
                     t.fail('Unexpected exception thrown');
@@ -121,6 +115,6 @@ const testCollectorEvaluate = (collectorInfo) => {
 
 };
 
-builders.forEach((collector) => {
-    testCollectorEvaluate(collector);
+builders.forEach((connector) => {
+    testConnectorEvaluate(connector);
 });

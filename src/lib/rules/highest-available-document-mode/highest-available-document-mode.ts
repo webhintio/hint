@@ -21,7 +21,7 @@ const rule: IRuleBuilder = {
         let requireMetaTag: boolean = false;
         let suggestRemoval: boolean = false;
 
-        // This function exists because not all collector (e.g.: jsdom)
+        // This function exists because not all connector (e.g.: jsdom)
         // support matching attribute values case-insensitively.
         //
         // https://www.w3.org/TR/selectors4/#attribute-case

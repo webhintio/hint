@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main Sonar object, gets the configuration and loads
- * the collectors, rules and analyzes.
+ * the connectors, rules and analyzes.
  */
 
 // ------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, ICollector, ICollectorBuilder, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IRuleConfigList, IPlugin, RuleConfig, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IConnector, IConnectorBuilder, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IRuleConfigList, IPlugin, RuleConfig, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
 import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
@@ -32,24 +32,24 @@ export class Sonar extends EventEmitter {
     // TODO: review which ones need to be private or not
     private plugins: Map<string, IPlugin>
     private rules: Map<string, IRule>
-    private collector: ICollector
-    private collectorId: string
-    private collectorConfig: object
+    private connector: IConnector
+    private connectorId: string
+    private connectorConfig: object
     private messages: Array<IProblem>
     private browsersList: Array<string> = [];
     private ignoredUrls: Map<string, Array<RegExp>>;
     private _formatter: string
 
     get pageDOM(): object {
-        return this.collector.dom;
+        return this.connector.dom;
     }
 
     get pageContent(): Promise<string> {
-        return this.collector.html;
+        return this.connector.html;
     }
 
     get pageHeaders(): object {
-        return this.collector.headers;
+        return this.connector.headers;
     }
 
     get targetedBrowsers(): Array<string> {
@@ -81,18 +81,18 @@ export class Sonar extends EventEmitter {
 
         this.messages = [];
 
-        debug('Loading collector');
+        debug('Loading connector');
 
-        if (!config.collector) {
-            throw new Error(`Collector not found in the configuration`);
+        if (!config.connector) {
+            throw new Error(`Connector not found in the configuration`);
         }
 
-        if (typeof config.collector === 'string') {
-            this.collectorId = config.collector;
-            this.collectorConfig = {};
+        if (typeof config.connector === 'string') {
+            this.connectorId = config.connector;
+            this.connectorConfig = {};
         } else {
-            this.collectorId = config.collector.name;
-            this.collectorConfig = config.collector.options;
+            this.connectorId = config.connector.name;
+            this.connectorConfig = config.connector.options;
         }
 
         debug('Loading supported browsers');
@@ -122,13 +122,13 @@ export class Sonar extends EventEmitter {
             });
         }
 
-        const collectorBuillder: ICollectorBuilder = resourceLoader.loadCollector(this.collectorId);
+        const connectorBuillder: IConnectorBuilder = resourceLoader.loadConnector(this.connectorId);
 
-        if (!collectorBuillder) {
-            throw new Error(`Collector "${this.collectorId}" not found`);
+        if (!connectorBuillder) {
+            throw new Error(`Connector "${this.connectorId}" not found`);
         }
 
-        this.collector = collectorBuillder(this, this.collectorConfig);
+        this.connector = connectorBuillder(this, this.connectorConfig);
         this.initRules(config);
     }
 
@@ -185,14 +185,14 @@ export class Sonar extends EventEmitter {
             };
         };
 
-        const ignoreCollector = (rule): boolean => {
-            const ignoredCollectors: Array<string> = rule.meta.ignoredCollectors;
+        const ignoreConnector = (rule): boolean => {
+            const ignoredConnectors: Array<string> = rule.meta.ignoredConnectors;
 
-            if (!ignoredCollectors) {
+            if (!ignoredConnectors) {
                 return false;
             }
 
-            return ignoredCollectors.includes(this.collectorId);
+            return ignoredConnectors.includes(this.connectorId);
         };
 
         rulesIds.forEach((id: string) => {
@@ -202,10 +202,10 @@ export class Sonar extends EventEmitter {
             const ruleWorksWithLocalFiles: boolean = rule.meta.worksWithLocalFiles;
             const severity: Severity = getSeverity(ruleOptions);
 
-            if (ignoreCollector(rule)) {
-                debug(`Rule "${id}" is disabled for the collector "${this.collectorId}"`);
+            if (ignoreConnector(rule)) {
+                debug(`Rule "${id}" is disabled for the connector "${this.connectorId}"`);
                 //TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
-                logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the collector "${this.collectorId}"`));
+                logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the connector "${this.connectorId}"`));
             } else if (severity) {
                 const context: RuleContext = new RuleContext(id, this, severity, ruleOptions, rule.meta);
                 const instance: IRule = rule.create(context);
@@ -224,16 +224,16 @@ export class Sonar extends EventEmitter {
     }
 
     public fetchContent(target: string | url.Url, headers: object) {
-        return this.collector.fetchContent(target, headers);
+        return this.connector.fetchContent(target, headers);
     }
 
     public evaluate(source: string) {
-        return this.collector.evaluate(source);
+        return this.connector.evaluate(source);
     }
 
     /** Releases any used resource and/or browser. */
     public async close() {
-        await this.collector.close();
+        await this.connector.close();
     }
 
     /** Reports a message from one of the rules. */
@@ -257,7 +257,7 @@ export class Sonar extends EventEmitter {
 
         debug(`Starting the analysis on ${target.path}`);
 
-        await this.collector.collect(target);
+        await this.connector.collect(target);
 
         debug(`Total runtime ${Date.now() - start}`);
 
@@ -265,7 +265,7 @@ export class Sonar extends EventEmitter {
     }
 
     public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
-        return this.collector.querySelectorAll(selector);
+        return this.connector.querySelectorAll(selector);
     }
 
     emitAsync(event: string | Array<string>, ...values: Array<any>): Promise<Array<any>> {

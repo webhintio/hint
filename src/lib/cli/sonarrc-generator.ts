@@ -23,7 +23,7 @@ const debug = d(__filename);
 export const initSonarrc = async () => {
     debug('Initiating generator');
 
-    const collectorKeys = resourceLoader.getCoreCollectors();
+    const connectorKeys = resourceLoader.getCoreConnectors();
     const formattersKeys = resourceLoader.getCoreFormatters();
     const rulesIds = resourceLoader.getCoreRules();
     const rulesConfig = rulesIds.reduce((config, ruleId) => {
@@ -36,7 +36,7 @@ export const initSonarrc = async () => {
 
     const sonarConfig = {
         browserslist: '',
-        collector: {
+        connector: {
             name: '',
             options: { waitFor: 1000 }
         },
@@ -59,9 +59,9 @@ export const initSonarrc = async () => {
 
     const questions = [
         {
-            choices: collectorKeys,
-            message: 'What collector do you want to use?',
-            name: 'collector',
+            choices: connectorKeys,
+            message: 'What connector do you want to use?',
+            name: 'connector',
             type: 'list'
         },
         {
@@ -97,7 +97,7 @@ export const initSonarrc = async () => {
 
     const results = await inquirer.prompt(questions);
 
-    sonarConfig.collector.name = results.collector;
+    sonarConfig.connector.name = results.connector;
     sonarConfig.formatter = results.formatter;
 
     if (results.default) {

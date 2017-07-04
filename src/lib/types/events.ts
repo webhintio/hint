@@ -6,16 +6,16 @@ export interface IEvent {
     resource: string;
 }
 
-/** The object emitted when the collector is going to start the process. */
+/** The object emitted when the connector is going to start the process. */
 export interface IScanStart extends IEvent { }
 
-/** The object emitted when the collector has finished the process. */
+/** The object emitted when the connector has finished the process. */
 export interface IScanEnd extends IEvent { }
 
-/** The object emitted by a collector on `targetfetch::start` or `fetch::start`. */
+/** The object emitted by a connector on `targetfetch::start` or `fetch::start`. */
 export interface IFetchStart extends IEvent { }
 
-/** The object emitted by a collector on `targetfetch::end` or `fetch::end`. */
+/** The object emitted by a connector on `targetfetch::end` or `fetch::end`. */
 export interface IFetchEnd extends IEvent {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
@@ -28,7 +28,7 @@ export interface IFetchEnd extends IEvent {
 export interface ITargetFetchEnd extends IFetchEnd { }
 export interface ITargetFetchStart extends IFetchStart { }
 
-/** The object emitted by a collector on `targetfetch::error` or `fetch::error` */
+/** The object emitted by a connector on `targetfetch::error` or `fetch::error` */
 export interface IFetchError extends IEvent {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
@@ -38,32 +38,32 @@ export interface IFetchError extends IEvent {
     hops: Array<string>
 }
 
-/** The object emitted by a collector on `traverse::start` */
+/** The object emitted by a connector on `traverse::start` */
 export interface ITraverseStart extends IEvent { }
 
-/** The object emitted by a collector on `traverse::end` */
+/** The object emitted by a connector on `traverse::end` */
 export interface ITraverseEnd extends IEvent { }
 
-/** The object emitted by a collector on `traverse::up` */
+/** The object emitted by a connector on `traverse::up` */
 export interface ITraverseUp extends IEvent { }
 
-/** The object emitted by a collector on `traverse::down` */
+/** The object emitted by a connector on `traverse::down` */
 export interface ITraverseDown extends IEvent { }
 
-/** The object emitted by a collector on `element::<element-type>`. */
+/** The object emitted by a connector on `element::<element-type>`. */
 export interface IElementFound extends IEvent {
     /** The visited element. */
     element: IAsyncHTMLElement;
 }
 
-/** The object emitted by a collector on `manifestfetch::error`. */
+/** The object emitted by a connector on `manifestfetch::error`. */
 export interface IManifestFetchError extends IEvent {
     /** The error when downloading the manifest.  */
     error: Error
 }
 
-/** The object emitted by a collector on `manifestfetch::missing`. */
+/** The object emitted by a connector on `manifestfetch::missing`. */
 export interface IManifestFetchMissingEvent extends IEvent { }
 
-/** The object emitted by a collector on ` manifestfetch::end`. */
+/** The object emitted by a connector on ` manifestfetch::end`. */
 export interface IManifestFetchEnd extends IFetchEnd { }

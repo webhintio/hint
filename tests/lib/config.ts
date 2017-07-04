@@ -3,7 +3,7 @@ import * as path from 'path';
 import test from 'ava';
 
 import * as config from '../../src/lib/config';
-import {ICollectorConfig} from '../../src/lib/types';
+import {IConnectorConfig} from '../../src/lib/types';
 
 test('if there is no configuration file, it should return null', (t) => {
     const result = config.getFilenameForDirectory('./fixtures/getFileNameForDirectoryEmpty');
@@ -44,20 +44,20 @@ test(`if package.json is an invalid JSON, it should return an exception`, (t) =>
 test(`if the config file doesn't have an extension, it should be parse as JSON file`, (t) => {
     const configuration = config.load(path.join(__dirname, './fixtures/sonarrc'));
 
-    t.is((configuration.collector as ICollectorConfig).name, 'cdp');
+    t.is((configuration.connector as IConnectorConfig).name, 'cdp');
     t.is(configuration.rules['disallowed-headers'], 'warning');
 });
 
 test(`if the config file is JavaScript, it should return the configuration part`, (t) => {
     const configuration = config.load(path.join(__dirname, './fixtures/sonarrc.js'));
 
-    t.is((configuration.collector as ICollectorConfig).name, 'cdp');
+    t.is((configuration.connector as IConnectorConfig).name, 'cdp');
     t.is(configuration.rules['disallowed-headers'], 'warning');
 });
 
 test(`if package.json contains a valid sonar coniguration, it should return it`, (t) => {
     const configuration = config.load(path.join(__dirname, './fixtures/package.json'));
 
-    t.is((configuration.collector as ICollectorConfig).name, 'cdp');
+    t.is((configuration.connector as IConnectorConfig).name, 'cdp');
     t.is(configuration.rules['disallowed-headers'], 'warning');
 });

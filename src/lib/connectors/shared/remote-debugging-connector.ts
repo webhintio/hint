@@ -1,7 +1,8 @@
 /**
- * @fileoverview Collector that uses the Chrome Debugging protocol to
- * load a site and do the traversing. It also uses [request](https:/github.com/request/request)
- * to download the external resources (JS, CSS, images).
+ * @fileoverview Connector that uses the Chrome Debugging protocol
+ * to load a site and do the traversing. It also uses request
+ * (https:/github.com/request/request) to download the external
+ * resources (JS, CSS, images).
 */
 
 // ------------------------------------------------------------------------------
@@ -21,7 +22,7 @@ import { delay } from '../../utils/misc';
 
 /* eslint-disable no-unused-vars */
 import {
-    BrowserInfo, ICollector, ICollectorBuilder,
+    BrowserInfo, IConnector, IConnectorBuilder,
     IElementFound, IFetchEnd, IFetchError, IEvent, ILauncher, IManifestFetchEnd, IManifestFetchError, ITraverseUp, ITraverseDown,
     IResponse, IRequest, INetworkData, URL
 } from '../../types';
@@ -34,7 +35,7 @@ import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
 const debug: debug.IDebugger = d(__filename);
 
-export class Collector implements ICollector {
+export class Connector implements IConnector {
     /** The final set of options resulting of merging the users, and default ones. */
     private _options;
     /** The default headers to do any request. */
@@ -43,13 +44,13 @@ export class Collector implements ICollector {
     private _href: string;
     /** The final URL after redirects (if they exist) */
     private _finalHref: string;
-    /** The instance of Sonar that is using this collector. */
+    /** The instance of Sonar that is using this connector. */
     private _server: Sonar;
     /** The client to talk to the browser. */
     private _client;
     /** Browser's child process */
     private _child: number;
-    /** A set of requests done by the collector to retrieve initial information more easily. */
+    /** A set of requests done by the connector to retrieve initial information more easily. */
     private _requests: Map<string, any>;
     /** The parsed and original HTML. */
     private _html: string;
@@ -59,7 +60,7 @@ export class Collector implements ICollector {
     private _redirects = new RedirectManager();
     /** A collection of requests with their initial data. */
     private _pendingResponseReceived: Array<Function>;
-    /** List of all the tabs used by the collector. */
+    /** List of all the tabs used by the connector. */
     private _tabs = [];
     /** Tells if the page has specified a manifest or not. */
     private _manifestIsSpecified: boolean = false;

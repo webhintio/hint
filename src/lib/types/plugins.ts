@@ -4,7 +4,7 @@ export interface IPluginBuilder {
     create(config: any): IPlugin;
 }
 
-/** A plugin that expands the collector's functionality */
+/** A plugin that expands the connector's functionality */
 export interface IPlugin {
     // TBD
     any;
