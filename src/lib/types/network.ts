@@ -1,6 +1,6 @@
-/** Request data from fetching an item using a collector. */
+/** Request data from fetching an item using a connector. */
 export interface IRequest {
-    /** The headers used by the collector to make the request */
+    /** The headers used by the connector to make the request */
     headers: any;
     /** The initial requested URL. */
     url: string;
@@ -17,7 +17,7 @@ export interface IResponseBody {
     rawResponse: Buffer;
 }
 
-/** Response data from fetching an item using a collector. */
+/** Response data from fetching an item using a connector. */
 export interface IResponse {
     /** The content of the body sent by the server in different forms. */
     body: IResponseBody;
@@ -31,7 +31,7 @@ export interface IResponse {
     url: string;
 }
 
-/** Network data from fetching an item using a collector */
+/** Network data from fetching an item using a connector */
 export interface INetworkData {
     /** The response of a request. */
     response: IResponse;

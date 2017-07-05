@@ -1,5 +1,5 @@
 {
-    "collector": {
+    "connector": {
         "name": "cdp",
         "options": {
             "waitFor": 1000,

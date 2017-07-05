@@ -1,7 +1,7 @@
 # Events
 
-`collector`s communicate via events. The following is a list of all
-the events common to all `collector`s, with their signature, and the
+`connector`s communicate via events. The following is a list of all
+the events common to all `connector`s, with their signature, and the
 `interface` they implement.
 
 * [`element::<element-type>`](#elementelement-type)
@@ -23,7 +23,7 @@ the events common to all `collector`s, with their signature, and the
 
 ## `element::<element-type>`
 
-Event is emitted **when** the `collector` visits an element
+Event is emitted **when** the `connector` visits an element
 in the DOM when traversing it. `<element-type>` is the
 [`nodeName`](https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeName)
 lower cased.
@@ -41,7 +41,7 @@ export interface IElementFound {
 
 ## `fetch::end`
 
-Event is emitted **when** the `collector` has finished downloading
+Event is emitted **when** the `connector` has finished downloading
 the content of a `resource` (`js`, `css`, `image`, etc.).
 
 **Format:**
@@ -63,7 +63,7 @@ export interface IFetchEnd {
 
 ## `fetch::error`
 
-Event is emitted **when** the `collector` has encountered a problem
+Event is emitted **when** the `connector` has encountered a problem
 downloading the content of a `resource`.
 
 **Format:**
@@ -83,7 +83,7 @@ export interface IFetchError {
 
 ## `fetch::start`
 
-Event is emitted **when** the `collector` is about to start the request
+Event is emitted **when** the `connector` is about to start the request
 to fetch the `target`.
 
 **Format:**
@@ -99,7 +99,7 @@ export interface IFetchStart {
 
 ## `manifestfetch::end`
 
-Event is emitted **when** the `collector` has finished downloading
+Event is emitted **when** the `connector` has finished downloading
 the web manifest of a page.
 
 **Format:**
@@ -121,7 +121,7 @@ export interface IFetchEndEvent {
 
 ## `manifestfetch::error`
 
-Event is emitted **when** the `collector` has encountered a problem
+Event is emitted **when** the `connector` has encountered a problem
 downloading the web manifest.
 
 **Format:**
@@ -139,7 +139,7 @@ export interface IFetchErrorEvent {
 
 ## `manifestfetch::missing`
 
-Event is emitted **when** the `collector` hasn't found any manifest to
+Event is emitted **when** the `connector` hasn't found any manifest to
 download.
 
 **Format:**
@@ -155,7 +155,7 @@ export interface IManifestFetchMissingEvent {
 
 ## `scan::end`
 
-Event is emitted **when** the `collector` has finished sending all
+Event is emitted **when** the `connector` has finished sending all
 events and its about to return. This is the last event to be emitted.
 
 **Format:**
@@ -169,7 +169,7 @@ export interface IScanEnd {
 
 ## `scan::start`
 
-Event is emitted **when** the `collector` is about to start the
+Event is emitted **when** the `connector` is about to start the
 analysis. This is the first event to be emitted.
 
 **Format:**
@@ -189,7 +189,7 @@ other services](../rules/index.md#interact-with-other-services).
 
 ## `targetfetch::end`
 
-Event is emitted **when** the `collector` has finished downloading
+Event is emitted **when** the `connector` has finished downloading
 the `target`.
 
 **Format:**
@@ -212,7 +212,7 @@ In this case `element` will be `null`.
 
 ## `targetfetch::error`
 
-Event is emitted **when** the `collector` has encountered a problem
+Event is emitted **when** the `connector` has encountered a problem
 downloading the `target`.
 
 **Format:**
@@ -233,7 +233,7 @@ In this case `element` will be `null`.
 
 ## `targetfetch::start`
 
-Event is emitted **when** the `collector` is about to start the
+Event is emitted **when** the `connector` is about to start the
 request to fetch the `target`. Redirects are followed if needed.
 
 **Format:**
@@ -249,7 +249,7 @@ export interface IFetchStart {
 
 ## `traverse::down`
 
-Event is emitted **when** the `collector` is traversing and starts
+Event is emitted **when** the `connector` is traversing and starts
 visiting the children of a node.
 
 **Format:**
@@ -263,7 +263,7 @@ export interface ITraverseDown {
 
 ## `traverse::end`
 
-Event is emitted **when** the `collector` has finished traversing
+Event is emitted **when** the `connector` has finished traversing
 the DOM entirely.
 
 **Format:**
@@ -277,7 +277,7 @@ export interface ITraverseEnd {
 
 ## `traverse::start`
 
-Event is emitted **when** the `collector` is going to start traversing
+Event is emitted **when** the `connector` is going to start traversing
 the DOM.
 
 **Format:**
@@ -291,7 +291,7 @@ export interface ITraverseStart {
 
 ## `traverse::up`
 
-Event is emitted **when** the `collector` has finsihed visting the
+Event is emitted **when** the `connector` has finsihed visting the
 children of a node and goes to the next one.
 
 **Format:**

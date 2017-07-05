@@ -1,6 +1,6 @@
 /**
- * @fileoverview Runs [axe-core](https://www.npmjs.com/package/axe-core) in the context
- * of the page and checks if there are any issues with a11y.
+ * @fileoverview Runs axe-core (https://www.npmjs.com/package/axe-core)
+ * in the context of the page and checks if there are any issues with a11y.
  */
 
 // ------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ const rule: IRuleBuilder = {
             try {
                 result = await context.evaluate(script);
             } catch (e) {
-                await context.report(resource, null, `Error executing script: "${e.message}". Please try with another collector`, null, null, Severity.warning);
+                await context.report(resource, null, `Error executing script: "${e.message}". Please try with another connector`, null, null, Severity.warning);
                 debug('Error executing script %O', e);
 
                 return;

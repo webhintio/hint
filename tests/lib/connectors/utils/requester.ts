@@ -7,7 +7,7 @@ import test from 'ava';
 
 import { promisify } from 'util';
 import { createServer } from '../../../helpers/test-server';
-import { Requester } from '../../../../src/lib/collectors/utils/requester';
+import { Requester } from '../../../../src/lib/connectors/utils/requester';
 import { INetworkData } from '../../../../src/lib/types';
 
 const compress = promisify(zlib.gzip);

@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import * as url from 'url';
 
-import { ICollectorBuilder } from './types/collector';
+import { IConnectorBuilder } from './types/connector';
 import { IFormatter } from './types/formatters';
 import { IPluginBuilder } from './types/plugins';
 import { IRuleBuilder } from './types/rules';
 
 export * from './types/asynchtml';
-export * from './types/collector';
+export * from './types/connector';
 export * from './types/events';
 export * from './types/formatters';
 export * from './types/network';
@@ -21,15 +21,15 @@ export interface IRuleConfigList {
     [key: string]: RuleConfig | Array<RuleConfig>;
 }
 
-export interface ICollectorOptionsConfig {
+export interface IConnectorOptionsConfig {
     waitFor?: number;
     loadCompleteRetryInterval?: number;
     maxLoadWaitTime?: number
 }
 
-export interface ICollectorConfig {
+export interface IConnectorConfig {
     name: string;
-    options?: ICollectorOptionsConfig;
+    options?: IConnectorOptionsConfig;
 }
 
 export interface IIgnoredUrlList {
@@ -37,7 +37,7 @@ export interface IIgnoredUrlList {
 }
 
 export interface IConfig {
-    collector: ICollectorConfig | string;
+    connector: IConnectorConfig | string;
     rules?: IRuleConfigList | Array<RuleConfig>;
     browserslist?: string | Array<string>;
     rulesTimeout?: number;
@@ -46,8 +46,8 @@ export interface IConfig {
     plugins?: any;
 }
 
-/** A resource required by Sonar: Collector, Formatter, Plugin, Rule. */
-export type Resource = ICollectorBuilder | IFormatter | IPluginBuilder | IRuleBuilder;
+/** A resource required by Sonar: Connector, Formatter, Plugin, Rule. */
+export type Resource = IConnectorBuilder | IFormatter | IPluginBuilder | IRuleBuilder;
 
 /** An alias for url.Url. */
 export type URL = url.Url;
