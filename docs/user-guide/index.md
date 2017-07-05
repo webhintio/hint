@@ -57,6 +57,24 @@ the different pieces:
 * [Connectors](#connectors)
 * [Formatters](#formatters)
 
+## Permission Issue
+
+If you receive an `EACCES` error when installing `sonar`, it is caused by
+installing packages globally. The recommended
+solution is to [change npm's default directory][how-to-change-default-directory]
+and then try again. So far, one such permission issue has been reported
+when user tries to install `sonar` on [Windows Subsystem for Linux][wsl]
+or MacOS globally. Dependency `canvas-prebuilt` throws an `EACCES` error
+during the installation process, and this [issue][permission-issue] was
+resolved adopting the recommended solution. You can find detailed steps on
+how to change the npm default directory [here][how-to-change-default-directory].
+However, according to [npm's documentation][use-a-package-manager], if you have
+your node installed on MacOS using a package manager like [Homebrew](https://brew.sh/)
+instead of its installer, you may be able to avoid the trouble of messing with the
+directories and have the correct permissions set up right out of the box.
+As a result, you won't experience the error described above even if you
+install `sonar` globally on MacOS.
+
 ## Rules
 
 A `rule` is a test that your website needs to pass. `sonar` comes with
@@ -240,3 +258,8 @@ the results via the `console` in different formats, a `JSON` file,
 
 Please see [the current list of supported `formatter`s](./formatters/index.md)
 to know more.
+
+[how-to-change-default-directory]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-2-change-npms-default-directory-to-another-directory
+[wsl]:https://msdn.microsoft.com/en-us/commandline/wsl/install_guide
+[permission-issue]:https://github.com/sonarwhal/sonar/issues/308
+[use-a-package-manager]:https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
