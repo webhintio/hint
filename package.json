@@ -27,6 +27,7 @@
     "file-url": "^2.0.2",
     "globby": "^6.1.0",
     "handlebars": "^4.0.10",
+    "html-validator": "^2.2.1",
     "iconv-lite": "^0.4.17",
     "inquirer": "^3.0.6",
     "is-ci": "^1.0.10",
