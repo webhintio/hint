@@ -18,7 +18,7 @@
     "canvas-prebuilt": "^1.6.0-canvas.5",
     "chalk": "^2.0.0",
     "chrome-launcher": "^0.3.0",
-    "chrome-remote-interface": "^0.23.2",
+    "chrome-remote-interface": "^0.24.0",
     "content-type": "^1.0.2",
     "debug": "^2.6.8",
     "eslint": "^3.19.0",
