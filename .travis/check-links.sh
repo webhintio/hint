@@ -21,8 +21,5 @@ gem install awesome_bot \
                         --set-timeout 150 \
                         --white-list "example1.com,example2.com,example3.com,github.com/sonarwhal/" \
                         {} +;
-exitCode=$?
 
 node .travis/report-broken-links.js
-
-exit $exitCode
