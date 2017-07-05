@@ -11,9 +11,11 @@ Adhering to the W3C' standards has a lot to offer to both the
 developers and the web users: It provides better browser compatibility,
 helps to avoid potential problems with accessibility/usability, and makes it easier for future maintainance.
 >
-> The Nu Html Checker(v.Nu) serves as the backend of [checker.html5.org](https://checker.html5.org/),
-[html5.validator.nu](https://html5.validator.nu), and [validator.w3.org/nu](https://validator.w3.org/nu/).
-It also provides a [web service interface](https://github.com/validator/validator/wiki/Service-%C2%BB-HTTP-interface).
+> The Nu Html Checker(v.Nu) serves as the backend of
+> [html5.validator.nu](https://html5.validator.nu), and
+> [validator.w3.org/nu](https://validator.w3.org/nu/).
+> It also provides a [web service interface](https://github.com/validator/validator/wiki/Service-%C2%BB-HTTP-interface).
+
 This rule interacts with this service via [html-validator](https://www.npmjs.com/package/html-validator),
 and is able to test both remote websites and local server instances.
 

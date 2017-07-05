@@ -58,10 +58,13 @@ Our logo is Nellie the narwhal. Narwhals are not only
 the best sonars in the animal kingdom:
 
 [Narwhal echolocation beams may be the most directional of any
-species](https://www.sciencedaily.com/releases/2016/11/161110154942.htm)
+species](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162069)
 
-> […] some of the first recordings of wintering narwhals showed that
-> they may have the most directional sonar of any species.
+> Recordings of narwhal (Monodon monoceros) echolocation signals were
+> made using a linear 16 hydrophone array in the pack ice of Baffin Bay,
+> West Greenland in 2013 at eleven sites. An average -3 dB beam width
+> of 5.0° **makes the narwhal click the most directional biosonar signal
+> reported for any species to date.**
 
 ## I don't agree with one of your rules, how can I tell you?
 
