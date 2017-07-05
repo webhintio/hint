@@ -25,7 +25,7 @@ if ! git diff --quiet @~3..@ \
 
     declare -r BODY='{
         "request": {
-            "message": "Update site (API request)",
+            "message": "Update site (triggered from main repository)",
             "branch": "master"
         }
     }'
@@ -36,6 +36,6 @@ if ! git diff --quiet @~3..@ \
         -H "Travis-API-Version: 3" \
         -H "Authorization: token ${TRAVIS_API_TOKEN}" \
         -d "$BODY" \
-        "https://api.travis-ci.com/repo/${SITE_REPO}/requests"
+        "https://api.travis-ci.org/repo/${SITE_REPO}/requests"
 
 fi
