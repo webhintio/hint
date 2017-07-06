@@ -30,7 +30,7 @@ Note: [Most modern browsers only respect the header for `script`s and
 (see also [whatwg/fetch#395](https://github.com/whatwg/fetch/issues/395).
 
 Going back to the previous example, if the `X-Content-Type-Options: nosniff`
-header is sent for the script, if the browser detects that its a script
+header is sent for the script, if the browser detects that it's a script
 and it wasn't served with one of the [JavaScript media
 type](https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type),
 it will block it.

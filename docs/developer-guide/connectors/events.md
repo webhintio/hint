@@ -11,6 +11,7 @@ the events common to all `connector`s, with their signature, and the
 * [`manifestfetch::end`](#manifestfetchend)
 * [`manifestfetch::error`](#manifestfetcherror)
 * [`manifestfetch::start`](#manifestfetchstart)
+* [`manifestfetch::missing`](#manifestfetchmissing)
 * [`scan::end`](#scanend)
 * [`scan::start`](#scanstart)
 * [`targetfetch::end`](#targetfetchend)
@@ -59,7 +60,7 @@ export interface IFetchEnd {
 }
 ```
 
-**Note:** The event is the same for [`targetfetch::end`](#targetfetchend).
+**Note:** This is a basic event interface that [`targetfetch::end`](#targetfetchend) and [`manifestfetch::end`](#manifestfetchend) extend from.
 
 ## `fetch::error`
 
@@ -76,10 +77,12 @@ export interface IFetchError {
     element: IAsyncHTMLElement;
     /** The error found. */
     error: any;
+    /** The redirects performed for the url. */
+    hops: Array<string>
 }
 ```
 
-**Note:** The event is the same for [`targetfetch::error`](#targetfetcherror).
+**Note:** This event has the same interface as [`targetfetch::error`](#targetfetcherror).
 
 ## `fetch::start`
 
@@ -95,7 +98,7 @@ export interface IFetchStart {
 }
 ```
 
-**Note:** The event is the same for [`targetfetch::start`](#targetfetchstart).
+**Note:** This is a basic event interface that [`targetfetch::start`](#targetfetchstart) extends from.
 
 ## `manifestfetch::end`
 
@@ -105,7 +108,7 @@ the web manifest of a page.
 **Format:**
 
 ```ts
-export interface IFetchEndEvent {
+export interface IManifestFetchEnd {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
     /** The URL of the target */
@@ -117,7 +120,23 @@ export interface IFetchEndEvent {
 }
 ```
 
-**Note:** The event is the same for [`targetfetch::end`](#targetfetchend).
+**Note:** This event interface extends from [`fetch::end`](#fetchend).
+
+## `manifestfetch::start`
+
+Event is emitted **when** the `connector` is about to start downloading
+the web manifest.
+
+**Format:**
+
+```ts
+export interface IFetchStart {
+    /** The URL to download */
+    resource: string;
+}
+```
+
+**Note::** This event has the same interface as [`fetch::start`](#fetchstart).
 
 ## `manifestfetch::error`
 
@@ -127,15 +146,13 @@ downloading the web manifest.
 **Format:**
 
 ```ts
-export interface IFetchErrorEvent {
+export interface IManifestFetchError {
     /** The URL of the target. */
     resource: string;
     /** The error found. */
     error: any;
 }
 ```
-
-**Note:** The event is the same for [`targetfetch::error`](#targetfetcherror).
 
 ## `manifestfetch::missing`
 
@@ -145,13 +162,11 @@ download.
 **Format:**
 
 ```ts
-export interface IManifestFetchMissingEvent {
+export interface IManifestFetchMissing {
     /** The URL to download */
     resource: string;
 }
 ```
-
-**Note:** The event is the same for [`targetfetch::start`](#targetfetchstart).
 
 ## `scan::end`
 
@@ -195,7 +210,7 @@ the `target`.
 **Format:**
 
 ```ts
-export interface IFetchEnd {
+export interface ITargetFetchEnd {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
     /** The URL of the target. */
@@ -207,7 +222,7 @@ export interface IFetchEnd {
 }
 ```
 
-**Note:** The event is the same for [`fetch::end`](#fetchend).
+**Note:** This event interface extends from [`fetch::end`](#fetchend).
 In this case `element` will be `null`.
 
 ## `targetfetch::error`
@@ -228,7 +243,7 @@ export interface IFetchError {
 }
 ```
 
-**Note::** The event is the same for [`fetch::error`](#fetcherror).
+**Note::** This event has the same interface as [`fetch::error`](#fetcherror).
 In this case `element` will be `null`.
 
 ## `targetfetch::start`
@@ -239,13 +254,13 @@ request to fetch the `target`. Redirects are followed if needed.
 **Format:**
 
 ```typescript
-export interface IFetchStart {
+export interface ITargetFetchStart {
     /** The URL to download */
     resource: string;
 }
 ```
 
-**Note::** The event is the same for [`fetch::start`](#fetchstart).
+**Note::** This event interface extends from [`fetch::start`](#fetchstart).
 
 ## `traverse::down`
 

@@ -6,7 +6,7 @@ the appropriate media type and charset for the response.
 
 ## Why is this important?
 
-Even thought browsers sometimes [ignore](https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Configuring_server_MIME_types))
+Even thought browsers sometimes [ignore](https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Configuring_server_MIME_types)
 the value of the `Content-Type` header and try to [sniff the content](https://mimesniff.spec.whatwg.org/),
 it's indicated to always send the appropriate media type and charset
 for the response as, among other:
