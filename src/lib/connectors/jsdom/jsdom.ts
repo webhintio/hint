@@ -25,19 +25,22 @@
 
 import * as path from 'path';
 import * as url from 'url';
+import * as util from 'util';
 import * as vm from 'vm';
 
 import * as jsdom from 'jsdom/lib/old-api';
 import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
 
 import { debug as d } from '../../utils/debug';
+import { resolveUrl } from '../utils/resolver';
+
 /* eslint-disable no-unused-vars */
 import {
     IAsyncHTMLElement, IConnector, IConnectorBuilder,
     IElementFound, IEvent, IFetchEnd, IFetchError, IManifestFetchError, IManifestFetchEnd, ITraverseDown, ITraverseUp,
     INetworkData, URL
 } from '../../types';
-/* eslint-enable */
+/* eslint-enable no-unused-vars */
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
 import { readFileAsync } from '../../utils/misc';
 import { Requester } from '../utils/requester'; //eslint-disable-line
@@ -172,9 +175,11 @@ class JSDOMConnector implements IConnector {
         return Promise.resolve();
     }
 
+    //TODO: resourceLoader is async but also needs the callback because of jsdom library
     /** Alternative method to download resource for `JSDOM` so we can get the headers. */
-    private async resourceLoader(resource, callback) {
+    private async resourceLoader(resource: { element: HTMLElement, url: URL }, callback: Function) {
         let resourceUrl: string = resource.url.href;
+        const element = resource.element ? new JSDOMAsyncHTMLElement(resource.element) : null;
 
         if (!url.parse(resourceUrl).protocol) {
             resourceUrl = url.resolve(this._finalHref, resourceUrl);
@@ -189,7 +194,7 @@ class JSDOMConnector implements IConnector {
             debug(`resource ${resourceUrl} fetched`);
 
             const fetchEndEvent: IFetchEnd = {
-                element: new JSDOMAsyncHTMLElement(resource.element),
+                element,
                 request: resourceNetworkData.request,
                 resource: resourceNetworkData.response.url,
                 response: resourceNetworkData.response
@@ -203,7 +208,7 @@ class JSDOMConnector implements IConnector {
         } catch (err) {
             const hops: Array<string> = this._request.getRedirects(err.uri);
             const fetchError: IFetchError = {
-                element: new JSDOMAsyncHTMLElement(resource.element),
+                element,
                 error: err.error,
                 hops,
                 resource: err.uri || resourceUrl
@@ -212,6 +217,21 @@ class JSDOMConnector implements IConnector {
             await this._server.emitAsync('fetch::error', fetchError);
 
             return callback(fetchError);
+        }
+    }
+
+    /** JSDOM doesn't download the favicon automatically, this method:
+     *
+     * * uses the `src` attribute of `<link rel="icon">` if present.
+     * * uses `favicon.ico` and the final url after redirects.
+     */
+    private async getFavicon(element?: HTMLElement) {
+        const href = element ? element.getAttribute('href') : '/favicon.ico';
+
+        try {
+            await util.promisify(this.resourceLoader).call(this, { element, url: url.parse(href) });
+        } catch (e) {
+            debug('Error loading ${href}', e);
         }
     }
 
@@ -256,11 +276,7 @@ class JSDOMConnector implements IConnector {
         // If `href` exists and is not an empty string, try
         // to figure out the full URL of the web app manifest.
 
-        if (url.parse(manifestHref).protocol) {
-            manifestURL = manifestHref;
-        } else {
-            manifestURL = url.resolve(this._href, manifestHref);
-        }
+        manifestURL = resolveUrl(manifestHref, this._finalHref);
 
         // Try to see if the web app manifest file actually
         // exists and is accesible.
@@ -369,6 +385,8 @@ class JSDOMConnector implements IConnector {
                             await this.traverseAndNotify(window.document.children[0]);
                             await this._server.emitAsync('traverse::end', event);
 
+                            // We download only the first favicon found
+                            await this.getFavicon(window.document.querySelector('link[rel~="icon"]'));
                             await this.getManifest();
 
                             /* TODO: when we reach this moment we should wait for all pending request to be done and

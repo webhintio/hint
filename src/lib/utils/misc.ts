@@ -8,6 +8,7 @@ import * as stripBom from 'strip-bom';
 import * as requireUncached from 'require-uncached';
 import * as stripComments from 'strip-json-comments';
 
+import { IAsyncHTMLElement } from '../types'; //eslint-disable-line no-unused-vars
 import { debug as d } from './debug';
 const debug: debug.IDebugger = d(__filename);
 
@@ -105,14 +106,14 @@ const loadJSFile = (filePath: string): any => {
  * up the tree until one is found. If none, it throws an `Error`:
  * `No package found`.
  */
-const findPackageRoot = (dirname = __dirname, fileToFind = 'package.json') => {
-    const content = readdir(dirname);
+const findPackageRoot = (dirname: string = __dirname, fileToFind: string = 'package.json') => {
+    const content: Array<string> = readdir(dirname);
 
     if (content.includes(fileToFind)) {
         return dirname;
     }
 
-    const parentFolder = path.resolve(dirname, '..');
+    const parentFolder: string = path.resolve(dirname, '..');
 
     if (parentFolder === dirname) {
         throw new Error('No package found');
@@ -121,10 +122,30 @@ const findPackageRoot = (dirname = __dirname, fileToFind = 'package.json') => {
     return findPackageRoot(parentFolder, fileToFind);
 };
 
+const hasAttributeWithValue = (element: IAsyncHTMLElement, nodeName: string, attribute: string, value: string): boolean => {
+    if (!element || element.nodeName.toLowerCase() !== nodeName.toLowerCase()) {
+        return false;
+    }
+
+    const relAttribute: string = element.getAttribute(attribute);
+
+    if (!relAttribute) {
+        return false;
+    }
+
+    const rels: Array<string> = relAttribute.toLowerCase()
+        .split(' ');
+
+    return rels.some((rel) => {
+        return rel === value;
+    });
+};
+
 export {
     cutString,
     delay,
     findPackageRoot,
+    hasAttributeWithValue,
     hasProtocol,
     isDataURI,
     isLocalFile,
