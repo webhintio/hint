@@ -252,7 +252,6 @@ const rule: IRuleBuilder = {
             } else if (originalCharset && !['text/html', 'application/xhtml+xml'].includes(originalMediaType)) {
                 await context.report(resource, element, `'content-type' header should not have 'charset=${originalCharset}'`);
             }
-
         };
 
         loadRuleConfigs();

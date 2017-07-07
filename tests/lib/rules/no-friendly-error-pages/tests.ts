@@ -89,6 +89,14 @@ tests.push(
         name: `Response has status code 200 and error page cannot be generated`,
         serverConfig: {
             '/': '',
+            '/favicon.ico': {
+                status: 200,
+                headers: {
+                    'Content-Length': '0',
+                    'Content-Type': 'image/x-icon',
+                    'X-Content-Type-Options': 'nosniff'
+                }
+            },
             '*': { status: 200 }
         }
     },
@@ -96,6 +104,14 @@ tests.push(
         name: `Response has status code 200 and error page cannot be generated (request fails)`,
         serverConfig: {
             '/': '',
+            '/favicon.ico': {
+                status: 200,
+                headers: {
+                    'Content-Length': '0',
+                    'Content-Type': 'image/x-icon',
+                    'X-Content-Type-Options': 'nosniff'
+                }
+            },
             '*': null
         }
     },
