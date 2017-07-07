@@ -18,12 +18,12 @@ import * as r from 'request';
 
 import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html';
 import { debug as d } from '../../utils/debug';
-import { delay } from '../../utils/misc';
+import { delay, hasAttributeWithValue } from '../../utils/misc';
 
 /* eslint-disable no-unused-vars */
 import {
     BrowserInfo, IConnector, IConnectorBuilder,
-    IElementFound, IFetchEnd, IFetchError, IEvent, ILauncher, IManifestFetchEnd, IManifestFetchError, ITraverseUp, ITraverseDown,
+    IAsyncHTMLElement, IElementFound, IEvent, IFetchEnd, IFetchError, ILauncher, IManifestFetchEnd, IManifestFetchError, ITraverseUp, ITraverseDown,
     IResponse, IRequest, INetworkData, URL
 } from '../../types';
 /* eslint-enable no-unused-vars*/
@@ -64,6 +64,7 @@ export class Connector implements IConnector {
     private _tabs = [];
     /** Tells if the page has specified a manifest or not. */
     private _manifestIsSpecified: boolean = false;
+    private _faviconLoaded: boolean = false;
 
     private _targetNetworkData: INetworkData;
     private launcher: ILauncher;
@@ -252,15 +253,7 @@ export class Connector implements IConnector {
             }
         } catch (e) {
             debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
-            /* HACK: This is to make https://github.com/sonarwhal/sonar/pull/144 pass.
-                There are some concurrency issues at the moment that are more visible in low powered machines and
-                when the CPU is highly used. The problem is most likely related to having pending requests but
-                the analysis has finished already. The `setTimeout` in `onLoadEventFired` might be partially
-                responsible.
-                We should:
-                * Wait for all pending requests instead of doing a `setTimeout` (within reason)
-                * Cancel all requests/remove all listeners when we do `close()`
-            */
+            rawContent = Buffer.alloc(0);
         }
         debug(`Content for ${cdpResponse.response.url} downloaded`);
 
@@ -332,12 +325,16 @@ export class Connector implements IConnector {
             };
         }
 
+        if (hasAttributeWithValue(data.element, 'link', 'rel', 'icon')) {
+            this._faviconLoaded = true;
+        }
+
+        await this._server.emitAsync(eventName, data);
+
         /* We don't need to store the request anymore so we can remove it and ignore it
          * if we receive it in `onLoadingFailed` (used only for "catastrophic" failures).
          */
         this._requests.delete(params.requestId);
-
-        await this._server.emitAsync(eventName, data);
     }
 
     /** Traverses the DOM notifying when a new element is traversed. */
@@ -484,7 +481,43 @@ export class Connector implements IConnector {
         ]);
     }
 
-    /** Initiates all the proce */
+    /** CDP sometimes doesn't download the favicon automatically, this method:
+     *
+     * * uses the `src` attribute of `<link rel="icon">` if present.
+     * * uses `favicon.ico` and the final url after redirects.
+     */
+    private async getFavicon(element?: AsyncHTMLElement) {
+        const href = element ? element.getAttribute('href') : '/favicon.ico';
+
+        try {
+            debug(`resource ${href} to be fetched`);
+            await this._server.emitAsync('fetch::start', { resource: href });
+
+            const content = await this.fetchContent(url.parse(this._finalHref + href.substr(1)));
+
+            const data: IFetchEnd = {
+                element: null,
+                request: content.request,
+                resource: content.response.url,
+                response: content.response
+            };
+
+            await this._server.emitAsync('fetch::end', data);
+        } catch (error) {
+            const hops = this._redirects.calculate(href);
+
+            const event: IFetchError = {
+                element,
+                error,
+                hops,
+                resource: href
+            };
+
+            await this._server.emitAsync('fetch::error', event);
+        }
+    }
+
+    /** Initiates all the process */
     private onLoadEventFired(callback: Function): Function {
         return () => {
             const { DOM } = this._client;
@@ -505,6 +538,14 @@ export class Connector implements IConnector {
                     await this._server.emitAsync('traverse::start', event);
                     await this.traverseAndNotify(this._dom.root);
                     await this._server.emitAsync('traverse::end', event);
+
+                    if (!this._manifestIsSpecified) {
+                        await this._server.emitAsync('manifestfetch::missing', { resource: this._href });
+                    }
+
+                    if (!this._faviconLoaded) {
+                        await this.getFavicon((await this._dom.querySelectorAll('link[rel~="icon"]'))[0]);
+                    }
 
                     await this._server.emitAsync('scan::end', event);
 

@@ -110,6 +110,8 @@ class Server {
                 res.status(200);
                 res.setHeader('Content-Length', '0');
                 res.setHeader('Content-Type', 'image/x-icon');
+                res.setHeader('X-Content-Type-Options', 'nosniff');
+                res.end();
             });
         }
     }
