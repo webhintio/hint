@@ -42,8 +42,8 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
         await t.context.server.start();
     });
 
-    test.afterEach.always((t) => {
-        t.context.server.stop();
+    test.afterEach.always(async (t) => {
+        await t.context.server.stop();
     });
 
     /** Validates that the results from the execution match the expected ones. */

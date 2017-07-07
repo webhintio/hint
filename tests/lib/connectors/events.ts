@@ -134,6 +134,7 @@ const events = [
         resource: 'test://fa.il',
         hops: ['http://localhost/script5.js']
     }],
+    ['manifestfetch::missing', { resource: 'http://localhost/' }],
     ['scan::end', { resource: 'http://localhost/' }]
 ];
 /* eslint-enable sort-keys */
@@ -253,6 +254,7 @@ const testConnectorEvents = (connectorInfo) => {
 
         server.configure({
             '/': updateLocalhost(fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'), server.port),
+            '/edge.png': { content: fs.readFileSync(path.join(__dirname, './fixtures/common/edge.png')) },
             '/script.js': fs.readFileSync(path.join(__dirname, './fixtures/common/script.js'), 'utf8'),
             '/script2.js': {
                 content: 'script.js',
@@ -288,7 +290,7 @@ const testConnectorEvents = (connectorInfo) => {
         }
 
         // List of events that only have to be called once per execution
-        const singles = ['fetch::error', 'scan::start', 'scan::end'];
+        const singles = ['fetch::error', 'scan::start', 'scan::end', 'manifestfetch::missing'];
         const groupedEvents = _.groupBy(invokes, (invoke) => {
             return invoke[0];
         });
