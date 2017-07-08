@@ -17,6 +17,7 @@
         "node_modules"
     ],
     "include": [
+        "scripts/**/*.ts",
         "src/**/*.ts",
         "tests/**/*.ts"
     ]

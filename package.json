@@ -104,7 +104,7 @@
   },
   "files": [
     ".sonarrc",
-    "dist",
+    "dist/src",
     "docs"
   ],
   "greenkeeper": {
@@ -146,13 +146,14 @@
   "scripts": {
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
-    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:assets": "cpx \"./{scripts,src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc --outDir dist",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint --ext md --ext ts --ignore-pattern dist/* .",
     "lint:md": "markdownlint ./.github docs",
     "prepublishOnly": "npm i && npm run build",
+    "release": "npm run test && node dist/scripts/release.js",
     "site": "node dist/src/bin/sonar",
     "test": "npm run lint && npm run build && nyc ava",
     "test-on-travis": "npm run lint && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
