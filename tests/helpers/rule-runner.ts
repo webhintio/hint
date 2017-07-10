@@ -15,7 +15,7 @@ import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-va
 import { Sonar } from '../../src/lib/sonar';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
-export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: object = {}) => {
+export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { [key: string]: any } = {}) => {
 
     /** Creates a valid sonar configuration. Eventually we should
      * test all available connectors and not only JSDOM */
@@ -28,17 +28,36 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
             rules[id] = 'error';
         }
 
-        return {
+        const config = {
             browserslist: opts && opts.browserslist || [],
-            connector: { name: connector },
+            connector: {
+                name: connector,
+                options: {}
+            },
             rules
         };
+
+        if (connector === 'jsdom') {
+            config.connector.options = {
+                // Allow us to use our self-signed cert for testing.
+                // https://github.com/request/request/issues/418#issuecomment-23058601
+                rejectUnauthorized: false,
+                strictSSL: false
+            };
+        }
+
+        if (connector === 'cdp') {
+            // Allow us to use our self-signed cert for testing.
+            config.connector.options = { overrideInvalidCert: true };
+        }
+
+        return config;
     };
 
     /** Because tests are executed asynchronously in ava, we need
      * a different server and sonar object for each one */
     test.beforeEach(async (t) => {
-        t.context.server = createServer();
+        t.context.server = createServer(configs.https);
         await t.context.server.start();
     });
 
@@ -111,7 +130,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: ob
 
             const { server } = t.context;
             const { serverUrl, reports } = ruleTest;
-            const target = serverUrl ? serverUrl : `http://localhost:${server.port}/`;
+            const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
 
             const sonar = await createConnector(t, ruleTest, connector, attemp);
             const results = await sonar.executeOn(url.parse(target));

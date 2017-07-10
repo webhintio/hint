@@ -597,7 +597,29 @@ export class Connector implements IConnector {
             }
 
             this._client = client;
-            const { Page } = client;
+            const { Page, Security } = client;
+
+            // Bypassing the "Your connection is not private"
+            // certificate error when using self signed certificate
+            // in tests.
+            //
+            // https://github.com/cyrus-and/chrome-remote-interface/wiki/Bypass-certificate-errors-(%22Your-connection-is-not-private%22)
+            //
+            // Ignore all the certificate errors.
+
+            if (this._options.overrideInvalidCert) {
+                Security.certificateError(({ eventId }) => {
+                    Security.handleCertificateError({
+                        action: 'continue',
+                        eventId
+                    });
+                });
+
+                await Security.enable();
+
+                // Enable the override.
+                await Security.setOverrideCertificateErrors({ override: true });
+            }
 
             Page.loadEventFired(this.onLoadEventFired(callback));
 

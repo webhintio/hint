@@ -1,12 +1,15 @@
 /**
  * @fileoverview Simple HTTP server used in sonar's tests to mimick certain scenarios.
  */
-
+import * as fs from 'fs';
 import * as http from 'http';
+import * as https from 'https';
+import * as path from 'path';
 
 import * as _ from 'lodash';
 import * as express from 'express';
 import * as onHeaders from 'on-headers';
+import { promisify } from 'util';
 
 type ServerConfiguration = string | object; //eslint-disable-line
 
@@ -16,16 +19,18 @@ const maxPort = 65535;
 /** A testing server for Sonar rules */
 class Server {
     private _app;
-    private _server: http.Server;
+    private _server: https.Server | http.Server;
     private _port: number = startPort;
+    private _isHTTPS: boolean;
 
-    constructor() {
+    constructor(isHTTPS?: boolean) {
         this._app = express();
         this._app.disable('x-powered-by');
         this._app.use((req, res, next) => {
             res.setHeader('Cache-Control', 'no-cache');
             next();
         });
+        this._isHTTPS = isHTTPS;
     }
 
     /** Because we don't know the port until we start the server, we need to update
@@ -118,8 +123,17 @@ class Server {
 
     /** Starts listening on the given port. */
     start() {
-        return new Promise((resolve, reject) => {
-            this._server = http.createServer(this._app);
+        return new Promise(async (resolve, reject) => {
+            let options;
+
+            if (this._isHTTPS) {
+                options = {
+                    cert: await promisify(fs.readFile)(path.join(__dirname, 'fixture/server.crt'), 'utf8'),
+                    key: await promisify(fs.readFile)(path.join(__dirname, 'fixture/server.key'), 'utf8')
+                };
+            }
+
+            this._server = this._isHTTPS ? https.createServer(options, this._app) : http.createServer(this._app);
 
             // TODO: need to find a way to cast `err` to a [System Error](https://nodejs.org/dist/latest-v7.x/docs/api/errors.html#errors_system_errors)
             this._server.on('error', (err: any) => {
@@ -152,8 +166,8 @@ class Server {
 }
 
 /** Returns a testing server */
-const createServer = () => {
-    const server = new Server();
+const createServer = (isHTTPS?: boolean) => {
+    const server = new Server(isHTTPS);
 
     return server;
 };
