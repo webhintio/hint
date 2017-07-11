@@ -28,7 +28,7 @@ If you'd like to work on a pull request, and you've never submitted
 code before, follow these steps:
 
 1. Sign our [Contributor License Agreement](https://cla.js.foundation/sonarwhal/sonar).
-2. Set up a [development environment](../development-environment).
+2. Set up a [development environment](../development-environment.md).
 
 After that, you're ready to start working on code.
 
@@ -154,9 +154,9 @@ version number, updating the changelog, etc.).
 
 <!-- markdownlint-enable MD033 -->
 
-Before you send the pull request, be sure to rebase onto the [upstream
-source](../development-environment). This ensures your code is running
-on the latest available code.
+Before you send the pull request, be sure to rebase onto the
+[upstream source](../development-environment.md). This ensures your
+code is running on the latest available code.
 
 ```bash
 git fetch upstream
@@ -285,7 +285,7 @@ git push -f origin fix-1234
 
 If your code is out-of-date, we might ask you to rebase. That means
 we want you to apply your changes on top of the latest upstream code.
-Make sure you have set up a [development environment](../development-environment),
+Make sure you have set up a [development environment](../development-environment.md),
 and then you can rebase using these commands:
 
 ```bash
