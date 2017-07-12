@@ -15,22 +15,22 @@ The following is a basic template for a core rule (you might need to
 adapt the paths for your case):
 
 ```ts
-import { IFetchEndEvent, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IFetchEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
         // Your code here.
 
-        const validateFetchEnd = (fetchEnd: IFetchEndEvent) => {
+        const validateFetchEnd = (fetchEnd: IFetchEnd) => {
             // Code to validate the rule on the event fetch::end.
         }
 
-        const validateTargetFetchEnd = (targetFetchEnd: IFetchEndEvent) => {
+        const validateTargetFetchEnd = (targetFetchEnd: IFetchEnd) => {
             // Code to validate the rule on the event targetfetch::end.
         }
 
-        const validateElement = (element: IElementFoundEvent) => {
+        const validateElement = (element: IElementFound) => {
             // Code to validate the rule on the event element::element-type.
         }
 

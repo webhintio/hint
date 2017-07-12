@@ -12,7 +12,7 @@ export interface IScanStart extends IEvent { }
 /** The object emitted when the connector has finished the process. */
 export interface IScanEnd extends IEvent { }
 
-/** The object emitted by a connector on `targetfetch::start` or `fetch::start`. */
+/** The object emitted by a connector on `targetfetch::start`, `fetch::start` or `manifestfetch::start`. */
 export interface IFetchStart extends IEvent { }
 
 /** The object emitted by a connector on `targetfetch::end` or `fetch::end`. */
@@ -63,7 +63,7 @@ export interface IManifestFetchError extends IEvent {
 }
 
 /** The object emitted by a connector on `manifestfetch::missing`. */
-export interface IManifestFetchMissingEvent extends IEvent { }
+export interface IManifestFetchMissing extends IEvent { }
 
 /** The object emitted by a connector on ` manifestfetch::end`. */
 export interface IManifestFetchEnd extends IFetchEnd { }
