@@ -4,14 +4,26 @@ const { ucs2 } = require('punycode');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+// Special file were Git will store the content
+// of the commit message of a commit in progress.
+//
+// https://git-scm.com/docs/git-commit#_files
+
+const COMMIT_MESSAGE_FILE = '.git/COMMIT_EDITMSG';
+
+const CONTRIBUTION_GUIDELINES_URL = 'https://sonarwhal.com/docs/developer-guide/contributing/pull-requests.html#commitmessages';
+
+const PKG = require('./../package.json');
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 shell.config.silent = true;
 shell.config.fatal = true;
-
-const issues = [];
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 const checkWording = (line, lineNumber) => {
+    const issues = [];
 
     // This checks for cases such as:
     //
@@ -28,36 +40,41 @@ const checkWording = (line, lineNumber) => {
         issues.push(`[Line ${lineNumber}] Contains '${match[1]}' instead of '${match[1].toLowerCase().startsWith('fix') ? 'Fix' : 'Close'}'.`);
     }
 
+    return issues;
 };
 
 const checkFirstLine = (line) => {
     const ALLOWED_TAGS = [
-        'Fix',
-        'Breaking',
-        'Build',
-        'Chore',
-        'Docs',
-        'New',
-        'Update',
-        'Upgrade'
+        'Fix:',
+        'Breaking:',
+        'Build:',
+        'Chore:',
+        'Docs:',
+        'New:',
+        'Update:',
+        'Upgrade:'
     ];
+
+    let issues = [];
 
     if (ucs2.decode(line).length > 50) {
         issues.push('[Line 1] Has over 50 characters.');
     }
 
-    const tag = line.split(':')[0];
+    const tag = ALLOWED_TAGS.filter((allowedTag) => {
+        return line.startsWith(allowedTag);
+    })[0];
 
-    if (!ALLOWED_TAGS.includes(tag)) {
-        issues.push(`[Line 1] Does not start with one of the following tags: \n\n     ${ALLOWED_TAGS.join(':\n     ')}:\n`);
+    if (!tag) {
+        issues.push(`[Line 1] Does not start with one of the following tags: \n\n     ${ALLOWED_TAGS.join('\n     ')}\n`);
     }
 
-    const afterTag = line.split(':')[1];
+    const afterTag = tag ? line.split(tag)[1] : line;
 
     if (!afterTag) {
         issues.push(`[Line 1] No summary.`);
 
-    } else {
+    } else if (tag) {
         const firstChar = afterTag.charAt(0);
         const secondChar = afterTag.charAt(1);
 
@@ -70,18 +87,25 @@ const checkFirstLine = (line) => {
         }
     }
 
-    checkWording(line, 1);
+    issues = [...issues, ...checkWording(line, 1)];
+
+    return issues;
 };
 
 const checkSecoundLine = (line) => {
+    const issues = [];
+
     if ((typeof line !== 'undefined') &&
         (line !== '')) {
         issues.push('[Line 2] Should be blank.');
     }
+
+    return issues;
 };
 
 const checkLine = (line, lineNumber) => {
     const chars = ucs2.decode(line);
+    let issues = [];
 
     // If the line has more then 72 characters, and the part just before
     // and after the 72 limit contains spaces (i.e. it's not something
@@ -92,7 +116,9 @@ const checkLine = (line, lineNumber) => {
         issues.push(`[Line ${lineNumber}] Has over 72 characters, and should be split into multiple lines.`);
     }
 
-    checkWording(line, lineNumber);
+    issues = [...issues, ...checkWording(line, lineNumber)];
+
+    return issues;
 };
 
 const getUncommentedLines = (lines) => {
@@ -101,37 +127,124 @@ const getUncommentedLines = (lines) => {
     });
 };
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+const getCommitData = () => {
+    const commits = [];
 
-const main = () => {
+    // If the special file were Git stores the commit message exists,
+    // it most probably means this script is executed when the user
+    // does a commit, so we only need to get the current commit message.
 
-    const commitMsgLines = getUncommentedLines(shell.cat('.git/COMMIT_EDITMSG').split('\n'));
+    if (shell.test('-f', COMMIT_MESSAGE_FILE)) {
+        commits.push({
+            message: shell.cat(COMMIT_MESSAGE_FILE),
+            sha: null
+        });
 
-    // Releases are special cases, so they don't need to be checked.
-    if (/^v\d+\.\d+\.\d+/i.test(commitMsgLines[0])) {
-        return;
+    // Otherwise, it means this script is execute as part of the tests,
+    // and since there is no easy way to know how many new commits were
+    // added, just check all commits since the last release.
+
+    } else {
+        const commitSHAsSinceLastRelease = shell.exec(`git rev-list HEAD...${PKG.version}`).stdout.split('\n');
+
+        commitSHAsSinceLastRelease.forEach((sha) => {
+            commits.push({
+                message: shell.exec(`git show --no-patch --format=%B ${sha}`).stdout,
+                sha,
+                username: shell.exec(`git show --no-patch --format=%ae ${sha}`).stdout
+            });
+        });
     }
 
-    checkFirstLine(commitMsgLines[0]);
-    checkSecoundLine(commitMsgLines[1]);
+    return commits;
+};
+
+const isExcludedCommit = (commit) => {
+
+    // Releases are special cases, so they don't need to be checked.
+
+    if (/^v\d+\.\d+\.\d+/i.test(commit.message[0])) {
+        return true;
+    }
+
+    // For now, the form of the commit message used by Greenkeeper
+    // cannot be configured, so in order to not fail every such commit,
+    // just exclude them for now.
+    //
+    // See also: https://github.com/greenkeeperio/greenkeeper/issues/153)
+
+    if (commit.username === 'greenkeeper[bot]') {
+        return true;
+    }
+
+    return false;
+};
+
+const checkCommit = (commit) => {
+
+    if (isExcludedCommit(commit)) {
+        return true;
+    }
+
+    const commitMsgLines = getUncommentedLines(commit.message.split('\n'));
+    let issues = [];
+
+    issues = [...checkFirstLine(commitMsgLines[0]), ...checkSecoundLine(commitMsgLines[1])];
 
     for (let i = 2; i < commitMsgLines.length; i++) {
-        checkLine(commitMsgLines[i], i + 1);
+        issues = [...issues, ...checkLine(commitMsgLines[i], i + 1)];
     }
 
     if (issues.length !== 0) {
-        console.error(`The commit message:
+        let commitMsg = '';
 
----
-${commitMsgLines.join('\n')}
----
+        commitMsgLines.forEach((line) => {
+            commitMsg += `  > ${line}\n`;
+        });
 
-does not respect the conventions, namely:
+        console.error(`\n* The commit message${commit.sha ? ` (for ${commit.sha})`: ''}:
+
+${commitMsg}
+  does not respect the conventions, namely:
 `);
 
         issues.forEach((issue) => {
-            console.error(chalk.red(`* ${issue}`));
+            console.error(chalk.red(`  * ${issue}`));
         });
+
+
+        return false;
+    }
+
+    return true;
+};
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+const main = () => {
+    const commitMessagesAreValid = getCommitData().reduce((result, commit) => {
+        return checkCommit(commit) && result;
+    }, true);
+
+    if (!commitMessagesAreValid) {
+        console.log(`Please see the contribution guidelines for more details:\n${CONTRIBUTION_GUIDELINES_URL}`);
+
+        // Because the commit messages are not valid, to not
+        // complicate things (see: getCommitData), just remove
+        // the special file Git uses to store the commit message,
+        // if it exists.
+        //
+        // " If `git commit` exits due to an error before creating a
+        //   commit, any commit message that has been provided by the
+        //   user (e.g., in an editor session) will be available in
+        //   this file, but will be overwritten by the next invocation
+        //   of git commit. "
+        //
+        // From: https://git-scm.com/docs/git-commit#_files
+
+        if (shell.test('-f', COMMIT_MESSAGE_FILE)) {
+            shell.rm(COMMIT_MESSAGE_FILE);
+        }
 
         process.exit(1); // eslint-disable-line no-process-exit
     }
