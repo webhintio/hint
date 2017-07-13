@@ -238,7 +238,7 @@ const testsForDefaults: Array<RuleTest> = [
         reports: [{ message: generateIncorrectMediaTypeMessage('text/css', 'font/woff') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage('<link rel="stylesheet" href="test.css">')),
-            '/test.css': { headers: { 'Content-Type': 'font/woff' } }
+            '/test.css': { headers: { 'Content-Type': 'font/woff; charset=utf-8' } }
         }
     },
     {
