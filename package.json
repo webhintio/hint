@@ -68,7 +68,7 @@
     "@types/lockfile": "^0.4.29",
     "@types/lodash": "^4.14.65",
     "@types/mime-db": "^1.27.0",
-    "@types/mkdirp": "^0.3.29",
+    "@types/mkdirp": "^0.5.0",
     "@types/node": "^8.0.2",
     "@types/shelljs": "^0.7.2",
     "@types/sinon": "^2.3.1",
