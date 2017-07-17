@@ -163,7 +163,15 @@ const isExcludedCommit = (commit) => {
 
     // Releases are special cases, so they don't need to be checked.
 
-    if (/^v\d+\.\d+\.\d+/i.test(commit.message[0])) {
+    if (/^v\d+\.\d+\.\d+/i.test(commit.message)) {
+        return true;
+    }
+
+    // Pull requests will contain a commit with the message:
+    //
+    //     Merge <sha> into <sha>
+
+    if (/^Merge\s[a-zA-Z0-9]{40}\sinto\s[a-zA-Z0-9]{40}/i.test(commit.message)) {
         return true;
     }
 
