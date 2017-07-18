@@ -27,7 +27,7 @@ using the `X-Content-Type-Options: nosniff` HTTP response header.
 
 Note: [Most modern browsers only respect the header for `script`s and
 `style`s](https://fetch.spec.whatwg.org/#should-response-to-request-be-blocked-due-to-nosniff%3F)
-(see also [whatwg/fetch#395](https://github.com/whatwg/fetch/issues/395).
+(see also [whatwg/fetch#395](https://github.com/whatwg/fetch/issues/395)).
 
 Going back to the previous example, if the `X-Content-Type-Options: nosniff`
 header is sent for the script, if the browser detects that it's a script
