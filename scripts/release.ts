@@ -105,7 +105,7 @@ const createRelease = async (version: string, releaseBody: string) => {
         },
         json: true,
         method: 'POST',
-        url: 'https://api.github.com/repos/alrra/sonar/releases'
+        url: 'https://api.github.com/repos/sonarwhal/sonar/releases'
     });
 
     if (res.body.message) {
