@@ -65,10 +65,10 @@ const prettyPrintCommit = (commit: Commit): string => {
     });
 
     if (issues.length > 0) {
-        result = `${result} (see also: ${prettyPrintArray(issues)}).`;
+        result = `${result} (see also: ${prettyPrintArray(issues)})`;
     }
 
-    return result;
+    return `${result}.`;
 };
 
 const createRelease = async (version: string, releaseBody: string) => {
