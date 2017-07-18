@@ -23,7 +23,6 @@ matrix:
     # https://github.com/travis-ci/travis-ci/issues/7181
 
     - os: linux
-      dist: trusty
 
       addons:
         chrome: stable
