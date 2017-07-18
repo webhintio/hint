@@ -1,6 +1,7 @@
-# Disallow certain HTTP headers (`disallow-headers`)
+# Disallow certain HTTP headers (`no-disallowed-headers`)
 
-`disallow-headers` warns against responding with certain HTTP headers.
+`no-disallowed-headers` warns against responding with certain HTTP
+headers.
 
 ## Why is this important?
 
@@ -56,7 +57,7 @@ E.g. The following configuration will make the rule allow responses to
 be served with the `Server` HTTP header, but not with `Custom-Header`.
 
 ```json
-"disallowed-headers": [ "warning", {
+"no-disallowed-headers": [ "warning", {
     "ignore": ["Server"],
     "include": ["Custom-Header"]
 }]

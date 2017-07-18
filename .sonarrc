@@ -12,7 +12,6 @@
     "rules": {
         "axe": "warning",
         "content-type": "warning",
-        "disallowed-headers": "warning",
         "disown-opener": "warning",
         "highest-available-document-mode": "warning",
         "html-checker": "warning",
@@ -20,6 +19,7 @@
         "manifest-file-extension": "warning",
         "manifest-is-valid": "warning",
         "meta-charset-utf-8": "warning",
+        "no-disallowed-headers": "warning",
         "no-friendly-error-pages": "warning",
         "no-html-only-headers": "warning",
         "no-protocol-relative-urls": "warning",
