@@ -66,6 +66,10 @@ const testsForDefaults: Array<RuleTest> = [
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="test.html" target="_blank" rel="nofollow">test</a>`) }
     },
     {
+        name: `'a' with 'href="javascript:void(0)"' has 'target="_blank"'`,
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="javascript:void(0)" target="_blank">test</a>`) }
+    },
+    {
         name: `'a' with 'href="https://example.com"' has 'target="_blank"'`,
         reports: [{ message: generateMissingMessage('<a href="https://example.com" id="test" class="t … test4 test5 test5 test6" target="_blank">test</a>', ['noopener', 'noreferrer']) }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" id="test" class="test1 test2 test3 test4 test5 test5 test6" target="_blank">test</a>`) }

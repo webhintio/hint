@@ -80,6 +80,25 @@ const rule: IRuleBuilder = {
             return false;
         };
 
+        const hasRequiredProtocol = (element: IAsyncHTMLElement): boolean => {
+            const hrefValue: string = normalizeString(element.getAttribute('href'));
+            const protocol = url.parse(hrefValue).protocol;
+
+            // Ignore cases such as `javascript:void(0)`,
+            // `data:text/html,...`, `file://` etc.
+            //
+            // Note: `null` is when the protocol is not
+            // specified (e.g.: test.html).
+
+            if (![null, 'http:', 'https:'].includes(protocol)) {
+                debug(`Ignore protocol: ${protocol}`);
+
+                return false;
+            }
+
+            return true;
+        };
+
         const hasTargetBlank = (element: IAsyncHTMLElement): boolean => {
             if (normalizeString(element.getAttribute('target')) === '_blank') {
                 return true;
@@ -95,6 +114,7 @@ const rule: IRuleBuilder = {
 
             if (!hasTargetBlank(element) ||
                 !hasHrefValue(element) ||
+                !hasRequiredProtocol(element) ||
                 !checkSameOrigin(resource, element)) {
 
                 return;
