@@ -32,6 +32,9 @@ const NEW_GIT_COMMIT_MESSAGE = `
 # Fix #<issue>
 # Close #<issue>
 # ---
+#
+# For more information related to commit messages, please see:
+# https://sonarwhal.com/docs/developer-guide/contributing/pull-requests.html#commitmessages
 #`;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
