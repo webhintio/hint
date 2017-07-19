@@ -14,7 +14,7 @@ import { isSupported } from 'caniuse-api';
 import * as pluralize from 'pluralize';
 import * as sameOrigin from 'same-origin';
 
-import { cutString } from '../../utils/misc';
+import { cutString, isRegularProtocol } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
@@ -80,23 +80,10 @@ const rule: IRuleBuilder = {
             return false;
         };
 
-        const hasRequiredProtocol = (element: IAsyncHTMLElement): boolean => {
-            const hrefValue: string = normalizeString(element.getAttribute('href'));
-            const protocol = url.parse(hrefValue).protocol;
+        const elementHrefHasRequiredProtocol = (element: IAsyncHTMLElement): boolean => {
+            const hrefValue: string = element.getAttribute('href');
 
-            // Ignore cases such as `javascript:void(0)`,
-            // `data:text/html,...`, `file://` etc.
-            //
-            // Note: `null` is when the protocol is not
-            // specified (e.g.: test.html).
-
-            if (![null, 'http:', 'https:'].includes(protocol)) {
-                debug(`Ignore protocol: ${protocol}`);
-
-                return false;
-            }
-
-            return true;
+            return isRegularProtocol(hrefValue);
         };
 
         const hasTargetBlank = (element: IAsyncHTMLElement): boolean => {
@@ -114,7 +101,7 @@ const rule: IRuleBuilder = {
 
             if (!hasTargetBlank(element) ||
                 !hasHrefValue(element) ||
-                !hasRequiredProtocol(element) ||
+                !elementHrefHasRequiredProtocol(element) ||
                 !checkSameOrigin(resource, element)) {
 
                 return;

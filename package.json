@@ -46,6 +46,7 @@
     "path-is-inside": "^1.0.2",
     "pluralize": "^6.0.0",
     "request": "^2.79.0",
+    "request-promise": "^4.2.1",
     "require-uncached": "^1.0.3",
     "same-origin": "^0.1.1",
     "shelljs": "^0.7.6",
