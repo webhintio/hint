@@ -24,6 +24,7 @@
         "no-html-only-headers": "warning",
         "no-protocol-relative-urls": "warning",
         "ssllabs": "off",
-        "x-content-type-options": "warning"
+        "x-content-type-options": "warning",
+        "strict-transport-security": "warning"
     }
 }

@@ -7,6 +7,7 @@ import { promisify } from 'util';
 import * as stripBom from 'strip-bom';
 import * as requireUncached from 'require-uncached';
 import * as stripComments from 'strip-json-comments';
+import * as requestAsync from 'request-promise';
 
 import { IAsyncHTMLElement } from '../types'; // eslint-disable-line no-unused-vars
 import { debug as d } from './debug';
@@ -50,6 +51,11 @@ const isLocalFile = (resource: string): boolean => {
     return hasProtocol(resource, 'file:');
 };
 
+/** Convenience function to check if a resource is served over HTTPS. */
+const isHTTPS = (resource: string): boolean => {
+    return hasProtocol(resource, 'https:');
+};
+
 /** Remove whitespace from both ends of a string and lowercase it.
  *  If `defaultValue` is provided, it will return it if the return
  *  value would be `null`. */
@@ -59,6 +65,26 @@ const normalizeString = (value: string, defaultValue?: string): string => {
     }
 
     return value.toLowerCase().trim();
+};
+
+/** Convenience function to check if a uri's protocol is http/https if specified. */
+const isRegularProtocol = (uri: string): boolean => {
+    const normalizedUri = normalizeString(uri);
+    const protocol = url.parse(normalizedUri).protocol;
+
+    // Ignore cases such as `javascript:void(0)`,
+    // `data:text/html,...`, `file://` etc.
+    //
+    // Note: `null` is when the protocol is not
+    // specified (e.g.: test.html).
+
+    if (![null, 'http:', 'https:'].includes(protocol)) {
+        debug(`Ignore protocol: ${protocol}`);
+
+        return false;
+    }
+
+    return true;
 };
 
 /** Normalize String and then replace characters with delimiter */
@@ -76,6 +102,14 @@ const readFileAsync = async (filePath: string): Promise<string> => {
     const content: string = await promisify(fs.readFile)(filePath, 'utf8');
 
     return stripBom(content);
+};
+
+/** Request response in the json format from an endpoint */
+const requestJSONAsync = (uri: string) => {
+    return requestAsync({
+        json: true,
+        uri
+    });
 };
 
 /** Convenience wrapper for asynchronously write a file. */
@@ -147,12 +181,15 @@ export {
     findPackageRoot,
     hasAttributeWithValue,
     hasProtocol,
+    isRegularProtocol,
     isDataURI,
+    isHTTPS,
     isLocalFile,
     loadJSFile,
     loadJSONFile,
     normalizeString,
     readFile,
     readFileAsync,
+    requestJSONAsync,
     writeFileAsync
 };
