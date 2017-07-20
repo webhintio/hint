@@ -53,6 +53,8 @@ export class Connector implements IConnector {
     private _child: number;
     /** A set of requests done by the connector to retrieve initial information more easily. */
     private _requests: Map<string, any>;
+    /** Indicates if there has been an error loading the page (e.g.: it doesn't exists). */
+    private _errorWithPage: boolean = false;
     /** The parsed and original HTML. */
     private _html: string;
     /** The DOM abstraction on top of adapter. */
@@ -211,6 +213,25 @@ export class Connector implements IConnector {
 
     /** Event handler fired when HTTP request fails for some reason. */
     private async onLoadingFailed(params) {
+        const request = this._requests.get(params.requestId);
+
+        /* If `requestId` is not in `this._requests` it means that we already processed the request in `onResponseReceived`.
+            Usually `onLoadingFailed` should be fired before but we've had problems with this before. */
+        if (!request) {
+            debug(`requestId doesn't exist, skipping this error`);
+
+            return;
+        }
+
+        const requestUrl = request.request.url;
+
+        /* There is a problem loading the website and we should abort any further processing. */
+        if (requestUrl === this._href || requestUrl === this._finalHref) {
+            this._errorWithPage = true;
+
+            return;
+        }
+
         if (params.type === 'Manifest') {
             const { request: { url: resource } } = this._requests.get(params.requestId);
             const event: IManifestFetchError = {
@@ -223,16 +244,10 @@ export class Connector implements IConnector {
             return;
         }
 
+
         // DOM is not ready so we queue up the event for later
         if (!this._dom) {
             this._pendingResponseReceived.push(this.onLoadingFailed.bind(this, params));
-
-            return;
-        }
-
-        /* If `requestId` is not in `this._requests` it means that we already processed the request in `onResponseReceived` */
-        if (!this._requests.has(params.requestId)) {
-            debug(`requestId doesn't exist, skipping this error`);
 
             return;
         }
@@ -610,6 +625,10 @@ export class Connector implements IConnector {
 
             setTimeout(async () => {
                 try {
+                    if (this._errorWithPage) {
+                        return callback(new Error('Problem loading the website'));
+                    }
+
                     const dom = new AsyncHTMLDocument(DOM);
 
                     await dom.load();
