@@ -1,3 +1,15 @@
+# 0.3.0 (July 1, 2017)
+
+## Breaking Changes
+
+* [[`acfd196ed7`](https://github.com/sonarwhal/sonar/commit/acfd196ed708b4f40d08ea9c7063a6d60dd2f812)] - Breaking: Rename `disallowed-headers` rule.
+
+## Bug fixes / Improvements
+
+* [[`d55171d36e`](https://github.com/sonarwhal/sonar/commit/d55171d36e367c46b3d0ec2f791c7ec2d955bd52)] - Docs: Add missing `)` in x-content-type-options.md.
+* [[`28c782db16`](https://github.com/sonarwhal/sonar/commit/28c782db16ca6140a083fae76f143a05f595694e)] - Fix: Make `disown-opener` ignore certain protocols.
+
+
 # 0.2.0 (July 2, 2017)
 
 ## Breaking Changes
