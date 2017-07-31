@@ -11,6 +11,7 @@ const ruleTestDir = 'tests/lib/rules';
 const ruleDistScriptDir = `dist/${ruleScriptDir}`;
 
 const expectedScriptDir = 'tests/lib/cli/fixtures/new.txt';
+const expectedScriptHasQuotesDir = 'tests/lib/cli/fixtures/new-quotes.txt';
 const scriptTemplateDir = 'src/lib/cli/templates/rule-script-ts.hbs';
 const existingRuleName = 'Content Type';
 const normalizedExistingRuleName = 'content-type';
@@ -163,6 +164,34 @@ test.serial(`The right script template should be used in 'generate'`, async (t) 
     await rule.newRule();
 
     const expectedContent = await readFileAsync(expectedScriptDir);
+    const actualContent = t.context.writeFileAsync.args[0][1];
+
+    t.is(actualContent, expectedContent);
+
+    sandbox.restore();
+});
+
+test.serial(`Description contains quotes`, async (t) => {
+    const sandbox = sinon.sandbox.create();
+    const results = {
+        category: 'PWAs',
+        description: `This is a \`description\` that contains 'single quote' and "double qutoes"`,
+        elementType: '',
+        extension: 'ts',
+        isCore: true,
+        name: newRuleName,
+        useCase: 'request'
+    };
+
+    // load template
+    const scriptTemplate = await readFileAsync(scriptTemplateDir);
+
+    sandbox.stub(inquirer, 'prompt').resolves(results);
+    sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves(scriptTemplate);
+
+    await rule.newRule();
+
+    const expectedContent = await readFileAsync(expectedScriptHasQuotesDir);
     const actualContent = t.context.writeFileAsync.args[0][1];
 
     t.is(actualContent, expectedContent);
