@@ -1,5 +1,5 @@
 /**
- * @fileoverview An important new rule
+ * @fileoverview This is a \`description\` that contains 'single quote' and "double qutoes"
  */
 
 // The list of types depends on the events you want to capture.
@@ -35,7 +35,7 @@ const rule: IRuleBuilder = {
     meta: {
         docs: {
             category: `PWAs`,
-            description: `An important new rule`
+            description: `This is a \`description\` that contains 'single quote' and "double qutoes"`
         },
         fixable: 'code',
         recommended: true,
