@@ -29,7 +29,7 @@
 
 ## Security
 
-* [`disallowed-headers`](disallowed-headers.md)
+* [`disallowed-headers`](no-disallowed-headers.md)
 * [`disown-opener`](disown-opener.md)
 * [`no-protocol-relative-urls`](no-protocol-relative-urls.md)
 * [`ssllabs`](ssllabs.md)
