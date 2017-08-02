@@ -149,9 +149,9 @@ const getCommitData = () => {
 
         commitSHAsSinceLastRelease.forEach((sha) => {
             commits.push({
-                message: shell.exec(`git show --no-patch --format=%B ${sha}`).stdout,
+                message: shell.exec(`git show --no-patch --format=%B ${sha}`).stdout.trim(),
                 sha,
-                username: shell.exec(`git show --no-patch --format=%ae ${sha}`).stdout
+                username: shell.exec(`git show --no-patch --format=%an ${sha}`).stdout.trim()
             });
         });
     }
