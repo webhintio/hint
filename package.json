@@ -59,7 +59,7 @@
   "devDependencies": {
     "@types/chalk": "^0.4.31",
     "@types/content-type": "^1.1.0",
-    "@types/debug": "0.0.29",
+    "@types/debug": "0.0.30",
     "@types/file-type": "5.2.0",
     "@types/iconv-lite": "0.0.1",
     "@types/is-my-json-valid": "0.0.19",
