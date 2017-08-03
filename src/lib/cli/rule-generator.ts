@@ -60,7 +60,7 @@ export type NewRule = {
     /** Category of the new rule */
     category: string,
     /** Description of the new rule */
-    description: string,
+    description: hbs.SafeString,
     /** Element type if `dom` is selected in useCase */
     elementType?: string,
     /** Extension of the new rule file*/
@@ -71,6 +71,20 @@ export type NewRule = {
     isCore: boolean,
     /**  Usage categories that the new rule applies to */
     useCase: UseCase
+};
+
+/**
+ * Use `escapeSafeString` function instead of triple curly brace in the templates
+ * to escape the backticks (`) in the user's input.
+ * Example:
+ * ```
+ * description: `This is a \`important\` rule that has 'single' and "double" quotes.`
+ * ```
+ */
+const escapeSafeString = (str: string): hbs.SafeString => {
+    const result = str.replace(/(`)/g, '\\$1');
+
+    return new Handlebars.SafeString(result);
 };
 
 /** Loads a template from a `filePath` and interpolates the values with the given `data`. */
@@ -207,7 +221,7 @@ export const newRule = async (): Promise<void> => {
     // const fileTypes = ['ts', 'js'];
     const rule: NewRule = {
         category: '',
-        description: '',
+        description: { string: '' },
         elementType: '',
         events: '',
         extension: '',
@@ -317,7 +331,7 @@ export const newRule = async (): Promise<void> => {
     const currentRules: Array<string> = resourceLoader.getCoreRules();
 
     rule.name = normalize(results.name, '-');
-    rule.description = results.description;
+    rule.description = escapeSafeString(results.description);
     rule.category = results.category;
     rule.isCore = results.isCore || true;
     rule.extension = results.extension || 'ts';

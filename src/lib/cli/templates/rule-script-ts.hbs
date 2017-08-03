@@ -2,7 +2,6 @@
  * @fileoverview {{description}}
  */
 
-import * from '../../utils/rule-helpers';
 // The list of types depends on the events you want to capture.
 import { IRule, IRuleBuilder } from '../../types';
 import { RuleContext } from '../../rule-context';
@@ -70,8 +69,8 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: '{{category}}',
-            description: '{{description}}'
+            category: `{{category}}`,
+            description: `{{description}}`
         },
         fixable: 'code',
         recommended: {{isCore}},

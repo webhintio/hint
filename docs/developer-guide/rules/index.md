@@ -162,7 +162,7 @@ Similarly, you can also use CLI to remove an existing rule by using the
 flag `--remove-rule`:
 
 ```bash
-sonar --remove
+sonar --remove-rule
 ```
 
 You will be asked to type in the normalized name of the rule, and all
