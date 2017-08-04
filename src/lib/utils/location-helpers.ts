@@ -3,7 +3,11 @@ import { IAsyncHTMLAttribute, IAsyncHTMLElement, IProblemLocation } from './../t
 
 const debug: debug.IDebugger = d(__filename);
 
-const doubleQuotesRegex: RegExp = /"/g;
+const quotesRegex: RegExp = /('|")/g;
+
+const escapeQuotes = (text: string): string => {
+    return text.replace(quotesRegex, '\\$1');
+};
 
 /**
  * Creates a CSS selector from a given element using its attributes and the type of node:
@@ -19,7 +23,7 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
     for (let i = 0; i < attributes.length; i++) {
         const attribute: IAsyncHTMLAttribute | NamedNodeMap = attributes[i];
 
-        selector += `[${attribute.name}="${attribute.value.replace(doubleQuotesRegex, '\\"')}"]`;
+        selector += `[${attribute.name}="${escapeQuotes(attribute.value)}"]`;
     }
 
     debug(`Selector created: ${selector}`);

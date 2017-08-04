@@ -80,6 +80,11 @@ const testsForDefaults: Array<RuleTest> = [
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="//example.com" target="_blank">test</a>`) }
     },
     {
+        name: `'a' with 'href="//example.com"' has 'target="_blank"' and single quotes in some attribute`,
+        reports: [{ message: generateMissingMessage(`<a href="//example.com" target="_blank" mouseover="return 'hello!';">test</a>`, ['noopener', 'noreferrer']) }],
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="//example.com" target="_blank" mouseover="return 'hello!';">test</a>`) }
+    },
+    {
         name: `'map' href="//example.com" has 'target="_blank"'`,
         reports: [{ message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="//example.com" target="_blank" rel="nofollow">', ['noopener', 'noreferrer']) }],
         serverConfig: {
