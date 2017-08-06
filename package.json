@@ -100,7 +100,7 @@
     "ts-node": "^3.1.0",
     "typedoc": "^0.8.0",
     "typescript": "^2.4.1",
-    "typescript-eslint-parser": "^4.0.0"
+    "typescript-eslint-parser": "^5.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
