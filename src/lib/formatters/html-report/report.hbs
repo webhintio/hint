@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Sonar Report</title>
+    <style>
+        body {
+            font: 14px Consolas, Courier, monospace;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .highlight {
+            color: #111;
+            font-weight: bold;
+        }
+
+        .container.error {
+            background-color: #f99;
+        }
+
+        .container.warning {
+            background-color: #ff6;
+        }
+
+        .step {
+            margin: 10px;
+        }
+
+        .step .text {
+            border-radius: 3px;
+            color: #666;
+            padding: 5px;
+            display: block;
+        }
+
+        .container {
+            background: #f8f8f8;
+            border-radius: 5px;
+            border: 1px solid #e8e8e8;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<meta charset="utf-8">
+
+<body>
+    {{#each resources}}
+    <div class="feature container">
+        <h3 class="title"><span class="highlight">Resource: </span>{{resource}}</h3>
+        <p>Total Errors: {{totalErrors}}; Total Warnings: {{totalWarnings}}</p>
+        {{#each ruleIds}}
+        <div class="element container">
+            <h3 class="title"><span class="highlight">Rule: </span>
+                <a href="https://sonarwhal.com/docs/user-guide/rules/{{ruleId}}.html">
+                        {{ruleId}}
+                    </a>
+            </h3>
+            {{#each issues}}
+            <div class="container {{getSeverityClass severity}}">
+                {{#if location}}
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">Location</span>: line:{{location.line}};
+                        col:{{location.column}}
+                        </span>
+                    </p>
+                </div>
+                {{/if}}
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">message:</span>
+                        </span>
+                    </p>
+                    <div>
+                        {{message}}
+                    </div>
+                </div>
+                {{#if sourceCode}}
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">Source Code:</span>
+                        </span>
+                    </p>
+                    <div>
+                        {{sourceCode}}
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+    {{/each}}
+</body>
+
+</html>
