@@ -82,7 +82,6 @@
     "babel-preset-es2017": "^6.22.0",
     "babel-register": "^6.23.0",
     "cpx": "^1.5.0",
-    "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.3.0",
