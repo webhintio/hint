@@ -1,6 +1,7 @@
 *.lock
 *.log
 *.pid
+*.STALE
 .DS_Store
 /.nyc_output/
 /.vscode/
