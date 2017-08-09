@@ -36,10 +36,9 @@ const requestJSONAsyncMock = (responseObject) => {
                 response = responseObject.status;
             }
 
-            // TODO: Mock failed service when tests have access to port number.
-            // if (!response) {
-            //     return Promise.reject('Error with the verification service.');
-            // }
+            if (!response) {
+                return Promise.reject('Error with the verification service.');
+            }
 
             return Promise.resolve(response);
         }
@@ -81,9 +80,8 @@ const multipleincludeSubDomainsError = `'${stsHeader}' header contains more than
 const tooShortErrorDefault = generateTooShortError(defaultMinimum);
 const DelimiterwrongFormatError = `'${stsHeader}' header has the wrong format: max-age=31536000, includesubdomains`;
 const UnitwrongFormatError = `'${stsHeader}' header has the wrong format: max-age=31536000s`;
-// TODO: Mock failed service when tests have access to port number.
-// const statusServiceError = `Error with getting preload status for https://localhost:3000/`;
-// const preloadableServiceError = `Error with getting preload eligibility for https://localhost:3000/.`;
+const statusServiceError = `Error with getting preload status for https://localhost/.`;
+const preloadableServiceError = `Error with getting preload eligibility for https://localhost/.`;
 
 // override favicon headers so that it doesn't report in cdp
 const faviconHeaderMaxAgeOnly = { '/favicon.ico': { headers: { [stsHeader]: `max-age=${OkayMaxAge + 100}` } } };
@@ -98,7 +96,6 @@ const generateHTMLPageData = (content: string) => {
 const htmlPageWithScriptData = generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>'));
 const htmlPageWithManifestData = generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.webmanifest">'));
 
-// tests
 const defaultTests: Array<RuleTest> = [
     {
         name: `HTML page is served over HTTPS without 'Strict-Transport-Security' header specified`,
@@ -222,25 +219,23 @@ const configPreloadTets: Array<RuleTest> = [
         name: `The site is not on the preload list, and it isn't qualified to be enrolled`,
         serverConfig: Object.assign({}, faviconHeaderMaxAgeOnly, { '/': { headers: preloadHeader } }),
         reports: [{ message: notPreloadableError }]
+    },
+    {
+        before() {
+            requestJSONAsyncMock({ status: null, preloadable: hasErrors });
+        },
+        name: `Service error with the preload status endpoint`,
+        serverConfig: Object.assign({}, faviconHeaderMaxAgeOnly, { '/': { headers: preloadHeader } }),
+        reports: [{ message: statusServiceError }]
+    },
+    {
+        before() {
+            requestJSONAsyncMock({ status: unknown, preloadable: null });
+        },
+        name: `Service error with the preload eligibility endpoint`,
+        serverConfig: Object.assign({}, faviconHeaderMaxAgeOnly, { '/': { headers: preloadHeader } }),
+        reports: [{ message: preloadableServiceError }]
     }
-
-    // TODO: Mock failed service when tests have access to port number.
-    // {
-    //     before() {
-    //         requestJSONAsyncMock({ status: null, preloadable: hasErrors });
-    //     },
-    //     name: `Service error with the preload status endpoint`,
-    //     serverConfig: Object.assign({}, faviconHeaderMaxAgeOnly, { '/': { headers: preloadHeader } }),
-    //     reports: [{ message: statusServiceError }]
-    // },
-    // {
-    //     before() {
-    //         requestJSONAsyncMock({ status: unknown, preloadable: null });
-    //     },
-    //     name: `Service error with the preload eligibility endpoint`,
-    //     serverConfig: Object.assign({}, faviconHeaderMaxAgeOnly, { '/': { headers: preloadHeader } }),
-    //     reports: [{ message: preloadableServiceError }]
-    // }
 ];
 
 ruleRunner.testRule(ruleName, defaultTests, { https: true });

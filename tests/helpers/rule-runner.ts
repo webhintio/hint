@@ -82,7 +82,10 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
         }
 
         return reports.forEach((report, index) => {
-            t.is(results[index].message, report.message.replace(/http:\/\/localhost\//g, `http://localhost:${server.port}/`), `Different message`);
+            // Replace all scenarios: `http(s)://localhost/`, `http(s)://localhost:3000/`
+            const localhostRegex = /(http|https):\/\/localhost[:]*[0-9]*\//g;
+
+            t.is(results[index].message, report.message.replace(localhostRegex, `$1://localhost:${server.port}/`), `Different message`);
 
             if (report.position) {
                 t.is(results[index].location.column, report.position.column, `Different column`);
