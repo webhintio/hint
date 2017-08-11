@@ -7,7 +7,7 @@ and their corresponding values.
 ## Why is this important?
 
 Web security has been a crutial concern for the developers nowadays. Unlike
-[cross-site scripting(XSS)][XSS] and [SQL injection](SQL injection), the
+[cross-site scripting (XSS)][XSS] and [SQL injection](SQL injection), the
 exploit of insufficient protection over the transport layer can be harder to picture
 in practice. If a website accepts a connection through HTTP and then redirects to HTTPS,
 it opens up opportunites for a "man-in-the-middle" attack, when the redirect could be
@@ -137,7 +137,7 @@ E.g. The following configuration will enable the `preload` validation.
 * [The beginners guide to breaking website security with nothing more than a Pineapple][pineapple]
 * [Understanding HTTP Strict Transport Security(HSTS) and preloading it into the browser][understading HSTS]
 
-[XSS]: https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)
+[XSS]: https://www.owasp.org/index.php/Cross-site_Scripting_%28XSS%29
 [SQL injection]: https://www.owasp.org/index.php/SQL_Injection
 [HSTS wiki]: https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
 [HSTS cheat sheat]: https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
