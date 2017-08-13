@@ -18,7 +18,7 @@ import { CDPLauncher } from './cdp-launcher';
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
 class CDPConnector extends Connector {
-    constructor(server: Sonar, config: object, launcher: ILauncher) {
+    public constructor(server: Sonar, config: object, launcher: ILauncher) {
         super(server, config, launcher);
     }
 }

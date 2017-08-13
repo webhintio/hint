@@ -1,6 +1,6 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import { generateHTMLPage } from '../../../helpers/misc';
@@ -20,7 +20,7 @@ const html = {
     tabindex: generateHTMLPage(undefined, `<header>Header</header><a href="#skip" tabindex="4">Skip</a>`)
 };
 
-const tests: Array<RuleTest> = [
+const tests: Array<IRuleTest> = [
     {
         name: `Page doesn't have any a11y problems and passes`,
         serverConfig: html.noProblems
@@ -37,7 +37,7 @@ const tests: Array<RuleTest> = [
     }
 ];
 
-const testsWithCustomConfiguration: Array<RuleTest> = [
+const testsWithCustomConfiguration: Array<IRuleTest> = [
     {
         name: `Page doesn't have any a11y problems and passes`,
         serverConfig: html.noProblems

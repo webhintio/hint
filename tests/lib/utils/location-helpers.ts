@@ -38,7 +38,7 @@ const getElement = (markup: string) => {
 /** AVA Macro for findInElement */
 const findInElementMacro = async (t, info, expectedPosition) => {
     const element = getElement(info.markup);
-    const position = await findInElement(<IAsyncHTMLElement>element, info.content);
+    const position = await findInElement(element as IAsyncHTMLElement, info.content);
 
     t.deepEqual(position, expectedPosition);
 };

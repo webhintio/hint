@@ -73,7 +73,7 @@ const rule: IRuleBuilder = {
 
         const checkMetaTag = async (resource: string) => {
 
-            const pageDOM = <IAsyncHTMLDocument>context.pageDOM;
+            const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
             const XUACompatibleMetaTags: Array<IAsyncHTMLElement> = getXUACompatibleMetaTags(await pageDOM.querySelectorAll('meta'));
 
             // By default, if the user did not request the meta tag to

@@ -23,7 +23,7 @@ class Server {
     private _port: number = startPort;
     private _isHTTPS: boolean;
 
-    constructor(isHTTPS?: boolean) {
+    public constructor(isHTTPS?: boolean) {
         this._app = express();
         this._app.disable('x-powered-by');
         this._app.use((req, res, next) => {
@@ -53,7 +53,7 @@ class Server {
     };
 
     /** Applies the configuration for routes to the server. */
-    configure(configuration: ServerConfiguration) {
+    public configure(configuration: ServerConfiguration) {
         let customFavicon = false;
 
         if (typeof configuration === 'string') {
@@ -122,7 +122,7 @@ class Server {
     }
 
     /** Starts listening on the given port. */
-    start() {
+    public start() {
         return new Promise(async (resolve, reject) => {
             let options;
 
@@ -156,11 +156,11 @@ class Server {
     }
 
     /** Stops the server and frees the port. */
-    stop() {
+    public stop() {
         this._server.close();
     }
 
-    get port() {
+    public get port() {
         return this._port;
     }
 }

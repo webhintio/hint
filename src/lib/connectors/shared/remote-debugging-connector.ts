@@ -69,7 +69,7 @@ export class Connector implements IConnector {
     private _targetNetworkData: INetworkData;
     private launcher: ILauncher;
 
-    constructor(server: Sonar, config: object, launcher: ILauncher) {
+    public constructor(server: Sonar, config: object, launcher: ILauncher) {
         const defaultOptions = {
             loadCompleteRetryInterval: 250,
             maxLoadWaitTime: 30000,
@@ -786,15 +786,15 @@ export class Connector implements IConnector {
     // Getters
     // ------------------------------------------------------------------------------
 
-    get dom(): AsyncHTMLDocument {
+    public get dom(): AsyncHTMLDocument {
         return this._dom;
     }
 
-    get headers() {
+    public get headers() {
         return this._targetNetworkData.response.headers;
     }
 
-    get html(): Promise<string> {
+    public get html(): Promise<string> {
         return this._dom.pageHTML();
     }
 }

@@ -74,7 +74,7 @@ const rule: IRuleBuilder = {
             //
             // but for regular HTML, it should not be used.
 
-            const pageDOM: IAsyncHTMLDocument = <IAsyncHTMLDocument>context.pageDOM;
+            const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
             const charsetMetaTags: Array<IAsyncHTMLElement> = getCharsetMetaTags(await pageDOM.querySelectorAll('meta'));
 
             if (charsetMetaTags.length === 0) {

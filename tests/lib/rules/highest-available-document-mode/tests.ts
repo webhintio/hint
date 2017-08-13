@@ -2,7 +2,7 @@
 
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -13,7 +13,7 @@ const generateHTMLPageWithMetaTag = (metaTagValue: string = 'iE=eDgE') => {
     return generateHTMLPage(`<MEtA hTTp-EqUIv="X-Ua-CompATible" ConTenT="${metaTagValue}">`);
 };
 
-const testsForDefaults: Array<RuleTest> = [
+const testsForDefaults: Array<IRuleTest> = [
     {
         name: `HTML page is served without 'X-UA-Compatible' header`,
         reports: [{ message: `'x-ua-compatible' header was not specified` }],
@@ -40,7 +40,7 @@ const testsForDefaults: Array<RuleTest> = [
     }
 ];
 
-const testsForRequireMetaTagConfig: Array<RuleTest> = [
+const testsForRequireMetaTagConfig: Array<IRuleTest> = [
     {
         name: `'X-UA-Compatible' meta tag is not specified`,
         reports: [{ message: `No 'x-ua-compatible' meta tag was specified` }],
@@ -91,7 +91,7 @@ const testsForRequireMetaTagConfig: Array<RuleTest> = [
     }
 ];
 
-const testsForTargetBrowsersConfig: Array<RuleTest> = [
+const testsForTargetBrowsersConfig: Array<IRuleTest> = [
     {
         name: `HTML page is served with 'X-UA-Compatible' header but the targeted browsers don't support document modes`,
         reports: [{ message: `'x-ua-compatible' header is not needed` }],

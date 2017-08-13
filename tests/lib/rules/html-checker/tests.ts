@@ -2,7 +2,7 @@
 
 import * as mock from 'mock-require';
 
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 
@@ -87,7 +87,7 @@ const htmlCheckerMock = (response) => {
     mock('html-validator', mockedChecker);
 };
 
-const testsForDefaults: Array<RuleTest> = [
+const testsForDefaults: Array<IRuleTest> = [
     {
         name: 'No reports if HTML checker returns no messages',
         serverUrl: exampleUrl,
@@ -117,7 +117,7 @@ const testsForDefaults: Array<RuleTest> = [
     }
 ];
 
-const testsForIgnoreStringConfigs: Array<RuleTest> = [
+const testsForIgnoreStringConfigs: Array<IRuleTest> = [
     {
         name: 'Ignore selected message(string) from the report',
         serverUrl: exampleUrl,
@@ -134,7 +134,7 @@ const testsForIgnoreStringConfigs: Array<RuleTest> = [
     }
 ];
 
-const testsForIgnoreArrayConfigs: Array<RuleTest> = [
+const testsForIgnoreArrayConfigs: Array<IRuleTest> = [
     {
         name: 'Ignore selected messages(array) from the report',
         serverUrl: exampleUrl,
@@ -144,7 +144,7 @@ const testsForIgnoreArrayConfigs: Array<RuleTest> = [
     }
 ];
 
-const testsForValidatorConfig: Array<RuleTest> = [
+const testsForValidatorConfig: Array<IRuleTest> = [
     {
         name: 'Use configed validator service other than the default',
         serverUrl: exampleUrl,
@@ -161,7 +161,7 @@ const testsForValidatorConfig: Array<RuleTest> = [
     }
 ];
 
-const testsForErrors: Array<RuleTest> = [
+const testsForErrors: Array<IRuleTest> = [
     {
         name: 'Reports error when not able to get result from the HTML Checker',
         serverUrl: exampleUrl,

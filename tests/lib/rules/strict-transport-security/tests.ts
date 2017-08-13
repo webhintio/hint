@@ -1,7 +1,7 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 import * as mock from 'mock-require';
 
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
@@ -96,7 +96,7 @@ const generateHTMLPageData = (content: string) => {
 const htmlPageWithScriptData = generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>'));
 const htmlPageWithManifestData = generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.webmanifest">'));
 
-const defaultTests: Array<RuleTest> = [
+const defaultTests: Array<IRuleTest> = [
     {
         name: `HTML page is served over HTTPS without 'Strict-Transport-Security' header specified`,
         serverConfig: faviconHeaderMaxAgeOnly,
@@ -186,14 +186,14 @@ const defaultTests: Array<RuleTest> = [
     }
 ];
 
-const configMaxAgeTests: Array<RuleTest> = [{
+const configMaxAgeTests: Array<IRuleTest> = [{
     name: `Change the minimum max-age value`,
     // the max-age that passes before is now too short
     serverConfig: Object.assign({}, faviconHeaderMaxAgeOnly, { '/': { headers: maxAgeOnlyHeader } }),
     reports: [{ message: generateTooShortError(OkayMaxAge + 1) }]
 }];
 
-const configPreloadTets: Array<RuleTest> = [
+const configPreloadTets: Array<IRuleTest> = [
     {
         name: `The 'Strict-Transport-Security' header doesn't have 'preload' attribute`,
         serverConfig: Object.assign({}, faviconHeaderMaxAgeOnly, { '/': { headers: maxAgeOnlyHeader } })

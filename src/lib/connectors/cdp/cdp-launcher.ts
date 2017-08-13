@@ -22,7 +22,7 @@ import { BrowserInfo, LauncherOptions } from '../../types'; // eslint-disable-li
 
 
 export class CDPLauncher extends Launcher {
-    constructor(options: LauncherOptions) {
+    public constructor(options: LauncherOptions) {
         super(options);
     }
 

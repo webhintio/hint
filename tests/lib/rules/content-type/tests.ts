@@ -4,7 +4,7 @@ import * as fs from 'fs';
 
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -34,7 +34,7 @@ const generateHTMLPageData = (content: string) => {
     };
 };
 
-const testsForDefaults: Array<RuleTest> = [
+const testsForDefaults: Array<IRuleTest> = [
 
     // No `Content-Type` header.
 
@@ -282,7 +282,7 @@ const testsForDefaults: Array<RuleTest> = [
     }
 ];
 
-const testsForConfigs: Array<RuleTest> = [
+const testsForConfigs: Array<IRuleTest> = [
     {
         name: `Script is served with 'Content-Type' header with the correct media type but wrong because of the custom config`,
         reports: [{ message: generateRequireValueMessage('text/javascript') }],

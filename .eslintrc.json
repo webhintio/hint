@@ -252,6 +252,13 @@
         "wrap-regex": "error",
         "yoda": ["error", "never"],
 
-        "typescript/type-annotation-spacing": "error"
+        "typescript/explicit-member-accessibility": "error",
+        "typescript/interface-name-prefix": [ "error", "always" ],
+        "typescript/no-angle-bracket-type-assertion": "error",
+        "typescript/no-namespace": "error",
+        "typescript/no-triple-slash-reference": "error",
+        "typescript/no-unused-vars": "error",
+        "typescript/no-use-before-define": "error",
+        "typescript/prefer-namespace-keyword": "error"
     }
 }

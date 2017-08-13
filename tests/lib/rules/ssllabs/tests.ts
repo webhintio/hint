@@ -2,7 +2,7 @@
 
 import * as mock from 'mock-require';
 
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 
@@ -34,7 +34,7 @@ const results = {
     nohttps: { endpoints: [{ details: { protocols: [] } }] }
 };
 
-const testsForDefaults: Array<RuleTest> = [
+const testsForDefaults: Array<IRuleTest> = [
     {
         name: `Site with with A+ grade passes`,
         serverUrl: 'https://example.com',
@@ -59,7 +59,7 @@ const testsForDefaults: Array<RuleTest> = [
     }
 ];
 
-const testsForConfigs: Array<RuleTest> = [
+const testsForConfigs: Array<IRuleTest> = [
     {
         name: `Site with A+ grade passes with A+ minimum`,
         serverUrl: 'https://example.com',
@@ -88,7 +88,7 @@ const testsForConfigs: Array<RuleTest> = [
     }
 ];
 
-const testsForErrors: Array<RuleTest> = [
+const testsForErrors: Array<IRuleTest> = [
     {
         name: 'Issue gettings results from SSL Labs reports error',
         reports: [{ message: `Couldn't get results from SSL Labs for https://example.com/.` }],

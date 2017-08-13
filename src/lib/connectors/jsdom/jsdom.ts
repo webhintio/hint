@@ -78,7 +78,7 @@ class JSDOMConnector implements IConnector {
     private _window: Window;
     private _document: JSDOMAsyncHTMLDocument;
 
-    constructor(server: Sonar, config: object) {
+    public constructor(server: Sonar, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
         this._headers = this._options.headers;
         this._request = new Requester(this._options);
@@ -158,7 +158,7 @@ class JSDOMConnector implements IConnector {
 
         await this._server.emitAsync(eventName, event);
         for (let i = 0; i < element.children.length; i++) {
-            const child: HTMLElement = <HTMLElement>element.children[i];
+            const child: HTMLElement = element.children[i] as HTMLElement;
 
             debug('next children');
             const traverseDown: ITraverseDown = { resource: this._finalHref };
@@ -471,15 +471,15 @@ class JSDOMConnector implements IConnector {
     // Getters
     // ------------------------------------------------------------------------------
 
-    get dom(): JSDOMAsyncHTMLDocument {
+    public get dom(): JSDOMAsyncHTMLDocument {
         return this._document;
     }
 
-    get headers(): object {
+    public get headers(): object {
         return this._targetNetworkData.response.headers;
     }
 
-    get html(): Promise<string> {
+    public get html(): Promise<string> {
         return this._document.pageHTML();
     }
 }

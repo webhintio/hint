@@ -9,7 +9,7 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
     /** A map with all the nodes accessible using `nodeId` */
     private _nodes: Map<number, any> = new Map();
 
-    constructor(DOM) {
+    public constructor(DOM) {
         this._DOM = DOM;
     }
 
@@ -33,7 +33,7 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
     // Public methods
     // ------------------------------------------------------------------------------
 
-    async querySelectorAll(selector: string): Promise<Array<AsyncHTMLElement>> {
+    public async querySelectorAll(selector: string): Promise<Array<AsyncHTMLElement>> {
         let nodeIds;
 
         try {
@@ -43,17 +43,17 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
         }
 
         return nodeIds.map((nodeId) => {
-            return new AsyncHTMLElement(this._nodes.get(nodeId), this, this._DOM); // eslint-disable-line no-use-before-define
+            return new AsyncHTMLElement(this._nodes.get(nodeId), this, this._DOM); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
         });
     }
 
-    async pageHTML(): Promise<string> {
+    public async pageHTML(): Promise<string> {
         const { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._dom.nodeId });
 
         return outerHTML;
     }
 
-    async load() {
+    public async load() {
         const { root: dom } = await this._DOM.getDocument({ depth: -1 });
 
         this.trackNodes(dom);
@@ -64,7 +64,7 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
     // Getters
     // ------------------------------------------------------------------------------
 
-    get root() {
+    public get root() {
         return this._dom;
     }
 }
@@ -77,7 +77,7 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
     private _attributesArray: Array<{ name: string, value: string }> = [];
     private _attributesMap: Map<string, string> = new Map();
 
-    constructor(htmlelement, ownerDocument, DOM) {
+    public constructor(htmlelement, ownerDocument, DOM) {
         if (typeof htmlelement === 'number') {
             throw new Error();
         }
@@ -99,7 +99,7 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
     // Public methods
     // ------------------------------------------------------------------------------
 
-    getAttribute(name: string): string {
+    public getAttribute(name: string): string {
         if (this._attributesArray.length === 0) {
             this.initializeAttributes();
         }
@@ -109,11 +109,11 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
         return typeof value === 'string' ? value : null;
     }
 
-    isSame(element: AsyncHTMLElement): boolean {
+    public isSame(element: AsyncHTMLElement): boolean {
         return this._htmlelement.nodeId === element._htmlelement.nodeId;
     }
 
-    async outerHTML(): Promise<string> {
+    public async outerHTML(): Promise<string> {
         const { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._htmlelement.nodeId });
 
         return outerHTML;
@@ -123,24 +123,27 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
     // Getters
     // ------------------------------------------------------------------------------
 
-    get attributes() {
+    public get attributes() {
         if (this._attributesArray.length === 0) {
             this.initializeAttributes();
         }
 
         return this._attributesArray;
     }
-    get children() {
+
+    public get children() {
         if (this._htmlelement.children) {
             return this._htmlelement.children;
         }
 
         return [];
     }
-    get nodeName(): string {
+
+    public get nodeName(): string {
         return this._htmlelement.nodeName;
     }
-    get ownerDocument(): IAsyncHTMLDocument {
+
+    public get ownerDocument(): IAsyncHTMLDocument {
         return this._ownerDocument;
     }
 }

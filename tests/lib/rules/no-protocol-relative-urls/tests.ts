@@ -2,10 +2,10 @@
 
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
-const tests: Array<RuleTest> = [
+const tests: Array<IRuleTest> = [
     {
         name: `'link' with no initial slashes passes the rule`,
         serverConfig: generateHTMLPage('<link rel="manifest" href="site.webmanifest">')

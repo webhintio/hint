@@ -23,10 +23,10 @@ const lock = promisify(lockfile.lock);
 const unlock = promisify(lockfile.unlock);
 const debug: debug.IDebugger = d(__filename);
 
-
 // ------------------------------------------------------------------------------
 // Common
 // ------------------------------------------------------------------------------
+
 export abstract class Launcher implements ILauncher {
     private pidFile: string = path.join(process.cwd(), 'cdp.pid');
     protected port: number = 9222;

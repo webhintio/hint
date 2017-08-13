@@ -4,7 +4,7 @@ import * as pluralize from 'pluralize';
 
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -16,7 +16,7 @@ const generateMessage = (values: Array<string>): string => {
     return `'${values.join('\', \'')}' ${pluralize('header', values.length)} ${pluralize('is', values.length)} disallowed`;
 };
 
-const testsForDefaults: Array<RuleTest> = [
+const testsForDefaults: Array<IRuleTest> = [
     {
         name: `HTML page is served without any of the disallowed headers`,
         serverConfig: { '/': '' }
@@ -58,7 +58,7 @@ const testsForDefaults: Array<RuleTest> = [
     }
 ];
 
-const testsForIgnoreConfigs: Array<RuleTest> = [
+const testsForIgnoreConfigs: Array<IRuleTest> = [
     {
         name: `HTML page is served with disallowed headers that are ignored because of configs`,
         serverConfig: {
@@ -72,7 +72,7 @@ const testsForIgnoreConfigs: Array<RuleTest> = [
     }
 ];
 
-const testsForIncludeConfigs: Array<RuleTest> = [
+const testsForIncludeConfigs: Array<IRuleTest> = [
     {
         name: `HTML page is served with disallowed headers that are enforced because of configs`,
         reports: [{ message: generateMessage(['server', 'x-test-2']) }],
@@ -88,7 +88,7 @@ const testsForIncludeConfigs: Array<RuleTest> = [
     }
 ];
 
-const testsForConfigs: Array<RuleTest> = [
+const testsForConfigs: Array<IRuleTest> = [
     {
         name: `HTML page is served with disallowed headers that are both ignored and enforced because of configs`,
         reports: [{ message: generateMessage(['x-powered-by', 'x-test-1']) }],

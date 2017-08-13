@@ -4,7 +4,7 @@ import * as pluralize from 'pluralize';
 
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -14,7 +14,7 @@ const generateMessage = (values: Array<string>): string => {
     return `'${values.join('\', \'')}' ${pluralize('header', values.length)} ${pluralize('is', values.length)} not needed`;
 };
 
-const testsForDefaults: Array<RuleTest> = [
+const testsForDefaults: Array<IRuleTest> = [
     {
         name: `Non HTML resource is served without unneded headers`,
         serverConfig: {
@@ -120,7 +120,7 @@ const testsForDefaults: Array<RuleTest> = [
     }
 ];
 
-const testsForIgnoreConfigs: Array<RuleTest> = [
+const testsForIgnoreConfigs: Array<IRuleTest> = [
     {
         name: `Non HTML resource is served with one unneded headers but ignored because of configs`,
         serverConfig: {
@@ -143,7 +143,7 @@ const testsForIgnoreConfigs: Array<RuleTest> = [
     }
 ];
 
-const testsForIncludeConfigs: Array<RuleTest> = [
+const testsForIncludeConfigs: Array<IRuleTest> = [
     {
         name: `Non HTML resource is served with unneded headers because of configs`,
         reports: [{ message: generateMessage(['content-security-policy', 'x-test-1', 'x-ua-compatible']) }],
@@ -169,7 +169,7 @@ const testsForIncludeConfigs: Array<RuleTest> = [
     }
 ];
 
-const testsForConfigs: Array<RuleTest> = [
+const testsForConfigs: Array<IRuleTest> = [
     {
         name: `Non HTML resource is served with unneded headers that are both ignored and enforced because of configs`,
         reports: [{ message: generateMessage(['content-security-policy', 'x-test-1', 'x-ua-compatible']) }],

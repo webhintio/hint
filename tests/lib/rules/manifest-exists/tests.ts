@@ -2,12 +2,12 @@
 
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
 const htmlWithManifestSpecified = generateHTMLPage(`<link rel="manifest" href="site.webmanifest">`);
 
-const tests: Array<RuleTest> = [
+const tests: Array<IRuleTest> = [
     {
         name: `Web app manifest is not specified`,
         reports: [{ message: 'Web app manifest not specified' }],

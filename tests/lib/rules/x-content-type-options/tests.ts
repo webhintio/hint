@@ -2,7 +2,7 @@
 
 import { generateHTMLPage } from '../../../helpers/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from '../../../helpers/rule-runner';
 
 // Error messages.
@@ -26,7 +26,7 @@ const htmlPageWithManifestData = generateHTMLPageData(generateHTMLPage('<link re
 
 // Tests.
 
-const tests: Array<RuleTest> = [
+const tests: Array<IRuleTest> = [
     {
         name: `HTML page is served without 'X-Content-Type-Options' header`,
         reports: [{ message: noHeaderMessage }],

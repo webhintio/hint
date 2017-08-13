@@ -4,7 +4,7 @@ import { IAsyncHTMLDocument, IAsyncHTMLElement } from '../../types'; //eslint-di
 export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
     private _document: HTMLDocument
 
-    constructor(document: HTMLDocument) {
+    public constructor(document: HTMLDocument) {
         this._document = document;
     }
 
@@ -12,16 +12,16 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
     // Public methods
     // ------------------------------------------------------------------------------
 
-    querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {
         const elements = Array.prototype.slice.call(this._document.querySelectorAll(selector))
             .map((element) => {
-                return new JSDOMAsyncHTMLElement(element); // eslint-disable-line no-use-before-define
+                return new JSDOMAsyncHTMLElement(element); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
             });
 
         return Promise.resolve(elements);
     }
 
-    pageHTML(): Promise<string> {
+    public pageHTML(): Promise<string> {
         return Promise.resolve(this._document.children[0].outerHTML);
     }
 }
@@ -31,7 +31,7 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
     protected _htmlelement: HTMLElement;
     private _ownerDocument: IAsyncHTMLDocument;
 
-    constructor(htmlelement: HTMLElement) {
+    public constructor(htmlelement: HTMLElement) {
         this._htmlelement = htmlelement;
         this._ownerDocument = new JSDOMAsyncHTMLDocument(htmlelement.ownerDocument);
     }
@@ -40,15 +40,15 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
     // Public methods
     // ------------------------------------------------------------------------------
 
-    getAttribute(name: string): string {
+    public getAttribute(name: string): string {
         return this._htmlelement.getAttribute(name);
     }
 
-    isSame(element: JSDOMAsyncHTMLElement): boolean {
+    public isSame(element: JSDOMAsyncHTMLElement): boolean {
         return this._htmlelement === element._htmlelement;
     }
 
-    outerHTML(): Promise<string> {
+    public outerHTML(): Promise<string> {
         return Promise.resolve(this._htmlelement.outerHTML);
     }
 
@@ -56,15 +56,15 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
     // Getters
     // ------------------------------------------------------------------------------
 
-    get attributes(): NamedNodeMap {
+    public get attributes(): NamedNodeMap {
         return this._htmlelement.attributes;
     }
 
-    get nodeName(): string {
+    public get nodeName(): string {
         return this._htmlelement.nodeName;
     }
 
-    get ownerDocument(): IAsyncHTMLDocument {
+    public get ownerDocument(): IAsyncHTMLDocument {
         return this._ownerDocument;
     }
 }

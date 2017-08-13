@@ -18,7 +18,7 @@ export class RuleContext {
     private severity: Severity
     private sonar: Sonar
 
-    constructor(ruleId: string, sonar: Sonar, severity: Severity | string, options, meta: IRuleMetadata) {
+    public constructor(ruleId: string, sonar: Sonar, severity: Severity | string, options, meta: IRuleMetadata) {
 
         this.id = ruleId;
         this.options = options;
@@ -31,27 +31,27 @@ export class RuleContext {
     }
 
     /** The DOM of the page. */
-    get pageDOM() {
+    public get pageDOM() {
         return this.sonar.pageDOM;
     }
 
     /** The original HTML of the page. */
-    get pageContent() {
+    public get pageContent() {
         return this.sonar.pageContent;
     }
 
     /** The headers of the response when retrieving the HTML. */
-    get pageHeaders() {
+    public get pageHeaders() {
         return this.sonar.pageHeaders;
     }
 
     /** List of browsers to target as specified by the sonar configuration. */
-    get targetedBrowsers(): Array<string> {
+    public get targetedBrowsers(): Array<string> {
         return this.sonar.targetedBrowsers;
     }
 
     /** Custom configuration (if any) for the given rule */
-    get ruleOptions() {
+    public get ruleOptions() {
         if (Array.isArray(this.options)) {
             return this.options[1];
         }

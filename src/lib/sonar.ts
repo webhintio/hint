@@ -40,23 +40,23 @@ export class Sonar extends EventEmitter {
     private ignoredUrls: Map<string, Array<RegExp>>;
     private _formatter: string
 
-    get pageDOM(): object {
+    public get pageDOM(): object {
         return this.connector.dom;
     }
 
-    get pageContent(): Promise<string> {
+    public get pageContent(): Promise<string> {
         return this.connector.html;
     }
 
-    get pageHeaders(): object {
+    public get pageHeaders(): object {
         return this.connector.headers;
     }
 
-    get targetedBrowsers(): Array<string> {
+    public get targetedBrowsers(): Array<string> {
         return this.browsersList;
     }
 
-    get formatter(): string {
+    public get formatter(): string {
         return this._formatter;
     }
 
@@ -70,7 +70,7 @@ export class Sonar extends EventEmitter {
         });
     }
 
-    constructor(config: IConfig) {
+    public constructor(config: IConfig) {
         super({
             delimiter: '::',
             maxListeners: 0,
@@ -268,7 +268,7 @@ export class Sonar extends EventEmitter {
         return this.connector.querySelectorAll(selector);
     }
 
-    emitAsync(event: string | Array<string>, ...values: Array<any>): Promise<Array<any>> {
+    public emitAsync(event: string | Array<string>, ...values: Array<any>): Promise<Array<any>> {
         const ignoredUrls: Array<RegExp> = this.ignoredUrls.get('all');
 
         if (this.isIgnored(ignoredUrls, values[0].resource)) {

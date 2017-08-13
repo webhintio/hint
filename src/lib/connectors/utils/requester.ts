@@ -45,7 +45,7 @@ export class Requester {
     /** Maximum number of redirects */
     private _maxRedirects: number = 10;
 
-    constructor(customOptions?: { [key: string]: any }) {
+    public constructor(customOptions?: { [key: string]: any }) {
         if (customOptions) {
             customOptions.followRedirect = false;
             this._maxRedirects = customOptions.maxRedirects || this._maxRedirects;

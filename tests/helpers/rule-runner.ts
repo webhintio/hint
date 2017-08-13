@@ -11,11 +11,11 @@ import { ids as connectors } from './connectors';
 import { createServer } from './test-server';
 import { IConfig, IElementFound, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
-import { RuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
 import { Sonar } from '../../src/lib/sonar';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
-export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { [key: string]: any } = {}) => {
+export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: { [key: string]: any } = {}) => {
 
     /** Creates a valid sonar configuration. Eventually we should
      * test all available connectors and not only JSDOM */
@@ -96,7 +96,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
 
     /** Creates a new connector with just the rule to be tested and executing
      * any required `before` task as indicated by `ruleTest`. */
-    const createConnector = async (t, ruleTest: RuleTest, connector: string, attemp: number): Promise<Sonar> => {
+    const createConnector = async (t, ruleTest: IRuleTest, connector: string, attemp: number): Promise<Sonar> => {
         const { server } = t.context;
         const { serverConfig } = ruleTest;
 
@@ -116,7 +116,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
 
     /** Stops a connector executing any required `after` task as indicated by
      * `ruleTest`. */
-    const stopConnector = async (ruleTest: RuleTest, connector): Promise<void> => {
+    const stopConnector = async (ruleTest: IRuleTest, connector): Promise<void> => {
         if (ruleTest.after) {
             await ruleTest.after();
         }
@@ -125,7 +125,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
     };
 
     /** Runs a test for the rule being tested */
-    const runRule = (t, ruleTest: RuleTest, connector: string) => {
+    const runRule = (t, ruleTest: IRuleTest, connector: string) => {
         return retry(async (bail, attemp) => {
             if (attemp > 1) {
                 console.log(`[${connector}]${ruleTest.name} - try ${attemp}`);

@@ -163,7 +163,7 @@ test(`Requester follows all hops, reports the right number and returns the final
 
     server.configure(hopsServerConfig);
 
-    const { response } = await <INetworkData>requester.get(`http://localhost:${server.port}/hop301`);
+    const { response } = await requester.get(`http://localhost:${server.port}/hop301`) as INetworkData;
 
     t.is(response.hops.length, Object.keys(hopsServerConfig).length - 1);
     t.is(response.body.content, hopsServerConfig['/']);
