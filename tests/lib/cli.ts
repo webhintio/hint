@@ -1,4 +1,5 @@
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
+import * as chalk from 'chalk';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
@@ -35,13 +36,23 @@ const ora = () => {
     return spinner;
 };
 
+const stubbedNotifier = {
+    notify() { },
+    update: {}
+};
+
+const updateNotifier = () => {
+    return stubbedNotifier;
+};
+
 proxyquire('../../src/lib/cli', {
     './cli/sonarrc-generator': generator,
     './config': config,
     './sonar': { Sonar },
     './utils/logging': logger,
     './utils/resource-loader': resourceLoader,
-    ora
+    ora,
+    'update-notifier': updateNotifier
 });
 
 import * as cli from '../../src/lib/cli';
@@ -53,6 +64,7 @@ test.beforeEach((t) => {
     sinon.spy(config, 'getFilenameForDirectory');
     sinon.spy(config, 'load');
     sinon.stub(generator, 'initSonarrc').resolves();
+    sinon.stub(stubbedNotifier, 'notify').resolves();
     sinon.spy(spinner, 'start');
     sinon.spy(spinner, 'fail');
     sinon.spy(spinner, 'succeed');
@@ -61,6 +73,7 @@ test.beforeEach((t) => {
     t.context.generator = generator;
     t.context.logger = logger;
     t.context.spinner = spinner;
+    t.context.notifier = stubbedNotifier;
 });
 
 test.afterEach.always((t) => {
@@ -72,6 +85,7 @@ test.afterEach.always((t) => {
     t.context.spinner.start.restore();
     t.context.spinner.fail.restore();
     t.context.spinner.succeed.restore();
+    t.context.notifier.notify.restore();
 });
 
 test.serial('if version option is defined, it should print the current version and return with exit code 0', async (t) => {
@@ -236,4 +250,31 @@ test.serial('Event scann::end should write a message in the spinner', async (t) 
     t.is(spinner.text, 'Finishing...');
 
     (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+});
+
+test.serial('User should be notified if there is a new version of sonar', async (t) => {
+    const newUpdate = {
+        current: '0.2.0',
+        latest: '0.3.0',
+        name: '@sonarwhal/sonar',
+        type: 'minor'
+    };
+
+    const expectedMessage = `Update available ${chalk.red(newUpdate.current)}${chalk.reset(' → ')}${chalk.green(newUpdate.latest)}
+See ${chalk.cyan('https://sonarwhal.com/about/changelog.html')} for details`;
+
+    t.context.notifier.update = newUpdate;
+
+    await cli.execute('http://localhost/');
+
+    t.true(t.context.notifier.notify.calledOnce);
+    t.is(t.context.notifier.notify.args[0][0].message, expectedMessage);
+});
+
+test.serial(`User shouldn't be notified if the current version is up to date`, async (t) => {
+    t.context.notifier.update = null;
+
+    await cli.execute('http://localhost/');
+
+    t.is(t.context.notifier.notify.callCount, 0);
 });
