@@ -45,12 +45,15 @@ const updateNotifier = () => {
     return stubbedNotifier;
 };
 
+const inquirer = { prompt() { } };
+
 proxyquire('../../src/lib/cli', {
     './cli/sonarrc-generator': generator,
     './config': config,
     './sonar': { Sonar },
     './utils/logging': logger,
     './utils/resource-loader': resourceLoader,
+    inquirer,
     ora,
     'update-notifier': updateNotifier
 });
@@ -68,12 +71,14 @@ test.beforeEach((t) => {
     sinon.spy(spinner, 'start');
     sinon.spy(spinner, 'fail');
     sinon.spy(spinner, 'succeed');
+    sinon.spy(inquirer, 'prompt');
 
     t.context.config = config;
     t.context.generator = generator;
     t.context.logger = logger;
     t.context.spinner = spinner;
     t.context.notifier = stubbedNotifier;
+    t.context.inquirer = inquirer;
 });
 
 test.afterEach.always((t) => {
@@ -86,6 +91,7 @@ test.afterEach.always((t) => {
     t.context.spinner.fail.restore();
     t.context.spinner.succeed.restore();
     t.context.notifier.notify.restore();
+    t.context.inquirer.prompt.restore();
 });
 
 test.serial('if version option is defined, it should print the current version and return with exit code 0', async (t) => {
@@ -115,6 +121,45 @@ test.serial('if config is not defined, it should get the config file from the di
     await cli.execute('http://localhost/');
 
     t.true(t.context.config.getFilenameForDirectory.called);
+});
+
+test.serial('If config file does not exist, it should create a configuration file if user agrees', async (t) => {
+    const error = { message: `Couldn't find any valid configuration` };
+
+    t.context.config.load.restore();
+    t.context.inquirer.prompt.restore();
+
+    sinon.stub(t.context.config, 'load')
+        .onFirstCall()
+        .throws(error)
+        .onSecondCall()
+        .returns({});
+    sinon.stub(inquirer, 'prompt').resolves({ confirm: true });
+
+    await cli.execute('http://localhost/');
+
+    t.true(t.context.inquirer.prompt.calledOnce);
+    t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
+    t.true(t.context.generator.initSonarrc.calledOnce);
+});
+
+test.serial('If config file does not exist and user refuses to create a configuration file, it should exit with code 1', async (t) => {
+    const error = { message: `Couldn't find any valid configuration` };
+
+    t.context.config.load.restore();
+    t.context.inquirer.prompt.restore();
+
+    sinon.stub(t.context.config, 'load')
+        .onFirstCall()
+        .throws(error);
+    sinon.stub(inquirer, 'prompt').resolves({ confirm: false });
+
+    const exitCode = await cli.execute('http://localhost/');
+
+    t.true(t.context.inquirer.prompt.calledOnce);
+    t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
+    t.false(t.context.generator.initSonarrc.called);
+    t.is(exitCode, 1);
 });
 
 test.serial('if configuration file exists, it should use it', async (t) => {
