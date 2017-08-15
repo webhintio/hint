@@ -11,6 +11,7 @@ const ruleName = getRuleName(__dirname);
 
 const pngFileContent = fs.readFileSync(`${__dirname}/fixtures/image.png`); // eslint-disable-line no-sync
 const svgFileContent = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M1,1"/></svg>';
+// const woff2FileContent = fs.readFileSync(`${__dirname}/fixtures/test.woff2`);
 
 const incorrectCharsetMessage = `'content-type' header should have 'charset=utf-8' (not 'iso-8859-1')`;
 const invalidMediaTypeMessage = `'content-type' header value is invalid (invalid media type)`;
@@ -145,6 +146,30 @@ const testsForDefaults: Array<IRuleTest> = [
 
     // `Content-Type` value contain wrong `media type`.
 
+    // TODO: Enable if `jsdom` supports downloading fonts, or #250 is implemented.
+    // {
+    //     name: `WOFF2 font is served with 'Content-Type' header with the wrong media type`,
+    //     reports: [{ message: generateIncorrectMediaTypeMessage('font/woff2', 'application/font-woff2') }],
+    //     serverConfig: {
+    //         '/': generateHTMLPageData(generateHTMLPage(`
+    //             <style>
+    //                 @font-face {
+    //                     font-family: 'Open Sans';
+    //                     font-style: normal;
+    //                     font-weight: 400;
+    //                     src: local('Open Sans Regular'), local('OpenSans-Regular'), url(test.woff2) format('woff2');
+    //                 }
+    //
+    //                 body {
+    //                     font-family: 'Open Sans';
+    //                 }
+    //             </style>`, 'a')),
+    //         '/test.woff2': {
+    //             content: woff2FileContent,
+    //             headers: { 'Content-Type': 'application/font-woff2' }
+    //         }
+    //     }
+    // },
     {
         name: `Image is served with 'Content-Type' header with the wrong media type`,
         reports: [{ message: generateIncorrectMediaTypeMessage('image/png', 'font/woff') }],
