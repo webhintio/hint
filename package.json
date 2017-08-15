@@ -23,7 +23,7 @@
     "debug": "^3.0.0",
     "eslint": "^4.0.0",
     "eventemitter2": "^4.1.0",
-    "file-type": "^5.0.0",
+    "file-type": "^6.1.0",
     "file-url": "^2.0.2",
     "globby": "^6.1.0",
     "handlebars": "^4.0.10",
