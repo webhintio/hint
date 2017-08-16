@@ -226,7 +226,7 @@ class JSDOMConnector implements IConnector {
      * * uses `favicon.ico` and the final url after redirects.
      */
     private async getFavicon(element?: HTMLElement) {
-        const href = element ? element.getAttribute('href') : '/favicon.ico';
+        const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
             await util.promisify(this.resourceLoader).call(this, { element, url: url.parse(href) });
