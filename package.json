@@ -17,7 +17,7 @@
     "caniuse-api": "^2.0.0",
     "canvas-prebuilt": "^1.6.0-canvas.5",
     "chalk": "^2.0.0",
-    "chrome-launcher": "^0.5.0",
+    "chrome-launcher": "^0.6.0",
     "chrome-remote-interface": "^0.24.0",
     "content-type": "^1.0.2",
     "debug": "^3.0.0",
