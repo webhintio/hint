@@ -18,6 +18,7 @@ import * as path from 'path';
 import * as chalk from 'chalk';
 import * as ora from 'ora';
 import * as updateNotifier from 'update-notifier';
+import * as inquirer from 'inquirer';
 
 import * as Config from './config';
 import { debug as d } from './utils/debug';
@@ -79,6 +80,41 @@ const notifyNewVersion = (update: updateNotifier.UpdateInfo) => {
     notifier.notify({ message });
 };
 
+const confirmLaunchInit = () => {
+    debug(`Initiating launch init confirm.`);
+
+    const question: Array<object> = [{
+        message: `A valid configuration file can't be found. Do you want to create a new one?`,
+        name: 'confirm',
+        type: 'confirm'
+    }];
+
+    return inquirer.prompt(question);
+};
+
+const loadOrCreateIfNotExits = async () => {
+    let config: IConfig;
+    let configPath: string;
+
+    try {
+        configPath = Config.getFilenameForDirectory(process.cwd());
+        debug(`Loading configuration file from ${configPath}.`);
+        config = Config.load(configPath);
+    } catch (err) {
+        // The config file doesn't exist, launch `init` if user permits.
+        const launchInit: { confirm: boolean } = await confirmLaunchInit();
+
+        if (launchInit.confirm) {
+            await initSonarrc();
+            logger.log(`Configuration file .sonarrc was created.`);
+
+            return loadOrCreateIfNotExits();
+        }
+    }
+
+    return config;
+};
+
 // ------------------------------------------------------------------------------
 // Public
 // ------------------------------------------------------------------------------
@@ -135,15 +171,20 @@ export const execute = async (args: string | Array<string> | Object): Promise<nu
         return 0;
     }
 
-    let configPath: string;
+    let config: IConfig;
+    const configPathFromInput: string = currentOptions.config;
 
-    if (!currentOptions.config) {
-        configPath = Config.getFilenameForDirectory(process.cwd());
+    if (configPathFromInput) {
+        config = Config.load(configPathFromInput);
     } else {
-        configPath = currentOptions.config;
+        config = await loadOrCreateIfNotExits();
     }
 
-    const config: IConfig = Config.load(configPath);
+    if (!config) {
+        logger.log(`Unable to find a valid configuration file. Please add a .sonarrc file by running 'sonar --init'. `);
+
+        return 1;
+    }
 
     sonar = new Sonar(config);
     const start: number = Date.now();
