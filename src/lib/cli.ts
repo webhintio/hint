@@ -15,7 +15,9 @@
 
 import * as path from 'path';
 
+import * as chalk from 'chalk';
 import * as ora from 'ora';
+import * as updateNotifier from 'update-notifier';
 
 import * as Config from './config';
 import { debug as d } from './utils/debug';
@@ -33,6 +35,12 @@ import { Sonar } from './sonar';
 
 const debug: debug.IDebugger = d(__filename);
 const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
+// Fetch and persist comparison result in the background.
+// Check interval is set as one day by default.
+// To test immediately, set `updateCheckInterval` to 0 and pass it in as a param to `updateNotifier`.
+// Comparison result is loaded on the FIRST initiation, but users won't be notified until the SECOND time it runs.
+// Reference:https://github.com/yeoman/update-notifier#how
+const notifier = updateNotifier({ pkg });
 
 const messages = {
     'fetch::end': '%url% downloaded',
@@ -61,6 +69,16 @@ const setUpUserFeedback = (sonarInstance: Sonar, spinner: IORA) => {
     });
 };
 
+const notifyNewVersion = (update: updateNotifier.UpdateInfo) => {
+    const changelogUrl: string = `https://sonarwhal.com/about/changelog.html`;
+    // No indentation due to the use of `\` to avoid new line.
+    // https://stackoverflow.com/a/35428171
+    const message: string = `Update available ${chalk.red(update.current)}${chalk.reset(' → ')}${chalk.green(update.latest)}\
+\nSee ${chalk.cyan(changelogUrl)} for details`;
+
+    notifier.notify({ message });
+};
+
 // ------------------------------------------------------------------------------
 // Public
 // ------------------------------------------------------------------------------
@@ -84,6 +102,13 @@ export const execute = async (args: string | Array<string> | Object): Promise<nu
         logger.log(`v${pkg.version}`);
 
         return 0;
+    }
+
+    // Notify user if the current version of sonar is not up to date.
+    const update: updateNotifier.UpdateInfo = notifier.update;
+
+    if (update) {
+        notifyNewVersion(update);
     }
 
     if (currentOptions.init) {

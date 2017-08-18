@@ -53,6 +53,7 @@
     "strip-bom": "^3.0.0",
     "strip-json-comments": "^2.0.1",
     "text-table": "^0.2.0",
+    "update-notifier": "^2.2.0",
     "user-home": "^2.0.0",
     "which": "^1.2.14"
   },
@@ -73,6 +74,7 @@
     "@types/node": "^8.0.14",
     "@types/shelljs": "^0.7.2",
     "@types/sinon": "^2.3.1",
+    "@types/update-notifier": "^1.0.1",
     "@types/user-home": "^2.0.0",
     "@types/which": "^1.0.28",
     "async-retry": "^1.1.0",
