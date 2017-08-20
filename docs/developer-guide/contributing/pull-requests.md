@@ -27,7 +27,7 @@ no need to create an issue, and you can just make the pull request.
 If you'd like to work on a pull request, and you've never submitted
 code before, follow these steps:
 
-1. Sign our [Contributor License Agreement](https://cla.js.foundation/sonarwhal/sonar).
+1. Sign our [Contributor License Agreement][cla].
 2. Set up a [development environment](../development-environment.md).
 
 After that, you're ready to start working on code.
@@ -223,8 +223,8 @@ git push -f origin fix-1234
 <!-- markdownlint-enable MD033 -->
 
 Now you're ready to send the pull request. Go to your `sonar` fork
-and then follow the [GitHub documentation](https://help.github.com/articles/creating-a-pull-request)
-on how to send a pull request.
+and then follow the [GitHub documentation][github pr docs] on how to
+send a pull request.
 
 ## Following Up
 
@@ -232,7 +232,7 @@ Once your pull request is sent, it's time for the team to review it.
 As such, please make sure to:
 
 1. Monitor the [status of the Travis CI build for your pull
-   request](https://travis-ci.org/sonarwhal/sonar/pull_requests)
+   request][travis pr status].
    If it fails, please investigate why. We cannot merge pull requests
    that fail Travis for any reason.
 2. Respond to comments left on the pull request from team members.
@@ -294,9 +294,16 @@ git rebase upstream/master
 ```
 
 You might find that there are merge conflicts when you attempt to
-rebase. Please [resolve the conflicts](https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/)
+rebase. Please [resolve the conflicts][github resolve conflicts docs]
 and then do a forced push to your branch:
 
 ```bash
 git push -f origin fix-1234
 ```
+
+<!-- Link labels: -->
+
+[cla]: https://cla.js.foundation/sonarwhal/sonar
+[github pr docs]: https://help.github.com/articles/creating-a-pull-request
+[github resolve conflicts docs]: https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/
+[travis pr status]: https://travis-ci.org/sonarwhal/sonar/pull_requests

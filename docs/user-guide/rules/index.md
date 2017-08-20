@@ -33,5 +33,5 @@
 * [`disown-opener`](disown-opener.md)
 * [`no-protocol-relative-urls`](no-protocol-relative-urls.md)
 * [`ssllabs`](ssllabs.md)
-* [`x-content-type-options`](x-content-type-options.md)
 * [`strict-transport-security`](strict-transport-security.md)
+* [`x-content-type-options`](x-content-type-options.md)

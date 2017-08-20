@@ -6,18 +6,17 @@ the appropriate media type and charset for the response.
 
 ## Why is this important?
 
-Even thought browsers sometimes [ignore](https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Configuring_server_MIME_types)
-the value of the `Content-Type` header and try to [sniff the content](https://mimesniff.spec.whatwg.org/),
-it's indicated to always send the appropriate media type and charset
-for the response as, among other:
+Even thought browsers sometimes [ignore][server configs] the value of
+the `Content-Type` header and try to [sniff the content][mime sniffing
+spec], it's indicated to always send the appropriate media type and
+charset for the response as, among other:
 
-* [resources served with the wrong media type may be
-  blocked](https://www.fxsitecompat.com/en-CA/docs/2016/javascript-served-with-wrong-mime-type-will-be-blocked/)
-  (see also: [`X-Content-Type-Options` rule](x-content-type-options.md)),
-  or the official [media type may be required](https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache#Referencing_a_cache_manifest_file)
+* [resources served with the wrong media type may be blocked][blocked
+  resources] (see also: [`X-Content-Type-Options` rule](x-content-type-options.md)),
+  or the official [media type may be required][required media type]
 
-* not sending the appropriate `charset`, where appropriate, may [prevent
-  things from being rendered correctly](https://www.w3.org/International/questions/qa-what-is-encoding),
+* not sending the appropriate `charset`, where appropriate, may
+  [prevent things from being rendered correctly][incorrect rendering]
   thus creating a bad user experience (see also:
   [`meta-charset-utf-8` rule](meta-charset-utf-8.md))
 
@@ -133,3 +132,11 @@ property from the `.sonarrc` file to exclude domains you don't control
 ## Further Reading
 
 * [Setting the HTTP charset parameter](https://www.w3.org/International/articles/http-charset/index)
+
+<!-- Link labels: -->
+
+[blocked resources]: https://www.fxsitecompat.com/en-CA/docs/2016/javascript-served-with-wrong-mime-type-will-be-blocked/
+[incorrect rendering]: https://www.w3.org/International/questions/qa-what-is-encoding
+[mime sniffing spec]: https://mimesniff.spec.whatwg.org/
+[required media type]: https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache#Referencing_a_cache_manifest_file
+[server configs]: https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Configuring_server_MIME_types

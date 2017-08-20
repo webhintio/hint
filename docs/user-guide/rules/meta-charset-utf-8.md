@@ -19,35 +19,33 @@ usually a good idea to also add the charset meta tag because:
   not be present when viewing the page.
 
 One should [always choose `utf-8` as the encoding, and convert any
-content in legacy encodings to `utf-8`](https://www.w3.org/International/questions/qa-choosing-encodings#useunicode)
+content in legacy encodings to `utf-8`][why use utf-8].
 
 For the charset meta tag `<meta charset="utf-8">` should be used.
 
 `<meta charset="utf-8">`:
 
-* [Is backwards compatible and works in all known
-  browsers](https://blog.whatwg.org/the-road-to-html-5-character-encoding),
-  so it should always be used over the old
+* [Is backwards compatible and works in all known browsers][html5
+  character encoding], so it should always be used over the old
   `<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">`.
 
-* The `charset` value should be `utf-8` not other values such as `utf8`.
-  Using `utf8` for example, is a common mistake, and even though it is
-  valid nowadays as the [specifications](https://encoding.spec.whatwg.org/#names-and-labels)
-  and browsers now alias `utf8` to `utf-8`, that wasn't the case in the
-  past, so things might break in [some older
-  browsers](https://twitter.com/jacobrossi/status/591435377291866112).
-  The same may be true for other agents (non-browsers) that may scan/get
-  the content and may not have the alias.
+* The `charset` value should be `utf-8` not other values such as
+  `utf8`. Using `utf8` for example, is a common mistake, and even
+  though it is valid nowadays as the [specifications][spec aliases]
+  and browsers now alias `utf8` to `utf-8`, that wasn't the case in
+  the past, so things might break in [some older browsers][utf8
+  example]. The same may be true for other agents (non-browsers) that
+  may scan/get the content and may not have the alias.
 
 * Must be inside the `<head>` element and [within the first 1024
-  bytes of the HTML](https://html.spec.whatwg.org/multipage/semantics.html#charset),
-  as some browsers only look at those bytes before choosing an encoding.
+  bytes of the HTML][whatwg charset], as some browsers only look at
+  those bytes before choosing an encoding.
 
   Moreover, it is recommended that the meta tag be the first thing
   in the `<head>`. This ensures it is before any content that could
   be controlled by an attacker, such as a `<title>` element, thus,
   avoiding potential encoding-related security issues ([such as the
-  one in old IE](https://msdn.microsoft.com/en-us/library/dd565635.aspx).
+  one in old IE][ie issue]).
 
 ## What does the rule check?
 
@@ -128,6 +126,15 @@ The `meta charset` is not the first thing in `<head>`:
 ## Further Reading
 
 * [Declaring the Character Encoding](https://blog.whatwg.org/meta-charset)
-* [The Road to HTML 5: character encoding](https://blog.whatwg.org/the-road-to-html-5-character-encoding)
+* [The Road to HTML 5: character encoding][html5 character encoding]
 * [Declaring character encodings in HTML](https://www.w3.org/International/questions/qa-html-encoding-declarations.en)
 * [Choosing & applying a character encoding](https://www.w3.org/International/questions/qa-choosing-encodings)
+
+<!-- Link labels: -->
+
+[html5 character encoding]: https://blog.whatwg.org/the-road-to-html-5-character-encoding
+[ie issue]: https://msdn.microsoft.com/en-us/library/dd565635.aspx
+[spec aliases]: https://encoding.spec.whatwg.org/#names-and-labels
+[utf8 example]: https://twitter.com/jacobrossi/status/591435377291866112
+[whatwg charset]: https://html.spec.whatwg.org/multipage/semantics.html#charset
+[why use utf-8]: https://www.w3.org/International/questions/qa-choosing-encodings#useunicode

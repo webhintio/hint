@@ -10,8 +10,8 @@ the content of a resource is incorrect, not reliable, or even absent.
 So, in order to overcome those problems and provide a better user
 experience, regardless of the specified `Content-Type` HTTP header sent
 by servers, browsers use contextual clues and inspect the bytes of the
-response (known as [MIME sniffing](https://mimesniff.spec.whatwg.org/))
-in order to detect the file format.
+response (known as [MIME sniffing][mime sniffing spec] in order to detect
+the file format.
 
 For example, if a browser requests a script, but that script is served
 with an incorrect media type (e.g. `x/x`), the browser will still detect
@@ -26,14 +26,13 @@ Fortunately, browsers provide a way to opt-out of MIME sniffing by
 using the `X-Content-Type-Options: nosniff` HTTP response header.
 
 Note: [Most modern browsers only respect the header for `script`s and
-`style`s](https://fetch.spec.whatwg.org/#should-response-to-request-be-blocked-due-to-nosniff%3F)
-(see also [whatwg/fetch#395](https://github.com/whatwg/fetch/issues/395)).
+`style`s][fetch spec blocking] (see also [whatwg/fetch#395][fetch spec
+issue].
 
 Going back to the previous example, if the `X-Content-Type-Options: nosniff`
 header is sent for the script, if the browser detects that it's a script
-and it wasn't served with one of the [JavaScript media
-type](https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type),
-it will block it.
+and it wasn't served with one of the [JavaScript media type][javascript
+media types], it will block it.
 
 ## What does the rule check?
 
@@ -69,5 +68,12 @@ X-Content-Type-Options: nosniff
 * [`X-Content-Type-Options` header](https://fetch.spec.whatwg.org/#x-content-type-options-header)
 * [Reducing MIME type security risks](https://msdn.microsoft.com/en-us/library/gg622941.aspx)
 * [Mitigating MIME Confusion Attacks in Firefox](https://blog.mozilla.org/security/2016/08/26/mitigating-mime-confusion-attacks-in-firefox/)
-* [Script Polyglots](https://blogs.msdn.microsoft.com/ieinternals/2014/11/24/script-polyglots/) the correct interpretation of it solely depending on the context).
+* [Script Polyglots](https://blogs.msdn.microsoft.com/ieinternals/2014/11/24/script-polyglots/)
 * [IE8 Security Part V: Comprehensive Protection](https://blogs.msdn.microsoft.com/ie/2008/07/02/ie8-security-part-v-comprehensive-protection/)
+
+<!-- Link labels: -->
+
+[fetch spec blocking]: https://fetch.spec.whatwg.org/#should-response-to-request-be-blocked-due-to-nosniff%3F
+[fetch spec issue]: https://github.com/whatwg/fetch/issues/395
+[javascript media types]: https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
+[mime sniffing spec]: https://mimesniff.spec.whatwg.org/

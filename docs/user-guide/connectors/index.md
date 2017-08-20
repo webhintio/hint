@@ -2,15 +2,13 @@
 
 The current supported connectors are:
 
-* `jsdom`: Your website will be loaded using
-  [`jsdom`](https://github.com/tmpvar/jsdom).
+* `jsdom`: Your website will be loaded using [`jsdom`][jsdom].
 * `cdp`: Your website will be loaded using Chrome and the Chrome
   Debugging Protocol.
 
 ## CDP
 
-The `CDP` connector uses the [Chrome Debugging
-Protocol](https://chromedevtools.github.io/devtools-protocol/) to
+The `CDP` connector uses the [Chrome Debugging Protocol][cdp] to
 communicate with the browser.
 
 ### CDP configuration
@@ -61,3 +59,8 @@ document details the known differences among the official connectors.
 
   * `element::#document`
   * `element::#comment`
+
+<!-- Link labels: -->
+
+[cdp]: https://chromedevtools.github.io/devtools-protocol/
+[jsdom]: https://github.com/tmpvar/jsdom
