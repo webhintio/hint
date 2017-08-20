@@ -19,7 +19,7 @@ gem install awesome_bot \
                         --allow-dupe \
                         --allow-redirect \
                         --set-timeout 150 \
-                        --white-list "example1.com,example2.com,example3.com,github.com/sonarwhal/" \
+                        --white-list "example1.com,example2.com,example3.com" \
                         {} +;
 
 node .travis/report-broken-links.js
