@@ -5,10 +5,9 @@
 
 ## Why is this important?
 
-Nowadays the tendency of the [web is to move to
-HTTPS](https://w3ctag.github.io/web-https/#h-motivating-a-secure-web),
-so the use of [protocol-relative URLs](https://www.paulirish.com/2010/the-protocol-relative-url/)
-has become an anti-pattern.
+Nowadays the tendency of the [web is to move to HTTPS][https only web],
+so the use of [protocol-relative URLs][protocol-relative urls] has
+become an anti-pattern.
 
 Particularly for web sites/apps served over HTTP, using protocol-relative
 URLs can have some drawbacks, which among other include:
@@ -27,13 +26,12 @@ URLs can have some drawbacks, which among other include:
       by browsers over HTTPS.
 
   * [Internet Explorer 7 and 8 will download a stylesheet twice if
-    protocol-relative URLs are used for `<link>`s or
-    `@import`s](https://www.stevesouders.com/blog/2010/02/10/5a-missing-schema-double-download/).
+    protocol-relative URLs are used for `<link>`s or `@import`s][ie issue].
 
 * Security
 
   Especially if protocol-relative URLs are used for CDN links, their
-  domain is not in the browser's [HSTS preload list](https://hstspreload.org/),
+  domain is not in the browser's [HSTS preload list][hsts preload list],
   and the first request is not made over HTTP, there is a high risk
   of man-in-the-middle attacks.
 
@@ -74,5 +72,12 @@ does.
 
 ## Further Reading
 
-* [The protocol-relative URL](https://www.paulirish.com/2010/the-protocol-relative-url/)
+* [The protocol-relative URL][protocol-relative ulrs]
 * [Moving CDNs to HTTPS](https://github.com/konklone/cdns-to-https#readme)
+
+<!-- Link labels: -->
+
+[hsts preload list]: https://hstspreload.org
+[https only web]: https://w3ctag.github.io/web-https/#h-motivating-a-secure-web
+[ie issue]: https://www.stevesouders.com/blog/2010/02/10/5a-missing-schema-double-download/
+[protocol-relative urls]: https://www.paulirish.com/2010/the-protocol-relative-url/

@@ -99,10 +99,10 @@ Rules have an object `meta` that defines several properties:
 One of the most useful properties is `schema`. This property specifies
 if the rule allows the user to configure it (other than the severity).
 By default it should be an empty array if it doesn't, or an array of
-valid [JSON schemas](http://json-schema.org/). These schemas will be
-used when validating a `.sonarrc` file. As long as there is one of the
-schemas that passes, the configuration will be valid. This allows
-writting simpler templates.
+valid [JSON schemas][json schema]. These schemas will be used when
+validating a `.sonarrc` file. As long as there is one of the schemas
+that passes, the configuration will be valid. This allows writting
+simpler templates.
 
 The rule can access the custom configuration via `context.ruleOptions`.
 
@@ -437,3 +437,7 @@ const tests: Array<RuleTest> = [
     { ... }
 ];
 ```
+
+<!-- Link labels: -->
+
+[json schema]: http://json-schema.org/

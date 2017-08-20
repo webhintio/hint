@@ -5,12 +5,11 @@ that support document modes to use the highest one available.
 
 ## Why is this important?
 
-Internet Explorer 8/9/10 support [document compatibility
-modes](https://msdn.microsoft.com/en-us/library/cc288325.aspx).
-Because of this, even if the site's visitor is using, let's say,
-Internet Explorer 9, it's possible that Internet Explorer will not
-use the latest rendering engine, and instead, decide to render your
-page using the Internet Explorer 5.5 rendering engine.
+Internet Explorer 8/9/10 support [document compatibility modes][doc
+modes]. Because of this, even if the site's visitor is using, let's
+say, Internet Explorer 9, it's possible that Internet Explorer will
+not use the latest rendering engine, and instead, decide to render
+your page using the Internet Explorer 5.5 rendering engine.
 
 Serving the page with the following HTTP response header:
 
@@ -24,11 +23,10 @@ or specifying the `x-ua-compatible` meta tag:
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 ```
 
-will force Internet Explorer 8/9/10 to render the page in the
-highest available mode in [the various cases when it may
-not](https://hsivonen.fi/doctype/#ie8), and therefore, ensure that
-anyone browsing the site from those browsers is treated to the best
-possible user experience that browser can offer.
+will force Internet Explorer 8/9/10 to render the page in the highest
+available mode in [the various cases when it may not][ie complications],
+and therefore, ensure that anyone browsing the site from those browsers
+is treated to the best possible user experience that browser can offer.
 
 If possible, it is recommended to send the HTTP response header
 instead of using the `meta` tag, as the latter will not always work
@@ -44,8 +42,7 @@ Notes:
 
 * Appending `chrome=1` to the value of the HTTP response header or
   the meta tag is no longer recommended as [`Chrome Frame` has been
-  deprecated](https://blog.chromium.org/2013/06/retiring-chrome-frame.html)
-  for quite some time.
+  deprecated][chrome frame] for quite some time.
 
 ## What does the rule check?
 
@@ -237,5 +234,11 @@ not sending the HTTP response header.
 
 ## Further Reading
 
-* [Internet Explorer 8/9/10 Complications](https://hsivonen.fi/doctype/#ie8)
+* [Internet Explorer 8/9/10 Complications][ie complications]
 * [Specifying legacy document modes](https://msdn.microsoft.com/en-us/library/jj676915.aspx)
+
+<!-- Link labels: -->
+
+[chrome frame]: https://blog.chromium.org/2013/06/retiring-chrome-frame.html
+[doc modes]: https://msdn.microsoft.com/en-us/library/cc288325.aspx
+[ie complications]: https://hsivonen.fi/doctype/#ie8

@@ -16,10 +16,14 @@ concepts that a developer needs to know about:
 
 Any developer can create their own `rule`s, `connector`s, and/or
 `formatter`s, and use them without having to do a Pull Request to the
-main project. They can even be distributed as [`npm`](https://www.npmjs.com/)
-packages.
+main project. They can even be distributed as [`npm`][npm] packages.
 
-Even though `sonar` is developed using [`TypeScript`](https://www.typescriptlang.org/),
+Even though `sonar` is developed using [`TypeScript`][typescript],
 there is no need for it if you are writting your own `rule`, `connector`
 or `formatter`. Just follow the examples for each area and you should
 be good.
+
+<!-- Link labels: -->
+
+[npm]: https://www.npmjs.com/
+[typescript]: https://www.typescriptlang.org/

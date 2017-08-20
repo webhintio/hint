@@ -2,16 +2,14 @@
 
 ## What is sonar?
 
-`sonar` is a linting tool for the web, with a strong focus on
-the developer experience: easy to configure, develop, and well
-documented.
+`sonar` is a linting tool for the web, with a strong focus on the
+developer experience: easy to configure, develop, and well documented.
 
-`sonar` doesn't want to reinvent the wheel. For that reason it
-tries to integrate other tools and services that do a great job,
-and contribute back where appropriate. For example, we are using
-[aXe](https://www.deque.com/products/axe/) for accessibility,
-[SSL Server Test](https://www.ssllabs.com/ssltest/) for checking
-the certificate configuration, etc.
+`sonar` doesn't want to reinvent the wheel. For that reason it tries
+to integrate other tools and services that do a great job, and
+contribute back where appropriate. For example, we are using [aXe][axe]
+for accessibility, [SSL Server Test][ssllabs] for checking the
+certificate configuration, etc.
 
 ## What is sonar's goal?
 
@@ -31,15 +29,15 @@ reviewing documentation, writting new one, filling bugs, triaging,
 coding, etc.
 
 We will gladly accept any contribution you can do. Most of the
-[issues in `sonar`](https://github.com/sonarwhal/sonar/issues) should
-have a difficulty level. Also don't hesitate to ask for help.
+[issues in `sonar`][issues] should have a difficulty level.
+Also don't hesitate to ask for help.
 
 ## What browsers are supported?
 
-`sonar` currently supports [jsdom](https://github.com/tmpvar/jsdom),
-Chrome, and Edge 15. We hope to add support for Firefox soon. If your
-favorite browser is not supported you can always
-[develop a connector](/docs/developer-guide/connectors/index.md) for it!
+`sonar` currently supports [jsdom][jsdom], Chrome, and Edge 15.
+We hope to add support for Firefox soon. If your favorite browser
+is not supported you can always [develop a connector][new issue]
+for it!
 
 ## Is there a plugin for my favorite editor?
 
@@ -53,12 +51,11 @@ priorities for the v1.
 
 ## What is the logo?
 
-Our logo is Nellie the narwhal. Narwhals are not only
-[awesome](https://www.youtube.com/watch?v=ykwqXuMPsoc) but have one of
-the best sonars in the animal kingdom:
+Our logo is Nellie the narwhal. Narwhals are not only [awesome][narwhal
+song] but have one of the best sonars in the animal kingdom.
 
 [Narwhal echolocation beams may be the most directional of any
-species](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162069)
+species][narwhal echolocation].
 
 > Recordings of narwhal (Monodon monoceros) echolocation signals were
 > made using a linear 16 hydrophone array in the pack ice of Baffin Bay,
@@ -68,6 +65,16 @@ species](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.016206
 
 ## I don't agree with one of your rules, how can I tell you?
 
-Great, let's make it better! You can [open an issue
-here](https://github.com/sonarwhal/sonar/issues/new) telling us what
-you think can be improved.
+Great, let's make it better! You can [open an issue here][new issue]
+telling us what you think can be improved.
+
+<!-- Link labels: -->
+
+[axe]: https://www.deque.com/products/axe/
+[connector docs]: /docs/developer-guide/connectors/index.md
+[issues]: https://github.com/sonarwhal/sonar/issues
+[jsdom]: https://github.com/tmpvar/jsdom
+[narwhal echolocation]: http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162069
+[narwhal song]: https://www.youtube.com/watch?v=ykwqXuMPsoc
+[new issue]: https://github.com/sonarwhal/sonar/issues/new
+[ssllabs]: https://www.ssllabs.com/ssltest/

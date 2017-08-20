@@ -1,6 +1,6 @@
 # Contributors
 
-<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD013 MD033-->
 {% raw %}
 <div class="section contributors">
 {% endraw %}
@@ -12,10 +12,16 @@
 {% raw %}
 </div>
 {% endraw %}
-<!-- markdownlint-enable MD033 -->
+<!-- markdownlint-enable MD013 MD033 -->
 
-This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification.
+This project follows the [`all-contributors`][all-contributors]
+specification.
 
 ## Sponsors
 
-Microsoft
+[Microsoft][microsoft]
+
+<!-- Link labels: -->
+
+[all-contributors]: https://github.com/kentcdodds/all-contributors
+[microsoft]: https://developer.microsoft.com/en-us/microsoft-edge/

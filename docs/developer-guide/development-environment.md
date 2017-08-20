@@ -14,13 +14,11 @@ environment that will let you contribute back to the project.
 
 <!-- markdownlint-enable MD033 -->
 
-Go to [`nodejs.org`](https://nodejs.org/en/download/current/) to
-download and install the latest stable version of `Node.js` for your
-operating system.
+Go to [`nodejs.org`][nodejs] to download and install the latest stable
+version of `Node.js` for your operating system.
 
-**Note:** By installing `Node.js` you will also get
-[`npm`](https://www.npmjs.com/get-npm), which we will use to install
-packages that `sonar` depends on.
+**Note:** By installing `Node.js` you will also get [`npm`][npm], which
+we will use to install packages that `sonar` depends on.
 
 <!-- markdownlint-disable MD033 -->
 
@@ -29,8 +27,7 @@ packages that `sonar` depends on.
 <!-- markdownlint-enable MD033 -->
 
 Go to <https://github.com/sonarwhal/sonar> and click the `Fork` button.
-Follow the [GitHub documentation](https://help.github.com/articles/fork-a-repo)
-for forking and cloning.
+Follow the [GitHub documentation][github fork docs] for forking and cloning.
 
 Once you've cloned the repository:
 
@@ -90,3 +87,9 @@ npm test
 The testing takes a a bit to complete. If any tests fail, that
 likely means one or more parts of the environment setup didn't complete
 correctly. The upstream tests always pass.
+
+<!-- Link labels: -->
+
+[github fork docs]: https://help.github.com/articles/fork-a-repo
+[nodejs]: https://nodejs.org/en/download/current/
+[npm]: https://www.npmjs.com/get-npm
