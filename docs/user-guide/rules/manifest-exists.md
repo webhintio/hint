@@ -1,26 +1,22 @@
 # Require a web app manifest file (`manifest-exists`)
 
-`manifest-exists` warns against not providing a
-[web app manifest](https://www.w3.org/TR/appmanifest) file.
+`manifest-exists` warns against not providing a [web app manifest][spec]
+file.
 
 ## Why is this important?
 
 The web app manifest file constitutes a standard centralized place
 to put metadata about your site/web app, and providing it:
 
-* informs browsers (and possible
-  [others](https://medium.com/web-on-the-edge/progressive-web-apps-on-windows-8d8eb68d524e#62d2))
-  where to look for information about your site/web app, information
-  that they may need in different contexts (e.g. what icon and name
-  should they use for your site/web app when the user adds it to the
-  homescreen)
+* informs browsers (and possible [others][windows] where to look for
+  information about your site/web app, information that they may need
+  in different contexts (e.g. what icon and name should they use for
+  your site/web app when the user adds it to the homescreen)
 
 * is an essential piece in the context of progressive web apps,
-  being one of the signals used by some browsers (e.g.
-  [Chrome](https://developers.google.com/web/fundamentals/engage-and-retain/app-install-banners/),
-  [Opera](https://dev.opera.com/blog/web-app-install-banners/),
-  [Samsung Internet](https://medium.com/samsung-internet-dev/what-does-it-mean-to-be-an-app-ace43eb6b94d))
-  in deciding if they will show the add to homescreen prompt to users
+  being one of the signals used by some browsers (e.g. [Chrome][chrome],
+  [opera][opera], [samsung internet][samsung internet]) in deciding if
+  they will show the add to homescreen prompt to users
 
 ## What does the rule check?
 
@@ -119,4 +115,12 @@ TODO: Add information on CORS.
 
 ## Further Reading
 
-* [Web App Manifest Specification](https://www.w3.org/TR/appmanifest)
+* [Web App Manifest Specification][spec]
+
+<!-- Link labels: -->
+
+[chrome]: https://developers.google.com/web/fundamentals/engage-and-retain/app-install-banners/
+[opera]: https://dev.opera.com/blog/web-app-install-banners/
+[samsung internet]: https://medium.com/samsung-internet-dev/what-does-it-mean-to-be-an-app-ace43eb6b94d
+[spec]: https://www.w3.org/TR/appmanifest
+[windows]: https://medium.com/web-on-the-edge/progressive-web-apps-on-windows-8d8eb68d524e

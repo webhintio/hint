@@ -23,11 +23,11 @@ A `message` looks like this:
 
 ```json
 {
-    "resource": "string", // The URL or name of the asset with the issue.
-    "line": "number", // The line number where the issue was found if applicable.
     "column": "number", // The column number where the issue was found if applicable.
-    "severity": "number", // 1 (warning), 2 (error).
-    "message": "string" // The human friendly detail of the error.
+    "line": "number", // The line number where the issue was found if applicable.
+    "message": "string", // The human friendly detail of the error.
+    "resource": "string", // The URL or name of the asset with the issue.
+    "severity": "number" // 1 (warning), 2 (error).
 }
 ```
 

@@ -1,7 +1,7 @@
 # SSL Server Test (`ssllabs`)
 
 `ssllabs` deeply analyzes the SSL configuration of a web server using
-[SSL Labs' SSL Server Test](https://www.ssllabs.com/ssltest/index.html).
+[SSL Labs' SSL Server Test][ssllabs].
 
 ## Why is this important?
 
@@ -12,16 +12,16 @@ provides the necessary security, system administrators and developers
 must put extra effort into properly configuring their servers and
 developing their applications.
 
-***From [SSL Labs' SSL and TLS Deployment Best Practices](https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices).***
+***From [SSL Labs' SSL and TLS Deployment Best Practices][ssl best
+practices]***
 
 ## What does the rule check?
 
-This rule uses the [SSL Labs API](https://www.ssllabs.com/projects/ssllabs-apis/)
-via [node-ssllabs](https://github.com/keithws/node-ssllabs) to analyze
-the SSL configuration of a server and report a grade.
+This rule uses the [SSL Labs API][ssllabs api] via
+[`node-ssllabs`][node-ssllabs] to analyze the SSL configuration of
+a server and report a grade.
 
-Please look at [SSL Labs' Methodology
-Overview](https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide#methodology-overview)
+Please look at [SSL Labs' Methodology Overview][ssllabs methodology]
 if you want to know more about the process.
 
 Notes:
@@ -33,8 +33,8 @@ Notes:
 
 ## Can the rule be configured?
 
-By default the minimum grade is `A-` but you can configure it to any
-valid [grade reported by SSL Labs](https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide)
+By default the minimum grade is `A-` but you can configure it to
+any valid [grade reported by SSL Labs][ssllabs server rating guide]
 by setting the `grade` option for the `ssllabs` rule.
 
 E.g. The following configuration will change the minium grade to `A+`:
@@ -68,12 +68,23 @@ You can override the defaults with the following configuration:
 ```
 
 The list of possible parameters is available in [SSL Labs'
-documentation](https://github.com/ssllabs/ssllabs-scan/blob/stable/ssllabs-api-docs.md#protocol-calls)
-with the difference that `on/off` parameters are `boolean`s in our case
-as shown in [node-ssllabs' advanced usage](https://github.com/keithws/node-ssllabs#advanced-usage).
+documentation][ssllabs protocol calls] with the difference
+that `on/off` parameters are `boolean`s in our case as shown
+in [`node-ssllabs`' advanced usage][node-ssllabs usage].
 
 ## Further Reading
 
-* [SSL and TLS Deployment Best Practices](https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices)
+* [SSL and TLS Deployment Best Practices][ssl best practices]
 * [SSL Pulse](https://www.trustworthyinternet.org/ssl-pulse/)
 * [SSL Labs Research wiki](https://github.com/ssllabs/research/wiki)
+
+<!-- Link labels: -->
+
+[node-ssllabs usage]: https://github.com/keithws/node-ssllabs#advanced-usage
+[node-ssllabs]: https://github.com/keithws/node-ssllabs
+[ssl best practices]: https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices
+[ssllabs api]: https://www.ssllabs.com/projects/ssllabs-apis/
+[ssllabs methodology]: https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide#methodology-overview
+[ssllabs protocol calls]: https://github.com/ssllabs/ssllabs-scan/blob/stable/ssllabs-api-docs.md#protocol-calls
+[ssllabs server rating guide]: https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide
+[ssllabs]: https://www.ssllabs.com/ssltest/index.html

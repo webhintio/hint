@@ -24,9 +24,8 @@ the events common to all `connector`s, with their signature, and the
 
 ## `element::<element-type>`
 
-Event is emitted **when** the `connector` visits an element
-in the DOM when traversing it. `<element-type>` is the
-[`nodeName`](https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeName)
+Event is emitted **when** the `connector` visits an element in the DOM
+when traversing it. `<element-type>` is the [`nodeName`][nodeName docs]
 lower cased.
 
 **Format:**
@@ -60,7 +59,9 @@ export interface IFetchEnd {
 }
 ```
 
-**Note:** This is a basic event interface that [`targetfetch::end`](#targetfetchend) and [`manifestfetch::end`](#manifestfetchend) extend from.
+**Note:** This is a basic event interface that
+[`targetfetch::end`](#targetfetchend) and
+[`manifestfetch::end`](#manifestfetchend) extend from.
 
 ## `fetch::error`
 
@@ -82,7 +83,8 @@ export interface IFetchError {
 }
 ```
 
-**Note:** This event has the same interface as [`targetfetch::error`](#targetfetcherror).
+**Note:** This event has the same interface as
+[`targetfetch::error`](#targetfetcherror).
 
 ## `fetch::start`
 
@@ -98,7 +100,8 @@ export interface IFetchStart {
 }
 ```
 
-**Note:** This is a basic event interface that [`targetfetch::start`](#targetfetchstart) extends from.
+**Note:** This is a basic event interface that
+[`targetfetch::start`](#targetfetchstart) extends from.
 
 ## `manifestfetch::end`
 
@@ -136,7 +139,8 @@ export interface IFetchStart {
 }
 ```
 
-**Note::** This event has the same interface as [`fetch::start`](#fetchstart).
+**Note::** This event has the same interface as
+[`fetch::start`](#fetchstart).
 
 ## `manifestfetch::error`
 
@@ -317,3 +321,7 @@ export interface ITraverseUp {
     resource: string;
 }
 ```
+
+<!-- Link labels: -->
+
+[nodeName docs]: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeName

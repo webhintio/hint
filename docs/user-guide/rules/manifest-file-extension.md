@@ -1,24 +1,21 @@
 # Disallow non-standard file extension for the web app manifest file (`manifest-file-extension`)
 
 `manifest-file-extension` warns against using non-standard file
-extensions for the [web app manifest](https://www.w3.org/TR/appmanifest)
-file.
+extensions for the [web app manifest][spec] file.
 
 ## Why is this important?
 
-While the [`.webmanifest`](https://w3c.github.io/manifest/#media-type-registration)
-file extension is not enforced by the specification, nor is it required
-by browsers, using it makes it:
+While the [`.webmanifest`][file extension] file extension is not
+enforced by the specification, nor is it required by browsers, using
+it makes it:
 
-* [easier to set custom server configurations](https://github.com/w3c/manifest/issues/346)
-  for the web app manifest file
-* possible to benefit from [existing
-  configurations](https://github.com/jshttp/mime-db/blob/67a4d013c31e73c47b5d975062f0088aea6cd5cd/src/custom-types.json#L85-L92)
+* [easier to set custom server configurations][server configs] for
+  the web app manifest file
+* possible to benefit from [existing configurations][other configs]
 
 ## What does the rule check?
 
-The rule checks if the recommended
-[`.webmanifest`](https://w3c.github.io/manifest/#media-type-registration)
+The rule checks if the recommended [`.webmanifest`][file extension]
 file extension is used for the web app manifest file.
 
 ### Examples that **trigger** the rule
@@ -39,4 +36,11 @@ file extension is used for the web app manifest file.
 
 ## Further Reading
 
-* [Web App Manifest Specification](https://www.w3.org/TR/appmanifest)
+* [Web App Manifest Specification][spec]
+
+<!-- Link labels: -->
+
+[file extension]: https://w3c.github.io/manifest/#media-type-registration
+[other configs]: https://github.com/jshttp/mime-db/blob/67a4d013c31e73c47b5d975062f0088aea6cd5cd/src/custom-types.json#L85-L92
+[server configs]: https://github.com/w3c/manifest/issues/346
+[spec]: https://www.w3.org/TR/appmanifest

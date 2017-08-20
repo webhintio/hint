@@ -11,21 +11,21 @@ and link to other origins.
 Links that have `target="_blank"`, such as
 `<a href="https://example.com" target="_blank">` constitute:
 
-* [a security problem](https://mathiasbynens.github.io/rel-noopener/)
+* [a security problem][security problem]
 
-  When using `target="_blank"` the page that was linked to gains access
-  to the original page's [`window.opener`](https://developer.mozilla.org/en-US/docs/Web/API/Window/opener).
+  When using `target="_blank"` the page that was linked to gains
+  access to the original page's [`window.opener`][window.opener].
   This allows it to redirect the original page to whatever it wants,
   like for example, a phishing page designed to look like a real page
-  frequently used by users, asking for login credentials (see also: [tab
-  nabbing](http://www.azarask.in/blog/post/a-new-type-of-phishing-attack/)).
+  frequently used by users, asking for login credentials (see also:
+  [tab nabbing][tab nabbing]).
 
   By adding `ref="noopener"` (and `noreferrer` for older browsers)
   the `window.opener` reference won't be set, and thus, the ability
   for the page that was linked to from redirecting the original one
   is removed.
 
-* [performance problem](https://jakearchibald.com/2016/performance-benefits-of-rel-noopener/)
+* [performance problem][performance problem]
 
   Most modern browser are multi-process. However, due to the
   synchronous cross-window access the DOM allows via `window.opener`,
@@ -34,20 +34,20 @@ Links that have `target="_blank"`, such as
   experiencing jank.
 
   In Chromium based browser, using `ref="noopener"` (or
-  [`rel="noreferrer"`](https://blog.chromium.org/2009/12/links-that-open-in-new-processes.html)
-  for older versions), and thus, preventing the `window.opener` reference
-  from being set, allows new pages to be opened in their own process.
+  [`rel="noreferrer"`][noreferrer chromium] for older versions), and
+  thus, preventing the `window.opener` reference from being set, allows
+  new pages to be opened in their own process.
 
   Edge is not affected by this.
 
 Notes:
 
-* Not all browsers [support](http://caniuse.com/#feat=rel-noopener)
-  `rel="noopener"`, so in order to ensure that things work as expected
-  in as many browsers as possible, by default, the rule requires both
-  the `noopener` and `noreferrer` values to be specified. However, if
-  all the [targeted browsers](../index.md#browser-configuration) support
-  `noopener`, only `noopener` will be required.
+* Not all browsers [support][noopener support] `rel="noopener"`,
+  so in order to ensure that things work as expected in as many
+  browsers as possible, by default, the rule requires both the
+  `noopener` and `noreferrer` values to be specified. However,
+  if all the [targeted browsers](../index.md#browser-configuration)
+  support `noopener`, only `noopener` will be required.
 
 * The reason why the rule does not check the same origin links by
   default is because:
@@ -63,11 +63,11 @@ Notes:
   links.
 
 * [`noopener` and `noreferrer` only work for `a` and `area`
-  elements](https://html5sec.org/#143).
+  elements][html5sec].
 
-* In the future there may be a [CSP valueless
-  property](https://github.com/w3c/webappsec/issues/139) property that
-  will prevent the `window.opener` reference from being set.
+* In the future there may be a [CSP valueless property][csp valueless
+  property] property that will prevent the `window.opener` reference
+  from being set.
 
 ## What does the rule check?
 
@@ -167,8 +167,19 @@ value.
 
 ## Further Reading
 
-* [The security benefits of `rel="noopener"`](https://mathiasbynens.github.io/rel-noopener/)
-* [The performance benefits of `rel="noopener"`](https://jakearchibald.com/2016/performance-benefits-of-rel-noopener/)
-* [Bypassing `window.opener` protection of `rel="noreferrer"`](https://html5sec.org/#143)
+* [The security benefits of `rel="noopener"`][security problem]
+* [The performance benefits of `rel="noopener"`][performance problem]
+* [Bypassing `window.opener` protection of `rel="noreferrer"`][html5sec]
 * [Link type `"noopener"`](https://html.spec.whatwg.org/#link-type-noopener)
 * [Link type `"noreferrer"`](https://html.spec.whatwg.org/#link-type-noreferrer)
+
+<!-- Link labels: -->
+
+[csp valueless property]: https://github.com/w3c/webappsec/issues/139
+[html5sec]: https://html5sec.org/#143
+[noopener support]: http://caniuse.com/#feat=rel-noopener
+[noreferrer chromium]: https://blog.chromium.org/2009/12/links-that-open-in-new-processes.html
+[performance problem]: https://jakearchibald.com/2016/performance-benefits-of-rel-noopener/
+[security problem]: https://mathiasbynens.github.io/rel-noopener/
+[tab nabbing]: http://www.azarask.in/blog/post/a-new-type-of-phishing-attack/
+[window.opener]: https://developer.mozilla.org/en-US/docs/Web/API/Window/opener
