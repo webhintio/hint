@@ -29,6 +29,12 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
         });
     }
 
+    private getHTMLChilden(children: Array<any>) {
+        return children.find((item) => {
+            return item.nodeType === 1 && item.nodeName === 'HTML';
+        });
+    }
+
     // ------------------------------------------------------------------------------
     // Public methods
     // ------------------------------------------------------------------------------
@@ -48,7 +54,15 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
     }
 
     public async pageHTML(): Promise<string> {
-        const { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._dom.nodeId });
+        let { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._dom.nodeId });
+
+        // Some browsers like Edge don't have the property outerHTML in the root element
+        // so we need to find the html element
+        if (!outerHTML) {
+            const htmlElement = this.getHTMLChilden(this._dom.children);
+
+            ({ outerHTML } = await this._DOM.getOuterHTML({ nodeId: htmlElement.nodeId }));
+        }
 
         return outerHTML;
     }
