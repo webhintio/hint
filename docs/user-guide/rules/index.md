@@ -35,3 +35,4 @@
 * [`ssllabs`](ssllabs.md)
 * [`strict-transport-security`](strict-transport-security.md)
 * [`x-content-type-options`](x-content-type-options.md)
+* [`validate-set-cookie-header`](validate-set-cookie-header.md)
