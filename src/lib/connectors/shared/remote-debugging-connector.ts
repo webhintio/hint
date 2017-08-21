@@ -19,6 +19,7 @@ import * as r from 'request';
 import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html';
 import { debug as d } from '../../utils/debug';
 import { delay, hasAttributeWithValue } from '../../utils/misc';
+import { resolveUrl } from '../utils/resolver';
 
 /* eslint-disable no-unused-vars */
 import {
@@ -73,6 +74,10 @@ export class Connector implements IConnector {
         const defaultOptions = {
             loadCompleteRetryInterval: 250,
             maxLoadWaitTime: 30000,
+            // tabUrl is a empty html site used to avoid edge diagnostics adapter to receive unexpeted onLoadEventFired
+            // and onRequestWillBeSent events from the default url opened when you create a new tab in Edge.
+            tabUrl: 'https://empty.sonarwhal.com/',
+            useTabUrl: false,
             waitFor: 5000
         };
 
@@ -216,8 +221,6 @@ export class Connector implements IConnector {
 
         const hops: Array<string> = this._redirects.calculate(resource);
 
-        console.log(`Error: ${resource}`);
-
         const event: IFetchError = {
             element,
             error: params,
@@ -338,6 +341,52 @@ export class Connector implements IConnector {
         this._requests.delete(params.requestId);
     }
 
+    private async getManifestManually(element: IAsyncHTMLElement) {
+        const manifestURL = resolveUrl(element.getAttribute('href'), this._finalHref);
+
+        // Try to see if the web app manifest file actually
+        // exists and is accesible.
+
+        try {
+            const manifestData: INetworkData = await this.fetchContent(manifestURL);
+
+            const event: IManifestFetchEnd = {
+                element,
+                request: manifestData.request,
+                resource: manifestURL,
+                response: manifestData.response
+            };
+
+            await this._server.emitAsync('manifestfetch::end', event);
+
+            return;
+
+            // Check if fetching/reading the file failed.
+        } catch (e) {
+            debug('Failed to fetch the web app manifest file');
+
+            const event: IManifestFetchError = {
+                error: e,
+                resource: manifestURL
+            };
+
+            await this._server.emitAsync('manifestfetch::error', event);
+        }
+    }
+
+    private async getManifest(element: IAsyncHTMLElement) {
+        this._manifestIsSpecified = true;
+
+        try {
+            // CDP will not download the manifest on its own, so we have to "force" it
+            // This will trigger the `onRequestWillBeSent`, `onResponseReceived`, and
+            // `onLoadingFailed` for the manifest URL.
+            await this._client.Page.getAppManifest();
+        } catch (err) {
+            await this.getManifestManually(element);
+        }
+    }
+
     /** Traverses the DOM notifying when a new element is traversed. */
     private async traverseAndNotify(element) {
         /* CDP returns more elements than the ones we want. For example there
@@ -366,11 +415,7 @@ export class Connector implements IConnector {
         await this._server.emitAsync(eventName, event);
 
         if (eventName === 'element::link' && wrappedElement.getAttribute('rel') === 'manifest') {
-            this._manifestIsSpecified = true;
-            // CDP will not download the manifest on its own, so we have to "force" it
-            // This will trigger the `onRequestWillBeSent`, `OnResponseReceived`, and
-            // `onLoadingFailed` for the manifest URL.
-            await this._client.Page.getAppManifest();
+            await this.getManifest(wrappedElement);
         }
 
         const elementChildren = wrappedElement.children;
@@ -413,7 +458,7 @@ export class Connector implements IConnector {
 
     /** Initiates Chrome if needed and a new tab to start the collection. */
     private async initiateComms() {
-        const launcher: BrowserInfo = await this.launcher.launch('about:blank');
+        const launcher: BrowserInfo = await this.launcher.launch(this._options.useTabUrl ? this._options.tabUrl : 'about:blank');
         let client;
 
         /* We want a new tab for this session. If it is a new browser, a new tab
@@ -428,7 +473,11 @@ export class Connector implements IConnector {
             client = await this.getClient(launcher.port, tabs[0]);
             this._tabs = tabs;
         } else {
-            const tab = await cdp.New({ port: launcher.port }); // eslint-disable-line new-cap
+            const tab = await cdp.New({ port: launcher.port, url: this._options.useTabUrl ? this._options.newTabUrl : null }); // eslint-disable-line new-cap
+
+            if (!tab) {
+                throw new Error('Error trying to open a new tab');
+            }
 
             this._tabs.push(tab);
 
