@@ -88,7 +88,7 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
     protected _htmlelement;
     private _ownerDocument: IAsyncHTMLDocument;
     private _DOM;
-    private _attributesArray: Array<{ name: string, value: string }> = [];
+    private _attributesArray: Array<{ name: string; value: string; }> = [];
     private _attributesMap: Map<string, string> = new Map();
 
     public constructor(htmlelement, ownerDocument, DOM) {

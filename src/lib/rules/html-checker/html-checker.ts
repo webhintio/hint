@@ -31,12 +31,12 @@ const rule: IRuleBuilder = {
         };
 
         type HtmlError = { // eslint-disable-line no-unused-vars
-            extract: string, // code snippet
-            firstColumn: number,
-            lastLine: number,
-            hiliteStart: number,
-            message: string,
-            subType: string
+            extract: string; // code snippet
+            firstColumn: number;
+            lastLine: number;
+            hiliteStart: number;
+            message: string;
+            subType: string;
         };
 
         const loadRuleConfig = () => {

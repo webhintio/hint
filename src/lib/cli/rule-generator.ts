@@ -44,33 +44,33 @@ const events: Map<string, Array<string>> = new Map([
 /**  Usage categories that the new rule applies to */
 export type UseCase = {
     /**  Rule applies to DOM */
-    dom: boolean,
+    dom: boolean;
     /**  Rule applies to resource request */
-    request: boolean,
+    request: boolean;
     /**  Rule applies to third party service */
-    thirdPartyService: boolean,
+    thirdPartyService: boolean;
     /**  Rule applies to JS injection */
-    jsInjection: boolean
+    jsInjection: boolean;
 };
 
 /** Generate a new rule */
 export type NewRule = {
     /** Name of the new rule */
-    name: string,
+    name: string;
     /** Category of the new rule */
-    category: string,
+    category: string;
     /** Description of the new rule */
-    description: hbs.SafeString,
+    description: hbs.SafeString;
     /** Element type if `dom` is selected in useCase */
-    elementType?: string,
+    elementType?: string;
     /** Extension of the new rule file*/
-    extension?: string,
+    extension?: string;
     /** Events that should be subscribed to */
-    events: string,
+    events: string;
     /** If the new rule is core */
-    isCore: boolean,
+    isCore: boolean;
     /**  Usage categories that the new rule applies to */
-    useCase: UseCase
+    useCase: UseCase;
 };
 
 /**

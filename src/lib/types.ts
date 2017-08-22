@@ -24,7 +24,7 @@ export interface IRuleConfigList {
 export interface IConnectorOptionsConfig {
     waitFor?: number;
     loadCompleteRetryInterval?: number;
-    maxLoadWaitTime?: number
+    maxLoadWaitTime?: number;
 }
 
 export interface IConnectorConfig {
@@ -33,7 +33,7 @@ export interface IConnectorConfig {
 }
 
 export interface IIgnoredUrlList {
-    [key: string]: Array<string>
+    [key: string]: Array<string>;
 }
 
 export interface IConfig {
@@ -53,16 +53,16 @@ export type Resource = IConnectorBuilder | IFormatter | IPluginBuilder | IRuleBu
 export type URL = url.Url;
 
 export type CLIOptions = {
-    _: Array<string>,
-    config: string,
-    debug: boolean,
-    format: string,
-    help: boolean,
-    init: boolean,
-    newRule: boolean,
-    removeRule: boolean,
-    ['output-file']: string,
-    version: boolean
+    _: Array<string>;
+    config: string;
+    debug: boolean;
+    format: string;
+    help: boolean;
+    init: boolean;
+    newRule: boolean;
+    removeRule: boolean;
+    ['output-file']: string;
+    version: boolean;
 };
 
 export interface IORA {

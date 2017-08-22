@@ -4,7 +4,7 @@ export interface IRuleMetadata {
     /** If this rule can autofix the issue or not */
     fixable?: string;
     /** List of connectors that should not run the rule */
-    ignoredConnectors?: Array<string>,
+    ignoredConnectors?: Array<string>;
     /** Use this rule to autogenerate the configuration file */
     recommended?: boolean;
     /** The schema the rule configuration must follow in order to be valid */
@@ -23,27 +23,27 @@ export interface IRuleBuilder {
 
 /** A rule to be executed */
 export interface IRule {
-    [key: string]: (...values: Array<any>) => void // TODO: this should be of type Listener, find a way to find it
+    [key: string]: (...values: Array<any>) => void; // TODO: this should be of type Listener, find a way to find it
 }
 
 /** Options to run node-ssllabs */
 export type SSLLabsOptions = {
-    all: string,
-    fromCache: boolean,
-    host: string,
-    maxAge: number
+    all: string;
+    fromCache: boolean;
+    host: string;
+    maxAge: number;
 };
 
 export type SSLLabsEndpointDetail = {
-    protocols: Array<any>
+    protocols: Array<any>;
 };
 
 export type SSLLabsEndpoint = {
-    grade: string,
-    serverName: string,
-    details: { protocols: Array<string> }
+    grade: string;
+    serverName: string;
+    details: { protocols: Array<string> };
 };
 
 export type SSLLabsResult = {
-    endpoints: Array<SSLLabsEndpoint>
+    endpoints: Array<SSLLabsEndpoint>;
 };

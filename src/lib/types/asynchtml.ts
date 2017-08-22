@@ -20,12 +20,12 @@ export interface IAsyncHTMLElement {
     /** Returns the document where the element lives */
     readonly ownerDocument: IAsyncHTMLDocument;
     /** The nodeName of the element */
-    readonly nodeName: string
+    readonly nodeName: string;
 }
 
 export interface IAsyncHTMLDocument {
     /** A wrapper around querySelectorAll that returns an Array of AsyncHTMLElements instead of a NodeList */
-    querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>>
+    querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>>;
     /** The HTML of the page as returned by document.children[0].outerHTML or similar */
     pageHTML(): Promise<string>;
 }

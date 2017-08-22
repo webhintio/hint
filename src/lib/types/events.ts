@@ -35,7 +35,7 @@ export interface IFetchError extends IEvent {
     /** The error found. */
     error: any;
     /** The redirects performed for the url. */
-    hops: Array<string>
+    hops: Array<string>;
 }
 
 /** The object emitted by a connector on `traverse::start` */
@@ -59,7 +59,7 @@ export interface IElementFound extends IEvent {
 /** The object emitted by a connector on `manifestfetch::error`. */
 export interface IManifestFetchError extends IEvent {
     /** The error when downloading the manifest.  */
-    error: Error
+    error: Error;
 }
 
 /** The object emitted by a connector on `manifestfetch::missing`. */

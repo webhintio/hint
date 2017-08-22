@@ -25,20 +25,20 @@ export interface IConnector {
     /** Evaluates the given JavaScript `code` asynchronously in the target. */
     evaluate(code: string): Promise<any>;
     /** Finds all the nodes that match the given query. */
-    querySelectorAll(query: string): Promise<Array<IAsyncHTMLElement>>
+    querySelectorAll(query: string): Promise<Array<IAsyncHTMLElement>>;
 }
 
 export type BrowserInfo = {
-    isNew?: boolean,
-    pid: number,
-    port: number
+    isNew?: boolean;
+    pid: number;
+    port: number;
 };
 
 export interface ILauncher {
-    launch(url: string, options?): Promise<BrowserInfo>
+    launch(url: string, options?): Promise<BrowserInfo>;
 }
 
 export type LauncherOptions = {
-    flags?: string[],
-    port?: number
+    flags?: string[];
+    port?: number;
 };

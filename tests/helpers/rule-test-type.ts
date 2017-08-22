@@ -2,8 +2,8 @@ import { IProblemLocation } from '../../src/lib/types';
 
 export interface IReport {
     /** The message to validate */
-    message: string,
-    position?: IProblemLocation
+    message: string;
+    position?: IProblemLocation;
 }
 
 export interface IRuleTest {
