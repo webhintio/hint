@@ -11,13 +11,13 @@ import * as express from 'express';
 import * as onHeaders from 'on-headers';
 import { promisify } from 'util';
 
-type ServerConfiguration = string | object; //eslint-disable-line
+export type ServerConfiguration = string | object; //eslint-disable-line
 
 const startPort = 3000;
 const maxPort = 65535;
 
 /** A testing server for Sonar rules */
-class Server {
+export class Server {
     private _app;
     private _server: https.Server | http.Server;
     private _port: number = startPort;
@@ -166,10 +166,6 @@ class Server {
 }
 
 /** Returns a testing server */
-const createServer = (isHTTPS?: boolean) => {
-    const server = new Server(isHTTPS);
-
-    return server;
+export const createServer = (isHTTPS?: boolean) => {
+    return new Server(isHTTPS);
 };
-
-export { createServer, Server };

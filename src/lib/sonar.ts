@@ -16,7 +16,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, IConnectorBuilder, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IRuleConfigList, IPlugin, RuleConfig, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IRuleConfigList, IPlugin, RuleConfig, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
 import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
@@ -223,7 +223,7 @@ export class Sonar extends EventEmitter {
         debug(`Rules loaded: ${this.rules.size}`);
     }
 
-    public fetchContent(target: string | url.Url, headers: object) {
+    public fetchContent(target: string | url.Url, headers: object): Promise<INetworkData> {
         return this.connector.fetchContent(target, headers);
     }
 
