@@ -21,7 +21,7 @@
     "chrome-remote-interface": "^0.24.0",
     "content-type": "^1.0.2",
     "debug": "^3.0.0",
-    "eslint": "^4.0.0",
+    "eslint": "^4.5.0",
     "eventemitter2": "^4.1.0",
     "file-type": "^6.1.0",
     "file-url": "^2.0.2",
@@ -101,7 +101,7 @@
     "ts-node": "^3.1.0",
     "typedoc": "^0.8.0",
     "typescript": "^2.4.1",
-    "typescript-eslint-parser": "^6.0.0"
+    "typescript-eslint-parser": "^6.0.1"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -111,11 +111,6 @@
     "dist/src",
     "docs"
   ],
-  "greenkeeper": {
-    "ignore": [
-      "eslint"
-    ]
-  },
   "homepage": "https://sonarwhal.com/",
   "keywords": [
     "a11y",
