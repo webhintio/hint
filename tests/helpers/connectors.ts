@@ -1,3 +1,6 @@
+// We need to import this interface to generate the definition of this file
+import { IConnectorBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
+
 import cdpBuilder from '../../src/lib/connectors/cdp/cdp';
 import jsdomBuilder from '../../src/lib/connectors/jsdom/jsdom';
 

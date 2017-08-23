@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
-        "allowJs": true,
         "alwaysStrict": true,
         "module": "commonjs",
         "sourceMap": true,
         "target": "esnext",
+        "declaration": true,
         "lib": [
             "es2017",
             "esnext",
