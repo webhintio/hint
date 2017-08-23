@@ -65,7 +65,7 @@ the tests are run twice initially.
 ## Code of Conduct
 
 This project adheres to the JS Foundation's [code of
-conduct](CODE_OF_CONDUCT.md). By participating in this project you
+conduct](https://js.foundation/community/code-of-conduct). By participating in this project you
 agree to abide by its terms.
 
 ## License
