@@ -156,12 +156,19 @@ const rule: IRuleBuilder = {
         const loadRuleConfigs = () => {
             requireMetaTag = (context.ruleOptions && context.ruleOptions.requireMetaTag) || false;
 
+            const targetedBrowsers: string[] = context.targetedBrowsers;
+
             // Document modes are only supported by Internet Explorer 8/9/10.
             // https://msdn.microsoft.com/en-us/library/jj676915.aspx
+            //
+            // If no browsers are targeted, assume Internet Explorer 8/9/10
+            // are supported.
 
-            suggestRemoval = ['ie 8', 'ie 9', 'ie 10'].some((e) => {
-                return context.targetedBrowsers.includes(e);
-            });
+            if (targetedBrowsers.length !== 0) {
+                suggestRemoval = !['ie 8', 'ie 9', 'ie 10'].some((e) => {
+                    return targetedBrowsers.includes(e);
+                });
+            }
         };
 
         const validate = async (event: ITraverseEnd) => {
