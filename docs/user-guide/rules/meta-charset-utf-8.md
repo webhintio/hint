@@ -54,7 +54,7 @@ thing in the `<head>`.
 
 ### Examples that **trigger** the rule
 
-The character encoding is not specified in `html>`:
+The character encoding is not specified in `<html>`:
 
 ```html
 <!doctype html>
