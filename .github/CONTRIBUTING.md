@@ -6,7 +6,7 @@ contribution process easy and effective for everyone involved.
 ## Code of Conduct
 
 This project adheres to the [JS Foundation Code of
-Conduct](https://sonarwhal.com/about/code_of_conduct.html). We kindly
+Conduct](https://js.foundation/community/code-of-conduct). We kindly
 request that you read over our code of conduct before contributing.
 
 ## Contributing Code
