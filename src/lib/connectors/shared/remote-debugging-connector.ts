@@ -65,6 +65,7 @@ export class Connector implements IConnector {
     private _tabs = [];
     /** Tells if the page has specified a manifest or not. */
     private _manifestIsSpecified: boolean = false;
+    /** Tells if a favicon of a page has been downloaded from a link tag */
     private _faviconLoaded: boolean = false;
 
     private _targetNetworkData: INetworkData;
@@ -156,6 +157,21 @@ export class Connector implements IConnector {
         return null;
     }
 
+    /** Check if a request or response is to or from `/favicon.ico` */
+    private rootFaviconRequestOrResponse(params) {
+        if (!this._finalHref) {
+            return false;
+        }
+        const faviconUrl = url.resolve(this._finalHref, '/favicon.ico');
+        const event = params.request || params.response;
+
+        if (!event) {
+            return false;
+        }
+
+        return this._finalHref && faviconUrl === event.url;
+    }
+
     /** Event handler for when the browser is about to make a request. */
     private async onRequestWillBeSent(params) {
         const requestUrl: string = params.request.url;
@@ -183,7 +199,14 @@ export class Connector implements IConnector {
         const eventName: string = this._href === requestUrl ? 'targetfetch::start' : 'fetch::start';
 
         debug(`About to start fetching ${requestUrl}`);
-        await this._server.emitAsync(eventName, { resource: requestUrl });
+
+        /* `getFavicon` will make attempts to download favicon later.
+        * Ignore `cdp` requests to download favicon from the root
+        * to avoid emitting duplidate events.
+        */
+        if (!this.rootFaviconRequestOrResponse(params)) {
+            await this._server.emitAsync(eventName, { resource: requestUrl });
+        }
     }
 
     /** Event handler fired when HTTP request fails for some reason. */
@@ -230,7 +253,13 @@ export class Connector implements IConnector {
 
         this._requests.delete(params.requestId);
 
-        await this._server.emitAsync(eventName, event);
+        /* `getFavicon` will make attempts to download favicon later.
+        * Ignore `cdp` requests to download favicon from the root
+        * to avoid emitting duplidate events.
+        */
+        if (!this.rootFaviconRequestOrResponse(params)) {
+            await this._server.emitAsync(eventName, event);
+        }
     }
 
     private async getResponseBody(cdpResponse) {
@@ -333,7 +362,13 @@ export class Connector implements IConnector {
             this._faviconLoaded = true;
         }
 
-        await this._server.emitAsync(eventName, data);
+        /* `getFavicon` will make attempts to download favicon later.
+         * Ignore `cdp` requests to download favicon from the root
+         * to avoid emitting duplidate events.
+         */
+        if (!this.rootFaviconRequestOrResponse(params)) {
+            await this._server.emitAsync(eventName, data);
+        }
 
         /* We don't need to store the request anymore so we can remove it and ignore it
          * if we receive it in `onLoadingFailed` (used only for "catastrophic" failures).
@@ -536,8 +571,8 @@ export class Connector implements IConnector {
      * * uses the `src` attribute of `<link rel="icon">` if present.
      * * uses `favicon.ico` and the final url after redirects.
      */
-    private async getFavicon(element?: AsyncHTMLElement) {
-        const href = element ? element.getAttribute('href') : '/favicon.ico';
+    private async getFavicon(element: AsyncHTMLElement) {
+        const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
             debug(`resource ${href} to be fetched`);
@@ -594,7 +629,9 @@ export class Connector implements IConnector {
                     }
 
                     if (!this._faviconLoaded) {
-                        await this.getFavicon((await this._dom.querySelectorAll('link[rel~="icon"]'))[0]);
+                        const faviconElement = (await this._dom.querySelectorAll('link[rel~="icon"]'))[0];
+
+                        await this.getFavicon(faviconElement);
                     }
 
                     await this._server.emitAsync('scan::end', event);
