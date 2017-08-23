@@ -91,25 +91,46 @@ const testsForRequireMetaTagConfig: Array<IRuleTest> = [
     }
 ];
 
+const testsForHeaderWithBlankTargetBrowsersConfig: Array<IRuleTest> = [
+    {
+        name: `HTML page is served without the 'X-UA-Compatible' header, but it's required by the targeted browsers`,
+        reports: [{ message: `'x-ua-compatible' header was not specified` }],
+        serverConfig: { '/': '' }
+    }
+];
+
+const testsForMetaTagWithBlankTargetBrowsersConfig: Array<IRuleTest> = [
+    {
+        name: `'X-UA-Compatible' meta tag is not specified, but it's required by the targeted browsers`,
+        reports: [{ message: `No 'x-ua-compatible' meta tag was specified` }],
+        serverConfig: { '/': { headers: { 'X-UA-Compatible': 'ie=edge' } } }
+    }
+];
+
 const testsForTargetBrowsersConfig: Array<IRuleTest> = [
     {
-        name: `HTML page is served with 'X-UA-Compatible' header but the targeted browsers don't support document modes`,
-        reports: [{ message: `'x-ua-compatible' header is not needed` }],
-        serverConfig: { '/': { headers: { 'X-UA-Compatible': 'ie=edge' } } }
-    },
-    {
-        name: `'X-UA-Compatible' meta tag is not specified but the targeted browsers don't support document modes`,
-        reports: [{ message: `Meta tag is not needed` }],
-        serverConfig: { '/': { content: generateHTMLPageWithMetaTag() } }
+        name: `HTML page is served with both 'X-UA-Compatible' header and meta tag, but they are not required by the targeted browsers`,
+        reports: [
+            { message: `'x-ua-compatible' header is not needed` },
+            { message: `Meta tag is not needed` }
+        ],
+        serverConfig: {
+            '/': {
+                content: generateHTMLPageWithMetaTag(),
+                headers: { 'X-UA-Compatible': 'ie=edge' }
+            }
+        }
     }
 ];
 
 ruleRunner.testRule(ruleName, testsForDefaults);
 ruleRunner.testRule(ruleName, testsForRequireMetaTagConfig, { ruleOptions: { requireMetaTag: true } });
+ruleRunner.testRule(ruleName, testsForHeaderWithBlankTargetBrowsersConfig, { browserslist: [] });
+ruleRunner.testRule(ruleName, testsForMetaTagWithBlankTargetBrowsersConfig, {
+    browserslist: [],
+    ruleOptions: { requireMetaTag: true }
+});
 ruleRunner.testRule(ruleName, testsForTargetBrowsersConfig, {
-    browserslist: [
-        'ie >= 6',
-        'last 2 versions'
-    ],
+    browserslist: ['ie 11'],
     ruleOptions: { requireMetaTag: true }
 });
