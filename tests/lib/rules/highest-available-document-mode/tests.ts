@@ -13,7 +13,20 @@ const generateHTMLPageWithMetaTag = (metaTagValue: string = 'iE=eDgE') => {
     return generateHTMLPage(`<MEtA hTTp-EqUIv="X-Ua-CompATible" ConTenT="${metaTagValue}">`);
 };
 
-const testsForDefaults: Array<IRuleTest> = [
+const testsForNonDocumentModeBrowsers: Array<IRuleTest> = [
+    {
+        name: `HTML page is served with 'X-UA-Compatible' header but the targeted browsers don't support document modes`,
+        reports: [{ message: `'x-ua-compatible' header is not needed` }],
+        serverConfig: { '/': { headers: { 'X-UA-Compatible': 'ie=edge' } } }
+    },
+    {
+        name: `'X-UA-Compatible' meta tag is not specified but the targeted browsers don't support document modes`,
+        reports: [{ message: `Meta tag is not needed` }],
+        serverConfig: { '/': { content: generateHTMLPageWithMetaTag() } }
+    }
+];
+
+const testsForHeaders: Array<IRuleTest> = [
     {
         name: `HTML page is served without 'X-UA-Compatible' header`,
         reports: [{ message: `'x-ua-compatible' header was not specified` }],
@@ -91,25 +104,9 @@ const testsForRequireMetaTagConfig: Array<IRuleTest> = [
     }
 ];
 
-const testsForTargetBrowsersConfig: Array<IRuleTest> = [
-    {
-        name: `HTML page is served with 'X-UA-Compatible' header but the targeted browsers don't support document modes`,
-        reports: [{ message: `'x-ua-compatible' header is not needed` }],
-        serverConfig: { '/': { headers: { 'X-UA-Compatible': 'ie=edge' } } }
-    },
-    {
-        name: `'X-UA-Compatible' meta tag is not specified but the targeted browsers don't support document modes`,
-        reports: [{ message: `Meta tag is not needed` }],
-        serverConfig: { '/': { content: generateHTMLPageWithMetaTag() } }
-    }
-];
-
-ruleRunner.testRule(ruleName, testsForDefaults);
-ruleRunner.testRule(ruleName, testsForRequireMetaTagConfig, { ruleOptions: { requireMetaTag: true } });
-ruleRunner.testRule(ruleName, testsForTargetBrowsersConfig, {
-    browserslist: [
-        'ie >= 6',
-        'last 2 versions'
-    ],
+ruleRunner.testRule(ruleName, testsForNonDocumentModeBrowsers, { browserslist: ['ie >= 11', 'chrome >= 50', 'edge >= 13', 'firefox >= 45'] });
+ruleRunner.testRule(ruleName, testsForRequireMetaTagConfig, {
+    browserslist: ['ie 8'],
     ruleOptions: { requireMetaTag: true }
 });
+ruleRunner.testRule(ruleName, testsForHeaders, { browserslist: ['ie 8'] });

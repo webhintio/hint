@@ -196,8 +196,8 @@ your `.sonarrc` file.
 ## Browser configuration
 
 `sonar` allows you to define your browser support matrix by adding
-the property `browserlist` to your `.sonarrc` file. This property
-follows the same convention as [`browserlist`][browserslist]:
+the property `browserslist` to your `.sonarrc` file. This property
+follows the same convention as [`browserslist`][browserslist]:
 
 ```json
 {
@@ -216,6 +216,17 @@ This rule will advice you to use `edge` mode if you need to support
 versions of IE prior IE10, or tell you to remove that tag or header
 it you only need IE11+ because document modes were removed at that
 version.
+
+If no value is defined, [`browserslist`'s defaults][browserslist defaults] will
+be used:
+
+```js
+browserslist.defaults = [
+    '> 1%',
+    'last 2 versions',
+    'Firefox ESR'
+];
+```
 
 ## Connectors
 
@@ -262,7 +273,8 @@ to know more.
 
 <!-- Link labels: -->
 
-[browserlist]: https://github.com/ai/browserslist
+[browserslist]: https://github.com/ai/browserslist
+[browserslist defaults]: https://github.com/ai/browserslist/blob/3b8e4abfbfe36d01859a0e70292106be0fe70c8f/index.js#L303
 [homebrew]: https://brew.sh/
 [nodejs]: https://nodejs.org/en/download/current/
 [npm change default directory]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-2-change-npms-default-directory-to-another-directory
