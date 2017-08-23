@@ -16,6 +16,7 @@
 * [`content-type`](content-type.md)
 * [`highest-available-document-mode`](highest-available-document-mode.md)
 * [`html-checker`](html-checker.md)
+* [`meta-viewport`](meta-viewport.md)
 * [`no-friendly-error-pages`](no-friendly-error-pages.md)
 
 ## Performance

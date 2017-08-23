@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
 
+import { parse as parseContentTypeHeader } from 'content-type';
 import { promisify } from 'util';
 
 import * as stripBom from 'strip-bom';
@@ -49,6 +50,29 @@ const isDataURI = (resource: string): boolean => {
 /** Convenience function to check if a resource is a local file. */
 const isLocalFile = (resource: string): boolean => {
     return hasProtocol(resource, 'file:');
+};
+
+/** Convenience function to check if a resource is a HTMLDocument. */
+const isHTMLDocument = (targetURL: string, responseHeaders: object): boolean => {
+
+    // If it's a local file, just presume it's a HTML document.
+
+    if (isLocalFile(targetURL)) {
+        return true;
+    }
+
+    // Otherwise, check.
+
+    const contentTypeHeaderValue: string = responseHeaders['content-type'];
+    let mediaType: string;
+
+    try {
+        mediaType = parseContentTypeHeader(contentTypeHeaderValue).type;
+    } catch (e) {
+        return false;
+    }
+
+    return mediaType === 'text/html';
 };
 
 /** Convenience function to check if a resource is served over HTTPS. */
@@ -181,10 +205,11 @@ export {
     findPackageRoot,
     hasAttributeWithValue,
     hasProtocol,
-    isRegularProtocol,
     isDataURI,
+    isHTMLDocument,
     isHTTPS,
     isLocalFile,
+    isRegularProtocol,
     loadJSFile,
     loadJSONFile,
     normalizeString,

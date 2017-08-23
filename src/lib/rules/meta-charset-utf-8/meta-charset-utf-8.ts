@@ -8,8 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
-import { isLocalFile, normalizeString } from '../../utils/misc';
-import { parse } from 'content-type';
+import { isHTMLDocument, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 // ------------------------------------------------------------------------------
@@ -31,28 +30,6 @@ const rule: IRuleBuilder = {
             });
         };
 
-        const isHTMLDocument = (targetURL: string, responseHeaders: object): boolean => {
-
-            // If it's a local file, just presume it's a HTML document.
-            // TODO: Change this!
-
-            if (isLocalFile(targetURL)) {
-                return true;
-            }
-
-            // Otherwise, check.
-
-            const contentTypeHeaderValue: string = responseHeaders['content-type'];
-            let mediaType: string;
-
-            try {
-                mediaType = parse(contentTypeHeaderValue).type;
-            } catch (e) {
-                return false;
-            }
-
-            return mediaType === 'text/html';
-        };
 
         const validate = async (event: ITraverseEnd) => {
             const { resource }: { resource: string } = event;
