@@ -14,7 +14,7 @@ const generateMissingMessage = (value: string, linkTypes: Array<string>): string
     return `'${cutString(value, 100)}' is missing 'rel' ${pluralize('value', linkTypes.length)} '${linkTypes.join('\', \'')}'`;
 };
 
-const testsForDefaults: Array<IRuleTest> = [
+const testsForOldBrowsers: Array<IRuleTest> = [
 
     // No 'target="_blank"'
 
@@ -152,14 +152,14 @@ const testsForDefaults: Array<IRuleTest> = [
     }
 ];
 
-const testsForBrowsersListConfig: Array<IRuleTest> = [
+const testsWithFullSupportBrowsers: Array<IRuleTest> = [
     {
         name: `'a' with 'href="https://example.com"' has 'target="_blank"', and 'noopener' is supported by all targeted browsers`,
         reports: [{ message: generateMissingMessage('<a href="https://example.com" id="test" class="t … test4 test5 test5 test6" target="_blank">test</a>', ['noopener']) }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" id="test" class="test1 test2 test3 test4 test5 test5 test6" target="_blank">test</a>`) }
     },
     {
-        name: `'a' with 'href="https://example.com"' has 'target="_blank"', 'noopener', and 'noreferrer', and 'noopener' is supported by all targeted browsers`,
+        name: `'a' with 'href="https://example.com"' has 'target="_blank"', 'noopener noreferrer' is supported by all targeted browsers`,
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" target="_blank" rel="noopener noreferrer">test</a>`) }
     }
 ];
@@ -198,6 +198,6 @@ const testsForIncludeSameOriginURLsConfig: Array<IRuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, testsForDefaults);
-ruleRunner.testRule(ruleName, testsForBrowsersListConfig, { browserslist: ['Firefox >= 52'] });
+ruleRunner.testRule(ruleName, testsWithFullSupportBrowsers, { browserslist: ['chrome 60', 'firefox 55'] });
+ruleRunner.testRule(ruleName, testsForOldBrowsers, { browserslist: ['ie 8'] });
 ruleRunner.testRule(ruleName, testsForIncludeSameOriginURLsConfig, { ruleOptions: { includeSameOriginURLs: true } });

@@ -159,15 +159,15 @@ const rule: IRuleBuilder = {
             // Document modes are only supported by Internet Explorer 8/9/10.
             // https://msdn.microsoft.com/en-us/library/jj676915.aspx
 
-            suggestRemoval = ['ie 8', 'ie 9', 'ie 10'].some((e) => {
-                return context.targetedBrowsers.includes(e);
+            suggestRemoval = ['ie 8', 'ie 9', 'ie 10'].every((e) => {
+                return !context.targetedBrowsers.includes(e);
             });
         };
 
         const validate = async (event: ITraverseEnd) => {
             const { resource }: { resource: string } = event;
 
-            // The following check don't make for local files.
+            // The following check doesn't make sense for local files.
 
             if (!isLocalFile(resource)) {
                 checkHeader(resource, context.pageHeaders);

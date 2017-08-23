@@ -36,7 +36,7 @@ export class Sonar extends EventEmitter {
     private connectorId: string
     private connectorConfig: object
     private messages: Array<IProblem>
-    private browsersList: Array<string> = [];
+    private browserslist: Array<string> = [];
     private ignoredUrls: Map<string, Array<RegExp>>;
     private _formatter: string
 
@@ -53,7 +53,7 @@ export class Sonar extends EventEmitter {
     }
 
     public get targetedBrowsers(): Array<string> {
-        return this.browsersList;
+        return this.browserslist;
     }
 
     public get formatter(): string {
@@ -96,8 +96,10 @@ export class Sonar extends EventEmitter {
         }
 
         debug('Loading supported browsers');
-        if (config.browserslist) {
-            this.browsersList = browserslist(config.browserslist);
+        if (!config.browserslist || config.browserslist.length === 0) {
+            this.browserslist = browserslist();
+        } else {
+            this.browserslist = browserslist(config.browserslist);
         }
 
         debug('Setting the selected formatter');
