@@ -150,7 +150,7 @@
     "clean": "rimraf dist",
     "commitmsg": "node scripts/check-commit-message.js",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint --ext md --ext ts --ignore-pattern dist/* .",
+    "lint:js": "eslint --ext md --ext ts --ignore-pattern dist .",
     "lint:md": "markdownlint ./.github docs",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
     "prepublishOnly": "npm i && npm run build",
