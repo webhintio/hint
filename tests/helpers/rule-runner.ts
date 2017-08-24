@@ -158,7 +158,15 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
 
         if (!rule.meta.ignoredConnectors || !rule.meta.ignoredConnectors.includes(connector)) {
             ruleTests.forEach((ruleTest) => {
-                const runner = configs['serial'] ? test.serial : test; // eslint-disable-line dot-notation
+                let runner;
+
+                runner = configs['serial'] ? test.serial : test; // eslint-disable-line dot-notation
+
+                // If the tests for a rule ignores the connector, then we
+                // skip the tests
+                if (configs.ignoredConnectors && configs.ignoredConnectors.includes(connector)) {
+                    runner = test.skip;
+                }
 
                 runner(`[${connector}]${ruleTest.name}`, runRule, ruleTest, connector);
             });
