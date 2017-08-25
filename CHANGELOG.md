@@ -1,3 +1,31 @@
+# 0.4.0 (August 25, 2017)
+
+## Breaking Changes
+
+* [[`e35b778004`](https://github.com/sonarwhal/sonar/commit/e35b778004be3038d0b994f9a258dd454b994622)] - Breaking: Make `content-type` rule use proper fonts types (see also: [`#425`](https://github.com/sonarwhal/sonar/issues/425)).
+* [[`941d439aff`](https://github.com/sonarwhal/sonar/commit/941d439affca16e3af1b0df90e739ee746df2313)] - Breaking: Upgrade `file-type` to `v6.1.0` (see also: [`#428`](https://github.com/sonarwhal/sonar/issues/428)).
+* [[`c03079912b`](https://github.com/sonarwhal/sonar/commit/c03079912beda28a7d4f7b4bc9427b3cd0e8e621)] - Breaking: Use `browserslist` defaults (see also: [`#452`](https://github.com/sonarwhal/sonar/issues/452) and [`#453`](https://github.com/sonarwhal/sonar/issues/453)).
+
+## Bug fixes / Improvements
+
+* [[`0507ff7279`](https://github.com/sonarwhal/sonar/commit/0507ff72793989790694695ef2633d8d177218de)] - Docs: Fix link to `no-disallowed-headers` (see also: [`#403`](https://github.com/sonarwhal/sonar/issues/403)).
+* [[`56fc97aa3c`](https://github.com/sonarwhal/sonar/commit/56fc97aa3c4f84f89eb5fb07a59b4c36d8e4deb8)] - Fix: Make `rule-generator` not encode quotes (see also: [`#392`](https://github.com/sonarwhal/sonar/issues/392)).
+* [[`49833d62ca`](https://github.com/sonarwhal/sonar/commit/49833d62ca4e5ccd2c9ad90ad010aabf9587a1f4)] - Fix: `SyntaxError` when using `jsdom` (see also: [`#404`](https://github.com/sonarwhal/sonar/issues/404)).
+* [[`45955ebc5c`](https://github.com/sonarwhal/sonar/commit/45955ebc5ce0473a421cb2bb4445721c2801c50c)] - Docs: Fix link in `strict-transport-security.md` (see also: [`#417`](https://github.com/sonarwhal/sonar/issues/417)).
+* [[`dd161ed3d0`](https://github.com/sonarwhal/sonar/commit/dd161ed3d0abddb10c6bfc9d5be51ca68c916964)] - Docs: Make minor improvements (see also: [`#437`](https://github.com/sonarwhal/sonar/issues/437)).
+* [[`5cc4484a83`](https://github.com/sonarwhal/sonar/commit/5cc4484a836881a6fa0ec40eee56027c143bf2f4)] - Docs: Update `Code of Conduct` links.
+* [[`aa14e6cb57`](https://github.com/sonarwhal/sonar/commit/aa14e6cb573afe07345fa64f489bc17b53c5792d)] - Fix: Avoid analyzing `/favicon.ico` multiple times (see also: [`#427`](https://github.com/sonarwhal/sonar/issues/427)).
+* [[`9755cadf04`](https://github.com/sonarwhal/sonar/commit/9755cadf0442203ca30d2850d4e950ac068b9503)] - Fix: Error when scanning non-existent URL (see also: [`#389`](https://github.com/sonarwhal/sonar/issues/389)).
+
+## New features
+
+* [[`2be5a4ba20`](https://github.com/sonarwhal/sonar/commit/2be5a4ba203aea66b6b61ac7e9c2a4c7fdf191f8)] - New: Add rule to check the usage of the `Strict-Transport-Security` header (see also: [`#23`](https://github.com/sonarwhal/sonar/issues/23)).
+* [[`e9e4a95fd7`](https://github.com/sonarwhal/sonar/commit/e9e4a95fd73210d44cb62fa0769082756d136ad0)] - New: Notify users when a new version of `sonar` is available (see also: [`#419`](https://github.com/sonarwhal/sonar/issues/419)).
+* [[`d515c5aa8b`](https://github.com/sonarwhal/sonar/commit/d515c5aa8bf1cba850d4f7bafaeb33588ab3a5f7)] - New: Create a new config file if one doesn't exist (see also: [`#354`](https://github.com/sonarwhal/sonar/issues/354)).
+* [[`12a415f40d`](https://github.com/sonarwhal/sonar/commit/12a415f40dcdb711861b2494be31f0504cac3471)] - New: Add rule to check the usage of the `Set-Cookie` header (see also: [`#24`](https://github.com/sonarwhal/sonar/issues/24)).
+* [[`f70a4d37e8`](https://github.com/sonarwhal/sonar/commit/f70a4d37e8ef24c6165b548c3d45cbfea1e9439b)] - New: Add rule to check the usage of the `viewport` meta tag (see also: [`#82`](https://github.com/sonarwhal/sonar/issues/82)).
+
+
 # 0.3.0 (July 1, 2017)
 
 ## Breaking Changes
