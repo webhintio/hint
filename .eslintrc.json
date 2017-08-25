@@ -85,7 +85,6 @@
         "no-console": "off",
         "no-const-assign": "error",
         "no-constant-condition": "error",
-        "no-continue": "error",
         "no-control-regex": "error",
         "no-debugger": "error",
         "no-delete-var": "error",
