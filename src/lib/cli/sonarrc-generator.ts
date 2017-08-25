@@ -16,15 +16,16 @@ import { debug as d } from '../utils/debug';
 import { IConfig, IRuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
 import * as logger from '../utils/logging';
 import * as resourceLoader from '../utils/resource-loader';
+import { generateBrowserslistConfig } from './browserslist-generator';
 
-const debug = d(__filename);
+const debug: debug.IDebugger = d(__filename);
 
 /** Initiates a wizard to gnerate a valid `.sonarrc` file based on user responses. */
 export const initSonarrc = async () => {
     debug('Initiating generator');
 
-    const connectorKeys = resourceLoader.getCoreConnectors();
-    const formattersKeys = resourceLoader.getCoreFormatters();
+    const connectorKeys: Array<inquirer.ChoiceType> = resourceLoader.getCoreConnectors();
+    const formattersKeys: Array<inquirer.ChoiceType> = resourceLoader.getCoreFormatters();
     const rulesIds = resourceLoader.getCoreRules();
     const rulesConfig = rulesIds.reduce((config, ruleId) => {
         config[ruleId] = 'warning';
@@ -35,7 +36,7 @@ export const initSonarrc = async () => {
     const rules = resourceLoader.loadRules(rulesConfig);
 
     const sonarConfig = {
-        browserslist: '',
+        browserslist: [],
         connector: {
             name: '',
             options: { waitFor: 1000 }
@@ -57,7 +58,7 @@ export const initSonarrc = async () => {
 
     logger.log('Welcome to sonar configuration generator');
 
-    const questions = [
+    const questions: inquirer.Questions = [
         {
             choices: connectorKeys,
             message: 'What connector do you want to use?',
@@ -71,17 +72,9 @@ export const initSonarrc = async () => {
             type: 'list'
         },
         {
-            choices: [{
-                name: 'Yes',
-                value: true
-            },
-            {
-                name: 'No',
-                value: false
-            }],
             message: 'Do you want to use the recommended rules configuration?',
             name: 'default',
-            type: 'list'
+            type: 'confirm'
         },
         {
             choices: rulesKeys,
@@ -95,7 +88,7 @@ export const initSonarrc = async () => {
         }
     ];
 
-    const results = await inquirer.prompt(questions);
+    const results: inquirer.Answers = await inquirer.prompt(questions);
 
     sonarConfig.connector.name = results.connector;
     sonarConfig.formatter = results.formatter;
@@ -119,7 +112,9 @@ export const initSonarrc = async () => {
         });
     }
 
-    const filePath = path.join(process.cwd(), '.sonarrc');
+    sonarConfig.browserslist = await generateBrowserslistConfig();
+
+    const filePath: string = path.join(process.cwd(), '.sonarrc');
 
     return promisify(fs.writeFile)(filePath, JSON.stringify(sonarConfig, null, 4), 'utf8');
 };

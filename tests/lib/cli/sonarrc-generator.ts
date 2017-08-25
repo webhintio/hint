@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 import test from 'ava';
 
 const inquirer = { prompt() { } };
+const stubBrowserslistObject = { generateBrowserslistConfig() { } };
 const resourceLoader = {
     getCoreConnectors() { },
     getCoreFormatters() { },
@@ -20,6 +21,7 @@ const stubUtilObject = {
 
 proxyquire('../../../src/lib/cli/sonarrc-generator', {
     '../utils/resource-loader': resourceLoader,
+    './browserslist-generator': stubBrowserslistObject,
     inquirer,
     util: stubUtilObject
 });
@@ -28,15 +30,18 @@ import { initSonarrc } from '../../../src/lib/cli/sonarrc-generator';
 
 test.beforeEach((t) => {
     sinon.stub(promisifyObject, 'promisify').resolves();
+    sinon.stub(stubBrowserslistObject, 'generateBrowserslistConfig').resolves([]);
     sinon.spy(stubUtilObject, 'promisify');
 
     t.context.util = stubUtilObject.promisify;
     t.context.promisify = promisifyObject.promisify;
+    t.context.browserslistGenerator = stubBrowserslistObject.generateBrowserslistConfig;
 });
 
 test.afterEach.always((t) => {
     t.context.util.restore();
     t.context.promisify.restore();
+    t.context.browserslistGenerator.restore();
 });
 
 const connectors = [
@@ -85,7 +90,6 @@ test.serial(`generate should call to "inquirer.prompt" with the right data`, asy
 
     t.is(questions[0].choices.length, connectors.length);
     t.is(questions[1].choices.length, formatters.length);
-    t.is(questions[2].choices.length, 2);
     t.is(questions[3].choices.length, rulesKeys.length);
     t.is(questions[3].choices[0].value, rulesKeys[0]);
     t.is(questions[3].choices[0].name, `${rulesKeys[0]} - ${rulesData.get(rulesKeys[0]).meta.docs.description}`);
