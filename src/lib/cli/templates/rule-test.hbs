@@ -1,10 +1,12 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
-import * as ruleRunner from '../../../helpers/rule-runner';
+import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
+import * as ruleRunner from '../../../helpers/rule-runner';
+
 const ruleName = getRuleName(__dirname);
-const tests: Array<RuleTest> = [
+
+const tests: Array<IRuleTest> = [
     {
         name: 'Name of the tests',
         serverConfig: 'HTML to use',
@@ -14,4 +16,5 @@ const tests: Array<RuleTest> = [
         }]
     }
 ];
+
 ruleRunner.testRule(ruleName, tests);
