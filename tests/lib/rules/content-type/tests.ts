@@ -268,7 +268,10 @@ const testsForDefaults: Array<IRuleTest> = [
     },
     {
         name: `SVG is served with 'Content-Type' header with the wrong media type`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('image/svg+xml', 'font/woff') }],
+        reports: [
+            { message: generateIncorrectMediaTypeMessage('image/svg+xml', 'font/woff') },
+            { message: noCharsetMessage }
+        ],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.svg">')),
             '/test.svg': {

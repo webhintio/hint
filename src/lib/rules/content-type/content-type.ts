@@ -53,7 +53,8 @@ const rule: IRuleBuilder = {
         };
 
         const determineCharset = (determinedMediaType: string, originalMediaType: string): string => {
-            const typeInfo = mimeDB[determinedMediaType];
+            const mediaType = determinedMediaType || originalMediaType;
+            const typeInfo = mimeDB[mediaType];
 
             if (typeInfo && typeInfo.charset) {
                 return normalizeString(typeInfo.charset);
@@ -67,7 +68,7 @@ const rule: IRuleBuilder = {
             ];
 
             if (textMediaTypes.some((regex) => {
-                return regex.test(originalMediaType);
+                return regex.test(mediaType);
             })) {
                 return 'utf-8';
             }
@@ -174,8 +175,8 @@ const rule: IRuleBuilder = {
 
         const overwriteMediaType = (mediaType: string): string => {
 
-            // TODO Temporary fix until the following issue is fixed:
-            //      https://github.com/jshttp/mime-db/issues/77
+            // TODO: The following is done because of a current limitation in `mime-db`.
+            // https://github.com/jshttp/mime-db/issues/20
 
             switch (mediaType) {
                 case 'application/x-font-otf':
