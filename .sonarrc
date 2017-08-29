@@ -23,6 +23,7 @@
         "no-friendly-error-pages": "warning",
         "no-html-only-headers": "warning",
         "no-protocol-relative-urls": "warning",
+        "no-vulnerable-javascript-libraries": "warning",
         "ssllabs": "off",
         "strict-transport-security": "warning",
         "x-content-type-options": "warning",

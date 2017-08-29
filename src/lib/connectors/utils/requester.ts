@@ -39,18 +39,18 @@ export class Requester {
     /** The valid status codes for redirects we follow. */
     private static validRedirects = [301, 302, 303, 307, 308]
     /** Internal `request` object. */
-    private _request: request;
+    private _request;
     /** Internal `redirectManager`. */
     private _redirects: RedirectManager = new RedirectManager();
     /** Maximum number of redirects */
     private _maxRedirects: number = 10;
 
-    public constructor(customOptions?: { [key: string]: any }) {
+    public constructor(customOptions?: request.CoreOptions) {
         if (customOptions) {
             customOptions.followRedirect = false;
             this._maxRedirects = customOptions.maxRedirects || this._maxRedirects;
         }
-        const options = Object.assign({}, defaults, customOptions);
+        const options: request.CoreOptions = Object.assign({}, defaults, customOptions);
 
         this._request = request.defaults(options);
     }
