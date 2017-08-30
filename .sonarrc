@@ -1,6 +1,6 @@
 {
     "connector": {
-        "name": "cdp",
+        "name": "chrome",
         "options": {
             "waitFor": 1000,
             "loadCompleteRetryInterval": 500,

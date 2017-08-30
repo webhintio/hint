@@ -94,7 +94,7 @@ const testConnectorEvaluate = (connectorInfo) => {
                     t.pass('Expected exception');
 
                     // HACK: when running all the tests the message we receive from CDP is "Promise was collected".
-                    // If we just run the `cdp.js` test file everything is fine :(
+                    // If we just run the `chrome.js` test file everything is fine :(
                     // const message = expectedResult.message;
 
                     // if (message) {

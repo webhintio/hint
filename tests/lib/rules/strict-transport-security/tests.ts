@@ -83,7 +83,7 @@ const UnitwrongFormatError = `'${stsHeader}' header has the wrong format: max-ag
 const statusServiceError = `Error with getting preload status for https://localhost/.`;
 const preloadableServiceError = `Error with getting preload eligibility for https://localhost/.`;
 
-// override favicon headers so that it doesn't report in cdp
+// override favicon headers so that it doesn't report in chrome
 const faviconHeaderMaxAgeOnly = { '/favicon.ico': { headers: { [stsHeader]: `max-age=${OkayMaxAge + 100}` } } };
 
 const generateHTMLPageData = (content: string) => {

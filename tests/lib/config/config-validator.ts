@@ -5,7 +5,7 @@ import * as configValidator from '../../../src/lib/config/config-validator';
 
 const validConfig = {
     connector: {
-        name: 'cdp',
+        name: 'chrome',
         options: { waitFor: 1000 }
     },
     formatter: 'json',

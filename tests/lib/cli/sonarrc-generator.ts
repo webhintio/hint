@@ -98,7 +98,7 @@ test.serial(`generate should call to "inquirer.prompt" with the right data`, asy
 test.serial(`generate should call to "fs.writeFile" with the right data`, async (t) => {
     const sandbox = sinon.sandbox.create();
     const questionsResults = {
-        connector: 'cdp',
+        connector: 'chrome',
         default: false,
         formatter: 'json',
         rules: ['rule1']
@@ -125,7 +125,7 @@ test.serial(`generate should call to "fs.writeFile" with the right data`, async 
 test.serial(`if the user choose to use the default rules configuration, all recommended rules should be set to "error" in the configuration file`, async (t) => {
     const sandbox = sinon.sandbox.create();
     const questionsResults = {
-        connector: 'cdp',
+        connector: 'chrome',
         default: true,
         formatter: 'json',
         rules: []

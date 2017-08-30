@@ -1,6 +1,6 @@
 module.exports = {
     connector: {
-        name: 'cdp',
+        name: 'chrome',
         options: { waitFor: 1000 }
     },
     formatter: 'json',

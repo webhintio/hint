@@ -46,7 +46,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
             };
         }
 
-        if (connector === 'cdp') {
+        if (connector === 'chrome') {
             // Allow us to use our self-signed cert for testing.
             config.connector.options = { overrideInvalidCert: true };
         }
