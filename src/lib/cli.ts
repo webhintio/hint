@@ -80,7 +80,7 @@ const notifyNewVersion = (update: updateNotifier.UpdateInfo) => {
     notifier.notify({ message });
 };
 
-const confirmLaunchInit = () => {
+const confirmLaunchInit = (): inquirer.Answers => {
     debug(`Initiating launch init confirm.`);
 
     const question: Array<object> = [{
@@ -102,7 +102,7 @@ const loadOrCreateIfNotExits = async () => {
         config = Config.load(configPath);
     } catch (err) {
         // The config file doesn't exist, launch `init` if user permits.
-        const launchInit: { confirm: boolean } = await confirmLaunchInit();
+        const launchInit: inquirer.Answers = await confirmLaunchInit();
 
         if (launchInit.confirm) {
             await initSonarrc();
