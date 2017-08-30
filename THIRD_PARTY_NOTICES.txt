@@ -1,4 +1,4 @@
-Includes cdp-launcher.ts (lighthouse chrome launcher and karma chrome launcher)
+Includes chrome-launcher.ts (lighthouse chrome launcher and karma chrome launcher)
 
 Lighthouse
 

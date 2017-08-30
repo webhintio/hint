@@ -335,7 +335,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
         create() {
             return {};
         },
-        meta: { ignoredConnectors: ['cdp'] }
+        meta: { ignoredConnectors: ['chrome'] }
     };
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
@@ -378,7 +378,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
         create() {
             return {};
         },
-        meta: { ignoredConnectors: ['cdp'] }
+        meta: { ignoredConnectors: ['chrome'] }
     };
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
@@ -391,7 +391,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
     sinon.spy(ruleWithIgnoredConnector, 'create');
     const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
-        connector: 'cdp',
+        connector: 'chrome',
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'

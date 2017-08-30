@@ -2,7 +2,7 @@
   "private": true,
   "sonarConfig": {
     "connector": {
-      "name": "cdp",
+      "name": "chrome",
       "options": {
         "waitFor": 1000
       }

@@ -13,11 +13,11 @@
 import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html'; // eslint-disable-line no-unused-vars
 import { Connector } from '../shared/remote-debugging-connector';
 import { IConnector, IConnectorBuilder, ILauncher } from '../../types'; // eslint-disable-line no-unused-vars
-import { CDPLauncher } from './cdp-launcher';
+import { CDPLauncher } from './chrome-launcher';
 
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
-class CDPConnector extends Connector {
+class ChromeConnector extends Connector {
     public constructor(server: Sonar, config: object, launcher: ILauncher) {
         super(server, config, launcher);
     }
@@ -25,7 +25,7 @@ class CDPConnector extends Connector {
 
 const builder: IConnectorBuilder = (server: Sonar, config): IConnector => {
     const launcher = new CDPLauncher({});
-    const connector = new CDPConnector(server, config, launcher);
+    const connector = new ChromeConnector(server, config, launcher);
 
     return connector;
 };

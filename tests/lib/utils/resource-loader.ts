@@ -10,7 +10,7 @@ const fakeGlobby = { sync() { } };
 
 test.beforeEach((t) => {
     t.context.fakeGlobby = fakeGlobby;
-    sinon.stub(fakeGlobby, 'sync').returns([path.join(process.cwd(), 'dist/src/lib/connectors/cdp/cdp.js'), path.join(process.cwd(), 'dist/src/lib/connectors/jsdom/jsdom.js')]);
+    sinon.stub(fakeGlobby, 'sync').returns([path.join(process.cwd(), 'dist/src/lib/connectors/chrome/chrome.js'), path.join(process.cwd(), 'dist/src/lib/connectors/jsdom/jsdom.js')]);
 });
 
 test.afterEach.always((t) => {

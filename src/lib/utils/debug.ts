@@ -17,8 +17,8 @@ export const debug = (filePath: string): d.IDebugger => {
 
     // The debug message is generated from the file path, e.g.:
     //
-    //  * src/lib/connectors/cdp/cdp-launcher.ts => sonar:connectors:cdp:cdp-launcher
-    //  * src/lib/connectors/cdp/cdp.ts => sonar:connectors:cdp
+    //  * src/lib/connectors/chrome/chrome-launcher.ts => sonar:connectors:chrome:chrome-launcher
+    //  * src/lib/connectors/chrome/chrome.ts => sonar:connectors:chrome
 
     while (currentDir && currentDir !== 'lib') {
 

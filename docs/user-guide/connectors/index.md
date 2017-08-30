@@ -3,15 +3,15 @@
 The current supported connectors are:
 
 * `jsdom`: Your website will be loaded using [`jsdom`][jsdom].
-* `cdp`: Your website will be loaded using Chrome and the Chrome
+* `chrome`: Your website will be loaded using Chrome and the Chrome
   Debugging Protocol.
 
-## CDP
+## chrome
 
-The `CDP` connector uses the [Chrome Debugging Protocol][cdp] to
+The `chrome` connector uses the [Chrome Debugging Protocol][cdp] to
 communicate with the browser.
 
-### CDP configuration
+### chrome configuration
 
 The following properties can be customized in your `.sonarrc` file, under the
 `options` property of the `connector`:
@@ -36,7 +36,7 @@ The following is the default configuration:
 ```json
 {
     "connector": {
-        "name": "cdp",
+        "name": "chrome",
         "options": {
             "waitFor": 5000,
             "loadCompleteRetryInterval": 500,

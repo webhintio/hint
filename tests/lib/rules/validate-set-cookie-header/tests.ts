@@ -197,10 +197,10 @@ const oldAndNewBrowsersTest = [
 
 ruleRunner.testRule(ruleName, defaultTests, {
     https: true,
-    // Tests are skipped in `cdp` due to the absence of 'Set-Cookie' header.
+    // Tests are skipped in `chrome` due to the absence of 'Set-Cookie' header.
     // Issue: https://bugs.chromium.org/p/chromium/issues/detail?id=692090.
     // TODO: Update the tests once the issue above is fixed.
-    ignoredConnectors: ['cdp']
+    ignoredConnectors: ['chrome']
 });
 
 ruleRunner.testRule(ruleName, newBrowserOnlyTests, {
@@ -209,7 +209,7 @@ ruleRunner.testRule(ruleName, newBrowserOnlyTests, {
         'last 2 versions'
     ],
     https: true,
-    ignoredConnectors: ['cdp']
+    ignoredConnectors: ['chrome']
 });
 
 ruleRunner.testRule(ruleName, olderBrowserOnlyTests, {
@@ -217,7 +217,7 @@ ruleRunner.testRule(ruleName, olderBrowserOnlyTests, {
         'ie 6', 'ie 7'
     ],
     https: true,
-    ignoredConnectors: ['cdp']
+    ignoredConnectors: ['chrome']
 });
 
 ruleRunner.testRule(ruleName, oldAndNewBrowsersTest, {
@@ -226,5 +226,5 @@ ruleRunner.testRule(ruleName, oldAndNewBrowsersTest, {
         'last 2 versions'
     ],
     https: true,
-    ignoredConnectors: ['cdp']
+    ignoredConnectors: ['chrome']
 });

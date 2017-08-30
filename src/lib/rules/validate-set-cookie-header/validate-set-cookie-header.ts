@@ -258,7 +258,7 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            /**  The `cdp` connector concatenates all `set-cookie` headers to one string. */
+            /**  The `chrome` connector concatenates all `set-cookie` headers to one string. */
             const setCookieHeaders: Array<string> = Array.isArray(rawSetCookieHeaders) ? rawSetCookieHeaders : rawSetCookieHeaders.split(/\n|\r\n/);
             const reportBatch = async (errorMessages: ValidationMessages, severity?: Severity): Promise<void[]> => {
                 const promises: Array<Promise<void>> = errorMessages.map((error) => {
