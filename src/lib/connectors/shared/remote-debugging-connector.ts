@@ -18,7 +18,7 @@ import * as r from 'request';
 
 import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html';
 import { debug as d } from '../../utils/debug';
-import { delay, hasAttributeWithValue } from '../../utils/misc';
+import { cutString, delay, hasAttributeWithValue } from '../../utils/misc';
 import { resolveUrl } from '../utils/resolver';
 
 /* eslint-disable no-unused-vars */
@@ -59,8 +59,12 @@ export class Connector implements IConnector {
     private _html: string;
     /** The DOM abstraction on top of adapter. */
     private _dom: AsyncHTMLDocument;
+    /** Timer to kick the traversing if it hasn't started after `options.waitFor` expires. */
+    private _waitForTimer: number;
     /** A handy tool to calculate the `hop`s for a given url. */
     private _redirects = new RedirectManager();
+    /** Indicates if network requests should be processed/queued or not. */
+    private _processRequests: boolean = true;
     /** A collection of requests with their initial data. */
     private _pendingResponseReceived: Array<Function>;
     /** List of all the tabs used by the connector. */
@@ -176,6 +180,10 @@ export class Connector implements IConnector {
 
     /** Event handler for when the browser is about to make a request. */
     private async onRequestWillBeSent(params) {
+        if (!this._processRequests) {
+            return;
+        }
+
         const requestUrl: string = params.request.url;
 
         this._requests.set(params.requestId, params);
@@ -186,7 +194,7 @@ export class Connector implements IConnector {
         }
 
         if (params.redirectResponse) {
-            debug(`Redirect found for ${requestUrl}`);
+            debug(`Redirect found for ${cutString(requestUrl)}`);
             // We store the redirects with the finalUrl as a key to do a reverse search in onResponseReceived.
             this._redirects.add(requestUrl, params.redirectResponse.url);
 
@@ -200,7 +208,7 @@ export class Connector implements IConnector {
 
         const eventName: string = this._href === requestUrl ? 'targetfetch::start' : 'fetch::start';
 
-        debug(`About to start fetching ${requestUrl}`);
+        debug(`About to start fetching ${cutString(requestUrl)}`);
 
         /* `getFavicon` will make attempts to download favicon later.
         * Ignore `cdp` requests to download favicon from the root
@@ -213,6 +221,10 @@ export class Connector implements IConnector {
 
     /** Event handler fired when HTTP request fails for some reason. */
     private async onLoadingFailed(params) {
+        if (!this._processRequests) {
+            return;
+        }
+
         const request = this._requests.get(params.requestId);
 
         /* If `requestId` is not in `this._requests` it means that we already processed the request in `onResponseReceived`.
@@ -254,7 +266,15 @@ export class Connector implements IConnector {
 
         debug(`Error found:\n${JSON.stringify(params)}`);
         const element: AsyncHTMLElement = await this.getElementFromRequest(params.requestId);
-        const { request: { url: resource } } = request;
+        const requestInfo = this._requests.get(params.requestId);
+
+        if (!requestInfo) {
+            debug(`Request ${params.requestId} failed but wasn't in the list`);
+
+            return;
+        }
+
+        const { request: { url: resource } } = requestInfo;
         const eventName: string = this._href === resource ? 'targetfetch::error' : 'fetch::error';
 
         const hops: Array<string> = this._redirects.calculate(resource);
@@ -303,7 +323,7 @@ export class Connector implements IConnector {
             debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
             rawContent = Buffer.alloc(0);
         }
-        debug(`Content for ${cdpResponse.response.url} downloaded`);
+        debug(`Content for ${cutString(cdpResponse.response.url)} downloaded`);
 
         return { content, rawContent, rawResponse };
     }
@@ -334,6 +354,10 @@ export class Connector implements IConnector {
 
     /** Event handler fired when HTTP response is available and DOM loaded. */
     private async onResponseReceived(params) {
+        if (!this._processRequests) {
+            return;
+        }
+
         // DOM is not ready so we queue up the event for later
         if (!this._dom) {
             this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
@@ -561,12 +585,10 @@ export class Connector implements IConnector {
         debug(`Disconnected`);
     }
 
-    /** Sets the right configuration and enables all the required CDP features. */
-    private async configureAndEnableCDP() {
-        const { Network, Page } = this._client;
-
-        this._client.on('error', this.onError);
-        this._client.on('disconnect', this.onDisconnect);
+    /** Enables the handles for all the relevant Networks events sent by the debugging protocol. */
+    private async enableNetworkEvents() {
+        debug('Binding to Network events');
+        const { Network } = this._client;
 
         await Promise.all([
             Network.clearBrowserCache(),
@@ -575,6 +597,29 @@ export class Connector implements IConnector {
             Network.responseReceived(this.onResponseReceived.bind(this)),
             Network.loadingFailed(this.onLoadingFailed.bind(this))
         ]);
+    }
+
+    // /** Enables the handles for all the relevant Networks events sent by the debugging protocol. */
+    // private async disableNetworkEvents() {
+    //     debug('Unbinding to network events');
+    //     const { Network } = this._client;
+
+    //     // chrome remote interfaces uses the same signature to bind/unbind: https://www.npmjs.com/package/chrome-remote-interface#inspection
+    //     await Promise.all([
+    //         Network.requestWillBeSent(() => { })
+    //         // Network.responseReceived(() => { }),
+    //         // Network.loadingFailed(() => { })
+    //     ]);
+    // }
+
+    /** Sets the right configuration and enables all the required CDP features. */
+    private async configureAndEnableCDP() {
+        const { Network, Page } = this._client;
+
+        this._client.on('error', this.onError);
+        this._client.on('disconnect', this.onDisconnect);
+
+        await this.enableNetworkEvents();
 
         await Promise.all([
             Network.enable(),
@@ -620,59 +665,65 @@ export class Connector implements IConnector {
 
     /** Initiates all the process */
     private onLoadEventFired(callback: Function): Function {
-        return () => {
+        return async () => {
+            // Once we've waited enought we don't want to process more network requests
+            // TODO: move the wait for requests logic here instead of the end
+            this._processRequests = false;
+
             const { DOM } = this._client;
             const event: IEvent = { resource: this._finalHref };
 
-            setTimeout(async () => {
-                try {
-                    if (this._errorWithPage) {
-                        return callback(new Error('Problem loading the website'));
-                    }
+            if (this._waitForTimer === -1) {
+                return callback();
+            }
 
-                    const dom = new AsyncHTMLDocument(DOM);
+            clearTimeout(this._waitForTimer);
+            this._waitForTimer = -1;
 
-                    await dom.load();
+            try {
+                this._dom = new AsyncHTMLDocument(DOM);
+                await this._dom.load();
 
-                    this._dom = dom;
-
-                    while (this._pendingResponseReceived.length) {
-                        await this._pendingResponseReceived.shift()();
-                    }
-
-                    await this._server.emitAsync('traverse::start', event);
-                    await this.traverseAndNotify(this._dom.root);
-                    await this._server.emitAsync('traverse::end', event);
-
-                    if (!this._manifestIsSpecified) {
-                        await this._server.emitAsync('manifestfetch::missing', { resource: this._href });
-                    }
-
-                    if (!this._faviconLoaded) {
-                        const faviconElement = (await this._dom.querySelectorAll('link[rel~="icon"]'))[0];
-
-                        await this.getFavicon(faviconElement);
-                    }
-
-                    await this._server.emitAsync('scan::end', event);
-
-                    // We are going to wait until all the requests are finished or this._options.maxLoadWaitTime seconds before finish
-                    let retries: number = Math.ceil(this._options.maxLoadWaitTime / this._options.loadCompleteRetryInterval);
-
-                    const isFinish = () => {
-                        if (this._requests.size === 0 || !retries) {
-                            return callback();
-                        }
-                        retries--;
-
-                        return setTimeout(isFinish, this._options.loadCompleteRetryInterval);
-                    };
-
-                    return isFinish();
-                } catch (err) {
-                    return callback(err);
+                while (this._pendingResponseReceived.length) {
+                    debug(`Pending requests: ${this._pendingResponseReceived.length}`);
+                    await this._pendingResponseReceived.shift()();
                 }
-            }, this._options.waitFor);
+
+                if (this._errorWithPage) {
+                    return callback(new Error('Problem loading the website'));
+                }
+
+                await this._server.emitAsync('traverse::start', event);
+                await this.traverseAndNotify(this._dom.root);
+                await this._server.emitAsync('traverse::end', event);
+
+                if (!this._manifestIsSpecified) {
+                    await this._server.emitAsync('manifestfetch::missing', { resource: this._href });
+                }
+
+                if (!this._faviconLoaded) {
+                    const faviconElement = (await this._dom.querySelectorAll('link[rel~="icon"]'))[0];
+
+                    await this.getFavicon(faviconElement);
+                }
+
+                await this._server.emitAsync('scan::end', event);
+
+                // We are going to wait until all the requests are finished or this._options.maxLoadWaitTime seconds before finish
+                // let retries: number = Math.ceil(this._options.maxLoadWaitTime / this._options.loadCompleteRetryInterval);
+
+                // const isFinish = () => {
+                //     if (this._requests.size === 0 || !retries) {
+                //         return callback();
+                //     }
+                //     retries--;
+
+                //     return setTimeout(isFinish, this._options.loadCompleteRetryInterval);
+                // };
+                return callback();
+            } catch (err) {
+                return callback(err);
+            }
         };
     }
 
@@ -727,12 +778,18 @@ export class Connector implements IConnector {
                 await Security.setOverrideCertificateErrors({ override: true });
             }
 
-            Page.loadEventFired(this.onLoadEventFired(callback));
+            const loadHandler = this.onLoadEventFired(callback);
+
+            Page.loadEventFired(loadHandler);
 
             try {
                 await this.configureAndEnableCDP();
 
                 await Page.navigate({ url: target.href });
+
+                this._waitForTimer = setTimeout(() => {
+                    loadHandler();
+                }, this._options.waitFor);
             } catch (e) {
                 await this._server.emitAsync('scan::end', event);
 
