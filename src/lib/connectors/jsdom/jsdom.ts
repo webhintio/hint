@@ -77,6 +77,7 @@ class JSDOMConnector implements IConnector {
     private _manifestIsSpecified: boolean = false;
     private _window: Window;
     private _document: JSDOMAsyncHTMLDocument;
+    private _fetchedHrefs: Set<string>;
 
     public constructor(server: Sonar, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
@@ -184,6 +185,13 @@ class JSDOMConnector implements IConnector {
         if (!url.parse(resourceUrl).protocol) {
             resourceUrl = url.resolve(this._finalHref, resourceUrl);
         }
+
+        // Ignore if the resource has already been fetched.
+        if (this._fetchedHrefs.has(resourceUrl)) {
+            return callback(null, '');
+        }
+
+        this._fetchedHrefs.add(resourceUrl);
 
         debug(`resource ${resourceUrl} to be fetched`);
         await this._server.emitAsync('fetch::start', { resource: resourceUrl });
@@ -317,6 +325,8 @@ class JSDOMConnector implements IConnector {
         const href: string = this._href = target.href;
 
         const initialEvent: IEvent = { resource: href };
+
+        this._fetchedHrefs = new Set();
 
         this._server.emit('scan::start', initialEvent);
 
