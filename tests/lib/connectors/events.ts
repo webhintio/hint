@@ -296,7 +296,7 @@ const testConnectorEvents = (connectorInfo) => {
         });
 
         singles.forEach((single) => {
-            t.is(groupedEvents[single].length, 1, `${single} should be called once`);
+            t.is(groupedEvents[single] && groupedEvents[single].length, 1, `${single} should be called once`);
         });
 
         pendingEvents.forEach((event) => {

@@ -1,13 +1,18 @@
 import { IAsyncHTMLDocument, IAsyncHTMLElement } from '../../types'; //eslint-disable-line
+import { debug as d } from '../../utils/debug';
+
+const debug: debug.IDebugger = d(__filename);
 
 /** An implementation of AsyncHTMLDocument on top of the Chrome Debugging Protocol */
 export class AsyncHTMLDocument implements IAsyncHTMLDocument {
-    /** The DOM domain of the CDP client */
+    /** The DOM domain of the CDP client. */
     private _DOM;
-    /** The root element of the real DOM */
+    /** The root element of the real DOM. */
     private _dom;
-    /** A map with all the nodes accessible using `nodeId` */
+    /** A map with all the nodes accessible using `nodeId`. */
     private _nodes: Map<number, any> = new Map();
+    /** outerHTML of the page. */
+    private _outerHTML: string;
 
     public constructor(DOM) {
         this._DOM = DOM;
@@ -29,7 +34,7 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
         });
     }
 
-    private getHTMLChilden(children: Array<any>) {
+    private getHTMLChildren(children: Array<any>) {
         return children.find((item) => {
             return item.nodeType === 1 && item.nodeName === 'HTML';
         });
@@ -48,21 +53,42 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
             return [];
         }
 
-        return nodeIds.map((nodeId) => {
-            return new AsyncHTMLElement(this._nodes.get(nodeId), this, this._DOM); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
-        });
+        const nodes: Array<AsyncHTMLElement> = [];
+
+        for (let i = 0; i < nodeIds.length; i++) {
+            const nodeId = nodeIds[i];
+            const node = this._nodes.get(nodeId);
+
+            if (node) {
+                nodes.push(new AsyncHTMLElement(node, this, this._DOM)); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
+            } else {
+                // This node was added in the DOM and we don't have it cached
+                // TODO: uncomment once chrome 62 is released.
+                // See https://github.com/cyrus-and/chrome-remote-interface/issues/255 for more information
+                // node = await this._DOM.describeNode({ nodeId });
+                // this._nodes.set(nodeId, node);
+            }
+        }
+
+        return nodes;
     }
 
     public async pageHTML(): Promise<string> {
+        if (this._outerHTML) {
+            return Promise.resolve(this._outerHTML);
+        }
+
         let { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._dom.nodeId });
 
         // Some browsers like Edge don't have the property outerHTML in the root element
         // so we need to find the html element
         if (!outerHTML) {
-            const htmlElement = this.getHTMLChilden(this._dom.children);
+            const htmlElement = this.getHTMLChildren(this._dom.children);
 
             ({ outerHTML } = await this._DOM.getOuterHTML({ nodeId: htmlElement.nodeId }));
         }
+
+        this._outerHTML = outerHTML;
 
         return outerHTML;
     }
@@ -88,6 +114,7 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
     protected _htmlelement;
     private _ownerDocument: IAsyncHTMLDocument;
     private _DOM;
+    private _outerHTML: string;
     private _attributesArray: Array<{ name: string; value: string; }> = [];
     private _attributesMap: Map<string, string> = new Map();
 
@@ -128,7 +155,20 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
     }
 
     public async outerHTML(): Promise<string> {
-        const { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._htmlelement.nodeId });
+        if (this._outerHTML) {
+            return Promise.resolve(this._outerHTML);
+        }
+
+        let outerHTML = '';
+
+        try {
+            ({ outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._htmlelement.nodeId }));
+        } catch (e) {
+            debug(`Error trying to get outerHTML for node ${this._htmlelement.nodeId}`);
+            debug(e);
+        }
+
+        this._outerHTML = outerHTML;
 
         return outerHTML;
     }

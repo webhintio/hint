@@ -57,7 +57,7 @@ const testConnectorCollect = (connectorInfo) => {
     const connectorBuilder: IConnectorBuilder = connectorInfo.builder;
     const name: string = connectorInfo.name;
 
-    test.serial(`[${name}] Favicon is present in a 'link' element with 'rel' attribute set to 'icon' `, async (t) => {
+    test(`[${name}] Favicon is present in a 'link' element with 'rel' attribute set to 'icon' `, async (t) => {
         const faviconInLinkElementDir = `http://localhost:${t.context.server.port}/images/favicon-32x32.png`;
         const serverConfig = {
             '/': generateHTMLPage(`<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">`),
@@ -71,7 +71,7 @@ const testConnectorCollect = (connectorInfo) => {
 
     });
 
-    test.serial(`[${name}] Favicon is present in the root directory`, async (t) => {
+    test(`[${name}] Favicon is present in the root directory`, async (t) => {
         const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
         const serverConfig = { '/favicon.ico': fs.readFileSync(pathToFaviconInDir) };
 
@@ -81,7 +81,7 @@ const testConnectorCollect = (connectorInfo) => {
         t.is(t.context.sonar.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInRootDir);
     });
 
-    test.serial(`[${name}] Favicon is present in both the root directory and the 'link' element`, async (t) => {
+    test(`[${name}] Favicon is present in both the root directory and the 'link' element`, async (t) => {
         const faviconInLinkElementDir = `http://localhost:${t.context.server.port}/images/favicon-32x32.png`;
         const serverConfig = {
             '/': generateHTMLPage(`<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">`),
@@ -96,7 +96,7 @@ const testConnectorCollect = (connectorInfo) => {
         t.is(t.context.sonar.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInLinkElementDir);
     });
 
-    test.serial(`[${name}] Favicon is present in both the root directory and the 'link' element, but the 'link' element has empty 'href'`, async (t) => {
+    test(`[${name}] Favicon is present in both the root directory and the 'link' element, but the 'link' element has empty 'href'`, async (t) => {
         const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
         const serverConfig = {
             '/': generateHTMLPage(`<link rel="icon" type="image/png" href="" sizes="32x32">`),
@@ -110,7 +110,7 @@ const testConnectorCollect = (connectorInfo) => {
         t.is(t.context.sonar.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInRootDir);
     });
 
-    test.serial(`[${name}] Favicon is not present in either the root directory or the 'link' element`, async (t) => {
+    test(`[${name}] Favicon is not present in either the root directory or the 'link' element`, async (t) => {
         const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
 
         await runTest(t, connectorBuilder);

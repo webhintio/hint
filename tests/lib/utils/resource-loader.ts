@@ -31,7 +31,7 @@ test('loadResource looks for resources in the right order (core > @sonarwhal > s
         resourceLoader.loadResource(resourceName, resourceType);
     });
     t.true(tryToLoadFromStub.calledThrice, 'tryToLoadFromStub is called thrice');
-    t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(`/dist/src/lib/${resourceType}s/${resourceName}/${resourceName}.js`), 'Tries to load core first');
+    t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(path.normalize(`/dist/src/lib/${resourceType}s/${resourceName}/${resourceName}.js`)), 'Tries to load core first');
     t.true((tryToLoadFromStub.secondCall.args[0] as string).endsWith(`@sonarwhal/${resourceName}`), 'Tries to load scoped package second');
     t.true((tryToLoadFromStub.thirdCall.args[0] as string).endsWith(`sonarwhal-${resourceName}`), 'Tries to load prefixed package third');
 
