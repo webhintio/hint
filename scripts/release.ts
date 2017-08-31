@@ -276,7 +276,8 @@ const updateSnykSnapshotJSONFile = async () => {
 
     updateFile(downloadLocation, res.body);
 
-    exec(`Commit updated version of '${downloadLocation}'.`, `git reset HEAD && git add ${downloadLocation} && git commit -m 'Update: \`snyk-snapshot.json\`'`);
+    exec(`Commit updated version (if exists) of '${downloadLocation}'.`, `git reset HEAD && git add ${downloadLocation} && git diff --cached --quiet ${downloadLocation} || git commit -m 'Update: \`snyk-snapshot.json\`'`);
+
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
