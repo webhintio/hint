@@ -1,3 +1,23 @@
+# 0.5.0 (August 31, 2017)
+
+## Breaking Changes
+
+* [[`c2d0282591`](https://github.com/sonarwhal/sonar/commit/c2d0282591b79fab4c32ba45e939b4eb96438237)] - Breaking: Rename `cdp` connector to `chrome` (see also: [`#361`](https://github.com/sonarwhal/sonar/issues/361)).
+
+## Bug fixes / Improvements
+
+* [[`0cc1f05e51`](https://github.com/sonarwhal/sonar/commit/0cc1f05e515755e6f25542c6c4d0362b48e3ba4e)] - Docs: Tweak `no-vulnerable-javascript-libraries` rule related documentation (see also: [`#470`](https://github.com/sonarwhal/sonar/issues/470)).
+* [[`984aabcf7c`](https://github.com/sonarwhal/sonar/commit/984aabcf7c8cdc0d5f77922ea002f75164740a44)] - Fix: Filter out duplicate fetch requests (see also: [`#460`](https://github.com/sonarwhal/sonar/issues/460)).
+* [[`df53c0ef36`](https://github.com/sonarwhal/sonar/commit/df53c0ef36bb642344da1f3a7f9ec27c95e8dd78)] - Fix: Update CLI templates (see also: [`#461`](https://github.com/sonarwhal/sonar/issues/461)).
+* [[`bbf1e6eaa4`](https://github.com/sonarwhal/sonar/commit/bbf1e6eaa401a14733a623a9416292966d8e64e0)] - Fix: Make `content-type` correctly detect the `charset`.
+
+## New features
+
+* [[`60c6c725d1`](https://github.com/sonarwhal/sonar/commit/60c6c725d138212b07cee00cc8b508f6b37a2e2d)] - Update: `snyk-snapshot.json`.
+* [[`633f6d3a53`](https://github.com/sonarwhal/sonar/commit/633f6d3a53cca623fff796d0b5e8ce721bf7213c)] - New: Ask about `browserslist` when generating the configs (see also: [`#446`](https://github.com/sonarwhal/sonar/issues/446)).
+* [[`0852ab95b2`](https://github.com/sonarwhal/sonar/commit/0852ab95b27cd9934df6805fe333aedbd102cff8)] - New: Add rule to check for vulnerable libraries (see also: [`#125`](https://github.com/sonarwhal/sonar/issues/125)).
+
+
 # 0.4.0 (August 25, 2017)
 
 ## Breaking Changes
