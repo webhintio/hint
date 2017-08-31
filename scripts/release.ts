@@ -5,6 +5,7 @@ import * as inquirer from 'inquirer';
 import * as request from 'request';
 import * as shell from 'shelljs';
 
+const CHANGELOG_FILE = 'CHANGELOG.md';
 const PKG = require('../../package.json');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -50,7 +51,7 @@ const getDate = (): string => {
         'Decembe'
     ];
 
-    return `${monthNames[date.getMonth()]} ${date.getDay()}, ${date.getFullYear()}`;
+    return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
 const prettyPrintArray = (a: string[]): string => {
@@ -124,18 +125,18 @@ const exec = (msg: string, cmd: string | Function): string => {
     try {
         result = typeof cmd === 'string' ? shell.exec(cmd).stdout : (cmd() || '');
     } catch (e) {
-        console.error(chalk.red(`* ${msg}`));
+        console.error(chalk.red(`${msg}`));
         console.error(e);
         process.exit(1); // eslint-disable-line no-process-exit
     }
 
-    console.log(chalk.green(`* ${msg}`));
+    console.log(chalk.green(`${msg}`));
 
     return result.trim();
 };
 
 const extractDataFromCommit = (sha: string): Commit => {
-    const commitBodyLines = exec(`Get commit data for: ${sha}.`, `git show --no-patch  --format=%B ${sha}`).split('\n');
+    const commitBodyLines = exec(`- Get commit data for: ${sha}.`, `git show --no-patch  --format=%B ${sha}`).split('\n');
 
     const associatedIssues = [];
     const title = commitBodyLines[0];
@@ -179,7 +180,7 @@ const generateChangelogSection = (title: string, tags: Array<string>, commits: A
 const getChangelogData = (commits: Array<Commit>): ChangelogData => {
 
     // Note: Commits that use tags that do not denote user-facing
-    // changes will not be included in `CHANGELOG.md` file, and the
+    // changes will not be included in changelog file, and the
     // release notes.
 
     const breakingChanges = generateChangelogSection('Breaking Changes', ['Breaking'], commits);
@@ -209,7 +210,7 @@ const getChangelogData = (commits: Array<Commit>): ChangelogData => {
 };
 
 const getCommitsSinceLastRelease = (): Array<Commit> => {
-    const commitSHAsSinceLastRelease = exec('Get commits since last releases.', `git rev-list --reverse master...${PKG.version}`).split('\n');
+    const commitSHAsSinceLastRelease = exec('Get commits since last releases.', `git rev-list master...${PKG.version}`).split('\n');
 
     const commits = [];
 
@@ -220,15 +221,69 @@ const getCommitsSinceLastRelease = (): Array<Commit> => {
     return commits;
 };
 
+const getReleaseNotes = (): string => {
+    // The change log for different versions
+    // are separated by two empty lines.
+    const regex = /([\s\S]*?)\n\n\n/;
+
+    return regex.exec(shell.cat(CHANGELOG_FILE))[1];
+};
+
+const stopToUpdateChangelog = async (): Promise<boolean> => {
+    const answer = await inquirer.prompt({
+        message: `Review '${CHANGELOG_FILE}'. Do you want to continue?`,
+        name: 'shouldContinue',
+        type: 'confirm'
+    });
+
+    return answer.shouldContinue;
+};
+
+const tagNewVersion = (version: string) => {
+    exec('Commit changes and tag a new version.', `git add -A && git commit -m 'v${version}' && git tag -a '${version}' -m 'v${version}'`);
+};
+
+const updateFile = (filePath: string, content) => {
+    exec(`Update '${filePath}' file.`, () => {
+        const writeContent = shell['ShellString']; // eslint-disable-line new-cap, dot-notation
+
+        writeContent(content).to(filePath);
+    });
+};
+
+const updateChangelog = (changelogBody: string, version: string) => {
+    updateFile(CHANGELOG_FILE, `# ${version} (${getDate()})\n\n${changelogBody}\n${shell.cat(CHANGELOG_FILE)}`);
+};
+
 const updatePackageJSON = (newVersion: SemVer): string => {
     const version = exec('Update version number from `package.json` and `package-lock.json`.', `npm --quiet version ${newVersion} --no-git-tag-version`);
 
     return version.substring(1, version.length);
 };
 
+const updateSnykSnapshotJSONFile = async () => {
+
+    const downloadURL = 'https://snyk.io/partners/api/v2/vulndb/clientside.json';
+    const downloadLocation = 'src/lib/rules/no-vulnerable-javascript-libraries/snyk-snapshot.json';
+
+    const res = await promisify(request)({ url: downloadURL });
+
+    if (res.body.message) {
+        console.error(chalk.red(`Failed to get '${downloadURL}'.`));
+        console.error(res.body);
+        process.exit(1); // eslint-disable-line no-process-exit
+    }
+
+    updateFile(downloadLocation, res.body);
+
+    exec(`Commit updated version of '${downloadLocation}'.`, `git reset HEAD && git add ${downloadLocation} && git commit -m 'Update: \`snyk-snapshot.json\`'`);
+};
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 const main = async () => {
+
+    await updateSnykSnapshotJSONFile();
 
     const commitSHAsSinceLastRelease = getCommitsSinceLastRelease();
     const { version: newVersion, body: changelogBody } = getChangelogData(commitSHAsSinceLastRelease);
@@ -240,21 +295,25 @@ const main = async () => {
     // Update version in `package.json` and `package-lock.json`
     const version = updatePackageJSON(newVersion);
 
-    // Update `CHANGELOG.md` file.
-    exec('Update `CHANGELOG.md` file.', () => {
-        const writeContent = shell['ShellString']; // eslint-disable-line new-cap, dot-notation
+    // Update changelog file.
+    updateChangelog(changelogBody, version);
 
-        writeContent(`# ${version} (${getDate()})\n\n${changelogBody}\n${shell.cat(`CHANGELOG.md`)}`).to('CHANGELOG.md');
-    });
+    // Allow users to tweak the changelog file.
+    if ((await stopToUpdateChangelog()) === false){
+        return;
+    }
 
     // Commit changes and tag a new version.
-    exec('Commit changes and tag a new version.', `git add -A && git commit -m 'v${version}' && git tag -a '${version}' -m 'v${version}'`);
+    await tagNewVersion(version);
 
     // Push changes upstreem.
     exec('Push changes upstream.', `git push origin master ${version}`);
 
+    // Extract the release notes from the updated changelog file.
+    const releaseNotes = await getReleaseNotes();
+
     // Create new release.
-    await createRelease(version, changelogBody);
+    await createRelease(version, releaseNotes);
 
     // Publish on `npm`.
     exec('Publish on `npm`.', 'npm publish');
