@@ -43,6 +43,19 @@ For explanation behind those requirements, please checkout:
 
 ## Can the rule be configured?
 
+By default only the first occurance of each error/warning is reported
+when validating the markup. However, you can configure the rule to view the
+complete list.
+
+The following configuration will enable the full-list view of errors/warnings
+reported by the HTML checker:
+
+```json
+"html-checker": ["error", {
+    "details": true
+}]
+```
+
 You can ignore certain error/warning by setting the `ignore` option
 for the `html-checker` rule. You can either pass in a string or an
 array that contains all the messages to be ignored.

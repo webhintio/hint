@@ -7,6 +7,8 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import * as _ from 'lodash';
+
 import { debug as d } from '../../utils/debug';
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 import { IRule, IRuleBuilder, ITargetFetchEnd, IScanEnd, IProblemLocation, Severity } from '../../types'; // eslint-disable-line no-unused-vars
@@ -29,6 +31,8 @@ const rule: IRuleBuilder = {
             format: 'json',
             validator: ''
         };
+        /** If the result messages should be grouped */
+        let groupMessage: boolean;
 
         type HtmlError = { // eslint-disable-line no-unused-vars
             extract: string; // code snippet
@@ -43,6 +47,7 @@ const rule: IRuleBuilder = {
             const ignore = (context.ruleOptions && context.ruleOptions.ignore) || [];
             const validator = (context.ruleOptions && context.ruleOptions.validator) || 'https://validator.w3.org/nu/';
 
+            groupMessage = !(context.ruleOptions && context.ruleOptions.details);
             scanOptions.validator = validator;
 
             // Up to now, the `ignore` setting in `html-validator` only works if `format` is set to `text`
@@ -51,11 +56,17 @@ const rule: IRuleBuilder = {
             ignoredMessages = Array.isArray(ignore) ? ignore : [ignore];
         };
 
-        // Filter out ignored messages
-        const filter = (messages) => {
-            return messages.filter((message) => {
+        // Filter out ignored and redundant messages.
+        const filter = (messages): Array<HtmlError> => {
+            const noIgnoredMesssages = messages.filter((message) => {
                 return !ignoredMessages.includes(message.message);
             });
+
+            if (!groupMessage) {
+                return noIgnoredMesssages;
+            }
+
+            return _.uniqBy(noIgnoredMesssages, 'message');
         };
 
         const locateAndReport = (resource: string) => {
@@ -137,6 +148,7 @@ const rule: IRuleBuilder = {
         recommended: true,
         schema: [{
             properties: {
+                details: { type: 'boolean' },
                 ignore: {
                     anyOf: [
                         {

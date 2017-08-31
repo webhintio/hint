@@ -43,6 +43,17 @@ const defaultCheckerMessages = {
             extract: '-section"><h1>example<',
             hiliteStart: 10,
             hiliteLength: 4
+        },
+        {
+            type: 'info',
+            lastLine: 1,
+            lastColumn: 3000,
+            firstColumn: 2000,
+            subType: 'warning',
+            message: 'Consider using the “h1” element as a top-level heading only (all “h1” elements are treated as top-level headings by many screen readers and other tools)',
+            extract: '-section"><h1>example<',
+            hiliteStart: 8,
+            hiliteLength: 9
         }
     ]
 };
@@ -161,6 +172,42 @@ const testsForValidatorConfig: Array<IRuleTest> = [
     }
 ];
 
+const testsForDetailsConfig: Array<IRuleTest> = [
+    {
+        name: 'Configure to show complete list of errors/warnings',
+        serverUrl: exampleUrl,
+        before() {
+            htmlCheckerMock({ pass: true });
+        }
+    },
+    {
+        name: 'Reports warnings/errors if the HTML checker returns messages',
+        serverUrl: exampleUrl,
+        reports: [{
+            message: defaultCheckerMessages.messages[0].message,
+            position: {
+                column: defaultCheckerMessages.messages[0].firstColumn,
+                line: defaultCheckerMessages.messages[0].lastLine
+            }
+        }, {
+            message: defaultCheckerMessages.messages[1].message,
+            position: {
+                column: defaultCheckerMessages.messages[1].firstColumn,
+                line: defaultCheckerMessages.messages[1].lastLine
+            }
+        }, {
+            message: defaultCheckerMessages.messages[2].message,
+            position: {
+                column: defaultCheckerMessages.messages[2].firstColumn,
+                line: defaultCheckerMessages.messages[2].lastLine
+            }
+        }],
+        before() {
+            htmlCheckerMock({ error: true });
+        }
+    }
+];
+
 const testsForErrors: Array<IRuleTest> = [
     {
         name: 'Reports error when not able to get result from the HTML Checker',
@@ -183,6 +230,10 @@ ruleRunner.testRule(ruleName, testsForIgnoreArrayConfigs, {
 });
 ruleRunner.testRule(ruleName, testsForValidatorConfig, {
     ruleOptions: { validator: configValidator },
+    serial: true
+});
+ruleRunner.testRule(ruleName, testsForDetailsConfig, {
+    ruleOptions: { details: true },
     serial: true
 });
 
