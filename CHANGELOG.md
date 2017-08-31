@@ -1,3 +1,10 @@
+# 0.5.1 (September 1, 2017)
+
+## Bug fixes / Improvements
+
+* [[`f45b745479`](https://github.com/sonarwhal/sonar/commit/f45b745479d5b38670b6e6f3a9293abda60c3fde)] - Fix: Lock `jsdom` to `v11.1.0` in `package.json`.
+
+
 # 0.5.0 (August 31, 2017)
 
 ## Breaking Changes
