@@ -43,7 +43,7 @@ const testsForHeaders: Array<IRuleTest> = [
     },
     {
         name: `HTML page is served with 'X-UA-Compatible' header and the meta tag`,
-        reports: [{ message: `Meta tag is not needed` }],
+        reports: [{ message: `Meta tag usage is discouraged, use equivalent HTTP header` }],
         serverConfig: {
             '/': {
                 content: generateHTMLPageWithMetaTag(),

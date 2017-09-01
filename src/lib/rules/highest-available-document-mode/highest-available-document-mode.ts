@@ -82,8 +82,11 @@ const rule: IRuleBuilder = {
 
             if (!requireMetaTag || suggestRemoval) {
                 if (XUACompatibleMetaTags.length !== 0) {
+
+                    const errorMessage = suggestRemoval ? 'Meta tag is not needed' : 'Meta tag usage is discouraged, use equivalent HTTP header';
+
                     for (const metaTag of XUACompatibleMetaTags) {
-                        await context.report(resource, metaTag, `Meta tag is not needed`);
+                        await context.report(resource, metaTag, errorMessage);
                     }
                 }
 
