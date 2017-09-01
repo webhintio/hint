@@ -41,7 +41,10 @@ const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
 // To test immediately, set `updateCheckInterval` to 0 and pass it in as a param to `updateNotifier`.
 // Comparison result is loaded on the FIRST initiation, but users won't be notified until the SECOND time it runs.
 // Reference:https://github.com/yeoman/update-notifier#how
-const notifier = updateNotifier({ pkg });
+const notifier = updateNotifier({
+    pkg,
+    updateCheckInterval: 1000 * 60 * 60 * 1 // One hour.
+});
 
 const messages = {
     'fetch::end': '%url% downloaded',
