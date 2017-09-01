@@ -210,6 +210,7 @@ class JSDOMConnector implements IConnector {
 
             // TODO: Replace `null` with `resource` once it
             // can be converted to `JSDOMAsyncHTMLElement`.
+            // Event is also emitted when status code in response is not 200.
             await this._server.emitAsync('fetch::end', fetchEndEvent);
 
             return callback(null, resourceNetworkData.response.body.content);
@@ -368,6 +369,7 @@ class JSDOMConnector implements IConnector {
                 response: this._targetNetworkData.response
             };
 
+            // Event is also emitted when status code in response is not 200.
             await this._server.emitAsync('targetfetch::end', fetchEnd);
 
             jsdom.env({

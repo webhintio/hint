@@ -233,7 +233,7 @@ export class Connector implements IConnector {
         }
 
         if (params.type === 'Manifest') {
-            const { request: { url: resource } } = this._requests.get(params.requestId);
+            const { request: { url: resource } } = request;
             const event: IManifestFetchError = {
                 error: new Error(params.errorText),
                 resource
@@ -254,7 +254,7 @@ export class Connector implements IConnector {
 
         debug(`Error found:\n${JSON.stringify(params)}`);
         const element: AsyncHTMLElement = await this.getElementFromRequest(params.requestId);
-        const { request: { url: resource } } = this._requests.get(params.requestId);
+        const { request: { url: resource } } = request;
         const eventName: string = this._href === resource ? 'targetfetch::error' : 'fetch::error';
 
         const hops: Array<string> = this._redirects.calculate(resource);
@@ -382,6 +382,7 @@ export class Connector implements IConnector {
          * to avoid emitting duplidate events.
          */
         if (!this.rootFaviconRequestOrResponse(params)) {
+            /** Event is also emitted when status code in response is not 200. */
             await this._server.emitAsync(eventName, data);
         }
 
