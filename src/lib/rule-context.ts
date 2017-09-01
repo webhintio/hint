@@ -97,12 +97,8 @@ export class RuleContext {
             sourceCode = (await element.outerHTML()).replace(/[\t]/g, '    ');
         }
 
-        if (position === null) {
-            position = {
-                column: null,
-                line: null
-            };
-        }
+        // If location is undefined or equal to null, `position` will be set as `{ column: -1, line: -1 }` later in `sonar.report`.
+        // So pass the `location` on as it is.
 
         this.sonar.report(
             this.id,
