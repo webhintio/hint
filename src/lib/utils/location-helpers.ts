@@ -23,7 +23,11 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
     for (let i = 0; i < attributes.length; i++) {
         const attribute: IAsyncHTMLAttribute | NamedNodeMap = attributes[i];
 
-        selector += `[${attribute.name}="${escapeQuotes(attribute.value)}"]`;
+        /* jsdom breaks when attribute names have a `.` (invalid) but it is widely used,
+            so we ignore that selector. */
+        if (!attribute.name.includes('.')) {
+            selector += `[${attribute.name}="${escapeQuotes(attribute.value)}"]`;
+        }
     }
 
     debug(`Selector created: ${selector}`);
