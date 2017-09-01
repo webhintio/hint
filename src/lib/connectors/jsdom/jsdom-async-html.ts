@@ -13,12 +13,17 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
     // ------------------------------------------------------------------------------
 
     public querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {
-        const elements = Array.prototype.slice.call(this._document.querySelectorAll(selector))
-            .map((element) => {
-                return new JSDOMAsyncHTMLElement(element); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
-            });
+        // jsdom's `querySelectorAll` can be a bit fragile (e.g.: fails if attribute name has `.` on it)
+        try {
+            const elements = Array.prototype.slice.call(this._document.querySelectorAll(selector))
+                .map((element) => {
+                    return new JSDOMAsyncHTMLElement(element); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
+                });
 
-        return Promise.resolve(elements);
+            return Promise.resolve(elements);
+        } catch (e) {
+            return Promise.resolve([]);
+        }
     }
 
     public pageHTML(): Promise<string> {
