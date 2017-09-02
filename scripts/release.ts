@@ -222,9 +222,20 @@ const getCommitsSinceLastRelease = (): Array<Commit> => {
 };
 
 const getReleaseNotes = (): string => {
-    // The change log for different versions
-    // are separated by two empty lines.
-    const regex = /([\s\S]*?)\n\n\n/;
+
+    // The change log is structured as follows:
+    //
+    // # <version_number> (<date>)
+    // <empty_line>
+    // <version_log> <= this is what we need to extract
+    // <empty_line>
+    // <empty_line>
+    // # <version_number> (<date>)
+    // <empty_line>
+    // <version_log>
+    // ...
+
+    const regex = /#.*\n\n([\s\S]*?)\n\n\n/;
 
     return regex.exec(shell.cat(CHANGELOG_FILE))[1];
 };

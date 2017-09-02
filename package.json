@@ -163,7 +163,7 @@
     "lint:md": "markdownlint ./.github docs",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
     "prepublishOnly": "npm i && npm run build",
-    "release": "npm run build && node dist/scripts/release.js",
+    "release": "npm run test && node dist/scripts/release.js",
     "site": "node dist/src/bin/sonar",
     "test": "npm run lint && npm run commitmsg && npm run build && nyc ava",
     "test-on-travis": "npm run lint && npm run commitmsg && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
