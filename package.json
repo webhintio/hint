@@ -39,6 +39,7 @@
     "json-stable-stringify": "^1.0.1",
     "lockfile": "^1.0.3",
     "lodash": "^4.17.4",
+    "log-symbols": "^2.0.0",
     "metaviewport-parser": "^0.1.0",
     "mime-db": "^1.28.0",
     "mkdirp": "^0.5.1",
