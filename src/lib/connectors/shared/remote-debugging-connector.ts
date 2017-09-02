@@ -140,14 +140,14 @@ export class Connector implements IConnector {
 
     /** Returns the IAsyncHTMLElement that initiated a request */
     private async getElementFromRequest(requestId: string): Promise<AsyncHTMLElement> {
-        const element = this._requests.get(requestId);
+        const sourceRequest = this._requests.get(requestId);
 
-        if (!element) {
+        if (!sourceRequest) {
             return null;
         }
 
-        const { initiator: { type } } = element;
-        let { request: { url: requestUrl } } = element;
+        const { initiator: { type } } = sourceRequest;
+        let { request: { url: requestUrl } } = sourceRequest;
         // We need to calculate the original url because it might have redirects
         const originalUrl: Array<string> = this._redirects.calculate(requestUrl);
 
@@ -195,11 +195,25 @@ export class Connector implements IConnector {
 
         if (params.redirectResponse) {
             debug(`Redirect found for ${cutString(requestUrl)}`);
+
+            if (requestUrl === params.redirectResponse.url) {
+                debug(`Error redirecting: ${requestUrl} is an infinite loop`);
+
+                return;
+            }
+
+            const hops = this._redirects.calculate(requestUrl);
+
+            // We limit the number of redirects
+            if (hops.length >= 10) {
+                return;
+            }
+
             // We store the redirects with the finalUrl as a key to do a reverse search in onResponseReceived.
             this._redirects.add(requestUrl, params.redirectResponse.url);
 
             // If needed, update the final URL.
-            if (this._redirects.calculate(requestUrl)[0] === this._href) {
+            if (hops[0] === this._href) {
                 this._finalHref = requestUrl;
             }
 
@@ -358,12 +372,6 @@ export class Connector implements IConnector {
             return;
         }
 
-        // DOM is not ready so we queue up the event for later
-        if (!this._dom) {
-            this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
-
-            return;
-        }
         const resourceUrl: string = params.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const originalUrl: string = hops[0] || resourceUrl;
@@ -389,7 +397,19 @@ export class Connector implements IConnector {
         }
 
         if (eventName !== 'targetfetch::end') {
-            data.element = await this.getElementFromRequest(params.requestId);
+            // DOM is not ready so we queue up the event for later
+            if (!this._dom) {
+                this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
+
+                return;
+            }
+
+            try {
+                data.element = await this.getElementFromRequest(params.requestId);
+            } catch (e) {
+                debug(`Error finding element for request ${params.requestId}. element will be null`);
+                data.element = null;
+            }
         } else {
             this._targetNetworkData = {
                 request,
@@ -674,7 +694,7 @@ export class Connector implements IConnector {
             const event: IEvent = { resource: this._finalHref };
 
             if (this._waitForTimer === -1) {
-                return callback();
+                return;
             }
 
             clearTimeout(this._waitForTimer);
@@ -690,7 +710,7 @@ export class Connector implements IConnector {
                 }
 
                 if (this._errorWithPage) {
-                    return callback(new Error('Problem loading the website'));
+                    return callback(new Error('Problem loading the website')); //eslint-disable-line
                 }
 
                 await this._server.emitAsync('traverse::start', event);
@@ -720,9 +740,9 @@ export class Connector implements IConnector {
 
                 //     return setTimeout(isFinish, this._options.loadCompleteRetryInterval);
                 // };
-                return callback();
+                return callback();  //eslint-disable-line
             } catch (err) {
-                return callback(err);
+                return callback(err);  //eslint-disable-line
             }
         };
     }
