@@ -93,7 +93,7 @@ const rule: IRuleBuilder = {
              * different encodings depending on the connector we are using on sonar
              * i.e. In Chrome it is utf8 but in Edge it is base64 */
             scanOptions.data = response.body.rawContent.toString();
-            htmlCheckerPromise = htmlChecker(scanOptions);
+            htmlCheckerPromise = scanOptions.data ? htmlChecker(scanOptions) : Promise.resolve({messages: []});
         };
 
         const end = async (data: IScanEnd) => {
