@@ -106,7 +106,7 @@ time in the `<head>`, and if:
 
 ### Examples that **trigger** the rule
 
-The `viewport` meta tag is not specified in `<html>`:
+The `viewport` meta tag is not specified in `<head>`:
 
 ```html
 <!doctype html>

@@ -11,6 +11,10 @@ const generateMegaViewport = (content: string = 'WiDTh = deVicE-Width, IniTial-S
 
 const testsForDefaults: Array<IRuleTest> = [
     {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
+    },
+    {
         name: `'viewport' meta tag is not specified`,
         reports: [{ message: `No viewport meta tag was specified` }],
         serverConfig: generateHTMLPage()
