@@ -1,3 +1,14 @@
+# 0.5.2 (September 2, 2017)
+
+## Bug fixes / Improvements
+
+* [[`861931f83d`](https://github.com/sonarwhal/sonar/commit/861931f83d257172efb219f04cc45fbbfd414093)] - Fix: Make `html-checker` rule not break if no HTML is passed.
+* [[`d3899126b8`](https://github.com/sonarwhal/sonar/commit/d3899126b87019a516654757b3ac07f3156f3e53)] - Fix: Error in `onLoadingFailed` (see also: [`#469`](https://github.com/sonarwhal/sonar/issues/469)).
+* [[`4eeeda950f`](https://github.com/sonarwhal/sonar/commit/4eeeda950f20ec737f73df96e4770efb1aa585a5)] - Fix: Improve error messages for `highest-available-document-mode` rule (see also: [`#483`](https://github.com/sonarwhal/sonar/issues/483) and [`#477`](https://github.com/sonarwhal/sonar/issues/477)).
+* [[`19f95d12be`](https://github.com/sonarwhal/sonar/commit/19f95d12be6a4f0c911b343efe541f1e1b321788)] - Fix: Error with `jsdom` and attribute names containing `.` (see also: [`#482`](https://github.com/sonarwhal/sonar/issues/482)).
+* [[`b125186fb7`](https://github.com/sonarwhal/sonar/commit/b125186fb759d9d92b952111681f50b28b71f3f1)] - Fix: Remove `null` locations from error messages (see also: [`#478`](https://github.com/sonarwhal/sonar/issues/478)).
+
+
 # 0.5.1 (September 1, 2017)
 
 ## Bug fixes / Improvements
