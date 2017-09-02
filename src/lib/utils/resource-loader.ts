@@ -100,7 +100,7 @@ export const loadResource = (name: string, type: string) => {
     }
 
     const sources: Array<string> = [
-        `${PROJECT_ROOT}/dist/src/lib/${type}s/${name}/${name}.js`,
+        path.normalize(`${PROJECT_ROOT}/dist/src/lib/${type}s/${name}/${name}.js`),
         `@sonarwhal/${name}`,
         `sonarwhal-${name}`
     ];
@@ -109,7 +109,9 @@ export const loadResource = (name: string, type: string) => {
 
     sources.some((source: string) => {
         resource = tryToLoadFrom(source);
-        debug(`${name} found in ${source}`);
+        if (resource) {
+            debug(`${name} found in ${source}`);
+        }
 
         return resource;
     });
