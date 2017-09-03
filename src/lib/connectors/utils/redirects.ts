@@ -34,6 +34,11 @@ export class RedirectManager {
 
         while (this._redirects.has(targetUrl)) {
             targetUrl = this._redirects.get(targetUrl);
+
+            if (hops.includes(targetUrl)) {
+                break;
+            }
+
             hops.unshift(targetUrl);
         }
         hops.pop();
