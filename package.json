@@ -83,7 +83,7 @@
     "@types/update-notifier": "^1.0.2",
     "@types/user-home": "^2.0.0",
     "@types/which": "^1.0.28",
-    "angular": "^1.4.9",
+    "angular": "1.4.9",
     "async-retry": "^1.1.0",
     "ava": "^0.22.0",
     "babel-cli": "^6.26.0",
@@ -96,10 +96,10 @@
     "eslint-plugin-typescript": "^0.7.0",
     "express": "^4.15.3",
     "husky": "^0.14.3",
-    "jquery": "^2.1.4",
+    "jquery": "2.1.4",
     "markdownlint-cli": "^0.3.1",
     "mock-require": "^2.0.2",
-    "moment": "^2.18.1",
+    "moment": "2.18.1",
     "npm-run-all": "^4.0.2",
     "nyc": "^11.0.1",
     "on-headers": "^1.0.1",
@@ -120,6 +120,13 @@
     "dist/src",
     "docs"
   ],
+  "greenkeeper": {
+    "ignore": [
+      "angular",
+      "jquery",
+      "moment"
+    ]
+  },
   "homepage": "https://sonarwhal.com/",
   "keywords": [
     "a11y",
