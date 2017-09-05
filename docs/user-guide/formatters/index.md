@@ -16,3 +16,8 @@ The current supported `formatter`s are:
   show the piece of code where the error was found (if applicable):
 
 ![Example output for the codeframe formatter](./codeframe.png)
+
+* `summary` shows just a summary of all the warnings and errors found
+  for all the resources:
+
+![Example output for the summary formatter](./summary-output.png)
