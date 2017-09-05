@@ -112,6 +112,7 @@ The `viewport` meta tag is not specified in `<head>`:
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>example</title>
         ...
     </head>
@@ -158,6 +159,7 @@ There are multiple `viewport` meta tags:
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>example</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         ...
@@ -176,6 +178,7 @@ If versions of Safari for iOS &lt; 9 are targeted:
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>example</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         ...
@@ -188,6 +191,7 @@ If versions of Safari for iOS &lt; 9 are targeted:
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>example</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         ...
@@ -202,6 +206,7 @@ If versions of Safari for iOS 9+ are targeted:
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>example</title>
         <meta name="viewport" content="width=device-width">
         ...

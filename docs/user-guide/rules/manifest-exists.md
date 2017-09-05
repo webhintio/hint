@@ -37,8 +37,9 @@ The web app manifest file is not specified:
 <!doctype html>
 <html lang="en">
     <head>
-       <title>example</title>
-       ...
+        <meta charset="utf-8">
+        <title>example</title>
+        ...
     </head>
     <body>...</body>
 </html>
@@ -50,6 +51,7 @@ The location of the web app manifest file is not specified:
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>example</title>
         <link rel="manifest">
         ...
@@ -62,6 +64,7 @@ The location of the web app manifest file is not specified:
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>example</title>
         <link rel="manifest" href="">
         ...
@@ -74,6 +77,7 @@ The location of the web app manifest file is not specified:
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>example</title>
         <link rel="manifest" hrref="site.webmanifest">
         ...
@@ -88,6 +92,7 @@ More than one web app manifest file is specified:
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>example</title>
         <link rel="manifest" href="site.webmanifest">
         <link rel="manifest" href="another-site.webmanifest">
@@ -103,6 +108,7 @@ More than one web app manifest file is specified:
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>example</title>
         <link rel="manifest" href="site.webmanifest">
         ...
