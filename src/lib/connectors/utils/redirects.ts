@@ -32,7 +32,7 @@ export class RedirectManager {
         let targetUrl = target;
         const hops: Array<string> = [targetUrl];
 
-        while (this._redirects.has(targetUrl)) {
+        while (this._redirects.has(targetUrl) && !hops.includes(targetUrl)) {
             targetUrl = this._redirects.get(targetUrl);
 
             if (hops.includes(targetUrl)) {

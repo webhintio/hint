@@ -2,12 +2,12 @@
     "connector": {
         "name": "chrome",
         "options": {
-            "waitFor": 1000,
+            "waitFor": 15000,
             "loadCompleteRetryInterval": 500,
             "maxLoadWaitTime": 30000
         }
     },
-    "formatter": "stylish",
+    "formatter": "codeframe",
     "rulesTimeout": 120000,
     "rules": {
         "axe": "warning",
