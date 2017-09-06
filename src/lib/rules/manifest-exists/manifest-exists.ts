@@ -25,7 +25,7 @@ const rule: IRuleBuilder = {
 
         const manifestMissing = async (event: ITraverseEnd) => {
             if (!manifestIsSpecified) {
-                await context.report(event.resource, null, 'Web app manifest not specified');
+                await context.report(event.resource, null, 'Manifest not specified');
             }
         };
 
@@ -41,7 +41,7 @@ const rule: IRuleBuilder = {
             // <link rel="manifest"...> declaration.
 
             if (manifestIsSpecified) {
-                await context.report(resource, element, 'Web app manifest already specified');
+                await context.report(resource, element, 'Manifest already specified');
 
                 return;
             }
@@ -54,20 +54,20 @@ const rule: IRuleBuilder = {
                 // for those.
                 //
                 // TODO: find the relative location in the element
-                await context.report(data.resource, data.element, `Web app manifest specified with invalid 'href'`);
+                await context.report(data.resource, data.element, `Manifest specified with invalid 'href'`);
             }
         };
 
         const manifestEnd = async (event: IManifestFetchEnd) => {
             // TODO: check why CDP sends sometimes status 301
             if (event.response.statusCode >= 400) {
-                await context.report(event.resource, null, `Web app manifest file could not be fetched (status code: ${event.response.statusCode})`);
+                await context.report(event.resource, null, `Manifest file could not be fetched (status code: ${event.response.statusCode})`);
             }
         };
 
         const manifestError = async (event: IManifestFetchError) => {
             debug('Failed to fetch the web app manifest file');
-            await context.report(event.resource, null, `Web app manifest file request failed`);
+            await context.report(event.resource, null, `Manifest file request failed`);
 
             return;
         };

@@ -26,6 +26,7 @@
 ## PWAs
 
 * [`apple-touch-icons`](apple-touch-icons.md)
+* [`manifest-app-name`](manifest-app-name.md)
 * [`manifest-exists`](manifest-exists.md)
 * [`manifest-file-extension`](manifest-file-extension.md)
 

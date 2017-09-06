@@ -9,34 +9,34 @@ const htmlWithManifestSpecified = generateHTMLPage('<link rel="manifest" href="s
 
 const tests: Array<IRuleTest> = [
     {
-        name: `Web app manifest is not specified`,
+        name: `Manifest is not specified, so the rule does not apply and the test should pass`,
         serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')
     },
     {
-        name: `Web app manifest is specified with no 'href'`,
+        name: `Manifest is specified with no 'href', so the rule does not apply and the test should pass`,
         serverConfig: generateHTMLPage('<link rel="manifest">')
     },
     {
-        name: `Web app manifest is specified with empty 'href'`,
+        name: `Manifest is specified with empty 'href', so the rule does not apply and the test should pass`,
         serverConfig: generateHTMLPage('<link rel="manifest" href="">')
     },
     {
-        name: `Web app manifest is specified and its content is valid JSON`,
+        name: `Manifest is specified and its content is valid JSON`,
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': '{}'
         }
     },
     {
-        name: `Web app manifest is specified and its content is not valid JSON`,
-        reports: [{ message: `Web app manifest file doesn't contain valid JSON` }],
+        name: `Manifest is specified and its content is not valid JSON`,
+        reports: [{ message: `Manifest file doesn't contain valid JSON` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': 'x'
         }
     },
     //     {
-    //         name: `Web app manifest is specified as a full URL and its content is valid JSON`,
+    //         name: `Manifest is specified as a full URL and its content is valid JSON`,
     //         serverConfig: {
     //             '/':
     // `<!doctype html>
@@ -51,22 +51,22 @@ const tests: Array<IRuleTest> = [
     //         }
     //     },
     {
-        name: `Web app manifest is specified and it's a binary file`,
-        reports: [{ message: `Web app manifest file is not a text file` }],
+        name: `Manifest is specified and it's a binary file`,
+        reports: [{ message: `Manifest file is not a text file` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { headers: { 'Content-Type': 'image/png' } }
         }
     },
     {
-        name: `Web app manifest is specified and request for file fails`,
+        name: `Manifest is specified and request for file fails`,
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': null
         }
     },
     {
-        name: `Web app manifest is specified and request for file fails with status code`,
+        name: `Manifest is specified and request for file fails with status code`,
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { status: 404 }
