@@ -28,8 +28,8 @@ const rule: IRuleBuilder = {
 
             // null, empty string, etc. are not valid manifests
             if (!content) {
-                await context.report(resource, null, `Web app manifest file is not a text file`);
-                debug('Web app manifest file is not a text file');
+                await context.report(resource, null, `Manifest file is not a text file`);
+                debug('Manifest file is not a text file');
 
                 return;
             }
@@ -38,8 +38,8 @@ const rule: IRuleBuilder = {
                 // TODO: Add more complex web app manifest file validation.
                 JSON.parse(content);
             } catch (e) {
-                debug('Failed to parse the web app manifest file');
-                await context.report(resource, null, `Web app manifest file doesn't contain valid JSON`);
+                debug('Failed to parse the manifest file');
+                await context.report(resource, null, `Manifest file doesn't contain valid JSON`);
             }
         };
 

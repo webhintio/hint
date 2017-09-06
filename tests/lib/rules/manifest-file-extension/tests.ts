@@ -7,11 +7,11 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 
 const tests: Array<IRuleTest> = [
     {
-        name: `Web app manifest file is not specified`,
+        name: `Manifest file is not specified, so the rule does not apply and the test should pass`,
         serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')
     },
     {
-        name: `Web app manifest file has incorrect file extension`,
+        name: `Manifest file has incorrect file extension`,
         reports: [{
             message: `The file extension should be '.webmanifest' (not '.json')`,
             position: { column: 41, line: 2 }
@@ -20,7 +20,7 @@ const tests: Array<IRuleTest> = [
         <link rel="stylesheet" href="style.css">`)
     },
     {
-        name: `Web app manifest file has correct file extension`,
+        name: `Manifest file has correct file extension`,
         serverConfig: generateHTMLPage(`<link rel="manifest" href="site.webmanifest">
         <link rel="stylesheet" href="style.css">`)
     }
