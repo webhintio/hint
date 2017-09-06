@@ -26,10 +26,9 @@
 import * as path from 'path';
 import * as url from 'url';
 import * as util from 'util';
-import * as vm from 'vm';
+import { fork, ChildProcess } from 'child_process';
 
 import * as jsdom from 'jsdom/lib/old-api';
-import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
 
 import { debug as d } from '../../utils/debug';
 import { resolveUrl } from '../utils/resolver';
@@ -464,15 +463,43 @@ class JSDOMConnector implements IConnector {
         return this._fetchUrl(parsedTarget, customHeaders);
     }
 
-    public evaluate(source: string): Promise<any> {
-        const script: vm.Script = new vm.Script(source);
-        const result = script.runInContext(jsdomutils.implForWrapper(this._window.document)._global, { timeout: 60000 });
-
-        if (result[Symbol.toStringTag] === 'Promise') {
-            return result;
+    private killProcess = (runner: ChildProcess) => {
+        try {
+            runner.kill('SIGKILL');
+        } catch (err) {
+            debug('Error closing evaluate process');
         }
+    };
 
-        return Promise.resolve(result);
+    public evaluate(source: string, waitBeforeTimeOut: number = 60000): Promise<any> {
+        return new Promise((resolve, reject) => {
+            const runner: ChildProcess = fork(path.join(__dirname, 'evaluate-runner'), [this._finalHref, this._options.waitFor], { execArgv: [] });
+            let timeoutId;
+
+            runner.on('message', (result) => {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+
+                this.killProcess(runner);
+
+                if (result.error) {
+                    return reject(result.error);
+                }
+
+                return resolve(result.evaluate);
+            });
+
+            runner.send({ source });
+
+            timeoutId = setTimeout(() => {
+                debug(`Evaluation times out. Killing process and reporting and error.`);
+                this.killProcess(runner);
+
+                return reject(new Error('TIMEOUT'));
+            }, waitBeforeTimeOut);
+        });
     }
 
     public querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {

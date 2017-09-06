@@ -11,7 +11,7 @@ import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'ax
 
 import { readFileAsync } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
-import { IAsyncHTMLElement, ITraverseEnd, IRule, IRuleBuilder, Severity } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IRule, IRuleBuilder, Severity, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
 
 const debug = d(__filename);
