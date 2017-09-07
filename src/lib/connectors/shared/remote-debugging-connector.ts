@@ -21,16 +21,16 @@ import { debug as d } from '../../utils/debug';
 import { delay, hasAttributeWithValue } from '../../utils/misc';
 import { resolveUrl } from '../utils/resolver';
 
-/* eslint-disable no-unused-vars */
 import {
-    BrowserInfo, IConnector, IConnectorBuilder,
+    BrowserInfo, IConnector,
     IAsyncHTMLElement, IElementFound, IEvent, IFetchEnd, IFetchError, ILauncher, IManifestFetchEnd, IManifestFetchError, ITraverseUp, ITraverseDown,
     IResponse, IRequest, INetworkData, URL
 } from '../../types';
-/* eslint-enable no-unused-vars*/
+
 import { getCharset } from '../utils/charset';
 import { normalizeHeaders } from '../utils/normalize-headers';
 import { RedirectManager } from '../utils/redirects';
+import { Requester } from '../utils/requester';
 
 import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
 
@@ -771,39 +771,12 @@ export class Connector implements IConnector {
     public async fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {
         // TODO: This should create a new tab, navigate to the
         // resource and control what is received somehow via an event.
-        let req;
+        const headers = Object.assign({}, this._headers, customHeaders);
         const href: string = typeof target === 'string' ? target : target.href;
+        const request: Requester = new Requester({ headers });
+        const response: INetworkData = await request.get(href);
 
-        if (customHeaders) {
-            const tempHeaders = Object.assign({}, this._headers, customHeaders);
-
-            req = promisify(r.defaults({ headers: tempHeaders }));
-        } else {
-            req = promisify(r);
-        }
-
-        const response = await req(href);
-        // Promisify doesn't support {multiArgs: true} like pify does, so we take the body from the response directly
-        const { body } = response;
-
-        return {
-            request: {
-                headers: response.request.headers,
-                url: href
-            },
-            response: {
-                body: {
-                    content: body,
-                    contentEncoding: null,
-                    rawContent: null,
-                    rawResponse: null
-                },
-                headers: normalizeHeaders(response.headers),
-                hops: [], // TODO: populate
-                statusCode: response.statusCode,
-                url: href
-            }
-        };
+        return response;
     }
 
     /* eslint-disable indent */

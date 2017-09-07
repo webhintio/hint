@@ -258,7 +258,6 @@ const rule: IRuleBuilder = {
             description: `Require an 'apple-touch-icon'`
         },
         fixable: 'code',
-        ignoredConnectors: ['chrome'],
         recommended: true,
         schema: [],
         worksWithLocalFiles: true

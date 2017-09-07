@@ -36,18 +36,21 @@ const testConnectorEvaluate = (connectorInfo) => {
     const name: string = connectorInfo.name;
 
     test(`[${name}] Fetch Content`, async (t) => {
+        const file = fs.readFileSync(path.join(__dirname, './fixtures/common/edge.png'));
         const { sonar } = t.context;
         const connector: IConnector = await (connectorBuilder)(sonar, {});
         const server = t.context.server;
 
-        t.plan(1);
         t.context.connector = connector;
 
-        server.configure({ '/edge.png': fs.readFileSync(path.join(__dirname, './fixtures/common/edge.png')) });
+        server.configure({ '/edge.png': { content: file } });
 
         const result: INetworkData = await connector.fetchContent(url.parse(`http://localhost:${server.port}/edge.png`));
 
         t.is(result.response.statusCode, 200);
+        t.true(file.equals(result.response.body.rawContent), 'rawContent is the same');
+        // Because it is an image, the rawResponse should be the same
+        t.true(file.equals(result.response.body.rawResponse), 'rawResponse is the same');
     });
 
 };
