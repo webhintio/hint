@@ -620,7 +620,7 @@ export class Connector implements IConnector {
     /** Initiates all the process */
     private onLoadEventFired(callback: Function): Function {
         return () => {
-            const { DOM } = this._client;
+            const { DOM, Tracing } = this._client;
             const event: IEvent = { resource: this._finalHref };
 
             setTimeout(async () => {
@@ -653,6 +653,15 @@ export class Connector implements IConnector {
                         await this.getFavicon(faviconElement);
                     }
 
+                    await new Promise((resolve) => {
+                        Tracing.tracingComplete(() => {
+                            this._server.emitAsync('tracing::end', event);
+                            resolve();
+
+                        });
+                        debug(`Ending Collecting Chrome traces`);
+                        Tracing.end();
+                    });
                     await this._server.emitAsync('scan::end', event);
 
                     // We are going to wait until all the requests are finished or this._options.maxLoadWaitTime seconds before finish
@@ -702,7 +711,7 @@ export class Connector implements IConnector {
             }
 
             this._client = client;
-            const { Page, Security } = client;
+            const { Page, Security, Tracing } = client;
 
             // Bypassing the "Your connection is not private"
             // certificate error when using self signed certificate
@@ -730,6 +739,11 @@ export class Connector implements IConnector {
 
             try {
                 await this.configureAndEnableCDP();
+                Tracing.dataCollected((data) => {
+                    this._server.emitAsync('tracing::data', { data, resource: event.resource });
+                });
+                debug(`Starting collecting Chrome Traces`);
+                await Tracing.start();
 
                 await Page.navigate({ url: target.href });
             } catch (e) {
