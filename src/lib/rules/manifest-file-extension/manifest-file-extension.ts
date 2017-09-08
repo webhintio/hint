@@ -33,7 +33,7 @@ const rule: IRuleBuilder = {
                 const fileExtension: string = path.extname(href);
 
                 if (fileExtension !== standardManifestFileExtension) {
-                    debug('Web app manifest file with invalid extension found');
+                    debug('Manifest file with invalid extension found');
 
                     await context.report(resource, element, `The file extension should be '${standardManifestFileExtension}' (not '${fileExtension}')`, fileExtension);
                 }
