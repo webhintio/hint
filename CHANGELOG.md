@@ -1,3 +1,21 @@
+# 0.6.0 (September 8, 2017)
+
+## Bug fixes / Improvements
+
+* [[`32dcb344bd`](https://github.com/sonarwhal/sonar/commit/32dcb344bd36a2e5aa94ae2e3589e0d9cb5ad72c)] - Fix: Make improvements to `chrome` connector (see also: [`#387`](https://github.com/sonarwhal/sonar/issues/387), and [`#471`](https://github.com/sonarwhal/sonar/issues/471)).
+* [[`97bc6ea26b`](https://github.com/sonarwhal/sonar/commit/97bc6ea26b61b32c98499e4754a66ad48ce21511)] - Fix: Make `fetchContent` return raw data in chrome (see also: [`#495`](https://github.com/sonarwhal/sonar/issues/495)).
+* [[`a5b9951d2d`](https://github.com/sonarwhal/sonar/commit/a5b9951d2d2a83d047c22f9b08252974666e1355)] - Fix: Spinner getting stuck issue (see also: [`#485`](https://github.com/sonarwhal/sonar/issues/485)).
+* [[`481961c571`](https://github.com/sonarwhal/sonar/commit/481961c571059137a780aa3d5243ab4d232a016d)] - Docs: Make rule code examples more consistent.
+* [[`e2af8a87cf`](https://github.com/sonarwhal/sonar/commit/e2af8a87cf2a3a1fb892006853b98a423fd7dff6)] - Fix: Infinite hop calculation when there's a cycle (see also: [`#486`](https://github.com/sonarwhal/sonar/issues/486)).
+
+## New features
+
+* [[`ab11a172a3`](https://github.com/sonarwhal/sonar/commit/ab11a172a3d6a0f84a316d63654df29ecd343a7c)] - Update: `snyk-snapshot.json`.
+* [[`78b6cb1bb1`](https://github.com/sonarwhal/sonar/commit/78b6cb1bb1d677aadb316f24e05f56342ffacbcc)] - New: Add rule to check manifest's `name` and `short_name` members (see also: [`#136`](https://github.com/sonarwhal/sonar/issues/136)).
+* [[`7c4947eac1`](https://github.com/sonarwhal/sonar/commit/7c4947eac194c1985ca666b3e504274814b0520e)] - New: Add rule to check `apple-touch-icon`s usage (see also: [`#33`](https://github.com/sonarwhal/sonar/issues/33)).
+* [[`d13e26be35`](https://github.com/sonarwhal/sonar/commit/d13e26be354752ea59740cfc7604952c04d21dcd)] - New: Add `summary` fomatter (see also: [`#487`](https://github.com/sonarwhal/sonar/issues/487)).
+
+
 # 0.5.2 (September 2, 2017)
 
 ## Bug fixes / Improvements
