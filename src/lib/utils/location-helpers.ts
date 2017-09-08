@@ -47,6 +47,11 @@ const getIndicesOf = (searchStr: string, str: string): Array<number> => {
     let index: number;
     const indices: Array<number> = [];
 
+    // We had a problem getting the outerHTML of the element before
+    if (searchStr === '') {
+        return indices;
+    }
+
     while ((index = str.indexOf(searchStr, startIndex)) > -1) {
         indices.push(index);
         startIndex = index + searchStrLen;

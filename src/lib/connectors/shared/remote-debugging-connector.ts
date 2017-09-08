@@ -17,7 +17,8 @@ import { promisify } from 'util';
 
 import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html';
 import { debug as d } from '../../utils/debug';
-import { delay, hasAttributeWithValue } from '../../utils/misc';
+import * as logger from '../../utils/logging';
+import { cutString, delay, hasAttributeWithValue } from '../../utils/misc';
 import { resolveUrl } from '../utils/resolver';
 
 import {
@@ -135,14 +136,14 @@ export class Connector implements IConnector {
 
     /** Returns the IAsyncHTMLElement that initiated a request */
     private async getElementFromRequest(requestId: string): Promise<AsyncHTMLElement> {
-        const element = this._requests.get(requestId);
+        const sourceRequest = this._requests.get(requestId);
 
-        if (!element) {
+        if (!sourceRequest) {
             return null;
         }
 
-        const { initiator: { type } } = element;
-        let { request: { url: requestUrl } } = element;
+        const { initiator: { type } } = sourceRequest;
+        let { request: { url: requestUrl } } = sourceRequest;
         // We need to calculate the original url because it might have redirects
         const originalUrl: Array<string> = this._redirects.calculate(requestUrl);
 
@@ -185,12 +186,28 @@ export class Connector implements IConnector {
         }
 
         if (params.redirectResponse) {
-            debug(`Redirect found for ${requestUrl}`);
+            debug(`Redirect found for ${cutString(requestUrl)}`);
+
+            if (requestUrl === params.redirectResponse.url) {
+                logger.error(`Error redirecting: ${requestUrl} is an infinite loop`);
+
+                return;
+            }
+
+            const hops = this._redirects.calculate(requestUrl);
+
+            // We limit the number of redirects
+            if (hops.length >= 10) {
+                logger.error(`More than 10 redirects found for ${requestUrl}`);
+
+                return;
+            }
+
             // We store the redirects with the finalUrl as a key to do a reverse search in onResponseReceived.
             this._redirects.add(requestUrl, params.redirectResponse.url);
 
             // If needed, update the final URL.
-            if (this._redirects.calculate(requestUrl)[0] === this._href) {
+            if (hops[0] === this._href) {
                 this._finalHref = requestUrl;
             }
 
@@ -199,7 +216,7 @@ export class Connector implements IConnector {
 
         const eventName: string = this._href === requestUrl ? 'targetfetch::start' : 'fetch::start';
 
-        debug(`About to start fetching ${requestUrl}`);
+        debug(`About to start fetching ${cutString(requestUrl)}`);
 
         /* `getFavicon` will make attempts to download favicon later.
         * Ignore `cdp` requests to download favicon from the root
@@ -243,7 +260,6 @@ export class Connector implements IConnector {
             return;
         }
 
-
         // DOM is not ready so we queue up the event for later
         if (!this._dom) {
             this._pendingResponseReceived.push(this.onLoadingFailed.bind(this, params));
@@ -253,7 +269,15 @@ export class Connector implements IConnector {
 
         debug(`Error found:\n${JSON.stringify(params)}`);
         const element: AsyncHTMLElement = await this.getElementFromRequest(params.requestId);
-        const { request: { url: resource } } = request;
+        const requestInfo = this._requests.get(params.requestId);
+
+        if (!requestInfo) {
+            debug(`Request ${params.requestId} failed but wasn't in the list`);
+
+            return;
+        }
+
+        const { request: { url: resource } } = requestInfo;
         const eventName: string = this._href === resource ? 'targetfetch::error' : 'fetch::error';
 
         const hops: Array<string> = this._redirects.calculate(resource);
@@ -302,7 +326,7 @@ export class Connector implements IConnector {
             debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
             rawContent = Buffer.alloc(0);
         }
-        debug(`Content for ${cdpResponse.response.url} downloaded`);
+        debug(`Content for ${cutString(cdpResponse.response.url)} downloaded`);
 
         return { content, rawContent, rawResponse };
     }
@@ -333,12 +357,6 @@ export class Connector implements IConnector {
 
     /** Event handler fired when HTTP response is available and DOM loaded. */
     private async onResponseReceived(params) {
-        // DOM is not ready so we queue up the event for later
-        if (!this._dom) {
-            this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
-
-            return;
-        }
         const resourceUrl: string = params.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const originalUrl: string = hops[0] || resourceUrl;
@@ -364,7 +382,19 @@ export class Connector implements IConnector {
         }
 
         if (eventName !== 'targetfetch::end') {
-            data.element = await this.getElementFromRequest(params.requestId);
+            // DOM is not ready so we queue up the event for later
+            if (!this._dom) {
+                this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
+
+                return;
+            }
+
+            try {
+                data.element = await this.getElementFromRequest(params.requestId);
+            } catch (e) {
+                debug(`Error finding element for request ${params.requestId}. element will be null`);
+                data.element = null;
+            }
         } else {
             this._targetNetworkData = {
                 request,
@@ -560,12 +590,10 @@ export class Connector implements IConnector {
         debug(`Disconnected`);
     }
 
-    /** Sets the right configuration and enables all the required CDP features. */
-    private async configureAndEnableCDP() {
-        const { Network, Page } = this._client;
-
-        this._client.on('error', this.onError);
-        this._client.on('disconnect', this.onDisconnect);
+    /** Enables the handles for all the relevant Networks events sent by the debugging protocol. */
+    private async enableNetworkEvents() {
+        debug('Binding to Network events');
+        const { Network } = this._client;
 
         await Promise.all([
             Network.clearBrowserCache(),
@@ -574,6 +602,16 @@ export class Connector implements IConnector {
             Network.responseReceived(this.onResponseReceived.bind(this)),
             Network.loadingFailed(this.onLoadingFailed.bind(this))
         ]);
+    }
+
+    /** Sets the right configuration and enables all the required CDP features. */
+    private async configureAndEnableCDP() {
+        const { Network, Page } = this._client;
+
+        this._client.on('error', this.onError);
+        this._client.on('disconnect', this.onDisconnect);
+
+        await this.enableNetworkEvents();
 
         await Promise.all([
             Network.enable(),
@@ -617,61 +655,55 @@ export class Connector implements IConnector {
         }
     }
 
-    /** Initiates all the process */
+    /** Processes the pending responses received while the DOM wasn't ready. */
+    private async processPendingResponses(): Promise<void> {
+        while (this._pendingResponseReceived.length) {
+            debug(`Pending requests: ${this._pendingResponseReceived.length}`);
+            await this._pendingResponseReceived.shift()();
+        }
+    }
+
+    /** Handler fired when page is loaded. */
     private onLoadEventFired(callback: Function): Function {
-        return () => {
+        return async () => {
+            await delay(this._options.waitFor);
+
             const { DOM } = this._client;
             const event: IEvent = { resource: this._finalHref };
 
-            setTimeout(async () => {
-                try {
-                    if (this._errorWithPage) {
-                        return callback(new Error('Problem loading the website'));
-                    }
+            try {
+                this._dom = new AsyncHTMLDocument(DOM);
+                await this._dom.load();
 
-                    const dom = new AsyncHTMLDocument(DOM);
+                await this.processPendingResponses();
 
-                    await dom.load();
+                if (this._errorWithPage) {
+                    return callback(new Error('Problem loading the website'));
+                }
 
-                    this._dom = dom;
+                await this._server.emitAsync('traverse::start', event);
+                await this.traverseAndNotify(this._dom.root);
+                await this._server.emitAsync('traverse::end', event);
 
-                    while (this._pendingResponseReceived.length) {
-                        await this._pendingResponseReceived.shift()();
-                    }
+                if (!this._manifestIsSpecified) {
+                    await this._server.emitAsync('manifestfetch::missing', { resource: this._href });
+                }
 
-                    await this._server.emitAsync('traverse::start', event);
-                    await this.traverseAndNotify(this._dom.root);
-                    await this._server.emitAsync('traverse::end', event);
+                if (!this._faviconLoaded) {
+                    const faviconElement = (await this._dom.querySelectorAll('link[rel~="icon"]'))[0];
 
-                    if (!this._manifestIsSpecified) {
-                        await this._server.emitAsync('manifestfetch::missing', { resource: this._href });
-                    }
+                    await this.getFavicon(faviconElement);
+                }
 
-                    if (!this._faviconLoaded) {
-                        const faviconElement = (await this._dom.querySelectorAll('link[rel~="icon"]'))[0];
-
-                        await this.getFavicon(faviconElement);
-                    }
-
+                // We let time to any pending things (like error networks and so) to happen in the next second
+                return setTimeout(async () => {
                     await this._server.emitAsync('scan::end', event);
 
-                    // We are going to wait until all the requests are finished or this._options.maxLoadWaitTime seconds before finish
-                    let retries: number = Math.ceil(this._options.maxLoadWaitTime / this._options.loadCompleteRetryInterval);
-
-                    const isFinish = () => {
-                        if (this._requests.size === 0 || !retries) {
-                            return callback();
-                        }
-                        retries--;
-
-                        return setTimeout(isFinish, this._options.loadCompleteRetryInterval);
-                    };
-
-                    return isFinish();
-                } catch (err) {
-                    return callback(err);
-                }
-            }, this._options.waitFor);
+                    return callback();
+                }, 1000);
+            } catch (err) {
+                return callback(err);
+            }
         };
     }
 
@@ -726,7 +758,9 @@ export class Connector implements IConnector {
                 await Security.setOverrideCertificateErrors({ override: true });
             }
 
-            Page.loadEventFired(this.onLoadEventFired(callback));
+            const loadHandler = this.onLoadEventFired(callback);
+
+            Page.loadEventFired(loadHandler);
 
             try {
                 await this.configureAndEnableCDP();
