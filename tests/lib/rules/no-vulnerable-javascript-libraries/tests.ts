@@ -13,6 +13,7 @@ const generateScriptTag = (script) => {
 
 const angular = fs.readFileSync(require.resolve('angular/angular.min.js'), 'utf-8');
 const jquery = fs.readFileSync(require.resolve('jquery/dist/jquery.min.js'), 'utf-8');
+const knockout = fs.readFileSync(require.resolve('knockout/dist/knockout.js'), 'utf-8');
 const moment = fs.readFileSync(require.resolve('moment/min/moment.min.js'), 'utf-8');
 
 const defaultTests: Array<IRuleTest> = [
@@ -24,6 +25,10 @@ const defaultTests: Array<IRuleTest> = [
         name: `page with a vulnerable library (jquery 2.1.4) fails`,
         reports: [{ message: 'jQuery@2.1.4 has 2 known vulnerabilities (1 medium, 1 low). See https://snyk.io/vuln/npm:jquery for more information.' }],
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
+    },
+    {
+        name: `page with a library with a tagged version and no vulnerabilities (knockout 3.4.0-rc) passes`,
+        serverConfig: generateHTMLPage(generateScriptTag(knockout))
     },
     {
         name: `page with non vulnerable library (moment 2.18.1) passes`,

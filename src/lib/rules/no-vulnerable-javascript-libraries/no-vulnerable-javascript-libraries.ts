@@ -10,6 +10,7 @@ import * as pluralize from 'pluralize';
 import * as request from 'request';
 import * as semver from 'semver';
 
+import * as logger from '../../utils/logging';
 import { readFileAsync } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
 import { IRule, IRuleBuilder, IScanEnd, Library, Vulnerability } from '../../types';
@@ -133,6 +134,13 @@ const rule: IRuleBuilder = {
             }
         };
 
+        /** Removes any tags from a version. E.g.: 2.0.0rc --> 2.0.0, 2.0.1-pre --> 2.0.1 */
+        const removeTagsFromVersion = (version: string): string => {
+            const match = (/(\d+\.?)+/).exec(version);
+
+            return match && match[0];
+        };
+
         /** Given a list of libraries, reports the ones that have known vulnerabilities. */
         const detectAndReportVulnerableLibraries = async (libraries: Array<Library>, resource: string) => {
             // TODO: Check if snykDB is older than 24h and download if so. If not, or if itfails, use local version
@@ -147,8 +155,14 @@ const rule: IRuleBuilder = {
                 }
 
                 const vulnerabilities: Array<Vulnerability> = snykInfo.reduce((vulns, vuln) => {
-                    if (semver.satisfies(lib.version, vuln.semver.vulnerable[0])) {
-                        vulns.push(vuln);
+                    const version = removeTagsFromVersion(lib.version);
+
+                    try {
+                        if (semver.satisfies(version, vuln.semver.vulnerable[0])) {
+                            vulns.push(vuln);
+                        }
+                    } catch (e) {
+                        logger.error(`Version ${version} of ${lib.name} isn't semver compliant`);
                     }
 
                     return vulns;
