@@ -8,6 +8,8 @@ import * as request from 'request';
 import * as shell from 'shelljs';
 
 const CHANGELOG_FILE = 'CHANGELOG.md';
+const SHRINKWRAP_FILE = 'npm-shrinkwrap.json';
+
 const PKG = require('../../package.json');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -306,7 +308,7 @@ const main = async () => {
         return;
     }
 
-    // Update version in `package.json` and `package-lock.json`
+    // Update version in `package.json` and `package-lock.json`.
     const version = updatePackageJSON(newVersion);
 
     // Update changelog file.
@@ -329,9 +331,16 @@ const main = async () => {
     // Create new release.
     await createRelease(version, releaseNotes);
 
+    // Create shrinkwrap file.
+    // (This is done because `npm` doesn't
+    //  publish the `package-lock` file)
+    exec(`Create '${SHRINKWRAP_FILE}' `, 'npm shrinkwrap');
+
     // Publish on `npm`.
     exec('Publish on `npm`.', 'npm publish');
 
+    // Delete, no longer needed shrinkwrap file.
+    shell.rm(SHRINKWRAP_FILE);
 };
 
 main();
