@@ -29,8 +29,8 @@
     "handlebars": "^4.0.10",
     "html-validator": "^2.2.3",
     "iconv-lite": "^0.4.17",
-    "inquirer": "^3.2.3",
     "image-size": "^0.6.1",
+    "inquirer": "^3.2.3",
     "is-ci": "^1.0.10",
     "is-my-json-valid": "^2.16.1",
     "is-resolvable": "^1.0.0",
@@ -101,6 +101,7 @@
     "express": "^4.15.3",
     "husky": "^0.14.3",
     "jquery": "2.1.4",
+    "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
     "markdownlint-cli": "^0.3.1",
     "mock-require": "^2.0.2",
     "moment": "2.18.1",
@@ -127,6 +128,7 @@
     "ignore": [
       "angular",
       "jquery",
+      "knockout",
       "moment"
     ]
   },
