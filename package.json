@@ -173,7 +173,7 @@
     "commitmsg": "node scripts/check-commit-message.js",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint --ext md --ext ts --ignore-pattern dist .",
-    "lint:md": "markdownlint ./.github docs",
+    "lint:md": "markdownlint docs",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
     "prepublishOnly": "npm i && npm run build",
     "release": "npm run test && node dist/scripts/release.js",
