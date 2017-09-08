@@ -8,9 +8,9 @@ import * as getImageData from 'image-size';
 
 import { debug as d } from '../../utils/debug';
 import { isHTMLDocument, isRegularProtocol, normalizeString } from '../../utils/misc';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, ITraverseEnd, INetworkData } from '../../types'; // eslint-disable-line no-unused-vars
-import { IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLDocument, IAsyncHTMLElement, ITraverseEnd, INetworkData } from '../../types';
+import { IRule, IRuleBuilder } from '../../types';
+import { RuleContext } from '../../rule-context';
 
 const debug: debug.IDebugger = d(__filename);
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import * as url from 'url';
 
 import { IConnectorBuilder } from './types/connector';

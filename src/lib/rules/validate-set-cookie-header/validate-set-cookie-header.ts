@@ -2,7 +2,7 @@
  * @fileoverview This rule validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.
  */
 
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { RuleContext } from '../../rule-context';
 import { debug as d } from '../../utils/debug';
 import { IFetchEnd, IAsyncHTMLElement, IResponse, IRuleBuilder, IRule, ParsedSetCookieHeader, Severity } from '../../types'; // eslint-disable-line no-unused-vars
 import { isHTTPS, isRegularProtocol, normalizeString } from '../../utils/misc';
@@ -33,7 +33,7 @@ const rule: IRuleBuilder = {
         const headerName: string = 'set-cookie';
 
         type ValidationMessages = Array<string>;
-        type Validator = (parsedSetCookie: ParsedSetCookieHeader) => ValidationMessages; // eslint-disable-line no-unused-vars
+        type Validator = (parsedSetCookie: ParsedSetCookieHeader) => ValidationMessages;
 
         /** Trim double quote from the value string. */
         const unquote = (value: string): string => {

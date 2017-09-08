@@ -5,8 +5,8 @@
  * https://github.com/eslint/eslint/blob/master/lib/rule-context.js
  */
 
-import { Sonar } from './sonar'; // eslint-disable-line no-unused-vars
-import { IAsyncHTMLElement, INetworkData, IProblemLocation, IRuleMetadata, Severity } from './types'; // eslint-disable-line no-unused-vars
+import { Sonar } from './sonar';
+import { IAsyncHTMLElement, INetworkData, IProblemLocation, IRuleMetadata, Severity } from './types';
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 
 

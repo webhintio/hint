@@ -8,7 +8,7 @@ import jsdomBuilder from '../../src/lib/connectors/jsdom/jsdom';
 export const ids = ['jsdom', 'chrome'];
 
 /** The builders of the available connectors to test. */
-export const builders = [
+export const builders: Array<{builder: IConnectorBuilder, name: string}> = [
     {
         builder: chromeBuilder,
         name: 'chrome'

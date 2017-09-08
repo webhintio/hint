@@ -15,7 +15,7 @@ import * as globby from 'globby';
 
 import { findPackageRoot } from './misc';
 import { debug as d } from './debug';
-import { IConnectorBuilder, IFormatter, IPluginBuilder, Resource, IRuleBuilder } from '../types'; // eslint-disable-line no-unused-vars
+import { IConnectorBuilder, IFormatter, Resource, IRuleBuilder } from '../types';
 import { validate as validateRule } from '../config/config-rules';
 
 

@@ -1,17 +1,17 @@
 import test from 'ava';
 
 import * as configRules from '../../../src/lib/config/config-rules';
-import { IRuleBuilder, RuleConfig } from '../../../src/lib/types'; // eslint-disable-line no-unused-vars
+import { IRuleBuilder, RuleConfig } from '../../../src/lib/types';
 
 const ruleEmptySchema: IRuleBuilder = {
-    create(config) { // eslint-disable-line no-unused-vars
+    create() {
         return null;
     },
     meta: { schema: [], worksWithLocalFiles: false }
 };
 
 const ruleWithSchema: IRuleBuilder = {
-    create(config) { // eslint-disable-line no-unused-vars
+    create() {
         return null;
     },
     meta: {

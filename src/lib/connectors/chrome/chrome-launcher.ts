@@ -12,15 +12,13 @@
 
 /* eslint-disable no-sync */
 
-import { spawn } from 'child_process'; // eslint-disable-line no-unused-vars
-
 import * as chromeLauncher from 'chrome-launcher';
 import * as isCI from 'is-ci';
 import * as lockfile from 'lockfile';
 import { promisify } from 'util';
 
 import { Launcher } from '../shared/launcher';
-import { BrowserInfo, LauncherOptions } from '../../types'; // eslint-disable-line no-unused-vars
+import { BrowserInfo, LauncherOptions } from '../../types';
 import * as logger from '../../utils/logging';
 import { debug as d } from '../../utils/debug';
 import { readFileAsync, writeFileAsync } from '../../utils/misc';

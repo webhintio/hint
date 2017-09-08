@@ -14,11 +14,11 @@ import { debug as d } from '../../utils/debug';
 import * as fileType from 'file-type';
 import * as isSvg from 'is-svg';
 import * as mimeDB from 'mime-db';
-import { parse, MediaType } from 'content-type'; // eslint-disable-line no-unused-vars
+import { parse, MediaType } from 'content-type';
 
-import { IAsyncHTMLElement, IResponse, IResponseBody, IRule, IRuleBuilder, IFetchEnd } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI, normalizeString } from '../../utils/misc';
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 

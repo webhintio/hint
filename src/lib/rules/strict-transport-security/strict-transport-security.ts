@@ -3,7 +3,7 @@
  */
 import * as url from 'url';
 
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { RuleContext } from '../../rule-context';
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IResponse, IFetchEnd, IRule, IRuleBuilder, INetworkData } from '../../types'; // eslint-disable-line no-unused-vars
 

@@ -13,7 +13,7 @@ import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
 
 import { debug as d } from '../../utils/debug';
-import { IFormatter, IProblem, Severity } from '../../types'; // eslint-disable-line no-unused-vars
+import { IFormatter, IProblem, Severity } from '../../types';
 import * as logger from '../../utils/logging';
 
 const debug = d(__filename);

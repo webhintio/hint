@@ -4,14 +4,14 @@
 
 import * as url from 'url';
 
-import { test } from 'ava'; // eslint-disable-line no-unused-vars
+import { test } from 'ava';
 import * as retry from 'async-retry';
 
 import { ids as connectors } from './connectors';
 import { createServer } from './test-server';
-import { IConfig, IElementFound, INetworkData, IRule, IRuleBuilder } from '../../src/lib/types'; // eslint-disable-line no-unused-vars
+import { IConfig } from '../../src/lib/types';
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
-import { IRuleTest } from './rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from './rule-test-type';
 import { Sonar } from '../../src/lib/sonar';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */

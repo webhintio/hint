@@ -32,7 +32,7 @@ import { normalizeHeaders } from '../utils/normalize-headers';
 import { RedirectManager } from '../utils/redirects';
 import { Requester } from '../utils/requester';
 
-import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
+import { Sonar } from '../../sonar';
 
 const debug: debug.IDebugger = d(__filename);
 

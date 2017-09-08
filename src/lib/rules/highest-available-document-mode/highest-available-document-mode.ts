@@ -7,9 +7,9 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from '../../types';
 import { isLocalFile, normalizeString } from '../../utils/misc';
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { RuleContext } from '../../rule-context';
 
 // ------------------------------------------------------------------------------
 // Public

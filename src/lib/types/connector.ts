@@ -1,4 +1,4 @@
-import * as url from 'url'; // eslint-disable-line no-unused-vars
+import * as url from 'url';
 
 import { IAsyncHTMLElement } from './asynchtml';
 import { INetworkData } from './network';

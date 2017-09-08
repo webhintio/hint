@@ -1,4 +1,4 @@
-import { IProblem, Severity } from '../../../../src/lib/types'; // eslint-disable-line no-unused-vars
+import { IProblem, Severity } from '../../../../src/lib/types';
 
 const multipleproblems: Array<IProblem> = [{
     location: {
