@@ -1,4 +1,6 @@
+import { EOL } from 'os';
 import { promisify } from 'util';
+import * as path from 'path';
 
 import * as chalk from 'chalk';
 import * as inquirer from 'inquirer';
@@ -235,7 +237,7 @@ const getReleaseNotes = (): string => {
     // <version_log>
     // ...
 
-    const regex = /#.*\n\n([\s\S]*?)\n\n\n/;
+    const regex = new RegExp(`#.*${EOL}${EOL}([\\s\\S]*?)${EOL}${EOL}${EOL}`);
 
     return regex.exec(shell.cat(CHANGELOG_FILE))[1];
 };
@@ -251,7 +253,7 @@ const stopToUpdateChangelog = async (): Promise<boolean> => {
 };
 
 const tagNewVersion = (version: string) => {
-    exec('Commit changes and tag a new version.', `git add -A && git commit -m 'v${version}' && git tag -a '${version}' -m 'v${version}'`);
+    exec('Commit changes and tag a new version.', `git add -A && git commit -m "v${version}" && git tag -a "${version}" -m "v${version}"`);
 };
 
 const updateFile = (filePath: string, content) => {
@@ -275,7 +277,7 @@ const updatePackageJSON = (newVersion: SemVer): string => {
 const updateSnykSnapshotJSONFile = async () => {
 
     const downloadURL = 'https://snyk.io/partners/api/v2/vulndb/clientside.json';
-    const downloadLocation = 'src/lib/rules/no-vulnerable-javascript-libraries/snyk-snapshot.json';
+    const downloadLocation = path.normalize('src/lib/rules/no-vulnerable-javascript-libraries/snyk-snapshot.json');
 
     const res = await promisify(request)({ url: downloadURL });
 
@@ -287,7 +289,7 @@ const updateSnykSnapshotJSONFile = async () => {
 
     updateFile(downloadLocation, res.body);
 
-    exec(`Commit updated version (if exists) of '${downloadLocation}'.`, `git reset HEAD && git add ${downloadLocation} && git diff --cached --quiet ${downloadLocation} || git commit -m 'Update: \`snyk-snapshot.json\`'`);
+    exec(`Commit updated version (if exists) of '${downloadLocation}'.`, `git reset HEAD && git add ${downloadLocation} && git diff --cached --quiet ${downloadLocation} || git commit -m "Update: \`snyk-snapshot.json\`"`);
 
 };
 
@@ -311,7 +313,7 @@ const main = async () => {
     updateChangelog(changelogBody, version);
 
     // Allow users to tweak the changelog file.
-    if ((await stopToUpdateChangelog()) === false){
+    if ((await stopToUpdateChangelog()) === false) {
         return;
     }
 
@@ -319,7 +321,7 @@ const main = async () => {
     await tagNewVersion(version);
 
     // Push changes upstreem.
-    exec('Push changes upstream.', `git push origin master ${version}`);
+    exec('Push changes upstream.', `git push origin master "${version}"`);
 
     // Extract the release notes from the updated changelog file.
     const releaseNotes = await getReleaseNotes();
