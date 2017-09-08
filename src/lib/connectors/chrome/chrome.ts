@@ -10,12 +10,11 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html'; // eslint-disable-line no-unused-vars
 import { Connector } from '../shared/remote-debugging-connector';
-import { IConnector, IConnectorBuilder, ILauncher } from '../../types'; // eslint-disable-line no-unused-vars
+import { IConnector, IConnectorBuilder, ILauncher } from '../../types';
 import { CDPLauncher } from './chrome-launcher';
 
-import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
+import { Sonar } from '../../sonar';
 
 class ChromeConnector extends Connector {
     public constructor(server: Sonar, config: object, launcher: ILauncher) {

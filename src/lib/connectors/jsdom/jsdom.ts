@@ -33,17 +33,15 @@ import * as jsdom from 'jsdom/lib/old-api';
 import { debug as d } from '../../utils/debug';
 import { resolveUrl } from '../utils/resolver';
 
-/* eslint-disable no-unused-vars */
 import {
-    IAsyncHTMLElement, IConnector, IConnectorBuilder,
+    IConnector, IConnectorBuilder,
     IElementFound, IEvent, IFetchEnd, IFetchError, IManifestFetchError, IManifestFetchEnd, ITraverseDown, ITraverseUp,
     INetworkData, URL
 } from '../../types';
-/* eslint-enable no-unused-vars */
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
 import { readFileAsync } from '../../utils/misc';
-import { Requester } from '../utils/requester'; //eslint-disable-line
-import { Sonar } from '../../sonar'; // eslint-disable-line no-unused-vars
+import { Requester } from '../utils/requester';
+import { Sonar } from '../../sonar';
 
 // ------------------------------------------------------------------------------
 // Defaults

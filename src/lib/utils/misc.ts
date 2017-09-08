@@ -10,7 +10,7 @@ import * as requireUncached from 'require-uncached';
 import * as stripComments from 'strip-json-comments';
 import * as requestAsync from 'request-promise';
 
-import { IAsyncHTMLElement } from '../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement } from '../types';
 import { debug as d } from './debug';
 const debug: debug.IDebugger = d(__filename);
 

@@ -10,7 +10,7 @@
 import * as _ from 'lodash';
 
 import { debug as d } from '../../utils/debug';
-import { IFormatter, IProblem } from '../../types'; // eslint-disable-line no-unused-vars
+import { IFormatter, IProblem } from '../../types';
 import * as logger from '../../utils/logging';
 
 const debug = d(__filename);

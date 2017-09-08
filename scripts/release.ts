@@ -10,7 +10,7 @@ const PKG = require('../../package.json');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-type Commit = { // eslint-disable-line no-unused-vars
+type Commit = {
     associatedIssues: string[];
     sha: string;
     tag: string;
@@ -22,7 +22,7 @@ type Commit = { // eslint-disable-line no-unused-vars
 
 type SemVer = 'patch' | 'minor' | 'major';
 
-type ChangelogData = { // eslint-disable-line no-unused-vars
+type ChangelogData = {
     body: string;
     version: SemVer;
 };

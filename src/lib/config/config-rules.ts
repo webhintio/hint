@@ -9,7 +9,7 @@
 import * as schemaValidator from 'is-my-json-valid';
 
 import { debug as d } from '../utils/debug';
-import { IRuleBuilder, RuleConfig } from '../types'; // eslint-disable-line no-unused-vars
+import { IRuleBuilder, RuleConfig } from '../types';
 import { Severity } from '../types/problems';
 
 const debug = d(__filename);

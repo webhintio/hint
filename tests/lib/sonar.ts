@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 import * as url from 'url';
 
 import * as sinon from 'sinon';
@@ -43,21 +44,21 @@ test.afterEach.always((t) => {
 test(`If config is an empty object, we should throw an error`, (t) => {
     t.throws(() => {
         // <any>{} to avoid the type checking if not is not possible to use just {}
-        const sonarObject = new Sonar({} as any); // eslint-disable-line no-unused-vars
+        new Sonar({} as any);
     }, Error);
 });
 
 test(`If config doesn't have any rule, we shouldn't create any rules`, (t) => {
     sinon.spy(t.context.resourceLoader, 'loadRules');
 
-    const sonarObject = new Sonar({ connector: 'connector' }); // eslint-disable-line no-unused-vars
+    new Sonar({ connector: 'connector' });
 
     t.false(t.context.resourceLoader.loadRules.called);
 });
 
 test(`If the config object is invalid, we should throw an error`, (t) => {
     t.throws(() => {
-        const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+        new Sonar({
             invalidProperty: 'invalid',
             randomProperty: 'random'
         } as any);
@@ -66,7 +67,7 @@ test(`If the config object is invalid, we should throw an error`, (t) => {
 
 test(`If a rule config is invalid, we should throw an error`, (t) => {
     t.throws(() => {
-        const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+        new Sonar({
             connector: 'connector',
             rules: { 'disallowed-headers': 'invalid-severity' }
         });
@@ -75,7 +76,7 @@ test(`If a rule config is invalid, we should throw an error`, (t) => {
 
 test(`If a rule doesn't exist, we should throw an error`, (t) => {
     t.throws(() => {
-        const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+        new Sonar({
             connector: 'connector',
             rules: { 'invalid-rule': 'error' }
         });
@@ -88,7 +89,7 @@ test(`If config.browserslist is an string, we should initilize the property targ
     const sonarObject = new Sonar({
         browserslist: '> 5%',
         connector: 'connector'
-    }); // eslint-disable-line no-unused-vars
+    });
 
     t.true(sonarObject.targetedBrowsers.length > 0);
 
@@ -118,7 +119,7 @@ test(`If config.browserslist is an string, we should initilize the property targ
 //             'fetch::error': () => { }
 //         });
 
-//     const sonarObject = new Sonar({ connector: 'connector', plugins: ['plugin1Name', 'plugin2Name'] }); //eslint-disable-line no-unused-vars
+//     new Sonar({ connector: 'connector', plugins: ['plugin1Name', 'plugin2Name'] });
 
 //     t.true(t.context.resourceLoader.getPlugins.called);
 //     t.is(t.context.plugin.create.callCount, 2);
@@ -150,7 +151,7 @@ test.serial('If config.rules is an object with rules, we should create just thos
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'connector',
         rules: {
             'disallowed-headers': 'warning',
@@ -183,7 +184,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'connector',
         rules: {
             'disallowed-headers': 'warning',
@@ -217,7 +218,7 @@ test.serial('If config.rules is an array with rules, we should create just those
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'connector',
         rules: [
             'disallowed-headers:warning',
@@ -250,7 +251,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'connector',
         rules: [
             'disallowed-headers:warning',
@@ -284,7 +285,7 @@ test.serial('If config.rules is an array with shorthand warning rules, we should
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'connector',
         rules: [
             '?disallowed-headers',
@@ -317,7 +318,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'connector',
         rules: [
             'disallowed-headers:warning',
@@ -350,7 +351,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'jsdom',
         rules: {
             'disallowed-headers': 'warning',
@@ -390,7 +391,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
     sinon.spy(ruleWithIgnoredConnector, 'create');
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'chrome',
         rules: {
             'disallowed-headers': 'warning',
@@ -420,7 +421,7 @@ test.serial(`If an event is emitted for a local file and the rule doesn't work w
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'connector',
         rules: { 'disallowed-headers': 'warning' }
     });
@@ -447,7 +448,7 @@ test(`If an event is emitted for an ignored url, it shouldn't propagate`, async 
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    const sonarObject = new Sonar({
         connector: 'connector',
         ignoredUrls: { '.*\\.domain1\.com/.*': ['*'] }, // eslint-disable-line no-useless-escape
         rules: { 'disallowed-headers': 'warning' }
@@ -475,7 +476,7 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'connector',
         ignoredUrls: { '.*\\.domain1\.com/.*': ['disallowed-headers'], '.*\\.domain2\.com/.*': ['disallowed-headers'] }, // eslint-disable-line no-useless-escape
         rules: { 'disallowed-headers': 'warning' }
@@ -509,7 +510,7 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
         }
     });
 
-    const sonarObject = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: 'connector',
         rules: { 'disallowed-headers': 'warning' },
         rulesTimeout: 1000
@@ -526,7 +527,7 @@ test.serial(`If connectorId doesn't exist, it should throw an error`, (t) => {
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(null);
 
     try {
-        const sonar = new Sonar({ connector: 'invalidConnector' }); // eslint-disable-line no-unused-vars
+        new Sonar({ connector: 'invalidConnector' });
 
         t.false(true);
     } catch (err) {
@@ -540,7 +541,7 @@ test.serial('If connectorId is valid, we should init the connector', (t) => {
     sinon.stub(t.context, 'connectorFunction').returns({});
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonar = new Sonar({ connector: 'myconnector' }); // eslint-disable-line no-unused-vars
+    new Sonar({ connector: 'myconnector' });
 
     t.true(t.context.connectorFunction.called);
 });
@@ -551,7 +552,7 @@ test.serial('If connector is an object with valid data, we should init the conne
     sinon.stub(t.context, 'connectorFunction').returns({});
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonar = new Sonar({ // eslint-disable-line no-unused-vars
+    new Sonar({
         connector: {
             name: 'myconnector',
             options: {}

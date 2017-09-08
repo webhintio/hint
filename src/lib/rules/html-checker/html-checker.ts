@@ -10,8 +10,8 @@
 import * as _ from 'lodash';
 
 import { debug as d } from '../../utils/debug';
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
-import { IRule, IRuleBuilder, ITargetFetchEnd, IScanEnd, IProblemLocation, Severity } from '../../types'; // eslint-disable-line no-unused-vars
+import { RuleContext } from '../../rule-context';
+import { IRule, IRuleBuilder, ITargetFetchEnd, IScanEnd, IProblemLocation, Severity } from '../../types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -34,7 +34,7 @@ const rule: IRuleBuilder = {
         /** If the result messages should be grouped */
         let groupMessage: boolean;
 
-        type HtmlError = { // eslint-disable-line no-unused-vars
+        type HtmlError = {
             extract: string; // code snippet
             firstColumn: number;
             lastLine: number;

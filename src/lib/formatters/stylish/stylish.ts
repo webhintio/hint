@@ -15,7 +15,7 @@ import * as pluralize from 'pluralize';
 
 import { cutString } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
-import { IFormatter, IProblem, Severity } from '../../types'; // eslint-disable-line no-unused-vars
+import { IFormatter, IProblem, Severity } from '../../types';
 import * as logger from '../../utils/logging';
 
 const debug = d(__filename);
