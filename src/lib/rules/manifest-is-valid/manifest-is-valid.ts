@@ -8,7 +8,7 @@
 
 import { debug as d } from '../../utils/debug';
 import { IManifestFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 

@@ -9,7 +9,7 @@ import test from 'ava';
 
 import { builders } from '../../helpers/connectors';
 import { createServer } from '../../helpers/test-server';
-import { IConnector, IConnectorBuilder, INetworkData } from '../../../src/lib/types'; // eslint-disable-line no-unused-vars
+import { IConnector, IConnectorBuilder } from '../../../src/lib/types';
 import { generateHTMLPage } from '../../helpers/misc';
 
 test.beforeEach(async (t) => {

@@ -6,10 +6,9 @@
 import { parseMetaViewPortContent } from 'metaviewport-parser';
 
 import { isHTMLDocument, normalizeString } from '../../utils/misc';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
-import { IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
-
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLDocument, IAsyncHTMLElement, ITraverseEnd } from '../../types';
+import { IRule, IRuleBuilder } from '../../types';
+import { RuleContext } from '../../rule-context';
 
 // ------------------------------------------------------------------------------
 // Public

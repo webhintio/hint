@@ -10,7 +10,7 @@
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI, normalizeString } from '../../utils/misc';
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 

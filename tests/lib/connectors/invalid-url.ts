@@ -4,7 +4,7 @@ import test from 'ava';
 
 import { builders } from '../../helpers/connectors';
 
-import { IConnector, IConnectorBuilder, INetworkData } from '../../../src/lib/types'; // eslint-disable-line no-unused-vars
+import { IConnector, IConnectorBuilder } from '../../../src/lib/types';
 
 test.beforeEach((t) => {
     const sonar = {

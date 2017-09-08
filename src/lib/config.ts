@@ -16,7 +16,7 @@ import * as path from 'path';
 import * as shell from 'shelljs';
 
 import { debug as d } from './utils/debug';
-import { IConfig, IRuleBuilder } from './types'; // eslint-disable-line no-unused-vars
+import { IConfig } from './types';
 import { loadJSFile, loadJSONFile } from './utils/misc';
 
 const debug: debug.IDebugger = d(__filename);

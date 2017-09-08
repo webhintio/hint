@@ -12,8 +12,8 @@ import * as semver from 'semver';
 
 import { readFileAsync } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
-import { IRule, IRuleBuilder, IScanEnd, Library, Vulnerability } from '../../types'; // eslint-disable-line no-unused-vars
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { IRule, IRuleBuilder, IScanEnd, Library, Vulnerability } from '../../types';
+import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 

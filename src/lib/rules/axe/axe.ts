@@ -7,12 +7,12 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'axe-core'; // eslint-disable-line no-unused-vars
+import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'axe-core';
 
 import { readFileAsync } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
-import { IAsyncHTMLElement, IRule, IRuleBuilder, Severity, ITraverseEnd } from '../../types'; // eslint-disable-line no-unused-vars
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IRule, IRuleBuilder, Severity, ITraverseEnd } from '../../types';
+import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 

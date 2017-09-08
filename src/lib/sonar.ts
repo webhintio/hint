@@ -16,7 +16,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IRuleConfigList, IPlugin, RuleConfig, Severity, URL } from './types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, RuleConfig, Severity} from './types';
 import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
