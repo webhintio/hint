@@ -1,3 +1,10 @@
+# 0.6.2 (September 8, 2017)
+
+## Bug fixes / Improvements
+
+* [[`bedc9644dc`](https://github.com/sonarwhal/sonar/commit/bedc9644dcd844455140da8fb2572716c8135fec)] - Fix: Make `npm` package actually include `npm-shrinkwrap.json` file (see also: [`#481`](https://github.com/sonarwhal/sonar/issues/481)).
+
+
 # 0.6.1 (September 8, 2017)
 
 ## Bug fixes / Improvements
