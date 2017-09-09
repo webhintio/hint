@@ -1,3 +1,11 @@
+# 0.6.1 (September 8, 2017)
+
+## Bug fixes / Improvements
+
+* [[`0d7b4038bf`](https://github.com/sonarwhal/sonar/commit/0d7b4038bfd07987c969253429c77d4acc997eab)] - Fix: Add `npm-shrinkwrap.json` to the `npm` package (see also: [`#481`](https://github.com/sonarwhal/sonar/issues/481)).
+* [[`3300798874`](https://github.com/sonarwhal/sonar/commit/3300798874163866fa38da6a8295ad10033878a3)] - Fix: SemVer related issue with `no-vulnerable-javascript-libraries` rule (see also: [`#504`](https://github.com/sonarwhal/sonar/issues/504)).
+
+
 # 0.6.0 (September 8, 2017)
 
 ## Bug fixes / Improvements
