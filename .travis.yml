@@ -6,6 +6,9 @@
 env:
   global:
 
+    # GH_TOKEN (this is for greenkeeper-lock)
+    - secure: "eQOTAi+HCzhwscSo3hNaOBOzwFbKlLJclaXGSJQB+fu1+mVDT62u4SjmCaSET20dxbCTtd5nsSVKsrX6DyVUkGwgsPtW41zUSFftfAxCxRUoFP6SLtM6s/CWgP0m5cRuRZqkRhpZSf+wgBFkSJYFB104A/i+HypPyqNWmnmJYuLYpdCO1iTr9rvAt6CbF6+xPSC9pXs4ByVx20hky8WlS1Fw1TvJ98+/z2mObepeCT5waG56QgkuRZ5tMaWqFNiYywRKrTmU4TPT0LAuCXH4F4Y5WY+SE1cuGxlCdMXolhiTXjd+CKtg/IlpSPmpa8ocg6c8CsbAyvDQysPrNyJO6zSeq/FAoGil3jsq+uxyWiqhUsqFhmkDjL7pcD24y3b9vhk0puVHvQFhriOS+LGr8FB/lSldZsWpqzyqNhP93pNrCE3EzNye/QjGudW6KmQ+X3O7el/5i0Soa0stdZbuZfDCIOiztoeyraDMM+rqQb1q6RHg5ONO8NdNI2SQVgwcB5dH2VZLlDfTuV9WKkNhH0dI3cfDWvNcQdQEXWXjG6sEv12D2aUY2s2DO64I34WahDTvtzWgKl4+ZhJjg9yU+UsRhTBD/azQBdcukjQFwR6+oZuWdwmh51NUg5Ebddoy0BpVjZMCgkpk1lB1CZVr8bQEW0+M+vD65RVX0V+nLJM="
+
     # GITHUB_API_TOKEN
     - secure: "JR33kTopJFpEwCnFoh6UGgYYBiU480vltMfui3BRpz8G3zc75KctlChOq1lnzZXLm7Yx+7fx+zEOSoffOL2UrW5RnjfZeoWXb1M8IPfQGF7+AVkTm5fI+O7Z2v/Rq40zEDqT8J4Y5G/k+x3Wvsx6bywAKAUU6PO1zbdnZgKBblR63dDgmHWyrdwatpFQK7VF1DtTXtt+j7P4FiBXN2z2FB/6Uidboqf3DNIBH1wmhZXRFLeBpBubLcJR2FdPbzIE/OaU0iJ0kL4Zm0BecoEX4gfKmgZBtuE3Zr83O0UCXj8XkPWDA/m1I3QJB5BNl3pzv+PkmXxI05ioza5JeM5FmHc6I4X3X6x1GHpppXVZkxwe8WYCtgyfKWFcTy9YC2CV+7t0B0dj1ClzV+RS7q4wWdNKc020bzPle4A0u8FaqK4+IE7s9ciC2qr8r3hIkqgX2a4cDKD57V+fiLZG7BHdYLACmzTLx7rRpAnwhuUW9GUcxG0kb8fVgUZjaM/CI0rrf7kHut2gEDzeOpP9I8d13Oj+Ji1+TDZw8sxEopko5pxaoH8LmCnDn4GfA2b8vOMzJnrF2mcbumTwXLUzC8DNZZb8V/b00TZgCxkaeITDzPM9PpLcKNH4C2wTecc6O9vMRsWpEeirK8NaMpdE4GoSh1F2n+j4c0rxnCVM0ijidzk="
 
@@ -28,6 +31,10 @@ matrix:
         chrome: stable
       node_js:
         - node
+      before_install:
+        - npm install -g greenkeeper-lockfile@1
+      before_script:
+        - greenkeeper-lockfile-update
       script:
         - |
               # For a regular job, just run the tests, and if
@@ -43,7 +50,8 @@ matrix:
               else
                 ./.travis/check-links.sh
               fi
-
+      after_script:
+        - greenkeeper-lockfile-upload
     - os: osx
       osx_image: xcode8.3
 
@@ -51,8 +59,14 @@ matrix:
         chrome: stable
       node_js:
         - node
+      before_install:
+        - npm install -g greenkeeper-lockfile@1
+      before_script:
+        - greenkeeper-lockfile-update
       script:
         - ./.travis/is-cron-job.sh || npm run test-on-travis
+      after_script:
+        - greenkeeper-lockfile-upload
 
 notifications:
   email:
