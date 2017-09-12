@@ -1,3 +1,10 @@
+# 0.6.3 (September 11, 2017)
+
+## Bug fixes / Improvements
+
+* [[`fcafcc9add`](https://github.com/sonarwhal/sonar/commit/fcafcc9add5baac6fc006708ebc15ed35cec6cea)] - Fix: Make `npm` package not include `devDependencies`.
+
+
 # 0.6.2 (September 8, 2017)
 
 ## Bug fixes / Improvements
