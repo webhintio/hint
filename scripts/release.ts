@@ -332,6 +332,10 @@ const main = async () => {
     // Create new release.
     await createRelease(version, releaseNotes);
 
+    // Remove devDependencies, this will update `package-lock.json`.
+    // Need to do so they aren't published on the `npm` package.
+    exec('Remove devDependencies', 'npm prune --production');
+
     // Create shrinkwrap file.
     // (This is done because `npm` doesn't
     //  publish the `package-lock` file)
@@ -340,8 +344,9 @@ const main = async () => {
     // Publish on `npm`.
     exec('Publish on `npm`.', 'npm publish');
 
-    // Restore the package lock file.
-    shell.mv(SHRINKWRAP_FILE, PACKAGE_LOCK_FILE);
+    // Restore the package lock file and delete shrinkwrap
+    shell.rm(SHRINKWRAP_FILE);
+    exec(`Restore ${PACKAGE_LOCK_FILE}`, `git checkout ${PACKAGE_LOCK_FILE}`);
 };
 
 main();
