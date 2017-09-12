@@ -147,6 +147,8 @@ in that case it will be similar to the following:
 You can check which rules accept this kind of configuration by
 visiting the [rules documentation](./rules/).
 
+### Ignoring domains
+
 Sometimes you don't have control over all the infrastructure and there
 is nothing you can do about it. Reporting errors in those cases just
 generates noise and frustration. Instead of globally disabling a rule
