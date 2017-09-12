@@ -12,7 +12,7 @@
   },
   "bin": "./dist/src/bin/sonar.js",
   "dependencies": {
-    "axe-core": "^2.2.2",
+    "axe-core": "^2.4.1",
     "browserslist": "^2.4.0",
     "caniuse-api": "^2.0.0",
     "canvas-prebuilt": "^1.6.0-canvas.5",
