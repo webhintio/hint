@@ -129,6 +129,7 @@
     "ignore": [
       "angular",
       "jquery",
+      "jsdom",
       "knockout",
       "moment"
     ]
