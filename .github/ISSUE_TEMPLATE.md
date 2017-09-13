@@ -4,13 +4,12 @@ This template is for bug reports. If you are reporting a bug,
 please continue on. If you are here for another reason, please
 see below:
 
-1. How to propose a new rule:
-   TODO
+1. Propose a new feature/change:
 
-2. How to request a change:
-   TODO
+   Write a short description of your proposal with (if applicable)
+   some examples of the expected behaviour.
 
-3. If you have any questions, please stop by our chatroom:
+2. If you have any questions, please stop by our chatroom:
    https://gitter.im/sonarwhal/Lobby
 
 [!] Notes:
