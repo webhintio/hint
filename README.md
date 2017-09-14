@@ -10,7 +10,7 @@ Once you have [`Node.js`](https://nodejs.org/en/download/current/)
 v8.x on your machine, install `sonar`:
 
 ```bash
-npm install -g @sonarwhal/sonar
+npm install -g --engine-strict @sonarwhal/sonar
 ```
 
 Create a `.sonarrc` file by running this command and following the

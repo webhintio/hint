@@ -115,14 +115,14 @@ files and insert them at the right location.
 First you need to install the CLI:
 
 ```bash
-npm install -g @sonarwhal/sonar
+npm install -g --engine-strict @sonarwhal/sonar
 ```
 
 You can also install it as a `devDependency` if you prefer not to
 have it globally.
 
 ```bash
-npm install -D @sonarwhal/sonar
+npm install -D --engine-strict @sonarwhal/sonar
 ```
 
 Then you can proceed to start generating a new rule using the flag `--new-rule`:

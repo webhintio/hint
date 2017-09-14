@@ -6,7 +6,7 @@ Getting started with `sonar`'s CLI is really easy. First you need
 to have [Node.js v8.x][nodejs] installed and then run:
 
 ```bash
-npm install -g @sonarwhal/sonar
+npm install -g --engine-strict @sonarwhal/sonar
 ```
 
 You can also install it as a `devDependency` if you prefer not to
