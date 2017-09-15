@@ -40,7 +40,7 @@ export const initSonarrc = async () => {
             name: '',
             options: { waitFor: 1000 }
         },
-        formatter: 'stylish',
+        formatters: ['stylish'],
         ignoredUrls: {},
         rules: {},
         rulesTimeout: 120000
@@ -90,7 +90,7 @@ export const initSonarrc = async () => {
     const results: inquirer.Answers = await inquirer.prompt(questions);
 
     sonarConfig.connector.name = results.connector;
-    sonarConfig.formatter = results.formatter;
+    sonarConfig.formatters = [results.formatter];
 
     if (results.default) {
         logger.log('Using recommended rules');

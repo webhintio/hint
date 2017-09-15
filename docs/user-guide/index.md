@@ -29,7 +29,7 @@ following:
     "connector": {
         "name": "connectorName"
     },
-    "formatter": "formatterName",
+    "formatters": ["formatterName"],
     "rules": [
         "rule1",
         "rule2:warning",
@@ -269,6 +269,19 @@ A `formatter` takes the results of executing all the rules and
 transforms them to be consumed by the user. A `formatter` can output
 the results via the `console` in different formats, a `JSON` file,
 `XML`, etc.
+
+You can specify one or more `formatter`s as the output. E.g.: You want
+a summary in the screen as well as a text report. You just need to
+add the name inside the property `formatters`:
+
+```json
+{
+  "formatters": [
+      "formatter1",
+      "formatter2"
+  ]
+}
+```
 
 Please see [the current list of supported `formatter`s](./formatters/index.md)
 to know more.

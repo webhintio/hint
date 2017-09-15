@@ -565,10 +565,10 @@ test.serial('If connector is an object with valid data, we should init the conne
 test.serial('formatter should return the formatter configured', (t) => {
     const sonarObject = new Sonar({
         connector: 'connector',
-        formatter: 'formatter'
+        formatters: ['formatter']
     });
 
-    t.is(sonarObject.formatter, 'formatter');
+    t.is(sonarObject.formatters[0], 'formatter');
 });
 
 test.serial('pageContent should return the HTML', async (t) => {

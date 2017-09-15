@@ -7,7 +7,7 @@ import test from 'ava';
 import * as config from '../../src/lib/config';
 
 class Sonar extends EventEmitter {
-    public formatter = 'json';
+    public formatters = ['json'];
     public close() { }
     public executeOn() { }
 }
