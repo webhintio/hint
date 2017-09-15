@@ -55,7 +55,7 @@ test(`if the config file is JavaScript, it should return the configuration part`
     t.is(configuration.rules['disallowed-headers'], 'warning');
 });
 
-test(`if package.json contains a valid sonar coniguration, it should return it`, (t) => {
+test(`if package.json contains a valid sonar configuration, it should return it`, (t) => {
     const configuration = config.load(path.join(__dirname, './fixtures/package.json'));
 
     t.is((configuration.connector as IConnectorConfig).name, 'chrome');

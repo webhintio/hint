@@ -3,7 +3,7 @@ module.exports = {
         name: 'chrome',
         options: { waitFor: 1000 }
     },
-    formatter: 'json',
+    formatters: ['json'],
     rules: {
         'disallowed-headers': 'warning',
         'manifest-exists': 'warning',

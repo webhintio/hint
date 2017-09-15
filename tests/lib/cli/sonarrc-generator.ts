@@ -1,6 +1,8 @@
+import * as _ from 'lodash';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
+
 
 const inquirer = { prompt() { } };
 const stubBrowserslistObject = { generateBrowserslistConfig() { } };
@@ -119,7 +121,7 @@ test.serial(`generate should call to "fs.writeFile" with the right data`, async 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
     t.is(fileData.connector.name, questionsResults.connector);
-    t.is(fileData.formatter, questionsResults.formatter);
+    t.true(_.isEqual(fileData.formatters, [questionsResults.formatter]));
     t.is(fileData.rules.rule1, 'error');
     t.is(fileData.rules.rule2, 'off');
 
@@ -146,7 +148,7 @@ test.serial(`if the user choose to use the default rules configuration, all reco
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
     t.is(fileData.connector.name, questionsResults.connector);
-    t.is(fileData.formatter, questionsResults.formatter);
+    t.true(_.isEqual(fileData.formatters, [questionsResults.formatter]));
     t.is(fileData.rules.rule2, 'error');
     t.is(fileData.rules.rule1, 'off');
 

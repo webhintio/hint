@@ -18,6 +18,7 @@ import * as shell from 'shelljs';
 import { debug as d } from './utils/debug';
 import { IConfig } from './types';
 import { loadJSFile, loadJSONFile } from './utils/misc';
+import { validateConfig } from './config/config-validator';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -73,7 +74,6 @@ const loadConfigFile = (filePath: string): IConfig => {
     }
 
     return config;
-
 };
 
 const loadBrowsersList = (config: IConfig): void => {
@@ -111,7 +111,7 @@ export const load = (filePath: string): IConfig => {
     const resolvedPath: string = path.resolve(process.cwd(), filePath);
     const config: IConfig = loadConfigFile(resolvedPath);
 
-    if (!config) {
+    if (!config || !validateConfig(config)) {
         throw new Error(`Couldn't find any valid configuration`);
     }
 
