@@ -115,12 +115,30 @@ const rule: IRuleBuilder = {
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-            // Note: Async version of `image-size` doesn't work if the
-            // input is a Buffer.
-            //
-            // https://github.com/image-size/image-size/tree/4c527ba608d742fbb29f6d9b3c77b831b069cbb2#asynchronous
+            let image;
 
-            const image = getImageData(response.body.rawContent);
+            // Notes:
+            //
+            //  * Async version of `image-size` doesn't work if the
+            //    input is a Buffer.
+            //
+            //    https://github.com/image-size/image-size/tree/4c527ba608d742fbb29f6d9b3c77b831b069cbb2#asynchronous
+            //
+            // * `image-size` will throw a `TypeError` error if it does
+            //    not understand the file type or the image is invalid
+            //    or corrupted.
+
+            try {
+                image = getImageData(response.body.rawContent);
+            } catch (e) {
+                if (e instanceof TypeError) {
+                    await context.report(resource, appleTouchIcon, `'${appleTouchIconHref}' is not a valid PNG`);
+                } else {
+                    debug(`'getImageData' failed for '${appleTouchIconURL}'`);
+                }
+
+                return;
+            }
 
             // Check if the image is a PNG.
 
