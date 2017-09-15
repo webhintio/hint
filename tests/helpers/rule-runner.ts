@@ -128,7 +128,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
     const runRule = (t, ruleTest: IRuleTest, connector: string) => {
         return retry(async (bail, attemp) => {
             if (attemp > 1) {
-                console.log(`[${connector}]${ruleTest.name} - try ${attemp}`);
+                console.log(`[${connector}] ${ruleTest.name} - try ${attemp}`);
             }
 
             const { server } = t.context;
@@ -168,7 +168,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
                     runner = test.skip;
                 }
 
-                runner(`[${connector}]${ruleTest.name}`, runRule, ruleTest, connector);
+                runner(`[${connector}] ${ruleTest.name}`, runRule, ruleTest, connector);
             });
         }
     });
