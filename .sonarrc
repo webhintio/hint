@@ -10,6 +10,7 @@
     "formatter": "stylish",
     "rulesTimeout": 120000,
     "rules": {
+        "apple-touch-icons": "warning",
         "axe": "warning",
         "content-type": "warning",
         "disown-opener": "warning",
