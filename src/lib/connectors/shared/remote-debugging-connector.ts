@@ -75,13 +75,11 @@ export class Connector implements IConnector {
 
     public constructor(server: Sonar, config: object, launcher: ILauncher) {
         const defaultOptions = {
-            loadCompleteRetryInterval: 250,
-            maxLoadWaitTime: 30000,
             // tabUrl is a empty html site used to avoid edge diagnostics adapter to receive unexpeted onLoadEventFired
             // and onRequestWillBeSent events from the default url opened when you create a new tab in Edge.
             tabUrl: 'https://empty.sonarwhal.com/',
             useTabUrl: false,
-            waitFor: 5000
+            waitFor: 1000
         };
 
         this._server = server;
