@@ -86,6 +86,14 @@ const tests: Array<IRuleTest> = [
         }
     },
     {
+        name: `'apple-touch-icon' is not an image`,
+        reports: [{ message: `'/apple-touch-icon.png' is not a valid PNG` }],
+        serverConfig: {
+            '/': generateHTMLPage(appleTouchIconLinkTag),
+            '/apple-touch-icon.png': generateHTMLPage()
+        }
+    },
+    {
         name: `'apple-touch-icon' is not 180x180px`,
         reports: [{ message: `'/apple-touch-icon.png' is not 180x180px` }],
         serverConfig: {
