@@ -220,7 +220,9 @@ export const execute = async (args: string | Array<string> | Object): Promise<nu
                 endSpinner('succeed');
             }
 
-            format(sonar.formatter, results);
+            sonar.formatters.forEach((formatter) => {
+                format(formatter, results);
+            });
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');

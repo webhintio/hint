@@ -8,7 +8,7 @@ const validConfig = {
         name: 'chrome',
         options: { waitFor: 1000 }
     },
-    formatter: 'json',
+    formatters: 'json',
     rules: {
         'disallowed-headers': ['warning', {}],
         'manifest-exists': 1,
@@ -38,8 +38,15 @@ test(`if rule severity isn't valid, it should return false`, (t) => {
     t.false(valid);
 });
 
-test('if config is valid, it should return true', (t) => {
+test('config with one formatters is valid', (t) => {
     const valid = configValidator.validateConfig(validConfig as any);
+
+    t.true(valid);
+});
+
+test('config with 2 formatters is valid', (t) => {
+    const validConfigs = Object.assign({ formatters: ['json', 'stylish']}, validConfig);
+    const valid = configValidator.validateConfig(validConfigs as any);
 
     t.true(valid);
 });

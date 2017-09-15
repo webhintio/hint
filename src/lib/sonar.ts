@@ -16,7 +16,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, RuleConfig, Severity} from './types';
+import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, RuleConfig, Severity } from './types';
 import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
@@ -38,7 +38,7 @@ export class Sonar extends EventEmitter {
     private messages: Array<IProblem>
     private browserslist: Array<string> = [];
     private ignoredUrls: Map<string, Array<RegExp>>;
-    private _formatter: string
+    private _formatters: Array<string>
 
     public get pageDOM(): object {
         return this.connector.dom;
@@ -56,8 +56,8 @@ export class Sonar extends EventEmitter {
         return this.browserslist;
     }
 
-    public get formatter(): string {
-        return this._formatter;
+    public get formatters(): Array<string> {
+        return this._formatters;
     }
 
     private isIgnored(urls: Array<RegExp>, resource: string): boolean {
@@ -103,7 +103,11 @@ export class Sonar extends EventEmitter {
         }
 
         debug('Setting the selected formatter');
-        this._formatter = config.formatter;
+        if (Array.isArray(config.formatters)) {
+            this._formatters = config.formatters;
+        } else {
+            this._formatters = [config.formatters];
+        }
 
         debug('Initializing ignored urls');
         this.ignoredUrls = new Map();

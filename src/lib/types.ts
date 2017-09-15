@@ -40,7 +40,7 @@ export interface IConfig {
     rules?: IRuleConfigList | Array<RuleConfig>;
     browserslist?: string | Array<string>;
     rulesTimeout?: number;
-    formatter?: string;
+    formatters?: Array<string>;
     ignoredUrls?: IIgnoredUrlList;
     plugins?: any;
 }

@@ -32,9 +32,12 @@
             "description": "The environment under Sonar is running: local or live",
             "type": "string"
         },
-        "formatter": {
-            "description": "The formatter to use for the results",
-            "type": "string"
+        "formatters": {
+            "description": "The formatter(s) to use for the results",
+            "oneOf": [
+                {"type": "array"},
+                {"type": "string"}
+            ]
         },
         "plugins": {
             "description": "The plugins to be used with the connector to gather information",

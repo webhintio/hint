@@ -7,7 +7,7 @@
             "maxLoadWaitTime": 30000
         }
     },
-    "formatter": "stylish",
+    "formatters": "stylish",
     "rulesTimeout": 120000,
     "rules": {
         "apple-touch-icons": "warning",
