@@ -2,9 +2,7 @@
     "connector": {
         "name": "chrome",
         "options": {
-            "waitFor": 1000,
-            "loadCompleteRetryInterval": 500,
-            "maxLoadWaitTime": 30000
+            "waitFor": 1000
         }
     },
     "formatter": "stylish",

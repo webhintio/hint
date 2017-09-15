@@ -22,8 +22,6 @@ export interface IRuleConfigList {
 
 export interface IConnectorOptionsConfig {
     waitFor?: number;
-    loadCompleteRetryInterval?: number;
-    maxLoadWaitTime?: number;
 }
 
 export interface IConnectorConfig {
