@@ -1,3 +1,15 @@
+# 0.7.0 (September 15, 2017)
+
+## Breaking Changes
+
+* [[`75b936b710`](https://github.com/sonarwhal/sonar/commit/75b936b710505160fda7200034e4aada13ce1688)] - Breaking: Add support for multiple formatters (see also: [`#322`](https://github.com/sonarwhal/sonar/issues/322)).
+
+## Bug fixes / Improvements
+
+* [[`f3074a3cbb`](https://github.com/sonarwhal/sonar/commit/f3074a3cbbb5f5508d87836e042037dddcee63f7)] - Fix: Make `apple-touch-icons` rule not break for invalid or corrupt images (see also: [`#515`](https://github.com/sonarwhal/sonar/issues/515)).
+* [[`b2e30d6d1f`](https://github.com/sonarwhal/sonar/commit/b2e30d6d1fd0f0a3f00a80fd04420d662ca6747a)] - Docs: Add `--engine-strict` to install instructions (see also: [`#511`](https://github.com/sonarwhal/sonar/issues/511)).
+
+
 # 0.6.3 (September 11, 2017)
 
 ## Bug fixes / Improvements
