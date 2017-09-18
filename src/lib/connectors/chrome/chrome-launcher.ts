@@ -17,7 +17,7 @@ import * as isCI from 'is-ci';
 import * as lockfile from 'lockfile';
 import { promisify } from 'util';
 
-import { Launcher } from '../shared/launcher';
+import { Launcher } from '../debugging-protocol-common/launcher';
 import { BrowserInfo, LauncherOptions } from '../../types';
 import * as logger from '../../utils/logging';
 import { debug as d } from '../../utils/debug';

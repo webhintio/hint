@@ -15,7 +15,7 @@ import * as cdp from 'chrome-remote-interface';
 import * as _ from 'lodash';
 import { promisify } from 'util';
 
-import { AsyncHTMLDocument, AsyncHTMLElement } from '../shared/async-html';
+import { AsyncHTMLDocument, AsyncHTMLElement } from './async-html';
 import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
 import { cutString, delay, hasAttributeWithValue } from '../../utils/misc';

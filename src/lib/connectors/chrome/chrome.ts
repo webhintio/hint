@@ -10,7 +10,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { Connector } from '../shared/remote-debugging-connector';
+import { Connector } from '../debugging-protocol-common/debugging-protocol-connector';
 import { IConnector, IConnectorBuilder, ILauncher } from '../../types';
 import { CDPLauncher } from './chrome-launcher';
 
