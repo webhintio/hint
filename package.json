@@ -168,10 +168,11 @@
   "scripts": {
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
-    "build:assets": "cpx \"./{scripts,src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:assets": "cpx \"./{scripts,src,tests,tools}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc --outDir dist",
     "clean": "rimraf dist",
     "commitmsg": "node scripts/check-commit-message.js",
+    "crawl": "npm run build && node dist/tools/crawler/crawler.js dist/tools/crawler/urls.txt",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint --ext md --ext ts --ignore-pattern dist .",
     "lint:md": "markdownlint docs",
