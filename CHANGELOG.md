@@ -1,3 +1,14 @@
+# 0.8.0 (September 20, 2017)
+
+## Bug fixes / Improvements
+
+* [[`ff45cb6497`](https://github.com/sonarwhal/sonar/commit/ff45cb649737eaad438d54934d85bea556fdf1c5)] - Fix: Improve documentation for connectors (see also: [`#500`](https://github.com/sonarwhal/sonar/issues/500)).
+
+## New features
+
+* [[`84561d847f`](https://github.com/sonarwhal/sonar/commit/84561d847f598158d571ddef6a8f5f8201592254)] - New: Add `chrome-launcher` support for Windows Subsystem for Linux (WSL) (see also: [`GoogleChrome/chrome-launcher#26`](https://github.com/GoogleChrome/chrome-launcher/issues/26)).
+
+
 # 0.7.0 (September 15, 2017)
 
 ## Breaking Changes
