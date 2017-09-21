@@ -1,0 +1,31 @@
+{
+    "connector": {
+        "name": "jsdom",
+        "options": {
+            "waitFor": 1000
+        }
+    },
+    "formatters": "summary",
+    "rulesTimeout": 120000,
+    "rules": {
+        "apple-touch-icons": "warning",
+        "axe": "off",
+        "content-type": "warning",
+        "disown-opener": "warning",
+        "highest-available-document-mode": "warning",
+        "html-checker": "off",
+        "manifest-exists": "warning",
+        "manifest-file-extension": "warning",
+        "manifest-is-valid": "warning",
+        "meta-charset-utf-8": "warning",
+        "no-disallowed-headers": "warning",
+        "no-friendly-error-pages": "warning",
+        "no-html-only-headers": "warning",
+        "no-protocol-relative-urls": "warning",
+        "no-vulnerable-javascript-libraries": "warning",
+        "ssllabs": "off",
+        "strict-transport-security": "warning",
+        "x-content-type-options": "warning",
+        "validate-set-cookie-header": "warning"
+    }
+}
