@@ -3,7 +3,9 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
+import { CLIOptions } from '../../../src/lib/types';
 
+const actions = ({ init: true } as CLIOptions);
 const inquirer = { prompt() { } };
 const stubBrowserslistObject = { generateBrowserslistConfig() { } };
 const resourceLoader = {
@@ -21,14 +23,14 @@ const stubUtilObject = {
     }
 };
 
-proxyquire('../../../src/lib/cli/sonarrc-generator', {
+proxyquire('../../../src/lib/cli/init', {
     '../utils/resource-loader': resourceLoader,
-    './browserslist-generator': stubBrowserslistObject,
+    './browserslist': stubBrowserslistObject,
     inquirer,
     util: stubUtilObject
 });
 
-import { initSonarrc } from '../../../src/lib/cli/sonarrc-generator';
+import { initSonarrc } from '../../../src/lib/cli/init';
 
 test.beforeEach((t) => {
     sinon.stub(promisifyObject, 'promisify').resolves();
@@ -85,7 +87,7 @@ test.serial(`generate should call to "inquirer.prompt" with the right data`, asy
         rules: []
     });
 
-    await initSonarrc();
+    await initSonarrc(actions);
 
     const questions = (inquirer.prompt as sinon.SinonStub).args[0][0];
     const rulesKeys = rules;
@@ -116,7 +118,7 @@ test.serial(`generate should call to "fs.writeFile" with the right data`, async 
     sandbox.stub(resourceLoader, 'loadRules').returns(rulesData);
     sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
 
-    await initSonarrc();
+    await initSonarrc(actions);
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
@@ -143,7 +145,7 @@ test.serial(`if the user choose to use the default rules configuration, all reco
     sandbox.stub(resourceLoader, 'loadRules').returns(rulesData);
     sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
 
-    await initSonarrc();
+    await initSonarrc(actions);
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
@@ -153,4 +155,10 @@ test.serial(`if the user choose to use the default rules configuration, all reco
     t.is(fileData.rules.rule1, 'off');
 
     sandbox.restore();
+});
+
+test.serial('if init is not an option, it should return false', async (t) => {
+    const result = await initSonarrc(({}) as CLIOptions);
+
+    t.false(result);
 });

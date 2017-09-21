@@ -16,25 +16,15 @@
 import * as path from 'path';
 
 import * as chalk from 'chalk';
-import * as ora from 'ora';
 import * as updateNotifier from 'update-notifier';
-import * as inquirer from 'inquirer';
 
-import * as Config from './config';
-import { debug as d } from './utils/debug';
-import { getAsUris } from './utils/get-as-uri';
-import { CLIOptions, IConfig, IFormatter, IORA, IProblem, URL } from './types';
-import { loadJSONFile } from './utils/misc';
+import { CLIOptions } from './types';
 import * as logger from './utils/logging';
-import { cutString } from './utils/misc';
-import { options } from './cli/options';
-import { newRule, removeRule } from './cli/rule-generator';
-import { initSonarrc } from './cli/sonarrc-generator';
-import * as resourceLoader from './utils/resource-loader';
-import { Severity } from './types';
-import { Sonar } from './sonar';
+import { loadJSONFile } from './utils/misc';
 
-const debug: debug.IDebugger = d(__filename);
+import { options } from './cli/options';
+import { cliActions } from './cli/actions';
+
 const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
 // Fetch and persist comparison result in the background.
 // Check interval is set as one day by default.
@@ -46,33 +36,6 @@ const notifier = updateNotifier({
     updateCheckInterval: 1000 * 60 * 60 * 1 // One hour.
 });
 
-const messages = {
-    'fetch::end': '%url% downloaded',
-    'fetch::start': 'Downloading %url%',
-    'manifestfetch::end': '%url% downloaded',
-    'manifestfetch::start': 'Downloading %url%',
-    'scan::end': 'Finishing...',
-    'scan::start': 'Analyzing %url%',
-    'targetfetch::end': '%url% downloaded',
-    'targetfetch::start': 'Downloading %url%',
-    'traverse::down': 'Traversing the DOM',
-    'traverse::end': 'Traversing finished',
-    'traverse::start': 'Traversing the DOM',
-    'traverse::up': 'Traversing the DOM'
-};
-
-const setUpUserFeedback = (sonarInstance: Sonar, spinner: IORA) => {
-    sonarInstance.prependAny((event: string, value: { resource: string }) => {
-        const message: string = messages[event];
-
-        if (!message) {
-            return;
-        }
-
-        spinner.text = message.replace('%url%', cutString(value.resource));
-    });
-};
-
 const notifyNewVersion = (update: updateNotifier.UpdateInfo) => {
     const changelogUrl: string = `https://sonarwhal.com/about/changelog.html`;
     // No indentation due to the use of `\` to avoid new line.
@@ -83,65 +46,14 @@ const notifyNewVersion = (update: updateNotifier.UpdateInfo) => {
     notifier.notify({ message });
 };
 
-const confirmLaunchInit = (): inquirer.Answers => {
-    debug(`Initiating launch init confirm.`);
-
-    const question: Array<object> = [{
-        message: `A valid configuration file can't be found. Do you want to create a new one?`,
-        name: 'confirm',
-        type: 'confirm'
-    }];
-
-    return inquirer.prompt(question);
-};
-
-const loadOrCreateIfNotExits = async () => {
-    let config: IConfig;
-    let configPath: string;
-
-    try {
-        configPath = Config.getFilenameForDirectory(process.cwd());
-        debug(`Loading configuration file from ${configPath}.`);
-        config = Config.load(configPath);
-    } catch (err) {
-        // The config file doesn't exist, launch `init` if user permits.
-        const launchInit: inquirer.Answers = await confirmLaunchInit();
-
-        if (launchInit.confirm) {
-            await initSonarrc();
-            logger.log(`Configuration file .sonarrc was created.`);
-
-            return loadOrCreateIfNotExits();
-        }
-    }
-
-    return config;
-};
-
 // ------------------------------------------------------------------------------
 // Public
 // ------------------------------------------------------------------------------
 
-// HACK: we need this to correctly test the messages in tests/lib/cli.ts.
-export let sonar: Sonar = null;
-
 /** Executes the CLI based on an array of arguments that is passed in. */
 export const execute = async (args: string | Array<string> | Object): Promise<number> => {
 
-    const format = (formatterName: string, results: IProblem[]) => {
-        const formatter: IFormatter = resourceLoader.loadFormatter(formatterName) || resourceLoader.loadFormatter('json');
-
-        formatter.format(results);
-    };
-
     const currentOptions: CLIOptions = options.parse(args);
-    const targets: Array<URL> = getAsUris(currentOptions._);
-
-    if (currentOptions.version) { // version from package.json
-        logger.log(`v${pkg.version}`);
-
-        return 0;
-    }
 
     // Notify user if the current version of sonar is not up to date.
     const update: updateNotifier.UpdateInfo = notifier.update;
@@ -150,90 +62,19 @@ export const execute = async (args: string | Array<string> | Object): Promise<nu
         notifyNewVersion(update);
     }
 
-    if (currentOptions.init) {
-        await initSonarrc();
+    let handled = false;
 
-        return 0;
-    }
+    while (cliActions.length > 0 && !handled) {
+        const action = cliActions.shift();
 
-    if (currentOptions.newRule) {
-        await newRule();
-
-        return 0;
-    }
-
-    if (currentOptions.removeRule) {
-        await removeRule();
-
-        return 0;
-    }
-
-    if (currentOptions.help || !targets.length) {
-        logger.log(options.generateHelp());
-
-        return 0;
-    }
-
-    let config: IConfig;
-    const configPathFromInput: string = currentOptions.config;
-
-    if (configPathFromInput) {
-        config = Config.load(configPathFromInput);
-    } else {
-        config = await loadOrCreateIfNotExits();
-    }
-
-    if (!config) {
-        logger.log(`Unable to find a valid configuration file. Please add a .sonarrc file by running 'sonar --init'. `);
-
-        return 1;
-    }
-
-    sonar = new Sonar(config);
-    const start: number = Date.now();
-    const spinner: IORA = ora({ spinner: 'line' });
-    let exitCode: number = 0;
-
-    if (!currentOptions.debug) {
-        spinner.start();
-        setUpUserFeedback(sonar, spinner);
-    }
-
-    const endSpinner = (method: string) => {
-        if (!currentOptions.debug) {
-            spinner[method]();
-        }
-    };
-
-    for (const target of targets) {
         try {
-            // spinner.text = `Scanning ${target.href}`;
-            const results: Array<IProblem> = await sonar.executeOn(target); // eslint-disable-line no-await-in-loop
-            const hasError: boolean = results.some((result: IProblem) => {
-                return result.severity === Severity.error;
-            });
-
-            if (hasError) {
-                exitCode = 1;
-                endSpinner('fail');
-            } else {
-                endSpinner('succeed');
-            }
-
-            sonar.formatters.forEach((formatter) => {
-                format(formatter, results);
-            });
+            handled = await action(currentOptions);
         } catch (e) {
-            exitCode = 1;
-            endSpinner('fail');
-            debug(`Failed to analyze: ${target.href}`);
-            debug(e);
+            logger.error(e);
+
+            return 1;
         }
     }
 
-    await sonar.close();
-
-    debug(`Total runtime: ${Date.now() - start}ms`);
-
-    return exitCode;
+    return handled ? 0 : 1;
 };

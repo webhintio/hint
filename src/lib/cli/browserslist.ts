@@ -13,6 +13,7 @@ import { debug as d } from '../utils/debug';
 
 const debug: debug.IDebugger = d(__filename);
 
+/** Prompts the user about browsers usage and generates a valid browserslist configuration. */
 export const generateBrowserslistConfig = (): Promise<Array<string>> => {
     debug('Initiating browserslist config generator');
 

@@ -18,7 +18,6 @@ import { debug as d } from './debug';
 import { IConnectorBuilder, IFormatter, Resource, IRuleBuilder } from '../types';
 import { validate as validateRule } from '../config/config-rules';
 
-
 const debug: debug.IDebugger = d(__filename);
 const PROJECT_ROOT: string = findPackageRoot();
 
