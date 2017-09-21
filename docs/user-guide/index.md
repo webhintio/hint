@@ -57,6 +57,19 @@ the different pieces:
 * [Connectors](#connectors)
 * [Formatters](#formatters)
 
+## Connectors and platform support
+
+All the built-in `connector`s run in any of the supported platforms:
+Linux, macOS, and Windows. The only caveat is that when selecting a
+`connector` for a brower (such as `chrome`) in `.sonarrc`, the browser
+needs to be on the machine. `sonar` will not install it if it isn't.
+
+**Note:** If you are running Windows 10 [build 14951][wsl-interop] (or
+later) and Windows Subsystem for Linux (WSL), `sonar` will be capable
+of running the browsers installed directly on Windows. If you are a
+user of the stable release of Window, you will need to use at least the
+*Fall Creators Update*.
+
 ## Permission Issue
 
 If you receive an `EACCES` error when installing `sonar`, it is caused
@@ -296,3 +309,4 @@ to know more.
 [npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
 [permission issue]: https://github.com/sonarwhal/sonar/issues/308
 [wsl]: https://msdn.microsoft.com/en-us/commandline/wsl/install_guide
+[wsl-interop]: https://msdn.microsoft.com/en-us/commandline/wsl/release_notes#build-14951
