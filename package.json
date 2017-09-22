@@ -122,6 +122,7 @@
   "files": [
     ".sonarrc",
     "dist/src",
+    "dist/tests/helpers",
     "docs",
     "npm-shrinkwrap.json"
   ],
