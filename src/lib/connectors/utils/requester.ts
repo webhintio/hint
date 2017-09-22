@@ -118,7 +118,9 @@ export class Requester {
                             content: body,
                             contentEncoding: charset,
                             rawContent: rawBody,
-                            rawResponse: rawBodyResponse
+                            rawResponse: () => {
+                                return Promise.resolve(rawBodyResponse);
+                            }
                         },
                         headers: response.headers,
                         hops,

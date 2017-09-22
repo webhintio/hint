@@ -111,7 +111,9 @@ class JSDOMConnector implements IConnector {
                     content: body,
                     contentEncoding: null,
                     rawContent: null,
-                    rawResponse: null
+                    rawResponse() {
+                        return Promise.resolve(null);
+                    }
                 },
                 headers: null,
                 hops: [],
