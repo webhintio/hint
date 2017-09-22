@@ -65,7 +65,7 @@ const testTextDecoding = async (t, encoding: string, contentType: string, useCom
     const { requester, server } = t.context;
     const originalBytes = iconv.encode(text, encoding);
     const transformedText = iconv.decode(originalBytes, encoding);
-    const content = useCompression ? await compress(originalBytes) : originalBytes;
+    const content: Buffer = useCompression ? await compress(originalBytes) : originalBytes;
 
     server.configure({
         '/': {
@@ -78,15 +78,16 @@ const testTextDecoding = async (t, encoding: string, contentType: string, useCom
     });
 
     const { response: { body } } = await requester.get(`http://localhost:${server.port}`);
+    const rawResponse = await body.rawResponse();
 
     // body is a `string`
     t.is(body.content, transformedText);
 
     // rawBody is a `Buffer` with the uncompressed bytes of the response
-    t.deepEqual(body.rawContent, originalBytes);
+    t.true(originalBytes.equals(body.rawContent), 'rawContent is not the same');
 
     // rawBodyResponse is a `Buffer` with the original bytes of the response
-    t.deepEqual(body.rawResponse, content);
+    t.true(content.equals(rawResponse));
 };
 
 supportedEncodings.forEach((encoding) => {

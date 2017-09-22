@@ -290,7 +290,7 @@ const testConnectorEvents = (connectorInfo) => {
         }
 
         // List of events that only have to be called once per execution
-        const singles = ['fetch::error', 'scan::start', 'scan::end', 'manifestfetch::missing'];
+        const singles = ['fetch::error', 'scan::start', 'scan::end', 'manifestfetch::missing', 'targetfetch::start', 'targetfetch::end'];
         const groupedEvents = _.groupBy(invokes, (invoke) => {
             return invoke[0];
         });
