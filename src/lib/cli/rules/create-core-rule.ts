@@ -12,7 +12,7 @@ import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
 import * as resourceLoader from '../../utils/resource-loader';
 import {
-    dir, normalize,
+    processDir, packageDir, normalize,
     NewRule,
     ruleDocDir, ruleExists, ruleScriptDir, ruleTemplateDir, ruleTestDir
 } from './common';
@@ -80,13 +80,13 @@ const loadRuleContent = (rule: NewRule, type: string): Promise<string> => {
 const generateRuleContent = async (rule: NewRule): Promise<void> => {
     const entries = [
         {
-            file: path.join(dir, ruleScriptDir, rule.name, `${rule.name}.ts`),
+            file: path.join(packageDir, ruleScriptDir, rule.name, `${rule.name}.ts`),
             type: 'script'
         }, {
-            file: path.join(dir, ruleDocDir, `${rule.name}.md`),
+            file: path.join(packageDir, ruleDocDir, `${rule.name}.md`),
             type: 'doc'
         }, {
-            file: path.join(dir, ruleTestDir, rule.name, 'tests.ts'),
+            file: path.join(packageDir, ruleTestDir, rule.name, 'tests.ts'),
             type: 'test'
         }];
 
@@ -101,7 +101,7 @@ const generateRuleContent = async (rule: NewRule): Promise<void> => {
 
 /** Adds a new rule to the index page. */
 const updateRuleIndex = async (rule: NewRule): Promise<void> => {
-    const indexPath = path.join(dir, ruleDocDir, 'index.md');
+    const indexPath = path.join(packageDir, ruleDocDir, 'index.md');
     let text;
 
     try {
@@ -200,6 +200,10 @@ const questions = [
 /** Generates a new core rule based on user input. */
 export const newRule = async (actions: CLIOptions): Promise<boolean> => {
     if (!actions.newRule) {
+        return false;
+    }
+
+    if (packageDir !== processDir) {
         return false;
     }
 
