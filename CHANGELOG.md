@@ -1,3 +1,11 @@
+# 0.8.1 (September 22, 2017)
+
+## Bug fixes / Improvements
+
+* [[`41a56bef2f`](https://github.com/sonarwhal/sonar/commit/41a56bef2ffd21b3612e3c0b637754b95629d242)] - Fix: Add `tests/helpers` to `npm` package (see also: [`#532`](https://github.com/sonarwhal/sonar/issues/532)).
+* [[`8207e0fb3b`](https://github.com/sonarwhal/sonar/commit/8207e0fb3b4dc7fa180e6b057babd78252d560a8)] - Docs: Add `connector` support information (see also: [`#523`](https://github.com/sonarwhal/sonar/issues/523)).
+
+
 # 0.8.0 (September 20, 2017)
 
 ## Bug fixes / Improvements
