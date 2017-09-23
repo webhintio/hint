@@ -102,7 +102,9 @@ export const loadResource = (name: string, type: string) => {
     const sources: Array<string> = [
         path.normalize(`${PROJECT_ROOT}/dist/src/lib/${type}s/${name}/${name}.js`),
         `@sonarwhal/${name}`,
-        `sonarwhal-${name}`
+        `sonarwhal-${name}`,
+        // This is needed to test an external rule using the official template
+        path.normalize(`${process.cwd()}/dist/src/${name}.js`)
     ];
 
     let resource: any;
