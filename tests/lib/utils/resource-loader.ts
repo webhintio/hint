@@ -26,14 +26,16 @@ test('loadResource looks for resources in the right order (core > @sonarwhal > s
     tryToLoadFromStub.onFirstCall().returns(null);
     tryToLoadFromStub.onSecondCall().returns(null);
     tryToLoadFromStub.onThirdCall().returns(null);
+    tryToLoadFromStub.onCall(3).returns(null);
 
     t.throws(() => {
         resourceLoader.loadResource(resourceName, resourceType);
     });
-    t.true(tryToLoadFromStub.calledThrice, 'tryToLoadFromStub is called thrice');
+    t.true(tryToLoadFromStub.callCount === 4, 'tryToLoadFromStub is called four times');
     t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(path.normalize(`/dist/src/lib/${resourceType}s/${resourceName}/${resourceName}.js`)), 'Tries to load core first');
     t.true((tryToLoadFromStub.secondCall.args[0] as string).endsWith(`@sonarwhal/${resourceName}`), 'Tries to load scoped package second');
     t.true((tryToLoadFromStub.thirdCall.args[0] as string).endsWith(`sonarwhal-${resourceName}`), 'Tries to load prefixed package third');
+    t.true((tryToLoadFromStub.lastCall.args[0] as string).endsWith(path.normalize(`/dist/src/${resourceName}.js`)), 'Tries to load local testing fourth');
 
     tryToLoadFromStub.restore();
 });
