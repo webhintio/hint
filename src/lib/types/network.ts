@@ -14,7 +14,7 @@ export interface IResponseBody {
     /** The uncompressed bytes of the response's body. */
     rawContent: Buffer;
     /** The original bytes of the body. They could be compressed or not. */
-    rawResponse: Buffer;
+    rawResponse(): Promise<Buffer>;
 }
 
 /** Response data from fetching an item using a connector. */

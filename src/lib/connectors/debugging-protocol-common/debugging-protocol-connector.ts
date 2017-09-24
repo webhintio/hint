@@ -298,13 +298,19 @@ export class Connector implements IConnector {
         }
     }
 
-    private async getResponseBody(cdpResponse) {
+    private async getResponseBody(cdpResponse): Promise<{ content: string, rawContent: Buffer, rawResponse(): Promise<Buffer> }> {
         let content: string = '';
         let rawContent: Buffer = null;
-        let rawResponse: Buffer = null;
+        const rawResponse = (): Promise<Buffer> => {
+            return Promise.resolve(null);
+        };
+        const fetchContent = this.fetchContent;
+
+        const defaultBody = { content, rawContent, rawResponse };
 
         if (cdpResponse.response.status !== 200) {
-            return { content, rawContent, rawResponse };
+            // TODO: is this right? no-friendly-error-pages won't have a problem?
+            return defaultBody;
         }
 
         try {
@@ -314,22 +320,51 @@ export class Connector implements IConnector {
             content = body;
             rawContent = Buffer.from(body, encoding);
 
-            if (rawContent.length.toString() === cdpResponse.response.headers['Content-Length']) {
-                // Response wasn't compressed so both buffers are the same
-                rawResponse = rawContent;
-            } else {
-                rawResponse = null; // TODO: Find a way to get this data
-            }
+            const returnValue = {
+                content,
+                rawContent,
+                rawResponse: () => {
+                    const self = (this as any);
+                    const cached = self._rawResponse;
+
+                    if (cached) {
+                        return Promise.resolve(cached);
+                    }
+
+                    if (rawContent.length.toString() === cdpResponse.response.headers['Content-Length']) {
+                        // Response wasn't compressed so both buffers are the same
+                        return Promise.resolve(rawContent);
+                    }
+
+                    const { url: responseUrl, requestHeaders: headers } = cdpResponse.response;
+
+                    return fetchContent(responseUrl, headers)
+                        .then((result) => {
+                            const { response: { body: { rawResponse: rr } } } = result;
+
+                            return rr();
+                        })
+                        .then((value) => {
+                            self._rawResponse = value;
+
+                            return value;
+                        });
+                }
+            };
+
+            debug(`Content for ${cutString(cdpResponse.response.url)} downloaded`);
+
+            return returnValue;
         } catch (e) {
             debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
             rawContent = Buffer.alloc(0);
         }
         debug(`Content for ${cutString(cdpResponse.response.url)} downloaded`);
 
-        return { content, rawContent, rawResponse };
+        return defaultBody;
     }
 
-    /** Returns a Response for the given request  */
+    /** Returns a Response for the given request. */
     private async createResponse(cdpResponse): Promise<IResponse> {
         const resourceUrl: string = cdpResponse.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
@@ -802,7 +837,8 @@ export class Connector implements IConnector {
     public async fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {
         // TODO: This should create a new tab, navigate to the
         // resource and control what is received somehow via an event.
-        const headers = Object.assign({}, this._headers, customHeaders);
+        const assigns = _.compact([this && this._headers, customHeaders]);
+        const headers = Object.assign({}, ...assigns);
         const href: string = typeof target === 'string' ? target : target.href;
         const request: Requester = new Requester({ headers });
         const response: INetworkData = await request.get(href);
