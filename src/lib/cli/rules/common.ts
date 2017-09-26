@@ -6,7 +6,8 @@ export const ruleScriptDir = 'src/lib/rules';
 export const ruleDocDir = 'docs/user-guide/rules';
 export const ruleTestDir = 'tests/lib/rules';
 export const ruleDistScriptDir = `dist/${ruleScriptDir}`;
-export const dir = packageRoot();
+export const packageDir = packageRoot();
+export const processDir = process.cwd();
 
 /** Check if a rule exists. */
 export const ruleExists = (ruleName: string, currentRules: Array<string>): boolean => {
