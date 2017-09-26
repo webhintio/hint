@@ -10,6 +10,7 @@ import * as pluralize from 'pluralize';
 import * as request from 'request';
 import * as semver from 'semver';
 
+import { Category } from '../../enums/category';
 import * as logger from '../../utils/logging';
 import { readFileAsync } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
@@ -193,10 +194,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: `Security`,
+            category: Category.security,
             description: `This rule checks if the site is running any vulnerable library using https://snyk.io database`
         },
-        fixable: 'code',
         recommended: true,
         schema: [{
             additionalProperties: false,

@@ -12,6 +12,7 @@
 
 import { promisify } from 'util';
 
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { ITargetFetchEnd, IScanEnd, IRule, IRuleBuilder, SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context';
@@ -159,10 +160,9 @@ There might be something wrong with SSL Labs servers.`;
     },
     meta: {
         docs: {
-            category: 'security',
+            category: Category.security,
             description: 'Strength of your SSL configuration'
         },
-        fixable: 'none',
         recommended: false,
         schema: [{
             additionalProperties: false,

@@ -9,6 +9,7 @@
 
 import * as path from 'path';
 
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
@@ -44,10 +45,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'pwa',
+            category: Category.pwa,
             description: 'Require `.webmanifest` as the file extension for the web app manifest file'
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: true

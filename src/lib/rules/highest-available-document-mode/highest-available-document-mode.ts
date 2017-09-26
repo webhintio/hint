@@ -7,6 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import { Category } from '../../enums/category';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from '../../types';
 import { isLocalFile, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context';
@@ -185,10 +186,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'interoperability',
+            category: Category.interoperability,
             description: 'Require highest available document mode'
         },
-        fixable: 'code',
         recommended: true,
         schema: [{
             additionalProperties: false,

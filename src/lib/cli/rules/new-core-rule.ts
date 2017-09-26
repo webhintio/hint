@@ -7,6 +7,7 @@ import * as inquirer from 'inquirer';
 import * as _ from 'lodash';
 import * as mkdirp from 'mkdirp';
 
+import { Category } from '../../enums/category';
 import { CLIOptions } from '../../types';
 import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
@@ -130,13 +131,13 @@ const getEventsByUseCase = (useCase: string): string => {
 };
 
 /** List rule categories. */
-const categories = [
-    { name: 'Accessibility' },
-    { name: 'Interoperability' },
-    { name: 'Performance' },
-    { name: 'PWAs' },
-    { name: 'Security' }
-];
+const categories = [];
+
+for (const enumValue in Category) {
+    if (Category.hasOwnProperty(enumValue)) {
+        categories.push({ name: Category[enumValue] });
+    }
+}
 
 /** List of different use cases of a rule. */
 const useCases = [
@@ -168,7 +169,7 @@ const questions = [
     },
     {
         choices: categories,
-        default: 'Interoperability',
+        default: Category.interoperability,
         message: 'Please select the category of this new rule:',
         name: 'category',
         type: 'list'
@@ -208,7 +209,7 @@ export const newRule = async (actions: CLIOptions): Promise<boolean> => {
     }
 
     const rule: NewRule = {
-        category: '',
+        category: null,
         description: { string: '' },
         elementType: '',
         events: '',

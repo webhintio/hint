@@ -9,9 +9,10 @@
 
 import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'axe-core';
 
-import { readFileAsync } from '../../utils/misc';
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IRule, IRuleBuilder, Severity, ITraverseEnd } from '../../types';
+import { readFileAsync } from '../../utils/misc';
 import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
@@ -108,10 +109,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'accessibility',
+            category: Category.accessibility,
             description: 'Runs axe-core tests in the target'
         },
-        fixable: 'code',
         recommended: true,
         schema: [{
             additionalProperties: false,

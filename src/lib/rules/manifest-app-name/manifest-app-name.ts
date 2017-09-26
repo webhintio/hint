@@ -9,6 +9,7 @@
 
 const { ucs2 } = require('punycode');
 
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { IManifestFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { RuleContext } from '../../rule-context';
@@ -119,10 +120,9 @@ const rule: IRuleBuilder = {
 
     meta: {
         docs: {
-            category: 'pwa',
+            category: Category.pwa,
             description: 'Require web site/app name to be specified'
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: true

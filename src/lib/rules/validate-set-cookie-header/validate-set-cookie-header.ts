@@ -2,6 +2,7 @@
  * @fileoverview This rule validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.
  */
 
+import { Category } from '../../enums/category';
 import { RuleContext } from '../../rule-context';
 import { debug as d } from '../../utils/debug';
 import { IFetchEnd, IAsyncHTMLElement, IResponse, IRuleBuilder, IRule, ParsedSetCookieHeader, Severity } from '../../types'; // eslint-disable-line no-unused-vars
@@ -302,10 +303,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'Security',
+            category: Category.security,
             description: 'This rule validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.'
         },
-        fixable: 'code',
         ignoredConnectors: [],
         recommended: true,
         schema: [],

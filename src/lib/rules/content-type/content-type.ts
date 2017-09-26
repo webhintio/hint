@@ -16,6 +16,7 @@ import * as isSvg from 'is-svg';
 import * as mimeDB from 'mime-db';
 import { parse, MediaType } from 'content-type';
 
+import { Category } from '../../enums/category';
 import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context';
@@ -288,10 +289,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'interoperability',
+            category: Category.interoperability,
             description: 'Require `Content-Type` header with appropriate value'
         },
-        fixable: 'code',
         recommended: true,
         schema: [{
             items: { type: 'string' },

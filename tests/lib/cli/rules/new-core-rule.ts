@@ -3,6 +3,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
+import { Category } from '../../../../src/lib/enums/category';
 import { CLIOptions } from '../../../../src/lib/types';
 import { readFileAsync } from '../../../../src/lib/utils/misc';
 import * as rulesCommon from '../../../../src/lib/cli/rules/common';
@@ -76,7 +77,7 @@ test.afterEach.always((t) => {
 test.serial(`if core, 'generate' should call to write script, documentation, test file and update the index page`, async (t) => {
     const sandbox = sinon.sandbox.create();
     const results = {
-        category: 'PWAs',
+        category: Category.pwa,
         description: 'An important new rule',
         elementType: '',
         extension: '',
@@ -116,7 +117,7 @@ test.serial(`if core, 'generate' should call to write script, documentation, tes
 test.serial(`The right script template should be used in 'generate'`, async (t) => {
     const sandbox = sinon.sandbox.create();
     const results = {
-        category: 'PWAs',
+        category: Category.pwa,
         description: 'An important new rule',
         elementType: '',
         extension: 'ts',
@@ -144,7 +145,7 @@ test.serial(`The right script template should be used in 'generate'`, async (t) 
 test.serial(`Description contains quotes`, async (t) => {
     const sandbox = sinon.sandbox.create();
     const results = {
-        category: 'PWAs',
+        category: Category.pwa,
         description: `This is a \`description\` that contains 'single quote' and "double qutoes"`,
         elementType: '',
         extension: 'ts',
@@ -172,7 +173,7 @@ test.serial(`Description contains quotes`, async (t) => {
 test.serial(`Throw an error if a new rule already exists when calling 'generate'`, async (t) => {
     const sandbox = sinon.sandbox.create();
     const results = {
-        category: 'PWAs',
+        category: Category.pwa,
         description: 'An important new rule',
         elementType: '',
         extension: 'js',
