@@ -12,15 +12,20 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
+import { CLIOptions } from '../types';
 import { debug as d } from '../utils/debug';
 import * as logger from '../utils/logging';
 import * as resourceLoader from '../utils/resource-loader';
-import { generateBrowserslistConfig } from './browserslist-generator';
+import { generateBrowserslistConfig } from './browserslist';
 
 const debug: debug.IDebugger = d(__filename);
 
 /** Initiates a wizard to gnerate a valid `.sonarrc` file based on user responses. */
-export const initSonarrc = async () => {
+export const initSonarrc = async (options: CLIOptions): Promise<boolean> => {
+    if (!options.init) {
+        return false;
+    }
+
     debug('Initiating generator');
 
     const connectorKeys: Array<inquirer.ChoiceType> = resourceLoader.getCoreConnectors();
@@ -115,5 +120,7 @@ export const initSonarrc = async () => {
 
     const filePath: string = path.join(process.cwd(), '.sonarrc');
 
-    return promisify(fs.writeFile)(filePath, JSON.stringify(sonarConfig, null, 4), 'utf8');
+    await promisify(fs.writeFile)(filePath, JSON.stringify(sonarConfig, null, 4), 'utf8');
+
+    return true;
 };

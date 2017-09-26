@@ -5,12 +5,12 @@ import test from 'ava';
 const inquirer = { prompt() { } };
 const logger = { log() { } };
 
-proxyquire('../../../src/lib/cli/browserslist-generator', {
+proxyquire('../../../src/lib/cli/browserslist', {
     '../utils/logging': logger,
     inquirer
 });
 
-import { generateBrowserslistConfig } from '../../../src/lib/cli/browserslist-generator';
+import { generateBrowserslistConfig } from '../../../src/lib/cli/browserslist';
 
 const defaultOption = { targetBy: 'default' };
 const multipleQueries = {

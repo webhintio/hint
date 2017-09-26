@@ -128,13 +128,13 @@ export class Sonar extends EventEmitter {
             });
         }
 
-        const connectorBuillder: IConnectorBuilder = resourceLoader.loadConnector(this.connectorId);
+        const connectorBuilder: IConnectorBuilder = resourceLoader.loadConnector(this.connectorId);
 
-        if (!connectorBuillder) {
+        if (!connectorBuilder) {
             throw new Error(`Connector "${this.connectorId}" not found`);
         }
 
-        this.connector = connectorBuillder(this, this.connectorConfig);
+        this.connector = connectorBuilder(this, this.connectorConfig);
         this.initRules(config);
     }
 
