@@ -12,6 +12,7 @@
   },
   "bin": "./dist/src/bin/sonar.js",
   "dependencies": {
+    "@sonarwhal/rule-template": "^0.1.1",
     "axe-core": "^2.4.1",
     "browserslist": "^2.4.0",
     "caniuse-api": "^2.0.0",
@@ -25,6 +26,7 @@
     "eventemitter2": "^4.1.0",
     "file-type": "^6.2.0",
     "file-url": "^2.0.2",
+    "fs-extra": "^4.0.2",
     "globby": "^6.1.0",
     "handlebars": "^4.0.10",
     "html-validator": "^2.2.3",
@@ -69,6 +71,7 @@
     "@types/content-type": "^1.1.1",
     "@types/debug": "0.0.30",
     "@types/file-type": "5.2.1",
+    "@types/globby": "^6.1.0",
     "@types/iconv-lite": "0.0.1",
     "@types/image-size": "0.0.29",
     "@types/inquirer": "0.0.35",

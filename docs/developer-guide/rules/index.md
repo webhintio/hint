@@ -11,12 +11,125 @@ flexible enough to allow you to implement anything you want easily:
 If there is something you want to do and you can't, or it is not clear
 how to do it, please open an issue.
 
-The following is a basic template for a core rule (you might need to
-adapt the paths for your case):
+## Types of rules
+
+There are 2 types of `rule`s a user can develop:
+
+* `external`: These are `rule`s that are published independently. When a
+  `rule` is specific to a domain or use case, it should be external.
+* `core`: These are the `rule`s that are shipped with `sonar` directly.
+  Before starting to develop a `core rule`, please make sure there is
+  an open issue and talk with the maintainers about it.
+
+Both types of `rule`s [work exactly the same](#howruleswork), the only
+difference being where they are located.
+
+### Creating an external rule
+
+The easiest wait to create a new rule that will be distributed outside
+`sonar` is via the CLI parameter `--new-rule`. You have 2 options:
+
+* Using `sonar` as a global package:
+
+```bash
+npm install -g --engine-strict @sonarwhal/sonar
+sonar --new-rule
+```
+
+* Using `npx` if you don't want to install it globally:
+
+  **Windows users:** Currently [`npx` has an issue in this
+  platform](https://github.com/npm/npm/issues/17869) and the command will
+  not work.
+
+```bash
+npx @sonarwhal/sonar --new-rule
+```
+
+In both cases, a wizard will start and ask you a series of questions:
+
+* What's the name of this rule?
+* What's the description of this rule?
+
+Once answered, it will create a new directory with the name of the rule and
+the right infrastructure to get you started. You just have to run
+`npm install` in there to get all the dependencies and start working.
+Tests will be already configured to use the same infrastructure as the
+core rules.
+
+### Working with core rules
+
+#### Creating a core rule
+
+If you are working in `sonar`'s main repository, one of the easiest ways
+to get started is to use `sonar`'s CLI, which helps to generate the template
+files and insert them at the right location.
+
+First you need to install the CLI:
+
+```bash
+npm install -g --engine-strict @sonarwhal/sonar
+```
+
+You can also install it as a `devDependency` if you prefer not to
+have it globally.
+
+```bash
+npm install -D --engine-strict @sonarwhal/sonar
+```
+
+Then you can proceed to start generating a new rule using the flag `--new-rule`:
+
+```bash
+sonar --new-rule
+```
+
+This command will start a wizard that will ask you a series of questions
+related to this new rule. A complete list of the questions is shown below:
+
+* What's the name of this new rule?
+* Please select the category of this new rule:
+* Accessibility
+  * Interoperability
+  * Performance
+  * PWAs
+  * Security
+* What's the description of this new rule?
+* Please select the category of use case:
+  * DOM
+    * What DOM element does the rule need access to?
+  * Resource Request
+  * Third Party Service
+  * JS injection
+
+Answer these questions and you will end up with a template rule file.
+Events determined to be relevant to this use case will be subscribed
+to automatically in the script. If this is a core rule, templates for
+documentation and tests will be generated, with the [rule index
+page](../../user-guide/rules/index.md) under `user guide` updated to
+include the new rule item.
+
+#### Remove a core rule from CLI
+
+Similarly, you can also use CLI to remove an existing rule by using the
+flag `--remove-rule`:
+
+```bash
+sonar --remove-rule
+```
+
+You will be asked to type in the normalized name of the rule, and all
+files associated with this rule (script, documentation, and tests) will
+be removed.
+
+## How rules work
+
+The following is a basic template for a rule (`import` paths might change
+depending on the rule type):
 
 ```ts
-import { IFetchEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
-import { RuleContext } from '../../rule-context'; // eslint-disable-line no-unused-vars
+import { IFetchEnd, IRule, IRuleBuilder } from '../../types';
+import { RuleContext } from '../../rule-context';
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -80,7 +193,7 @@ await context.report(resource, element, message);
 On top or reporting errors, the `context` object exposes more information
 to enable more complex scenarios. Some of the following sections describe them.
 
-## The `meta` property
+### The `meta` property
 
 Rules have an object `meta` that defines several properties:
 
@@ -106,74 +219,12 @@ simpler templates.
 
 The rule can access the custom configuration via `context.ruleOptions`.
 
-## Easy start from CLI
+### Change feedback based on browser support
 
-If you are working in `sonar`'s main repository, one of the easiest ways
-to get started is to use `sonar`'s CLI, which helps to generate the template
-files and insert them at the right location.
-
-First you need to install the CLI:
-
-```bash
-npm install -g --engine-strict @sonarwhal/sonar
-```
-
-You can also install it as a `devDependency` if you prefer not to
-have it globally.
-
-```bash
-npm install -D --engine-strict @sonarwhal/sonar
-```
-
-Then you can proceed to start generating a new rule using the flag `--new-rule`:
-
-```bash
-sonar --new-rule
-```
-
-This command will start a wizard that will ask you a series of questions
-related to this new rule. A complete list of the questions is shown below:
-
-* What's the name of this new rule?
-* Please select the category of this new rule:
-* Accessibility
-  * Interoperability
-  * Performance
-  * PWAs
-  * Security
-* What's the description of this new rule?
-* Please select the category of use case:
-  * DOM
-    * What DOM element does the rule need access to?
-  * Resource Request
-  * Third Party Service
-  * JS injection
-
-Answer these questions and you will end up with a template rule file.
-Events determined to be relevant to this use case will be subscribed
-to automatically in the script. If this is a core rule, templates for
-documentation and tests will be generated, with the [rule index
-page](../../user-guide/rules/index.md) under `user guide` updated to
-include the new rule item.
-
-## Remove a rule from CLI
-
-Similarly, you can also use CLI to remove an existing rule by using the
-flag `--remove-rule`:
-
-```bash
-sonar --remove-rule
-```
-
-You will be asked to type in the normalized name of the rule, and all
-files associated with this rule (script, documentation, and tests) will
-be removed.
-
-## Target specific browsers
-
-If your rule only applies to specific browsers you should use
-`context.targetedBrowsers` and check if the rule needs to be
-executed or not.
+Users can tell `sonar` what browsers are important for them via the
+[`browserslist` property in `.sonarrc`][browserconfiguration].
+You can have access to the list, and thus modify the feedback of your
+rule, via the property `context.targetedBrowsers`.
 
 <!-- eslint-disable no-unused-vars -->
 
@@ -187,7 +238,7 @@ const validate = (fetchEnd) => {
 };
 ```
 
-## Reporting an error if not run
+### Reporting an error if not run
 
 Sometimes what a rule checks is mandatory, and if it does not have
 the change to test it, it should fail. These are the types of rules
@@ -203,7 +254,7 @@ The recommended way to implement a rule like this is to subscribe
 to the event `scan::end`. If your rule receives that event and has
 not run any validation you should report it.
 
-## Evaluate JavaScript in the page context
+### Evaluate JavaScript in the page context
 
 Sometimes a rule needs to evaluate some JavaScript in the context of
 the page. To do that you need to use `context.evaluate`. This method
@@ -246,7 +297,7 @@ const script = `return Promise.resolve(true);`;
 context.evaluate(script);
 ```
 
-## Ignore connectors
+### Ignore connectors
 
 If your rule does not work propertly with certain connectors you can
 use the property `ignoreConnectors` so it is not run if using them.
@@ -265,7 +316,7 @@ const rule = {
 };
 ```
 
-## Interact with other services
+### Interact with other services
 
 You can develop a rule that integrates with other services. `sonar`
 integrates with a few like `ssllabs`.
@@ -307,8 +358,11 @@ In case you need a more complete example, please look at the
 
 ## How to test a rule
 
-Testing a new rule is really easy if you use `rule-runner.ts`.
-You just need to:
+If you have used the built-in tools to create a new rule (internal or
+external), everything should already set up to use `rule-runner.ts`
+and the `testRule` method.
+
+If not, you just need to:
 
 1. Create a `tests.ts` file in a folder with the name of the rule
    (e.g.: `src/tests/rules/<rule-id>/tests.ts`)
@@ -335,6 +389,8 @@ const tests: Array<RuleTest> = [
 
 ruleRunner.testRule(ruleName, tests);
 ```
+
+### testRule()
 
 The signature of `ruleRunner.testRule` is:
 
@@ -441,3 +497,4 @@ const tests: Array<RuleTest> = [
 <!-- Link labels: -->
 
 [json schema]: http://json-schema.org/
+[browserconfiguration]: ../../user-guide/index.md#browserconfiguration

@@ -40,7 +40,7 @@ const stubUtilObject = {
 const resourceLoader = { getCoreRules() { } };
 const rules = ['axe', 'content-type'];
 
-proxyquire('../../../../src/lib/cli/rules/create-core-rule', {
+proxyquire('../../../../src/lib/cli/rules/new-core-rule', {
     './common': rulesCommon,
     fs,
     inquirer,
@@ -49,7 +49,7 @@ proxyquire('../../../../src/lib/cli/rules/create-core-rule', {
     util: stubUtilObject
 });
 
-import * as rule from '../../../../src/lib/cli/rules/create-core-rule';
+import * as rule from '../../../../src/lib/cli/rules/new-core-rule';
 
 test.beforeEach((t) => {
     sinon.stub(stubPromisifiedMethodObject, 'mkdirPAsync').resolves();

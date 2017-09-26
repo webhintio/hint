@@ -7,7 +7,24 @@
 ## Quick start user guide
 
 Once you have [`Node.js`](https://nodejs.org/en/download/current/)
-v8.x on your machine, install `sonar`:
+v8.x on your machine, you can use `npx` or install `sonar` globally
+to use it.
+
+### Using `npx`
+
+Just run the following command:
+
+```bash
+npx @sonarwhal/sonar https://example.com
+```
+
+This will start the wizard to create a `.sonarrc` file, and then
+analyze `https://example.com`.
+
+**Windows users**: Currently [`npx` has an issue in this
+platform](https://github.com/npm/npm/issues/17869).
+
+### Installing `sonar` globally
 
 ```bash
 npm install -g --engine-strict @sonarwhal/sonar
