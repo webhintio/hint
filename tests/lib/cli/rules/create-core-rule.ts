@@ -5,6 +5,7 @@ import test from 'ava';
 
 import { CLIOptions } from '../../../../src/lib/types';
 import { readFileAsync } from '../../../../src/lib/utils/misc';
+import * as rulesCommon from '../../../../src/lib/cli/rules/common';
 
 const actions = ({ newRule: true } as CLIOptions);
 const ruleScriptDir = 'src/lib/rules';
@@ -40,6 +41,7 @@ const resourceLoader = { getCoreRules() { } };
 const rules = ['axe', 'content-type'];
 
 proxyquire('../../../../src/lib/cli/rules/create-core-rule', {
+    './common': rulesCommon,
     fs,
     inquirer,
     resourceLoader,
@@ -96,7 +98,6 @@ test.serial(`if core, 'generate' should call to write script, documentation, tes
     t.true(mkdirpAsyncFn.args[0][0].includes(path.join(ruleScriptDir, results.name)));
     t.true(mkdirpAsyncFn.args[1][0].includes(path.join(ruleDocDir, ''))); // so it uses the right separator
     t.true(mkdirpAsyncFn.args[2][0].includes(path.join(ruleTestDir, results.name)));
-
 
     // writeFileAsync
     t.is(writeFileAsyncFn.callCount, 4);
@@ -190,8 +191,20 @@ test.serial(`Throw an error if a new rule already exists when calling 'generate'
     sandbox.restore();
 });
 
-test.serial('if version is not an option, it should return false', async (t) => {
-    const result = await rule.newRule(({}) as CLIOptions);
+test.serial('if newRule is not an option, it should return false', async (t) => {
+    const result = await rule.newRule({} as CLIOptions);
+
+    t.false(result);
+});
+
+test.serial('if newRule is not executed in the right path, it should return false', async (t) => {
+    const processDir = sinon.stub(rulesCommon, 'processDir').get(() => {
+        return 'another directory';
+    });
+
+    const result = await rule.newRule(actions);
+
+    processDir.restore();
 
     t.false(result);
 });
