@@ -9,6 +9,7 @@
 
 import * as _ from 'lodash';
 
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { RuleContext } from '../../rule-context';
 import { IRule, IRuleBuilder, ITargetFetchEnd, IScanEnd, IProblemLocation, Severity } from '../../types';
@@ -141,10 +142,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'Interoperability',
+            category: Category.interoperability,
             description: `Validate HTML using 'the Nu HTML checker'`
         },
-        fixable: 'code',
         recommended: true,
         schema: [{
             properties: {

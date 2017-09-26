@@ -6,6 +6,7 @@ import * as url from 'url';
 
 import * as getImageData from 'image-size';
 
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { isHTMLDocument, isRegularProtocol, normalizeString } from '../../utils/misc';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, ITraverseEnd, INetworkData } from '../../types';
@@ -272,10 +273,9 @@ const rule: IRuleBuilder = {
 
     meta: {
         docs: {
-            category: `PWAs`,
+            category: Category.pwa,
             description: `Require an 'apple-touch-icon'`
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: true

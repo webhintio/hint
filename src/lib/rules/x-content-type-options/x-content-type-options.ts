@@ -7,6 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI, normalizeString } from '../../utils/misc';
@@ -53,10 +54,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'security',
+            category: Category.security,
             description: `Require 'X-Content-Type-Options' header`
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: false

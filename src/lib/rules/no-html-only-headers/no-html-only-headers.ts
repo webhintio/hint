@@ -9,6 +9,7 @@
 
 import * as pluralize from 'pluralize';
 
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from '../../utils/rule-helpers';
 import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
@@ -103,10 +104,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'performance',
+            category: Category.performance,
             description: 'Disallow unneeded HTTP headers for non-HTML resources'
         },
-        fixable: 'code',
         recommended: true,
         schema: [{
             additionalProperties: false,

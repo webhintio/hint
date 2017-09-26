@@ -1,4 +1,5 @@
 import { findPackageRoot as packageRoot, normalizeStringByDelimiter } from '../../utils/misc';
+import { Category } from '../../enums/category';
 
 export const normalize = normalizeStringByDelimiter;
 export const ruleTemplateDir = './templates/core-rule';
@@ -31,7 +32,7 @@ export type NewRule = {
     /** Name of the new rule */
     name: string;
     /** Category of the new rule */
-    category: string;
+    category: Category;
     /** Description of the new rule */
     description: hbs.SafeString;
     /** Element type if `dom` is selected in useCase */

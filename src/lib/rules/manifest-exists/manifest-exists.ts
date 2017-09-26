@@ -7,6 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IElementFound, IManifestFetchEnd, IManifestFetchError, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { normalizeString } from '../../utils/misc';
@@ -81,10 +82,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'pwa',
+            category: Category.pwa,
             description: 'Require a web app manifest'
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: true

@@ -89,11 +89,11 @@ related to this new rule. A complete list of the questions is shown below:
 
 * What's the name of this new rule?
 * Please select the category of this new rule:
-* Accessibility
-  * Interoperability
-  * Performance
-  * PWAs
-  * Security
+  * accessibility
+  * interoperability
+  * performance
+  * pwa
+  * security
 * What's the description of this new rule?
 * Please select the category of use case:
   * DOM
@@ -128,6 +128,7 @@ The following is a basic template for a rule (`import` paths might change
 depending on the rule type):
 
 ```ts
+import { Category } from '../../enums/category';
 import { IFetchEnd, IRule, IRuleBuilder } from '../../types';
 import { RuleContext } from '../../rule-context';
 
@@ -200,7 +201,7 @@ Rules have an object `meta` that defines several properties:
 ```json
 {
     "docs": {
-        "category": "string",
+        "category": "Category",
         "description": "string"
     },
     "recommended": "boolean", // If the rule is part of the recommended options

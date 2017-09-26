@@ -6,6 +6,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { cutString } from '../../utils/misc';
@@ -48,10 +49,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'security',
+            category: Category.security,
             description: 'Disallow protocol relative URLs'
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: true

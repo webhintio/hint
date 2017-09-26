@@ -14,6 +14,7 @@ import { isSupported } from 'caniuse-api';
 import * as pluralize from 'pluralize';
 import * as sameOrigin from 'same-origin';
 
+import { Category } from '../../enums/category';
 import { cutString, isRegularProtocol } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types';
@@ -144,10 +145,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'security',
+            category: Category.security,
             description: 'Require `noopener` (and `noreferrer`) on `a` and `area` element with target="_blank"'
         },
-        fixable: 'code',
         recommended: true,
         schema: [{
             additionalProperties: false,
