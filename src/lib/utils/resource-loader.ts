@@ -40,7 +40,7 @@ const getCoreResources = (type: string): Array<string> => {
         return resourceIds.get(type);
     }
 
-    const resourcesFiles: Array<string> = globby.sync(`${PROJECT_ROOT}/dist/src/lib/${type}s/**/*.js`, { absolute: true });
+    const resourcesFiles: Array<string> = globby.sync(`${PROJECT_ROOT}/dist/src/lib/${type}s/**/*.js`);
 
     const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
         const resourceName: string = path.basename(resourceFile, '.js');
