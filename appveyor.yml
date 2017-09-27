@@ -1,0 +1,17 @@
+environment:
+  nodejs_version: Stable
+
+# Install scripts. (runs after repo cloning)
+install:
+  - ps: Install-Product node $env:nodejs_version x64
+  - node --version
+  - npm --version
+  - npm install
+  - choco install googlechrome
+
+# Post-install test scripts.
+test_script:
+  - npm test
+
+# Don't actually build.
+build: off
