@@ -1,11 +1,7 @@
 import { Category } from '../enums/category';
 
 export type MetadataDocs = {
-<<<<<<< HEAD
-    category: Category;
-=======
     category?: Category;
->>>>>>> Chore: Create an `enum` for rule category.
     description: string;
 };
 
