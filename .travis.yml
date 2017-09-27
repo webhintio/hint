@@ -20,12 +20,20 @@ language: node_js
 matrix:
   include:
 
-    # The following cron job checks are needed because
-    # conditional builds are not yet possible.
-    #
-    # https://github.com/travis-ci/travis-ci/issues/7181
+    # Build used for checking links
+    # (is automatically run once per week).
 
     - os: linux
+      if: type = cron
+
+      script: ./.travis/check-links.sh
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Build used for running the tests on Ubuntu.
+
+    - os: linux
+      if: type != cron
 
       addons:
         chrome: stable
@@ -36,24 +44,17 @@ matrix:
       before_script:
         - greenkeeper-lockfile-update
       script:
-        - |
-              # For a regular job, just run the tests, and if
-              # they pass, and if needed, trigger a site update.
-
-              if ! ./.travis/is-cron-job.sh; then
-                npm run test-on-travis \
-                  && ./.travis/trigger-site-update.sh
-
-              # If it's a cron job, check the links and report
-              # any broken ones by opening an issue.
-
-              else
-                ./.travis/check-links.sh
-              fi
+        - npm run test-on-travis && ./.travis/trigger-site-update.sh
       after_script:
         - greenkeeper-lockfile-upload
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Build used for running the tests on macOS.
+
     - os: osx
       osx_image: xcode8.3
+      if: type != cron
 
       addons:
         chrome: stable
@@ -64,9 +65,10 @@ matrix:
       before_script:
         - greenkeeper-lockfile-update
       script:
-        - ./.travis/is-cron-job.sh || npm run test-on-travis
+        - npm run test-on-travis
       after_script:
         - greenkeeper-lockfile-upload
+
 
 notifications:
   email:
