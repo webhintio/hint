@@ -1,0 +1,17 @@
+# Test against the latest version of this Node.js version
+environment:
+  nodejs_version: Stable
+
+# Install scripts. (runs after repo cloning)
+install:
+  # install modules
+  - npm install
+
+# Post-install test scripts.
+test_script:
+  - node --version
+  - npm --version
+  - npm test
+
+# Don't actually build.
+build: off

@@ -1,6 +1,7 @@
 # sonar
 
 [![Build Status](https://travis-ci.org/sonarwhal/sonar.svg?branch=master)](https://travis-ci.org/sonarwhal/sonar)
+[![Build status](https://ci.appveyor.com/api/projects/status/wor5orp1qard4b30/branch/master?svg=true)](https://ci.appveyor.com/project/NellieTheNarwhal/sonar/branch/master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/sonarwhal/sonar.svg?ts=1493307106027)](https://greenkeeper.io/)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sonarwhal/Lobby)
 
