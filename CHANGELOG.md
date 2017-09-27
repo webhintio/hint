@@ -1,3 +1,18 @@
+# 0.9.0 (September 27, 2017)
+
+## Breaking Changes
+
+* [[`e585daa5d5`](https://github.com/sonarwhal/sonar/commit/e585daa5d51db030edc259443705d938d7ff66a6)] - Breaking: Make `rawResponse` a `Promise<Buffer>` (see also: [`#164`](https://github.com/sonarwhal/sonar/issues/164)).
+
+## Bug fixes / Improvements
+
+* [[`0cfb1bb49c`](https://github.com/sonarwhal/sonar/commit/0cfb1bb49c847eb4d5ed54691dbb88cb796694bf)] - Fix: Create new rule only in `sonar`'s root folder (see also: [`#527`](https://github.com/sonarwhal/sonar/issues/527)).
+
+## New features
+
+* [[`67553dce6c`](https://github.com/sonarwhal/sonar/commit/67553dce6c0c390b561cca0d44aa0bf8a07e7515)] - New: Add option to create external rule (see also: [`#528`](https://github.com/sonarwhal/sonar/issues/528)).
+
+
 # 0.8.1 (September 22, 2017)
 
 ## Bug fixes / Improvements
