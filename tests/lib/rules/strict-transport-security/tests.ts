@@ -24,8 +24,8 @@ const requestJSONAsyncMock = (responseObject) => {
         isDataURI() {
             return false;
         },
-        normalizeString(string) {
-            return string.toLowerCase();
+        normalizeString(str = '') {
+            return str.toLowerCase();
         },
         requestJSONAsync: (uri) => {
             let response;
@@ -84,7 +84,10 @@ const statusServiceError = `Error with getting preload status for https://localh
 const preloadableServiceError = `Error with getting preload eligibility for https://localhost/.`;
 
 // override favicon headers so that it doesn't report in chrome
-const faviconHeaderMaxAgeOnly = { '/favicon.ico': { headers: { [stsHeader]: `max-age=${OkayMaxAge + 100}` } } };
+const faviconHeaderMaxAgeOnly = {
+    '/': { content: generateHTMLPage() },
+    '/favicon.ico': { headers: { [stsHeader]: `max-age=${OkayMaxAge + 100}` } }
+};
 
 const generateHTMLPageData = (content: string) => {
     return {
