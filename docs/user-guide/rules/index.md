@@ -22,6 +22,7 @@
 ## Performance
 
 * [`no-html-only-headers`](no-html-only-headers.md)
+* [`amp-validator`](amp-validator.md)
 
 ## PWAs
 
