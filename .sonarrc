@@ -8,6 +8,7 @@
     "formatters": "stylish",
     "rulesTimeout": 120000,
     "rules": {
+        "amp-validator": "off",
         "apple-touch-icons": "warning",
         "axe": "warning",
         "content-type": "warning",

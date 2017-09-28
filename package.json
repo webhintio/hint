@@ -12,6 +12,7 @@
   "bin": "./dist/src/bin/sonar.js",
   "dependencies": {
     "@sonarwhal/rule-template": "^0.1.1",
+    "amphtml-validator": "^1.0.20",
     "axe-core": "^2.4.1",
     "browserslist": "^2.4.0",
     "caniuse-api": "^2.0.0",
