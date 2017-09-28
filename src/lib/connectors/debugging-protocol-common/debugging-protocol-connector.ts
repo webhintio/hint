@@ -586,7 +586,7 @@ export class Connector implements IConnector {
             client = await this.getClient(launcher.port, tabs[0]);
             this._tabs = tabs;
         } else {
-            const tab = await cdp.New({ port: launcher.port, url: this._options.useTabUrl ? this._options.newTabUrl : null }); // eslint-disable-line new-cap
+            const tab = await cdp.New({ port: launcher.port, url: this._options.useTabUrl ? this._options.tabUrl : null }); // eslint-disable-line new-cap
 
             if (!tab) {
                 throw new Error('Error trying to open a new tab');
