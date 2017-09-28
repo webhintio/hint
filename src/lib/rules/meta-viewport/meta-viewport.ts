@@ -5,6 +5,7 @@
 
 import { parseMetaViewPortContent } from 'metaviewport-parser';
 
+import { Category } from '../../enums/category';
 import { isHTMLDocument, normalizeString } from '../../utils/misc';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, ITraverseEnd } from '../../types';
 import { IRule, IRuleBuilder } from '../../types';
@@ -187,10 +188,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'misc',
+            category: Category.interoperability,
             description: 'Require viewport meta tag'
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: true

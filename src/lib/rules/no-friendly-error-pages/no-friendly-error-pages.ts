@@ -9,6 +9,7 @@
 
 import * as url from 'url';
 
+import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { IFetchEnd, INetworkData, IResponse, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI } from '../../utils/misc';
@@ -138,10 +139,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'interoperability',
+            category: Category.interoperability,
             description: 'Disallow small error pages'
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: false

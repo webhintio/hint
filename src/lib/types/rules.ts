@@ -1,8 +1,13 @@
+import { Category } from '../enums/category';
+
+export type MetadataDocs = {
+    category?: Category;
+    description: string;
+};
+
 export interface IRuleMetadata {
     /** Documentation related to the rule */
-    docs?: any;
-    /** If this rule can autofix the issue or not */
-    fixable?: string;
+    docs?: MetadataDocs;
     /** List of connectors that should not run the rule */
     ignoredConnectors?: Array<string>;
     /** Use this rule to autogenerate the configuration file */

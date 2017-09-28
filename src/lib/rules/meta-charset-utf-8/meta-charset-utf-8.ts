@@ -7,6 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import { Category } from '../../enums/category';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from '../../types';
 import { isHTMLDocument, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context';
@@ -121,10 +122,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'misc',
+            category: Category.interoperability,
             description: 'Require `<meta charset="utf-8">`'
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: true

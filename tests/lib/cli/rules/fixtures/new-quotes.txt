@@ -34,10 +34,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: `PWAs`,
+            category: `pwa`,
             description: `This is a \`description\` that contains 'single quote' and "double qutoes"`
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: false

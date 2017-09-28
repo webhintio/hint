@@ -3,6 +3,7 @@
  */
 import * as url from 'url';
 
+import { Category } from '../../enums/category';
 import { RuleContext } from '../../rule-context';
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IResponse, IFetchEnd, IRule, IRuleBuilder, INetworkData } from '../../types'; // eslint-disable-line no-unused-vars
@@ -228,10 +229,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: 'Security',
+            category: Category.security,
             description: `Require 'Strict-Transport-Security' header`
         },
-        fixable: 'code',
         recommended: true,
         schema: [{
             properties: {

@@ -34,10 +34,9 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: `PWAs`,
+            category: `pwa`,
             description: `An important new rule`
         },
-        fixable: 'code',
         recommended: true,
         schema: [],
         worksWithLocalFiles: false
