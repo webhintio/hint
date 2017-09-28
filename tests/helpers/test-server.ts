@@ -1,7 +1,7 @@
 /**
  * @fileoverview Simple HTTP server used in sonar's tests to mimick certain scenarios.
  */
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as http from 'http';
 import * as https from 'https';
 import * as path from 'path';
@@ -9,11 +9,10 @@ import * as path from 'path';
 import * as _ from 'lodash';
 import * as express from 'express';
 import * as onHeaders from 'on-headers';
-import { promisify } from 'util';
 
 export type ServerConfiguration = string | object; //eslint-disable-line
 
-const startPort = 3000;
+const startPort = _.random(3000, 65000);
 const maxPort = 65535;
 
 /** A testing server for Sonar rules */
@@ -37,7 +36,7 @@ export class Server {
      * the references to http://localhost in the HTML to http://localhost:finalport.
     */
     private updateLocalhost(html: string): string {
-        return html.replace(/http:\/\/localhost\//g, `http://localhost:${this._port}/`);
+        return html.replace(/\/\/localhost\//g, `//localhost:${this._port}/`);
     }
 
     private handleHeaders = (res, headers) => {
@@ -128,12 +127,14 @@ export class Server {
 
             if (this._isHTTPS) {
                 options = {
-                    cert: await promisify(fs.readFile)(path.join(__dirname, 'fixture/server.crt'), 'utf8'),
-                    key: await promisify(fs.readFile)(path.join(__dirname, 'fixture/server.key'), 'utf8')
+                    cert: await fs.readFile(path.join(__dirname, 'fixture/server.crt'), 'utf8'),
+                    key: await fs.readFile(path.join(__dirname, 'fixture/server.key'), 'utf8')
                 };
-            }
 
-            this._server = this._isHTTPS ? https.createServer(options, this._app) : http.createServer(this._app);
+                this._server = https.createServer(options, this._app);
+            } else {
+                this._server = http.createServer(this._app);
+            }
 
             // TODO: need to find a way to cast `err` to a [System Error](https://nodejs.org/dist/latest-v7.x/docs/api/errors.html#errors_system_errors)
             this._server.on('error', (err: any) => {

@@ -90,10 +90,7 @@ const rule: IRuleBuilder = {
                when testing the rule and `import` doesn't work here. */
             const htmlChecker = require('html-validator');
 
-            /* Property `rawContent` can contain the information with
-             * different encodings depending on the connector we are using on sonar
-             * i.e. In Chrome it is utf8 but in Edge it is base64 */
-            scanOptions.data = response.body.rawContent.toString();
+            scanOptions.data = response.body.content;
             htmlCheckerPromise = scanOptions.data ? htmlChecker(scanOptions) : Promise.resolve({messages: []});
         };
 

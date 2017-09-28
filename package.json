@@ -3,7 +3,6 @@
     "babel": {
       "presets": []
     },
-    "concurrency": 5,
     "failFast": false,
     "files": [
       "dist/tests/**/*.js"

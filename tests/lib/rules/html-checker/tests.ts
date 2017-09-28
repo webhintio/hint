@@ -7,7 +7,7 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 
 const ruleName = getRuleName(__dirname);
-const exampleUrl = 'https://example.com/';
+const exampleUrl = 'https://empty.sonarwhal.com/';
 const validatorError = 'error';
 const defaultValidator = 'https://validator.w3.org/nu/';
 const configValidator = 'https://html5.validator.nu';
