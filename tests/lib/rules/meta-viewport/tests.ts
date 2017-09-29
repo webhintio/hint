@@ -64,6 +64,10 @@ const testsForDefaults: Array<IRuleTest> = [
         serverConfig: generateHTMLPage(generateMegaViewport())
     },
     {
+        name: `'viewport' meta tag has correct value with additional valid and allowed properties`,
+        serverConfig: generateHTMLPage('<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"')
+    },
+    {
         name: `Multiple meta 'viewport' tags are specified`,
         reports: [{ message: 'A viewport meta tag was already specified' }],
         serverConfig: generateHTMLPage(`${generateMegaViewport()}${generateMegaViewport()}`)
