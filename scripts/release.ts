@@ -261,7 +261,7 @@ const tagNewVersion = (version: string) => {
 
 const updateFile = (filePath: string, content) => {
     exec(`Update '${filePath}' file.`, () => {
-        const writeContent = shell['ShellString']; // eslint-disable-line new-cap, dot-notation
+        const writeContent = shell['ShellString']; // eslint-disable-line dot-notation
 
         writeContent(content).to(filePath);
     });

@@ -10,8 +10,6 @@
  *
  */
 
-/* eslint-disable no-sync */
-
 import * as chromeLauncher from 'chrome-launcher';
 import * as isCI from 'is-ci';
 import * as lockfile from 'lockfile';

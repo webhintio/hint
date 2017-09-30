@@ -164,7 +164,7 @@ class JSDOMConnector implements IConnector {
             const traverseDown: ITraverseDown = { resource: this._finalHref };
 
             await this._server.emitAsync(`traversing::down`, traverseDown);
-            await this.traverseAndNotify(child); // eslint-disable-line no-await-for
+            await this.traverseAndNotify(child);
 
         }
 

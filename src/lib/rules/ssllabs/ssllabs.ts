@@ -8,7 +8,6 @@
 // ------------------------------------------------------------------------------
 
 // HACK: Needed here because with TS `eslint-disable-line` doesn't work fine.
-/* eslint-disable no-useless-escape */
 
 import { promisify } from 'util';
 

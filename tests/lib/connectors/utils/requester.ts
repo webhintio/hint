@@ -1,5 +1,3 @@
-/* eslint-disable no-sync */
-
 import * as zlib from 'zlib';
 
 import * as iconv from 'iconv-lite';
