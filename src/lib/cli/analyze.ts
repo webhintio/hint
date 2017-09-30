@@ -139,7 +139,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
 
     for (const target of targets) {
         try {
-            const results: Array<IProblem> = await sonar.executeOn(target); // eslint-disable-line no-await-in-loop
+            const results: Array<IProblem> = await sonar.executeOn(target);
             const hasError: boolean = results.some((result: IProblem) => {
                 return result.severity === Severity.error;
             });

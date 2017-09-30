@@ -142,7 +142,7 @@ const events = [
 /** Losely compares to data events. It will check if all the properties in
  * `data2` are in `data1` with the same values.
  */
-const sameData = (actual, expected) => { // eslint-disable-line consistent-return
+const sameData = (actual, expected) => {
     const actualType = typeof actual;
     const expectedType = typeof expected;
 

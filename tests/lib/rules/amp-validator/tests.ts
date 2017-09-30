@@ -1,6 +1,6 @@
 /* eslint sort-keys: 0 */
 
-import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type';
 import { readFile } from '../../../../src/lib/utils/misc';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import * as ruleRunner from '../../../helpers/rule-runner';

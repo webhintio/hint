@@ -1,5 +1,3 @@
-/* eslint-disable no-sync */
-
 import * as url from 'url';
 
 import test from 'ava';
