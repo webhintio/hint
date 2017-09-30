@@ -88,7 +88,7 @@ export class RuleContext {
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: IProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> { // eslint-disable-line require-await
+    public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: IProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> {
         let position: IProblemLocation = location;
         let sourceCode: string = null;
 

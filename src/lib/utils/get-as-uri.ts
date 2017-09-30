@@ -17,7 +17,7 @@ const debug: debug.IDebugger = d(__filename);
  *
  */
 export const getAsUri = (source: string): url.Url => {
-    const entry: string = source.trim(); // eslint-disable-line no-param-reassign
+    const entry: string = source.trim();
     let target: url.Url = url.parse(entry);
     const protocol: string = target.protocol;
 

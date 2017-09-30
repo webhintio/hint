@@ -538,7 +538,7 @@ export class Connector implements IConnector {
             const traverseDown: ITraverseDown = { resource: this._finalHref };
 
             await this._server.emitAsync(`traverse::down`, traverseDown);
-            await this.traverseAndNotify(child); // eslint-disable-line no-await-for
+            await this.traverseAndNotify(child);
         }
 
         const traverseUp: ITraverseUp = { resource: this._finalHref };

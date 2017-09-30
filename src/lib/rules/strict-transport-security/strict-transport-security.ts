@@ -166,7 +166,7 @@ const rule: IRuleBuilder = {
                             response: networkData.response
                         });
                     }
-                } catch (err) { // eslint-disable-line no-empty
+                } catch (err) {
                     // HTTPS site can't be fetched, do nothing.
                     debug(`${resource} doesn't support HTTPS`);
                 }
