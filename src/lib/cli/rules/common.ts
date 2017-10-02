@@ -40,7 +40,7 @@ export type NewRule = {
     /** Events that should be subscribed to */
     events: string;
     /** If the new rule is core */
-    isCore: boolean;
+    isRecommended: boolean;
     /**  Usage categories that the new rule applies to */
     useCase?: UseCase;
 };

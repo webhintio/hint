@@ -2,11 +2,12 @@
  * @fileoverview {{description}}
  */
 
-// The list of types depends on the events you want to capture.
-import { IRule, IRuleBuilder } from '../../types';
 import { RuleContext } from '../../rule-context';
+// The list of types depends on the events you want to capture.
+import { IRule, IRuleBuilder, {{events}} } from '../../types';
+import { debug as d } from '../../utils/debug';
 
-import { {{events}} } from '../../types';
+const debug: debug.IDebugger = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -69,13 +70,13 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: `{{category}}`,
+            category: Category.{{category}},
             description: `{{description}}`
         },
-        recommended: {{isCore}},
+        recommended: {{#if isRecommended}}true{{else}}false{{/if}},
         schema: [],
         worksWithLocalFiles: false
     }
-}
+};
 
 module.exports = rule;
