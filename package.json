@@ -38,7 +38,7 @@
     "is-resolvable": "^1.0.0",
     "is-svg": "^2.1.0",
     "js-library-detector": "^4.1.0",
-    "jsdom": "11.1.0",
+    "jsdom": "^11.3.0",
     "json-stable-stringify": "^1.0.1",
     "lockfile": "^1.0.3",
     "lodash": "^4.17.4",
@@ -133,7 +133,6 @@
     "ignore": [
       "angular",
       "jquery",
-      "jsdom",
       "knockout",
       "moment"
     ]
