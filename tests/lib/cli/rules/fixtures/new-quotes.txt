@@ -2,11 +2,12 @@
  * @fileoverview This is a \`description\` that contains 'single quote' and "double qutoes"
  */
 
-// The list of types depends on the events you want to capture.
-import { IRule, IRuleBuilder } from '../../types';
 import { RuleContext } from '../../rule-context';
+// The list of types depends on the events you want to capture.
+import { IRule, IRuleBuilder, IFetchStart, IFetchEnd, IFetchError } from '../../types';
+import { debug as d } from '../../utils/debug';
 
-import { IFetchStart, IFetchEnd, IFetchError } from '../../types';
+const debug: debug.IDebugger = d(__filename);
 
 // ------------------------------------------------------------------------------
 // Public
@@ -34,13 +35,13 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: `pwa`,
+            category: Category.pwa,
             description: `This is a \`description\` that contains 'single quote' and "double qutoes"`
         },
         recommended: true,
         schema: [],
         worksWithLocalFiles: false
     }
-}
+};
 
 module.exports = rule;

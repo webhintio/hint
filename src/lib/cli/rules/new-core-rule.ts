@@ -163,9 +163,21 @@ const useCases = [
 const questions = [
     {
         default: 'newRule',
-        message: 'What\'s the name of this new rule?',
+        message: `What's the name of this new rule?`,
         name: 'name',
         type: 'input'
+    },
+    {
+        default: 'new awesome rule',
+        message: `What's the description of this new rule?`,
+        name: 'description',
+        type: 'input'
+    },
+    {
+        default: true,
+        message: 'Is it a recommended rule',
+        name: 'recommended',
+        type: 'confirm'
     },
     {
         choices: categories,
@@ -173,12 +185,6 @@ const questions = [
         message: 'Please select the category of this new rule:',
         name: 'category',
         type: 'list'
-    },
-    {
-        default: 'new awesome rule',
-        message: 'What\'s the description of this new rule?',
-        name: 'description',
-        type: 'input'
     },
     {
         choices: useCases,
@@ -213,7 +219,7 @@ export const newRule = async (actions: CLIOptions): Promise<boolean> => {
         description: { string: '' },
         elementType: '',
         events: '',
-        isCore: false,
+        isRecommended: false,
         name: '',
         useCase: {
             dom: false,
@@ -230,7 +236,7 @@ export const newRule = async (actions: CLIOptions): Promise<boolean> => {
     rule.name = normalize(results.name, '-');
     rule.description = escapeSafeString(results.description);
     rule.category = results.category;
-    rule.isCore = results.isCore || true;
+    rule.isRecommended = results.recommended || false;
     rule.useCase[results.useCase] = true;
     rule.events = getEventsByUseCase(results.useCase);
 

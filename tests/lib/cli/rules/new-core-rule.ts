@@ -81,8 +81,8 @@ test.serial(`if core, 'generate' should call to write script, documentation, tes
         description: 'An important new rule',
         elementType: '',
         extension: '',
-        isCore: true,
         name: newRuleName,
+        recommended: true,
         useCase: 'request'
     };
 
@@ -121,8 +121,8 @@ test.serial(`The right script template should be used in 'generate'`, async (t) 
         description: 'An important new rule',
         elementType: '',
         extension: 'ts',
-        isCore: true,
         name: newRuleName,
+        recommended: true,
         useCase: 'request'
     };
 
@@ -149,8 +149,8 @@ test.serial(`Description contains quotes`, async (t) => {
         description: `This is a \`description\` that contains 'single quote' and "double qutoes"`,
         elementType: '',
         extension: 'ts',
-        isCore: true,
         name: newRuleName,
+        recommended: true,
         useCase: 'request'
     };
 
@@ -177,8 +177,8 @@ test.serial(`Throw an error if a new rule already exists when calling 'generate'
         description: 'An important new rule',
         elementType: '',
         extension: 'js',
-        isCore: true,
         name: existingRuleName,
+        recommended: true,
         useCase: 'request'
     };
 
