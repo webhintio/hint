@@ -1,6 +1,6 @@
-/* eslint sort-keys: 0, no-undefined: 0 */
+/* eslint sort-keys: 0 */
 
-import { IRuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import { IRuleTest } from '../../../helpers/rule-test-type';
 import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
 import * as ruleRunner from '../../../helpers/rule-runner';
 
@@ -12,7 +12,7 @@ const tests: Array<IRuleTest> = [
         serverConfig: 'HTML to use',
         reports: [{
             message: 'Message the error will have',
-            position: { column: 0, line: 0 } // Where the error will show.
+            position: { column: 0, line: 0 } // Where the error will appear
         }]
     }
 ];
