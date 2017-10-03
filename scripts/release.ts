@@ -123,25 +123,53 @@ const createRelease = async (version: string, releaseBody: string) => {
     }
 };
 
-const exec = (msg: string, cmd: string | Function): string => {
+const shellExec = (cmd: string): Promise<{ code: number, stderr: string, stdout: string }> => {
 
-    let result = '';
+    return new Promise((resolve, reject) => {
 
-    try {
-        result = typeof cmd === 'string' ? shell.exec(cmd).stdout : (cmd() || '');
-    } catch (e) {
-        console.error(chalk.red(`${msg}`));
-        console.error(e);
-        process.exit(1); // eslint-disable-line no-process-exit
-    }
+        shell.exec(cmd, (code, stdout, stderr) => {
+            if (code === 0) {
+                return resolve({ code, stderr, stdout });
+            }
 
-    console.log(chalk.green(`${msg}`));
-
-    return result.trim();
+            return reject({ code, stderr, stdout });
+        });
+    });
 };
 
-const extractDataFromCommit = (sha: string): Commit => {
-    const commitBodyLines = exec(`- Get commit data for: ${sha}.`, `git show --no-patch  --format=%B ${sha}`).split('\n');
+const exec = async (msg: string, cmd: string | Function): Promise<string> => { // eslint-disable-line consistent-return
+    if (typeof cmd === 'function') {
+        try {
+            const result = await cmd();
+
+            console.log(chalk.green(`${msg}`));
+
+            return result && result.trim && result.trim();
+        } catch (e) {
+            console.error(chalk.red(`${msg}`));
+            console.error(e);
+
+            return process.exit(1); // eslint-disable-line no-process-exit
+        }
+    }
+
+    try {
+        const { stdout, stderr = '' } = await shellExec(cmd);
+
+        console.log(chalk.green(`${msg}`));
+        console.log(chalk.red(`${stderr}`));
+
+        return stdout.trim();
+    } catch ({ stderr }) {
+        console.error(chalk.red(`${msg}`));
+        console.error(stderr);
+
+        process.exit(1); // eslint-disable-line no-process-exit
+    }
+};
+
+const extractDataFromCommit = async (sha: string): Promise<Commit> => {
+    const commitBodyLines = (await exec(`- Get commit data for: ${sha}.`, `git show --no-patch  --format=%B ${sha}`)).split('\n');
 
     const associatedIssues = [];
     const title = commitBodyLines[0];
@@ -214,14 +242,15 @@ const getChangelogData = (commits: Array<Commit>): ChangelogData => {
     };
 };
 
-const getCommitsSinceLastRelease = (): Array<Commit> => {
-    const commitSHAsSinceLastRelease = exec('Get commits since last releases.', `git rev-list master...${PKG.version}`).split('\n');
-
+const getCommitsSinceLastRelease = async (): Promise<Commit[]> => {
+    const commitSHAsSinceLastRelease = (await exec('Get commits since last releases.', `git rev-list master...${PKG.version}`)).split('\n');
     const commits = [];
 
-    commitSHAsSinceLastRelease.forEach((sha) => {
-        commits.push(extractDataFromCommit(sha));
-    });
+    for (const sha of commitSHAsSinceLastRelease) {
+        const data = await extractDataFromCommit(sha);
+
+        commits.push(data);
+    }
 
     return commits;
 };
@@ -255,24 +284,24 @@ const stopToUpdateChangelog = async (): Promise<boolean> => {
     return answer.shouldContinue;
 };
 
-const tagNewVersion = (version: string) => {
-    exec('Commit changes and tag a new version.', `git add -A && git commit -m "v${version}" && git tag -a "${version}" -m "v${version}"`);
+const tagNewVersion = async (version: string): Promise<void> => {
+    await exec('Commit changes and tag a new version.', `git add -A && git commit -m "v${version}" && git tag -a "${version}" -m "v${version}"`);
 };
 
-const updateFile = (filePath: string, content) => {
-    exec(`Update '${filePath}' file.`, () => {
+const updateFile = async (filePath: string, content): Promise<void> => {
+    await exec(`Update '${filePath}' file.`, () => {
         const writeContent = shell['ShellString']; // eslint-disable-line dot-notation
 
         writeContent(content).to(filePath);
     });
 };
 
-const updateChangelog = (changelogBody: string, version: string) => {
-    updateFile(CHANGELOG_FILE, `# ${version} (${getDate()})\n\n${changelogBody}\n${shell.cat(CHANGELOG_FILE)}`);
+const updateChangelog = async (changelogBody: string, version: string): Promise<void> => {
+    await updateFile(CHANGELOG_FILE, `# ${version} (${getDate()})\n\n${changelogBody}\n${shell.cat(CHANGELOG_FILE)}`);
 };
 
-const updatePackageJSON = (newVersion: SemVer): string => {
-    const version = exec('Update version number from `package.json` and `package-lock.json`.', `npm --quiet version ${newVersion} --no-git-tag-version`);
+const updatePackageJSON = async (newVersion: SemVer): Promise<string> => {
+    const version = await exec('Update version number from `package.json` and `package-lock.json`.', `npm --quiet version ${newVersion} --no-git-tag-version`);
 
     return version.substring(1, version.length);
 };
@@ -290,19 +319,17 @@ const updateSnykSnapshotJSONFile = async () => {
         process.exit(1); // eslint-disable-line no-process-exit
     }
 
-    updateFile(downloadLocation, res.body);
+    await updateFile(downloadLocation, res.body);
 
-    exec(`Commit updated version (if exists) of '${downloadLocation}'.`, `git reset HEAD && git add ${downloadLocation} && git diff --cached --quiet ${downloadLocation} || git commit -m "Update: \`snyk-snapshot.json\`"`);
-
+    await exec(`Commit updated version (if exists) of '${downloadLocation}'.`, `git reset HEAD && git add ${downloadLocation} && git diff --cached --quiet ${downloadLocation} || git commit -m "Update: \`snyk-snapshot.json\`"`);
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 const main = async () => {
-
     await updateSnykSnapshotJSONFile();
 
-    const commitSHAsSinceLastRelease = getCommitsSinceLastRelease();
+    const commitSHAsSinceLastRelease = await getCommitsSinceLastRelease();
     const { version: newVersion, body: changelogBody } = getChangelogData(commitSHAsSinceLastRelease);
 
     if (!changelogBody) {
@@ -310,10 +337,10 @@ const main = async () => {
     }
 
     // Update version in `package.json` and `package-lock.json`.
-    const version = updatePackageJSON(newVersion);
+    const version = await updatePackageJSON(newVersion);
 
     // Update changelog file.
-    updateChangelog(changelogBody, version);
+    await updateChangelog(changelogBody, version);
 
     // Allow users to tweak the changelog file.
     if ((await stopToUpdateChangelog()) === false) {
@@ -324,29 +351,29 @@ const main = async () => {
     await tagNewVersion(version);
 
     // Push changes upstreem.
-    exec('Push changes upstream.', `git push origin master "${version}"`);
+    await exec('Push changes upstream.', `git push origin master "${version}"`);
 
     // Extract the release notes from the updated changelog file.
-    const releaseNotes = await getReleaseNotes();
+    const releaseNotes = await exec('Get release notes', getReleaseNotes);
 
     // Create new release.
     await createRelease(version, releaseNotes);
 
     // Remove devDependencies, this will update `package-lock.json`.
     // Need to do so they aren't published on the `npm` package.
-    exec('Remove devDependencies', 'npm prune --production');
+    await exec('Remove devDependencies', 'npm prune --production');
 
     // Create shrinkwrap file.
     // (This is done because `npm` doesn't
     //  publish the `package-lock` file)
-    exec(`Create '${SHRINKWRAP_FILE}' `, 'npm shrinkwrap');
+    await exec(`Create '${SHRINKWRAP_FILE}' `, 'npm shrinkwrap');
 
     // Publish on `npm`.
-    exec('Publish on `npm`.', 'npm publish');
+    await exec('Publish on `npm`.', 'npm publish');
 
     // Restore the package lock file and delete shrinkwrap
     shell.rm(SHRINKWRAP_FILE);
-    exec(`Restore ${PACKAGE_LOCK_FILE}`, `git checkout ${PACKAGE_LOCK_FILE}`);
+    await exec(`Restore ${PACKAGE_LOCK_FILE}`, `git checkout ${PACKAGE_LOCK_FILE}`);
 };
 
 main();

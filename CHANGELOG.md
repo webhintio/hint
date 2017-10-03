@@ -1,3 +1,20 @@
+# 0.10.0 (October 3, 2017)
+
+## Bug fixes / Improvements
+
+* [[`f5c0218bdf`](https://github.com/sonarwhal/sonar/commit/f5c0218bdf5ef85921f032edece6c903abda9d07)] - Fix: Update `new-core-rule` templates (see also: [`#551`](https://github.com/sonarwhal/sonar/issues/551)).
+* [[`f2e500d16b`](https://github.com/sonarwhal/sonar/commit/f2e500d16b4ff5c690e84b67811ec7dd319a675c)] - Fix: New version notifications handling (see also: [`#507`](https://github.com/sonarwhal/sonar/issues/507)).
+* [[`bb17fbbc2b`](https://github.com/sonarwhal/sonar/commit/bb17fbbc2b9e92fc6e5bf705da1dbf75da828971)] - Fix: Don't show help after analyzing site (see also: [`#553`](https://github.com/sonarwhal/sonar/issues/553)).
+* [[`f6dae7cfe2`](https://github.com/sonarwhal/sonar/commit/f6dae7cfe21068b56f6e7d9b9a9156943980545c)] - Fix: Property name for new tab url.
+* [[`718f7198ac`](https://github.com/sonarwhal/sonar/commit/718f7198ac1bf0624fb9a13a3bc71445942c9f40)] - Fix: Make tests more reliable and faster (see also: [`#502`](https://github.com/sonarwhal/sonar/issues/502)).
+
+## New features
+
+* [[`62a52a66a4`](https://github.com/sonarwhal/sonar/commit/62a52a66a409adc106dc0f7100b4a38253a95f82)] - New: Make viewport rule work with `viewport-fit` (see also: [`#557`](https://github.com/sonarwhal/sonar/issues/557)).
+* [[`01fbe5ee9c`](https://github.com/sonarwhal/sonar/commit/01fbe5ee9cc2d8c9e93f61ddfbfc47cd41e9faae)] - New: Add `amp-validator` rule (see also: [`#545`](https://github.com/sonarwhal/sonar/issues/545)).
+* [[`67553dce6c`](https://github.com/sonarwhal/sonar/commit/67553dce6c0c390b561cca0d44aa0bf8a07e7515)] - New: Add option to create external rule (see also: [`#528`](https://github.com/sonarwhal/sonar/issues/528)).
+
+
 # 0.9.0 (September 27, 2017)
 
 ## Breaking Changes
