@@ -85,7 +85,7 @@
     "@types/node": "^8.0.14",
     "@types/request": "^2.0.3",
     "@types/semver": "^5.4.0",
-    "@types/shelljs": "^0.7.2",
+    "@types/shelljs": "^0.7.4",
     "@types/sinon": "^2.3.5",
     "@types/update-notifier": "^1.0.2",
     "@types/user-home": "^2.0.0",
