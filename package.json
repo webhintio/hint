@@ -38,7 +38,7 @@
     "is-resolvable": "^1.0.0",
     "is-svg": "^2.1.0",
     "js-library-detector": "^4.1.0",
-    "jsdom": "11.1.0",
+    "jsdom": "^11.3.0",
     "json-stable-stringify": "^1.0.1",
     "lockfile": "^1.0.3",
     "lodash": "^4.17.4",
@@ -133,7 +133,6 @@
     "ignore": [
       "angular",
       "jquery",
-      "jsdom",
       "knockout",
       "moment"
     ]
@@ -180,7 +179,7 @@
     "lint:js": "eslint --report-unused-disable-directives --ext md --ext ts --ignore-pattern dist .",
     "lint:md": "markdownlint docs",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
-    "release": "npm i && npm run test && node dist/scripts/release.js",
+    "release": "npm i && npm run build && node dist/scripts/release.js",
     "site": "node dist/src/bin/sonar",
     "test": "npm run lint && npm run commitmsg && npm run build && nyc ava",
     "test-on-travis": "npm run lint && npm run commitmsg && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
