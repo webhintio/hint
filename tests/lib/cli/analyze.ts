@@ -105,6 +105,7 @@ test.serial('If config file does not exist, it should create a configuration fil
     t.true(t.context.inquirer.prompt.calledOnce);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
     t.true(t.context.generator.initSonarrc.calledOnce);
+    t.deepEqual(t.context.generator.initSonarrc.firstCall.args[0], { init: true });
 });
 
 test.serial('If config file does not exist and user refuses to create a configuration file, it should exit with code 1', async (t) => {

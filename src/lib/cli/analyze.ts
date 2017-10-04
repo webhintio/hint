@@ -29,14 +29,14 @@ const confirmLaunchInit = (): inquirer.Answers => {
     return inquirer.prompt(question);
 };
 
-const askUserToCreateConfig = async (actions: CLIOptions) => {
+const askUserToCreateConfig = async () => {
     const launchInit: inquirer.Answers = await confirmLaunchInit();
 
     if (!launchInit.confirm) {
         return false;
     }
 
-    await initSonarrc(actions);
+    await initSonarrc({init: true} as CLIOptions);
     logger.log(`Configuration file .sonarrc was created.`);
 
     return true;
@@ -51,7 +51,7 @@ const tryToLoadConfig = async (actions: CLIOptions) => {
         config = Config.load(configPath);
     } catch (e) {
         logger.log(`Couldn't load a valid configuration file in ${configPath}.`);
-        const created = await askUserToCreateConfig(actions);
+        const created = await askUserToCreateConfig();
 
         if (created) {
             config = await tryToLoadConfig(actions);
