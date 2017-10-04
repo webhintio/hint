@@ -1,3 +1,10 @@
+# 0.10.1 (October 4, 2017)
+
+## Bug fixes / Improvements
+
+* [[`2918e04ce7`](https://github.com/sonarwhal/sonar/commit/2918e04ce7a21381cacee03ffe373a3bc276bb54)] - Fix: Generate correctly the `.sonarrc` file if not found (see also: [`#562`](https://github.com/sonarwhal/sonar/issues/562)).
+
+
 # 0.10.0 (October 3, 2017)
 
 ## Bug fixes / Improvements
