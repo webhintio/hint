@@ -11,7 +11,8 @@
             "esnext.asynciterable",
             "dom",
             "dom.iterable"
-        ]
+        ],
+        "newLine": "lf"
     },
     "exclude": [
         "node_modules"
