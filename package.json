@@ -172,7 +172,7 @@
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
     "build:assets": "cpx \"./{scripts,src,tests}/**/{!(*.ts),.!(ts)}\" dist",
-    "build:ts": "tsc --outDir dist",
+    "build:ts": "tsc --outDir dist --newLine lf",
     "clean": "rimraf dist",
     "commitmsg": "node scripts/check-commit-message.js",
     "lint": "npm-run-all lint:*",
