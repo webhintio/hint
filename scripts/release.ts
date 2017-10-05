@@ -363,11 +363,6 @@ const main = async () => {
 
     // Remove devDependencies, this will update `package-lock.json`.
     // Need to do so they aren't published on the `npm` package.
-
-    // On some windows environments there's an error when prunning typescript.
-    // We bypass that by removing the `.bin` folder before
-    shell.rm('node_modules/.bin/*');
-
     await exec('Remove devDependencies', 'npm prune --production');
 
     // Create shrinkwrap file.
