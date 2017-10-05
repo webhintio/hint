@@ -1,3 +1,10 @@
+# 0.10.2 (October 5, 2017)
+
+## Bug fixes / Improvements
+
+* [[`8da2e2da12`](https://github.com/sonarwhal/sonar/commit/8da2e2da1296098146095849d59bdf7b56eabc18)] - Fix: Redo last release in order to fix the `node\r` related issue (see also: [`#564`](https://github.com/sonarwhal/sonar/issues/564)).
+
+
 # 0.10.1 (October 4, 2017)
 
 ## Bug fixes / Improvements
