@@ -116,8 +116,15 @@ const rule: IRuleBuilder = {
             if (!typeAttribute ||
                 validJavaScriptMediaTypes.includes(typeAttribute) ||
                 typeAttribute === 'module') {
-                // https://tools.ietf.org/html/rfc4329#page-10
-                return 'application/javascript';
+
+                // From https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages
+                //
+                // "Servers should use `text/javascript` for JavaScript
+                //  resources. Servers should not use other JavaScript
+                //  MIME types for JavaScript resources, and must not
+                //  use non-JavaScript MIME types. "
+
+                return 'text/javascript';
             }
 
             return null;

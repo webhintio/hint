@@ -85,7 +85,7 @@ const testsForDefaults: Array<IRuleTest> = [
         reports: [{ message: invalidParameterFormatMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
-            '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=inva/id' } }
+            '/test.js': { headers: { 'Content-Type': 'text/javascript; charset=inva/id' } }
         }
     },
 
@@ -108,7 +108,7 @@ const testsForDefaults: Array<IRuleTest> = [
         reports: [{ message: noCharsetMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
-            '/test.js': { headers: { 'Content-Type': 'application/javascript' } }
+            '/test.js': { headers: { 'Content-Type': 'text/javascript' } }
         }
     },
 
@@ -140,7 +140,7 @@ const testsForDefaults: Array<IRuleTest> = [
         reports: [{ message: incorrectCharsetMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
-            '/test.js': { headers: { 'Content-Type': 'application/javascript;charset=iso-8859-1' } }
+            '/test.js': { headers: { 'Content-Type': 'text/javascript;charset=iso-8859-1' } }
         }
     },
 
@@ -194,15 +194,15 @@ const testsForDefaults: Array<IRuleTest> = [
     },
     {
         name: `Script is served with 'Content-Type' header with the wrong media type`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/javascript') }],
+        reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'application/javascript') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
-            '/test.js': { headers: { 'Content-Type': 'text/javascript; charset=utf-8' } }
+            '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }
         }
     },
     {
         name: `Script is served with 'Content-Type' header with the wrong media type (has wrong file extension)`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/css') }],
+        reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/css') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.css"></script>')),
             '/test.css': { headers: { 'Content-Type': 'text/css; charset=utf-8' } }
@@ -210,7 +210,7 @@ const testsForDefaults: Array<IRuleTest> = [
     },
     {
         name: `Script is served with 'Content-Type' header with the wrong media type (has empty 'type' attribute)`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
+        reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type src="test"></script>')),
             '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
@@ -218,7 +218,7 @@ const testsForDefaults: Array<IRuleTest> = [
     },
     {
         name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/javascript')`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
+        reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/javascript" src="test"></script>')),
             '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
@@ -227,7 +227,7 @@ const testsForDefaults: Array<IRuleTest> = [
     // TODO: Enable once Chrome has support for modules without a flag (https://www.chromestatus.com/feature/5365692190687232)
     // {
     //     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=module')`,
-    //     reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
+    //     reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
     //     serverConfig: {
     //         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="module" src="test"></script>')),
     //         '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
@@ -236,7 +236,7 @@ const testsForDefaults: Array<IRuleTest> = [
     // TODO: Chrome will not download if it doesn't like the type: https://github.com/sonarwahl/sonar/pull/245#discussion_r120083650, #250
     // {
     //     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'js' file extension)`,
-    //     reports: [{ message: generateIncorrectMediaTypeMessage('application/javascript', 'text/plain') }],
+    //     reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
     //     serverConfig: {
     //         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.js"></script>')),
     //         '/test.js': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
@@ -305,7 +305,7 @@ const testsForDefaults: Array<IRuleTest> = [
         name: `Script is served with correct value for 'Content-Type' header`,
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
-            '/test.js': { headers: { 'content-type': '   application/JavaScript;   Charset=UTF-8' } }
+            '/test.js': { headers: { 'content-type': '   Text/JavaScript;   Charset=UTF-8' } }
         }
     }
 ];
@@ -313,10 +313,10 @@ const testsForDefaults: Array<IRuleTest> = [
 const testsForConfigs: Array<IRuleTest> = [
     {
         name: `Script is served with 'Content-Type' header with the correct media type but wrong because of the custom config`,
-        reports: [{ message: generateRequireValueMessage('text/javascript') }],
+        reports: [{ message: generateRequireValueMessage('application/javascript') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test.js"></script>`)),
-            '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }
+            '/test.js': { headers: { 'Content-Type': 'text/javascript; charset=utf-8' } }
         }
     },
     {
@@ -324,7 +324,7 @@ const testsForConfigs: Array<IRuleTest> = [
         reports: [{ message: generateRequireValueMessage('application/x-javascript; charset=utf-8') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test/test2.js"></script>`)),
-            '/test/test2.js': { headers: { 'Content-Type': 'text/javascript' } }
+            '/test/test2.js': { headers: { 'Content-Type': 'application/javascript' } }
         }
     },
     {
@@ -339,7 +339,7 @@ const testsForConfigs: Array<IRuleTest> = [
 ruleRunner.testRule(ruleName, testsForDefaults);
 ruleRunner.testRule(ruleName, testsForConfigs, {
     ruleOptions: {
-        '.*\\.js': 'text/javascript',
+        '.*\\.js': 'application/javascript',
         'test/test2\\.js': 'application/x-javascript; charset=utf-8',
         'test3\\.js': 'application/x-javascript'
     }

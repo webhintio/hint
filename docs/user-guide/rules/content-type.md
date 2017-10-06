@@ -103,7 +103,7 @@ For `/example.js`
 HTTP/... 200 OK
 
 ...
-Content-Type: application/javascript; charset=utf-8
+Content-Type: text/javascript; charset=utf-8
 ```
 
 ## Can the rule be configured?
@@ -117,11 +117,11 @@ for which those values should be required.
 E.g. The following configuration will make `sonar` require that
 all resources requested from a URL that matches the regular expression
 `.*\.js` be served with a `Content-Type` header with the value of
-`text/javascript; charset=utf-8`.
+`application/javascript; charset=utf-8`.
 
 ```json
 "content-type": [ "warning", {
-    ".*\\.js": "text/javascript; charset=utf-8"
+    ".*\\.js": "application/javascript; charset=utf-8"
 }]
 ```
 
