@@ -12,14 +12,13 @@ import * as onHeaders from 'on-headers';
 
 export type ServerConfiguration = string | object; //eslint-disable-line
 
-const startPort = _.random(3000, 65000);
 const maxPort = 65535;
 
 /** A testing server for Sonar rules */
 export class Server {
     private _app;
     private _server: https.Server | http.Server;
-    private _port: number = startPort;
+    private _port: number = _.random(3000, 65000);
     private _isHTTPS: boolean;
 
     public constructor(isHTTPS?: boolean) {
@@ -141,13 +140,15 @@ export class Server {
 
             // TODO: need to find a way to cast `err` to a [System Error](https://nodejs.org/dist/latest-v7.x/docs/api/errors.html#errors_system_errors)
             this._server.on('error', (err: any) => {
-                if (err.code === 'EADDRINUSE') {
-                    this._port++;
-                    if (this._port > maxPort) {
-                        // We start in the initial port again, some must be available
-                        this._port = startPort;
-                    }
-                    this._server.listen(this._port);
+                if (err.code === 'EADDRINUSE' || err.code === 'EACCES') {
+                    setImmediate(() => {
+                        this._port++;
+                        if (this._port > maxPort) {
+                            this._port = _.random(3000, 65000);
+                        }
+                        this._server.close();
+                        this._server.listen(this._port);
+                    });
                 } else {
                     reject(err);
                 }

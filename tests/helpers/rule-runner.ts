@@ -76,7 +76,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
         const { server } = t.context;
 
         if (!reports) {
-            return t.is(results.length, 0);
+            return t.is(results.length, 0, `Received results is ${JSON.stringify(results, null, 2)}`);
         }
 
         if (results.length === 0) {
