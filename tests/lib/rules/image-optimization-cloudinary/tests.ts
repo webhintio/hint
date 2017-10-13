@@ -65,18 +65,7 @@ const mockCloudinary = (responses) => {
     mock('cloudinary', mockedModule);
 };
 
-
 const tests: Array<IRuleTest> = [
-    {
-        before() {
-            mockCloudinary(noSavings);
-        },
-        name: 'optimized SVG',
-        serverConfig: {
-            '/': generateHTMLPage('', `<img src="space-nellie.svg">`),
-            '/space-nellie.svg': generateImageData(svg, 'image/svg+xml')
-        }
-    },
     {
         before() {
             mockCloudinary(savings50);
@@ -86,6 +75,16 @@ const tests: Array<IRuleTest> = [
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png">`),
             '/nellie-studying.png': generateImageData(png, 'image/png')
+        }
+    },
+    {
+        before() {
+            mockCloudinary(noSavings);
+        },
+        name: 'optimized SVG',
+        serverConfig: {
+            '/': generateHTMLPage('', `<img src="space-nellie.svg">`),
+            '/space-nellie.svg': generateImageData(svg, 'image/svg+xml')
         }
     }
 ];
@@ -116,11 +115,13 @@ const testThresholds: Array<IRuleTest> = [
 ];
 
 ruleRunner.testRule(ruleName, testThresholds, {
+    ignoredConnectors: ['chrome'],
     ruleOptions: { apiKey: 'fakeApiName', apiSecret: 'fakeApiSecret', cloudName: 'fakeCloudName', threshold: 150 },
     serial: true
 });
 
 ruleRunner.testRule(ruleName, tests, {
+    ignoredConnectors: ['chrome'],
     ruleOptions: { apiKey: 'fakeApiName', apiSecret: 'fakeApiSecret', cloudName: 'fakeCloudName' },
     serial: true
 });

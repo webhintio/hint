@@ -63,6 +63,10 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
      * a different server and sonar object for each one 
      */
     test.beforeEach(async (t) => {
+        // When running serial tests, the server is shared
+        if (typeof t.context.server !== 'undefined') {
+            return;
+        }
         t.context.server = createServer(configs.https);
         await t.context.server.start();
     });
@@ -141,16 +145,22 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
                 console.log(`[${connector}] ${ruleTest.name} - try ${attemp}`);
             }
 
-            const { server } = t.context;
-            const { serverUrl, reports } = ruleTest;
-            const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
+            try {
+                const { server } = t.context;
+                const { serverUrl, reports } = ruleTest;
+                const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
 
-            const sonar = await createConnector(t, ruleTest, connector, attemp);
-            const results = await sonar.executeOn(url.parse(target));
+                const sonar = await createConnector(t, ruleTest, connector, attemp);
+                const results = await sonar.executeOn(url.parse(target));
 
-            await stopConnector(ruleTest, sonar);
+                await stopConnector(ruleTest, sonar);
 
-            return validateResults(t, results, reports);
+                return validateResults(t, results, reports);
+            } catch (e) {
+                console.error(e);
+
+                return false;
+            }
         },
         {
             minTimeout: 10000,
