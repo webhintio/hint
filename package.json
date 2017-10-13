@@ -179,6 +179,7 @@
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint --report-unused-disable-directives --ext md --ext ts --ignore-pattern dist .",
     "lint:md": "markdownlint docs",
+    "nyc": "nyc ava \"dist/tests/lib/rules/cloudinary/**/*.js\" --concurrency=2 --timeout=2m --debug",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
     "release": "npm i && npm run test && node dist/scripts/release.js",
     "site": "node dist/src/bin/sonar",

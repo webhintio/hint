@@ -140,6 +140,8 @@ export class Server {
 
             // TODO: need to find a way to cast `err` to a [System Error](https://nodejs.org/dist/latest-v7.x/docs/api/errors.html#errors_system_errors)
             this._server.on('error', (err: any) => {
+                console.error(err.code);
+
                 if (err.code === 'EADDRINUSE' || err.code === 'EACCES') {
                     setImmediate(() => {
                         this._port++;
@@ -154,7 +156,10 @@ export class Server {
                 }
             });
 
-            this._server.once('listening', resolve);
+            this._server.once('listening', () => {
+                console.log(`Listening on ${this._port}`);
+                resolve();
+            });
 
             this._server.listen(this._port);
         });
