@@ -26,14 +26,18 @@ type cloudinaryResult = {
 };
 /* eslint-enable camelcase */
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
-        /* HACK: Need to do a require here in order to be capable of mocking
-           when testing the rule and `import` doesn't work here. */
+        /*
+         * HACK: Need to do a require here in order to be capable of mocking
+         *when testing the rule and `import` doesn't work here. 
+         */
         const cloudinary = require('cloudinary');
         const uploads: Array<Promise<cloudinaryResult>> = [];
         let configured = false;
@@ -44,8 +48,10 @@ const rule: IRuleBuilder = {
         /** Sends the image to cloudinary to identify optimizations on size and format. */
         const processImage = (data: IFetchEnd): Promise<cloudinaryResult> => {
 
-            // Using the md5 hash of the file is the recommended way to avoid duplicates
-            // https://support.cloudinary.com/hc/en-us/articles/208158309-How-can-I-completely-prevent-the-existence-of-image-duplications-on-my-Cloudinary-account-
+            /*
+             * Using the md5 hash of the file is the recommended way to avoid duplicates
+             * https://support.cloudinary.com/hc/en-us/articles/208158309-How-can-I-completely-prevent-the-existence-of-image-duplications-on-my-Cloudinary-account-
+             */
             const hash = crypto
                 .createHash('md5')
                 .update(data.response.body.rawContent)
