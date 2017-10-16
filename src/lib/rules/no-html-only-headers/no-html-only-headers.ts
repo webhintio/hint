@@ -3,9 +3,11 @@
  * unneeded HTTP headers.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as pluralize from 'pluralize';
 
@@ -18,9 +20,11 @@ import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -45,30 +49,36 @@ const rule: IRuleBuilder = {
             const contentTypeHeader: string = response.headers['content-type'];
             const mediaType: string = contentTypeHeader ? contentTypeHeader.split(';')[0].trim() : '';
 
-            // By default, browsers will treat resource sent with the
-            // following media types as HTML documents.
+            /*
+             * By default, browsers will treat resource sent with the
+             * following media types as HTML documents.
+             */
 
             if (['text/html', 'application/xhtml+xml'].includes(mediaType)) {
                 return true;
             }
 
-            // That is not the situation for other cases where the media
-            // type is in the form of `<type>/<subtype>`.
+            /*
+             * That is not the situation for other cases where the media
+             * type is in the form of `<type>/<subtype>`.
+             */
 
             if (mediaType.indexOf('/') > 0) {
                 return false;
             }
 
-            // If the media type is not specified or invalid, browser
-            // will try to sniff the content.
-            //
-            // https://mimesniff.spec.whatwg.org/
-            //
-            // At this point, even if browsers may decide to treat
-            // the content as a HTML document, things are obviously
-            // not done correctly, so the decision was to not try to
-            // also sniff the content, and instead, just signal this
-            // as a problem.
+            /*
+             * If the media type is not specified or invalid, browser
+             * will try to sniff the content.
+             *
+             * https://mimesniff.spec.whatwg.org/
+             *
+             * At this point, even if browsers may decide to treat
+             * the content as a HTML document, things are obviously
+             * not done correctly, so the decision was to not try to
+             * also sniff the content, and instead, just signal this
+             * as a problem.
+             */
 
             return false;
         };

@@ -3,9 +3,11 @@
  * and `short_name` member with appropriate values.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 const { ucs2 } = require('punycode');
 
@@ -16,9 +18,11 @@ import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -66,31 +70,35 @@ const rule: IRuleBuilder = {
 
             const name = jsonContent.name;
 
-            // The 30 character limit is used in order to be consistent
-            // with the native OSes/app stores limits/recommendations.
-            //
-            // https://developer.apple.com/app-store/product-page/
-            // https://support.google.com/googleplay/android-developer/answer/113469#store_listing
+            /*
+             * The 30 character limit is used in order to be consistent
+             * with the native OSes/app stores limits/recommendations.
+             *
+             * https://developer.apple.com/app-store/product-page/
+             * https://support.google.com/googleplay/android-developer/answer/113469#store_listing
+             */
 
             const nameLengthLimit = 30;
 
-            // The 12 character limit is used to ensure that for most
-            // cases the value won't be truncated. However depending
-            // on other things such as:
-            //
-            //  * what font the user is using
-            //  * what characters the web site/app name includes
-            //    (e.g. `i` occupies less space then `W`)
-            //
-            //  the text may still be truncated even if it's under
-            //  12 characters.
-            //
-            //  https://github.com/sonarwhal/sonar/issues/136
-            //
-            //  Note: This is also consistent with what the Chrome team
-            //  used to, and still recommends.
-            //
-            //  https://developer.chrome.com/apps/manifest/name#short_name
+            /*
+             * The 12 character limit is used to ensure that for most
+             * cases the value won't be truncated. However depending
+             * on other things such as:
+             *
+             *  * what font the user is using
+             *  * what characters the web site/app name includes
+             *    (e.g. `i` occupies less space then `W`)
+             *
+             *  the text may still be truncated even if it's under
+             *  12 characters.
+             *
+             *  https://github.com/sonarwhal/sonar/issues/136
+             *
+             *  Note: This is also consistent with what the Chrome team
+             *  used to, and still recommends.
+             *
+             *  https://developer.chrome.com/apps/manifest/name#short_name
+             */
 
             const shortNameLengthLimit = 12;
 
@@ -101,10 +109,12 @@ const rule: IRuleBuilder = {
             const shortName = jsonContent.short_name;
             const shortNameIsRequired = name && (name.trim() !== '') && (ucs2.decode(name).length > shortNameLengthLimit);
 
-            // Validate 'short_name' if:
-            //
-            //  * it's specified
-            //  * if `name` is over the `short_name` length limit
+            /*
+             * Validate 'short_name' if:
+             *
+             *  * it's specified
+             *  * if `name` is over the `short_name` length limit
+             */
 
             if (!shortName && !shortNameIsRequired) {
                 return;

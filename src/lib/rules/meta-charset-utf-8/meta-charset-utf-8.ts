@@ -3,26 +3,32 @@
  * as the first thing in `<head>`.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import { Category } from '../../enums/category';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from '../../types';
 import { isHTMLDocument, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context';
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        // This function exists because not all connector (e.g.: jsdom)
-        // support matching attribute values case-insensitively.
-        //
-        // https://www.w3.org/TR/selectors4/#attribute-case
+        /*
+         * This function exists because not all connector (e.g.: jsdom)
+         * support matching attribute values case-insensitively.
+         *
+         * https://www.w3.org/TR/selectors4/#attribute-case
+         */
 
         const getCharsetMetaTags = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
             return elements.filter((element) => {
@@ -41,16 +47,18 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            // There are 2 versions of the charset meta tag:
-            //
-            //  * <meta charset="<charset">
-            //  * <meta http-equiv="content-type" content="text/html; charset=<charset>">
-            //
-            // Also, there is a XML declaration:
-            //
-            //  * <?xml version="1.0" encoding="<charset>"?>
-            //
-            // but for regular HTML, it should not be used.
+            /*
+             * There are 2 versions of the charset meta tag:
+             *
+             *  * <meta charset="<charset">
+             *  * <meta http-equiv="content-type" content="text/html; charset=<charset>">
+             *
+             * Also, there is a XML declaration:
+             *
+             *  * <?xml version="1.0" encoding="<charset>"?>
+             *
+             * but for regular HTML, it should not be used.
+             */
 
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
             const charsetMetaTags: Array<IAsyncHTMLElement> = getCharsetMetaTags(await pageDOM.querySelectorAll('meta'));
@@ -61,8 +69,10 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            // Treat the first charset meta tag as the one
-            // the user intended to use, and check if it's:
+            /*
+             * Treat the first charset meta tag as the one
+             * the user intended to use, and check if it's:
+             */
 
             const charsetMetaTag: IAsyncHTMLElement = charsetMetaTags[0];
 
@@ -74,11 +84,13 @@ const rule: IRuleBuilder = {
                 await context.report(resource, charsetMetaTag, `The value of 'charset' is not 'utf-8'`);
             }
 
-            // * specified as the first thing in `<head>`
-            //
-            // Note: The Charset meta tag should be included completely
-            //       within the first 1024 bytes of the document, but
-            //       that check will be done by the html/markup validator.
+            /*
+             * * specified as the first thing in `<head>`
+             *
+             * Note: The Charset meta tag should be included completely
+             *       within the first 1024 bytes of the document, but
+             *       that check will be done by the html/markup validator.
+             */
 
             const firstHeadElement: IAsyncHTMLElement = (await pageDOM.querySelectorAll('head :first-child'))[0];
             const headElementContent: string = await (await pageDOM.querySelectorAll('head'))[0].outerHTML();
@@ -108,14 +120,15 @@ const rule: IRuleBuilder = {
                 }
             }
 
-            // Same goes for the XML declaration.
-            // TODO: Enable it once `jsdom` returns the correct content
-
-            // const xmlDeclaration = context.pageContent.match(/^\s*(<\?xml\s[^>]*encoding=.*\?>)/i);
-            //
-            // if (xmlDeclaration) {
-            //     await context.report(resource, null, `Unneeded XML declaration: '${xmlDeclaration[1]}'`);
-            // }
+            /*
+             * Same goes for the XML declaration.
+             * TODO: Enable it once `jsdom` returns the correct content
+             * const xmlDeclaration = context.pageContent.match(/^\s*(<\?xml\s[^>]*encoding=.*\?>)/i);
+             *
+             * if (xmlDeclaration) {
+             *     await context.report(resource, null, `Unneeded XML declaration: '${xmlDeclaration[1]}'`);
+             * }
+             */
         };
 
         return { 'traverse::end': validate };

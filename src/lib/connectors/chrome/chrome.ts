@@ -2,11 +2,13 @@
  * @fileoverview Connector that uses the Chrome Debugging protocol to
  * load a site and do the traversing. It also uses [request](https:/github.com/request/request)
  * to download the external resources (JS, CSS, images).
-*/
+ */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import { Connector } from '../debugging-protocol-common/debugging-protocol-connector';
 import { IConnector, IConnectorBuilder, ILauncher } from '../../types';

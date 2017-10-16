@@ -15,35 +15,41 @@ import { RuleContext } from '../../rule-context';
 
 const debug: debug.IDebugger = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        // This function exists because not all connector (e.g.: jsdom)
-        // support matching attribute values case-insensitively.
-        //
-        // https://www.w3.org/TR/selectors4/#attribute-case
+        /*
+         * This function exists because not all connector (e.g.: jsdom)
+         * support matching attribute values case-insensitively.
+         *
+         * https://www.w3.org/TR/selectors4/#attribute-case
+         */
 
         const getAppleTouchIcons = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
             return elements.filter((element) => {
 
-                // `apple-touch-icon`s can be defined either by using:
-                //
-                //      <link rel="apple-touch-icon" href="...">
-                //
-                //  or
-                //
-                //      <link rel="apple-touch-icon-precomposed" href="...">
-                //
-                //  or, since the `rel` attribute accepts a space
-                //  separated list of values in HTML, theoretically:
-                //
-                //      <link rel="apple-touch-icon-precomposed apple-touch-icon" href="...">
-                //
-                //  but that doesn't work in practice.
+                /*
+                 * `apple-touch-icon`s can be defined either by using:
+                 *
+                 *      <link rel="apple-touch-icon" href="...">
+                 *
+                 *  or
+                 *
+                 *      <link rel="apple-touch-icon-precomposed" href="...">
+                 *
+                 *  or, since the `rel` attribute accepts a space
+                 *  separated list of values in HTML, theoretically:
+                 *
+                 *      <link rel="apple-touch-icon-precomposed apple-touch-icon" href="...">
+                 *
+                 *  but that doesn't work in practice.
+                 */
 
                 const relValue = element.getAttribute('rel');
 
@@ -60,8 +66,10 @@ const rule: IRuleBuilder = {
         const checkImage = async (appleTouchIcon: IAsyncHTMLElement, resource: string) => {
             const appleTouchIconHref = normalizeString(appleTouchIcon.getAttribute('href'));
 
-            // Check if `href` doesn't exist, or it has the
-            // value of empty string.
+            /*
+             * Check if `href` doesn't exist, or it has the
+             * value of empty string.
+             */
 
             if (!appleTouchIconHref) {
                 await context.report(resource, appleTouchIcon, `'apple-touch-icon' should have non-empty 'href' attribute`);
@@ -69,9 +77,10 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // The following checks don't make sense for non-HTTP(S).
+            /*
+             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+             * The following checks don't make sense for non-HTTP(S).
+             */
 
             if (!isRegularProtocol(resource)) {
                 return;
@@ -81,8 +90,10 @@ const rule: IRuleBuilder = {
 
             let appleTouchIconURL = '';
 
-            // If `href` exists and is not an empty string, try
-            // to figure out the full URL of the `apple-touch-icon`.
+            /*
+             * If `href` exists and is not an empty string, try
+             * to figure out the full URL of the `apple-touch-icon`.
+             */
 
             if (url.parse(appleTouchIconHref).protocol) {
                 appleTouchIconURL = appleTouchIconHref;
@@ -94,8 +105,10 @@ const rule: IRuleBuilder = {
 
             let networkData: INetworkData;
 
-            // Try to see if the `apple-touch-icon` file actually
-            // exists and is accesible.
+            /*
+             * Try to see if the `apple-touch-icon` file actually
+             * exists and is accesible.
+             */
 
             try {
                 networkData = await context.fetchContent(appleTouchIconURL);
@@ -118,16 +131,18 @@ const rule: IRuleBuilder = {
 
             let image;
 
-            // Notes:
-            //
-            //  * Async version of `image-size` doesn't work if the
-            //    input is a Buffer.
-            //
-            //    https://github.com/image-size/image-size/tree/4c527ba608d742fbb29f6d9b3c77b831b069cbb2#asynchronous
-            //
-            // * `image-size` will throw a `TypeError` error if it does
-            //    not understand the file type or the image is invalid
-            //    or corrupted.
+            /*
+             * Notes:
+             *
+             *  * Async version of `image-size` doesn't work if the
+             *    input is a Buffer.
+             *
+             *    https://github.com/image-size/image-size/tree/4c527ba608d742fbb29f6d9b3c77b831b069cbb2#asynchronous
+             *
+             * * `image-size` will throw a `TypeError` error if it does
+             *    not understand the file type or the image is invalid
+             *    or corrupted.
+             */
 
             try {
                 image = getImageData(response.body.rawContent);
@@ -158,20 +173,22 @@ const rule: IRuleBuilder = {
 
         const chooseBestIcon = (icons: Array<IAsyncHTMLElement>): IAsyncHTMLElement => {
 
-            // Site will usually have something such as:
-            //
-            // <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
-            // <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
-            // <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
-            // <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
-            // <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
-            // <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
-            // <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
-            // <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
-            // <link rel="apple-touch-icon" href="/apple-touch-icon-57x57.png">
-            //
-            // so what this function will try to do is select the
-            // icon that will most likely generate the fewest errors.
+            /*
+             * Site will usually have something such as:
+             *
+             * <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+             * <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+             * <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+             * <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+             * <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+             * <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+             * <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+             * <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+             * <link rel="apple-touch-icon" href="/apple-touch-icon-57x57.png">
+             *
+             * so what this function will try to do is select the
+             * icon that will most likely generate the fewest errors.
+             */
 
             let bestIcon;
 
@@ -209,45 +226,50 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // Choose the icon that will most likely
-            // pass most of the following tests.
+            /*
+             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+             * Choose the icon that will most likely
+             * pass most of the following tests.
+             */
 
             const appleTouchIcon: IAsyncHTMLElement = chooseBestIcon(appleTouchIcons);
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // Check if `rel='apple-touch-icon'`.
-            // See `getAppleTouchIcons` function for more details.
+            /*
+             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+             * Check if `rel='apple-touch-icon'`.
+             * See `getAppleTouchIcons` function for more details.
+             */
 
             if (normalizeString(appleTouchIcon.getAttribute('rel')) !== 'apple-touch-icon') {
                 await context.report(resource, appleTouchIcon, `'rel' attribute value should be 'apple-touch-icon'`);
             }
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // Since we are recommending just one icon, the `sizes`
-            // attribute is not needed. Also, pre-4.2 versions of iOS
-            // ignore the `sizes` attribute.
-            //
-            // https://mathiasbynens.be/notes/touch-icons
-            // https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes
+            /*
+             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+             * Since we are recommending just one icon, the `sizes`
+             * attribute is not needed. Also, pre-4.2 versions of iOS
+             * ignore the `sizes` attribute.
+             *
+             * https://mathiasbynens.be/notes/touch-icons
+             * https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes
+             */
 
             if (appleTouchIcon.getAttribute('sizes')) {
                 await context.report(resource, appleTouchIcon, `'sizes' attribute is not needed`);
             }
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // Check if the `apple-touch-icon` exists, is the right
-            // image format, the right size, etc.
+            /*
+             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+             * Check if the `apple-touch-icon` exists, is the right
+             * image format, the right size, etc.
+             */
 
             await checkImage(appleTouchIcon, resource);
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // Check if the `apple-touch-icon` is included in the `<body>`.
+            /*
+             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+             * Check if the `apple-touch-icon` is included in the `<body>`.
+             */
 
             const bodyAppleTouchIcons: Array<IAsyncHTMLElement> = getAppleTouchIcons(await pageDOM.querySelectorAll('body link'));
 
@@ -257,9 +279,10 @@ const rule: IRuleBuilder = {
                 }
             }
 
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-            // All other `apple-touch-icon`s should not be included.
+            /*
+             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+             * All other `apple-touch-icon`s should not be included.
+             */
 
             for (const icon of appleTouchIcons) {
                 if (!icon.isSame(appleTouchIcon)) {

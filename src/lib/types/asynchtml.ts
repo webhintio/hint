@@ -6,8 +6,10 @@ export interface IAsyncHTMLAttribute {
     value: string;
 }
 
-/** A wrapper of an HTMLElement that gives access to the required resources
-  * asynchronously to be compatible with all connectors */
+/**
+ * A wrapper of an HTMLElement that gives access to the required resources
+ * asynchronously to be compatible with all connectors
+ */
 export interface IAsyncHTMLElement {
     /** The attributes of the element */
     readonly attributes: Array<IAsyncHTMLAttribute> | NamedNodeMap;

@@ -59,9 +59,11 @@ export class RuleContext {
         return null;
     }
 
-    // ------------------------------------------------------------------------------
-    // Public methods
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Public methods
+     * ------------------------------------------------------------------------------
+     */
 
     /** Injects JavaScript into the target. */
     public evaluate(source: string): Promise<any> {
@@ -97,8 +99,10 @@ export class RuleContext {
             sourceCode = (await element.outerHTML()).replace(/[\t]/g, '    ');
         }
 
-        // If location is undefined or equal to null, `position` will be set as `{ column: -1, line: -1 }` later in `sonar.report`.
-        // So pass the `location` on as it is.
+        /*
+         * If location is undefined or equal to null, `position` will be set as `{ column: -1, line: -1 }` later in `sonar.report`.
+         * So pass the `location` on as it is.
+         */
 
         this.sonar.report(
             this.id,

@@ -60,23 +60,25 @@ const tests: Array<IRuleTest> = [
         serverConfig: { '/': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } } }
     }
 
-    // TODO: Enable it once `jsdom` returns the correct content.
-//     {
-//         name: `The XML charset declaration is used'`,
-//             reports: [
-//                 { message: 'No charset meta tag was specified' },
-//                 { message: `Unneeded XML declaration: '<?xml version="1.0" encoding="ISO-8859-1"?>'` }
-//             ],
-//             serverConfig:
-// `<?xml version="1.0" encoding="ISO-8859-1"?>
-// <!doctype html>
-// <html lang="en">
-//     <head>
-//         <title>test</title>
-//     </head>
-//     <body></body>
-// </html>`
-//     }
+    /*
+     * TODO: Enable it once `jsdom` returns the correct content.
+     *     {
+     *         name: `The XML charset declaration is used'`,
+     *             reports: [
+     *                 { message: 'No charset meta tag was specified' },
+     *                 { message: `Unneeded XML declaration: '<?xml version="1.0" encoding="ISO-8859-1"?>'` }
+     *             ],
+     *             serverConfig:
+     * `<?xml version="1.0" encoding="ISO-8859-1"?>
+     * <!doctype html>
+     * <html lang="en">
+     *     <head>
+     *         <title>test</title>
+     *     </head>
+     *     <body></body>
+     * </html>`
+     *     }
+     */
 ];
 
 ruleRunner.testRule(getRuleName(__dirname), tests);

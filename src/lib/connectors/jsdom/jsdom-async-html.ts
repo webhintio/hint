@@ -8,9 +8,11 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
         this._document = document;
     }
 
-    // ------------------------------------------------------------------------------
-    // Public methods
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Public methods
+     * ------------------------------------------------------------------------------
+     */
 
     public querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {
         // jsdom's `querySelectorAll` can be a bit fragile (e.g.: fails if attribute name has `.` on it)
@@ -41,9 +43,11 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
         this._ownerDocument = new JSDOMAsyncHTMLDocument(htmlelement.ownerDocument);
     }
 
-    // ------------------------------------------------------------------------------
-    // Public methods
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Public methods
+     * ------------------------------------------------------------------------------
+     */
 
     public getAttribute(name: string): string {
         return this._htmlelement.getAttribute(name);
@@ -57,9 +61,11 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
         return Promise.resolve(this._htmlelement.outerHTML);
     }
 
-    // ------------------------------------------------------------------------------
-    // Getters
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Getters
+     * ------------------------------------------------------------------------------
+     */
 
     public get attributes(): NamedNodeMap {
         return this._htmlelement.attributes;

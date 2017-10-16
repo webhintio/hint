@@ -15,15 +15,19 @@ export const debug = (filePath: string): d.IDebugger => {
     let dirPath: string = path.dirname(filePath);
     let currentDir: string = path.basename(dirPath);
 
-    // The debug message is generated from the file path, e.g.:
-    //
-    //  * src/lib/connectors/chrome/chrome-launcher.ts => sonar:connectors:chrome:chrome-launcher
-    //  * src/lib/connectors/chrome/chrome.ts => sonar:connectors:chrome
+    /*
+     * The debug message is generated from the file path, e.g.:
+     *
+     *  * src/lib/connectors/chrome/chrome-launcher.ts => sonar:connectors:chrome:chrome-launcher
+     *  * src/lib/connectors/chrome/chrome.ts => sonar:connectors:chrome
+     */
 
     while (currentDir && currentDir !== 'lib') {
 
-        // If the file is in a directory with the same name, do not add
-        // its parent directory (this is the case for connectors & rules).
+        /*
+         * If the file is in a directory with the same name, do not add
+         * its parent directory (this is the case for connectors & rules).
+         */
 
         if (currentDir !== output) {
             output = `${currentDir}:${output}`;

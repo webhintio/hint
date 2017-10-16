@@ -96,40 +96,38 @@ test(`If config.browserslist is an string, we should initilize the property targ
     t.false(t.context.resourceLoader.loadRules.called);
 });
 
-// test.serial('If config.plugins is an array we should create just those plugins', (t) => {
-//     const plugin = {
-//         create() {
-//             return {};
-//         }
-//     };
-
-//     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-//     t.context.plugin = plugin;
-//     sinon.stub(t.context.resourceLoader, 'getPlugins').returns(new Map([
-//         ['plugin1Name', plugin],
-//         ['plugin2Name', plugin],
-//         ['plubin3Name', plugin]
-//     ]));
-//     sinon.stub(plugin, 'create')
-//         .onFirstCall()
-//         .returns({ 'fetch::end': () => { } })
-//         .onSecondCall()
-//         .returns({
-//             'fetch::end': () => { },
-//             'fetch::error': () => { }
-//         });
-
-//     new Sonar({ connector: 'connector', plugins: ['plugin1Name', 'plugin2Name'] });
-
-//     t.true(t.context.resourceLoader.getPlugins.called);
-//     t.is(t.context.plugin.create.callCount, 2);
-//     t.is(t.context.eventemitter.prototype.on.callCount, 3);
-//     t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
-//     t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::end');
-//     t.is(t.context.eventemitter.prototype.on.args[2][0], 'fetch::error');
-
-//     t.context.eventemitter.prototype.on.restore();
-// });
+/*
+ * test.serial('If config.plugins is an array we should create just those plugins', (t) => {
+ *     const plugin = {
+ *         create() {
+ *             return {};
+ *         }
+ *     };
+ *     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+ *     t.context.plugin = plugin;
+ *     sinon.stub(t.context.resourceLoader, 'getPlugins').returns(new Map([
+ *         ['plugin1Name', plugin],
+ *         ['plugin2Name', plugin],
+ *         ['plubin3Name', plugin]
+ *     ]));
+ *     sinon.stub(plugin, 'create')
+ *         .onFirstCall()
+ *         .returns({ 'fetch::end': () => { } })
+ *         .onSecondCall()
+ *         .returns({
+ *             'fetch::end': () => { },
+ *             'fetch::error': () => { }
+ *         });
+ *     new Sonar({ connector: 'connector', plugins: ['plugin1Name', 'plugin2Name'] });
+ *     t.true(t.context.resourceLoader.getPlugins.called);
+ *     t.is(t.context.plugin.create.callCount, 2);
+ *     t.is(t.context.eventemitter.prototype.on.callCount, 3);
+ *     t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
+ *     t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::end');
+ *     t.is(t.context.eventemitter.prototype.on.args[2][0], 'fetch::error');
+ *     t.context.eventemitter.prototype.on.restore();
+ * });
+ */
 
 test.serial('If config.rules is an object with rules, we should create just those rules', (t) => {
     const rule = {

@@ -2,9 +2,11 @@
  * @fileoverview Check for protocol relative URLs.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
@@ -14,9 +16,11 @@ import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -27,9 +31,11 @@ const rule: IRuleBuilder = {
 
             debug(`Analyzing link\n${cutString(html, 50)}`);
 
-            // We need to use getAttribute to get the exact value.
-            // If we access the src or href properties directly the
-            // browser already adds http(s):// so we cannot verify.
+            /*
+             * We need to use getAttribute to get the exact value.
+             * If we access the src or href properties directly the
+             * browser already adds http(s):// so we cannot verify.
+             */
 
             const url: string = (element.getAttribute('src') || element.getAttribute('href') || '').trim();
 

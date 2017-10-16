@@ -12,9 +12,11 @@ import { IAsyncHTMLElement } from '../../../src/lib/types';
 import { findInElement, findProblemLocation, findElementLocation } from '../../../src/lib/utils/location-helpers';
 import { JSDOMAsyncHTMLElement } from '../../../src/lib/connectors/jsdom/jsdom-async-html';
 
-// ------------------------------------------------------------------------------
-// findInElement tests
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * findInElement tests
+ * ------------------------------------------------------------------------------
+ */
 
 /** Returns an object that simulates an AsyncHTMLElement */
 const getElement = (markup: string) => {
@@ -77,9 +79,11 @@ findInElementEntries.forEach((entry) => {
 });
 
 
-// ------------------------------------------------------------------------------
-// findElementLocation tests
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * findElementLocation tests
+ * ------------------------------------------------------------------------------
+ */
 
 const loadHTML = async (route) => {
     const html: string = await readFileAsync(path.resolve(__dirname, route));
@@ -151,9 +155,11 @@ test('findElementLocation tests', async (t) => {
 });
 
 
-// ------------------------------------------------------------------------------
-// findProblemLocation tests
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * findProblemLocation tests
+ * ------------------------------------------------------------------------------
+ */
 
 const findProblemLocationEntries = [
     {

@@ -91,19 +91,20 @@ const testConnectorEvaluate = (connectorInfo) => {
                 if (expectedResult instanceof Error) {
                     t.pass('Expected exception');
 
-                    // HACK: when running all the tests the message we receive from CDP is "Promise was collected".
-                    // If we just run the `chrome.js` test file everything is fine :(
-                    // const message = expectedResult.message;
-
-                    // if (message) {
-                    //     if (error.message !== message) {
-                    //         console.error(error.message);
-                    //     }
-
-                    //     t.is(error.message, message, `Error message "${message}" is the same`);
-                    // } else {
-                    //     t.pass('Expected exception with different connector responses');
-                    // }
+                    /*
+                     * HACK: when running all the tests the message we receive from CDP is "Promise was collected".
+                     * If we just run the `chrome.js` test file everything is fine :(
+                     * const message = expectedResult.message;
+                     *
+                     * if (message) {
+                     *     if (error.message !== message) {
+                     *         console.error(error.message);
+                     *     }
+                     *     t.is(error.message, message, `Error message "${message}" is the same`);
+                     * } else {
+                     *     t.pass('Expected exception with different connector responses');
+                     * }
+                     */
                 } else {
                     t.fail('Unexpected exception thrown');
                 }

@@ -3,9 +3,11 @@
  * using SSL Labs online tool.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 // HACK: Needed here because with TS `eslint-disable-line` doesn't work fine.
 
@@ -18,9 +20,11 @@ import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -36,10 +40,11 @@ const rule: IRuleBuilder = {
             maxAge: 2
         };
 
-        /** Enum with the different possible grades for an endpoint returned by SSL Labs scan.
+        /**
+         * Enum with the different possible grades for an endpoint returned by SSL Labs scan.
          *
          * https://github.com/ssllabs/ssllabs-scan/blob/stable/ssllabs-api-docs.md#endpoint
-        */
+         */
         enum Grades {
             'A+' = 1,
             A,
@@ -99,8 +104,11 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            /* HACK: Need to do a require here in order to be capable of mocking
-                when testing the rule and `import` doesn't work here. */
+            /*
+             * HACK: Need to do a require here in order to be capable
+             * of mocking when testing the rule and `import` doesn't
+             * work here.
+             */
             const ssl = require('node-ssllabs');
             const ssllabs: Function = promisify(ssl.scan);
 
@@ -146,7 +154,8 @@ There might be something wrong with SSL Labs servers.`;
 
         loadRuleConfig();
 
-        /* We are using `targetfetch::end` instead of `scan::start`
+        /*
+         * We are using `targetfetch::end` instead of `scan::start`
          * or `targetfetch::start` because the `ssllabs` API doesn't
          * follow the redirects, so we need to use the final url
          * (e.g.: https://developer.microsoft.com/en-us/microsoft-edge/

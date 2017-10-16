@@ -43,15 +43,19 @@ try {
 
     const DEFAULT_GIT_COMMIT_MESSAGE = shell.cat(GIT_COMMIT_MESSAGE_FILE);
 
-    // Only add the additional information to the commit message
-    // if it's a new commit (there isn't yet a commit message),
-    // so it's not a case such as an amend.
+    /*
+     * Only add the additional information to the commit message
+     * if it's a new commit (there isn't yet a commit message),
+     * so it's not a case such as an amend.
+     */
 
     if (/^\s+# Please enter the commit message for your changes.*/gi.test(DEFAULT_GIT_COMMIT_MESSAGE)) {
         shell.ShellString(`${NEW_GIT_COMMIT_MESSAGE} ${DEFAULT_GIT_COMMIT_MESSAGE}`).to(GIT_COMMIT_MESSAGE_FILE);
     }
 
-} catch (e) { // eslint-disable-line no-empty
-    // If something fails, just ignore it, users will
-    // just get the default commit message, not a big deal.
+} catch (e) {
+    /*
+     * If something fails, just ignore it, users will
+     * just get the default commit message, not a big deal.
+     */
 }

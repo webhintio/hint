@@ -2,12 +2,13 @@ const chalk = require('chalk');
 const shell = require('shelljs');
 const { ucs2 } = require('punycode');
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-// Special file were Git will store the content
-// of the commit message of a commit in progress.
-//
-// https://git-scm.com/docs/git-commit#_files
+/*
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * Special file were Git will store the content
+ * of the commit message of a commit in progress.
+ *
+ * https://git-scm.com/docs/git-commit#_files
+ */
 
 const COMMIT_MESSAGE_FILE = '.git/COMMIT_EDITMSG';
 
@@ -25,13 +26,15 @@ shell.config.fatal = true;
 const checkWording = (line, lineNumber) => {
     const issues = [];
 
-    // This checks for cases such as:
-    //
-    // Fixed #number
-    // Fixes owner/repo#number
-    // Fixes https://example.com/...
-    // Closed #number
-    // Closes owner/dssad#121
+    /*
+     * This checks for cases such as:
+     *
+     * Fixed #number
+     * Fixes owner/repo#number
+     * Fixes https://example.com/...
+     * Closed #number
+     * Closes owner/dssad#121
+     */
 
     const regex = /((Fixe|Close)(d|s))\s+([^#\s]*#[0-9]*|https?:\/\/[^\s]+)/i;
     const match = line.match(regex);
@@ -107,9 +110,11 @@ const checkLine = (line, lineNumber) => {
     const chars = ucs2.decode(line);
     let issues = [];
 
-    // If the line has more then 72 characters, and the part just before
-    // and after the 72 limit contains spaces (i.e. it's not something
-    // like a long URL), suggest splitting the line into multiple lines.
+    /*
+     * If the line has more then 72 characters, and the part just before
+     * and after the 72 limit contains spaces (i.e. it's not something
+     * like a long URL), suggest splitting the line into multiple lines.
+     */
 
     if ((chars.length > 72) &&
         (chars.slice(60, chars.length).includes(32))) {
@@ -130,9 +135,11 @@ const getUncommentedLines = (lines) => {
 const getCommitData = () => {
     const commits = [];
 
-    // If the special file were Git stores the commit message exists,
-    // it most probably means this script is executed when the user
-    // does a commit, so we only need to get the current commit message.
+    /*
+     * If the special file were Git stores the commit message exists,
+     * it most probably means this script is executed when the user
+     * does a commit, so we only need to get the current commit message.
+     */
 
     if (shell.test('-f', COMMIT_MESSAGE_FILE)) {
         commits.push({
@@ -140,9 +147,11 @@ const getCommitData = () => {
             sha: null
         });
 
-    // Otherwise, it means this script is execute as part of the tests,
-    // and since there is no easy way to know how many new commits were
-    // added, just check all commits since the last release.
+    /*
+     * Otherwise, it means this script is execute as part of the tests,
+     * and since there is no easy way to know how many new commits were
+     * added, just check all commits since the last release.
+     */
 
     } else {
         const commitSHAsSinceLastRelease = shell.exec(`git rev-list HEAD...${PKG.version}`).stdout.split('\n');
@@ -167,19 +176,23 @@ const isExcludedCommit = (commit) => {
         return true;
     }
 
-    // Pull requests will contain a commit with the message:
-    //
-    //     Merge <sha> into <sha>
+    /*
+     * Pull requests will contain a commit with the message:
+     *
+     *     Merge <sha> into <sha>
+     */
 
     if (/^Merge\s[a-zA-Z0-9]{40}\sinto\s[a-zA-Z0-9]{40}/i.test(commit.message)) {
         return true;
     }
 
-    // For now, the form of the commit message used by Greenkeeper
-    // cannot be configured, so in order to not fail every such commit,
-    // just exclude them for now.
-    //
-    // See also: https://github.com/greenkeeperio/greenkeeper/issues/153)
+    /*
+     * For now, the form of the commit message used by Greenkeeper
+     * cannot be configured, so in order to not fail every such commit,
+     * just exclude them for now.
+     *
+     * See also: https://github.com/greenkeeperio/greenkeeper/issues/153)
+     */
 
     if (commit.username === 'greenkeeper[bot]') {
         return true;
@@ -237,18 +250,20 @@ const main = () => {
     if (!commitMessagesAreValid) {
         console.log(`Please see the contribution guidelines for more details:\n${CONTRIBUTION_GUIDELINES_URL}`);
 
-        // Because the commit messages are not valid, to not
-        // complicate things (see: getCommitData), just remove
-        // the special file Git uses to store the commit message,
-        // if it exists.
-        //
-        // " If `git commit` exits due to an error before creating a
-        //   commit, any commit message that has been provided by the
-        //   user (e.g., in an editor session) will be available in
-        //   this file, but will be overwritten by the next invocation
-        //   of git commit. "
-        //
-        // From: https://git-scm.com/docs/git-commit#_files
+        /*
+         * Because the commit messages are not valid, to not
+         * complicate things (see: getCommitData), just remove
+         * the special file Git uses to store the commit message,
+         * if it exists.
+         *
+         * " If `git commit` exits due to an error before creating a
+         *   commit, any commit message that has been provided by the
+         *   user (e.g., in an editor session) will be available in
+         *   this file, but will be overwritten by the next invocation
+         *   of git commit. "
+         *
+         * From: https://git-scm.com/docs/git-commit#_files
+         */
 
         if (shell.test('-f', COMMIT_MESSAGE_FILE)) {
             shell.rm(COMMIT_MESSAGE_FILE);

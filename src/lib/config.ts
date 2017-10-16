@@ -7,9 +7,11 @@
 
 /* eslint no-use-before-define: 0 */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as path from 'path';
 
@@ -22,9 +24,11 @@ import { validateConfig } from './config/config-validator';
 
 const debug: debug.IDebugger = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Private
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Private
+ * ------------------------------------------------------------------------------
+ */
 
 const CONFIG_FILES = [
     '.sonarrc',
@@ -123,14 +127,17 @@ export const load = (filePath: string): IConfig => {
      * If an `extends` property is defined, it represents a configuration file to use as
      * a "parent". Load the referenced file and merge the configuration recursively.
      */
-    // if (configOptions.extends) {
-    //     configOptions = applyExtends(configOptions, filePath, dirname);
-    // }
 
-    // if (configOptions.env && applyEnvironments) {
-    //     // Merge in environment-specific globals and parserOptions.
-    //     configOptions = ConfigOps.applyEnvironments(configOptions);
-    // }
+    /*
+     * if (configOptions.extends) {
+     *     configOptions = applyExtends(configOptions, filePath, dirname);
+     * }
+     *
+     * if (configOptions.env && applyEnvironments) {
+     *     // Merge in environment-specific globals and parserOptions.
+     *     configOptions = ConfigOps.applyEnvironments(configOptions);
+     * }
+     */
 
     return config;
 };

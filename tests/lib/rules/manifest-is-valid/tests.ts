@@ -35,21 +35,23 @@ const tests: Array<IRuleTest> = [
             '/site.webmanifest': 'x'
         }
     },
-    //     {
-    //         name: `Manifest is specified as a full URL and its content is valid JSON`,
-    //         serverConfig: {
-    //             '/':
-    // `<!doctype html>
-    // <html lang="en">
-    //     <head>
-    //         <title>test</title>
-    //         <link rel="manifest" href="https://example.com/site.webmanifest">
-    //     </head>
-    //     <body></body>
-    // </html>`,
-    //             '/site.webmanifest': '{}'
-    //         }
-    //     },
+    /*
+     *     {
+     *         name: `Manifest is specified as a full URL and its content is valid JSON`,
+     *         serverConfig: {
+     *             '/':
+     * `<!doctype html>
+     * <html lang="en">
+     *     <head>
+     *         <title>test</title>
+     *         <link rel="manifest" href="https://example.com/site.webmanifest">
+     *     </head>
+     *     <body></body>
+     * </html>`,
+     *             '/site.webmanifest': '{}'
+     *         }
+     *     },
+     */
     {
         name: `Manifest is specified and it's a binary file`,
         reports: [{ message: `Manifest file is not a text file` }],

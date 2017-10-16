@@ -18,7 +18,8 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
         this._DOM = DOM;
     }
 
-    /** When doing requests like `querySelectorAll`, we receive an array of nodeIds. Instead
+    /**
+     * When doing requests like `querySelectorAll`, we receive an array of nodeIds. Instead
      * of having to do another request for the node, and because we are getting the whole DOM
      * initially, we store them in a Map using the `nodeId` as the key so we can access to them
      * later.
@@ -40,9 +41,11 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
         });
     }
 
-    // ------------------------------------------------------------------------------
-    // Public methods
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Public methods
+     * ------------------------------------------------------------------------------
+     */
 
     public async querySelectorAll(selector: string): Promise<Array<AsyncHTMLElement>> {
         let nodeIds;
@@ -62,11 +65,13 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
             if (node) {
                 nodes.push(new AsyncHTMLElement(node, this, this._DOM)); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
             } else {
-                // This node was added in the DOM and we don't have it cached
-                // TODO: uncomment once chrome 62 is released.
-                // See https://github.com/cyrus-and/chrome-remote-interface/issues/255 for more information
-                // node = await this._DOM.describeNode({ nodeId });
-                // this._nodes.set(nodeId, node);
+                /*
+                 * This node was added in the DOM and we don't have it cached
+                 * TODO: uncomment once chrome 62 is released.
+                 * See https://github.com/cyrus-and/chrome-remote-interface/issues/255 for more information
+                 * node = await this._DOM.describeNode({ nodeId });
+                 * this._nodes.set(nodeId, node);
+                 */
             }
         }
 
@@ -80,8 +85,10 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
 
         let { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._dom.nodeId });
 
-        // Some browsers like Edge don't have the property outerHTML in the root element
-        // so we need to find the html element
+        /*
+         * Some browsers like Edge don't have the property outerHTML in the root element
+         * so we need to find the html element
+         */
         if (!outerHTML) {
             const htmlElement = this.getHTMLChildren(this._dom.children);
 
@@ -100,9 +107,11 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
         this._dom = dom;
     }
 
-    // ------------------------------------------------------------------------------
-    // Getters
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Getters
+     * ------------------------------------------------------------------------------
+     */
 
     public get root() {
         return this._dom;
@@ -136,9 +145,11 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
         }
     }
 
-    // ------------------------------------------------------------------------------
-    // Public methods
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Public methods
+     * ------------------------------------------------------------------------------
+     */
 
     public getAttribute(name: string): string {
         if (this._attributesArray.length === 0) {
@@ -173,9 +184,11 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
         return outerHTML;
     }
 
-    // ------------------------------------------------------------------------------
-    // Getters
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Getters
+     * ------------------------------------------------------------------------------
+     */
 
     public get attributes() {
         if (this._attributesArray.length === 0) {

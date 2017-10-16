@@ -22,8 +22,10 @@ type Commit = {
     title: string;
 };
 
-// We only use these 3 values for now.
-// See also: https://docs.npmjs.com/cli/version#description.
+/*
+ * We only use these 3 values for now.
+ * See also: https://docs.npmjs.com/cli/version#description.
+ */
 
 type SemVer = 'patch' | 'minor' | 'major';
 
@@ -214,9 +216,11 @@ const generateChangelogSection = (title: string, tags: Array<string>, commits: A
 
 const getChangelogData = (commits: Array<Commit>): ChangelogData => {
 
-    // Note: Commits that use tags that do not denote user-facing
-    // changes will not be included in changelog file, and the
-    // release notes.
+    /*
+     * Note: Commits that use tags that do not denote user-facing
+     * changes will not be included in changelog file, and the
+     * release notes.
+     */
 
     const breakingChanges = generateChangelogSection('Breaking Changes', ['Breaking'], commits);
     const bugFixesAndImprovements = generateChangelogSection('Bug fixes / Improvements', ['Docs', 'Fix'], commits);
@@ -259,17 +263,19 @@ const getCommitsSinceLastRelease = async (): Promise<Commit[]> => {
 
 const getReleaseNotes = (): string => {
 
-    // The change log is structured as follows:
-    //
-    // # <version_number> (<date>)
-    // <empty_line>
-    // <version_log> <= this is what we need to extract
-    // <empty_line>
-    // <empty_line>
-    // # <version_number> (<date>)
-    // <empty_line>
-    // <version_log>
-    // ...
+    /*
+     * The change log is structured as follows:
+     *
+     * # <version_number> (<date>)
+     * <empty_line>
+     * <version_log> <= this is what we need to extract
+     * <empty_line>
+     * <empty_line>
+     * # <version_number> (<date>)
+     * <empty_line>
+     * <version_log>
+     * ...
+     */
 
     const regex = new RegExp(`#.*${EOL}${EOL}([\\s\\S]*?)${EOL}${EOL}${EOL}`);
 
@@ -361,13 +367,17 @@ const main = async () => {
     // Create new release.
     await createRelease(version, releaseNotes);
 
-    // Remove devDependencies, this will update `package-lock.json`.
-    // Need to do so they aren't published on the `npm` package.
+    /*
+     * Remove devDependencies, this will update `package-lock.json`.
+     * Need to do so they aren't published on the `npm` package.
+     */
     await exec('Remove devDependencies', 'npm prune --production');
 
-    // Create shrinkwrap file.
-    // (This is done because `npm` doesn't
-    //  publish the `package-lock` file)
+    /*
+     * Create shrinkwrap file.
+     * (This is done because `npm` doesn't
+     *  publish the `package-lock` file)
+     */
     await exec(`Create '${SHRINKWRAP_FILE}' `, 'npm shrinkwrap');
 
     // Publish on `npm`.

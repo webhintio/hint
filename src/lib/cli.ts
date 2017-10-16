@@ -9,9 +9,11 @@
  * when the program exits.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as path from 'path';
 
@@ -28,11 +30,13 @@ import { cliActions } from './cli/actions';
 /** Notify user if the current version of sonar is not up to date. */
 const notifyIfNeeded = () => {
     const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
-    // Fetch and persist comparison result in the background.
-    // Check interval is set as one day by default.
-    // To test immediately, set `updateCheckInterval` to 0 and pass it in as a param to `updateNotifier`.
-    // Comparison result is loaded on the FIRST initiation, but users won't be notified until the SECOND time it runs.
-    // Reference:https://github.com/yeoman/update-notifier#how
+    /*
+     * Fetch and persist comparison result in the background.
+     * Check interval is set as one day by default.
+     * To test immediately, set `updateCheckInterval` to 0 and pass it in as a param to `updateNotifier`.
+     * Comparison result is loaded on the FIRST initiation, but users won't be notified until the SECOND time it runs.
+     * Reference:https://github.com/yeoman/update-notifier#how
+     */
     const notifier = updateNotifier({
         pkg,
         updateCheckInterval: 1000 * 60 * 60 * 1 // One hour.
@@ -45,17 +49,21 @@ const notifyIfNeeded = () => {
     }
 
     const changelogUrl: string = `https://sonarwhal.com/about/changelog.html`;
-    // No indentation due to the use of `\` to avoid new line.
-    // https://stackoverflow.com/a/35428171
+    /*
+     * No indentation due to the use of `\` to avoid new line.
+     * https://stackoverflow.com/a/35428171
+     */
     const message: string = `Update available ${chalk.red(update.current)}${chalk.reset(' → ')}${chalk.green(update.latest)}\
 \nSee ${chalk.cyan(changelogUrl)} for details`;
 
     notifier.notify({ message });
 };
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 /** Executes the CLI based on an array of arguments that is passed in. */
 export const execute = async (args: string | Array<string> | Object): Promise<number> => {

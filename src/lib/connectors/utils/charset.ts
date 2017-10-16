@@ -30,7 +30,8 @@ const requiresDecoding = (mediaType: string): boolean => {
     return requires;
 };
 
-/** Returns the charset specified in the `content-type` header if specified. Defaults to `utf-8` if
+/**
+ * Returns the charset specified in the `content-type` header if specified. Defaults to `utf-8` if
  * `Content-Type` is of text type but `charset` is not specified.  it is a text, and `null` otherwise.
  *
  * Ex.:

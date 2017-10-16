@@ -4,9 +4,11 @@
  * other origins.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as url from 'url';
 
@@ -23,9 +25,11 @@ import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -58,8 +62,10 @@ const rule: IRuleBuilder = {
                 fullURL = url.resolve(resource, hrefValue);
             }
 
-            // Same origin URLs are ignored by default, but users can
-            // change that by setting `includeSameOriginURLs` to `true`.
+            /*
+             * Same origin URLs are ignored by default, but users can
+             * change that by setting `includeSameOriginURLs` to `true`.
+             */
 
             if (sameOrigin(resource, fullURL) && !includeSameOriginURLs) {
                 debug('Is same origin');
@@ -108,15 +114,19 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            // TODO: In the future, change this to not use caniuse data.
-            // https://github.com/sonarwhal/sonar/issues/30
+            /*
+             * TODO: In the future, change this to not use caniuse data.
+             * https://github.com/sonarwhal/sonar/issues/30
+             */
 
             const targetedBrowsers: string = context.targetedBrowsers.join();
             const relValuesToCheckFor: Array<string> = ['noopener'];
 
-            // If no browsers were targeted, or `noopener`
-            // is not supported by all targeted browsers,
-            // also check for 'noreferrer'.
+            /*
+             * If no browsers were targeted, or `noopener`
+             * is not supported by all targeted browsers,
+             * also check for 'noreferrer'.
+             */
 
             if (!targetedBrowsers || !isSupported('rel-noopener', targetedBrowsers)) {
                 relValuesToCheckFor.push('noreferrer');
@@ -127,16 +137,18 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        // `noopener` and `noreferrer` work only with the
-        // `a` and `area` elements:
-        //
-        //   * https://html.spec.whatwg.org/#link-type-noopener
-        //   * https://html.spec.whatwg.org/#link-type-noreferrer
-        //   * https://html5sec.org/#143
-        //
-        // In the future there may be a CSP valueless property:
-        //
-        //   * https://github.com/w3c/webappsec/issues/139
+        /*
+         * `noopener` and `noreferrer` work only with the
+         * `a` and `area` elements:
+         *
+         *   * https://html.spec.whatwg.org/#link-type-noopener
+         *   * https://html.spec.whatwg.org/#link-type-noreferrer
+         *   * https://html5sec.org/#143
+         *
+         * In the future there may be a CSP valueless property:
+         *
+         *   * https://github.com/w3c/webappsec/issues/139
+         */
 
         return {
             'element::a': validate,

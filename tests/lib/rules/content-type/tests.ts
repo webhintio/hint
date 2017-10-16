@@ -144,32 +144,33 @@ const testsForDefaults: Array<IRuleTest> = [
         }
     },
 
-    // `Content-Type` value contain wrong `media type`.
-
-    // TODO: Enable if `jsdom` supports downloading fonts, or #250 is implemented.
-    // {
-    //     name: `WOFF2 font is served with 'Content-Type' header with the wrong media type`,
-    //     reports: [{ message: generateIncorrectMediaTypeMessage('font/woff2', 'application/font-woff2') }],
-    //     serverConfig: {
-    //         '/': generateHTMLPageData(generateHTMLPage(`
-    //             <style>
-    //                 @font-face {
-    //                     font-family: 'Open Sans';
-    //                     font-style: normal;
-    //                     font-weight: 400;
-    //                     src: local('Open Sans Regular'), local('OpenSans-Regular'), url(test.woff2) format('woff2');
-    //                 }
-    //
-    //                 body {
-    //                     font-family: 'Open Sans';
-    //                 }
-    //             </style>`, 'a')),
-    //         '/test.woff2': {
-    //             content: woff2FileContent,
-    //             headers: { 'Content-Type': 'application/font-woff2' }
-    //         }
-    //     }
-    // },
+    /*
+     * `Content-Type` value contain wrong `media type`.
+     * TODO: Enable if `jsdom` supports downloading fonts, or #250 is implemented.
+     * {
+     *     name: `WOFF2 font is served with 'Content-Type' header with the wrong media type`,
+     *     reports: [{ message: generateIncorrectMediaTypeMessage('font/woff2', 'application/font-woff2') }],
+     *     serverConfig: {
+     *         '/': generateHTMLPageData(generateHTMLPage(`
+     *             <style>
+     *                 @font-face {
+     *                     font-family: 'Open Sans';
+     *                     font-style: normal;
+     *                     font-weight: 400;
+     *                     src: local('Open Sans Regular'), local('OpenSans-Regular'), url(test.woff2) format('woff2');
+     *                 }
+     *
+     *                 body {
+     *                     font-family: 'Open Sans';
+     *                 }
+     *             </style>`, 'a')),
+     *         '/test.woff2': {
+     *             content: woff2FileContent,
+     *             headers: { 'Content-Type': 'application/font-woff2' }
+     *         }
+     *     }
+     * },
+     */
     {
         name: `Image is served with 'Content-Type' header with the wrong media type`,
         reports: [{ message: generateIncorrectMediaTypeMessage('image/png', 'font/woff') }],
@@ -224,40 +225,42 @@ const testsForDefaults: Array<IRuleTest> = [
             '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
         }
     },
-    // TODO: Enable once Chrome has support for modules without a flag (https://www.chromestatus.com/feature/5365692190687232)
-    // {
-    //     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=module')`,
-    //     reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
-    //     serverConfig: {
-    //         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="module" src="test"></script>')),
-    //         '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
-    //     }
-    // },
-    // TODO: Chrome will not download if it doesn't like the type: https://github.com/sonarwahl/sonar/pull/245#discussion_r120083650, #250
-    // {
-    //     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'js' file extension)`,
-    //     reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
-    //     serverConfig: {
-    //         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.js"></script>')),
-    //         '/test.js': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
-    //     }
-    // },
-    // TODO: The following test passes in CDP because it doesn't download anything so no errors. Need to do #250 so we can keep testing elsewhere
-    // {
-    //     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'tmpl' file extension)`,
-    //     serverConfig: {
-    //         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.tmpl"></script>')),
-    //         '/test.tmpl': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
-    //     }
-    // },
-    // TODO: The following test passes in CDP because it doesn't download anything so no errors. Need to do #250 so we can keep testing elsewhere
-    // {
-    //     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=simple/template' and 'tmpl' file extension)`,
-    //     serverConfig: {
-    //         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.txt"></script>')),
-    //         '/test.txt': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
-    //     }
-    // },
+    /*
+     * TODO: Enable once Chrome has support for modules without a flag (https://www.chromestatus.com/feature/5365692190687232)
+     * {
+     *     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=module')`,
+     *     reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
+     *     serverConfig: {
+     *         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="module" src="test"></script>')),
+     *         '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+     *     }
+     * },
+     * TODO: Chrome will not download if it doesn't like the type: https://github.com/sonarwahl/sonar/pull/245#discussion_r120083650, #250
+     * {
+     *     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'js' file extension)`,
+     *     reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
+     *     serverConfig: {
+     *         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.js"></script>')),
+     *         '/test.js': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+     *     }
+     * },
+     * TODO: The following test passes in CDP because it doesn't download anything so no errors. Need to do #250 so we can keep testing elsewhere
+     * {
+     *     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'tmpl' file extension)`,
+     *     serverConfig: {
+     *         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.tmpl"></script>')),
+     *         '/test.tmpl': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+     *     }
+     * },
+     * TODO: The following test passes in CDP because it doesn't download anything so no errors. Need to do #250 so we can keep testing elsewhere
+     * {
+     *     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=simple/template' and 'tmpl' file extension)`,
+     *     serverConfig: {
+     *         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.txt"></script>')),
+     *         '/test.txt': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+     *     }
+     * },
+     */
     {
         name: `Stylesheet is served with 'Content-Type' header with the wrong media type`,
         reports: [{ message: generateIncorrectMediaTypeMessage('text/css', 'font/woff') }],

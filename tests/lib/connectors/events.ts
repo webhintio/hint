@@ -38,9 +38,11 @@ const events = [
             url: 'http://localhost/'
         }
     }],
-    // TODO: need to know how many traverse::XX we need and how to be consistent among connectors
-    // ['traverse::down', 'http://localhost/'],
-    // ['traverse::up', 'http://localhost/'],
+    /*
+     * TODO: need to know how many traverse::XX we need and how to be consistent among connectors
+     * ['traverse::down', 'http://localhost/'],
+     * ['traverse::up', 'http://localhost/'],
+     */
     ['element::html', { resource: 'http://localhost/' }],
     ['traverse::start', { resource: 'http://localhost/' }],
     ['element::head', { resource: 'http://localhost/' }],
@@ -139,7 +141,8 @@ const events = [
 ];
 /* eslint-enable sort-keys */
 
-/** Losely compares to data events. It will check if all the properties in
+/**
+ * Losely compares to data events. It will check if all the properties in
  * `data2` are in `data1` with the same values.
  */
 const sameData = (actual, expected) => {

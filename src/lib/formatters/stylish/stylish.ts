@@ -4,9 +4,11 @@
  * This formatter is based on [eslint stylish formatter](https://github.com/eslint/eslint/blob/master/lib/formatters/stylish.js)
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as chalk from 'chalk';
 import * as _ from 'lodash';
@@ -28,9 +30,11 @@ const printPosition = (position: number, text: string) => {
     return `${text} ${position}`;
 };
 
-// ------------------------------------------------------------------------------
-// Formatter
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Formatter
+ * ------------------------------------------------------------------------------
+ */
 
 const formatter: IFormatter = {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
@@ -74,7 +78,8 @@ const formatter: IFormatter = {
                 tableData.push([line, column, severity, msg.message, msg.ruleId]);
             });
 
-            /* If no message in this resource has a position, then we remove the
+            /*
+             * If no message in this resource has a position, then we remove the
              * position components from the array to avoid unnecessary white spaces
              */
             if (!hasPosition) {

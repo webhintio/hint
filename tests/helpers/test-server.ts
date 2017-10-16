@@ -32,9 +32,10 @@ export class Server {
         this._isHTTPS = isHTTPS;
     }
 
-    /** Because we don't know the port until we start the server, we need to update
+    /**
+     * Because we don't know the port until we start the server, we need to update
      * the references to http://localhost in the HTML to http://localhost:finalport.
-    */
+     */
     private updateLocalhost(html: string): string {
         return html.replace(/\/\/localhost\//g, `//localhost:${this._port}/`);
     }
@@ -77,9 +78,11 @@ export class Server {
 
             this._app.get(key, (req, res) => {
 
-                // Hacky way to make `request` fail, but required
-                // for testing cases such as the internet connection
-                // being down when a particular request is made.
+                /*
+                 * Hacky way to make `request` fail, but required
+                 * for testing cases such as the internet connection
+                 * being down when a particular request is made.
+                 */
 
                 if (value === null) {
                     res.redirect(301, 'test://fa.il');

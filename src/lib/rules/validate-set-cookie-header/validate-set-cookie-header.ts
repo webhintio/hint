@@ -10,23 +10,28 @@ import { isHTTPS, isRegularProtocol, normalizeString } from '../../utils/misc';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
         /** If targetBrowsers contain ie 6, ie 7 or ie 8 */
         let supportOlderBrowsers: boolean;
-        /** A collection of accepted attributes
+        /**
+         * A collection of accepted attributes
          * See https://stackoverflow.com/questions/19792038/what-does-priority-high-mean-in-the-set-cookie-header for details about the `priority` attribute.
-        */
+         */
         const acceptedCookieAttributes: Array<string> = ['expires', 'max-age', 'domain', 'path', 'secure', 'httponly', 'samesite', 'priority'];
-        /** A collection of illegal characters in cookie name
+        /**
+         * A collection of illegal characters in cookie name
          * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
-        */
+         */
         const illegalCookieNameChars: string = '()<>@,;:\"/[]?={}'; // eslint-disable-line no-useless-escape
-        /** A collection of illegal characters in cookie value
+        /**
+         * A collection of illegal characters in cookie value
          * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
          */
         const illegalCookieValueChars: string = ',;"/';
@@ -48,8 +53,10 @@ const rule: IRuleBuilder = {
             return [normalizeString(key), unquote(value.join('='))];
         };
 
-        /** `Set-Cookie` header parser based on the algorithm used by a user agent defined in the spec:
-        https://tools.ietf.org/html/rfc6265#section-5.2.1 */
+        /**
+         * `Set-Cookie` header parser based on the algorithm used by a user agent defined in the spec:
+         * https://tools.ietf.org/html/rfc6265#section-5.2.1
+         */
         const parse = (setCookieValue: string): ParsedSetCookieHeader => {
             const [nameValuePair, ...directivePairs]: Array<string> = setCookieValue.split(';');
             const [cookieName, cookieValue]: Array<string> = normalizeAfterSplitByEqual(nameValuePair.split('='));
@@ -85,8 +92,10 @@ const rule: IRuleBuilder = {
             return (/^[\x00-\x7F]+$/).test(string); // eslint-disable-line no-control-regex
         };
 
-        /** Validate cookie name or value string.
-        Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie */
+        /**
+         * Validate cookie name or value string.
+         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
+         */
         const validString = (name: string, illegalChars: string): Boolean => {
             const includesIllegalChars: boolean = illegalChars.split('').some((char) => {
                 return name.includes(char);
@@ -217,8 +226,10 @@ const rule: IRuleBuilder = {
             const maxAgeAndExpireDuplicateMessage: string = `The 'max-age' attribute takes precedence when both 'expires' and 'max-age' both exist.`;
 
             if (supportOlderBrowsers) {
-                // When targetBrowsers contains IE 6, IE 7 or IE 8:
-                // `max-age` can't be used alone.
+                /*
+                 * When targetBrowsers contains IE 6, IE 7 or IE 8:
+                 * `max-age` can't be used alone.
+                 */
                 if (parsedSetCookie['max-age'] && !parsedSetCookie.expires) {
                     errors.push(maxAgeCompatibilityMessage);
                 }
@@ -226,9 +237,11 @@ const rule: IRuleBuilder = {
                 return errors;
             }
 
-            // When targetBrowsers only contains modern browsers:
-            // `max-age` takes precedence so `expires` shouldn't be used.
-            // Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
+            /*
+             * When targetBrowsers only contains modern browsers:
+             * `max-age` takes precedence so `expires` shouldn't be used.
+             * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
+             */
             if (parsedSetCookie['max-age'] && parsedSetCookie.expires) {
                 errors.push(maxAgeAndExpireDuplicateMessage);
             }

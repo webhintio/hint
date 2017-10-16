@@ -2,15 +2,19 @@
  * @fileoverview Options configuration for optionator.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as optionator from 'optionator';
 
-// ------------------------------------------------------------------------------
-// Initialization and Public Interface
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Initialization and Public Interface
+ * ------------------------------------------------------------------------------
+ */
 
 export const options = optionator({
     defaults: {
@@ -31,11 +35,13 @@ export const options = optionator({
             option: 'init',
             type: 'Boolean'
         },
-        // {
-        //     option: 'env',
-        //     type: '[String]',
-        //     description: 'Specify environments'
-        // },
+        /*
+         * {
+         *     option: 'env',
+         *     type: '[String]',
+         *     description: 'Specify environments'
+         * },
+         */
         {heading: 'Output'},
         {
             alias: 'o',

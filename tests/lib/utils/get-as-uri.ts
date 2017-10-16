@@ -4,10 +4,11 @@ import test from 'ava';
 
 import { getAsUri, getAsUris } from '../../../src/lib/utils/get-as-uri';
 
-/* TS complains that "Property Url does not exist on type 'typeof "url"'"
-    if we do `instanceof url.Url`
-    We bypasse the limitation this way
-*/
+/*
+ * TS complains that "Property Url does not exist on type 'typeof "url"'"
+ * if we do `instanceof url.Url`
+ * We bypasse the limitation this way
+ */
 const Url = url.parse('http://locahost').constructor;
 
 const normalize = (path) => {

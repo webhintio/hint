@@ -25,20 +25,22 @@ export const getIncludedHeaders = (headers: object, headerList: Array<string> = 
     return shortedResult;
 };
 
-/** Returns the name of the folder for a given `dirname`.
+/**
+ * Returns the name of the folder for a given `dirname`.
  *
  * * `/something/another` --> `another`
  * * `/something/another/` --> `another`
-  */
+ */
 export const getRuleName = (dirname: string): string => {
     return path.basename(dirname);
 };
 
-/** Adds the items from  `includeArray` into `originalArray` and removes the ones from `ignoreArray`.
+/**
+ * Adds the items from  `includeArray` into `originalArray` and removes the ones from `ignoreArray`.
  *
  * Items of the arrays are always lowercased as well as the result.
  * This function doesn't modify `originalArray`.
-*/
+ */
 export const mergeIgnoreIncludeArrays = (originalArray: Array<string>, ignoreArray: Array<string> = [], includeArray: Array<string> = []): Array<string> => {
     let result: Array<string> = toLowerCase(originalArray);
     const include: Array<string> = toLowerCase(includeArray);

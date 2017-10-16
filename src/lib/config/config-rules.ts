@@ -2,9 +2,11 @@
  * @fileoverview Makes sure that a rule is configured correctly (options, severity).
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as schemaValidator from 'is-my-json-valid';
 
@@ -14,9 +16,11 @@ import { Severity } from '../types/problems';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 /** Returns the severity of a rule based on its configuration */
 export const getSeverity = (config: RuleConfig | Array<RuleConfig>): Severity => {
@@ -68,9 +72,11 @@ export const validate = (rule: IRuleBuilder, config, ruleId: string): boolean =>
     // Rule schema validation
     const schema: Array<any> = rule.meta.schema;
 
-    // Only way to have something else to validate is if rule config
-    // is similar to:  "rule-name": ["warning", {}]. Otherwise it's
-    // already valid if we reach this point.
+    /*
+     * Only way to have something else to validate is if rule config
+     * is similar to:  "rule-name": ["warning", {}]. Otherwise it's
+     * already valid if we reach this point.
+     */
     if (!Array.isArray(config) || (Array.isArray(schema) && schema.length === 0)) {
         return true;
     }

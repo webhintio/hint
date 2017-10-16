@@ -3,9 +3,11 @@
  * header.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as path from 'path';
 import * as url from 'url';
@@ -23,9 +25,11 @@ import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -80,8 +84,10 @@ const rule: IRuleBuilder = {
         const determineMediaTypeForScript = (element: IAsyncHTMLElement): string => {
             const typeAttribute = normalizeString(element.getAttribute('type'));
 
-            // Valid JavaScript media types:
-            // https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
+            /*
+             * Valid JavaScript media types:
+             * https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
+             */
 
             const validJavaScriptMediaTypes = [
                 'application/ecmascript',
@@ -102,27 +108,31 @@ const rule: IRuleBuilder = {
                 'text/x-javascript'
             ];
 
-            // If the type attribute is:
-            //
-            //  * omitted (doesn't have a value, or is an empty string)
-            //  * set to one of the valid JavaScript media types
-            //  * 'module'
-            //
-            // it means the content is not intended as an data block,
-            // and the official JavaScript media type can be suggested.
-            //
-            // See: https://html.spec.whatwg.org/multipage/scripting.html#attr-script-type
+            /*
+             * If the type attribute is:
+             *
+             *  * omitted (doesn't have a value, or is an empty string)
+             *  * set to one of the valid JavaScript media types
+             *  * 'module'
+             *
+             * it means the content is not intended as an data block,
+             * and the official JavaScript media type can be suggested.
+             *
+             * See: https://html.spec.whatwg.org/multipage/scripting.html#attr-script-type
+             */
 
             if (!typeAttribute ||
                 validJavaScriptMediaTypes.includes(typeAttribute) ||
                 typeAttribute === 'module') {
 
-                // From https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages
-                //
-                // "Servers should use `text/javascript` for JavaScript
-                //  resources. Servers should not use other JavaScript
-                //  MIME types for JavaScript resources, and must not
-                //  use non-JavaScript MIME types. "
+                /*
+                 * From https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages
+                 *
+                 * "Servers should use `text/javascript` for JavaScript
+                 *  resources. Servers should not use other JavaScript
+                 *  MIME types for JavaScript resources, and must not
+                 *  use non-JavaScript MIME types. "
+                 */
 
                 return 'text/javascript';
             }
@@ -183,8 +193,10 @@ const rule: IRuleBuilder = {
 
         const overwriteMediaType = (mediaType: string): string => {
 
-            // TODO: The following is done because of a current limitation in `mime-db`.
-            // https://github.com/jshttp/mime-db/issues/20
+            /*
+             * TODO: The following is done because of a current limitation in `mime-db`.
+             * https://github.com/jshttp/mime-db/issues/20
+             */
 
             switch (mediaType) {
                 case 'application/x-font-otf':
@@ -223,8 +235,10 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            // If the current resource matches any of the regexes
-            // defined by the user, use that value to validate.
+            /*
+             * If the current resource matches any of the regexes
+             * defined by the user, use that value to validate.
+             */
 
             const userDefinedMediaType: string = getLastRegexThatMatches(resource);
 
@@ -266,8 +280,10 @@ const rule: IRuleBuilder = {
 
             const charset: string = determineCharset(mediaType, originalMediaType);
 
-            // Check if the determined values differ
-            // from the ones from the `Content-Type` header.
+            /*
+             * Check if the determined values differ
+             * from the ones from the `Content-Type` header.
+             */
 
             // * media type
 

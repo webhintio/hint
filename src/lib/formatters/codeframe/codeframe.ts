@@ -5,9 +5,11 @@
  * This formatter is based on [eslint's codeframe formatter](https://github.com/eslint/eslint/blob/master/lib/formatters/codeframe.js)
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as chalk from 'chalk';
 import * as _ from 'lodash';
@@ -101,12 +103,15 @@ const codeFrame = (code: string, location: IProblemLocation) => {
     }
 };
 
-// ------------------------------------------------------------------------------
-// Formatter
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Formatter
+ * ------------------------------------------------------------------------------
+ */
 
 const formatter: IFormatter = {
-    /** Format the problems grouped by `resource` name and sorted by line and column number,
+    /**
+     * Format the problems grouped by `resource` name and sorted by line and column number,
      *  indicating where in the element there is an error.
      */
     format(messages: Array<IProblem>) {

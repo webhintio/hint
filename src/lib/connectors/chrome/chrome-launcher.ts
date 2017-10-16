@@ -56,8 +56,10 @@ export class CDPLauncher extends Launcher {
         }
 
         try {
-            // We test if the process is still running or is a leftover:
-            // https://nodejs.org/api/process.html#process_process_kill_pid_signal
+            /*
+             * We test if the process is still running or is a leftover:
+             * https://nodejs.org/api/process.html#process_process_kill_pid_signal
+             */
 
             process.kill(result.pid, 0);
         } catch (e) {

@@ -3,9 +3,11 @@
  * and if that specified file is accessible.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
@@ -15,9 +17,11 @@ import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -38,8 +42,10 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            // Check if we encounter more than one
-            // <link rel="manifest"...> declaration.
+            /*
+             * Check if we encounter more than one
+             * <link rel="manifest"...> declaration.
+             */
 
             if (manifestIsSpecified) {
                 await context.report(resource, element, 'Manifest already specified');
@@ -50,11 +56,13 @@ const rule: IRuleBuilder = {
             manifestIsSpecified = true;
 
             if (!element.getAttribute('href')) {
-                // `connector`s will ignore invalid `href` and will
-                // not even initiate the request so we have to check
-                // for those.
-                //
-                // TODO: find the relative location in the element
+                /*
+                 * `connector`s will ignore invalid `href` and will
+                 * not even initiate the request so we have to check
+                 * for those.
+                 *
+                 * TODO: find the relative location in the element
+                 */
                 await context.report(data.resource, data.element, `Manifest specified with invalid 'href'`);
             }
         };

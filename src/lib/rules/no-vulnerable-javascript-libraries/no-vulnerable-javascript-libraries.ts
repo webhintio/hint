@@ -19,16 +19,20 @@ import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
         let minimumSeverity = 'low';
 
-        /** Creates the script that will be injected in the connector to detect what libraries are run
-         * using [`js-library-detector`](https://npmjs.com/package/js-library-detector). */
+        /**
+         * Creates the script that will be injected in the connector to detect what libraries are run
+         * using [`js-library-detector`](https://npmjs.com/package/js-library-detector).
+         */
         const createScript = async (): Promise<string> => {
             debug('Creating script to inject');
             const libraryDetector = await readFileAsync(require.resolve('js-library-detector/library/libraries.js'));

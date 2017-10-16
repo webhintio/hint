@@ -21,18 +21,20 @@ export const getAsUri = (source: string): url.Url => {
     let target: url.Url = url.parse(entry);
     const protocol: string = target.protocol;
 
-    // If it's a URI.
-
-    // Check if the protocol is HTTP or HTTPS.
+    /*
+     * If it's a URI.
+     * Check if the protocol is HTTP or HTTPS.
+     */
     if (protocol === 'http:' || protocol === 'https:' || protocol === 'file:') {
         debug(`Adding valid target: ${url.format(target)}`);
 
         return target;
     }
 
-    // If it's not a URI
-
-    // If it does exist and it's a regular file.
+    /*
+     * If it's not a URI
+     * If it does exist and it's a regular file.
+     */
     if (shell.test('-f', entry)) {
         target = url.parse(fileUrl(entry));
         debug(`Adding valid target: ${url.format(target)}`);
@@ -42,10 +44,12 @@ export const getAsUri = (source: string): url.Url => {
 
     target = url.parse(`http://${entry}`);
 
-    // And it doesn't exist locally, and is a valid URL:
-    // Except for the case of the well known and used `localhost`,
-    // for all other cases the `hostname` needs to contain at least
-    // a `.`. Private domains should have `http(s)://` in front.
+    /*
+     * And it doesn't exist locally, and is a valid URL:
+     * Except for the case of the well known and used `localhost`,
+     * for all other cases the `hostname` needs to contain at least
+     * a `.`. Private domains should have `http(s)://` in front.
+     */
     if (!shell.test('-e', entry) && (target.hostname === 'localhost' || target.hostname.includes('.'))) {
         debug(`Adding modified target: ${url.format(target)}`);
 

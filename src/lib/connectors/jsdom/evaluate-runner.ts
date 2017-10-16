@@ -20,8 +20,11 @@ const run = (data) => {
                 return process.send(result);
             }
 
-            /* Even though `done()` is called after window.onload (so all resoruces and scripts executed),
-               we might want to wait a few seconds if the site is lazy loading something. */
+            /*
+             * Even though `done()` is called after `window.onload`
+             * (so all resoruces and scripts executed), we might want
+             * to wait a few seconds if the site is lazy loading something.
+             */
             return setTimeout(async () => {
                 try {
                     const script: vm.Script = new vm.Script(source);

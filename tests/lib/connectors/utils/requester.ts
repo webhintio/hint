@@ -29,11 +29,14 @@ test.afterEach.always((t) => {
     server.stop();
 });
 
-// ------------------------------------------------------------------------------
-// Encoding tests
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Encoding tests
+ * ------------------------------------------------------------------------------
+ */
 
-/** Supported encodings to test. `iconv-lite` supports more (as well as us)
+/**
+ * Supported encodings to test. `iconv-lite` supports more (as well as us)
  * but these are the most common that we want to verify
  * https://github.com/sonarwhal/sonar/issues/89#issuecomment-292480515
  */
@@ -56,9 +59,11 @@ const contentTypes = [
     'text/something'
 ];
 
-/** This function verifies that we can decode the bytes for the expected `Content-Type`s
+/**
+ * This function verifies that we can decode the bytes for the expected `Content-Type`s
  * and the supported `charset`s, even when the server response is compressed.
- * */
+ * 
+ */
 const testTextDecoding = async (t, encoding: string, contentType: string, useCompression: boolean) => {
     const { requester, server } = t.context;
     const originalBytes = iconv.encode(text, encoding);
@@ -95,9 +100,11 @@ supportedEncodings.forEach((encoding) => {
     });
 });
 
-// ------------------------------------------------------------------------------
-// Binary Content-Types
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Binary Content-Types
+ * ------------------------------------------------------------------------------
+ */
 
 const binTypes = [
     'image/jpeg',
@@ -129,9 +136,11 @@ binTypes.forEach((binType) => {
     test(`requester doesn't transform content for ${binType}`, testBinaries, binType);
 });
 
-// ------------------------------------------------------------------------------
-// Hops
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Hops
+ * ------------------------------------------------------------------------------
+ */
 
 const hopsServerConfig = {
     '/': 'Final destination',

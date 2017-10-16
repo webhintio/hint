@@ -17,7 +17,8 @@ const debug: debug.IDebugger = d(__filename);
 // const readdir = promisify(fs.readdir);
 const readdir = fs.readdirSync; // eslint-disable-line no-sync
 
-/** Cut a given string adding ` … ` in the middle.
+/**
+ * Cut a given string adding ` … ` in the middle.
  * The default length is 50 characters.
  */
 const cutString = (txt: string, length: number = 50): string => {
@@ -80,9 +81,11 @@ const isHTTPS = (resource: string): boolean => {
     return hasProtocol(resource, 'https:');
 };
 
-/** Remove whitespace from both ends of a string and lowercase it.
+/**
+ * Remove whitespace from both ends of a string and lowercase it.
  *  If `defaultValue` is provided, it will return it if the return
- *  value would be `null`. */
+ *  value would be `null`.
+ */
 const normalizeString = (value: string, defaultValue?: string): string => {
     if (typeof value === 'undefined' || value === null) {
         return typeof defaultValue !== 'undefined' ? defaultValue : null;
@@ -96,11 +99,13 @@ const isRegularProtocol = (uri: string): boolean => {
     const normalizedUri = normalizeString(uri);
     const protocol = url.parse(normalizedUri).protocol;
 
-    // Ignore cases such as `javascript:void(0)`,
-    // `data:text/html,...`, `file://` etc.
-    //
-    // Note: `null` is when the protocol is not
-    // specified (e.g.: test.html).
+    /*
+     * Ignore cases such as `javascript:void(0)`,
+     * `data:text/html,...`, `file://` etc.
+     *
+     * Note: `null` is when the protocol is not
+     * specified (e.g.: test.html).
+     */
 
     if (![null, 'http:', 'https:'].includes(protocol)) {
         debug(`Ignore protocol: ${protocol}`);

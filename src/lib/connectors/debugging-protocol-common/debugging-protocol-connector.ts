@@ -3,11 +3,13 @@
  * to load a site and do the traversing. It also uses request
  * (https:/github.com/request/request) to download the external
  * resources (JS, CSS, images).
-*/
+ */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as url from 'url';
 
@@ -75,8 +77,10 @@ export class Connector implements IConnector {
 
     public constructor(server: Sonar, config: object, launcher: ILauncher) {
         const defaultOptions = {
-            // tabUrl is a empty html site used to avoid edge diagnostics adapter to receive unexpeted onLoadEventFired
-            // and onRequestWillBeSent events from the default url opened when you create a new tab in Edge.
+            /*
+             * tabUrl is a empty html site used to avoid edge diagnostics adapter to receive unexpeted onLoadEventFired
+             * and onRequestWillBeSent events from the default url opened when you create a new tab in Edge.
+             */
             tabUrl: 'https://empty.sonarwhal.com/',
             useTabUrl: false,
             waitFor: 1000
@@ -95,9 +99,11 @@ export class Connector implements IConnector {
         this.launcher = launcher;
     }
 
-    // ------------------------------------------------------------------------------
-    // Private methods
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Private methods
+     * ------------------------------------------------------------------------------
+     */
 
     private async getElementFromParser(parts: Array<string>): Promise<AsyncHTMLElement> {
         let basename: string = null;
@@ -126,8 +132,10 @@ export class Connector implements IConnector {
             elements = newElements;
         }
 
-        /* If we reach this point, we have several elements that have the same url so we return the first
-            because its the one that started the request. */
+        /*
+         * If we reach this point, we have several elements that have the same url so we return the first
+         *because its the one that started the request.
+         */
 
         return elements[0];
     }
@@ -148,8 +156,10 @@ export class Connector implements IConnector {
         requestUrl = url.parse(originalUrl[0] || requestUrl);
         const parts: Array<string> = requestUrl.href.split('/');
 
-        // TODO: Check what happens with prefetch, etc.
-        // `type` can be "parser", "script", "preload", and "other": https://chromedevtools.github.io/debugger-protocol-viewer/tot/Network/#type-Initiator
+        /*
+         * TODO: Check what happens with prefetch, etc.
+         * `type` can be "parser", "script", "preload", and "other": https://chromedevtools.github.io/debugger-protocol-viewer/tot/Network/#type-Initiator
+         */
         if (['parser', 'other'].includes(type) && requestUrl.protocol.indexOf('http') === 0) {
             return await this.getElementFromParser(parts);
         }
@@ -216,10 +226,11 @@ export class Connector implements IConnector {
 
         debug(`About to start fetching ${cutString(requestUrl)}`);
 
-        /* `getFavicon` will make attempts to download favicon later.
-        * Ignore `cdp` requests to download favicon from the root
-        * to avoid emitting duplidate events.
-        */
+        /*
+         * `getFavicon` will make attempts to download favicon later.
+         * Ignore `cdp` requests to download favicon from the root
+         * to avoid emitting duplidate events.
+         */
         if (!this.rootFaviconRequestOrResponse(params)) {
             await this._server.emitAsync(eventName, { resource: requestUrl });
         }
@@ -229,8 +240,13 @@ export class Connector implements IConnector {
     private async onLoadingFailed(params) {
         const request = this._requests.get(params.requestId);
 
-        /* If `requestId` is not in `this._requests` it means that we already processed the request in `onResponseReceived`.
-            Usually `onLoadingFailed` should be fired before but we've had problems with this before. */
+        /*
+         * If `requestId` is not in `this._requests` it means that we
+         * already processed the request in `onResponseReceived`.
+         *
+         * Usually `onLoadingFailed` should be fired before but we've
+         * had problems with this before.
+         */
         if (!request) {
             debug(`requestId doesn't exist, skipping this error`);
 
@@ -289,10 +305,11 @@ export class Connector implements IConnector {
 
         this._requests.delete(params.requestId);
 
-        /* `getFavicon` will make attempts to download favicon later.
-        * Ignore `cdp` requests to download favicon from the root
-        * to avoid emitting duplidate events.
-        */
+        /*
+         * `getFavicon` will make attempts to download favicon later.
+         * Ignore `cdp` requests to download favicon from the root
+         * to avoid emitting duplidate events.
+         */
         if (!this.rootFaviconRequestOrResponse(params)) {
             await this._server.emitAsync(eventName, event);
         }
@@ -439,7 +456,8 @@ export class Connector implements IConnector {
             this._faviconLoaded = true;
         }
 
-        /* `getFavicon` will make attempts to download favicon later.
+        /*
+         * `getFavicon` will make attempts to download favicon later.
          * Ignore `cdp` requests to download favicon from the root
          * to avoid emitting duplidate events.
          */
@@ -448,7 +466,8 @@ export class Connector implements IConnector {
             await this._server.emitAsync(eventName, data);
         }
 
-        /* We don't need to store the request anymore so we can remove it and ignore it
+        /*
+         * We don't need to store the request anymore so we can remove it and ignore it
          * if we receive it in `onLoadingFailed` (used only for "catastrophic" failures).
          */
         this._requests.delete(params.requestId);
@@ -457,8 +476,10 @@ export class Connector implements IConnector {
     private async getManifestManually(element: IAsyncHTMLElement) {
         const manifestURL = resolveUrl(element.getAttribute('href'), this._finalHref);
 
-        // Try to see if the web app manifest file actually
-        // exists and is accesible.
+        /*
+         * Try to see if the web app manifest file actually
+         * exists and is accesible.
+         */
 
         try {
             const manifestData: INetworkData = await this.fetchContent(manifestURL);
@@ -491,9 +512,11 @@ export class Connector implements IConnector {
         this._manifestIsSpecified = true;
 
         try {
-            // CDP will not download the manifest on its own, so we have to "force" it
-            // This will trigger the `onRequestWillBeSent`, `onResponseReceived`, and
-            // `onLoadingFailed` for the manifest URL.
+            /*
+             * CDP will not download the manifest on its own, so we have to "force" it
+             * This will trigger the `onRequestWillBeSent`, `onResponseReceived`, and
+             * `onLoadingFailed` for the manifest URL.
+             */
             await this._client.Page.getAppManifest();
         } catch (err) {
             await this.getManifestManually(element);
@@ -502,13 +525,14 @@ export class Connector implements IConnector {
 
     /** Traverses the DOM notifying when a new element is traversed. */
     private async traverseAndNotify(element) {
-        /* CDP returns more elements than the ones we want. For example there
-            are 2 HTML elements. One has children and has `nodeType === 1`,
-            while the other doesn't have children and `nodeType === 10`.
-            We ignore those elements.
-
-            * 10: `HTML` with no children
-        */
+        /*
+         * CDP returns more elements than the ones we want. For example there
+         * are 2 HTML elements. One has children and has `nodeType === 1`,
+         * while the other doesn't have children and `nodeType === 10`.
+         * We ignore those elements.
+         *
+         * 10: `HTML` with no children
+         */
         const ignoredNodeTypes: Array<number> = [10];
 
         if (ignoredNodeTypes.includes(element.nodeType)) {
@@ -574,9 +598,11 @@ export class Connector implements IConnector {
         const launcher: BrowserInfo = await this.launcher.launch(this._options.useTabUrl ? this._options.tabUrl : 'about:blank');
         let client;
 
-        /* We want a new tab for this session. If it is a new browser, a new tab
-            will be created automatically. If it was already there, then we need
-            to create it ourselves. */
+        /*
+         * We want a new tab for this session. If it is a new browser, a new tab
+         * will be created automatically. If it was already there, then we need
+         * to create it ourselves.
+         */
         if (launcher.isNew) {
             // Chrome Launcher return also some extensions tabs but we don't need them.
             const tabs = _.filter(await cdp.List({ port: launcher.port }), (tab: any) => { // eslint-disable-line new-cap
@@ -597,8 +623,10 @@ export class Connector implements IConnector {
             client = await cdp({
                 port: launcher.port,
                 tab: (tabs): number => {
-                    /* We can return a tab or an index. Also `tab` !== tab[index]
-                        even if the have the same `id`. */
+                    /*
+                     * We can return a tab or an index. Also `tab` !== tab[index]
+                     * even if the have the same `id`.
+                     */
                     for (let index = 0; index < tabs.length; index++) {
                         if (tabs[index].id === tab.id) {
                             return index;
@@ -652,7 +680,8 @@ export class Connector implements IConnector {
         ]);
     }
 
-    /** CDP sometimes doesn't download the favicon automatically, this method:
+    /**
+     * CDP sometimes doesn't download the favicon automatically, this method:
      *
      * * uses the `src` attribute of `<link rel="icon">` if present.
      * * uses `favicon.ico` and the final url after redirects.
@@ -740,9 +769,11 @@ export class Connector implements IConnector {
         };
     }
 
-    // ------------------------------------------------------------------------------
-    // Public methods
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Public methods
+     * ------------------------------------------------------------------------------
+     */
 
     public collect(target: URL) {
         return promisify(async (callback) => {
@@ -769,13 +800,15 @@ export class Connector implements IConnector {
             this._client = client;
             const { Page, Security } = client;
 
-            // Bypassing the "Your connection is not private"
-            // certificate error when using self signed certificate
-            // in tests.
-            //
-            // https://github.com/cyrus-and/chrome-remote-interface/wiki/Bypass-certificate-errors-(%22Your-connection-is-not-private%22)
-            //
-            // Ignore all the certificate errors.
+            /*
+             * Bypassing the "Your connection is not private"
+             * certificate error when using self signed certificate
+             * in tests.
+             *
+             * https://github.com/cyrus-and/chrome-remote-interface/wiki/Bypass-certificate-errors-(%22Your-connection-is-not-private%22)
+             *
+             * Ignore all the certificate errors.
+             */
 
             if (this._options.overrideInvalidCert) {
                 Security.certificateError(({ eventId }) => {
@@ -824,7 +857,8 @@ export class Connector implements IConnector {
 
         try {
             this._client.close();
-            /* We need this delay overall because in test if we close the
+            /*
+             * We need this delay overall because in test if we close the
              * client and at the same time the next test try to open a new
              * tab then an error is thrown.
              */
@@ -835,8 +869,10 @@ export class Connector implements IConnector {
     }
 
     public async fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {
-        // TODO: This should create a new tab, navigate to the
-        // resource and control what is received somehow via an event.
+        /*
+         * TODO: This should create a new tab, navigate to the
+         * resource and control what is received somehow via an event.
+         */
         const assigns = _.compact([this && this._headers, customHeaders]);
         const headers = Object.assign({}, ...assigns);
         const href: string = typeof target === 'string' ? target : target.href;
@@ -867,7 +903,8 @@ export class Connector implements IConnector {
         };
     }
 
-    /** Asynchronoulsy evaluates the given JavaScript code into the browser.
+    /**
+     * Asynchronoulsy evaluates the given JavaScript code into the browser.
      *
      * This awesomeness comes from lighthouse
      */
@@ -893,11 +930,13 @@ export class Connector implements IConnector {
 
                 const result = await this._client.Runtime.evaluate({
                     awaitPromise: true,
-                    // We need to explicitly wrap the raw expression for several purposes:
-                    // 1. Ensure that the expression will be a native Promise and not a polyfill/non-Promise.
-                    // 2. Ensure that errors in the expression are captured by the Promise.
-                    // 3. Ensure that errors captured in the Promise are converted into plain-old JS Objects
-                    //    so that they can be serialized properly b/c JSON.stringify(new Error('foo')) === '{}'
+                    /*
+                     * We need to explicitly wrap the raw expression for several purposes:
+                     * 1. Ensure that the expression will be a native Promise and not a polyfill/non-Promise.
+                     * 2. Ensure that errors in the expression are captured by the Promise.
+                     * 3. Ensure that errors captured in the Promise are converted into plain-old JS Objects
+                     *    so that they can be serialized properly b/c JSON.stringify(new Error('foo')) === '{}'
+                     */
                     expression,
                     includeCommandLineAPI: true,
                     returnByValue: true
@@ -928,9 +967,11 @@ export class Connector implements IConnector {
         return this._dom.querySelectorAll(selector);
     }
 
-    // ------------------------------------------------------------------------------
-    // Getters
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Getters
+     * ------------------------------------------------------------------------------
+     */
 
     public get dom(): AsyncHTMLDocument {
         return this._dom;

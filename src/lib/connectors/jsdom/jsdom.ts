@@ -6,22 +6,24 @@
  * By defautl it has the following configuration:
  *
  * {
-    gzip: true,
-    headers: {
-        'Accept-Language': 'en-US,en;q=0.8,es;q=0.6,fr;q=0.4',
-        'Cache-Control': 'no-cache',
-        DNT: 1,
-        Pragma: 'no-cache',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-    },
-    jar: true,
-    waitFor: 5000
-}
+ *     gzip: true,
+ *     headers: {
+ *         'Accept-Language': 'en-US,en;q=0.8,es;q=0.6,fr;q=0.4',
+ *         'Cache-Control': 'no-cache',
+ *         DNT: 1,
+ *         Pragma: 'no-cache',
+ *         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+ *     },
+ *     jar: true,
+ *     waitFor: 5000
+ * }
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as path from 'path';
 import * as url from 'url';
@@ -43,9 +45,11 @@ import { readFileAsync } from '../../utils/misc';
 import { Requester } from '../utils/requester';
 import { Sonar } from '../../sonar';
 
-// ------------------------------------------------------------------------------
-// Defaults
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Defaults
+ * ------------------------------------------------------------------------------
+ */
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -83,18 +87,24 @@ class JSDOMConnector implements IConnector {
         this._server = server;
     }
 
-    // ------------------------------------------------------------------------------
-    // Private methods
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Private methods
+     * ------------------------------------------------------------------------------
+     */
 
-    /** Loads a url that uses the `file://` protocol taking into
-     *  account if the host is `Windows` or `*nix`. */
+    /**
+     * Loads a url that uses the `file://` protocol taking into
+     * account if the host is `Windows` or `*nix`.
+     */
     private async _fetchFile(target: URL): Promise<INetworkData> {
         let targetPath: string = target.path;
 
-        /* `targetPath` on `Windows` is like `/c:/path/to/file.txt`
-           `readFileAsync` will prepend `c:` so the final path will
-           be: `c:/c:/path/to/file.txt` which is not valid */
+        /*
+         * `targetPath` on `Windows` is like `/c:/path/to/file.txt`
+         * `readFileAsync` will prepend `c:` so the final path will
+         * be: `c:/c:/path/to/file.txt` which is not valid
+         */
         if (path.sep === '\\' && targetPath.indexOf('/') === 0) {
             targetPath = targetPath.substr(1);
         }
@@ -125,8 +135,10 @@ class JSDOMConnector implements IConnector {
         return Promise.resolve(connector);
     }
 
-    /** Loads a URL (`http(s)`) combining the customHeaders with
-     * the configured ones for the connector. */
+    /**
+     * Loads a URL (`http(s)`) combining the customHeaders with
+     * the configured ones for the connector.
+     */
 
     private _fetchUrl(target: URL, customHeaders?: object): Promise<INetworkData> {
         const uri: string = url.format(target);
@@ -145,8 +157,12 @@ class JSDOMConnector implements IConnector {
         const eventName: string = `element::${element.nodeName.toLowerCase()}`;
 
         debug(`emitting ${eventName}`);
-        // should we freeze it? what about the other siblings, children, parents? We should have an option to not allow modifications
-        // maybe we create a custom object that only exposes read only properties?
+        /*
+         * should we freeze it? what about the other siblings, children,
+         * parents? We should have an option to not allow modifications
+         * maybe we create a custom object that only exposes read only
+         * properties?
+         */
         const event: IElementFound = {
             element: new JSDOMAsyncHTMLElement(element),
             resource: this._finalHref
@@ -207,9 +223,11 @@ class JSDOMConnector implements IConnector {
                 response: resourceNetworkData.response
             };
 
-            // TODO: Replace `null` with `resource` once it
-            // can be converted to `JSDOMAsyncHTMLElement`.
-            // Event is also emitted when status code in response is not 200.
+            /*
+             * TODO: Replace `null` with `resource` once it
+             * can be converted to `JSDOMAsyncHTMLElement`.
+             * Event is also emitted when status code in response is not 200.
+             */
             await this._server.emitAsync('fetch::end', fetchEndEvent);
 
             return callback(null, resourceNetworkData.response.body.content);
@@ -228,7 +246,8 @@ class JSDOMConnector implements IConnector {
         }
     }
 
-    /** JSDOM doesn't download the favicon automatically, this method:
+    /**
+     * JSDOM doesn't download the favicon automatically, this method:
      *
      * * uses the `src` attribute of `<link rel="icon">` if present.
      * * uses `favicon.ico` and the final url after redirects.
@@ -243,7 +262,8 @@ class JSDOMConnector implements IConnector {
         }
     }
 
-    /** When `element` is passed, tries to download the manifest specified by it
+    /**
+     * When `element` is passed, tries to download the manifest specified by it
      * sending `manifestfetch::end` or `manifestfetch::error`.
      *
      * If no `element`, then checks if it has been download previously and if not
@@ -262,16 +282,20 @@ class JSDOMConnector implements IConnector {
         }
 
         if (this._manifestIsSpecified) {
-            // Nothing to do, we already have the manifest. Double declarations should
-            // be handled at the rule level.
+            /*
+             * Nothing to do, we already have the manifest. Double declarations should
+             * be handled at the rule level.
+             */
             return;
         }
 
         this._manifestIsSpecified = true;
 
-        // Check if the specified file actually exists.
-        //
-        // https://w3c.github.io/manifest/#obtaining
+        /*
+         * Check if the specified file actually exists.
+         *
+         * https://w3c.github.io/manifest/#obtaining
+         */
 
         const manifestHref: string = element.getAttribute('href');
         let manifestURL: string = '';
@@ -281,13 +305,17 @@ class JSDOMConnector implements IConnector {
             return;
         }
 
-        // If `href` exists and is not an empty string, try
-        // to figure out the full URL of the web app manifest.
+        /*
+         * If `href` exists and is not an empty string, try
+         * to figure out the full URL of the web app manifest.
+         */
 
         manifestURL = resolveUrl(manifestHref, this._finalHref);
 
-        // Try to see if the web app manifest file actually
-        // exists and is accesible.
+        /*
+         * Try to see if the web app manifest file actually
+         * exists and is accesible.
+         */
 
         try {
             const manifestData: INetworkData = await this.fetchContent(manifestURL);
@@ -316,9 +344,11 @@ class JSDOMConnector implements IConnector {
         }
     }
 
-    // ------------------------------------------------------------------------------
-    // Public methods
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Public methods
+     * ------------------------------------------------------------------------------
+     */
 
     public collect(target: URL) {
         /** The target in string format */
@@ -385,8 +415,11 @@ class JSDOMConnector implements IConnector {
                     this._window = window;
                     this._document = new JSDOMAsyncHTMLDocument(window.document);
 
-                    /* Even though `done()` is called after window.onload (so all resoruces and scripts executed),
-                       we might want to wait a few seconds if the site is lazy loading something. */
+                    /*
+                     * Even though `done()` is called after `window.onload`
+                     * (so all resoruces and scripts executed), we might want
+                     * to wait a few seconds if the site is lazy loading something.
+                     */
                     setTimeout(async () => {
                         const event: IEvent = { resource: this._finalHref };
 
@@ -400,8 +433,10 @@ class JSDOMConnector implements IConnector {
                             await this.getFavicon(window.document.querySelector('link[rel~="icon"]'));
                             await this.getManifest();
 
-                            /* TODO: when we reach this moment we should wait for all pending request to be done and
-                               stop processing any more. */
+                            /*
+                             * TODO: when we reach this moment we should wait for all pending request to be done and
+                             * stop processing any more.
+                             */
                             await this._server.emitAsync('scan::end', event);
                         } catch (e) {
                             reject(e);
@@ -428,9 +463,11 @@ class JSDOMConnector implements IConnector {
         try {
             this._window.close();
         } catch (e) {
-            // We could have some pending network requests and this could fail.
-            // Because the process is going to end so we don't care if this fails.
-            // https://github.com/sonarwhal/sonar/issues/203
+            /*
+             * We could have some pending network requests and this could fail.
+             * Because the process is going to end so we don't care if this fails.
+             * https://github.com/sonarwhal/sonar/issues/203
+             */
             debug(`Exception ignored while closing JSDOM connector (most likely pending network requests)`);
             debug(e);
         }
@@ -438,7 +475,8 @@ class JSDOMConnector implements IConnector {
         return Promise.resolve();
     }
 
-    /** Fetches a resource. It could be a file:// or http(s):// one.
+    /**
+     * Fetches a resource. It could be a file:// or http(s):// one.
      *
      * If target is:
      * * a URL and doesn't have a valid protocol it will fail.
@@ -448,8 +486,10 @@ class JSDOMConnector implements IConnector {
         let parsedTarget: URL | string = target;
 
         if (typeof parsedTarget === 'string') {
-            /* TODO: We should be using `resource.element.ownerDocument.location` to get the right protocol
-            but it doesn't seem return the right value */
+            /*
+             * TODO: We should be using `resource.element.ownerDocument.location`
+             * to get the right protocol but it doesn't seem return the right value.
+             */
             parsedTarget = parsedTarget.indexOf('//') === 0 ? `http:${parsedTarget}` : parsedTarget;
             parsedTarget = url.parse(parsedTarget);
 
@@ -506,9 +546,11 @@ class JSDOMConnector implements IConnector {
         return this._document.querySelectorAll(selector);
     }
 
-    // ------------------------------------------------------------------------------
-    // Getters
-    // ------------------------------------------------------------------------------
+    /*
+     * ------------------------------------------------------------------------------
+     * Getters
+     * ------------------------------------------------------------------------------
+     */
 
     public get dom(): JSDOMAsyncHTMLDocument {
         return this._document;

@@ -70,8 +70,10 @@ const renameFile = async (file: string, data: string[][]) => {
     }
 };
 
-/** Updates all the occurrences of `sonarwhal-rule-name` and `sonarwhal-rule-description` to the
- *  user specified ones. */
+/**
+ * Updates all the occurrences of `sonarwhal-rule-name` and
+ * `sonarwhal-rule-description` to the user specified ones.
+ */
 const updateFiles = async (source: string, data) => {
     logger.log('Updating template content');
     const replacements: string[][] = Object.entries(data);

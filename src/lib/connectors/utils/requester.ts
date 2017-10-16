@@ -60,7 +60,8 @@ export class Requester {
         return this._redirects.calculate(uri);
     }
 
-    /** Performs a `get` to the given `uri`.
+    /**
+     * Performs a `get` to the given `uri`.
      * If `Content-Type` is of type text and the charset is one of those supported by
      * [`iconv-lite`](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings)
      * it will decode the response.
@@ -131,8 +132,9 @@ export class Requester {
 
                 return resolve(networkData);
             })
-                /* This will allow us to get the raw response's body, handy if it is compressed.
-                   See: https://github.com/request/request/tree/6f286c81586a90e6a9d97055f131fdc68e523120#examples.
+                /*
+                 * This will allow us to get the raw response's body, handy if it is compressed.
+                 * See: https://github.com/request/request/tree/6f286c81586a90e6a9d97055f131fdc68e523120#examples.
                  */
                 .on('response', (response) => {
                     response

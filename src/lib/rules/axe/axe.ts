@@ -3,9 +3,11 @@
  * in the context of the page and checks if there are any issues with a11y.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'axe-core';
 
@@ -17,9 +19,11 @@ import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -35,9 +39,11 @@ const rule: IRuleBuilder = {
         };
 
         const generateScript = (): string => {
-            // This is run in the page, not Sonar itself.
-            // axe.run returns a promise which fulfills with a results object
-            // containing any violations.
+            /*
+             * This is run in the page, not Sonar itself.
+             * axe.run returns a promise which fulfills with a results object
+             * containing any violations.
+             */
             const script: string =
                 `function runA11yChecks() {
     return window['axe'].run(document, ${JSON.stringify(axeConfig, null, 2)});

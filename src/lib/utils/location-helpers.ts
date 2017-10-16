@@ -23,8 +23,10 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
     for (let i = 0; i < attributes.length; i++) {
         const attribute: IAsyncHTMLAttribute | NamedNodeMap = attributes[i];
 
-        /* jsdom breaks when attribute names have a `.` (invalid) but it is widely used,
-            so we ignore that selector. */
+        /*
+         * jsdom breaks when attribute names have a `.` (invalid) but it is widely used,
+         * so we ignore that selector.
+         */
         if (!attribute.name.includes('.')) {
             selector += `[${attribute.name}="${escapeQuotes(attribute.value)}"]`;
         }
@@ -76,10 +78,11 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<I
     for (let index = 0; index < elements.length; index++) {
         const currentElement: IAsyncHTMLElement = elements[index];
 
-        /* We compare the HTML because the selector might not be enough to distinguish:
-            <a href="http://site1">Site1</a>
-            <a href="http://site1">Site2</a>
-        */
+        /*
+         * We compare the HTML because the selector might not be enough to distinguish:
+         * <a href="http://site1">Site1</a>
+         * <a href="http://site1">Site2</a>
+         */
         const currentElementHTML: string = await currentElement.outerHTML();
 
         if (currentElementHTML === elementHTML) {
@@ -102,10 +105,11 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<I
     };
 };
 
-/** Returns the first location (line/column) where `content` appears.
+/**
+ * Returns the first location (line/column) where `content` appears.
  * * If no content is provided, the return value is {0, 0}
  * * If the content is not found, the return value is {-1, -1}
-  */
+ */
 export const findInElement = async (element: IAsyncHTMLElement, content: string): Promise<IProblemLocation> => {
     if (!content) {
         return {

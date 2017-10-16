@@ -3,9 +3,11 @@
  * the connectors, rules and analyzes.
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as url from 'url';
 
@@ -24,9 +26,11 @@ import { RuleContext } from './rule-context';
 
 const debug: debug.IDebugger = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public interface
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public interface
+ * ------------------------------------------------------------------------------
+ */
 
 export class Sonar extends EventEmitter {
     // TODO: review which ones need to be private or not
@@ -155,8 +159,10 @@ export class Sonar extends EventEmitter {
                 const localResource: boolean = url.parse(event.resource).protocol === 'file:';
                 const urlsIgnored: Array<RegExp> = this.ignoredUrls.get(ruleId);
 
-                // Some rules don't work with local resource,
-                // so it doesn't make sense to the event.
+                /*
+                 * Some rules don't work with local resource,
+                 * so it doesn't make sense to the event.
+                 */
 
                 if ((localResource && !worksWithLocalFiles) || this.isIgnored(urlsIgnored, event.resource)) {
                     return null;

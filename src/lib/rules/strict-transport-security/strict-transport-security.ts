@@ -10,9 +10,11 @@ import { IAsyncHTMLElement, IResponse, IFetchEnd, IRule, IRuleBuilder, INetworkD
 
 const debug = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -25,8 +27,10 @@ const rule: IRuleBuilder = {
         /** Endpoint to verify that the domain name is qualified to be preloaded */
         const preloadableApiEndPoint = `https://hstspreload.org/api/v2/preloadable?domain=`;
 
-        /* HACK: Need to do a require here in order to be capable of mocking
-                when testing the rule and `import` doesn't work here. */
+        /*
+         * HACK: Need to do a require here in order to be capable of mocking
+         * when testing the rule and `import` doesn't work here.
+         */
         const { isHTTPS, isRegularProtocol, normalizeString, requestJSONAsync } = require('../../utils/misc');
 
         const loadRuleConfigs = () => {
@@ -34,18 +38,22 @@ const rule: IRuleBuilder = {
             checkPreload = (context.ruleOptions && context.ruleOptions.checkPreload);
         };
 
-        // STS header Syntax:
-        // Strict-Transport-Security: max-age=<expire-time>
-        // Strict-Transport-Security: max-age=<expire-time>; includeSubDomains
-        // Strict-Transport-Security: max-age=<expire-time>; preload
-        // This function accomplishes the following:
-        // "max-age=31536000; includesubdomains; preload" => {"max-age":31536000,"includesubdomains":true,"preload":true}
+        /*
+         * STS header Syntax:
+         * Strict-Transport-Security: max-age=<expire-time>
+         * Strict-Transport-Security: max-age=<expire-time>; includeSubDomains
+         * Strict-Transport-Security: max-age=<expire-time>; preload
+         * This function accomplishes the following:
+         * "max-age=31536000; includesubdomains; preload" => {"max-age":31536000,"includesubdomains":true,"preload":true}
+         */
         const parse = (headerValue: string) => {
             const parsedHeader = {};
             const directives = headerValue.toLowerCase().split(';');
             const nameValuePairRegex = /^ *([!#$%&'*+.^_`|~0-9A-Za-z-]+) *= *("(?:[~0-9])*"|[!#$%&'*+.^_`|~0-9]+) *$/;
-            // Regex for name-value pairs. E.g.: max-age=31536000
-            // Modified usage of https://github.com/jshttp/content-type/blob/64bde0d996ccb4334341662c0c7d25f7b370c4d9/index.js#L23
+            /*
+             * Regex for name-value pairs. E.g.: max-age=31536000
+             * Modified usage of https://github.com/jshttp/content-type/blob/64bde0d996ccb4334341662c0c7d25f7b370c4d9/index.js#L23
+             */
             const tokenRegex = /^ *[!#$%&'*+.^_`|~0-9A-Za-z-]+$/; // Regex for single tokens. E.g.:  includesubdomains
 
             directives.forEach((directive) => {

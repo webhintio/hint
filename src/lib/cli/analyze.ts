@@ -13,9 +13,11 @@ import { initSonarrc } from './init';
 
 const debug: debug.IDebugger = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Private
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Private
+ * ------------------------------------------------------------------------------
+ */
 
 const confirmLaunchInit = (): inquirer.Answers => {
     debug(`Initiating launch init confirm.`);
@@ -94,11 +96,14 @@ const format = (formatterName: string, results: IProblem[]) => {
     formatter.format(results);
 };
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 // HACK: we need this to correctly test the messages in tests/lib/cli.ts.
+
 export let sonar: Sonar = null;
 
 /** Analyzes a website if indicated by `actions`. */

@@ -3,9 +3,11 @@
  * https://validator.w3.org/nu/
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as _ from 'lodash';
 
@@ -16,9 +18,11 @@ import { IRule, IRuleBuilder, ITargetFetchEnd, IScanEnd, IProblemLocation, Sever
 
 const debug: debug.IDebugger = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
@@ -51,9 +55,11 @@ const rule: IRuleBuilder = {
             groupMessage = !(context.ruleOptions && context.ruleOptions.details);
             scanOptions.validator = validator;
 
-            // Up to now, the `ignore` setting in `html-validator` only works if `format` is set to `text`
-            // So we implement `ignore` in our code rather than pass it to `scanOptions`
-            // TODO: Pass `ignore` once this issue (https://github.com/zrrrzzt/html-validator/issues/58) is solved.
+            /*
+             * Up to now, the `ignore` setting in `html-validator` only works if `format` is set to `text`
+             * So we implement `ignore` in our code rather than pass it to `scanOptions`
+             * TODO: Pass `ignore` once this issue (https://github.com/zrrrzzt/html-validator/issues/58) is solved.
+             */
             ignoredMessages = Array.isArray(ignore) ? ignore : [ignore];
         };
 
@@ -86,8 +92,11 @@ const rule: IRuleBuilder = {
         const start = (data: ITargetFetchEnd) => {
             const { response } = data;
 
-            /* HACK: Need to do a require here in order to be capable of mocking
-               when testing the rule and `import` doesn't work here. */
+            /*
+             * HACK: Need to do a require here in order to be capable
+             * of mocking when testing the rule and `import` doesn't
+             * work here.
+             */
             const htmlChecker = require('html-validator');
 
             scanOptions.data = response.body.content;

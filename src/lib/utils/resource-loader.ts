@@ -5,9 +5,11 @@
  * {/, /node_modules/}lib/{connectors, formatters, plugins, rules}/*.js
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Requirements
+ * ------------------------------------------------------------------------------
+ */
 
 import * as path from 'path';
 
@@ -57,17 +59,21 @@ const getCoreResources = (type: string): Array<string> => {
     return ids;
 };
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 /** Tries to load a module from `resourcePath`. */
 export const tryToLoadFrom = (resourcePath: string): any => {
     let builder: any = null;
 
     try {
-        // The following link has more info on how `require` resolves modules:
-        // http://nodejs.org/dist/latest-v8.x/docs/api/modules.html#modules_all_together
+        /*
+         * The following link has more info on how `require` resolves modules:
+         * http://nodejs.org/dist/latest-v8.x/docs/api/modules.html#modules_all_together
+         */
 
         const resource = require(resourcePath);
 
@@ -80,7 +86,8 @@ export const tryToLoadFrom = (resourcePath: string): any => {
 };
 
 
-/** Looks for a sonar resource with the given `name` and tries to load it.
+/**
+ * Looks for a sonar resource with the given `name` and tries to load it.
  * If no valid resource is found, it throws an `Error`.
  *
  * By default, the priorities are:
