@@ -191,29 +191,6 @@ const rule: IRuleBuilder = {
             return null;
         };
 
-        const overwriteMediaType = (mediaType: string): string => {
-
-            /*
-             * TODO: The following is done because of a current limitation in `mime-db`.
-             * https://github.com/jshttp/mime-db/issues/20
-             */
-
-            switch (mediaType) {
-                case 'application/x-font-otf':
-                    return 'font/otf';
-                case 'application/font-sfnt':
-                    return 'font/sfnt';
-                case 'application/x-font-ttf':
-                    return 'font/ttf';
-                case 'application/font-woff':
-                    return 'font/woff';
-                case 'application/font-woff2':
-                    return 'font/woff2';
-                default:
-                    return mediaType;
-            }
-        };
-
         const validate = async (fetchEnd: IFetchEnd) => {
             const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
 
@@ -271,12 +248,10 @@ const rule: IRuleBuilder = {
 
             // Try to determine the media type and charset of the resource.
 
-            let mediaType: string =
+            const mediaType: string =
                 determineMediaTypeBasedOnElement(element) ||
                 determineMediaTypeBasedOnFileType(response.body.rawContent) ||
                 determineMediaTypeBasedOnFileExtension(resource);
-
-            mediaType = overwriteMediaType(mediaType);
 
             const charset: string = determineCharset(mediaType, originalMediaType);
 
