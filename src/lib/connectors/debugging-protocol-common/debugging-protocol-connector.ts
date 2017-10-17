@@ -374,11 +374,12 @@ export class Connector implements IConnector {
             return returnValue;
         } catch (e) {
             debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
-            rawContent = Buffer.alloc(0);
-        }
-        debug(`Content for ${cutString(cdpResponse.response.url)} downloaded`);
+            defaultBody.rawContent = Buffer.alloc(0);
 
-        return defaultBody;
+            debug(`Content for ${cutString(cdpResponse.response.url)} downloaded`);
+
+            return defaultBody;
+        }
     }
 
     /** Returns a Response for the given request. */
@@ -411,6 +412,21 @@ export class Connector implements IConnector {
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const originalUrl: string = hops[0] || resourceUrl;
 
+        let eventName: string = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
+
+        if (params.type === 'Manifest') {
+            eventName = 'manifestfetch::end';
+        }
+
+        if (eventName !== 'targetfetch::end') {
+            // DOM is not ready so we queue up the event for later
+            if (!this._dom) {
+                this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
+
+                return;
+            }
+        }
+
         const response: IResponse = await this.createResponse(params);
 
         const request: IRequest = {
@@ -425,20 +441,7 @@ export class Connector implements IConnector {
             response
         };
 
-        let eventName: string = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
-
-        if (params.type === 'Manifest') {
-            eventName = 'manifestfetch::end';
-        }
-
         if (eventName !== 'targetfetch::end') {
-            // DOM is not ready so we queue up the event for later
-            if (!this._dom) {
-                this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
-
-                return;
-            }
-
             try {
                 data.element = await this.getElementFromRequest(params.requestId);
             } catch (e) {
@@ -729,7 +732,6 @@ export class Connector implements IConnector {
     private onLoadEventFired(callback: Function): Function {
         return async () => {
             await delay(this._options.waitFor);
-
             const { DOM } = this._client;
             const event: IEvent = { resource: this._finalHref };
 
