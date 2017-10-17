@@ -22,6 +22,15 @@ We have a few:
 * Promote community tools and services that do an awesome job but
   could not be known by everybody.
 
+## Who started sonar?
+
+`sonar`'s development started inside the Microsoft Edge team. Early on,
+the team realized that not only the project had to be open source, but
+also be community driven. The best way to achieve that was by donating
+the code to the JS Foundation, have a governance model that welcomes
+input for anyone in the web community (browser vendors, web experts,
+and developer), and continue the work there.
+
 ## What can I do to help?
 
 There are lots of things you can do to make `sonar` better, from
@@ -46,8 +55,17 @@ list.
 
 ## Is there an online service?
 
-Currently there isn't an online service, but having one is part of our
-priorities for the v1.
+Yes! It's in preview so there might be some intermitent issues, but
+you can scan an online website in [here][scanner].
+
+We are working on tweaking the list of rules we run and its
+configuration, but if it is a recommended one it will probably be run.
+Also, it uses the `jsdom connector` so there might be unexpected
+results.
+
+If you have any feedback on the results page, please open an
+issue in the [website repository][scanner-issues]. If it is related
+about the results themselves, then in the [sonar repository][sonar-issues].
 
 ## What is the logo?
 
@@ -77,4 +95,7 @@ telling us what you think can be improved.
 [narwhal echolocation]: http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162069
 [narwhal song]: https://www.youtube.com/watch?v=ykwqXuMPsoc
 [new issue]: https://github.com/sonarwhal/sonar/issues/new
+[scanner]: https://sonarwhal.com/scanner
+[scanner-issues]: https://github.com/sonarwhal/sonarwhal.com/issues/new
+[sonar-issues]: https://github.com/sonarwhal/sonar/issues.new
 [ssllabs]: https://www.ssllabs.com/ssltest/
