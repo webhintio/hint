@@ -1,3 +1,14 @@
+# 0.12.0 (October 19, 2017)
+
+## Bug fixes / Improvements
+
+* [[`92c815ca57`](https://github.com/sonarwhal/sonar/commit/92c815ca57cf791e93a36b68c602588a4f1b2cc2)] - Fix: Improve `test-server` and `debugging-protocol` requests logic (see also: [`#582`](https://github.com/sonarwhal/sonar/issues/582)).
+
+## New features
+
+* [[`8a7e1ea5f7`](https://github.com/sonarwhal/sonar/commit/8a7e1ea5f7bbe5dc21db412a79aec487354d986b)] - New: Add image optimization rule using Cloudinary's service (see also: [`#575`](https://github.com/sonarwhal/sonar/issues/575)).
+
+
 # 0.11.0 (October 19, 2017)
 
 ## Breaking Changes
