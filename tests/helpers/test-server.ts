@@ -157,7 +157,6 @@ export class Server {
             });
 
             this._server.once('listening', () => {
-                console.log(`Listening on ${this._port}`);
                 resolve();
             });
 

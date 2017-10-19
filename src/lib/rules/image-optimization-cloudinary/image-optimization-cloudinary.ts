@@ -65,9 +65,9 @@ const rule: IRuleBuilder = {
         };
 
         /** Detects if there is a valid cloudinary configuration. */
-        const isConfigured = () => {
+        const isConfigured = (ruleOptions) => {
             const cloudinaryUrl = process.env.CLOUDINARY_URL; // eslint-disable-line no-process-env
-            const { apiKey, apiSecret, cloudName, threshold } = context.ruleOptions;
+            const { apiKey, apiSecret, cloudName, threshold } = ruleOptions;
 
             if (threshold) {
                 sizeThreshold = threshold;
@@ -115,6 +115,12 @@ const rule: IRuleBuilder = {
 
         /** Waits to gather the results of all the images and notifies if there is any possible savings. */
         const end = async (data: IScanEnd) => {
+            if (!configured) {
+                await context.report('', null, `No valid configuration for Cloudinary found. Rule coudn't run.`);
+
+                return;
+            }
+
             const results = await Promise.all(uploads);
 
             const unoptimized = results.filter((result) => {
@@ -145,7 +151,8 @@ const rule: IRuleBuilder = {
             }
         };
 
-        configured = isConfigured();
+        // `context.ruleOptions` will be `null` if not specied
+        configured = isConfigured(context.ruleOptions || { apiKey: '', apiSecret: '', cloudName: '', threshold: 0});
 
         return {
             'fetch::end': analyzeImage,
