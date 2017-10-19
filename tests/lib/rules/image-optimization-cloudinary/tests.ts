@@ -114,6 +114,20 @@ const testThresholds: Array<IRuleTest> = [
     }
 ];
 
+const noConfigTest: Array<IRuleTest> = [
+    {
+        before() {
+            mockCloudinary(savings50);
+        },
+        name: 'No cloudinary Config',
+        reports: [{ message: `No valid configuration for Cloudinary found. Rule coudn't run.` }],
+        serverConfig: {
+            '/': generateHTMLPage('', `<img src="nellie-studying.png">`),
+            '/nellie-studying.png': generateImageData(png, 'image/png')
+        }
+    }
+];
+
 ruleRunner.testRule(ruleName, testThresholds, {
     ignoredConnectors: ['chrome'],
     ruleOptions: { apiKey: 'fakeApiName', apiSecret: 'fakeApiSecret', cloudName: 'fakeCloudName', threshold: 150 },
@@ -123,5 +137,10 @@ ruleRunner.testRule(ruleName, testThresholds, {
 ruleRunner.testRule(ruleName, tests, {
     ignoredConnectors: ['chrome'],
     ruleOptions: { apiKey: 'fakeApiName', apiSecret: 'fakeApiSecret', cloudName: 'fakeCloudName' },
+    serial: true
+});
+
+ruleRunner.testRule(ruleName, noConfigTest, {
+    ignoredConnectors: ['chrome'],
     serial: true
 });
