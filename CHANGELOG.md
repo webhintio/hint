@@ -1,3 +1,14 @@
+# 0.11.0 (October 19, 2017)
+
+## Breaking Changes
+
+* [[`f794bc8f36`](https://github.com/sonarwhal/sonar/commit/f794bc8f362c970d0cc398546e7bf614a4759661)] - Breaking: Require `text/javascript` as the media type for JavaScript files (see also: [`#568`](https://github.com/sonarwhal/sonar/issues/568)).
+
+## Bug fixes / Improvements
+
+* [[`55b2190c35`](https://github.com/sonarwhal/sonar/commit/55b2190c354fde5ed581c4d00a9f5e235ff4ae53)] - Docs: Update FAQ with information about the online scanner and the project history (see also: [`#580`](https://github.com/sonarwhal/sonar/issues/580)).
+
+
 # 0.10.2 (October 5, 2017)
 
 ## Bug fixes / Improvements
