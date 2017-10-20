@@ -1,3 +1,10 @@
+# 0.12.2 (October 20, 2017)
+
+## Bug fixes / Improvements
+
+* [[`4ed7cf2aa9`](https://github.com/sonarwhal/sonar/commit/4ed7cf2aa9092e15576287226271dfa9b8e82979)] - Fix: Issue in Cloudinary with invalid images.
+
+
 # 0.12.1 (October 20, 2017)
 
 ## Bug fixes / Improvements
