@@ -43,7 +43,7 @@ const rule: IRuleBuilder = {
                 .update(data.response.body.rawContent)
                 .digest('hex');
 
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 return cloudinary.v2.uploader.upload_stream(
                     { crop: 'limit', public_id: hash, quality: 'auto' },
                     (error, result) => {
@@ -51,7 +51,8 @@ const rule: IRuleBuilder = {
                             logger.error(`Error processing image ${cutString(data.resource)} with cloudinary`);
                             logger.error(error);
 
-                            return reject(error);
+                            // We still want to complete the test
+                            return resolve(null);
                         }
 
                         result.originalBytes = data.response.body.rawContent.length;
