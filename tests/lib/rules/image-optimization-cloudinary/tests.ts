@@ -10,8 +10,9 @@ import * as ruleRunner from '../../../helpers/rule-runner';
 const ruleName = getRuleName(__dirname);
 const svg = readFileSync(`${__dirname}/fixtures/space-nellie.svg`);
 const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);
+const invalid = readFileSync(`${__dirname}/fixtures/invalid-image.js`);
 
-const generateImageData = (content: Buffer, type): Object => {
+const generateResponse = (content: Buffer, type): Object => {
     return {
         content,
         headers: { 'Content-Type': type }
@@ -40,12 +41,16 @@ const savings33 = {
 };
 
 /** Creates a fake `cloudinary` module that will return the `response` on `v2.uploader.upload_stream`. */
-const mockCloudinary = (responses) => {
+const mockCloudinary = (responses?) => {
     const mockedModule = {
         v2: {
             config() { },
             uploader: {
                 upload_stream: (options, cb) => { // eslint-disable-line camelcase
+                    if (!responses) {
+                        return cb('Invalid image');
+                    }
+
                     let response = responses;
 
                     if (Array.isArray(response)) {
@@ -74,7 +79,7 @@ const tests: Array<IRuleTest> = [
         reports: [{ message: `File http://localhost/nellie-studying.png could be around 143.62kB (50%) smaller.` }],
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png">`),
-            '/nellie-studying.png': generateImageData(png, 'image/png')
+            '/nellie-studying.png': generateResponse(png, 'image/png')
         }
     },
     {
@@ -84,7 +89,17 @@ const tests: Array<IRuleTest> = [
         name: 'optimized SVG',
         serverConfig: {
             '/': generateHTMLPage('', `<img src="space-nellie.svg">`),
-            '/space-nellie.svg': generateImageData(svg, 'image/svg+xml')
+            '/space-nellie.svg': generateResponse(svg, 'image/svg+xml')
+        }
+    },
+    {
+        before() {
+            mockCloudinary();
+        },
+        name: 'invalid image',
+        serverConfig: {
+            '/': generateHTMLPage('<script src="invalid-image.js"></script>'),
+            '/invalid-image.js': generateResponse(invalid, 'text/javascript')
         }
     }
 ];
@@ -98,8 +113,8 @@ const testThresholds: Array<IRuleTest> = [
         reports: [{ message: `The total size savings optimizing the images in http://localhost/ could be of around 195kB.` }],
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png"><img src="nellie-focused.png">`),
-            '/nellie-focused.png': generateImageData(png, 'image/png'),
-            '/nellie-studying.png': generateImageData(png, 'image/png')
+            '/nellie-focused.png': generateResponse(png, 'image/png'),
+            '/nellie-studying.png': generateResponse(png, 'image/png')
         }
     },
     {
@@ -109,7 +124,7 @@ const testThresholds: Array<IRuleTest> = [
         name: 'unoptimized PNG with threshold',
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png">`),
-            '/nellie-studying.png': generateImageData(png, 'image/png')
+            '/nellie-studying.png': generateResponse(png, 'image/png')
         }
     }
 ];
@@ -123,7 +138,7 @@ const noConfigTest: Array<IRuleTest> = [
         reports: [{ message: `No valid configuration for Cloudinary found. Rule coudn't run.` }],
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png">`),
-            '/nellie-studying.png': generateImageData(png, 'image/png')
+            '/nellie-studying.png': generateResponse(png, 'image/png')
         }
     }
 ];
