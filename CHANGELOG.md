@@ -1,3 +1,10 @@
+# 0.12.1 (October 20, 2017)
+
+## Bug fixes / Improvements
+
+* [[`0e141f33ce`](https://github.com/sonarwhal/sonar/commit/0e141f33ce7d159e22c7e33aa15867e03eff025a)] - Fix: Cloudinary authentication issue.
+
+
 # 0.12.0 (October 19, 2017)
 
 ## Bug fixes / Improvements
