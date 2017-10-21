@@ -44,7 +44,7 @@ matrix:
     # Build used for running the tests on macOS.
 
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.1
       if: type != cron
 
       addons:
