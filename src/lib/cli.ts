@@ -17,7 +17,7 @@
 
 import * as path from 'path';
 
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as updateNotifier from 'update-notifier';
 
 import { CLIOptions } from './types';

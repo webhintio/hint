@@ -1,5 +1,5 @@
 import test from 'ava';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as logSymbols from 'log-symbols';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';

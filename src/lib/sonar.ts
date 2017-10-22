@@ -11,10 +11,10 @@
 
 import * as url from 'url';
 
-import * as _ from 'lodash';
 import * as browserslist from 'browserslist';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
+import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';

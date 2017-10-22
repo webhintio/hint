@@ -17,7 +17,7 @@
     "browserslist": "^2.5.1",
     "caniuse-api": "^2.0.0",
     "canvas-prebuilt": "^1.6.0",
-    "chalk": "2.0.0",
+    "chalk": "^2.2.0",
     "chrome-launcher": "^0.8.1",
     "chrome-remote-interface": "^0.25.2",
     "cloudinary": "^1.9.0",
@@ -68,7 +68,6 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
-    "@types/chalk": "^0.4.31",
     "@types/content-type": "^1.1.1",
     "@types/debug": "0.0.30",
     "@types/file-type": "5.2.1",

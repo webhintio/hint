@@ -8,7 +8,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as _ from 'lodash';
 import * as pluralize from 'pluralize';
 import * as table from 'text-table';
@@ -59,7 +59,7 @@ const formatter: IFormatter = {
             const msgsBySeverity = _.groupBy(problems, 'severity');
             const errors = msgsBySeverity[Severity.error] ? msgsBySeverity[Severity.error].length : 0;
             const warnings = msgsBySeverity[Severity.warning] ? msgsBySeverity[Severity.warning].length : 0;
-            const color: chalk.ChalkChain = errors > 0 ? chalk.red : chalk.yellow;
+            const color: typeof chalk = errors > 0 ? chalk.red : chalk.yellow;
             const message = errors ? buildMessage(errors, 'error') : buildMessage(warnings, 'warning');
 
             tableData.push([chalk.cyan(ruleId), color(message)]);
@@ -70,7 +70,7 @@ const formatter: IFormatter = {
 
         logger.log(table(tableData));
 
-        const color: chalk.ChalkChain = totalErrors > 0 ? chalk.red : chalk.yellow;
+        const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
 
         logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
     }

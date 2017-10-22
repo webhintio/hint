@@ -11,7 +11,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as _ from 'lodash';
 import * as pluralize from 'pluralize';
 
@@ -149,7 +149,7 @@ const formatter: IFormatter = {
             });
         });
 
-        const color: chalk.ChalkChain = totalErrors > 0 ? chalk.red : chalk.yellow;
+        const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
 
         logger.log(color.bold(`\u2716 Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
     }

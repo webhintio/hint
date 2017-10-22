@@ -2,7 +2,7 @@ import { EOL } from 'os';
 import { promisify } from 'util';
 import * as path from 'path';
 
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as inquirer from 'inquirer';
 import * as request from 'request';
 import * as shell from 'shelljs';

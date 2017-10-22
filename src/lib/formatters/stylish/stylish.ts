@@ -10,7 +10,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as _ from 'lodash';
 import * as table from 'text-table';
 import * as pluralize from 'pluralize';
@@ -90,7 +90,7 @@ const formatter: IFormatter = {
 
             logger.log(table(tableData));
 
-            const color: chalk.ChalkChain = errors > 0 ? chalk.red : chalk.yellow;
+            const color: typeof chalk = errors > 0 ? chalk.red : chalk.yellow;
 
             totalErrors += errors;
             totalWarnings += warnings;
@@ -99,7 +99,7 @@ const formatter: IFormatter = {
             logger.log('');
         });
 
-        const color: chalk.ChalkChain = totalErrors > 0 ? chalk.red : chalk.yellow;
+        const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
 
         logger.log(color.bold(`\u2716 Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
     }
