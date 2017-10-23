@@ -46,9 +46,9 @@ const mockCloudinary = (responses?) => {
         v2: {
             config() { },
             uploader: {
-                upload_stream: (options, cb) => { // eslint-disable-line camelcase
+                upload: () => {
                     if (!responses) {
-                        return cb('Invalid image');
+                        return Promise.reject('Invalid image');
                     }
 
                     let response = responses;
@@ -57,11 +57,7 @@ const mockCloudinary = (responses?) => {
                         response = responses.shift();
                     }
 
-                    setImmediate(() => {
-                        return cb(null, response);
-                    });
-
-                    return { end() { } };
+                    return Promise.resolve(response);
                 }
             }
         }

@@ -2,7 +2,10 @@
  * @fileoverview Image optimization with cloudinary
  */
 import * as crypto from 'crypto';
+import * as path from 'path';
+import { tmpdir } from 'os';
 
+import * as fs from 'fs-extra';
 import * as getImageData from 'image-size';
 
 import { RuleContext } from '../../rule-context';
@@ -32,7 +35,7 @@ const rule: IRuleBuilder = {
         /* eslint-disable camelcase */
 
         /** Sends the image to cloudinary to identify optimizations on size and format. */
-        const processImage = (data: IFetchEnd): Promise<cloudinaryResult> => {
+        const processImage = async (data: IFetchEnd): Promise<cloudinaryResult> => {
 
             /*
              * Using the MD5 hash of the file is the recommended way to avoid duplicates
@@ -43,26 +46,29 @@ const rule: IRuleBuilder = {
                 .update(data.response.body.rawContent)
                 .digest('hex');
 
-            return new Promise((resolve) => {
-                return cloudinary.v2.uploader.upload_stream(
-                    { crop: 'limit', public_id: hash, quality: 'auto' },
-                    (error, result) => {
-                        if (error) {
-                            logger.error(`Error processing image ${cutString(data.resource)} with cloudinary`);
-                            logger.error(error);
+            const tempPath = path.join(tmpdir(), 'sonar-cloudinary', hash);
 
-                            // We still want to complete the test
-                            return resolve(null);
-                        }
+            try {
+                await fs.ensureFile(tempPath);
+                await fs.writeFile(tempPath, data.response.body.rawContent);
 
-                        result.originalBytes = data.response.body.rawContent.length;
-                        result.originalUrl = data.resource;
-                        result.element = data.element;
+                const result = await cloudinary.v2.uploader.upload(tempPath, { crop: 'limit', public_id: hash, quality: 'auto' });
 
-                        return resolve(result);
-                    })
-                    .end(data.response.body.rawContent);
-            });
+                result.originalBytes = data.response.body.rawContent.length;
+                result.originalUrl = data.resource;
+                result.element = data.element;
+
+                await fs.remove(tempPath);
+
+                return result;
+            } catch (error) {
+                logger.error(`Error processing image ${cutString(data.resource)} with cloudinary`);
+                logger.error(error);
+
+                // We still want to complete the test
+                return null;
+
+            }
         };
 
         /** Detects if there is a valid cloudinary configuration. */
@@ -153,7 +159,7 @@ const rule: IRuleBuilder = {
         };
 
         // `context.ruleOptions` will be `null` if not specied
-        configured = isConfigured(context.ruleOptions || { apiKey: '', apiSecret: '', cloudName: '', threshold: 0});
+        configured = isConfigured(context.ruleOptions || { apiKey: '', apiSecret: '', cloudName: '', threshold: 0 });
 
         return {
             'fetch::end': analyzeImage,
