@@ -100,5 +100,5 @@ telling us what you think can be improved.
 [new issue]: https://github.com/sonarwhal/sonar/issues/new
 [scanner]: https://sonarwhal.com/scanner
 [scanner-issues]: https://github.com/sonarwhal/sonarwhal.com/issues/new
-[sonar-issues]: https://github.com/sonarwhal/sonar/issues.new
+[sonar-issues]: https://github.com/sonarwhal/sonar/issues/new
 [ssllabs]: https://www.ssllabs.com/ssltest/
