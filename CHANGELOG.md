@@ -1,3 +1,11 @@
+# 0.12.3 (October 23, 2017)
+
+## Bug fixes / Improvements
+
+* [[`3f03824695`](https://github.com/sonarwhal/sonar/commit/3f03824695d1553dfe4d5334632a9ea28e694d9c)] - Fix: Issue with Cloudinary and error handling.
+* [[`1e131ddb28`](https://github.com/sonarwhal/sonar/commit/1e131ddb2828d1718b1c2c756d3cda7c38f4ba0b)] - Docs: Fix link in `docs/about/FAQ.md` (see also: [`#592`](https://github.com/sonarwhal/sonar/issues/592)).
+
+
 # 0.12.2 (October 20, 2017)
 
 ## Bug fixes / Improvements
