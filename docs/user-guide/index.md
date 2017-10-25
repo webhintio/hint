@@ -170,10 +170,13 @@ completely one (like a third party analytics, ads, etc.). To achieve
 this you need to add the `ignoredUrls` property to your `.sonarrc` file:
 
 ```json
-"ignoredUrls": {
-    ".*\\.domain1\\.com/.*": ["*"],
-    "www.domain2.net": ["disallowed-headers"]
-}
+"ignoredUrls": [{
+    "domain": ".*\\.domain1\\.com/.*",
+    "rules": ["*"]
+}, {
+    "domain": "www.domain2.net",
+    "rules": ["disallowed-headers"]
+}]
 ```
 
 Properties can be:

@@ -14,11 +14,10 @@ import * as url from 'url';
 import * as browserslist from 'browserslist';
 import chalk from 'chalk';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
-import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, RuleConfig, Severity } from './types';
+import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, RuleConfig, Severity, IgnoredUrl } from './types';
 import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
@@ -116,7 +115,9 @@ export class Sonar extends EventEmitter {
         debug('Initializing ignored urls');
         this.ignoredUrls = new Map();
         if (config.ignoredUrls) {
-            _.forEach(config.ignoredUrls, (rules: Array<string>, urlRegexString: string) => {
+            config.ignoredUrls.forEach((ignoredUrl: IgnoredUrl) => {
+                const { domain: urlRegexString, rules } = ignoredUrl;
+
                 rules.forEach((rule: string) => {
                     const ruleName = rule === '*' ? 'all' : rule;
 
