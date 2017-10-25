@@ -448,7 +448,10 @@ test(`If an event is emitted for an ignored url, it shouldn't propagate`, async 
 
     const sonarObject = new Sonar({
         connector: 'connector',
-        ignoredUrls: { '.*\\.domain1\.com/.*': ['*'] }, // eslint-disable-line no-useless-escape
+        ignoredUrls: [{
+            domain: '.*\\.domain1\.com/.*', // eslint-disable-line no-useless-escape
+            rules: ['*']
+        }],
         rules: { 'disallowed-headers': 'warning' }
     });
 
@@ -476,7 +479,13 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
 
     new Sonar({
         connector: 'connector',
-        ignoredUrls: { '.*\\.domain1\.com/.*': ['disallowed-headers'], '.*\\.domain2\.com/.*': ['disallowed-headers'] }, // eslint-disable-line no-useless-escape
+        ignoredUrls: [{
+            domain: '.*\\.domain1\.com/.*', // eslint-disable-line no-useless-escape
+            rules: ['disallowed-headers']
+        }, {
+            domain: '.*\\.domain2\.com/.*', // eslint-disable-line no-useless-escape
+            rules: ['disallowed-headers']
+        }],
         rules: { 'disallowed-headers': 'warning' }
     });
 

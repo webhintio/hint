@@ -48,7 +48,7 @@ export const initSonarrc = async (options: CLIOptions): Promise<boolean> => {
             options: { waitFor: 1000 }
         },
         formatters: ['stylish'],
-        ignoredUrls: {},
+        ignoredUrls: [],
         rules: {},
         rulesTimeout: 120000
     };

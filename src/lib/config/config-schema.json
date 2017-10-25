@@ -104,11 +104,21 @@
         },
         "ignoredUrls": {
             "description": "The urls to ignore by the rules",
-            "type": "object",
+            "type": "array",
             "items": {
-                "type": "array",
-                "items": {
-                    "type": "string"
+                "type": "object",
+                "properties": {
+                    "domain": {
+                        "type": "string",
+                        "description": "Regex for the domain to ignore"
+                    },
+                    "rules": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "uniqueItems": true
+                        }
+                    }
                 },
                 "uniqueItems": true
             }

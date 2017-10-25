@@ -29,9 +29,10 @@ export interface IConnectorConfig {
     options?: IConnectorOptionsConfig;
 }
 
-export interface IIgnoredUrlList {
-    [key: string]: Array<string>;
-}
+export type IgnoredUrl = {
+    domain: string;
+    rules: Array<string>;
+};
 
 export interface IConfig {
     connector: IConnectorConfig | string;
@@ -39,7 +40,7 @@ export interface IConfig {
     browserslist?: string | Array<string>;
     rulesTimeout?: number;
     formatters?: Array<string>;
-    ignoredUrls?: IIgnoredUrlList;
+    ignoredUrls?: Array<IgnoredUrl>;
     plugins?: any;
 }
 
