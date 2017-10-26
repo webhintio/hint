@@ -7,7 +7,6 @@ install:
   - node --version
   - npm --version
   - npm install
-  - choco install googlechrome
 
 # Post-install test scripts.
 test_script:
