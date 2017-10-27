@@ -1,3 +1,10 @@
+# 0.13.0 (October 27, 2017)
+
+## Breaking Changes
+
+* [[`255bb7bc0c`](https://github.com/sonarwhal/sonar/commit/255bb7bc0c5429475619a51926cedf709e7c0c68)] - Breaking: Change definition of `ignoredUrls`.
+
+
 # 0.12.3 (October 23, 2017)
 
 ## Bug fixes / Improvements
