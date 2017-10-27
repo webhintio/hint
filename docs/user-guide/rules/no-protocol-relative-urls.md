@@ -72,7 +72,7 @@ does.
 
 ## Further Reading
 
-* [The protocol-relative URL][protocol-relative ulrs]
+* [The protocol-relative URL][protocol-relative urls]
 * [Moving CDNs to HTTPS](https://github.com/konklone/cdns-to-https#readme)
 
 <!-- Link labels: -->
