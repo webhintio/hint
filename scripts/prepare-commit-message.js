@@ -34,7 +34,7 @@ const NEW_GIT_COMMIT_MESSAGE = `
 # ---
 #
 # For more information related to commit messages, please see:
-# https://sonarwhal.com/docs/developer-guide/contributing/pull-requests.html#commitmessages
+# https://sonarwhal.com/docs/contributor-guide/contributing/pull-requests.html#commitmessages
 #`;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

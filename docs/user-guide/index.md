@@ -93,7 +93,7 @@ the error described above even if you install `sonar` globally on macOS.
 A `rule` is a test that your website needs to pass. `sonar` comes with
 a few [built in ones](./rules/), but you can easily create your own or
 download them from `npm`. You can read more about
-[how to create rules in the developer guide](../developer-guide/rules/index.md).
+[how to create rules in the contributor guide](../contributor-guide/rules/index.md).
 
 ### Rule configuration
 

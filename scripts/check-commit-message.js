@@ -12,7 +12,7 @@ const { ucs2 } = require('punycode');
 
 const COMMIT_MESSAGE_FILE = '.git/COMMIT_EDITMSG';
 
-const CONTRIBUTION_GUIDELINES_URL = 'https://sonarwhal.com/docs/developer-guide/contributing/pull-requests.html#commitmessages';
+const CONTRIBUTION_GUIDELINES_URL = 'https://sonarwhal.com/docs/contributor-guide/contributing/pull-requests.html#commitmessages';
 
 const PKG = require('./../package.json');
 

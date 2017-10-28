@@ -68,7 +68,7 @@ The set of settings specific for them are:
 ## Differences among connectors
 
 Connectors are expected to implement at least some basic functionality
-(see [how to develop a connector](../../developer-guide/connectors/index.md))
+(see [how to develop a connector](../../contributor-guide/connectors/index.md))
 but expose more events or have some extra functionality. The following
 document details the known differences among the official connectors.
 
