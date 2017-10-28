@@ -1,4 +1,4 @@
-# Developer guide
+# Contributor guide
 
 `sonar` was designed with extensibility in mind. There are 3 main
 concepts that a developer needs to know about:
