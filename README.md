@@ -49,12 +49,12 @@ and more, see the online [user guide](https://sonarwhal.com/docs/user-guide/),
 or the [local version](./docs/user-guide/index.md) for the most recent
 (and unstable) content.
 
-## Quick start developer guide
+## Quick start contributor guide
 
 To know more about the internals of `sonar`, how to create new
 rules, collectors, formatters, etc, take a look at the online
-[developer guide](https://sonarwhal.com/docs/user-guide/) (or
-the [local version](./docs/developer-guide/index.md).
+[contributor guide](https://sonarwhal.com/docs/contributor-guide/) (or
+the [local version](./docs/contributor-guide/index.md).
 
 The following are meant only if you are working on `sonar`'s codebase:
 
