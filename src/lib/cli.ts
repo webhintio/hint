@@ -48,7 +48,7 @@ const notifyIfNeeded = () => {
         return;
     }
 
-    const changelogUrl: string = `https://sonarwhal.com/about/changelog.html`;
+    const changelogUrl: string = `https://sonarwhal.com/about/changelog/`;
     /*
      * No indentation due to the use of `\` to avoid new line.
      * https://stackoverflow.com/a/35428171

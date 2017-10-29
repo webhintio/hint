@@ -46,7 +46,7 @@ test.serial('Users should be notified if there is a new version of sonar', async
     };
 
     const expectedMessage = `Update available ${chalk.red(newUpdate.current)}${chalk.reset(' → ')}${chalk.green(newUpdate.latest)}
-See ${chalk.cyan('https://sonarwhal.com/about/changelog.html')} for details`;
+See ${chalk.cyan('https://sonarwhal.com/about/changelog/')} for details`;
 
     t.context.notifier.update = newUpdate;
     const cli = require('../../src/lib/cli');
