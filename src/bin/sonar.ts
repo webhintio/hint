@@ -51,6 +51,7 @@ const run = async () => {
     if (debug) {
         console.log(`Exit code: ${process.exitCode}`);
     }
+    process.exit(process.exitCode);
 };
 
 run();
