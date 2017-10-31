@@ -1,3 +1,18 @@
+# 0.14.0 (October 31, 2017)
+
+## Bug fixes / Improvements
+
+* [[`f6136dc82e`](https://github.com/sonarwhal/sonar/commit/f6136dc82ec925dc45bc973e1fc80574a0054873)] - Fix: Make `jsdom` not hang for invalid certificate (see also: [`#612`](https://github.com/sonarwhal/sonar/issues/612), and [`#615`](https://github.com/sonarwhal/sonar/issues/615)).
+* [[`c62ec505c5`](https://github.com/sonarwhal/sonar/commit/c62ec505c5ea623f460c1d7b89e66aa634246f03)] - Docs: Make minor fixes in examples.
+* [[`85a432e9ff`](https://github.com/sonarwhal/sonar/commit/85a432e9ff7a3bd33c37de094b28b507c7a66834)] - Docs: Fix broken links.
+* [[`400f5b5592`](https://github.com/sonarwhal/sonar/commit/400f5b5592338b6b1f621c4fad21d47f2dadc14c)] - Docs: Rename `Developer Guide` to `Contributor Guide` (see also: [`#609`](https://github.com/sonarwhal/sonar/issues/609)).
+* [[`924c0e7cef`](https://github.com/sonarwhal/sonar/commit/924c0e7ceff3930cbe527a353ffa4312a71909d2)] - Docs: Fix link in `no-protocol-relative-urls.md`.
+
+## New features
+
+* [[`a1833cd08d`](https://github.com/sonarwhal/sonar/commit/a1833cd08d37f0195c93da2d85e55be48f77ab72)] - Update: `snyk-snapshot.json`.
+
+
 # 0.13.0 (October 27, 2017)
 
 ## Breaking Changes
