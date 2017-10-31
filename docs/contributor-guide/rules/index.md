@@ -426,7 +426,7 @@ const serverConfig = {
     '/example.js': {
         content: 'script content goes here...',
         headers: {
-            'Content-Type': 'application/javascript; charset=utf-8',
+            'Content-Type': 'text/javascript; charset=utf-8',
             Header: 'value'
             // ...
         },

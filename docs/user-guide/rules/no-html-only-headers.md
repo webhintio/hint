@@ -28,10 +28,9 @@ Response for `/test.js`:
 ```text
 HTTP/... 200 OK
 
-Content-Type: application/javascript
+Content-Type: text/javascript; charset=utf-8
 ...
 Content-Security-Policy: default-src 'none'
-Content-Type: application/javascript; charset=utf-8
 X-Content-Security-Policy: default-src 'none'
 X-Frame-Options: DENY
 X-UA-Compatible: IE=Edge,
@@ -48,7 +47,6 @@ HTTP/... 200 OK
 Content-Type: x/y
 ...
 Content-Security-Policy: default-src 'none'
-Content-Type: application/javascript; charset=utf-8
 X-Content-Security-Policy: default-src 'none'
 X-Frame-Options: DENY
 X-UA-Compatible: IE=Edge,
@@ -64,7 +62,7 @@ Response for `/test.js`:
 ```text
 HTTP/... 200 OK
 
-Content-Type: application/javascript
+Content-Type: text/javascript; charset=utf-8
 ...
 ```
 
@@ -76,7 +74,6 @@ HTTP/... 200 OK
 Content-Type: text/html
 ...
 Content-Security-Policy: default-src 'none'
-Content-Type: application/javascript; charset=utf-8
 X-Content-Security-Policy: default-src 'none'
 X-Frame-Options: DENY
 X-UA-Compatible: IE=Edge,
