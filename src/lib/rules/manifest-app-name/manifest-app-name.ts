@@ -60,6 +60,12 @@ const rule: IRuleBuilder = {
 
             let jsonContent;
 
+            if (!content) {
+                await context.report(resource, null, 'Manifest file does not contain valid JSON');
+
+                return;
+            }
+
             try {
                 jsonContent = JSON.parse(content);
             } catch (e) {
