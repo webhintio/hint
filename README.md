@@ -54,7 +54,7 @@ or the [local version](./docs/user-guide/index.md) for the most recent
 To know more about the internals of `sonar`, how to create new
 rules, collectors, formatters, etc, take a look at the online
 [contributor guide](https://sonarwhal.com/docs/contributor-guide/) (or
-the [local version](./docs/contributor-guide/index.md).
+the [local version](./docs/contributor-guide/index.md)).
 
 The following are meant only if you are working on `sonar`'s codebase:
 
