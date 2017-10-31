@@ -513,7 +513,7 @@ class JSDOMConnector implements IConnector {
 
     public evaluate(source: string, waitBeforeTimeOut: number = 60000): Promise<any> {
         return new Promise((resolve, reject) => {
-            const runner: ChildProcess = fork(path.join(__dirname, 'evaluate-runner'), [this._finalHref, this._options.waitFor], { execArgv: [] });
+            const runner: ChildProcess = fork(path.join(__dirname, 'evaluate-runner'), [this._finalHref || this._href, this._options.waitFor], { execArgv: [] });
             let timeoutId;
 
             runner.on('message', (result) => {
