@@ -57,6 +57,22 @@ the different pieces:
 * [Connectors](#connectors)
 * [Formatters](#formatters)
 
+## Permission issues during installation
+
+If you receive an `EACCES` error when installing `sonar`, it is caused
+by installing packages globally. The recommended solution is to [change
+`npm`'s default directory][npm change default directory] and then try
+again. There have been reports of this issue when installing the
+dependency `canvas-prebuilt` throws an `EACCES`. This [issue][permission
+issue] was resolved adopting the recommended solution. You can find
+detailed steps on how to change the npm default directory [here][npm
+change default directory]. According to [npm's documentation][npm use
+package manager], if you have node installed using a package
+manager like [Homebrew][homebrew] or [nvm][nvm], you may be able to avoid
+the trouble of messing with the directories and have the correct
+permissions set up right out of the box. As a result, you won't experience
+the error described above even if you install `sonar` globally.
+
 ## Connectors and platform support
 
 All the built-in `connector`s run in any of the supported platforms:
@@ -69,24 +85,6 @@ later) and Windows Subsystem for Linux (WSL), `sonar` will be capable
 of running the browsers installed directly on Windows. If you are a
 user of the stable release of Window, you will need to use at least the
 *Fall Creators Update*.
-
-## Permission Issue
-
-If you receive an `EACCES` error when installing `sonar`, it is caused
-by installing packages globally. The recommended solution is to [change
-`npm`'s default directory][npm change default directory] and then try
-again. So far, one such permission issue has been reported when user
-tries to install `sonar` on [Windows Subsystem for Linux][wsl] or macOS
-globally. Dependency `canvas-prebuilt` throws an `EACCES` error during
-the installation process, and this [issue][permission issue] was resolved
-adopting the recommended solution. You can find detailed steps on how
-to change the npm default directory [here][npm change default directory].
-However, according to [npm's documentation][npm use package manager],
-if you have your node installed on macOS using a package manager like
-[Homebrew][homebrew] instead of its installer, you may be able to avoid
-the trouble of messing with the directories and have the correct
-permissions set up right out of the box. As a result, you won't experience
-the error described above even if you install `sonar` globally on macOS.
 
 ## Rules
 
@@ -310,6 +308,7 @@ to know more.
 [nodejs]: https://nodejs.org/en/download/current/
 [npm change default directory]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-2-change-npms-default-directory-to-another-directory
 [npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
+[nvm]: https://github.com/creationix/nvm
 [permission issue]: https://github.com/sonarwhal/sonar/issues/308
 [wsl]: https://msdn.microsoft.com/en-us/commandline/wsl/install_guide
 [wsl-interop]: https://msdn.microsoft.com/en-us/commandline/wsl/release_notes#build-14951
