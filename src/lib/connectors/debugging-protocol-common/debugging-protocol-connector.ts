@@ -792,8 +792,6 @@ export class Connector implements IConnector {
                 debug('Error connecting to browser');
                 debug(e);
 
-                await this._server.emitAsync('scan::end', event);
-
                 callback(e);
 
                 return;
