@@ -115,6 +115,7 @@ export class CDPLauncher extends Launcher {
 
             const chrome: chromeLauncher.LaunchedChrome = await chromeLauncher.launch({
                 chromeFlags,
+                logLevel: debug.enabled ? 'verbose' : 'silent',
                 startingUrl: url
             });
 
