@@ -14,7 +14,7 @@ import { Category } from '../../enums/category';
 import * as logger from '../../utils/logging';
 import { readFileAsync } from '../../utils/misc';
 import { debug as d } from '../../utils/debug';
-import { IRule, IRuleBuilder, IScanEnd, Library, Vulnerability } from '../../types';
+import { IRule, IRuleBuilder, IScanEnd, Library, Vulnerability, Severity } from '../../types';
 import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
@@ -180,7 +180,17 @@ const rule: IRuleBuilder = {
         /** Checks if the JS libraries used by a website have known vulnerabilities. */
         const validateLibraries = async (scanEnd: IScanEnd) => {
             const script = await createScript();
-            const detectedLibraries = (await context.evaluate(script)) as Array<Library>;
+            const resource = scanEnd.resource;
+            let detectedLibraries;
+
+            try {
+                detectedLibraries = (await context.evaluate(script)) as Array<Library>;
+            } catch (e) {
+                await context.report(resource, null, `Error executing script: "${e.message}". Please try with another connector`, null, null, Severity.warning);
+                debug('Error executing script', e);
+
+                return;
+            }
 
             // No libraries detected, nothing to report
             if (detectedLibraries.length === 0) {
