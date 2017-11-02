@@ -15,8 +15,7 @@ env:
 language: node_js
 node_js:
   - lts/*
-  #- node will enable once canvas-prebuilt supports node 9
-
+  - node
 
 matrix:
   include:
