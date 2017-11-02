@@ -2,7 +2,7 @@
 
 ## Getting started
 
-Getting started with `sonar`'s CLI is really easy. First you need
+Getting started with `sonar`’s CLI is really easy. First you need
 to have [Node.js v8.x][nodejs] installed and then run:
 
 ```bash
@@ -61,16 +61,16 @@ the different pieces:
 
 If you receive an `EACCES` error when installing `sonar`, it is caused
 by installing packages globally. The recommended solution is to [change
-`npm`'s default directory][npm change default directory] and then try
+`npm`’s default directory][npm change default directory] and then try
 again. There have been reports of this issue when installing the
 dependency `canvas-prebuilt` throws an `EACCES`. This [issue][permission
 issue] was resolved adopting the recommended solution. You can find
 detailed steps on how to change the npm default directory [here][npm
-change default directory]. According to [npm's documentation][npm use
+change default directory]. According to [npm’s documentation][npm use
 package manager], if you have node installed using a package
 manager like [Homebrew][homebrew] or [nvm][nvm], you may be able to avoid
 the trouble of messing with the directories and have the correct
-permissions set up right out of the box. As a result, you won't experience
+permissions set up right out of the box. As a result, you won’t experience
 the error described above even if you install `sonar` globally.
 
 ## Connectors and platform support
@@ -78,7 +78,7 @@ the error described above even if you install `sonar` globally.
 All the built-in `connector`s run in any of the supported platforms:
 Linux, macOS, and Windows. The only caveat is that when selecting a
 `connector` for a browser (such as `chrome`) in `.sonarrc`, the browser
-needs to be on the machine. `sonar` will not install it if it isn't.
+needs to be on the machine. `sonar` will not install it if it isn’t.
 
 **Note:** If you are running Windows 10 [build 14951][wsl-interop] (or
 later) and Windows Subsystem for Linux (WSL), `sonar` will be capable
@@ -160,7 +160,7 @@ visiting the [rules documentation](./rules/).
 
 ### Ignoring domains
 
-Sometimes you don't have control over all the infrastructure and there
+Sometimes you don’t have control over all the infrastructure and there
 is nothing you can do about it. Reporting errors in those cases just
 generates noise and frustration. Instead of globally disabling a rule
 you might just want to turn it off for a domain, or directly ignore
@@ -233,7 +233,7 @@ versions of IE prior IE10, or tell you to remove that tag or header
 it you only need IE11+ because document modes were removed at that
 version.
 
-If no value is defined, [`browserslist`'s defaults][browserslist defaults] will
+If no value is defined, [`browserslist`’s defaults][browserslist defaults] will
 be used:
 
 ```js
