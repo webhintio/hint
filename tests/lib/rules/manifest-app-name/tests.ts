@@ -84,6 +84,14 @@ const tests: Array<IRuleTest> = [
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { status: 404 }
         }
+    },
+    {
+        name: `Manifest is specified but content is undefined`,
+        reports: [{ message: `Manifest file does not contain valid JSON` }],
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/site.webmanifest': { content: void 0 }
+        }
     }
 ];
 
