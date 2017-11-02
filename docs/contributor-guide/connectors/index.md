@@ -14,7 +14,7 @@ implement events such as `fetch::end`.
 
 This is the [list of events supported by `sonar`](./events.md). For
 a connector to be considered "full", it needs to send all these events.
-Additionally it needs to pass all the [commont
+Additionally it needs to pass all the [common
 tests](#how-to-test-a-full-connector).
 
 ## Develop a "full" connector
