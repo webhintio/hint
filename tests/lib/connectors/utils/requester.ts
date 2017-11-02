@@ -62,7 +62,7 @@ const contentTypes = [
 /**
  * This function verifies that we can decode the bytes for the expected `Content-Type`s
  * and the supported `charset`s, even when the server response is compressed.
- * 
+ *
  */
 const testTextDecoding = async (t, encoding: string, contentType: string, useCompression: boolean) => {
     const { requester, server } = t.context;

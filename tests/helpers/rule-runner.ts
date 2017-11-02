@@ -19,7 +19,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
 
     /**
      * Creates a valid sonar configuration. Eventually we should
-     * test all available connectors and not only JSDOM 
+     * test all available connectors and not only JSDOM
      */
     const createConfig = (id: string, connector: string, opts?): IConfig => {
         const rules = {};
@@ -60,7 +60,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
 
     /**
      * Because tests are executed asynchronously in ava, we need
-     * a different server and sonar object for each one 
+     * a different server and sonar object for each one
      */
     test.beforeEach(async (t) => {
         // When running serial tests, the server is shared
@@ -106,7 +106,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
 
     /**
      * Creates a new connector with just the rule to be tested and executing
-     * any required `before` task as indicated by `ruleTest`. 
+     * any required `before` task as indicated by `ruleTest`.
      */
     const createConnector = async (t, ruleTest: IRuleTest, connector: string, attemp: number): Promise<Sonar> => {
         const { server } = t.context;
@@ -128,7 +128,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
 
     /**
      * Stops a connector executing any required `after` task as indicated by
-     * `ruleTest`. 
+     * `ruleTest`.
      */
     const stopConnector = async (ruleTest: IRuleTest, connector): Promise<void> => {
         if (ruleTest.after) {
