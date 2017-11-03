@@ -36,13 +36,13 @@ import * as cli from '../lib/cli';
  */
 
 process.once('uncaughtException', (err) => {
-    console.log(err.message);
-    console.log(err.stack);
+    console.error(err.message);
+    console.error(err.stack);
     process.exit(1);
 });
 
-process.once('unhandledRejection', (reason) => {
-    console.log(reason);
+process.once('unhandledRejection', (reason, promise) => {
+    console.error(`Unhandled rejection at: Promise ${promise}, reason: ${reason}`);
     process.exit(1);
 });
 

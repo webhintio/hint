@@ -28,11 +28,11 @@ const defaults = {
         'Cache-Control': 'no-cache',
         DNT: 1,
         Pragma: 'no-cache',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.2924.87 Safari/537.36'
     },
     jar: true,
     time: true,
-    timeout: 30000
+    timeout: 10000
 };
 
 export class Requester {
