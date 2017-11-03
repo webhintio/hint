@@ -46,7 +46,8 @@ const scripts = [
 test.beforeEach(async (t) => {
     const sonar = {
         emit() { },
-        emitAsync() { }
+        emitAsync() { },
+        timeout: 10000
     };
 
     const server = createServer();
