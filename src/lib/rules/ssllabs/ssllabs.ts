@@ -39,6 +39,8 @@ const rule: IRuleBuilder = {
             host: '',
             maxAge: 2
         };
+        /** Error processing the request if any. */
+        let failed: boolean = false;
 
         /**
          * Enum with the different possible grades for an endpoint returned by SSL Labs scan.
@@ -92,6 +94,11 @@ const rule: IRuleBuilder = {
             };
         };
 
+        const notifyError = async (resource: string, error: any) => {
+            debug(`Error getting data for ${resource} %O`, error);
+            await context.report(resource, null, `Couldn't get results from SSL Labs for ${resource}.`);
+        };
+
         const start = (data: ITargetFetchEnd) => {
             const { resource }: { resource: string } = data;
 
@@ -115,13 +122,17 @@ const rule: IRuleBuilder = {
             debug(`Starting SSL Labs scan for ${resource}`);
             scanOptions.host = resource;
 
-            promise = ssllabs(scanOptions);
+            promise = ssllabs(scanOptions)
+                .catch(async (error) => {
+                    failed = true;
+                    await notifyError(resource, error);
+                });
         };
 
         const end = async (data: IScanEnd) => {
             const { resource }: { resource: string } = data;
 
-            if (!promise) {
+            if (!promise || failed) {
                 return;
             }
 
@@ -131,8 +142,7 @@ const rule: IRuleBuilder = {
             try {
                 host = await promise;
             } catch (e) {
-                debug(`Error getting data for ${resource} %O`, e);
-                await context.report(resource, null, `Couldn't get results from SSL Labs for ${resource}.`);
+                notifyError(resource, e);
 
                 return;
             }
