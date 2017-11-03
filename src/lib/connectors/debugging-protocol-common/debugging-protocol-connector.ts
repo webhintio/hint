@@ -69,8 +69,10 @@ export class Connector implements IConnector {
     private _tabs = [];
     /** Tells if the page has specified a manifest or not. */
     private _manifestIsSpecified: boolean = false;
-    /** Tells if a favicon of a page has been downloaded from a link tag */
+    /** Tells if a favicon of a page has been downloaded from a link tag. */
     private _faviconLoaded: boolean = false;
+    /** The amount of time before an event is going to be timedout. */
+    private _timeout: number;
 
     private _targetNetworkData: INetworkData;
     private launcher: ILauncher;
@@ -87,6 +89,7 @@ export class Connector implements IConnector {
         };
 
         this._server = server;
+        this._timeout = server.timeout;
 
         this._options = Object.assign({}, defaultOptions, config);
         this._headers = this._options.headers;
@@ -915,7 +918,7 @@ export class Connector implements IConnector {
             const asyncTimeout: NodeJS.Timer = setTimeout(
                 (() => {
                     reject(new Error('The asynchronous expression exceeded the allotted time of 60s'));
-                }), 60000);
+                }), this._timeout);
 
             try {
                 const expression = `(function wrapInNativePromise() {

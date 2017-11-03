@@ -79,12 +79,14 @@ class JSDOMConnector implements IConnector {
     private _window: Window;
     private _document: JSDOMAsyncHTMLDocument;
     private _fetchedHrefs: Set<string>;
+    private _timeout: number;
 
     public constructor(server: Sonar, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
         this._headers = this._options.headers;
         this._request = new Requester(this._options);
         this._server = server;
+        this._timeout = server.timeout;
     }
 
     /*
@@ -511,7 +513,7 @@ class JSDOMConnector implements IConnector {
         }
     };
 
-    public evaluate(source: string, waitBeforeTimeOut: number = 60000): Promise<any> {
+    public evaluate(source: string): Promise<any> {
         return new Promise((resolve, reject) => {
             const runner: ChildProcess = fork(path.join(__dirname, 'evaluate-runner'), [this._finalHref || this._href, this._options.waitFor], { execArgv: [] });
             let timeoutId;
@@ -534,11 +536,11 @@ class JSDOMConnector implements IConnector {
             runner.send({ source });
 
             timeoutId = setTimeout(() => {
-                debug(`Evaluation times out. Killing process and reporting and error.`);
+                debug(`Evaluation timed out after ${this._timeout/1000}s. Killing process and reporting an error.`);
                 this.killProcess(runner);
 
                 return reject(new Error('TIMEOUT'));
-            }, waitBeforeTimeOut);
+            }, this._timeout);
         });
     }
 

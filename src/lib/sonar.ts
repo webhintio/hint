@@ -42,25 +42,36 @@ export class Sonar extends EventEmitter {
     private browserslist: Array<string> = [];
     private ignoredUrls: Map<string, Array<RegExp>>;
     private _formatters: Array<string>
+    private _timeout: number = 60000;
 
+    /** The DOM of the loaded page. */
     public get pageDOM(): object {
         return this.connector.dom;
     }
 
+    /** The HTML of the loaded page. */
     public get pageContent(): Promise<string> {
         return this.connector.html;
     }
 
+    /** The headers used in the requests. */
     public get pageHeaders(): object {
         return this.connector.headers;
     }
 
+    /** The list of targetted browsers. */
     public get targetedBrowsers(): Array<string> {
         return this.browserslist;
     }
 
+    /** The list of configured formatters. */
     public get formatters(): Array<string> {
         return this._formatters;
+    }
+
+    /** The max time an event should run. */
+    public get timeout(): number {
+        return this._timeout;
     }
 
     private isIgnored(urls: Array<RegExp>, resource: string): boolean {
@@ -81,6 +92,7 @@ export class Sonar extends EventEmitter {
         });
 
         debug('Initializing sonar engine');
+        this._timeout = config.rulesTimeout || this._timeout;
 
         this.messages = [];
 
@@ -105,7 +117,7 @@ export class Sonar extends EventEmitter {
             this.browserslist = browserslist(config.browserslist);
         }
 
-        debug('Setting the selected formatter');
+        debug('Setting the selected formatters');
         if (Array.isArray(config.formatters)) {
             this._formatters = config.formatters;
         } else {
