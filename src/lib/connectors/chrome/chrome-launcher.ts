@@ -26,8 +26,14 @@ const lock = promisify(lockfile.lock);
 const unlock = promisify(lockfile.unlock);
 
 export class CDPLauncher extends Launcher {
+    /** Indicates if the default profile should be used by Chrome or not */
+    private userDataDir: string | boolean;
+
     public constructor(options: LauncherOptions) {
         super(options);
+
+        // `userDataDir` is a property in `chrome-launcher`: https://github.com/GoogleChrome/chrome-launcher#launch-options
+        this.userDataDir = typeof options.defaultProfile === 'boolean' && options.defaultProfile ? false : '';
     }
 
     /** If a browser is already running, it returns its pid. Otherwise return value is -1.  */
@@ -116,7 +122,8 @@ export class CDPLauncher extends Launcher {
             const chrome: chromeLauncher.LaunchedChrome = await chromeLauncher.launch({
                 chromeFlags,
                 logLevel: debug.enabled ? 'verbose' : 'silent',
-                startingUrl: url
+                startingUrl: url,
+                userDataDir: this.userDataDir
             });
 
             const browserInfo = {
