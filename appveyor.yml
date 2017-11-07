@@ -1,5 +1,7 @@
 environment:
-  nodejs_version: "8" # Have to use number instead of LTS because of http://help.appveyor.com/discussions/problems/9472-nodejs_version-stable-installs-the-wrong-version
+  matrix:
+   - nodejs_version: "LTS" # Have to use number instead of LTS because of http://help.appveyor.com/discussions/problems/9472-nodejs_version-stable-installs-the-wrong-version
+   - nodejs_version: "Stable"
   # will add 9 once canvas-prebuilt is supported
 
 # Install scripts. (runs after repo cloning)
