@@ -23,7 +23,7 @@ class ChromeConnector extends Connector {
 }
 
 const builder: IConnectorBuilder = (server: Sonarwhal, config): IConnector => {
-    const launcher = new CDPLauncher({});
+    const launcher = new CDPLauncher(config);
     const connector = new ChromeConnector(server, config, launcher);
 
     return connector;

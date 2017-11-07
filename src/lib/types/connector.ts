@@ -39,6 +39,7 @@ export interface ILauncher {
 }
 
 export type LauncherOptions = {
+    defaultProfile?: boolean;
     flags?: string[];
     port?: number;
 };
