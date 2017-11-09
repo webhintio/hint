@@ -36,8 +36,10 @@ const rule: IRuleBuilder = {
             format: 'json',
             validator: ''
         };
-        /** If the result messages should be grouped */
+        /** If the result messages should be grouped. */
         let groupMessage: boolean;
+        /** Error processing the request if any. */
+        let failed: boolean = false;
 
         type HtmlError = {
             extract: string; // code snippet
@@ -89,6 +91,11 @@ const rule: IRuleBuilder = {
             };
         };
 
+        const notifyError = async (resource: string, error: any) => {
+            debug(`Error getting HTML checker result for ${resource}.`, error);
+            await context.report(resource, null, `Couldn't get results from HTML checker for ${resource}. Error: ${error}`);
+        };
+
         const start = (data: ITargetFetchEnd) => {
             const { response } = data;
 
@@ -100,7 +107,11 @@ const rule: IRuleBuilder = {
             const htmlChecker = require('html-validator');
 
             scanOptions.data = response.body.content;
-            htmlCheckerPromise = scanOptions.data ? htmlChecker(scanOptions) : Promise.resolve({messages: []});
+            htmlCheckerPromise = scanOptions.data ? htmlChecker(scanOptions) : Promise.resolve({ messages: [] });
+            htmlCheckerPromise.catch(async (error) => {
+                failed = true;
+                await notifyError(data.resource, error);
+            });
         };
 
         const end = async (data: IScanEnd) => {
@@ -108,7 +119,7 @@ const rule: IRuleBuilder = {
             const locateAndReportByResource = locateAndReport(resource);
             let result;
 
-            if (!htmlCheckerPromise) {
+            if (!htmlCheckerPromise || failed) {
                 return;
             }
 
@@ -117,8 +128,7 @@ const rule: IRuleBuilder = {
             try {
                 result = await htmlCheckerPromise;
             } catch (e) {
-                debug(`Error getting HTML checker result for ${resource}.`, e);
-                await context.report(resource, null, `Couldn't get results from HTML checker for ${resource}. Error: ${e}`);
+                notifyError(resource, e);
 
                 return;
             }
