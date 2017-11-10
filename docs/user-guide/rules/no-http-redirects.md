@@ -6,7 +6,7 @@
 ## Why is this important?
 
 The following is a simplify version of what happens when the user
-requests a url in a browser:
+requests a URL in a browser:
 
 1. DNS Lookup: Translate the domain to an IP. If the browser doesn't
    know it, it has to ask a DNS server which in some cases involves
@@ -47,8 +47,7 @@ and alerts if at least one is found.
 
 ## Can the rule be configured?
 
-By default the maximum number of redirects is 0 but you can change
-this value for resources and the main URL.
+By default no redirects are allowed but you can change this behavior.
 
 The following configuration will allow 3 redirects for resources and
 1 for the main URL:
