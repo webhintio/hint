@@ -1,3 +1,14 @@
+# 0.14.2 (November 10, 2017)
+
+## Bug fixes / Improvements
+
+* [[`9736b13290`](https://github.com/sonarwhal/sonar/commit/9736b132908fdde03bbfb5874fe754aff5fd7ee9)] - Fix: Improve third party service integration.
+* [[`e587e734b2`](https://github.com/sonarwhal/sonar/commit/e587e734b209e1cbb6301028520b61a5a6e0b07c)] - Fix: Use `rulesTimeout` in `evaluate` (see also: [`#630`](https://github.com/sonarwhal/sonar/issues/630)).
+* [[`7ad1c39e89`](https://github.com/sonarwhal/sonar/commit/7ad1c39e89cdc60463adadfba2b78befe14f040a)] - Fix: Reduce `timeout` for requests (see also: [`#585`](https://github.com/sonarwhal/sonar/issues/585)).
+* [[`ca02a33311`](https://github.com/sonarwhal/sonar/commit/ca02a33311e9dc3c17721bd0b916337b5d3617a9)] - Fix: Handle no-vulnerable-libraries timeout.
+* [[`a8242fb7c3`](https://github.com/sonarwhal/sonar/commit/a8242fb7c3d367093eac3b5b630580e09c935597)] - Docs: Fix some typos found ad hoc.
+
+
 # 0.14.1 (November 2, 2017)
 
 ## Bug fixes / Improvements
