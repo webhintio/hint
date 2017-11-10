@@ -5,18 +5,18 @@
 * [[`9736b13290`](https://github.com/sonarwhal/sonar/commit/9736b132908fdde03bbfb5874fe754aff5fd7ee9)] - Fix: Improve third party service integration.
 * [[`e587e734b2`](https://github.com/sonarwhal/sonar/commit/e587e734b209e1cbb6301028520b61a5a6e0b07c)] - Fix: Use `rulesTimeout` in `evaluate` (see also: [`#630`](https://github.com/sonarwhal/sonar/issues/630)).
 * [[`7ad1c39e89`](https://github.com/sonarwhal/sonar/commit/7ad1c39e89cdc60463adadfba2b78befe14f040a)] - Fix: Reduce `timeout` for requests (see also: [`#585`](https://github.com/sonarwhal/sonar/issues/585)).
-* [[`ca02a33311`](https://github.com/sonarwhal/sonar/commit/ca02a33311e9dc3c17721bd0b916337b5d3617a9)] - Fix: Handle no-vulnerable-libraries timeout.
-* [[`a8242fb7c3`](https://github.com/sonarwhal/sonar/commit/a8242fb7c3d367093eac3b5b630580e09c935597)] - Docs: Fix some typos found ad hoc.
+* [[`ca02a33311`](https://github.com/sonarwhal/sonar/commit/ca02a33311e9dc3c17721bd0b916337b5d3617a9)] - Fix: Handle timeout in `no-vulnerable-libraries` rule (see also: [`#627`](https://github.com/sonarwhal/sonar/issues/627)).
+* [[`a8242fb7c3`](https://github.com/sonarwhal/sonar/commit/a8242fb7c3d367093eac3b5b630580e09c935597)] - Docs: Fix typos.
 
 
 # 0.14.1 (November 2, 2017)
 
 ## Bug fixes / Improvements
 
-* [[`4d13905075`](https://github.com/sonarwhal/sonar/commit/4d139050755af4bf828727c4d699c85813162fb7)] - Fix: Debugging Protocol Connector improvements (see also: [`#621`](https://github.com/sonarwhal/sonar/issues/621)).
+* [[`4d13905075`](https://github.com/sonarwhal/sonar/commit/4d139050755af4bf828727c4d699c85813162fb7)] - Fix: Make `Debugging Protocol Connector` related improvements (see also: [`#621`](https://github.com/sonarwhal/sonar/issues/621)).
 * [[`f5650fba6f`](https://github.com/sonarwhal/sonar/commit/f5650fba6f800b3e8b36ec2a325d24a3ecb5b14d)] - Fix: Force exit when `exitCode` is received (see also: [`#622`](https://github.com/sonarwhal/sonar/issues/622)).
-* [[`8de8005af3`](https://github.com/sonarwhal/sonar/commit/8de8005af30777e68f86fed7c19ecf348c19721c)] - Fix: Rule manifest-app-name (see also: [`#610`](https://github.com/sonarwhal/sonar/issues/610)).
-* [[`0c17774475`](https://github.com/sonarwhal/sonar/commit/0c1777447521f466be4774fb997cd272b962b405)] - Docs: Update `Permission issue` in User Guide.
+* [[`8de8005af3`](https://github.com/sonarwhal/sonar/commit/8de8005af30777e68f86fed7c19ecf348c19721c)] - Fix: Make `manifest-app-name` rule not fail for invalid content (see also: [`#610`](https://github.com/sonarwhal/sonar/issues/610)).
+* [[`0c17774475`](https://github.com/sonarwhal/sonar/commit/0c1777447521f466be4774fb997cd272b962b405)] - Docs: Update `Permission issue` section from `User Guide`.
 
 
 # 0.14.0 (October 31, 2017)
