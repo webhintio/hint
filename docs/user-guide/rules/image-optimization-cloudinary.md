@@ -32,10 +32,10 @@ Yes, if you don't want to use the `CLOUDINARY_URL` environment variable
 to set up your crendentiasl, you can do the following:
 
 ```json
-"cloudinary": ["error", {
+"image-optimization-cloudinary": ["error", {
     "apiKey": "your api key",
     "apiSecret": "your api secret",
-    "cloudName": "your cloud name",
+    "cloudName": "your cloud name"
 }]
 ```
 
@@ -43,7 +43,7 @@ By default, this rule will notify you even if there is just 1kB savings.
 If you want to change the `threshold` you can do it like this:
 
 ```json
-"cloudinary": ["error", {
+"image-optimization-cloudinary": ["error", {
     "threshold": 10
 }]
 ```
