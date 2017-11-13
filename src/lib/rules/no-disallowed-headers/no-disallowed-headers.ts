@@ -29,6 +29,8 @@ const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
         let disallowedHeaders: Array<string> = [
+            'public-key-pins',
+            'public-key-pins-report-only',
             'server',
             'x-aspnet-version',
             'x-aspnetmvc-version',
