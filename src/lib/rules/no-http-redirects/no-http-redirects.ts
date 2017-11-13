@@ -36,12 +36,12 @@ const rule: IRuleBuilder = {
                 if (response.hops.length > maxHops) {
                     await context.report(request.url, element, `${response.hops.length} ${pluralize('redirect', response.hops.length)} detected for ${cutString(request.url)} (max is ${maxHops}).`);
                 }
-                // Code to validate the rule on the event fetch::end.
             };
         };
 
         return {
             'fetch::end': validateRequestEnd(maxResourceHops),
+            'manifestfetch::end': validateRequestEnd(maxResourceHops),
             'targetfetch::end': validateRequestEnd(maxTargetHops)
         };
     },

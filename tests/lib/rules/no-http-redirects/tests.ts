@@ -21,9 +21,21 @@ const tests: Array<IRuleTest> = [
             },
             '/image2.png': {
                 content: '/image3.png',
-                status: 302
+                status: 301
             },
             '/image3.png': ''
+        }
+    },
+    {
+        name: 'Redirect in manifest fails',
+        reports: [{ message: '1 redirect detected for http://localhost/site.webmanifest (max is 0).' }],
+        serverConfig: {
+            '/': generateHTMLPage(`<link rel="manifest" href="site.webmanifest">`),
+            '/site.webmanifest': {
+                content: '/site2.webmanifest',
+                status: 302
+            },
+            '/site2.webmanifest': ''
         }
     },
     {

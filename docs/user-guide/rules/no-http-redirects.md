@@ -71,7 +71,7 @@ The following configuration will allow 3 redirects for resources and
 * [Redirections in HTTP][MDN-Redirections]
 * [Transmision Control Protocol][wikipedia-tcp]
 
-[50-tricks]: https://channel9.msdn.com/events/Build/2012/3-132?term=jatinder
+[50-tricks]: https://channel9.msdn.com/events/Build/2012/3-132?c=3#time=19m35s
 [how-dns-works]: https://www.verisign.com/en_US/website-presence/online/how-dns-works/index.xhtml
 [MDN-Redirections]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections
 [pagespeed-insights]: https://developers.google.com/speed/docs/insights/mobile#adapting-to-high-latency-mobile-networks
