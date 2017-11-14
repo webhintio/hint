@@ -303,7 +303,7 @@ git push -f origin fix-1234
 
 <!-- Link labels: -->
 
-[cla]: https://cla.js.foundation/sonarwhal/sonar
+[cla]: https://cla.js.foundation/sonarwhal/sonarwhal
 [github pr docs]: https://help.github.com/articles/creating-a-pull-request
 [github resolve conflicts docs]: https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/
-[travis pr status]: https://travis-ci.org/sonarwhal/sonar/pull_requests
+[travis pr status]: https://travis-ci.org/sonarwhal/sonarwhal/pull_requests

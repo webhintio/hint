@@ -11,5 +11,5 @@ request that you read over our code of conduct before contributing.
 
 ## Contributing Code
 
-Please sign our [Contributor License Agreement](https://cla.js.foundation/sonarwhal/sonar)
+Please sign our [Contributor License Agreement](https://cla.js.foundation/sonarwhal/sonarwhal)
 and read the [Pull Request Guidelines](https://sonarwhal.com/docs/contributor-guide/contributing/pull-requests).

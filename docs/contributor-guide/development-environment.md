@@ -65,7 +65,7 @@ To add the upstream source for `sonar`, run the following in your
 repository:
 
 ```bash
-git remote add upstream git@github.com:sonarwhal/sonar.git
+git remote add upstream git@github.com:sonarwhal/sonarwhal.git
 ```
 
 Now, the remote `upstream` points to the upstream source.

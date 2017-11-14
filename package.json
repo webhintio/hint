@@ -168,7 +168,7 @@
     "sourceMap": true,
     "statements": 85
   },
-  "repository": "sonarwhal/sonar",
+  "repository": "sonarwhal/sonarwhal",
   "scripts": {
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
