@@ -30,7 +30,7 @@ proxyquire('../../../src/lib/cli/init', {
     util: stubUtilObject
 });
 
-import { initSonarrc } from '../../../src/lib/cli/init';
+import { initSonarwhalrc } from '../../../src/lib/cli/init';
 
 test.beforeEach((t) => {
     sinon.stub(promisifyObject, 'promisify').resolves();
@@ -87,7 +87,7 @@ test.serial(`Generate should call to "inquirer.prompt" with the right data`, asy
         rules: []
     });
 
-    await initSonarrc(actions);
+    await initSonarwhalrc(actions);
 
     const questions = (inquirer.prompt as sinon.SinonStub).args[0][0];
     const rulesKeys = rules;
@@ -118,7 +118,7 @@ test.serial(`Generate should call to "fs.writeFile" with the right data`, async 
     sandbox.stub(resourceLoader, 'loadRules').returns(rulesData);
     sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
 
-    await initSonarrc(actions);
+    await initSonarwhalrc(actions);
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
@@ -145,7 +145,7 @@ test.serial(`If the user choose to use the default rules configuration, all reco
     sandbox.stub(resourceLoader, 'loadRules').returns(rulesData);
     sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
 
-    await initSonarrc(actions);
+    await initSonarwhalrc(actions);
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
@@ -158,7 +158,7 @@ test.serial(`If the user choose to use the default rules configuration, all reco
 });
 
 test.serial('If init is not an option, it should return false', async (t) => {
-    const result = await initSonarrc(({}) as CLIOptions);
+    const result = await initSonarwhalrc(({}) as CLIOptions);
 
     t.false(result);
 });

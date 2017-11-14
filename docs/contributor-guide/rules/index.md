@@ -1,6 +1,6 @@
 # How to develop a rule
 
-A `rule` is a check that `sonar` will validate. The API should be
+A `rule` is a check that `sonarwhal` will validate. The API should be
 flexible enough to allow you to implement anything you want easily:
 
 * Validate that all links are `HTTPS`.
@@ -17,7 +17,7 @@ There are 2 types of `rule`s a user can develop:
 
 * `external`: These are `rule`s that are published independently. When a
   `rule` is specific to a domain or use case, it should be external.
-* `core`: These are the `rule`s that are shipped with `sonar` directly.
+* `core`: These are the `rule`s that are shipped with `sonarwhal` directly.
   Before starting to develop a `core rule`, please make sure there is
   an open issue and talk with the maintainers about it.
 
@@ -27,13 +27,13 @@ difference being where they are located.
 ### Creating an external rule
 
 The easiest wait to create a new rule that will be distributed outside
-`sonar` is via the CLI parameter `--new-rule`. You have 2 options:
+`sonarwhal` is via the CLI parameter `--new-rule`. You have 2 options:
 
-* Using `sonar` as a global package:
+* Using `sonarwhal` as a global package:
 
 ```bash
 npm install -g --engine-strict sonarwhal
-sonar --new-rule
+sonarwhal --new-rule
 ```
 
 * Using `npx` if you don't want to install it globally:
@@ -61,8 +61,8 @@ core rules.
 
 #### Creating a core rule
 
-If you are working in `sonar`'s main repository, one of the easiest ways
-to get started is to use `sonar`'s CLI, which helps to generate the template
+If you are working in `sonarwhal`'s main repository, one of the easiest ways
+to get started is to use `sonarwhal`'s CLI, which helps to generate the template
 files and insert them at the right location.
 
 First you need to install the CLI:
@@ -81,7 +81,7 @@ npm install -D --engine-strict sonarwhal
 Then you can proceed to start generating a new rule using the flag `--new-rule`:
 
 ```bash
-sonar --new-rule
+sonarwhal --new-rule
 ```
 
 This command will start a wizard that will ask you a series of questions
@@ -115,7 +115,7 @@ Similarly, you can also use CLI to remove an existing rule by using the
 flag `--remove-rule`:
 
 ```bash
-sonar --remove-rule
+sonarwhal --remove-rule
 ```
 
 You will be asked to type in the normalized name of the rule, and all
@@ -214,7 +214,7 @@ One of the most useful properties is `schema`. This property specifies
 if the rule allows the user to configure it (other than the severity).
 By default it should be an empty array if it doesn't, or an array of
 valid [JSON schemas][json schema]. These schemas will be used when
-validating a `.sonarrc` file. As long as there is one of the schemas
+validating a `.sonarwhalrc` file. As long as there is one of the schemas
 that passes, the configuration will be valid. This allows writting
 simpler templates.
 
@@ -222,8 +222,8 @@ The rule can access the custom configuration via `context.ruleOptions`.
 
 ### Change feedback based on browser support
 
-Users can tell `sonar` what browsers are important for them via the
-[`browserslist` property in `.sonarrc`][browserconfiguration].
+Users can tell `sonarwhal` what browsers are important for them via the
+[`browserslist` property in `.sonarwhalrc`][browserconfiguration].
 You can have access to the list, and thus modify the feedback of your
 rule, via the property `context.targetedBrowsers`.
 
@@ -319,7 +319,7 @@ const rule = {
 
 ### Interact with other services
 
-You can develop a rule that integrates with other services. `sonar`
+You can develop a rule that integrates with other services. `sonarwhal`
 integrates with a few like `ssllabs`.
 
 Because these online tools usually take a few seconds to return the
@@ -483,7 +483,7 @@ const tests: Array<RuleTest> = [
             // Code to execute right before calling `connector.close` goes here.
         }
         before() {
-            // Code to execute before the creation of the sonar object here.
+            // Code to execute before the creation of the sonarwhal object here.
         },
         name: 'Name of the tests',
         serverUrl: 'https://example.com',

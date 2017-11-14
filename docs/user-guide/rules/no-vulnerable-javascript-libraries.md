@@ -36,7 +36,7 @@ You can configure the minimum severity to report:
 The `severity` possible values are: `low` (default), `medium`,
 and `high`.
 
-If you configure this rule to `high`, and `sonar` only finds
+If you configure this rule to `high`, and `sonarwhal` only finds
 `low` or `medium` vulnerabilities, no issues will be raised.
 
 ## Further Reading

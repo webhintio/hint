@@ -40,7 +40,7 @@ const rule: IRuleBuilder = {
 
         const generateScript = (): string => {
             /*
-             * This is run in the page, not Sonar itself.
+             * This is run in the page, not sonarwhal itself.
              * axe.run returns a promise which fulfills with a results object
              * containing any violations.
              */

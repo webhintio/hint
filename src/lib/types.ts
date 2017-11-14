@@ -44,7 +44,7 @@ export interface IConfig {
     plugins?: any;
 }
 
-/** A resource required by Sonar: Connector, Formatter, Plugin, Rule. */
+/** A resource required by sonarwhal: Connector, Formatter, Plugin, Rule. */
 export type Resource = IConnectorBuilder | IFormatter | IPluginBuilder | IRuleBuilder;
 
 /** An alias for url.Url. */

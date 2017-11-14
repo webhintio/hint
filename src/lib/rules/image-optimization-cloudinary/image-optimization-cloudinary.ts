@@ -46,7 +46,7 @@ const rule: IRuleBuilder = {
                 .update(data.response.body.rawContent)
                 .digest('hex');
 
-            const tempPath = path.join(tmpdir(), 'sonar-cloudinary', hash);
+            const tempPath = path.join(tmpdir(), 'sonarwhal-cloudinary', hash);
 
             try {
                 await fs.ensureFile(tempPath);

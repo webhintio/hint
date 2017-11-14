@@ -194,7 +194,7 @@ const codeframeproblems: Array<IProblem> = [{
     sourceCode: `<html lang="en"><head>
         <meta charset="utf-8">
         <title></title>
-        <meta name="description" content="sonar website">
+        <meta name="description" content="sonarwhal website">
         <meta name="viewport" content="width=device-width">
 
         <meta name="theme-color" content="#4046dd">

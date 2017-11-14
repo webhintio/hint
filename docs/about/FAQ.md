@@ -1,17 +1,17 @@
 # FAQ
 
-## What is sonar?
+## What is sonarwhal?
 
-`sonar` is a linting tool for the web, with a strong focus on the
+`sonarwhal` is a linting tool for the web, with a strong focus on the
 developer experience: easy to configure, develop, and well documented.
 
-`sonar` doesn't want to reinvent the wheel. For that reason it tries
+`sonarwhal` doesn't want to reinvent the wheel. For that reason it tries
 to integrate other tools and services that do a great job, and
 contribute back where appropriate. For example, we are using [aXe][axe]
 for accessibility, [SSL Server Test][ssllabs] for checking the
 certificate configuration, etc.
 
-## What is sonar's goal?
+## What is sonarwhal's goal?
 
 We have a few:
 
@@ -22,9 +22,9 @@ We have a few:
 * Promote community tools and services that do an awesome job but
   could not be known by everybody.
 
-## Who started sonar?
+## Who started sonarwhal?
 
-`sonar`'s development started inside the Microsoft Edge team. Early on,
+`sonarwhal`'s development started inside the Microsoft Edge team. Early on,
 the team realized that not only the project had to be open source, but
 also be community driven. The best way to achieve that was by donating
 the code to the JS Foundation, have a governance model that welcomes
@@ -33,17 +33,17 @@ and developers), and continue the work there.
 
 ## What can I do to help?
 
-There are lots of things you can do to make `sonar` better, from
+There are lots of things you can do to make `sonarwhal` better, from
 reviewing documentation, writting new one, filling bugs, triaging,
 coding, etc.
 
 We will gladly accept any contribution you can do. Most of the
-[issues in `sonar`][issues] should have a difficulty level.
+[issues in `sonarwhal`][issues] should have a difficulty level.
 Also don't hesitate to ask for help.
 
 ## What browsers are supported?
 
-`sonar` currently supports [jsdom][jsdom], Chrome, and Edge 15.
+`sonarwhal` currently supports [jsdom][jsdom], Chrome, and Edge 15.
 We hope to add support for Firefox soon. If your favorite browser
 is not supported you can always [develop a connector][new issue]
 for it!
@@ -67,8 +67,8 @@ be unexpected results.
 
 If you have any feedback on the results page, please open an
 issue in the [website repository][scanner-issues]. If the issue is
-related to the results themselves, then open an issue in the [sonar
-repository][sonar-issues].
+related to the results themselves, then open an issue in the [sonarwhal
+repository][sonarwhal-issues].
 
 ## What is the logo?
 
@@ -100,5 +100,5 @@ telling us what you think can be improved.
 [new issue]: https://github.com/sonarwhal/sonarwhal/issues/new
 [scanner]: https://sonarwhal.com/scanner
 [scanner-issues]: https://github.com/sonarwhal/sonarwhal.com/issues/new
-[sonar-issues]: https://github.com/sonarwhal/sonarwhal/issues/new
+[sonarwhal-issues]: https://github.com/sonarwhal/sonarwhal/issues/new
 [ssllabs]: https://www.ssllabs.com/ssltest/

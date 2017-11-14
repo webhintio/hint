@@ -13,7 +13,7 @@ import { IConnector, IConnectorBuilder } from '../../../src/lib/types';
 import { generateHTMLPage } from '../../helpers/misc';
 
 test.beforeEach(async (t) => {
-    const sonar = {
+    const sonarwhal = {
         emit() { },
         emitAsync() { }
     };
@@ -22,27 +22,27 @@ test.beforeEach(async (t) => {
 
     await server.start();
 
-    sinon.spy(sonar, 'emit');
-    sinon.spy(sonar, 'emitAsync');
+    sinon.spy(sonarwhal, 'emit');
+    sinon.spy(sonarwhal, 'emitAsync');
 
     t.context = {
         server,
-        sonar
+        sonarwhal
     };
 });
 
 test.afterEach.always((t) => {
     t.context.server.stop();
-    t.context.sonar.emit.restore();
-    t.context.sonar.emitAsync.restore();
+    t.context.sonarwhal.emit.restore();
+    t.context.sonarwhal.emitAsync.restore();
 });
 
 const pathToFaviconInDir = path.join(__dirname, './fixtures/common/favicon.ico');
 const pathToFaviconInLinkElement = path.join(__dirname, './fixtures/common/favicon-32x32.png');
 
 const runTest = async (t, connectorBuilder, serverConfig?) => {
-    const { sonar } = t.context;
-    const connector: IConnector = await (connectorBuilder)(sonar, {});
+    const { sonarwhal } = t.context;
+    const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
     const server = t.context.server;
 
     if (serverConfig) {
@@ -66,8 +66,8 @@ const testConnectorCollect = (connectorInfo) => {
 
         await runTest(t, connectorBuilder, serverConfig);
 
-        t.is(t.context.sonar.emitAsync.withArgs('fetch::end').callCount, 1);
-        t.is(t.context.sonar.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInLinkElementDir);
+        t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end').callCount, 1);
+        t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInLinkElementDir);
 
     });
 
@@ -77,8 +77,8 @@ const testConnectorCollect = (connectorInfo) => {
 
         await runTest(t, connectorBuilder, serverConfig);
 
-        t.is(t.context.sonar.emitAsync.withArgs('fetch::end').callCount, 1);
-        t.is(t.context.sonar.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInRootDir);
+        t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end').callCount, 1);
+        t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInRootDir);
     });
 
     test(`[${name}] Favicon is present in both the root directory and the 'link' element`, async (t) => {
@@ -91,9 +91,9 @@ const testConnectorCollect = (connectorInfo) => {
 
         await runTest(t, connectorBuilder, serverConfig);
 
-        t.is(t.context.sonar.emitAsync.withArgs('fetch::end').callCount, 1);
+        t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end').callCount, 1);
         // Should load favicon from the link element if it exists
-        t.is(t.context.sonar.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInLinkElementDir);
+        t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInLinkElementDir);
     });
 
     test(`[${name}] Favicon is present in both the root directory and the 'link' element, but the 'link' element has empty 'href'`, async (t) => {
@@ -105,9 +105,9 @@ const testConnectorCollect = (connectorInfo) => {
 
         await runTest(t, connectorBuilder, serverConfig);
 
-        t.is(t.context.sonar.emitAsync.withArgs('fetch::end').callCount, 1);
+        t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end').callCount, 1);
         // Should load favicon from the root even though the link element exists because 'href' is empty.
-        t.is(t.context.sonar.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInRootDir);
+        t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInRootDir);
     });
 
     test(`[${name}] Favicon is not present in either the root directory or the 'link' element`, async (t) => {
@@ -116,8 +116,8 @@ const testConnectorCollect = (connectorInfo) => {
         await runTest(t, connectorBuilder);
 
         // Requests to `/favicon.ico` are always sent when favicon doesn't exist as a `link` tag in the html.
-        t.is(t.context.sonar.emitAsync.withArgs('fetch::end').callCount, 1);
-        t.is(t.context.sonar.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInRootDir);
+        t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end').callCount, 1);
+        t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end').args[0][1].request.url, faviconInRootDir);
     });
 };
 

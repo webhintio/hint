@@ -231,7 +231,7 @@ export const newRule = async (actions: CLIOptions): Promise<boolean> => {
         }
     };
 
-    logger.log('Creating a core sonar rule');
+    logger.log('Creating a core sonarwhal rule');
     const results = await inquirer.prompt(questions);
     const currentRules: Array<string> = resourceLoader.getCoreRules();
 

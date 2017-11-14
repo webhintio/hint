@@ -1,5 +1,5 @@
 /**
- * @fileoverview Simple HTTP server used in sonar's tests to mimick certain scenarios.
+ * @fileoverview Simple HTTP server used in sonarwhal's tests to mimick certain scenarios.
  */
 import * as fs from 'fs-extra';
 import * as http from 'http';
@@ -14,7 +14,7 @@ export type ServerConfiguration = string | object; //eslint-disable-line
 
 const maxPort = 65535;
 
-/** A testing server for Sonar rules */
+/** A testing server for sonarwhal's rules */
 export class Server {
     private _app;
     private _server: https.Server | http.Server;

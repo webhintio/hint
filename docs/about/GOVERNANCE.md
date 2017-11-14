@@ -1,10 +1,10 @@
 # Governance
 
-`sonar` is an open source project that depends on contributions
+`sonarwhal` is an open source project that depends on contributions
 from the community. Anyone may contribute to the project at any time
 by submitting code, participating in discussions, making suggestions,
 or any other contribution they see fit. This document describes how
-various types of contributors work within the `sonar` project.
+various types of contributors work within the `sonarwhal` project.
 
 ## Roles and Responsibilities
 
@@ -85,7 +85,7 @@ below.
 
 ### Technical Steering Committee (TSC)
 
-The `sonar` project is jointly governed by a Technical Steering
+The `sonarwhal` project is jointly governed by a Technical Steering
 Committee (TSC) which is responsible for high-level guidance of
 the project.
 
@@ -136,7 +136,7 @@ TSC members fulfill all requirements of Committers, and also:
 To become a TSC member one most fulfill at least 2 of the following
 items and commit to being a part of the community for the long-term.
 
-* Work in a helpful and collaborative way with the `sonar` and/or
+* Work in a helpful and collaborative way with the `sonarwhal` and/or
   web communities.
 * Have given good feedback on others' submissions and displayed an
   overall understanding of the code quality standards for the project.

@@ -65,7 +65,7 @@ test.serial('If newExternalRule is not an option, it should return false', async
     t.false(result);
 });
 
-test.serial('If newExternalRule is executed inside the main sonar project, it should return false', async (t) => {
+test.serial('If newExternalRule is executed inside the main sonarwhal project, it should return false', async (t) => {
     const result = await rule.newExternalRule(actions);
 
     t.false(result);

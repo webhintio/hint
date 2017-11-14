@@ -1,6 +1,6 @@
 /**
  * @fileoverview Locates and requires resources (Connectors, plugins, rules, formatters)
- * for Sonar across different places in the tree.
+ * for sonarwhal across different places in the tree.
  * By convention, these resources need to be under
  * {/, /node_modules/}lib/{connectors, formatters, plugins, rules}/*.js
  */
@@ -87,7 +87,7 @@ export const tryToLoadFrom = (resourcePath: string): any => {
 
 
 /**
- * Looks for a sonar resource with the given `name` and tries to load it.
+ * Looks for a sonarwhal resource with the given `name` and tries to load it.
  * If no valid resource is found, it throws an `Error`.
  *
  * By default, the priorities are:

@@ -11,7 +11,7 @@ import { createServer } from '../../helpers/test-server';
 import { IConnector, IConnectorBuilder, INetworkData } from '../../../src/lib/types';
 
 test.beforeEach(async (t) => {
-    const sonar = {
+    const sonarwhal = {
         emit() { },
         emitAsync() { }
     };
@@ -22,7 +22,7 @@ test.beforeEach(async (t) => {
 
     t.context = {
         server,
-        sonar
+        sonarwhal
     };
 });
 
@@ -37,8 +37,8 @@ const testConnectorFetchContent = (connectorInfo) => {
 
     test(`[${name}] Fetch Content`, async (t) => {
         const file = fs.readFileSync(path.join(__dirname, './fixtures/common/edge.png'));
-        const { sonar } = t.context;
-        const connector: IConnector = await (connectorBuilder)(sonar, {});
+        const { sonarwhal } = t.context;
+        const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
         const server = t.context.server;
 
         t.context.connector = connector;

@@ -1,4 +1,4 @@
-/** A specialized builder of plugins to be used by Sonar */
+/** A specialized builder of plugins to be used by sonarwhal */
 export interface IPluginBuilder {
     /** Creates an instance of the Plugin. */
     create(config: any): IPlugin;

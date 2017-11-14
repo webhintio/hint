@@ -44,7 +44,7 @@ const scripts = [
 ];
 
 test.beforeEach(async (t) => {
-    const sonar = {
+    const sonarwhal = {
         emit() { },
         emitAsync() { },
         timeout: 10000
@@ -56,7 +56,7 @@ test.beforeEach(async (t) => {
 
     t.context = {
         server,
-        sonar
+        sonarwhal
     };
 });
 
@@ -70,8 +70,8 @@ const testConnectorEvaluate = (connectorInfo) => {
     const name: string = connectorInfo.name;
 
     test(`[${name}] Evaluate JavaScript`, async (t) => {
-        const { sonar } = t.context;
-        const connector: IConnector = await (connectorBuilder)(sonar, {});
+        const { sonarwhal } = t.context;
+        const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
         const server = t.context.server;
 
         t.plan(scripts.length);

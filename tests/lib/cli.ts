@@ -37,7 +37,7 @@ test.afterEach.always((t) => {
     }
 });
 
-test.serial('Users should be notified if there is a new version of sonar', async (t) => {
+test.serial('Users should be notified if there is a new version of sonarwhal', async (t) => {
     const newUpdate = {
         current: '0.2.0',
         latest: '0.3.0',
