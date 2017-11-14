@@ -5,7 +5,7 @@ export enum Severity {
     error = 2
 }
 
-/** A problem found by a Rule in Sonar */
+/** A problem found by a Rule in sonarwhal */
 export interface IProblem {
     /** The location number where the Problem is */
     location: IProblemLocation;

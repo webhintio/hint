@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "Configuration",
-    "description": "A configuration file for Sonar",
+    "description": "A configuration file for sonarwhal",
     "type": "object",
     "properties": {
         "connector": {
@@ -29,7 +29,7 @@
             ]
         },
         "environment": {
-            "description": "The environment under Sonar is running: local or live",
+            "description": "The environment under sonarwhal is running: local or live",
             "type": "string"
         },
         "formatters": {

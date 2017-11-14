@@ -114,7 +114,7 @@ for which those values should be required.
 
 `<regex>: <content_type_value>`
 
-E.g. The following configuration will make `sonar` require that
+E.g. The following configuration will make `sonarwhal` require that
 all resources requested from a URL that matches the regular expression
 `.*\.js` be served with a `Content-Type` header with the value of
 `application/javascript; charset=utf-8`.
@@ -126,7 +126,7 @@ all resources requested from a URL that matches the regular expression
 ```
 
 Note: You can also use the [`ignoredUrls`](../index.md#rule-configuration)
-property from the `.sonarrc` file to exclude domains you don't control
+property from the `.sonarwhalrc` file to exclude domains you don't control
 (e.g.: CDNs) from these checks.
 
 ## Further Reading

@@ -1,14 +1,14 @@
 # sonarwhal
 
 [![Build Status](https://travis-ci.org/sonarwhal/sonarwhal.svg?branch=master)](https://travis-ci.org/sonarwhal/sonarwhal)
-[![Build status](https://ci.appveyor.com/api/projects/status/8qq9qtp4b2af5ili/branch/master?svg=true)](https://ci.appveyor.com/project/NellieTheNarwhal/sonar/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/r2via8w2s1ras3ui?svg=true)](https://ci.appveyor.com/project/NellieTheNarwhal/sonarwhal)
 [![Greenkeeper badge](https://badges.greenkeeper.io/sonarwhal/sonarwhal.svg?ts=1493307106027)](https://greenkeeper.io/)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sonarwhal/Lobby)
 
 ## Quick start user guide
 
 Once you have [`Node.js`](https://nodejs.org/en/download/current/)
-v8.x on your machine, you can use `npx` or install `sonar` globally
+v8.x on your machine, you can use `npx` or install `sonarwhal` globally
 to use it.
 
 ### Using `npx`
@@ -19,29 +19,29 @@ Just run the following command:
 npx sonarwhal https://example.com
 ```
 
-This will start the wizard to create a `.sonarrc` file, and then
+This will start the wizard to create a `.sonarwhalrc` file, and then
 analyze `https://example.com`.
 
 **Windows users**: Currently [`npx` has an issue in this
 platform](https://github.com/npm/npm/issues/17869).
 
-### Installing `sonar` globally
+### Installing `sonarwhal` globally
 
 ```bash
 npm install -g --engine-strict sonarwhal
 ```
 
-Create a `.sonarrc` file by running this command and following the
+Create a `.sonarwhalrc` file by running this command and following the
 instructions:
 
 ```bash
-sonar --init
+sonarwhal --init
 ```
 
 Scan a website:
 
 ```bash
-sonar https://example.com
+sonarwhal https://example.com
 ```
 
 For more in depth information on how to get started, configurations,
@@ -51,12 +51,12 @@ or the [local version](./docs/user-guide/index.md) for the most recent
 
 ## Quick start contributor guide
 
-To know more about the internals of `sonar`, how to create new
+To know more about the internals of `sonarwhal`, how to create new
 rules, collectors, formatters, etc, take a look at the online
 [contributor guide](https://sonarwhal.com/docs/contributor-guide/) (or
 the [local version](./docs/contributor-guide/index.md)).
 
-The following are meant only if you are working on `sonar`'s codebase:
+The following are meant only if you are working on `sonarwhal`'s codebase:
 
 * `npm run site <url>` will analyze the website with the current
    configuration and using the latest build available in the `dist`

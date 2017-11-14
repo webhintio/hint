@@ -188,13 +188,13 @@ const validEvent = (eventsToSearch: Array<any>, expectedEvent) => {
 
 
 test.beforeEach(async (t) => {
-    const sonar = {
+    const sonarwhal = {
         emit() { },
         emitAsync() { }
     };
 
-    sinon.spy(sonar, 'emitAsync');
-    sinon.spy(sonar, 'emit');
+    sinon.spy(sonarwhal, 'emitAsync');
+    sinon.spy(sonarwhal, 'emit');
 
     const server = createServer();
 
@@ -202,13 +202,13 @@ test.beforeEach(async (t) => {
 
     t.context = {
         server,
-        sonar
+        sonarwhal
     };
 });
 
 test.afterEach.always(async (t) => {
-    t.context.sonar.emitAsync.restore();
-    t.context.sonar.emit.restore();
+    t.context.sonarwhal.emitAsync.restore();
+    t.context.sonarwhal.emit.restore();
     t.context.server.stop();
     await t.context.connector.close();
 });
@@ -249,8 +249,8 @@ const testConnectorEvents = (connectorInfo) => {
     const name: string = connectorInfo.name;
 
     test(`[${name}] Events`, async (t) => {
-        const { sonar } = t.context;
-        const connector: IConnector = await (connectorBuilder)(sonar, {});
+        const { sonarwhal } = t.context;
+        const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
         const server = t.context.server;
 
         t.context.connector = connector;
@@ -281,7 +281,7 @@ const testConnectorEvents = (connectorInfo) => {
 
         await connector.collect(url.parse(`http://localhost:${server.port}/`));
 
-        const { emit, emitAsync } = t.context.sonar;
+        const { emit, emitAsync } = t.context.sonarwhal;
         const invokes = [];
 
         for (let i = 0; i < emitAsync.callCount; i++) {

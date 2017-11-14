@@ -1,5 +1,5 @@
 /**
- * @fileoverview Handle logging for Sonar (based on ESLint)
+ * @fileoverview Handle logging for sonarwhal (based on ESLint)
  */
 
 /* eslint no-console: "off" */

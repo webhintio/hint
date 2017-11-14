@@ -12,13 +12,13 @@ import { createServer } from './test-server';
 import { IConfig } from '../../src/lib/types';
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
 import { IRuleTest } from './rule-test-type';
-import { Sonar } from '../../src/lib/sonar';
+import { Sonarwhal } from '../../src/lib/sonarwhal';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
 export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: { [key: string]: any } = {}) => {
 
     /**
-     * Creates a valid sonar configuration. Eventually we should
+     * Creates a valid sonarwhal configuration. Eventually we should
      * test all available connectors and not only JSDOM
      */
     const createConfig = (id: string, connector: string, opts?): IConfig => {
@@ -60,7 +60,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
 
     /**
      * Because tests are executed asynchronously in ava, we need
-     * a different server and sonar object for each one
+     * a different server and sonarwhal object for each one
      */
     test.beforeEach(async (t) => {
         // When running serial tests, the server is shared
@@ -108,7 +108,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
      * Creates a new connector with just the rule to be tested and executing
      * any required `before` task as indicated by `ruleTest`.
      */
-    const createConnector = async (t, ruleTest: IRuleTest, connector: string, attemp: number): Promise<Sonar> => {
+    const createConnector = async (t, ruleTest: IRuleTest, connector: string, attemp: number): Promise<Sonarwhal> => {
         const { server } = t.context;
         const { serverConfig } = ruleTest;
 
@@ -116,14 +116,14 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
             await ruleTest.before();
         }
 
-        const sonar: Sonar = new Sonar(createConfig(ruleId, connector, configs));
+        const sonarwhal: Sonarwhal = new Sonarwhal(createConfig(ruleId, connector, configs));
 
         // We only configure the server the first time
         if (attemp === 1 && serverConfig) {
             server.configure(serverConfig);
         }
 
-        return sonar;
+        return sonarwhal;
     };
 
     /**
@@ -150,10 +150,10 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
                 const { serverUrl, reports } = ruleTest;
                 const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
 
-                const sonar = await createConnector(t, ruleTest, connector, attemp);
-                const results = await sonar.executeOn(url.parse(target));
+                const sonarwhal = await createConnector(t, ruleTest, connector, attemp);
+                const results = await sonarwhal.executeOn(url.parse(target));
 
-                await stopConnector(ruleTest, sonar);
+                await stopConnector(ruleTest, sonarwhal);
 
                 return validateResults(t, results, reports);
             } catch (e) {

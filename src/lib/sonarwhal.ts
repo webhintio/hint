@@ -1,5 +1,5 @@
 /**
- * @fileoverview Main Sonar object, gets the configuration and loads
+ * @fileoverview Main sonarwhal object, gets the configuration and loads
  * the connectors, rules and analyzes.
  */
 
@@ -31,7 +31,7 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-export class Sonar extends EventEmitter {
+export class Sonarwhal extends EventEmitter {
     // TODO: review which ones need to be private or not
     private plugins: Map<string, IPlugin>
     private rules: Map<string, IRule>
@@ -91,7 +91,7 @@ export class Sonar extends EventEmitter {
             wildcard: true
         });
 
-        debug('Initializing sonar engine');
+        debug('Initializing sonarwhal engine');
         this._timeout = config.rulesTimeout || this._timeout;
 
         this.messages = [];

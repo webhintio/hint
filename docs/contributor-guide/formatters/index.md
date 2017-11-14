@@ -1,6 +1,6 @@
 # How to develop a formatter
 
-A `formatter` formats the results of `sonar`: from crafting `JSON` to
+A `formatter` formats the results of `sonarwhal`: from crafting `JSON` to
 connecting to a database and storing the results in it.
 
 To create one, you will need a module that exports an object with a

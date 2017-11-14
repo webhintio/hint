@@ -6,7 +6,7 @@ const debugEnabled: boolean = (process.argv.includes('--debug'));
 
 // must do this initialization *before* other requires in order to work
 if (debugEnabled) {
-    d.enable('sonar:*');
+    d.enable('sonarwhal:*');
 }
 
 export const debug = (filePath: string): d.IDebugger => {
@@ -18,8 +18,8 @@ export const debug = (filePath: string): d.IDebugger => {
     /*
      * The debug message is generated from the file path, e.g.:
      *
-     *  * src/lib/connectors/chrome/chrome-launcher.ts => sonar:connectors:chrome:chrome-launcher
-     *  * src/lib/connectors/chrome/chrome.ts => sonar:connectors:chrome
+     *  * src/lib/connectors/chrome/chrome-launcher.ts => sonarwhal:connectors:chrome:chrome-launcher
+     *  * src/lib/connectors/chrome/chrome.ts => sonarwhal:connectors:chrome
      */
 
     while (currentDir && currentDir !== 'lib') {
@@ -37,11 +37,11 @@ export const debug = (filePath: string): d.IDebugger => {
         currentDir = path.basename(dirPath);
     }
 
-    // For `/src/lib/sonar.ts`, use 'sonar:engine' instead of 'sonar:sonar'.
-    if (output === 'sonar') {
+    // For `/src/lib/sonarwhal.ts`, use 'sonarwhal:engine' instead of 'sonarwhal:sonarwhal'.
+    if (output === 'sonarwhal') {
         output = 'engine';
     }
 
-    return d(`sonar:${output}`);
+    return d(`sonarwhal:${output}`);
 
 };

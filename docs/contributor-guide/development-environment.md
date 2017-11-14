@@ -4,7 +4,7 @@ This is a step-by-step guide to setting up a local development
 environment that will let you contribute back to the project.
 
 1. [Install Node.js](#step-1)
-2. [Fork and checkout your own sonar repository](#step-2)
+2. [Fork and checkout your own sonarwhal repository](#step-2)
 3. [Add the upstream source](#step-3)
 4. [Run the tests](#step-4)
 
@@ -18,11 +18,11 @@ Go to [`nodejs.org`][nodejs] to download and install the latest stable
 version of `Node.js` for your operating system.
 
 **Note:** By installing `Node.js` you will also get [`npm`][npm], which
-we will use to install packages that `sonar` depends on.
+we will use to install packages that `sonarwhal` depends on.
 
 <!-- markdownlint-disable MD033 -->
 
-## Step 2: Fork and checkout your own sonar repository <a name="step-2"></a>
+## Step 2: Fork and checkout your own sonarwhal repository <a name="step-2"></a>
 
 <!-- markdownlint-enable MD033 -->
 
@@ -38,7 +38,7 @@ git clone https://github.com/sonarwhal/sonarwhal.git
 go into the project's directory:
 
 ```bash
-cd sonar
+cd sonarwhal
 ```
 
 and run `npm install` to get all the necessary dependencies:
@@ -56,12 +56,12 @@ see a lot of utilities being downloaded.
 
 <!-- markdownlint-enable MD033 -->
 
-The *upstream source* is the main `sonar` repository that active
+The *upstream source* is the main `sonarwhal` repository that active
 development happens on. While you won't have push access to upstream,
 you will have pull access, allowing you to pull in the latest code
 whenever you want.
 
-To add the upstream source for `sonar`, run the following in your
+To add the upstream source for `sonarwhal`, run the following in your
 repository:
 
 ```bash
@@ -77,8 +77,8 @@ Now, the remote `upstream` points to the upstream source.
 <!-- markdownlint-enable MD033 -->
 
 Running the tests is the best way to ensure you have correctly set up
-your development environment. Make sure you're in the `sonar` directory,
-and then run:
+your development environment. Make sure you're in the `sonarwhal`
+directory, and then run:
 
 ```bash
 npm test

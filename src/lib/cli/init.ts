@@ -1,5 +1,5 @@
 /**
- * @fileoverview Generates a valid `.sonarrc` file based on user responses.
+ * @fileoverview Generates a valid `.sonarwhalrc` file based on user responses.
  */
 
 /*
@@ -22,8 +22,8 @@ import { generateBrowserslistConfig } from './browserslist';
 
 const debug: debug.IDebugger = d(__filename);
 
-/** Initiates a wizard to gnerate a valid `.sonarrc` file based on user responses. */
-export const initSonarrc = async (options: CLIOptions): Promise<boolean> => {
+/** Initiates a wizard to gnerate a valid `.sonarwhalrc` file based on user responses. */
+export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => {
     if (!options.init) {
         return false;
     }
@@ -41,7 +41,7 @@ export const initSonarrc = async (options: CLIOptions): Promise<boolean> => {
 
     const rules = resourceLoader.loadRules(rulesConfig);
 
-    const sonarConfig = {
+    const sonarwhalConfig = {
         browserslist: [],
         connector: {
             name: '',
@@ -62,7 +62,7 @@ export const initSonarrc = async (options: CLIOptions): Promise<boolean> => {
         });
     }
 
-    logger.log('Welcome to sonar configuration generator');
+    logger.log('Welcome to sonarwhal configuration generator');
 
     const questions: inquirer.Questions = [
         {
@@ -96,33 +96,33 @@ export const initSonarrc = async (options: CLIOptions): Promise<boolean> => {
 
     const results: inquirer.Answers = await inquirer.prompt(questions);
 
-    sonarConfig.connector.name = results.connector;
-    sonarConfig.formatters = [results.formatter];
+    sonarwhalConfig.connector.name = results.connector;
+    sonarwhalConfig.formatters = [results.formatter];
 
     if (results.default) {
         logger.log('Using recommended rules');
         rules.forEach((rule, key) => {
             if (rule.meta.recommended) {
-                sonarConfig.rules[key] = 'error';
+                sonarwhalConfig.rules[key] = 'error';
             } else {
-                sonarConfig.rules[key] = 'off';
+                sonarwhalConfig.rules[key] = 'off';
             }
         });
     } else {
         rules.forEach((rule, key) => {
             if (results.rules.includes(key)) {
-                sonarConfig.rules[key] = 'error';
+                sonarwhalConfig.rules[key] = 'error';
             } else {
-                sonarConfig.rules[key] = 'off';
+                sonarwhalConfig.rules[key] = 'off';
             }
         });
     }
 
-    sonarConfig.browserslist = await generateBrowserslistConfig();
+    sonarwhalConfig.browserslist = await generateBrowserslistConfig();
 
-    const filePath: string = path.join(process.cwd(), '.sonarrc');
+    const filePath: string = path.join(process.cwd(), '.sonarwhalrc');
 
-    await promisify(fs.writeFile)(filePath, JSON.stringify(sonarConfig, null, 4), 'utf8');
+    await promisify(fs.writeFile)(filePath, JSON.stringify(sonarwhalConfig, null, 4), 'utf8');
 
     return true;
 };

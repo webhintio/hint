@@ -43,7 +43,7 @@ import {
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
 import { readFileAsync } from '../../utils/misc';
 import { Requester } from '../utils/requester';
-import { Sonar } from '../../sonar';
+import { Sonarwhal } from '../../sonarwhal';
 
 /*
  * ------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ class JSDOMConnector implements IConnector {
     private _options;
     private _headers;
     private _request: Requester;
-    private _server: Sonar;
+    private _server: Sonarwhal;
     private _href: string;
     private _finalHref: string;
     private _targetNetworkData: INetworkData;
@@ -81,7 +81,7 @@ class JSDOMConnector implements IConnector {
     private _fetchedHrefs: Set<string>;
     private _timeout: number;
 
-    public constructor(server: Sonar, config: object) {
+    public constructor(server: Sonarwhal, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
         this._headers = this._options.headers;
         this._request = new Requester(this._options);
@@ -567,7 +567,7 @@ class JSDOMConnector implements IConnector {
     }
 }
 
-const builder: IConnectorBuilder = (server: Sonar, config): IConnector => {
+const builder: IConnectorBuilder = (server: Sonarwhal, config): IConnector => {
     const connector = new JSDOMConnector(server, config);
 
     return connector;

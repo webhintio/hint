@@ -1,6 +1,6 @@
 {
   "private": true,
-  "sonarConfig": {
+  "sonarwhalConfig": {
     "connector": {
       "name": "chrome",
       "options": {
