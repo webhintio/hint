@@ -66,10 +66,10 @@ const prettyPrintArray = (a: string[]): string => {
 };
 
 const prettyPrintCommit = (commit: Commit): string => {
-    let result = `* [[\`${commit.sha.substring(0, 10)}\`](https://github.com/sonarwhal/sonar/commit/${commit.sha})] - ${commit.title}`;
+    let result = `* [[\`${commit.sha.substring(0, 10)}\`](https://github.com/sonarwhal/sonarwhal/commit/${commit.sha})] - ${commit.title}`;
 
     const issues = commit.associatedIssues.map((issue) => {
-        return `[\`#${issue}\`](https://github.com/sonarwhal/sonar/issues/${issue})`;
+        return `[\`#${issue}\`](https://github.com/sonarwhal/sonarwhal/issues/${issue})`;
     });
 
     if (issues.length > 0) {
@@ -113,7 +113,7 @@ const createRelease = async (version: string, releaseBody: string) => {
         },
         json: true,
         method: 'POST',
-        url: 'https://api.github.com/repos/sonarwhal/sonar/releases'
+        url: 'https://api.github.com/repos/sonarwhal/sonarwhal/releases'
     });
 
     if (res.body.message) {

@@ -6,7 +6,7 @@ Getting started with `sonar`’s CLI is really easy. First you need
 to have [Node.js v8.x][nodejs] installed and then run:
 
 ```bash
-npm install -g --engine-strict @sonarwhal/sonar
+npm install -g --engine-strict sonarwhal
 ```
 
 You can also install it as a `devDependency` if you prefer not to
@@ -309,6 +309,6 @@ to know more.
 [npm change default directory]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-2-change-npms-default-directory-to-another-directory
 [npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
 [nvm]: https://github.com/creationix/nvm
-[permission issue]: https://github.com/sonarwhal/sonar/issues/308
+[permission issue]: https://github.com/sonarwhal/sonarwhal/issues/308
 [wsl]: https://msdn.microsoft.com/en-us/commandline/wsl/install_guide
 [wsl-interop]: https://msdn.microsoft.com/en-us/commandline/wsl/release_notes#build-14951

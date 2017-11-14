@@ -116,4 +116,4 @@ this rule fail.
 [manifest name]: https://w3c.github.io/manifest/#name-member
 [manifest short_name]: https://w3c.github.io/manifest/#short_name-member
 [manifest spec]: https://w3c.github.io/manifest/
-[sonar issue]: https://github.com/sonarwhal/sonar/issues/136
+[sonar issue]: https://github.com/sonarwhal/sonarwhal/issues/136

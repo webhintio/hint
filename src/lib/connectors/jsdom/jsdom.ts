@@ -468,7 +468,7 @@ class JSDOMConnector implements IConnector {
             /*
              * We could have some pending network requests and this could fail.
              * Because the process is going to end so we don't care if this fails.
-             * https://github.com/sonarwhal/sonar/issues/203
+             * https://github.com/sonarwhal/sonarwhal/issues/203
              */
             debug(`Exception ignored while closing JSDOM connector (most likely pending network requests)`);
             debug(e);

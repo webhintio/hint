@@ -26,13 +26,13 @@ we will use to install packages that `sonar` depends on.
 
 <!-- markdownlint-enable MD033 -->
 
-Go to <https://github.com/sonarwhal/sonar> and click the `Fork` button.
+Go to <https://github.com/sonarwhal/sonarwhal> and click the `Fork` button.
 Follow the [GitHub documentation][github fork docs] for forking and cloning.
 
 Once you've cloned the repository:
 
 ```bash
-git clone https://github.com/sonarwhal/sonar.git
+git clone https://github.com/sonarwhal/sonarwhal.git
 ```
 
 go into the project's directory:

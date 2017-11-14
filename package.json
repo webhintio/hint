@@ -150,7 +150,7 @@
   ],
   "license": "Apache-2.0",
   "main": "./dist/src/lib/sonar.js",
-  "name": "@sonarwhal/sonar",
+  "name": "sonarwhal",
   "nyc": {
     "branches": 85,
     "cache": true,

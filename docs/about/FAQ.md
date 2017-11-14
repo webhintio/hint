@@ -93,12 +93,12 @@ telling us what you think can be improved.
 
 [axe]: https://www.deque.com/products/axe/
 [connector docs]: /docs/contributor-guide/connectors/index.md
-[issues]: https://github.com/sonarwhal/sonar/issues
+[issues]: https://github.com/sonarwhal/sonarwhal/issues
 [jsdom]: https://github.com/tmpvar/jsdom
 [narwhal echolocation]: http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162069
 [narwhal song]: https://www.youtube.com/watch?v=ykwqXuMPsoc
-[new issue]: https://github.com/sonarwhal/sonar/issues/new
+[new issue]: https://github.com/sonarwhal/sonarwhal/issues/new
 [scanner]: https://sonarwhal.com/scanner
 [scanner-issues]: https://github.com/sonarwhal/sonarwhal.com/issues/new
-[sonar-issues]: https://github.com/sonarwhal/sonar/issues/new
+[sonar-issues]: https://github.com/sonarwhal/sonarwhal/issues/new
 [ssllabs]: https://www.ssllabs.com/ssltest/

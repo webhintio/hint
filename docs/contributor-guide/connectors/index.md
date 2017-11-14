@@ -142,5 +142,5 @@ following tests:
 <!-- Link labels: -->
 
 [depth-first search]: https://en.wikipedia.org/wiki/Depth-first_search
-[iconnector interface]: https://github.com/sonarwhal/sonar/blob/master/src/lib/types/connector.ts
+[iconnector interface]: https://github.com/sonarwhal/sonarwhal/blob/master/src/lib/types/connector.ts
 [jsdom]: https://github.com/tmpvar/jsdom
