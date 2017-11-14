@@ -32,7 +32,7 @@ The easiest wait to create a new rule that will be distributed outside
 * Using `sonar` as a global package:
 
 ```bash
-npm install -g --engine-strict @sonarwhal/sonar
+npm install -g --engine-strict sonarwhal
 sonar --new-rule
 ```
 
@@ -43,7 +43,7 @@ sonar --new-rule
   not work.
 
 ```bash
-npx @sonarwhal/sonar --new-rule
+npx sonarwhal --new-rule
 ```
 
 In both cases, a wizard will start and ask you a series of questions:
@@ -68,14 +68,14 @@ files and insert them at the right location.
 First you need to install the CLI:
 
 ```bash
-npm install -g --engine-strict @sonarwhal/sonar
+npm install -g --engine-strict sonarwhal
 ```
 
 You can also install it as a `devDependency` if you prefer not to
 have it globally.
 
 ```bash
-npm install -D --engine-strict @sonarwhal/sonar
+npm install -D --engine-strict sonarwhal
 ```
 
 Then you can proceed to start generating a new rule using the flag `--new-rule`:

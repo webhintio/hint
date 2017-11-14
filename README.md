@@ -16,7 +16,7 @@ to use it.
 Just run the following command:
 
 ```bash
-npx @sonarwhal/sonar https://example.com
+npx sonarwhal https://example.com
 ```
 
 This will start the wizard to create a `.sonarrc` file, and then
@@ -28,7 +28,7 @@ platform](https://github.com/npm/npm/issues/17869).
 ### Installing `sonar` globally
 
 ```bash
-npm install -g --engine-strict @sonarwhal/sonar
+npm install -g --engine-strict sonarwhal
 ```
 
 Create a `.sonarrc` file by running this command and following the

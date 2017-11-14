@@ -41,7 +41,7 @@ test.serial('Users should be notified if there is a new version of sonar', async
     const newUpdate = {
         current: '0.2.0',
         latest: '0.3.0',
-        name: '@sonarwhal/sonar',
+        name: 'sonarwhal',
         type: 'minor'
     };
 
@@ -70,7 +70,7 @@ test.serial(`Users shouldn't be notified if they just updated to the latest vers
     const newUpdate = {
         current: '0.2.0',
         latest: '0.3.0',
-        name: '@sonarwhal/sonar',
+        name: 'sonarwhal',
         type: 'minor'
     };
 
