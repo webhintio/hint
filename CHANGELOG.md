@@ -1,3 +1,19 @@
+# 0.15.0 (November 14, 2017)
+
+## Breaking Changes
+
+* [[`b71b6f472a`](https://github.com/sonarwhal/sonarwhal/commit/b71b6f472adaafda50079d5cbc769e7f05324ac0)] - Breaking: Rename project from `sonar` to `sonarwhal`.
+
+## Bug fixes / Improvements
+
+* [[`dd0a96ec98`](https://github.com/sonarwhal/sonarwhal/commit/dd0a96ec98ec81c7820f30180c99c1bebe932b50)] - Docs: Fix rule name in `image-optimization-cloudinary.md` (see also: [`#646`](https://github.com/sonarwhal/sonarwhal/issues/646)).
+
+## New features
+
+* [[`d6a1af9aa0`](https://github.com/sonarwhal/sonarwhal/commit/d6a1af9aa0bf9c8cc1cb84d27d77979c5aca1f4b)] - New: Add HPKP headers in `no-disallowed-headers` (see also: [`#631`](https://github.com/sonarwhal/sonarwhal/issues/631)).
+* [[`b6626897f8`](https://github.com/sonarwhal/sonarwhal/commit/b6626897f88ebcc7f8c9682f127cb002bc03f921)] - New: Add `no-http-redirects` rule (see also: [`#641`](https://github.com/sonarwhal/sonarwhal/issues/641)).
+
+
 # 0.14.2 (November 10, 2017)
 
 ## Bug fixes / Improvements
