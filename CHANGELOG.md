@@ -1,3 +1,14 @@
+# 0.16.0 (November 14, 2017)
+
+## Breaking Changes
+
+* [[`015d53e4b0`](https://github.com/sonarwhal/sonarwhal/commit/015d53e4b0a1a384e4929ebdbbce5d85a9fa6af4)] - Breaking: Rename `sonar` to `sonarwhal` everywhere (see also: [`#655`](https://github.com/sonarwhal/sonarwhal/issues/655)).
+
+## Bug fixes / Improvements
+
+* [[`84b8eb3135`](https://github.com/sonarwhal/sonarwhal/commit/84b8eb31353f1b6aa90930d0381d255a2caae718)] - Docs: Update repository references.
+
+
 # 0.15.0 (November 14, 2017)
 
 ## Breaking Changes
