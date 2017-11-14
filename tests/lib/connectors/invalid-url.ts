@@ -7,12 +7,12 @@ import { builders } from '../../helpers/connectors';
 import { IConnector, IConnectorBuilder } from '../../../src/lib/types';
 
 test.beforeEach((t) => {
-    const sonar = {
+    const sonarwhal = {
         emit() { },
         emitAsync() { }
     };
 
-    t.context = { sonar };
+    t.context = { sonarwhal };
 });
 
 test.afterEach.always(async (t) => {
@@ -24,8 +24,8 @@ const testConnectorInvalidUrl = (connectorInfo) => {
     const name: string = connectorInfo.name;
 
     test(`[${name}] Load an invalid url throws an error`, async (t) => {
-        const { sonar } = t.context;
-        const connector: IConnector = await (connectorBuilder)(sonar, {});
+        const { sonarwhal } = t.context;
+        const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
 
         t.context.connector = connector;
 

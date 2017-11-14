@@ -235,7 +235,7 @@ const testsForDefaults: Array<IRuleTest> = [
      *         '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
      *     }
      * },
-     * TODO: Chrome will not download if it doesn't like the type: https://github.com/sonarwahl/sonar/pull/245#discussion_r120083650, #250
+     * TODO: Chrome will not download if it doesn't like the type: https://github.com/sonarwahl/sonarwhal/pull/245#discussion_r120083650, #250
      * {
      *     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'js' file extension)`,
      *     reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],

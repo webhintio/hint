@@ -8,7 +8,7 @@ The current supported connectors are:
 
 ## Configuration
 
-The following properties can be customized in your `.sonarrc` file,
+The following properties can be customized in your `.sonarwhalrc` file,
 under the `options` property of the `connector` for any of the
 officially supported ones:
 

@@ -31,9 +31,9 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 const CONFIG_FILES = [
-    '.sonarrc',
-    '.sonarrc.js',
-    '.sonarrc.json',
+    '.sonarwhalrc',
+    '.sonarwhalrc.js',
+    '.sonarwhalrc.json',
     'package.json'
 ];
 
@@ -43,7 +43,7 @@ const loadPackageJSONConfigFile = (filePath: string): IConfig => {
     debug(`Loading package.json config file: ${filePath}`);
 
     try {
-        return loadJSONFile(filePath).sonarConfig || null;
+        return loadJSONFile(filePath).sonarwhalConfig || null;
     } catch (e) {
         debug(`Error reading package.json file: ${filePath}`);
         e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;

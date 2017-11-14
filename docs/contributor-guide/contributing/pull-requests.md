@@ -1,6 +1,6 @@
 # Pull Requests
 
-Contributing code to `sonar` is done using pull requests. This is
+Contributing code to `sonarwhal` is done using pull requests. This is
 the fastest way for us to evaluate your code and to merge it into
 the code base.
 
@@ -52,7 +52,7 @@ and generally follows the same pattern each time:
 <!-- markdownlint-enable MD033 -->
 
 The first step to sending a pull request is to create a new branch
-in your `sonar` fork. Give the branch a descriptive name that best
+in your `sonarwhal` fork. Give the branch a descriptive name that best
 illustrates what it is you're fixing, such as:
 
 ```bash
@@ -222,7 +222,7 @@ git push -f origin fix-1234
 
 <!-- markdownlint-enable MD033 -->
 
-Now you're ready to send the pull request. Go to your `sonar` fork
+Now you're ready to send the pull request. Go to your `sonarwhal` fork
 and then follow the [GitHub documentation][github pr docs] on how to
 send a pull request.
 

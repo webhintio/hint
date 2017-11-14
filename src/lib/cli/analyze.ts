@@ -2,14 +2,14 @@ import * as inquirer from 'inquirer';
 import * as ora from 'ora';
 
 import * as Config from '../config';
-import { Sonar } from '../sonar';
+import { Sonarwhal } from '../sonarwhal';
 import { CLIOptions, IConfig, IFormatter, IORA, IProblem, Severity, URL } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/get-as-uri';
 import * as logger from '../utils/logging';
 import { cutString } from '../utils/misc';
 import * as resourceLoader from '../utils/resource-loader';
-import { initSonarrc } from './init';
+import { initSonarwhalrc } from './init';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -38,8 +38,8 @@ const askUserToCreateConfig = async () => {
         return false;
     }
 
-    await initSonarrc({init: true} as CLIOptions);
-    logger.log(`Configuration file .sonarrc was created.`);
+    await initSonarwhalrc({init: true} as CLIOptions);
+    logger.log(`Configuration file .sonarwhalrc was created.`);
 
     return true;
 };
@@ -78,8 +78,8 @@ const messages = {
     'traverse::up': 'Traversing the DOM'
 };
 
-const setUpUserFeedback = (sonarInstance: Sonar, spinner: IORA) => {
-    sonarInstance.prependAny((event: string, value: { resource: string }) => {
+const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: IORA) => {
+    sonarwhalInstance.prependAny((event: string, value: { resource: string }) => {
         const message: string = messages[event];
 
         if (!message) {
@@ -104,7 +104,7 @@ const format = (formatterName: string, results: IProblem[]) => {
 
 // HACK: we need this to correctly test the messages in tests/lib/cli.ts.
 
-export let sonar: Sonar = null;
+export let sonarwhal: Sonarwhal = null;
 
 /** Analyzes a website if indicated by `actions`. */
 export const analyze = async (actions: CLIOptions): Promise<boolean> => {
@@ -121,19 +121,19 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
     const config: IConfig = await tryToLoadConfig(actions);
 
     if (!config) {
-        logger.log(`Unable to find a valid configuration file. Please add a .sonarrc file by running 'sonar --init'. `);
+        logger.log(`Unable to find a valid configuration file. Please add a .sonarwhalrc file by running 'sonarwhal --init'. `);
 
         return false;
     }
 
-    sonar = new Sonar(config);
+    sonarwhal = new Sonarwhal(config);
     const start: number = Date.now();
     const spinner: IORA = ora({ spinner: 'line' });
     let exitCode: number = 0;
 
     if (!actions.debug) {
         spinner.start();
-        setUpUserFeedback(sonar, spinner);
+        setUpUserFeedback(sonarwhal, spinner);
     }
 
     const endSpinner = (method: string) => {
@@ -144,7 +144,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
 
     for (const target of targets) {
         try {
-            const results: Array<IProblem> = await sonar.executeOn(target);
+            const results: Array<IProblem> = await sonarwhal.executeOn(target);
             const hasError: boolean = results.some((result: IProblem) => {
                 return result.severity === Severity.error;
             });
@@ -156,7 +156,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
                 endSpinner('succeed');
             }
 
-            sonar.formatters.forEach((formatter) => {
+            sonarwhal.formatters.forEach((formatter) => {
                 format(formatter, results);
             });
         } catch (e) {
@@ -167,7 +167,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         }
     }
 
-    await sonar.close();
+    await sonarwhal.close();
 
     debug(`Total runtime: ${Date.now() - start}ms`);
 

@@ -20,12 +20,12 @@ eventEmitter.EventEmitter2.prototype.emitAsync = () => {
     return Promise.resolve([]);
 };
 
-proxyquire('../../src/lib/sonar', {
+proxyquire('../../src/lib/sonarwhal', {
     './utils/resource-loader': resourceLoader,
     eventemitter2: eventEmitter
 });
 
-import { Sonar } from '../../src/lib/sonar';
+import { Sonarwhal } from '../../src/lib/sonarwhal';
 
 test.beforeEach((t) => {
     t.context.resourceLoader = resourceLoader;
@@ -44,21 +44,21 @@ test.afterEach.always((t) => {
 test(`If config is an empty object, we should throw an error`, (t) => {
     t.throws(() => {
         // <any>{} to avoid the type checking if not is not possible to use just {}
-        new Sonar({} as any);
+        new Sonarwhal({} as any);
     }, Error);
 });
 
 test(`If config doesn't have any rule, we shouldn't create any rules`, (t) => {
     sinon.spy(t.context.resourceLoader, 'loadRules');
 
-    new Sonar({ connector: 'connector' });
+    new Sonarwhal({ connector: 'connector' });
 
     t.false(t.context.resourceLoader.loadRules.called);
 });
 
 test(`If the config object is invalid, we should throw an error`, (t) => {
     t.throws(() => {
-        new Sonar({
+        new Sonarwhal({
             invalidProperty: 'invalid',
             randomProperty: 'random'
         } as any);
@@ -67,7 +67,7 @@ test(`If the config object is invalid, we should throw an error`, (t) => {
 
 test(`If a rule config is invalid, we should throw an error`, (t) => {
     t.throws(() => {
-        new Sonar({
+        new Sonarwhal({
             connector: 'connector',
             rules: { 'disallowed-headers': 'invalid-severity' }
         });
@@ -76,7 +76,7 @@ test(`If a rule config is invalid, we should throw an error`, (t) => {
 
 test(`If a rule doesn't exist, we should throw an error`, (t) => {
     t.throws(() => {
-        new Sonar({
+        new Sonarwhal({
             connector: 'connector',
             rules: { 'invalid-rule': 'error' }
         });
@@ -86,12 +86,12 @@ test(`If a rule doesn't exist, we should throw an error`, (t) => {
 test(`If config.browserslist is an string, we should initilize the property targetedBrowsers`, (t) => {
     sinon.spy(t.context.resourceLoader, 'loadRules');
 
-    const sonarObject = new Sonar({
+    const sonarwhalObject = new Sonarwhal({
         browserslist: '> 5%',
         connector: 'connector'
     });
 
-    t.true(sonarObject.targetedBrowsers.length > 0);
+    t.true(sonarwhalObject.targetedBrowsers.length > 0);
 
     t.false(t.context.resourceLoader.loadRules.called);
 });
@@ -118,7 +118,7 @@ test(`If config.browserslist is an string, we should initilize the property targ
  *             'fetch::end': () => { },
  *             'fetch::error': () => { }
  *         });
- *     new Sonar({ connector: 'connector', plugins: ['plugin1Name', 'plugin2Name'] });
+ *     new Sonarwhal({ connector: 'connector', plugins: ['plugin1Name', 'plugin2Name'] });
  *     t.true(t.context.resourceLoader.getPlugins.called);
  *     t.is(t.context.plugin.create.callCount, 2);
  *     t.is(t.context.eventemitter.prototype.on.callCount, 3);
@@ -149,7 +149,7 @@ test.serial('If config.rules is an object with rules, we should create just thos
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    new Sonar({
+    new Sonarwhal({
         connector: 'connector',
         rules: {
             'disallowed-headers': 'warning',
@@ -182,7 +182,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    new Sonar({
+    new Sonarwhal({
         connector: 'connector',
         rules: {
             'disallowed-headers': 'warning',
@@ -216,7 +216,7 @@ test.serial('If config.rules is an array with rules, we should create just those
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    new Sonar({
+    new Sonarwhal({
         connector: 'connector',
         rules: [
             'disallowed-headers:warning',
@@ -249,7 +249,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    new Sonar({
+    new Sonarwhal({
         connector: 'connector',
         rules: [
             'disallowed-headers:warning',
@@ -283,7 +283,7 @@ test.serial('If config.rules is an array with shorthand warning rules, we should
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    new Sonar({
+    new Sonarwhal({
         connector: 'connector',
         rules: [
             '?disallowed-headers',
@@ -316,7 +316,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    new Sonar({
+    new Sonarwhal({
         connector: 'connector',
         rules: [
             'disallowed-headers:warning',
@@ -349,7 +349,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    new Sonar({
+    new Sonarwhal({
         connector: 'jsdom',
         rules: {
             'disallowed-headers': 'warning',
@@ -389,7 +389,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
     sinon.spy(ruleWithIgnoredConnector, 'create');
-    new Sonar({
+    new Sonarwhal({
         connector: 'chrome',
         rules: {
             'disallowed-headers': 'warning',
@@ -419,7 +419,7 @@ test.serial(`If an event is emitted for a local file and the rule doesn't work w
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    new Sonar({
+    new Sonarwhal({
         connector: 'connector',
         rules: { 'disallowed-headers': 'warning' }
     });
@@ -446,7 +446,7 @@ test(`If an event is emitted for an ignored url, it shouldn't propagate`, async 
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    const sonarObject = new Sonar({
+    const sonarwhalObject = new Sonarwhal({
         connector: 'connector',
         ignoredUrls: [{
             domain: '.*\\.domain1\.com/.*', // eslint-disable-line no-useless-escape
@@ -455,7 +455,7 @@ test(`If an event is emitted for an ignored url, it shouldn't propagate`, async 
         rules: { 'disallowed-headers': 'warning' }
     });
 
-    await sonarObject.emitAsync('event', { resource: 'http://www.domain1.com/test' });
+    await sonarwhalObject.emitAsync('event', { resource: 'http://www.domain1.com/test' });
 
     t.false(t.context.eventemitter.prototype.emitAsync.called);
 
@@ -477,7 +477,7 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    new Sonar({
+    new Sonarwhal({
         connector: 'connector',
         ignoredUrls: [{
             domain: '.*\\.domain1\.com/.*', // eslint-disable-line no-useless-escape
@@ -517,7 +517,7 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
         }
     });
 
-    new Sonar({
+    new Sonarwhal({
         connector: 'connector',
         rules: { 'disallowed-headers': 'warning' },
         rulesTimeout: 1000
@@ -534,7 +534,7 @@ test.serial(`If connectorId doesn't exist, it should throw an error`, (t) => {
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(null);
 
     try {
-        new Sonar({ connector: 'invalidConnector' });
+        new Sonarwhal({ connector: 'invalidConnector' });
 
         t.false(true);
     } catch (err) {
@@ -548,7 +548,7 @@ test.serial('If connectorId is valid, we should init the connector', (t) => {
     sinon.stub(t.context, 'connectorFunction').returns({});
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    new Sonar({ connector: 'myconnector' });
+    new Sonarwhal({ connector: 'myconnector' });
 
     t.true(t.context.connectorFunction.called);
 });
@@ -559,7 +559,7 @@ test.serial('If connector is an object with valid data, we should init the conne
     sinon.stub(t.context, 'connectorFunction').returns({});
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    new Sonar({
+    new Sonarwhal({
         connector: {
             name: 'myconnector',
             options: {}
@@ -570,12 +570,12 @@ test.serial('If connector is an object with valid data, we should init the conne
 });
 
 test.serial('formatter should return the formatter configured', (t) => {
-    const sonarObject = new Sonar({
+    const sonarwhalObject = new Sonarwhal({
         connector: 'connector',
         formatters: ['formatter']
     });
 
-    t.is(sonarObject.formatters[0], 'formatter');
+    t.is(sonarwhalObject.formatters[0], 'formatter');
 });
 
 test.serial('pageContent should return the HTML', async (t) => {
@@ -585,14 +585,14 @@ test.serial('pageContent should return the HTML', async (t) => {
     sinon.stub(t.context, 'connectorFunction').returns({ html });
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonarObject = new Sonar({
+    const sonarwhalObject = new Sonarwhal({
         connector: {
             name: 'myconnector',
             options: {}
         }
     });
 
-    t.is(await sonarObject.pageContent, html);
+    t.is(await sonarwhalObject.pageContent, html);
 });
 
 test.serial(`pageHeaders should return the page's response headers`, (t) => {
@@ -602,14 +602,14 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
     sinon.stub(t.context, 'connectorFunction').returns({ headers });
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonarObject = new Sonar({
+    const sonarwhalObject = new Sonarwhal({
         connector: {
             name: 'myconnector',
             options: {}
         }
     });
 
-    t.is(sonarObject.pageHeaders, headers);
+    t.is(sonarwhalObject.pageHeaders, headers);
 });
 
 test.serial('If connector.collect fails, it should return an error', async (t) => {
@@ -620,7 +620,7 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
     sinon.stub(t.context, 'connectorFunction').returns({ collect: t.context.collect });
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonarObject = new Sonar({
+    const sonarwhalObject = new Sonarwhal({
         connector: {
             name: 'myconnector',
             options: {}
@@ -630,7 +630,7 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
     const localUrl = new url.URL('http://localhost/');
 
     try {
-        await sonarObject.executeOn(localUrl);
+        await sonarwhalObject.executeOn(localUrl);
         t.false(true);
     } catch (err) {
         t.is(err.message, 'Error runing collect');
@@ -643,7 +643,7 @@ test.serial('executeOn should return all messages', async (t) => {
     sinon.stub(t.context, 'connectorFunction').returns({ collect: t.context.collect });
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonarObject = new Sonar({
+    const sonarwhalObject = new Sonarwhal({
         connector: {
             name: 'myconnector',
             options: {}
@@ -652,10 +652,10 @@ test.serial('executeOn should return all messages', async (t) => {
 
     const localUrl = new url.URL('http://localhost/');
 
-    sonarObject.report('1', 1, 'node', { column: 1, line: 1 }, 'message', 'resource');
-    sonarObject.report('2', 1, 'node', { column: 1, line: 2 }, 'message2', 'resource2');
+    sonarwhalObject.report('1', 1, 'node', { column: 1, line: 1 }, 'message', 'resource');
+    sonarwhalObject.report('2', 1, 'node', { column: 1, line: 2 }, 'message2', 'resource2');
 
-    const result = await sonarObject.executeOn(localUrl);
+    const result = await sonarwhalObject.executeOn(localUrl);
 
     t.is(result.length, 2);
 });

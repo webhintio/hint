@@ -7,7 +7,7 @@ import * as config from '../../../src/lib/config';
 import { CLIOptions, Severity } from '../../../src/lib/types';
 const actions = { _: ['http://localhost/'] } as CLIOptions;
 
-class Sonar extends EventEmitter {
+class Sonarwhal extends EventEmitter {
     public formatters = ['json'];
     public close() { }
     public executeOn() { }
@@ -24,7 +24,7 @@ const logger = {
     log() { }
 };
 
-const generator = { initSonarrc() { } };
+const generator = { initSonarwhalrc() { } };
 
 const spinner = {
     fail() { },
@@ -41,7 +41,7 @@ const inquirer = { prompt() { } };
 
 proxyquire('../../../src/lib/cli/analyze', {
     '../config': config,
-    '../sonar': { Sonar },
+    '../sonarwhal': { Sonarwhal },
     '../utils/logging': logger,
     '../utils/resource-loader': resourceLoader,
     './init': generator,
@@ -56,7 +56,7 @@ test.beforeEach((t) => {
     sinon.spy(logger, 'error');
     sinon.spy(config, 'getFilenameForDirectory');
     sinon.spy(config, 'load');
-    sinon.stub(generator, 'initSonarrc').resolves();
+    sinon.stub(generator, 'initSonarwhalrc').resolves();
     sinon.spy(spinner, 'start');
     sinon.spy(spinner, 'fail');
     sinon.spy(spinner, 'succeed');
@@ -74,7 +74,7 @@ test.afterEach.always((t) => {
     t.context.logger.error.restore();
     t.context.config.getFilenameForDirectory.restore();
     t.context.config.load.restore();
-    t.context.generator.initSonarrc.restore();
+    t.context.generator.initSonarwhalrc.restore();
     t.context.spinner.start.restore();
     t.context.spinner.fail.restore();
     t.context.spinner.succeed.restore();
@@ -104,8 +104,8 @@ test.serial('If config file does not exist, it should create a configuration fil
 
     t.true(t.context.inquirer.prompt.calledOnce);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
-    t.true(t.context.generator.initSonarrc.calledOnce);
-    t.deepEqual(t.context.generator.initSonarrc.firstCall.args[0], { init: true });
+    t.true(t.context.generator.initSonarwhalrc.calledOnce);
+    t.deepEqual(t.context.generator.initSonarwhalrc.firstCall.args[0], { init: true });
 });
 
 test.serial('If config file does not exist and user refuses to create a configuration file, it should exit with code 1', async (t) => {
@@ -123,7 +123,7 @@ test.serial('If config file does not exist and user refuses to create a configur
 
     t.true(t.context.inquirer.prompt.calledOnce);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
-    t.false(t.context.generator.initSonarrc.called);
+    t.false(t.context.generator.initSonarwhalrc.called);
     t.false(result);
 });
 
@@ -140,7 +140,7 @@ test.serial('If configuration file exists, it should use it', async (t) => {
 });
 
 test.serial('If executeOn returns an error, it should exit with code 1 and call formatter.format', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
+    sinon.stub(Sonarwhal.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
     sinon.spy(formatter, 'format');
 
     const exitCode = await analyzer.analyze(actions);
@@ -148,42 +148,42 @@ test.serial('If executeOn returns an error, it should exit with code 1 and call 
     t.true((formatter.format as sinon.SinonSpy).called);
     t.false(exitCode);
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
     (formatter.format as sinon.SinonSpy).restore();
 });
 
 test.serial('If executeOn returns an error, it should call to spinner.fail()', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
+    sinon.stub(Sonarwhal.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
 
     await analyzer.analyze(actions);
 
     t.true(t.context.spinner.fail.calledOnce);
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
 });
 
 test.serial('If executeOn throws an exception, it should exit with code 1', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').throws(new Error());
+    sinon.stub(Sonarwhal.prototype, 'executeOn').throws(new Error());
 
     const result = await analyzer.analyze(actions);
 
     t.false(result);
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
 });
 
 test.serial('If executeOn throws an exception, it should call to spinner.fail()', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').throws(new Error());
+    sinon.stub(Sonarwhal.prototype, 'executeOn').throws(new Error());
 
     await analyzer.analyze(actions);
 
     t.true(t.context.spinner.fail.calledOnce);
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
 });
 
 test.serial('If executeOn returns no errors, it should exit with code 0 and call formatter.format', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').resolves([{ severity: 0 }]);
+    sinon.stub(Sonarwhal.prototype, 'executeOn').resolves([{ severity: 0 }]);
     sinon.spy(formatter, 'format');
 
     const exitCode = await analyzer.analyze(actions);
@@ -191,78 +191,78 @@ test.serial('If executeOn returns no errors, it should exit with code 0 and call
     t.true((formatter.format as sinon.SinonSpy).called);
     t.true(exitCode);
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
     (formatter.format as sinon.SinonSpy).restore();
 });
 
 test.serial('If executeOn returns no errors, it should call to spinner.succeed()', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').resolves([{ severity: 0 }]);
+    sinon.stub(Sonarwhal.prototype, 'executeOn').resolves([{ severity: 0 }]);
 
     await analyzer.analyze(actions);
 
     t.true(t.context.spinner.succeed.calledOnce);
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
 });
 
 test.serial('Event fetch::start should write a message in the spinner', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').callsFake(async () => {
-        await analyzer.sonar.emitAsync('fetch::start', { resource: 'http://localhost/' });
+    sinon.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+        await analyzer.sonarwhal.emitAsync('fetch::start', { resource: 'http://localhost/' });
     });
 
     await analyzer.analyze(actions);
 
     t.is(spinner.text, 'Downloading http://localhost/');
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
 });
 
 test.serial('Event fetch::end should write a message in the spinner', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').callsFake(async () => {
-        await analyzer.sonar.emitAsync('fetch::end', { resource: 'http://localhost/' });
+    sinon.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+        await analyzer.sonarwhal.emitAsync('fetch::end', { resource: 'http://localhost/' });
     });
 
     await analyzer.analyze(actions);
 
     t.is(spinner.text, 'http://localhost/ downloaded');
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
 });
 
 test.serial('Event traverse::up should write a message in the spinner', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').callsFake(async () => {
-        await analyzer.sonar.emitAsync('traverse::up', { resource: 'http://localhost/' });
+    sinon.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+        await analyzer.sonarwhal.emitAsync('traverse::up', { resource: 'http://localhost/' });
     });
 
     await analyzer.analyze(actions);
 
     t.is(spinner.text, 'Traversing the DOM');
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
 });
 
 test.serial('Event traverse::end should write a message in the spinner', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').callsFake(async () => {
-        await analyzer.sonar.emitAsync('traverse::end', { resource: 'http://localhost/' });
+    sinon.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+        await analyzer.sonarwhal.emitAsync('traverse::end', { resource: 'http://localhost/' });
     });
 
     await analyzer.analyze(actions);
 
     t.is(spinner.text, 'Traversing finished');
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
 });
 
 test.serial('Event scan::end should write a message in the spinner', async (t) => {
-    sinon.stub(Sonar.prototype, 'executeOn').callsFake(async () => {
-        await analyzer.sonar.emitAsync('scan::end', { resource: 'http://localhost/' });
+    sinon.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+        await analyzer.sonarwhal.emitAsync('scan::end', { resource: 'http://localhost/' });
     });
 
     await analyzer.analyze(actions);
 
     t.is(spinner.text, 'Finishing...');
 
-    (Sonar.prototype.executeOn as sinon.SinonStub).restore();
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
 });
 
 test.serial('If no sites are defined, it should return false', async (t) => {

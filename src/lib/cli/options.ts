@@ -77,16 +77,16 @@ export const options = optionator({
         },
         {
             alias: 'n',
-            description: `Generate a new rule (in sonar's main repo)`,
+            description: `Generate a new rule (in sonarwhal's main repo)`,
             option: 'new-rule',
             type: 'Boolean'
         },
         {
             alias: 'r',
-            description: `Remove an existing rule (in sonar's main repo)`,
+            description: `Remove an existing rule (in sonarwhal's main repo)`,
             option: 'remove-rule',
             type: 'Boolean'
         }
     ],
-    prepend: 'sonar [options] https://url.com [https://url2.com]'
+    prepend: 'sonarwhal [options] https://url.com'
 });

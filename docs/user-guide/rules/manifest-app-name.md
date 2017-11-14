@@ -27,7 +27,7 @@ Notes:
   specify `short_name` as browsers can just use `name`.
 
 * The 12 character limit is used to ensure that for most cases the
-  value won't be truncated. However depending on [other things][sonar
+  value won't be truncated. However depending on [other things][sonarwhal
   issue], such as:
 
   * what font the user is using
@@ -116,4 +116,4 @@ this rule fail.
 [manifest name]: https://w3c.github.io/manifest/#name-member
 [manifest short_name]: https://w3c.github.io/manifest/#short_name-member
 [manifest spec]: https://w3c.github.io/manifest/
-[sonar issue]: https://github.com/sonarwhal/sonarwhal/issues/136
+[sonarwhal issue]: https://github.com/sonarwhal/sonarwhal/issues/136

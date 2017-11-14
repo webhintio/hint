@@ -5,25 +5,25 @@
  * https://github.com/eslint/eslint/blob/master/lib/rule-context.js
  */
 
-import { Sonar } from './sonar';
+import { Sonarwhal } from './sonarwhal';
 import { IAsyncHTMLElement, INetworkData, IProblemLocation, IRuleMetadata, Severity } from './types';
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 
 
-/** Acts as an abstraction layer between rules and the main sonar object. */
+/** Acts as an abstraction layer between rules and the main sonarwhal object. */
 export class RuleContext {
     private id: string
     private options: Array<any>
     private meta: IRuleMetadata
     private severity: Severity
-    private sonar: Sonar
+    private sonarwhal: Sonarwhal
 
-    public constructor(ruleId: string, sonar: Sonar, severity: Severity | string, options, meta: IRuleMetadata) {
+    public constructor(ruleId: string, sonarwhal: Sonarwhal, severity: Severity | string, options, meta: IRuleMetadata) {
 
         this.id = ruleId;
         this.options = options;
         this.meta = meta;
-        this.sonar = sonar;
+        this.sonarwhal = sonarwhal;
         this.severity = typeof severity === 'string' ? Severity[severity] : severity;
 
         Object.freeze(this);
@@ -32,22 +32,22 @@ export class RuleContext {
 
     /** The DOM of the page. */
     public get pageDOM() {
-        return this.sonar.pageDOM;
+        return this.sonarwhal.pageDOM;
     }
 
     /** The original HTML of the page. */
     public get pageContent() {
-        return this.sonar.pageContent;
+        return this.sonarwhal.pageContent;
     }
 
     /** The headers of the response when retrieving the HTML. */
     public get pageHeaders() {
-        return this.sonar.pageHeaders;
+        return this.sonarwhal.pageHeaders;
     }
 
-    /** List of browsers to target as specified by the sonar configuration. */
+    /** List of browsers to target as specified by the sonarwhal configuration. */
     public get targetedBrowsers(): Array<string> {
-        return this.sonar.targetedBrowsers;
+        return this.sonarwhal.targetedBrowsers;
     }
 
     /** Custom configuration (if any) for the given rule */
@@ -67,16 +67,16 @@ export class RuleContext {
 
     /** Injects JavaScript into the target. */
     public evaluate(source: string): Promise<any> {
-        return this.sonar.evaluate(source);
+        return this.sonarwhal.evaluate(source);
     }
 
     /** A useful way of making requests. */
     public fetchContent(target, headers?): Promise<INetworkData> {
-        return this.sonar.fetchContent(target, headers);
+        return this.sonarwhal.fetchContent(target, headers);
     }
 
     public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
-        return this.sonar.querySelectorAll(selector);
+        return this.sonarwhal.querySelectorAll(selector);
     }
 
     /** Finds the exact location of the given content in the HTML that represents the `element`. */
@@ -100,11 +100,11 @@ export class RuleContext {
         }
 
         /*
-         * If location is undefined or equal to null, `position` will be set as `{ column: -1, line: -1 }` later in `sonar.report`.
+         * If location is undefined or equal to null, `position` will be set as `{ column: -1, line: -1 }` later in `sonarwhal.report`.
          * So pass the `location` on as it is.
          */
 
-        this.sonar.report(
+        this.sonarwhal.report(
             this.id,
             severity || this.severity,
             codeSnippet || sourceCode,

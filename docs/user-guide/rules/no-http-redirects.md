@@ -1,7 +1,7 @@
 # Avoid HTTP redirects in requests (`no-http-redirects`)
 
 `no-http-redirects` checks if there are any HTTP redirects in the page
-`sonar` is analyzing.
+`sonarwhal` is analyzing.
 
 ## Why is this important?
 
@@ -29,7 +29,7 @@ As a rule of thumb, the more you can avoid redirects the better.
 
 This rule checks:
 
-* If the target URL passed to `sonar` has any redirect. E.g.:
+* If the target URL passed to `sonarwhal` has any redirect. E.g.:
   `http://www.example.com` --> `http://example.com`
 * If any resource in the page has any redirect. E.g.:
   `http://example.com/script.js` --> `https://example.com/script.js`
@@ -38,7 +38,7 @@ and alerts if at least one is found.
 
 ### Examples that **trigger** the rule
 
-* Any URL passed to `sonar` that redirects to another one
+* Any URL passed to `sonarwhal` that redirects to another one
 * Any page with a resource (script, css, image) behind a redirect
 
 ### Examples that **pass** the rule

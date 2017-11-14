@@ -5,10 +5,10 @@ import { INetworkData } from './network';
 
 /** The builder of a Connector */
 export interface IConnectorBuilder {
-    (sonar, options): IConnector;
+    (sonarwhal, options): IConnector;
 }
 
-/** A connector to be used by Sonar */
+/** A connector to be used by sonarwhal */
 export interface IConnector {
     /** The original DOM of the resource collected. */
     dom: object;

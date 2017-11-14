@@ -34,7 +34,7 @@ import { normalizeHeaders } from '../utils/normalize-headers';
 import { RedirectManager } from '../utils/redirects';
 import { Requester } from '../utils/requester';
 
-import { Sonar } from '../../sonar';
+import { Sonarwhal } from '../../sonarwhal';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -47,8 +47,8 @@ export class Connector implements IConnector {
     private _href: string;
     /** The final URL after redirects (if they exist) */
     private _finalHref: string;
-    /** The instance of Sonar that is using this connector. */
-    private _server: Sonar;
+    /** The instance of sonarwhal that is using this connector. */
+    private _server: Sonarwhal;
     /** The client to talk to the browser. */
     private _client;
     /** Browser's child process */
@@ -77,7 +77,7 @@ export class Connector implements IConnector {
     private _targetNetworkData: INetworkData;
     private launcher: ILauncher;
 
-    public constructor(server: Sonar, config: object, launcher: ILauncher) {
+    public constructor(server: Sonarwhal, config: object, launcher: ILauncher) {
         const defaultOptions = {
             /*
              * tabUrl is a empty html site used to avoid edge diagnostics adapter to receive unexpeted onLoadEventFired

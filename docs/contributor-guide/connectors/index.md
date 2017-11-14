@@ -1,6 +1,6 @@
 # How to develop a connector
 
-A connector is the way `sonar` gets information and exposes it to the
+A connector is the way `sonarwhal` gets information and exposes it to the
 rules. Connectors are usually built on top of browsers but that isn't
 a strong requirement. For example, one of the official connectors uses
 [`jsdom`][jsdom].
@@ -12,7 +12,7 @@ of events. For example, if you have a connector that only takes into
 account HTML files from the file system, it could decide not to
 implement events such as `fetch::end`.
 
-This is the [list of events supported by `sonar`](./events.md). For
+This is the [list of events supported by `sonarwhal`](./events.md). For
 a connector to be considered "full", it needs to send all these events.
 Additionally it needs to pass all the [common
 tests](#how-to-test-a-full-connector).

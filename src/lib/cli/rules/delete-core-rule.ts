@@ -49,7 +49,7 @@ export const deleteRule = async (actions: CLIOptions): Promise<boolean> => {
 
     const rimrafAsync = util.promisify(rimraf);
 
-    logger.log('Starting core sonar rule remover.');
+    logger.log('Starting core sonarwhal rule remover.');
     const results = await inquirer.prompt(questions);
     const currentRules: Array<string> = resourceLoader.getCoreRules();
 

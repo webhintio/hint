@@ -2,7 +2,7 @@
 
 ## Getting started
 
-Getting started with `sonar`’s CLI is really easy. First you need
+Getting started with `sonarwhal`’s CLI is really easy. First you need
 to have [Node.js v8.x][nodejs] installed and then run:
 
 ```bash
@@ -12,11 +12,11 @@ npm install -g --engine-strict sonarwhal
 You can also install it as a `devDependency` if you prefer not to
 have it globally.
 
-The next thing that `sonar` needs is a `.sonarrc` file. The fastest
+The next thing that `sonarwhal` needs is a `.sonarwhalrc` file. The fastest
 and easiest way to create one is by using the flag `--init`:
 
 ```bash
-sonar --init
+sonarwhal --init
 ```
 
 This command will start a wizard that will ask you a series of
@@ -42,7 +42,7 @@ following:
 Then you just have to run the following command to scan a website:
 
 ```bash
-sonar https://example.com
+sonarwhal https://example.com
 ```
 
 Wait a few seconds and you will get the results. It might take a while
@@ -59,7 +59,7 @@ the different pieces:
 
 ## Permission issues during installation
 
-If you receive an `EACCES` error when installing `sonar`, it is caused
+If you receive an `EACCES` error when installing `sonarwhal`, it is caused
 by installing packages globally. The recommended solution is to [change
 `npm`’s default directory][npm change default directory] and then try
 again. There have been reports of this issue when installing the
@@ -71,36 +71,36 @@ package manager], if you have node installed using a package
 manager like [Homebrew][homebrew] or [nvm][nvm], you may be able to avoid
 the trouble of messing with the directories and have the correct
 permissions set up right out of the box. As a result, you won’t experience
-the error described above even if you install `sonar` globally.
+the error described above even if you install `sonarwhal` globally.
 
 ## Connectors and platform support
 
 All the built-in `connector`s run in any of the supported platforms:
 Linux, macOS, and Windows. The only caveat is that when selecting a
-`connector` for a browser (such as `chrome`) in `.sonarrc`, the browser
-needs to be on the machine. `sonar` will not install it if it isn’t.
+`connector` for a browser (such as `chrome`) in `.sonarwhalrc`, the browser
+needs to be on the machine. `sonarwhal` will not install it if it isn’t.
 
 **Note:** If you are running Windows 10 [build 14951][wsl-interop] (or
-later) and Windows Subsystem for Linux (WSL), `sonar` will be capable
+later) and Windows Subsystem for Linux (WSL), `sonarwhal` will be capable
 of running the browsers installed directly on Windows. If you are a
 user of the stable release of Window, you will need to use at least the
 *Fall Creators Update*.
 
 ## Rules
 
-A `rule` is a test that your website needs to pass. `sonar` comes with
+A `rule` is a test that your website needs to pass. `sonarwhal` comes with
 a few [built in ones](./rules/), but you can easily create your own or
 download them from `npm`. You can read more about
 [how to create rules in the contributor guide](../contributor-guide/rules/index.md).
 
 ### Rule configuration
 
-When using `sonar`, you are always in control. This means that you can
+When using `sonarwhal`, you are always in control. This means that you can
 decide what rules are relevant to your use case and what severity a rule
 should have:
 
 * `off`: The rule will not be executed. This is the same as not having
-  the rule under the `rules` section of a `.sonarrc` file.
+  the rule under the `rules` section of a `.sonarwhalrc` file.
 * `warning`: The rule will be executed but it will not change the exit
   status code if an issue is found.
 * `error`: The rule will be executed and will change the exit status
@@ -165,7 +165,7 @@ is nothing you can do about it. Reporting errors in those cases just
 generates noise and frustration. Instead of globally disabling a rule
 you might just want to turn it off for a domain, or directly ignore
 completely one (like a third party analytics, ads, etc.). To achieve
-this you need to add the `ignoredUrls` property to your `.sonarrc` file:
+this you need to add the `ignoredUrls` property to your `.sonarwhalrc` file:
 
 ```json
 "ignoredUrls": [{
@@ -202,17 +202,17 @@ In the previous example we will:
 ### Rules timeout
 
 Even though rules are executed in parallel, sometimes one can take too
-long and prevent `sonar` to finish (e.g.: when using an external service,
+long and prevent `sonarwhal` to finish (e.g.: when using an external service,
 long script execution, etc.).
 
 To prevent this situation, each rule needs to finish in under 2 minutes.
 You can modify this threshold by using the property `rulesTimeout` in
-your `.sonarrc` file.
+your `.sonarwhalrc` file.
 
 ## Browser configuration
 
-`sonar` allows you to define your browser support matrix by adding
-the property `browserslist` to your `.sonarrc` file. This property
+`sonarwhal` allows you to define your browser support matrix by adding
+the property `browserslist` to your `.sonarwhalrc` file. This property
 follows the same convention as [`browserslist`][browserslist]:
 
 ```json
@@ -249,7 +249,7 @@ browserslist.defaults = [
 A `connector` is the interface between the `rule`s and the website
 you are testing.
 
-To configure a connector you need to update your `.sonarrc` file to
+To configure a connector you need to update your `.sonarwhalrc` file to
 make it look like the following:
 
 ```json

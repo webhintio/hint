@@ -53,13 +53,13 @@ const updateLocalhost = (content, port) => {
 
 
 test.beforeEach(async (t) => {
-    const sonar = {
+    const sonarwhal = {
         emit() { },
         emitAsync() { }
     };
 
-    sinon.spy(sonar, 'emitAsync');
-    sinon.spy(sonar, 'emit');
+    sinon.spy(sonarwhal, 'emitAsync');
+    sinon.spy(sonarwhal, 'emit');
 
     const server = createServer();
 
@@ -72,13 +72,13 @@ test.beforeEach(async (t) => {
         gzipHtml,
         html,
         server,
-        sonar
+        sonarwhal
     };
 });
 
 test.afterEach.always(async (t) => {
-    t.context.sonar.emitAsync.restore();
-    t.context.sonar.emit.restore();
+    t.context.sonarwhal.emitAsync.restore();
+    t.context.sonarwhal.emit.restore();
     t.context.server.stop();
     await t.context.connector.close();
 });
@@ -100,9 +100,9 @@ const testRequestResponse = (connectorInfo) => {
     const name: string = connectorInfo.name;
 
     test(`[${name}] requestResponse`, async (t) => {
-        const { sonar } = t.context;
-        const { emit, emitAsync } = sonar;
-        const connector: IConnector = await (connectorBuilder)(sonar, {});
+        const { sonarwhal } = t.context;
+        const { emit, emitAsync } = sonarwhal;
+        const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
         const server = t.context.server;
 
         t.context.connector = connector;

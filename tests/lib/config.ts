@@ -14,7 +14,7 @@ test('if there is no configuration file, it should return null', (t) => {
 test('if there is configuration file, it should return the path to the file', (t) => {
     const result = config.getFilenameForDirectory(path.join(__dirname, './fixtures/getFilenameForDirectory'));
 
-    t.true(result.includes('.sonarrc'));
+    t.true(result.includes('.sonarwhalrc'));
 });
 
 test('if load is called with a non valid file extension, it should return an exception', (t) => {
@@ -25,7 +25,7 @@ test('if load is called with a non valid file extension, it should return an exc
     t.is(error.message, `Couldn't find any valid configuration`);
 });
 
-test(`if package.json doesn't have a sonar configuration, it should return an exception`, (t) => {
+test(`if package.json doesn't have a sonarwhal configuration, it should return an exception`, (t) => {
     const error = t.throws(() => {
         config.load(path.join(__dirname, './fixtures/notvalid/package.json'));
     });
@@ -42,20 +42,20 @@ test(`if package.json is an invalid JSON, it should return an exception`, (t) =>
 });
 
 test(`if the config file doesn't have an extension, it should be parse as JSON file`, (t) => {
-    const configuration = config.load(path.join(__dirname, './fixtures/sonarrc'));
+    const configuration = config.load(path.join(__dirname, './fixtures/sonarwhalrc'));
 
     t.is((configuration.connector as IConnectorConfig).name, 'chrome');
     t.is(configuration.rules['disallowed-headers'], 'warning');
 });
 
 test(`if the config file is JavaScript, it should return the configuration part`, (t) => {
-    const configuration = config.load(path.join(__dirname, './fixtures/sonarrc.js'));
+    const configuration = config.load(path.join(__dirname, './fixtures/sonarwhalrc.js'));
 
     t.is((configuration.connector as IConnectorConfig).name, 'chrome');
     t.is(configuration.rules['disallowed-headers'], 'warning');
 });
 
-test(`if package.json contains a valid sonar configuration, it should return it`, (t) => {
+test(`if package.json contains a valid sonarwhal configuration, it should return it`, (t) => {
     const configuration = config.load(path.join(__dirname, './fixtures/package.json'));
 
     t.is((configuration.connector as IConnectorConfig).name, 'chrome');

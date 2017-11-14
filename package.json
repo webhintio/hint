@@ -9,7 +9,7 @@
     ],
     "timeout": "1m"
   },
-  "bin": "./dist/src/bin/sonar.js",
+  "bin": "./dist/src/bin/sonarwhal.js",
   "dependencies": {
     "@sonarwhal/rule-template": "^0.1.2",
     "amphtml-validator": "^1.0.21",
@@ -124,7 +124,7 @@
     "node": ">=8.0.0"
   },
   "files": [
-    ".sonarrc",
+    ".sonarwhalrc",
     "dist/src",
     "dist/tests/helpers",
     "docs",
@@ -149,7 +149,7 @@
     "security"
   ],
   "license": "Apache-2.0",
-  "main": "./dist/src/lib/sonar.js",
+  "main": "./dist/src/lib/sonarwhal.js",
   "name": "sonarwhal",
   "nyc": {
     "branches": 85,
@@ -182,7 +182,7 @@
     "nyc": "nyc ava \"dist/tests/lib/rules/cloudinary/**/*.js\" --concurrency=2 --timeout=2m --debug",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
     "release": "npm i && npm run test -- --concurrency 2 --fail-fast && node dist/scripts/release.js",
-    "site": "node dist/src/bin/sonar",
+    "site": "node dist/src/bin/sonarwhal",
     "test": "npm run lint && npm run commitmsg && npm run build && nyc ava",
     "test-on-travis": "npm run lint && npm run commitmsg && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",

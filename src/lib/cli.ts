@@ -27,7 +27,7 @@ import { loadJSONFile } from './utils/misc';
 import { options } from './cli/options';
 import { cliActions } from './cli/actions';
 
-/** Notify user if the current version of sonar is not up to date. */
+/** Notify user if the current version of sonarwhal is not up to date. */
 const notifyIfNeeded = () => {
     const pkg = loadJSONFile(path.join(__dirname, '../../../package.json'));
     /*
