@@ -28,7 +28,7 @@
     "file-type": "^7.2.0",
     "file-url": "^2.0.2",
     "fs-extra": "^4.0.2",
-    "globby": "^6.1.0",
+    "globby": "^7.0.0",
     "handlebars": "^4.0.11",
     "html-validator": "^2.2.3",
     "iconv-lite": "^0.4.19",
