@@ -22,6 +22,7 @@
 ## Performance
 
 * [`amp-validator`](amp-validator.md)
+* [`http-cache`](http-cache.md)
 * [`image-optimization-cloudinary`](image-optimization-cloudinary.md)
 * [`no-html-only-headers`](no-html-only-headers.md)
 * [`no-http-redirects`](no-http-redirects.md)
