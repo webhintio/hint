@@ -226,7 +226,7 @@ follows the same convention as [`browserslist`][browserslist]:
 
 By specifying this property, you are giving more information to the
 rules and they might decide to adapt their behavior. An example of
-a rule taking advantageSome of this property is
+a rule taking advantage of this property is
 [`highest-available-document-mode`](./rules/highest-available-document-mode.md).
 This rule will advice you to use `edge` mode if you need to support
 versions of IE prior IE10, or tell you to remove that tag or header
