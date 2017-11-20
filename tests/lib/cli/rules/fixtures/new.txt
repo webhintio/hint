@@ -2,6 +2,7 @@
  * @fileoverview An important new rule
  */
 
+import { Category } from '../../enums/category';
 import { RuleContext } from '../../rule-context';
 // The list of types depends on the events you want to capture.
 import { IRule, IRuleBuilder, IFetchStart, IFetchEnd, IFetchError } from '../../types';
