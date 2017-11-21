@@ -20,10 +20,10 @@ to any potential attackers about the technology stack being used.
 make them work correctly, and can easily create more problems then
 they solve.
 
-   One example here is `Public-Key-Pins` header and the related
-`Public-Key-Pins-Report-Only`. They have [limited support and usage,
-are being deprecated, and can easily create a lot of problems if not
-done correctly][hpkp deprecation].
+   One example here is the `Public-Key-Pins` header. It has [limited
+support and usage, it's being deprecated (along with the related
+`Public-Key-Pins-Report-Only` header), and can easily create a lot
+of problems if not done correctly][hpkp deprecation].
 
 ## What does the rule check?
 
