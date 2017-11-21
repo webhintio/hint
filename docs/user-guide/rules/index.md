@@ -35,11 +35,11 @@
 
 ## Security
 
-* [`disallowed-headers`](no-disallowed-headers.md)
 * [`disown-opener`](disown-opener.md)
+* [`no-disallowed-headers`](no-disallowed-headers.md)
 * [`no-protocol-relative-urls`](no-protocol-relative-urls.md)
+* [`no-vulnerable-javascript-libraries`](no-vulnerable-javascript-libraries.md)
 * [`ssllabs`](ssllabs.md)
 * [`strict-transport-security`](strict-transport-security.md)
-* [`x-content-type-options`](x-content-type-options.md)
 * [`validate-set-cookie-header`](validate-set-cookie-header.md)
-* [`no-vulnerable-javascript-libraries`](no-vulnerable-javascript-libraries.md)
+* [`x-content-type-options`](x-content-type-options.md)
