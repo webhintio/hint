@@ -36,16 +36,16 @@ const testConnectorFetchContent = (connectorInfo) => {
     const name: string = connectorInfo.name;
 
     test(`[${name}] Fetch Content`, async (t) => {
-        const file = fs.readFileSync(path.join(__dirname, './fixtures/common/edge.png'));
+        const file = fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png'));
         const { sonarwhal } = t.context;
         const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
         const server = t.context.server;
 
         t.context.connector = connector;
 
-        server.configure({ '/edge.png': { content: file } });
+        server.configure({ '/nellie.png': { content: file } });
 
-        const result: INetworkData = await connector.fetchContent(url.parse(`http://localhost:${server.port}/edge.png`));
+        const result: INetworkData = await connector.fetchContent(url.parse(`http://localhost:${server.port}/nellie.png`));
         const rawResponse = await result.response.body.rawResponse();
 
         t.is(result.response.statusCode, 200);
