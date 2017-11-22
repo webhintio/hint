@@ -169,7 +169,7 @@ const loadJSFile = (filePath: string): any => {
  * up the tree until one is found. If none, it throws an `Error`:
  * `No package found`.
  */
-const findPackageRoot = (dirname: string = __dirname, fileToFind: string = 'package.json') => {
+const findPackageRoot = (dirname: string = __dirname, fileToFind: string = 'package.json'): string => {
     const content: Array<string> = readdir(dirname);
 
     if (content.includes(fileToFind)) {
@@ -183,6 +183,33 @@ const findPackageRoot = (dirname: string = __dirname, fileToFind: string = 'pack
     }
 
     return findPackageRoot(parentFolder, fileToFind);
+};
+
+/**
+ * Find the node_modules folder where sonarwhal is installed as
+ * a dependency or returns the sonarwhal node_modules folder if not.
+ */
+const findNodeModulesRoot = (dirname: string = __dirname): string => {
+    const packageRoot = findPackageRoot(dirname);
+
+    const nodeModulesPath = path.join(packageRoot, '..');
+
+    /*
+     * If sonarwhal is installed as a dependency
+     * then we need to return the parent folder
+     * i.e. c:\myproject\node_modules\sonarwhal -> c:\myproject\node_modules
+     */
+    if (nodeModulesPath.endsWith('node_modules')) {
+        return nodeModulesPath;
+    }
+
+    /*
+     * If we are using directly the sonarwhal project
+     * then we need to return the node_modules folder
+     * inside sonarwhal
+     * i.e. c:\sonarwhal -> c:\sonarwhal\node_modules
+     */
+    return path.join(packageRoot, 'node_modules');
 };
 
 const hasAttributeWithValue = (element: IAsyncHTMLElement, nodeName: string, attribute: string, value: string): boolean => {
@@ -207,6 +234,7 @@ const hasAttributeWithValue = (element: IAsyncHTMLElement, nodeName: string, att
 export {
     cutString,
     delay,
+    findNodeModulesRoot,
     findPackageRoot,
     hasAttributeWithValue,
     hasProtocol,
