@@ -15,13 +15,14 @@ import * as path from 'path';
 
 import * as globby from 'globby';
 
-import { findPackageRoot } from './misc';
+import { findInstalledRoot, findPackageRoot, readFile } from './misc';
 import { debug as d } from './debug';
 import { IConnectorBuilder, IFormatter, Resource, IRuleBuilder } from '../types';
 import { validate as validateRule } from '../config/config-rules';
 
 const debug: debug.IDebugger = d(__filename);
 const PROJECT_ROOT: string = findPackageRoot();
+const INSTALLED_ROOT: string = findInstalledRoot();
 
 /** Cache of resource builders, indexex by resource Id. */
 const resources: Map<string, Resource> = new Map<string, Resource>();
@@ -55,6 +56,29 @@ const getCoreResources = (type: string): Array<string> => {
     }, []);
 
     resourceIds.set(type, ids);
+
+    return ids;
+};
+
+const getInstalledResources = (type: string): Array<string> => {
+    const installedType = `installed-${type}`;
+
+    if (resourceIds.has(installedType)) {
+        return resourceIds.get(installedType);
+    }
+
+    const resourcesFiles: Array<string> = globby.sync(`${INSTALLED_ROOT}/@sonarwhal/${type}-*/**/package.json`);
+
+    const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
+        const packageName = JSON.parse(readFile(resourceFile)).name;
+        const resourceName = packageName.substr(packageName.lastIndexOf('/') + 1);
+
+        list.push(resourceName);
+
+        return list;
+    }, []);
+
+    resourceIds.set(installedType, ids);
 
     return ids;
 };
@@ -144,6 +168,10 @@ export const getCoreFormatters = (): Array<string> => {
 
 export const getCoreConnectors = (): Array<string> => {
     return getCoreResources(TYPE.connector);
+};
+
+export const getInstalledConnectors = (): Array<string> => {
+    return getInstalledResources(TYPE.connector);
 };
 
 export const loadRules = (config: Object): Map<string, IRuleBuilder> => {

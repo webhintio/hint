@@ -30,7 +30,7 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
 
     debug('Initiating generator');
 
-    const connectorKeys: Array<inquirer.ChoiceType> = resourceLoader.getCoreConnectors();
+    const connectorKeys: Array<inquirer.ChoiceType> = resourceLoader.getCoreConnectors().concat(resourceLoader.getInstalledConnectors());
     const formattersKeys: Array<inquirer.ChoiceType> = resourceLoader.getCoreFormatters();
     const rulesIds = resourceLoader.getCoreRules();
     const rulesConfig = rulesIds.reduce((config, ruleId) => {

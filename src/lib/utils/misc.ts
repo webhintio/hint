@@ -169,7 +169,7 @@ const loadJSFile = (filePath: string): any => {
  * up the tree until one is found. If none, it throws an `Error`:
  * `No package found`.
  */
-const findPackageRoot = (dirname: string = __dirname, fileToFind: string = 'package.json') => {
+const findPackageRoot = (dirname: string = __dirname, fileToFind: string = 'package.json'): string => {
     const content: Array<string> = readdir(dirname);
 
     if (content.includes(fileToFind)) {
@@ -183,6 +183,12 @@ const findPackageRoot = (dirname: string = __dirname, fileToFind: string = 'pack
     }
 
     return findPackageRoot(parentFolder, fileToFind);
+};
+
+const findInstalledRoot = (dirname: string = __dirname): string => {
+    const packageRoot = findPackageRoot(dirname);
+
+    return path.join(packageRoot, '..');
 };
 
 const hasAttributeWithValue = (element: IAsyncHTMLElement, nodeName: string, attribute: string, value: string): boolean => {
@@ -207,6 +213,7 @@ const hasAttributeWithValue = (element: IAsyncHTMLElement, nodeName: string, att
 export {
     cutString,
     delay,
+    findInstalledRoot,
     findPackageRoot,
     hasAttributeWithValue,
     hasProtocol,
