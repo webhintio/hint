@@ -43,7 +43,7 @@ Ideally the following meta `viewport` tag should be used:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 ```
 
-Or, if most of your users don't use Safari for iOS &lt; 9:
+Or, if most of your users don't use Safari for iOS < 9:
 
 ```html
 <meta name="viewport" content="width=device-width">
@@ -70,7 +70,7 @@ Notes:
   * `initial-scale=1`
 
     * This is mostlly needed to [work around the orientation change bug
-      from Safari for iOS &tl; 9][ios orientation change scaling].
+      from Safari for iOS > 9][ios orientation change scaling].
 
     * Using values different then `1` (or `1.0`) are
       [problematic](https://www.quirksmode.org/mobile/metaviewport/#link15).
@@ -89,7 +89,7 @@ Notes:
 
   So, because of the issue described above, these properties are now
   ignored by some some mobile browser such as [Safari for iOS 10+][ios
-  orientation change scaling]l
+  10 interaction behaviors].
 
 ## What does the rule check?
 
@@ -172,7 +172,7 @@ There are multiple `viewport` meta tags:
 
 ### Examples that **pass** the rule
 
-If versions of Safari for iOS &lt; 9 are targeted:
+If versions of Safari for iOS < 9 are targeted:
 
 ```html
 <!doctype html>
@@ -219,7 +219,7 @@ If versions of Safari for iOS 9+ are targeted:
 
 That this rule takes into consideration the [targeted
 browsers](../index.md#browser-configuration), and if no
-versions of Safari for iOS &lt; 9 are included, it will
+versions of Safari for iOS < 9 are included, it will
 not require `initial-scale=1`.
 
 ## Further Reading
