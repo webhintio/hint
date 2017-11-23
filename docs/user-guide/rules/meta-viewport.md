@@ -5,7 +5,8 @@ tag in the `<head>` with the proper value.
 
 ## Why is this important?
 
-The viewport meta tag is an essential part of responsive web design.
+The viewport meta tag is an essential part of responsive web design,
+that may also offer some [performance improvements][gpu rasterization].
 
 > Mobile browsers render pages in a virtual "window" (the viewport),
 > usually wider than the screen, so they don't need to squeeze every
@@ -235,6 +236,7 @@ not require `initial-scale=1`.
 <!-- Link labels: -->
 
 [fixed width problem]: http://starkravingfinkle.org/blog/2010/01/perils-of-the-viewport-meta-tag/
+[gpu rasterization]: https://www.chromium.org/developers/design-documents/chromium-graphics/how-to-get-gpu-rasterization
 [ios 10 interaction behaviors]: https://webkit.org/blog/7367/new-interaction-behaviors-in-ios-10/
 [ios orientation change scaling]: https://www.quirksmode.org/blog/archives/2013/10/more_about_scal.html
 [mdn viewport meta tag]: https://developer.mozilla.org/en/docs/Mozilla/Mobile/Viewport_meta_tag
