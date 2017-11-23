@@ -67,7 +67,7 @@ Other notes:
   to touch icons, so nowadays there is no need to use the `precomposed`
   keyword anymore.
 
-* Safari for iOS &let; 4.2 [ignored the `sizes` attribute, so the order
+* Safari for iOS < 4.2 [ignored the `sizes` attribute, so the order
   in which the icons were declared mattered][icon sizes]. When using
   just one image there is no need to use the `sizes` attribute.
 
