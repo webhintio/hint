@@ -9,18 +9,13 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as path from 'path';
-import * as url from 'url';
-
-import { debug as d } from '../../utils/debug';
-import * as fileType from 'file-type';
-import * as isSvg from 'is-svg';
-import * as mimeDB from 'mime-db';
-import { parse, MediaType } from 'content-type';
+import { MediaType, parse } from 'content-type';
 
 import { Category } from '../../enums/category';
+import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from '../../types'; // eslint-disable-line no-unused-vars
 import { isDataURI, normalizeString } from '../../utils/misc';
+import { isTextMediaType } from '../../connectors/utils/content-type';
 import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
@@ -40,12 +35,6 @@ const rule: IRuleBuilder = {
             userDefinedMediaTypes = context.ruleOptions || {};
         };
 
-        const getMediaTypeBasedOnFileExtension = (fileExtension: string): string => {
-            return fileExtension && Object.keys(mimeDB).find((key) => {
-                return mimeDB[key].extensions && mimeDB[key].extensions.includes(fileExtension);
-            });
-        };
-
         const getLastRegexThatMatches = (resource: string): string => {
             const results = (Object.entries(userDefinedMediaTypes).filter(([regex]) => {
                 const re = new RegExp(regex, 'i');
@@ -55,140 +44,6 @@ const rule: IRuleBuilder = {
                 .pop();
 
             return results && results[1];
-        };
-
-        const determineCharset = (determinedMediaType: string, originalMediaType: string): string => {
-            const mediaType = determinedMediaType || originalMediaType;
-            const typeInfo = mimeDB[mediaType];
-
-            if (typeInfo && typeInfo.charset) {
-                return normalizeString(typeInfo.charset);
-            }
-
-            const textMediaTypes: Array<RegExp> = [
-                /application\/(?:javascript|json|x-javascript|xml)/i,
-                /application\/.*\+(?:json|xml)/i,
-                /image\/svg\+xml/i,
-                /text\/.*/i
-            ];
-
-            if (textMediaTypes.some((regex) => {
-                return regex.test(mediaType);
-            })) {
-                return 'utf-8';
-            }
-
-            return null;
-        };
-
-        const determineMediaTypeForScript = (element: IAsyncHTMLElement): string => {
-            const typeAttribute = normalizeString(element.getAttribute('type'));
-
-            /*
-             * Valid JavaScript media types:
-             * https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
-             */
-
-            const validJavaScriptMediaTypes = [
-                'application/ecmascript',
-                'application/javascript',
-                'application/x-ecmascript',
-                'application/x-javascript',
-                'text/ecmascript',
-                'text/javascript',
-                'text/javascript1.0',
-                'text/javascript1.1',
-                'text/javascript1.2',
-                'text/javascript1.3',
-                'text/javascript1.4',
-                'text/javascript1.5',
-                'text/jscript',
-                'text/livescript',
-                'text/x-ecmascript',
-                'text/x-javascript'
-            ];
-
-            /*
-             * If the type attribute is:
-             *
-             *  * omitted (doesn't have a value, or is an empty string)
-             *  * set to one of the valid JavaScript media types
-             *  * 'module'
-             *
-             * it means the content is not intended as an data block,
-             * and the official JavaScript media type can be suggested.
-             *
-             * See: https://html.spec.whatwg.org/multipage/scripting.html#attr-script-type
-             */
-
-            if (!typeAttribute ||
-                validJavaScriptMediaTypes.includes(typeAttribute) ||
-                typeAttribute === 'module') {
-
-                /*
-                 * From https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages
-                 *
-                 * "Servers should use `text/javascript` for JavaScript
-                 *  resources. Servers should not use other JavaScript
-                 *  MIME types for JavaScript resources, and must not
-                 *  use non-JavaScript MIME types. "
-                 */
-
-                return 'text/javascript';
-            }
-
-            return null;
-        };
-
-        const determineMediaTypeBasedOnElement = (element: IAsyncHTMLElement): string => {
-            const nodeName = element && normalizeString(element.nodeName);
-
-            if (nodeName) {
-
-                if (nodeName === 'script') {
-                    return determineMediaTypeForScript(element);
-                }
-
-                if (nodeName === 'link') {
-                    const relValue = element.getAttribute('rel');
-
-                    /* eslint-disable default-case */
-                    switch (relValue) {
-                        case 'stylesheet':
-                            // https://tools.ietf.org/html/rfc2318
-                            return 'text/css';
-                        case 'manifest':
-                            // https://w3c.github.io/manifest/#media-type-registration
-                            return 'application/manifest+json';
-                    }
-                    /* eslint-enable no-default */
-                }
-            }
-
-            return null;
-        };
-
-        const determineMediaTypeBasedOnFileExtension = (resource: string): string => {
-            const fileExtension = path.extname(url.parse(resource).pathname).split('.')
-                .pop();
-
-            return getMediaTypeBasedOnFileExtension(fileExtension);
-        };
-
-        const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string => {
-            const detectedFileType = fileType(rawContent);
-
-            if (detectedFileType) {
-                // Use the media types from `mime-db`, not `file-type`.
-                return getMediaTypeBasedOnFileExtension(detectedFileType.ext);
-            }
-
-            if (rawContent && isSvg(rawContent)) {
-                // https://www.w3.org/TR/SVG/mimereg.html
-                return 'image/svg+xml';
-            }
-
-            return null;
         };
 
         const validate = async (fetchEnd: IFetchEnd) => {
@@ -227,9 +82,9 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            let contentType: MediaType;
-
             // Check if the `Content-Type` value is valid.
+
+            let contentType: MediaType;
 
             try {
                 if (contentTypeHeaderValue === '') {
@@ -246,14 +101,18 @@ const rule: IRuleBuilder = {
             const originalCharset: string = normalizeString(contentType.parameters.charset);
             const originalMediaType: string = contentType.type;
 
-            // Try to determine the media type and charset of the resource.
+            /*
+             * Determined values
+             *
+             * Notes:
+             *
+             *  * The connectors already did all the heavy lifting here.
+             *  * For the charset, recommend `utf-8` for all text based
+             *    bases documents.
+             */
 
-            const mediaType: string =
-                determineMediaTypeBasedOnElement(element) ||
-                determineMediaTypeBasedOnFileType(response.body.rawContent) ||
-                determineMediaTypeBasedOnFileExtension(resource);
-
-            const charset: string = determineCharset(mediaType, originalMediaType);
+            const mediaType: string = response.mediaType;
+            const charset: string = isTextMediaType(mediaType) ? 'utf-8' : response.charset;
 
             /*
              * Check if the determined values differ

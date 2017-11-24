@@ -12,16 +12,18 @@ const tests: Array<IRuleTest> = [
     },
     {
         name: `Manifest file has incorrect file extension`,
-        reports: [{
-            message: `The file extension should be '.webmanifest' (not '.json')`,
-            position: { column: 41, line: 2 }
-        }],
+        reports: [{ message: `The file extension should be 'webmanifest' (not 'json')` }],
         serverConfig: generateHTMLPage(`<link rel="manifest" href="site.json">
         <link rel="stylesheet" href="style.css">`)
     },
     {
         name: `Manifest file has correct file extension`,
         serverConfig: generateHTMLPage(`<link rel="manifest" href="site.webmanifest">
+        <link rel="stylesheet" href="style.css">`)
+    },
+    {
+        name: `Manifest file has correct file extension being specified as only the file extension`,
+        serverConfig: generateHTMLPage(`<link rel="manifest" href=".webmanifest">
         <link rel="stylesheet" href="style.css">`)
     }
 ];

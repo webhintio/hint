@@ -29,11 +29,12 @@ const events = [
         response: {
             body: {
                 content: fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'),
-                contentEncoding: null,
                 rawContent: null,
                 rawResponse: null
             },
+            charset: 'utf-8',
             hops: [],
+            mediaType: 'text/html',
             statusCode: 200,
             url: 'http://localhost/'
         }
@@ -70,12 +71,13 @@ const events = [
         response: {
             body: {
                 content: fs.readFileSync(path.join(__dirname, './fixtures/common/script.js'), 'utf8'),
-                contentEncoding: null,
                 rawContent: null,
                 rawResponse: null
             },
+            charset: 'utf-8',
             hops: ['http://localhost/script3.js',
                 'http://localhost/script2.js'],
+            mediaType: 'text/javascript',
             statusCode: 200,
             url: 'http://localhost/script.js'
         }
@@ -96,11 +98,12 @@ const events = [
         response: {
             body: {
                 content: fs.readFileSync(path.join(__dirname, './fixtures/common/style.css'), 'utf8'),
-                contentEncoding: null,
                 rawContent: null,
                 rawResponse: null
             },
+            charset: 'utf-8',
             hops: [],
+            mediaType: 'text/css',
             statusCode: 200,
             url: 'http://localhost/style.css'
         }
@@ -119,6 +122,8 @@ const events = [
         resource: 'http://localhost/script4.js',
         request: { url: 'http://localhost/script4.js' },
         response: {
+            charset: 'utf-8',
+            mediaType: 'text/javascript',
             statusCode: 404,
             url: 'http://localhost/script4.js'
         }

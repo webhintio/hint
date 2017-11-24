@@ -18,6 +18,7 @@ import * as _ from 'lodash';
 import { promisify } from 'util';
 
 import { AsyncHTMLDocument, AsyncHTMLElement } from './async-html';
+import { getContentTypeData } from '../utils/content-type';
 import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
 import { cutString, delay, hasAttributeWithValue } from '../../utils/misc';
@@ -29,7 +30,6 @@ import {
     IResponse, IRequest, INetworkData, URL
 } from '../../types';
 
-import { getCharset } from '../utils/charset';
 import { normalizeHeaders } from '../utils/normalize-headers';
 import { RedirectManager } from '../utils/redirects';
 import { Requester } from '../utils/requester';
@@ -386,25 +386,30 @@ export class Connector implements IConnector {
     }
 
     /** Returns a Response for the given request. */
-    private async createResponse(cdpResponse): Promise<IResponse> {
+    private async createResponse(cdpResponse, element: IAsyncHTMLElement): Promise<IResponse> {
         const resourceUrl: string = cdpResponse.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const resourceHeaders: object = normalizeHeaders(cdpResponse.response.headers);
-
         const { content, rawContent, rawResponse } = await this.getResponseBody(cdpResponse);
 
         const response: IResponse = {
             body: {
                 content,
-                contentEncoding: getCharset(resourceHeaders),
                 rawContent,
                 rawResponse
             },
+            charset: null,
             headers: resourceHeaders,
             hops,
+            mediaType: null,
             statusCode: cdpResponse.response.status,
             url: resourceUrl
         };
+
+        const { charset, mediaType } = getContentTypeData(element, resourceUrl, response);
+
+        response.mediaType = mediaType;
+        response.charset = charset;
 
         return response;
     }
@@ -415,6 +420,7 @@ export class Connector implements IConnector {
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const originalUrl: string = hops[0] || resourceUrl;
 
+        let element = null;
         let eventName: string = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
 
         if (params.type === 'Manifest') {
@@ -428,9 +434,15 @@ export class Connector implements IConnector {
 
                 return;
             }
+
+            try {
+                element = await this.getElementFromRequest(params.requestId);
+            } catch (e) {
+                debug(`Error finding element for request ${params.requestId}. element will be null`);
+            }
         }
 
-        const response: IResponse = await this.createResponse(params);
+        const response: IResponse = await this.createResponse(params, element);
 
         const request: IRequest = {
             headers: params.response.requestHeaders,
@@ -438,20 +450,13 @@ export class Connector implements IConnector {
         };
 
         const data: IFetchEnd = {
-            element: null,
+            element,
             request,
             resource: resourceUrl,
             response
         };
 
-        if (eventName !== 'targetfetch::end') {
-            try {
-                data.element = await this.getElementFromRequest(params.requestId);
-            } catch (e) {
-                debug(`Error finding element for request ${params.requestId}. element will be null`);
-                data.element = null;
-            }
-        } else {
+        if (eventName === 'targetfetch::end') {
             this._targetNetworkData = {
                 request,
                 response

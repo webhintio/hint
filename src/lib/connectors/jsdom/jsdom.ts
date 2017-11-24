@@ -33,8 +33,7 @@ import { fork, ChildProcess } from 'child_process';
 import * as jsdom from 'jsdom/lib/old-api';
 
 import { debug as d } from '../../utils/debug';
-import { resolveUrl } from '../utils/resolver';
-
+import { getContentTypeData } from '../utils/content-type';
 import {
     IConnector, IConnectorBuilder,
     IElementFound, IEvent, IFetchEnd, IFetchError, IManifestFetchError, IManifestFetchEnd, ITraverseDown, ITraverseUp,
@@ -42,6 +41,7 @@ import {
 } from '../../types';
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
 import { readFileAsync } from '../../utils/misc';
+import { resolveUrl } from '../utils/resolver';
 import { Requester } from '../utils/requester';
 import { Sonarwhal } from '../../sonarwhal';
 
@@ -121,14 +121,15 @@ class JSDOMConnector implements IConnector {
             response: {
                 body: {
                     content: body,
-                    contentEncoding: null,
                     rawContent: null,
                     rawResponse() {
                         return Promise.resolve(null);
                     }
                 },
+                charset: null,
                 headers: null,
                 hops: [],
+                mediaType: null,
                 statusCode: null,
                 url: targetPath
             }
@@ -224,6 +225,11 @@ class JSDOMConnector implements IConnector {
                 resource: resourceNetworkData.response.url,
                 response: resourceNetworkData.response
             };
+
+            const { charset, mediaType } = getContentTypeData(element, fetchEndEvent.resource, fetchEndEvent.response);
+
+            fetchEndEvent.response.mediaType = mediaType;
+            fetchEndEvent.response.charset = charset;
 
             /*
              * TODO: Replace `null` with `resource` once it
@@ -329,6 +335,11 @@ class JSDOMConnector implements IConnector {
                 response: manifestData.response
             };
 
+            const { charset, mediaType } = getContentTypeData(event.element, event.resource, event.response);
+
+            event.response.mediaType = mediaType;
+            event.response.charset = charset;
+
             await this._server.emitAsync('manifestfetch::end', event);
 
             return;
@@ -399,6 +410,11 @@ class JSDOMConnector implements IConnector {
                 resource: this._finalHref,
                 response: this._targetNetworkData.response
             };
+
+            const { charset, mediaType } = getContentTypeData(fetchEnd.element, fetchEnd.resource, fetchEnd.response);
+
+            fetchEnd.response.mediaType = mediaType;
+            fetchEnd.response.charset = charset;
 
             // Event is also emitted when status code in response is not 200.
             await this._server.emitAsync('targetfetch::end', fetchEnd);
