@@ -40,6 +40,13 @@ const tests: Array<IRuleTest> = [
         }
     },
     {
+        name: `Manifest is specified as only the file extension`,
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="manifest" href="http://localhost/.webmanifest">'),
+            '/.webmanifest': ''
+        }
+    },
+    {
         name: `Manifest is specified and the file exists`,
         serverConfig: {
             '/': htmlWithManifestSpecified,

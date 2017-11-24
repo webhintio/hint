@@ -13,9 +13,9 @@ import * as request from 'request';
 import * as iconv from 'iconv-lite';
 
 import { debug as d } from '../../utils/debug';
+import { getContentTypeData } from './content-type';
 import { INetworkData } from '../../types'; //eslint-disable-line
 import { RedirectManager } from './redirects';
-import { getCharset } from './charset';
 
 const debug = d(__filename);
 
@@ -105,8 +105,8 @@ export class Requester {
                     }
                 }
 
+                const { charset, mediaType } = getContentTypeData(null, uri, response);
                 const hops: Array<string> = this._redirects.calculate(uri);
-                const charset: string = getCharset(response.headers);
                 const body: string = iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
 
                 const networkData: INetworkData = {
@@ -117,14 +117,15 @@ export class Requester {
                     response: {
                         body: {
                             content: body,
-                            contentEncoding: charset,
                             rawContent: rawBody,
                             rawResponse: () => {
                                 return Promise.resolve(rawBodyResponse);
                             }
                         },
+                        charset,
                         headers: response.headers,
                         hops,
+                        mediaType,
                         statusCode: response.statusCode,
                         url: uri
                     }
