@@ -168,6 +168,9 @@
     "sourceMap": true,
     "statements": 85
   },
+  "optionalDependencies": {
+    "@sonarwhal/connector-edge": "^0.1.1"
+  },
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
     "ava": "ava",
@@ -190,8 +193,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "0.16.0",
-  "optionalDependencies": {
-    "@sonarwhal/connector-edge": "^0.1.1"
-  }
+  "version": "0.16.0"
 }
