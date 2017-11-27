@@ -18,7 +18,7 @@
     "caniuse-api": "^2.0.0",
     "canvas-prebuilt": "^1.6.0",
     "chalk": "^2.3.0",
-    "chrome-launcher": "^0.8.1",
+    "chrome-launcher": "^0.9.0",
     "chrome-remote-interface": "^0.25.3",
     "cloudinary": "^1.9.1",
     "content-type": "^1.0.3",
