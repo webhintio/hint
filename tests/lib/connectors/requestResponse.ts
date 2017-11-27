@@ -127,13 +127,14 @@ const testRequestResponse = (connectorInfo) => {
             response: {
                 body: {
                     content: t.context.html,
-                    contentEncoding: 'utf-8',
                     rawContent: Buffer.from(t.context.html),
                     rawResponse() {
                         return Promise.resolve(t.context.gzipHtml);
                     }
                 },
+                charset: 'utf-8',
                 hops: [],
+                mediaType: 'text/html',
                 statusCode: 200,
                 url: 'http://localhost/'
             }
@@ -152,7 +153,6 @@ const testRequestResponse = (connectorInfo) => {
 
         t.true(expectedRawResponse.equals(invokedRawResponse), 'rawResponses are different');
         t.true(expectedBody.content === invokedBody.content, 'content is different');
-        t.true(expectedBody.contentEncoding === invokedBody.contentEncoding, 'content-encoding is different');
         t.true(expectedBody.rawContent.equals(invokedBody.rawContent), 'rawContent is different');
     });
 };

@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as path from 'path';
+import * as url from 'url';
 
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
@@ -28,14 +28,14 @@ const debug = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        const standardManifestFileExtension: string = '.webmanifest';
+        const standardManifestFileExtension: string = 'webmanifest';
 
         const validate = async (data: IElementFound) => {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
 
             if (normalizeString(element.getAttribute('rel')) === 'manifest') {
                 const href: string = normalizeString(element.getAttribute('href'));
-                const fileExtension: string = path.extname(href);
+                const fileExtension: string = url.parse(href).pathname.split('.')[1];
 
                 if (fileExtension !== standardManifestFileExtension) {
                     debug('Manifest file with invalid extension found');
