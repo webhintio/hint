@@ -12,6 +12,7 @@ const resourceLoader = {
     getCoreConnectors() { },
     getCoreFormatters() { },
     getCoreRules() { },
+    getInstalledConnectors() { },
     loadRules() { }
 };
 
@@ -52,6 +53,11 @@ const connectors = [
     'connector1',
     'connector2'];
 
+const installedConnectors = [
+    'installedConnector1',
+    'installedConnector2'
+];
+
 const rules = ['rule1', 'rule2'];
 
 const rulesData = new Map([
@@ -78,6 +84,7 @@ test.serial(`Generate should call to "inquirer.prompt" with the right data`, asy
 
     sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
     sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
+    sandbox.stub(resourceLoader, 'getInstalledConnectors').returns(installedConnectors);
     sandbox.stub(resourceLoader, 'getCoreRules').returns(rules);
     sandbox.stub(resourceLoader, 'loadRules').returns(rulesData);
     sandbox.stub(inquirer, 'prompt').resolves({
@@ -92,7 +99,7 @@ test.serial(`Generate should call to "inquirer.prompt" with the right data`, asy
     const questions = (inquirer.prompt as sinon.SinonStub).args[0][0];
     const rulesKeys = rules;
 
-    t.is(questions[0].choices.length, connectors.length);
+    t.is(questions[0].choices.length, connectors.length + installedConnectors.length);
     t.is(questions[1].choices.length, formatters.length);
     t.is(questions[3].choices.length, rulesKeys.length);
     t.is(questions[3].choices[0].value, rulesKeys[0]);
