@@ -52,14 +52,20 @@ protocol][cdp]. `chrome` is one of these `connector`s.
 
 The set of settings specific for them are:
 
-* `useTabUrl`: Indicates if the browser should navigate first to a
+* `defaultProfile (boolean)`: Indicates if the browser should use the
+  default profile or create a new one. By default the value is `false`
+  so a new one is created. You might want to set it to `true` if you
+  want `sonarwhal` to have access to pages where the default profile is
+  already authenticated.
+* `useTabUrl (boolean)`: Indicates if the browser should navigate first to a
   given page before going to the final target. `false` by default.
-* `tabUrl`: The URL to visit before the final target in case
+* `tabUrl (string)`: The URL to visit before the final target in case
   `useTabUrl` is `true`. `https://empty.sonarwhal.com/` is the
   default value.
 
 ```json
 {
+    "defaultProfile": true,
     "tabUrl": "https://empty.sonarwhal.com/",
     "useTabUrl": false
 }
