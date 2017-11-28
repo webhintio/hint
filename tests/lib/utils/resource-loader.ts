@@ -8,15 +8,6 @@ proxyquire('../../../src/lib/utils/resource-loader', globby);
 
 import * as resourceLoader from '../../../src/lib/utils/resource-loader';
 
-// test.beforeEach((t) => {
-//     t.context.fakeGlobby = fakeGlobby;
-//     sinon.stub(fakeGlobby, 'sync').returns([path.join(process.cwd(), 'dist/src/lib/connectors/chrome/asdf.js'), path.join(process.cwd(), 'dist/src/lib/connectors/jsdom/jsdom.js')]);
-// });
-
-// test.afterEach.always((t) => {
-//     t.context.fakeGlobby.sync.restore();
-// });
-
 // TODO: Add tests to verify the order of loading is the right one: core -> scoped -> prefixed. This only checks core resources
 test('loadResource looks for resources in the right order (core > @sonarwhal > sonarwhal- ', (t) => {
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
