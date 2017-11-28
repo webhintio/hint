@@ -15,14 +15,14 @@ import * as path from 'path';
 
 import * as globby from 'globby';
 
-import { findInstalledRoot, findPackageRoot, readFile } from './misc';
+import { findNodeModulesRoot, findPackageRoot, readFile } from './misc';
 import { debug as d } from './debug';
 import { IConnectorBuilder, IFormatter, Resource, IRuleBuilder } from '../types';
 import { validate as validateRule } from '../config/config-rules';
 
 const debug: debug.IDebugger = d(__filename);
 const PROJECT_ROOT: string = findPackageRoot();
-const INSTALLED_ROOT: string = findInstalledRoot();
+const NODE_MODULES_ROOT: string = findNodeModulesRoot();
 
 /** Cache of resource builders, indexex by resource Id. */
 const resources: Map<string, Resource> = new Map<string, Resource>();
@@ -67,7 +67,7 @@ const getInstalledResources = (type: string): Array<string> => {
         return resourceIds.get(installedType);
     }
 
-    const resourcesFiles: Array<string> = globby.sync(`${INSTALLED_ROOT}/@sonarwhal/${type}-*/**/package.json`);
+    const resourcesFiles: Array<string> = globby.sync(`${NODE_MODULES_ROOT}/@sonarwhal/${type}-*/**/package.json`);
 
     const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
         const packageName = JSON.parse(readFile(resourceFile)).name;
