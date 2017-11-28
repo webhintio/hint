@@ -168,6 +168,9 @@
     "sourceMap": true,
     "statements": 85
   },
+  "optionalDependencies": {
+    "@sonarwhal/connector-edge": "^0.1.1"
+  },
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
     "ava": "ava",

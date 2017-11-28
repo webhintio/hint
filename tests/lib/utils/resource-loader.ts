@@ -1,21 +1,12 @@
 import * as path from 'path';
-
 import test from 'ava';
 import * as sinon from 'sinon';
 import * as globby from 'globby';
+import * as proxyquire from 'proxyquire';
+
+proxyquire('../../../src/lib/utils/resource-loader', globby);
 
 import * as resourceLoader from '../../../src/lib/utils/resource-loader';
-
-const fakeGlobby = { sync() { } };
-
-test.beforeEach((t) => {
-    t.context.fakeGlobby = fakeGlobby;
-    sinon.stub(fakeGlobby, 'sync').returns([path.join(process.cwd(), 'dist/src/lib/connectors/chrome/chrome.js'), path.join(process.cwd(), 'dist/src/lib/connectors/jsdom/jsdom.js')]);
-});
-
-test.afterEach.always((t) => {
-    t.context.fakeGlobby.sync.restore();
-});
 
 // TODO: Add tests to verify the order of loading is the right one: core -> scoped -> prefixed. This only checks core resources
 test('loadResource looks for resources in the right order (core > @sonarwhal > sonarwhal- ', (t) => {
@@ -63,4 +54,20 @@ const getResourceFiles = (type) => {
 
         t.is(entities.length, files.length);
     });
+});
+
+const installedConnectors = [
+    path.join(__dirname, 'fixtures', 'connector1', 'package.json'),
+    path.join(__dirname, 'fixtures', 'connector2', 'package.json')
+];
+
+test('getInstalledConnectors should returns the installed connectors', (t) => {
+    const globbyStub = sinon.stub(globby, 'sync').returns(installedConnectors);
+
+    const connectors = resourceLoader.getInstalledConnectors();
+
+    t.true(connectors.includes('installedConnector1'));
+    t.true(connectors.includes('installedConnector2'));
+
+    globbyStub.restore();
 });
