@@ -11,7 +11,7 @@
 
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
-import { IAsyncHTMLElement, IElementFound, IManifestFetchEnd, IManifestFetchError, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IElementFound, IManifestFetchEnd, IManifestFetchError, ITraverseEnd, IRule, IRuleBuilder } from '../../types';
 import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context';
 

@@ -10,7 +10,7 @@
 
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
-import { IManifestFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IManifestFetchEnd, IResponse, IRule, IRuleBuilder } from '../../types';
 import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);

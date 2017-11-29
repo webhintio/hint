@@ -15,7 +15,7 @@ import { promisify } from 'util';
 
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
-import { ITargetFetchEnd, IScanEnd, IRule, IRuleBuilder, SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from '../../types'; // eslint-disable-line no-unused-vars
+import { ITargetFetchEnd, IScanEnd, IRule, IRuleBuilder, SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from '../../types';
 import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);

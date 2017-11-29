@@ -10,7 +10,7 @@
 
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
-import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types';
 import { cutString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context';
 

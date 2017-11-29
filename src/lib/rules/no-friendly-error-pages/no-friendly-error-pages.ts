@@ -13,7 +13,7 @@ import * as url from 'url';
 
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
-import { IFetchEnd, INetworkData, IResponse, ITraverseEnd, IRule, IRuleBuilder } from '../../types'; // eslint-disable-line no-unused-vars
+import { IFetchEnd, INetworkData, IResponse, ITraverseEnd, IRule, IRuleBuilder } from '../../types';
 import { isDataURI } from '../../utils/misc';
 import { RuleContext } from '../../rule-context';
 

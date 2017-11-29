@@ -5,7 +5,7 @@
 import { Category } from '../../enums/category';
 import { RuleContext } from '../../rule-context';
 import { debug as d } from '../../utils/debug';
-import { IFetchEnd, IAsyncHTMLElement, IResponse, IRuleBuilder, IRule, ParsedSetCookieHeader, Severity } from '../../types'; // eslint-disable-line no-unused-vars
+import { IFetchEnd, IAsyncHTMLElement, IResponse, IRuleBuilder, IRule, ParsedSetCookieHeader, Severity } from '../../types';
 import { isHTTPS, isRegularProtocol, normalizeString } from '../../utils/misc';
 
 const debug = d(__filename);

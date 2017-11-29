@@ -13,7 +13,7 @@ import { MediaType, parse } from 'content-type';
 
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
-import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from '../../types'; // eslint-disable-line no-unused-vars
+import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from '../../types';
 import { isDataURI, normalizeString } from '../../utils/misc';
 import { isTextMediaType } from '../../connectors/utils/content-type';
 import { RuleContext } from '../../rule-context';
