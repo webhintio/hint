@@ -14,7 +14,7 @@ const generateScriptTag = (script) => {
 const angular = fs.readFileSync(require.resolve('angular/angular.min.js'), 'utf-8');
 const jquery = fs.readFileSync(require.resolve('jquery/dist/jquery.min.js'), 'utf-8');
 const knockout = fs.readFileSync(require.resolve('knockout/dist/knockout.js'), 'utf-8');
-const moment = fs.readFileSync(require.resolve('moment/min/moment.min.js'), 'utf-8');
+const moment = fs.readFileSync(require.resolve('moment/moment.min.js'), 'utf-8');
 
 const defaultTests: Array<IRuleTest> = [
     {
@@ -31,7 +31,7 @@ const defaultTests: Array<IRuleTest> = [
         serverConfig: generateHTMLPage(generateScriptTag(knockout))
     },
     {
-        name: `page with non vulnerable library (moment 2.18.1) passes`,
+        name: `page with non vulnerable library (moment 1.0.0) passes`,
         serverConfig: generateHTMLPage(generateScriptTag(moment))
     }
 ];
@@ -45,7 +45,8 @@ const userConfigTests: Array<IRuleTest> = [
         name: `page with a library with vulnerabilities medium or lower fails if configured severity is "medium"`,
         reports: [{ message: 'AngularJS@1.4.9 has 3 known vulnerabilities (3 high). See https://snyk.io/vuln/npm:angular for more information.' }],
         serverConfig: generateHTMLPage(generateScriptTag(angular))
-    }];
+    }
+];
 
 ruleRunner.testRule(getRuleName(__dirname), defaultTests);
 ruleRunner.testRule(getRuleName(__dirname), userConfigTests, { ruleOptions: { severity: 'high' } });
