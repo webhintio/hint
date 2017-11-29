@@ -1,3 +1,24 @@
+# 0.17.0 (November 29, 2017)
+
+## Bug fixes / Improvements
+
+* [[`2a1623cbf0`](https://github.com/sonarwhal/sonarwhal/commit/2a1623cbf0dcc5cf3a8f445f43bf9a9cd0a6c13f)] - Docs: Add `edge` connector related information (see also: [`#671`](https://github.com/sonarwhal/sonarwhal/issues/671)).
+* [[`61874f64d0`](https://github.com/sonarwhal/sonarwhal/commit/61874f64d0016d9dd2f2e688a1d01096d71cbbb7)] - Docs: Mention performance aspects in `meta-viewport.md`.
+* [[`eec1298cd7`](https://github.com/sonarwhal/sonarwhal/commit/eec1298cd79e28a575bbc7912802b4f9d35c696e)] - Docs: Fix typo in `apple-touch-icons.md`.
+* [[`58e650d4c4`](https://github.com/sonarwhal/sonarwhal/commit/58e650d4c4e083b9a00ffde49ad9b3739336ea5e)] - Docs: Make minor improvements in `meta-viewport.md`.
+* [[`6ed5fb5a45`](https://github.com/sonarwhal/sonarwhal/commit/6ed5fb5a45dd99c4ea31cb26d8d31cd118cda48a)] - Docs: Rephrase `Public-Key-Pins` related information.
+* [[`b333372fc3`](https://github.com/sonarwhal/sonarwhal/commit/b333372fc375e9b1058bcbbf8f47827da1f7a85b)] - Docs: Fix rule name in `user-guide/rules/index.md`.
+* [[`c382d8771a`](https://github.com/sonarwhal/sonarwhal/commit/c382d8771adbac3afcab493b2c781ee6a26b7e45)] - Fix: Add missing `Category` import in the rule template.
+* [[`5d7203e5b0`](https://github.com/sonarwhal/sonarwhal/commit/5d7203e5b02fc26eb1947b32d041047acf24145c)] - Docs: Fix typo in `docs/user-guide/index.md`.
+
+## New features
+
+* [[`6f28a78aa2`](https://github.com/sonarwhal/sonarwhal/commit/6f28a78aa2b66b1dfe22200bdfc59f22f15aaec6)] - Update: `snyk-snapshot.json`.
+* [[`6892a5ea7a`](https://github.com/sonarwhal/sonarwhal/commit/6892a5ea7a36b08e9ce372ac177aefc3fbabacc7)] - New: Add `connector-edge` as an `optionalDependency` (see also: [`#671`](https://github.com/sonarwhal/sonarwhal/issues/671)).
+* [[`f1ead8cddd`](https://github.com/sonarwhal/sonarwhal/commit/f1ead8cddd5e6bd4f39f7c4cbd37ac09e20e6c52)] - New: Add `defaultProfile` to Chrome launcher (see also: [`#628`](https://github.com/sonarwhal/sonarwhal/issues/628)).
+* [[`4a35e62834`](https://github.com/sonarwhal/sonarwhal/commit/4a35e62834f373ea0789c37882ef2784cd7263a5)] - New: Make connectors provide the `charset` and `media type` the response (see also: [`#676`](https://github.com/sonarwhal/sonarwhal/issues/676)).
+
+
 # 0.16.0 (November 14, 2017)
 
 ## Breaking Changes
