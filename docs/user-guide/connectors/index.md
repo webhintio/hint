@@ -5,6 +5,10 @@ The current supported connectors are:
 * `jsdom`: Your website will be loaded using [`jsdom`][jsdom].
 * `chrome`: Your website will be loaded using Chrome and the Chrome
   Debugging Protocol. This is one of the `remote-debugging-connector`s
+* `edge`: Your website will be loaded using Edge via the [`edge-diagnostics-adapter`][eda].
+  You will need to run Windows 10 Creators Update or later to use it.
+  There are some known issues so please check the [Edge issues](#edge-issues)
+  section below.
 
 ## Configuration
 
@@ -48,7 +52,7 @@ The following is the default configuration:
 ### remote-debugging-connector configuration
 
 There are some `connector`s built on top of the [chrome debugging
-protocol][cdp]. `chrome` is one of these `connector`s.
+protocol][cdp]. `chrome` and `edge` are some of these `connector`s.
 
 The set of settings specific for them are:
 
@@ -78,6 +82,20 @@ Connectors are expected to implement at least some basic functionality
 but expose more events or have some extra functionality. The following
 document details the known differences among the official connectors.
 
+<!-- markdownlint-disable MD033 -->
+
+### Edge<a name="edge-issues"></a>
+
+<!-- markdownlint-enable MD033 -->
+
+* You need administrator privileges to run `sonarwhal` on Edge. You
+  should be automatically prompted when running it.
+* It's best to close all instances of Edge before to avoid any issues.
+* The current implementation can have some problems when scanning multiple
+  sites simultaneously. This should not be a common scenario.
+* The connector will make use of the `useTabUrl` and `tabUrl` properties.
+  Removing those can cause unexpected results.
+
 ### jsdom
 
 * It will not send the events for:
@@ -88,4 +106,5 @@ document details the known differences among the official connectors.
 <!-- Link labels: -->
 
 [cdp]: https://chromedevtools.github.io/devtools-protocol/
+[eda]: https://github.com/Microsoft/edge-diagnostics-adapter
 [jsdom]: https://github.com/tmpvar/jsdom
