@@ -3,5 +3,6 @@ export enum Category {
     accessibility = 'accessibility',
     interoperability = 'interoperability',
     security = 'security',
+    other = 'other',
     performance = 'performance'
 }

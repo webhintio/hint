@@ -1,0 +1,9 @@
+/**
+ * @fileoverview {{description}}
+ */
+
+module.exports = {
+    {{#each rules}}
+    '{{normalizedName}}': require('./rules/{{normalizedName}}/{{normalizedName}}'){{#unless @last}},{{/unless}}
+    {{/each}}
+};

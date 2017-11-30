@@ -2,43 +2,61 @@
  * @fileoverview {{description}}
  */
 
-import { Category } from '../../enums/category';
-import { RuleContext } from '../../rule-context';
+{{! Prefix:
+    - local: ../../
+    - external: sonarwhal/dist/src/lib/
+}}
+import { Category } from '{{prefix}}enums/category';
+import { RuleContext } from '{{prefix}}rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, IRuleBuilder, {{events}} } from '../../types';
-import { debug as d } from '../../utils/debug';
+import { IRule, IRuleBuilder, {{events}} } from '{{prefix}}types';
+import { debug as d } from '{{prefix}}utils/debug';
 
 const debug: debug.IDebugger = d(__filename);
 
-// ------------------------------------------------------------------------------
-// Public
-// ------------------------------------------------------------------------------
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
         // Your code here.
         {{#useCase.dom}}
-        const validateElement = (elementFound: IElementFound) => {
+        const validateElement = async (elementFound: IElementFound) => {
             // Code to validate the rule on the event when an element is visited.
+
+            {{>event-code event="elementFound"}}
         };
         {{/useCase.dom}}
         {{#useCase.request}}
-        const validateFetchStart = (fetchStart: IFetchStart) => {
+        const validateFetchStart = async (fetchStart: IFetchStart) => {
             // Code to validate the rule on the event fetch::start.
+
+            {{>event-code event="fetchStart"}}
         };
-        const validateFetchEnd = (fetchEnd: IFetchEnd) => {
+        const validateFetchEnd = async (fetchEnd: IFetchEnd) => {
             // Code to validate the rule on the event fetch::end.
+
+            {{>event-code event="fetchEnd"}}
         };
-        const validateFetchError = (fetchError: IFetchError) => {
+        const validateFetchError = async (fetchError: IFetchError) => {
             // Code to validate the rule on the event fetch::error.
+
+            {{>event-code event="fetchError"}}
         };
         {{/useCase.request}}
         {{#useCase.thirdPartyService}}
-        const validateFetchStart = (fetchStart: IFetchStart) => {
+        const validateFetchStart = async (fetchStart: IFetchStart) => {
             // Code to validate the rule on the event fetch::start.
+
+            {{>event-code event="fetchStart"}}
         };
-        const validateFetchEnd = (fetchEnd: IFetchEnd) => {
+        const validateFetchEnd = async (fetchEnd: IFetchEnd) => {
             // Code to validate the rule on the event fetch::end.
+
+            {{>event-code event="fetchEnd"}}
         };
         {{/useCase.thirdPartyService}}
         {{#useCase.jsInjection}}
@@ -75,8 +93,14 @@ const rule: IRuleBuilder = {
             description: `{{description}}`
         },
         recommended: {{#if isRecommended}}true{{else}}false{{/if}},
-        schema: [],
-        worksWithLocalFiles: false
+        schema: [
+            /* 
+             * If you want to allow the user to configure your rule
+             * you should use a valid JSON schema. More info in:
+             * https://sonarwhal.com/docs/developer-guide/rules/index.html#themetaproperty
+             */
+        ],
+        worksWithLocalFiles: {{worksWithLocalFiles}}
     }
 };
 

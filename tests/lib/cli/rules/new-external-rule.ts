@@ -9,53 +9,36 @@ import * as rulesCommon from '../../../../src/lib/cli/rules/common';
 const actions = ({ newRule: true } as CLIOptions);
 
 const inquirer = { prompt() { } };
-const fsExtra = {
-    copy() { },
-    move() { },
-    remove() { }
+const misc = { writeFileAsync() { } };
+const fsExtra = { copy() { } };
+const mkdirp = (dir, callback) => {
+    callback();
 };
-const utils = {
-    readFileAsync() { },
-    writeFileAsync() { }
-};
-
-const globby = sinon.stub();
-
-const readmeMD = `# rule-name
-rule-description`;
-
-const newReadmeMD = `# awesome-rule
-An aweseme new rule`;
 
 proxyquire('../../../../src/lib/cli/rules/new-external-rule', {
-    '../../utils/misc': utils,
+    '../../utils/misc': misc,
     './common': rulesCommon,
     'fs-extra': fsExtra,
-    globby,
-    inquirer
+    inquirer,
+    mkdirp
 });
 
 import * as rule from '../../../../src/lib/cli/rules/new-external-rule';
 
 test.beforeEach((t) => {
     sinon.stub(fsExtra, 'copy').resolves();
-    sinon.stub(fsExtra, 'move').resolves();
-    sinon.stub(fsExtra, 'remove').resolves();
-    sinon.stub(utils, 'readFileAsync').resolves();
-    sinon.stub(utils, 'writeFileAsync').resolves();
+    sinon.stub(misc, 'writeFileAsync').resolves();
+    sinon.stub(rulesCommon, 'compileTemplate').returns('');
 
     t.context.fs = fsExtra;
-    t.context.utils = utils;
-    t.context.globby = globby;
+    t.context.misc = misc;
+    t.context.common = rulesCommon;
 });
 
 test.afterEach.always((t) => {
     t.context.fs.copy.restore();
-    t.context.fs.move.restore();
-    t.context.fs.remove.restore();
-
-    t.context.utils.readFileAsync.restore();
-    t.context.utils.writeFileAsync.restore();
+    t.context.misc.writeFileAsync.restore();
+    t.context.common.compileTemplate.restore();
 });
 
 
@@ -71,33 +54,79 @@ test.serial('If newExternalRule is executed inside the main sonarwhal project, i
     t.false(result);
 });
 
-test.serial('It creates the right content', async (t) => {
-    const files = ['readme.md', 'rule-template/rule.ts'];
+test.serial('It creates a rule if the option multiple rules is false', async (t) => {
     const results = {
-        'rule-description': 'An aweseme new rule',
-        'rule-name': 'awesome rule'
+        category: 'pwa',
+        description: 'An awesome new rule',
+        multi: false,
+        name: 'awesome rule',
+        useCase: 'request'
     };
     const root = '/tests/';
     const sandbox = sinon.sandbox.create();
-    const contextUtils = t.context.utils;
-    const contextFs = t.context.fs;
 
     sandbox.stub(rulesCommon, 'processDir').get(() => {
         return root;
     });
     sandbox.stub(inquirer, 'prompt').resolves(results);
-    (contextUtils.readFileAsync as sinon.SinonStub).onFirstCall().resolves(readmeMD);
-    (contextUtils.readFileAsync as sinon.SinonStub).onSecondCall().resolves('');
-
-    globby.onFirstCall().resolves(files);
-    globby.onSecondCall().resolves(['rule-template']);
 
     const result = await rule.newExternalRule(actions);
 
-    t.is((contextFs.copy as sinon.SinonStub).args[0][1], path.join(root, 'sonarwhal-awesome-rule'), 'Copy path is not the expected one');
-    t.is((contextUtils.writeFileAsync as sinon.SinonStub).args[0][1], newReadmeMD);
-    t.is((contextFs.move as sinon.SinonStub).args[0][1], path.join('awesome-rule', 'rule.ts'), 'Move path is not the expected one');
-    t.is((contextFs.remove as sinon.SinonStub).args[0][0], 'rule-template', 'Remove path is not the expected one');
+    t.true(t.context.fs.copy.args[0][0].endsWith('files'), 'Unexpected path for common files');
+    t.is(t.context.fs.copy.args[0][1], path.join(root, 'rule-awesome-rule'), 'Copy path is not the expected one');
+
+    // 4 files common to all the rules + 2 files for the rule (code + test)
+    t.is(t.context.common.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.misc.writeFileAsync.callCount, 6, 'Invalid number of files created');
+
+    t.true(result);
+
+    sandbox.restore();
+});
+
+test.serial('It creates a package with multiple rules', async (t) => {
+    const packageResults = {
+        description: 'An awesome new package',
+        multi: true,
+        name: 'awesome package'
+    };
+    const rule1Results = {
+        again: true,
+        category: 'pwa',
+        description: 'An awesome rule 1',
+        name: 'awesome rule 1',
+        useCase: 'request'
+    };
+    const rule2Results = {
+        again: false,
+        category: 'pwa',
+        description: 'An awesome rule 2',
+        name: 'awesome rule 2',
+        useCase: 'request'
+    };
+    const root = '/tests/';
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.stub(rulesCommon, 'processDir').get(() => {
+        return root;
+    });
+    sandbox.stub(inquirer, 'prompt')
+        .onFirstCall()
+        .resolves(packageResults)
+        .onSecondCall()
+        .resolves(rule1Results)
+        .onThirdCall()
+        .resolves(rule2Results);
+
+    const result = await rule.newExternalRule(actions);
+
+    t.true(t.context.fs.copy.args[0][0].endsWith('files'), 'Unexpected path for common files');
+    t.is(t.context.fs.copy.args[0][1], path.join(root, 'rule-awesome-package'), 'Copy path is not the expected one');
+
+    // 4 files common to all the rules + 2 files for each rule (code + test)
+    t.is(t.context.common.compileTemplate.callCount, 8, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.misc.writeFileAsync.callCount, 8, 'Invalid number of files created');
+
     t.true(result);
 
     sandbox.restore();
