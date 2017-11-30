@@ -121,7 +121,7 @@ export const tryToLoadFrom = (resourcePath: string): any => {
  * 3. `sonarwhal-` prefixed package
  *
  */
-export const loadResource = (name: string, type: string) => {
+export const loadResource = (name: string, type: string, installedResources?: Map<string, IRuleBuilder | IConnectorBuilder>) => {
     debug(`Searching ${name}…`);
     const key: string = `${type}-${name}`;
 
@@ -147,6 +147,10 @@ export const loadResource = (name: string, type: string) => {
 
         return resource;
     });
+
+    if (!resource && installedResources) {
+        resource = installedResources.get(name);
+    }
 
     if (!resource) {
         debug(`Resource ${name} not found`);
@@ -174,11 +178,40 @@ export const getInstalledConnectors = (): Array<string> => {
     return getInstalledResources(TYPE.connector);
 };
 
+const loadInstalledRules = (): Map<string, IRuleBuilder> => {
+    /*
+     * Check paths for:
+     * 1. Installed rules
+     * 2. Current folder
+     * 3. Current folder + rule{,s}-*
+     */
+    const rulesPaths: Array<string> = globby.sync(`{${NODE_MODULES_ROOT}/@sonarwhal,${process.cwd()}}/{rule{,s}-*,.}/package.json`);
+
+    debug(`Rules path found: ${rulesPaths.toString()}`);
+    const result: Map<string, IRuleBuilder> = new Map();
+
+    rulesPaths.forEach((rulesPath) => {
+        try {
+            const rules = require(path.dirname(rulesPath));
+
+            for (const [key, rule] of Object.entries(rules)) {
+                result.set(key, rule);
+            }
+        } catch (err) {
+            debug(`Invalid package: ${rulesPath}`, err);
+        }
+    });
+
+    return result;
+};
+
 export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
     const rulesIds: Array<string> = Object.keys(config);
 
+    const installedRules = loadInstalledRules();
+
     const rules: Map<string, IRuleBuilder> = rulesIds.reduce((acum: Map<string, IRuleBuilder>, ruleId: string) => {
-        const rule: IRuleBuilder = loadResource(ruleId, TYPE.rule);
+        const rule: IRuleBuilder = loadResource(ruleId, TYPE.rule, installedRules);
         const valid: boolean = validateRule(rule, config[ruleId], ruleId);
 
         if (!valid) {

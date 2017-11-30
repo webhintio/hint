@@ -1,0 +1,64 @@
+{
+  "author": "",
+  "ava": {
+    "babel": {
+      "presets": []
+    },
+    "concurrency": 5,
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "description": "{{description}}",
+  "devDependencies": {
+    "@types/debug": "{{dependencyVersion "@types/debug" "0.0.30"}}",
+    "@types/node": "{{dependencyVersion "@types/node" "^8.0.14"}}",
+    "async-retry": "{{dependencyVersion "async-retry" "^1.1.4"}}",
+    "ava": "{{dependencyVersion "ava" "^0.24.0"}}",
+    "babel-cli": "{{dependencyVersion "babel-cli" "^6.26.0"}}",
+    "babel-plugin-istanbul": "{{dependencyVersion "babel-plugin-istanbul" "^4.1.5"}}",
+    "babel-preset-es2017": "{{dependencyVersion "babel-preset-es2017" "^6.22.0"}}",
+    "babel-register": "{{dependencyVersion "babel-register" "^6.26.0"}}",
+    "cpx": "{{dependencyVersion "cpx" "^1.5.0"}}",
+    "eslint": "{{dependencyVersion "eslint" "^4.12.1"}}",
+    "eslint-plugin-markdown": "{{dependencyVersion "eslint-plugin-markdown" "^1.0.0-beta.7"}}",
+    "eslint-plugin-typescript": "{{dependencyVersion "eslint-plugin-typescript" "^0.8.1"}}",
+    "express": "{{dependencyVersion "express" "^4.16.2"}}",
+    "markdownlint-cli": "{{dependencyVersion "markdownlint-cli" "^0.5.0"}}",
+    "npm-run-all": "{{dependencyVersion "npm-run-all" "^4.1.2"}}",
+    "on-headers": "{{dependencyVersion "on-headers" "^1.0.1"}}",
+    "rimraf": "{{dependencyVersion "rimraf" "^2.6.2"}}",
+    "sonarwhal": "^{{version}}",
+    "typescript": "{{dependencyVersion "typescript" "^2.6.2"}}",
+    "typescript-eslint-parser": "{{dependencyVersion "typescript-eslint-parser" "^9.0.1"}}"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "keywords": [
+    "rule",
+    "sonarwhal"
+  ],
+  "main": "{{packageMain}}",
+  "name": "{{packageName}}",
+  "scripts": {
+    "build": "npm run clean && npm-run-all build:*",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc --outDir dist",
+    "clean": "rimraf dist",
+    "test": "npm run lint && npm run build && ava",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint --ext md --ext ts --ignore-pattern dist .",
+    "lint:md": "markdownlint README.md",
+    "watch:ts": "npm run build:ts -- --watch",
+    "init": "npm install && npm run build",
+    "sonarwhal": "node node_modules/sonarwhal/dist/src/bin/sonarwhal.js"
+  },
+  "peerDependencies": {
+    "sonarwhal": "^{{version}}"
+  },
+  "repository": "",
+  "version": "0.1.0"
+}

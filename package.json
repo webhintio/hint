@@ -11,7 +11,6 @@
   },
   "bin": "./dist/src/bin/sonarwhal.js",
   "dependencies": {
-    "@sonarwhal/rule-template": "^0.1.2",
     "amphtml-validator": "^1.0.21",
     "axe-core": "^2.5.0",
     "browserslist": "^2.10.0",

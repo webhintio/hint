@@ -1,0 +1,15 @@
+{
+    "connector": {
+        "name": "jsdom",
+        "options": {
+            "waitFor": 1000
+        }
+    },
+    "formatters": "summary",
+    "rulesTimeout": 120000,
+    "rules": {
+        {{#each rules}}
+        "{{normalizedName}}": "warning"{{#unless @last}},{{/unless}}
+        {{/each}}
+    }
+}

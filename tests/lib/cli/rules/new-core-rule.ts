@@ -15,62 +15,45 @@ const ruleTestDir = 'tests/lib/rules';
 
 const expectedScriptDir = `${__dirname}/fixtures/new.txt`;
 const expectedScriptHasQuotesDir = `${__dirname}/fixtures/new-quotes.txt`;
-const scriptTemplateDir = `src/lib/cli/rules/templates/core-rule/rule-script.hbs`;
 const existingRuleName = 'Content Type';
 const newRuleName = 'new';
 
 const inquirer = { prompt() { } };
-const fs = {
-    mkdir() { },
-    readFile() { },
-    writeFile() { }
+const mkdirp = (dir, callback) => {
+    callback();
 };
 const rimrafObject = { rimraf() { } };
-const stubPromisifiedMethodObject = {
-    mkdirPAsync() { },
+const misc = {
     readFileAsync() { },
-    rimrafAsync() { },
     writeFileAsync() { }
-};
-const stubUtilObject = {
-    promisify(method) {
-        return stubPromisifiedMethodObject[`${method.name}Async`];
-    }
 };
 
 const resourceLoader = { getCoreRules() { } };
 const rules = ['axe', 'content-type'];
 
 proxyquire('../../../../src/lib/cli/rules/new-core-rule', {
+    '../../utils/misc': misc,
     './common': rulesCommon,
-    fs,
     inquirer,
+    mkdirp,
     resourceLoader,
-    rimraf: rimrafObject.rimraf,
-    util: stubUtilObject
+    rimraf: rimrafObject.rimraf
 });
 
 import * as rule from '../../../../src/lib/cli/rules/new-core-rule';
 
 test.beforeEach((t) => {
-    sinon.stub(stubPromisifiedMethodObject, 'mkdirPAsync').resolves();
-    sinon.stub(stubPromisifiedMethodObject, 'rimrafAsync').resolves();
-    sinon.stub(stubPromisifiedMethodObject, 'writeFileAsync').resolves();
+    sinon.stub(misc, 'writeFileAsync').resolves();
+    sinon.stub(misc, 'readFileAsync').resolves();
     sinon.stub(resourceLoader, 'getCoreRules').resolves(rules);
-    sinon.spy(stubUtilObject, 'promisify');
 
-    t.context.promisify = stubUtilObject.promisify;
-    t.context.mkdirpAsync = stubPromisifiedMethodObject.mkdirPAsync;
-    t.context.rimrafAsync = stubPromisifiedMethodObject.rimrafAsync;
-    t.context.writeFileAsync = stubPromisifiedMethodObject.writeFileAsync;
     t.context.loadRules = resourceLoader.getCoreRules;
+    t.context.misc = misc;
 });
 
 test.afterEach.always((t) => {
-    t.context.promisify.restore();
-    t.context.mkdirpAsync.restore();
-    t.context.rimrafAsync.restore();
-    t.context.writeFileAsync.restore();
+    t.context.misc.readFileAsync.restore();
+    t.context.misc.writeFileAsync.restore();
     t.context.loadRules.restore();
 });
 
@@ -86,19 +69,11 @@ test.serial(`if core, 'generate' should call to write script, documentation, tes
         useCase: 'request'
     };
 
-    sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves('');
     sandbox.stub(inquirer, 'prompt').resolves(results);
 
     await rule.newRule(actions);
 
-    const mkdirpAsyncFn = t.context.mkdirpAsync;
-    const writeFileAsyncFn = t.context.writeFileAsync;
-
-    // mkdirAsync
-    t.is(mkdirpAsyncFn.callCount, 3);
-    t.true(mkdirpAsyncFn.args[0][0].includes(path.join(ruleScriptDir, results.name)));
-    t.true(mkdirpAsyncFn.args[1][0].includes(path.join(ruleDocDir, ''))); // so it uses the right separator
-    t.true(mkdirpAsyncFn.args[2][0].includes(path.join(ruleTestDir, results.name)));
+    const writeFileAsyncFn = t.context.misc.writeFileAsync;
 
     // writeFileAsync
     t.is(writeFileAsyncFn.callCount, 4);
@@ -126,16 +101,12 @@ test.serial(`The right script template should be used in 'generate'`, async (t) 
         useCase: 'request'
     };
 
-    // load template
-    const scriptTemplate = await readFileAsync(scriptTemplateDir);
-
     sandbox.stub(inquirer, 'prompt').resolves(results);
-    sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves(scriptTemplate);
 
     await rule.newRule(actions);
 
     const expectedContent = await readFileAsync(expectedScriptDir);
-    const actualContent = t.context.writeFileAsync.args[0][1];
+    const actualContent = t.context.misc.writeFileAsync.args[0][1];
 
     t.is(actualContent, expectedContent);
 
@@ -154,16 +125,12 @@ test.serial(`Description contains quotes`, async (t) => {
         useCase: 'request'
     };
 
-    // load template
-    const scriptTemplate = await readFileAsync(scriptTemplateDir);
-
     sandbox.stub(inquirer, 'prompt').resolves(results);
-    sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves(scriptTemplate);
 
     await rule.newRule(actions);
 
     const expectedContent = await readFileAsync(expectedScriptHasQuotesDir);
-    const actualContent = t.context.writeFileAsync.args[0][1];
+    const actualContent = t.context.misc.writeFileAsync.args[0][1];
 
     t.is(actualContent, expectedContent);
 
@@ -182,7 +149,7 @@ test.serial(`Throw an error if a new rule already exists when calling 'generate'
         useCase: 'request'
     };
 
-    sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves('');
+    // sandbox.stub(stubPromisifiedMethodObject, 'readFileAsync').resolves('');
     sandbox.stub(inquirer, 'prompt').resolves(results);
 
     const error = await t.throws(rule.newRule(actions));
