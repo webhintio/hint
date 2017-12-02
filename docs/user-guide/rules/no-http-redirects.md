@@ -54,7 +54,7 @@ The following configuration will allow 3 redirects for resources and
 
 ```json
 {
-    "no-redirects": ["error", {
+    "no-http-redirects": ["error", {
         "max-resource-redirects": 3,
         "max-target-redirects": 1
     }]
