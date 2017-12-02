@@ -3,6 +3,9 @@
 #
 # https://docs.travis-ci.com
 
+addons:
+  chrome: stable
+
 env:
   global:
 
@@ -12,72 +15,62 @@ env:
     # TRAVIS_API_TOKEN
     - secure: "IaW1CfeF12i16seRoO3tPQXw0IrF3ve/umcRpwCkmVgaxM0z/q5mJ+VCV25R67idqaGiSfVkdR5qb1q3q8eVKcMBhg/o6s4/7j3GGdm/5ixU5r8TOOfNUadsX2/e/pt4s5YE6+9NgSWshkwk81j9VBmmfQ1ClE0N0xS9uvjzn4YsZ7YSacrM02lEd5riPkVe0slxN0j0eGm50aum75MsPShM1WTGq9WdJyxd/Xpaia+2eBuiRCHu822dASLnoeVL6kyBmE4x86Ss17eR2VseaOS3XKRmFkdIDiPVO85B2EBaeqiyr4fHOqXTQm/WmWGCMSuzpQMRdksSNOCVrN/csmgajnhdye9f2kUdxTduu17TBcYzvkkoP2MRLglINcSCDHspDbI5177oIIBlE6nB9iawUWIIaiRATAmCBpllIGSA/zmvuztQM8YedjHA9E9o0yBXgyaFCHqz9N5fiZldKLU7do2OblPhwQoKzbUhs7+egpuVTnYp76NiqqipRV8gyCDjXCNWtXR/yba3UT5/3PIozL29mxxM41WIuhVhSXgVKhOzDSTYO5z8kB4S8L5dhVY9gLgXi0qnFU4d+Gsiy69lbZ9zXeK0occjMi/b0rkSOwovGmAZU2ArwUh7XRPbFZuCwxwaF/HBqaInsodRveuuOw7RbZh978kQKDf5J9g="
 
-language: node_js
-
-matrix:
+jobs:
   include:
 
-    # Build used for checking links
-    # (is automatically run once per week).
+    - stage: check-links
+      if: type in (cron)
 
-    - os: linux
+      os: linux
       node_js: lts/*
-      if: type = cron
 
       script:
         - ./.travis/check-links.sh
 
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - stage: deploy
+      if: (type != cron) and (branch = master)
 
-    # Build used for running the tests on Ubuntu on latest LTS.
-
-    - os: linux
+      os: linux
       node_js: lts/*
-      if: type != cron
 
-      addons:
-        chrome: stable
-      script:
-        - npm run test-on-travis && ./.travis/trigger-site-update.sh
+      script: ./.travis/trigger-site-update.sh
 
-    # Build used for running the tests on Ubuntu on latest node.
+language: node_js
 
-    - os: linux
-      node_js: node
-      if: type != cron
-
-      addons:
-        chrome: stable
-      script:
-        - npm run test-on-travis && ./.travis/trigger-site-update.sh
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    # Build used for running the tests on macOS on latest LTS.
-
-    - os: osx
-      osx_image: xcode9.1
-      node_js: lts/*
-      if: type != cron
-
-      addons:
-        chrome: stable
-      script:
-        - npm run test-on-travis
-
-    # Build used for running the tests on macOS on latest node.
-
-    - os: osx
-      osx_image: xcode9.1
-      node_js: node
-      if: type != cron
-
-      addons:
-        chrome: stable
-      script:
-        - npm run test-on-travis
+node_js:
+  - lts/*
+  - node
 
 notifications:
   email:
     on_failure: always
     on_success: never
+
+os:
+  - linux
+  - osx
+
+osx_image: xcode9.1
+
+stages:
+
+  # Stage used for checking links
+  # (is automatically run once per week).
+
+  - check-links
+
+  # Stage used for testing the code on
+  # different OSes and versions of node.
+
+  - name: test
+    if: type != cron
+
+    script: npm run test-on-travis
+
+  # Stage used for different automation
+  # related things (e.g.: trigger a site update).
+  #
+  # Note: This only runs if the previous
+  # applicable stages succeeded.
+
+  - deploy
