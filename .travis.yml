@@ -28,7 +28,7 @@ jobs:
         - ./.travis/check-links.sh
 
     - stage: greenkeeper
-      if: branch =~ ^greenkeeper\/.*-.*$
+      if: type = pull_request and branch =~ ^greenkeeper\/.*-.*$
 
       os: linux
       node_js: lts/*
@@ -78,7 +78,7 @@ stages:
   #  * Also update the `package-lock.json` file.
   #  * Follow the project's commit message conventions.
   #
-  # [!] Runs: Only for branches created by Greenkeeper.
+  # [!] Runs: Only for pull requests created made by Greenkeeper.
 
   - greenkeeper
 
