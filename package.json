@@ -68,6 +68,7 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
+    "@alrra/travis-scripts": "^3.0.1",
     "@types/content-type": "^1.1.2",
     "@types/debug": "0.0.30",
     "@types/file-type": "5.2.1",
@@ -187,7 +188,7 @@
     "release": "npm i && npm run test -- --concurrency 2 --fail-fast && node dist/scripts/release.js",
     "site": "node dist/src/bin/sonarwhal",
     "test": "npm run lint && npm run commitmsg && npm run build && nyc ava",
-    "test-on-travis": "npm run lint && npm run commitmsg && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
+    "test-on-travis": "[[ $(git show --no-patch --format=%s -1) =~ ^.*update\\ .*\\ to\\ version\\ ([[:alnum:]]|\\.|-)+$ ]] && npm run lint && npm run commitmsg && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:resources": "npm run build:assets -- -w --no-initial",
     "watch:test": "ava --watch",

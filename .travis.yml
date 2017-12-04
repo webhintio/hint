@@ -19,7 +19,7 @@ jobs:
   include:
 
     - stage: check-links
-      if: type in (cron)
+      if: type = cron
 
       os: linux
       node_js: lts/*
@@ -27,13 +27,23 @@ jobs:
       script:
         - ./.travis/check-links.sh
 
-    - stage: deploy
-      if: (type != cron) and (branch = master)
+    - stage: greenkeeper
+      if: type = pull_request and branch =~ ^greenkeeper\/.*-.*$
 
       os: linux
       node_js: lts/*
 
-      script: ./.travis/trigger-site-update.sh
+      script:
+        - ./.travis/set-up-ssh.sh && node scripts/update-greenkeeper-pull-requests.js
+
+    - stage: deploy
+      if: type != cron and branch = master
+
+      os: linux
+      node_js: lts/*
+
+      script:
+        - ./.travis/trigger-site-update.sh
 
 language: node_js
 
@@ -54,23 +64,43 @@ osx_image: xcode9.1
 
 stages:
 
-  # Stage used for checking links
-  # (is automatically run once per week).
+  # Stage used for checking links.
+  #
+  # [!] Runs: Only if the build was triggered by a cron job
+  #     (which is automatically run once per week).
 
   - check-links
 
-  # Stage used for testing the code on
-  # different OSes and versions of node.
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Stage used for updating Greenkeeper's commits so that they:
+  #
+  #  * Also update the `package-lock.json` file.
+  #  * Follow the project's commit message conventions.
+  #
+  # [!] Runs: Only for pull requests created made by Greenkeeper.
+
+  - greenkeeper
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Stage used for testing the code on different OSes and versions
+  # # of node.
+  #
+  # [!] Runs: Only if the build was not triggered by a cron job.
 
   - name: test
     if: type != cron
 
-    script: npm run test-on-travis
+    script:
+      - npm run test-on-travis
 
-  # Stage used for different automation
-  # related things (e.g.: trigger a site update).
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Stage used for deploying different things (e.g.: trigger and
+  # deploy a site update).
   #
-  # Note: This only runs if the previous
-  # applicable stages succeeded.
+  # [!] Runs: Only if the build was not triggered by a cron job,
+  #           and the branch is `master`.
 
   - deploy
