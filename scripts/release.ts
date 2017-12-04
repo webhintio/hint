@@ -7,6 +7,8 @@ import * as inquirer from 'inquirer';
 import * as request from 'request';
 import * as shell from 'shelljs';
 
+import { exec } from './utils';
+
 const CHANGELOG_FILE = 'CHANGELOG.md';
 const PACKAGE_LOCK_FILE = 'package-lock.json';
 const SHRINKWRAP_FILE = 'npm-shrinkwrap.json';
@@ -122,53 +124,6 @@ const createRelease = async (version: string, releaseBody: string) => {
         process.exit(1); // eslint-disable-line no-process-exit
     } else {
         console.log(chalk.green('* Create release.'));
-    }
-};
-
-const shellExec = (cmd: string): Promise<{ code: number, stderr: string, stdout: string }> => {
-
-    return new Promise((resolve, reject) => {
-
-        shell.exec(cmd, (code, stdout, stderr) => {
-            if (code === 0) {
-                return resolve({ code, stderr, stdout });
-            }
-
-            return reject({ code, stderr, stdout });
-        });
-    });
-};
-
-const exec = async (msg: string, cmd: string | Function): Promise<string> => { // eslint-disable-line consistent-return
-    if (typeof cmd === 'function') {
-        try {
-            const result = await cmd();
-
-            console.log(chalk.green(`${msg}`));
-
-            return result && result.trim && result.trim();
-        } catch (e) {
-            console.error(chalk.red(`${msg}`));
-            console.error(e);
-
-            process.exit(1); // eslint-disable-line no-process-exit
-        }
-
-        return '';
-    }
-
-    try {
-        const { stdout, stderr = '' } = await shellExec(cmd);
-
-        console.log(chalk.green(`${msg}`));
-        console.log(chalk.red(`${stderr}`));
-
-        return stdout.trim();
-    } catch ({ stderr }) {
-        console.error(chalk.red(`${msg}`));
-        console.error(stderr);
-
-        process.exit(1); // eslint-disable-line no-process-exit
     }
 };
 

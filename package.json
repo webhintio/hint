@@ -68,6 +68,7 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
+    "@alrra/travis-scripts": "^3.0.1",
     "@types/content-type": "^1.1.2",
     "@types/debug": "0.0.30",
     "@types/file-type": "5.2.1",
