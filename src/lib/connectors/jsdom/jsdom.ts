@@ -180,16 +180,22 @@ class JSDOMConnector implements IConnector {
             const child: HTMLElement = element.children[i] as HTMLElement;
 
             debug('next children');
-            const traverseDown: ITraverseDown = { resource: this._finalHref };
+            const traverseDown: ITraverseDown = {
+                element: new JSDOMAsyncHTMLElement(element),
+                resource: this._finalHref
+            };
 
-            await this._server.emitAsync(`traversing::down`, traverseDown);
+            await this._server.emitAsync(`traverse::down`, traverseDown);
             await this.traverseAndNotify(child);
 
         }
 
-        const traverseUp: ITraverseUp = { resource: this._finalHref };
+        const traverseUp: ITraverseUp = {
+            element: new JSDOMAsyncHTMLElement(element),
+            resource: this._finalHref
+        };
 
-        await this._server.emitAsync(`traversing::up`, traverseUp);
+        await this._server.emitAsync(`traverse::up`, traverseUp);
 
         return Promise.resolve();
     }
@@ -552,7 +558,7 @@ class JSDOMConnector implements IConnector {
             runner.send({ source });
 
             timeoutId = setTimeout(() => {
-                debug(`Evaluation timed out after ${this._timeout/1000}s. Killing process and reporting an error.`);
+                debug(`Evaluation timed out after ${this._timeout / 1000}s. Killing process and reporting an error.`);
                 this.killProcess(runner);
 
                 return reject(new Error('TIMEOUT'));

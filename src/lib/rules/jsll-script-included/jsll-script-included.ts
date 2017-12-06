@@ -3,8 +3,8 @@
  */
 import { Category } from '../../enums/category';
 import { RuleContext } from '../../rule-context';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, IElementFound, Severity } from '../../types';
-import { isHTMLDocument, normalizeString } from '../../utils/misc';
+import { IAsyncHTMLElement, IRule, IRuleBuilder, IElementFound, ITraverseUp, ITraverseDown, Severity } from '../../types';
+import { normalizeString } from '../../utils/misc';
 
 /*
  * ------------------------------------------------------------------------------
@@ -22,6 +22,9 @@ const rule: IRuleBuilder = {
         const wrongScriptOrderMsg = `The JSLL script isn't placed prior to other scripts.`;
 
         const jsllDir = `https://az725175.vo.msecnd.net/scripts/jsll-`;
+        let isHead = false; // Flag to indicate if script is in head.
+        let totalScriptCount = 0; // Total number of script tags in head.
+        let jsllScriptCount = 0; // Total number of JSLL script tag in head.
 
         const isJsllScript = (element: IAsyncHTMLElement) => {
             const link = normalizeString(element.getAttribute('src'));
@@ -29,50 +32,37 @@ const rule: IRuleBuilder = {
             return link.startsWith(jsllDir);
         };
 
-        const getJsllScripts = (elements: Array<IAsyncHTMLElement>) => {
-            return elements.filter((element) => {
-                return isJsllScript(element);
-            });
+        const isHeadElement = (element: IAsyncHTMLElement) => {
+            return normalizeString(element.nodeName) === 'head';
         };
 
-        const validateHead = async (data: IElementFound) => {
+        const validateScript = async (data: IElementFound) => {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
+            const passRegex = new RegExp(`^(\\d+\\.)js`); // 4.js
+            const warningRegex = new RegExp(`^(\\d+\\.){2,}js`); // 4.2.1.js
 
-            if (!isHTMLDocument(resource, context.pageHeaders)) {
+            if (!isHead) {
                 return;
             }
 
-            const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const scriptsInHead: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('head script');
-            const jsllScriptsInHead: Array<IAsyncHTMLElement> = getJsllScripts(scriptsInHead);
+            totalScriptCount += 1;
 
-            if (!jsllScriptsInHead.length) {
-                await context.report(resource, element, noScriptInHeadMsg);
-
+            if (!isJsllScript(element)) {
                 return;
             }
 
-            if (jsllScriptsInHead.length > 1) {
+            jsllScriptCount += 1;
+
+            if (jsllScriptCount > 1) {
                 await context.report(resource, element, redundantScriptInHeadMsg);
 
                 return;
             }
 
-            const jsllScript: IAsyncHTMLElement = jsllScriptsInHead.pop();
-
-            if (scriptsInHead.indexOf(jsllScript) !== 0) {
+            if (totalScriptCount > 1) {
+                // There are other scripts in <head> prior to this JSLL script.
                 await context.report(resource, element, wrongScriptOrderMsg);
 
-                return;
-            }
-        };
-
-        const validateLink = async (data: IElementFound) => {
-            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
-            const passRegex = new RegExp(`^(\\d+\\.)js`); // 4.js
-            const warningRegex = new RegExp(`^(\\d+\\.){2,}js`); // 4.2.1.js
-
-            if (!isHTMLDocument(resource, context.pageHeaders) || !isJsllScript(element)) {
                 return;
             }
 
@@ -93,9 +83,34 @@ const rule: IRuleBuilder = {
             return;
         };
 
+        const traverseDown = (event: ITraverseDown) => {
+            if (!isHeadElement(event.element)) {
+                return;
+            }
+
+            isHead = true;
+        };
+
+        const traverseUp = async (event: ITraverseUp) => {
+            const { resource }: { resource: string } = event;
+
+            if (!isHeadElement(event.element)) {
+                return;
+            }
+
+            if (jsllScriptCount === 0) {
+                await context.report(resource, null, noScriptInHeadMsg);
+
+                return;
+            }
+
+            isHead = false;
+        };
+
         return {
-            'element::head': validateHead,
-            'element::script': validateLink
+            'element::script': validateScript,
+            'traverse::down': traverseDown,
+            'traverse::up': traverseUp
         };
     },
     meta: {

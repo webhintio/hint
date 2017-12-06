@@ -31,16 +31,12 @@ const wrongScriptOrderMsg = `The JSLL script isn't placed prior to other scripts
 
 const tests: Array<IRuleTest> = [
     {
-        name: `Resource is not an HTML document`,
-        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
-    },
-    {
         name: 'JSLL script locates in the <head> tag and has the recommended version format',
         serverConfig: generateHTMLPage(generateScript(simpleVersionLink))
     },
     {
         name: 'Multiple JSLL scripts are included in the page',
-        reports: [{ message: redundantScriptInHeadMsg }, { message: warningScriptVersionMsg}],
+        reports: [{ message: redundantScriptInHeadMsg }],
         serverConfig: generateHTMLPage(generateScript(redundantScriptLinks))
     },
     {
