@@ -1,5 +1,28 @@
 # Connectors
 
+A `connector` is the interface between the `rule`s and the website
+you are testing.
+
+To configure a connector you need to update your `.sonarwhalrc` file to
+make it look like the following:
+
+```json
+{
+    "connector": {
+        "name": "connectorName"
+    }
+}
+```
+
+Where `connectorName` is the name of the connector.
+
+## Built-in connectors and platform support
+
+All the built-in `connector`s run in any of the supported platforms:
+Linux, macOS, and Windows. The only caveat is that when selecting a
+`connector` for a browser (such as `chrome`) in `.sonarwhalrc`, the browser
+needs to be on the machine. `sonarwhal` will not install it if it isn’t.
+
 The current supported connectors are:
 
 * `jsdom`: Your website will be loaded using [`jsdom`][jsdom].
@@ -10,28 +33,35 @@ The current supported connectors are:
   There are some known issues so please check the [Edge issues](#edge-issues)
   section below.
 
+**Note:** If you are running Windows 10 [build 14951][wsl-interop] (or
+later) and Windows Subsystem for Linux (WSL), `sonarwhal` will be capable
+of running the browsers installed directly on Windows. If you are a
+user of the stable release of Window, you will need to use at least the
+*Fall Creators Update*.
+
 ## Configuration
 
-The following properties can be customized in your `.sonarwhalrc` file,
-under the `options` property of the `connector` for any of the
-officially supported ones:
+`connector`s can be configured. Maybe you want to do request with
+another `userAgent`, change some of the other defaults, etc. To do
+that, you just have to add a property `options` to your `connector`
+property with the values you want to modify:
+
+```json
+"connector": {
+    "name": "connectorName",
+    "options": {}
+}
+```
+
+The following is the list of shared configurations for all `connector`s:
 
 * `waitFor` time in milliseconds the connector will wait after the site is
   ready before starting the DOM traversing. The default value is `1000`
   milliseconds.
 
-The following is the default configuration:
+The default value is `1000`.
 
-```json
-{
-    "connector": {
-        "name": "chrome|jsdom",
-        "options": {
-            "waitFor": 1000
-        }
-    }
-}
-```
+Depending on the `connector`, more configuration options are available.
 
 ### jsdom configuration
 
@@ -51,8 +81,8 @@ The following is the default configuration:
 
 ### remote-debugging-connector configuration
 
-There are some `connector`s built on top of the [chrome debugging
-protocol][cdp]. `chrome` and `edge` are some of these `connector`s.
+There are some `connector`s built on top of the [Chrome DevTools
+Protocol][cdp]. `chrome` and `edge` are some of these `connector`s.
 
 The set of settings specific for them are:
 
@@ -60,7 +90,8 @@ The set of settings specific for them are:
   default profile or create a new one. By default the value is `false`
   so a new one is created. You might want to set it to `true` if you
   want `sonarwhal` to have access to pages where the default profile is
-  already authenticated.
+  already authenticated. This only applies for Google Chrome as
+  Microsoft Edge doesn't create a new profile.
 * `useTabUrl (boolean)`: Indicates if the browser should navigate first to a
   given page before going to the final target. `false` by default.
 * `tabUrl (string)`: The URL to visit before the final target in case

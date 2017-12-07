@@ -1,4 +1,32 @@
-# List of official formatters
+# Formatters
+
+A `formatter` takes the results of executing all the rules and
+transforms them to be consumed by the user. A `formatter` can output
+the results via the `console` in different formats, a `JSON` file,
+`XML`, etc.
+
+You can specify one or more `formatter`s as the output. E.g.: You want
+a summary in the screen as well as a text report. You just need to
+add the name inside the property `formatters`:
+
+```json
+{
+  "formatters": "formatter1"
+}
+```
+
+or
+
+```json
+{
+  "formatters": [
+      "formatter1",
+      "formatter2"
+  ]
+}
+```
+
+## List of official formatters
 
 The current supported `formatter`s are:
 
