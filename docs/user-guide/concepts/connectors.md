@@ -1,5 +1,30 @@
 # Connectors
 
+A `connector` is the interface between the `rule`s and the website
+you are testing. It is responsible for loading the website and exposing
+all the information to `sonarwhal` such as resources, network data, etc.
+
+To configure a connector you need to update your `.sonarwhalrc` file to
+make it look like the following:
+
+```json
+{
+    "connector": {
+        "name": "connectorName"
+    }
+}
+```
+
+Where `connectorName` is the name of the connector.
+
+## Built-in connectors and platform support
+
+All the built-in `connector`s run in any of the supported platforms:
+Linux, macOS, and Windows. The only caveat is that, for the `connector`
+that you specify in the`.sonarwhalrc` file, you will need to have the
+browser the `connector` is for installed as `sonarwhal` will not
+install it for you.
+
 The current supported connectors are:
 
 * `jsdom`: Your website will be loaded using [`jsdom`][jsdom].
@@ -7,31 +32,39 @@ The current supported connectors are:
   Debugging Protocol. This is one of the `remote-debugging-connector`s
 * `edge`: Your website will be loaded using Edge via the [`edge-diagnostics-adapter`][eda].
   You will need to run Windows 10 Creators Update or later to use it.
+  This connector will only be installed if you are running on it.
   There are some known issues so please check the [Edge issues](#edge-issues)
   section below.
 
+**Note:** If you are running Windows 10 [build 14951][wsl-interop] (or
+later) and Windows Subsystem for Linux (WSL), `sonarwhal` will be capable
+of running the browsers installed directly on Windows. If you are a
+user of the stable release of Window, you will need to use at least the
+*Fall Creators Update*.
+
 ## Configuration
 
-The following properties can be customized in your `.sonarwhalrc` file,
-under the `options` property of the `connector` for any of the
-officially supported ones:
+`connector`s can be configured. Maybe you want to do a request with
+another `userAgent`, change some of the other defaults, etc. For that,
+you just have to add the property `options` to your `connector` property
+with the values you want to modify:
+
+```json
+"connector": {
+    "name": "connectorName",
+    "options": {}
+}
+```
+
+The following is the list of shared configurations for all `connector`s:
 
 * `waitFor` time in milliseconds the connector will wait after the site is
   ready before starting the DOM traversing. The default value is `1000`
   milliseconds.
 
-The following is the default configuration:
+The default value is `1000`.
 
-```json
-{
-    "connector": {
-        "name": "chrome|jsdom",
-        "options": {
-            "waitFor": 1000
-        }
-    }
-}
-```
+Depending on the `connector`, other configurations may be available.
 
 ### jsdom configuration
 
@@ -49,10 +82,14 @@ The following is the default configuration:
 }
 ```
 
-### remote-debugging-connector configuration
+<!-- markdownlint-disable MD033 -->
 
-There are some `connector`s built on top of the [chrome debugging
-protocol][cdp]. `chrome` and `edge` are some of these `connector`s.
+### remote-debugging-connector configuration <a name="rdc-config"></a>
+
+<!-- markdownlint-enable MD033 -->
+
+There are some `connector`s built on top of the [Chrome DevTools
+Protocol][cdp]. `chrome` and `edge` are some of these `connector`s.
 
 The set of settings specific for them are:
 
@@ -60,7 +97,8 @@ The set of settings specific for them are:
   default profile or create a new one. By default the value is `false`
   so a new one is created. You might want to set it to `true` if you
   want `sonarwhal` to have access to pages where the default profile is
-  already authenticated.
+  already authenticated. This only applies for Google Chrome as
+  Microsoft Edge doesn’t create a new profile.
 * `useTabUrl (boolean)`: Indicates if the browser should navigate first to a
   given page before going to the final target. `false` by default.
 * `tabUrl (string)`: The URL to visit before the final target in case
@@ -80,7 +118,8 @@ The set of settings specific for them are:
 Connectors are expected to implement at least some basic functionality
 (see [how to develop a connector](../../contributor-guide/connectors/index.md))
 but expose more events or have some extra functionality. The following
-document details the known differences among the official connectors.
+document details the known differences or issues among the official
+connectors.
 
 <!-- markdownlint-disable MD033 -->
 
@@ -90,7 +129,7 @@ document details the known differences among the official connectors.
 
 * You need administrator privileges to run `sonarwhal` on Edge. You
   should be automatically prompted when running it.
-* It's best to close all instances of Edge before to avoid any issues.
+* It’s best to close all instances of Edge before to avoid any issues.
 * The current implementation can have some problems when scanning multiple
   sites simultaneously. This should not be a common scenario.
 * The connector will make use of the `useTabUrl` and `tabUrl` properties.

@@ -56,7 +56,7 @@ rules, collectors, formatters, etc, take a look at the online
 [contributor guide](https://sonarwhal.com/docs/contributor-guide/) (or
 the [local version](./docs/contributor-guide/index.md)).
 
-The following are meant only if you are working on `sonarwhal`'s codebase:
+The following are meant only if you are working on `sonarwhal`’s codebase:
 
 * `npm run site <url>` will analyze the website with the current
    configuration and using the latest build available in the `dist`
@@ -82,7 +82,7 @@ the tests are run twice initially.
 
 ## Code of Conduct
 
-This project adheres to the JS Foundation's [code of
+This project adheres to the JS Foundation’s [code of
 conduct](https://js.foundation/community/code-of-conduct). By participating in this project you
 agree to abide by its terms.
 

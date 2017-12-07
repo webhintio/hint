@@ -22,7 +22,7 @@ connections, the browswer knows that it should never load the site using
 HTTP and automatically convert all attempts to HTTPS requests instead.
 
 Notably, to prevent the `Strict-Transport-Security` header from being
-stripped by the attacker on the user's first visit, major browsers
+stripped by the attacker on the user’s first visit, major browsers
 include a "pre-loaded" list of sites that must be loaded via HTTPS.
 You can submit your domain name in the [online form][preload form] to
 be included in the list. After being included, browsers will never be

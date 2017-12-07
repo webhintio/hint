@@ -43,8 +43,8 @@ existing Committer.
 
 Committers are community members who have shown that they are committed
 to the continued development of the project through ongoing engagement
-with the community. Committers are given push access to the project's
-GitHub repos and must abide by the project's Contribution Guidelines.
+with the community. Committers are given push access to the project’s
+GitHub repos and must abide by the project’s Contribution Guidelines.
 
 Committers:
 
@@ -65,8 +65,8 @@ To become a Committer:
 * Committers are expected to be respectful of every community member
   and to work collaboratively in the spirit of inclusion.
 * Have submitted a significant amount of qualifying pull requests.
-  What's a qualifying pull request? One that carries significant
-  technical weight and requires little effort to accept because it's
+  What’s a qualifying pull request? One that carries significant
+  technical weight and requires little effort to accept because it’s
   well documented and tested.
 
 New Committers can be nominated by any existing Committer. Once they
@@ -130,7 +130,7 @@ TSC members fulfill all requirements of Committers, and also:
   and approving the changes.
 * May merge their own pull requests once they have collected the
   feedback they deem necessary. (No pull request should be merged
-  without at least one Committer/TSC member comment stating they've
+  without at least one Committer/TSC member comment stating they’ve
   looked at the code.)
 
 To become a TSC member one most fulfill at least 2 of the following
@@ -138,7 +138,7 @@ items and commit to being a part of the community for the long-term.
 
 * Work in a helpful and collaborative way with the `sonarwhal` and/or
   web communities.
-* Have given good feedback on others' submissions and displayed an
+* Have given good feedback on others’ submissions and displayed an
   overall understanding of the code quality standards for the project.
 * Be an expert in a web related area, e.g.: browser internals,
   accessibility, security, performance, etc.
@@ -165,7 +165,7 @@ an initial agreement in the GitHub discussion, and action needs to
 be taken.
 
 Any community member or committer can ask that something be added
-to the next meeting's agenda by logging a GitHub Issue. Anyone can
+to the next meeting’s agenda by logging a GitHub Issue. Anyone can
 add the item to the agenda by adding the "tsc agenda" tag to the issue.
 
 Prior to each TSC meeting, the moderator will share the Agenda with

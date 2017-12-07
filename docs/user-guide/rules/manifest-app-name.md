@@ -1,6 +1,6 @@
 # Require manifest to specify the web site/app name (`manifest-app-name`)
 
-`manifest-app-name` warns against not specifying the web site/app's
+`manifest-app-name` warns against not specifying the web site/app’s
 name.
 
 ## Why is this important?
@@ -18,30 +18,30 @@ tag, `<title>`, or just default to a specific value (e.g.:
 as the web site/app name may be truncated or just wrong.
 
 In general it is recommended to specify and have the `name` member
-under 30 character, and if it's over 12 characters also have a
+under 30 character, and if it’s over 12 characters also have a
 `short_name` member that is at most 12 characters.
 
 Notes:
 
-* If the `name` is under or 12 characters, there isn't a need to
+* If the `name` is under or 12 characters, there isn’t a need to
   specify `short_name` as browsers can just use `name`.
 
 * The 12 character limit is used to ensure that for most cases the
-  value won't be truncated. However depending on [other things][sonarwhal
+  value won’t be truncated. However depending on [other things][sonarwhal
   issue], such as:
 
   * what font the user is using
   * what characters the web site/app name includes (e.g. `i` occupies
     less space then `W`)
 
-  the text may still be truncated even if it's under 12 characters.
+  the text may still be truncated even if it’s under 12 characters.
 
 * The 30 character limit is used in order to be consistent with the
   native OSes/[app stores][app store] limits/recommendations.
 
 ## What does the rule check?
 
-The rule checks if a non-empty `name` member was specified and it's
+The rule checks if a non-empty `name` member was specified and it’s
 value is under 30 characters.
 
 If the `name` member is over 12 characters, or `short_name` is
@@ -102,7 +102,7 @@ and a `short_name` shorter than 12 characters:
 ```
 
 Note: [Not specifying a manifest file](manifest-exists.md), or having
-an invalid one are covered by other rules, so those cases won't make
+an invalid one are covered by other rules, so those cases won’t make
 this rule fail.
 
 ## Further Reading

@@ -1,7 +1,7 @@
 # SSL Server Test (`ssllabs`)
 
 `ssllabs` deeply analyzes the SSL configuration of a web server using
-[SSL Labs' SSL Server Test][ssllabs].
+[SSL Labs’ SSL Server Test][ssllabs].
 
 ## Why is this important?
 
@@ -12,7 +12,7 @@ provides the necessary security, system administrators and developers
 must put extra effort into properly configuring their servers and
 developing their applications.
 
-***From [SSL Labs' SSL and TLS Deployment Best Practices][ssl best
+***From [SSL Labs’ SSL and TLS Deployment Best Practices][ssl best
 practices]***
 
 ## What does the rule check?
@@ -21,7 +21,7 @@ This rule uses the [SSL Labs API][ssllabs api] via
 [`node-ssllabs`][node-ssllabs] to analyze the SSL configuration of
 a server and report a grade.
 
-Please look at [SSL Labs' Methodology Overview][ssllabs methodology]
+Please look at [SSL Labs’ Methodology Overview][ssllabs methodology]
 if you want to know more about the process.
 
 Notes:
@@ -45,7 +45,7 @@ E.g. The following configuration will change the minium grade to `A+`:
 }]
 ```
 
-SSL Labs' scanner also allows some configuration. By default the one
+SSL Labs’ scanner also allows some configuration. By default the one
 used is:
 
 ```json
@@ -67,10 +67,10 @@ You can override the defaults with the following configuration:
 }]
 ```
 
-The list of possible parameters is available in [SSL Labs'
+The list of possible parameters is available in [SSL Labs’
 documentation][ssllabs protocol calls] with the difference
 that `on/off` parameters are `boolean`s in our case as shown
-in [`node-ssllabs`' advanced usage][node-ssllabs usage].
+in [`node-ssllabs`’ advanced usage][node-ssllabs usage].
 
 ## Further Reading
 

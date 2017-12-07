@@ -14,14 +14,14 @@ Links that have `target="_blank"`, such as
 * [a security problem][security problem]
 
   When using `target="_blank"` the page that was linked to gains
-  access to the original page's [`window.opener`][window.opener].
+  access to the original page’s [`window.opener`][window.opener].
   This allows it to redirect the original page to whatever it wants,
   like for example, a phishing page designed to look like a real page
   frequently used by users, asking for login credentials (see also:
   [tab nabbing][tab nabbing]).
 
   By adding `ref="noopener"` (and `noreferrer` for older browsers)
-  the `window.opener` reference won't be set, and thus, the ability
+  the `window.opener` reference won’t be set, and thus, the ability
   for the page that was linked to from redirecting the original one
   is removed.
 
@@ -52,7 +52,7 @@ Notes:
 * The reason why the rule does not check the same origin links by
   default is because:
 
-  * Security isn't really a problem here.
+  * Security isn’t really a problem here.
   * When it comes to performance, making same origin links open in
     their own process actually works against optimizations that some
     browsers do in order to keep multiple same origin tabs within
@@ -78,7 +78,7 @@ that have `target="_blank"` and link to other origins.
 If the [targeted browsers are specified](#can-the-rule-be-configured),
 based on their support, the rule might only require the `noopener` value.
 
-Let's presume the original page is `https://example1.com`.
+Let’s presume the original page is `https://example1.com`.
 
 ### Examples that **trigger** the rule
 
@@ -162,7 +162,7 @@ should also include `rel="noopener noreferrer"`.
 
 Also, note that this rule takes into consideration the [targeted
 browsers](../index.md#browser-configuration), and if all of them
-support the `noopener` value, the rule won't require the `noreferrer`
+support the `noopener` value, the rule won’t require the `noreferrer`
 value.
 
 ## Further Reading

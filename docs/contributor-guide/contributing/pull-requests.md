@@ -4,7 +4,7 @@ Contributing code to `sonarwhal` is done using pull requests. This is
 the fastest way for us to evaluate your code and to merge it into
 the code base.
 
-Please only use pull requests and don't file issues with snippets
+Please only use pull requests and don’t file issues with snippets
 of code, as doing so means that we need to manually merge the changes
 and update any appropriate documentation and tests. That decreases the
 likelihood of your code getting included in a timely manner.
@@ -24,13 +24,13 @@ no need to create an issue, and you can just make the pull request.
 
 ## Getting Started
 
-If you'd like to work on a pull request, and you've never submitted
+If you’d like to work on a pull request, and you’ve never submitted
 code before, follow these steps:
 
 1. Sign our [Contributor License Agreement][cla].
 2. Set up a [development environment](../development-environment.md).
 
-After that, you're ready to start working on code.
+After that, you’re ready to start working on code.
 
 ## Working with Code
 
@@ -53,7 +53,7 @@ and generally follows the same pattern each time:
 
 The first step to sending a pull request is to create a new branch
 in your `sonarwhal` fork. Give the branch a descriptive name that best
-illustrates what it is you're fixing, such as:
+illustrates what it is you’re fixing, such as:
 
 ```bash
 git checkout -b fix-1234
@@ -62,7 +62,7 @@ git checkout -b fix-1234
 You should do all of your development for the issue in this branch.
 
 **Note:** Do not combine fixes for multiple issues into one branch.
-Use a separate branch for each issue you're working on.
+Use a separate branch for each issue you’re working on.
 
 <!-- markdownlint-disable MD033 -->
 
@@ -112,7 +112,7 @@ following:
 * `Breaking` - for a backwards-incompatible changes.
 * `Build` - changes to build process only.
 * `Chore` - for refactoring, adding tests, etc. (anything that
-   isn't user-facing).
+   isn’t user-facing).
 * `Docs` - changes to documentation only.
 * `Fix` - for a bug fix.
 * `New` - implemented a new feature.
@@ -195,7 +195,7 @@ to check:
 * Make separate pull requests for unrelated changes. Large pull requests
   with multiple unrelated changes may be closed without merging.
 * All changes must be accompanied by documentation and tests, even if
-  the feature you're working on previously had no documentation or tests.
+  the feature you’re working on previously had no documentation or tests.
 
 <!-- markdownlint-disable MD033 -->
 
@@ -222,13 +222,13 @@ git push -f origin fix-1234
 
 <!-- markdownlint-enable MD033 -->
 
-Now you're ready to send the pull request. Go to your `sonarwhal` fork
+Now you’re ready to send the pull request. Go to your `sonarwhal` fork
 and then follow the [GitHub documentation][github pr docs] on how to
 send a pull request.
 
 ## Following Up
 
-Once your pull request is sent, it's time for the team to review it.
+Once your pull request is sent, it’s time for the team to review it.
 As such, please make sure to:
 
 1. Monitor the [status of the Travis CI build for your pull
@@ -249,7 +249,7 @@ git checkout fix-1234
 
 ### Updating the Commit Message
 
-If your commit message is in the incorrect format, you'll be asked
+If your commit message is in the incorrect format, you’ll be asked
 to update it. You can do so via:
 
 ```bash
@@ -257,7 +257,7 @@ git commit --amend
 ```
 
 This will open up your editor so you can make changes. After that,
-you'll need to do a forced push to fork:
+you’ll need to do a forced push to fork:
 
 ```bash
 git push -f origin fix-1234
@@ -265,8 +265,8 @@ git push -f origin fix-1234
 
 ### Updating the Code
 
-If we ask you to make code changes, there's no need to close the pull
-request and create a new one. Make your changes, and when you're ready,
+If we ask you to make code changes, there’s no need to close the pull
+request and create a new one. Make your changes, and when you’re ready,
 add your changes into the branch.
 
 ```bash

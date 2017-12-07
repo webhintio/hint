@@ -1,6 +1,6 @@
 # No vulnerable libraries (`no-vulnerable-javascript-libraries`)
 
-This rules uses Snyk's [Vulnerability DB][snykdb] to identify if
+This rules uses Snyk’s [Vulnerability DB][snykdb] to identify if
 a website is running a vulnerable client-side JavaScript library
 or framework.
 
@@ -13,7 +13,7 @@ attack and steal private information.
 
 ## What does the rule check?
 
-This rules uses Snyk's [Vulnerability DB][snykdb] and
+This rules uses Snyk’s [Vulnerability DB][snykdb] and
 [js-library-detector][js-library-detector] to check if the
 website is running a vulnerable version of a client-side JavaScript
 library or framework.
