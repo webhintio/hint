@@ -19,9 +19,10 @@ Where `connectorName` is the name of the connector.
 ## Built-in connectors and platform support
 
 All the built-in `connector`s run in any of the supported platforms:
-Linux, macOS, and Windows. The only caveat is that when selecting a
-`connector` for a browser (such as `chrome`) in `.sonarwhalrc`, the browser
-needs to be on the machine. `sonarwhal` will not install it if it isn’t.
+Linux, macOS, and Windows. The only caveat is that, for the `connector`
+that you specify in the`.sonarwhalrc` file, you will need to have the
+browser the `connector` is for installed as `sonarwhal` will not
+install it for you.
 
 The current supported connectors are:
 
@@ -41,10 +42,10 @@ user of the stable release of Window, you will need to use at least the
 
 ## Configuration
 
-`connector`s can be configured. Maybe you want to do request with
-another `userAgent`, change some of the other defaults, etc. To do
-that, you just have to add a property `options` to your `connector`
-property with the values you want to modify:
+`connector`s can be configured. Maybe you want to do a request with
+another `userAgent`, change some of the other defaults, etc. For that,
+you just have to add the property `options` to your `connector` property
+with the values you want to modify:
 
 ```json
 "connector": {
@@ -61,7 +62,7 @@ The following is the list of shared configurations for all `connector`s:
 
 The default value is `1000`.
 
-Depending on the `connector`, more configuration options are available.
+Depending on the `connector`, other configurations may be available.
 
 ### jsdom configuration
 
