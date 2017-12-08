@@ -64,9 +64,9 @@ to report the results.
 Now that you have your first result, is time to learn a bit more about
 the different pieces:
 
-* [Rules](#rules)
-* [Connectors](#connectors)
-* [Formatters](#formatters)
+* [Rules](./concepts/rules/)
+* [Connectors](./concepts/connectors/)
+* [Formatters](./concepts/formatters/)
 
 ### Permission issues during installation
 
