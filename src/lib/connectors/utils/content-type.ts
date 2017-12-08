@@ -1,5 +1,3 @@
-import * as url from 'url';
-
 import * as fileType from 'file-type';
 import * as isSvg from 'is-svg';
 import * as mimeDB from 'mime-db';
@@ -7,7 +5,7 @@ import { parse, MediaType } from 'content-type';
 
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IResponse } from '../../types';
-import { normalizeString } from '../../utils/misc';
+import { getFileExtension, normalizeString } from '../../utils/misc';
 
 const debug = d(__filename);
 
@@ -181,7 +179,7 @@ const determineMediaTypeBasedOnElement = (element: IAsyncHTMLElement): string =>
 };
 
 const determineMediaTypeBasedOnFileExtension = (resource: string): string => {
-    const fileExtension = url.parse(resource).pathname.split('.')[1];
+    const fileExtension = getFileExtension(resource);
 
     if (!fileExtension) {
         return null;
@@ -365,5 +363,6 @@ const isTextMediaType = (mediaType: string): boolean => {
 
 export {
     getContentTypeData,
+    getFileExtension,
     isTextMediaType
 };

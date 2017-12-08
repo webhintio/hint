@@ -17,13 +17,19 @@ const tests: Array<IRuleTest> = [
         <link rel="stylesheet" href="style.css">`)
     },
     {
+        name: `Manifest file is specified only as '.webmanifest'`,
+        reports: [{ message: `The file extension should be 'webmanifest'` }],
+        serverConfig: generateHTMLPage(`<link rel="manifest" href=".webmanifest">
+        <link rel="stylesheet" href="style.css">`)
+    },
+    {
         name: `Manifest file has correct file extension`,
         serverConfig: generateHTMLPage(`<link rel="manifest" href="site.webmanifest">
         <link rel="stylesheet" href="style.css">`)
     },
     {
-        name: `Manifest file has correct file extension being specified as only the file extension`,
-        serverConfig: generateHTMLPage(`<link rel="manifest" href=".webmanifest">
+        name: `Manifest file has correct file extension being specified in a path that contains '.'`,
+        serverConfig: generateHTMLPage(`<link rel="manifest" href="/.well-known/site.webmanifest">
         <link rel="stylesheet" href="style.css">`)
     }
 ];

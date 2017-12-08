@@ -9,12 +9,10 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as url from 'url';
-
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from '../../types';
-import { normalizeString } from '../../utils/misc';
+import { getFileExtension, normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context';
 
 const debug = d(__filename);
@@ -35,12 +33,12 @@ const rule: IRuleBuilder = {
 
             if (normalizeString(element.getAttribute('rel')) === 'manifest') {
                 const href: string = normalizeString(element.getAttribute('href'));
-                const fileExtension: string = url.parse(href).pathname.split('.')[1];
+                const fileExtension: string = getFileExtension(href);
 
                 if (fileExtension !== standardManifestFileExtension) {
                     debug('Manifest file with invalid extension found');
 
-                    await context.report(resource, element, `The file extension should be '${standardManifestFileExtension}' (not '${fileExtension}')`, fileExtension);
+                    await context.report(resource, element, `The file extension should be '${standardManifestFileExtension}'${fileExtension ? ` (not '${fileExtension}')`: ''}`, fileExtension);
                 }
             }
         };

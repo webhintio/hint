@@ -38,6 +38,14 @@ const delay = (millisecs: number): Promise<object> => {
     });
 };
 
+/*
+ * Try to determine the resource's file extension.
+ */
+const getFileExtension = (resource: string): string => {
+    return path.extname(url.parse(resource).pathname).split('.')
+        .pop();
+};
+
 /** Convenience function to check if a resource uses a specific protocol. */
 const hasProtocol = (resource: string, protocol: string): boolean => {
     return url.parse(resource).protocol === protocol;
@@ -117,7 +125,7 @@ const isRegularProtocol = (uri: string): boolean => {
 };
 
 /** Normalize String and then replace characters with delimiter */
-export const normalizeStringByDelimiter = (value: string, delimiter: string) => {
+const normalizeStringByDelimiter = (value: string, delimiter: string) => {
     return normalizeString(value).replace(/[^a-z0-9]/gi, delimiter);
 };
 
@@ -236,6 +244,7 @@ export {
     delay,
     findNodeModulesRoot,
     findPackageRoot,
+    getFileExtension,
     hasAttributeWithValue,
     hasProtocol,
     isDataURI,
@@ -246,6 +255,7 @@ export {
     loadJSFile,
     loadJSONFile,
     normalizeString,
+    normalizeStringByDelimiter,
     readFile,
     readFileAsync,
     requestJSONAsync,
