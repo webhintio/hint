@@ -32,7 +32,7 @@ const rule: IRuleBuilder = {
              * await context.report(resource, null, 'Your error message was here');
              *
              * More information on how to develop a rule is available in:
-             * https://sonarwhal.com/docs/developer-guide/rules/index.html
+             * https://sonarwhal.com/docs/contributor-guide/rules/
              */
             
             if (Math.ceil(Math.random()) === 0) {
@@ -52,7 +52,7 @@ const rule: IRuleBuilder = {
              * await context.report(resource, null, 'Your error message was here');
              *
              * More information on how to develop a rule is available in:
-             * https://sonarwhal.com/docs/developer-guide/rules/index.html
+             * https://sonarwhal.com/docs/contributor-guide/rules/
              */
             
             if (Math.ceil(Math.random()) === 0) {
@@ -72,7 +72,7 @@ const rule: IRuleBuilder = {
              * await context.report(resource, null, 'Your error message was here');
              *
              * More information on how to develop a rule is available in:
-             * https://sonarwhal.com/docs/developer-guide/rules/index.html
+             * https://sonarwhal.com/docs/contributor-guide/rules/
              */
             
             if (Math.ceil(Math.random()) === 0) {
@@ -97,7 +97,7 @@ const rule: IRuleBuilder = {
             /* 
              * If you want to allow the user to configure your rule
              * you should use a valid JSON schema. More info in:
-             * https://sonarwhal.com/docs/developer-guide/rules/index.html#themetaproperty
+             * https://sonarwhal.com/docs/contributor-guide/rules/#themetaproperty
              */
         ],
         worksWithLocalFiles: false

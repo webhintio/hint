@@ -39,7 +39,6 @@ export const escapeSafeString = (str: string): hbs.SafeString => {
     return new Handlebars.SafeString(result);
 };
 
-
 Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): string => {
     return sonarwhalPackage.dependencies[packageName] || sonarwhalPackage.devDependencies[packageName] || defaultVersion;
 });
@@ -119,9 +118,9 @@ export enum QuestionsType {
 /** List rule categories. */
 const categories = [];
 
-for (const enumValue in Category) {
-    if (Category.hasOwnProperty(enumValue) && enumValue !== Category.other) {
-        categories.push({ name: Category[enumValue] });
+for (const [, value] of Object.entries(Category)) {
+    if (value !== 'other') {
+        categories.push({ name: value });
     }
 }
 

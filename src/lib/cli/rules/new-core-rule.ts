@@ -91,7 +91,10 @@ const updateRuleIndex = async (rule: NewRule): Promise<void> => {
     text = _.trim(text);
 
     const lines = text.split(/\r\n\r\n|\n\n/gi);
-    const currentItemsIndex = lines.indexOf(`## ${rule.category}`) + 1;
+    const currentTitleIndex = lines.findIndex((line) => {
+        return line.toLowerCase() === `## ${rule.category}`.toLowerCase();
+    });
+    const currentItemsIndex = currentTitleIndex + 1;
     const currentItems = lines[currentItemsIndex];
 
     const newItem = `* [\`${rule.normalizedName}\`](${rule.normalizedName}.md)`;
