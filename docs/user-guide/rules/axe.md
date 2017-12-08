@@ -27,7 +27,7 @@ social responsibility.
 > Another important consideration for organizations is that web i
 accessibility is required by laws and policies in some cases.
 
-***From [WAI's Introduction to Web Accessibility][wai].***
+***From [WAI’s Introduction to Web Accessibility][wai].***
 
 ## What does the rule check?
 
@@ -41,7 +41,7 @@ for more information of what they do.
 This rule uses [`axe.run`][axe.run] and the default values ([WCAG
 2.0][wcag 2.0] Level A and Level AA rules) over the `document`.
 You can modify what rules or categories are executed via an `options`
-object that follows [aXe's documentation][axe docs].
+object that follows [aXe’s documentation][axe docs].
 
 Some examples of configurations:
 

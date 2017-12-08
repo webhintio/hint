@@ -1,11 +1,10 @@
-## Rules
+# Rules
 
 A `rule` is a test that your website needs to pass. `sonarwhal` comes with
-a few [built in ones](./rules/), but you can easily create your own or
-download them from `npm`. You can read more about
-[how to create rules in the contributor guide](../contributor-guide/rules/index.md).
+a few [built in ones](../rules/), but you can create your own or download
+them from `npm`. You can read more about [how to create rules in the contributor guide](../../contributor-guide/rules/index.md).
 
-### Rule configuration
+## Rule configuration
 
 When using `sonarwhal`, you are always in control. This means that you can
 decide what rules are relevant to your use case and what severity a rule
@@ -67,5 +66,18 @@ in that case it will be similar to the following:
 ]
 ```
 
+or
+
+```json
+"rules": [
+    {
+       "rule1": ["warning", {
+         "customization1": "value1",
+         "customization2": "value2"
+       }]
+    }
+]
+```
+
 You can check which rules accept this kind of configuration by
-visiting the [rules documentation](./rules/).
+visiting the [rules documentation](../rules/).

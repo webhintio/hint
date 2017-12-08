@@ -27,7 +27,7 @@ This rule checks if:
   `<link rel="manifest" href="site.webmanifest">`)
 
 * The specified web app manifest file is accessible (i.e. requesting
-  it doesn't result in a `404`, `500`, etc.)
+  it doesn’t result in a `404`, `500`, etc.)
 
 ### Examples that **trigger** the rule
 

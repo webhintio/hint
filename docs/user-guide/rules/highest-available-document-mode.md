@@ -6,8 +6,8 @@ that support document modes to use the highest one available.
 ## Why is this important?
 
 Internet Explorer 8/9/10 support [document compatibility modes][doc
-modes]. Because of this, even if the site's visitor is using, let's
-say, Internet Explorer 9, it's possible that Internet Explorer will
+modes]. Because of this, even if the site’s visitor is using, let’s
+say, Internet Explorer 9, it’s possible that Internet Explorer will
 not use the latest rendering engine, and instead, decide to render
 your page using the Internet Explorer 5.5 rendering engine.
 
@@ -31,7 +31,7 @@ is treated to the best possible user experience that browser can offer.
 If possible, it is recommended to send the HTTP response header
 instead of using the `meta` tag, as the latter will not always work
 (e.g.: if the site is served on a non-standard port, as Internet
-Explorer's preference option `Display intranet sites in Compatibility
+Explorer’s preference option `Display intranet sites in Compatibility
 View` is checked by default).
 
 Notes:
@@ -47,7 +47,7 @@ Notes:
 ## What does the rule check?
 
 By default the rule checks if the `X-UA-Compatible` response header is
-sent with the value of `IE=edge`, and that the `meta` tag isn't used.
+sent with the value of `IE=edge`, and that the `meta` tag isn’t used.
 
 ### Examples that **trigger** the rule for defaults
 
@@ -175,7 +175,7 @@ case when the HTTP response header cannot be set.
 </html>
 ```
 
-`X-UA-Compatible` meta tag is specified in the `<head>`, but it's
+`X-UA-Compatible` meta tag is specified in the `<head>`, but it’s
 not included before all other tags except for the `<title>` and the
 other `<meta>` tags:
 
@@ -229,7 +229,7 @@ X-UA-Compatible: ie=edge
 
 Also, note that this rule takes into consideration the [targeted
 browsers](../index.md#browser-configuration), and if Internet Explorer
-8/9/10 aren't among them, it will suggest removing the `meta` tag or/and
+8/9/10 aren’t among them, it will suggest removing the `meta` tag or/and
 not sending the HTTP response header.
 
 ## Further Reading

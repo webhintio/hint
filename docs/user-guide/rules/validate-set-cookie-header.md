@@ -59,11 +59,11 @@ the [MDN web docs][set-cookie web doc].
   * Validate `Expires` value date format.
 
 * Browser compatibility of `Max-Age` directive:
-  * Some browsers (ie6, ie7, and ie8) doesn't support `Max-Age`.
+  * Some browsers (ie6, ie7, and ie8) doesn’t support `Max-Age`.
 
 ### Examples that **trigger** the rule
 
-`Set-Cookie` header that doesn't have a name-value string:
+`Set-Cookie` header that doesn’t have a name-value string:
 
 ```text
 HTTP/... 200 OK
@@ -72,7 +72,7 @@ HTTP/... 200 OK
 Set-Cookie: Max-Age=0; Secure; HttpOnly
 ```
 
-`Set-Cookie` header that doesn't have the `Secure` directive:
+`Set-Cookie` header that doesn’t have the `Secure` directive:
 
 ```text
 HTTP/... 200 OK
@@ -81,7 +81,7 @@ HTTP/... 200 OK
 Set-Cookie: cookieName=cookieValue; HttpOnly
 ```
 
-`Set-Cookie` header that doesn't have the `HttpOnly` directive:
+`Set-Cookie` header that doesn’t have the `HttpOnly` directive:
 
 ```text
 HTTP/... 200 OK

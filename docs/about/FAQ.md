@@ -5,13 +5,13 @@
 `sonarwhal` is a linting tool for the web, with a strong focus on the
 developer experience: easy to configure, develop, and well documented.
 
-`sonarwhal` doesn't want to reinvent the wheel. For that reason it tries
+`sonarwhal` doesn’t want to reinvent the wheel. For that reason it tries
 to integrate other tools and services that do a great job, and
 contribute back where appropriate. For example, we are using [aXe][axe]
 for accessibility, [SSL Server Test][ssllabs] for checking the
 certificate configuration, etc.
 
-## What is sonarwhal's goal?
+## What is sonarwhal’s goal?
 
 We have a few:
 
@@ -24,7 +24,7 @@ We have a few:
 
 ## Who started sonarwhal?
 
-`sonarwhal`'s development started inside the Microsoft Edge team. Early on,
+`sonarwhal`’s development started inside the Microsoft Edge team. Early on,
 the team realized that not only the project had to be open source, but
 also be community driven. The best way to achieve that was by donating
 the code to the JS Foundation, have a governance model that welcomes
@@ -39,7 +39,7 @@ coding, etc.
 
 We will gladly accept any contribution you can do. Most of the
 [issues in `sonarwhal`][issues] should have a difficulty level.
-Also don't hesitate to ask for help.
+Also don’t hesitate to ask for help.
 
 ## What browsers are supported?
 
@@ -55,7 +55,7 @@ list.
 
 ## Is there an online service?
 
-Yes! It's in preview so there might be some intermitent issues, but
+Yes! It’s in preview so there might be some intermitent issues, but
 you can scan an online website in [here][scanner].
 
 We are working on tweaking the list of rules it runs and its
@@ -84,9 +84,9 @@ species][narwhal echolocation].
 > of 5.0° **makes the narwhal click the most directional biosonar signal
 > reported for any species to date.**
 
-## I don't agree with one of your rules, how can I tell you?
+## I don’t agree with one of your rules, how can I tell you?
 
-Great, let's make it better! You can [open an issue here][new issue]
+Great, let’s make it better! You can [open an issue here][new issue]
 telling us what you think can be improved.
 
 <!-- Link labels: -->

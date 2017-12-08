@@ -21,7 +21,7 @@ make them work correctly, and can easily create more problems then
 they solve.
 
    One example here is the `Public-Key-Pins` header. It has [limited
-support and usage, it's being deprecated (along with the related
+support and usage, it’s being deprecated (along with the related
 `Public-Key-Pins-Report-Only` header), and can easily create a lot
 of problems if not done correctly][hpkp deprecation].
 

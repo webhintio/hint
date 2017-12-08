@@ -160,7 +160,7 @@ export interface IManifestFetchError {
 
 ## `manifestfetch::missing`
 
-Event is emitted **when** the `connector` hasn't found any manifest to
+Event is emitted **when** the `connector` hasn’t found any manifest to
 download.
 
 **Format:**

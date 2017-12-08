@@ -8,7 +8,7 @@
 The following is a simplify version of what happens when the user
 requests a URL in a browser:
 
-1. DNS Lookup: Translate the domain to an IP. If the browser doesn't
+1. DNS Lookup: Translate the domain to an IP. If the browser doesn’t
    know it, it has to ask a DNS server which in some cases involves
    multiple queries until the final IP is obtained.
 1. Open a [TCP connection][wikipedia-tcp-establishement] to the IP
@@ -19,7 +19,7 @@ requests a URL in a browser:
    happen as well.
 
 When a redirect happens, `3.` contains the new URL the browser needs to
-request, so the whole sequence is repeated. DNS Lookup isn't cheap,
+request, so the whole sequence is repeated. DNS Lookup isn’t cheap,
 neither is [creating a TCP connection][tcp-connection-diagram]. The
 impact of redirects is even more on mobile users, where the [network
 latency is usually higher][pagespeed-insights].

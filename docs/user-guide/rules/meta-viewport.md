@@ -9,13 +9,13 @@ The viewport meta tag is an essential part of responsive web design,
 that may also offer some [performance improvements][gpu rasterization].
 
 > Mobile browsers render pages in a virtual "window" (the viewport),
-> usually wider than the screen, so they don't need to squeeze every
+> usually wider than the screen, so they don’t need to squeeze every
 > page layout into a tiny window (which would break many
 > non-mobile-optimized sites). Users can pan and zoom to see different
 > areas of the page.
 >
 > Mobile Safari introduced the "viewport meta tag" to let web
-> developers control the viewport's size and scale. Many other mobile
+> developers control the viewport’s size and scale. Many other mobile
 > browsers now support this tag.
 >
 > In recent years, screen resolutions have risen to the size that
@@ -31,7 +31,7 @@ that may also offer some [performance improvements][gpu rasterization].
 (MDN)][viewport meta tag on mdn]*
 
 The viewport related topic is very complex so if you want to dig
-deeper, read Peter-Paul Koch's "A tale of two viewports" [part
+deeper, read Peter-Paul Koch’s "A tale of two viewports" [part
 one][ppk article 1] and [part two][ppk article 2], or watch his
 talk ['The Mobile Viewports'](ppk talk).
 
@@ -44,7 +44,7 @@ Ideally the following meta `viewport` tag should be used:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 ```
 
-Or, if most of your users don't use Safari for iOS < 9:
+Or, if most of your users don’t use Safari for iOS < 9:
 
 ```html
 <meta name="viewport" content="width=device-width">
@@ -56,7 +56,7 @@ Notes:
 
   * `width=device-width`
 
-    * `device-width` will make the page match the screen's width in
+    * `device-width` will make the page match the screen’s width in
       device-independent pixels, allowing its content to reflow to
       match different screen sizes.
 
@@ -227,7 +227,7 @@ not require `initial-scale=1`.
 
 * [Peter-Paul Koch - A Tale of Two Viewports - Part 1][ppk article 1]
 * [Peter-Paul Koch - A Tale of Two Viewports - Part 2][ppk article 2]
-* [Peter-Paul Koch's meta viewport tests][ppk tests]
+* [Peter-Paul Koch’s meta viewport tests][ppk tests]
 * [New Interaction Behaviors in Safari for iOS 10][ios 10 interaction behaviors]
 * [Viewport meta tag specification][spec]
 * [300ms tap delay, gone away][tap delay]

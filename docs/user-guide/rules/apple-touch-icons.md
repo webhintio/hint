@@ -11,7 +11,7 @@ be used when the user adds the web site/app to the homescreen.
 
 Nowadays there is a better and standard way of specifying images
 that browsers can use using the [web app manifest file][web app
-manifest spec], but unfortunately, Safari for iOS doesn't support
+manifest spec], but unfortunately, Safari for iOS doesn’t support
 that (yet).
 
 Furthermore, over the years, the requirements for the size of the
@@ -77,7 +77,7 @@ The rule checks if a single `apple-touch-icon` declaration exists in
 the `<head>`, and it:
 
 * has `rel="apple-touch-icon"`
-* the declared image is accessible (e.g.: doesn't result in a `404`),
+* the declared image is accessible (e.g.: doesn’t result in a `404`),
   a `PNG`, and its size is `180×180px`
 * does not include the `sizes` attribute
 

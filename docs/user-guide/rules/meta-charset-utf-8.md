@@ -10,7 +10,7 @@ by using the charset parameter on the `Content-Type` HTTP response
 header (e.g.: `Content-Type: text/html; charset=utf-8`) and/or using
 the charset meta tag in the file.
 
-Sending just the `Content-Type` HTTP header is in general ok, but it's
+Sending just the `Content-Type` HTTP header is in general ok, but it’s
 usually a good idea to also add the charset meta tag because:
 
 * Server configurations might change (or servers might not send the
@@ -32,7 +32,7 @@ For the charset meta tag `<meta charset="utf-8">` should be used.
 * The `charset` value should be `utf-8` not other values such as
   `utf8`. Using `utf8` for example, is a common mistake, and even
   though it is valid nowadays as the [specifications][spec aliases]
-  and browsers now alias `utf8` to `utf-8`, that wasn't the case in
+  and browsers now alias `utf8` to `utf-8`, that wasn’t the case in
   the past, so things might break in [some older browsers][utf8
   example]. The same may be true for other agents (non-browsers) that
   may scan/get the content and may not have the alias.
