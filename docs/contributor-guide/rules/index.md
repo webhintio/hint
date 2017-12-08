@@ -8,7 +8,7 @@ flexible enough to allow you to implement anything you want easily:
 * Inject JavaScript to execute in the context of the page.
 * etc.
 
-If there is something you want to do and you can't, or it is not clear
+If there is something you want to do and you can’t, or it is not clear
 how to do it, please open an issue.
 
 ## Types of rules
@@ -36,7 +36,7 @@ npm install -g --engine-strict sonarwhal
 sonarwhal --new-rule
 ```
 
-* Using `npx` if you don't want to install it globally:
+* Using `npx` if you don’t want to install it globally:
 
   **Windows users:** Currently [`npx` has an issue in this
   platform](https://github.com/npm/npm/issues/17869) and the command will
@@ -48,8 +48,8 @@ npx sonarwhal --new-rule
 
 In both cases, a wizard will start and ask you a series of questions:
 
-* What's the name of this rule?
-* What's the description of this rule?
+* What’s the name of this rule?
+* What’s the description of this rule?
 
 Once answered, it will create a new directory with the name of the rule and
 the right infrastructure to get you started. You just have to run
@@ -61,8 +61,8 @@ core rules.
 
 #### Creating a core rule
 
-If you are working in `sonarwhal`'s main repository, one of the easiest ways
-to get started is to use `sonarwhal`'s CLI, which helps to generate the template
+If you are working in `sonarwhal`’s main repository, one of the easiest ways
+to get started is to use `sonarwhal`’s CLI, which helps to generate the template
 files and insert them at the right location.
 
 First you need to install the CLI:
@@ -87,14 +87,14 @@ sonarwhal --new-rule
 This command will start a wizard that will ask you a series of questions
 related to this new rule. A complete list of the questions is shown below:
 
-* What's the name of this new rule?
+* What’s the name of this new rule?
 * Please select the category of this new rule:
   * accessibility
   * interoperability
   * performance
   * pwa
   * security
-* What's the description of this new rule?
+* What’s the description of this new rule?
 * Please select the category of use case:
   * DOM
     * What DOM element does the rule need access to?

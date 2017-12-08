@@ -6,9 +6,9 @@
 ## Why is this important?
 
 > Serving valid HTML nowadays have been commonly overlooked these days.
-> By running the HTML documents through a checker, it's easier to catch
+> By running the HTML documents through a checker, it’s easier to catch
 > unintended mistakes which might have otherwise been missed.
-> Adhering to the W3C' standards has a lot to offer to both the
+> Adhering to the W3C’s standards has a lot to offer to both the
 > developers and the web users: It provides better browser compatibility,
 > helps to avoid potential problems with accessibility/usability,
 > and makes it easier for future maintainance.

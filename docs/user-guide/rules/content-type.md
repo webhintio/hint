@@ -8,7 +8,7 @@ the appropriate media type and charset for the response.
 
 Even thought browsers sometimes [ignore][server configs] the value of
 the `Content-Type` header and try to [sniff the content][mime sniffing
-spec], it's indicated to always send the appropriate media type and
+spec], it’s indicated to always send the appropriate media type and
 charset for the response as, among other:
 
 * [resources served with the wrong media type may be blocked][blocked
@@ -126,7 +126,7 @@ all resources requested from a URL that matches the regular expression
 ```
 
 Note: You can also use the [`ignoredUrls`](../index.md#rule-configuration)
-property from the `.sonarwhalrc` file to exclude domains you don't control
+property from the `.sonarwhalrc` file to exclude domains you don’t control
 (e.g.: CDNs) from these checks.
 
 ## Further Reading

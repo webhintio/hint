@@ -31,7 +31,7 @@ URLs can have some drawbacks, which among other include:
 * Security
 
   Especially if protocol-relative URLs are used for CDN links, their
-  domain is not in the browser's [HSTS preload list][hsts preload list],
+  domain is not in the browser’s [HSTS preload list][hsts preload list],
   and the first request is not made over HTTP, there is a high risk
   of man-in-the-middle attacks.
 
@@ -47,7 +47,7 @@ The rule checks for protocol-relative URLs.
 Note: Currently the rule does not check for protocol-relative URLs
 inside of stylesheets and scripts.
 
-Let's presume `example1.com` does not support HTTPS and `example2.com`
+Let’s presume `example1.com` does not support HTTPS and `example2.com`
 does.
 
 ### Examples that **trigger** the rule

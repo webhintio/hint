@@ -1,12 +1,12 @@
 # How to develop a connector
 
 A connector is the way `sonarwhal` gets information and exposes it to the
-rules. Connectors are usually built on top of browsers but that isn't
+rules. Connectors are usually built on top of browsers but that isn’t
 a strong requirement. For example, one of the official connectors uses
 [`jsdom`][jsdom].
 
 A connector exposes the information via events, so as long as they
-are correct, the underlying technology doesn't matter. Also, you could
+are correct, the underlying technology doesn’t matter. Also, you could
 have more "specialized" connectors that do not implement the full set
 of events. For example, if you have a connector that only takes into
 account HTML files from the file system, it could decide not to
@@ -41,7 +41,7 @@ this order:
    * [`fetch::error`](./events.md#fetcherror)
 1. [`traverse::start`](./events.md#traversestart)
    Connectors should wait for the `onload` event and make sure that
-   "everything is quiet": there aren't any pending network requests
+   "everything is quiet": there aren’t any pending network requests
    or if there are, the connector has waited a reasonable amount of
    time. The traversing of the DOM is [depth-first][depth-first search],
    sending:
@@ -77,7 +77,7 @@ export interface IConnector {
     /** The headers from the response if applicable. */
     headers: object;
     /** Collects all the information for the given target. */
-    collect(target: url.Url): Promise<any>; // TODO: TS doesn't detect correctly `pify` promises
+    collect(target: url.Url): Promise<any>; // TODO: TS doesn’t detect correctly `pify` promises
     /** Releases any used resource and/or browser. */
     close(): Promise<void>;
     /** Download an external resource using ` customHeaders` if needed. */
@@ -91,9 +91,9 @@ export interface IConnector {
 
 ### IASyncHTML
 
-`IAsyncHTML` is an abstraction on top of the connector's DOM. The reason
+`IAsyncHTML` is an abstraction on top of the connector’s DOM. The reason
 is that some connectors can access the DOM synchronously (like `jsdom`)
-and some others don't (like those that rely on a debugging protocol).
+and some others don’t (like those that rely on a debugging protocol).
 We decided to create an asynchronous abstraction so the different parts
 that might need access to the DOM know how to use. `IAsyncHTML` is
 composed two interfaces: `IAsyncHTMLElement` and `IAsyncHTMLDocument`.
