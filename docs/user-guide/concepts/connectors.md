@@ -30,11 +30,11 @@ The current supported connectors are:
 * `jsdom`: Your website will be loaded using [`jsdom`][jsdom].
 * `chrome`: Your website will be loaded using Chrome and the Chrome
   Debugging Protocol. This is one of the `remote-debugging-connector`s
-* `edge`: Your website will be loaded using Edge via the [`edge-diagnostics-adapter`][eda].
-  You will need to run Windows 10 Creators Update or later to use it.
-  This connector will only be installed if you are running on it.
-  There are some known issues so please check the [Edge issues](#edge-issues)
-  section below.
+* `edge`: Your website will be loaded using Edge via the
+  [`edge-diagnostics-adapter`][eda]. You will need to run Windows 10
+  Creators Update or later to use it. This connector will only be
+  installed if you are running on it. There are some known issues so
+  please check the [Edge issues](#edge-issues) section below.
 
 **Note:** If you are running Windows 10 [build 14951][wsl-interop] (or
 later) and Windows Subsystem for Linux (WSL), `sonarwhal` will be capable
@@ -99,8 +99,8 @@ The set of settings specific for them are:
   want `sonarwhal` to have access to pages where the default profile is
   already authenticated. This only applies for Google Chrome as
   Microsoft Edge doesn’t create a new profile.
-* `useTabUrl (boolean)`: Indicates if the browser should navigate first to a
-  given page before going to the final target. `false` by default.
+* `useTabUrl (boolean)`: Indicates if the browser should navigate first
+  to a given page before going to the final target. `false` by default.
 * `tabUrl (string)`: The URL to visit before the final target in case
   `useTabUrl` is `true`. `https://empty.sonarwhal.com/` is the
   default value.

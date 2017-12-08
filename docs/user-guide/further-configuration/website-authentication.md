@@ -16,4 +16,4 @@ There are a couple things to take into account:
   when it is the only open tab so if you can only be authenticated
   during the length of a session you might have some problems.
 
-[chrome configuration]: ../concepts/connectors#rdc-config
+[chrome configuration]: ../../concepts/connectors/#rdc-config

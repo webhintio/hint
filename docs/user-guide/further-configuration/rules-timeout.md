@@ -1,8 +1,8 @@
 # Rules timeout
 
-Even though rules are executed in parallel, sometimes one can take too
-long and prevent `sonarwhal` to finish (e.g.: when using an external service,
-long script execution, etc.).
+Even though rules are executed in parallel, sometimes one can take
+too long and prevent `sonarwhal` to finish (e.g.: when using an external
+service, long script execution, etc.).
 
 To prevent this situation, each rule needs to finish in under 2 minutes.
 You can modify this threshold by using the property `rulesTimeout` in

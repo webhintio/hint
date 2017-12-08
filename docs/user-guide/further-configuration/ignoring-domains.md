@@ -5,7 +5,8 @@ is nothing you can do about it. Reporting errors in those cases just
 generates noise and frustration. Instead of globally disabling a rule
 you might just want to turn it off for a domain, or directly ignore
 completely one (like a third party analytics, ads, etc.). To achieve
-this you need to add the `ignoredUrls` property to your `.sonarwhalrc` file:
+this you need to add the `ignoredUrls` property to your `.sonarwhalrc`
+file:
 
 ```json
 "ignoredUrls": [{

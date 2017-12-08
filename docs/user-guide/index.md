@@ -2,9 +2,9 @@
 
 ## Getting started
 
-If you just want to have an idea of what `sonarwhal` does and you have
-an updated version of `npm` (v5.2.0) and [Node LTS (v8.9.2) or later][nodejs]
-you can use the following command:
+If you just want to have an idea of what `sonarwhal` does and you
+have an updated version of `npm` (v5.2.0) and [Node LTS (v8.9.2)
+or later][nodejs] you can use the following command:
 
 ```bash
 npx sonarwhal https://example.com
@@ -19,8 +19,8 @@ npm install -g --engine-strict sonarwhal
 You can also install it as a `devDependency` if you prefer not to
 have it globally.
 
-The next thing that `sonarwhal` needs is a `.sonarwhalrc` file. The fastest
-and easiest way to create one is by using the flag `--init`:
+The next thing that `sonarwhal` needs is a `.sonarwhalrc` file. The
+fastest and easiest way to create one is by using the flag `--init`:
 
 ```bash
 sonarwhal --init
@@ -43,6 +43,7 @@ following:
         "rule3": "off"
     },
     "rulesTimeout": 120000
+    ...
 }
 ```
 
@@ -56,9 +57,9 @@ Wait a few seconds and you will get something similar to the following:
 
 ![Example output for the summary formatter](./concepts/images/summary-output.png)
 
-It might take a few minutes to get some of the results. Some of the rules
-(e.g.: [`SSL Labs`](./rules/ssllabs.md)) can take a few minutes to report
-the results.
+It might take a few minutes to get some of the results. Some of the
+rules (e.g.: [`SSL Labs`](./rules/ssllabs.md)) can take a few minutes
+to report the results.
 
 Now that you have your first result, is time to learn a bit more about
 the different pieces:
