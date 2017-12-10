@@ -5,7 +5,7 @@ import * as url from 'url';
 import { parse as parseContentTypeHeader } from 'content-type';
 import { promisify } from 'util';
 
-import * as stripBom from 'strip-bom';
+import stripBom = require('strip-bom');
 import * as requireUncached from 'require-uncached';
 import * as stripComments from 'strip-json-comments';
 import * as requestAsync from 'request-promise';
