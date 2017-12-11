@@ -1,112 +1,98 @@
 import * as path from 'path';
+import { promisify } from 'util';
 
 import * as fs from 'fs-extra';
-import * as globby from 'globby';
 import * as inquirer from 'inquirer';
+import * as mkdirp from 'mkdirp';
 
 import { CLIOptions } from '../../types';
-import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
-import { readFileAsync, writeFileAsync } from '../../utils/misc';
-import { processDir, packageDir } from './common';
+import { writeFileAsync } from '../../utils/misc';
+import {
+    compileTemplate, escapeSafeString, processDir, packageDir, questions, sonarwhalPackage, normalize,
+    QuestionsType, NewRule
+} from './common';
 
-const debug = d(__filename);
+const mkdirpAsync = promisify(mkdirp);
 /** Name of the package to use as a template. */
-const TEMPLATE_PACKAGE = '@sonarwhal/rule-template';
-/** List of questions to ask the user. */
-const questions = [
-    {
-        message: `What's the name of this rule?`,
-        name: 'rule-name',
-        type: 'input'
-    },
-    {
-        message: `What's the description of this rule?`,
-        name: 'rule-description',
-        type: 'input'
-    }
-];
+const TEMPLATE_PATH = './templates/external-rule';
+const TEMPLATE_COMMON_PATH = './templates/common';
 
-/** Copies the content of the rule template to `destination`. */
-const copyTemplate = async (destination: string) => {
-    const resolved: string = require.resolve(TEMPLATE_PACKAGE);
-    const templatePath: string = resolved.substr(0, resolved.indexOf(path.normalize(TEMPLATE_PACKAGE))) + path.sep + TEMPLATE_PACKAGE;
+/** Copies the common files of the rule to `destination`. */
+const copyCommonFiles = async (destination: string) => {
+    const commonFilesPath: string = path.join(__dirname, TEMPLATE_PATH, 'files');
 
     logger.log(`Creating new rule in ${destination}`);
-    await fs.copy(templatePath, destination);
-    logger.log('Template files copied');
+    await fs.copy(commonFilesPath, destination);
+    logger.log('Common files copied');
 };
 
-/** Updates the content of a file in the template with the responses of the user. */
-const updateContent = (original: string, entries: string[][]): string => {
-    let content = original;
+const generateRuleFiles = async (destination: string, data) => {
+    const commonFiles = [{
+        destination: path.join(destination, '.sonarwhalrc'),
+        path: path.join(__dirname, TEMPLATE_PATH, 'templates', 'rule-config.hbs')
+    },
+    {
+        destination: path.join(destination, 'README.md'),
+        path: path.join(__dirname, TEMPLATE_PATH, 'templates', 'rule-doc.hbs')
+    },
+    {
+        destination: path.join(destination, 'package.json'),
+        path: path.join(__dirname, TEMPLATE_PATH, 'templates', 'rule-package.hbs')
+    },
+    {
+        destination: path.join(destination, 'src', `index.ts`),
+        path: path.join(__dirname, TEMPLATE_PATH, 'templates', 'rule-index.hbs')
+    }];
 
-    entries.forEach(([entry, value]) => {
-        content = content.replace(new RegExp(entry, 'gi'), value.trim());
-    });
+    const ruleFile = {
+        destination: path.join(destination, 'src', 'rules'),
+        path: path.join(__dirname, TEMPLATE_COMMON_PATH, 'rule-script.hbs')
+    };
+    const testFile = {
+        destination: path.join(destination, 'tests'),
+        path: path.join(__dirname, TEMPLATE_COMMON_PATH, 'rule-test.hbs')
+    };
 
-    return content;
-};
+    for (const file of commonFiles) {
+        const { destination: dest, path: p } = file;
 
-/** Updates the content of a given file with the responses of the user. */
-const updateFile = async (file: string, data: string[][]) => {
-    const content = await readFileAsync(file);
-    const transformed = updateContent(content, data);
+        const fileContent = await compileTemplate(p, data);
 
-    if (content !== transformed) {
-        debug(`Updating the content of ${file}`);
-        await writeFileAsync(file, transformed);
+        await mkdirpAsync(path.dirname(dest));
+        await writeFileAsync(dest, fileContent);
     }
-};
 
-/** Renames a given file if needed. */
-const renameFile = async (file: string, data: string[][]) => {
-    // this `path.join` is done to have the right sep based on the current platform
-    const newFile = path.join(updateContent(file, data), '');
+    for (const rule of data.rules) {
+        const [ruleContent, testContent] = await Promise.all([compileTemplate(ruleFile.path, rule), compileTemplate(testFile.path, rule)]);
 
-    if (newFile !== file) {
-        debug(`Renaming ${file} to ${newFile}`);
-        await fs.move(file, newFile);
-    }
-};
+        const rulePath = path.join(ruleFile.destination, rule.normalizedName, `${rule.normalizedName}.ts`);
+        const testPath = path.join(testFile.destination, rule.normalizedName, 'test.ts');
 
-/**
- * Updates all the occurrences of `sonarwhal-rule-name` and
- * `sonarwhal-rule-description` to the user specified ones.
- */
-const updateFiles = async (source: string, data) => {
-    logger.log('Updating template content');
-    const replacements: string[][] = Object.entries(data);
-    const files = await globby([`${source}/**/*`, `!${source}/node_modules/**/*`, `!${source}/dist/**/*`], { nodir: true });
+        await Promise.all([mkdirpAsync(path.dirname(rulePath)), mkdirpAsync(path.dirname(testPath))]);
 
-    for (const file of files) {
-        await updateFile(file, replacements);
-        await renameFile(file, replacements);
-    }
-};
-
-/** Deletes any folder that is no longer needed. */
-const deleteRemainingFolders = async (source: string) => {
-    const dirs = await globby([`${source}/**/rule-template/**/`]);
-
-    for (const dir of dirs) {
-        debug(`Deleting ${dir}`);
-        await fs.remove(dir);
+        await Promise.all([writeFileAsync(rulePath, ruleContent), writeFileAsync(testPath, testContent)]);
     }
 };
 
 const normalizeData = (results: inquirer.Answers) => {
-    const name = (results['rule-name'] as string)
-        .trim()
-        .toLowerCase()
-        .replace(/\s/g, '-');
+    const normalizedName = normalize(results.name, '-');
+
+    if (!results.multi) {
+        results.rules.push(results);
+    }
 
     const newData = Object.assign({}, results, {
-        '"main": "src/rule-template.ts",': `dist/src/${name}.js`, // package.json#main
-        '"repository": "sonarwhal/rule-template",': '"repository": "",', // package.json#repository
-        '@sonarwhal/rule-template': `sonarwhal-${name}`, // package.json#name
-        'rule-name': name, // occurences of the name in md and ts files
-        'rule-template': name // folder names
+        description: escapeSafeString(results.description),
+        normalizedName, // occurences of the name in md and ts files
+        packageMain: `dist/src/index.js`, // package.json#main
+        packageName: `@sonarwhal/rule-${normalizedName}`, // package.json#name
+        rules: [],
+        version: sonarwhalPackage.version
+    });
+
+    results.rules.forEach((rule) => {
+        newData.rules.push(new NewRule(rule, QuestionsType.externalRule));
     });
 
     return newData;
@@ -119,16 +105,45 @@ export const newExternalRule = async (actions: CLIOptions): Promise<boolean> => 
     }
 
     try {
-        const results = await inquirer.prompt(questions);
+        const results = await inquirer.prompt(questions(QuestionsType.external));
+        const rules = [];
+
+        const askRules = async () => {
+            const rule = await inquirer.prompt(questions(QuestionsType.externalRule));
+
+            rules.push(rule);
+
+            if (rule.again) {
+                await askRules();
+            }
+        };
+
+        if (results.multi) {
+            await askRules();
+        }
+
+        if (!results.name) {
+            throw new Error(`${results.multi ? 'Package' : 'Rule'} name can't be empty.`);
+        }
+
+        results.rules = rules;
+
         const data = normalizeData(results);
-        const destination: string = path.join(processDir, `sonarwhal-${data['rule-name']}`);
+        const destination: string = path.join(processDir, `rule-${data.normalizedName}`);
 
-        await copyTemplate(destination);
-        await updateFiles(destination, data);
-        await deleteRemainingFolders(destination);
+        await copyCommonFiles(destination);
+        await generateRuleFiles(destination, data);
 
-        logger.log(`New rule ${data['rule-name']} created in ${destination}`);
-        logger.log(`Please run 'npm install'`);
+        logger.log(`
+New ${data.multi ? 'package' : 'rule'} ${data.name} created in ${destination}
+
+--------------------------------------
+----          How to use          ----
+--------------------------------------
+1. Go to the folder rule-${data.normalizedName}
+2. Run 'npm run init' to install all the dependencies and build the project
+3. Run 'npm run sonarwhal -- https://YourUrl' to analyze you site
+`);
 
         return true;
     } catch (e) {
@@ -137,6 +152,4 @@ export const newExternalRule = async (actions: CLIOptions): Promise<boolean> => 
 
         return false;
     }
-
-
 };

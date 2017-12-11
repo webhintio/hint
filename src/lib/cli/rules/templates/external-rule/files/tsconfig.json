@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "rootDir": ".",
+        "alwaysStrict": true,
+        "module": "commonjs",
+        "sourceMap": true,
+        "target": "esnext",
+        "declaration": true,
+        "lib": [
+            "es2017",
+            "esnext",
+            "dom",
+            "dom.iterable"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts"
+    ]
+}

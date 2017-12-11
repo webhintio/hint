@@ -7,7 +7,7 @@ import { debug as d } from '../../utils/debug';
 import * as inquirer from 'inquirer';
 import * as rimraf from 'rimraf';
 
-import { packageDir, normalize, ruleDistScriptDir, ruleDocDir, ruleExists, ruleScriptDir, ruleTestDir } from './common';
+import { packageDir, normalize, coreRuleDistScriptDir, coreRuleDocDir, ruleExists, coreRuleScriptDir, coreRuleTestDir } from './common';
 import * as logger from '../../utils/logging';
 import * as resourceLoader from '../../utils/resource-loader';
 
@@ -15,7 +15,7 @@ const debug = d(__filename);
 
 /** Removes a given rule from the index page. */
 const removeFromRuleIndex = async (ruleName: string): Promise<void> => {
-    const indexPath = path.join(packageDir, ruleDocDir, 'index.md');
+    const indexPath = path.join(packageDir, coreRuleDocDir, 'index.md');
     let text;
 
     try {
@@ -54,10 +54,10 @@ export const deleteRule = async (actions: CLIOptions): Promise<boolean> => {
     const currentRules: Array<string> = resourceLoader.getCoreRules();
 
     const normalizedName = normalize(results.name, '-');
-    const scriptPath = path.join(packageDir, ruleScriptDir, normalizedName);
-    const docPath = path.join(packageDir, ruleDocDir, `${normalizedName}.md`);
-    const testPath = path.join(packageDir, ruleTestDir, normalizedName);
-    const distScriptPath = path.join(packageDir, ruleDistScriptDir, normalizedName);
+    const scriptPath = path.join(packageDir, coreRuleScriptDir, normalizedName);
+    const docPath = path.join(packageDir, coreRuleDocDir, `${normalizedName}.md`);
+    const testPath = path.join(packageDir, coreRuleTestDir, normalizedName);
+    const distScriptPath = path.join(packageDir, coreRuleDistScriptDir, normalizedName);
 
     if (!ruleExists(normalizedName, currentRules)) {
         throw new Error(`This rule doesn't exist!`);
