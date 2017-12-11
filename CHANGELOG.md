@@ -1,3 +1,10 @@
+# 0.19.0 (Decembe 11, 2017)
+
+## New features
+
+* [[`d99100df54`](https://github.com/sonarwhal/sonarwhal/commit/d99100df542f1c34425ce631b00ed3a1f4d8da0a)] - New: Add better support for creating and running external rules (see also: [`#696`](https://github.com/sonarwhal/sonarwhal/issues/696)).
+
+
 # 0.18.0 (Decembe 11, 2017)
 
 ## Breaking Changes
