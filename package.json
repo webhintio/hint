@@ -84,7 +84,7 @@
     "@types/lodash": "^4.14.88",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
-    "@types/node": "8.0.14",
+    "@types/node": "8.0.58",
     "@types/request": "^2.0.8",
     "@types/semver": "^5.4.0",
     "@types/shelljs": "^0.7.6",
