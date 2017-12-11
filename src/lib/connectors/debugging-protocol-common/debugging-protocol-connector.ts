@@ -570,13 +570,19 @@ export class Connector implements IConnector {
 
         for (const child of elementChildren) {
             debug('next children');
-            const traverseDown: ITraverseDown = { resource: this._finalHref };
+            const traverseDown: ITraverseDown = {
+                element,
+                resource: this._finalHref
+            };
 
             await this._server.emitAsync(`traverse::down`, traverseDown);
             await this.traverseAndNotify(child);
         }
 
-        const traverseUp: ITraverseUp = { resource: this._finalHref };
+        const traverseUp: ITraverseUp = {
+            element,
+            resource: this._finalHref
+        };
 
         await this._server.emitAsync(`traverse::up`, traverseUp);
     }
