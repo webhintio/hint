@@ -1,3 +1,21 @@
+# 0.18.0 (Decembe 11, 2017)
+
+## Breaking Changes
+
+* [[`ff472cc53d`](https://github.com/sonarwhal/sonarwhal/commit/ff472cc53ddc76d19230f5152d1c7733f6474cc9)] - Breaking: Fix parsing of file extensions (see also: [`#698`](https://github.com/sonarwhal/sonarwhal/issues/698)).
+
+## Bug fixes / Improvements
+
+* [[`222152093d`](https://github.com/sonarwhal/sonarwhal/commit/222152093d158f5bf6339ab2683d4f89b7172afe)] - Docs: Fix links to concepts.
+* [[`45af1045a3`](https://github.com/sonarwhal/sonarwhal/commit/45af1045a350c006da8efbbc7f1d206afd3d58d1)] - Docs: Make minor fixes and improvements.
+* [[`c7d4bada7b`](https://github.com/sonarwhal/sonarwhal/commit/c7d4bada7b3b69252e72b5a44f9e11707db9d37f)] - Docs: Reorganize `User Guide` (see also: [`#697`](https://github.com/sonarwhal/sonarwhal/issues/697)).
+* [[`3ef2793601`](https://github.com/sonarwhal/sonarwhal/commit/3ef27936011dde33953b8b9f08480eb9a37202c0)] - Docs: Fix rule name in `no-http-redirects.md` (see also: [`#686`](https://github.com/sonarwhal/sonarwhal/issues/686)).
+
+## New features
+
+* [[`72b76324d0`](https://github.com/sonarwhal/sonarwhal/commit/72b76324d02ce20715077bcded245248ba97f851)] - Update: `snyk-snapshot.json`.
+
+
 # 0.17.0 (November 29, 2017)
 
 ## Bug fixes / Improvements
