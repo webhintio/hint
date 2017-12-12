@@ -71,7 +71,7 @@
     "@types/content-type": "^1.1.2",
     "@types/debug": "0.0.30",
     "@types/file-type": "5.2.1",
-    "@types/fs-extra": "^4.0.5",
+    "@types/fs-extra": "^5.0.0",
     "@types/globby": "^6.1.0",
     "@types/iconv-lite": "0.0.1",
     "@types/image-size": "0.0.29",
