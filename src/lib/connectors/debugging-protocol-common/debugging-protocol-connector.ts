@@ -343,7 +343,7 @@ export class Connector implements IConnector {
             const returnValue = {
                 content,
                 rawContent,
-                rawResponse: () => {
+                rawResponse(): Promise<Buffer> {
                     const self = (this as any);
                     const cached = self._rawResponse;
 
