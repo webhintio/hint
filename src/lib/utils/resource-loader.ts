@@ -227,7 +227,9 @@ export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
 };
 
 export const loadRule = (ruleId: string): IRuleBuilder => {
-    return loadResource(ruleId, TYPE.rule);
+    const installedRules = loadInstalledRules();
+
+    return loadResource(ruleId, TYPE.rule, installedRules);
 };
 
 export const loadConnector = (connectorId: string): IConnectorBuilder => {
