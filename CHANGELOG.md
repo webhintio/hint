@@ -1,3 +1,14 @@
+# 0.20.0 (Decembe 12, 2017)
+
+## Bug fixes / Improvements
+
+* [[`0a9657642b`](https://github.com/sonarwhal/sonarwhal/commit/0a9657642b40321ce287bca7c0ac9e62d5f5c72b)] - Fix: Enable cache in `requester`.
+
+## New features
+
+* [[`69f2ece8b4`](https://github.com/sonarwhal/sonarwhal/commit/69f2ece8b40fe2eec057a3c013c0b24d31efa82d)] - New: Add `http-cache` rule (see also: [`#708`](https://github.com/sonarwhal/sonarwhal/issues/708)).
+
+
 # 0.19.0 (Decembe 11, 2017)
 
 ## New features
