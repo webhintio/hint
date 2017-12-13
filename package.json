@@ -75,7 +75,7 @@
     "@types/globby": "^6.1.0",
     "@types/iconv-lite": "0.0.1",
     "@types/image-size": "0.0.29",
-    "@types/inquirer": "0.0.35",
+    "@types/inquirer": "0.0.36",
     "@types/is-my-json-valid": "0.0.20",
     "@types/jsdom": "^11.0.4",
     "@types/json-stable-stringify": "^1.0.32",
