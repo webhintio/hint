@@ -1,3 +1,10 @@
+# 0.20.1 (Decembe 12, 2017)
+
+## Bug fixes / Improvements
+
+* [[`559380f65e`](https://github.com/sonarwhal/sonarwhal/commit/559380f65e3edfa50d15896c66b3c8be48c7431c)] - Fix: Issue where tests of external rules couldn’t be run.
+
+
 # 0.20.0 (Decembe 12, 2017)
 
 ## Bug fixes / Improvements
