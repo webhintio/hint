@@ -23,6 +23,10 @@ import { validate as validateRule } from '../config/config-rules';
 const debug: debug.IDebugger = d(__filename);
 const PROJECT_ROOT: string = findPackageRoot();
 const NODE_MODULES_ROOT: string = findNodeModulesRoot();
+const externalPackages: Array<string> = globby.sync(`{${process.cwd()},${NODE_MODULES_ROOT}/{.,@sonarwhal,sonarwhal-}}/{{rule,connector,formatter}-*,.}/package.json`, { nodir: false });
+const externalPaths: Array<string> = externalPackages.map((packagePath) => {
+    return packagePath.replace('package.json', '');
+});
 
 /** Cache of resource builders, indexex by resource Id. */
 const resources: Map<string, Resource> = new Map<string, Resource>();
@@ -109,6 +113,49 @@ export const tryToLoadFrom = (resourcePath: string): any => {
     return builder;
 };
 
+/**
+ * Check if it is a package with multiple resources.
+ */
+const hasMultipleResources = (resource, type: string) => {
+    switch (type) {
+        case TYPE.connector:
+            // In a simple connector, resource should be a function.
+            return typeof resource === 'object';
+        case TYPE.formatter:
+            // In a simple formatter, the property format should exist.
+            return !resource.format;
+        case TYPE.rule:
+            // In a simple rule, the properties create and meta should exist.
+            return !(resource.create && resource.meta);
+        default:
+            return false;
+    }
+};
+
+/**
+ * Get a resource with the given `name` from a path
+ * If that path contain a package with multiple resources
+ * then get just the one with the given `name`.
+ */
+const getResource = (source: string, type: string, name: string) => {
+    const resource = tryToLoadFrom(source);
+
+    if (!resource) {
+        return null;
+    }
+
+    if (!hasMultipleResources(resource, type)) {
+        return resource;
+    }
+
+    for (const [key, value] of Object.entries(resource)) {
+        if (key === name) {
+            return value;
+        }
+    }
+
+    return null;
+};
 
 /**
  * Looks for a sonarwhal resource with the given `name` and tries to load it.
@@ -119,9 +166,10 @@ export const tryToLoadFrom = (resourcePath: string): any => {
  * 1. core resource
  * 2. `@sonarwhal/` scoped package
  * 3. `sonarwhal-` prefixed package
+ * 4. external rules
  *
  */
-export const loadResource = (name: string, type: string, installedResources?: Map<string, IRuleBuilder | IConnectorBuilder>) => {
+export const loadResource = (name: string, type: string) => {
     debug(`Searching ${name}…`);
     const key: string = `${type}-${name}`;
 
@@ -132,25 +180,19 @@ export const loadResource = (name: string, type: string, installedResources?: Ma
     const sources: Array<string> = [
         path.normalize(`${PROJECT_ROOT}/dist/src/lib/${type}s/${name}/${name}.js`),
         `@sonarwhal/${name}`,
-        `sonarwhal-${name}`,
-        // This is needed to test an external rule using the official template
-        path.normalize(`${process.cwd()}/dist/src/${name}.js`)
-    ];
+        `sonarwhal-${name}`
+    ].concat(externalPaths);
 
     let resource: any;
 
     sources.some((source: string) => {
-        resource = tryToLoadFrom(source);
+        resource = getResource(source, type, name);
         if (resource) {
             debug(`${name} found in ${source}`);
         }
 
         return resource;
     });
-
-    if (!resource && installedResources) {
-        resource = installedResources.get(name);
-    }
 
     if (!resource) {
         debug(`Resource ${name} not found`);
@@ -178,40 +220,11 @@ export const getInstalledConnectors = (): Array<string> => {
     return getInstalledResources(TYPE.connector);
 };
 
-const loadInstalledRules = (): Map<string, IRuleBuilder> => {
-    /*
-     * Check paths for:
-     * 1. Installed rules
-     * 2. Current folder
-     * 3. Current folder + rule{,s}-*
-     */
-    const rulesPaths: Array<string> = globby.sync(`{${NODE_MODULES_ROOT}/@sonarwhal,${process.cwd()}}/{rule{,s}-*,.}/package.json`);
-
-    debug(`Rules path found: ${rulesPaths.toString()}`);
-    const result: Map<string, IRuleBuilder> = new Map();
-
-    rulesPaths.forEach((rulesPath) => {
-        try {
-            const rules = require(path.dirname(rulesPath));
-
-            for (const [key, rule] of Object.entries(rules)) {
-                result.set(key, rule);
-            }
-        } catch (err) {
-            debug(`Invalid package: ${rulesPath}`, err);
-        }
-    });
-
-    return result;
-};
-
 export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
     const rulesIds: Array<string> = Object.keys(config);
 
-    const installedRules = loadInstalledRules();
-
     const rules: Map<string, IRuleBuilder> = rulesIds.reduce((acum: Map<string, IRuleBuilder>, ruleId: string) => {
-        const rule: IRuleBuilder = loadResource(ruleId, TYPE.rule, installedRules);
+        const rule: IRuleBuilder = loadResource(ruleId, TYPE.rule);
         const valid: boolean = validateRule(rule, config[ruleId], ruleId);
 
         if (!valid) {
@@ -227,9 +240,7 @@ export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
 };
 
 export const loadRule = (ruleId: string): IRuleBuilder => {
-    const installedRules = loadInstalledRules();
-
-    return loadResource(ruleId, TYPE.rule, installedRules);
+    return loadResource(ruleId, TYPE.rule);
 };
 
 export const loadConnector = (connectorId: string): IConnectorBuilder => {
