@@ -28,10 +28,6 @@
                 }
             ]
         },
-        "environment": {
-            "description": "The environment under sonarwhal is running: local or live",
-            "type": "string"
-        },
         "formatters": {
             "description": "The formatter(s) to use for the results",
             "oneOf": [
@@ -39,8 +35,8 @@
                 {"type": "string"}
             ]
         },
-        "plugins": {
-            "description": "The plugins to be used with the connector to gather information",
+        "parsers": {
+            "description": "The parsers to be used with the connector to gather information for specific file types",
             "type": "array",
             "items": {
                 "type": "string"

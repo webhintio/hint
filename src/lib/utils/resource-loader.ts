@@ -17,7 +17,7 @@ import * as globby from 'globby';
 
 import { findNodeModulesRoot, findPackageRoot, readFile } from './misc';
 import { debug as d } from './debug';
-import { IConnectorBuilder, IFormatter, Resource, IRuleBuilder } from '../types';
+import { IConnectorBuilder, IFormatter, Parser, Resource, IRuleBuilder } from '../types';
 import { validate as validateRule } from '../config/config-rules';
 
 const debug: debug.IDebugger = d(__filename);
@@ -38,6 +38,7 @@ const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>()
 export const TYPE = {
     connector: 'connector',
     formatter: 'formatter',
+    parser: 'parser',
     rule: 'rule'
 };
 
@@ -239,6 +240,19 @@ export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
     return rules;
 };
 
+export const loadParsers = (parsersIds: Array<string>): Map<string, Parser> => {
+
+    const parsers: Map<string, Parser> = parsersIds.reduce((acum: Map<string, Parser>, parserId: string) => {
+        const parser: Parser = loadResource(parserId, TYPE.parser);
+
+        acum.set(parserId, parser);
+
+        return acum;
+    }, new Map<string, Parser>());
+
+    return parsers;
+};
+
 export const loadRule = (ruleId: string): IRuleBuilder => {
     return loadResource(ruleId, TYPE.rule);
 };
@@ -249,4 +263,8 @@ export const loadConnector = (connectorId: string): IConnectorBuilder => {
 
 export const loadFormatter = (formatterId: string): IFormatter => {
     return loadResource(formatterId, TYPE.formatter);
+};
+
+export const loadParser = (parserId: string): Parser => {
+    return loadResource(parserId, TYPE.parser);
 };

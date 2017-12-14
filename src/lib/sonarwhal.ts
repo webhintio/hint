@@ -17,7 +17,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, RuleConfig, Severity, IgnoredUrl } from './types';
+import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, Parser, RuleConfig, Severity, IgnoredUrl } from './types';
 import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
@@ -33,6 +33,7 @@ const debug: debug.IDebugger = d(__filename);
 
 export class Sonarwhal extends EventEmitter {
     // TODO: review which ones need to be private or not
+    private parsers: Array<Parser>
     private plugins: Map<string, IPlugin>
     private rules: Map<string, IRule>
     private connector: IConnector
@@ -152,7 +153,27 @@ export class Sonarwhal extends EventEmitter {
         }
 
         this.connector = connectorBuilder(this, this.connectorConfig);
+        this.initParsers(config);
         this.initRules(config);
+    }
+
+    private initParsers(config: IConfig) {
+        debug('Loading parsers');
+
+        this.parsers = [];
+        if (!config.parsers) {
+            return;
+        }
+
+        const parsers = resourceLoader.loadParsers(config.parsers);
+
+        parsers.forEach((ParserConst, parserId) => {
+            debug(`Loading parser ${parserId}`);
+            // TODO: there has to be a better way than doing "as any" here
+            const parser = new (ParserConst as any)(this);
+
+            this.parsers.push(parser);
+        });
     }
 
     private initRules(config: IConfig) {
