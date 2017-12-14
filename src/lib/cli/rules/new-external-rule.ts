@@ -9,9 +9,10 @@ import { CLIOptions } from '../../types';
 import * as logger from '../../utils/logging';
 import { writeFileAsync } from '../../utils/misc';
 import {
-    compileTemplate, escapeSafeString, processDir, packageDir, questions, sonarwhalPackage, normalize,
+    processDir, packageDir, questions, normalize,
     QuestionsType, NewRule
 } from './common';
+import { escapeSafeString, compileTemplate, sonarwhalPackage } from '../../utils/handlebars';
 
 const mkdirpAsync = promisify(mkdirp);
 /** Name of the package to use as a template. */
@@ -20,7 +21,7 @@ const TEMPLATE_COMMON_PATH = './templates/common';
 
 /** Copies the common files of the rule to `destination`. */
 const copyCommonFiles = async (destination: string) => {
-    const commonFilesPath: string = path.join(__dirname, TEMPLATE_PATH, 'files');
+    const commonFilesPath: string = path.join(__dirname, '..', 'external-files');
 
     logger.log(`Creating new rule in ${destination}`);
     await fs.copy(commonFilesPath, destination);
@@ -30,19 +31,19 @@ const copyCommonFiles = async (destination: string) => {
 const generateRuleFiles = async (destination: string, data) => {
     const commonFiles = [{
         destination: path.join(destination, '.sonarwhalrc'),
-        path: path.join(__dirname, TEMPLATE_PATH, 'templates', 'rule-config.hbs')
+        path: path.join(__dirname, TEMPLATE_PATH, 'rule-config.hbs')
     },
     {
         destination: path.join(destination, 'README.md'),
-        path: path.join(__dirname, TEMPLATE_PATH, 'templates', 'rule-doc.hbs')
+        path: path.join(__dirname, TEMPLATE_PATH, 'rule-doc.hbs')
     },
     {
         destination: path.join(destination, 'package.json'),
-        path: path.join(__dirname, TEMPLATE_PATH, 'templates', 'rule-package.hbs')
+        path: path.join(__dirname, TEMPLATE_PATH, 'rule-package.hbs')
     },
     {
         destination: path.join(destination, 'src', `index.ts`),
-        path: path.join(__dirname, TEMPLATE_PATH, 'templates', 'rule-index.hbs')
+        path: path.join(__dirname, TEMPLATE_PATH, 'rule-index.hbs')
     }];
 
     const ruleFile = {

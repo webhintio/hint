@@ -1,0 +1,28 @@
+import { IEvent, {{#each eventTypes}}{{this}}, {{/each}}Parser } from '{{#if isExternal}}sonarwhal/dist/src/lib/types{{else}}../../types{{/if}}';
+import { Sonarwhal } from '{{#if isExternal}}sonarwhal/dist/src/lib/sonarwhal{{else}}../../sonarwhal{{/if}}';
+
+export default class {{capitalizedName}} extends Parser {
+    public constructor(sonarwhal: Sonarwhal) {
+        super(sonarwhal);
+
+        {{#each events}}
+        sonarwhal.on('{{event}}', this.{{handler}}.bind(this));
+        {{/each}}
+    }
+    {{#each events}}
+
+    private async {{handler}}({{varName}}: {{type}}) {
+        /*
+         * You can extend IEvent to add the information
+         * you will need in you rules.
+         * i.e.
+         *    interface IScriptParse extends IEvent {
+         *        sourceCode: any;
+         *    }
+         */
+        const eventData: IEvent = {{varName}};
+
+        await this.sonarwhal.emitAsync('parse::{{../normalizedName}}', eventData);
+    }
+    {{/each}}
+}

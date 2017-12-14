@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 import { promisify } from 'util';
 
 import { AsyncHTMLDocument, AsyncHTMLElement } from './async-html';
-import { getContentTypeData } from '../utils/content-type';
+import { getContentTypeData } from '../../utils/content-type';
 import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
 import { cutString, delay, hasAttributeWithValue } from '../../utils/misc';

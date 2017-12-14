@@ -26,9 +26,9 @@ or
 }
 ```
 
-## List of official formatters
+## List of official `formatter`s
 
-The current supported `formatter`s are:
+The built-in `formatter`s are:
 
 * `json` does a `JSON.stringify()` of the results. Output
   is not user friendly:

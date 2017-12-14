@@ -13,6 +13,7 @@ export * from './types/network';
 export * from './types/plugins';
 export * from './types/problems';
 export * from './types/rules';
+export * from './types/parser';
 
 export type RuleConfig = number | string | [number | string, any];
 
@@ -36,6 +37,7 @@ export type IgnoredUrl = {
 
 export interface IConfig {
     connector: IConnectorConfig | string;
+    parsers?: Array<string>;
     rules?: IRuleConfigList | Array<RuleConfig>;
     browserslist?: string | Array<string>;
     rulesTimeout?: number;
@@ -57,6 +59,7 @@ export type CLIOptions = {
     format: string;
     help: boolean;
     init: boolean;
+    newParser: boolean;
     newRule: boolean;
     removeRule: boolean;
     ['output-file']: string;

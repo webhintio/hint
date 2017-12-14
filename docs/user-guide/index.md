@@ -67,6 +67,7 @@ the different pieces:
 * [Rules](./concepts/rules/)
 * [Connectors](./concepts/connectors/)
 * [Formatters](./concepts/formatters/)
+* [Parsers](./concepts/parsers/)
 
 ### Permission issues during installation
 

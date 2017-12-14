@@ -17,13 +17,13 @@ import * as globby from 'globby';
 
 import { findNodeModulesRoot, findPackageRoot, readFile } from './misc';
 import { debug as d } from './debug';
-import { IConnectorBuilder, IFormatter, Resource, IRuleBuilder } from '../types';
+import { IConnectorBuilder, IFormatter, Parser, Resource, IRuleBuilder } from '../types';
 import { validate as validateRule } from '../config/config-rules';
 
 const debug: debug.IDebugger = d(__filename);
 const PROJECT_ROOT: string = findPackageRoot();
 const NODE_MODULES_ROOT: string = findNodeModulesRoot();
-const externalPackages: Array<string> = globby.sync(`{${process.cwd()},${NODE_MODULES_ROOT}/{.,@sonarwhal,sonarwhal-}}/{{rule,connector,formatter}-*,.}/package.json`, { nodir: false });
+const externalPackages: Array<string> = globby.sync(`{${process.cwd()},${NODE_MODULES_ROOT}/{.,@sonarwhal}}/{{sonarwhal,rule,connector,formatter,parser}-*,.}/package.json`, { nodir: false });
 const externalPaths: Array<string> = externalPackages.map((packagePath) => {
     return packagePath.replace('package.json', '');
 });
@@ -38,6 +38,7 @@ const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>()
 export const TYPE = {
     connector: 'connector',
     formatter: 'formatter',
+    parser: 'parser',
     rule: 'rule'
 };
 
@@ -127,6 +128,9 @@ const hasMultipleResources = (resource, type: string) => {
         case TYPE.rule:
             // In a simple rule, the properties create and meta should exist.
             return !(resource.create && resource.meta);
+        case TYPE.parser:
+            // In a simple parser, the property default should exists.
+            return !resource.default && typeof resource !== 'function';
         default:
             return false;
     }
@@ -150,7 +154,7 @@ const getResource = (source: string, type: string, name: string) => {
 
     for (const [key, value] of Object.entries(resource)) {
         if (key === name) {
-            return value;
+            return value.default || value;
         }
     }
 
@@ -216,6 +220,10 @@ export const getCoreConnectors = (): Array<string> => {
     return getCoreResources(TYPE.connector);
 };
 
+export const getCoreParsers = (): Array<string> => {
+    return getCoreResources(TYPE.parser);
+};
+
 export const getInstalledConnectors = (): Array<string> => {
     return getInstalledResources(TYPE.connector);
 };
@@ -239,6 +247,19 @@ export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
     return rules;
 };
 
+export const loadParsers = (parsersIds: Array<string>): Map<string, Parser> => {
+
+    const parsers: Map<string, Parser> = parsersIds.reduce((acum: Map<string, Parser>, parserId: string) => {
+        const parser: Parser = loadResource(parserId, TYPE.parser);
+
+        acum.set(parserId, parser);
+
+        return acum;
+    }, new Map<string, Parser>());
+
+    return parsers;
+};
+
 export const loadRule = (ruleId: string): IRuleBuilder => {
     return loadResource(ruleId, TYPE.rule);
 };
@@ -249,4 +270,8 @@ export const loadConnector = (connectorId: string): IConnectorBuilder => {
 
 export const loadFormatter = (formatterId: string): IFormatter => {
     return loadResource(formatterId, TYPE.formatter);
+};
+
+export const loadParser = (parserId: string): Parser => {
+    return loadResource(parserId, TYPE.parser);
 };
