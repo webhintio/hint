@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Sonar Report</title>
+    <style>
+        body {
+            font: 14px Consolas, Courier, monospace;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .highlight {
+            color: #111;
+            font-weight: bold;
+        }
+
+        .container.error {
+            background-color: #f99;
+        }
+
+        .container.warning {
+            background-color: #ff6;
+        }
+
+        .step {
+            margin: 10px;
+        }
+
+        .step .text {
+            border-radius: 3px;
+            color: #666;
+            padding: 5px;
+            display: block;
+        }
+
+        .container {
+            background: #f8f8f8;
+            border-radius: 5px;
+            border: 1px solid #e8e8e8;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<meta charset="utf-8">
+
+<body>
+    <div class="feature container">
+        <h3 class="title"><span class="highlight">Resource: </span>http://myresource.com/</h3>
+        <p>Total Errors: 0; Total Warnings: 4</p>
+        <div class="element container">
+            <h3 class="title"><span class="highlight">Rule: </span>
+                <a href="https://sonarwhal.com/docs/user-guide/rules/random-rule.html">
+                        random-rule
+                    </a>
+            </h3>
+            <div class="container warning">
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">Location</span>: line:1;
+                        col:10
+                        </span>
+                    </p>
+                </div>
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">message:</span>
+                        </span>
+                    </p>
+                    <div>
+                        This is a problem in line 1 column 10
+                    </div>
+                </div>
+            </div>
+            <div class="container warning">
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">Location</span>: line:10;
+                        col:1
+                        </span>
+                    </p>
+                </div>
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">message:</span>
+                        </span>
+                    </p>
+                    <div>
+                        This is a problem in line 10
+                    </div>
+                </div>
+            </div>
+            <div class="container warning">
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">Location</span>: line:5;
+                        col:1
+                        </span>
+                    </p>
+                </div>
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">message:</span>
+                        </span>
+                    </p>
+                    <div>
+                        This is a problem in line 5
+                    </div>
+                </div>
+            </div>
+            <div class="container warning">
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">Location</span>: line:1;
+                        col:1
+                        </span>
+                    </p>
+                </div>
+                <div class="step">
+                    <p>
+                        <span class="text">
+                                <span class="keyword highlight">message:</span>
+                        </span>
+                    </p>
+                    <div>
+                        This is a problem in line 1 column 1
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
