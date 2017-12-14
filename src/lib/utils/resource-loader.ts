@@ -217,6 +217,10 @@ export const getCoreConnectors = (): Array<string> => {
     return getCoreResources(TYPE.connector);
 };
 
+export const getCoreParsers = (): Array<string> => {
+    return getCoreResources(TYPE.parser);
+};
+
 export const getInstalledConnectors = (): Array<string> => {
     return getInstalledResources(TYPE.connector);
 };

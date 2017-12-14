@@ -44,7 +44,7 @@ const getResourceFiles = (type) => {
     }, []);
 };
 
-['connector', 'formatter', 'rule'].forEach((e) => {
+['connector', 'formatter', 'rule', 'parser'].forEach((e) => {
     const functionName = `getCore${e.charAt(0).toUpperCase()}${e.slice(1)}s`;
 
     test(`'${functionName}' should return all ${e}s`, (t) => {
