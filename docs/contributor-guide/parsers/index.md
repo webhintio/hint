@@ -35,8 +35,8 @@ the `*fetch::end` events, most likely the `fetch::end`. Because that
 event is emitted for all downloaded resources, you need to check first
 if you can understand it. A good approach would be:
 
-1. check first the `mediaType` of the response (`fetchEndEvent#response#mediaType#`)
-2. use a schema to validate if `json` or `xml` or something similar
+1. check first the `mediaType` of the response (`fetchEndEvent.response.mediaType`)
+2. use a schema to validate if `json`, `xml` or something similar
 3. parse it somehow (E.g.: for `javascript` using something like `ESTree`
    to validate)
 
