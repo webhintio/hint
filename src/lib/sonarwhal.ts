@@ -14,6 +14,7 @@ import * as url from 'url';
 import * as browserslist from 'browserslist';
 import chalk from 'chalk';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
+import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
@@ -110,6 +111,8 @@ export class Sonarwhal extends EventEmitter {
             this.connectorId = config.connector.name;
             this.connectorConfig = config.connector.options;
         }
+
+        this.connectorConfig = Object.assign(this.connectorConfig, { watch: config.watch });
 
         debug('Loading supported browsers');
         if (!config.browserslist || config.browserslist.length === 0) {
@@ -294,6 +297,22 @@ export class Sonarwhal extends EventEmitter {
         };
 
         this.messages.push(problem);
+    }
+
+    public clean(fileUrl: url.Url) {
+        const file = url.format(fileUrl);
+
+        _.remove(this.messages, (message) => {
+            return message.resource === file;
+        });
+    }
+
+    public clear() {
+        this.messages = [];
+    }
+
+    public async notify() {
+        await this.emitAsync('print', this.messages);
     }
 
     /** Runs all the configured rules and plugins on a target */

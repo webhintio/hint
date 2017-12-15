@@ -438,7 +438,7 @@ export class Connector implements IConnector {
             url: resourceUrl
         };
 
-        const { charset, mediaType } = getContentTypeData(element, resourceUrl, response);
+        const { charset, mediaType } = getContentTypeData(element, resourceUrl, response.headers, response.body.rawContent);
 
         response.mediaType = mediaType;
         response.charset = charset;

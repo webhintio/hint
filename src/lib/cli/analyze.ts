@@ -38,7 +38,7 @@ const askUserToCreateConfig = async () => {
         return false;
     }
 
-    await initSonarwhalrc({init: true} as CLIOptions);
+    await initSonarwhalrc({ init: true } as CLIOptions);
     logger.log(`Configuration file .sonarwhalrc was created.`);
 
     return true;
@@ -126,7 +126,10 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
+    config.watch = actions.watch;
+
     sonarwhal = new Sonarwhal(config);
+
     const start: number = Date.now();
     const spinner: IORA = ora({ spinner: 'line' });
     let exitCode: number = 0;
@@ -142,23 +145,35 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         }
     };
 
+    const hasError = (reports: Array<IProblem>): boolean => {
+        return reports.some((result: IProblem) => {
+            return result.severity === Severity.error;
+        });
+    };
+
+    const print = (reports: Array<IProblem>) => {
+        if (hasError(reports)) {
+            endSpinner('fail');
+        } else {
+            endSpinner('succeed');
+        }
+
+        sonarwhal.formatters.forEach((formatter) => {
+            format(formatter, reports);
+        });
+    };
+
+    sonarwhal.on('print', print);
+
     for (const target of targets) {
         try {
             const results: Array<IProblem> = await sonarwhal.executeOn(target);
-            const hasError: boolean = results.some((result: IProblem) => {
-                return result.severity === Severity.error;
-            });
 
-            if (hasError) {
+            if (hasError(results)) {
                 exitCode = 1;
-                endSpinner('fail');
-            } else {
-                endSpinner('succeed');
             }
 
-            sonarwhal.formatters.forEach((formatter) => {
-                format(formatter, results);
-            });
+            print(results);
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');

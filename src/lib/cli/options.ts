@@ -92,6 +92,12 @@ export const options = optionator({
             description: `Remove an existing rule (in sonarwhal's main repo)`,
             option: 'remove-rule',
             type: 'Boolean'
+        },
+        {
+            alias: 'w',
+            description: 'Activate a watcher for the connector (if sopported)',
+            option: 'watch',
+            type: 'Boolean'
         }
     ],
     prepend: 'sonarwhal [options] https://url.com'

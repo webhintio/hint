@@ -4,7 +4,7 @@ import * as mimeDB from 'mime-db';
 import { parse, MediaType } from 'content-type';
 
 import { debug as d } from './debug';
-import { IAsyncHTMLElement, IResponse } from '../types';
+import { IAsyncHTMLElement } from '../types';
 import { getFileExtension, normalizeString } from './misc';
 
 const debug = d(__filename);
@@ -263,8 +263,8 @@ const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string => {
     return null;
 };
 
-const parseContentTypeHeader = (response: IResponse): MediaType => {
-    const contentTypeHeaderValue: string = normalizeString(response.headers ? response.headers['content-type'] : null);
+const parseContentTypeHeader = (headers): MediaType => {
+    const contentTypeHeaderValue: string = normalizeString(headers ? headers['content-type'] : null);
 
     // Check if the `Content-Type` header was sent.
 
@@ -306,12 +306,11 @@ const parseContentTypeHeader = (response: IResponse): MediaType => {
  * file extension.
  */
 
-const getContentTypeData = (element: IAsyncHTMLElement, resource: string, response: IResponse) => {
+const getContentTypeData = (element: IAsyncHTMLElement, resource: string, headers, rawContent: Buffer) => {
 
     let originalMediaType = null;
     let originalCharset = null;
-
-    const contentType = parseContentTypeHeader(response);
+    const contentType = parseContentTypeHeader(headers);
 
     if (contentType) {
         originalCharset = contentType.parameters.charset;
@@ -326,7 +325,7 @@ const getContentTypeData = (element: IAsyncHTMLElement, resource: string, respon
 
     const mediaType =
         determineMediaTypeBasedOnElement(element) ||
-        determineMediaTypeBasedOnFileType(response.body.rawContent) ||
+        determineMediaTypeBasedOnFileType(rawContent) ||
         determineMediaTypeBasedOnFileExtension(resource) ||
         originalMediaType;
 
