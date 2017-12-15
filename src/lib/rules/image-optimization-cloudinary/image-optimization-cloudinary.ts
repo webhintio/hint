@@ -28,7 +28,7 @@ const rule: IRuleBuilder = {
          *when testing the rule and `import` doesn't work here.
          */
         const cloudinary = require('cloudinary');
-        const uploads: Array<Promise<cloudinaryResult>> = [];
+        let uploads: Array<Promise<cloudinaryResult>> = [];
         let configured = false;
         let sizeThreshold = 0;
 
@@ -156,6 +156,9 @@ const rule: IRuleBuilder = {
             if (!reported && totalSavings > sizeThreshold) {
                 await context.report('', null, `The total size savings optimizing the images in ${data.resource} could be of around ${totalSavings.toFixed(0)}kB.`);
             }
+
+            // uploads needs to be cleaned at the end to work propertly with the local connector + watcher
+            uploads = [];
         };
 
         // `context.ruleOptions` will be `null` if not specied

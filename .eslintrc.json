@@ -233,7 +233,7 @@
         }],
         "semi": ["error", "always"],
         "semi-style": ["error", "last"],
-        "sort-keys": "error",
+        "sort-keys": ["error", "asc", { "caseSensitive": false }],
         "sort-vars": "off",
         "spaced-comment": ["error", "always"],
         "space-in-parens": ["error", "never"],

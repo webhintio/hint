@@ -11,7 +11,7 @@ import { debug as d } from '../../utils/debug';
 
 const debug: debug.IDebugger = d(__filename);
 
-import { ITargetFetchEnd, IScanEnd } from '../../types';
+import { ITargetFetchEnd } from '../../types';
 
 /*
  * ------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
         let validPromise;
         const errorsOnly = context.ruleOptions && context.ruleOptions['errors-only'] || false;
-        let html;
+        let events: Array<ITargetFetchEnd> = [];
 
         const onTargetFetchEnd = (fetchEnd: ITargetFetchEnd) => {
             const { response: { body: { content }, statusCode } } = fetchEnd;
@@ -32,36 +32,42 @@ const rule: IRuleBuilder = {
                 return;
             }
 
-            html = content;
+            // events has to be an array in order to work with the local connector.
+            events.push(fetchEnd);
             validPromise = amphtmlValidator.getInstance();
         };
 
-        const onScanEnd = async (scanEnd: IScanEnd) => {
-            if (!html) {
+        const onScanEnd = async () => {
+            if (!events || events.length === 0) {
                 debug('No valid content');
 
                 return;
             }
 
-            const resource = scanEnd.resource;
-            const validator = await validPromise;
-            const result = validator.validateString(html);
+            for (const event of events) {
+                const { resource, response: { body: { content } } } = event;
+                const validator = await validPromise;
+                const result = validator.validateString(content);
 
-            for (let i = 0; i < result.errors.length; i++) {
-                const error = result.errors[i];
-                let message = error.message;
+                for (let i = 0; i < result.errors.length; i++) {
+                    const error = result.errors[i];
+                    let message = error.message;
 
-                if (error.specUrl !== null) {
-                    message += ` (${error.specUrl})`;
-                }
+                    if (error.specUrl !== null) {
+                        message += ` (${error.specUrl})`;
+                    }
 
-                // We ignore errors that are not 'ERROR' if user has configured the rule like that
-                if (errorsOnly && error.severity !== 'ERROR') {
-                    debug(`AMP error doesn't meet threshold for reporting`);
-                } else {
-                    await context.report(resource, null, message, null, { column: error.column, line: error.line });
+                    // We ignore errors that are not 'ERROR' if user has configured the rule like that
+                    if (errorsOnly && error.severity !== 'ERROR') {
+                        debug(`AMP error doesn't meet threshold for reporting`);
+                    } else {
+                        await context.report(resource, null, message, null, { column: error.column, line: error.line });
+                    }
                 }
             }
+
+            // clear events for watcher.
+            events = [];
         };
 
         return {

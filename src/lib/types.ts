@@ -44,6 +44,7 @@ export interface IConfig {
     formatters?: Array<string>;
     ignoredUrls?: Array<IgnoredUrl>;
     plugins?: any;
+    watch?: boolean;
 }
 
 /** A resource required by sonarwhal: Connector, Formatter, Plugin, Rule. */
@@ -64,6 +65,7 @@ export type CLIOptions = {
     removeRule: boolean;
     ['output-file']: string;
     version: boolean;
+    watch: boolean;
 };
 
 export interface IORA {

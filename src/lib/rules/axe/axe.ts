@@ -148,7 +148,8 @@ const rule: IRuleBuilder = {
                 }
             }
         }],
-        worksWithLocalFiles: true
+        // axe can not analize a file itself, it needs a connector.
+        worksWithLocalFiles: false
     }
 };
 

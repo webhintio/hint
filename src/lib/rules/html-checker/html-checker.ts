@@ -14,9 +14,15 @@ import * as _ from 'lodash';
 import { Category } from '../../enums/category';
 import { debug as d } from '../../utils/debug';
 import { RuleContext } from '../../rule-context';
-import { IRule, IRuleBuilder, ITargetFetchEnd, IScanEnd, IProblemLocation, Severity } from '../../types';
+import { IRule, IRuleBuilder, ITargetFetchEnd, IProblemLocation, Severity } from '../../types';
 
 const debug: debug.IDebugger = d(__filename);
+
+type CheckerData = {
+    event: ITargetFetchEnd;
+    failed: boolean;
+    promise: Promise<any>;
+};
 
 /*
  * ------------------------------------------------------------------------------
@@ -27,7 +33,7 @@ const debug: debug.IDebugger = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
         /** The promise that represents the scan by HTML checker. */
-        let htmlCheckerPromise: Promise<any>;
+        let htmlCheckerPromises: Array<CheckerData> = [];
         /** Array of strings that needes to be ignored from the checker result. */
         let ignoredMessages;
         /** The options to pass to the HTML checker. */
@@ -38,8 +44,6 @@ const rule: IRuleBuilder = {
         };
         /** If the result messages should be grouped. */
         let groupMessage: boolean;
-        /** Error processing the request if any. */
-        let failed: boolean = false;
 
         type HtmlError = {
             extract: string; // code snippet
@@ -107,46 +111,63 @@ const rule: IRuleBuilder = {
             const htmlChecker = require('html-validator');
 
             scanOptions.data = response.body.content;
-            htmlCheckerPromise = scanOptions.data ? htmlChecker(scanOptions) : Promise.resolve({ messages: [] });
-            htmlCheckerPromise.catch(async (error) => {
-                failed = true;
+
+            const check: CheckerData = {
+                event: data,
+                failed: false,
+                promise: scanOptions.data ? htmlChecker(scanOptions) : Promise.resolve({ messages: [] })
+            };
+
+            check.promise.catch(async (error) => {
+                check.failed = true;
                 await notifyError(data.resource, error);
             });
+
+            htmlCheckerPromises.push(check);
         };
 
-        const end = async (data: IScanEnd) => {
-            const { resource } = data;
-            const locateAndReportByResource = locateAndReport(resource);
-            let result;
-
-            if (!htmlCheckerPromise || failed) {
+        const end = async () => {
+            if (htmlCheckerPromises.length === 0) {
                 return;
             }
 
-            debug(`Waiting for HTML checker results for ${resource}`);
+            for (const check of htmlCheckerPromises) {
 
-            try {
-                result = await htmlCheckerPromise;
-            } catch (e) {
-                notifyError(resource, e);
+                if (check.failed) {
+                    return;
+                }
 
-                return;
+                const { resource } = check.event;
+                const locateAndReportByResource = locateAndReport(resource);
+                let result;
+
+                debug(`Waiting for HTML checker results for ${resource}`);
+                try {
+                    result = await check.promise;
+                } catch (e) {
+                    notifyError(resource, e);
+
+                    return;
+                }
+
+                debug(`Received HTML checker results for ${resource}`);
+
+                const filteredMessages: Array<HtmlError> = filter(result.messages);
+                const reportPromises: Array<Promise<void>> = filteredMessages.map((messageItem: HtmlError): Promise<void> => {
+                    return locateAndReportByResource(messageItem);
+                });
+
+                try {
+                    await Promise.all(reportPromises);
+                } catch (e) {
+                    debug(`Error reporting the HTML checker results.`, e);
+
+                    return;
+                }
             }
 
-            debug(`Received HTML checker results for ${resource}`);
-
-            const filteredMessages: Array<HtmlError> = filter(result.messages);
-            const reportPromises: Array<Promise<void>> = filteredMessages.map((messageItem: HtmlError): Promise<void> => {
-                return locateAndReportByResource(messageItem);
-            });
-
-            try {
-                await Promise.all(reportPromises);
-            } catch (e) {
-                debug(`Error reporting the HTML checker results.`, e);
-
-                return;
-            }
+            // Clear htmlCheckerPromises for watcher.
+            htmlCheckerPromises = [];
         };
 
         loadRuleConfig();

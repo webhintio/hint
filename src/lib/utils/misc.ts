@@ -1,9 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
+import { promisify } from 'util';
 
 import { parse as parseContentTypeHeader } from 'content-type';
-import { promisify } from 'util';
+import * as shell from 'shelljs';
 
 import stripBom = require('strip-bom');
 import * as requireUncached from 'require-uncached';
@@ -241,6 +242,21 @@ const hasAttributeWithValue = (element: IAsyncHTMLElement, nodeName: string, att
     });
 };
 
+/** Check if a path is a file and exists. */
+const isFile = (filePath: string): boolean => {
+    return shell.test('-f', filePath);
+};
+
+/** Check if a path is a directory and exists*/
+const isDirectory = (directoryPath: string): boolean => {
+    return shell.test('-d', directoryPath);
+};
+
+/** Check if a path exists */
+const pathExists = (pathString: string): boolean => {
+    return shell.test('-e', pathString);
+};
+
 export {
     cutString,
     delay,
@@ -250,6 +266,8 @@ export {
     hasAttributeWithValue,
     hasProtocol,
     isDataURI,
+    isDirectory,
+    isFile,
     isHTMLDocument,
     isHTTPS,
     isLocalFile,
@@ -258,6 +276,7 @@ export {
     loadJSONFile,
     normalizeString,
     normalizeStringByDelimiter,
+    pathExists,
     readFile,
     readFileAsync,
     requestJSONAsync,

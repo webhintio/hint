@@ -230,7 +230,7 @@ class JSDOMConnector implements IConnector {
                 response: resourceNetworkData.response
             };
 
-            const { charset, mediaType } = getContentTypeData(element, fetchEndEvent.resource, fetchEndEvent.response);
+            const { charset, mediaType } = getContentTypeData(element, fetchEndEvent.resource, fetchEndEvent.response.headers, fetchEndEvent.response.body.rawContent);
 
             fetchEndEvent.response.mediaType = mediaType;
             fetchEndEvent.response.charset = charset;
@@ -339,7 +339,7 @@ class JSDOMConnector implements IConnector {
                 response: manifestData.response
             };
 
-            const { charset, mediaType } = getContentTypeData(event.element, event.resource, event.response);
+            const { charset, mediaType } = getContentTypeData(event.element, event.resource, event.response.headers, event.response.body.rawContent);
 
             event.response.mediaType = mediaType;
             event.response.charset = charset;
@@ -415,7 +415,7 @@ class JSDOMConnector implements IConnector {
                 response: this._targetNetworkData.response
             };
 
-            const { charset, mediaType } = getContentTypeData(fetchEnd.element, fetchEnd.resource, fetchEnd.response);
+            const { charset, mediaType } = getContentTypeData(fetchEnd.element, fetchEnd.resource, fetchEnd.response.headers, fetchEnd.response.body.rawContent);
 
             fetchEnd.response.mediaType = mediaType;
             fetchEnd.response.charset = charset;

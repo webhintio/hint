@@ -6,6 +6,7 @@
         }
     },
     "formatters": "stylish",
+    "parsers": [],
     "rulesTimeout": 120000,
     "rules": {
         "amp-validator": "off",
@@ -16,6 +17,8 @@
         "highest-available-document-mode": "warning",
         "html-checker": "warning",
         "http-cache": "warning",
+        "image-optimization-cloudinary": "warning",
+        "manifest-app-name": "error",
         "manifest-exists": "warning",
         "manifest-file-extension": "warning",
         "manifest-is-valid": "warning",
