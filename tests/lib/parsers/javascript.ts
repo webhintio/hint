@@ -1,7 +1,7 @@
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
-import { EventEmitter2 as EventEmitter, EventEmitter2 } from 'eventemitter2';
+import { EventEmitter2 } from 'eventemitter2';
 
 const eslint = { SourceCode() { } };
 const espree = { parse() { } };
@@ -13,7 +13,6 @@ proxyquire('../../../src/lib/parsers/javascript/javascript', {
 });
 
 import * as JavascriptParser from '../../../src/lib/parsers/javascript/javascript';
-import { delay } from '../../../src/lib/utils/misc';
 
 test.beforeEach((t) => {
     t.context.eslint = eslint;
@@ -28,7 +27,7 @@ test.beforeEach((t) => {
 
 test.serial('If an script tag is an external javascript, then nothing happen', async (t) => {
     const sandbox = sinon.sandbox.create();
-    const parse = new JavascriptParser.default(t.context.sonarwhal);
+    const parse = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
 
     sandbox.spy(eslint, 'SourceCode');
     sandbox.spy(espree, 'parse');
@@ -46,7 +45,7 @@ test.serial('If an script tag is an external javascript, then nothing happen', a
 
 test.serial('If an script tag is not a javascript, then nothing should happen', async (t) => {
     const sandbox = sinon.sandbox.create();
-    const parse = new JavascriptParser.default(t.context.sonarwhal);
+    const parse = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
 
     sandbox.spy(eslint, 'SourceCode');
     sandbox.spy(espree, 'parse');
@@ -69,7 +68,7 @@ test.serial('If an script tag is not a javascript, then nothing should happen', 
 
 test.serial('If an script tag is an internal javascript, then we should parse the code and emit a parse::javascript event', async (t) => {
     const sandbox = sinon.sandbox.create();
-    const parse = new JavascriptParser.default(t.context.sonarwhal);
+    const parse = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const sourceCodeObject = {};
     const code = 'var x = 8;';
@@ -79,7 +78,7 @@ test.serial('If an script tag is an internal javascript, then we should parse th
     sandbox.stub(eslint, 'SourceCode').returns(sourceCodeObject);
     sandbox.stub(espree, 'parse').returns(parseObject);
 
-    sandbox.stub(element, 'outerHTML').resolves(script)
+    sandbox.stub(element, 'outerHTML').resolves(script);
     sandbox.stub(element, 'getAttribute')
         .onFirstCall()
         .returns(null)
@@ -109,7 +108,7 @@ test.serial('If an script tag is an internal javascript, then we should parse th
 
 test.serial('If fetch::end is received but the response is not a javascript, then we should parse the code and emit a parse::javascript event', async (t) => {
     const sandbox = sinon.sandbox.create();
-    const parse = new JavascriptParser.default(t.context.sonarwhal);
+    const parse = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
 
     sandbox.spy(eslint, 'SourceCode');
     sandbox.spy(espree, 'parse');
@@ -127,7 +126,7 @@ test.serial('If fetch::end is received but the response is not a javascript, the
 
 test.serial('If fetch::end is received with a javascript, then nothing should happen', async (t) => {
     const sandbox = sinon.sandbox.create();
-    const parse = new JavascriptParser.default(t.context.sonarwhal);
+    const parse = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const sourceCodeObject = {};
     const code = 'var x = 8;';

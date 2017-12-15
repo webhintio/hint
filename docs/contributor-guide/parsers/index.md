@@ -43,7 +43,7 @@ if you can understand it. A good approach would be:
 Once you have analyzed the resource, the way to share information is via
 events (custom or not):
 
-```js
+```ts
 await this.sonarwhal.emitAsync('customparser::custom', data);
 ```
 

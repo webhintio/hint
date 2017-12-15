@@ -7,11 +7,11 @@ import { Sonarwhal } from '../../sonarwhal';
 
 const scriptContentRegex: RegExp = /^<script[^>]*>([\s\S]*)<\/script>$/;
 const defaultParserOptions = {
+    comment: true,
+    ecmaVersion: 8,
     loc: true,
     range: true,
-    tokens: true,
-    comment: true,
-    ecmaVersion: 8
+    tokens: true
 };
 
 export default class JavascriptParser extends Parser {
@@ -41,7 +41,7 @@ export default class JavascriptParser extends Parser {
         const code = fetchEnd.response.body.content;
         const resource = fetchEnd.resource;
 
-        return this.emitScript(code, resource);
+        this.emitScript(code, resource);
     }
 
     private isSrcPresent(element: IAsyncHTMLElement) {
@@ -84,6 +84,6 @@ export default class JavascriptParser extends Parser {
         const code = this.getScriptContent(await element.outerHTML());
         const resource: string = 'Internal javascript';
 
-        return this.emitScript(code, resource);
+        this.emitScript(code, resource);
     }
 }
