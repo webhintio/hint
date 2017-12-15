@@ -18,4 +18,5 @@ configuration file:
 
 The built-in `parser`s are:
 
-* `javascript`
+* `javascript`: A `JavaScript` parser built on top of `ESLint` so rules for
+  analyzing `JavaScript` files can be built.

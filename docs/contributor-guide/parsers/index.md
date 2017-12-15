@@ -1,6 +1,6 @@
 # How to develop a parser
 
-A `parser` udnerstands more deeply a resource and exposes that
+A `parser` understands more deeply a resource and exposes that
 information to other parts of `sonarwhal`.
 
 To create one, you will need to create a new `Class` that extends from
