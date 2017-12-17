@@ -147,3 +147,4 @@ connectors.
 [cdp]: https://chromedevtools.github.io/devtools-protocol/
 [eda]: https://github.com/Microsoft/edge-diagnostics-adapter
 [jsdom]: https://github.com/tmpvar/jsdom
+[wsl-interop]: https://msdn.microsoft.com/en-us/commandline/wsl/release_notes#build-14951
