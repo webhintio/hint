@@ -6,6 +6,7 @@ import { IAsyncHTMLElement, IElementFound, IFetchEnd, IScriptParse, Parser } fro
 import { Sonarwhal } from '../../sonarwhal';
 
 const scriptContentRegex: RegExp = /^<script[^>]*>([\s\S]*)<\/script>$/;
+// This is the default configuration in eslint for espree.
 const defaultParserOptions = {
     comment: true,
     ecmaVersion: 8,
@@ -44,14 +45,14 @@ export default class JavascriptParser extends Parser {
         this.emitScript(code, resource);
     }
 
-    private isSrcPresent(element: IAsyncHTMLElement) {
+    private hasSrcAttribute(element: IAsyncHTMLElement) {
         const src = element.getAttribute('src');
 
         return !!src;
     }
 
 
-    private isJavascript(element: IAsyncHTMLElement) {
+    private isJavaScriptType(element: IAsyncHTMLElement) {
         const type = determineMediaTypeForScript(element);
 
         return !!type;
@@ -71,13 +72,13 @@ export default class JavascriptParser extends Parser {
     private async parseJavascriptTag(elementFound: IElementFound) {
         const element: IAsyncHTMLElement = elementFound.element;
 
-        if (this.isSrcPresent(element)) {
-            // Ignore because this will be processed in the event 'fetch::end'.
+        if (this.hasSrcAttribute(element)) {
+            // Ignore because this will be (or have been) processed in the event 'fetch::end'.
             return;
         }
 
-        if (!this.isJavascript(element)) {
-            // Ignore if it is not a javascript.
+        if (!this.isJavaScriptType(element)) {
+            // Ignore if it is not javascript.
             return;
         }
 
