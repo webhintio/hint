@@ -142,11 +142,13 @@ const readFileAsync = async (filePath: string): Promise<string> => {
 };
 
 /** Request response in the json format from an endpoint */
-const requestJSONAsync = (uri: string) => {
-    return requestAsync({
+const requestJSONAsync = (uri: string, options: object) => {
+    const params = Object.assign({
         json: true,
         uri
-    });
+    }, options);
+
+    return requestAsync(params);
 };
 
 /** Convenience wrapper for asynchronously write a file. */
