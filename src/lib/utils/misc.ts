@@ -47,6 +47,15 @@ const getFileExtension = (resource: string): string => {
         .pop();
 };
 
+/**
+ * Remove whitespace from both ends of a header value and lowercase it.
+ * If `defaultValue` is provided, it will be return instead of the actual
+ * return value if that value is `null`.
+ */
+const getHeaderValueNormalized = (headers: object, headerName: string, defaultValue?: string) => {
+    return normalizeString(headers && headers[normalizeString(headerName)], defaultValue); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
+};
+
 /** Convenience function to check if a resource uses a specific protocol. */
 const hasProtocol = (resource: string, protocol: string): boolean => {
     return url.parse(resource).protocol === protocol;
@@ -263,6 +272,7 @@ export {
     findNodeModulesRoot,
     findPackageRoot,
     getFileExtension,
+    getHeaderValueNormalized,
     hasAttributeWithValue,
     hasProtocol,
     isDataURI,

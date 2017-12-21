@@ -10,6 +10,8 @@ import * as _ from 'lodash';
 import * as express from 'express';
 import * as onHeaders from 'on-headers';
 
+import { getHeaderValueNormalized, normalizeString } from '../../src/lib/utils/misc';
+
 export type ServerConfiguration = string | object; //eslint-disable-line
 
 const maxPort = 65535;
@@ -35,11 +37,11 @@ export class Server {
      * Because we don't know the port until we start the server, we need to update
      * the references to http://localhost in the HTML to http://localhost:finalport.
      */
-    private updateLocalhost(html: string): string {
+    private updateLocalhost (html: string): string {
         return html.replace(/\/\/localhost\//g, `//localhost:${this._port}/`);
     }
 
-    private handleHeaders = (res, headers) => {
+    private handleHeaders (res, headers) {
         onHeaders(res, () => {
             Object.entries(headers).forEach(([header, value]) => {
                 if (value !== null) {
@@ -49,7 +51,173 @@ export class Server {
                 }
             });
         });
-    };
+    }
+
+    private getContent (value): string {
+        if (typeof value === 'string') {
+            return this.updateLocalhost(value);
+        } else if (value && typeof value.content !== 'undefined') {
+            return typeof value.content === 'string' ? this.updateLocalhost(value.content) : value.content;
+        }
+
+        return '';
+    }
+
+    private getNumberOfMatches (req, requestConditions) {
+        const headers = requestConditions.request && requestConditions.request.headers;
+
+        /*
+         * Matching is done only based on headers, as for the time
+         * beeing there is no need to match based on other things.
+         */
+
+        if (!headers) {
+            return 0;
+        }
+
+        let numberOfMatches = 0;
+
+        for (const [header, value] of Object.entries(headers)) {
+            const headerValue = getHeaderValueNormalized(req.headers, header);
+
+            if ((headerValue !== normalizeString(value)) || (!headerValue && (value === null))) {
+                return 0;
+            }
+
+            numberOfMatches++;
+        }
+
+        return numberOfMatches;
+    }
+
+    private getValue (req, config) {
+        let bestNumberOfMatches = 1;
+        let bestMatch = null;
+
+        for (const [key, value] of Object.entries(config)) {
+            let requestConditions;
+
+            try {
+                requestConditions = JSON.parse(key);
+
+                const newNumberOfMatches = this.getNumberOfMatches(req, requestConditions);
+
+                if (newNumberOfMatches >= bestNumberOfMatches) {
+                    bestMatch = value;
+                    bestNumberOfMatches = newNumberOfMatches;
+                }
+
+            } catch (e) {
+                // Ignore invalid keys.
+            }
+        }
+
+        return bestMatch;
+    }
+
+    private isConditionalConfig (configuration): boolean {
+        /*
+         * The following is done to quickly determine the type of
+         * configuration. Possible options are:
+         *
+         * 1) Simple config
+         *    (server response is always the same)
+         *
+         *     {
+         *          name: ...,
+         *          reports: [{ message: ... }],
+         *          serverConfig: {
+         *              '/': {
+         *                  content: ...,
+         *                  headers: ...
+         *              },
+         *              ...
+         *          }
+         *      }
+         *
+         *
+         * 2) Conditional config
+         *    (server response depends on the request)
+         *
+         *      {
+         *          name: ...
+         *          reports: [{ message: ... }],
+         *          serverConfig: {
+         *              [JSON.stringify({
+         *                  headers: {
+         *                      ...
+         *                  }
+         *              })]: {
+         *                  '/': {
+         *                      content: ...,
+         *                      headers: ...
+         *                  },
+         *             },
+         *             ...
+         *          }
+         *      }
+         */
+
+        try {
+            return typeof JSON.parse(Object.entries(configuration)[0][0]) === 'object';
+        } catch (e) {
+            // Ignore.
+        }
+
+        return false;
+    }
+
+    private normalizeConfig (configuration) {
+        const config = {};
+
+        /*
+         * This function convers something such as:
+         *
+         *  {
+         *      '{"request":{"headers":{"Accept-Encoding":"gzip"}}}': {
+         *          '/': {
+         *              content: ...
+         *              headers: ...
+         *          },
+         *          ...
+         *      }
+         *      '{"request":{"headers":{"Accept-Encoding":"br"}}}': {
+         *          '/': {
+         *              content: ...
+         *              headers: ...
+         *          },
+         *          ...
+         *      }
+         *      ...
+         *  }
+         *
+         *  to
+         *
+         *  {
+         *      '/': {
+         *          '{"request":{"headers":{"Accept-Encoding":"gzip"}}}': {
+         *              content: ...
+         *              headers: ...
+         *          },
+         *          '{"request":{"headers":{"Accept-Encoding":"br"}}}': {
+         *              content: ...
+         *              headers: ...
+         *          },
+         *          ...
+         *      }
+         *      ...
+         *  }
+         *
+         */
+
+        for (const [k, v] of Object.entries(configuration)) {
+            for (const [key, value] of Object.entries(v)) {
+                config[key] = Object.assign({}, config[key], { [k]: value});
+            }
+        }
+
+        return config;
+    }
 
     /** Applies the configuration for routes to the server. */
     public configure(configuration: ServerConfiguration) {
@@ -63,19 +231,16 @@ export class Server {
             return;
         }
 
-        _.forEach(configuration, (value, key) => {
-            customFavicon = customFavicon || key === '/favicon.ico';
-            let content;
+        const conditionalConfig = this.isConditionalConfig(configuration);
+        const config = conditionalConfig ? this.normalizeConfig(configuration) : configuration;
 
-            if (typeof value === 'string') {
-                content = this.updateLocalhost(value);
-            } else if (value && typeof value.content !== 'undefined') {
-                content = typeof value.content === 'string' ? this.updateLocalhost(value.content) : value.content;
-            } else {
-                content = '';
-            }
+        _.forEach(config, (val, key) => {
+            customFavicon = customFavicon || key === '/favicon.ico';
 
             this._app.get(key, (req, res) => {
+
+                const value = conditionalConfig ? this.getValue(req, val): val;
+                const content = this.getContent(value);
 
                 /*
                  * Hacky way to make `request` fail, but required
