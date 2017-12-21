@@ -68,7 +68,7 @@ export interface IManifestFetchMissing extends IEvent { }
 /** The object emitted by a connector on ` manifestfetch::end`. */
 export interface IManifestFetchEnd extends IFetchEnd { }
 
-/** The object emitted by the script parser */
+/** The object emitted by the `javascript` parser */
 export interface IScriptParse extends IEvent {
     /** The source code parsed */
     sourceCode: any;

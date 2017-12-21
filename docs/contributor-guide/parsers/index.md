@@ -30,10 +30,11 @@ export default class CustomParser extends Parser {
 ```
 
 The way `parser`s receive and share information is via events. To access
-a resource the parser needs to subscribe in the `constructor` to one of
-the `*fetch::end` events, most likely the `fetch::end`. Because that
-event is emitted for all downloaded resources, you need to check first
-if you can understand it. A good approach would be:
+a resource the parser needs to subscribe in the `constructor` to one or
+more events. In most cases you will subscribe to one of the `*fetch::end`
+events, like `fetch::end`. Because the `fetch::end` event is emitted
+for different type of resources, you need to check first if you can
+understand it. A good approach would be:
 
 1. check first the `mediaType` of the response (`fetchEndEvent.response.mediaType`)
 2. use a schema to validate if `json`, `xml` or something similar

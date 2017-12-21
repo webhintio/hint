@@ -23,7 +23,7 @@ import { validate as validateRule } from '../config/config-rules';
 const debug: debug.IDebugger = d(__filename);
 const PROJECT_ROOT: string = findPackageRoot();
 const NODE_MODULES_ROOT: string = findNodeModulesRoot();
-const externalPackages: Array<string> = globby.sync(`{${process.cwd()},${NODE_MODULES_ROOT}/{.,@sonarwhal,sonarwhal-}}/{{rule,connector,formatter}-*,.}/package.json`, { nodir: false });
+const externalPackages: Array<string> = globby.sync(`{${process.cwd()},${NODE_MODULES_ROOT}/{.,@sonarwhal}}/{{sonarwhal,rule,connector,formatter,parser}-*,.}/package.json`, { nodir: false });
 const externalPaths: Array<string> = externalPackages.map((packagePath) => {
     return packagePath.replace('package.json', '');
 });
@@ -128,6 +128,9 @@ const hasMultipleResources = (resource, type: string) => {
         case TYPE.rule:
             // In a simple rule, the properties create and meta should exist.
             return !(resource.create && resource.meta);
+        case TYPE.parser:
+            // In a simple parser, the property default should exists.
+            return !resource.default && typeof resource !== 'function';
         default:
             return false;
     }
@@ -151,7 +154,7 @@ const getResource = (source: string, type: string, name: string) => {
 
     for (const [key, value] of Object.entries(resource)) {
         if (key === name) {
-            return value;
+            return value.default || value;
         }
     }
 

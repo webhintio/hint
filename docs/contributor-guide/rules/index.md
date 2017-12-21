@@ -495,7 +495,57 @@ const tests: Array<RuleTest> = [
 ];
 ```
 
+### Create a rule that validates JavaScript
+
+To create a rule that understands JavaScript you will need to use the
+event `parser::javascript` emitted by the [`javascript parser`][parsers].
+This event is of type `IScriptParse` which has the following information:
+
+* `resource`: the parsed resource. If the JavaScript is in a `script tag`
+  and not a file, the value will be `Internal javascript`.
+* `sourceCode`: a `eslint` `SourceCode` object.
+
+Here is an example rule that use the parser:
+
+```ts
+import * as eslint from 'eslint';
+
+const rule: IRuleBuilder = {
+    create(context: RuleContext): IRule {
+        let validPromise;
+        const errorsOnly = context.ruleOptions && context.ruleOptions['errors-only'] || false;
+        let html;
+
+        const onParseJavascript = async (scriptParse: IScriptParse) => {
+            const results = linter.verify(scriptParse.sourceCode, {
+                rules: {
+                    semi: 2
+                }
+            });
+
+            for (const result of results) {
+                await context.report(scriptParse.resource, null, result.message);
+            }
+        };
+
+        return {
+            'parse::javascript': onParseJavascript
+        };
+    },
+    meta: {
+        docs: {
+            category: Category.interoperability,
+            description: `Check if your scripts use semicolon`
+        },
+        recommended: false,
+        schema: [],
+        worksWithLocalFiles: true
+    }
+};
+```
+
 <!-- Link labels: -->
 
-[json schema]: http://json-schema.org/
 [browserconfiguration]: ../../user-guide/index.md#browserconfiguration
+[json schema]: http://json-schema.org/
+[parser]: ../../user-guide/concepts/parser.md

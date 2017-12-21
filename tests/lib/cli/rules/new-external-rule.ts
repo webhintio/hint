@@ -5,6 +5,7 @@ import test from 'ava';
 
 import { CLIOptions } from '../../../../src/lib/types';
 import * as rulesCommon from '../../../../src/lib/cli/rules/common';
+import * as handlebarsUtils from '../../../../src/lib/utils/handlebars';
 
 const actions = ({ newRule: true } as CLIOptions);
 
@@ -16,6 +17,7 @@ const mkdirp = (dir, callback) => {
 };
 
 proxyquire('../../../../src/lib/cli/rules/new-external-rule', {
+    '../../utils/handlebars': handlebarsUtils,
     '../../utils/misc': misc,
     './common': rulesCommon,
     'fs-extra': fsExtra,
@@ -28,17 +30,17 @@ import * as rule from '../../../../src/lib/cli/rules/new-external-rule';
 test.beforeEach((t) => {
     sinon.stub(fsExtra, 'copy').resolves();
     sinon.stub(misc, 'writeFileAsync').resolves();
-    sinon.stub(rulesCommon, 'compileTemplate').returns('');
+    sinon.stub(handlebarsUtils, 'compileTemplate').returns('');
 
     t.context.fs = fsExtra;
     t.context.misc = misc;
-    t.context.common = rulesCommon;
+    t.context.handlebars = handlebarsUtils;
 });
 
 test.afterEach.always((t) => {
     t.context.fs.copy.restore();
     t.context.misc.writeFileAsync.restore();
-    t.context.common.compileTemplate.restore();
+    t.context.handlebars.compileTemplate.restore();
 });
 
 
@@ -76,7 +78,7 @@ test.serial('It creates a rule if the option multiple rules is false', async (t)
     t.is(t.context.fs.copy.args[0][1], path.join(root, 'rule-awesome-rule'), 'Copy path is not the expected one');
 
     // 4 files common to all the rules + 2 files for the rule (code + test)
-    t.is(t.context.common.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.handlebars.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
     t.is(t.context.misc.writeFileAsync.callCount, 6, 'Invalid number of files created');
 
     t.true(result);
@@ -124,7 +126,7 @@ test.serial('It creates a package with multiple rules', async (t) => {
     t.is(t.context.fs.copy.args[0][1], path.join(root, 'rule-awesome-package'), 'Copy path is not the expected one');
 
     // 4 files common to all the rules + 2 files for each rule (code + test)
-    t.is(t.context.common.compileTemplate.callCount, 8, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.handlebars.compileTemplate.callCount, 8, `Handlebars doesn't complile the right number of files`);
     t.is(t.context.misc.writeFileAsync.callCount, 8, 'Invalid number of files created');
 
     t.true(result);

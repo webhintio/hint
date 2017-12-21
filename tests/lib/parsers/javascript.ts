@@ -27,7 +27,7 @@ test.beforeEach((t) => {
 
 test.serial('If an script tag is an external javascript, then nothing happen', async (t) => {
     const sandbox = sinon.sandbox.create();
-    const parse = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
+    const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
 
     sandbox.spy(eslint, 'SourceCode');
     sandbox.spy(espree, 'parse');
@@ -45,7 +45,7 @@ test.serial('If an script tag is an external javascript, then nothing happen', a
 
 test.serial('If an script tag is not a javascript, then nothing should happen', async (t) => {
     const sandbox = sinon.sandbox.create();
-    const parse = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
+    const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
 
     sandbox.spy(eslint, 'SourceCode');
     sandbox.spy(espree, 'parse');
@@ -68,7 +68,7 @@ test.serial('If an script tag is not a javascript, then nothing should happen', 
 
 test.serial('If an script tag is an internal javascript, then we should parse the code and emit a parse::javascript event', async (t) => {
     const sandbox = sinon.sandbox.create();
-    const parse = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
+    const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const sourceCodeObject = {};
     const code = 'var x = 8;';
@@ -108,7 +108,7 @@ test.serial('If an script tag is an internal javascript, then we should parse th
 
 test.serial('If fetch::end is received but the response is not a javascript, then we should parse the code and emit a parse::javascript event', async (t) => {
     const sandbox = sinon.sandbox.create();
-    const parse = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
+    const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
 
     sandbox.spy(eslint, 'SourceCode');
     sandbox.spy(espree, 'parse');
@@ -126,7 +126,7 @@ test.serial('If fetch::end is received but the response is not a javascript, the
 
 test.serial('If fetch::end is received with a javascript, then nothing should happen', async (t) => {
     const sandbox = sinon.sandbox.create();
-    const parse = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
+    const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const sourceCodeObject = {};
     const code = 'var x = 8;';

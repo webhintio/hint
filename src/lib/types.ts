@@ -59,6 +59,7 @@ export type CLIOptions = {
     format: string;
     help: boolean;
     init: boolean;
+    newParser: boolean;
     newRule: boolean;
     removeRule: boolean;
     ['output-file']: string;
