@@ -17,6 +17,7 @@
         "highest-available-document-mode": "warning",
         "html-checker": "warning",
         "http-cache": "warning",
+        "http-compression": "warning",
         "image-optimization-cloudinary": "warning",
         "manifest-app-name": "error",
         "manifest-exists": "warning",

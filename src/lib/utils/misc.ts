@@ -94,6 +94,11 @@ const isHTMLDocument = (targetURL: string, responseHeaders: object): boolean => 
     return mediaType === 'text/html';
 };
 
+/** Convenience function to check if a resource is served over HTTP. */
+const isHTTP = (resource: string): boolean => {
+    return hasProtocol(resource, 'http:');
+};
+
 /** Convenience function to check if a resource is served over HTTPS. */
 const isHTTPS = (resource: string): boolean => {
     return hasProtocol(resource, 'https:');
@@ -279,6 +284,7 @@ export {
     isDirectory,
     isFile,
     isHTMLDocument,
+    isHTTP,
     isHTTPS,
     isLocalFile,
     isRegularProtocol,
