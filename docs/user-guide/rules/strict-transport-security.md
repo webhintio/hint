@@ -6,7 +6,7 @@ header directives and their corresponding values.
 
 ## Why is this important?
 
-Web security has been a crutial concern for the developers nowadays.
+Web security is a crucial concern for developers nowadays.
 Unlike [cross-site scripting (XSS)][xss] and [SQL injection][sql
 injection], the exploit of insufficient protection over the transport
 layer can be harder to picture in practice. If a website accepts
@@ -15,10 +15,10 @@ opportunites for a "man-in-the-middle" attack, when the redirect could
 be exploited and lead the user to a malicious site.
 
 By specifying the `Strict-Transport-Security` header along with a
-`max-age` value in the reponse, a website is able to declare themselves
+`max-age` value in the response, a website is able to declare themselves
 to be only accessible via the secure connections within the specified
 time period. So for future attempts to the same domain via the insecure
-connections, the browswer knows that it should never load the site using
+connections, the browser knows that it should never load the site using
 HTTP and automatically convert all attempts to HTTPS requests instead.
 
 Notably, to prevent the `Strict-Transport-Security` header from being
@@ -46,13 +46,11 @@ For a site served over HTTPS, this rule checks the following:
   18 weeks (10886400s).
 * If `Strict-Transport-Security` header has repetitive directives.
 * When a `Strict-Transport-Security` header contains `preload`
-  directive, this rule.
-
-will first check the domain name against the [HTTP Strict Transport
-Security (HSTS) preload list][preload list] for the preload status,
-and then check whether this domain has errors that would prevent
-preloading by calling the hstspreload api endpoint. This check is
-disabled by default.
+  directive, this rule will first check the domain name against the
+  [HTTP Strict Transport Security (HSTS) preload list][preload list]
+  for the preload status, and then check whether this domain has errors
+  that would prevent preloading by calling the hstspreload api
+  endpoint. This check is disabled by default.
 
 ### Examples that **trigger** the rule
 
