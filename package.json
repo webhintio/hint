@@ -106,7 +106,7 @@
     "husky": "^0.14.3",
     "jquery": "2.1.4",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
-    "markdownlint-cli": "^0.5.0",
+    "markdownlint-cli": "^0.6.0",
     "mock-require": "^2.0.2",
     "moment": "1.0.0",
     "npm-run-all": "^4.1.2",
