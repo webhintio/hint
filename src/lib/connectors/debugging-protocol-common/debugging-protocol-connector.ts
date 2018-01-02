@@ -324,7 +324,7 @@ export class Connector implements IConnector {
         const rawResponse = (): Promise<Buffer> => {
             return Promise.resolve(null);
         };
-        const fetchContent = this.fetchContent;
+        const fetchContent = this.fetchContent.bind(this);
 
         const defaultBody = { content, rawContent, rawResponse };
 
@@ -916,7 +916,14 @@ export class Connector implements IConnector {
         const assigns = _.compact([this && this._headers, customHeaders]);
         const headers = Object.assign({}, ...assigns);
         const href: string = typeof target === 'string' ? target : target.href;
-        const request: Requester = new Requester({ headers });
+        const options = {
+            headers,
+            // we sync the ignore SSL error options with `request`. This is neeeded for local https tests
+            rejectUnauthorized: !this._options.overrideInvalidCert,
+            strictSSL: !this._options.overrideInvalidCert
+        };
+
+        const request: Requester = new Requester(options);
         const response: INetworkData = await request.get(href);
 
         return response;

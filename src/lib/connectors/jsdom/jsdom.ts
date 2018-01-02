@@ -150,7 +150,11 @@ class JSDOMConnector implements IConnector {
             return this._request.get(uri);
         }
 
-        const r: Requester = new Requester({ headers: customHeaders });
+        const r: Requester = new Requester({
+            headers: customHeaders,
+            rejectUnauthorized: this._options.rejectUnauthorized,
+            strictSSL: this._options.strictSSL
+        });
 
         return r.get(uri);
     }
@@ -552,7 +556,7 @@ class JSDOMConnector implements IConnector {
             runner.send({ source });
 
             timeoutId = setTimeout(() => {
-                debug(`Evaluation timed out after ${this._timeout/1000}s. Killing process and reporting an error.`);
+                debug(`Evaluation timed out after ${this._timeout / 1000}s. Killing process and reporting an error.`);
                 this.killProcess(runner);
 
                 return reject(new Error('TIMEOUT'));
