@@ -358,7 +358,39 @@ export class Connector implements IConnector {
 
                     const { url: responseUrl, requestHeaders: headers } = cdpResponse.response;
 
-                    return fetchContent(responseUrl, headers)
+                    /*
+                     * Real browser connectors automatically request using HTTP2. This spec has
+                     * [`Pseudo-Header Fields`](https://tools.ietf.org/html/rfc7540#section-8.1.2.3):
+                     * `:authority`, `:method`, `:path` and `:scheme`.
+                     *
+                     * An example of request with those `Pseudo-Header Fields` to google.com:
+                     *
+                     * ```
+                     * :authority:www.google.com
+                     * :method:GET
+                     * :path:/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png
+                     * :scheme:https
+                     * accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*\/*;q=0.8
+                     * accept-encoding:gzip, deflate, br
+                     * ...
+                     * ```
+                     *
+                     * The `request` module doesn't support HTTP2 yet: https://github.com/request/request/issues/2033
+                     * so the request need to be transformed to valid HTTP 1.1 ones, basically removing those headers.
+                     *
+                     */
+
+                    const validHeaders = Object.entries(headers).reduce((final, [key, value]) => {
+                        if (key.startsWith(':')) {
+                            return final;
+                        }
+
+                        final[key] = value;
+
+                        return final;
+                    }, {});
+
+                    return fetchContent(responseUrl, validHeaders)
                         .then((result) => {
                             const { response: { body: { rawResponse: rr } } } = result;
 
