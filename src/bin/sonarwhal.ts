@@ -41,8 +41,12 @@ process.once('uncaughtException', (err) => {
     process.exit(1);
 });
 
-process.once('unhandledRejection', (reason, promise) => {
-    console.error(`Unhandled rejection at: Promise ${promise}, reason: ${reason}`);
+process.once('unhandledRejection', (reason) => {
+    console.error(`Unhandled rejection promise:
+    uri: ${reason.uri}
+    message: ${reason.error.message}
+    stack:
+${reason.error.stack}`);
     process.exit(1);
 });
 
