@@ -14,7 +14,7 @@ import * as mimeDB from 'mime-db';
 
 import { Category } from '../../enums/category';
 import { getFileExtension, isTextMediaType } from '../../utils/content-type';
-import { getHeaderValueNormalized, isHTTP, normalizeString } from '../../utils/misc';
+import { getHeaderValueNormalized, isRegularProtocol, isHTTP, normalizeString } from '../../utils/misc';
 import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from '../../types';
 import { RuleContext } from '../../rule-context';
 import { CompressionCheckOptions } from './compression-check-options';
@@ -72,7 +72,7 @@ const rule: IRuleBuilder = {
         };
 
         const generateContentEncodingMessage = (encoding: string, notRequired?: boolean, suffix?: string) => {
-            return `Should${notRequired ? ' not' : ''} be served with the 'content-encoding${encoding ? `: ${encoding}`: ''}' header${suffix ? ` ${suffix}` : ''}.`;
+            return `Should${notRequired ? ' not' : ''} be served with the 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
         };
 
         const generateCompressionMessage = (encoding: string, notRequired?: boolean, suffix?: string) => {
@@ -250,7 +250,7 @@ const rule: IRuleBuilder = {
             const rawContent = compressedWithBrotli ? decompressBrotli(rawResponse) : response.body.rawContent;
 
             const itShouldNotBeCompressed = contentEncodingHeaderValue === 'br' &&
-                    rawContent.byteLength <= rawResponse.byteLength;
+                rawContent.byteLength <= rawResponse.byteLength;
 
             if (compressedWithBrotli && itShouldNotBeCompressed) {
                 generateSizeMessage(resource, element, 'Brotli', rawResponse.byteLength - rawContent.byteLength);
@@ -562,6 +562,20 @@ const rule: IRuleBuilder = {
         const validate = (shouldCheckIfCompressedWith: CompressionCheckOptions) => {
             return async (fetchEnd: IFetchEnd) => {
                 const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+
+                /*
+                 * We shouldn't validate error responses, and 204 (response with no body).
+                 * Also some sites return body with 204 status code and that breaks `request`:
+                 * https://github.com/request/request/issues/2669
+                 */
+                if (response.statusCode !== 200) {
+                    return;
+                }
+
+                // It doesn't make sense for things that are not served over http(s)
+                if (!isRegularProtocol(resource)) {
+                    return;
+                }
 
                 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
