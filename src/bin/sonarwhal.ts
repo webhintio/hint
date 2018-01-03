@@ -42,11 +42,13 @@ process.once('uncaughtException', (err) => {
 });
 
 process.once('unhandledRejection', (reason) => {
+    const source = reason.error ? reason.error : reason;
+
     console.error(`Unhandled rejection promise:
-    uri: ${reason.uri}
-    message: ${reason.error.message}
+    uri: ${source.uri}
+    message: ${source.message}
     stack:
-${reason.error.stack}`);
+${source.stack}`);
     process.exit(1);
 });
 
