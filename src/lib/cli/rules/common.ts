@@ -3,8 +3,9 @@ import * as path from 'path';
 import * as Handlebars from 'handlebars';
 
 import { Category } from '../../enums/category';
-import { debug as d } from '../../utils/debug';
-import { findPackageRoot as packageRoot, normalizeStringByDelimiter, readFile, readFileAsync } from '../../utils/misc';
+
+import { findPackageRoot as packageRoot, normalizeStringByDelimiter, readFile } from '../../utils/misc';
+import { escapeSafeString } from '../../utils/handlebars';
 
 export const normalize = normalizeStringByDelimiter;
 export const coreRuleTemplateDir = './templates/core-rule';
@@ -15,9 +16,7 @@ export const coreRuleTestDir = 'tests/lib/rules';
 export const coreRuleDistScriptDir = `dist/${coreRuleScriptDir}`;
 export const packageDir = packageRoot();
 export const processDir = process.cwd();
-export const sonarwhalPackage = JSON.parse(readFile(path.join(packageDir, 'package.json')));
 
-const debug = d(__filename);
 const partialEventCode = readFile(path.join(__dirname, 'templates', 'common', 'partial-event-code.hbs'));
 
 /** Check if a rule exists. */
@@ -25,40 +24,7 @@ export const ruleExists = (ruleName: string, currentRules: Array<string>): boole
     return currentRules.includes(normalize(ruleName, '-'));
 };
 
-/**
- * Use `escapeSafeString` function instead of triple curly brace in the templates
- * to escape the backticks (`) in the user's input.
- * Example:
- * ```
- * description: `This is a \`important\` rule that has 'single' and "double" quotes.`
- * ```
- */
-export const escapeSafeString = (str: string): hbs.SafeString => {
-    const result = str.replace(/(`)/g, '\\$1');
-
-    return new Handlebars.SafeString(result);
-};
-
-Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): string => {
-    return sonarwhalPackage.dependencies[packageName] || sonarwhalPackage.devDependencies[packageName] || defaultVersion;
-});
-
 Handlebars.registerPartial('event-code', partialEventCode);
-
-export const compileTemplate = async (filePath: string, data): Promise<string> => {
-    let templateContent;
-
-    try {
-        templateContent = await readFileAsync(filePath);
-    } catch (err) {
-        debug(`Error reading file: ${filePath}`);
-        throw (err);
-    }
-
-    const template = Handlebars.compile(templateContent);
-
-    return template(data);
-};
 
 /** A map that matches usecases with events. */
 const events: Map<string, Array<string>> = new Map([

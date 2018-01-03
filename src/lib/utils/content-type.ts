@@ -3,9 +3,9 @@ import * as isSvg from 'is-svg';
 import * as mimeDB from 'mime-db';
 import { parse, MediaType } from 'content-type';
 
-import { debug as d } from '../../utils/debug';
-import { IAsyncHTMLElement, IResponse } from '../../types';
-import { getFileExtension, normalizeString } from '../../utils/misc';
+import { debug as d } from './debug';
+import { IAsyncHTMLElement, IResponse } from '../types';
+import { getFileExtension, normalizeString } from './misc';
 
 const debug = d(__filename);
 
@@ -362,6 +362,7 @@ const isTextMediaType = (mediaType: string): boolean => {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 export {
+    determineMediaTypeForScript,
     getContentTypeData,
     getFileExtension,
     isTextMediaType

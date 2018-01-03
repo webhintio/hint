@@ -13,7 +13,7 @@ import * as request from 'request';
 import * as iconv from 'iconv-lite';
 
 import { debug as d } from '../../utils/debug';
-import { getContentTypeData } from './content-type';
+import { getContentTypeData } from '../../utils/content-type';
 import { INetworkData } from '../../types'; //eslint-disable-line
 import { RedirectManager } from './redirects';
 

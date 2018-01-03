@@ -1,0 +1,44 @@
+import * as proxyquire from 'proxyquire';
+import * as sinon from 'sinon';
+import test from 'ava';
+import { EventEmitter2 } from 'eventemitter2';
+
+{{#if isExternal}}
+proxyquire('../../src/parsers/{{normalizedName}}/{{normalizedName}}', {
+{{else}}
+proxyquire('../../../src/lib/parsers/{{normalizedName}}/{{normalizedName}}', {
+{{/if}}
+    // Dependecies you need to stub/spy/mock.
+});
+
+{{#if isExternal}}
+import * as {{capitalizedName}} from '../../src/parsers/{{normalizedName}}/{{normalizedName}}';
+{{else}}
+import * as {{capitalizedName}} from '../../../src/lib/parsers/{{normalizedName}}/{{normalizedName}}';
+{{/if}}
+
+test.beforeEach((t) => {
+    t.context.sonarwhal = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    });
+});
+
+test.afterEach.always((t) => {
+    // Things you need to clean after each tests.
+});
+
+{{#each events}}
+test.serial('Test for event {{event}}', async (t) => {
+    const parser = new {{../capitalizedName}}.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
+    // Code to prepare your test.
+
+    await t.context.sonarwhal.emitAsync('{{event}}', { /* testing data */ });
+
+    // Code to check if everything is ok.
+});
+{{#unless @last}}
+
+{{/unless}}
+{{/each}}

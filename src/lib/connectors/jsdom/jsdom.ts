@@ -33,7 +33,7 @@ import { fork, ChildProcess } from 'child_process';
 import * as jsdom from 'jsdom/lib/old-api';
 
 import { debug as d } from '../../utils/debug';
-import { getContentTypeData } from '../utils/content-type';
+import { getContentTypeData } from '../../utils/content-type';
 import {
     IConnector, IConnectorBuilder,
     IElementFound, IEvent, IFetchEnd, IFetchError, IManifestFetchError, IManifestFetchEnd, ITraverseDown, ITraverseUp,

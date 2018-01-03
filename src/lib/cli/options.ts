@@ -82,6 +82,12 @@ export const options = optionator({
             type: 'Boolean'
         },
         {
+            alias: 'p',
+            description: `Generate a new parser`,
+            option: 'new-parser',
+            type: 'Boolean'
+        },
+        {
             alias: 'r',
             description: `Remove an existing rule (in sonarwhal's main repo)`,
             option: 'remove-rule',

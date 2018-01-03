@@ -11,11 +11,12 @@ import * as logger from '../../utils/logging';
 import * as resourceLoader from '../../utils/resource-loader';
 import { readFileAsync, writeFileAsync } from '../../utils/misc';
 import {
-    compileTemplate, questions,
+    questions,
     processDir, packageDir,
     INewRule, NewRule, QuestionsType,
     coreRuleDocDir, ruleExists, commonTemplateDir, coreRuleScriptDir, coreRuleTemplateDir, coreRuleTestDir
 } from './common';
+import { compileTemplate } from '../../utils/handlebars';
 
 const debug = d(__filename);
 
