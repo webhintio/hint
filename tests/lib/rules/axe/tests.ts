@@ -8,16 +8,17 @@ import { generateHTMLPage } from '../../../helpers/misc';
 const ruleName = getRuleName(__dirname);
 
 const html = {
-    noProblems: generateHTMLPage(),
+    noProblems: generateHTMLPage(undefined, '<div role="main"></div>'),
     missingLang: `<!doctype html>
  <html>
     <head>
         <title>test</title>
     </head>
     <body>
+        <div role="main"></div>
     </body>
 </html>`,
-    tabindex: generateHTMLPage(undefined, `<header>Header</header><a href="#skip" tabindex="4">Skip</a>`)
+    tabindex: generateHTMLPage(undefined, `<div role="main"><header>Header</header><a href="#skip" tabindex="4">Skip</a></div>`)
 };
 
 const tests: Array<IRuleTest> = [
