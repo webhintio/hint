@@ -12,7 +12,7 @@
   "bin": "./dist/src/bin/sonarwhal.js",
   "dependencies": {
     "amphtml-validator": "^1.0.21",
-    "axe-core": "^2.5.0",
+    "axe-core": "^2.6.1",
     "browserslist": "^2.11.0",
     "caniuse-api": "^2.0.0",
     "canvas-prebuilt": "^1.6.0",
