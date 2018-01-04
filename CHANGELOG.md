@@ -1,3 +1,22 @@
+# 0.21.0 (January 4, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c482c99844`](https://github.com/sonarwhal/sonarwhal/commit/c482c998446f63e14db17092910567f225f74c22)] - Fix: Sync connector certificate config with `requester`.
+* [[`f082067fe8`](https://github.com/sonarwhal/sonarwhal/commit/f082067fe8e69cc905c4ab85e02d10d9a9a0b1a9)] - Fix: Downgrade HTTP/2 headers in `rawResponse`.
+* [[`e3e1ca02d5`](https://github.com/sonarwhal/sonarwhal/commit/e3e1ca02d5db904a645184b389bb8d1186bf2227)] - Fix: Improve error message for unhandled promises.
+* [[`80c15103a1`](https://github.com/sonarwhal/sonarwhal/commit/80c15103a17958201333a327083de9561185ee24)] - Docs: Fix typos in `strict-transport-security.md` (see also: [`#729`](https://github.com/sonarwhal/sonarwhal/issues/729)).
+* [[`bd335c2c32`](https://github.com/sonarwhal/sonarwhal/commit/bd335c2c324721376af4fe7bb7d7690e5ca189b6)] - Docs: Add information on creating external rule (see also: [`#724`](https://github.com/sonarwhal/sonarwhal/issues/724)).
+* [[`10d1881a69`](https://github.com/sonarwhal/sonarwhal/commit/10d1881a69283e32681262f250db6f830fad0cda)] - Fix: Support external rules outside `@sonarwhal` (see also: [`#713`](https://github.com/sonarwhal/sonarwhal/issues/713)).
+* [[`742c9af408`](https://github.com/sonarwhal/sonarwhal/commit/742c9af4081b1c9a9a1eac128a3b79d4db17d06c)] - Docs: Fix link in `rules/http-cache.md` (see also: [`#723`](https://github.com/sonarwhal/sonarwhal/issues/723)).
+* [[`035fd4c9e5`](https://github.com/sonarwhal/sonarwhal/commit/035fd4c9e58cf8d6af803c24095e470f4fc11689)] - Docs: Add missing link in `connectors.md`.
+
+## New features
+
+* [[`db6337b220`](https://github.com/sonarwhal/sonarwhal/commit/db6337b2206b710b70f93bf47c828ffc1ff3e41f)] - Update: `snyk-snapshot.json`.
+* [[`511bba9c01`](https://github.com/sonarwhal/sonarwhal/commit/511bba9c0109b0cd6ea9348ad2d403000da2c726)] - New: Add type `Parser` and JavaScript parser (see also: [`#720`](https://github.com/sonarwhal/sonarwhal/issues/720)).
+
+
 # 0.20.1 (Decembe 12, 2017)
 
 ## Bug fixes / Improvements
