@@ -2,10 +2,10 @@ import * as url from 'url';
 
 import * as _ from 'lodash';
 import * as fileUrl from 'file-url';
-import * as shell from 'shelljs';
 
 import { debug as d } from './debug';
 import * as logger from './logging';
+import { isFile, isDirectory, pathExists } from './misc';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -35,7 +35,7 @@ export const getAsUri = (source: string): url.Url => {
      * If it's not a URI
      * If it does exist and it's a regular file.
      */
-    if (shell.test('-f', entry)) {
+    if (isFile(entry) || isDirectory(entry)) {
         target = url.parse(fileUrl(entry));
         debug(`Adding valid target: ${url.format(target)}`);
 
@@ -50,7 +50,7 @@ export const getAsUri = (source: string): url.Url => {
      * for all other cases the `hostname` needs to contain at least
      * a `.`. Private domains should have `http(s)://` in front.
      */
-    if (!shell.test('-e', entry) && (target.hostname === 'localhost' || target.hostname.includes('.'))) {
+    if (!pathExists(entry) && (target.hostname === 'localhost' || target.hostname.includes('.'))) {
         debug(`Adding modified target: ${url.format(target)}`);
 
         return target;

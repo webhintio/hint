@@ -105,7 +105,7 @@ export class Requester {
                     }
                 }
 
-                const { charset, mediaType } = getContentTypeData(null, uri, response);
+                const { charset, mediaType } = getContentTypeData(null, uri, response.headers, response.body.rawContent);
                 const hops: Array<string> = this._redirects.calculate(uri);
                 const body: string = iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
 
