@@ -544,8 +544,16 @@ const rule: IRuleBuilder = {
 };
 ```
 
+And when writing tests, you need to specify the parsers that you need:
+
+```ts
+ruleRunner.testRule(ruleName, tests, {
+    parsers: ['javascript']
+});
+```
+
 <!-- Link labels: -->
 
 [browserconfiguration]: ../../user-guide/index.md#browserconfiguration
 [json schema]: http://json-schema.org/
-[parser]: ../../user-guide/concepts/parser.md
+[parsers]: ../../user-guide/concepts/parser.md

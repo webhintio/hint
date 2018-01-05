@@ -36,6 +36,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
                 name: connector,
                 options: {}
             },
+            parsers: opts && opts.parsers || [],
             rules
         };
 
