@@ -269,12 +269,15 @@ export interface ITargetFetchStart {
 ## `traverse::down`
 
 Event is emitted **when** the `connector` is traversing and starts
-visiting the children of a node.
+visiting the children of a node. `element` is the parent node that
+is to be traversed.
 
 **Format:**
 
 ```ts
 export interface ITraverseDown {
+    /** The parent element to be traversed. */
+    element: IAsyncHTMLElement;
     /** The URL of the target. */
     resource: string;
 }
@@ -311,12 +314,15 @@ export interface ITraverseStart {
 ## `traverse::up`
 
 Event is emitted **when** the `connector` has finsihed visting the
-children of a node and goes to the next one.
+children of a node and goes to the next one. `element` is the parent
+node that was traversed.
 
 **Format:**
 
 ```ts
 export interface ITraverseUp {
+    /** The parent element that was traversed. */
+    element: IAsyncHTMLElement;
     /** The URL of the target. */
     resource: string;
 }
