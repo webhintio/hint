@@ -63,6 +63,41 @@ HTTP/... 200 OK
 X-Content-Type-Options: nosniff
 ```
 
+## How to configure the server to pass this rule
+
+<!-- markdownlint-disable MD033 -->
+<details>
+<summary>How to configure Apache</summary>
+
+Apache can be configured to serve resources with the
+`X-Content-Type-Options` header with the value of `nosniff`
+using the [`Header` directive][header directive]:
+
+```apache
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+```
+
+Note that:
+
+* The above snippet works with Apache `v2.2.0+`, but you need to have
+  [`mod_headers`][mod_headers] [enabled][how to enable apache modules]
+  in order for it to take effect.
+
+* If you have access to the [main Apache configuration file][main
+  apache conf file] (usually called `httpd.conf`), you should add
+  the logic in, for example, a [`<Directory>`][apache directory]
+  section in that file. This is usually the recommended way as
+  [using `.htaccess` files slows down][htaccess is slow] Apache!
+
+  If you don't have access to the main configuration file (quite
+  common with hosting services), just add the snippets in a `.htaccess`
+  file in the root of the web site/app.
+
+</details>
+<!-- markdownlint-enable MD033 -->
+
 ## Further Reading
 
 * [`X-Content-Type-Options` header](https://fetch.spec.whatwg.org/#x-content-type-options-header)
@@ -77,3 +112,13 @@ X-Content-Type-Options: nosniff
 [fetch spec issue]: https://github.com/whatwg/fetch/issues/395
 [javascript media types]: https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
+
+<!-- Apache links -->
+
+[apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
+[header directive]: https://httpd.apache.org/docs/current/mod/mod_headers.html#header
+[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
+[htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
+[main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
+[mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
+[mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html

@@ -216,6 +216,73 @@ X-UA-Compatible: ie=edge
 </html>
 ```
 
+## How to configure the server to pass this rule
+
+<!-- markdownlint-disable MD033 -->
+<details>
+<summary>How to configure Apache</summary>
+
+Apache can be configured to add or remove the `X-UA-Compatible`
+header using the [`Header` directive][header directive].
+
+### Adding the `X-UA-Compatible` header
+
+```apache
+<IfModule mod_headers.c>
+
+    # Because `mod_headers` cannot match based on the content-type,
+    # and the `X-UA-Compatible` response header should only be sent
+    # for HTML documents and not for the other resources, the following
+    # workaround needs to be done.
+
+    # 1) Add the header to all resources.
+
+    Header set X-UA-Compatible "IE=edge"
+
+    # 2) Remove the header for all resources that should not have it.
+
+    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|m?js|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+        Header unset X-UA-Compatible
+    </FilesMatch>
+
+</IfModule>
+```
+
+## Removing the `X-UA-Compatible` header
+
+If the header is sent, in most cases, to make Apache stop sending
+the `X-UA-Compatible` requires just removing the configuration that
+adds it (i.e.: something such as `Header set X-UA-Compatible
+"IE=edge"`). However, if the header is added from somewhere in the
+stack (e.g. the framework level, language level such as PHP, etc.),
+and that cannot be changed, you can try to remove it at the `Apache`
+level, using the following:
+
+```apache
+<IfModule mod_headers.c>
+    Header unset X-UA-Compatible
+</IfModule>
+```
+
+Note that:
+
+* The above snippets work with Apache `v2.2.0+`, but you need to have
+  [`mod_headers`][mod_headers] [enabled][how to enable apache modules]
+  in order for them to take effect.
+
+* If you have access to the [main Apache configuration file][main
+  apache conf file] (usually called `httpd.conf`), you should add
+  the logic in, for example, a [`<Directory>`][apache directory]
+  section in that file. This is usually the recommended way as
+  [using `.htaccess` files slows down][htaccess is slow] Apache!
+
+  If you don't have access to the main configuration file (quite
+  common with hosting services), just add the snippets in a `.htaccess`
+  file in the root of the web site/app.
+
+</details>
+<!-- markdownlint-enable MD033 -->
+
 ## Can the rule be configured?
 
 `requireMetaTag` can be set to `true` to allow and require the use of
@@ -242,3 +309,12 @@ not sending the HTTP response header.
 [chrome frame]: https://blog.chromium.org/2013/06/retiring-chrome-frame.html
 [doc modes]: https://msdn.microsoft.com/en-us/library/cc288325.aspx
 [ie complications]: https://hsivonen.fi/doctype/#ie8
+
+<!-- apache links -->
+
+[apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
+[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
+[htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
+[main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
+[mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
+[mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html

@@ -106,6 +106,186 @@ HTTP/... 200 OK
 Content-Type: text/javascript; charset=utf-8
 ```
 
+## How to configure the server to pass this rule
+
+<!-- markdownlint-disable MD033 -->
+<details>
+<summary>How to configure Apache</summary>
+
+By default Apache [maps certain filename extensions to specific media
+types][mime.types file], but depending on the Apache version that is
+used, some mappings may be outdated or missing.
+
+Fortunately, Apache provides a way to overwrite and add to the existing
+media types mappings using the [`AddType` directive][addtype]. For
+example, to configure Apache to serve `.webmanifest` files with the
+`application/manifest+json` media type, the following can be used:
+
+```apache
+<IfModule mod_mime.c>
+    AddType application/manifest+json   webmanifest
+</IfModule>
+```
+
+The same goes for mapping certain filename extensions to specific
+charsets, which can be done using the [`AddDefaultCharset`][adddefaultcharset]
+and [`AddCharset`][addcharset] directives.
+
+If you don't want to start from scratch, below is a generic starter
+snippet that contains the necessary mappings to ensure that commonly
+used file types are served with the appropriate `Content-Type` response
+header, and thus, make your web site/app pass this rule.
+
+```apache
+# Serve resources with the proper media types (f.k.a. MIME types).
+# https://www.iana.org/assignments/media-types/media-types.xhtml
+
+<IfModule mod_mime.c>
+
+  # Data interchange
+
+    # 2.2.x+
+
+    AddType text/xml                                    xml
+
+    # 2.2.x - 2.4.x
+
+    AddType application/json                            json
+    AddType application/rss+xml                         rss
+
+    # 2.4.x+
+
+    AddType application/json                            map topojson
+    AddType application/ld+json                         jsonld
+    AddType application/vnd.geo+json                    geojson
+
+
+  # JavaScript
+
+    # 2.2.x+
+
+    # See: https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages.
+    AddType text/javascript                             js mjs
+
+
+  # Manifest files
+
+    # 2.2.x+
+
+    AddType application/manifest+json                   webmanifest
+    AddType text/cache-manifest                         appcache
+
+
+  # Media files
+
+    # 2.2.x - 2.4.x
+
+    AddType audio/mp4                                   f4a f4b m4a
+    AddType audio/ogg                                   oga ogg spx
+    AddType video/mp4                                   mp4 mp4v mpg4
+    AddType video/ogg                                   ogv
+    AddType video/webm                                  webm
+    AddType video/x-flv                                 flv
+
+    # 2.2.x+
+
+    AddType image/svg+xml                               svgz
+    AddType image/x-icon                                cur
+
+    # 2.4.x+
+
+    AddType image/webp                                  webp
+
+
+  # Web fonts
+
+    # 2.2.x - 2.4.x
+
+    AddType application/vnd.ms-fontobject               eot
+
+    # 2.2.x+
+
+    AddType font/woff                                   woff
+    AddType font/woff2                                  woff2
+    AddType font/ttf                                    ttf
+    AddType font/collection                             ttc
+    AddType font/otf                                    otf
+
+
+  # Other
+
+    # 2.2.x - 2.4.x
+
+    AddType text/vcard                                  vcard
+
+    # 2.2.x+
+
+    AddType text/markdown                               markdown md
+    AddType text/vtt                                    vtt
+
+    # 2.4.x+
+
+    AddType text/vcard                                  vcf
+    AddType text/x-component                            htc
+
+</IfModule>
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Serve all resources labeled as `text/html` or `text/plain`
+# with the media type `charset` parameter set to `utf-8`.
+#
+# https://httpd.apache.org/docs/current/mod/core.html#adddefaultcharset
+
+AddDefaultCharset utf-8
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Serve the following file types with the media type `charset`
+# parameter set to `utf-8`.
+#
+# https://httpd.apache.org/docs/current/mod/mod_mime.html#addcharset
+
+<IfModule mod_mime.c>
+    AddCharset utf-8 .atom \
+                     .css \
+                     .geojson \
+                     .ics \
+                     .js \
+                     .json \
+                     .jsonld \
+                     .manifest \
+                     .markdown \
+                     .md \
+                     .mjs \
+                     .rdf \
+                     .rss \
+                     .topojson \
+                     .vtt \
+                     .webmanifest \
+                     .xml
+</IfModule>
+```
+
+Note that:
+
+* The above snippet works with Apache `v2.2.0+`, but you need to have
+  [`mod_mime`][mod_mime] [enabled][how to enable apache modules]
+  in order for it to take effect.
+
+* If you have access to the [main Apache configuration file][main
+  apache conf file] (usually called `httpd.conf`), you should add
+  the logic in, for example, a [`<Directory>`][apache directory]
+  section in that file. This is usually the recommended way as
+  [using `.htaccess` files slows down][htaccess is slow] Apache!
+
+  If you don't have access to the main configuration file (quite
+  common with hosting services), just add the snippets in a `.htaccess`
+  file in the root of the web site/app.
+
+</details>
+<!-- markdownlint-enable MD033 -->
+
 ## Can the rule be configured?
 
 You can overwrite the defaults by specifying custom values for the
@@ -140,3 +320,15 @@ property from the `.sonarwhalrc` file to exclude domains you don’t control
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
 [required media type]: https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache#Referencing_a_cache_manifest_file
 [server configs]: https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Configuring_server_MIME_types
+
+<!-- Apache links -->
+
+[addcharset]: https://httpd.apache.org/docs/current/mod/mod_mime.html#addcharset
+[adddefaultcharset]: https://httpd.apache.org/docs/current/mod/core.html#adddefaultcharset
+[addtype]: https://httpd.apache.org/docs/current/mod/mod_mime.html#addtype
+[apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
+[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
+[htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
+[main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
+[mime.types file]: https://github.com/apache/httpd/blob/trunk/docs/conf/mime.types
+[mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html
