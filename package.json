@@ -33,7 +33,7 @@
     "html-validator": "^2.2.3",
     "iconv-lite": "^0.4.19",
     "image-size": "^0.6.2",
-    "inquirer": "^4.0.2",
+    "inquirer": "^5.0.0",
     "is-ci": "^1.1.0",
     "is-my-json-valid": "^2.17.1",
     "is-resolvable": "^1.0.1",
