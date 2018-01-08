@@ -1,0 +1,2 @@
+/* eslint-disable no-unused-vars */
+const x = 5;

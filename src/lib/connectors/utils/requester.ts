@@ -48,6 +48,7 @@ export class Requester {
     public constructor(customOptions?: request.CoreOptions) {
         if (customOptions) {
             customOptions.followRedirect = false;
+            customOptions.rejectUnauthorized = false;
             this._maxRedirects = customOptions.maxRedirects || this._maxRedirects;
         }
         const options: request.CoreOptions = Object.assign({}, defaults, customOptions);

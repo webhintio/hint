@@ -380,7 +380,7 @@ export class Connector implements IConnector {
                      *
                      */
 
-                    const validHeaders = Object.entries(headers).reduce((final, [key, value]) => {
+                    const validHeaders = Object.entries(headers || {}).reduce((final, [key, value]) => {
                         if (key.startsWith(':')) {
                             return final;
                         }
