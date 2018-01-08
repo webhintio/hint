@@ -45,16 +45,10 @@ export interface ITraverseStart extends IEvent { }
 export interface ITraverseEnd extends IEvent { }
 
 /** The object emitted by a connector on `traverse::up` */
-export interface ITraverseUp extends IEvent {
-    /** The elemnent to traverse from */
-    element: IAsyncHTMLElement;
-}
+export interface ITraverseUp extends IEvent { }
 
 /** The object emitted by a connector on `traverse::down` */
-export interface ITraverseDown extends IEvent {
-    /** The elemnent to traverse from */
-    element: IAsyncHTMLElement;
-}
+export interface ITraverseDown extends IEvent { }
 
 /** The object emitted by a connector on `element::<element-type>`. */
 export interface IElementFound extends IEvent {
