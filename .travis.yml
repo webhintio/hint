@@ -106,3 +106,5 @@ stages:
   #           to the `master` branch.
 
   - deploy
+
+sudo: required
