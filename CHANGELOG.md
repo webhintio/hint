@@ -1,3 +1,20 @@
+# 0.22.0 (January 9, 2018)
+
+## Bug fixes / Improvements
+
+* [[`ec729e1545`](https://github.com/sonarwhal/sonarwhal/commit/ec729e1545014b5a4d849b9f8b133f8bb5af2513)] - Fix: Issues in `requester` and `http-compression` (see also: [`#731`](https://github.com/sonarwhal/sonarwhal/issues/731)).
+* [[`6e1a12ef42`](https://github.com/sonarwhal/sonarwhal/commit/6e1a12ef42fba1bd6007583365efacc6cbea25c4)] - Fix: Pass parsers to tests (see also: [`#740`](https://github.com/sonarwhal/sonarwhal/issues/740)).
+
+## New features
+
+* [[`d10583922e`](https://github.com/sonarwhal/sonarwhal/commit/d10583922e24069c979e34e80196262e1ab95ac4)] - Update: `snyk-snapshot.json`.
+* [[`e44e7cc98f`](https://github.com/sonarwhal/sonarwhal/commit/e44e7cc98f423b74ccf6c05f6d3ad5a5c1666332)] - New: Add rule to check if resources are served compressed (see also: [`#12`](https://github.com/sonarwhal/sonarwhal/issues/12) and [`#1`](https://github.com/sonarwhal/sonarwhal/issues/1)).
+* [[`b66af0c045`](https://github.com/sonarwhal/sonarwhal/commit/b66af0c0450dfb64db08891d00156c2a011cadba)] - New: Make test server allow alternative responses.
+* [[`fdeadb9669`](https://github.com/sonarwhal/sonarwhal/commit/fdeadb96691b76f4e8418f2ea3f9d075b7db65a0)] - New: Add `element` info to `traverse` events.
+* [[`a03316adc1`](https://github.com/sonarwhal/sonarwhal/commit/a03316adc193a37990b8412bffb044f2ea36c99b)] - New: Add `local` connector (see also: [`#737`](https://github.com/sonarwhal/sonarwhal/issues/737)).
+* [[`a041abcff5`](https://github.com/sonarwhal/sonarwhal/commit/a041abcff5645a0d35a284ac27e5236f8578c4f9)] - New: Upgrade `axe-core` to `v2.6` (see also: [`#736`](https://github.com/sonarwhal/sonarwhal/issues/736)).
+
+
 # 0.21.0 (January 4, 2018)
 
 ## Bug fixes / Improvements
