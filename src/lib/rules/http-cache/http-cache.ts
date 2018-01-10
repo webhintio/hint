@@ -35,7 +35,7 @@ const rule: IRuleBuilder = {
             'audio/mp4',
 
             'font/collection',
-            'font/eot',
+            'application/vnd.ms-fontobject',
             'font/opentype',
             'font/otf',
             'font/ttf',
