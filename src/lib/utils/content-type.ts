@@ -239,6 +239,9 @@ const determineMediaTypeBasedOnFileExtension = (resource: string): string => {
             return 'font/ttf';
         case 'otf':
             return 'font/otf';
+        case 'xml':
+            // See: https://tools.ietf.org/html/rfc3023#page-5.
+            return 'text/xml';
     }
     /* eslint-enable no-default */
 
@@ -261,6 +264,25 @@ const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string => {
     }
 
     return null;
+};
+
+const getPreferedMediaType = (mediaType: string): string => {
+
+    // Prefer certain media types over others.
+
+    switch (mediaType) {
+        case 'application/xml':
+            /*
+             * From https://tools.ietf.org/html/rfc3023#page-5:
+             *
+             *  " If an XML document -- that is, the unprocessed,
+             *    source XML document -- is readable by casual users,
+             *    text/xml is preferable to application/xml. "
+             */
+            return 'text/xml';
+        default:
+            return mediaType;
+    }
 };
 
 const parseContentTypeHeader = (headers): MediaType => {
@@ -323,11 +345,13 @@ const getContentTypeData = (element: IAsyncHTMLElement, resource: string, header
      * information, as sometimes servers are misconfigured.
      */
 
-    const mediaType =
+    let mediaType =
         determineMediaTypeBasedOnElement(element) ||
         determineMediaTypeBasedOnFileType(rawContent) ||
         determineMediaTypeBasedOnFileExtension(resource) ||
         originalMediaType;
+
+    mediaType = getPreferedMediaType(mediaType);
 
     const charset = determineCharset(originalCharset, mediaType);
 
