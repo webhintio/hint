@@ -1,3 +1,10 @@
+# 0.22.1 (January 12, 2018)
+
+## Bug fixes / Improvements
+
+* [[`0bb6f817ec`](https://github.com/sonarwhal/sonarwhal/commit/0bb6f817ec2350b4e95680dd5c09ba8cce457fe2)] - Fix: Headers not being set correctly in `Requester` (see also: [`#749`](https://github.com/sonarwhal/sonarwhal/issues/749)).
+
+
 # 0.22.0 (January 9, 2018)
 
 ## Bug fixes / Improvements
