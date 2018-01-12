@@ -59,7 +59,7 @@
     "require-uncached": "^1.0.3",
     "same-origin": "^0.1.1",
     "semver": "^5.4.1",
-    "shelljs": "^0.7.6",
+    "shelljs": "^0.8.0",
     "strip-bom": "^3.0.0",
     "strip-json-comments": "^2.0.1",
     "text-table": "^0.2.0",
