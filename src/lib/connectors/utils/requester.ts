@@ -50,7 +50,12 @@ export class Requester {
             customOptions.followRedirect = false;
             customOptions.rejectUnauthorized = false;
             this._maxRedirects = customOptions.maxRedirects || this._maxRedirects;
+
+            if (customOptions.headers) {
+                customOptions.headers = Object.assign({}, defaults.headers, customOptions.headers);
+            }
         }
+
         const options: request.CoreOptions = Object.assign({}, defaults, customOptions);
 
         this._request = request.defaults(options);
