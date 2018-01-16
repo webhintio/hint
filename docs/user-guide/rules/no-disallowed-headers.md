@@ -32,12 +32,14 @@ HTTP headers:
 
 * `Public-Key-Pins`
 * `Public-Key-Pins-Report-Only`
-* `Server`
 * `X-AspNet-Version`
 * `X-AspNetMvc-version`
 * `X-Powered-By`
 * `X-Runtime`
 * `X-Version`
+
+or the `Server` header with a value that provides a lot of information,
+and is not limited to the server name.
 
 ### Examples that **trigger** the rule
 
@@ -61,6 +63,14 @@ Public-Key-Pins-Report-Only:
 ```
 
 ### Examples that **pass** the rule
+
+```text
+HTTP/... 200 OK
+
+...
+Server: apache
+X-Powered-By: PHP/5.3.28
+```
 
 ```text
 HTTP/... 200 OK
