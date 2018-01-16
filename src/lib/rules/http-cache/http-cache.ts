@@ -63,9 +63,11 @@ const rule: IRuleBuilder = {
              * - https://example.com/assets/script.12345.js
              * - https://example.com/assets/script-2.12345.js
              * - https://example.com/assets/script_2-12345.js
+             * - https://example.com/assets/icon_meca_1473335663.svg
+             *
+             * Live example: https://regex101.com/r/6VduJO/2/
              */
-            /\/(\w|-|_)+\.\w+\.\w+$/i,
-            /\/(\w|-|_)+-\w+\.\w+$/i
+            /\/(\w|-|_)+(\.|-|_)\w+\.\w+$/i
         ];
 
         /** The cache revving patterns to use for matching.*/
@@ -344,7 +346,7 @@ const rule: IRuleBuilder = {
             });
 
             if (!matches) {
-                const message: string = `No patterns for file revving match ${resource}`;
+                const message: string = `No configured patterns for cache busting match ${resource}. See docs to add a custom one.`;
 
                 await context.report(resource, element, message);
 

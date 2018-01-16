@@ -213,7 +213,7 @@ const defaultTests: Array<IRuleTest> = [
     },
     {
         name: 'JS with long max-age, immutable and no file revving fails',
-        reports: [{ message: 'No patterns for file revving match http://localhost/script.js' }],
+        reports: [{ message: 'No configured patterns for cache busting match http://localhost/script.js. See docs to add a custom one.' }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.js"></script>'),
             '/favicon.123.ico': {
@@ -241,8 +241,22 @@ const defaultTests: Array<IRuleTest> = [
         }
     },
     {
+        name: 'JS with long max-age, immutable and file revving with `_` passes',
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="icon" href="/favicon_123.ico"><script src="/script_123.js"></script>'),
+            '/favicon_123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            },
+            '/script_123.js': {
+                content: 'var a = 10;',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            }
+        }
+    },
+    {
         name: 'JS with long max-age, immutable and parameter file revving fails',
-        reports: [{ message: 'No patterns for file revving match http://localhost/script.js?v=123' }],
+        reports: [{ message: 'No configured patterns for cache busting match http://localhost/script.js?v=123. See docs to add a custom one.' }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.js?v=123"></script>'),
             '/favicon.123.ico': {
@@ -273,7 +287,7 @@ const defaultTests: Array<IRuleTest> = [
     },
     {
         name: 'CSS with long max-age, immutable and no file revving fails',
-        reports: [{ message: 'No patterns for file revving match http://localhost/styles.css' }],
+        reports: [{ message: 'No configured patterns for cache busting match http://localhost/styles.css. See docs to add a custom one.' }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.css">'),
             '/favicon.123.ico': {
@@ -302,7 +316,7 @@ const defaultTests: Array<IRuleTest> = [
     },
     {
         name: 'CSS with long max-age, immutable and parameter file revving fails',
-        reports: [{ message: 'No patterns for file revving match http://localhost/styles.css?v=123' }],
+        reports: [{ message: 'No configured patterns for cache busting match http://localhost/styles.css?v=123. See docs to add a custom one.' }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.css?v=123">'),
             '/favicon.123.ico': {
@@ -319,7 +333,7 @@ const defaultTests: Array<IRuleTest> = [
 const customRegexTests: Array<IRuleTest> = [
     {
         name: 'JS with long max-age, immutable and file revving fails custom regex',
-        reports: [{ message: 'No patterns for file revving match http://localhost/script.123.js' }],
+        reports: [{ message: 'No configured patterns for cache busting match http://localhost/script.123.js. See docs to add a custom one.' }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/12345/favicon.ico"><script src="/script.123.js"></script>'),
             '/12345/favicon.ico': {
