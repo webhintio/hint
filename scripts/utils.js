@@ -48,4 +48,26 @@ const exec = async (msg, cmd) => { // eslint-disable-line consistent-return
     }
 };
 
-exports.exec = exec;
+const getLastCommitInfo = async (message, format) => {
+    // See: https://git-scm.com/docs/pretty-formats#_pretty_formats.
+    return await exec(message, `git show --no-patch --format=%${format} -1`);
+};
+
+const getLastCommitAuthorEmail = async () => {
+    return await getLastCommitInfo('Get author email for the last commit.', 'ae');
+};
+
+const getLastCommitAuthorName = async () => {
+    return await getLastCommitInfo('Get author name for the last commit.', 'an');
+};
+
+const getLastCommitSubject = async () => {
+    return await getLastCommitInfo('Get subject for the last commit.', 's');
+};
+
+module.exports = {
+    exec,
+    getLastCommitAuthorEmail,
+    getLastCommitAuthorName,
+    getLastCommitSubject
+};

@@ -186,18 +186,6 @@ const isExcludedCommit = (commit) => {
         return true;
     }
 
-    /*
-     * For now, the form of the commit message used by Greenkeeper
-     * cannot be configured, so in order to not fail every such commit,
-     * just exclude them for now.
-     *
-     * See also: https://github.com/greenkeeperio/greenkeeper/issues/153)
-     */
-
-    if (commit.username === 'greenkeeper[bot]') {
-        return true;
-    }
-
     return false;
 };
 

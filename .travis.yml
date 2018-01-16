@@ -29,15 +29,6 @@ jobs:
       script:
         - ./.travis/check-links.sh
 
-    - stage: greenkeeper
-      if: type = push and branch =~ ^greenkeeper\/.*-.*$
-
-      os: linux
-      node_js: lts/*
-
-      script:
-        - ./.travis/set-up-ssh.sh && node ./.travis/update-greenkeeper-pull-requests.js
-
     - stage: deploy
       if: type = push and branch = master
 
@@ -46,6 +37,24 @@ jobs:
 
       script:
         - ./.travis/trigger-site-update.sh
+
+    - stage: greenkeeper-merge
+      if: type = push and branch =~ ^greenkeeper\/.*-.*$
+
+      os: linux
+      node_js: lts/*
+
+      script:
+        - ./.travis/set-up-ssh.sh && node ./.travis/greenkeeper-merge.js
+
+    - stage: greenkeeper-update
+      if: type = push and branch =~ ^greenkeeper\/.*-.*$
+
+      os: linux
+      node_js: lts/*
+
+      script:
+        - ./.travis/set-up-ssh.sh && node ./.travis/greenkeeper-update.js
 
 language: node_js
 
@@ -82,7 +91,7 @@ stages:
   #
   # [!] Runs: Only for branches created by Greenkeeper.
 
-  - greenkeeper
+  - greenkeeper-update
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -96,6 +105,15 @@ stages:
 
     script:
       - npm run test-on-travis
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Stage used for automatically merging Greenkeeper's commits
+  # that pass the tests.
+  #
+  # [!] Runs: Only for branches created by Greenkeeper.
+
+  - greenkeeper-merge
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
