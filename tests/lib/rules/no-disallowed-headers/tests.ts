@@ -46,17 +46,82 @@ const testsForDefaults: Array<IRuleTest> = [
     },
     {
         name: `HTML page is served with multiple disallowed headers`,
-        reports: [{ message: generateMessage(['server', 'x-aspnetmvc-version']) }],
+        reports: [{ message: generateMessage(['x-aspnetmvc-version', 'x-powered-by']) }],
         serverConfig: {
             '/': {
                 headers: {
                     Server: 'test',
-                    'X-AspNetMvc-Version': 'test'
+                    'X-AspNetMvc-Version': 'test',
+                    'X-Powered-By': 'test'
                 }
             }
         }
     }
 ];
+
+const testsForDifferentServerHeaderValues: Array<IRuleTest> = (() => {
+
+    const allowedServerHeaderValues = [
+        'amo-cookiemap',
+        'aorta',
+        'APACHE',
+        'ecs',
+        'jetty',
+        'jino.ru',
+        'lighttpd',
+        'marrakesh',
+        'microsoft-iis',
+        'mt3',
+        'nginx',
+        'omniture',
+        'pingmatch',
+        'radiumone',
+        'waf',
+        'windows-azure-blo'
+    ];
+
+    const disallowedServerHeaderValues = [
+        'Apache/2.2.24 (uNix) Mod_ssl/2.2.24 OpenSSl/1.0.1e-fips MOD_fastcgi/2.4.6',
+        'jetty(9.4.6.v20170531)',
+        'windows-azure-blob/1.0 microsoft-httpapi/2.0',
+        'apache/2.4.6 (CENTOS) PHP/5.4.16',
+        'apache/2.2.34 (amazon)',
+        'omniture dc/2.0.0',
+        'jino.ru/mod_pizza',
+        'amo-cookiemap/1.1',
+        'lighttpd/1.4.35',
+        'radiumone/1.4.2',
+        'mt3 1.15.20.1 33bcb65 release pao-pixel-x16',
+        'aorta/2.4.13-20180105.e4d0482',
+        'marrakesh 1.9.9',
+        'waf/2.4-12.1',
+        'ecs (sjc/4e6a)',
+        'pingmatch/v2.0.30-165-g51bed16#rel-ec2-master i-077d449239c04b184@us-west-2b@dxedge-app_us-west-2_prod_asg',
+        'microsoft-iis/8.5',
+        'nginx/1.12.2',
+        'NgiNx/1.4.6 (ubuntu)'
+    ];
+
+    const tests = [];
+
+    allowedServerHeaderValues.forEach((value) => {
+        tests.push({
+            name: `HTML page is served with allowed 'Server: ${value}'`,
+            serverConfig: { '/': { headers: { Server: value } } }
+        });
+    });
+
+    disallowedServerHeaderValues.forEach((value) => {
+        tests.push({
+            name: `HTML page is served with disallowed 'Server: ${value}'`,
+            reports: [{ message: `'Server' header value contains more than the server name` }],
+            serverConfig: { '/': { headers: { Server: value } } }
+        });
+    });
+
+    return tests;
+
+})();
 
 const testsForIgnoreConfigs: Array<IRuleTest> = [
     {
@@ -64,7 +129,7 @@ const testsForIgnoreConfigs: Array<IRuleTest> = [
         serverConfig: {
             '/': {
                 headers: {
-                    Server: 'test',
+                    Server: 'apache/2.2.24 (unix) mod_ssl/2.2.24 openssl/1.0.1e-fips mod_fastcgi/2.4.6',
                     'X-Test-1': 'test'
                 }
             }
@@ -80,7 +145,7 @@ const testsForIncludeConfigs: Array<IRuleTest> = [
             '/': htmlPageWithScript,
             '/test.js': {
                 headers: {
-                    Server: 'test',
+                    Server: 'apache/2.2.24 (unix) mod_ssl/2.2.24 openssl/1.0.1e-fips mod_fastcgi/2.4.6',
                     'X-Test-2': 'test'
                 }
             }
@@ -95,7 +160,7 @@ const testsForConfigs: Array<IRuleTest> = [
         serverConfig: {
             '/': {
                 headers: {
-                    Server: 'test',
+                    Server: 'apache/2.2.24 (unix) mod_ssl/2.2.24 openssl/1.0.1e-fips mod_fastcgi/2.4.6',
                     'X-Powered-By': 'test',
                     'X-Test-1': 'test',
                     'X-Test-2': 'test'
@@ -106,6 +171,7 @@ const testsForConfigs: Array<IRuleTest> = [
 ];
 
 ruleRunner.testRule(ruleName, testsForDefaults);
+ruleRunner.testRule(ruleName, testsForDifferentServerHeaderValues);
 ruleRunner.testRule(ruleName, testsForIgnoreConfigs, { ruleOptions: { ignore: ['Server', 'X-Powered-By', 'X-Test-1'] } });
 ruleRunner.testRule(ruleName, testsForIncludeConfigs, { ruleOptions: { include: ['Server', 'X-Test-1', 'X-Test-2'] } });
 ruleRunner.testRule(ruleName, testsForConfigs, {
