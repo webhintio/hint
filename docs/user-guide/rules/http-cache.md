@@ -35,18 +35,19 @@ validate that the page and resources have a good caching strategy:
     one based on query string parameters (see: [problems with
     proxys][revving files])
 
-The built-in regular expression for file revving are:
+The built-in regular expression for file revving is:
 
 ```regexp
-/\/(\w|-|_)+\.\w+\.\w+$/i,
-/\/(\w|-|_)+-\w+\.\w+$/i
+/\/(\w|-|_)+(\.|-|_)\w+\.\w+$/i
 ```
 
 This will match urls like the following:
 
 ```text
 https://example.com/assets/script.12345.js
-https://example.com/assets/styles-12345.css
+https://example.com/assets/script-2.12345.js
+https://example.com/assets/script_2-12345.js
+https://example.com/assets/icon_meca_1473335663.svg
 ```
 
 ## Can the rule be configured?
