@@ -29,7 +29,7 @@ and format.
 ## Can the rule be configured?
 
 Yes, if you don’t want to use the `CLOUDINARY_URL` environment variable
-to set up your crendentiasl, you can do the following:
+to set up your credentials, you can do the following:
 
 ```json
 "image-optimization-cloudinary": ["error", {
