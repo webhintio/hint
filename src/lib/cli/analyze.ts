@@ -90,10 +90,10 @@ const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: IORA) => {
     });
 };
 
-const format = (formatterName: string, results: IProblem[]) => {
+const format = async (formatterName: string, results: IProblem[]) => {
     const formatter: IFormatter = resourceLoader.loadFormatter(formatterName) || resourceLoader.loadFormatter('json');
 
-    formatter.format(results);
+    await formatter.format(results);
 };
 
 /*
@@ -151,16 +151,16 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         });
     };
 
-    const print = (reports: Array<IProblem>) => {
+    const print = async (reports: Array<IProblem>) => {
         if (hasError(reports)) {
             endSpinner('fail');
         } else {
             endSpinner('succeed');
         }
 
-        sonarwhal.formatters.forEach((formatter) => {
-            format(formatter, reports);
-        });
+        for (const formatter of sonarwhal.formatters) {
+            await format(formatter, reports);
+        }
     };
 
     sonarwhal.on('print', print);
@@ -173,7 +173,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
                 exitCode = 1;
             }
 
-            print(results);
+            await print(results);
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');
