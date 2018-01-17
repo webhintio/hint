@@ -1,3 +1,19 @@
+# 0.23.0 (January 17, 2018)
+
+## Breaking Changes
+
+* [[`2e75ac5242`](https://github.com/sonarwhal/sonarwhal/commit/2e75ac52424b55d12b70b248fa2866bb67f4341f)] - Breaking: Use `text/xml` as the media type for `XML`.
+
+## Bug fixes / Improvements
+
+* [[`87d2af7be5`](https://github.com/sonarwhal/sonarwhal/commit/87d2af7be54d87fc62d423323d0e789590d3d03a)] - Fix: Add new patterns for filename based revving to the `http-cache` rule (see also: [`#741`](https://github.com/sonarwhal/sonarwhal/issues/741)).
+* [[`29064a3e9b`](https://github.com/sonarwhal/sonarwhal/commit/29064a3e9b99d8067367a25cb6618ab180266713)] - Docs: Fix typo in `image-optimization-cloudinary`.
+
+## New features
+
+* [[`188d270f03`](https://github.com/sonarwhal/sonarwhal/commit/188d270f03aeeda4a4515072e9958feb18840829)] - New: Make `no-disallowed-headers` allow by default the `Server` HTTP header (see also: [`#747`](https://github.com/sonarwhal/sonarwhal/issues/747)).
+
+
 # 0.22.1 (January 12, 2018)
 
 ## Bug fixes / Improvements
