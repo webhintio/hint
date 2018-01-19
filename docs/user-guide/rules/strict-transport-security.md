@@ -115,6 +115,41 @@ HTTP/... 200 OK
  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 ```
 
+## How to configure the server to pass this rule
+
+<!-- markdownlint-disable MD033 -->
+<details>
+<summary>How to configure Apache</summary>
+
+Apache can be configured to serve resources with the
+`Strict-Transport-Security` header with a specific value
+using the [`Header` directive][header directive], e.g.:
+
+```apache
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+```
+
+Note that:
+
+* The above snippet works with Apache `v2.2.0+`, but you need to have
+  [`mod_headers`][mod_headers] [enabled][how to enable apache modules]
+  in order for it to take effect.
+
+* If you have access to the [main Apache configuration file][main
+  apache conf file] (usually called `httpd.conf`), you should add
+  the logic in, for example, a [`<Directory>`][apache directory]
+  section in that file. This is usually the recommended way as
+  [using `.htaccess` files slows down][htaccess is slow] Apache!
+
+  If you don't have access to the main configuration file (quite
+  common with hosting services), just add the snippets in a `.htaccess`
+  file in the root of the web site/app.
+
+</details>
+<!-- markdownlint-enable MD033 -->
+
 ## Can the rule be configured?
 
 Yes, you can configure the value that `max-age` is checked against
@@ -157,3 +192,13 @@ E.g. The following configuration will enable the `preload` validation.
 [sql injection]: https://www.owasp.org/index.php/SQL_Injection
 [understading hsts]: https://www.troyhunt.com/understanding-http-strict-transport/
 [xss]: https://www.owasp.org/index.php/Cross-site_Scripting_%28XSS%29
+
+<!-- Apache links -->
+
+[apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
+[header directive]: https://httpd.apache.org/docs/current/mod/mod_headers.html#header
+[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
+[htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
+[main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
+[mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
+[mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html

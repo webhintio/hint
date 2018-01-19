@@ -82,6 +82,54 @@ X-XSS-Protection: 1; mode=block
 ...
 ```
 
+## How to configure the server to pass this rule
+
+<!-- markdownlint-disable MD033 -->
+<details>
+<summary>How to configure Apache</summary>
+
+Apache can be configured to remove headers using the [`Header`
+directive][header directive].
+
+To remove the headers that are not needed for non-HTML resources,
+you can do something such as the following:
+
+```apache
+<IfModule mod_headers.c>
+
+    # Because `mod_headers` cannot match based on the content-type,
+    # the following workaround needs to be used.
+
+    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|m?js|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+        Header unset Content-Security-Policy
+        Header unset X-Content-Security-Policy
+        Header unset X-Frame-Options
+        Header unset X-UA-Compatible
+        Header unset X-WebKit-CSP
+        Header unset X-XSS-Protection
+    </FilesMatch>
+</IfModule>
+```
+
+Note that:
+
+* The above snippet works with Apache `v2.2.0+`, but you need to have
+  [`mod_headers`][mod_headers] [enabled][how to enable apache modules]
+  in order for it to take effect.
+
+* If you have access to the [main Apache configuration file][main
+  apache conf file] (usually called `httpd.conf`), you should add
+  the logic in, for example, a [`<Directory>`][apache directory]
+  section in that file. This is usually the recommended way as
+  [using `.htaccess` files slows down][htaccess is slow] Apache!
+
+  If you don't have access to the main configuration file (quite
+  common with hosting services), just add the snippets in a `.htaccess`
+  file in the root of the web site/app.
+
+</details>
+<!-- markdownlint-enable MD033 -->
+
 ## Can the rule be configured?
 
 Yes, you can use:
@@ -101,3 +149,11 @@ but not with `Custom-Header`.
     "include": ["Custom-Header"]
 }]
 ```
+
+<!-- Apache links -->
+
+[apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
+[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
+[htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
+[main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
+[mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
