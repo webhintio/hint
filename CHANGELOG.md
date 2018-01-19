@@ -1,3 +1,10 @@
+# 0.23.1 (January 18, 2018)
+
+## Bug fixes / Improvements
+
+* [[`afc468d754`](https://github.com/sonarwhal/sonarwhal/commit/afc468d7541754ff6d5992fc106514a093ce68eb)] - Docs: Add examples on how to configure Apache in order to pass the rules (see also: [`#751`](https://github.com/sonarwhal/sonarwhal/issues/751)).
+
+
 # 0.23.0 (January 17, 2018)
 
 ## Breaking Changes
