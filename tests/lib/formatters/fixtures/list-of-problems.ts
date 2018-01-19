@@ -293,7 +293,7 @@ const interactiveProblems: Array<IProblem> = [{
 {
     location: { column: 19807, elementColumn: 0, elementLine: 1, line: 7 },
     message: `'x-content-type-options' header was not specified`,
-    resource: 'http://myresource.com/',
+    resource: 'http://myotherresource.com/',
     ruleId: 'x-content-type-options',
     severity: 1,
     sourceCode: `<img src="https://az817829.vo.msecnd.net/media/2017/12/grid-demo-thumb-51d01bb8-9b67-4c44-9671-f550d1c53b9e.png" alt="" role="none">`
@@ -309,7 +309,7 @@ const interactiveProblems: Array<IProblem> = [{
 {
     location: { column: 424, elementColumn: 0, elementLine: 1, line: 3 },
     message: `'content-type' header should have 'charset=utf-8'`,
-    resource: 'http://myresource.com/',
+    resource: 'http://myotherresource.com/',
     ruleId: 'content-type',
     severity: 1,
     sourceCode: `<link rel="stylesheet" href="https://az813057.vo.msecnd.net/styles/home.a6114ef.css">`

@@ -1,4 +1,5 @@
 import * as inquirer from 'inquirer';
+import * as _ from 'lodash';
 import * as ora from 'ora';
 
 import * as Config from '../config';
@@ -91,9 +92,16 @@ const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: IORA) => {
 };
 
 const format = async (formatterName: string, results: IProblem[]) => {
-    const formatter: IFormatter = resourceLoader.loadFormatter(formatterName) || resourceLoader.loadFormatter('json');
+    let formatterId = formatterName;
+    let formatterOption;
 
-    await formatter.format(results);
+    if (formatterName.includes(':')) {
+        [formatterId, formatterOption] = _.map(formatterName.split(':'), _.trim);
+    }
+
+    const formatter: IFormatter = resourceLoader.loadFormatter(formatterId) || resourceLoader.loadFormatter('json');
+
+    await formatter.format(results, formatterOption);
 };
 
 /*

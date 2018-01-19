@@ -39,6 +39,7 @@ test.serial(`Interactive formatter doesn't print anything if no values`, async (
     t.is(t.context.logger.log.callCount, 0);
 });
 
+// Group by category.
 test.serial(`Before showing the result, the interactive formatter prints a table of all categories and asks the user to select`, async (t) => {
     const selected = { expanded: ['security'] };
     const sandbox = sinon.sandbox.create();
@@ -51,12 +52,12 @@ test.serial(`Before showing the result, the interactive formatter prints a table
 
     const prompt = inquirer.prompt as sinon.SinonStub;
 
-    await interactive.format(problems.interactiveProblems);
+    await interactive.format(problems.interactiveProblems, 'category');
 
     const question1 = prompt.args[0][0][0];
     const question2 = prompt.args[1][0][0];
 
-    t.is(question1.message, `Select the categories that you'd like to expand:`);
+    t.is(question1.message, `Select the items that you'd like to expand:`);
     t.is(question2.message, `Go back to the menu to select other results?`);
     t.is(question1.choices.length, 2);
     t.is(question1.choices[0].value, 'interoperability');
@@ -77,7 +78,7 @@ test.serial(`Interactive formatter should print all the messages included in the
         .onSecondCall()
         .resolves({ menu: false });
 
-    await interactive.format(problems.interactiveProblems);
+    await interactive.format(problems.interactiveProblems, 'category');
 
     const printTable = t.context.common.printMessageByResource;
     const includedRuleMessages = problems.interactiveProblems.filter((msg) => {
@@ -112,7 +113,7 @@ test.serial(`If the user goes back the the main menu, the currently selected cat
 
     const prompt = inquirer.prompt as sinon.SinonStub;
 
-    await interactive.format(problems.interactiveProblems);
+    await interactive.format(problems.interactiveProblems, 'category');
 
     const securityBeforeSelect = prompt.args[0][0][0].choices[1];
     const securityAfterSelect = prompt.args[2][0][0].choices[1];
@@ -122,6 +123,60 @@ test.serial(`If the user goes back the the main menu, the currently selected cat
 
     t.is(securityAfterSelect.value, 'security');
     t.true(securityAfterSelect.checked);
+
+    sandbox.restore();
+});
+
+// Group by domain.
+test.serial(`Before showing the result, the interactive formatter prints a table of all domains and asks the user to select`, async (t) => {
+    const selected = { expanded: ['myresource'] };
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.stub(inquirer, 'prompt')
+        .onFirstCall()
+        .resolves(selected)
+        .onSecondCall()
+        .resolves({ menu: false });
+
+    const prompt = inquirer.prompt as sinon.SinonStub;
+
+    await interactive.format(problems.interactiveProblems, 'domain');
+
+    const question1 = prompt.args[0][0][0];
+    const question2 = prompt.args[1][0][0];
+
+    t.is(question1.message, `Select the items that you'd like to expand:`);
+    t.is(question2.message, `Go back to the menu to select other results?`);
+    t.is(question1.choices.length, 2);
+    t.is(question1.choices[0].value, 'myotherresource.com');
+    t.is(question1.choices[1].value, 'myresource.com');
+
+    sandbox.restore();
+});
+
+// No group option was set.
+test.serial(`If no group option was set, the interactive formatter prints a table grouped by categories`, async (t) => {
+    const selected = { expanded: ['security'] };
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.stub(inquirer, 'prompt')
+        .onFirstCall()
+        .resolves(selected)
+        .onSecondCall()
+        .resolves({ menu: false });
+
+    const prompt = inquirer.prompt as sinon.SinonStub;
+
+    await interactive.format(problems.interactiveProblems);
+
+    const question1 = prompt.args[0][0][0];
+    const question2 = prompt.args[1][0][0];
+
+    t.is(question1.message, `Select the items that you'd like to expand:`);
+    t.is(question2.message, `Go back to the menu to select other results?`);
+    t.is(question1.choices.length, 2);
+    t.is(question1.choices[0].value, 'interoperability');
+    t.is(question1.choices[1].value, 'security');
 
     sandbox.restore();
 });
