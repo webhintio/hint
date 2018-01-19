@@ -18,7 +18,7 @@ const main = async () => {
     await exec('Configure the Git user name and email.',
                 `git config --global user.name "${GIT_USER_NAME}"
                  git config --global user.email "${GIT_USER_EMAIL}"`);
-    await exec(`Merge '${GIT_GREENKEEPER_BRANCH}' branch into 'master'`, `git merge ${GIT_GREENKEEPER_BRANCH}`);
+    await exec(`Rebase '${GIT_GREENKEEPER_BRANCH}' branch into 'master'`, `git rebase ${GIT_GREENKEEPER_BRANCH}`);
     await exec(`Push changes to 'master'.`, `git push git@github.com:${GIT_REPO_SLUG}.git master`);
     await exec(`Delete '${GIT_GREENKEEPER_BRANCH}' branch.`, `git push git@github.com:${GIT_REPO_SLUG}.git :${GIT_GREENKEEPER_BRANCH}`);
 }
