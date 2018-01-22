@@ -109,6 +109,7 @@ Content-Type: text/javascript; charset=utf-8
 ## How to configure the server to pass this rule
 
 <!-- markdownlint-disable MD033 -->
+
 <details>
 <summary>How to configure Apache</summary>
 
@@ -284,6 +285,7 @@ Note that:
   file in the root of the web site/app.
 
 </details>
+
 <!-- markdownlint-enable MD033 -->
 
 ## Can the rule be configured?
