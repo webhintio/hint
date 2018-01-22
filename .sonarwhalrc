@@ -5,7 +5,7 @@
             "waitFor": 1000
         }
     },
-    "formatters": "stylish",
+    "formatters": "summary",
     "parsers": [],
     "rulesTimeout": 120000,
     "rules": {
