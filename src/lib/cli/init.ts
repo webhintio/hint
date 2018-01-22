@@ -74,10 +74,10 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
         },
         {
             choices: formattersKeys,
+            default: defaultFormatter,
             message: 'What formatter do you want to use?',
             name: 'formatter',
-            type: 'list',
-            default: defaultFormatter
+            type: 'list'
         },
         {
             message: 'Do you want to use the recommended rules configuration?',
