@@ -21,6 +21,7 @@ import * as resourceLoader from '../utils/resource-loader';
 import { generateBrowserslistConfig } from './browserslist';
 
 const debug: debug.IDebugger = d(__filename);
+const defaultFormatter = 'summary';
 
 /** Initiates a wizard to gnerate a valid `.sonarwhalrc` file based on user responses. */
 export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => {
@@ -47,7 +48,7 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
             name: '',
             options: { waitFor: 1000 }
         },
-        formatters: ['stylish'],
+        formatters: [defaultFormatter],
         ignoredUrls: [],
         rules: {},
         rulesTimeout: 120000
@@ -75,7 +76,8 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
             choices: formattersKeys,
             message: 'What formatter do you want to use?',
             name: 'formatter',
-            type: 'list'
+            type: 'list',
+            default: defaultFormatter
         },
         {
             message: 'Do you want to use the recommended rules configuration?',
