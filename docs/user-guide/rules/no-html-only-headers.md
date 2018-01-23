@@ -130,6 +130,56 @@ Note that:
 
 </details>
 
+<details>
+<summary>How to configure IIS</summary>
+
+By default IIS doesn't add any of the headers this rule checks for.
+If you are not passing the rule because a non HTML resource has them
+you are probably doing something like the following that adds it
+unconditionally:
+
+```xml
+<configuration>
+     <system.webServer>
+        <httpProtocol>
+             <customHeaders>
+                <add name="X-UA-Compatible" value="IE=edge"/>
+             </customHeaders>
+         </httpProtocol>
+    </system.webServer>
+</configuration>
+```
+
+To add headers to only `text/html` responses you can use a
+[`URL rewrite` rule][url rewrite] like the following on top of
+removing the code above:
+
+```xml
+<configuration>
+     <system.webServer>
+        <rewrite>
+            <outboundRules>
+                <rule name="X-UA-Compatible header">
+                    <match serverVariable="RESPONSE_X_UA_Compatible" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" />
+                    </conditions>
+                    <action type="Rewrite" value="ie=edge"/>
+                </rule>
+            </outboundRules>
+        </rewrite>
+    </system.webServer>
+</configuration>
+```
+
+Note that:
+
+* The above snippet works with IIS 7+.
+* You should use the above snippet in the `web.config` of your
+  application.
+
+</details>
+
 <!-- markdownlint-enable MD033 -->
 
 ## Can the rule be configured?
@@ -159,3 +209,7 @@ but not with `Custom-Header`.
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
+
+<!-- IIS links -->
+
+[url rewrite]: https://docs.microsoft.com/en-us/iis/extensions/url-rewrite-module/using-the-url-rewrite-module

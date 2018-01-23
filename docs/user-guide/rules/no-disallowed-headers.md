@@ -143,6 +143,65 @@ Note that:
 
 </details>
 
+<details>
+<summary>How to configure IIS</summary>
+
+To add or remove headers on IIS, you can use the
+[`<customHeader> element`][customheader] and `<remove>/<add>`
+depending on what you need.
+
+The following snippet will remove the `X-Powered-By` headers from all
+responses:
+
+```xml
+<configuration>
+     <system.webServer>
+        <httpProtocol>
+             <customHeaders>
+                <remove name="X-Powered-By"/>
+             </customHeaders>
+         </httpProtocol>
+    </system.webServer>
+</configuration>
+```
+
+Removing the `Server` header is a bit more complicated and changes
+depending on the version.
+
+In IIS 10.0 you can remove it using the [`removeServerHeader` attribute of `requestFiltering`][requestfiltering]:
+
+```xml
+<configuration>
+     <system.webServer>
+        <security>
+            <requestFiltering removeServerHeader ="true" />
+        </security>
+    </system.webServer>
+</configuration>
+```
+
+For previous versions of IIS (7.0-8.5) you can use the following:
+
+```xml
+<configuration>
+     <system.webServer>
+        <rewrite>
+            <outboundRules rewriteBeforeCache="true">
+                <rule name="Remove Server header">
+                    <match serverVariable="RESPONSE_Server" pattern=".+" />
+                    <action type="Rewrite" value="" />
+                </rule>
+            </outboundRules>
+        </rewrite>
+    </system.webServer>
+</configuration>
+```
+
+The above snippet will use a [`URL rewrite`][url rewrite] rule to remove
+the `Server` header from any request that contains it.
+
+</details>
+
 <!-- markdownlint-enable MD033 -->
 
 ## Can the rule be configured?
@@ -176,3 +235,9 @@ be served with the `Server` HTTP header, but not with `Custom-Header`.
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
 [servertokens]: https://httpd.apache.org/docs/current/mod/core.html#servertokens
+
+<!-- IIS links -->
+
+[customheader]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/httpprotocol/customheaders/
+[request filtering]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/security/requestfiltering/#new-in-iis-100
+[url rewrite]: https://docs.microsoft.com/en-us/iis/extensions/url-rewrite-module/using-the-url-rewrite-module

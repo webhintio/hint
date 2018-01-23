@@ -286,6 +286,80 @@ Note that:
 
 </details>
 
+<details>
+<summary>How to configure IIS</summary>
+
+By default IIS [maps certain filename extensions to specific media
+types][mime.types iis], but depending on the IIS version that is
+used, some mappings may be outdated or missing.
+
+Fortunately, IIS provides a way to overwrite and add to the existing
+media types mappings using the [`<mimeMap>` element under <staticContent>][mimeMap].
+For example, to configure IIS to serve `.webmanifest` files with the
+`application/manifest+json` media type, the following can be used:
+
+```xml
+<staticContent>
+    <mimeMap fileExtension="webmanifest" mimeType="application/manifest+json"/>
+</staticContent>
+```
+
+The same `element` can be used to specify the charset. Continuing with
+the example above, if we want to use `utf-8` it should be as follows:
+
+```xml
+<staticContent>
+    <mimeMap fileExtension="webmanifest" mimeType="application/manifest+json; charset=utf-8"/>
+</staticContent>
+```
+
+If you don't want to start from scratch, below is a generic starter
+snippet that contains the necessary mappings to ensure that commonly
+used file types are served with the appropriate `Content-Type` response
+header, and thus, make your web site/app pass this rule.
+
+**Note:** the `remove` element is used to make sure we don't use IIS defaults
+for the given extension.
+
+```xml
+<configuration>
+    <system.webServer>
+        <staticContent>
+            <!-- IIS doesn't set the charset automatically -->
+            <remove fileExtension=".css"/>
+            <mimeMap fileExtension=".css" mimeType="text/css; charset=utf-8"/>
+            <remove fileExtension=".html" />
+            <mimeMap fileExtension=".html" mimeType="text/html; charset=utf-8" />
+            <remove fileExtension=".js"/>
+            <mimeMap fileExtension=".js" mimeType="text/javascript; charset=utf-8"/>
+            <remove fileExtension=".json"/>
+            <mimeMap fileExtension=".json" mimeType="application/json; charset=utf-8"/>
+            <remove fileExtension=".svg"/>
+            <mimeMap fileExtension=".svg" mimeType="image/svg+xml; charset=utf-8"/>
+            <remove fileExtension=".txt" />
+            <mimeMap fileExtension=".txt" mimeType="text/plain; charset=utf-8" />
+            <remove fileExtension=".xml"/>
+            <mimeMap fileExtension=".xml" mimeType="text/xml; charset=utf-8"/>
+            <remove fileExtension=".webmanifest"/>
+            <mimeMap fileExtension="webmanifest" mimeType="application/manifest+json; charset=utf-8"/>
+            <!-- font types -->
+            <remove fileExtension=".woff"/>
+            <mimeMap fileExtension=".woff" mimeType="font/woff"/>
+            <remove fileExtension=".woff2"/>
+            <mimeMap fileExtension=".woff2" mimeType="font/woff2"/>
+        </staticContent>
+    </system.webServer>
+</configuration>
+```
+
+Note that:
+
+* The above snippet works with IIS 7+.
+* You should use the above snippet in the `web.config` of your
+  application.
+
+</details>
+
 <!-- markdownlint-enable MD033 -->
 
 ## Can the rule be configured?
@@ -334,3 +408,8 @@ property from the `.sonarwhalrc` file to exclude domains you don’t control
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mime.types file]: https://github.com/apache/httpd/blob/trunk/docs/conf/mime.types
 [mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html
+
+<!-- IIS links -->
+
+[mime.types iis]: https://support.microsoft.com/en-us/help/936496/description-of-the-default-settings-for-the-mimemap-property-and-for-t
+[mimeMap]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/staticcontent/mimemap

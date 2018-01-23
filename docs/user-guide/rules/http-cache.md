@@ -279,6 +279,51 @@ Also note that:
 
 </details>
 
+<details>
+<summary>How to configure IIS</summary>
+
+You can enable the `Cache-Control` and/or `Expire` headers on IIS using
+the [`<clientCache> element under <staticContent>`][clientcache iis].
+
+`<clientCache>` will set the cache for all the configured static content
+so you might want to use it in combination with the `<location>` element
+and set different values depending on where the resources are in the file
+system.
+
+The following is an example that sets `cache-control: no-cache` for all
+static resources and then overrides it for the files under the `static` folder
+with `cache-control: max-age=31536000, immutable`:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <system.webServer>
+        <staticContent>
+            <clientCache cacheControlMode="DisableCache" />
+        </staticContent>
+    </system.webServer>
+    <location path="static">
+        <system.webServer>
+            <staticContent>
+                <clientCache cacheControlMode="UseMaxAge" cacheControlMaxAge="365.00:00:00" cacheControlCustom="immutable" />
+            </staticContent>
+        </system.webServer>
+    </location>
+</configuration>
+```
+
+In the example above you want to have your JavaScript, CSS, images, etc.
+under `/static`, and your HTML elesewhere.
+
+Important notes:
+
+* Do not use the above snippet if you are not doing filename revving.
+* The above snippet works with IIS 7+.
+* You should use the above snippet in the `web.config` of your
+  application.
+
+</details>
+
 <!-- markdownlint-enable MD033 -->
 
 ## Can the rule be configured?
@@ -351,3 +396,7 @@ https://example.com/assets/12345/styles.css
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_expires]: https://httpd.apache.org/docs/current/mod/mod_expires.html
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
+
+<!-- IIS links -->
+
+[clientcache iis]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/staticcontent/clientcache
