@@ -156,10 +156,7 @@ header, and thus, make your web site/app pass this rule.
 
     # 2.4.x+
 
-    AddType application/json                            map topojson
-    AddType application/ld+json                         jsonld
-    AddType application/vnd.geo+json                    geojson
-
+    AddType application/json                            map
 
   # JavaScript
 
@@ -215,19 +212,9 @@ header, and thus, make your web site/app pass this rule.
 
   # Other
 
-    # 2.2.x - 2.4.x
-
-    AddType text/vcard                                  vcard
-
     # 2.2.x+
 
-    AddType text/markdown                               markdown md
     AddType text/vtt                                    vtt
-
-    # 2.4.x+
-
-    AddType text/vcard                                  vcf
-    AddType text/x-component                            htc
 
 </IfModule>
 
@@ -248,20 +235,16 @@ AddDefaultCharset utf-8
 # https://httpd.apache.org/docs/current/mod/mod_mime.html#addcharset
 
 <IfModule mod_mime.c>
-    AddCharset utf-8 .atom \
+    AddCharset utf-8 .appcache \
+                     .atom \
                      .css \
-                     .geojson \
-                     .ics \
                      .js \
                      .json \
-                     .jsonld \
                      .manifest \
-                     .markdown \
-                     .md \
+                     .map \
                      .mjs \
                      .rdf \
                      .rss \
-                     .topojson \
                      .vtt \
                      .webmanifest \
                      .xml
@@ -283,6 +266,122 @@ Note that:
   If you don't have access to the main configuration file (quite
   common with hosting services), just add the snippets in a `.htaccess`
   file in the root of the web site/app.
+
+</details>
+
+<details>
+<summary>How to configure IIS</summary>
+
+By default IIS [maps certain filename extensions to specific media
+types][mime.types iis], but depending on the IIS version that is
+used, some mappings may be outdated or missing.
+
+Fortunately, IIS provides a way to overwrite and add to the existing
+media types mappings using the [`<mimeMap>` element under <staticContent>][mimeMap].
+For example, to configure IIS to serve `.webmanifest` files with the
+`application/manifest+json` media type, the following can be used:
+
+```xml
+<staticContent>
+    <mimeMap fileExtension="webmanifest" mimeType="application/manifest+json"/>
+</staticContent>
+```
+
+The same `element` can be used to specify the charset. Continuing with
+the example above, if we want to use `utf-8` it should be as follows:
+
+```xml
+<staticContent>
+    <mimeMap fileExtension="webmanifest" mimeType="application/manifest+json; charset=utf-8"/>
+</staticContent>
+```
+
+If you don't want to start from scratch, below is a generic starter
+snippet that contains the necessary mappings to ensure that commonly
+used file types are served with the appropriate `Content-Type` response
+header, and thus, make your web site/app pass this rule.
+
+**Note:** the `remove` element is used to make sure we don't use IIS defaults
+for the given extension.
+
+```xml
+<configuration>
+    <system.webServer>
+        <staticContent>
+            <!-- IIS doesn't set the charset automatically, so we have to override some
+                 of the predefined ones -->
+
+            <!-- Data interchange -->
+            <mimeMap fileExtension=".json" mimeType="application/json; charset=utf-8"/>
+            <mimeMap fileExtension=".map" mimeType="application/json; charset=utf-8"/>
+            <mimeMap fileExtension=".rss" mimeType="application/rss+xml; charset=utf-8"/>
+            <mimeMap fileExtension=".xml" mimeType="text/xml; charset=utf-8"/>
+
+            <!-- JavaScript -->
+            <!-- https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages -->
+            <mimeMap fileExtension=".js" mimeType="text/javascript; charset=utf-8"/>
+            <mimeMap fileExtension=".mjs" mimeType="text/javascript; charset=utf-8"/>
+
+            <!-- Manifest files -->
+            <mimeMap fileExtension=".appcache" mimeType="text/cache-manifest; charset=utf-8"/>
+            <mimeMap fileExtension=".webmanifest" mimeType="application/manifest+json; charset=utf-8"/>
+
+            <!-- Media files -->
+            <mimeMap fileExtension=".f4a" mimeType="audio/mp4"/>
+            <mimeMap fileExtension=".f4b" mimeType="audio/mp4"/>
+            <mimeMap fileExtension=".m4a" mimeType="audio/mp4"/>
+            <mimeMap fileExtension=".oga" mimeType="audio/ogg"/>
+            <mimeMap fileExtension=".ogg" mimeType="audio/ogg"/>
+            <mimeMap fileExtension=".spx" mimeType="audio/ogg"/>
+
+            <mimeMap fileExtension=".mp4" mimeType="video/mp4"/>
+            <mimeMap fileExtension=".mp4v" mimeType="video/mp4"/>
+            <mimeMap fileExtension=".mpg4" mimeType="video/mp4"/>
+            <mimeMap fileExtension=".ogv" mimeType="video/ogg"/>
+            <mimeMap fileExtension=".webm" mimeType="video/webm"/>
+            <mimeMap fileExtension=".flv" mimeType="video/x-flv"/>
+
+            <mimeMap fileExtension=".cur" mimeType="image/x-icon"/>
+            <mimeMap fileExtension=".ico" mimeType="image/x-icon"/>
+            <mimeMap fileExtension=".svg" mimeType="image/svg+xml; charset=utf-8"/>
+            <mimeMap fileExtension=".svgz" mimeType="image/svg+xml"/>
+            <mimeMap fileExtension=".webp" mimeType="image/webp"/>
+
+
+            <!-- Font files -->
+            <mimeMap fileExtension=".eot" mimeType="application/vnd.ms-fontobject"/>
+            <mimeMap fileExtension=".otf" mimeType="font/otf"/>
+            <mimeMap fileExtension=".ttc" mimeType="font/collection"/>
+            <mimeMap fileExtension=".ttf" mimeType="font/ttf"/>
+            <mimeMap fileExtension=".woff" mimeType="font/woff"/>
+            <mimeMap fileExtension=".woff2" mimeType="font/woff2"/>
+
+            <!-- Others -->
+            <mimeMap fileExtension=".css" mimeType="text/css; charset=utf-8"/>
+            <mimeMap fileExtension=".html" mimeType="text/html; charset=utf-8" />
+            <mimeMap fileExtension=".txt" mimeType="text/plain; charset=utf-8" />
+            <mimeMap fileExtension=".vtt" mimeType="text/vtt; charset=utf-8"/>
+        </staticContent>
+
+        <!-- This is needed only if you are serving .svgz images -->
+        <outboundRules>
+            <rule name="svgz-content-enconding" enabled="true">
+                <match serverVariable="RESPONSE_Content_Encoding" pattern=".*" />
+                <conditions>
+                    <add input="{REQUEST_Filename}" pattern="\.svgz$" />
+                </conditions>
+                <action type="Rewrite" value="gzip" />
+            </rule>
+        </outboundRules>
+    </system.webServer>
+</configuration>
+```
+
+Note that:
+
+* The above snippet works with IIS 7+.
+* You should use the above snippet in the `web.config` of your
+  application.
 
 </details>
 
@@ -334,3 +433,8 @@ property from the `.sonarwhalrc` file to exclude domains you don’t control
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mime.types file]: https://github.com/apache/httpd/blob/trunk/docs/conf/mime.types
 [mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html
+
+<!-- IIS links -->
+
+[mime.types iis]: https://support.microsoft.com/en-us/help/936496/description-of-the-default-settings-for-the-mimemap-property-and-for-t
+[mimeMap]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/staticcontent/mimemap

@@ -732,12 +732,10 @@ Important notes:
     <IfModule mod_filter.c>
         AddOutputFilterByType DEFLATE "application/atom+xml" \
                                       "application/json" \
-                                      "application/ld+json" \
                                       "application/manifest+json" \
                                       "application/rdf+xml" \
                                       "application/rss+xml" \
                                       "application/schema+json" \
-                                      "application/vnd.geo+json" \
                                       "application/vnd.ms-fontobject" \
                                       "application/xhtml+xml" \
                                       "font/collection" \
@@ -748,13 +746,10 @@ Important notes:
                                       "image/svg+xml" \
                                       "image/x-icon" \
                                       "text/cache-manifest" \
-                                      "text/calendar" \
                                       "text/css" \
                                       "text/html" \
                                       "text/javascript" \
-                                      "text/markdown" \
                                       "text/plain" \
-                                      "text/vcard" \
                                       "text/vtt" \
                                       "text/xml"
     </IfModule>
@@ -792,6 +787,183 @@ Also note that:
   If you don't have access to the main configuration file (quite
   common with hosting services), just add the snippets in a `.htaccess`
   file in the root of the web site/app.
+
+</details>
+
+<details>
+<summary>How to configure IIS</summary>
+
+IIS 7+ can be configured to compress responses (static or dynamic) via
+the [`<urlCompression> element`][urlcompression].
+
+For Zopfli, there isn't a core IIS module to do it. However, since
+compressing things using Zopfli takes more time, it's usually indicated
+to do it as part of your build step. Once that is done, IIS needs to be
+configured to server those pre-compressed files when gzip compression is
+requested by the user agent.
+
+Brotli, like Zopfli, takes more time. It's indicated to compress
+resources at build time, and configure IIS to just serve those
+pre-compressed resources whenever Brotli compression is requested over
+HTTPS by the user agent.
+
+If you don't want to start from scratch, below is a generic starter
+snippet that contains the necessary configurations to ensure that
+commonly used file types are served compressed and with the appropriate
+headers, and thus, make your web site/app pass this rule.
+
+Important notes:
+
+* The following relies on IIS being configured to have the correct
+  filename extensions to media types mappings (see IIS section from
+  [`content-type` rule](content-type.md#how-to-configure-the-server-to-pass-this-rule)).
+
+* For Zopfli and Brotli this snippet assumes that running the build
+  step will result in 3 version for every resource:
+
+  * the original (e.g.: script.js) - you should also have this file
+    in case the user agent doesn't requests things compressed
+  * the file compressed with Zopfli (e.g.: script.js.gz)
+  * the file compressed with Brotli (e.g.: script.js.br)
+
+```xml
+<configuration>
+    <system.webServer>
+        <staticContent>
+            <!-- IIS doesn't know about Brotli. If mimeMap is not added
+                 br files will not be served -->
+            <mimeMap fileExtension=".br" mimeType="application/brotli" />
+        <staticContent>
+
+        <rewrite>
+            <rewriteMaps>
+                <!-- List of all the file types and the right `content-type` values
+                     when compressed. They will be restored in an outboud rule. -->
+                <rewriteMap name="CompressedExtensions" defaultValue="">
+                    <!-- zopfli mapping -->
+                    <add key="appcache.gz" value="text/cache-manifest; charset=utf-8" />
+                    <add key="bmp.gz" value="image/bmp" />
+                    <add key="css.gz" value="text/css; charset=utf-8" />
+                    <add key="cur.gz" value="image/x-icon" />
+                    <add key="eot.gz" value="application/vnd.ms-fontobject" />
+                    <add key="html.gz" value="text/html; charset=utf-8" />
+                    <add key="ico.gz" value="image/x-icon" />
+                    <add key="js.gz" value="text/javascript; charset=utf-8" />
+                    <add key="json.gz" value="application/json; charset=utf-8" />
+                    <add key="map.gz" value="application/json; charset=utf-8" />
+                    <add key="mjs.gz" value="text/javascript; charset=utf-8" />
+                    <add key="otf.gz" value="font/otf" />
+                    <add key="rss.gz" value="application/rss+xml; charset=utf-8" />
+                    <add key="svg.gz" value="image/svg+xml; charset=utf-8" />
+                    <add key="ttf.gz" value="font/ttf; charset=utf-8" />
+                    <add key="txt.gz" value="text/plain; charset=utf-8" />
+                    <add key="vtt.gz" value="text/vtt; charset=utf-8" />
+                    <add key="webmanifest.gz" value="application/manifest+json; charset=utf-8" />
+                    <add key="xml.gz" value="text/xml; charset=utf-8" />
+                    <!-- brotli mapping -->
+                    <add key="appcache.br" value="text/cache-manifest; charset=utf-8" />
+                    <add key="bmp.br" value="image/bmp" />
+                    <add key="css.br" value="text/css; charset=utf-8" />
+                    <add key="cur.br" value="image/x-icon" />
+                    <add key="eot.br" value="application/vnd.ms-fontobject" />
+                    <add key="html.br" value="text/html; charset=utf-8" />
+                    <add key="ico.br" value="image/x-icon" />
+                    <add key="js.br" value="text/javascript; charset=utf-8" />
+                    <add key="json.br" value="application/json; charset=utf-8" />
+                    <add key="map.br" value="application/json; charset=utf-8" />
+                    <add key="mjs.br" value="text/javascript; charset=utf-8" />
+                    <add key="otf.br" value="font/otf" />
+                    <add key="rss.br" value="application/rss+xml; charset=utf-8" />
+                    <add key="svg.br" value="image/svg+xml; charset=utf-8" />
+                    <add key="ttf.br" value="font/ttf; charset=utf-8" />
+                    <add key="txt.br" value="text/plain; charset=utf-8" />
+                    <add key="vtt.br" value="text/vtt; charset=utf-8" />
+                    <add key="webmanifest.br" value="application/manifest+json; charset=utf-8" />
+                    <add key="xml.br" value="text/xml; charset=utf-8" />
+                </rewriteMap>
+            </rewriteMaps>
+            <outboundRules>
+                <!-- Restore the mime type for compressed assets. See below for more explanation. -->
+                <rule name="RestoreMime" enabled="true">
+                    <match serverVariable="RESPONSE_Content_Type" pattern=".*" />
+                    <conditions>
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.(gz|br))" />
+                        <add input="{CompressedExtensions:{C:1}}" pattern="(.+)" />
+                    </conditions>
+                    <action type="Rewrite" value="{C:3}" />
+                </rule>
+                <!-- add vary header -->
+                <rule name="AddVaryContentEncoding" preCondition="PreCompressedBrotli" enabled="true">
+                    <match serverVariable="RESPONSE_Vary" pattern=".*" />
+                    <action type="Rewrite" value="Content-Encoding" />
+                </rule>
+                <!-- indicate response is encoded with brotli -->
+                <rule name="AddEncodingBrotli" preCondition="PreCompressedBrotli" enabled="true" stopProcessing="true">
+                    <match serverVariable="RESPONSE_Content_Encoding" pattern=".*" />
+                    <action type="Rewrite" value="br" />
+                </rule>
+                <!-- indicate response is encoded with gzip -->
+                <rule name="AddEncodingZopfli" preCondition="PreCompressedZopfli" enabled="true" stopProcessing="true">
+                    <match serverVariable="RESPONSE_Content_Encoding" pattern=".*" />
+                    <action type="Rewrite" value="gzip" />
+                </rule>
+
+                <preConditions>
+                    <preCondition name="PreCompressedFile">
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.(gz|br))" />
+                    </preCondition>
+                    <preCondition name="PreCompressedZopfli">
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.gz)" />
+                    </preCondition>
+                    <preCondition name="PreCompressedBrotli">
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.br)" />
+                    </preCondition>
+                </preConditions>
+            </outboundRules>
+            <rules>
+                <!--
+                    Compression rules. This works in combination with the `outbound rules` bellow. Basically what happens is:
+
+                    1. We check if the user agent supprots compression via the `Accept-Encoding` header.
+                    2. We prioritize `brotli` of `gzip`, and append the right extension (`.gz` or `.br`) and prepend `dist`.
+                       `dist` is where all the pulic assets live. This is transparent to the user.
+                       We assume all assets with those extensions have a `.gz` and `.br` version because of the build system we
+                       have.
+                       IIS then serves the asset applying the outbound rules.
+                    3. If the final part of the file (`.ext.gz` or `.ext.br`) matches one of the `CompressedExtensions` `rewriteMap`, we
+                       rewrite the `content-type` header
+                    4. Based on the extension (`.gz` or `.br`), we rewrite the `content-encoding` header
+                -->
+                <rule name="ServerPreCompressedBrotli" stopProcessing="true">
+                    <match url="^(.*/)?(.*?)\.(appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)([?#].*)?$" ignoreCase="true"/>
+                    <conditions>
+                        <add input="{HTTP_ACCEPT_ENCODING}" pattern="br"/>
+                    </conditions>
+                    <action type="Rewrite" url="dist{REQUEST_URI}.br"/>
+                </rule>
+                <rule name="ServerPreCompressedZopfli" stopProcessing="true">
+                    <match url="^(.*/)?(.*?)\.(appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)([?#].*)?$" ignoreCase="true"/>
+                    <conditions>
+                        <add input="{HTTP_ACCEPT_ENCODING}" pattern="gzip"/>
+                    </conditions>
+                    <action type="Rewrite" url="dist{REQUEST_URI}.gz"/>
+                </rule>
+                <!-- Fallback in case the user agent doesn't support compression -->
+                <rule name="static">
+                    <match url="(?!scanner|search).*$" ignoreCase="true"/>
+                    <action type="Rewrite" url="dist{REQUEST_URI}"/>
+                </rule>
+            </rules>
+        </rewrite>
+    </system.webServer>
+</configuration>
+```
+
+Note that:
+
+* The above snippet works with IIS 7+.
+* You should use the above snippet in the `web.config` of your
+  application.
 
 </details>
 
@@ -861,3 +1033,7 @@ property from the `.sonarwhalrc` file to exclude domains you don’t control
 [mod_filter]: https://httpd.apache.org/docs/current/mod/mod_filter.html
 [mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html
 [mod_rewrite]: https://httpd.apache.org/docs/current/mod/mod_rewrite.html
+
+<!-- IIS links -->
+
+[urlcompression]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/urlcompression

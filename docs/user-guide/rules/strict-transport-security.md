@@ -150,6 +150,33 @@ Note that:
 
 </details>
 
+<details>
+<summary>How to configure IIS</summary>
+
+IIS can be configured to serve resources with the `Strict-Transport-Security`
+header with a specific value using the [`<customHeader> element`][customHeader].
+E.g.:
+
+```xml
+<configuration>
+     <system.webServer>
+        <httpProtocol>
+             <customHeaders>
+                <add name="Strict-Transport-Security" value="max-age=31536000"/>
+             </customHeaders>
+         </httpProtocol>
+    </system.webServer>
+</configuration>
+```
+
+Note that:
+
+* The above snippet works with IIS 7+.
+* You should use the above snippet in the `web.config` of your
+  application.
+
+</details>
+
 <!-- markdownlint-enable MD033 -->
 
 ## Can the rule be configured?
@@ -204,3 +231,7 @@ E.g. The following configuration will enable the `preload` validation.
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
 [mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html
+
+<!-- IIS links -->
+
+[customHeader]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/httpprotocol/customheaders/

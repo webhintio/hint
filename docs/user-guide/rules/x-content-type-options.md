@@ -117,6 +117,35 @@ Note that:
 
 </details>
 
+<details>
+<summary>How to configure IIS</summary>
+
+Presuming the script files are sent with the `Content-Type` header set
+to `text/javascript` and styleshees to `text/css` you can use
+a [`URL rewrite` rule][url rewrite] like the following:
+
+```xml
+<configuration>
+     <system.webServer>
+        <rewrite>
+            <outboundRules>
+                <!-- Add X-Content-Type-Options header to text/javascript
+                     and text/css responses -->
+                <rule name="X-Content-Type-Options" enabled="true">
+                    <match serverVariable="RESPONSE_X_Content_Type_Options" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_Content_Type}" pattern="text\/(javascript|css)" />
+                    </conditions>
+                    <action type="Rewrite" value="nosniff"/>
+                </rule>
+            </outboundRules>
+        </rewrite>
+    </system.webServer>
+</configuration>
+```
+
+</details>
+
 <!-- markdownlint-enable MD033 -->
 
 ## Further Reading
@@ -143,3 +172,7 @@ Note that:
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
 [mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html
+
+<!-- IIS links -->
+
+[url rewrite]: https://docs.microsoft.com/en-us/iis/extensions/url-rewrite-module/using-the-url-rewrite-module
