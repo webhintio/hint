@@ -313,7 +313,9 @@ with `cache-control: max-age=31536000, immutable`:
 ```
 
 In the example above you want to have your JavaScript, CSS, images, etc.
-under `/static`, and your HTML elesewhere.
+under the `static` folder, and your HTML elesewhere. If your static
+content is in another folder change the path of `<location path="static">`
+to the right one.
 
 Important notes:
 

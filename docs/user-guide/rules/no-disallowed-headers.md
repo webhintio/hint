@@ -150,19 +150,33 @@ To add or remove headers on IIS, you can use the
 [`<customHeader> element`][customheader] and `<remove>/<add>`
 depending on what you need.
 
-The following snippet will remove the `X-Powered-By` headers from all
-responses:
+The following snippet will remove the headers from all responses:
 
 ```xml
 <configuration>
      <system.webServer>
         <httpProtocol>
              <customHeaders>
+                <remove name="Public-Key-Pins"/>
+                <remove name="Public-Key-Pins-Report-Only"/>
                 <remove name="X-Powered-By"/>
+                <remove name="X-Runtime"/>
+                <remove name="X-Version"/>
              </customHeaders>
          </httpProtocol>
     </system.webServer>
+    <system.web>
+        <!-- X-AspNet-Version, only needed if running an AspNet app -->
+        <httpRuntime enableVersionHeader="false" />
+    </system.web>
 </configuration>
+```
+
+To remove the header `X-AspNetMvc-version`, open your `Global.asax` file
+and add the following to your `Application_Start` event:
+
+```c#
+MvcHandler.DisableMvcResponseHeader = true;
 ```
 
 Removing the `Server` header is a bit more complicated and changes

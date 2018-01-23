@@ -289,7 +289,7 @@ Note that:
 ### Adding the `X-UA-Compatible` header on IIS
 
 To add the `X-UA-Compatible` header you can use a [`URL rewrite` rule][url rewrite]
-rule that matches the `text/html` content-type of a response and adds it:
+rule that matches the `text/html` `content-type` header of a response and adds it:
 
 ```xml
 <configuration>
@@ -309,21 +309,9 @@ rule that matches the `text/html` content-type of a response and adds it:
 </configuration>
 ```
 
-Note that the following snippet will add the header to all the responses
-regardless of the content type which is not recommended and will fail
-this rule:
-
-```xml
-<configuration>
-     <system.webServer>
-        <httpProtocol>
-             <customHeaders>
-                <add name="X-UA-Compatible" value="IE=edge"/>
-             </customHeaders>
-         </httpProtocol>
-    </system.webServer>
-</configuration>
-```
+Note that if your site uses a mime type different than `text/html` to serve HTML
+content you'll have to update the value of `pattern` in
+`<add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" />`.
 
 ## Removing the `X-UA-Compatible` header on IIS
 

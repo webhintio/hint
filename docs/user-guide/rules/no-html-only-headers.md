@@ -133,38 +133,57 @@ Note that:
 <details>
 <summary>How to configure IIS</summary>
 
-By default IIS doesn't add any of the headers this rule checks for.
-If you are not passing the rule because a non HTML resource has them
-you are probably doing something like the following that adds it
-unconditionally:
-
-```xml
-<configuration>
-     <system.webServer>
-        <httpProtocol>
-             <customHeaders>
-                <add name="X-UA-Compatible" value="IE=edge"/>
-             </customHeaders>
-         </httpProtocol>
-    </system.webServer>
-</configuration>
-```
-
-To add headers to only `text/html` responses you can use a
-[`URL rewrite` rule][url rewrite] like the following on top of
-removing the code above:
+If your application is adding the headers unconditionally to all
+responses and you cannot modify it, the solution is to create
+[`URL rewrite` rules][url rewrite] that will remove them from
+any resource whose `Content-Type` header isn't `text/html`:
 
 ```xml
 <configuration>
      <system.webServer>
         <rewrite>
             <outboundRules>
-                <rule name="X-UA-Compatible header">
+                 <rule name="Content-Security-Policy">
+                    <match serverVariable="RESPONSE_Content_Security_Policy" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
+                </rule>
+                <rule name="X-Content-Security-Policy">
+                    <match serverVariable="RESPONSE_X_Content_Security_Policy" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
+                </rule>
+                <rule name="X-Frame-Options">
+                    <match serverVariable="RESPONSE_X_Frame_Options" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
+                </rule>
+                <rule name="X-UA-Compatible">
                     <match serverVariable="RESPONSE_X_UA_Compatible" pattern=".*" />
                     <conditions>
-                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" />
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
                     </conditions>
-                    <action type="Rewrite" value="ie=edge"/>
+                    <action type="Rewrite" value=""/>
+                </rule>
+                <rule name="X-WebKit-CSP">
+                    <match serverVariable="RESPONSE_X_Webkit_csp" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
+                </rule>
+                <rule name="X-XSS-Protection">
+                    <match serverVariable="RESPONSE_X_XSS_Protection" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
                 </rule>
             </outboundRules>
         </rewrite>
@@ -174,6 +193,9 @@ removing the code above:
 
 Note that:
 
+* If your site uses a mime type different than `text/html` to serve HTML
+  content you'll have to update the value of `pattern` in
+  `<add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />`
 * The above snippet works with IIS 7+.
 * You should use the above snippet in the `web.config` of your
   application.
