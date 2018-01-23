@@ -837,7 +837,6 @@ Important notes:
         <staticContent>
             <!-- IIS doesn't know about brotli. If mimeMap is not added
                  br files will not be served -->
-            <remove fileExtension=".br" />
             <mimeMap fileExtension=".br" mimeType="application/brotli" />
         <staticContent>
 
@@ -846,24 +845,50 @@ Important notes:
                 <!-- List of all the file types and the right `content-type` values
                      when compressed. They will be restored in an outboud rule. -->
                 <rewriteMap name="CompressedExtensions" defaultValue="">
+                    <!-- zopfli mapping -->
+                    <add key="appcache.gz" value="text/cache-manifest; charset=utf-8" />
+                    <add key="bmp.gz" value="image/bmp" />
                     <add key="css.gz" value="text/css; charset=utf-8" />
+                    <add key="cur.gz" value="image/x-icon" />
+                    <add key="eot.gz" value="application/vnd.ms-fontobject" />
                     <add key="html.gz" value="text/html; charset=utf-8" />
                     <add key="ico.gz" value="image/x-icon" />
                     <add key="js.gz" value="text/javascript; charset=utf-8" />
+                    <add key="json.gz" value="application/json; charset=utf-8" />
                     <add key="map.gz" value="application/json; charset=utf-8" />
+                    <add key="markdown.gz" value="text/markdown; charset=utf-8" />
+                    <add key="md.gz" value="text/markdown; charset=utf-8" />
+                    <add key="mjs.gz" value="text/javascript; charset=utf-8" />
+                    <add key="otf.gz" value="font/otf" />
+                    <add key="rss.gz" value="application/rss+xml; charset=utf-8" />
                     <add key="svg.gz" value="image/svg+xml; charset=utf-8" />
+                    <add key="ttf.gz" value="font/ttf; charset=utf-8" />
                     <add key="txt.gz" value="text/plain; charset=utf-8" />
-                    <add key="xml.gz" value="text/xml; charset=utf-8" />
+                    <add key="vtt.gz" value="text/vtt; charset=utf-8" />
                     <add key="webmanifest.gz" value="application/manifest+json; charset=utf-8" />
+                    <add key="xml.gz" value="text/xml; charset=utf-8" />
+                    <!-- brotli mapping -->
+                    <add key="appcache.br" value="text/cache-manifest; charset=utf-8" />
+                    <add key="bmp.br" value="image/bmp" />
                     <add key="css.br" value="text/css; charset=utf-8" />
+                    <add key="cur.br" value="image/x-icon" />
+                    <add key="eot.br" value="application/vnd.ms-fontobject" />
                     <add key="html.br" value="text/html; charset=utf-8" />
                     <add key="ico.br" value="image/x-icon" />
                     <add key="js.br" value="text/javascript; charset=utf-8" />
+                    <add key="json.br" value="application/json; charset=utf-8" />
                     <add key="map.br" value="application/json; charset=utf-8" />
+                    <add key="markdown.br" value="text/markdown; charset=utf-8" />
+                    <add key="md.br" value="text/markdown; charset=utf-8" />
+                    <add key="mjs.br" value="text/javascript; charset=utf-8" />
+                    <add key="otf.br" value="font/otf" />
+                    <add key="rss.br" value="application/rss+xml; charset=utf-8" />
                     <add key="svg.br" value="image/svg+xml; charset=utf-8" />
+                    <add key="ttf.br" value="font/ttf; charset=utf-8" />
                     <add key="txt.br" value="text/plain; charset=utf-8" />
-                    <add key="xml.br" value="text/xml; charset=utf-8" />
+                    <add key="vtt.br" value="text/vtt; charset=utf-8" />
                     <add key="webmanifest.br" value="application/manifest+json; charset=utf-8" />
+                    <add key="xml.br" value="text/xml; charset=utf-8" />
                 </rewriteMap>
             </rewriteMaps>
             <outboundRules>
@@ -871,7 +896,7 @@ Important notes:
                 <rule name="RestoreMime" enabled="true">
                     <match serverVariable="RESPONSE_Content_Type" pattern=".*" />
                     <conditions>
-                        <add input="{HTTP_URL}" pattern="\.((?:css|html|ico|js|map|svg|txt|xml|webmanifest)\.(gz|br))" />
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.(gz|br))" />
                         <add input="{CompressedExtensions:{C:1}}" pattern="(.+)" />
                     </conditions>
                     <action type="Rewrite" value="{C:3}" />
@@ -894,13 +919,13 @@ Important notes:
 
                 <preConditions>
                     <preCondition name="PreCompressedFile">
-                        <add input="{HTTP_URL}" pattern="\.((?:css|html|ico|js|map|svg|txt|xml|webmanifest)\.(gz|br))" />
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.(gz|br))" />
                     </preCondition>
                     <preCondition name="PreCompressedZopfli">
-                        <add input="{HTTP_URL}" pattern="\.((?:css|html|ico|js|map|svg|txt|xml|webmanifest)\.gz)" />
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.gz)" />
                     </preCondition>
                     <preCondition name="PreCompressedBrotli">
-                        <add input="{HTTP_URL}" pattern="\.((?:css|html|ico|js|map|svg|txt|xml|webmanifest)\.br)" />
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.br)" />
                     </preCondition>
                 </preConditions>
             </outboundRules>
@@ -919,16 +944,16 @@ Important notes:
                     4. Based on the extension (`.gz` or `.br`), we rewrite the `content-encoding` header
                 -->
                 <rule name="ServerPreCompressedBrotli" stopProcessing="true">
-                    <match url="^(.*/)?(.*?)\.(css|html|ico|js|map|svg|txt|xml|webmanifest)([?#].*)?$" ignoreCase="true"/>
+                    <match url="^(.*/)?(.*?)\.(appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)([?#].*)?$" ignoreCase="true"/>
                     <conditions>
-                        <add input="{HTTP_ACCEPT_ENCODING}" pattern="br" negate="false" />
+                        <add input="{HTTP_ACCEPT_ENCODING}" pattern="br"/>
                     </conditions>
                     <action type="Rewrite" url="dist{REQUEST_URI}.br"/>
                 </rule>
                 <rule name="ServerPreCompressedZopfli" stopProcessing="true">
-                    <match url="^(.*/)?(.*?)\.(css|html|ico|js|map|svg|txt|xml|webmanifest)([?#].*)?$" ignoreCase="true"/>
+                    <match url="^(.*/)?(.*?)\.(appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)([?#].*)?$" ignoreCase="true"/>
                     <conditions>
-                        <add input="{HTTP_ACCEPT_ENCODING}" pattern="gzip" negate="false"/>
+                        <add input="{HTTP_ACCEPT_ENCODING}" pattern="gzip"/>
                     </conditions>
                     <action type="Rewrite" url="dist{REQUEST_URI}.gz"/>
                 </rule>

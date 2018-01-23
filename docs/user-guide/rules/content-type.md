@@ -325,51 +325,73 @@ for the given extension.
 <configuration>
     <system.webServer>
         <staticContent>
-            <!-- IIS doesn't set the charset automatically -->
-            <remove fileExtension=".appcache"/>
-            <mimeMap fileExtension=".appcache" mimeType="text/cache-manifest; charset=utf-8"/>
-            <remove fileExtension=".css"/>
-            <mimeMap fileExtension=".css" mimeType="text/css; charset=utf-8"/>
-            <remove fileExtension=".html" />
-            <mimeMap fileExtension=".html" mimeType="text/html; charset=utf-8" />
-            <remove fileExtension=".js"/>
-            <mimeMap fileExtension=".js" mimeType="text/javascript; charset=utf-8"/>
-            <remove fileExtension=".json"/>
+            <!-- IIS doesn't set the charset automatically, so we have to override some
+                 of the predefined ones -->
+
+            <!-- Data interchange -->
+            <mimeMap fileExtension=".geojson" mimeType="application/vnd.geo+json; charset=utf-8"/>
             <mimeMap fileExtension=".json" mimeType="application/json; charset=utf-8"/>
-            <remove fileExtension=".markdown"/>
-            <mimeMap fileExtension=".markdown" mimeType="text/markdown; charset=utf-8"/>
-            <remove fileExtension=".md"/>
-            <mimeMap fileExtension=".md" mimeType="text/markdown; charset=utf-8"/>
-            <remove fileExtension=".mjs"/>
-            <mimeMap fileExtension=".mjs" mimeType="text/javascript; charset=utf-8"/>
-            <remove fileExtension=".rss"/>
+            <mimeMap fileExtension=".jsonld" mimeType="application/ld+json; charset=utf-8"/>
+            <mimeMap fileExtension=".map" mimeType="application/json; charset=utf-8"/>
             <mimeMap fileExtension=".rss" mimeType="application/rss+xml; charset=utf-8"/>
-            <remove fileExtension=".svg"/>
-            <mimeMap fileExtension=".svg" mimeType="image/svg+xml; charset=utf-8"/>
-            <remove fileExtension=".svgz"/>
-            <mimeMap fileExtension=".svgz" mimeType="image/svg+xml"/>
-            <remove fileExtension=".txt" />
-            <mimeMap fileExtension=".txt" mimeType="text/plain; charset=utf-8" />
-            <remove fileExtension=".xml"/>
             <mimeMap fileExtension=".xml" mimeType="text/xml; charset=utf-8"/>
-            <remove fileExtension=".vtt"/>
-            <mimeMap fileExtension=".vtt" mimeType="text/vtt; charset=utf-8"/>
-            <remove fileExtension=".webp"/>
-            <mimeMap fileExtension=".webp" mimeType="image/webp"/>
-            <remove fileExtension=".webmanifest"/>
+
+            <!-- JavaScript -->
+            <!-- https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages -->
+            <mimeMap fileExtension=".js" mimeType="text/javascript; charset=utf-8"/>
+            <mimeMap fileExtension=".mjs" mimeType="text/javascript; charset=utf-8"/>
+
+            <!-- Manifest files -->
+            <mimeMap fileExtension=".appcache" mimeType="text/cache-manifest; charset=utf-8"/>
             <mimeMap fileExtension="webmanifest" mimeType="application/manifest+json; charset=utf-8"/>
-            <!-- font types -->
-            <remove fileExtension=".otf"/>
+
+            <!-- Media files -->
+            <mimeMap fileExtension=".f4a" mimeType="audio/mp4"/>
+            <mimeMap fileExtension=".f4b" mimeType="audio/mp4"/>
+            <mimeMap fileExtension=".m4a" mimeType="audio/mp4"/>
+            <mimeMap fileExtension=".oga" mimeType="audio/ogg"/>
+            <mimeMap fileExtension=".ogg" mimeType="audio/ogg"/>
+            <mimeMap fileExtension=".spx" mimeType="audio/ogg"/>
+
+            <mimeMap fileExtension=".mp4" mimeType="video/mp4"/>
+            <mimeMap fileExtension=".mp4v" mimeType="video/mp4"/>
+            <mimeMap fileExtension=".mpg4" mimeType="video/mp4"/>
+            <mimeMap fileExtension=".ogv" mimeType="video/ogg"/>
+            <mimeMap fileExtension=".webm" mimeType="video/webm"/>
+            <mimeMap fileExtension=".flv" mimeType="video/x-flv"/>
+
+            <mimeMap fileExtension=".svg" mimeType="image/svg+xml; charset=utf-8"/>
+            <mimeMap fileExtension=".svgz" mimeType="image/svg+xml"/>
+            <mimeMap fileExtension=".webp" mimeType="image/webp"/>
+            <mimeMap fileExtension=".cur" mimeType="image/x-icon"/>
+
+            <!-- Font files -->
+            <mimeMap fileExtension=".eot" mimeType="application/vnd.ms-fontobject"/>
             <mimeMap fileExtension=".otf" mimeType="font/otf"/>
-            <remove fileExtension=".ttc"/>
             <mimeMap fileExtension=".ttc" mimeType="font/collection"/>
-            <remove fileExtension=".ttf"/>
             <mimeMap fileExtension=".ttf" mimeType="font/ttf"/>
-            <remove fileExtension=".woff"/>
             <mimeMap fileExtension=".woff" mimeType="font/woff"/>
-            <remove fileExtension=".woff2"/>
             <mimeMap fileExtension=".woff2" mimeType="font/woff2"/>
+
+            <!-- Others -->
+            <mimeMap fileExtension=".css" mimeType="text/css; charset=utf-8"/>
+            <mimeMap fileExtension=".html" mimeType="text/html; charset=utf-8" />
+            <mimeMap fileExtension=".markdown" mimeType="text/markdown; charset=utf-8"/>
+            <mimeMap fileExtension=".md" mimeType="text/markdown; charset=utf-8"/>
+            <mimeMap fileExtension=".txt" mimeType="text/plain; charset=utf-8" />
+            <mimeMap fileExtension=".vtt" mimeType="text/vtt; charset=utf-8"/>
         </staticContent>
+
+        <!-- This is needed only if you are serving .svgz images -->
+        <outboundRules>
+            <rule name="svgz-content-enconding" enabled="true">
+                <match serverVariable="RESPONSE_Content_Encoding" pattern=".*" />
+                <conditions>
+                    <add input="{REQUEST_Filename}" pattern="\.svgz$" />
+                </conditions>
+                <action type="Rewrite" value="gzip" />
+            </rule>
+        </outboundRules>
     </system.webServer>
 </configuration>
 ```
