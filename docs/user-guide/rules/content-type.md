@@ -326,6 +326,8 @@ for the given extension.
     <system.webServer>
         <staticContent>
             <!-- IIS doesn't set the charset automatically -->
+            <remove fileExtension=".appcache"/>
+            <mimeMap fileExtension=".appcache" mimeType="text/cache-manifest; charset=utf-8"/>
             <remove fileExtension=".css"/>
             <mimeMap fileExtension=".css" mimeType="text/css; charset=utf-8"/>
             <remove fileExtension=".html" />
@@ -334,15 +336,35 @@ for the given extension.
             <mimeMap fileExtension=".js" mimeType="text/javascript; charset=utf-8"/>
             <remove fileExtension=".json"/>
             <mimeMap fileExtension=".json" mimeType="application/json; charset=utf-8"/>
+            <remove fileExtension=".markdown"/>
+            <mimeMap fileExtension=".markdown" mimeType="text/markdown; charset=utf-8"/>
+            <remove fileExtension=".md"/>
+            <mimeMap fileExtension=".md" mimeType="text/markdown; charset=utf-8"/>
+            <remove fileExtension=".mjs"/>
+            <mimeMap fileExtension=".mjs" mimeType="text/javascript; charset=utf-8"/>
+            <remove fileExtension=".rss"/>
+            <mimeMap fileExtension=".rss" mimeType="application/rss+xml; charset=utf-8"/>
             <remove fileExtension=".svg"/>
             <mimeMap fileExtension=".svg" mimeType="image/svg+xml; charset=utf-8"/>
+            <remove fileExtension=".svgz"/>
+            <mimeMap fileExtension=".svgz" mimeType="image/svg+xml"/>
             <remove fileExtension=".txt" />
             <mimeMap fileExtension=".txt" mimeType="text/plain; charset=utf-8" />
             <remove fileExtension=".xml"/>
             <mimeMap fileExtension=".xml" mimeType="text/xml; charset=utf-8"/>
+            <remove fileExtension=".vtt"/>
+            <mimeMap fileExtension=".vtt" mimeType="text/vtt; charset=utf-8"/>
+            <remove fileExtension=".webp"/>
+            <mimeMap fileExtension=".webp" mimeType="image/webp"/>
             <remove fileExtension=".webmanifest"/>
             <mimeMap fileExtension="webmanifest" mimeType="application/manifest+json; charset=utf-8"/>
             <!-- font types -->
+            <remove fileExtension=".otf"/>
+            <mimeMap fileExtension=".otf" mimeType="font/otf"/>
+            <remove fileExtension=".ttc"/>
+            <mimeMap fileExtension=".ttc" mimeType="font/collection"/>
+            <remove fileExtension=".ttf"/>
+            <mimeMap fileExtension=".ttf" mimeType="font/ttf"/>
             <remove fileExtension=".woff"/>
             <mimeMap fileExtension=".woff" mimeType="font/woff"/>
             <remove fileExtension=".woff2"/>
