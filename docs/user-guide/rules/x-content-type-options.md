@@ -1,7 +1,8 @@
 # Require `X-Content-Type-Options` HTTP response header (`x-content-type-options`)
 
-`x-content-type-options` warns against not serving resources with the
-`X-Content-Type-Options: nosniff` HTTP response header.
+`x-content-type-options` warns against not serving scripts and
+stylesheets with the `X-Content-Type-Options: nosniff` HTTP response
+header.
 
 ## Why is this important?
 
@@ -25,41 +26,56 @@ hosting untrusted content.
 Fortunately, browsers provide a way to opt-out of MIME sniffing by
 using the `X-Content-Type-Options: nosniff` HTTP response header.
 
-Note: [Most modern browsers only respect the header for `script`s and
-`style`s][fetch spec blocking] (see also [whatwg/fetch#395][fetch spec
-issue].
-
 Going back to the previous example, if the `X-Content-Type-Options: nosniff`
 header is sent for the script, if the browser detects that it’s a script
 and it wasn’t served with one of the [JavaScript media type][javascript
 media types], it will block it.
 
+Note: [Modern browsers only respect the header for scripts and
+stylesheets][fetch spec blocking], and sending the header for other
+resources such as images may [create problems in older browsers][fetch
+spec issue].
+
 ## What does the rule check?
 
-The rule checks if responses include the `X-Content-Type-Options`
-HTTP headers with the value of `nosniff`.
+The rule checks if only scripts and stylesheets are served with the
+`X-Content-Type-Options` HTTP headers with the value of `nosniff`.
 
 ### Examples that **trigger** the rule
 
+Resource that is not script or stylesheet is served with the
+`X-Content-Type-Options` HTTP header.
+
 ```text
 HTTP/... 200 OK
 
 ...
+
+Content-Type: image/png
+X-Content-Type-Options: nosniff
 ```
 
+Script is served with the `X-Content-Type-Options` HTTP header
+with the invalid value of `no-sniff`.
+
 ```text
 HTTP/... 200 OK
 
 ...
+Content-Type: text/javascript; charset=utf-8
 X-Content-Type-Options: no-sniff
 ```
 
 ### Examples that **pass** the rule
 
+Script is served with the `X-Content-Type-Options` HTTP header
+with the valid value of `nosniff`.
+
 ```text
 HTTP/... 200 OK
 
 ...
+Content-Type: text/javascript; charset=utf-8
 X-Content-Type-Options: nosniff
 ```
 
@@ -70,13 +86,16 @@ X-Content-Type-Options: nosniff
 <details>
 <summary>How to configure Apache</summary>
 
-Apache can be configured to serve resources with the
-`X-Content-Type-Options` header with the value of `nosniff`
+Presuming the script files use the `.js` or `.mjs` extension, and
+the stylesheets `.css`, Apache can be configured to serve the with
+the `X-Content-Type-Options` header with the value of `nosniff`
 using the [`Header` directive][header directive]:
 
 ```apache
 <IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
+     <FilesMatch "\.(css|m?js)$">
+        Header set X-Content-Type-Options "nosniff"
+    </FilesMatch>
 </IfModule>
 ```
 
