@@ -156,10 +156,7 @@ header, and thus, make your web site/app pass this rule.
 
     # 2.4.x+
 
-    AddType application/json                            map topojson
-    AddType application/ld+json                         jsonld
-    AddType application/vnd.geo+json                    geojson
-
+    AddType application/json                            map
 
   # JavaScript
 
@@ -215,19 +212,9 @@ header, and thus, make your web site/app pass this rule.
 
   # Other
 
-    # 2.2.x - 2.4.x
-
-    AddType text/vcard                                  vcard
-
     # 2.2.x+
 
-    AddType text/markdown                               markdown md
     AddType text/vtt                                    vtt
-
-    # 2.4.x+
-
-    AddType text/vcard                                  vcf
-    AddType text/x-component                            htc
 
 </IfModule>
 
@@ -248,20 +235,16 @@ AddDefaultCharset utf-8
 # https://httpd.apache.org/docs/current/mod/mod_mime.html#addcharset
 
 <IfModule mod_mime.c>
-    AddCharset utf-8 .atom \
+    AddCharset utf-8 .appcache \
+                     .atom \
                      .css \
-                     .geojson \
-                     .ics \
                      .js \
                      .json \
-                     .jsonld \
                      .manifest \
-                     .markdown \
-                     .md \
+                     .map \
                      .mjs \
                      .rdf \
                      .rss \
-                     .topojson \
                      .vtt \
                      .webmanifest \
                      .xml
@@ -329,9 +312,7 @@ for the given extension.
                  of the predefined ones -->
 
             <!-- Data interchange -->
-            <mimeMap fileExtension=".geojson" mimeType="application/vnd.geo+json; charset=utf-8"/>
             <mimeMap fileExtension=".json" mimeType="application/json; charset=utf-8"/>
-            <mimeMap fileExtension=".jsonld" mimeType="application/ld+json; charset=utf-8"/>
             <mimeMap fileExtension=".map" mimeType="application/json; charset=utf-8"/>
             <mimeMap fileExtension=".rss" mimeType="application/rss+xml; charset=utf-8"/>
             <mimeMap fileExtension=".xml" mimeType="text/xml; charset=utf-8"/>
@@ -343,7 +324,7 @@ for the given extension.
 
             <!-- Manifest files -->
             <mimeMap fileExtension=".appcache" mimeType="text/cache-manifest; charset=utf-8"/>
-            <mimeMap fileExtension="webmanifest" mimeType="application/manifest+json; charset=utf-8"/>
+            <mimeMap fileExtension=".webmanifest" mimeType="application/manifest+json; charset=utf-8"/>
 
             <!-- Media files -->
             <mimeMap fileExtension=".f4a" mimeType="audio/mp4"/>
@@ -360,10 +341,12 @@ for the given extension.
             <mimeMap fileExtension=".webm" mimeType="video/webm"/>
             <mimeMap fileExtension=".flv" mimeType="video/x-flv"/>
 
+            <mimeMap fileExtension=".cur" mimeType="image/x-icon"/>
+            <mimeMap fileExtension=".ico" mimeType="image/x-icon"/>
             <mimeMap fileExtension=".svg" mimeType="image/svg+xml; charset=utf-8"/>
             <mimeMap fileExtension=".svgz" mimeType="image/svg+xml"/>
             <mimeMap fileExtension=".webp" mimeType="image/webp"/>
-            <mimeMap fileExtension=".cur" mimeType="image/x-icon"/>
+
 
             <!-- Font files -->
             <mimeMap fileExtension=".eot" mimeType="application/vnd.ms-fontobject"/>
@@ -376,8 +359,6 @@ for the given extension.
             <!-- Others -->
             <mimeMap fileExtension=".css" mimeType="text/css; charset=utf-8"/>
             <mimeMap fileExtension=".html" mimeType="text/html; charset=utf-8" />
-            <mimeMap fileExtension=".markdown" mimeType="text/markdown; charset=utf-8"/>
-            <mimeMap fileExtension=".md" mimeType="text/markdown; charset=utf-8"/>
             <mimeMap fileExtension=".txt" mimeType="text/plain; charset=utf-8" />
             <mimeMap fileExtension=".vtt" mimeType="text/vtt; charset=utf-8"/>
         </staticContent>

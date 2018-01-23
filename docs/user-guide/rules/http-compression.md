@@ -732,12 +732,10 @@ Important notes:
     <IfModule mod_filter.c>
         AddOutputFilterByType DEFLATE "application/atom+xml" \
                                       "application/json" \
-                                      "application/ld+json" \
                                       "application/manifest+json" \
                                       "application/rdf+xml" \
                                       "application/rss+xml" \
                                       "application/schema+json" \
-                                      "application/vnd.geo+json" \
                                       "application/vnd.ms-fontobject" \
                                       "application/xhtml+xml" \
                                       "font/collection" \
@@ -748,13 +746,10 @@ Important notes:
                                       "image/svg+xml" \
                                       "image/x-icon" \
                                       "text/cache-manifest" \
-                                      "text/calendar" \
                                       "text/css" \
                                       "text/html" \
                                       "text/javascript" \
-                                      "text/markdown" \
                                       "text/plain" \
-                                      "text/vcard" \
                                       "text/vtt" \
                                       "text/xml"
     </IfModule>
@@ -856,8 +851,6 @@ Important notes:
                     <add key="js.gz" value="text/javascript; charset=utf-8" />
                     <add key="json.gz" value="application/json; charset=utf-8" />
                     <add key="map.gz" value="application/json; charset=utf-8" />
-                    <add key="markdown.gz" value="text/markdown; charset=utf-8" />
-                    <add key="md.gz" value="text/markdown; charset=utf-8" />
                     <add key="mjs.gz" value="text/javascript; charset=utf-8" />
                     <add key="otf.gz" value="font/otf" />
                     <add key="rss.gz" value="application/rss+xml; charset=utf-8" />
@@ -878,8 +871,6 @@ Important notes:
                     <add key="js.br" value="text/javascript; charset=utf-8" />
                     <add key="json.br" value="application/json; charset=utf-8" />
                     <add key="map.br" value="application/json; charset=utf-8" />
-                    <add key="markdown.br" value="text/markdown; charset=utf-8" />
-                    <add key="md.br" value="text/markdown; charset=utf-8" />
                     <add key="mjs.br" value="text/javascript; charset=utf-8" />
                     <add key="otf.br" value="font/otf" />
                     <add key="rss.br" value="application/rss+xml; charset=utf-8" />
@@ -896,7 +887,7 @@ Important notes:
                 <rule name="RestoreMime" enabled="true">
                     <match serverVariable="RESPONSE_Content_Type" pattern=".*" />
                     <conditions>
-                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.(gz|br))" />
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.(gz|br))" />
                         <add input="{CompressedExtensions:{C:1}}" pattern="(.+)" />
                     </conditions>
                     <action type="Rewrite" value="{C:3}" />
@@ -919,13 +910,13 @@ Important notes:
 
                 <preConditions>
                     <preCondition name="PreCompressedFile">
-                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.(gz|br))" />
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.(gz|br))" />
                     </preCondition>
                     <preCondition name="PreCompressedZopfli">
-                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.gz)" />
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.gz)" />
                     </preCondition>
                     <preCondition name="PreCompressedBrotli">
-                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.br)" />
+                        <add input="{HTTP_URL}" pattern="\.((?:appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)\.br)" />
                     </preCondition>
                 </preConditions>
             </outboundRules>
@@ -944,14 +935,14 @@ Important notes:
                     4. Based on the extension (`.gz` or `.br`), we rewrite the `content-encoding` header
                 -->
                 <rule name="ServerPreCompressedBrotli" stopProcessing="true">
-                    <match url="^(.*/)?(.*?)\.(appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)([?#].*)?$" ignoreCase="true"/>
+                    <match url="^(.*/)?(.*?)\.(appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)([?#].*)?$" ignoreCase="true"/>
                     <conditions>
                         <add input="{HTTP_ACCEPT_ENCODING}" pattern="br"/>
                     </conditions>
                     <action type="Rewrite" url="dist{REQUEST_URI}.br"/>
                 </rule>
                 <rule name="ServerPreCompressedZopfli" stopProcessing="true">
-                    <match url="^(.*/)?(.*?)\.(appcache|bmp|css|cur|eot|html|ico|js|json|map|markdown|md|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)([?#].*)?$" ignoreCase="true"/>
+                    <match url="^(.*/)?(.*?)\.(appcache|bmp|css|cur|eot|html|ico|js|json|map|mjs|otf|rss|svg|ttf|txt|vtt|webmanifest|xml)([?#].*)?$" ignoreCase="true"/>
                     <conditions>
                         <add input="{HTTP_ACCEPT_ENCODING}" pattern="gzip"/>
                     </conditions>
