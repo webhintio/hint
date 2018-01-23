@@ -130,6 +130,78 @@ Note that:
 
 </details>
 
+<details>
+<summary>How to configure IIS</summary>
+
+If your application is adding the headers unconditionally to all
+responses and you cannot modify it, the solution is to create
+[`URL rewrite` rules][url rewrite] that will remove them from
+any resource whose `Content-Type` header isn't `text/html`:
+
+```xml
+<configuration>
+     <system.webServer>
+        <rewrite>
+            <outboundRules>
+                 <rule name="Content-Security-Policy">
+                    <match serverVariable="RESPONSE_Content_Security_Policy" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
+                </rule>
+                <rule name="X-Content-Security-Policy">
+                    <match serverVariable="RESPONSE_X_Content_Security_Policy" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
+                </rule>
+                <rule name="X-Frame-Options">
+                    <match serverVariable="RESPONSE_X_Frame_Options" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
+                </rule>
+                <rule name="X-UA-Compatible">
+                    <match serverVariable="RESPONSE_X_UA_Compatible" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
+                </rule>
+                <rule name="X-WebKit-CSP">
+                    <match serverVariable="RESPONSE_X_Webkit_csp" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
+                </rule>
+                <rule name="X-XSS-Protection">
+                    <match serverVariable="RESPONSE_X_XSS_Protection" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" value=""/>
+                </rule>
+            </outboundRules>
+        </rewrite>
+    </system.webServer>
+</configuration>
+```
+
+Note that:
+
+* If your site uses a mime type different than `text/html` to serve HTML
+  content you'll have to update the value of `pattern` in
+  `<add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />`
+* The above snippet works with IIS 7+.
+* You should use the above snippet in the `web.config` of your
+  application.
+
+</details>
+
 <!-- markdownlint-enable MD033 -->
 
 ## Can the rule be configured?
@@ -159,3 +231,7 @@ but not with `Custom-Header`.
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
+
+<!-- IIS links -->
+
+[url rewrite]: https://docs.microsoft.com/en-us/iis/extensions/url-rewrite-module/using-the-url-rewrite-module

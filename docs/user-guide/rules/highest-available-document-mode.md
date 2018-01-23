@@ -226,7 +226,7 @@ X-UA-Compatible: ie=edge
 Apache can be configured to add or remove the `X-UA-Compatible`
 header using the [`Header` directive][header directive].
 
-### Adding the `X-UA-Compatible` header
+### Adding the `X-UA-Compatible` header on Apache
 
 ```apache
 <IfModule mod_headers.c>
@@ -249,7 +249,7 @@ header using the [`Header` directive][header directive].
 </IfModule>
 ```
 
-## Removing the `X-UA-Compatible` header
+## Removing the `X-UA-Compatible` header on Apache
 
 If the header is sent, in most cases, to make Apache stop sending
 the `X-UA-Compatible` requires just removing the configuration that
@@ -283,6 +283,63 @@ Note that:
 
 </details>
 
+<details>
+<summary>How to configure IIS</summary>
+
+### Adding the `X-UA-Compatible` header on IIS
+
+To add the `X-UA-Compatible` header you can use a [`URL rewrite` rule][url rewrite]
+rule that matches the `text/html` `content-type` header of a response and adds it:
+
+```xml
+<configuration>
+     <system.webServer>
+        <rewrite>
+            <outboundRules>
+                <rule name="X-UA-Compatible header">
+                    <match serverVariable="RESPONSE_X_UA_Compatible" pattern=".*" />
+                    <conditions>
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" />
+                    </conditions>
+                    <action type="Rewrite" value="IE=edge"/>
+                </rule>
+            </outboundRules>
+        </rewrite>
+    </system.webServer>
+</configuration>
+```
+
+Note that if your site uses a mime type different than `text/html` to serve HTML
+content you'll have to update the value of `pattern` in
+`<add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" />`.
+
+## Removing the `X-UA-Compatible` header on IIS
+
+If the header is set by IIS using the above technique, removing the code
+should be enough to stop sending it.
+
+If the header is set at the application level you can use the following:
+
+```xml
+<configuration>
+     <system.webServer>
+        <httpProtocol>
+             <customHeaders>
+                <remove name="X-UA-Compatible"/>
+             </customHeaders>
+         </httpProtocol>
+    </system.webServer>
+</configuration>
+```
+
+Note that:
+
+* The above snippet works with IIS 7+.
+* You should use the above snippet in the `web.config` of your
+  application.
+
+</details>
+
 <!-- markdownlint-enable MD033 -->
 
 ## Can the rule be configured?
@@ -312,7 +369,7 @@ not sending the HTTP response header.
 [doc modes]: https://msdn.microsoft.com/en-us/library/cc288325.aspx
 [ie complications]: https://hsivonen.fi/doctype/#ie8
 
-<!-- apache links -->
+<!-- Apache links -->
 
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
 [how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
@@ -320,3 +377,6 @@ not sending the HTTP response header.
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
 [mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html
+
+<!-- IIS Links -->
+[url rewrite]: https://docs.microsoft.com/en-us/iis/extensions/url-rewrite-module/using-the-url-rewrite-module
