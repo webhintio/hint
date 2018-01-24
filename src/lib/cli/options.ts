@@ -95,7 +95,7 @@ export const options = optionator({
         },
         {
             alias: 'w',
-            description: 'Activate a watcher for the connector (if sopported)',
+            description: 'Activate a watcher for the connector (if supported)',
             option: 'watch',
             type: 'Boolean'
         }
