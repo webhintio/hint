@@ -34,7 +34,7 @@ export default class JavascriptParser extends Parser {
         await this.sonarwhal.emitAsync('parse::javascript', scriptData);
     }
 
-    private parseJavascript(fetchEnd: IFetchEnd) {
+    private async parseJavascript(fetchEnd: IFetchEnd) {
         if (fetchEnd.response.mediaType !== 'text/javascript') {
             return;
         }
@@ -42,7 +42,7 @@ export default class JavascriptParser extends Parser {
         const code = fetchEnd.response.body.content;
         const resource = fetchEnd.resource;
 
-        this.emitScript(code, resource);
+        await this.emitScript(code, resource);
     }
 
     private hasSrcAttribute(element: IAsyncHTMLElement) {
@@ -85,6 +85,6 @@ export default class JavascriptParser extends Parser {
         const code = this.getScriptContent(await element.outerHTML());
         const resource: string = 'Internal javascript';
 
-        this.emitScript(code, resource);
+        await this.emitScript(code, resource);
     }
 }
