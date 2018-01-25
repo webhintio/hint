@@ -1,3 +1,21 @@
+# 0.24.0 (January 25, 2018)
+
+## Breaking Changes
+
+* [[`6a2f29b6ec`](https://github.com/sonarwhal/sonarwhal/commit/6a2f29b6ec9cce9f651cce0083cfbd934dff7997)] - Breaking: Limit `X-Content-Type-Options` usage to scripts and stylesheets (see also: [`#767`](https://github.com/sonarwhal/sonarwhal/issues/767)).
+
+## Bug fixes / Improvements
+
+* [[`53a5b57220`](https://github.com/sonarwhal/sonarwhal/commit/53a5b572206d6919c053a5194ff5555069b85695)] - Fix: Make `http-cache` rule ignore Data URIs (see also: [`#778`](https://github.com/sonarwhal/sonarwhal/issues/778)).
+* [[`7349b9728f`](https://github.com/sonarwhal/sonarwhal/commit/7349b9728f065ec13c2b887ae22c99c36173975d)] - Docs: Fix typo in `options.ts` (see also: [`#776`](https://github.com/sonarwhal/sonarwhal/issues/776)).
+* [[`b67ef431da`](https://github.com/sonarwhal/sonarwhal/commit/b67ef431da269daf93a7173e6051991e8478deec)] - Docs: Add examples of IIS server configurations (see also: [`#774`](https://github.com/sonarwhal/sonarwhal/issues/774)).
+* [[`cbcd924fe0`](https://github.com/sonarwhal/sonarwhal/commit/cbcd924fe04a47e5714f412493e291e5d9d5b62f)] - Fix: Make `summary` the default formatter (see also: [`#722`](https://github.com/sonarwhal/sonarwhal/issues/722)).
+
+## New features
+
+* [[`1d63f99035`](https://github.com/sonarwhal/sonarwhal/commit/1d63f99035b15b7529ff94df0e750e2314914c3f)] - Update: `snyk-snapshot.json`.
+
+
 # 0.23.1 (January 18, 2018)
 
 ## Bug fixes / Improvements
