@@ -118,9 +118,7 @@ HTTP/... 200 OK
 ## How to configure the server to pass this rule
 
 <!-- markdownlint-disable MD033 -->
-
-<details>
-<summary>How to configure Apache</summary>
+<details><summary>How to configure Apache</summary>
 
 Apache can be configured to serve resources with the
 `Strict-Transport-Security` header with a specific value
@@ -149,9 +147,7 @@ Note that:
   file in the root of the web site/app.
 
 </details>
-
-<details>
-<summary>How to configure IIS</summary>
+<details><summary>How to configure IIS</summary>
 
 IIS can be configured to serve resources with the `Strict-Transport-Security`
 header with a specific value using the [`<customHeader> element`][customHeader].

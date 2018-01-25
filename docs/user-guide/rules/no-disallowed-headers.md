@@ -81,9 +81,7 @@ HTTP/... 200 OK
 ## How to configure the server to pass this rule
 
 <!-- markdownlint-disable MD033 -->
-
-<details>
-<summary>How to configure Apache</summary>
+<details><summary>How to configure Apache</summary>
 
 If the headers are sent, in most cases, to make Apache stop sending
 them requires just removing the configurations that tells Apache to
@@ -142,9 +140,7 @@ Note that:
   `.htaccess` file in the root of the web site/app.
 
 </details>
-
-<details>
-<summary>How to configure IIS</summary>
+<details><summary>How to configure IIS</summary>
 
 To add or remove headers on IIS, you can use the
 [`<customHeader> element`][customheader] and `<remove>/<add>`

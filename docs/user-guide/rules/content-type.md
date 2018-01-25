@@ -109,9 +109,7 @@ Content-Type: text/javascript; charset=utf-8
 ## How to configure the server to pass this rule
 
 <!-- markdownlint-disable MD033 -->
-
-<details>
-<summary>How to configure Apache</summary>
+<details><summary>How to configure Apache</summary>
 
 By default Apache [maps certain filename extensions to specific media
 types][mime.types file], but depending on the Apache version that is
@@ -268,9 +266,7 @@ Note that:
   file in the root of the web site/app.
 
 </details>
-
-<details>
-<summary>How to configure IIS</summary>
+<details><summary>How to configure IIS</summary>
 
 By default IIS [maps certain filename extensions to specific media
 types][mime.types iis], but depending on the IIS version that is
