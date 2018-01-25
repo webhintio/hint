@@ -219,9 +219,7 @@ X-UA-Compatible: ie=edge
 ## How to configure the server to pass this rule
 
 <!-- markdownlint-disable MD033 -->
-
-<details>
-<summary>How to configure Apache</summary>
+<details><summary>How to configure Apache</summary>
 
 Apache can be configured to add or remove the `X-UA-Compatible`
 header using the [`Header` directive][header directive].
@@ -282,9 +280,7 @@ Note that:
   file in the root of the web site/app.
 
 </details>
-
-<details>
-<summary>How to configure IIS</summary>
+<details><summary>How to configure IIS</summary>
 
 ### Adding the `X-UA-Compatible` header on IIS
 
@@ -372,6 +368,7 @@ not sending the HTTP response header.
 <!-- Apache links -->
 
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
+[header directive]: https://httpd.apache.org/docs/current/mod/mod_headers.html#header
 [how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
