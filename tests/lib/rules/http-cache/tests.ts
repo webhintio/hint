@@ -47,6 +47,19 @@ const defaultTests: Array<IRuleTest> = [
         }
     },
     {
+        name: 'Asset is specified as a data URI',
+        serverConfig: {
+            '/': {
+                content: generateHTMLPage('<link rel="icon" href="/favicon.123.ico">', '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">'),
+                headers: { 'cache-control': 'no-cache' }
+            },
+            '/favicon.123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            }
+        }
+    },
+    {
         name: 'Asset with no "Cache-Control" header fails',
         reports: [{ message: `No "cache-control" header or empty value found. It should have a value` }],
         serverConfig: {
