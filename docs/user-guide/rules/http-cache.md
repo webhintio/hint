@@ -153,9 +153,7 @@ Cache-Control: no-cache
 ## How to configure the server to pass this rule
 
 <!-- markdownlint-disable MD033 -->
-
-<details>
-<summary>How to configure Apache</summary>
+<details><summary>How to configure Apache</summary>
 
 Enabling Apache to automatically add the `Cache-Control` header
 (as well as the equivalent `Expires` header) can be done using the
@@ -278,9 +276,7 @@ Also note that:
   file in the root of the web site/app.
 
 </details>
-
-<details>
-<summary>How to configure IIS</summary>
+<details><summary>How to configure IIS</summary>
 
 You can enable the `Cache-Control` and/or `Expire` headers on IIS using
 the [`<clientCache> element under <staticContent>`][clientcache iis].

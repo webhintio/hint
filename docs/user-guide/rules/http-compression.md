@@ -518,9 +518,7 @@ Content-Type: image/svg+xml
 ## How to configure the server to pass this rule
 
 <!-- markdownlint-disable MD033 -->
-
-<details>
-<summary>How to configure Apache</summary>
+<details><summary>How to configure Apache</summary>
 
 Apache can be configured to conditionally (based on media type)
 compress resources using gzip as well as send the appropriate
@@ -789,9 +787,7 @@ Also note that:
   file in the root of the web site/app.
 
 </details>
-
-<details>
-<summary>How to configure IIS</summary>
+<details><summary>How to configure IIS</summary>
 
 IIS 7+ can be configured to compress responses (static or dynamic) via
 the [`<urlCompression> element`][urlcompression].

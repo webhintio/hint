@@ -85,9 +85,7 @@ X-XSS-Protection: 1; mode=block
 ## How to configure the server to pass this rule
 
 <!-- markdownlint-disable MD033 -->
-
-<details>
-<summary>How to configure Apache</summary>
+<details><summary>How to configure Apache</summary>
 
 Apache can be configured to remove headers using the [`Header`
 directive][header directive].
@@ -129,9 +127,7 @@ Note that:
   file in the root of the web site/app.
 
 </details>
-
-<details>
-<summary>How to configure IIS</summary>
+<details><summary>How to configure IIS</summary>
 
 If your application is adding the headers unconditionally to all
 responses and you cannot modify it, the solution is to create

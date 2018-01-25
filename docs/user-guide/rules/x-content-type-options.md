@@ -82,9 +82,7 @@ X-Content-Type-Options: nosniff
 ## How to configure the server to pass this rule
 
 <!-- markdownlint-disable MD033 -->
-
-<details>
-<summary>How to configure Apache</summary>
+<details><summary>How to configure Apache</summary>
 
 Presuming the script files use the `.js` or `.mjs` extension, and
 the stylesheets `.css`, Apache can be configured to serve the with
@@ -116,9 +114,7 @@ Note that:
   file in the root of the web site/app.
 
 </details>
-
-<details>
-<summary>How to configure IIS</summary>
+<details><summary>How to configure IIS</summary>
 
 Presuming the script files are sent with the `Content-Type` header set
 to `text/javascript` and styleshees to `text/css` you can use
