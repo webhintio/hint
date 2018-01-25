@@ -4,9 +4,12 @@
 import * as pluralize from 'pluralize';
 
 import { Category } from '../../enums/category';
+import { debug as d } from '../../utils/debug';
+import { getHeaderValueNormalized, isDataURI } from '../../utils/misc';
 import { IRule, IRuleBuilder, IFetchEnd } from '../../types';
-import { normalizeString } from '../../utils/misc';
 import { RuleContext } from '../../rule-context';
+
+const debug = d(__filename);
 
 type targetType = 'fetch' | 'manifest' | 'target';
 type Directives = Map<string, number>;
@@ -358,10 +361,20 @@ const rule: IRuleBuilder = {
 
         const validateFetch = (type: targetType) => {
             return async (fetchEnd: IFetchEnd) => {
+                const { resource } = fetchEnd;
+
+                // This check does not make sense for data URIs.
+
+                if (isDataURI(resource)) {
+                    debug(`Check does not apply for data URIs`);
+
+                    return;
+                }
+
                 const headers = fetchEnd.response.headers;
-                const cacheControl: string = headers && headers['cache-control'] || '';
-                const parsedDirectives: ParsedDirectives = parseCacheControlHeader(normalizeString(cacheControl));
                 const { response: { mediaType } } = fetchEnd;
+                const cacheControlHeaderValue: string = getHeaderValueNormalized(headers, 'cache-control', '');
+                const parsedDirectives: ParsedDirectives = parseCacheControlHeader(cacheControlHeaderValue);
 
                 const validators = [
                     hasCacheControl,
