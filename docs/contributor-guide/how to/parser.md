@@ -1,4 +1,4 @@
-# How to develop a parser
+# Develop a parser
 
 A `parser` understands more deeply a resource and exposes that
 information to other parts of `sonarwhal`.

@@ -1,4 +1,4 @@
-# How to develop a connector
+# Develop a connector
 
 A connector is the way `sonarwhal` gets information and exposes it to the
 rules. Connectors are usually built on top of browsers but that isn’t

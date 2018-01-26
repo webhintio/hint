@@ -1,4 +1,4 @@
-# Tutorial of creating an external rule
+# Create an external rule step-by-step
 
 Imagine that we have a new change in the sonarwhal website - we’d like
 to add a footer containing the copyright information `(c) sonarwhal` and
