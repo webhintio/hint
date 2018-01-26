@@ -1,4 +1,4 @@
-# How to develop a formatter
+# Develop a formatter
 
 A `formatter` formats the results of `sonarwhal`: from crafting `JSON` to
 connecting to a database and storing the results in it.

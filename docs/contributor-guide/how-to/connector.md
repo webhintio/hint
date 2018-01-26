@@ -1,4 +1,4 @@
-# How to develop a connector
+# Develop a connector
 
 A connector is the way `sonarwhal` gets information and exposes it to the
 rules. Connectors are usually built on top of browsers but that isn’t
@@ -12,15 +12,13 @@ of events. For example, if you have a connector that only takes into
 account HTML files from the file system, it could decide not to
 implement events such as `fetch::end`.
 
-This is the [list of events supported by `sonarwhal`](./events.md). For
-a connector to be considered "full", it needs to send all these events.
-Additionally it needs to pass all the [common
-tests](#how-to-test-a-full-connector).
+For a connector to be considered "full", it needs to send at least
+[the events listed here](./events.md). Additionally it needs to pass all
+the [common tests](#how-to-test-a-full-connector).
 
 ## Develop a "full" connector
 
-A connector needs to implement the [`IConnector`
-interface][iconnector interface].
+A connector needs to implement the [`IConnector` interface][iconnector interface].
 
 The entry point to scan a url is `collect`, that is an `async` method.
 Once this method is invoked the following events should be fired in

@@ -56,10 +56,10 @@ the [local version](./docs/contributor-guide/index.md)).
 
 The following are meant only if you are working on `sonarwhal`’s codebase:
 
-* `npm run site <url>` will analyze the website with the current
+* `npm run sonarwhal <url>` will analyze the website with the current
    configuration and using the latest build available in the `dist`
    directory.
-* `npm run site -- --debug <url>` same as above, but will show all
+* `npm run sonarwhal -- --debug <url>` same as above, but will show all
    the debug information.
 * `npm run lint` will lint the code.
 * `npm run watch` will start watchmode. This is the recommended task
