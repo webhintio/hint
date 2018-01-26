@@ -134,6 +134,7 @@
   ],
   "greenkeeper": {
     "ignore": [
+      "@types/node",
       "angular",
       "jquery",
       "knockout",
