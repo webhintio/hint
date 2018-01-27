@@ -74,3 +74,17 @@ export interface IORA {
     fail(): void;
     text: string;
 }
+
+export type NpmMaintainer = {
+    email: string;
+    username: string;
+};
+
+export type NpmPackage = {
+    date: Date;
+    description: string;
+    keywords: Array<string>;
+    maintainers: Array<NpmMaintainer>;
+    name: string;
+    version: string;
+};
