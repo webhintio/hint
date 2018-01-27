@@ -12,17 +12,21 @@
  */
 
 import * as path from 'path';
+import { promisify } from 'util';
 
 import * as globby from 'globby';
+import * as npm from 'npm';
+import * as esearch from 'npm/lib/search/esearch';
 
 import { findNodeModulesRoot, findPackageRoot, readFile } from './misc';
 import { debug as d } from './debug';
-import { IConnectorBuilder, IFormatter, Parser, Resource, IRuleBuilder } from '../types';
+import { IConnectorBuilder, IFormatter, NpmPackage, Parser, Resource, IRuleBuilder } from '../types';
 import { validate as validateRule } from '../config/config-rules';
 
 const debug: debug.IDebugger = d(__filename);
 const SONARWHAL_ROOT: string = findPackageRoot();
 const NODE_MODULES_ROOT: string = findNodeModulesRoot();
+const npmLoadAsync = promisify(npm.load);
 
 /** Cache of resource builders, indexex by resource Id. */
 const resources: Map<string, Resource> = new Map<string, Resource>();
@@ -279,4 +283,58 @@ export const loadFormatter = (formatterId: string): IFormatter => {
 
 export const loadParser = (parserId: string): Parser => {
     return loadResource(parserId, TYPE.parser);
+};
+
+const searchNpmPackages = (searchTerm: string): Promise<Array<NpmPackage>> => {
+    return new Promise((resolve, reject) => {
+        const results = [];
+
+        const searchOptions = {
+            description: true,
+            excluded: [],
+            include: [searchTerm],
+            limit: 1000,
+            staleness: 900,
+            unicode: false
+        };
+
+        esearch(searchOptions)
+            .on('data', (data) => {
+                results.push(data);
+            })
+            .on('error', (err) => {
+                reject(err);
+            })
+            .on('end', () => {
+                resolve(results);
+            });
+    });
+};
+
+const loadNpm = () => {
+    return npmLoadAsync({ loaded: false });
+};
+
+export const getNpmPackages = async (searchTerm: string = 'sonarwhal'): Promise<Array<NpmPackage>> => {
+    await loadNpm();
+
+    return searchNpmPackages(searchTerm);
+};
+
+const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
+    return packages.filter((pkg) => {
+        return pkg.name.startsWith(initTerm);
+    });
+};
+
+export const getExternalRulesFromNpm = async () => {
+    const rules = await getNpmPackages('sonarwhal-rule');
+
+    return filterPackages(rules, 'sonarwhal-rule');
+};
+
+export const getCoreRulesFromNpm = async () => {
+    const rules = await getNpmPackages('@sonarwhal/rule');
+
+    return filterPackages(rules, '@sonarwhal/rule');
 };

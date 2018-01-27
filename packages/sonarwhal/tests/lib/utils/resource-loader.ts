@@ -1,15 +1,18 @@
 import * as path from 'path';
+import * as stream from 'stream';
+
 import test from 'ava';
 import * as sinon from 'sinon';
 import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
 
-proxyquire('../../../src/lib/utils/resource-loader', globby);
+import { delay } from '../../../src/lib/utils/misc';
 
-import * as resourceLoader from '../../../src/lib/utils/resource-loader';
+const esearchContainer = { esearch() { } };
 
 // TODO: Add tests to verify the order of loading is the right one: core -> scoped -> prefixed. This only checks core resources
 test('loadResource looks for resources in the right order (core > @sonarwhal > sonarwhal- ', (t) => {
+    const resourceLoader = require('../../../src/lib/utils/resource-loader');
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
     const resourceName = 'missing-rule';
     const resourceType = 'rule';
@@ -45,6 +48,7 @@ const getResourceFiles = (type) => {
 };
 
 ['connector', 'formatter', 'rule', 'parser'].forEach((e) => {
+    const resourceLoader = require('../../../src/lib/utils/resource-loader');
     const functionName = `getCore${e.charAt(0).toUpperCase()}${e.slice(1)}s`;
 
     test(`'${functionName}' should return all ${e}s`, (t) => {
@@ -61,6 +65,7 @@ const installedConnectors = [
 ];
 
 test('getInstalledConnectors should returns the installed connectors', (t) => {
+    const resourceLoader = require('../../../src/lib/utils/resource-loader');
     const globbyStub = sinon.stub(globby, 'sync').returns(installedConnectors);
 
     const connectors = resourceLoader.getInstalledConnectors();
@@ -69,4 +74,97 @@ test('getInstalledConnectors should returns the installed connectors', (t) => {
     t.true(connectors.includes('installedConnector2'));
 
     globbyStub.restore();
+});
+
+test.serial('getNpmPackages should search for the word "sonarwhal" by default', async (t) => {
+    const mockedStream = new stream.Writable();
+
+    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+
+    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
+
+    proxyquire('../../../src/lib/utils/resource-loader', {
+        globby,
+        'npm/lib/search/esearch': esearchContainer.esearch
+    });
+
+    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+
+    t.context.esearchContainer = esearchContainer;
+
+    const promise = resourceLoader.getNpmPackages();
+
+    await delay(500);
+    mockedStream.emit('end');
+
+    await promise;
+
+    const options = t.context.esearchContainer.esearch.args[0][0];
+
+    t.is(options.include[0], 'sonarwhal');
+    t.is(options.include.length, 1);
+
+    t.context.esearchContainer.esearch.restore();
+});
+
+test.serial('getExternalRulesFromNpm should search for the word "sonarwhal-rule"', async (t) => {
+    const mockedStream = new stream.Writable();
+
+    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+
+    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
+
+    proxyquire('../../../src/lib/utils/resource-loader', {
+        globby,
+        'npm/lib/search/esearch': esearchContainer.esearch
+    });
+
+    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+
+    t.context.esearchContainer = esearchContainer;
+
+    const promise = resourceLoader.getExternalRulesFromNpm();
+
+    await delay(500);
+    mockedStream.emit('end');
+
+    await promise;
+
+    const options = t.context.esearchContainer.esearch.args[0][0];
+
+    t.is(options.include[0], 'sonarwhal-rule');
+    t.is(options.include.length, 1);
+
+    t.context.esearchContainer.esearch.restore();
+});
+
+test.serial('getCoreRulesFromNpm should search for the word "@sonarwhal/rule"', async (t) => {
+    const mockedStream = new stream.Writable();
+
+    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+
+    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
+
+    proxyquire('../../../src/lib/utils/resource-loader', {
+        globby,
+        'npm/lib/search/esearch': esearchContainer.esearch
+    });
+
+    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+
+    t.context.esearchContainer = esearchContainer;
+
+    const promise = resourceLoader.getCoreRulesFromNpm();
+
+    await delay(500);
+    mockedStream.emit('end');
+
+    await promise;
+
+    const options = t.context.esearchContainer.esearch.args[0][0];
+
+    t.is(options.include[0], '@sonarwhal/rule');
+    t.is(options.include.length, 1);
+
+    t.context.esearchContainer.esearch.restore();
 });
