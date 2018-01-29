@@ -1,13 +1,13 @@
 # Architecture
 
-`sonarwhal` was designed with extensibility in mind. There are 4 main
-concepts that a developer needs to know about:
+`sonarwhal` was designed with extensibility in mind. There are four main
+concepts that you as a developer need to know about:
 
 DIAGRAM OF HOW THINGS INTERACT WITH EACH OTHER
 
-* `rule`: Is a test that is run on an asset (website, HTML document,
-  image, request, etc.). E.g.: Verify that the HTML document has
-  a valid language declared.
+* `rule`: Is a group of related tests that are run on aa resource
+  (website, HTML document, image, request, etc.). E.g.: Verify that the
+  HTML document has a valid language declared.
 * `connector`: Is the way in which `sonarwhal` obtains information about
   the DOM, requests, assets, etc. The underlying technique (debugging
   protocol, web driver, etc.) to access this data does not matter to

@@ -9,7 +9,7 @@ flexible enough to allow you to implement anything you want easily:
 * etc.
 
 If there is something you want to do and you can’t, or it is not clear
-how to do it, please open an issue.
+how to do it, please [open an issue][new issue].
 
 ## Types of rules
 
@@ -21,7 +21,7 @@ There are 2 types of `rule`s a user can develop:
   Before starting to develop a `core rule`, please make sure there is
   an open issue and talk with the maintainers about it.
 
-Both types of `rule`s [work exactly the same](#howruleswork), the only
+Both types of `rule`s [work exactly the same](#how-rules-work), the only
 difference being where they are located.
 
 ### Creating an external rule
@@ -39,8 +39,7 @@ sonarwhal --new-rule
 * Using `npx` if you don’t want to install it globally:
 
   **Windows users:** Currently [`npx` has an issue in this
-  platform](https://github.com/npm/npm/issues/17869) and the command will
-  not work.
+  platform][npx issue] and the command will not work.
 
 ```bash
 npx sonarwhal --new-rule
@@ -224,3 +223,5 @@ The rule can access the custom configuration via `context.ruleOptions`.
 <!-- Link labels: -->
 
 [json schema]: http://json-schema.org/
+[new issue]: https://github.com/sonarwhal/sonarwhal/issues/new
+[npx issue]: https://github.com/npm/npm/issues/17869

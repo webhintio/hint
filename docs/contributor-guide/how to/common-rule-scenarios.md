@@ -3,9 +3,9 @@
 ## Change feedback based on browser support
 
 Users can tell `sonarwhal` what browsers are important for them via the
-[`browserslist` property in `.sonarwhalrc`][browserconfiguration].
-You can have access to the list, and thus modify the feedback of your
-rule, via the property `context.targetedBrowsers`.
+[`browserslist` property in `.sonarwhalrc`][browserconfiguration] or in
+the `package.json` file. You can have access to the list, and thus modify
+the feedback of your rule, via the property `context.targetedBrowsers`.
 
 <!-- eslint-disable no-unused-vars -->
 
@@ -22,7 +22,7 @@ const validate = (fetchEnd) => {
 ## Reporting an error if not run
 
 Sometimes what a rule checks is mandatory, and if it does not have
-the change to test it, it should fail. These are the types of rules
+the chance to test it, it should fail. These are the types of rules
 that enforce certain things to be used in a certain way, and if
 included, in order for the rule to pass, the expectation should be
 that the thing the rule checks for should exist and be valid/used
@@ -42,7 +42,7 @@ the page. To do that you need to use `context.evaluate`. This method
 will always return a `Promise` even if your code does not return one.
 
 One important thing is that your code needs to be wrapped in an
-immediate invoked function expression (IIFE)
+immediate invoked function expression (IIFE).
 
 The following scripts will work:
 
@@ -80,8 +80,8 @@ context.evaluate(script);
 
 ## Ignore connectors
 
-If your rule does not work propertly with certain connectors you can
-use the property `ignoreConnectors` so it is not run if using them.
+If your rule does not work properly with certain connectors you can
+use the property `ignoreConnectors` so it is not run when they are used.
 
 <!-- eslint-disable no-unused-vars, object-curly-newline -->
 
@@ -100,7 +100,7 @@ const rule = {
 ## Interact with other services
 
 You can develop a rule that integrates with other services. `sonarwhal`
-integrates with a few like `ssllabs`.
+integrates with a few such as `ssllabs`.
 
 Because these online tools usually take a few seconds to return the
 results the guidance is to start the analysis as soon as possible
