@@ -27,7 +27,8 @@ difference being where they are located.
 ### Creating an external rule
 
 The easiest wait to create a new rule that will be distributed outside
-`sonarwhal` is via the CLI parameter `--new-rule`. You have 2 options:
+`sonarwhal` is via the CLI parameter `--new-rule`. You have several options
+such as:
 
 * Using `sonarwhal` as a global package:
 
