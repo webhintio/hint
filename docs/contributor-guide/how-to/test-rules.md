@@ -119,43 +119,43 @@ compressed with different formats. The following is an example of how you
 can return a different value depending on the content of the
 `Accept-Encoding` header:
 
-<!-- eslint-disable -->
+<!-- eslint-disable no-unused-vars -->
 
-```js
+```ts
 const serverConfig = {
     '{ "request": { "headers":{ "Accept-Encoding":"gzip" }}}': {
-        "/": {
-            "content": ...
-            "headers": ...
+        '/': {
+            content: { /* content here */ },
+            headers: { /* headers here */ }
         },
-        ...
+        // ...
     },
     '{ "request": { "headers":{ "Accept-Encoding":"br" }}}': {
-        "/": {
-            "content": ...
-            "headers": ...
+        '/': {
+            content: { /* content here */ },
+            headers: { /* headers here */ }
         },
-        ...
+        // ...
     }
 }
 ```
 
 Another alternative way to write the above is the following:
 
-<!-- eslint-disable -->
+<!-- eslint-disable no-unused-vars -->
 
-```js
+```ts
 const serverConfig = {
     '/': {
         '{"request":{"headers":{"Accept-Encoding":"gzip"}}}': {
-            content: ...,
-            headers: ...
+            content: { /* content here */ },
+            headers: { /* headers here */ }
         },
         '{"request":{"headers":{"Accept-Encoding":"br"}}}': {
-            content: ...,
-            headers: ...
+            content: { /* content here */ },
+            headers: { /* headers here */ }
         },
-        ...
+        // ...
     },
     ...
 }
