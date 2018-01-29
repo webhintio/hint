@@ -111,6 +111,52 @@ const tests: Array<RuleTest> = [
 ];
 ```
 
+## Conditional `response`s
+
+Sometimes you need the server to respond differently to a route depending
+on the contents of a `request`, e.g.: when requesting an asset that can be
+compressed with different formats. The following is an example of how you
+can return a different value depending on the content of the
+`Accept-Encoding` header:
+
+```js
+const serverConfig = {
+    '{ "request": { "headers":{ "Accept-Encoding":"gzip" }}}': {
+        "/": {
+            "content": ...
+            "headers": ...
+        },
+        ...
+    },
+    '{ "request": { "headers":{ "Accept-Encoding":"br" }}}': {
+        "/": {
+            "content": ...
+            "headers": ...
+        },
+        ...
+    }
+}
+```
+
+Another alternative way to write the above is the following:
+
+```js
+const serverConfig = {
+    '/': {
+        '{"request":{"headers":{"Accept-Encoding":"gzip"}}}': {
+            content: ...,
+            headers: ...
+        },
+        '{"request":{"headers":{"Accept-Encoding":"br"}}}': {
+            content: ...,
+            headers: ...
+        },
+        ...
+    },
+    ...
+}
+```
+
 ## Execute code `before` or `after` collecting the results
 
 In some scenarios you need to execute some code `before` or `after`
