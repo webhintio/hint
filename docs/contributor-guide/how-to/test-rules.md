@@ -119,6 +119,8 @@ compressed with different formats. The following is an example of how you
 can return a different value depending on the content of the
 `Accept-Encoding` header:
 
+<!-- eslint-disable -->
+
 ```js
 const serverConfig = {
     '{ "request": { "headers":{ "Accept-Encoding":"gzip" }}}': {
@@ -139,6 +141,8 @@ const serverConfig = {
 ```
 
 Another alternative way to write the above is the following:
+
+<!-- eslint-disable -->
 
 ```js
 const serverConfig = {

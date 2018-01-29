@@ -220,7 +220,6 @@ simpler templates.
 
 The rule can access the custom configuration via `context.ruleOptions`.
 
-
 <!-- Link labels: -->
 
 [json schema]: http://json-schema.org/
