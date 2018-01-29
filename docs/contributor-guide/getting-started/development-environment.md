@@ -3,10 +3,10 @@
 This is a step-by-step guide to setting up a local development
 environment that will let you contribute back to the project.
 
-1. [Install Node.js](#step-1)
-2. [Fork and checkout your own sonarwhal repository](#step-2)
-3. [Add the upstream source](#step-3)
-4. [Run the tests](#step-4)
+1. [Install Node.js](#step-1-install-nodejs)
+2. [Fork and checkout your own sonarwhal repository](#step-2-fork-and-checkout-your-own-sonarwhal-repository)
+3. [Add the upstream source](#step-3-add-the-upstream-source)
+4. [Run the tests](#step-4-run-the-tests)
 
 ## Step 1: Install Node.js
 
