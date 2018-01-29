@@ -1,5 +1,6 @@
 /**
- * @fileoverview The summary formatter, it outputs the aggregation of all the rule results in a table format.
+ * @fileoverview The interactive formatter, it groups the rule results by category or domain name
+ * and displays the selected group based on user's choice.
  */
 
 /*
@@ -16,7 +17,7 @@ import * as url from 'url';
 
 import { debug as d } from '../../utils/debug';
 import { getSummary, printMessageByResource, reportSummary } from '../utils/common';
-import { ISummaryResult } from '../utils/types';
+import { ISummaryResult, IGroupedProblems } from '../utils/types';
 import { loadRule } from '../../utils/resource-loader';
 import { IFormatter, IProblem } from '../../types';
 import * as logger from '../../utils/logging';
@@ -30,7 +31,7 @@ const debug = d(__filename);
  */
 
 const formatter: IFormatter = {
-    /** Format the problems grouped by `category` name and allow users to view categories selectively. */
+    /** Group the problems grouped by `category` or `domain` name and allow users to view the selected group. */
     async format(messages: Array<IProblem>, option: string) {
         debug('Formatting results');
 
@@ -63,7 +64,7 @@ const formatter: IFormatter = {
         };
 
         /** Print msgs under each group. */
-        const print = (groupedProblems) => {
+        const print = (groupedProblems: IGroupedProblems) => {
             if (!Object.keys(groupedProblems)) {
                 return;
             }
@@ -89,7 +90,7 @@ const formatter: IFormatter = {
         };
 
         /** Ask user to select the groups of interest. */
-        const askAndDisplay = async (groupedProblems: _.Dictionary<Array<IProblem>>, formattedRows: Array<string>, groupKeys: Array<string>, checkedGroupKeys?: inquirer.Answers) => {
+        const askAndDisplay = async (groupedProblems: IGroupedProblems, formattedRows: Array<string>, groupKeys: Array<string>, checkedGroupKeys?: inquirer.Answers) => {
             const choices: Array<inquirer.ChoiceType> = _.map(formattedRows, (row: string, index: number) => {
                 const groupKey: string = groupKeys[index];
                 const choice: inquirer.objects.ChoiceOption = {
