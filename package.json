@@ -183,7 +183,7 @@
     "clean": "rimraf dist",
     "commitmsg": "node scripts/check-commit-message.js",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint . --report-unused-disable-directives --ext js --ext md --ext ts --ignore-pattern coverage --ignore-pattern dist",
+    "lint:js": "eslint . --cache --report-unused-disable-directives --ext js --ext md --ext ts --ignore-pattern coverage --ignore-pattern dist",
     "lint:md": "markdownlint docs",
     "nyc": "nyc ava \"dist/tests/lib/rules/cloudinary/**/*.js\" --concurrency=2 --timeout=2m --debug",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",

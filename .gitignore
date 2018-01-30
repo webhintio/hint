@@ -3,6 +3,7 @@
 *.pid
 *.STALE
 .DS_Store
+.eslintcache
 /.nyc_output/
 /.vscode/
 /build/
