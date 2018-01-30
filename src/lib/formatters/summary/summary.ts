@@ -9,7 +9,7 @@
  */
 
 import * as _ from 'lodash';
-import { getSummary, reportSummary } from '../utils/common';
+import { getSummary, reportTotal } from '../utils/common';
 import { ISummaryResult } from '../utils/types';
 import * as table from 'text-table';
 
@@ -38,7 +38,7 @@ const formatter: IFormatter = {
         const { tableData, totalErrors, totalWarnings }: ISummaryResult = getSummary(resources);
 
         logger.log(table(tableData));
-        reportSummary(totalErrors, totalWarnings);
+        reportTotal(totalErrors, totalWarnings);
     }
 };
 

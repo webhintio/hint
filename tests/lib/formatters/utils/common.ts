@@ -76,23 +76,23 @@ test(`'printMessageByResource' prints a table and no summary for each resource i
 });
 
 test(`'getSummary' sort the grouped messages and return the tableData and stats to be printed`, (t) => {
-    const { tableData, ids, totalErrors, totalWarnings } = common.getSummary(problems.groupedProblems);
+    const { tableData, sequence, totalErrors, totalWarnings } = common.getSummary(problems.groupedProblems);
 
     t.is(tableData[0][0], chalk.cyan('interoperability'));
     t.is(tableData[0][1], chalk.yellow('1 warning'));
     t.is(tableData[1][0], chalk.cyan('security'));
     t.is(tableData[1][1], chalk.yellow('3 warnings'));
-    t.is(ids[0], 'interoperability');
-    t.is(ids[1], 'security');
+    t.is(sequence[0], 'interoperability');
+    t.is(sequence[1], 'security');
     t.is(totalErrors, 0);
     t.is(totalWarnings, 4);
 });
 
-test(`'reportSummary' reports the correct messages`, (t) => {
+test(`'reportTotal' reports the correct messages`, (t) => {
     const log = t.context.logger.log;
 
-    common.reportSummary(1, 2, false);
-    common.reportSummary(0, 2, true);
+    common.reportTotal(1, 2, false);
+    common.reportTotal(0, 2, true);
 
     t.is(log.args[0][0], chalk.red.bold(`${logSymbols.error} Found 1 error and 2 warnings`));
     t.is(log.args[1][0], chalk.yellow.bold(`${logSymbols.error} Found a total of 0 errors and 2 warnings`));

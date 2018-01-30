@@ -10,7 +10,7 @@ const common = {
             totalWarnings: 1
         };
     },
-    reportSummary() { }
+    reportTotal() { }
 };
 
 proxyquire('../../../src/lib/formatters/stylish/stylish', {
@@ -23,7 +23,7 @@ import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
     sinon.spy(logging, 'log');
-    sinon.spy(common, 'reportSummary');
+    sinon.spy(common, 'reportTotal');
     sinon.spy(common, 'printMessageByResource');
 
     t.context.logger = logging;
@@ -32,7 +32,7 @@ test.beforeEach((t) => {
 
 test.afterEach.always((t) => {
     t.context.logger.log.restore();
-    t.context.common.reportSummary.restore();
+    t.context.common.reportTotal.restore();
     t.context.common.printMessageByResource.restore();
 });
 
@@ -48,6 +48,6 @@ test(`Stylish formatter prints the messages by resource and a combined total sum
     stylish.format(problems.multipleproblemsandresources);
 
     t.true(comm.printMessageByResource.calledOnce);
-    t.true(comm.reportSummary.calledOnce);
+    t.true(comm.reportTotal.calledOnce);
     t.true(comm.printMessageByResource.args[0][1]);
 });

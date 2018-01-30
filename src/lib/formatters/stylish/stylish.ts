@@ -10,7 +10,7 @@
  * ------------------------------------------------------------------------------
  */
 import { debug as d } from '../../utils/debug';
-import { printMessageByResource, reportSummary } from '../utils/common';
+import { printMessageByResource, reportTotal } from '../utils/common';
 import { IFormatter, IProblem } from '../../types';
 
 const debug = d(__filename);
@@ -33,7 +33,7 @@ const formatter: IFormatter = {
 
         const { totalErrors, totalWarnings } = printMessageByResource(messages, true);
 
-        reportSummary(totalErrors, totalWarnings);
+        reportTotal(totalErrors, totalWarnings);
     }
 };
 

@@ -6,7 +6,7 @@ import * as table from 'text-table';
 
 import { cutString } from '../../utils/misc';
 import { IProblem, Severity } from '../../types';
-import { ISummaryResult } from './types';
+import { IGroupedProblems, ISummaryResult } from './types';
 import * as logger from '../../utils/logging';
 
 
@@ -23,7 +23,7 @@ const printPosition = (position: number, text: string) => {
 };
 
 /** Report number of errors and warnings. */
-export const reportSummary = (errors: number, warnings: number, total: boolean = false) => {
+export const reportTotal = (errors: number, warnings: number, total: boolean = false) => {
     const color: typeof chalk = errors > 0 ? chalk.red : chalk.yellow;
 
     const message = `${logSymbols.error} Found ${total ? 'a total of ' : ''}${errors} ${pluralize('error', errors)} and ${warnings} ${pluralize('warning', warnings)}`;
@@ -31,12 +31,12 @@ export const reportSummary = (errors: number, warnings: number, total: boolean =
     logger.log(color.bold(message));
 };
 
-/** Get summary from messages grouped by ruleId/category name. */
-export const getSummary = (groupedMessages: _.Dictionary<Array<IProblem>>): ISummaryResult => {
+/** Get summary from messages grouped by ruleId/category/domain name, used by both the `interactive` and `summary` formatter. */
+export const getSummary = (groupedMessages: IGroupedProblems): ISummaryResult => {
     const tableData: Array<Array<string>> = [];
     let totalErrors: number = 0;
     let totalWarnings: number = 0;
-    const ids: Array<string> = []; // category/rule ids to keep track of the data pushed to `tableData`.
+    const sequence: Array<string> = []; // keep track of the sequence of the data pushed to `tableData`.
     const sortedMessages = Object.entries(groupedMessages).sort(([keyA, problemsA], [keyB, problemsB]) => {
         if (problemsA.length < problemsB.length) {
             return -1;
@@ -57,14 +57,14 @@ export const getSummary = (groupedMessages: _.Dictionary<Array<IProblem>>): ISum
         const message = errors ? buildMessage(errors, 'error') : buildMessage(warnings, 'warning');
 
         tableData.push([chalk.cyan(key), color(message)]);
-        ids.push(key);
+        sequence.push(key);
 
         totalErrors += errors;
         totalWarnings += warnings;
     });
 
     return {
-        ids,
+        sequence,
         tableData,
         totalErrors,
         totalWarnings
@@ -127,7 +127,7 @@ export const printMessageByResource = (rawMsgs: Array<IProblem> | IProblem, logT
         totalWarnings += warnings;
 
         if (logTotal) {
-            reportSummary(errors, warnings);
+            reportTotal(errors, warnings);
             logger.log('');
         }
     });

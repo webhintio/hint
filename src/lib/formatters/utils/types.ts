@@ -1,7 +1,7 @@
-import { IProblem } from "../../types";
+import { IProblem } from '../../types';
 
 export interface ISummaryResult {
-    ids: Array<string>;
+    sequence: Array<string>;
     tableData: Array<Array<string>>;
     totalErrors: number;
     totalWarnings: number;

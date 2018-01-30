@@ -16,7 +16,7 @@ import * as table from 'text-table';
 import * as url from 'url';
 
 import { debug as d } from '../../utils/debug';
-import { getSummary, printMessageByResource, reportSummary } from '../utils/common';
+import { getSummary, printMessageByResource, reportTotal } from '../utils/common';
 import { ISummaryResult, IGroupedProblems } from '../utils/types';
 import { loadRule } from '../../utils/resource-loader';
 import { IFormatter, IProblem } from '../../types';
@@ -65,7 +65,7 @@ const formatter: IFormatter = {
 
         /** Print msgs under each group. */
         const print = (groupedProblems: IGroupedProblems) => {
-            if (!Object.keys(groupedProblems)) {
+            if (_.isEmpty(groupedProblems)) {
                 return;
             }
 
@@ -84,17 +84,29 @@ const formatter: IFormatter = {
                     errors += stats.totalErrors;
                 });
 
-
-                reportSummary(errors, warnings);
+                reportTotal(errors, warnings);
             });
+
+            logger.log('');
         };
 
-        /** Ask user to select the groups of interest. */
-        const askAndDisplay = async (groupedProblems: IGroupedProblems, formattedRows: Array<string>, groupKeys: Array<string>, checkedGroupKeys?: inquirer.Answers) => {
-            const choices: Array<inquirer.ChoiceType> = _.map(formattedRows, (row: string, index: number) => {
+        /** Label pre-selected choices. */
+        const preCheckCopy = (questions: inquirer.Questions, preSelectedKey?: inquirer.Answers) => {
+            const preCheckedCopy = _.cloneDeep(questions);
+
+            if (preSelectedKey && preSelectedKey.length) {
+                preCheckedCopy[0].default = preSelectedKey;
+            }
+
+            return preCheckedCopy;
+        };
+
+        /** Generate questions from tableData */
+        const generateQuestions = (tableData, groupKeys: Array<string>) => {
+            const formattedRows: Array<string> = table(tableData).split('\n');
+            let choices: Array<inquirer.ChoiceType> = _.map(formattedRows, (row: string, index: number) => {
                 const groupKey: string = groupKeys[index];
                 const choice: inquirer.objects.ChoiceOption = {
-                    checked: checkedGroupKeys && checkedGroupKeys.includes(groupKey) || false,
                     name: row,
                     value: groupKey
                 };
@@ -102,43 +114,54 @@ const formatter: IFormatter = {
                 return choice;
             });
 
+            const all = { name: chalk.cyan('SHOW ALL'), value: 'all' };
+            const exit = { name: chalk.red('EXIT'), value: 'exit' };
+            const optionText = ['domain', 'category'].includes(option) ? option : 'category';
+
+            choices = choices.concat([all, exit]);
+
+
             const questions: inquirer.Questions = [{
                 choices,
-                message: `Select the items that you'd like to expand:`,
+                message: `Select the ${optionText} that you'd like to expand or exit:`,
                 name: 'expanded',
-                type: 'checkbox'
+                type: 'list'
             }];
 
-            const selected: inquirer.Answers = await inquirer.prompt(questions);
-            const selectedGroupedProblems = _.pickBy(groupedProblems, (results, category) => {
-                return selected.expanded.includes(category);
-            });
+            return questions;
+        };
 
-            print(selectedGroupedProblems);
+        /** Ask user to select the groups of interest. */
+        const askAndDisplay = async (groupedProblems: IGroupedProblems, questions: inquirer.Questions, preSelectedkey?: inquirer.Answers) => {
+            const preCheckedQuestions = preCheckCopy(questions, preSelectedkey);
+            const selected: inquirer.Answers = await inquirer.prompt(preCheckedQuestions);
 
-            const askNext: inquirer.Questions = [{
-                message: 'Go back to the menu to select other results?',
-                name: 'menu',
-                type: 'confirm'
-            }];
-
-            const next: inquirer.Answers = await inquirer.prompt(askNext);
-
-            if (next.menu) {
-                return askAndDisplay(groupedProblems, formattedRows, groupKeys, selected.expanded);
+            if (selected.expanded === 'exit') {
+                return null;
             }
 
-            return null; // exit.
+            const selectedGroup = selected.expanded === 'all' ? groupedProblems : _.pickBy(groupedProblems, (results, category) => {
+                return selected.expanded === category;
+            });
+
+            try {
+
+                print(selectedGroup);
+            } catch (error) {
+                console.log(error);
+            }
+
+            return askAndDisplay(groupedProblems, questions, selected.expanded);
         };
 
         const groupMethod = groups[option] || groupByCategory;
         const groupedProblems: _.Dictionary<Array<IProblem>> = groupMethod(messages);
-        const { tableData, ids, totalErrors, totalWarnings }: ISummaryResult = getSummary(groupedProblems);
-        const formattedRows: Array<string> = table(tableData).split('\n');
+        const { tableData, sequence, totalErrors, totalWarnings }: ISummaryResult = getSummary(groupedProblems);
+        const questions: inquirer.Questions = generateQuestions(tableData, sequence);
 
-        reportSummary(totalErrors, totalWarnings);
+        reportTotal(totalErrors, totalWarnings);
 
-        await askAndDisplay(groupedProblems, formattedRows, ids);
+        await askAndDisplay(groupedProblems, questions);
     }
 };
 

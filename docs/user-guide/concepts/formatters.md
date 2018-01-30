@@ -50,6 +50,19 @@ The built-in `formatter`s are:
 
 ![Example output for the summary formatter](../images/summary-output.png)
 
+* `interactive` allows a user to select results of interest based on
+   the `domain` name or the rule `category`.
+
+   Results are grouped by
+   `category` by default. To switch to using `domain`instead, specify
+   in `.sonarwhalrc` as follows:
+
+    ```json
+    "formatters": "interactive:domain"
+    ```
+
+![Example output for the interactive formatter](../images/interactive.gif)
+
 If you want to implement your own `formatter`, visit the [contributor
 guide][contributor guide]
 

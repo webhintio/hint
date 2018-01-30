@@ -7,10 +7,11 @@ const common = {
     printMessageByResource: () => {
         return { totalErrors: 0, totalWarnings: 1 };
     },
-    reportSummary() { }
+    reportTotal() { }
 };
 const logging = { log() { } };
 const inquirer = { prompt() { } };
+const exit = { expanded: 'exit' };
 
 proxyquire('../../../src/lib/formatters/interactive/interactive', {
     '../../utils/logging': logging,
@@ -41,14 +42,14 @@ test.serial(`Interactive formatter doesn't print anything if no values`, async (
 
 // Group by category.
 test.serial(`Before showing the result, the interactive formatter prints a table of all categories and asks the user to select`, async (t) => {
-    const selected = { expanded: ['security'] };
+    const selected = { expanded: 'security' };
     const sandbox = sinon.sandbox.create();
 
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
         .resolves(selected)
         .onSecondCall()
-        .resolves({ menu: false });
+        .resolves(exit);
 
     const prompt = inquirer.prompt as sinon.SinonStub;
 
@@ -57,18 +58,20 @@ test.serial(`Before showing the result, the interactive formatter prints a table
     const question1 = prompt.args[0][0][0];
     const question2 = prompt.args[1][0][0];
 
-    t.is(question1.message, `Select the items that you'd like to expand:`);
-    t.is(question2.message, `Go back to the menu to select other results?`);
-    t.is(question1.choices.length, 2);
+    t.is(question1.message, `Select the category that you'd like to expand or exit:`);
+    t.is(question2.message, `Select the category that you'd like to expand or exit:`);
+    t.is(question1.choices.length, 4);
     t.is(question1.choices[0].value, 'interoperability');
     t.is(question1.choices[1].value, 'security');
+    t.is(question1.choices[2].value, 'all');
+    t.is(question1.choices[3].value, 'exit');
 
     sandbox.restore();
 });
 
 test.serial(`Interactive formatter should print all the messages included in the selected category`, async (t) => {
     const log = t.context.logger.log;
-    const selected = { expanded: ['security'] };
+    const selected = { expanded: 'security' };
     const sandbox = sinon.sandbox.create();
     const includedRuleId = 'x-content-type-options';
 
@@ -76,7 +79,7 @@ test.serial(`Interactive formatter should print all the messages included in the
         .onFirstCall()
         .resolves(selected)
         .onSecondCall()
-        .resolves({ menu: false });
+        .resolves(exit);
 
     await interactive.format(problems.interactiveProblems, 'category');
 
@@ -89,54 +92,45 @@ test.serial(`Interactive formatter should print all the messages included in the
     t.is(printTable.args[0][0].ruleId, includedRuleId);
     t.is(printTable.args[1][0].ruleId, includedRuleId);
     t.is(printTable.args[2][0].ruleId, includedRuleId);
-    t.is(log.args.length, selected.expanded.length * 2);
+    t.is(log.args.length, 3);
     t.is(log.args[1][0], chalk.magenta(`security:`));
 
     sandbox.restore();
 });
 
-
 test.serial(`If the user goes back the the main menu, the currently selected categories should be checked by default`, async (t) => {
-    const securitySelected = { expanded: ['security'] };
-    const interopSelected = { expanded: ['interoperability'] };
+    const securitySelected = { expanded: 'security' };
+    const interopSelected = { expanded: 'interoperability' };
     const sandbox = sinon.sandbox.create();
 
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
         .resolves(securitySelected)
         .onSecondCall()
-        .resolves({ menu: true })
-        .onThirdCall()
         .resolves(interopSelected)
-        .onCall(3)
-        .resolves({ menu: false });
+        .onThirdCall()
+        .resolves(exit);
 
     const prompt = inquirer.prompt as sinon.SinonStub;
 
     await interactive.format(problems.interactiveProblems, 'category');
 
-    const securityBeforeSelect = prompt.args[0][0][0].choices[1];
-    const securityAfterSelect = prompt.args[2][0][0].choices[1];
-
-    t.is(securityBeforeSelect.value, 'security');
-    t.false(securityBeforeSelect.checked);
-
-    t.is(securityAfterSelect.value, 'security');
-    t.true(securityAfterSelect.checked);
+    t.is(prompt.args[1][0][0].default, 'security');
+    t.is(prompt.args[2][0][0].default, 'interoperability');
 
     sandbox.restore();
 });
 
 // Group by domain.
 test.serial(`Before showing the result, the interactive formatter prints a table of all domains and asks the user to select`, async (t) => {
-    const selected = { expanded: ['myresource'] };
+    const selected = { expanded: 'myresource' };
     const sandbox = sinon.sandbox.create();
 
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
         .resolves(selected)
         .onSecondCall()
-        .resolves({ menu: false });
+        .resolves(exit);
 
     const prompt = inquirer.prompt as sinon.SinonStub;
 
@@ -145,9 +139,9 @@ test.serial(`Before showing the result, the interactive formatter prints a table
     const question1 = prompt.args[0][0][0];
     const question2 = prompt.args[1][0][0];
 
-    t.is(question1.message, `Select the items that you'd like to expand:`);
-    t.is(question2.message, `Go back to the menu to select other results?`);
-    t.is(question1.choices.length, 2);
+    t.is(question1.message, `Select the domain that you'd like to expand or exit:`);
+    t.is(question2.message, `Select the domain that you'd like to expand or exit:`);
+    t.is(question1.choices.length, 4);
     t.is(question1.choices[0].value, 'myotherresource.com');
     t.is(question1.choices[1].value, 'myresource.com');
 
@@ -163,7 +157,7 @@ test.serial(`If no group option was set, the interactive formatter prints a tabl
         .onFirstCall()
         .resolves(selected)
         .onSecondCall()
-        .resolves({ menu: false });
+        .resolves(exit);
 
     const prompt = inquirer.prompt as sinon.SinonStub;
 
@@ -172,9 +166,9 @@ test.serial(`If no group option was set, the interactive formatter prints a tabl
     const question1 = prompt.args[0][0][0];
     const question2 = prompt.args[1][0][0];
 
-    t.is(question1.message, `Select the items that you'd like to expand:`);
-    t.is(question2.message, `Go back to the menu to select other results?`);
-    t.is(question1.choices.length, 2);
+    t.is(question1.message, `Select the category that you'd like to expand or exit:`);
+    t.is(question2.message, `Select the category that you'd like to expand or exit:`);
+    t.is(question1.choices.length, 4);
     t.is(question1.choices[0].value, 'interoperability');
     t.is(question1.choices[1].value, 'security');
 
