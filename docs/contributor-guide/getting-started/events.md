@@ -1,8 +1,9 @@
 # Events
 
-`connector`s communicate via events. The following is a list of all
-the events common to all `connector`s, with their signature, and the
-`interface` they implement.
+Information is shared internally via `event`s. `connector`s and `parser`s can
+create them, while `parser`s and `rule`s consume them.
+The following is a list of all the events common to all `connector`s, with
+their signature, and the `interface` they implement.
 
 * [`element::<element-type>`](#elementelement-type)
 * [`fetch::end`](#fetchend)
@@ -172,6 +173,22 @@ export interface IManifestFetchMissing {
 }
 ```
 
+## `parse::javascript`
+
+Event is emitted **when** the `JavaScript parser` has finished parsing a
+JavaScript resource (a file or a `<script>` tag).
+
+**Format:**
+
+```ts
+export interface IScriptParse {
+    /** The URL of the resource. */
+    resource: string;
+    /** The source code parsed */
+    sourceCode: any;
+}
+```
+
 ## `scan::end`
 
 Event is emitted **when** the `connector` has finished sending all
@@ -313,7 +330,7 @@ export interface ITraverseStart {
 
 ## `traverse::up`
 
-Event is emitted **when** the `connector` has finsihed visting the
+Event is emitted **when** the `connector` has finsihed visiting the
 children of a node and goes to the next one. `element` is the parent
 node that was traversed.
 

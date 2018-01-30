@@ -1,5 +1,9 @@
 # Implement common rule scenarios
 
+This page documents the most common scenarios encoutered when developing a rule
+for `sonarwhal`. If there's something that you want to do that is not
+documented here, please [open an issue][new issue] so we can help you.
+
 ## Change feedback based on browser support
 
 Users can tell `sonarwhal` what browsers are important for them via the
@@ -197,4 +201,5 @@ ruleRunner.testRule(ruleName, tests, {
 <!-- Link labels: -->
 
 [browserconfiguration]: ../../user-guide/index.md#browserconfiguration
+[new issue]: https://github.com/sonarwhal/sonarwhal/issues/new
 [parsers]: ../../user-guide/concepts/parser.md

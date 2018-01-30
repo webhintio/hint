@@ -1,5 +1,11 @@
 # Test a rule
 
+When testing a rule you might need to do different things like forcing a fail
+request, return a binary, etc. This page documents what you need to do to start
+testing a rule and how to configure the test server to do what you need.
+
+## Getting started
+
 If you have used the built-in tools to create a new rule (internal or
 external), everything should already set up to use `rule-runner.ts`
 and the `testRule` method.
