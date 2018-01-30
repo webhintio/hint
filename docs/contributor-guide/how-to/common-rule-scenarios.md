@@ -6,8 +6,8 @@ documented here, please [open an issue][new issue] so we can help you.
 
 ## Change feedback based on browser support
 
-Users can tell `sonarwhal` what browsers are important for them via the
-[`browserslist` property in `.sonarwhalrc`][browserconfiguration] or in
+Users can tell `sonarwhal` what browsers are important for them via a
+[`browserslist` property added in `.sonarwhalrc`][browserconfiguration] or in
 the `package.json` file. You can have access to the list, and thus modify
 the feedback of your rule, via the property `context.targetedBrowsers`.
 
@@ -30,14 +30,15 @@ the chance to test it, it should fail. These are the types of rules
 that enforce certain things to be used in a certain way, and if
 included, in order for the rule to pass, the expectation should be
 that the thing the rule checks for should exist and be valid/used
-correctly. Examples here are the rules that check for different fields
-of the manifest file. They should not pass if, for example, the web
-manifest file doesn't exist (even if there is a rule that checks
-exactly that).
+correctly.
+
+For example, there could be a rule that checks that a particular
+JavaScript file is loaded (an analytics library). If it isn't, it
+should fail.
 
 The recommended way to implement a rule like this is to subscribe
-to the event `scan::end`. If your rule receives that event and has
-not run any validation you should report it.
+to the event `scan::end`. If the rule receives that event and has
+not run any validation it should report an issue.
 
 ## Evaluate JavaScript in the page context
 
@@ -139,7 +140,7 @@ create(context: RuleContext): IRule {
 ```
 
 In case you need a more complete example, please look at the
-`ssllabs.ts` source code.
+[`ssllabs.ts` source code][ssllabs code].
 
 ## Validate JavaScript
 
@@ -147,7 +148,7 @@ To create a rule that understands JavaScript you will need to use the
 event `parser::javascript` emitted by the [`javascript parser`][parsers].
 This event is of type `IScriptParse` which has the following information:
 
-* `resource`: the parsed resource. If the JavaScript is in a `script tag`
+* `resource`: the parsed resource. If the JavaScript is in a `<script> tag`
   and not a file, the value will be `Internal javascript`.
 * `sourceCode`: a `eslint` `SourceCode` object.
 
@@ -203,3 +204,4 @@ ruleRunner.testRule(ruleName, tests, {
 [browserconfiguration]: ../../user-guide/index.md#browserconfiguration
 [new issue]: https://github.com/sonarwhal/sonarwhal/issues/new
 [parsers]: ../../user-guide/concepts/parser.md
+[ssllabs code]: https://github.com/sonarwhal/sonarwhal/blob/master/src/lib/rules/ssllabs/ssllabs.ts

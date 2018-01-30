@@ -13,7 +13,7 @@ account HTML files from the file system, it could decide not to
 implement events such as `fetch::end`.
 
 For a connector to be considered "full", it needs to send at least
-[all the events listed here](./events.md). Additionally it needs to pass all
+[the events listed here](./events.md). Additionally it needs to pass all
 the [common tests](#how-to-test-a-full-connector).
 
 ## Develop a "full" connector

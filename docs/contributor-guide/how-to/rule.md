@@ -1,7 +1,7 @@
 # Develop a rule
 
-A `rule` is a check that `sonarwhal` will validate. The API should be
-flexible enough to allow you to implement anything you want easily:
+A `rule` is a group of related checks `sonarwhal` will validate. The API should
+be flexible enough to allow you to implement anything you want easily, e.g.:
 
 * Validate that all links are `HTTPS`.
 * Integrate with a third party service.
@@ -15,8 +15,8 @@ how to do it, please [open an issue][new issue].
 
 There are 2 types of `rule`s a user can develop:
 
-* `external`: These are `rule`s that are published independently. When a
-  `rule` is specific to a domain or use case, it should be external.
+* `custom`: These are `rule`s that are published independently. When a
+  `rule` is specific to a domain or use case, it should be `custom`.
 * `core`: These are the `rule`s that are shipped with `sonarwhal` directly.
   Before starting to develop a `core rule`, please make sure there is
   an open issue and talk with the maintainers about it.
@@ -24,7 +24,7 @@ There are 2 types of `rule`s a user can develop:
 Both types of `rule`s [work exactly the same](#how-rules-work), the only
 difference being where they are located.
 
-### Creating an external rule
+### Creating a custom rule
 
 The easiest wait to create a new rule that will be distributed outside
 `sonarwhal` is via the CLI parameter `--new-rule`. You have several options
@@ -57,6 +57,8 @@ the right infrastructure to get you started. You just have to run
 Tests will be already configured to use the same infrastructure as the
 core rules.
 
+You can know more about working with custom rules in [this guide][custom rule].
+
 ### Working with core rules
 
 #### Creating a core rule
@@ -65,24 +67,10 @@ If you are working in `sonarwhal`’s main repository, one of the easiest ways
 to get started is to use `sonarwhal`’s CLI, which helps to generate the template
 files and insert them at the right location.
 
-First you need to install the CLI:
+After cloning your fork of `sonarwhal` do the following:
 
-```bash
-npm install -g --engine-strict sonarwhal
-```
-
-You can also install it as a `devDependency` if you prefer not to
-have it globally.
-
-```bash
-npm install -D --engine-strict sonarwhal
-```
-
-Then you can proceed to start generating a new rule using the flag `--new-rule`:
-
-```bash
-sonarwhal --new-rule
-```
+1. Build the project via `npm run build`
+1. Run `npm run sonarwhal -- --new-rule`
 
 This command will start a wizard that will ask you a series of questions
 related to this new rule. A complete list of the questions is shown below:
@@ -172,7 +160,7 @@ are the names of the events and the values the event handlers:
 }
 ```
 
-There is no limit in the number of events a rule can listen to, but you want
+There is no limit to the number of events a rule can listen to, but you want
 to keep it as simple as possible.
 
 Rule constructors receive a `context` object that makes it easier to interact
@@ -222,6 +210,7 @@ The rule can access the custom configuration via `context.ruleOptions`.
 
 <!-- Link labels: -->
 
+[custom rule]: ../guides/create-custom-rule.md
 [json schema]: http://json-schema.org/
 [new issue]: https://github.com/sonarwhal/sonarwhal/issues/new
 [npx issue]: https://github.com/npm/npm/issues/17869

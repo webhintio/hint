@@ -6,8 +6,8 @@ testing a rule and how to configure the test server to do what you need.
 
 ## Getting started
 
-If you have used the built-in tools to create a new rule (internal or
-external), everything should already set up to use `rule-runner.ts`
+If you have used the built-in tools to create a new rule (core or
+custom), everything should already set up to use `rule-runner.ts`
 and the `testRule` method.
 
 If not, you just need to:
@@ -108,10 +108,10 @@ with a third party service) you need to use the property `serverUrl`:
 const tests: Array<RuleTest> = [
     {
         name: 'Name of the tests',
-        serverUrl: 'https://example.com',
         reports: [{
             message: 'Message the error will have'
-        }]
+        }],
+        serverUrl: 'https://example.com'
     },
     { ... }
 ];
@@ -143,27 +143,6 @@ const serverConfig = {
         },
         // ...
     }
-}
-```
-
-Another alternative way to write the above is the following:
-
-<!-- eslint-disable no-unused-vars -->
-
-```ts
-const serverConfig = {
-    '/': {
-        '{"request":{"headers":{"Accept-Encoding":"gzip"}}}': {
-            content: { /* content here */ },
-            headers: { /* headers here */ }
-        },
-        '{"request":{"headers":{"Accept-Encoding":"br"}}}': {
-            content: { /* content here */ },
-            headers: { /* headers here */ }
-        },
-        // ...
-    },
-    ...
 }
 ```
 

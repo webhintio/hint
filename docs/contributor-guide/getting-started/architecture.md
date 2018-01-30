@@ -7,17 +7,19 @@ DIAGRAM OF HOW THINGS INTERACT WITH EACH OTHER
 
 The main piece is `sonarwhal`. It's an object that extends from `EventEmitter`.
 This means that the communication between all the different parts is going to
-be done mostly via [`event`s][events].The other pieces are:
+be done mostly via [`event`s][events]. The other pieces are:
 
-* `rule`: Is a group of related tests that are run on a resource (website, HTML
+* `rule`: Is a group of related tests that are run on a resource (HTML,
   document, image, request, etc.). E.g.: Verify that the HTML document has a
-  valid language declared. [Learn how to develop a `rule`][new rule].
+  valid language declared.
+  [Learn how to develop a `rule`][new rule].
 * `connector`: Is the way in which `sonarwhal` obtains information about the
-  DOM, requests, assets, etc. The underlying technique (debugging protocol, web
-  driver, etc.) to access this data does not matter to the rest of the system.
+  DOM, network information, resources, etc. The underlying technique (debugging
+  protocol, web driver, etc.) to access this data does not matter to the rest
+  of the system.
   [Learn how to develop a `connector`][new connector].
 * `formatter`: Transforms the results into something useful to the user. It
-  could be as simple as printing out the results in the command line, or
+  could be as simple as printing out the results to the command line, or
   something more complex like creating an HTML report.
   [Learn how to developer a `formatter`][new formatter].
 * `parser`: Understands a particular resource type (e.g.: JavaScript,
@@ -44,8 +46,8 @@ this:
    to `CLI` that will print them using the configured `formatter`(s).
 
 Any developer can create their own `rule`s, `connector`s, `parser`s
-and/or `formatter`s, and use them without having to do a Pull Request to
-the main project. They can even be distributed as [`npm`][npm] packages.
+and/or `formatter`s, and use them without having to do a pull request to
+the main project and distribute them as [`npm`][npm] packages.
 
 <!-- Link labels: -->
 

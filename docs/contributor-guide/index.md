@@ -24,4 +24,4 @@ The ins and outs of the different parts that make `sonarwhal` plus some common s
 
 ## Guides
 
-* [Create an external rule step by step](./guides/create-external-rule.md)
+* [Create a custom rule step by step](./guides/create-custom-rule.md)

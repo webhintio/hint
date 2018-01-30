@@ -1,4 +1,4 @@
-# Create an external rule step-by-step
+# Create a custom rule step-by-step
 
 Imagine that we have a new change in the sonarwhal website - we’d like
 to add a footer containing the copyright information `(c) sonarwhal` and
@@ -19,16 +19,16 @@ rule subscribes to `fetch::end`, it means this rule will run each time the
 connector finishes downloading a resource file. There are two types of rules:
 
 * `core rules` which are shipped with sonarwhal, geared towards general public use
-* `external rules` which are specific to a domain or a particular use case, thus
+* `custom rules` which are specific to a domain or a particular use case, thus
   published independently
 
-Because our need of checking the footer is unique, we’ll add it as an external
+Because our need of checking the footer is unique, we’ll add it as a custom
 rule instead of doing a pull request to sonarwhal’s core rules.
 
-## What is it like to start a new external rule?
+## What is it like to start a new custom rule?
 
 The recommended way to create a new rule is to use the `—-new-rule` parameter in
-CLI. Support for bootstrapping external rules has shipped in sonarwhal since
+CLI. Support for bootstrapping custom rules has shipped in sonarwhal since
 v0.20.1. sonarwhal can be installed globally to have access to the sonarwhal
 command directly. You can also install it locally and run it via npm scripts or
 using the `npx` command.
@@ -38,7 +38,7 @@ npm install -g --engine-strict sonarwhal
 ```
 
 Afterwards, we navigated to the folder where we’d like to put the rule project,
-and then run the command to start a new external rule:
+and then run the command to start a new custom rule:
 
 ```bash
 sonarwhal --new-rule
