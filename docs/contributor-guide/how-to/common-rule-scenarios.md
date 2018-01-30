@@ -8,7 +8,10 @@ documented here, please [open an issue][new issue] so we can help you.
 
 Users can tell `sonarwhal` what browsers are important for them via a
 [`browserslist` property added in `.sonarwhalrc`][browserconfiguration] or in
-the `package.json` file. You can have access to the list, and thus modify
+the `package.json` file. Rules can access this list (and modify their feedback)
+via the property `content.targetedBrowsers`.
+
+You can have access to the list, and thus modify
 the feedback of your rule, via the property `context.targetedBrowsers`.
 
 <!-- eslint-disable no-unused-vars -->
