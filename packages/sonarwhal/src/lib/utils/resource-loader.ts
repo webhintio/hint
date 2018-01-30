@@ -330,11 +330,19 @@ const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
 export const getExternalRulesFromNpm = async () => {
     const rules = await getNpmPackages('sonarwhal-rule');
 
+    /*
+     * We need to filter the results because the search can
+     * include other packages that doesn't start with `sonarwhal-rule`.
+     */
     return filterPackages(rules, 'sonarwhal-rule');
 };
 
 export const getCoreRulesFromNpm = async () => {
     const rules = await getNpmPackages('@sonarwhal/rule');
 
+    /*
+     * We need to filter the results because the search can
+     * include other packages that doesn't start with `@sonarwhal/rule`.
+     */
     return filterPackages(rules, '@sonarwhal/rule');
 };
