@@ -33,7 +33,7 @@ that may also offer some [performance improvements][gpu rasterization].
 The viewport related topic is very complex so if you want to dig
 deeper, read Peter-Paul Koch’s "A tale of two viewports" [part
 one][ppk article 1] and [part two][ppk article 2], or watch his
-talk ['The Mobile Viewports'](ppk talk).
+talk ['The Mobile Viewports'][ppk talk].
 
 **NOTE:** If your website is not responsive, then this meta tag
 might not be needed.
