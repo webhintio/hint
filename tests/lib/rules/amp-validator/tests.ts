@@ -19,10 +19,7 @@ const defaultTests: Array<IRuleTest> = [
     {
         name: 'Invalid AMP HTML fails',
         serverConfig: invalidAMPHTML,
-        reports: [
-            { message: `The mandatory attribute '⚡' is missing in tag 'html ⚡ for top-level html'. (https://www.ampproject.org/docs/reference/spec#required-markup)` },
-            { message: `The mandatory tag 'html ⚡ for top-level html' is missing or incorrect. (https://www.ampproject.org/docs/reference/spec#required-markup)` }
-        ]
+        reports: [{ message: `The mandatory attribute '⚡' is missing in tag 'html ⚡ for top-level html'. (https://www.ampproject.org/docs/reference/spec#required-markup)` }]
     },
     {
         name: 'Deprecated AMP attribute fails',
