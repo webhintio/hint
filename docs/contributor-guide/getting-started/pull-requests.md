@@ -1,4 +1,4 @@
-# Pull Requests
+# Pull requests
 
 Contributing code to `sonarwhal` is done using pull requests. This is
 the fastest way for us to evaluate your code and to merge it into
@@ -22,7 +22,7 @@ and we will assign it to you.
 For bug fixes, documentation changes, and other small changes, there is
 no need to create an issue, and you can just make the pull request.
 
-## Getting Started
+## Getting started
 
 If you’d like to work on a pull request, and you’ve never submitted
 code before, follow these steps:
@@ -32,24 +32,20 @@ code before, follow these steps:
 
 After that, you’re ready to start working on code.
 
-## Working with Code
+## Working with code
 
 The process of submitting a pull request is fairly straightforward,
 and generally follows the same pattern each time:
 
-1. [Create a new branch](#step-1)
-2. [Make your changes](#step-2)
-3. [Rebase onto upstream](#step-3)
-4. [Run the tests](#step-4)
-5. [Double check your submission](#step-5)
-6. [Push your changes](#step-6)
-7. [Submit the pull request](#step-7)
+1. [Create a new branch](#step-1-create-a-new-branch)
+2. [Make your changes](#step-2-make-your-changes)
+3. [Rebase onto upstream](#step-3-rebase-onto-upstream)
+4. [Run the tests](#step-4-run-the-tests)
+5. [Double check your submission](#step-5-double-check-your-submission)
+6. [Push your changes](#step-6-push-your-changes)
+7. [Submit the pull request](#step-7-submit-the-pull-request)
 
-<!-- markdownlint-disable MD033 -->
-
-### Step 1: Create a new branch <a name="step-1"></a>
-
-<!-- markdownlint-enable MD033 -->
+### Step 1: Create a new branch
 
 The first step to sending a pull request is to create a new branch
 in your `sonarwhal` fork. Give the branch a descriptive name that best
@@ -64,11 +60,7 @@ You should do all of your development for the issue in this branch.
 **Note:** Do not combine fixes for multiple issues into one branch.
 Use a separate branch for each issue you’re working on.
 
-<!-- markdownlint-disable MD033 -->
-
-### Step 2: Make your changes <a name="step-2"></a>
-
-<!-- markdownlint-enable MD033 -->
+### Step 2: Make your changes
 
 Make the changes to the code, documentation, and tests, and once you
 are done, commit the changes to your branch:
@@ -148,11 +140,7 @@ characters.
 the messages in our automatic release process (determining the new
 version number, updating the changelog, etc.).
 
-<!-- markdownlint-disable MD033 -->
-
-### Step 3: Rebase onto upstream <a name="step-3"></a>
-
-<!-- markdownlint-enable MD033 -->
+### Step 3: Rebase onto upstream
 
 Before you send the pull request, be sure to rebase onto the
 [upstream source](../development-environment.md). This ensures your
@@ -163,11 +151,7 @@ git fetch upstream
 git rebase upstream/master
 ```
 
-<!-- markdownlint-disable MD033 -->
-
-### Step 4: Run the tests <a name="step-4"></a>
-
-<!-- markdownlint-enable MD033 -->
+### Step 4: Run the tests
 
 After rebasing, be sure to run all of the tests once again to make
 sure nothing broke:
@@ -178,11 +162,7 @@ npm test
 
 If there are any failing tests, update your code until all tests pass.
 
-<!-- markdownlint-disable MD033 -->
-
-### Step 5: Double check your submission <a name="step-5"></a>
-
-<!-- markdownlint-enable MD033 -->
+### Step 5: Double check your submission
 
 With your code ready to go, this is a good time to double-check your
 submission to make sure it follows our conventions. Here are the things
@@ -197,11 +177,7 @@ to check:
 * All changes must be accompanied by documentation and tests, even if
   the feature you’re working on previously had no documentation or tests.
 
-<!-- markdownlint-disable MD033 -->
-
-### Step 6: Push your changes <a name="step-6"></a>
-
-<!-- markdownlint-enable MD033 -->
+### Step 6: Push your changes
 
 Next, push your changes to your fork:
 
@@ -216,11 +192,7 @@ push instead:
 git push -f origin fix-1234
 ```
 
-<!-- markdownlint-disable MD033 -->
-
-### Step 7: Send the pull request <a name="step-7"></a>
-
-<!-- markdownlint-enable MD033 -->
+### Step 7: Send the pull request
 
 Now you’re ready to send the pull request. Go to your `sonarwhal` fork
 and then follow the [GitHub documentation][github pr docs] on how to

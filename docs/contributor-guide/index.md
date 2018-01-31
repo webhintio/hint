@@ -1,29 +1,27 @@
 # Contributor guide
 
-`sonarwhal` was designed with extensibility in mind. There are 3 main
-concepts that a developer needs to know about:
+## Getting started
 
-* `rule`: Is a test that is run on an asset (website, HTML document,
-  image, request, etc.). E.g.: Verify that the HTML document has
-  a valid language declared.
-* `connector`: Is the way in which `sonarwhal` obtains information about
-  the DOM, requests, assets, etc. The underlying technique (debugging
-  protocol, web driver, etc.) to access this data does not matter to
-  the rest of the system.
-* `formatter`: Transforms the results into something useful to the
-  user. It could be as simple as printing out the results in the
-  command line, or something more complex like creating an HTML report.
+This section contains the basics to start hacking `sonarwhal`:
 
-Any developer can create their own `rule`s, `connector`s, and/or
-`formatter`s, and use them without having to do a Pull Request to the
-main project. They can even be distributed as [`npm`][npm] packages.
+* [Architecture](./getting-started/architecture.md): The internals of the
+  project and how things communicate with each other (spoiler: using `event`s).
+* [Development environment](./getting-started/development-environment.md): How
+  to set up your machine to start writing code.
+* [Pull requests](./getting-started/pull-requests.md): If you want to
+  contribute back to the project, make sure to read this section first.
+* [Events](./getting-started/events.md): List of events used internally.
 
-Even though `sonarwhal` is developed using [`TypeScript`][typescript],
-there is no need for it if you are writting your own `rule`, `connector`
-or `formatter`. Just follow the examples for each area and you should
-be good.
+## How to
 
-<!-- Link labels: -->
+The ins and outs of the different parts that make `sonarwhal` plus some common scenarios:
 
-[npm]: https://www.npmjs.com/
-[typescript]: https://www.typescriptlang.org/
+* [Develop a connector](./how-to/connector.md)
+* [Develop a formatter](./how-to/formatter.md)
+* [Develop a parser](./how-to/parser.md)
+* [Develop a rule](./how-to/parser.md)
+* [Implement common rule scenarios](./how-to/common-rule-scenarios.md)
+
+## Guides
+
+* [Create a custom rule step by step](./guides/create-custom-rule.md)
