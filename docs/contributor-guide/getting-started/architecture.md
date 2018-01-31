@@ -3,7 +3,7 @@
 `sonarwhal` was designed with extensibility in mind. At a high level, this is
 the project's architecture:
 
-![sonarwhal's architecture](../architecture.png)
+[![sonarwhal's architecture](../architecture.svg)](../architecture.svg)
 
 The main piece is `sonarwhal`. It's an object that extends from `EventEmitter`.
 This means that the communication between all the different parts is going to
