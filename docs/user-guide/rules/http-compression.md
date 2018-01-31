@@ -30,7 +30,7 @@ get the most out of compression:
   The same goes for resources that are very small because of the
   overhead of compression file formats.
 
-* Use most efficien compression method.
+* Use most efficient compression method.
 
   gzip is the most used encoding nowadays as it strikes a good
   balance between compression ratio (as [high as 70%][gzip ratio]
