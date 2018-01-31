@@ -27,6 +27,7 @@
 * [`image-optimization-cloudinary`](image-optimization-cloudinary.md)
 * [`no-html-only-headers`](no-html-only-headers.md)
 * [`no-http-redirects`](no-http-redirects.md)
+* [`performance-budget`](performance-budget.md)
 
 ## PWAs
 

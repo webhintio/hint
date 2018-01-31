@@ -30,6 +30,7 @@
         "no-http-redirects": "warning",
         "no-protocol-relative-urls": "warning",
         "no-vulnerable-javascript-libraries": "warning",
+        "performance-budget": "warning",
         "ssllabs": "off",
         "strict-transport-security": "warning",
         "x-content-type-options": "warning",
