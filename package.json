@@ -38,7 +38,7 @@
     "is-ci": "^1.1.0",
     "is-my-json-valid": "^2.17.1",
     "is-resolvable": "^1.1.0",
-    "is-svg": "^2.1.0",
+    "is-svg": "^3.0.0",
     "js-library-detector": "^4.3.1",
     "jsdom": "^11.3.0",
     "json-stable-stringify": "^1.0.1",
