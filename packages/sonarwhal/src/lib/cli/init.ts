@@ -8,6 +8,7 @@
  * ------------------------------------------------------------------------------
  */
 
+import { spawnSync, SpawnSyncReturns } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
@@ -19,9 +20,51 @@ import { debug as d } from '../utils/debug';
 import * as logger from '../utils/logging';
 import * as resourceLoader from '../utils/resource-loader';
 import { generateBrowserslistConfig } from './browserslist';
+import { NpmPackage } from '../types';
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
+
+const packageExists = () => {
+    const packagePath = path.join(process.cwd(), 'package.json');
+
+    return fs.existsSync(packagePath); // eslint-disable-line no-sync
+};
+
+const installRules = (rules) => {
+    const global: boolean = !packageExists();
+
+    const packages: Array<string> = [];
+
+    for (const [key, value] of Object.entries(rules)) {
+        if (value !== 'off') {
+            packages.push(`@sonarwhal/rule-${key}`);
+        }
+    }
+
+    const command: string = `npm install ${packages.join(' ')}${global ? ' -g' : ''}`;
+
+    try {
+        logger.log(`Running command ${command}`);
+
+        const result: SpawnSyncReturns<Buffer> = spawnSync(command, { shell: true });
+
+        if (result.status !== 0) {
+            throw new Error(result.output[2].toString());
+        }
+
+        logger.log('Packages intalled successfully');
+    } catch (err) {
+        /*
+         * There was an error installing packages.
+         * Show message to install packages manually.
+         */
+        logger.error(err);
+        logger.log(`Something when wrong installing package, please run:
+${process.platform === 'linux' ? 'sudo ' : ''}${command}
+to install all the rules.`);
+    }
+};
 
 /** Initiates a wizard to gnerate a valid `.sonarwhalrc` file based on user responses. */
 export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => {
@@ -33,14 +76,13 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
 
     const connectorKeys: Array<inquirer.ChoiceType> = resourceLoader.getCoreConnectors().concat(resourceLoader.getInstalledConnectors());
     const formattersKeys: Array<inquirer.ChoiceType> = resourceLoader.getCoreFormatters();
-    const rulesIds = resourceLoader.getCoreRules();
-    const rulesConfig = rulesIds.reduce((config, ruleId) => {
-        config[ruleId] = 'warning';
-
-        return config;
-    }, {});
-
-    const rules = resourceLoader.loadRules(rulesConfig);
+    const npmRules: Array<NpmPackage> = await resourceLoader.getCoreRulesFromNpm();
+    const rules = npmRules.map((rule) => {
+        return {
+            description: rule.description,
+            id: rule.name.replace('@sonarwhal/rule-', '')
+        };
+    });
 
     const sonarwhalConfig = {
         browserslist: [],
@@ -56,10 +98,10 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
 
     const rulesKeys = [];
 
-    for (const [key, rule] of rules) {
+    for (const { description, id } of rules) {
         rulesKeys.push({
-            name: `${key} - ${rule.meta.docs.description}`,
-            value: key
+            name: `${id} - ${description}`,
+            value: id
         });
     }
 
@@ -103,19 +145,15 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
 
     if (results.default) {
         logger.log('Using recommended rules');
-        rules.forEach((rule, key) => {
-            if (rule.meta.recommended) {
-                sonarwhalConfig.rules[key] = 'error';
-            } else {
-                sonarwhalConfig.rules[key] = 'off';
-            }
+        rules.forEach((rule) => {
+            sonarwhalConfig.rules[rule.id] = 'error';
         });
     } else {
-        rules.forEach((rule, key) => {
-            if (results.rules.includes(key)) {
-                sonarwhalConfig.rules[key] = 'error';
+        rules.forEach((rule) => {
+            if (results.rules.includes(rule.id)) {
+                sonarwhalConfig.rules[rule.id] = 'error';
             } else {
-                sonarwhalConfig.rules[key] = 'off';
+                sonarwhalConfig.rules[rule.id] = 'off';
             }
         });
     }
@@ -125,6 +163,8 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
     const filePath: string = path.join(process.cwd(), '.sonarwhalrc');
 
     await promisify(fs.writeFile)(filePath, JSON.stringify(sonarwhalConfig, null, 4), 'utf8');
+
+    await installRules(sonarwhalConfig.rules);
 
     return true;
 };

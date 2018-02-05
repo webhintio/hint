@@ -33,6 +33,7 @@
     "lodash": "^4.17.5",
     "mime-db": "^1.32.0",
     "mkdirp": "^0.5.1",
+    "npm": "^5.6.0",
     "optionator": "^0.8.2",
     "ora": "^1.4.0",
     "pluralize": "^7.0.0",
@@ -115,7 +116,7 @@
   "nyc": {
     "extends": "../../.nycrc",
     "include": [
-      "dist/src/**/*.js"
+      "dist/tests/**/*.js"
     ]
   },
   "optionalDependencies": {
