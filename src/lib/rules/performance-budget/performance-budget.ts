@@ -6,7 +6,6 @@ import * as url from 'url';
 
 import { Category } from '../../enums/category';
 import { RuleContext } from '../../rule-context';
-// The list of types depends on the events you want to capture.
 import { IRule, IRuleBuilder, IFetchEnd, IScanEnd, IResponse } from '../../types';
 import { debug as d } from '../../utils/debug';
 
@@ -40,7 +39,7 @@ const rule: IRuleBuilder = {
         const responses: Array<ResourceResponse> = [];
         /** Set with all the different domains loaded by the site. */
         const uniqueDomains: Set<string> = new Set();
-        /** Set with all the different https domains loaded by the site. */
+        /** Set with all the different HTTPS domains loaded by the site. */
         const secureDomains: Set<string> = new Set();
         /** Number of total redirects found to load the resources. */
         let performedRedirects: number = 0;
@@ -110,11 +109,14 @@ const rule: IRuleBuilder = {
             return config;
         };
 
-        /** Calculates the minimum required time to do all the DNS Look ups for the loaded resources. */
+        /**
+         * Calculates the minimum required time in seconds to do all the DNS Look ups for the loaded resources.
+         *
+         * The best scenario for a DNS Lookup not cached in the system is 1 RTT: https://www.cloudflare.com/learning/dns/what-is-dns/
+         */
         const calculateTotalDNSLookUp = (domains: Set<string>, config: NetworkConfig): number => {
-            // Perfect scenario for a DNS Lookup is 1 round trip in cold
 
-            // TODO: Find a link to document this
+
             const dnsLookUpTime = config.latency;
             const total = domains.size * dnsLookUpTime / 1000;
 
@@ -124,10 +126,10 @@ const rule: IRuleBuilder = {
         };
 
         /**
-         * Calculates the minimum required time to establish all the TCP connections.
+         * Calculates the minimum required time in seconds to establish all the TCP connections.
          *
-         * All TCP beging with a _Three-way handshake_, but clients can start sending application data
-         * after they receive the `ACK` message, si the delay is just 1 RTT:
+         * All TCP connections beging with a _Three-way handshake_, but clients can start sending application
+         * data after they receive the `ACK` message, si the delay is just 1 RTT:
          *
          * `time = connections * RTT`
          *
@@ -140,11 +142,13 @@ const rule: IRuleBuilder = {
             return time;
         };
 
-        /** Calculates the minimum required time to do all the TLS handshaing of a website. */
+        /**
+         * Calculates the minimum required time in seconds to do all the TLS handshaking of a website.
+         *
+         * It assumes 1 RTT per TLS connection as an optimistic scenario.
+         * More info in: https://hpbn.co/transport-layer-security-tls/#tls-handshake
+         */
         const calculateTotalTLSHandshaking = (domains: Set<string>, config: NetworkConfig): number => {
-            // Perfect scenario for a TLS Handshake is 1 round trip in cold
-
-            // TODO: Find a link to document this
             const tlsHandshakingTime = config.latency;
             const total = domains.size * tlsHandshakingTime / 1000;
 
@@ -153,7 +157,11 @@ const rule: IRuleBuilder = {
             return total;
         };
 
-        /** Calculates the minimum required time to process all the redirects found. */
+        /**
+         * Calculates the minimum required time in seconds to process all the redirects found.
+         *
+         * The time for a redirect is 1 RTT
+         */
         const calculateTotalRedirectTime = (redirects: number, config: NetworkConfig) => {
             // Perfect scenario for a redirect is 1 round trip in cold
             const total = redirects * config.latency / 1000;
@@ -164,7 +172,7 @@ const rule: IRuleBuilder = {
         };
 
         /**
-         * Calculates the transfer time for a resource under the following assumptions:
+         * Calculates the transfer time in seconds for a resource under the following assumptions:
          *
          * * Connections use the maximum bandwidth after `slow-start`
          * * The congestion window (`cwnd`) is 10 network segments
@@ -196,7 +204,7 @@ const rule: IRuleBuilder = {
             return (response.sentSize - rwnd) * 8 / config.bwIn + time;
         };
 
-        /** Calculates the transfer time for all the given responses with no TCP connection reuse.*/
+        /** Calculates the transfer time in seconds for all the given responses with no TCP connection reuse.*/
         const calculateTransferTimeWithSlowStart = (allResponses: Array<ResourceResponse>, config: NetworkConfig): number => {
             const totalTime = allResponses.reduce((time, resource) => {
                 const transfertTime = calculateTransferTimeForResource(resource, config);

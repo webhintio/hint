@@ -12,11 +12,11 @@ https://www.keycdn.com/blog/web-performance-budget/
 
 As of January 2018, the average size of a website is 3,545kB:
 
-![image](https://chart.googleapis.com/chart?chs=400x225&cht=p&chco=007099&chd=t:1818,70,98,504,120,851,27&chds=0,1818&chdlp=b&chdl=total%203545%20kB&chl=Images+-+1818+kB%7CHTML+-+70+kB%7CStylesheets+-+98+kB%7CScripts+-+504+kB%7CFonts+-+120+kB%7CVideo+-+851+kB%7COther+-+27+kB&chma=|5&chtt=Average+Bytes+per+Page+by+Content+Type)
+![image][average site size]
 
 Although the global average connection is 7.2Mb/s (check [_Akamai's state of
-the Internet 2017_][state of the internet]), "no bit is faster than one that is
-not sent" (quote by [Ilya Grigorik][faster bit]). Web developers need to be
+the Internet 2017_][state of the internet]), _"no bit is faster than one that is
+not sent"_ (quote by [Ilya Grigorik][faster bit]). Web developers need to be
 mindful not only about the size of their sites, but also the number of
 requests, different domains, third party scripts, etc. The time required by a
 browser to download a 200kB file is not the same than 20 files of 10kB.
@@ -24,8 +24,9 @@ browser to download a 200kB file is not the same than 20 files of 10kB.
 ## What does the rule check?
 
 This rule calculates how long it will take to download all the resources loaded
-initially by the website under a `3G Fast` network. If the load time is
-**greater than 5 seconds**, the rule will fail.
+initially by the website under a `3G Fast` network (but that can be changed,
+see ["Can the rule be configured?"][can be configured] section). If the load
+time is **greater than 5 seconds**, the rule will fail.
 
 To calculate the final load time, some assumptions and simplifications are
 done. While the real numbers might be different, the results should provide
@@ -54,8 +55,8 @@ This is the list of things taken into account:
 * Everything is a first load, no values are cached, and no connections are
   opened.
 * [`RTT` (Round-Trip Time)][rtt] is fixed and changes depending on the
-  configured network (more about this in #). It assumes all servers respond
-  instantly and in the same amount of time.
+  configured network. It assumes all servers respond instantly and in the same
+  amount of time.
 * [`DNS lookup`][dns lookup]: Every hostname resolution requires 1 RTT,
   imposing latency on the request and blocking the request while the lookup is
   in progress.
@@ -118,12 +119,12 @@ seconds to load all the resources.
 Assuming a `3G Fast` connection, the following will fail:
 
 * A site with 2 redirects and 2 images over 362KB each
-* A site with just HTML, loaded over https, with a size over 1MB
+* A site with just HTML, loaded over HTTPS, with a size over 1MB
 
 ### Examples that **pass** the rule
 
 * A site with 2 images smaller than 350KB
-* A site with just HTML, loaded over https, with a size less than 900KB
+* A site with just HTML, loaded over HTTPS, with a size less than 900KB
 
 ## Further Reading
 
@@ -134,6 +135,8 @@ Assuming a `3G Fast` connection, the following will fail:
 
 <!-- Link labels -->
 
+[average site size]: https://chart.googleapis.com/chart?chs=400x225&cht=p&chco=007099&chd=t:1818,70,98,504,120,851,27&chds=0,1818&chdlp=b&chdl=total%203545%20kB&chl=Images+-+1818+kB%7CHTML+-+70+kB%7CStylesheets+-+98+kB%7CScripts+-+504+kB%7CFonts+-+120+kB%7CVideo+-+851+kB%7COther+-+27+kB&chma=|5&chtt=Average+Bytes+per+Page+by+Content+Type
+[can be configured]: #can-the-rule-be-configured
 [dns lookup]: https://www.cloudflare.com/learning/dns/what-is-dns/
 [faster bit]: https://hpbn.co/building-blocks-of-tcp/#tuning-application-behavior
 [http2]: https://hpbn.co/http2/
