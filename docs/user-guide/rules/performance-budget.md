@@ -6,7 +6,7 @@
 > are uploading, or even the number of HTTP requests that your webpage
 > generates.
 
-https://www.keycdn.com/blog/web-performance-budget/
+[keycdn - web performance budget][keycdn-wpb]
 
 ## Why is this important?
 
@@ -114,32 +114,44 @@ The possible values and the associated speeds for `connectionType` are:
 `loadTime` has to be a number greater than `1` and indicates the time in
 seconds to load all the resources.
 
+The default values are:
+
+* `connectionType`: `3GFast`
+* `loadTime`: `5`
+
+This means that if the user changes the `connectionType` but not the
+`loadTime`, the rule will use `5` as the target.
+
 ### Examples that **trigger** the rule
 
-Assuming a `3G Fast` connection, the following will fail:
-
-* A site with 2 redirects and 2 images over 362KB each
-* A site with just HTML, loaded over HTTPS, with a size over 1MB
+* Any combination of sizes, redirects, requests to different domains, etc. that
+  make the site load after 5s on a `3GFast` network using the established
+  formula.
 
 ### Examples that **pass** the rule
 
-* A site with 2 images smaller than 350KB
-* A site with just HTML, loaded over HTTPS, with a size less than 900KB
+* Any combination of sizes, redirects, requests to different domains, etc. that
+  make the site load in or under 5s on a `3GFast` network using the established
+  formula.
 
 ## Further Reading
 
-* https://hpbn.co/
-* https://infrequently.org/2017/10/can-you-afford-it-real-world-web-performance-budgets/
-* https://www.keycdn.com/blog/web-performance-budget/
-* https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e
+* [High Performance Browser Networking][hbpn]
+* [Can You Afford It?: Real-world Web Performance Budgets][can you afford it]
+* [Setting and Calculating a Web Performance Budget][keycdn-wpb]
+* [The Cost Of JavaScript][cost of javascript]
 
 <!-- Link labels -->
 
 [average site size]: https://chart.googleapis.com/chart?chs=400x225&cht=p&chco=007099&chd=t:1818,70,98,504,120,851,27&chds=0,1818&chdlp=b&chdl=total%203545%20kB&chl=Images+-+1818+kB%7CHTML+-+70+kB%7CStylesheets+-+98+kB%7CScripts+-+504+kB%7CFonts+-+120+kB%7CVideo+-+851+kB%7COther+-+27+kB&chma=|5&chtt=Average+Bytes+per+Page+by+Content+Type
 [can be configured]: #can-the-rule-be-configured
+[can you afford it]: https://infrequently.org/2017/10/can-you-afford-it-real-world-web-performance-budgets/
+[cost of javascript]: https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e
 [dns lookup]: https://www.cloudflare.com/learning/dns/what-is-dns/
 [faster bit]: https://hpbn.co/building-blocks-of-tcp/#tuning-application-behavior
+[hbpn]: https://hpbn.co/
 [http2]: https://hpbn.co/http2/
+[keycdn-wpb]: https://www.keycdn.com/blog/web-performance-budget/
 [rtt]: https://hpbn.co/primer-on-latency-and-bandwidth/#speed-of-light-and-propagation-latency
 [state of the internet]: https://www.akamai.com/us/en/multimedia/documents/state-of-the-internet/q1-2017-state-of-the-internet-connectivity-report.pdf
 [tcp handshake]: https://hpbn.co/building-blocks-of-tcp/#three-way-handshake
