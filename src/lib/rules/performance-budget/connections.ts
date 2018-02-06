@@ -31,6 +31,8 @@ const parseConnection = (configText: string): NetworkConfig => {
         plr: 0
     };
 
+    const numerics = ['bwIn', 'bwOut', 'latency', 'plr'];
+
     lines.forEach((line) => {
         const [key, value] = line.trim().split('=');
 
@@ -40,7 +42,11 @@ const parseConnection = (configText: string): NetworkConfig => {
             return;
         }
 
-        config[key] = value;
+        if (numerics.includes(key)) {
+            config[key] = parseInt(value);
+        } else {
+            config[key] = value;
+        }
     });
 
     return config;
