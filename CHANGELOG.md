@@ -1,3 +1,19 @@
+# 0.25.0 (February 6, 2018)
+
+## Bug fixes / Improvements
+
+* [[`dac0adbc05`](https://github.com/sonarwhal/sonarwhal/commit/dac0adbc05f521ea2c70cd4d9bd77a89425227c4)] - Docs: Update image links in markdown files.
+* [[`09aad7c9bc`](https://github.com/sonarwhal/sonarwhal/commit/09aad7c9bcf7e43c47331ecf39deaa31b392c568)] - Docs: Add SVG version of the architecture image (see also: [`#792`](https://github.com/sonarwhal/sonarwhal/issues/792)).
+* [[`1da22fb556`](https://github.com/sonarwhal/sonarwhal/commit/1da22fb556dc6d2ad63ce8d7a500c7dda26b471a)] - Docs: Fix typo in `http-compression.md`.
+* [[`129ec11cb9`](https://github.com/sonarwhal/sonarwhal/commit/129ec11cb9d3f478ef3c42c212b113b183a258ea)] - Docs: Reorganize contributor guide (see also: [`#781`](https://github.com/sonarwhal/sonarwhal/issues/781)).
+* [[`e67e615fc3`](https://github.com/sonarwhal/sonarwhal/commit/e67e615fc3cc82710749cf5daa39eed8fd41f89d)] - Docs: Fix link in `meta-viewport.md`.
+* [[`f3a3e811c2`](https://github.com/sonarwhal/sonarwhal/commit/f3a3e811c2d87bd7afccf3d7d96d7529a50f5b83)] - Fix: `parse::javascript` emit timing (see also: [`#780`](https://github.com/sonarwhal/sonarwhal/issues/780)).
+
+## New features
+
+* [[`49cf9795c4`](https://github.com/sonarwhal/sonarwhal/commit/49cf9795c42795440e7e7e03520b15d7ec0710f4)] - Update: `snyk-snapshot.json`.
+
+
 # 0.24.0 (January 25, 2018)
 
 ## Breaking Changes
