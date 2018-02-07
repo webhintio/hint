@@ -1,0 +1,66 @@
+{
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "description": "",
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "cpx": "^1.5.0",
+    "eslint": "^4.17.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-markdown": "^1.0.0-beta.7",
+    "eslint-plugin-typescript": "^0.8.1",
+    "markdownlint-cli": "^0.7.0",
+    "npm-link-check": "^2.0.0",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^11.4.1",
+    "rimraf": "^2.6.2",
+    "sonarwhal": "^0.25.0",
+    "typescript": "^2.6.2",
+    "typescript-eslint-parser": "^12.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "dist/src",
+    "npm-shrinkwrap.json"
+  ],
+  "homepage": "https://sonarwhal.com/",
+  "keywords": [
+    "sonarwhal",
+    "sonarwhal-rule",
+    "no-friendly-error-pages",
+    "no-friendly-error-pages-rule"
+  ],
+  "license": "Apache-2.0",
+  "main": "dist/src/index.js",
+  "name": "@sonarwhal/rule-no-friendly-error-pages",
+  "nyc": {
+    "extends": "../../../../.nycrc"
+  },
+  "peerDependencies": {
+    "sonarwhal": "^0.25.0"
+  },
+  "private": true,
+  "repository": "sonarwhal/sonarwhal",
+  "scripts": {
+    "build": "npm run clean && npm-run-all build:*",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:md": "markdownlint *.md",
+    "test": "npm run lint && npm run build && nyc ava",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:assets": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "1.0.0"
+}

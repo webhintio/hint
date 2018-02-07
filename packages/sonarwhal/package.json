@@ -1,0 +1,145 @@
+{
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "bin": "./dist/src/bin/sonarwhal.js",
+  "dependencies": {
+    "browserslist": "^2.11.3",
+    "canvas-prebuilt": "^1.6.5-prerelease.1",
+    "chalk": "^2.3.0",
+    "chokidar": "^2.0.0",
+    "chrome-launcher": "^0.10.2",
+    "chrome-remote-interface": "^0.25.5",
+    "content-type": "^1.0.4",
+    "debug": "^3.1.0",
+    "eslint": "^4.17.0",
+    "espree": "^3.5.3",
+    "eventemitter2": "^5.0.1",
+    "file-url": "^2.0.2",
+    "fs-extra": "^5.0.0",
+    "globby": "^7.1.1",
+    "handlebars": "^4.0.11",
+    "iconv-lite": "^0.4.19",
+    "inquirer": "^5.1.0",
+    "is-ci": "^1.1.0",
+    "is-my-json-valid": "^2.17.1",
+    "is-svg": "^3.0.0",
+    "jsdom": "^11.6.2",
+    "lockfile": "^1.0.3",
+    "lodash": "^4.17.5",
+    "mime-db": "^1.32.0",
+    "mkdirp": "^0.5.1",
+    "optionator": "^0.8.2",
+    "ora": "^1.4.0",
+    "pluralize": "^7.0.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "require-uncached": "^1.0.3",
+    "strip-bom": "^3.0.0",
+    "strip-json-comments": "^2.0.1",
+    "text-table": "^0.2.0",
+    "update-notifier": "^2.3.0"
+  },
+  "description": "The linting tool for the web",
+  "devDependencies": {
+    "@types/debug": "0.0.30",
+    "@types/fs-extra": "^5.0.0",
+    "@types/globby": "^6.1.0",
+    "@types/handlebars": "^4.0.36",
+    "@types/inquirer": "0.0.36",
+    "@types/jsdom": "^11.0.4",
+    "@types/lockfile": "^1.0.0",
+    "@types/lodash": "^4.14.97",
+    "@types/mime-db": "^1.27.0",
+    "@types/mkdirp": "^0.5.2",
+    "@types/node": "8.0.14",
+    "@types/request": "^2.0.13",
+    "@types/semver": "^5.4.0",
+    "@types/shelljs": "^0.7.7",
+    "@types/sinon": "^4.1.3",
+    "@types/update-notifier": "^2.0.0",
+    "async-retry": "^1.1.4",
+    "ava": "^0.25.0",
+    "cpx": "^1.5.0",
+    "eslint": "^4.17.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-markdown": "^1.0.0-beta.7",
+    "eslint-plugin-typescript": "^0.8.1",
+    "express": "^4.16.2",
+    "file-type": "^7.5.0",
+    "log-symbols": "^2.2.0",
+    "markdownlint-cli": "^0.7.0",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^11.4.1",
+    "on-headers": "^1.0.1",
+    "proxyquire": "^1.8.0",
+    "rimraf": "^2.6.2",
+    "shelljs": "^0.8.1",
+    "sinon": "^4.2.2",
+    "sonarwhal": "^0.25.0",
+    "typescript": "2.6.2",
+    "typescript-eslint-parser": "^12.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    ".sonarwhalrc",
+    "dist/src",
+    "dist/tests/helpers",
+    "docs",
+    "npm-shrinkwrap.json"
+  ],
+  "greenkeeper": {
+    "ignore": [
+      "@types/node"
+    ]
+  },
+  "homepage": "https://sonarwhal.com/",
+  "keywords": [
+    "a11y",
+    "accessibility",
+    "best-practices",
+    "interoperability",
+    "lint",
+    "performance",
+    "security"
+  ],
+  "license": "Apache-2.0",
+  "main": "./dist/src/lib/sonarwhal.js",
+  "name": "sonarwhal",
+  "nyc": {
+    "extends": "../../.nycrc",
+    "include": [
+      "dist/src/**/*.js"
+    ]
+  },
+  "optionalDependencies": {
+    "@sonarwhal/connector-edge": "^0.1.4"
+  },
+  "repository": "https://github.com/sonarwhal/sonarwhal",
+  "scripts": {
+    "ava": "ava",
+    "build": "npm run clean && npm-run-all build:*",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --report-unused-disable-directives --ext js --ext md --ext ts",
+    "lint:md": "markdownlint docs src/lib/rules/**/*.md",
+    "release": "npm i && npm run test -- --concurrency 2 --fail-fast && node dist/scripts/release.js",
+    "sonarwhal": "node dist/src/bin/sonarwhal",
+    "test": "npm run build && nyc ava",
+    "test-on-travis": "npm run lint && npm run commitmsg && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:resources": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "0.25.0",
+  "private": true
+}

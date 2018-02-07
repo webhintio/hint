@@ -111,7 +111,7 @@ jobs:
       node_js: lts/*
 
       script:
-        - npm run test-on-travis
+        - yarn test-on-travis
 
     - stage: test
       if: type != cron
@@ -120,7 +120,7 @@ jobs:
       node_js: node
 
       script:
-        - npm run test-on-travis
+        - yarn test-on-travis
 
     - stage: test
       if: type != cron
@@ -130,7 +130,7 @@ jobs:
       node_js: lts/*
 
       script:
-        - npm run test-on-travis
+        - yarn test-on-travis
 
     - stage: test
       if: type != cron
@@ -140,7 +140,7 @@ jobs:
       node_js: node
 
       script:
-        - npm run test-on-travis
+        - yarn test-on-travis
 
 language: node_js
 
