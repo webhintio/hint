@@ -1,0 +1,60 @@
+{
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "dependencies": {
+    "node-ssllabs": "^0.5.0"
+  },
+  "description": "",
+  "devDependencies": {
+    "mock-require": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "dist",
+    "npm-shrinkwrap.json"
+  ],
+  "homepage": "https://sonarwhal.com/",
+  "keywords": [
+    "sonarwhal",
+    "sonarwhal-rule",
+    "ssllabs",
+    "ssllabs-rule"
+  ],
+  "license": "Apache-2.0",
+  "main": "dist/src/index.js",
+  "name": "@sonarwhal/rule-ssllabs",
+  "nyc": {
+    "extends": "../../../../.nycrc"
+  },
+  "peerDependencies": {
+    "sonarwhal": "^0.24.0"
+  },
+  "private": true,
+  "repository": "sonarwhal/sonarwhal",
+  "scripts": {
+    "build-with-local-sonarwhal": "npm run -s link-sonarwhal; npm run build",
+    "build": "npm run clean && npm-run-all build:*",
+    "build:assets": "cpx \"./{src,tests}/**/!(*.ts)\" dist",
+    "build:ts": "tsc",
+    "clean": "rimraf dist",
+    "link-sonarwhal": "npm-link-check && npm link ../../../../ --ignore-scripts",
+    "test": "npm run -s unlink-sonarwhal; npm run test:rule",
+    "test-with-local-sonarwhal": "npm run -s link-sonarwhal; npm run test:rule",
+    "test:rule": "npm run build && nyc ava",
+    "unlink-sonarwhal": "npm-link-check || npm unlink ../../../../ --ignore-scripts",
+    "watch": "npm run -s unlink-sonarwhal; npm run watch-all",
+    "watch-all": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch-with-local-sonarwhal": "npm run -s link-sonarwhal; npm run watch-all",
+    "watch:resources": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "1.0.0"
+}
