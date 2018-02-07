@@ -45,3 +45,7 @@
 * [`strict-transport-security`](../../../../rule-strict-transport-security/README.md)
 * [`validate-set-cookie-header`](../../../../rule-validate-set-cookie-header/README.md)
 * [`x-content-type-options`](../../../../rule-x-content-type-options/README.md)
+
+## Development
+
+* [`typescript-config/is-valid`](../../../../rule-typescript-config/README.md)
