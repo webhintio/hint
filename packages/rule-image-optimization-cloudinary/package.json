@@ -27,7 +27,11 @@
     "rimraf": "^2.6.2",
     "sonarwhal": "^0.24.0",
     "typescript": "^2.6.2",
+<<<<<<< a5602ecc9a88034400862bb8a9e2e0390275519e
     "typescript-eslint-parser": "^13.0.0"
+=======
+    "typescript-eslint-parser": "^12.0.0"
+>>>>>>> New: Switch to using a monorepo architecture
   },
   "engines": {
     "node": ">=8.0.0"
@@ -56,7 +60,11 @@
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
+<<<<<<< a5602ecc9a88034400862bb8a9e2e0390275519e
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+=======
+    "build:assets": "cpx \"./{src,tests}/**/!(*.ts)\" dist",
+>>>>>>> New: Switch to using a monorepo architecture
     "build:ts": "tsc",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
