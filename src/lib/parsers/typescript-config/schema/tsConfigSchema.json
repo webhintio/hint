@@ -1,0 +1,473 @@
+{
+  "title": "JSON schema for the TypeScript compiler's configuration file",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "definitions": {
+    "filesDefinition": {
+      "properties": {
+        "files": {
+          "description": "If no 'files' or 'include' property is present in a tsconfig.json, the compiler defaults to including all files in the containing directory and subdirectories except those specified by 'exclude'. When a 'files' property is specified, only those files and those specified by 'include' are included.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "excludeDefinition": {
+      "properties": {
+        "exclude": {
+          "description": "Specifies a list of files to be excluded from compilation. The 'exclude' property only affects the files included via the 'include' property and not the 'files' property. Glob patterns require TypeScript version 2.0 or later.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "includeDefinition": {
+      "properties": {
+        "include": {
+          "description": "Specifies a list of glob patterns that match files to be included in compilation. If no 'files' or 'include' property is present in a tsconfig.json, the compiler defaults to including all files in the containing directory and subdirectories except those specified by 'exclude'. Requires TypeScript version 2.0 or later.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "compileOnSaveDefinition": {
+      "properties": {
+        "compileOnSave": {
+          "description": "Enable Compile-on-Save for this project.",
+          "type": "boolean"
+        }
+      }
+    },
+    "extendsDefinition": {
+      "properties": {
+        "extends": {
+          "description": "Path to base configuration file to inherit from. Requires TypeScript version 2.1 or later.",
+          "type": "string"
+        }
+      }
+    },
+    "compilerOptionsDefinition": {
+      "properties": {
+        "compilerOptions": {
+          "additionalProperties": false,
+          "type": "object",
+          "description": "Instructs the TypeScript compiler how to compile .ts files.",
+          "properties": {
+            "charset": {
+              "description": "The character set of the input files.",
+              "type": "string"
+            },
+            "declaration": {
+              "description": "Generates corresponding d.ts files.",
+              "type": "boolean"
+            },
+            "declarationDir": {
+              "type": "string",
+              "description": "Specify output directory for generated declaration files. Requires TypeScript version 2.0 or later."
+            },
+            "diagnostics": {
+              "description": "Show diagnostic information.",
+              "type": "boolean"
+            },
+            "emitBOM": {
+              "description": "Emit a UTF-8 Byte Order Mark (BOM) in the beginning of output files.",
+              "type": "boolean"
+            },
+            "inlineSourceMap": {
+              "description": "Emit a single file with source maps instead of having a separate file.",
+              "type": "boolean"
+            },
+            "inlineSources": {
+              "description": "Emit the source alongside the sourcemaps within a single file; requires --inlineSourceMap to be set.",
+              "type": "boolean"
+            },
+            "jsx": {
+              "description": "Specify JSX code generation: 'preserve', 'react', or 'react-native'.",
+              "enum": [ "preserve", "react", "react-native" ]
+            },
+            "reactNamespace": {
+              "description": "Specifies the object invoked for createElement and __spread when targeting 'react' JSX emit.",
+              "type": "string"
+            },
+            "listFiles": {
+              "description": "Print names of files part of the compilation.",
+              "type": "boolean"
+            },
+            "mapRoot": {
+              "description": "Specifies the location where debugger should locate map files instead of generated locations",
+              "type": "string"
+            },
+            "module": {
+              "description": "Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015' or 'esnext'.",
+              "type": "string",
+              "anyOf": [
+                  {
+                      "enum": [ "commonjs", "amd", "umd", "system", "es6", "es2015", "esnext", "none" ]
+                  }, {
+                      "pattern": "^([cC][oO][mM][mM][oO][nN][jJ][sS]|[aAuU][mM][dD]|[sS][yY][sS][tT][eE][mM]|[eE][sS]([356]|(201[567])|[nN][eE][xX][tT])|[nN][oO][nN][eE])$"
+                  }
+              ]
+            },
+            "newLine": {
+              "description": "Specifies the end of line sequence to be used when emitting files: 'CRLF' (dos) or 'LF' (unix).",
+              "type": "string",
+              "anyOf": [
+                {
+                  "enum": [
+                    "CRLF",
+                    "LF"
+                  ]
+                },
+                {
+                  "pattern": "^(CRLF|LF|crlf|lf)$"
+                }
+              ]
+            },
+            "noEmit": {
+              "description": "Do not emit output.",
+              "type": "boolean"
+            },
+            "noEmitHelpers": {
+              "description": "Do not generate custom helper functions like __extends in compiled output.",
+              "type": "boolean"
+            },
+            "noEmitOnError": {
+              "description": "Do not emit outputs if any type checking errors were reported.",
+              "type": "boolean"
+            },
+            "noImplicitAny": {
+              "description": "Warn on expressions and declarations with an implied 'any' type.",
+              "type": "boolean"
+            },
+            "noImplicitThis": {
+              "description": "Raise error on 'this' expressions with an implied any type.",
+              "type": "boolean"
+            },
+            "noUnusedLocals": {
+              "description": "Report errors on unused locals. Requires TypeScript version 2.0 or later.",
+              "type": "boolean"
+            },
+            "noUnusedParameters": {
+              "description": "Report errors on unused parameters. Requires TypeScript version 2.0 or later.",
+              "type": "boolean"
+            },
+            "noLib": {
+              "description": "Do not include the default library file (lib.d.ts).",
+              "type": "boolean"
+            },
+            "noResolve": {
+              "description": "Do not add triple-slash references or module import targets to the list of compiled files.",
+              "type": "boolean"
+            },
+            "noStrictGenericChecks": {
+              "description": "Disable strict checking of generic signatures in function types.",
+              "type": "boolean"
+            },
+            "skipDefaultLibCheck": {
+              "type": "boolean"
+            },
+            "skipLibCheck": {
+              "description": "Skip type checking of declaration files. Requires TypeScript version 2.0 or later.",
+              "type": "boolean"
+            },
+            "outFile": {
+              "description": "Concatenate and emit output to single file.",
+              "type": "string"
+            },
+            "outDir": {
+              "description": "Redirect output structure to the directory.",
+              "type": "string"
+            },
+            "preserveConstEnums": {
+              "description": "Do not erase const enum declarations in generated code.",
+              "type": "boolean"
+            },
+            "preserveSymlinks": {
+              "description": "Do not resolve symlinks to their real path; treat a symlinked file like a real one.",
+              "type": "boolean"
+            },
+            "pretty": {
+              "description": "Stylize errors and messages using color and context (experimental).",
+              "type": "boolean"
+            },
+            "removeComments": {
+              "description": "Do not emit comments to output.",
+              "type": "boolean"
+            },
+            "rootDir": {
+              "description": "Specifies the root directory of input files. Use to control the output directory structure with --outDir.",
+              "type": "string"
+            },
+            "isolatedModules": {
+              "description": "Unconditionally emit imports for unresolved files.",
+              "type": "boolean"
+            },
+            "sourceMap": {
+              "description": "Generates corresponding '.map' file.",
+              "type": "boolean"
+            },
+            "sourceRoot": {
+              "description": "Specifies the location where debugger should locate TypeScript files instead of source locations.",
+              "type": "string"
+            },
+            "suppressExcessPropertyErrors": {
+              "description": "Suppress excess property checks for object literals.",
+              "type": "boolean"
+            },
+            "suppressImplicitAnyIndexErrors": {
+              "description": "Suppress noImplicitAny errors for indexing objects lacking index signatures.",
+              "type": "boolean"
+            },
+            "stripInternal": {
+              "description": "Do not emit declarations for code that has an '@internal' annotation.",
+              "type": "boolean"
+            },
+            "target": {
+              "description": "Specify ECMAScript target version. Permitted values are 'es3', 'es5', 'es6', 'es2015', 'es2016', 'es2017' or 'esnext'.",
+              "type": "string",
+              "default": "es3",
+              "anyOf": [
+                {
+                  "enum": [
+                    "es3",
+                    "es5",
+                    "es6",
+                    "es2015",
+                    "es2016",
+                    "es2017",
+                    "esnext"
+                  ]
+                }, {
+                  "pattern": "^([eE][sS]([356]|(201[567])|[nN][eE][xX][tT]))$"
+                }
+              ]
+            },
+            "watch": {
+              "description": "Watch input files.",
+              "type": "boolean"
+            },
+            "experimentalDecorators": {
+              "description": "Enables experimental support for ES7 decorators.",
+              "type": "boolean"
+            },
+            "emitDecoratorMetadata": {
+              "description": "Emit design-type metadata for decorated declarations in source.",
+              "type": "boolean"
+            },
+            "moduleResolution": {
+              "description": "Specifies module resolution strategy: 'node' (Node) or 'classic' (TypeScript pre 1.6) .",
+              "type": "string",
+              "anyOf": [
+                {
+                  "enum": [
+                    "classic",
+                    "node"
+                  ]
+                },
+                {
+                  "pattern": "^(([Nn]ode)|([Cc]lassic))$"
+                }
+              ],
+              "default": "classic"
+            },
+            "allowUnusedLabels": {
+              "type": "boolean",
+              "description": "Do not report errors on unused labels."
+            },
+            "noImplicitReturns": {
+              "description": "Report error when not all code paths in function return a value.",
+              "type": "boolean"
+            },
+            "noFallthroughCasesInSwitch": {
+              "description": "Report errors for fallthrough cases in switch statement.",
+              "type": "boolean"
+            },
+            "allowUnreachableCode": {
+              "description": "Do not report errors on unreachable code.",
+              "type": "boolean"
+            },
+            "forceConsistentCasingInFileNames": {
+              "description": "Disallow inconsistently-cased references to the same file.",
+              "type": "boolean"
+            },
+            "baseUrl": {
+              "description": "Base directory to resolve non-relative module names.",
+              "type": "string"
+            },
+            "paths": {
+              "description": "Specify path mapping to be computed relative to baseUrl option.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "Path mapping to be computed relative to baseUrl option."
+                }
+              }
+            },
+            "plugins": {
+              "description": "List of TypeScript language server plugins to load. Requires TypeScript version 2.3 or later.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "Plugin name.",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "rootDirs": {
+              "description": "Specify list of root directories to be used when resolving modules.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "typeRoots": {
+              "description": "Specify list of directories for type definition files to be included. Requires TypeScript version 2.0 or later.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "types": {
+              "description": "Type declaration files to be included in compilation. Requires TypeScript version 2.0 or later.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "traceResolution": {
+              "description": "Enable tracing of the name resolution process.",
+              "type": "boolean"
+            },
+            "allowJs": {
+              "description": "Allow javascript files to be compiled.",
+              "type": "boolean"
+            },
+            "allowSyntheticDefaultImports": {
+              "description": "Allow default imports from modules with no default export. This does not affect code emit, just typechecking.",
+              "type": "boolean"
+            },
+            "noImplicitUseStrict": {
+              "description": "Do not emit 'use strict' directives in module output.",
+              "type": "boolean"
+            },
+            "listEmittedFiles": {
+              "description": "Enable to list all emitted files. Requires TypeScript version 2.0 or later.",
+              "type": "boolean"
+            },
+            "lib": {
+              "description": "Specify library file to be included in the compilation. Requires TypeScript version 2.0 or later.",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [ "es5", "es6", "es2015", "es7", "es2016", "es2017", "es2018", "esnext", "dom", "dom.iterable", "webworker", "scripthost", "es2015.core", "es2015.collection", "es2015.generator", "es2015.iterable",
+                        "es2015.promise", "es2015.proxy", "es2015.reflect", "es2015.symbol", "es2015.symbol.wellknown", "es2016.array.include", "es2017.object", "es2017.sharedmemory", "es2017.typedarrays", "esnext.array", "esnext.asynciterable", "esnext.promise"]
+              }
+            },
+            "strictNullChecks": {
+              "description": "Enable strict null checks. Requires TypeScript version 2.0 or later.",
+              "type": "boolean"
+            },
+            "maxNodeModuleJsDepth": {
+              "description": "The maximum dependency depth to search under node_modules and load JavaScript files. Only applicable with --allowJs.",
+              "type": "number",
+              "default": 0
+            },
+            "importHelpers": {
+              "description": "Import emit helpers (e.g. '__extends', '__rest', etc..) from tslib. Requires TypeScript version 2.1 or later.",
+              "type": "boolean"
+            },
+            "jsxFactory": {
+              "description": "Specify the JSX factory function to use when targeting react JSX emit, e.g. 'React.createElement' or 'h'. Requires TypeScript version 2.1 or later.",
+              "type": "string",
+              "default": "React.createElement"
+            },
+            "alwaysStrict": {
+              "description": "Parse in strict mode and emit 'use strict' for each source file. Requires TypeScript version 2.1 or later.",
+              "type": "boolean"
+            },
+            "strict": {
+              "description": "Enable all strict type checking options. Requires TypeScript version 2.3 or later.",
+              "type": "boolean"
+            },
+            "downlevelIteration": {
+              "description": "Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. Requires TypeScript version 2.3 or later.",
+              "type": "boolean"
+            },
+            "checkJs": {
+              "description": "Report errors in .js files. Requires TypeScript version 2.3 or later.",
+              "type": "boolean"
+            },
+            "strictFunctionTypes": {
+                "description": "Disable bivariant parameter checking for function types. Requires TypeScript version 2.6 or later.",
+                "type": "boolean"
+            },
+            "strictPropertyInitialization": {
+                "description": "Ensure non-undefined class properties are initialized in the constructor. Requires TypeScript version 2.7 or later.",
+                "type": "boolean"
+            },
+            "esModuleInterop": {
+                "description": "Emit '__importStar' and '__importDefault' helpers for runtime babel ecosystem compatibility and enable '--allowSyntheticDefaultImports' for typesystem compatibility. Requires TypeScript version 2.7 or later.",
+                "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "typeAcquisitionDefinition": {
+      "properties": {
+        "typeAcquisition": {
+          "additionalProperties": false,
+          "type": "object",
+          "description": "Auto type (.d.ts) acquisition options for this project. Requires TypeScript version 2.1 or later.",
+          "properties": {
+            "enable": {
+              "description": "Enable auto type acquisition",
+              "type": "boolean",
+              "default": false
+            },
+            "include": {
+              "description": "Specifies a list of type declarations to be included in auto type acquisition. Ex. [\"jquery\", \"lodash\"]",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "exclude": {
+              "description": "Specifies a list of type declarations to be excluded from auto type acquisition. Ex. [\"jquery\", \"lodash\"]",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "type": "object",
+  "allOf": [
+    { "$ref": "#/definitions/compilerOptionsDefinition" },
+    { "$ref": "#/definitions/compileOnSaveDefinition" },
+    { "$ref": "#/definitions/typeAcquisitionDefinition" },
+    { "$ref": "#/definitions/extendsDefinition" },
+    {
+      "anyOf": [
+        { "$ref": "#/definitions/filesDefinition" },
+        { "$ref": "#/definitions/excludeDefinition" },
+        { "$ref": "#/definitions/includeDefinition" }
+      ]
+    }
+  ]
+}

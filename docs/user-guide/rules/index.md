@@ -18,6 +18,7 @@
 * [`html-checker`](html-checker.md)
 * [`meta-viewport`](meta-viewport.md)
 * [`no-friendly-error-pages`](no-friendly-error-pages.md)
+* [`typescript-config-is-valid`](typescript-config-is-valid.md)
 
 ## Performance
 
