@@ -1,3 +1,6 @@
+# Don't actually build.
+build: off
+
 environment:
   matrix:
    # Have to use number instead of LTS because of
@@ -10,12 +13,9 @@ environment:
 install:
   - ps: Install-Product node $env:nodejs_version x64
   - node --version
-  - npm --version
-  - npm install
+  - yarn --version
+  - yarn
 
 # Post-install test scripts.
 test_script:
-  - npm test
-
-# Don't actually build.
-build: off
+  - yarn test
