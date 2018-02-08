@@ -272,7 +272,7 @@ const updatePackageJSON = async (newVersion: SemVer): Promise<string> => {
 const updateSnykSnapshotJSONFile = async () => {
 
     const downloadURL = 'https://snyk.io/partners/api/v2/vulndb/clientside.json';
-    const downloadLocation = path.normalize('src/lib/rules/no-vulnerable-javascript-libraries/snyk-snapshot.json');
+    const downloadLocation = path.normalize('packages/rule-no-vulnerable-javascript-libraries/src/snyk-snapshot.json');
 
     const res = await promisify(request)({ url: downloadURL });
 
@@ -292,55 +292,55 @@ const updateSnykSnapshotJSONFile = async () => {
 const main = async () => {
     await updateSnykSnapshotJSONFile();
 
-    const commitSHAsSinceLastRelease = await getCommitsSinceLastRelease();
-    const { version: newVersion, body: changelogBody } = getChangelogData(commitSHAsSinceLastRelease);
-
-    if (!changelogBody) {
-        return;
-    }
-
-    // Update version in `package.json` and `package-lock.json`.
-    const version = await updatePackageJSON(newVersion);
-
-    // Update changelog file.
-    await updateChangelog(changelogBody, version);
-
-    // Allow users to tweak the changelog file.
-    if ((await stopToUpdateChangelog()) === false) {
-        return;
-    }
-
-    // Commit changes and tag a new version.
-    await tagNewVersion(version);
-
-    // Push changes upstreem.
-    await exec('Push changes upstream.', `git push origin master "${version}"`);
-
-    // Extract the release notes from the updated changelog file.
-    const releaseNotes = await exec('Get release notes', getReleaseNotes);
-
-    // Create new release.
-    await createRelease(version, releaseNotes);
-
-    /*
-     * Remove devDependencies, this will update `package-lock.json`.
-     * Need to do so they aren't published on the `npm` package.
-     */
-    await exec('Remove devDependencies', 'npm prune --production');
-
-    /*
-     * Create shrinkwrap file.
-     * (This is done because `npm` doesn't
-     *  publish the `package-lock` file)
-     */
-    await exec(`Create '${SHRINKWRAP_FILE}' `, 'npm shrinkwrap');
-
-    // Publish on `npm`.
-    await exec('Publish on `npm`.', 'npm publish');
-
-    // Restore the package lock file and delete shrinkwrap
-    shell.rm(SHRINKWRAP_FILE);
-    await exec(`Restore ${PACKAGE_LOCK_FILE}`, `git checkout ${PACKAGE_LOCK_FILE}`);
+    // const commitSHAsSinceLastRelease = await getCommitsSinceLastRelease();
+    // const { version: newVersion, body: changelogBody } = getChangelogData(commitSHAsSinceLastRelease);
+    //
+    // if (!changelogBody) {
+    //     return;
+    // }
+    //
+    // // Update version in `package.json` and `package-lock.json`.
+    // const version = await updatePackageJSON(newVersion);
+    //
+    // // Update changelog file.
+    // await updateChangelog(changelogBody, version);
+    //
+    // // Allow users to tweak the changelog file.
+    // if ((await stopToUpdateChangelog()) === false) {
+    //     return;
+    // }
+    //
+    // // Commit changes and tag a new version.
+    // await tagNewVersion(version);
+    //
+    // // Push changes upstreem.
+    // await exec('Push changes upstream.', `git push origin master "${version}"`);
+    //
+    // // Extract the release notes from the updated changelog file.
+    // const releaseNotes = await exec('Get release notes', getReleaseNotes);
+    //
+    // // Create new release.
+    // await createRelease(version, releaseNotes);
+    //
+    // #<{(|
+    //  * Remove devDependencies, this will update `package-lock.json`.
+    //  * Need to do so they aren't published on the `npm` package.
+    //  |)}>#
+    // await exec('Remove devDependencies', 'npm prune --production');
+    //
+    // #<{(|
+    //  * Create shrinkwrap file.
+    //  * (This is done because `npm` doesn't
+    //  *  publish the `package-lock` file)
+    //  |)}>#
+    // await exec(`Create '${SHRINKWRAP_FILE}' `, 'npm shrinkwrap');
+    //
+    // // Publish on `npm`.
+    // await exec('Publish on `npm`.', 'npm publish');
+    //
+    // // Restore the package lock file and delete shrinkwrap
+    // shell.rm(SHRINKWRAP_FILE);
+    // await exec(`Restore ${PACKAGE_LOCK_FILE}`, `git checkout ${PACKAGE_LOCK_FILE}`);
 };
 
 main();
