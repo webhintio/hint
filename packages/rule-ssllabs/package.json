@@ -11,7 +11,21 @@
   },
   "description": "",
   "devDependencies": {
-    "mock-require": "^3.0.1"
+    "ava": "^0.25.0",
+    "cpx": "^1.5.0",
+    "eslint": "^4.17.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-markdown": "^1.0.0-beta.7",
+    "eslint-plugin-typescript": "^0.8.1",
+    "markdownlint-cli": "^0.7.0",
+    "mock-require": "^3.0.1",
+    "npm-link-check": "^2.0.0",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^11.4.1",
+    "rimraf": "^2.6.2",
+    "sonarwhal": "^0.24.0",
+    "typescript": "^2.6.2",
+    "typescript-eslint-parser": "^12.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
