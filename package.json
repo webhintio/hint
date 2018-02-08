@@ -39,6 +39,7 @@
       "@types/node"
     ]
   },
+  "name": "@sonarwhal/monorepo",
   "private": true,
   "scripts": {
     "ava": "ava",
@@ -49,6 +50,7 @@
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",
     "lint:md": "markdownlint --ignore **/CHANGELOG.md packages/**/*.md README.md",
+    "new:rule": "cd packages && node sonarwhal/dist/src/bin/sonarwhal.js --new-rule",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
     "test": "yarn build && nyc ava",
     "test-on-travis": "yarn lint && yarn build && nyc ava --concurrency=2 --timeout=2m"

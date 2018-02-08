@@ -1,0 +1,83 @@
+{
+  "author": "",
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "description": "{{description}}",
+  "devDependencies": {
+    "ava": "{{dependencyVersion "ava" "^0.25.0"}}",
+    "cpx": "{{dependencyVersion "cpx" "^1.5.0"}}",
+    "eslint": "{{dependencyVersion "eslint" "^4.17.0"}}",
+    "eslint-plugin-markdown": "{{dependencyVersion "eslint-plugin-markdown" "^1.0.0-beta.7"}}",
+    "eslint-plugin-typescript": "{{dependencyVersion "eslint-plugin-typescript" "^0.8.1"}}",
+    "markdownlint-cli": "{{dependencyVersion "markdownlint-cli" "^0.7.0"}}",
+    "npm-link-check": "{{dependencyVersion "markdownlint-cli" "^2.0.0"}}",
+    "npm-run-all": "{{dependencyVersion "npm-run-all" "^4.1.2"}}",
+    "nyc": "{{dependencyVersion "npm-run-all" "^11.4.1"}}",
+    "rimraf": "{{dependencyVersion "rimraf" "^2.6.2"}}",
+    "sonarwhal": "^{{version}}",
+    "typescript": "{{dependencyVersion "typescript" "^2.6.2"}}",
+    "typescript-eslint-parser": "{{dependencyVersion "typescript-eslint-parser" "^13.0.0"}}"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "dist/src",
+    "npm-shrinkwrap.json"
+  ],{{#if official}}
+  "homepage": "https://sonarwhal.com/",{{else}}
+  "homepage": "",{{/if}}
+  "keywords": [
+    "rule",
+    "sonarwhal",
+    "{{normalizedName}}",
+    "{{normalizedName}}-rule"
+  ],
+  "license": "Apache-2.0",
+  "main": "{{packageMain}}",
+  "name": "{{packageName}}",{{#if official}}
+  "nyc": {
+    "extends": "../../../../.nycrc"
+  },{{else}}
+  "nyc": {
+    "branches": 85,
+    "cache": true,
+    "check-coverage": true,
+    "functions": 80,
+    "instrument": true,
+    "lines": 85,
+    "reporter": [
+        "lcov",
+        "text"
+    ],
+    "sourceMap": true,
+    "statements": 85
+  },{{/if}}
+  "scripts": {
+   "build": "npm run clean && npm-run-all build:*",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",{{#if official}}
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",{{else}}
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",{{/if}}
+    "lint:md": "markdownlint *.md",
+    "sonarwhal": "node node_modules/sonarwhal/dist/src/bin/sonarwhal.js",
+    "test": "npm run lint && npm run build && nyc ava",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:assets": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "peerDependencies": {
+    "sonarwhal": "^{{version}}"
+  },{{#if official}}
+  "repository": "sonarwhal/sonarwhal",{{else}}
+  "repository": "",{{/if}}
+  "version": "0.1.0"
+}
