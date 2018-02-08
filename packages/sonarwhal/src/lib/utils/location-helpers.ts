@@ -17,11 +17,12 @@ const escapeQuotes = (text: string): string => {
 const selectorFromElement = (element: IAsyncHTMLElement): string => {
     let selector: string = element.nodeName.toLowerCase();
 
-    const attributes: Array<IAsyncHTMLAttribute> | NamedNodeMap = element.attributes;
+    const attributes = element.attributes;
 
     // attributes doesn't have the Symbol.Iterator();
     for (let i = 0; i < attributes.length; i++) {
-        const attribute: IAsyncHTMLAttribute | NamedNodeMap = attributes[i];
+        // We have to access the items via `.item()` because of JSDOM
+        const attribute = attributes.item ? attributes.item(i) : attributes[i];
 
         /*
          * jsdom breaks when attribute names have a `.` (invalid) but it is widely used,

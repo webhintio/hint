@@ -12,7 +12,7 @@ export interface IAsyncHTMLAttribute {
  */
 export interface IAsyncHTMLElement {
     /** The attributes of the element */
-    readonly attributes: Array<IAsyncHTMLAttribute> | NamedNodeMap;
+    readonly attributes;
     /** Returns the value for a given attribute */
     getAttribute(attribute: string): string;
     /** Checks if two AsyncHTMLElements are the same */
