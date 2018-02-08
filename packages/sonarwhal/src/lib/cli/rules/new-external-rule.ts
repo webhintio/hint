@@ -29,10 +29,7 @@ const copyCommonFiles = async (destination: string) => {
 };
 
 const generateRuleFiles = async (destination: string, data) => {
-    const commonFiles = [{
-        destination: path.join(destination, '.sonarwhalrc'),
-        path: path.join(__dirname, TEMPLATE_PATH, 'rule-config.hbs')
-    },
+    const commonFiles = [
     {
         destination: path.join(destination, 'README.md'),
         path: path.join(__dirname, TEMPLATE_PATH, 'rule-doc.hbs')
@@ -47,7 +44,7 @@ const generateRuleFiles = async (destination: string, data) => {
     }];
 
     const ruleFile = {
-        destination: path.join(destination, 'src', 'rules'),
+        destination: path.join(destination, 'src'),
         path: path.join(__dirname, TEMPLATE_COMMON_PATH, 'rule-script.hbs')
     };
     const testFile = {
@@ -67,8 +64,10 @@ const generateRuleFiles = async (destination: string, data) => {
     for (const rule of data.rules) {
         const [ruleContent, testContent] = await Promise.all([compileTemplate(ruleFile.path, rule), compileTemplate(testFile.path, rule)]);
 
-        const rulePath = path.join(ruleFile.destination, rule.normalizedName, `${rule.normalizedName}.ts`);
-        const testPath = path.join(testFile.destination, rule.normalizedName, 'test.ts');
+        // e.g.: rule-ssllabs/src/ssllabs.ts
+        const rulePath = path.join(ruleFile.destination, `${rule.normalizedName}.ts`);
+        // e.g.: rule-ssllabs/tests/ssllabs.ts
+        const testPath = path.join(testFile.destination, `${rule.normalizedName}.ts`);
 
         await Promise.all([mkdirpAsync(path.dirname(rulePath)), mkdirpAsync(path.dirname(testPath))]);
 

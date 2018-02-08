@@ -4,27 +4,19 @@ import * as Handlebars from 'handlebars';
 
 import { Category } from '../../enums/category';
 
-import { findPackageRoot as packageRoot, normalizeStringByDelimiter, readFile } from '../../utils/misc';
+import { findPackageRoot as packageRoot, normalizeStringByDelimiter, readFile, toCamelCase } from '../../utils/misc';
 import { escapeSafeString } from '../../utils/handlebars';
+import { type } from 'os';
 
 export const normalize = normalizeStringByDelimiter;
-export const coreRuleTemplateDir = './templates/core-rule';
 export const commonTemplateDir = './templates/common';
-export const coreRuleScriptDir = 'src/lib/rules';
-export const coreRuleDocDir = 'docs/user-guide/rules';
-export const coreRuleTestDir = 'tests/lib/rules';
-export const coreRuleDistScriptDir = `dist/${coreRuleScriptDir}`;
 export const packageDir = packageRoot();
 export const processDir = process.cwd();
 
 const partialEventCode = readFile(path.join(__dirname, 'templates', 'common', 'partial-event-code.hbs'));
 
-/** Check if a rule exists. */
-export const ruleExists = (ruleName: string, currentRules: Array<string>): boolean => {
-    return currentRules.includes(normalize(ruleName, '-'));
-};
-
 Handlebars.registerPartial('event-code', partialEventCode);
+Handlebars.registerHelper('toCamelCase', toCamelCase);
 
 /** A map that matches usecases with events. */
 const events: Map<string, Array<string>> = new Map([
@@ -141,24 +133,13 @@ export const questions = (type: QuestionsType) => {
         type: 'input'
     },
     {
-        default() {
-            return type === QuestionsType.core;
-        },
-        message: 'Is it a recommended rule',
-        name: 'recommended',
-        type: 'confirm',
-        when(answers) {
-            return !answers.multi;
-        }
-    },
-    {
         choices: categories,
         default: Category.interoperability,
         message: 'Please select the category of this new rule:',
         name: 'category',
         type: 'list',
-        when() {
-            return type === QuestionsType.core;
+        when(answers) {
+            return !answers.multi;
         }
     },
     {

@@ -12,4 +12,4 @@ import { analyze } from './analyze';
 import { newParser } from './parsers/new-parser';
 
 /** All the action handlers for the CLI. */
-export const cliActions: Array<(action: CLIOptions) => Promise<boolean> > = [newRule, newExternalRule, deleteRule, newParser, initSonarwhalrc, printVersion, analyze, printHelp];
+export const cliActions: Array<(action: CLIOptions) => Promise<boolean> > = [newExternalRule, deleteRule, newParser, initSonarwhalrc, printVersion, analyze, printHelp];

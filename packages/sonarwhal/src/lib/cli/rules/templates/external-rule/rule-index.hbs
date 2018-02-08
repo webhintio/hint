@@ -2,8 +2,12 @@
  * @fileoverview {{description}}
  */
 
+{{#each rules}}
+import * as {{toCamelCase normalizedName}} from './{{normalizedName}}';
+{{/each}}
+
 module.exports = {
     {{#each rules}}
-    '{{normalizedName}}': require('./rules/{{normalizedName}}/{{normalizedName}}'){{#unless @last}},{{/unless}}
+    '{{normalizedName}}': {{toCamelCase normalizedName}}{{#unless @last}},{{/unless}}
     {{/each}}
 };
