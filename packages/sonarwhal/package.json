@@ -1,4 +1,11 @@
 {
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js"
+    ],
+    "timeout": "1m"
+  },
   "bin": "./dist/src/bin/sonarwhal.js",
   "dependencies": {
     "browserslist": "^2.11.3",
@@ -105,6 +112,12 @@
   "license": "Apache-2.0",
   "main": "./dist/src/lib/sonarwhal.js",
   "name": "sonarwhal",
+  "nyc": {
+    "extends": "../../.nycrc",
+    "include": [
+      "dist/src/**/*.js"
+    ]
+  },
   "optionalDependencies": {
     "@sonarwhal/connector-edge": "^0.1.4"
   },

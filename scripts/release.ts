@@ -272,7 +272,7 @@ const updatePackageJSON = async (newVersion: SemVer): Promise<string> => {
 const updateSnykSnapshotJSONFile = async () => {
 
     const downloadURL = 'https://snyk.io/partners/api/v2/vulndb/clientside.json';
-    const downloadLocation = path.normalize('src/lib/rules/no-vulnerable-javascript-libraries/snyk-snapshot.json');
+    const downloadLocation = path.normalize('packages/rule-no-vulnerable-javascript-libraries/src/snyk-snapshot.json');
 
     const res = await promisify(request)({ url: downloadURL });
 
