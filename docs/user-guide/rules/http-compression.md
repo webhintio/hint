@@ -533,11 +533,14 @@ files when gzip compression is requested by the user agent.
 
 Starting with Apache `v2.4.26`, [`mod_brotli`][mod_brotli] and the
 [`AddOutputFilterByType` directive][addoutputfilterbytype] can be used
-to condtitionally compress with Brotli as well as add the
-`Content-Encoding` and `Vary` headers. However, since, like Zopfli,
-Brotli takes more time, it's indicated to compress resources at build
-time, and configure Apache to just serve those pre-compressed resources
-whenever Brotli compression is requested over HTTPS by the user agent.
+to conditionally compress with Brotli as well as add the
+`Content-Encoding` and `Vary` headers. However, like Zopfli, Brotli can
+take more time. So, when provided, `mod_brotli` may be used to compress
+dynamic resources (especially if set to use lower compression quality
+levels), but for static resources it's indicated to compress them as
+part of the build process and just configure Apache to serve those
+pre-compressed resources whenever Brotli compression is requested over
+HTTPS.
 
 If you don't want to start from scratch, below is a generic starter
 snippet that contains the necessary configurations to ensure that
