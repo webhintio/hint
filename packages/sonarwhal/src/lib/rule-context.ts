@@ -18,13 +18,13 @@ export class RuleContext {
     private severity: Severity
     private sonarwhal: Sonarwhal
 
-    public constructor(ruleId: string, sonarwhal: Sonarwhal, severity: Severity | string, options, meta: IRuleMetadata) {
+    public constructor(ruleId: string, sonarwhal: Sonarwhal, severity: Severity, options, meta: IRuleMetadata) {
 
         this.id = ruleId;
         this.options = options;
         this.meta = meta;
         this.sonarwhal = sonarwhal;
-        this.severity = typeof severity === 'string' ? Severity[severity] : severity;
+        this.severity = severity;
 
         Object.freeze(this);
 

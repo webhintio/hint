@@ -16,16 +16,9 @@ subscribes to one or more events that are emitted from a connector. A connector
 is the way sonarwhal gets the information about a website or a resource using a
 browser, or something different that reads files from disk. For example, if a
 rule subscribes to `fetch::end`, it means this rule will run each time the
-connector finishes downloading a resource file. There are two types of rules:
+connector finishes downloading a resource file.
 
-* `core rules` which are shipped with sonarwhal, geared towards general public use
-* `custom rules` which are specific to a domain or a particular use case, thus
-  published independently
-
-Because our need of checking the footer is unique, we’ll add it as a custom
-rule instead of doing a pull request to sonarwhal’s core rules.
-
-## What is it like to start a new custom rule?
+## What is it like to create a new rule?
 
 The recommended way to create a new rule is to use the `—-new-rule` parameter in
 CLI. Support for bootstrapping custom rules has shipped in sonarwhal since

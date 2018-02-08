@@ -10,6 +10,12 @@ const debug = d(__filename);
 
 export const sonarwhalPackage = JSON.parse(readFile(path.join(findPackageRoot(), 'package.json')));
 
+/**
+ * Searches the current version used for a package in `sonarwhal` and uses that version or the `defaultVersion`.
+ *
+ * This is used when creating a new rule via the CLI to make sure the dependencies are up-to-date in the moment
+ * of creation.
+ */
 Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): string => {
     return sonarwhalPackage.dependencies[packageName] || sonarwhalPackage.devDependencies[packageName] || defaultVersion;
 });

@@ -16,7 +16,7 @@ const mkdirp = (dir, callback) => {
     callback();
 };
 
-proxyquire('../../../../src/lib/cli/rules/new-external-rule', {
+proxyquire('../../../../src/lib/cli/rules/new-rule', {
     '../../utils/handlebars': handlebarsUtils,
     '../../utils/misc': misc,
     './common': rulesCommon,
@@ -25,7 +25,7 @@ proxyquire('../../../../src/lib/cli/rules/new-external-rule', {
     mkdirp
 });
 
-import * as rule from '../../../../src/lib/cli/rules/new-external-rule';
+import * as rule from '../../../../src/lib/cli/rules/new-rule';
 
 test.beforeEach((t) => {
     sinon.stub(fsExtra, 'copy').resolves();
@@ -44,14 +44,8 @@ test.afterEach.always((t) => {
 });
 
 
-test.serial('If newExternalRule is not an option, it should return false', async (t) => {
-    const result = await rule.newExternalRule({} as CLIOptions);
-
-    t.false(result);
-});
-
-test.serial('If newExternalRule is executed inside the main sonarwhal project, it should return false', async (t) => {
-    const result = await rule.newExternalRule(actions);
+test.serial('If newRule is not an option, it should return false', async (t) => {
+    const result = await rule.newRule({} as CLIOptions);
 
     t.false(result);
 });
@@ -72,14 +66,14 @@ test.serial('It creates a rule if the option multiple rules is false', async (t)
     });
     sandbox.stub(inquirer, 'prompt').resolves(results);
 
-    const result = await rule.newExternalRule(actions);
+    const result = await rule.newRule(actions);
 
-    t.true(t.context.fs.copy.args[0][0].endsWith('files'), 'Unexpected path for common files');
+    t.true(t.context.fs.copy.args[0][0].endsWith('files'), 'Unexpected path for external files');
     t.is(t.context.fs.copy.args[0][1], path.join(root, 'rule-awesome-rule'), 'Copy path is not the expected one');
 
-    // 4 files common to all the rules + 2 files for the rule (code + test)
-    t.is(t.context.handlebars.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
-    t.is(t.context.misc.writeFileAsync.callCount, 6, 'Invalid number of files created');
+    // changelog, index.ts, license.txt, package.json, readme.md, tsconfig.json, .sonarwhalrc, rule.ts, tests/rule.ts
+    t.is(t.context.handlebars.compileTemplate.callCount, 9, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.misc.writeFileAsync.callCount, 9, 'Invalid number of files created');
 
     t.true(result);
 
@@ -120,14 +114,14 @@ test.serial('It creates a package with multiple rules', async (t) => {
         .onThirdCall()
         .resolves(rule2Results);
 
-    const result = await rule.newExternalRule(actions);
+    const result = await rule.newRule(actions);
 
     t.true(t.context.fs.copy.args[0][0].endsWith('files'), 'Unexpected path for common files');
     t.is(t.context.fs.copy.args[0][1], path.join(root, 'rule-awesome-package'), 'Copy path is not the expected one');
 
-    // 4 files common to all the rules + 2 files for each rule (code + test)
-    t.is(t.context.handlebars.compileTemplate.callCount, 8, `Handlebars doesn't complile the right number of files`);
-    t.is(t.context.misc.writeFileAsync.callCount, 8, 'Invalid number of files created');
+    // changelog, index.ts, license.txt, package.json, readme.md, tsconfig.json, .sonarwhalrc, rule.ts * 2, tests/rule.ts * 2
+    t.is(t.context.handlebars.compileTemplate.callCount, 11, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.misc.writeFileAsync.callCount, 11, 'Invalid number of files created');
 
     t.true(result);
 

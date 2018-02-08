@@ -1,14 +1,8 @@
-{{#if external}}
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
-{{else}}
-import { generateHTMLPage } from '../../../helpers/misc';
-import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
-import { IRuleTest } from '../../../helpers/rule-test-type';
-import * as ruleRunner from '../../../helpers/rule-runner';
-{{/if}}
+
 const ruleName = getRuleName(__dirname);
 
 /*

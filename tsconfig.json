@@ -2,6 +2,7 @@
     "compilerOptions": {
         "alwaysStrict": true,
         "declaration": true,
+        "inlineSourceMap": true,
         "lib": [
             "dom",
             "dom.iterable",
@@ -12,7 +13,6 @@
         "module": "commonjs",
         "newLine": "lf",
         "removeComments": true,
-        "sourceMap": true,
         "target": "esnext"
     }
 }

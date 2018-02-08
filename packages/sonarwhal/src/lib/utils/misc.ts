@@ -144,6 +144,21 @@ const normalizeStringByDelimiter = (value: string, delimiter: string) => {
     return normalizeString(value).replace(/[^a-z0-9]/gi, delimiter);
 };
 
+/** Convert '-' delimitered string to camel case name. */
+const toCamelCase = (value: string) => {
+    return value.split('-').reduce((accu: string, w: string) => {
+        if (!accu.length) {
+            return w.toLocaleLowerCase();
+        }
+
+        let current = accu;
+
+        current += w.length ? `${w.charAt(0).toUpperCase()}${w.substr(1).toLowerCase()}` : '';
+
+        return current;
+    }, '');
+};
+
 /** Convenience wrapper for synchronously reading file contents. */
 const readFile = (filePath: string): string => {
     return stripBom(fs.readFileSync(filePath, 'utf8')); // eslint-disable-line no-sync
@@ -297,5 +312,6 @@ export {
     readFileAsync,
     requestJSONAsync,
     requestAsync,
+    toCamelCase,
     writeFileAsync
 };
