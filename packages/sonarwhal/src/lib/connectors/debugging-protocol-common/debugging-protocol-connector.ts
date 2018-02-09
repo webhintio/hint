@@ -73,6 +73,8 @@ export class Connector implements IConnector {
     private _faviconLoaded: boolean = false;
     /** The amount of time before an event is going to be timedout. */
     private _timeout: number;
+    /** Browser PID */
+    private pid: number;
 
     private _targetNetworkData: INetworkData;
     private launcher: ILauncher;
@@ -647,6 +649,8 @@ export class Connector implements IConnector {
         const launcher: BrowserInfo = await this.launcher.launch(this._options.useTabUrl ? this._options.tabUrl : 'about:blank');
         let client;
 
+        this.pid = launcher.pid;
+
         /*
          * We want a new tab for this session. If it is a new browser, a new tab
          * will be created automatically. If it was already there, then we need
@@ -888,6 +892,38 @@ export class Connector implements IConnector {
         })();
     }
 
+    private isClosed() {
+        return new Promise(async (resolve) => {
+            let maxTries = 200;
+            let finish = false;
+
+            while (!finish) {
+                try {
+                    /*
+                     * We test if the process is still running or is a leftover:
+                     * https://nodejs.org/api/process.html#process_process_kill_pid_signal
+                     */
+
+                    process.kill(this.pid, 0);
+
+                    maxTries--;
+
+                    // Wait for 10 seconds to close the browser or continue.
+                    if (maxTries === 0) {
+                        finish = true;
+                    } else {
+                        await delay(50);
+                    }
+                } catch (e) {
+                    debug(`Process with ${this.pid} doesn't seem to be running`);
+                    finish = true;
+                }
+            }
+
+            resolve();
+        });
+    }
+
     public async close() {
         debug('Closing browsers used by CDP');
 
@@ -902,13 +938,16 @@ export class Connector implements IConnector {
         }
 
         try {
+
             this._client.close();
+
             /*
-             * We need this delay overall because in test if we close the
-             * client and at the same time the next test try to open a new
-             * tab then an error is thrown.
+             * We need to wait until the browser is close because
+             * in tests if we close the client and at the same time
+             * the next test tries to open a new tab, an error is
+             * * thrown.
              */
-            await delay(300);
+            await this.isClosed();
         } catch (e) {
             debug(`Couldn't close the client properly`);
         }
