@@ -9,15 +9,14 @@ import { CLIOptions } from '../../types';
 import * as logger from '../../utils/logging';
 import { writeFileAsync } from '../../utils/misc';
 import {
-    processDir, packageDir, questions, normalize,
+    processDir, packageDir, questions, normalize, // eslint-disable-line no-unused-vars
     QuestionsType, NewRule
 } from './common';
 import { escapeSafeString, compileTemplate, sonarwhalPackage } from '../../utils/handlebars';
 
 const mkdirpAsync = promisify(mkdirp);
 /** Name of the package to use as a template. */
-const TEMPLATE_PATH = './templates/external-rule';
-const TEMPLATE_COMMON_PATH = './templates/common';
+const TEMPLATE_PATH = './templates/new-rule';
 
 /** Copies the common files of the rule to `destination`. */
 const copyCommonFiles = async (destination: string) => {
@@ -30,26 +29,26 @@ const copyCommonFiles = async (destination: string) => {
 
 const generateRuleFiles = async (destination: string, data) => {
     const commonFiles = [
-    {
-        destination: path.join(destination, 'README.md'),
-        path: path.join(__dirname, TEMPLATE_PATH, 'rule-doc.hbs')
-    },
-    {
-        destination: path.join(destination, 'package.json'),
-        path: path.join(__dirname, TEMPLATE_PATH, 'rule-package.hbs')
-    },
-    {
-        destination: path.join(destination, 'src', `index.ts`),
-        path: path.join(__dirname, TEMPLATE_PATH, 'rule-index.hbs')
-    }];
+        {
+            destination: path.join(destination, 'README.md'),
+            path: path.join(__dirname, TEMPLATE_PATH, 'rule-doc.hbs')
+        },
+        {
+            destination: path.join(destination, 'package.json'),
+            path: path.join(__dirname, TEMPLATE_PATH, 'rule-package.hbs')
+        },
+        {
+            destination: path.join(destination, 'src', `index.ts`),
+            path: path.join(__dirname, TEMPLATE_PATH, 'rule-index.hbs')
+        }];
 
     const ruleFile = {
         destination: path.join(destination, 'src'),
-        path: path.join(__dirname, TEMPLATE_COMMON_PATH, 'rule-script.hbs')
+        path: path.join(__dirname, TEMPLATE_PATH, 'rule-script.hbs')
     };
     const testFile = {
         destination: path.join(destination, 'tests'),
-        path: path.join(__dirname, TEMPLATE_COMMON_PATH, 'rule-test.hbs')
+        path: path.join(__dirname, TEMPLATE_PATH, 'rule-test.hbs')
     };
 
     for (const file of commonFiles) {
@@ -92,15 +91,15 @@ const normalizeData = (results: inquirer.Answers) => {
     });
 
     results.rules.forEach((rule) => {
-        newData.rules.push(new NewRule(rule, QuestionsType.externalRule));
+        newData.rules.push(new NewRule(rule));
     });
 
     return newData;
 };
 
-/** Removes an existing rule files and any references in the documentation. */
-export const newExternalRule = async (actions: CLIOptions): Promise<boolean> => {
-    if (!actions.newRule || packageDir === processDir) {
+/** Add a new rule. */
+export const newRule = async (actions: CLIOptions): Promise<boolean> => {
+    if (!actions.newRule) {
         return false;
     }
 

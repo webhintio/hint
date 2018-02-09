@@ -151,9 +151,11 @@ const toCamelCase = (value: string) => {
             return w.toLocaleLowerCase();
         }
 
-        accu += w.length ? `${w.charAt(0).toUpperCase()}${w.substr(1).toLowerCase()}` : '';
+        let current = accu;
 
-        return accu;
+        current += w.length ? `${w.charAt(0).toUpperCase()}${w.substr(1).toLowerCase()}` : '';
+
+        return current;
     }, '');
 };
 

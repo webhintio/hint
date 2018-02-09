@@ -6,14 +6,13 @@ import { Category } from '../../enums/category';
 
 import { findPackageRoot as packageRoot, normalizeStringByDelimiter, readFile, toCamelCase } from '../../utils/misc';
 import { escapeSafeString } from '../../utils/handlebars';
-import { type } from 'os';
 
 export const normalize = normalizeStringByDelimiter;
 export const commonTemplateDir = './templates/common';
 export const packageDir = packageRoot();
 export const processDir = process.cwd();
 
-const partialEventCode = readFile(path.join(__dirname, 'templates', 'common', 'partial-event-code.hbs'));
+const partialEventCode = readFile(path.join(__dirname, 'templates', 'new-rule', 'partial-event-code.hbs'));
 
 Handlebars.registerPartial('event-code', partialEventCode);
 Handlebars.registerHelper('toCamelCase', toCamelCase);
@@ -52,7 +51,7 @@ export interface INewRule {
     elementType?: string;
     /** Events that should be subscribed to */
     events: string;
-    /** If the new rule is core */
+    /** If the new rule is recommended */
     isRecommended: boolean;
     /** Usage categories that the new rule applies to */
     useCase?: UseCase;
@@ -65,8 +64,6 @@ export interface INewRule {
 }
 
 export enum QuestionsType {
-    /** Questions for core rules */
-    core = 'core',
     /** Main questions for external rules or package with multiple rules */
     external = 'external',
     /** Questions rules in packages with multiple rules */
@@ -133,6 +130,15 @@ export const questions = (type: QuestionsType) => {
         type: 'input'
     },
     {
+        default: false,
+        message: 'Is it a recommended rule',
+        name: 'recommended',
+        type: 'confirm',
+        when(answers) {
+            return !answers.multi;
+        }
+    },
+    {
         choices: categories,
         default: Category.interoperability,
         message: 'Please select the category of this new rule:',
@@ -189,10 +195,10 @@ export class NewRule implements INewRule {
     public prefix: string;
     public worksWithLocalFiles: Boolean;
     public external: Boolean;
-    public constructor(ruleData, type: QuestionsType) {
+    public constructor(ruleData) {
         this.name = ruleData.name;
         this.normalizedName = normalize(ruleData.name, '-');
-        this.category = type === QuestionsType.core ? ruleData.category : Category.other;
+        this.category = ruleData.category || Category.other;
         this.description = escapeSafeString(ruleData.description);
         this.elementType = ruleData.elementType;
         this.events = getEventsByUseCase(ruleData.useCase);
@@ -204,8 +210,8 @@ export class NewRule implements INewRule {
             thirdPartyService: false
         };
         this.useCase[ruleData.useCase] = true;
-        this.prefix = type === QuestionsType.core ? '../../' : 'sonarwhal/dist/src/lib/';
-        this.worksWithLocalFiles = type !== QuestionsType.core;
-        this.external = type !== QuestionsType.core;
+        this.prefix = 'sonarwhal/dist/src/lib/';
+        this.worksWithLocalFiles = true;
+        this.external = true;
     }
 }
