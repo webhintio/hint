@@ -26,15 +26,15 @@ test('loadResource looks for resources in the right order (core > @sonarwhal > s
         resourceLoader.loadResource(resourceName, resourceType);
     });
 
-    t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(path.normalize(`/dist/src/lib/${resourceType}s/${resourceName}/${resourceName}.js`)), 'Tries to load core first');
-    t.true((tryToLoadFromStub.secondCall.args[0] as string).endsWith(`@sonarwhal/${resourceName}`), 'Tries to load scoped package second');
-    t.true((tryToLoadFromStub.thirdCall.args[0] as string).endsWith(`sonarwhal-${resourceName}`), 'Tries to load prefixed package third');
+    t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(`@sonarwhal/rule-${resourceName}`), 'Tries to load scoped package second');
+    t.true((tryToLoadFromStub.secondCall.args[0] as string).endsWith(`sonarwhal-rule-${resourceName}`), 'Tries to load prefixed package third');
+    t.true((tryToLoadFromStub.thirdCall.args[0] as string).endsWith(path.normalize(`/dist/src/lib/${resourceType}s/${resourceName}/${resourceName}.js`)), 'Tries to load core first');
 
     tryToLoadFromStub.restore();
 });
 
 const getResourceFiles = (type) => {
-    const currentResources = globby.sync(`{./,./node_modules/sonarwhal-*}dist/src/lib/${type}s/**/*.js`);
+    const currentResources = globby.sync(`{packages/sonarwhal/,./,./node_modules/sonarwhal-*/}dist/src/lib/${type}s/**/*.js`);
 
     return currentResources.reduce((resources, resourceFile) => {
         const resourceName = path.basename(resourceFile, '.js');

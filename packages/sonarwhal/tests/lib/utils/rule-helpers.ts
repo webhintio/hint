@@ -79,25 +79,25 @@ test('mergeIgnoreIncludeArrays - some included, some excluded', (t) => {
  */
 
 test('getRuleName - returns basename of path not ending with /', (t) => {
-    const path = '/rules/something';
+    const path = 'packages/rule-apple-touch-icons/tests';
     const ruleName = ruleHelpers.getRuleName(path);
 
-    t.deepEqual(ruleName, 'something');
+    t.deepEqual(ruleName, 'apple-touch-icons');
 });
 
 test('getRuleName - returns basename of path ending with /', (t) => {
-    const path = '/rules/something/';
+    const path = 'packages/rule-apple-touch-icons/tests/';
     const ruleName = ruleHelpers.getRuleName(path);
 
-    t.deepEqual(ruleName, 'something');
+    t.deepEqual(ruleName, 'apple-touch-icons');
 });
 
 test('getRuleName - returns basename of path ending with removing rule|connector|parser|formatter from the name /', (t) => {
     const names = [
-        '/rules/rule-something/',
-        '/connectors/connector-something/',
-        '/formatters/formatter-something',
-        '/parsers/parser-something'
+        '/rules/rule-something/test',
+        '/connectors/connector-something/test/',
+        '/formatters/formatter-something/test',
+        '/parsers/parser-something/test'
     ];
 
     names.forEach((name) => {

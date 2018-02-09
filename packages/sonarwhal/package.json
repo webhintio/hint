@@ -1,4 +1,18 @@
 {
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+ "nyc": {
+    "extends": "../../.nycrc",
+    "include": [
+	"dist/tests/**/*.js"
+
+	]	
+  },
   "bin": "./dist/src/bin/sonarwhal.js",
   "dependencies": {
     "browserslist": "^2.11.3",
@@ -26,6 +40,7 @@
     "lodash": "^4.17.5",
     "mime-db": "^1.32.0",
     "mkdirp": "^0.5.1",
+    "npm": "^5.6.0",
     "optionator": "^0.8.2",
     "ora": "^1.4.0",
     "pluralize": "^7.0.0",
@@ -112,7 +127,7 @@
   "scripts": {
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
-    "build:assets": "cpx \"./{src,tests}/**/!(*.ts)\" dist",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",

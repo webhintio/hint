@@ -33,7 +33,7 @@ export const getIncludedHeaders = (headers: object, headerList: Array<string> = 
  * * `/something/{rule,formatter,connector,parser}-another/` --> `another`
  */
 export const getRuleName = (dirname: string): string => {
-    return path.basename(path.join(dirname, '../..')).replace(/(rule|formatter|connector|parser)-/, '');
+    return path.basename(path.join(dirname, '..')).replace(/(rule|formatter|connector|parser)-/, '');
 };
 
 /**

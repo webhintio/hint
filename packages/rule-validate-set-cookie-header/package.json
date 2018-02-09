@@ -38,7 +38,7 @@
   "scripts": {
     "build-with-local-sonarwhal": "npm run -s link-sonarwhal; npm run build",
     "build": "npm run clean && npm-run-all build:*",
-    "build:assets": "cpx \"./{src,tests}/**/!(*.ts)\" dist",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc",
     "clean": "rimraf dist",
     "link-sonarwhal": "npm-link-check && npm link ../../../../ --ignore-scripts",
