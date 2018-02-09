@@ -1,7 +1,7 @@
 /**
  * @fileoverview Loads the connections.ini and updates it if needed
  */
-
+import * as os from 'os';
 import { readFile } from '../../utils/misc';
 import { NetworkConfig } from './types';
 
@@ -57,9 +57,13 @@ const getConnections = (): Array<NetworkConfig> => {
     const configContent = readFile(`${__dirname}/connections.ini`);
 
     const configsText = configContent
-        .replace(/\r/, '') // normalize line endings just in case
         .replace(/#.*?\n/g, '') // remove comments
-        .split('\n\n');
+        .split(`${os.EOL}${os.EOL}`);
+        /**
+         * https://nodejs.org/api/os.html#os_os_eol
+         * \n on POSIX
+         * \r\n on Windows
+         */
 
     const configs = configsText.map(parseConnection);
 
