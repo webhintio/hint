@@ -1,4 +1,5 @@
 import * as inquirer from 'inquirer';
+import * as _ from 'lodash';
 import * as ora from 'ora';
 
 import * as Config from '../config';
@@ -90,10 +91,17 @@ const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: IORA) => {
     });
 };
 
-const format = (formatterName: string, results: IProblem[]) => {
-    const formatter: IFormatter = resourceLoader.loadFormatter(formatterName) || resourceLoader.loadFormatter('json');
+const format = async (formatterName: string, results: IProblem[]) => {
+    let formatterId = formatterName;
+    let formatterOption;
 
-    formatter.format(results);
+    if (formatterName.includes(':')) {
+        [formatterId, formatterOption] = _.map(formatterName.split(':'), _.trim);
+    }
+
+    const formatter: IFormatter = resourceLoader.loadFormatter(formatterId) || resourceLoader.loadFormatter('json');
+
+    await formatter.format(results, formatterOption);
 };
 
 /*
@@ -151,16 +159,16 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         });
     };
 
-    const print = (reports: Array<IProblem>) => {
+    const print = async (reports: Array<IProblem>) => {
         if (hasError(reports)) {
             endSpinner('fail');
         } else {
             endSpinner('succeed');
         }
 
-        sonarwhal.formatters.forEach((formatter) => {
-            format(formatter, reports);
-        });
+        for (const formatter of sonarwhal.formatters) {
+            await format(formatter, reports);
+        }
     };
 
     sonarwhal.on('print', print);
@@ -173,7 +181,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
                 exitCode = 1;
             }
 
-            print(results);
+            await print(results);
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');

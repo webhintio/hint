@@ -1,25 +1,31 @@
 import test from 'ava';
 import chalk from 'chalk';
-import * as logSymbols from 'log-symbols';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import * as table from 'text-table';
 
 const logging = { log() { } };
+const common = { reportTotal() { } };
 
-proxyquire('../../../src/lib/formatters/summary/summary', { '../../utils/logging': logging });
+proxyquire('../../../src/lib/formatters/summary/summary', {
+    '../../utils/logging': logging,
+    '../utils/common': common
+});
 
 import summary from '../../../src/lib/formatters/summary/summary';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
     sinon.spy(logging, 'log');
+    sinon.spy(common, 'reportTotal');
 
     t.context.logger = logging;
+    t.context.common = common;
 });
 
 test.afterEach.always((t) => {
     t.context.logger.log.restore();
+    t.context.common.reportTotal.restore();
 });
 
 test(`Summary formatter doesn't print anything if no values`, (t) => {
@@ -30,6 +36,7 @@ test(`Summary formatter doesn't print anything if no values`, (t) => {
 
 test(`Summary formatter prints a table and a summary for all resources combined`, (t) => {
     const log = t.context.logger.log;
+    const comm = t.context.common;
     const tableData = [];
 
     summary.format(problems.summaryProblems);
@@ -40,5 +47,5 @@ test(`Summary formatter prints a table and a summary for all resources combined`
     const tableString = table(tableData);
 
     t.is(log.args[0][0], tableString);
-    t.is(log.args[1][0], chalk.red.bold(`${logSymbols.error.trim()} Found a total of 1 error and 4 warnings`));
+    t.true(comm.reportTotal.calledOnce);
 });
