@@ -1,25 +1,18 @@
 {
     "compilerOptions": {
         "alwaysStrict": true,
-        "module": "commonjs",
-        "sourceMap": true,
-        "target": "esnext",
         "declaration": true,
         "lib": [
+            "dom",
+            "dom.iterable",
             "es2017",
             "esnext",
-            "esnext.asynciterable",
-            "dom",
-            "dom.iterable"
+            "esnext.asynciterable"
         ],
-        "newLine": "lf"
-    },
-    "exclude": [
-        "node_modules"
-    ],
-    "include": [
-        "scripts/**/*.ts",
-        "src/**/*.ts",
-        "tests/**/*.ts"
-    ]
+        "module": "commonjs",
+        "newLine": "lf",
+        "removeComments": true,
+        "sourceMap": true,
+        "target": "esnext"
+    }
 }

@@ -1,0 +1,14 @@
+{
+    "branches": 85,
+    "cache": true,
+    "check-coverage": true,
+    "functions": 80,
+    "instrument": true,
+    "lines": 85,
+    "reporter": [
+        "lcov",
+        "text"
+    ],
+    "sourceMap": true,
+    "statements": 85
+}
