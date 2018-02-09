@@ -276,9 +276,7 @@ test.serial(`if instalation fails, the user should show a message about how to i
 
     t.true(t.context.logger.error.calledOnce);
     t.is(errorMessage.message, 'Error installing packages');
-    t.true(installMessage.startsWith(`Something when wrong installing package, please run:
-npm install @sonarwhal/rule-rule1 @sonarwhal/rule-rule2
-to install all the rules.`));
+    t.true(installMessage.includes('npm install @sonarwhal/rule-rule1 @sonarwhal/rule-rule2'));
 
     sandbox.restore();
 });
@@ -312,9 +310,7 @@ test.serial(`if instalation fails and packages.json doesn't exist, the user shou
 
     t.true(t.context.logger.error.calledOnce);
     t.is(errorMessage.message, 'Error installing packages');
-    t.true(installMessage.includes(`Something when wrong installing package, please run:
-npm install @sonarwhal/rule-rule1 @sonarwhal/rule-rule2 -g
-to install all the rules.`));
+    t.true(installMessage.includes('npm install @sonarwhal/rule-rule1 @sonarwhal/rule-rule2 -g'));
 
     sandbox.restore();
 });
