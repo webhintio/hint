@@ -1,0 +1,8 @@
+{
+  "plugins": ["transform-react-jsx"],
+  "moduleId": 1,
+  "ignore": [
+    "foo.js",
+    "bar/**/*.js"
+  ]
+}
