@@ -8,7 +8,7 @@
   },
   "bin": "./dist/src/bin/sonarwhal.js",
   "dependencies": {
-    "browserslist": "^2.11.3",
+    "browserslist": "^3.0.0",
     "canvas-prebuilt": "^1.6.5-prerelease.1",
     "chalk": "^2.3.0",
     "chokidar": "^2.0.0",
