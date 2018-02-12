@@ -4,7 +4,6 @@
 
 import { EOL } from 'os';
 
-import { readFile } from '../../utils/misc';
 import { readFile } from 'sonarwhal/dist/src/lib/utils/misc';
 import { NetworkConfig } from './types';
 

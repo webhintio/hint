@@ -76,7 +76,7 @@ export interface IORA {
 }
 
 /**
- * Represent an user in a npm package.
+ * An user in a npm package.
  */
 export type NpmMaintainer = {
     email: string;
@@ -84,7 +84,7 @@ export type NpmMaintainer = {
 };
 
 /**
- * Represent the result of a npm search.
+ * The result of a npm search.
  */
 export type NpmPackage = {
     date: Date;

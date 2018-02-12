@@ -45,7 +45,7 @@ const installRules = (rules) => {
     const command: string = `npm install ${packages.join(' ')}${global ? ' -g' : ''}`;
 
     try {
-        logger.log(`Running command ${command}`);
+        debug(`Running command ${command}`);
 
         const result: SpawnSyncReturns<Buffer> = spawnSync(command, { shell: true });
 
@@ -61,12 +61,12 @@ const installRules = (rules) => {
          */
         logger.error(err);
         logger.log(`Something when wrong installing package, please run:
-${process.platform === 'linux' ? 'sudo ' : ''}${command}
+${process.platform !== 'win32' ? 'sudo ' : ''}${command}
 to install all the rules.`);
     }
 };
 
-/** Initiates a wizard to gnerate a valid `.sonarwhalrc` file based on user responses. */
+/** Initiates a wizard to generate a valid `.sonarwhalrc` file based on user responses. */
 export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => {
     if (!options.init) {
         return false;

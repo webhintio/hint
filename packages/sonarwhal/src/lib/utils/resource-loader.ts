@@ -285,6 +285,9 @@ export const loadParser = (parserId: string): Parser => {
     return loadResource(parserId, TYPE.parser);
 };
 
+/**
+ * Get packages in npm.
+ */
 const searchNpmPackages = (searchTerm: string): Promise<Array<NpmPackage>> => {
     return new Promise((resolve, reject) => {
         const results = [];
@@ -315,34 +318,78 @@ const loadNpm = () => {
     return npmLoadAsync({ loaded: false });
 };
 
-export const getNpmPackages = async (searchTerm: string = 'sonarwhal'): Promise<Array<NpmPackage>> => {
-    await loadNpm();
-
-    return searchNpmPackages(searchTerm);
-};
-
+/** Filter packages by startsWith. */
 const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
     return packages.filter((pkg) => {
         return pkg.name.startsWith(initTerm);
     });
 };
 
-export const getExternalRulesFromNpm = async () => {
-    const rules = await getNpmPackages('sonarwhal-rule');
+/** Get packages from npm. */
+export const getNpmPackages = async (searchTerm: string = 'sonarwhal'): Promise<Array<NpmPackage>> => {
+    await loadNpm();
 
-    /*
-     * We need to filter the results because the search can
-     * include other packages that doesn't start with `sonarwhal-rule`.
-     */
-    return filterPackages(rules, 'sonarwhal-rule');
+    return searchNpmPackages(searchTerm);
 };
 
-export const getCoreRulesFromNpm = async () => {
-    const rules = await getNpmPackages('@sonarwhal/rule');
+/** Get core packages from npm. */
+const getCorePackages = async (type: string): Promise<Array<NpmPackage>> => {
+    const rules = await getNpmPackages(`@sonarwhal/${type}`);
 
     /*
      * We need to filter the results because the search can
-     * include other packages that doesn't start with `@sonarwhal/rule`.
+     * include other packages that doesn't start with `@sonarwhal/{type}`.
      */
-    return filterPackages(rules, '@sonarwhal/rule');
+    return filterPackages(rules, `@sonarwhal/${type}`);
+};
+
+/** Get external packages from npm. */
+const getExternalPackages = async (type: string): Promise<Array<NpmPackage>> => {
+    const rules = await getNpmPackages(`sonarwhal-${type}`);
+
+    /*
+     * We need to filter the results because the search can
+     * include other packages that doesn't start with `sonarwhal-{type}`.
+     */
+    return filterPackages(rules, `sonarwhal-${type}`);
+};
+
+/** Get external rules from npm. */
+export const getExternalRulesFromNpm = () => {
+    return getExternalPackages(TYPE.rule);
+};
+
+/** Get core rules from npm. */
+export const getCoreRulesFromNpm = () => {
+    return getCorePackages(TYPE.rule);
+};
+
+/** Get external connectors from npm. */
+export const getExternalConnectorsFromNpm = () => {
+    return getExternalPackages(TYPE.connector);
+};
+
+/** Get core connectors from npm. */
+export const getCoreConnectorsFromNpm = () => {
+    return getCorePackages(TYPE.connector);
+};
+
+/** Get external parsers from npm. */
+export const getExternalParsersFromNpm = () => {
+    return getExternalPackages(TYPE.parser);
+};
+
+/** Get core parsers from npm. */
+export const getCoreParsersFromNpm = () => {
+    return getCorePackages(TYPE.parser);
+};
+
+/** Get external formatters from npm. */
+export const getExternalFormattersFromNpm = () => {
+    return getExternalPackages(TYPE.formatter);
+};
+
+/** Get core formatters from npm. */
+export const getCoreFormattersFromNpm = () => {
+    return getCorePackages(TYPE.formatter);
 };
