@@ -26,14 +26,29 @@ export const getIncludedHeaders = (headers: object, headerList: Array<string> = 
 };
 
 /**
- * Returns the name of the folder for a given `dirname`.
+ * Returns the name of the rule based in the folder structure.
  *
- * * `/something/another` --> `another`
- * * `/something/another/` --> `another`
- * * `/something/{rule,formatter,connector,parser}-another/` --> `another`
+ * * `/something/another` --> ``
+ * * `/something/rules/another/` --> `another`
+ * * `/something/rules/another` --> `another`
+ * * `/something/rules/rule-another` --> `another`
+ * * `/something/rule-another/` --> `another`
+ * * `/something/rule-another` --> `another`
  */
 export const getRuleName = (dirname: string): string => {
-    return path.basename(path.join(dirname, '../..')).replace(/(rule|formatter|connector|parser)-/, '');
+    const parts = dirname.split('/');
+
+    const normalize = (name) => {
+        return name.replace('rule-', '');
+    };
+
+    for (let i = 0; i < parts.length; i++) {
+        if (parts[i].startsWith('rule-') || (parts[i - 1] && parts[i - 1].startsWith('rules'))) {
+            return normalize(parts[i]);
+        }
+    }
+
+    return '';
 };
 
 /**

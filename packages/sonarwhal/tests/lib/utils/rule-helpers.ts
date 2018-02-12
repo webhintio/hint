@@ -78,26 +78,14 @@ test('mergeIgnoreIncludeArrays - some included, some excluded', (t) => {
  * ------------------------------------------------------------------------------
  */
 
-test('getRuleName - returns basename of path not ending with /', (t) => {
-    const path = '/rules/something';
-    const ruleName = ruleHelpers.getRuleName(path);
-
-    t.deepEqual(ruleName, 'something');
-});
-
-test('getRuleName - returns basename of path ending with /', (t) => {
-    const path = '/rules/something/';
-    const ruleName = ruleHelpers.getRuleName(path);
-
-    t.deepEqual(ruleName, 'something');
-});
-
-test('getRuleName - returns basename of path ending with removing rule|connector|parser|formatter from the name /', (t) => {
+test('getRuleName - returns the right name of the rule for several combination of paths and rule names', (t) => {
     const names = [
+        '/rules/something',
+        '/rules/something/',
+        '/rules/rule-something',
         '/rules/rule-something/',
-        '/connectors/connector-something/',
-        '/formatters/formatter-something',
-        '/parsers/parser-something'
+        '/another/rules/something',
+        '/another/rules/rule-something'
     ];
 
     names.forEach((name) => {
@@ -105,4 +93,11 @@ test('getRuleName - returns basename of path ending with removing rule|connector
 
         t.deepEqual(ruleName, 'something');
     });
+});
+
+test(`getRuleName - returns an empty string if it can't determine the rule name`, (t) => {
+    const path = '/another/something/';
+    const ruleName = ruleHelpers.getRuleName(path);
+
+    t.deepEqual(ruleName, '');
 });
