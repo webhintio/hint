@@ -11,24 +11,10 @@ be flexible enough to allow you to implement anything you want easily, e.g.:
 If there is something you want to do and you can’t, or it is not clear
 how to do it, please [open an issue][new issue].
 
-## Types of rules
+## Using the `CLI` to create a rule
 
-There are 2 types of `rule`s a user can develop:
-
-* `custom`: These are `rule`s that are published independently. When a
-  `rule` is specific to a domain or use case, it should be `custom`.
-* `core`: These are the `rule`s that are shipped with `sonarwhal` directly.
-  Before starting to develop a `core rule`, please make sure there is
-  an open issue and talk with the maintainers about it.
-
-Both types of `rule`s [work exactly the same](#how-rules-work), the only
-difference being where they are located.
-
-### Creating a custom rule
-
-The easiest wait to create a new rule that will be distributed outside
-`sonarwhal` is via the CLI parameter `--new-rule`. You have several options
-such as:
+The easiest wait to create a new rule is via the CLI parameter `--new-rule`.
+You have several options to run this command:
 
 * Using `sonarwhal` as a global package:
 
@@ -45,32 +31,6 @@ sonarwhal --new-rule
 ```bash
 npx sonarwhal --new-rule
 ```
-
-In both cases, a wizard will start and ask you a series of questions:
-
-* What’s the name of this rule?
-* What’s the description of this rule?
-
-Once answered, it will create a new directory with the name of the rule and
-the right infrastructure to get you started. You just have to run
-`npm install` in there to get all the dependencies and start working.
-Tests will be already configured to use the same infrastructure as the
-core rules.
-
-You can know more about working with custom rules in [this guide][custom rule].
-
-### Working with core rules
-
-#### Creating a core rule
-
-If you are working in `sonarwhal`’s main repository, one of the easiest ways
-to get started is to use `sonarwhal`’s CLI, which helps to generate the template
-files and insert them at the right location.
-
-After cloning your fork of `sonarwhal` do the following:
-
-1. Build the project via `npm run build`
-1. Run `npm run sonarwhal -- --new-rule`
 
 This command will start a wizard that will ask you a series of questions
 related to this new rule. A complete list of the questions is shown below:
@@ -92,33 +52,17 @@ related to this new rule. A complete list of the questions is shown below:
 
 Answer these questions and you will end up with a template rule file.
 Events determined to be relevant to this use case will be subscribed
-to automatically in the script. If this is a core rule, templates for
-documentation and tests will be generated, with the [rule index
-page](../../user-guide/rules/index.md) under `user guide` updated to
-include the new rule item.
-
-#### Remove a core rule from CLI
-
-Similarly, you can also use CLI to remove an existing rule by using the
-flag `--remove-rule`:
-
-```bash
-sonarwhal --remove-rule
-```
-
-You will be asked to type in the normalized name of the rule, and all
-files associated with this rule (script, documentation, and tests) will
-be removed.
+to automatically in the script.
 
 ## How rules work
 
-The following is a basic template for a rule (`import` paths might change
+The following is a basic template for a rule (`import`s might change
 depending on the rule type):
 
 ```ts
-import { Category } from '../../enums/category';
-import { IFetchEnd, IRule, IRuleBuilder } from '../../types';
-import { RuleContext } from '../../rule-context';
+import { Category } from 'sonarwhal/dist/src/lib/enums/category';
+import { IFetchEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {

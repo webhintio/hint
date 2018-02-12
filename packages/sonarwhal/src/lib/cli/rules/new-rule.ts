@@ -30,25 +30,29 @@ const copyCommonFiles = async (destination: string) => {
 const generateRuleFiles = async (destination: string, data) => {
     const commonFiles = [
         {
-            destination: path.join(destination, 'README.md'),
-            path: path.join(__dirname, TEMPLATE_PATH, 'rule-doc.hbs')
-        },
-        {
-            destination: path.join(destination, 'package.json'),
-            path: path.join(__dirname, TEMPLATE_PATH, 'rule-package.hbs')
+            destination: path.join(destination, '.sonarwhalrc'),
+            path: path.join(__dirname, TEMPLATE_PATH, '.sonarwhalrc.hbs')
         },
         {
             destination: path.join(destination, 'src', `index.ts`),
-            path: path.join(__dirname, TEMPLATE_PATH, 'rule-index.hbs')
+            path: path.join(__dirname, TEMPLATE_PATH, 'index.ts.hbs')
+        },
+        {
+            destination: path.join(destination, 'package.json'),
+            path: path.join(__dirname, TEMPLATE_PATH, 'package.json.hbs')
+        },
+        {
+            destination: path.join(destination, 'README.md'),
+            path: path.join(__dirname, TEMPLATE_PATH, 'readme.md.hbs')
         }];
 
     const ruleFile = {
         destination: path.join(destination, 'src'),
-        path: path.join(__dirname, TEMPLATE_PATH, 'rule-script.hbs')
+        path: path.join(__dirname, TEMPLATE_PATH, 'rule.ts.hbs')
     };
     const testFile = {
         destination: path.join(destination, 'tests'),
-        path: path.join(__dirname, TEMPLATE_PATH, 'rule-test.hbs')
+        path: path.join(__dirname, TEMPLATE_PATH, 'tests.ts.hbs')
     };
 
     for (const file of commonFiles) {
