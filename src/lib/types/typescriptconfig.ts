@@ -73,7 +73,7 @@ export enum TypeScriptModuleEnum {
 }
 
 /**
- * Moduel resolution values.
+ * Module resolution values.
  * Note: This values in the config file can have the first character
  * in upper case (Classic, Node).
  */

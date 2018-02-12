@@ -1,11 +1,11 @@
 # typescript-config-is-valid (`typescript-config-is-valid`)
 
 `typescript-config-is-valid` warns again providing an
-invalid typescript configuration file `tsconfig.json`.
+invalid TypeScript configuration file (i.e. `tsconfig.json`).
 
 ## Why is this important?
 
-If you are bilding an app or a website with typescript, you
+If you are bilding an app or a website using TypeScript, you
 need to be sure the configuration file is valid.
 
 ## What does the rule check?
