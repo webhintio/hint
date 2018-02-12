@@ -118,7 +118,6 @@ const rule: IRuleBuilder = {
             category: Category.accessibility,
             description: 'Runs axe-core tests in the target'
         },
-        recommended: true,
         schema: [{
             additionalProperties: false,
             properties: {

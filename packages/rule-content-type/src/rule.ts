@@ -149,7 +149,6 @@ const rule: IRuleBuilder = {
             category: Category.interoperability,
             description: 'Require `Content-Type` header with appropriate value'
         },
-        recommended: true,
         schema: [{
             items: { type: 'string' },
             type: ['object', null],

@@ -26,7 +26,7 @@ const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
 
 const packageExists = () => {
-    const packagePath = path.join(process.cwd(), 'package.json');
+    const packagePath: string = path.join(process.cwd(), 'package.json');
 
     return fs.existsSync(packagePath); // eslint-disable-line no-sync
 };
@@ -60,7 +60,7 @@ const installRules = (rules) => {
          * Show message to install packages manually.
          */
         logger.error(err);
-        logger.log(`Something when wrong installing package, please run:
+        logger.error(`Something when wrong installing package, please run:
 ${process.platform !== 'win32' ? 'sudo ' : ''}${command}
 to install all the rules.`);
     }
@@ -80,7 +80,8 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
     const rules = npmRules.map((rule) => {
         return {
             description: rule.description,
-            id: rule.name.replace('@sonarwhal/rule-', '')
+            id: rule.name.replace('@sonarwhal/rule-', ''),
+            recommended: rule.keywords.includes('sonarwhal-recommended')
         };
     });
 
@@ -146,7 +147,9 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
     if (results.default) {
         logger.log('Using recommended rules');
         rules.forEach((rule) => {
-            sonarwhalConfig.rules[rule.id] = 'error';
+            if (rule.recommended) {
+                sonarwhalConfig.rules[rule.id] = 'error';
+            }
         });
     } else {
         rules.forEach((rule) => {

@@ -50,7 +50,6 @@ const rule: IRuleBuilder = {
             category: Category.performance,
             description: `Checks if there are unnecesary redirects when accessign resources`
         },
-        recommended: true,
         schema: [{
             additionalProperties: false,
             properties: {

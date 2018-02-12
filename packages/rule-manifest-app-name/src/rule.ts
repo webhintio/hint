@@ -139,7 +139,6 @@ const rule: IRuleBuilder = {
             category: Category.pwa,
             description: 'Require web site/app name to be specified'
         },
-        recommended: true,
         schema: [],
         worksWithLocalFiles: true
     }

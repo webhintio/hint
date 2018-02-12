@@ -240,7 +240,6 @@ const rule: IRuleBuilder = {
             category: Category.security,
             description: `Require 'Strict-Transport-Security' header`
         },
-        recommended: true,
         schema: [{
             properties: {
                 checkPreload: { type: 'boolean' },

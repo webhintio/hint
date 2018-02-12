@@ -138,7 +138,6 @@ const rule: IRuleBuilder = {
             category: Category.interoperability,
             description: 'Require `<meta charset="utf-8">`'
         },
-        recommended: true,
         schema: [],
         worksWithLocalFiles: true
     }

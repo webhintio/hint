@@ -58,7 +58,6 @@ const rule: IRuleBuilder = {
             category: Category.security,
             description: 'Disallow protocol relative URLs'
         },
-        recommended: true,
         schema: [],
         worksWithLocalFiles: true
     }

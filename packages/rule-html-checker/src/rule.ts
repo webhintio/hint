@@ -182,7 +182,6 @@ const rule: IRuleBuilder = {
             category: Category.interoperability,
             description: `Validate HTML using 'the Nu HTML checker'`
         },
-        recommended: true,
         schema: [{
             properties: {
                 details: { type: 'boolean' },

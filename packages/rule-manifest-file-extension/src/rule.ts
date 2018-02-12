@@ -50,7 +50,6 @@ const rule: IRuleBuilder = {
             category: Category.pwa,
             description: 'Require `.webmanifest` as the file extension for the web app manifest file'
         },
-        recommended: true,
         schema: [],
         worksWithLocalFiles: true
     }

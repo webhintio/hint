@@ -72,10 +72,12 @@ const installedConnectors = [
 const rules = [
     {
         description: 'rule 1 description',
+        keywords: ['key1', 'key2', 'sonarwhal-recommended'],
         name: '@sonarwhal/rule-rule1'
     },
     {
         description: 'rule 2 description',
+        keywords: ['key3', 'key4'],
         name: '@sonarwhal/rule-rule2'
     }
 ];
@@ -168,7 +170,7 @@ test.serial(`If the user choose to use the default rules configuration, all reco
 
     t.is(fileData.connector.name, questionsResults.connector);
     t.true(_.isEqual(fileData.formatters, [questionsResults.formatter]));
-    t.is(fileData.rules.rule2, 'error');
+    t.is(fileData.rules.rule2, void 0);
     t.is(fileData.rules.rule1, 'error');
 
     sandbox.restore();
@@ -194,7 +196,7 @@ test.serial('initSonarwhalrc should install all rules if the user choose to inst
     await initSonarwhalrc(actions);
 
     t.true(t.context.child.spawnSync.args[0][0].includes('@sonarwhal/rule-rule1')); // eslint-disable-line no-sync
-    t.true(t.context.child.spawnSync.args[0][0].includes('@sonarwhal/rule-rule2')); // eslint-disable-line no-sync
+    t.false(t.context.child.spawnSync.args[0][0].includes('@sonarwhal/rule-rule2')); // eslint-disable-line no-sync
 
     sandbox.restore();
 });
@@ -272,11 +274,12 @@ test.serial(`if instalation fails, the user should show a message about how to i
     await initSonarwhalrc(actions);
 
     const errorMessage = t.context.logger.error.args[0][0];
-    const installMessage = t.context.logger.log.args[t.context.logger.log.args.length -1][0];
+    const installMessage = t.context.logger.error.args[t.context.logger.log.args.length - 1][0];
 
-    t.true(t.context.logger.error.calledOnce);
+    t.true(t.context.logger.error.calledTwice);
     t.is(errorMessage.message, 'Error installing packages');
-    t.true(installMessage.includes('npm install @sonarwhal/rule-rule1 @sonarwhal/rule-rule2'));
+    t.true(installMessage.includes('npm install @sonarwhal/rule-rule1'));
+    t.false(installMessage.includes('@sonarwhal/rule-rule2'));
 
     sandbox.restore();
 });
@@ -306,11 +309,11 @@ test.serial(`if instalation fails and packages.json doesn't exist, the user shou
     await initSonarwhalrc(actions);
 
     const errorMessage = t.context.logger.error.args[0][0];
-    const installMessage = t.context.logger.log.args[t.context.logger.log.args.length -1][0];
+    const installMessage = t.context.logger.error.args[t.context.logger.log.args.length - 1][0];
 
-    t.true(t.context.logger.error.calledOnce);
+    t.true(t.context.logger.error.calledTwice);
     t.is(errorMessage.message, 'Error installing packages');
-    t.true(installMessage.includes('npm install @sonarwhal/rule-rule1 @sonarwhal/rule-rule2 -g'));
+    t.true(installMessage.includes('npm install @sonarwhal/rule-rule1 -g'));
 
     sandbox.restore();
 });

@@ -271,7 +271,6 @@ That's ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s tar
             category: Category.performance,
             description: `Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed`
         },
-        recommended: true,
         schema: [{
             additionalProperties: false,
             properties: {
