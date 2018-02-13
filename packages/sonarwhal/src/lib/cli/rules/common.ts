@@ -196,6 +196,5 @@ export class NewRule implements INewRule {
         };
         this.useCase[ruleData.useCase] = true;
         this.worksWithLocalFiles = true;
-        this.external = true;
     }
 }
