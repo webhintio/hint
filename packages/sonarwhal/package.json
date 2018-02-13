@@ -21,7 +21,7 @@
     "eventemitter2": "^5.0.1",
     "file-url": "^2.0.2",
     "fs-extra": "^5.0.0",
-    "globby": "^7.1.1",
+    "globby": "^8.0.0",
     "handlebars": "^4.0.11",
     "iconv-lite": "^0.4.19",
     "inquirer": "^5.1.0",
