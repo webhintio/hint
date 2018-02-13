@@ -51,12 +51,8 @@ export interface INewRule {
     elementType?: string;
     /** Events that should be subscribed to */
     events: string;
-    /** If the new rule is recommended */
-    isRecommended: boolean;
     /** Usage categories that the new rule applies to */
     useCase?: UseCase;
-    /** Path prefix for dependencies */
-    prefix: string;
     /** If the rule works with local files */
     worksWithLocalFiles: Boolean;
     /** If a rule is external */
@@ -130,15 +126,6 @@ export const questions = (type: QuestionsType) => {
         type: 'input'
     },
     {
-        default: false,
-        message: 'Is it a recommended rule',
-        name: 'recommended',
-        type: 'confirm',
-        when(answers) {
-            return !answers.multi;
-        }
-    },
-    {
         choices: categories,
         default: Category.interoperability,
         message: 'Please select the category of this new rule:',
@@ -190,7 +177,6 @@ export class NewRule implements INewRule {
     public description: hbs.SafeString;
     public elementType?: string;
     public events: string;
-    public isRecommended: boolean;
     public useCase?: UseCase;
     public prefix: string;
     public worksWithLocalFiles: Boolean;
@@ -202,7 +188,6 @@ export class NewRule implements INewRule {
         this.description = escapeSafeString(ruleData.description);
         this.elementType = ruleData.elementType;
         this.events = getEventsByUseCase(ruleData.useCase);
-        this.isRecommended = ruleData.recommended || false;
         this.useCase = {
             dom: false,
             jsInjection: false,
@@ -210,7 +195,6 @@ export class NewRule implements INewRule {
             thirdPartyService: false
         };
         this.useCase[ruleData.useCase] = true;
-        this.prefix = 'sonarwhal/dist/src/lib/';
         this.worksWithLocalFiles = true;
         this.external = true;
     }

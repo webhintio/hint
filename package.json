@@ -39,6 +39,7 @@
       "@types/node"
     ]
   },
+  "name": "sonarwhal-meta",
   "private": true,
   "scripts": {
     "ava": "ava",

@@ -68,12 +68,12 @@ test.serial('It creates a rule if the option multiple rules is false', async (t)
 
     const result = await rule.newRule(actions);
 
-    t.true(t.context.fs.copy.args[0][0].endsWith('files'), 'Unexpected path for common files');
+    t.true(t.context.fs.copy.args[0][0].endsWith('files'), 'Unexpected path for external files');
     t.is(t.context.fs.copy.args[0][1], path.join(root, 'rule-awesome-rule'), 'Copy path is not the expected one');
 
-    // code, test, index, doc, package.json (no config for .sonarwhalrc)
-    t.is(t.context.handlebars.compileTemplate.callCount, 5, `Handlebars doesn't complile the right number of files`);
-    t.is(t.context.misc.writeFileAsync.callCount, 5, 'Invalid number of files created');
+    // changelog, index.ts, license.txt, package.json, readme.md, tsconfig.json, .sonarwhalrc, rule.ts, tests/rule.ts
+    t.is(t.context.handlebars.compileTemplate.callCount, 9, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.misc.writeFileAsync.callCount, 9, 'Invalid number of files created');
 
     t.true(result);
 
@@ -119,9 +119,9 @@ test.serial('It creates a package with multiple rules', async (t) => {
     t.true(t.context.fs.copy.args[0][0].endsWith('files'), 'Unexpected path for common files');
     t.is(t.context.fs.copy.args[0][1], path.join(root, 'rule-awesome-package'), 'Copy path is not the expected one');
 
-    // code * 2, test * 2, index, doc, package.json
-    t.is(t.context.handlebars.compileTemplate.callCount, 7, `Handlebars doesn't complile the right number of files`);
-    t.is(t.context.misc.writeFileAsync.callCount, 7, 'Invalid number of files created');
+    // changelog, index.ts, license.txt, package.json, readme.md, tsconfig.json, .sonarwhalrc, rule.ts * 2, tests/rule.ts * 2
+    t.is(t.context.handlebars.compileTemplate.callCount, 11, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.misc.writeFileAsync.callCount, 11, 'Invalid number of files created');
 
     t.true(result);
 

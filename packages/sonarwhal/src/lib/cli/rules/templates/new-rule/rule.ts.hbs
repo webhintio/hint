@@ -2,15 +2,11 @@
  * @fileoverview {{description}}
  */
 
-{{! Prefix:
-    - local: ../../
-    - external: sonarwhal/dist/src/lib/
-}}
-import { Category } from '{{prefix}}enums/category';
-import { RuleContext } from '{{prefix}}rule-context';
+import { Category } from 'sonarwhal/dist/src/lib/enums/category';
+import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, IRuleBuilder, {{events}} } from '{{prefix}}types';
-import { debug as d } from '{{prefix}}utils/debug';
+import { IRule, IRuleBuilder, {{events}} } from 'sonarwhal/dist/src/lib/types';
+import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -92,7 +88,6 @@ const rule: IRuleBuilder = {
             category: Category.{{category}},
             description: `{{description}}`
         },
-        recommended: {{#if isRecommended}}true{{else}}false{{/if}},
         schema: [
             /*
              * If you want to allow the user to configure your rule

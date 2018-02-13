@@ -1,10 +1,6 @@
 {
   "author": "",
   "ava": {
-    "babel": {
-      "presets": []
-    },
-    "concurrency": 5,
     "failFast": false,
     "files": [
       "dist/tests/**/*.js"
@@ -13,52 +9,60 @@
   },
   "description": "{{description}}",
   "devDependencies": {
-    "@types/debug": "{{dependencyVersion "@types/debug" "0.0.30"}}",
-    "@types/node": "{{dependencyVersion "@types/node" "^8.0.14"}}",
-    "async-retry": "{{dependencyVersion "async-retry" "^1.1.4"}}",
-    "ava": "{{dependencyVersion "ava" "^0.24.0"}}",
-    "babel-cli": "{{dependencyVersion "babel-cli" "^6.26.0"}}",
-    "babel-plugin-istanbul": "{{dependencyVersion "babel-plugin-istanbul" "^4.1.5"}}",
-    "babel-preset-es2017": "{{dependencyVersion "babel-preset-es2017" "^6.22.0"}}",
-    "babel-register": "{{dependencyVersion "babel-register" "^6.26.0"}}",
+    "ava": "{{dependencyVersion "ava" "^0.25.0"}}",
     "cpx": "{{dependencyVersion "cpx" "^1.5.0"}}",
-    "eslint": "{{dependencyVersion "eslint" "^4.12.1"}}",
+    "eslint": "{{dependencyVersion "eslint" "^4.17.0"}}",
     "eslint-plugin-markdown": "{{dependencyVersion "eslint-plugin-markdown" "^1.0.0-beta.7"}}",
     "eslint-plugin-typescript": "{{dependencyVersion "eslint-plugin-typescript" "^0.8.1"}}",
-    "express": "{{dependencyVersion "express" "^4.16.2"}}",
-    "markdownlint-cli": "{{dependencyVersion "markdownlint-cli" "^0.5.0"}}",
+    "markdownlint-cli": "{{dependencyVersion "markdownlint-cli" "^0.7.0"}}",
+    "npm-link-check": "{{dependencyVersion "markdownlint-cli" "^2.0.0"}}",
     "npm-run-all": "{{dependencyVersion "npm-run-all" "^4.1.2"}}",
-    "on-headers": "{{dependencyVersion "on-headers" "^1.0.1"}}",
+    "nyc": "{{dependencyVersion "npm-run-all" "^11.4.1"}}",
     "rimraf": "{{dependencyVersion "rimraf" "^2.6.2"}}",
     "sonarwhal": "^{{version}}",
     "typescript": "{{dependencyVersion "typescript" "^2.6.2"}}",
-    "typescript-eslint-parser": "{{dependencyVersion "typescript-eslint-parser" "^9.0.1"}}"
+    "typescript-eslint-parser": "{{dependencyVersion "typescript-eslint-parser" "^13.0.0"}}"
   },
   "engines": {
     "node": ">=8.0.0"
   },
+  "files": [
+    "dist/src",
+    "npm-shrinkwrap.json"
+  ],{{#if official}}
+  "homepage": "https://sonarwhal.com/",{{else}}
+  "homepage": "",{{/if}}
   "keywords": [
     "rule",
     "sonarwhal"
   ],
+  "license": "Apache-2.0",
   "main": "{{packageMain}}",
-  "name": "{{packageName}}",
+  "name": "{{packageName}}",{{#if official}}
+  "nyc": {
+    "extends": "../../../../.nycrc"
+  },{{/if}}
   "scripts": {
-    "build": "npm run clean && npm-run-all build:*",
+   "build": "npm run clean && npm-run-all build:*",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
-    "build:ts": "tsc --outDir dist",
+    "build:ts": "tsc",
     "clean": "rimraf dist",
-    "test": "npm run lint && npm run build && ava",
-    "lint": "npm-run-all lint:*",
-    "lint:js": "eslint --ext md --ext ts --ignore-pattern dist .",
-    "lint:md": "markdownlint README.md",
-    "watch:ts": "npm run build:ts -- --watch",
-    "init": "npm install && npm run build",
-    "sonarwhal": "node node_modules/sonarwhal/dist/src/bin/sonarwhal.js"
+    "lint": "npm-run-all lint:*",{{#if official}}
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",{{else}}
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",{{/if}}
+    "lint:md": "markdownlint *.md",
+    "sonarwhal": "node node_modules/sonarwhal/dist/src/bin/sonarwhal.js",
+    "test": "npm run lint && npm run build && nyc ava",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:assets": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
   },
   "peerDependencies": {
     "sonarwhal": "^{{version}}"
-  },
-  "repository": "",
+  },{{#if official}}
+  "private": true,
+  "repository": "sonarwhal/sonarwhal",{{else}}
+  "repository": "",{{/if}}
   "version": "0.1.0"
 }

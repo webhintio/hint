@@ -1,0 +1,40 @@
+{{#if official}}{
+    "compilerOptions": {
+        "outDir": "dist"
+    },
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
+    "extends": "../../tsconfig.json",
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts"
+    ]
+}{{else}}{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "declaration": true,
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "es2017",
+            "esnext",
+            "esnext.asynciterable"
+        ],
+        "module": "commonjs",
+        "newLine": "lf",
+        "outDir": "dist",
+        "removeComments": true,
+        "sourceMap": true,
+        "target": "esnext"
+    },
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts"
+    ]
+}{{/if}}
