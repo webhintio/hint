@@ -12,6 +12,7 @@ import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 
 import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';
 import * as Connections from './connections';
+import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -285,7 +286,7 @@ That's ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s tar
             },
             type: 'object'
         }],
-        worksWithLocalFiles: false
+        scope: Scope.site
     }
 };
 

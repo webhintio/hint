@@ -17,6 +17,7 @@ import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from 'so
 import { getHeaderValueNormalized, isDataURI, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
 const debug = d(__filename);
 
@@ -154,7 +155,7 @@ const rule: IRuleBuilder = {
             type: ['object', null],
             uniqueItems: true
         }],
-        worksWithLocalFiles: false
+        scope: Scope.site
     }
 };
 

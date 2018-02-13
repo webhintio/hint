@@ -16,6 +16,7 @@ import { IRule, IRuleBuilder, IScanEnd, Severity } from 'sonarwhal/dist/src/lib/
 import { Library, Vulnerability } from './rule-types';
 import { readFileAsync, requestAsync } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
 const debug = d(__filename);
 
@@ -221,7 +222,7 @@ const rule: IRuleBuilder = {
             },
             type: 'object'
         }],
-        worksWithLocalFiles: false
+        scope: Scope.site
     }
 };
 

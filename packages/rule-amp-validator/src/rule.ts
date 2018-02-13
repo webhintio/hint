@@ -8,6 +8,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IRule, IRuleBuilder, ITargetFetchEnd } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -83,7 +84,7 @@ const rule: IRuleBuilder = {
             properties: { 'errors-only': { type: 'boolean' } },
             type: 'object'
         }],
-        worksWithLocalFiles: true
+        scope: Scope.any
     }
 };
 

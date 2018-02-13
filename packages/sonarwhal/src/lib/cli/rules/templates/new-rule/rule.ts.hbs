@@ -7,6 +7,7 @@ import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
 import { IRule, IRuleBuilder, {{events}} } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
+import { Scope } from '{{prefix}}enums/scope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -95,7 +96,7 @@ const rule: IRuleBuilder = {
              * https://sonarwhal.com/docs/contributor-guide/rules/#themetaproperty
              */
         ],
-        worksWithLocalFiles: {{worksWithLocalFiles}}
+        scope: Scope.{{scope}}
     }
 };
 

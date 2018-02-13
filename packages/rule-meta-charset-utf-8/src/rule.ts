@@ -13,6 +13,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from 'sonarwhal/dist/src/lib/types';
 import { isHTMLDocument, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
 /*
  * ------------------------------------------------------------------------------
@@ -139,7 +140,7 @@ const rule: IRuleBuilder = {
             description: 'Require `<meta charset="utf-8">`'
         },
         schema: [],
-        worksWithLocalFiles: true
+        scope: Scope.any
     }
 };
 

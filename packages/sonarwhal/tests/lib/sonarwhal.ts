@@ -6,6 +6,7 @@ import * as proxyquire from 'proxyquire';
 import test from 'ava';
 
 import { delay } from '../../src/lib/utils/misc';
+import { Scope } from '../../src/lib/enums/scope';
 
 const resourceLoader = {
     loadConnector() {
@@ -409,7 +410,7 @@ test.serial(`If an event is emitted for a local file and the rule doesn't work w
         create() {
             return {};
         },
-        meta: { worksWithLocalFiles: false }
+        meta: { scope: Scope.site }
     };
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');

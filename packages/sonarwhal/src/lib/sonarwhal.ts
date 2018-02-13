@@ -23,6 +23,7 @@ import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
 import { RuleContext } from './rule-context';
+import { Scope } from './enums/scope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -191,17 +192,11 @@ export class Sonarwhal extends EventEmitter {
         const rules: Map<string, IRuleBuilder> = resourceLoader.loadRules(config.rules);
         const rulesIds: Array<string> = Object.keys(config.rules);
 
-        const createEventHandler = (handler: Function, worksWithLocalFiles: boolean, ruleId: string) => {
+        const createEventHandler = (handler: Function, ruleId: string) => {
             return (event: IEvent): Promise<any> => {
-                const localResource: boolean = url.parse(event.resource).protocol === 'file:';
                 const urlsIgnored: Array<RegExp> = this.ignoredUrls.get(ruleId);
 
-                /*
-                 * Some rules don't work with local resource,
-                 * so it doesn't make sense to the event.
-                 */
-
-                if ((localResource && !worksWithLocalFiles) || this.isIgnored(urlsIgnored, event.resource)) {
+                if (this.isIgnored(urlsIgnored, event.resource)) {
                     return null;
                 }
 
@@ -234,24 +229,21 @@ export class Sonarwhal extends EventEmitter {
             };
         };
 
-        const ignoreConnector = (rule): boolean => {
-            const ignoredConnectors: Array<string> = rule.meta.ignoredConnectors;
+        const ignoreRule = (rule): boolean => {
+            const ignoredConnectors: Array<string> = rule.meta.ignoredConnectors || [];
 
-            if (!ignoredConnectors) {
-                return false;
-            }
-
-            return ignoredConnectors.includes(this.connectorId);
+            return (this.connectorId === 'local' && rule.meta.scope === Scope.site) ||
+                (this.connectorId === 'site' && rule.meta.scope === Scope.local) ||
+                ignoredConnectors.includes(this.connectorId);
         };
 
         rulesIds.forEach((id: string) => {
             const rule: IRuleBuilder = rules.get(id);
 
             const ruleOptions: RuleConfig | Array<RuleConfig> = config.rules[id];
-            const ruleWorksWithLocalFiles: boolean = rule.meta.worksWithLocalFiles;
             const severity: Severity = getSeverity(ruleOptions);
 
-            if (ignoreConnector(rule)) {
+            if (ignoreRule(rule)) {
                 debug(`Rule "${id}" is disabled for the connector "${this.connectorId}"`);
                 // TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
                 logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the connector "${this.connectorId}"`));
@@ -260,7 +252,7 @@ export class Sonarwhal extends EventEmitter {
                 const instance: IRule = rule.create(context);
 
                 Object.keys(instance).forEach((eventName: string) => {
-                    this.on(eventName, createEventHandler(instance[eventName], ruleWorksWithLocalFiles, id));
+                    this.on(eventName, createEventHandler(instance[eventName], id));
                 });
 
                 this.rules.set(id, instance);

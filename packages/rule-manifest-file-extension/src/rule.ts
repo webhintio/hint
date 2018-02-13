@@ -14,6 +14,7 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { getFileExtension, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
 const debug = d(__filename);
 
@@ -51,7 +52,7 @@ const rule: IRuleBuilder = {
             description: 'Require `.webmanifest` as the file extension for the web app manifest file'
         },
         schema: [],
-        worksWithLocalFiles: true
+        scope: Scope.any
     }
 };
 

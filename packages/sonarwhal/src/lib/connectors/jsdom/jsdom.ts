@@ -40,7 +40,6 @@ import {
     INetworkData, URL
 } from '../../types';
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
-import { readFileAsync } from '../../utils/misc';
 import { resolveUrl } from '../utils/resolver';
 import { Requester } from '../utils/requester';
 import { Sonarwhal } from '../../sonarwhal';
@@ -94,49 +93,6 @@ class JSDOMConnector implements IConnector {
      * Private methods
      * ------------------------------------------------------------------------------
      */
-
-    /**
-     * Loads a url that uses the `file://` protocol taking into
-     * account if the host is `Windows` or `*nix`.
-     */
-    private async _fetchFile(target: URL): Promise<INetworkData> {
-        let targetPath: string = target.path;
-
-        /*
-         * `targetPath` on `Windows` is like `/c:/path/to/file.txt`
-         * `readFileAsync` will prepend `c:` so the final path will
-         * be: `c:/c:/path/to/file.txt` which is not valid
-         */
-        if (path.sep === '\\' && targetPath.indexOf('/') === 0) {
-            targetPath = targetPath.substr(1);
-        }
-
-        const body: string = await readFileAsync(targetPath);
-
-        const connector = {
-            request: {
-                headers: null,
-                url: targetPath
-            },
-            response: {
-                body: {
-                    content: body,
-                    rawContent: null,
-                    rawResponse() {
-                        return Promise.resolve(null);
-                    }
-                },
-                charset: null,
-                headers: null,
-                hops: [],
-                mediaType: null,
-                statusCode: null,
-                url: targetPath
-            }
-        };
-
-        return Promise.resolve(connector);
-    }
 
     /**
      * Loads a URL (`http(s)`) combining the customHeaders with
@@ -522,10 +478,6 @@ class JSDOMConnector implements IConnector {
             parsedTarget = url.parse(parsedTarget);
 
             return this.fetchContent(parsedTarget, customHeaders);
-        }
-
-        if (parsedTarget.protocol === 'file:') {
-            return this._fetchFile(parsedTarget);
         }
 
         return this._fetchUrl(parsedTarget, customHeaders);

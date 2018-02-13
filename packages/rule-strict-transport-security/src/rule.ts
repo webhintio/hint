@@ -7,6 +7,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, IResponse, IFetchEnd, IRule, IRuleBuilder, INetworkData } from 'sonarwhal/dist/src/lib/types';
+import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
 const debug = d(__filename);
 
@@ -246,7 +247,7 @@ const rule: IRuleBuilder = {
                 minMaxAgeValue: { type: 'number' }
             }
         }],
-        worksWithLocalFiles: false
+        scope: Scope.site
     }
 };
 

@@ -9,6 +9,7 @@ import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
 import { IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
+import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
 /*
  * ------------------------------------------------------------------------------
@@ -64,7 +65,7 @@ const rule: IRuleBuilder = {
             },
             type: 'object'
         }],
-        worksWithLocalFiles: false
+        scope: Scope.site
     }
 };
 
