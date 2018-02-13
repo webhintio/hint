@@ -207,7 +207,6 @@ const rule: IRuleBuilder = {
             category: Category.interoperability,
             description: 'Require viewport meta tag'
         },
-        recommended: true,
         schema: [],
         worksWithLocalFiles: true
     }

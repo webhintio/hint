@@ -74,3 +74,23 @@ export interface IORA {
     fail(): void;
     text: string;
 }
+
+/**
+ * An user in a npm package.
+ */
+export type NpmMaintainer = {
+    email: string;
+    username: string;
+};
+
+/**
+ * The result of a npm search.
+ */
+export type NpmPackage = {
+    date: Date;
+    description: string;
+    keywords: Array<string>;
+    maintainers: Array<NpmMaintainer>;
+    name: string;
+    version: string;
+};

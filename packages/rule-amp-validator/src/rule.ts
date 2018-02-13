@@ -78,7 +78,6 @@ const rule: IRuleBuilder = {
             category: Category.performance,
             description: `Require HTML page to be AMP valid.`
         },
-        recommended: false,
         schema: [{
             additionalProperties: false,
             properties: { 'errors-only': { type: 'boolean' } },

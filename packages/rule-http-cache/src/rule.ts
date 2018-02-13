@@ -426,7 +426,6 @@ const rule: IRuleBuilder = {
             category: Category.performance,
             description: `Checks if your cache-control header and asset strategy follows best practices`
         },
-        recommended: true,
         schema: [{
             additionalProperties: false,
             definitions: {

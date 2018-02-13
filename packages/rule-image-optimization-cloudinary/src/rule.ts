@@ -174,7 +174,6 @@ const rule: IRuleBuilder = {
             category: Category.performance,
             description: `Image optimization with cloudinary`
         },
-        recommended: false,
         schema: [{
             additionalProperties: false,
             properties: {

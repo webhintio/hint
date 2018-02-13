@@ -182,7 +182,6 @@ There might be something wrong with SSL Labs servers.`;
             category: Category.security,
             description: 'Strength of your SSL configuration'
         },
-        recommended: false,
         schema: [{
             additionalProperties: false,
             properties: {

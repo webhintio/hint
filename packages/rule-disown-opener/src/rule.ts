@@ -160,7 +160,6 @@ const rule: IRuleBuilder = {
             category: Category.security,
             description: 'Require `noopener` (and `noreferrer`) on `a` and `area` element with target="_blank"'
         },
-        recommended: true,
         schema: [{
             additionalProperties: false,
             properties: { includeSameOriginURLs: { type: 'boolean' } },

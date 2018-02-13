@@ -55,7 +55,6 @@ const rule: IRuleBuilder = {
             category: Category.pwa,
             description: 'Require valid web app manifest'
         },
-        recommended: true,
         schema: [],
         worksWithLocalFiles: true
     }

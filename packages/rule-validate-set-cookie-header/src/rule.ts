@@ -321,7 +321,6 @@ const rule: IRuleBuilder = {
             description: 'This rule validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.'
         },
         ignoredConnectors: [],
-        recommended: true,
         schema: [],
         worksWithLocalFiles: false
     }

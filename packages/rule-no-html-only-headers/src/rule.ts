@@ -117,7 +117,6 @@ const rule: IRuleBuilder = {
             category: Category.performance,
             description: 'Disallow unneeded HTTP headers for non-HTML resources'
         },
-        recommended: true,
         schema: [{
             additionalProperties: false,
             definitions: {
