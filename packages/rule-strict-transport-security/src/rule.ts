@@ -230,11 +230,7 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return {
-            'fetch::end': validate,
-            'manifestfetch::end': validate,
-            'targetfetch::end': validate
-        };
+        return { 'fetch::end::*': validate };
     },
     meta: {
         docs: {

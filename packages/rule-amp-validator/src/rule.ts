@@ -6,7 +6,7 @@ import * as amphtmlValidator from 'amphtml-validator';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, IRuleBuilder, ITargetFetchEnd } from 'sonarwhal/dist/src/lib/types';
+import { IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
@@ -22,9 +22,9 @@ const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
         let validPromise;
         const errorsOnly = context.ruleOptions && context.ruleOptions['errors-only'] || false;
-        let events: Array<ITargetFetchEnd> = [];
+        let events: Array<IFetchEnd> = [];
 
-        const onTargetFetchEnd = (fetchEnd: ITargetFetchEnd) => {
+        const onFetchEndHTML = (fetchEnd: IFetchEnd) => {
             const { response: { body: { content }, statusCode } } = fetchEnd;
 
             if (statusCode !== 200 || !content) {
@@ -70,8 +70,8 @@ const rule: IRuleBuilder = {
         };
 
         return {
-            'scan::end': onScanEnd,
-            'targetfetch::end': onTargetFetchEnd
+            'fetch::end::html': onFetchEndHTML,
+            'scan::end': onScanEnd
         };
     },
     meta: {

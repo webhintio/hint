@@ -382,11 +382,38 @@ const isTextMediaType = (mediaType: string): boolean => {
     return false;
 };
 
+const getType = (mediaType: string) => {
+    if (mediaType.startsWith('image')) {
+        return 'image';
+    }
+
+    if (mediaType.startsWith('font')) {
+        return 'font';
+    }
+
+    switch (mediaType) {
+        case 'text/javascript':
+            return 'javascript';
+        case 'text/css':
+            return 'css';
+        case 'application/manifest+json':
+            return 'manifest';
+        case 'text/html':
+        case 'application/xhtml+xml':
+            return 'html';
+        case 'text/xml':
+            return 'xml';
+    }
+
+    return 'unknown';
+};
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 export {
     determineMediaTypeForScript,
     getContentTypeData,
     getFileExtension,
+    getType,
     isTextMediaType
 };

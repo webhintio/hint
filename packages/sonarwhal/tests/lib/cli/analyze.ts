@@ -229,6 +229,30 @@ test.serial('Event fetch::end should write a message in the spinner', async (t) 
     (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
 });
 
+test.serial('Event fetch::end::manifest should write a message in the spinner', async (t) => {
+    sinon.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+        await analyzer.sonarwhal.emitAsync('fetch::end', { resource: 'http://localhost/' });
+    });
+
+    await analyzer.analyze(actions);
+
+    t.is(spinner.text, 'http://localhost/ downloaded');
+
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
+});
+
+test.serial('Event fetch::end::html should write a message in the spinner', async (t) => {
+    sinon.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+        await analyzer.sonarwhal.emitAsync('fetch::end', { resource: 'http://localhost/' });
+    });
+
+    await analyzer.analyze(actions);
+
+    t.is(spinner.text, 'http://localhost/ downloaded');
+
+    (Sonarwhal.prototype.executeOn as sinon.SinonStub).restore();
+});
+
 test.serial('Event traverse::up should write a message in the spinner', async (t) => {
     sinon.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
         await analyzer.sonarwhal.emitAsync('traverse::up', { resource: 'http://localhost/' });

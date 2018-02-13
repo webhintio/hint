@@ -44,7 +44,7 @@ const rule: IRuleBuilder = {
         };
 
         const resourceOptions: CompressionCheckOptions = getRuleOptions('resource');
-        const targetOptions: CompressionCheckOptions = getRuleOptions('target');
+        const htmlOptions: CompressionCheckOptions = getRuleOptions('html');
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -566,96 +566,92 @@ const rule: IRuleBuilder = {
             return false;
         };
 
-        const validate = (shouldCheckIfCompressedWith: CompressionCheckOptions) => {
-            return async (fetchEnd: IFetchEnd) => {
-                const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+        const validate = async (fetchEnd: IFetchEnd, eventName: string) => {
+            const shouldCheckIfCompressedWith: CompressionCheckOptions = eventName === 'fetch::end::html' ? htmlOptions : resourceOptions;
 
-                /*
-                 * We shouldn't validate error responses, and 204 (response with no body).
-                 * Also some sites return body with 204 status code and that breaks `request`:
-                 * https://github.com/request/request/issues/2669
-                 */
-                if (response.statusCode !== 200) {
-                    return;
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+
+            /*
+             * We shouldn't validate error responses, and 204 (response with no body).
+             * Also some sites return body with 204 status code and that breaks `request`:
+             * https://github.com/request/request/issues/2669
+             */
+            if (response.statusCode !== 200) {
+                return;
+            }
+
+            // It doesn't make sense for things that are not served over http(s)
+            if (!isRegularProtocol(resource)) {
+                return;
+            }
+
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+            /*
+             * Check if this is a special case, and if it is, do the
+             * specific checks, but ignore all the checks that follow.
+             */
+
+            if (await isSpecialCase(resource, element, response)) {
+                return;
+            }
+
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+            // If the resource should not be compressed:
+            if (!isCompressibleAccordingToMediaType(response.mediaType)) {
+
+                const rawResponse = await response.body.rawResponse();
+                const contentEncodingHeaderValue = getHeaderValueNormalized(response.headers, 'content-encoding');
+
+                // * Check if the resource is actually compressed.
+                if (responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {
+                    await context.report(resource, element, generateCompressionMessage('', true));
                 }
 
-                // It doesn't make sense for things that are not served over http(s)
-                if (!isRegularProtocol(resource)) {
-                    return;
+                // * Check if resource is sent with the `Content-Encoding` header.
+                if (contentEncodingHeaderValue) {
+                    await context.report(resource, element, `Should not be served with the 'content-encoding' header.`);
                 }
 
-                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                return;
+            }
 
-                /*
-                 * Check if this is a special case, and if it is, do the
-                 * specific checks, but ignore all the checks that follow.
-                 */
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-                if (await isSpecialCase(resource, element, response)) {
-                    return;
-                }
+            /*
+             * If the resource should be compressed:
+             *
+             *  * Check if the resource is sent compressed with an
+             *    deprecated or not recommended compression method.
+             */
 
-                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+            await checkForDisallowedCompressionMethods(resource, element, response);
 
-                // If the resource should not be compressed:
-                if (!isCompressibleAccordingToMediaType(response.mediaType)) {
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-                    const rawResponse = await response.body.rawResponse();
-                    const contentEncodingHeaderValue = getHeaderValueNormalized(response.headers, 'content-encoding');
+            /*
+             *  * Check if it's actually compressed and served in
+             *    the correct/required compressed format.
+             *
+             *    Note: Checking if servers respect the qvalue
+             *          is beyond of the scope for the time being,
+             *          so the followings won't check that.
+             */
 
-                    // * Check if the resource is actually compressed.
-                    if (responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {
-                        await context.report(resource, element, generateCompressionMessage('', true));
-                    }
+            await checkUncompressed(resource, element);
 
-                    // * Check if resource is sent with the `Content-Encoding` header.
-                    if (contentEncodingHeaderValue) {
-                        await context.report(resource, element, `Should not be served with the 'content-encoding' header.`);
-                    }
+            if (shouldCheckIfCompressedWith.gzip ||
+                shouldCheckIfCompressedWith.zopfli) {
+                await checkGzipZopfli(resource, element, shouldCheckIfCompressedWith);
+            }
 
-                    return;
-                }
-
-                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-                /*
-                 * If the resource should be compressed:
-                 *
-                 *  * Check if the resource is sent compressed with an
-                 *    deprecated or not recommended compression method.
-                 */
-
-                await checkForDisallowedCompressionMethods(resource, element, response);
-
-                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-                /*
-                 *  * Check if it's actually compressed and served in
-                 *    the correct/required compressed format.
-                 *
-                 *    Note: Checking if servers respect the qvalue
-                 *          is beyond of the scope for the time being,
-                 *          so the followings won't check that.
-                 */
-
-                await checkUncompressed(resource, element);
-
-                if (shouldCheckIfCompressedWith.gzip ||
-                    shouldCheckIfCompressedWith.zopfli) {
-                    await checkGzipZopfli(resource, element, shouldCheckIfCompressedWith);
-                }
-
-                if (shouldCheckIfCompressedWith.brotli) {
-                    await checkBrotli(resource, element);
-                }
-            };
+            if (shouldCheckIfCompressedWith.brotli) {
+                await checkBrotli(resource, element);
+            }
         };
 
-        return {
-            'fetch::end': validate(resourceOptions),
-            'manifestfetch::end': validate(resourceOptions),
-            'targetfetch::end': validate(targetOptions)
-        };
+        return { 'fetch::end::*': validate };
     },
     meta: {
         docs: {

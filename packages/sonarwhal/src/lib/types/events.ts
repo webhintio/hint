@@ -12,10 +12,10 @@ export interface IScanStart extends IEvent { }
 /** The object emitted when the connector has finished the process. */
 export interface IScanEnd extends IEvent { }
 
-/** The object emitted by a connector on `targetfetch::start`, `fetch::start` or `manifestfetch::start`. */
+/** The object emitted by a connector on `targetfetch::start`, `fetch::start`. */
 export interface IFetchStart extends IEvent { }
 
-/** The object emitted by a connector on `targetfetch::end` or `fetch::end`. */
+/** The object emitted by a connector on `fetch::end::*`. */
 export interface IFetchEnd extends IEvent {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
@@ -25,7 +25,6 @@ export interface IFetchEnd extends IEvent {
     response: IResponse;
 }
 
-export interface ITargetFetchEnd extends IFetchEnd { }
 export interface ITargetFetchStart extends IFetchStart { }
 
 /** The object emitted by a connector on `targetfetch::error` or `fetch::error` */
@@ -62,17 +61,14 @@ export interface IElementFound extends IEvent {
     element: IAsyncHTMLElement;
 }
 
-/** The object emitted by a connector on `manifestfetch::error`. */
+/** The object emitted by a connector on `fetch::error::manifest`. */
 export interface IManifestFetchError extends IEvent {
     /** The error when downloading the manifest.  */
     error: Error;
 }
 
-/** The object emitted by a connector on `manifestfetch::missing`. */
+/** The object emitted by a connector on `fetch::missing::manifest`. */
 export interface IManifestFetchMissing extends IEvent { }
-
-/** The object emitted by a connector on ` manifestfetch::end`. */
-export interface IManifestFetchEnd extends IFetchEnd { }
 
 /** The object emitted by the `javascript` parser */
 export interface IScriptParse extends IEvent {

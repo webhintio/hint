@@ -34,7 +34,7 @@ const rule: IRuleBuilder = {
             {{>event-code event="fetchStart"}}
         };
         const validateFetchEnd = async (fetchEnd: IFetchEnd) => {
-            // Code to validate the rule on the event fetch::end.
+            // Code to validate the rule on the event fetch::end::*.
 
             {{>event-code event="fetchEnd"}}
         };
@@ -51,7 +51,7 @@ const rule: IRuleBuilder = {
             {{>event-code event="fetchStart"}}
         };
         const validateFetchEnd = async (fetchEnd: IFetchEnd) => {
-            // Code to validate the rule on the event fetch::end.
+            // Code to validate the rule on the event fetch::end::*.
 
             {{>event-code event="fetchEnd"}}
         };
@@ -70,12 +70,12 @@ const rule: IRuleBuilder = {
             'element::{{elementType}}': validateElement
             {{/useCase.dom}}
             {{#useCase.request}}
-            'fetch::end': validateFetchEnd,
+            'fetch::end::*': validateFetchEnd,
             'fetch::error': validateFetchError,
             'fetch::start': validateFetchStart
             {{/useCase.request}}
             {{#useCase.thirdPartyService}}
-            'fetch::end': validateFetchEnd,
+            'fetch::end::*': validateFetchEnd,
             'fetch::start': validateFetchStart
             {{/useCase.thirdPartyService}}
             {{#useCase.jsInjection}}

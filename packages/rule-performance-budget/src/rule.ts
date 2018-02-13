@@ -262,9 +262,8 @@ That's ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s tar
         };
 
         return {
-            'fetch::end': onFetchEnd,
-            'scan::end': onScanEnd,
-            'targetfetch::end': onFetchEnd
+            'fetch::end::*': onFetchEnd,
+            'scan::end': onScanEnd
         };
     },
     meta: {

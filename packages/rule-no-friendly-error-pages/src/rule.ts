@@ -144,9 +144,7 @@ const rule: IRuleBuilder = {
         };
 
         return {
-            'fetch::end': checkForErrorPages,
-            'manifestfetch::end': checkForErrorPages,
-            'targetfetch::end': checkForErrorPages,
+            'fetch::end::*': checkForErrorPages,
             'traverse::end': validate
         };
     },

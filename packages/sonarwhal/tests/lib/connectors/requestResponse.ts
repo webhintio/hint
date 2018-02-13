@@ -119,7 +119,7 @@ const testRequestResponse = (connectorInfo) => {
 
         await connector.collect(url.parse(`http://localhost:${server.port}/`));
 
-        const invokedTargetFetchEnd = findEvent(emitAsync, 'targetfetch::end') || findEvent(emit, 'targetfetch::end');
+        const invokedTargetFetchEnd = findEvent(emitAsync, 'fetch::end::html') || findEvent(emit, 'fetch::end::html');
         /* eslint-disable sort-keys */
         const expectedTargetFetchEnd = {
             resource: `http://localhost:${server.port}/`,
@@ -142,7 +142,7 @@ const testRequestResponse = (connectorInfo) => {
         /* eslint-enable sort-keys */
 
         if (!invokedTargetFetchEnd) {
-            t.fail(`targetfetch::end' event not found`);
+            t.fail(`fetch::end::html' event not found`);
 
             return;
         }

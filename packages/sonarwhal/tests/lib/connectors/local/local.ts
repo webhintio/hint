@@ -37,7 +37,7 @@ test.serial(`If target is a file, it should emit 'targetfetch::start' event`, as
     sandbox.restore();
 });
 
-test.serial(`If target is a html file, it should emit 'targetfetch::end' event instead of 'fetch::end'`, async (t) => {
+test.serial(`If target is a html file, it should emit 'fetch::end::html' event instead of 'fetch::end'`, async (t) => {
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'test.html'));
 
     const sandbox = sinon.createSandbox();
@@ -52,7 +52,7 @@ test.serial(`If target is a html file, it should emit 'targetfetch::end' event i
     t.is(t.context.sonarwhal.emitAsync.callCount, 4);
     t.is(t.context.sonarwhal.emitAsync.args[0][0], 'scan::start');
     t.is(t.context.sonarwhal.emitAsync.args[1][0], 'targetfetch::start');
-    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'targetfetch::end');
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'fetch::end::html');
 
     sandbox.restore();
 });
@@ -139,7 +139,7 @@ test.serial(`If target is a directory, shouldn't emit the event 'targetfetch::st
     t.is(events[1], 'fetch::end');
     t.is(events[2], 'scan::end');
     t.is(events[3], 'scan::start');
-    t.is(events[4], 'targetfetch::end');
+    t.is(events[4], 'fetch::end::html');
 
     sandbox.restore();
 });

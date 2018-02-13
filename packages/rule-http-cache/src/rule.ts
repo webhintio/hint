@@ -12,7 +12,7 @@ import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
 const debug = d(__filename);
 
-type targetType = 'fetch' | 'manifest' | 'target';
+type TargetType = 'fetch' | 'html';
 type Directives = Map<string, number>;
 type ParsedDirectives = {
     header: string;
@@ -135,12 +135,12 @@ const rule: IRuleBuilder = {
 
                 return parsed;
             },
-            {
-                header: cacheControlHeader,
-                invalidDirectives: new Map(),
-                invalidValues: new Map(),
-                usedDirectives: new Map<string, number>()
-            });
+                {
+                    header: cacheControlHeader,
+                    invalidDirectives: new Map(),
+                    invalidValues: new Map(),
+                    usedDirectives: new Map<string, number>()
+                });
 
             return parsedCacheControlHeader;
         };
@@ -360,67 +360,62 @@ const rule: IRuleBuilder = {
             return true;
         };
 
-        const validateFetch = (type: targetType) => {
-            return async (fetchEnd: IFetchEnd) => {
-                const { resource } = fetchEnd;
+        const validate = async (fetchEnd: IFetchEnd, eventName: string) => {
+            const type: TargetType = eventName === 'fetch::end::html' ? 'html' : 'fetch';
+            const { resource } = fetchEnd;
 
-                // This check does not make sense for data URIs.
+            // This check does not make sense for data URIs.
 
-                if (isDataURI(resource)) {
-                    debug(`Check does not apply for data URIs`);
-
-                    return;
-                }
-
-                const headers = fetchEnd.response.headers;
-                const { response: { mediaType } } = fetchEnd;
-                const cacheControlHeaderValue: string = getHeaderValueNormalized(headers, 'cache-control', '');
-                const parsedDirectives: ParsedDirectives = parseCacheControlHeader(cacheControlHeaderValue);
-
-                const validators = [
-                    hasCacheControl,
-                    hasInvalidDirectives,
-                    hasNoneNonRecommendedDirectives,
-                    validateDirectiveCombinations
-                ];
-
-                if (type === 'target') {
-                    validators.push(hasSmallCache);
-                } else if (type === 'fetch' && longCached.includes(mediaType)) {
-                    validators.push(hasLongCache);
-
-                    // Check if there are custom revving patterns
-                    let customRegex = context.ruleOptions && context.ruleOptions.revvingPatterns || null;
-
-                    if (customRegex) {
-                        customRegex = customRegex.map((reg) => {
-                            return new RegExp(reg, 'i');
-                        });
-                    }
-
-                    cacheRevvingPatterns = customRegex || predefinedRevvingPatterns;
-
-                    validators.push(usesFileRevving);
-                }
-
-                // TODO: It will be so nice to have an async `every` here instead of this...
-                for (const validator of validators) {
-                    const result = await validator(parsedDirectives, fetchEnd);
-
-                    if (!result) {
-                        return;
-                    }
-                }
+            if (isDataURI(resource)) {
+                debug(`Check does not apply for data URIs`);
 
                 return;
-            };
+            }
+
+            const headers = fetchEnd.response.headers;
+            const { response: { mediaType } } = fetchEnd;
+            const cacheControlHeaderValue: string = getHeaderValueNormalized(headers, 'cache-control', '');
+            const parsedDirectives: ParsedDirectives = parseCacheControlHeader(cacheControlHeaderValue);
+
+            const validators = [
+                hasCacheControl,
+                hasInvalidDirectives,
+                hasNoneNonRecommendedDirectives,
+                validateDirectiveCombinations
+            ];
+
+            if (type === 'html') {
+                validators.push(hasSmallCache);
+            } else if (type === 'fetch' && longCached.includes(mediaType)) {
+                validators.push(hasLongCache);
+
+                // Check if there are custom revving patterns
+                let customRegex = context.ruleOptions && context.ruleOptions.revvingPatterns || null;
+
+                if (customRegex) {
+                    customRegex = customRegex.map((reg) => {
+                        return new RegExp(reg, 'i');
+                    });
+                }
+
+                cacheRevvingPatterns = customRegex || predefinedRevvingPatterns;
+
+                validators.push(usesFileRevving);
+            }
+
+            // TODO: It will be so nice to have an async `every` here instead of this...
+            for (const validator of validators) {
+                const result = await validator(parsedDirectives, fetchEnd);
+
+                if (!result) {
+                    return;
+                }
+            }
+
+            return;
         };
 
-        return {
-            'fetch::end': validateFetch('fetch'),
-            'manifestfetch::end': validateFetch('fetch'),
-            'targetfetch::end': validateFetch('target')
-        };
+        return { 'fetch::end::*': validate };
     },
     meta: {
         docs: {

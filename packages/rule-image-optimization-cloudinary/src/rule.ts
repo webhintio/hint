@@ -166,7 +166,7 @@ const rule: IRuleBuilder = {
         configured = isConfigured(context.ruleOptions || { apiKey: '', apiSecret: '', cloudName: '', threshold: 0 });
 
         return {
-            'fetch::end': analyzeImage,
+            'fetch::end::*': analyzeImage,
             'scan::end': end
         };
     },

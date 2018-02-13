@@ -13,7 +13,7 @@ const { ucs2 } = require('punycode');
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IManifestFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
@@ -50,7 +50,7 @@ const rule: IRuleBuilder = {
             return true;
         };
 
-        const validate = async (data: IManifestFetchEnd) => {
+        const validate = async (data: IFetchEnd) => {
             const { resource, response: { body: { content }, statusCode } }: { resource: string, response: IResponse } = data;
 
             if (statusCode !== 200) {
@@ -132,7 +132,7 @@ const rule: IRuleBuilder = {
             await checkIfUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit);
         };
 
-        return { 'manifestfetch::end': validate };
+        return { 'fetch::end::manifest': validate };
     },
 
     meta: {

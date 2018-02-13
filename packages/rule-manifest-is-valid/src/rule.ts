@@ -10,7 +10,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IManifestFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
 
@@ -25,7 +25,7 @@ const debug = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
 
-        const manifestIsValid = async (data: IManifestFetchEnd) => {
+        const manifestIsValid = async (data: IFetchEnd) => {
             const { resource, response: { body: { content }, statusCode } }: { resource: string, response: IResponse } = data;
 
             if (statusCode !== 200) {
@@ -49,7 +49,7 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return { 'manifestfetch::end': manifestIsValid };
+        return { 'fetch::end::manifest': manifestIsValid };
     },
     meta: {
         docs: {

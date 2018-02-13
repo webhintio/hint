@@ -222,7 +222,7 @@ const rule: IRuleBuilder = {
             },
             type: 'object'
         }],
-        scope: Scope.site
+        scope: Scope.any
     }
 };
 

@@ -192,7 +192,7 @@ export class Sonarwhal extends EventEmitter {
         const rules: Map<string, IRuleBuilder> = resourceLoader.loadRules(config.rules);
         const rulesIds: Array<string> = Object.keys(config.rules);
 
-        const createEventHandler = (handler: Function, ruleId: string) => {
+        const createEventHandler = (handler: Function, ruleId: string, eventName: string) => {
             return (event: IEvent): Promise<any> => {
                 const urlsIgnored: Array<RegExp> = this.ignoredUrls.get(ruleId);
 
@@ -217,7 +217,7 @@ export class Sonarwhal extends EventEmitter {
                     }, config.rulesTimeout || 120000);
 
                     immediateId = setImmediate(async () => {
-                        const result: any = await handler(event);
+                        const result: any = await handler(event, eventName);
 
                         if (timeoutId) {
                             clearTimeout(timeoutId);
@@ -252,7 +252,7 @@ export class Sonarwhal extends EventEmitter {
                 const instance: IRule = rule.create(context);
 
                 Object.keys(instance).forEach((eventName: string) => {
-                    this.on(eventName, createEventHandler(instance[eventName], id));
+                    this.on(eventName, createEventHandler(instance[eventName], id, eventName));
                 });
 
                 this.rules.set(id, instance);

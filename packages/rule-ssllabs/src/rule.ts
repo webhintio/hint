@@ -15,7 +15,7 @@ import { promisify } from 'util';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { ITargetFetchEnd, IScanEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IFetchEnd, IScanEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
@@ -101,7 +101,7 @@ const rule: IRuleBuilder = {
             await context.report(resource, null, `Couldn't get results from SSL Labs for ${resource}.`);
         };
 
-        const start = (data: ITargetFetchEnd) => {
+        const start = (data: IFetchEnd) => {
             const { resource }: { resource: string } = data;
 
             if (!resource.startsWith('https://')) {
@@ -167,15 +167,15 @@ There might be something wrong with SSL Labs servers.`;
         loadRuleConfig();
 
         /*
-         * We are using `targetfetch::end` instead of `scan::start`
+         * We are using `fetch::end::html` instead of `scan::start`
          * or `targetfetch::start` because the `ssllabs` API doesn't
          * follow the redirects, so we need to use the final url
          * (e.g.: https://developer.microsoft.com/en-us/microsoft-edge/
          * instead of http://edge.ms).
          */
         return {
-            'scan::end': end,
-            'targetfetch::end': start
+            'fetch::end::html': start,
+            'scan::end': end
         };
     },
     meta: {

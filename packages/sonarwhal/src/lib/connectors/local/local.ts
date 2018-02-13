@@ -2,7 +2,7 @@
  * @fileoverview Connector for local development. It reads recursively
  * the contents of a folder and sends events for each one of the files
  * found.
- * It currently only sends `fetch::end` events.
+ * It currently only sends `fetch::end::*` events.
  */
 
 /*
@@ -21,7 +21,7 @@ import * as fs from 'fs-extra';
 import { debug as d } from '../../utils/debug';
 import { getAsUri } from '../../utils/get-as-uri';
 import { getAsPathString } from '../../utils/get-as-path-string';
-import { getContentTypeData, isTextMediaType } from '../../utils/content-type';
+import { getContentTypeData, isTextMediaType, getType } from '../../utils/content-type';
 import { isFile, readFileAsync } from '../../utils/misc';
 import * as logger from '../../utils/logging';
 
@@ -85,14 +85,14 @@ class LocalConnector implements IConnector {
     private async fetch(filePath: string) {
         const rawContent = await fs.readFile(filePath);
         const contentType = getContentTypeData(null, filePath, null, rawContent);
+        const type = getType(contentType.mediaType);
         let content = '';
-        const extension = path.extname(filePath);
 
         if (isTextMediaType(contentType.mediaType)) {
             content = rawContent.toString(contentType.charset);
         }
 
-        // Need to do some magic to create a fetch::end
+        // Need to do some magic to create a fetch::end::*
         const event: IFetchEnd = {
             element: null,
             request: null,
@@ -114,15 +114,7 @@ class LocalConnector implements IConnector {
             }
         };
 
-        if (HTML_EXTENSIONS.includes(extension)) {
-            await this.sonarwhal.emitAsync('targetfetch::end', event);
-            // TODO: traverse the html.
-        } else if (extension === '.webmanifest') {
-            await this.sonarwhal.emitAsync('manifestfetch::end', event);
-        } else {
-            await this.sonarwhal.emitAsync('fetch::end', event);
-        }
-
+        await this.sonarwhal.emitAsync(`fetch::end::${type}`, event);
     }
 
     private getGitIgnore = async () => {

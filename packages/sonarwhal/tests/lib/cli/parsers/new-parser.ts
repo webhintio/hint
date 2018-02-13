@@ -70,7 +70,7 @@ test.serial('It should create a new core parser.', async (t) => {
     };
     const parserEventsResult = {
         again: false,
-        event: 'fetch::end'
+        event: 'fetch::end::*'
     };
     const sandbox = sinon.sandbox.create();
 
@@ -101,7 +101,7 @@ test.serial('It should create a new core parser with no duplicate events.', asyn
     };
     const parserEventsResult1 = {
         again: true,
-        event: 'fetch::end'
+        event: 'fetch::end::*'
     };
     const parserEventsResult2 = {
         again: true,
@@ -134,7 +134,7 @@ test.serial('It should create a new core parser with no duplicate events.', asyn
         return question.name === 'event';
     });
     const eventList = eventQuestion.choices;
-    const containFetchEnd = eventList.includes('fetch::end');
+    const containFetchEnd = eventList.includes('fetch::end::*');
     const containElement = eventList.includes('element::');
     const data = t.context.handlebars.compileTemplate.args[0][1];
     const events = data.events.map((event) => {
@@ -165,7 +165,7 @@ test.serial('It should create a new external parser.', async (t) => {
     };
     const parserEventsResult = {
         again: false,
-        event: 'fetch::end'
+        event: 'fetch::end::*'
     };
     const sandbox = sinon.sandbox.create();
 
