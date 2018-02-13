@@ -1,5 +1,3 @@
-import * as path from 'path';
-
 /** Lower cases all the items of `list`. */
 export const toLowerCase = (list: Array<string>): Array<string> => {
     return list.map((e) => {

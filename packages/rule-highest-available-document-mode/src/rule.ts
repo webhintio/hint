@@ -209,7 +209,6 @@ const rule: IRuleBuilder = {
             category: Category.interoperability,
             description: 'Require highest available document mode'
         },
-        recommended: true,
         schema: [{
             additionalProperties: false,
             properties: { requireMetaTag: { type: 'boolean' } },

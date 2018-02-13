@@ -154,7 +154,6 @@ const rule: IRuleBuilder = {
             category: Category.interoperability,
             description: 'Disallow small error pages'
         },
-        recommended: true,
         schema: [],
         worksWithLocalFiles: false
     }

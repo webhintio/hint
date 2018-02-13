@@ -298,7 +298,6 @@ const rule: IRuleBuilder = {
             category: Category.pwa,
             description: `Require an 'apple-touch-icon'`
         },
-        recommended: true,
         schema: [],
         worksWithLocalFiles: true
     }

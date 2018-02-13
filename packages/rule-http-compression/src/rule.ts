@@ -661,7 +661,6 @@ const rule: IRuleBuilder = {
             category: Category.performance,
             description: 'Require resources to be served compressed'
         },
-        recommended: true,
         schema: [{
             additionalProperties: false,
             definitions: {

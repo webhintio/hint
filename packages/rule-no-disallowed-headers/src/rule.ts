@@ -154,7 +154,6 @@ const rule: IRuleBuilder = {
             category: Category.security,
             description: 'Disallow certain HTTP response headers'
         },
-        recommended: true,
         schema: [{
             additionalProperties: false,
             definitions: {

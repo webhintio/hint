@@ -211,7 +211,6 @@ const rule: IRuleBuilder = {
             category: Category.security,
             description: `This rule checks if the site is running any vulnerable library using https://snyk.io database`
         },
-        recommended: true,
         schema: [{
             additionalProperties: false,
             properties: {

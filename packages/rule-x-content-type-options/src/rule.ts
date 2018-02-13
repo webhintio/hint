@@ -86,7 +86,6 @@ const rule: IRuleBuilder = {
             category: Category.security,
             description: `Require 'X-Content-Type-Options' header`
         },
-        recommended: true,
         schema: [],
         worksWithLocalFiles: false
     }
