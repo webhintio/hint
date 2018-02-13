@@ -1333,7 +1333,7 @@ chalk@^1.1.3:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
-chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0:
+chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.3.1.tgz#523fe2678aec7b04e8041909292fe8b17059b796"
   dependencies:
@@ -5693,7 +5693,7 @@ readable-stream@~1.1.10:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-"readdir-enhanced@github:mrmlnc/readdir-enhanced#ISSUE-11_monkey_fix":
+readdir-enhanced@mrmlnc/readdir-enhanced#ISSUE-11_monkey_fix:
   version "2.2.0"
   resolved "https://codeload.github.com/mrmlnc/readdir-enhanced/tar.gz/1580afe4fdf21cd191c202ec599d1ca7d0ab062d"
   dependencies:
