@@ -72,18 +72,13 @@ const rule: IRuleBuilder = {
             // Code to validate the rule on the event fetch::end.
         }
 
-        const validateTargetFetchEnd = (targetFetchEnd: IFetchEnd) => {
-            // Code to validate the rule on the event targetfetch::end.
-        }
-
         const validateElement = (element: IElementFound) => {
             // Code to validate the rule on the event element::element-type.
         }
 
         return {
           'element': validateElement,
-          'fetch::end': validateFetchEnd,
-          'targetfetch::end': validateTargetFetchEnd
+          'fetch::end::*': validateFetchEnd,
           // As many events as you need, you can see the
           // list of events [here](../connectors/events.md).
       };

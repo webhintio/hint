@@ -971,7 +971,7 @@ Note that:
 ## Can the rule be configured?
 
 You can override the defaults by specifying what type of compression
-you don't want the rule to check for. This can be done for the `target`
+you don't want the rule to check for. This can be done for the `html`
 (main page) and/or the `resources` the rule determines should be served
 compressed, using the following format:
 
@@ -981,7 +981,7 @@ compressed, using the following format:
         "<compression_type>": <true|false>,
         ...
     },
-    "target": {
+    "html": {
         "<compression_type>": <true|false>,
         ...
     }
@@ -997,7 +997,7 @@ use the following configuration:
 
 ```json
 "http-compression": [ "warning", {
-    "target": {
+    "html": {
         "brotli": false
     }
 }]

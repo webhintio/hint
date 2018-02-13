@@ -56,7 +56,7 @@ The following configuration will allow 3 redirects for resources and
 {
     "no-http-redirects": ["error", {
         "max-resource-redirects": 3,
-        "max-target-redirects": 1
+        "max-html-redirects": 1
     }]
 }
 ```

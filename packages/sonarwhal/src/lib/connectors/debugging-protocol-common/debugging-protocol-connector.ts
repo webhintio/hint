@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 import { promisify } from 'util';
 
 import { AsyncHTMLDocument, AsyncHTMLElement } from './async-html';
-import { getContentTypeData } from '../../utils/content-type';
+import { getContentTypeData, getType } from '../../utils/content-type';
 import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
 import { cutString, delay, hasAttributeWithValue } from '../../utils/misc';
@@ -26,7 +26,7 @@ import { resolveUrl } from '../utils/resolver';
 
 import {
     BrowserInfo, IConnector,
-    IAsyncHTMLElement, IElementFound, IEvent, IFetchEnd, IFetchError, ILauncher, IManifestFetchEnd, IManifestFetchError, ITraverseUp, ITraverseDown,
+    IAsyncHTMLElement, IElementFound, IEvent, IFetchEnd, IFetchError, ILauncher, IManifestFetchError, ITraverseUp, ITraverseDown,
     IResponse, IRequest, INetworkData, URL
 } from '../../types';
 
@@ -227,7 +227,7 @@ export class Connector implements IConnector {
             return;
         }
 
-        const eventName: string = this._href === requestUrl ? 'targetfetch::start' : 'fetch::start';
+        const eventName: string = 'fetch::start';
 
         debug(`About to start fetching ${cutString(requestUrl)}`);
 
@@ -274,7 +274,7 @@ export class Connector implements IConnector {
                 resource
             };
 
-            await this._server.emitAsync('manifestfetch::error', event);
+            await this._server.emitAsync('fetch::error::manifest', event);
 
             return;
         }
@@ -297,7 +297,7 @@ export class Connector implements IConnector {
         }
 
         const { request: { url: resource } } = requestInfo;
-        const eventName: string = this._href === resource ? 'targetfetch::error' : 'fetch::error';
+        const eventName: string = 'fetch::error';
 
         const hops: Array<string> = this._redirects.calculate(resource);
 
@@ -455,13 +455,13 @@ export class Connector implements IConnector {
         const originalUrl: string = hops[0] || resourceUrl;
 
         let element = null;
-        let eventName: string = this._href === originalUrl ? 'targetfetch::end' : 'fetch::end';
+        let eventName: string = this._href === originalUrl ? 'fetch::end::html' : 'fetch::end';
 
         if (params.type === 'Manifest') {
-            eventName = 'manifestfetch::end';
+            eventName = 'fetch::end::manifest';
         }
 
-        if (eventName !== 'targetfetch::end') {
+        if (eventName !== 'fetch::end::html') {
             // DOM is not ready so we queue up the event for later
             if (!this._dom) {
                 this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
@@ -490,11 +490,13 @@ export class Connector implements IConnector {
             response
         };
 
-        if (eventName === 'targetfetch::end') {
+        if (eventName === 'fetch::end::html') {
             this._targetNetworkData = {
                 request,
                 response
             };
+        } else if (eventName === 'fetch::end') {
+            eventName = `${eventName}::${getType(response.mediaType)}`;
         }
 
         if (hasAttributeWithValue(data.element, 'link', 'rel', 'icon')) {
@@ -529,14 +531,14 @@ export class Connector implements IConnector {
         try {
             const manifestData: INetworkData = await this.fetchContent(manifestURL);
 
-            const event: IManifestFetchEnd = {
+            const event: IFetchEnd = {
                 element,
                 request: manifestData.request,
                 resource: manifestURL,
                 response: manifestData.response
             };
 
-            await this._server.emitAsync('manifestfetch::end', event);
+            await this._server.emitAsync('fetch::end::manifest', event);
 
             return;
 
@@ -549,7 +551,7 @@ export class Connector implements IConnector {
                 resource: manifestURL
             };
 
-            await this._server.emitAsync('manifestfetch::error', event);
+            await this._server.emitAsync('fetch::error::manifest', event);
         }
     }
 
@@ -755,7 +757,7 @@ export class Connector implements IConnector {
                 response: content.response
             };
 
-            await this._server.emitAsync('fetch::end', data);
+            await this._server.emitAsync('fetch::end::image', data);
         } catch (error) {
             const hops = this._redirects.calculate(href);
 
@@ -800,7 +802,7 @@ export class Connector implements IConnector {
                 await this._server.emitAsync('traverse::end', event);
 
                 if (!this._manifestIsSpecified) {
-                    await this._server.emitAsync('manifestfetch::missing', { resource: this._href });
+                    await this._server.emitAsync('fetch::missing::manifest', { resource: this._href });
                 }
 
                 if (!this._faviconLoaded) {
@@ -828,6 +830,15 @@ export class Connector implements IConnector {
      */
 
     public collect(target: URL) {
+        if (!target.protocol.match(/https?:/)) {
+            const err = {
+                message: `Protocol "${target.protocol}" invalid for the current collector`,
+                type: 'InvalidTarget'
+            };
+
+            throw err;
+        }
+
         return promisify(async (callback) => {
             this._href = target.href.replace(target.hash, '');
             this._finalHref = target.href; // This value will be updated if we load the site

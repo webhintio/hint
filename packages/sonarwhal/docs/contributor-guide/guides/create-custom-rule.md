@@ -15,7 +15,7 @@ misses the `(c) sonarwhal part`, the rule fails. Otherwise it passes. A rule
 subscribes to one or more events that are emitted from a connector. A connector
 is the way sonarwhal gets the information about a website or a resource using a
 browser, or something different that reads files from disk. For example, if a
-rule subscribes to `fetch::end`, it means this rule will run each time the
+rule subscribes to `fetch::end::<resource-type>`, it means this rule will run each time the
 connector finishes downloading a resource file.
 
 ## What is it like to create a new rule?

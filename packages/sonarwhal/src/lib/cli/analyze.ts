@@ -66,21 +66,25 @@ const tryToLoadConfig = async (actions: CLIOptions) => {
 const messages = {
     'fetch::end': '%url% downloaded',
     'fetch::start': 'Downloading %url%',
-    'manifestfetch::end': '%url% downloaded',
-    'manifestfetch::start': 'Downloading %url%',
     'scan::end': 'Finishing...',
     'scan::start': 'Analyzing %url%',
-    'targetfetch::end': '%url% downloaded',
-    'targetfetch::start': 'Downloading %url%',
     'traverse::down': 'Traversing the DOM',
     'traverse::end': 'Traversing finished',
     'traverse::start': 'Traversing the DOM',
     'traverse::up': 'Traversing the DOM'
 };
 
+const getEvent = (event: string) => {
+    if (event.startsWith('fetch::end')) {
+        return 'fetch::end';
+    }
+
+    return event;
+};
+
 const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: IORA) => {
     sonarwhalInstance.prependAny((event: string, value: { resource: string }) => {
-        const message: string = messages[event];
+        const message: string = messages[getEvent(event)];
 
         if (!message) {
             return;

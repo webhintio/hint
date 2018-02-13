@@ -36,17 +36,31 @@ const defaultTests: Array<IRuleTest> = [
     }
 ];
 
-const userConfigTests: Array<IRuleTest> = [
+const userHighConfigTests: Array<IRuleTest> = [
     {
         name: `page with a library with vulnerabilities medium or lower passes if configured severity is "high"`,
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
     },
     {
-        name: `page with a library with vulnerabilities medium or lower fails if configured severity is "medium"`,
+        name: `page with a library with vulnerabilities high fails if configured severity is "high"`,
         reports: [{ message: 'AngularJS@1.4.9 has 3 known vulnerabilities (3 high). See https://snyk.io/vuln/npm:angular for more information.' }],
         serverConfig: generateHTMLPage(generateScriptTag(angular))
     }
 ];
 
+const userMediumConfigTests: Array<IRuleTest> = [
+    {
+        name: `page with a library with vulnerabilities medium fails if configured severity is "medium"`,
+        reports: [{ message: 'jQuery@2.1.4 has 1 known vulnerabilities (1 medium). See https://snyk.io/vuln/npm:jquery for more information.' }],
+        serverConfig: generateHTMLPage(generateScriptTag(jquery))
+    },
+    {
+        name: `page with a library with vulnerabilities high fails if configured severity is "medium"`,
+        reports: [{ message: 'AngularJS@1.4.9 has 9 known vulnerabilities (3 high, 6 medium). See https://snyk.io/vuln/npm:angular for more information.' }],
+        serverConfig: generateHTMLPage(generateScriptTag(angular))
+    }
+];
+
 ruleRunner.testRule(getRuleName(__dirname), defaultTests);
-ruleRunner.testRule(getRuleName(__dirname), userConfigTests, { ruleOptions: { severity: 'high' } });
+ruleRunner.testRule(getRuleName(__dirname), userHighConfigTests, { ruleOptions: { severity: 'high' } });
+ruleRunner.testRule(getRuleName(__dirname), userMediumConfigTests, { ruleOptions: { severity: 'medium' } });

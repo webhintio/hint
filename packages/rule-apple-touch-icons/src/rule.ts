@@ -11,6 +11,7 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { isHTMLDocument, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd, INetworkData } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -299,7 +300,7 @@ const rule: IRuleBuilder = {
             description: `Require an 'apple-touch-icon'`
         },
         schema: [],
-        worksWithLocalFiles: true
+        scope: RuleScope.any
     }
 };
 

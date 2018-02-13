@@ -12,7 +12,7 @@ const fsExtra = { copy() { } };
 const inquirer = { prompt() { } };
 const misc = {
     findPackageRoot() {
-        return path.join(__dirname, '..', '..', '..', '..', '..');
+        return path.join(__dirname, '../../../../../');
     },
     normalizeStringByDelimiter() { },
     readFileAsync() { },
@@ -70,11 +70,14 @@ test.serial('It should create a new core parser.', async (t) => {
     };
     const parserEventsResult = {
         again: false,
-        event: 'fetch::end'
+        event: 'fetch::end::*'
     };
     const sandbox = sinon.sandbox.create();
 
-    sandbox.stub(misc, 'findPackageRoot').returns(path.join(__dirname, '..', '..', '..', '..', '..'));
+    const packageRoot = path.join(__dirname, '../../../../../');
+
+    sandbox.stub(misc, 'findPackageRoot').returns(packageRoot);
+    sandbox.stub(process, 'cwd').returns(packageRoot);
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
         .resolves(parserInfoResult)
@@ -101,7 +104,7 @@ test.serial('It should create a new core parser with no duplicate events.', asyn
     };
     const parserEventsResult1 = {
         again: true,
-        event: 'fetch::end'
+        event: 'fetch::end::*'
     };
     const parserEventsResult2 = {
         again: true,
@@ -114,8 +117,10 @@ test.serial('It should create a new core parser with no duplicate events.', asyn
         event: 'element::'
     };
     const sandbox = sinon.sandbox.create();
+    const packageRoot = path.join(__dirname, '../../../../../');
 
-    sandbox.stub(misc, 'findPackageRoot').returns(path.join(__dirname, '..', '..', '..', '..', '..'));
+    sandbox.stub(misc, 'findPackageRoot').returns(packageRoot);
+    sandbox.stub(process, 'cwd').returns(packageRoot);
     sandbox.stub(inquirer, 'prompt')
         .onCall(0)
         .resolves(parserInfoResult)
@@ -134,7 +139,7 @@ test.serial('It should create a new core parser with no duplicate events.', asyn
         return question.name === 'event';
     });
     const eventList = eventQuestion.choices;
-    const containFetchEnd = eventList.includes('fetch::end');
+    const containFetchEnd = eventList.includes('fetch::end::*');
     const containElement = eventList.includes('element::');
     const data = t.context.handlebars.compileTemplate.args[0][1];
     const events = data.events.map((event) => {
@@ -165,7 +170,7 @@ test.serial('It should create a new external parser.', async (t) => {
     };
     const parserEventsResult = {
         again: false,
-        event: 'fetch::end'
+        event: 'fetch::end::*'
     };
     const sandbox = sinon.sandbox.create();
 
