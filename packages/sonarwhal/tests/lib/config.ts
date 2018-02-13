@@ -38,7 +38,7 @@ test(`if package.json is an invalid JSON, it should return an exception`, (t) =>
         config.load(path.join(__dirname, './fixtures/exception/package.json'));
     });
 
-    t.true(error.message.startsWith(`Couldn't find any valid configuration`));
+    t.true(error.message.startsWith('Cannot read config file: '));
 });
 
 test(`if the config file doesn't have an extension, it should be parse as JSON file`, (t) => {
