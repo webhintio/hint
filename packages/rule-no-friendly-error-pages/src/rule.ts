@@ -16,6 +16,7 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IFetchEnd, INetworkData, IResponse, ITraverseEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -143,9 +144,7 @@ const rule: IRuleBuilder = {
         };
 
         return {
-            'fetch::end': checkForErrorPages,
-            'manifestfetch::end': checkForErrorPages,
-            'targetfetch::end': checkForErrorPages,
+            'fetch::end::*': checkForErrorPages,
             'traverse::end': validate
         };
     },
@@ -155,7 +154,7 @@ const rule: IRuleBuilder = {
             description: 'Disallow small error pages'
         },
         schema: [],
-        worksWithLocalFiles: false
+        scope: RuleScope.site
     }
 };
 

@@ -22,8 +22,8 @@ import { IConnector, IConnectorBuilder } from '../../../src/lib/types';
 /** The minimum set of events the connectors need to implement. */
 const events = [
     ['scan::start', { resource: 'http://localhost/' }],
-    ['targetfetch::start', { resource: 'http://localhost/' }],
-    ['targetfetch::end', {
+    ['fetch::start', { resource: 'http://localhost/' }],
+    ['fetch::end::html', {
         resource: 'http://localhost/',
         request: { url: 'http://localhost/' },
         response: {
@@ -56,7 +56,7 @@ const events = [
     ['element::p', { resource: 'http://localhost/' }],
     ['traverse::end', { resource: 'http://localhost/' }],
     ['fetch::start', { resource: 'http://localhost/script3.js' }],
-    ['fetch::end', {
+    ['fetch::end::script', {
         element: {
             getAttribute(attr) {
                 if (attr === 'src') {
@@ -83,7 +83,7 @@ const events = [
         }
     }],
     ['fetch::start', { resource: 'http://localhost/style.css' }],
-    ['fetch::end', {
+    ['fetch::end::css', {
         element: {
             getAttribute(attr) {
                 if (attr === 'href') {
@@ -109,7 +109,7 @@ const events = [
         }
     }],
     ['fetch::start', { resource: 'http://localhost/script4.js' }],
-    ['fetch::end', {
+    ['fetch::end::script', {
         element: {
             getAttribute(attr) {
                 if (attr === 'href') {
@@ -141,7 +141,7 @@ const events = [
         resource: 'test://fa.il',
         hops: ['http://localhost/script5.js']
     }],
-    ['manifestfetch::missing', { resource: 'http://localhost/' }],
+    ['fetch::missing::manifest', { resource: 'http://localhost/' }],
     ['scan::end', { resource: 'http://localhost/' }]
 ];
 /* eslint-enable sort-keys */
@@ -298,7 +298,7 @@ const testConnectorEvents = (connectorInfo) => {
         }
 
         // List of events that only have to be called once per execution
-        const singles = ['fetch::error', 'scan::start', 'scan::end', 'manifestfetch::missing', 'targetfetch::start', 'targetfetch::end'];
+        const singles = ['fetch::error', 'scan::start', 'scan::end', 'fetch::missing::manifest', 'fetch::end::html'];
         const groupedEvents = _.groupBy(invokes, (invoke) => {
             return invoke[0];
         });

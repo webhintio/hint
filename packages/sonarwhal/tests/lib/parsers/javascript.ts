@@ -106,25 +106,7 @@ test.serial('If an script tag is an internal javascript, then we should parse th
     sandbox.restore();
 });
 
-test.serial('If fetch::end is received but the response is not a javascript, then we should parse the code and emit a parse::javascript event', async (t) => {
-    const sandbox = sinon.sandbox.create();
-    const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
-
-    sandbox.spy(eslint, 'SourceCode');
-    sandbox.spy(espree, 'parse');
-
-    await t.context.sonarwhal.emitAsync('fetch::end', {
-        resource: 'styles.css',
-        response: { mediaType: 'text/css' }
-    });
-
-    t.false(t.context.espree.parse.called);
-    t.false(t.context.eslint.SourceCode.called);
-
-    sandbox.restore();
-});
-
-test.serial('If fetch::end is received with a javascript, then nothing should happen', async (t) => {
+test.serial('If fetch::end::script is received, then we should parse the code and emit a parse::javascript event', async (t) => {
     const sandbox = sinon.sandbox.create();
     const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
@@ -135,7 +117,7 @@ test.serial('If fetch::end is received with a javascript, then nothing should ha
     sandbox.stub(eslint, 'SourceCode').returns(sourceCodeObject);
     sandbox.stub(espree, 'parse').returns(parseObject);
 
-    await t.context.sonarwhal.emitAsync('fetch::end', {
+    await t.context.sonarwhal.emitAsync('fetch::end::script', {
         resource: 'script.js',
         response: {
             body: { content: code },

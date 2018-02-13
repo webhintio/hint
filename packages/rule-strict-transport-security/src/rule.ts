@@ -7,6 +7,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, IResponse, IFetchEnd, IRule, IRuleBuilder, INetworkData } from 'sonarwhal/dist/src/lib/types';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -31,7 +32,7 @@ const rule: IRuleBuilder = {
          * HACK: Need to do a require here in order to be capable of mocking
          * when testing the rule and `import` doesn't work here.
          */
-        const { isHTTPS, isRegularProtocol, normalizeString, requestJSONAsync } = require('sonarwhal/dist/src/lib/utils/misc');
+        const { isHTTPS, normalizeString, requestJSONAsync } = require('sonarwhal/dist/src/lib/utils/misc');
 
         const loadRuleConfigs = () => {
             minMaxAgeValue = (context.ruleOptions && context.ruleOptions.minMaxAgeValue) || 10886400; // 18 weeks
@@ -140,13 +141,6 @@ const rule: IRuleBuilder = {
         const validate = async (fetchEnd: IFetchEnd) => {
             const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
 
-            // This check does not apply if URI starts with protocols others than http/https.
-            if (!isRegularProtocol(resource)) {
-                debug(`Check does not apply for URI: ${resource}`);
-
-                return;
-            }
-
             const headerValue: string = normalizeString(response.headers && response.headers['strict-transport-security']);
             let parsedHeader;
 
@@ -229,11 +223,7 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return {
-            'fetch::end': validate,
-            'manifestfetch::end': validate,
-            'targetfetch::end': validate
-        };
+        return { 'fetch::end::*': validate };
     },
     meta: {
         docs: {
@@ -246,7 +236,7 @@ const rule: IRuleBuilder = {
                 minMaxAgeValue: { type: 'number' }
             }
         }],
-        worksWithLocalFiles: false
+        scope: RuleScope.site
     }
 };
 

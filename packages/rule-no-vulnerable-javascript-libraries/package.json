@@ -51,8 +51,7 @@
   "main": "dist/src/index.js",
   "name": "@sonarwhal/rule-no-vulnerable-javascript-libraries",
   "nyc": {
-    "extends": "../../../../.nycrc",
-    "branches": 70
+    "extends": "../../../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^0.25.0"

@@ -12,6 +12,7 @@ import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 
 import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';
 import * as Connections from './connections';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -261,9 +262,8 @@ That's ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s tar
         };
 
         return {
-            'fetch::end': onFetchEnd,
-            'scan::end': onScanEnd,
-            'targetfetch::end': onFetchEnd
+            'fetch::end::*': onFetchEnd,
+            'scan::end': onScanEnd
         };
     },
     meta: {
@@ -285,7 +285,7 @@ That's ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s tar
             },
             type: 'object'
         }],
-        worksWithLocalFiles: false
+        scope: RuleScope.site
     }
 };
 

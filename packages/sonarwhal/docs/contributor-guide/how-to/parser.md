@@ -15,7 +15,9 @@ export default class CustomParser extends Parser {
     public constructor(sonarwhal: Sonarwhal) {
         super(sonarwhal);
 
-        this.sonarwhal.on('fetch::end', this.onFetchEnd);
+        // Replace 'resource' with the tipe you need (html, script,
+        // css, image, etc.)
+        this.sonarwhal.on('fetch::end::resource', this.onFetchEnd);
     }
 
     public async onFetchEnd(data: IFetchEnd) {
@@ -31,15 +33,8 @@ export default class CustomParser extends Parser {
 
 The way `parser`s receive and share information is via events. To access
 a resource the parser needs to subscribe in the `constructor` to one or
-more events. In most cases you will subscribe to one of the `*fetch::end`
-events, like `fetch::end`. Because the `fetch::end` event is emitted
-for different type of resources, you need to check first if you can
-understand it. A good approach would be:
-
-1. check first the `mediaType` of the response (`fetchEndEvent.response.mediaType`)
-2. use a schema to validate if `json`, `xml` or something similar
-3. parse it somehow (E.g.: for `javascript` using something like `ESTree`
-   to validate)
+more events. In most cases you will subscribe to one of the `fetch::end::<resource-type>`
+events, like `fetch::end::script`.
 
 Once you have analyzed the resource, the way to share information is via
 events (custom or not):

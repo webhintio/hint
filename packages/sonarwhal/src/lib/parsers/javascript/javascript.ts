@@ -19,7 +19,7 @@ export default class JavascriptParser extends Parser {
     public constructor(sonarwhal: Sonarwhal) {
         super(sonarwhal);
 
-        sonarwhal.on('fetch::end', this.parseJavascript.bind(this));
+        sonarwhal.on('fetch::end::script', this.parseJavascript.bind(this));
         sonarwhal.on('element::script', this.parseJavascriptTag.bind(this));
     }
 
@@ -35,10 +35,6 @@ export default class JavascriptParser extends Parser {
     }
 
     private async parseJavascript(fetchEnd: IFetchEnd) {
-        if (fetchEnd.response.mediaType !== 'text/javascript') {
-            return;
-        }
-
         const code = fetchEnd.response.body.content;
         const resource = fetchEnd.resource;
 
@@ -73,7 +69,7 @@ export default class JavascriptParser extends Parser {
         const element: IAsyncHTMLElement = elementFound.element;
 
         if (this.hasSrcAttribute(element)) {
-            // Ignore because this will be (or have been) processed in the event 'fetch::end'.
+            // Ignore because this will be (or have been) processed in the event 'fetch::end::script'.
             return;
         }
 

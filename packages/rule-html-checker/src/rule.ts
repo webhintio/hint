@@ -14,12 +14,13 @@ import * as uniqBy from 'lodash.uniqby';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, IRuleBuilder, ITargetFetchEnd, IProblemLocation, Severity } from 'sonarwhal/dist/src/lib/types';
+import { IFetchEnd, IRule, IRuleBuilder, IProblemLocation, Severity } from 'sonarwhal/dist/src/lib/types';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
 type CheckerData = {
-    event: ITargetFetchEnd;
+    event: IFetchEnd;
     failed: boolean;
     promise: Promise<any>;
 };
@@ -100,7 +101,7 @@ const rule: IRuleBuilder = {
             await context.report(resource, null, `Couldn't get results from HTML checker for ${resource}. Error: ${error}`);
         };
 
-        const start = (data: ITargetFetchEnd) => {
+        const start = (data: IFetchEnd) => {
             const { response } = data;
 
             /*
@@ -173,8 +174,8 @@ const rule: IRuleBuilder = {
         loadRuleConfig();
 
         return {
-            'scan::end': end,
-            'targetfetch::end': start
+            'fetch::end::html': start,
+            'scan::end': end
         };
     },
     meta: {
@@ -199,7 +200,7 @@ const rule: IRuleBuilder = {
                 }
             }
         }],
-        worksWithLocalFiles: true
+        scope: RuleScope.any
     }
 };
 

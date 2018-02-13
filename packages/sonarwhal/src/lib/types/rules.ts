@@ -1,4 +1,5 @@
 import { Category } from '../enums/category';
+import { RuleScope } from '../enums/rulescope';
 
 export type MetadataDocs = {
     category?: Category;
@@ -12,8 +13,8 @@ export interface IRuleMetadata {
     ignoredConnectors?: Array<string>;
     /** The schema the rule configuration must follow in order to be valid */
     schema: Array<any>; // TODO: this shouldn't be an Array of any
-    /** If the rule works with local resources (file://...) */
-    worksWithLocalFiles: boolean;
+    /** The scope of the rules (local, site, any) */
+    scope: RuleScope;
 }
 
 /** The builder of a given Rule */
