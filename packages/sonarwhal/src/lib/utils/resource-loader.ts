@@ -286,7 +286,7 @@ export const loadParser = (parserId: string): Parser => {
 };
 
 /**
- * Get packages in npm.
+ * Searches all the packages in npm given `searchTerm`.
  */
 const searchNpmPackages = (searchTerm: string): Promise<Array<NpmPackage>> => {
     return new Promise((resolve, reject) => {
@@ -318,7 +318,7 @@ const loadNpm = () => {
     return npmLoadAsync({ loaded: false });
 };
 
-/** Filter packages by startsWith. */
+/** Filters the packages that `startsWith` `initTerm`. */
 const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
     return packages.filter((pkg) => {
         return pkg.name.startsWith(initTerm);

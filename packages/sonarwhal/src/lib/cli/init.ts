@@ -60,7 +60,7 @@ const installRules = (rules) => {
          * Show message to install packages manually.
          */
         logger.error(err);
-        logger.error(`Something when wrong installing package, please run:
+        logger.error(`Something went wrong installing the packages, please run:
 ${process.platform !== 'win32' ? 'sudo ' : ''}${command}
 to install all the rules.`);
     }

@@ -116,7 +116,7 @@
   "nyc": {
     "extends": "../../.nycrc",
     "include": [
-      "dist/tests/**/*.js"
+      "dist/src/**/*.js"
     ]
   },
   "optionalDependencies": {
