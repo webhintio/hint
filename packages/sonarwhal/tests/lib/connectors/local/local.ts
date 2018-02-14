@@ -32,7 +32,7 @@ test.serial(`If target is a file, it should emit 'targetfetch::start' event`, as
     t.is(t.context.sonarwhal.emitAsync.callCount, 4);
     t.is(t.context.sonarwhal.emitAsync.args[0][0], 'scan::start');
     t.is(t.context.sonarwhal.emitAsync.args[1][0], 'targetfetch::start');
-    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'fetch::end');
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'fetch::end::script');
 
     sandbox.restore();
 });
@@ -135,11 +135,11 @@ test.serial(`If target is a directory, shouldn't emit the event 'targetfetch::st
         return arg[0];
     }).sort();
 
-    t.is(events[0], 'fetch::end');
-    t.is(events[1], 'fetch::end');
-    t.is(events[2], 'scan::end');
-    t.is(events[3], 'scan::start');
-    t.is(events[4], 'fetch::end::html');
+    t.is(events[0], 'fetch::end::html');
+    t.is(events[1], 'fetch::end::image');
+    t.is(events[2], 'fetch::end::script');
+    t.is(events[3], 'scan::end');
+    t.is(events[4], 'scan::start');
 
     sandbox.restore();
 });

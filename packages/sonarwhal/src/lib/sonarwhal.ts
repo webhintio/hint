@@ -233,7 +233,7 @@ export class Sonarwhal extends EventEmitter {
             const ignoredConnectors: Array<string> = rule.meta.ignoredConnectors || [];
 
             return (this.connectorId === 'local' && rule.meta.scope === Scope.site) ||
-                (this.connectorId === 'site' && rule.meta.scope === Scope.local) ||
+                (this.connectorId !== 'local' && rule.meta.scope === Scope.local) ||
                 ignoredConnectors.includes(this.connectorId);
         };
 

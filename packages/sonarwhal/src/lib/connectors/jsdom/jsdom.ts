@@ -331,6 +331,15 @@ class JSDOMConnector implements IConnector {
      */
 
     public collect(target: URL) {
+        if (!target.protocol.match(/https?:/)) {
+            const err = {
+                message: `Protocol "${target.protocol}" is invalid for the current collector`,
+                type: 'InvalidTarget'
+            };
+
+            throw err;
+        }
+
         /** The target in string format */
         const href: string = this._href = target.href;
 

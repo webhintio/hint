@@ -393,7 +393,7 @@ const getType = (mediaType: string) => {
 
     switch (mediaType) {
         case 'text/javascript':
-            return 'javascript';
+            return 'script';
         case 'text/css':
             return 'css';
         case 'application/manifest+json':

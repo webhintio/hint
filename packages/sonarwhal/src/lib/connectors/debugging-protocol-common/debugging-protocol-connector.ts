@@ -830,6 +830,15 @@ export class Connector implements IConnector {
      */
 
     public collect(target: URL) {
+        if (!target.protocol.match(/https?:/)) {
+            const err = {
+                message: `Protocol "${target.protocol}" invalid for the current collector`,
+                type: 'InvalidTarget'
+            };
+
+            throw err;
+        }
+
         return promisify(async (callback) => {
             this._href = target.href.replace(target.hash, '');
             this._finalHref = target.href; // This value will be updated if we load the site

@@ -35,10 +35,6 @@ export default class JavascriptParser extends Parser {
     }
 
     private async parseJavascript(fetchEnd: IFetchEnd) {
-        if (fetchEnd.response.mediaType !== 'text/javascript') {
-            return;
-        }
-
         const code = fetchEnd.response.body.content;
         const resource = fetchEnd.resource;
 

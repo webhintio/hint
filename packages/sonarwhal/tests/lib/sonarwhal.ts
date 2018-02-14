@@ -84,7 +84,7 @@ test(`If a rule doesn't exist, we should throw an error`, (t) => {
     }, Error);
 });
 
-test(`If config.browserslist is an string, we should initilize the property targetedBrowsers`, (t) => {
+test.serial(`If config.browserslist is an string, we should initilize the property targetedBrowsers`, (t) => {
     sinon.spy(t.context.resourceLoader, 'loadRules');
 
     const sonarwhalObject = new Sonarwhal({
@@ -330,6 +330,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
 
     t.context.eventemitter.prototype.on.restore();
 });
+
 test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't ignore those rules if the connector isn't in that property`, (t) => {
     const rule = {
         create() {
@@ -405,8 +406,52 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If an event is emitted for a local file and the rule doesn't work with those then the handler should be null`, (t) => {
+test.serial(`If the rule scope is 'local' and the connector isn't local the rule should be ignored`, (t) => {
     const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+    const ruleWithScopeLocal = {
+        create() {
+            return {};
+        },
+        meta: { scope: Scope.local }
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    t.context.ruleWithScopeLocal = ruleWithScopeLocal;
+    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
+        ['disallowed-headers', ruleWithScopeLocal],
+        ['manifest-exists', rule]
+    ]));
+    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
+    sinon.spy(ruleWithScopeLocal, 'create');
+    new Sonarwhal({
+        connector: 'chrome',
+        rules: {
+            'disallowed-headers': 'warning',
+            'manifest-exists': 'warning'
+        }
+    });
+
+    t.true(t.context.resourceLoader.loadRules.called);
+    t.false(t.context.ruleWithScopeLocal.create.called);
+    t.true(t.context.rule.create.calledOnce);
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test.serial(`If the rule scope is 'site' and the connector is local the rule should be ignored`, (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+    const ruleWithScopeSite = {
         create() {
             return {};
         },
@@ -415,24 +460,105 @@ test.serial(`If an event is emitted for a local file and the rule doesn't work w
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
     t.context.rule = rule;
+    t.context.ruleWithScopeSite = ruleWithScopeSite;
     sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule]
+        ['disallowed-headers', ruleWithScopeSite],
+        ['manifest-exists', rule]
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
-
+    sinon.spy(ruleWithScopeSite, 'create');
     new Sonarwhal({
-        connector: 'connector',
-        rules: { 'disallowed-headers': 'warning' }
+        connector: 'local',
+        rules: {
+            'disallowed-headers': 'warning',
+            'manifest-exists': 'warning'
+        }
     });
 
-    const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
-
-    t.is(eventHandler({ resource: 'file://file.txt' }), null);
+    t.true(t.context.resourceLoader.loadRules.called);
+    t.false(t.context.ruleWithScopeSite.create.called);
+    t.true(t.context.rule.create.calledOnce);
 
     t.context.eventemitter.prototype.on.restore();
 });
 
-test(`If an event is emitted for an ignored url, it shouldn't propagate`, async (t) => {
+test.serial(`If the rule scope is 'any' and the connector is local the rule should be used`, (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+    const ruleWithScopeSite = {
+        create() {
+            return {};
+        },
+        meta: { scope: Scope.any }
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    t.context.ruleWithScopeSite = ruleWithScopeSite;
+    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
+        ['disallowed-headers', ruleWithScopeSite],
+        ['manifest-exists', rule]
+    ]));
+    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
+    sinon.spy(ruleWithScopeSite, 'create');
+    new Sonarwhal({
+        connector: 'local',
+        rules: {
+            'disallowed-headers': 'warning',
+            'manifest-exists': 'warning'
+        }
+    });
+
+    t.true(t.context.resourceLoader.loadRules.called);
+    t.true(t.context.ruleWithScopeSite.create.called);
+    t.true(t.context.rule.create.calledOnce);
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test.serial(`If the rule scope is 'any' and the connector isn't local the rule should be used`, (t) => {
+    const rule = {
+        create() {
+            return {};
+        },
+        meta: {}
+    };
+    const ruleWithScopeSite = {
+        create() {
+            return {};
+        },
+        meta: { scope: Scope.any }
+    };
+
+    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    t.context.rule = rule;
+    t.context.ruleWithScopeSite = ruleWithScopeSite;
+    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
+        ['disallowed-headers', ruleWithScopeSite],
+        ['manifest-exists', rule]
+    ]));
+    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
+    sinon.spy(ruleWithScopeSite, 'create');
+    new Sonarwhal({
+        connector: 'jsdom',
+        rules: {
+            'disallowed-headers': 'warning',
+            'manifest-exists': 'warning'
+        }
+    });
+
+    t.true(t.context.resourceLoader.loadRules.called);
+    t.true(t.context.ruleWithScopeSite.create.called);
+    t.true(t.context.rule.create.calledOnce);
+
+    t.context.eventemitter.prototype.on.restore();
+});
+
+test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`, async (t) => {
     const rule = {
         create() {
             return {};
