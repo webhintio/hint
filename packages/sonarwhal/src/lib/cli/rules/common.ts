@@ -97,6 +97,10 @@ const useCases = [
 
 /** List of questions to prompt the user. */
 export const questions = (type: QuestionsType) => {
+    const noEmpty = (value) => {
+        return value.trim() !== '';
+    };
+
     return [{
         message: `Is this a package with multiple rules? (yes)`,
         name: 'multi',
@@ -113,7 +117,8 @@ export const questions = (type: QuestionsType) => {
             return `What's the name of this new ${answers.multi ? 'package' : 'rule'}?`;
         },
         name: 'name',
-        type: 'input'
+        type: 'input',
+        validate: noEmpty
     },
     {
         default(answers) {
@@ -123,7 +128,8 @@ export const questions = (type: QuestionsType) => {
             return `What's the description of this new ${answers.multi ? 'package' : 'rule'} '${answers.name}'?`;
         },
         name: 'description',
-        type: 'input'
+        type: 'input',
+        validate: noEmpty
     },
     {
         choices: categories,
@@ -150,6 +156,7 @@ export const questions = (type: QuestionsType) => {
         message: 'What DOM element does the rule need access to?',
         name: 'elementType',
         type: 'input',
+        validate: noEmpty,
         when: (answers) => {
             return answers.useCase === 'dom';
         }
