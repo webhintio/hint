@@ -16,7 +16,7 @@ import { IRule, IRuleBuilder, IScanEnd, Severity } from 'sonarwhal/dist/src/lib/
 import { Library, Vulnerability } from './rule-types';
 import { readFileAsync, requestAsync } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -222,7 +222,11 @@ const rule: IRuleBuilder = {
             },
             type: 'object'
         }],
-        scope: Scope.any
+        /*
+         * Snyk can not analize a file itself, it needs a connector.
+         * TODO: Change to any once the local connector has jsdom.
+         */
+        scope: RuleScope.site
     }
 };
 

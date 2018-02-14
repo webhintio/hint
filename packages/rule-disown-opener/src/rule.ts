@@ -22,7 +22,7 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -166,7 +166,7 @@ const rule: IRuleBuilder = {
             properties: { includeSameOriginURLs: { type: 'boolean' } },
             type: ['object', null]
         }],
-        scope: Scope.any
+        scope: RuleScope.any
     }
 };
 

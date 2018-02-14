@@ -2,13 +2,13 @@ import test from 'ava';
 
 import * as configRules from '../../../src/lib/config/config-rules';
 import { IRuleBuilder, RuleConfig } from '../../../src/lib/types';
-import { Scope } from '../../../src/lib/enums/scope';
+import { RuleScope } from '../../../src/lib/enums/rulescope';
 
 const ruleEmptySchema: IRuleBuilder = {
     create() {
         return null;
     },
-    meta: { schema: [], scope: Scope.site }
+    meta: { schema: [], scope: RuleScope.site }
 };
 
 const ruleWithSchema: IRuleBuilder = {
@@ -32,7 +32,7 @@ const ruleWithSchema: IRuleBuilder = {
             },
             type: ['object', null]
         }],
-        scope: Scope.site
+        scope: RuleScope.site
     }
 };
 

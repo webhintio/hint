@@ -8,7 +8,7 @@ import { IFetchEnd, IAsyncHTMLElement, IResponse, IRuleBuilder, IRule, Severity 
 import { isHTTPS, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { ParsedSetCookieHeader } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -319,7 +319,7 @@ const rule: IRuleBuilder = {
         },
         ignoredConnectors: [],
         schema: [],
-        scope: Scope.site
+        scope: RuleScope.site
     }
 };
 

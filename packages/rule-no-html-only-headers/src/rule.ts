@@ -17,7 +17,7 @@ import { getIncludedHeaders, mergeIgnoreIncludeArrays } from 'sonarwhal/dist/src
 import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -130,7 +130,7 @@ const rule: IRuleBuilder = {
             },
             type: ['object', null]
         }],
-        scope: Scope.site
+        scope: RuleScope.site
     }
 };
 

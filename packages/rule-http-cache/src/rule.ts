@@ -8,7 +8,7 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { getHeaderValueNormalized, isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -438,7 +438,7 @@ const rule: IRuleBuilder = {
                 revvingPatterns: { $ref: '#/definitions/string-array' }
             }
         }],
-        scope: Scope.site
+        scope: RuleScope.site
     }
 };
 

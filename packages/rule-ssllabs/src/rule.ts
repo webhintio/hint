@@ -18,7 +18,7 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IFetchEnd, IScanEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -210,7 +210,7 @@ There might be something wrong with SSL Labs servers.`;
             },
             type: 'object'
         }],
-        scope: Scope.site
+        scope: RuleScope.site
     }
 };
 

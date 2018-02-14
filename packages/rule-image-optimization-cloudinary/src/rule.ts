@@ -14,7 +14,7 @@ import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { cloudinaryResult } from './cloudinary-types';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 /*
  * ------------------------------------------------------------------------------
@@ -184,7 +184,7 @@ const rule: IRuleBuilder = {
                 threshold: { type: 'number' }
             }
         }],
-        scope: Scope.any
+        scope: RuleScope.any
     }
 };
 

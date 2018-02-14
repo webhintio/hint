@@ -18,7 +18,7 @@ import { getFileExtension, isTextMediaType } from 'sonarwhal/dist/src/lib/utils/
 import { getHeaderValueNormalized, isRegularProtocol, isHTTP, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const uaString = 'Mozilla/5.0 Gecko';
 
@@ -677,7 +677,7 @@ const rule: IRuleBuilder = {
             },
             type: 'object'
         }],
-        scope: Scope.site
+        scope: RuleScope.site
     }
 };
 

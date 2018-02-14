@@ -12,7 +12,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -57,7 +57,7 @@ const rule: IRuleBuilder = {
             description: 'Require valid web app manifest'
         },
         schema: [],
-        scope: Scope.any
+        scope: RuleScope.any
     }
 };
 

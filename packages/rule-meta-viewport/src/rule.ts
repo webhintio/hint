@@ -10,7 +10,7 @@ import { isHTMLDocument, normalizeString } from 'sonarwhal/dist/src/lib/utils/mi
 import { IAsyncHTMLDocument, IAsyncHTMLElement, ITraverseEnd } from 'sonarwhal/dist/src/lib/types';
 import { IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 /*
  * ------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ const rule: IRuleBuilder = {
             description: 'Require viewport meta tag'
         },
         schema: [],
-        scope: Scope.any
+        scope: RuleScope.any
     }
 };
 

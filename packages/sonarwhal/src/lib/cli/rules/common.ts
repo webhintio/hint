@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as Handlebars from 'handlebars';
 
 import { Category } from '../../enums/category';
-import { Scope } from '../../enums/scope';
+import { RuleScope } from '../../enums/rulescope';
 
 import { findPackageRoot as packageRoot, normalizeStringByDelimiter, readFile, toCamelCase } from '../../utils/misc';
 import { escapeSafeString } from '../../utils/handlebars';
@@ -55,7 +55,7 @@ export interface INewRule {
     /** Usage categories that the new rule applies to */
     useCase?: UseCase;
     /** If the rule works with local files */
-    scope: Scope;
+    scope: RuleScope;
     /** If a rule is external */
     external: Boolean;
 }
@@ -187,7 +187,7 @@ export class NewRule implements INewRule {
     public events: string;
     public useCase?: UseCase;
     public prefix: string;
-    public scope: Scope;
+    public scope: RuleScope;
     public external: Boolean;
     public constructor(ruleData) {
         this.name = ruleData.name;
@@ -203,6 +203,7 @@ export class NewRule implements INewRule {
             thirdPartyService: false
         };
         this.useCase[ruleData.useCase] = true;
-        this.scope = Scope.any;
+        // TODO: Ask for the scope.
+        this.scope = RuleScope.any;
     }
 }

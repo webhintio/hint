@@ -15,7 +15,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { IFetchEnd, IRule, IRuleBuilder, IProblemLocation, Severity } from 'sonarwhal/dist/src/lib/types';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -200,7 +200,7 @@ const rule: IRuleBuilder = {
                 }
             }
         }],
-        scope: Scope.any
+        scope: RuleScope.any
     }
 };
 

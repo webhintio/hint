@@ -6,7 +6,7 @@ import * as proxyquire from 'proxyquire';
 import test from 'ava';
 
 import { delay } from '../../src/lib/utils/misc';
-import { Scope } from '../../src/lib/enums/scope';
+import { RuleScope } from '../../src/lib/enums/rulescope';
 
 const resourceLoader = {
     loadConnector() {
@@ -417,7 +417,7 @@ test.serial(`If the rule scope is 'local' and the connector isn't local the rule
         create() {
             return {};
         },
-        meta: { scope: Scope.local }
+        meta: { scope: RuleScope.local }
     };
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
@@ -455,7 +455,7 @@ test.serial(`If the rule scope is 'site' and the connector is local the rule sho
         create() {
             return {};
         },
-        meta: { scope: Scope.site }
+        meta: { scope: RuleScope.site }
     };
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
@@ -493,7 +493,7 @@ test.serial(`If the rule scope is 'any' and the connector is local the rule shou
         create() {
             return {};
         },
-        meta: { scope: Scope.any }
+        meta: { scope: RuleScope.any }
     };
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
@@ -531,7 +531,7 @@ test.serial(`If the rule scope is 'any' and the connector isn't local the rule s
         create() {
             return {};
         },
-        meta: { scope: Scope.any }
+        meta: { scope: RuleScope.any }
     };
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');

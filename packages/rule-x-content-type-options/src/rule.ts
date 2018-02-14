@@ -14,7 +14,7 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { Scope } from 'sonarwhal/dist/src/lib/enums/scope';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -84,7 +84,7 @@ const rule: IRuleBuilder = {
             description: `Require 'X-Content-Type-Options' header`
         },
         schema: [],
-        scope: Scope.site
+        scope: RuleScope.site
     }
 };
 

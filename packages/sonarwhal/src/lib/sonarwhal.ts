@@ -23,7 +23,7 @@ import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
 import { RuleContext } from './rule-context';
-import { Scope } from './enums/scope';
+import { RuleScope } from './enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -232,8 +232,8 @@ export class Sonarwhal extends EventEmitter {
         const ignoreRule = (rule): boolean => {
             const ignoredConnectors: Array<string> = rule.meta.ignoredConnectors || [];
 
-            return (this.connectorId === 'local' && rule.meta.scope === Scope.site) ||
-                (this.connectorId !== 'local' && rule.meta.scope === Scope.local) ||
+            return (this.connectorId === 'local' && rule.meta.scope === RuleScope.site) ||
+                (this.connectorId !== 'local' && rule.meta.scope === RuleScope.local) ||
                 ignoredConnectors.includes(this.connectorId);
         };
 
