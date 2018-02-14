@@ -1,4 +1,11 @@
 import test from 'ava';
+import * as proxyquire from 'proxyquire';
+
+import * as sinon from 'sinon';
+
+const path = { sep: '\\' };
+
+proxyquire('../../../src/lib/utils/rule-helpers', { path });
 
 import * as ruleHelpers from '../../../src/lib/utils/rule-helpers';
 
@@ -78,7 +85,7 @@ test('mergeIgnoreIncludeArrays - some included, some excluded', (t) => {
  * ------------------------------------------------------------------------------
  */
 
-test('getRuleName - returns the right name of the rule for several combination of paths and rule names', (t) => {
+test.serial('getRuleName - returns the right name of the rule for several combination of linux paths and rule names', (t) => {
     const names = [
         '/rules/something',
         '/rules/something/',
@@ -88,16 +95,50 @@ test('getRuleName - returns the right name of the rule for several combination o
         '/another/rules/rule-something'
     ];
 
+    const sandbox = sinon.createSandbox();
+
+    sandbox.stub(path, 'sep').get(() => {
+        return '/';
+    });
+
     names.forEach((name) => {
         const ruleName = ruleHelpers.getRuleName(name);
 
         t.deepEqual(ruleName, 'something');
     });
+
+    sandbox.restore();
 });
 
-test(`getRuleName - returns an empty string if it can't determine the rule name`, (t) => {
-    const path = '/another/something/';
-    const ruleName = ruleHelpers.getRuleName(path);
+test.serial('getRuleName - returns the right name of the rule for several combination of windows paths and rule names', (t) => {
+    const names = [
+        'c:\\rules\\something',
+        'c:\\rules\\something\\',
+        'c:\\rules\\rule-something',
+        'c:\\rules\\rule-something\\',
+        'c:\\another\\rules\\something',
+        'c:\\another\\rules\\rule-something'
+    ];
+
+    const sandbox = sinon.createSandbox();
+
+    sandbox.stub(path, 'sep').get(() => {
+        return '\\';
+    });
+
+    names.forEach((name) => {
+        const ruleName = ruleHelpers.getRuleName(name);
+
+        t.deepEqual(ruleName, 'something');
+    });
+
+    sandbox.restore();
+});
+
+test.serial(`getRuleName - returns an empty string if it can't determine the rule name`, (t) => {
+    const filePath = '/another/something/';
+
+    const ruleName = ruleHelpers.getRuleName(filePath);
 
     t.deepEqual(ruleName, '');
 });

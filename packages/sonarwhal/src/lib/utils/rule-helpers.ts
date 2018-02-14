@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 /** Lower cases all the items of `list`. */
 export const toLowerCase = (list: Array<string>): Array<string> => {
     return list.map((e) => {
@@ -34,7 +36,7 @@ export const getIncludedHeaders = (headers: object, headerList: Array<string> = 
  * * `/something/rule-another` --> `another`
  */
 export const getRuleName = (dirname: string): string => {
-    const parts = dirname.split('/');
+    const parts = dirname.split(path.sep);
 
     const normalize = (name) => {
         return name.replace('rule-', '');
