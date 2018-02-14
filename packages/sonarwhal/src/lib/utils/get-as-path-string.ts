@@ -1,3 +1,4 @@
+import * as os from 'os';
 import * as url from 'url';
 
 /**
@@ -12,7 +13,7 @@ export const getAsPathString = (uri: url.Url) => {
         return uri.pathname;
     }
 
-    const pathname = process.platform === 'win32' ? uri.pathname.substr(1) : uri.pathname;
+    const pathname = os.platform() === 'win32' ? uri.pathname.substr(1) : uri.pathname;
 
     return pathname;
 };
