@@ -4,11 +4,11 @@ import * as Handlebars from 'handlebars';
 
 import { debug as d } from './debug';
 import { readFileAsync } from './misc';
-import { findPackageRoot, readFile } from './misc';
+import { findPackageRoot } from './misc';
 
 const debug = d(__filename);
 
-export const sonarwhalPackage = JSON.parse(readFile(path.join(findPackageRoot(), 'package.json')));
+export const sonarwhalPackage = require(path.join(findPackageRoot(), 'package.json'));
 
 /**
  * Searches the current version used for a package in `sonarwhal` and uses that version or the `defaultVersion`.

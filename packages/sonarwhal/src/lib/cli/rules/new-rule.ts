@@ -163,10 +163,6 @@ export const newRule = async (actions: CLIOptions): Promise<boolean> => {
             await askRules();
         }
 
-        if (!results.name) {
-            throw new Error(`${results.multi ? 'Package' : 'Rule'} name can't be empty.`);
-        }
-
         results.rules = rules;
 
         const data = normalizeData(results);
@@ -190,6 +186,7 @@ New ${data.multi ? 'package' : 'rule'} ${data.name} created in ${destination}
 
         return true;
     } catch (e) {
+        /* istanbul ignore next */
         logger.error('Error trying to create new rule');
         logger.error(e);
 
