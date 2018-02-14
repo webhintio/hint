@@ -130,9 +130,9 @@ const isOfficial = (): Boolean => {
     try {
         const pkg = fs.readJSONSync(path.join(findPackageRoot(processDir), 'package.json')); // eslint-disable-line no-sync
 
-        return pkg.name === 'sonarwhal-meta';
+        return pkg.name === '@sonarwhal/monorepo';
     } catch (e) {
-        // No `package.json` was found, so no official
+        // No `package.json` was found, so it's not official
         return false;
     }
 };

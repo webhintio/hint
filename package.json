@@ -39,7 +39,7 @@
       "@types/node"
     ]
   },
-  "name": "sonarwhal-meta",
+  "name": "@sonarwhal/monorepo",
   "private": true,
   "scripts": {
     "ava": "ava",

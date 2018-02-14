@@ -34,13 +34,29 @@
   "homepage": "",{{/if}}
   "keywords": [
     "rule",
-    "sonarwhal"
+    "sonarwhal",
+    "{{normalizedName}}",
+    "{{normalizedName}}-rule"
   ],
   "license": "Apache-2.0",
   "main": "{{packageMain}}",
   "name": "{{packageName}}",{{#if official}}
   "nyc": {
     "extends": "../../../../.nycrc"
+  },{{else}}
+  "nyc": {
+    "branches": 85,
+    "cache": true,
+    "check-coverage": true,
+    "functions": 80,
+    "instrument": true,
+    "lines": 85,
+    "reporter": [
+        "lcov",
+        "text"
+    ],
+    "sourceMap": true,
+    "statements": 85
   },{{/if}}
   "scripts": {
    "build": "npm run clean && npm-run-all build:*",
@@ -61,7 +77,6 @@
   "peerDependencies": {
     "sonarwhal": "^{{version}}"
   },{{#if official}}
-  "private": true,
   "repository": "sonarwhal/sonarwhal",{{else}}
   "repository": "",{{/if}}
   "version": "0.1.0"
