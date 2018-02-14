@@ -114,6 +114,7 @@
   "main": "./dist/src/lib/sonarwhal.js",
   "name": "sonarwhal",
   "nyc": {
+    "branches": 75,
     "extends": "../../.nycrc",
     "include": [
       "dist/src/**/*.js"
