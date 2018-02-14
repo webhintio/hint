@@ -69,7 +69,6 @@ HTTP/... 200 OK
 
 ...
 Server: apache
-X-Powered-By: PHP/5.3.28
 ```
 
 ```text
