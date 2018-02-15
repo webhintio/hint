@@ -135,12 +135,12 @@ const rule: IRuleBuilder = {
 
                 return parsed;
             },
-                {
-                    header: cacheControlHeader,
-                    invalidDirectives: new Map(),
-                    invalidValues: new Map(),
-                    usedDirectives: new Map<string, number>()
-                });
+            {
+                header: cacheControlHeader,
+                invalidDirectives: new Map(),
+                invalidValues: new Map(),
+                usedDirectives: new Map<string, number>()
+            });
 
             return parsedCacheControlHeader;
         };
