@@ -97,7 +97,7 @@ const useCases = [
 
 /** List of questions to prompt the user. */
 export const questions = (type: QuestionsType) => {
-    const noEmpty = (value) => {
+    const notEmpty = (value) => {
         return value.trim() !== '';
     };
 
@@ -118,7 +118,7 @@ export const questions = (type: QuestionsType) => {
         },
         name: 'name',
         type: 'input',
-        validate: noEmpty
+        validate: notEmpty
     },
     {
         default(answers) {
@@ -129,7 +129,7 @@ export const questions = (type: QuestionsType) => {
         },
         name: 'description',
         type: 'input',
-        validate: noEmpty
+        validate: notEmpty
     },
     {
         choices: categories,
@@ -156,7 +156,7 @@ export const questions = (type: QuestionsType) => {
         message: 'What DOM element does the rule need access to?',
         name: 'elementType',
         type: 'input',
-        validate: noEmpty,
+        validate: notEmpty,
         when: (answers) => {
             return answers.useCase === 'dom';
         }

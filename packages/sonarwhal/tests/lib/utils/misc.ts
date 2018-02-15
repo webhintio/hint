@@ -49,7 +49,7 @@ test('getHeaderValueNormalized returns the default value if no header found', (t
     t.is(myHeader, 'missing', `getHeaderValueNormalized doesn't trim and lowerCase the value`);
 });
 
-test('hasProtocol checks if a url has uses the given protocol', (t) => {
+test('hasProtocol checks if a URL has uses the given protocol', (t) => {
     const url = 'https://myresource.com/';
     const containsProtocol = misc.hasProtocol(url, 'https:');
     const doesnotContainProtocol = misc.hasProtocol(url, 'ftp:');
@@ -58,15 +58,15 @@ test('hasProtocol checks if a url has uses the given protocol', (t) => {
     t.false(doesnotContainProtocol, `hasProtocol doesn't detect correctly the protocol ftp:`);
 });
 
-test('isDataUri detects if the url is a data URI or not', (t) => {
+test('isDataUri detects if the URL is a data URI or not', (t) => {
     const noDataUri = 'https://myresource.com/';
-    const dataUri = 'data://somethinghere';
+    const dataUri = 'data:text/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D';
 
     t.false(misc.isDataURI(noDataUri), `isDataUri doesn't detect correctly ${noDataUri} is not a data URI`);
     t.true(misc.isDataURI(dataUri), `isDataUri doesn't detect correctly ${dataUri} is a data URI`);
 });
 
-test('isLocalFile detects if the url is local or not', (t) => {
+test('isLocalFile detects if the URL is local or not', (t) => {
     const noLocalUri = 'https://myresource.com/';
     const localUri = 'file://somethinghere';
 
@@ -74,10 +74,10 @@ test('isLocalFile detects if the url is local or not', (t) => {
     t.true(misc.isLocalFile(localUri), `isLocalFile doesn't detect correctly ${localUri} is a file URI`);
 });
 
-test('isHTMLDocument retursn blindly true if protocol is file:', (t) => {
+test('isHTMLDocument retursn blindly true if protocol is "file:"', (t) => {
     const url = 'file://index.html';
 
-    t.true(misc.isHTMLDocument(url, {}), `isHTMLDocument doesn't return true if url protocol is file:`);
+    t.true(misc.isHTMLDocument(url, {}), `isHTMLDocument doesn't return true if URL protocol is "file:"`);
 });
 
 test('isHTMLDocument guesses if response is HTML based on the media type', (t) => {
@@ -91,7 +91,7 @@ test('isHTMLDocument guesses if response is HTML based on the media type', (t) =
     t.false(misc.isHTMLDocument(url, invalidContentType), `isHTMLDocument doesn't recognize invalid content types are not HTML`);
 });
 
-test('isHTTP detects if the url is HTTP or not', (t) => {
+test('isHTTP detects if the URL is HTTP or not', (t) => {
     const noHttpUri = 'https://myresource.com/';
     const httpUri = 'http://somethinghere';
 
@@ -99,7 +99,7 @@ test('isHTTP detects if the url is HTTP or not', (t) => {
     t.true(misc.isHTTP(httpUri), `isHTTP doesn't detect correctly ${httpUri} is a HTTP URI`);
 });
 
-test('isHTTPS detects if the url is HTTP or not', (t) => {
+test('isHTTPS detects if the URL is HTTP or not', (t) => {
     const noHttpsUri = 'http://myresource.com/';
     const httpsUri = 'https://somethinghere';
 

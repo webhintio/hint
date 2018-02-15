@@ -7,15 +7,15 @@ import * as sinon from 'sinon';
 import { getAsPathString } from '../../../src/lib/utils/get-as-path-string';
 
 
-test.serial('getAsPathString returns the pathname of a URL if protocol is not file:', (t) => {
+test.serial('getAsPathString returns the pathname of a URL if protocol is not "file:"', (t) => {
     const source = 'https://something.com/projects/';
     const expected = '/projects/';
     const uri = url.parse(source);
 
-    t.is(getAsPathString(uri), expected, `pathname not calculated correctly for non file: URLs`);
+    t.is(getAsPathString(uri), expected, `pathname not calculated correctly for non "file:" URLs`);
 });
 
-test.serial('getAsPathString return the normalized path name on Windows for a file: URL', (t) => {
+test.serial('getAsPathString return the normalized path name on Windows for a "file:" URL', (t) => {
     const source = 'file:///c:/projects/';
     const expected = 'c:/projects/';
     const uri = url.parse(source);
@@ -27,7 +27,7 @@ test.serial('getAsPathString return the normalized path name on Windows for a fi
     stub.restore();
 });
 
-test.serial('getAsPathString return the normalized path name on *nix for a file: URL', (t) => {
+test.serial('getAsPathString return the normalized path name on *nix for a "file:" URL', (t) => {
     const source = 'file:///mnt/projects/';
     const expected = '/mnt/projects/';
     const uri = url.parse(source);
