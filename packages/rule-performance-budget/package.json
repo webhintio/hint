@@ -41,8 +41,7 @@
   "main": "dist/src/index.js",
   "name": "@sonarwhal/rule-performance-budget",
   "nyc": {
-    "extends": "../../.nycrc",
-    "branches": 83
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^0.25.0"
