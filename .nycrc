@@ -2,6 +2,9 @@
     "branches": 85,
     "cache": true,
     "check-coverage": true,
+    "exclude": [
+        "**/dist/tests/**"
+    ],
     "functions": 80,
     "instrument": true,
     "lines": 85,
