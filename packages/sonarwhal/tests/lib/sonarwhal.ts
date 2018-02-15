@@ -652,7 +652,7 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
 
     const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
 
-    t.is(await eventHandler({ resource: 'http://www.test.com/' }), null);
+    t.is(await eventHandler.bind({ event: 'fetch::end::html' })({ resource: 'http://www.test.com/' }), null);
 
     t.context.eventemitter.prototype.on.restore();
 });
