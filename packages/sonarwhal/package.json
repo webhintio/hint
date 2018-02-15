@@ -142,6 +142,6 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "0.24.0",
+  "version": "0.25.0",
   "private": true
 }
