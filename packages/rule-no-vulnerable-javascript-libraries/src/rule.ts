@@ -14,7 +14,7 @@ import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IRule, IRuleBuilder, IScanEnd, Severity } from 'sonarwhal/dist/src/lib/types';
 import { Library, Vulnerability } from './rule-types';
-import { readFileAsync, requestAsync } from 'sonarwhal/dist/src/lib/utils/misc';
+import { readFileAsync, loadJSONFile, requestAsync, writeFileAsync } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -69,60 +69,54 @@ const rule: IRuleBuilder = {
             const oneDay = 3600000 * 24;
             const now = Date.now();
             const snykDBPath = path.join(__dirname, 'snyk-snapshot.json');
-            let needsUpdate = false;
             let snykStat: fs.Stats;
 
-            // We check if the file is older than 24h to update it
             try {
                 snykStat = await promisify(fs.stat)(snykDBPath);
                 const modified = new Date(snykStat.mtime).getTime();
 
+                // We check if the file is older than 24h to update it
                 if (now - modified > oneDay) {
                     debug('snkyDB is older than 24h.');
-                    needsUpdate = true;
-                }
-            } catch (e) {
-                // There was a problem loading the file --> download
-                needsUpdate = true;
-            }
-
-            if (needsUpdate) {
-                try {
                     debug('Updating snykDB');
                     const res = await requestAsync('https://snyk.io/partners/api/v2/vulndb/clientside.json');
 
-                    await promisify(fs.writeFile)(snykDBPath, res, 'utf-8');
-                } catch (e) {
-                    // Problem downloading the remote resource --> use local copy
+                    await writeFileAsync(snykDBPath, res);
                 }
+            } catch (e) {
+                debug(e);
+                debug(`Error loading snyk's data`);
             }
 
-            return JSON.parse(await readFileAsync(snykDBPath));
+            return loadJSONFile(snykDBPath);
         };
 
         /** If a used library has vulnerability that meets the minimum threshold, it gets reported.  */
         const reportLibrary = async (library: Library, vulns: Array<Vulnerability>, resource: string) => {
             let vulnerabilities = vulns;
 
-            if (minimumSeverity !== 'low') {
-                debug('Filtering vulnerabilities');
-                vulnerabilities = vulnerabilities.filter((vulnerability) => {
-                    const { severity } = vulnerability;
-                    let passes = false;
 
-                    switch (minimumSeverity) {
-                        case 'medium':
-                            passes = severity === 'medium' || severity === 'high';
-                            break;
-                        case 'high':
-                            passes = severity === 'high';
-                            break;
-                        default: break;
-                    }
+            debug('Filtering vulnerabilities');
+            vulnerabilities = vulnerabilities.filter((vulnerability) => {
+                const { severity } = vulnerability;
+                let fails = false;
 
-                    return passes;
-                });
-            }
+                switch (minimumSeverity) {
+                    case 'medium':
+                        fails = severity === 'medium' || severity === 'high';
+                        break;
+                    case 'high':
+                        fails = severity === 'high';
+                        break;
+                    // priority is low, so everything needs to be reported
+                    default:
+                        fails = true;
+                        break;
+                }
+
+                return fails;
+            });
+
 
             if (vulnerabilities.length === 0) {
                 return;
