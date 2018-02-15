@@ -4,11 +4,11 @@ import * as proxyquire from 'proxyquire';
 
 const logging = { log() { } };
 
-proxyquire('../../../src/lib/formatters/json/json', { '../../utils/logging': logging });
+proxyquire('../src/json', { 'sonarwhal/dist/src/lib/utils/logging': logging });
 
-import json from '../../../src/lib/formatters/json/json';
+import json from '../src/json';
 import * as problems from './fixtures/list-of-problems';
-import { Severity } from '../../../src/lib/types';
+import { Severity } from 'sonarwhal/dist/src/lib/types';
 
 test.beforeEach((t) => {
     sinon.spy(logging, 'log');
