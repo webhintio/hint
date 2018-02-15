@@ -144,7 +144,7 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return { 'fetch::end::html': validate };
+        return { 'fetch::end::*': validate };
     },
     meta: {
         docs: {
