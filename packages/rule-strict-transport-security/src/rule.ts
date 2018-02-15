@@ -32,7 +32,7 @@ const rule: IRuleBuilder = {
          * HACK: Need to do a require here in order to be capable of mocking
          * when testing the rule and `import` doesn't work here.
          */
-        const { isHTTPS, isRegularProtocol, normalizeString, requestJSONAsync } = require('sonarwhal/dist/src/lib/utils/misc');
+        const { isHTTPS, normalizeString, requestJSONAsync } = require('sonarwhal/dist/src/lib/utils/misc');
 
         const loadRuleConfigs = () => {
             minMaxAgeValue = (context.ruleOptions && context.ruleOptions.minMaxAgeValue) || 10886400; // 18 weeks
@@ -140,13 +140,6 @@ const rule: IRuleBuilder = {
 
         const validate = async (fetchEnd: IFetchEnd) => {
             const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
-
-            // This check does not apply if URI starts with protocols others than http/https.
-            if (!isRegularProtocol(resource)) {
-                debug(`Check does not apply for URI: ${resource}`);
-
-                return;
-            }
 
             const headerValue: string = normalizeString(response.headers && response.headers['strict-transport-security']);
             let parsedHeader;
