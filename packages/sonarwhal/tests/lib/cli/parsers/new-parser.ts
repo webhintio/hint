@@ -74,7 +74,10 @@ test.serial('It should create a new core parser.', async (t) => {
     };
     const sandbox = sinon.sandbox.create();
 
-    sandbox.stub(misc, 'findPackageRoot').returns(path.join(__dirname, '..', '..', '..', '..', '..'));
+    const packageRoot = path.join(__dirname, '..', '..', '..', '..', '..');
+
+    sandbox.stub(misc, 'findPackageRoot').returns(packageRoot);
+    sandbox.stub(process, 'cwd').returns(packageRoot);
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
         .resolves(parserInfoResult)
@@ -114,8 +117,10 @@ test.serial('It should create a new core parser with no duplicate events.', asyn
         event: 'element::'
     };
     const sandbox = sinon.sandbox.create();
+    const packageRoot = path.join(__dirname, '..', '..', '..', '..', '..');
 
-    sandbox.stub(misc, 'findPackageRoot').returns(path.join(__dirname, '..', '..', '..', '..', '..'));
+    sandbox.stub(misc, 'findPackageRoot').returns(packageRoot);
+    sandbox.stub(process, 'cwd').returns(packageRoot);
     sandbox.stub(inquirer, 'prompt')
         .onCall(0)
         .resolves(parserInfoResult)

@@ -48,7 +48,7 @@ const getCoreResources = (type: string): Array<string> => {
         return resourceIds.get(type);
     }
 
-    const resourcesFiles: Array<string> = globby.sync(`${SONARWHAL_ROOT}/dist/src/lib/${type}s/**/*.js`);
+    const resourcesFiles: Array<string> = globby.sync(`dist/src/lib/${type}s/**/*.js`, {cwd: SONARWHAL_ROOT});
 
     const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
         const resourceName: string = path.basename(resourceFile, '.js');
