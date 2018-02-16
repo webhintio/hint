@@ -11,6 +11,7 @@ environment:
 
 # Install scripts (runs after repo cloning).
 install:
+  - scripts\set-NPM_CONFIG_PREFIX.bat
   - ps: Install-Product node $env:nodejs_version x64
   - node --version
   - yarn --version
