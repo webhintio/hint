@@ -12,7 +12,7 @@ const fsExtra = { copy() { } };
 const inquirer = { prompt() { } };
 const misc = {
     findPackageRoot() {
-        return path.join(__dirname, '..', '..', '..', '..', '..');
+        return path.join(__dirname, '../../../../../');
     },
     normalizeStringByDelimiter() { },
     readFileAsync() { },
@@ -74,7 +74,7 @@ test.serial('It should create a new core parser.', async (t) => {
     };
     const sandbox = sinon.sandbox.create();
 
-    const packageRoot = path.join(__dirname, '..', '..', '..', '..', '..');
+    const packageRoot = path.join(__dirname, '../../../../../');
 
     sandbox.stub(misc, 'findPackageRoot').returns(packageRoot);
     sandbox.stub(process, 'cwd').returns(packageRoot);
@@ -117,7 +117,7 @@ test.serial('It should create a new core parser with no duplicate events.', asyn
         event: 'element::'
     };
     const sandbox = sinon.sandbox.create();
-    const packageRoot = path.join(__dirname, '..', '..', '..', '..', '..');
+    const packageRoot = path.join(__dirname, '../../../../../');
 
     sandbox.stub(misc, 'findPackageRoot').returns(packageRoot);
     sandbox.stub(process, 'cwd').returns(packageRoot);

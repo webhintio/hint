@@ -387,7 +387,7 @@ const getType = (mediaType: string) => {
         return 'image';
     }
 
-    if (mediaType.startsWith('font')) {
+    if (mediaType.startsWith('font') || mediaType === 'application/vnd.ms-fontobject') {
         return 'font';
     }
 

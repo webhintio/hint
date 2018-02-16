@@ -61,7 +61,6 @@ export const generateHTMLPageData = (content: string) => {
 export const htmlPageWithScriptData = generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>'));
 export const htmlPageWithManifestData = generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.webmanifest">'));
 
-
 export const requestJSONAsyncMock = (responseObject) => {
     const mockedModule = {
         isDataURI() {
