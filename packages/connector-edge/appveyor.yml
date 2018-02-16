@@ -1,0 +1,19 @@
+environment:
+  matrix:
+   - nodejs_version: "LTS"
+   - nodejs_version: 6
+   # will add 9/"Stable" once edge-diagnostics-adapter has a build for it
+
+# Install scripts (runs after repo cloning).
+install:
+  - ps: Install-Product node $env:nodejs_version x64
+  - node --version
+  - npm --version
+  - npm install
+
+# Post-install test scripts.
+test_script:
+  - npm run build
+
+# Don't actually build.
+build: off
