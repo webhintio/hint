@@ -113,7 +113,7 @@ const testsWithCustomConfiguration: Array<IRuleTest> = [
 ruleRunner.testRule(ruleName, tests);
 ruleRunner.testRule(ruleName, testsWithCustomConfiguration, {
     ruleOptions: {
-        'max-resource-redirects': 1,
-        'max-target-redirects': 1
+        'max-html-redirects': 1,
+        'max-resource-redirects': 1
     }
 });

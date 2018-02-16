@@ -33,14 +33,13 @@ import { fork, ChildProcess } from 'child_process';
 import * as jsdom from 'jsdom/lib/old-api';
 
 import { debug as d } from '../../utils/debug';
-import { getContentTypeData } from '../../utils/content-type';
+import { getContentTypeData, getType } from '../../utils/content-type';
 import {
     IConnector, IConnectorBuilder,
-    IElementFound, IEvent, IFetchEnd, IFetchError, IManifestFetchError, IManifestFetchEnd, ITraverseDown, ITraverseUp,
+    IElementFound, IEvent, IFetchEnd, IFetchError, IManifestFetchError, ITraverseDown, ITraverseUp,
     INetworkData, URL
 } from '../../types';
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
-import { readFileAsync } from '../../utils/misc';
 import { resolveUrl } from '../utils/resolver';
 import { Requester } from '../utils/requester';
 import { Sonarwhal } from '../../sonarwhal';
@@ -94,49 +93,6 @@ class JSDOMConnector implements IConnector {
      * Private methods
      * ------------------------------------------------------------------------------
      */
-
-    /**
-     * Loads a url that uses the `file://` protocol taking into
-     * account if the host is `Windows` or `*nix`.
-     */
-    private async _fetchFile(target: URL): Promise<INetworkData> {
-        let targetPath: string = target.path;
-
-        /*
-         * `targetPath` on `Windows` is like `/c:/path/to/file.txt`
-         * `readFileAsync` will prepend `c:` so the final path will
-         * be: `c:/c:/path/to/file.txt` which is not valid
-         */
-        if (path.sep === '\\' && targetPath.indexOf('/') === 0) {
-            targetPath = targetPath.substr(1);
-        }
-
-        const body: string = await readFileAsync(targetPath);
-
-        const connector = {
-            request: {
-                headers: null,
-                url: targetPath
-            },
-            response: {
-                body: {
-                    content: body,
-                    rawContent: null,
-                    rawResponse() {
-                        return Promise.resolve(null);
-                    }
-                },
-                charset: null,
-                headers: null,
-                hops: [],
-                mediaType: null,
-                statusCode: null,
-                url: targetPath
-            }
-        };
-
-        return Promise.resolve(connector);
-    }
 
     /**
      * Loads a URL (`http(s)`) combining the customHeaders with
@@ -237,6 +193,7 @@ class JSDOMConnector implements IConnector {
             };
 
             const { charset, mediaType } = getContentTypeData(element, fetchEndEvent.resource, fetchEndEvent.response.headers, fetchEndEvent.response.body.rawContent);
+            const type = getType(mediaType);
 
             fetchEndEvent.response.mediaType = mediaType;
             fetchEndEvent.response.charset = charset;
@@ -246,7 +203,7 @@ class JSDOMConnector implements IConnector {
              * can be converted to `JSDOMAsyncHTMLElement`.
              * Event is also emitted when status code in response is not 200.
              */
-            await this._server.emitAsync('fetch::end', fetchEndEvent);
+            await this._server.emitAsync(`fetch::end::${type}`, fetchEndEvent);
 
             return callback(null, resourceNetworkData.response.body.content);
         } catch (err) {
@@ -282,7 +239,7 @@ class JSDOMConnector implements IConnector {
 
     /**
      * When `element` is passed, tries to download the manifest specified by it
-     * sending `manifestfetch::end` or `manifestfetch::error`.
+     * sending `fetch::end::manifest` or `fetch::error::manifest`.
      *
      * If no `element`, then checks if it has been download previously and if not
      * sends a `manifestfetch::missing`.
@@ -294,7 +251,7 @@ class JSDOMConnector implements IConnector {
                 return;
             }
 
-            await this._server.emitAsync('manifestfetch::missing', { resource: this._href });
+            await this._server.emitAsync('fetch::missing::manifest', { resource: this._href });
 
             return;
         }
@@ -338,7 +295,7 @@ class JSDOMConnector implements IConnector {
         try {
             const manifestData: INetworkData = await this.fetchContent(manifestURL);
 
-            const event: IManifestFetchEnd = {
+            const event: IFetchEnd = {
                 element: new JSDOMAsyncHTMLElement(element),
                 request: manifestData.request,
                 resource: manifestURL,
@@ -350,7 +307,7 @@ class JSDOMConnector implements IConnector {
             event.response.mediaType = mediaType;
             event.response.charset = charset;
 
-            await this._server.emitAsync('manifestfetch::end', event);
+            await this._server.emitAsync('fetch::end::manifest', event);
 
             return;
 
@@ -363,7 +320,7 @@ class JSDOMConnector implements IConnector {
                 resource: manifestURL
             };
 
-            await this._server.emitAsync('manifestfetch::error', event);
+            await this._server.emitAsync('fetch::error::manifest', event);
         }
     }
 
@@ -374,6 +331,15 @@ class JSDOMConnector implements IConnector {
      */
 
     public collect(target: URL) {
+        if (!target.protocol.match(/https?:/)) {
+            const err = {
+                message: `Protocol "${target.protocol}" is invalid for the current collector`,
+                type: 'InvalidTarget'
+            };
+
+            throw err;
+        }
+
         /** The target in string format */
         const href: string = this._href = target.href;
 
@@ -386,7 +352,7 @@ class JSDOMConnector implements IConnector {
         return new Promise(async (resolve, reject) => {
 
             debug(`About to start fetching ${href}`);
-            await this._server.emitAsync('targetfetch::start', initialEvent);
+            await this._server.emitAsync('fetch::start', initialEvent);
 
             try {
                 this._targetNetworkData = await this.fetchContent(target);
@@ -399,7 +365,7 @@ class JSDOMConnector implements IConnector {
                     resource: href
                 };
 
-                await this._server.emitAsync('targetfetch::error', fetchError);
+                await this._server.emitAsync('fetch::error', fetchError);
                 debug(`Failed to fetch: ${href}\n${err}`);
 
                 await this._server.emitAsync('scan::end', initialEvent);
@@ -427,7 +393,7 @@ class JSDOMConnector implements IConnector {
             fetchEnd.response.charset = charset;
 
             // Event is also emitted when status code in response is not 200.
-            await this._server.emitAsync('targetfetch::end', fetchEnd);
+            await this._server.emitAsync('fetch::end::html', fetchEnd);
 
             jsdom.env({
                 done: async (err, window) => {
@@ -522,10 +488,6 @@ class JSDOMConnector implements IConnector {
             parsedTarget = url.parse(parsedTarget);
 
             return this.fetchContent(parsedTarget, customHeaders);
-        }
-
-        if (parsedTarget.protocol === 'file:') {
-            return this._fetchFile(parsedTarget);
         }
 
         return this._fetchUrl(parsedTarget, customHeaders);

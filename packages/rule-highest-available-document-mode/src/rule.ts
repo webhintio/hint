@@ -13,6 +13,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from 'sonarwhal/dist/src/lib/types';
 import { isLocalFile, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 /*
  * ------------------------------------------------------------------------------
@@ -214,7 +215,7 @@ const rule: IRuleBuilder = {
             properties: { requireMetaTag: { type: 'boolean' } },
             type: ['object', null]
         }],
-        worksWithLocalFiles: true
+        scope: RuleScope.any
     }
 };
 

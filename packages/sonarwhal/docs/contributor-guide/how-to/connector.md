@@ -10,10 +10,10 @@ are correct, the underlying technology doesn’t matter. Also, you could
 have more "specialized" connectors that do not implement the full set
 of events. For example, if you have a connector that only takes into
 account HTML files from the file system, it could decide not to
-implement events such as `fetch::end`.
+implement events such as `fetch::end::<resource-type>`.
 
 For a connector to be considered "full", it needs to send at least
-[the events listed here](./events.md). Additionally it needs to pass all
+[the events listed here][events]. Additionally it needs to pass all
 the [common tests](#how-to-test-a-full-connector).
 
 ## Develop a "full" connector
@@ -24,45 +24,45 @@ The entry point to scan a url is `collect`, that is an `async` method.
 Once this method is invoked the following events should be fired in
 this order:
 
-1. [`scan::start`](./events.md#scanstart)
-1. [`targetfetch::start`](./events.md#targetfetchstart)
-   * If there is an error, send [`targetfetch::error`](./events.md#targetfetcherror)
-     follow by [`scan::end`](./events.md#targetfetchend).
-1. [`targetfetch::end`](./events.md#targetfetchend)
+1. [`scan::start`][events scanstart]
+1. [`fetch::start`][events fetchstart]
+   * If there is an error, send [`fetch::error`][events fetcherror]
+     follow by [`scan::end`][events scanend].
+1. [`fetch::end::html`][events fetchend]
 1. Once the content is downloaded, network requests for different
    resources (CSS, JS, etc.) are performed. Depending on the connector,
    they will be downloaded at one moment or another (critical path,
    capable of parse HTML as a stream, etc.). The events for these
    resources are:
-   * [`fetch::start`](./events.md#fetchstart)
-   * [`fetch::end`](./events.md#fetchend)
-   * [`fetch::error`](./events.md#fetcherror)
-1. [`traverse::start`](./events.md#traversestart)
+   * [`fetch::start`][events fetchstart]
+   * [`fetch::end::<resource-type>`][events fetchend]
+   * [`fetch::error`][events fetcherror]
+1. [`traverse::start`][events traversestart]
    Connectors should wait for the `onload` event and make sure that
    "everything is quiet": there aren’t any pending network requests
    or if there are, the connector has waited a reasonable amount of
    time. The traversing of the DOM is [depth-first][depth-first search],
    sending:
-   * [`element::<element-type>`](./events.md#elementelement-type)
+   * [`element::<element-type>`][events element]
      when visiting a node (see [IASyncHTML](#iasynchtml) for more
      information,
-   * [`traverse::down`](./events.md#traversedown) when going deeper
+   * [`traverse::down`][events traversedown] when going deeper
      in the DOM,
-   * [`traverse::up`](./events.md#traverse::up) when going up.
-1. [`traverse::end`](./events.md#traverse::end)
+   * [`traverse::up`][events traverseup] when going up.
+1. [`traverse::end`][events traverseend]
 1. Before sending the final event, the connector needs to try to
    download the web manifest: to download the manifest automatically
    and send the following events:
-   * [`manifestfetch::end`](./events.md#manifestfetchend) with the
+   * [`fetch::end::manifest`][events fetchendmanifest] with the
      content of the manifest,
-   * [`manifestfetch::error`](./events.md#manifestfetchend) if there
+   * [`fetch::error::manifest`][events fetcherrormanifest] if there
      has been an error downloading the manifest,
-   * [`manifestfetch::missing`](./events.md#manifestfetchend) if no
+   * [`fetch::missing::manifest`][events fetchmissingmanifest] if no
      manifest is specified.
-1. The final event is [`scan::end`](./events.md#scanend).
+1. The final event is [`scan::end`][events scanend].
 
 For more details about how the events look like and the properties they
-should implement, see the [events page](./.events.md).
+should implement, see the [events page][events].
 
 Also, connectors need to expose some methods:
 
@@ -142,3 +142,17 @@ following tests:
 [depth-first search]: https://en.wikipedia.org/wiki/Depth-first_search
 [iconnector interface]: https://github.com/sonarwhal/sonarwhal/blob/master/src/lib/types/connector.ts
 [jsdom]: https://github.com/tmpvar/jsdom
+[events]: ../getting-started/events.md
+[events scanstart]: ../getting-started/events.md#scanstart
+[events fetchstart]: ../getting-started/events.md#fetchstart
+[events fetcherror]: ../getting-started/events.md#fetcherror
+[events fetchend]: ../getting-started/events.md#fetchendresource-type
+[events traversestart]: ../getting-started/events.md#traversestart
+[events element]: ../getting-started/events.md#elementelement-type
+[events traversedown]: ../getting-started/events.md#traversedown
+[events traverseup]: ../getting-started/events.md#traverseup
+[events traverseend]: ../getting-started/events.md#traverseend
+[events fetchendmanifest]: ../getting-started/events.md#fetchendmanifest
+[events fetcherrormanifest]: ../getting-started/events.md#fetcherrormanifest
+[events fetchmissingmanifest]: ../getting-started/events.md#fetchmissingmanifest
+[events scanend]: ../getting-started/events.md#scanend

@@ -8,6 +8,7 @@ import { IFetchEnd, IAsyncHTMLElement, IResponse, IRuleBuilder, IRule, Severity 
 import { isHTTPS, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { ParsedSetCookieHeader } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -309,11 +310,7 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return {
-            'fetch::end': validate,
-            'manifestfetch::end': validate,
-            'targetfetch::end': validate
-        };
+        return { 'fetch::end::*': validate };
     },
     meta: {
         docs: {
@@ -322,7 +319,7 @@ const rule: IRuleBuilder = {
         },
         ignoredConnectors: [],
         schema: [],
-        worksWithLocalFiles: false
+        scope: RuleScope.site
     }
 };
 

@@ -17,6 +17,7 @@ import { getIncludedHeaders, mergeIgnoreIncludeArrays } from 'sonarwhal/dist/src
 import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -84,7 +85,7 @@ const rule: IRuleBuilder = {
         };
 
         const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse} = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
 
             // This check does not make sense for data URI.
 
@@ -106,11 +107,7 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return {
-            'fetch::end': validate,
-            'manifestfetch::end': validate,
-            'targetfetch::end': validate
-        };
+        return { 'fetch::end::*': validate };
     },
     meta: {
         docs: {
@@ -133,7 +130,7 @@ const rule: IRuleBuilder = {
             },
             type: ['object', null]
         }],
-        worksWithLocalFiles: false
+        scope: RuleScope.site
     }
 };
 

@@ -14,6 +14,7 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -75,11 +76,7 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return {
-            'fetch::end': validate,
-            'manifestfetch::end': validate,
-            'targetfetch::end': validate
-        };
+        return { 'fetch::end::*': validate };
     },
     meta: {
         docs: {
@@ -87,7 +84,7 @@ const rule: IRuleBuilder = {
             description: `Require 'X-Content-Type-Options' header`
         },
         schema: [],
-        worksWithLocalFiles: false
+        scope: RuleScope.site
     }
 };
 

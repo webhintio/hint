@@ -43,7 +43,7 @@
   "private": true,
   "scripts": {
     "ava": "ava",
-    "build": "yarn clean && yarn build:sonarwhal && loop \"yarn build\" --cwd packages/ --exclude sonarwhal,rule-amp-validator",
+    "build": "yarn clean && yarn build:sonarwhal && loop \"yarn build\" --cwd packages/ --exclude connector-edge,rule-amp-validator,sonarwhal",
     "build:sonarwhal": "cd packages/sonarwhal && yarn build",
     "clean": "rimraf dist packages/*/dist",
     "commitmsg": "node scripts/check-commit-message.js",

@@ -11,9 +11,10 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IElementFound, IManifestFetchEnd, IManifestFetchError, ITraverseEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IElementFound, IFetchEnd, IManifestFetchError, ITraverseEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
 import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -67,7 +68,7 @@ const rule: IRuleBuilder = {
             }
         };
 
-        const manifestEnd = async (event: IManifestFetchEnd) => {
+        const manifestEnd = async (event: IFetchEnd) => {
             // TODO: check why CDP sends sometimes status 301
             if (event.response.statusCode >= 400) {
                 await context.report(event.resource, null, `Manifest file could not be fetched (status code: ${event.response.statusCode})`);
@@ -83,8 +84,8 @@ const rule: IRuleBuilder = {
 
         return {
             'element::link': manifestExists,
-            'manifestfetch::end': manifestEnd,
-            'manifestfetch::error': manifestError,
+            'fetch::end::manifest': manifestEnd,
+            'fetch::error::manifest': manifestError,
             'traverse::end': manifestMissing
         };
     },
@@ -94,7 +95,7 @@ const rule: IRuleBuilder = {
             description: 'Require a web app manifest'
         },
         schema: [],
-        worksWithLocalFiles: true
+        scope: RuleScope.any
     }
 };
 

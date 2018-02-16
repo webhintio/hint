@@ -6,18 +6,15 @@ The following is a list of all the events common to all `connector`s, with
 their signature, and the `interface` they implement.
 
 * [`element::<element-type>`](#elementelement-type)
-* [`fetch::end`](#fetchend)
+* [`fetch::end::<resource-type>`](#fetchendresource-type)
 * [`fetch::error`](#fetcherror)
 * [`fetch::start`](#fetchstart)
-* [`manifestfetch::end`](#manifestfetchend)
-* [`manifestfetch::error`](#manifestfetcherror)
-* [`manifestfetch::start`](#manifestfetchstart)
-* [`manifestfetch::missing`](#manifestfetchmissing)
+* [`fetch::end::manifest`](#fetchendmanifest)
+* [`fetch::error::manifest`](#fetcherrormanifest)
+* [`fetch::start::manifest`](#fetchstartmanifest)
+* [`fetch::missing::manifest`](#fetchmissingmanifest)
 * [`scan::end`](#scanend)
 * [`scan::start`](#scanstart)
-* [`targetfetch::end`](#targetfetchend)
-* [`targetfetch::error`](#targetfetcherror)
-* [`targetfetch::start`](#targetfetchstart)
 * [`traverse::down`](#traversedown)
 * [`traverse::end`](#traverseend)
 * [`traverse::start`](#traversestart)
@@ -40,7 +37,7 @@ export interface IElementFound {
 }
 ```
 
-## `fetch::end`
+## `fetch::end::<resource-type>`
 
 Event is emitted **when** the `connector` has finished downloading
 the content of a `resource` (`js`, `css`, `image`, etc.).
@@ -59,10 +56,6 @@ export interface IFetchEnd {
     response: IResponse;
 }
 ```
-
-**Note:** This is a basic event interface that
-[`targetfetch::end`](#targetfetchend) and
-[`manifestfetch::end`](#manifestfetchend) extend from.
 
 ## `fetch::error`
 
@@ -84,9 +77,6 @@ export interface IFetchError {
 }
 ```
 
-**Note:** This event has the same interface as
-[`targetfetch::error`](#targetfetcherror).
-
 ## `fetch::start`
 
 Event is emitted **when** the `connector` is about to start the request
@@ -101,10 +91,7 @@ export interface IFetchStart {
 }
 ```
 
-**Note:** This is a basic event interface that
-[`targetfetch::start`](#targetfetchstart) extends from.
-
-## `manifestfetch::end`
+## `fetch::end::manifest`
 
 Event is emitted **when** the `connector` has finished downloading
 the web manifest of a page.
@@ -124,9 +111,9 @@ export interface IManifestFetchEnd {
 }
 ```
 
-**Note:** This event interface extends from [`fetch::end`](#fetchend).
+**Note:** This event interface extends from [`fetch::end::<resource-type>`](#fetchendresource-type).
 
-## `manifestfetch::start`
+## `fetch::start::manifest`
 
 Event is emitted **when** the `connector` is about to start downloading
 the web manifest.
@@ -143,7 +130,7 @@ export interface IFetchStart {
 **Note::** This event has the same interface as
 [`fetch::start`](#fetchstart).
 
-## `manifestfetch::error`
+## `fetch::error::manifest`
 
 Event is emitted **when** the `connector` has encountered a problem
 downloading the web manifest.
@@ -159,7 +146,7 @@ export interface IManifestFetchError {
 }
 ```
 
-## `manifestfetch::missing`
+## `fetch::missing::manifest`
 
 Event is emitted **when** the `connector` hasn’t found any manifest to
 download.
@@ -222,66 +209,6 @@ a `Promise` because it will not wait for it to be resolved. If you
 need to perform an `async` operation you should combine it with
 `scan::end`. You can find more information in [how to interact with
 other services](../rules/index.md#interact-with-other-services).
-
-## `targetfetch::end`
-
-Event is emitted **when** the `connector` has finished downloading
-the `target`.
-
-**Format:**
-
-```ts
-export interface ITargetFetchEnd {
-    /** The element that initiated the request. */
-    element: IAsyncHTMLElement;
-    /** The URL of the target. */
-    resource: string;
-    /** The request made to fetch the target. */
-    request: IRequest;
-    /** The response sent while fetching the target. */
-    response: IResponse;
-}
-```
-
-**Note:** This event interface extends from [`fetch::end`](#fetchend).
-In this case `element` will be `null`.
-
-## `targetfetch::error`
-
-Event is emitted **when** the `connector` has encountered a problem
-downloading the `target`.
-
-**Format:**
-
-```ts
-export interface IFetchError {
-    /** The URL of the target. */
-    resource: string;
-    /** The element that initiated the request. */
-    element: IAsyncHTMLElement;
-    /** The error found. */
-    error: any;
-}
-```
-
-**Note::** This event has the same interface as [`fetch::error`](#fetcherror).
-In this case `element` will be `null`.
-
-## `targetfetch::start`
-
-Event is emitted **when** the `connector` is about to start the
-request to fetch the `target`. Redirects are followed if needed.
-
-**Format:**
-
-```typescript
-export interface ITargetFetchStart {
-    /** The URL to download */
-    resource: string;
-}
-```
-
-**Note::** This event interface extends from [`fetch::start`](#fetchstart).
 
 ## `traverse::down`
 

@@ -2,8 +2,6 @@
  * @fileoverview Loads the connections.ini and updates it if needed
  */
 
-import { EOL } from 'os';
-
 import { readFile } from 'sonarwhal/dist/src/lib/utils/misc';
 import { NetworkConfig } from './types';
 
@@ -60,7 +58,8 @@ const getConnections = (): Array<NetworkConfig> => {
 
     const configsText = configContent
         .replace(/#.*?\n/g, '') // remove comments
-        .split(`${EOL}${EOL}`);
+        .replace(/\r\n/g, '\n') // remove \r just in case the file has a windows EOL
+        .split(`\n\n`);
 
     const configs = configsText.map(parseConnection);
 

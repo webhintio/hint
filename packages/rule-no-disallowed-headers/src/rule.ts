@@ -17,6 +17,7 @@ import { IAsyncHTMLElement, IFetchEnd, IRule, IRuleBuilder } from 'sonarwhal/dis
 import { IResponse } from 'sonarwhal/dist/src/lib/types/network';
 import { getHeaderValueNormalized, isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -143,11 +144,7 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return {
-            'fetch::end': validate,
-            'manifestfetch::end': validate,
-            'targetfetch::end': validate
-        };
+        return { 'fetch::end::*': validate };
     },
     meta: {
         docs: {
@@ -170,7 +167,7 @@ const rule: IRuleBuilder = {
             },
             type: ['object', null]
         }],
-        worksWithLocalFiles: false
+        scope: RuleScope.site
     }
 };
 

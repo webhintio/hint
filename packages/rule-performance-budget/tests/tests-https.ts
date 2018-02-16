@@ -91,6 +91,7 @@ const connectionTypeTests: Array<IRuleTest> = [
         name: 'Plain page loads fast enough',
         serverConfig: generateHTMLPage()
     },
+
     {
         name: `Page with 1 image doesn't load fast enough on Dial`,
         reports: [{

@@ -14,6 +14,7 @@ import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { cloudinaryResult } from './cloudinary-types';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 /*
  * ------------------------------------------------------------------------------
@@ -165,7 +166,7 @@ const rule: IRuleBuilder = {
         configured = isConfigured(context.ruleOptions || { apiKey: '', apiSecret: '', cloudName: '', threshold: 0 });
 
         return {
-            'fetch::end': analyzeImage,
+            'fetch::end::*': analyzeImage,
             'scan::end': end
         };
     },
@@ -183,7 +184,7 @@ const rule: IRuleBuilder = {
                 threshold: { type: 'number' }
             }
         }],
-        worksWithLocalFiles: true
+        scope: RuleScope.any
     }
 };
 

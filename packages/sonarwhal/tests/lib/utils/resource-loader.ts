@@ -34,7 +34,7 @@ test('loadResource looks for resources in the right order (core > @sonarwhal > s
 });
 
 const getResourceFiles = (type) => {
-    const currentResources = globby.sync(`{packages/sonarwhal/,./,./node_modules/sonarwhal-*/}dist/src/lib/${type}s/**/*.js`);
+    const currentResources = globby.sync(`{,packages/sonarwhal/,node_modules/sonarwhal-*/}dist/src/lib/${type}s/**/*.js`);
 
     return currentResources.reduce((resources, resourceFile) => {
         const resourceName = path.basename(resourceFile, '.js');
