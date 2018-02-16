@@ -56,6 +56,6 @@
     "test-on-travis": "yarn lint && yarn build && nyc ava --concurrency=2 --timeout=2m"
   },
   "workspaces": [
-    "packages/!(rule-amp-validator)"
+    "packages/!(connector-edge|rule-amp-validator)"
   ]
 }
