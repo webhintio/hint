@@ -1,0 +1,57 @@
+{
+  "dependencies": {
+    "edge-diagnostics-adapter": "^0.6.0",
+    "node-windows": "^0.1.14"
+  },
+  "description": "sonarwhal connector for Microsoft Edge",
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-markdown": "^1.0.0-beta.7",
+    "eslint-plugin-typescript": "^0.8.1",
+    "markdownlint-cli": "^0.7.0",
+    "npm-run-all": "^4.1.2",
+    "sonarwhal": "^0.24.0",
+    "typescript": "^2.6.2",
+    "typescript-eslint-parser": "^13.0.0"
+  },
+  "peerDependencies": {
+    "sonarwhal": "^0.24.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "dist/src",
+    "scripts",
+    "npm-shrinkwrap.json"
+  ],
+  "homepage": "https://sonarwhal.com/",
+  "keywords": [
+    "connector",
+    "edge",
+    "microsoft edge",
+    "sonarwhal",
+    "sonarwhal-connector-edge"
+  ],
+  "license": "Apache-2.0",
+  "main": "./dist/src/index.js",
+  "name": "@sonarwhal/connector-edge",
+  "os": [
+    "win32"
+  ],
+  "repository": "sonarwhal/sonarwhal",
+  "scripts": {
+    "build": "npm run clean && npm-run-all build:*",
+    "build:ts": "tsc",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:md": "markdownlint README.md",
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "preinstall": "node scripts/preinstall.js",
+    "test": "echo",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "1.0.0"
+}
