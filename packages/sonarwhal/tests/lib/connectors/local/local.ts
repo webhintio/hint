@@ -17,7 +17,7 @@ test.beforeEach((t) => {
     t.context.sonarwhal = sonarwhal;
 });
 
-test.serial(`If target is a file, it should emit 'targetfetch::start' event`, async (t) => {
+test.serial(`If target is a file, it should emit 'fetch::start' event`, async (t) => {
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'script.js'));
 
     const sandbox = sinon.createSandbox();
@@ -31,7 +31,7 @@ test.serial(`If target is a file, it should emit 'targetfetch::start' event`, as
 
     t.is(t.context.sonarwhal.emitAsync.callCount, 4);
     t.is(t.context.sonarwhal.emitAsync.args[0][0], 'scan::start');
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'targetfetch::start');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'fetch::start');
     t.is(t.context.sonarwhal.emitAsync.args[2][0], 'fetch::end::script');
 
     sandbox.restore();
@@ -51,7 +51,7 @@ test.serial(`If target is a html file, it should emit 'fetch::end::html' event i
 
     t.is(t.context.sonarwhal.emitAsync.callCount, 4);
     t.is(t.context.sonarwhal.emitAsync.args[0][0], 'scan::start');
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'targetfetch::start');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'fetch::start');
     t.is(t.context.sonarwhal.emitAsync.args[2][0], 'fetch::end::html');
 
     sandbox.restore();
@@ -117,7 +117,7 @@ test.serial(`If target is an image, 'content' is empty`, async (t) => {
     sandbox.restore();
 });
 
-test.serial(`If target is a directory, shouldn't emit the event 'targetfetch::start'`, async (t) => {
+test.serial(`If target is a directory, shouldn't emit the event 'fetch::start'`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures'));
 
     const sandbox = sinon.createSandbox();

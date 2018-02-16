@@ -12,7 +12,7 @@ export interface IScanStart extends IEvent { }
 /** The object emitted when the connector has finished the process. */
 export interface IScanEnd extends IEvent { }
 
-/** The object emitted by a connector on `targetfetch::start`, `fetch::start`. */
+/** The object emitted by a connector on `fetch::start`. */
 export interface IFetchStart extends IEvent { }
 
 /** The object emitted by a connector on `fetch::end::*`. */
@@ -25,9 +25,7 @@ export interface IFetchEnd extends IEvent {
     response: IResponse;
 }
 
-export interface ITargetFetchStart extends IFetchStart { }
-
-/** The object emitted by a connector on `targetfetch::error` or `fetch::error` */
+/** The object emitted by a connector on `fetch::error` */
 export interface IFetchError extends IEvent {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;

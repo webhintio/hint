@@ -352,7 +352,7 @@ class JSDOMConnector implements IConnector {
         return new Promise(async (resolve, reject) => {
 
             debug(`About to start fetching ${href}`);
-            await this._server.emitAsync('targetfetch::start', initialEvent);
+            await this._server.emitAsync('fetch::start', initialEvent);
 
             try {
                 this._targetNetworkData = await this.fetchContent(target);
@@ -365,7 +365,7 @@ class JSDOMConnector implements IConnector {
                     resource: href
                 };
 
-                await this._server.emitAsync('targetfetch::error', fetchError);
+                await this._server.emitAsync('fetch::error', fetchError);
                 debug(`Failed to fetch: ${href}\n${err}`);
 
                 await this._server.emitAsync('scan::end', initialEvent);

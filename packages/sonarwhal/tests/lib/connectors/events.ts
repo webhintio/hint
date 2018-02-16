@@ -22,7 +22,7 @@ import { IConnector, IConnectorBuilder } from '../../../src/lib/types';
 /** The minimum set of events the connectors need to implement. */
 const events = [
     ['scan::start', { resource: 'http://localhost/' }],
-    ['targetfetch::start', { resource: 'http://localhost/' }],
+    ['fetch::start', { resource: 'http://localhost/' }],
     ['fetch::end::html', {
         resource: 'http://localhost/',
         request: { url: 'http://localhost/' },
@@ -298,7 +298,7 @@ const testConnectorEvents = (connectorInfo) => {
         }
 
         // List of events that only have to be called once per execution
-        const singles = ['fetch::error', 'scan::start', 'scan::end', 'fetch::missing::manifest', 'targetfetch::start', 'fetch::end::html'];
+        const singles = ['fetch::error', 'scan::start', 'scan::end', 'fetch::missing::manifest', 'fetch::end::html'];
         const groupedEvents = _.groupBy(invokes, (invoke) => {
             return invoke[0];
         });

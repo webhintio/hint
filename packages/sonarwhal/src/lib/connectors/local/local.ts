@@ -43,7 +43,6 @@ import { Sonarwhal } from '../../sonarwhal';
 const debug: debug.IDebugger = d(__filename);
 
 const defaultOptions = {};
-const HTML_EXTENSIONS = ['.html', '.htm', 'xhtml'];
 
 class LocalConnector implements IConnector {
     private _options;
@@ -261,7 +260,7 @@ class LocalConnector implements IConnector {
         let files;
 
         if (isFile(pathString)) {
-            await this.sonarwhal.emitAsync('targetfetch::start', initialEvent);
+            await this.sonarwhal.emitAsync('fetch::start', initialEvent);
             files = [pathString];
         } else {
             // TODO: the current @types/globby doesn't support gitignore. Remove "as any" when possible

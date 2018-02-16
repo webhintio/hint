@@ -168,7 +168,7 @@ There might be something wrong with SSL Labs servers.`;
 
         /*
          * We are using `fetch::end::html` instead of `scan::start`
-         * or `targetfetch::start` because the `ssllabs` API doesn't
+         * or `fetch::start` because the `ssllabs` API doesn't
          * follow the redirects, so we need to use the final url
          * (e.g.: https://developer.microsoft.com/en-us/microsoft-edge/
          * instead of http://edge.ms).

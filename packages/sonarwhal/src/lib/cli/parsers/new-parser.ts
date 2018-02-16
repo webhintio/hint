@@ -54,8 +54,6 @@ const events = {
     'fetch::start': 'IFetchStart',
     'scan::end': 'IScanEnd',
     'scan::start': 'IScanStart',
-    'targetfetch::error': 'IFetchError',
-    'targetfetch::start': 'ITargetFetchStart',
     'traverse::down': 'ITraverseDown',
     'traverse::end': 'ITraverseEnd',
     'traverse::start': 'ITraverseStart',

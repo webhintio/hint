@@ -68,7 +68,6 @@ const messages = {
     'fetch::start': 'Downloading %url%',
     'scan::end': 'Finishing...',
     'scan::start': 'Analyzing %url%',
-    'targetfetch::start': 'Downloading %url%',
     'traverse::down': 'Traversing the DOM',
     'traverse::end': 'Traversing finished',
     'traverse::start': 'Traversing the DOM',

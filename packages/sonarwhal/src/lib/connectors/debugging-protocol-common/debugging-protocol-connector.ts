@@ -227,7 +227,7 @@ export class Connector implements IConnector {
             return;
         }
 
-        const eventName: string = this._href === requestUrl ? 'targetfetch::start' : 'fetch::start';
+        const eventName: string = 'fetch::start';
 
         debug(`About to start fetching ${cutString(requestUrl)}`);
 
@@ -297,7 +297,7 @@ export class Connector implements IConnector {
         }
 
         const { request: { url: resource } } = requestInfo;
-        const eventName: string = this._href === resource ? 'targetfetch::error' : 'fetch::error';
+        const eventName: string = 'fetch::error';
 
         const hops: Array<string> = this._redirects.calculate(resource);
 

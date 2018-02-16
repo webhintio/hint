@@ -119,9 +119,9 @@ const testRequestResponse = (connectorInfo) => {
 
         await connector.collect(url.parse(`http://localhost:${server.port}/`));
 
-        const invokedTargetFetchEnd = findEvent(emitAsync, 'fetch::end::html') || findEvent(emit, 'fetch::end::html');
+        const invokedFetchEnd = findEvent(emitAsync, 'fetch::end::html') || findEvent(emit, 'fetch::end::html');
         /* eslint-disable sort-keys */
-        const expectedTargetFetchEnd = {
+        const expectedFetchEnd = {
             resource: `http://localhost:${server.port}/`,
             request: { url: `http://localhost:${server.port}/` },
             response: {
@@ -141,14 +141,14 @@ const testRequestResponse = (connectorInfo) => {
         };
         /* eslint-enable sort-keys */
 
-        if (!invokedTargetFetchEnd) {
+        if (!invokedFetchEnd) {
             t.fail(`fetch::end::html' event not found`);
 
             return;
         }
 
-        const { body: invokedBody } = invokedTargetFetchEnd.response;
-        const { body: expectedBody } = expectedTargetFetchEnd.response;
+        const { body: invokedBody } = invokedFetchEnd.response;
+        const { body: expectedBody } = expectedFetchEnd.response;
         const [invokedRawResponse, expectedRawResponse] = await Promise.all([invokedBody.rawResponse(), expectedBody.rawResponse()]);
 
         t.true(expectedRawResponse.equals(invokedRawResponse), 'rawResponses are different');
