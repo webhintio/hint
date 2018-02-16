@@ -81,7 +81,7 @@
     "rimraf": "^2.6.2",
     "shelljs": "^0.8.1",
     "sinon": "^4.2.2",
-    "sonarwhal": "^0.24.0",
+    "sonarwhal": "^0.25.0",
     "typescript": "2.6.2",
     "typescript-eslint-parser": "^13.0.0"
   },
