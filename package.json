@@ -29,7 +29,7 @@
     "file-type": "^7.5.0",
     "file-url": "^2.0.2",
     "fs-extra": "^5.0.0",
-    "globby": "^7.1.1",
+    "globby": "^8.0.1",
     "handlebars": "^4.0.11",
     "html-validator": "^2.2.3",
     "iconv-lite": "^0.4.19",
