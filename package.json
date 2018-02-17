@@ -14,7 +14,7 @@
     "ava": "^0.25.0",
     "chalk": "^2.3.1",
     "cpx": "^1.5.0",
-    "eslint": "^4.17.0",
+    "eslint": "^4.18.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.8.1",
@@ -44,7 +44,7 @@
   "scripts": {
     "ava": "ava",
     "build": "yarn clean && yarn build:sonarwhal && yarn build:connector-edge && loop \"yarn build\" --cwd packages/ --exclude connector-edge,sonarwhal",
-    "build:connector-edge":  "node -e \"process.platform !== 'win32' && process.exit(1);\" && (cd packages/connector-edge && yarn build) || echo \"\"",
+    "build:connector-edge": "node -e \"process.platform !== 'win32' && process.exit(1);\" && (cd packages/connector-edge && yarn build) || echo \"\"",
     "build:sonarwhal": "cd packages/sonarwhal && yarn build",
     "clean": "rimraf dist packages/*/dist",
     "commitmsg": "node scripts/check-commit-message.js",
