@@ -14,6 +14,7 @@ export * from './types/plugins';
 export * from './types/problems';
 export * from './types/rules';
 export * from './types/parser';
+export * from './types/typescriptconfig';
 
 export type RuleConfig = number | string | [number | string, any];
 
