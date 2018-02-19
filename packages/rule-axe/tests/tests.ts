@@ -18,7 +18,12 @@ const html = {
         <div role="main"></div>
     </body>
 </html>`,
-    tabindex: generateHTMLPage(undefined, `<div role="main"><header>Header</header><a href="#skip" tabindex="4">Skip</a></div>`)
+    tabindex: generateHTMLPage(undefined, `
+<div role="main">
+    <header>Header</header>
+    <a href="#skip" tabindex="4">Skip</a>
+    <div id="skip">Introduction</div>
+</div>`)
 };
 
 const tests: Array<IRuleTest> = [

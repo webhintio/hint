@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "axe-core": "^2.6.1"
+    "axe-core": "^3.0.0-beta.1"
   },
   "description": "",
   "devDependencies": {
