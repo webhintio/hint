@@ -12,9 +12,12 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.." \
 
 gem install awesome_bot \
     && find . -name "*.md" \
-              -not -path "./node_modules/*" \
-              -not -path "./dist/*" \
               -not -path "./coverage/*" \
+              -not -path "./dist/*" \
+              -not -path "./node_modules/*" \
+              -not -path "./packages/*/coverage/*" \
+              -not -path "./packages/*/dist/*" \
+              -not -path "./packages/*/node_modules/*" \
               -exec awesome_bot \
                         --allow-dupe \
                         --allow-redirect \

@@ -207,4 +207,4 @@ ruleRunner.testRule(ruleName, tests, {
 [browserconfiguration]: ../../user-guide/index.md#browserconfiguration
 [new issue]: https://github.com/sonarwhal/sonarwhal/issues/new
 [parsers]: ../../user-guide/concepts/parser.md
-[ssllabs code]: https://github.com/sonarwhal/sonarwhal/blob/master/src/lib/rules/ssllabs/ssllabs.ts
+[ssllabs code]: https://github.com/sonarwhal/sonarwhal/blob/master/packages/rule-ssllabs/src/rule.ts
