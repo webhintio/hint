@@ -1,3 +1,22 @@
+# 0.27.0 (February 20, 2018)
+
+## Breaking Changes
+
+* [[`f4536396d3`](https://github.com/sonarwhal/sonarwhal/commit/f4536396d3177c969eee023a6598aa1ba5e0cefe)] - Breaking: Replace `worksWithLocalFiles` with `scope` (see also: [`#816`](https://github.com/sonarwhal/sonarwhal/issues/816)).
+* [[`03b798b241`](https://github.com/sonarwhal/sonarwhal/commit/03b798b2411a7ec303fe04c7618afb70cbc9b08c)] - Breaking: Change how `--new-rule` works and drop `--remove-rule` (see also: [`#806`](https://github.com/sonarwhal/sonarwhal/issues/806)).
+
+## Bug fixes / Improvements
+
+* [[`5772885390`](https://github.com/sonarwhal/sonarwhal/commit/577288539056bc72c70300e987bfb558f44dc255)] - Docs: Fix broken links (see also: [`#823`](https://github.com/sonarwhal/sonarwhal/issues/823)).
+* [[`f5679a86e2`](https://github.com/sonarwhal/sonarwhal/commit/f5679a86e2d6bf4dbbd19a1aac62fa617e400ae1)] - Fix: Wait until the browser is completely closed.
+* [[`1b1712cc4e`](https://github.com/sonarwhal/sonarwhal/commit/1b1712cc4e48ed07c0433c6d6d8c9f34215d70d9)] - Update: `browserslist` to `v3.0.0` (see also: [`#809`](https://github.com/sonarwhal/sonarwhal/issues/809)).
+
+## New features
+
+* [[`69becf000a`](https://github.com/sonarwhal/sonarwhal/commit/69becf000a6ec4b3ce1b80426a28ef2897db1840)] - New: Search on `npm` on `resource-loader.ts`.
+* [[`1f4b818016`](https://github.com/sonarwhal/sonarwhal/commit/1f4b818016aa1cccd86d4fd6019f4695e117e21a)] - New: Switch to using a monorepo architecture (see also: [`#748`](https://github.com/sonarwhal/sonarwhal/issues/748)).
+
+
 # 0.25.0 (February 6, 2018)
 
 ## Bug fixes / Improvements
