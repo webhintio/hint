@@ -5,9 +5,9 @@ import * as proxyquire from 'proxyquire';
 
 const logging = { log() { } };
 
-proxyquire('../../../src/lib/formatters/codeframe/codeframe', { '../../utils/logging': logging });
+proxyquire('../src/codeframe', { 'sonarwhal/dist/src/lib/utils/logging': logging });
 
-import codeframe from '../../../src/lib/formatters/codeframe/codeframe';
+import codeframe from '../src/codeframe';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
