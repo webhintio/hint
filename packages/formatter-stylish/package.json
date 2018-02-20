@@ -7,6 +7,12 @@
     "timeout": "1m"
   },
   "description": "",
+  "dependencies": {
+    "chalk": "^2.3.1",
+    "lodash": "^4.17.5",
+    "pluralize": "^7.0.0",
+    "text-table": "^0.2.0"
+  },
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",

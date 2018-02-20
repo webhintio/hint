@@ -7,6 +7,9 @@
     "timeout": "1m"
   },
   "description": "",
+  "dependencies": {
+    "lodash": "^4.17.5"
+  },
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
