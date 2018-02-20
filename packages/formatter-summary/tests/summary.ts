@@ -7,9 +7,9 @@ import * as table from 'text-table';
 
 const logging = { log() { } };
 
-proxyquire('../../../src/lib/formatters/summary/summary', { '../../utils/logging': logging });
+proxyquire('../src/summary', { 'sonarwhal/dist/src/lib/utils/logging': logging });
 
-import summary from '../../../src/lib/formatters/summary/summary';
+import summary from '../src/summary';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
