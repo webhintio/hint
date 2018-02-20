@@ -12,7 +12,12 @@
         ],
         "module": "commonjs",
         "newLine": "lf",
-        "removeComments": true,
+        "removeComments": false,
         "target": "esnext"
-    }
+    },
+    "exclude": [
+        "dist",
+        "node_modules",
+        "packages"
+    ]
 }
