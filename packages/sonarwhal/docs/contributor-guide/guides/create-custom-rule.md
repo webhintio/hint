@@ -37,6 +37,10 @@ and then run the command to start a new custom rule:
 sonarwhal --new-rule
 ```
 
+**Note**: If you are creating a new rule for the main repo you can use
+`yarn new:rule` or `npm run new:rule` from the root and it will be created
+automatically in the `packages` folder.
+
 At this point, a wizard will ask a series of questions relevant to the new rule,
 including the name, description, category, etc. In particular, you will be asked
 to select the category of the use case for the new rules. Depending on the

@@ -157,7 +157,7 @@ After rebasing, be sure to run all of the tests once again to make
 sure nothing broke:
 
 ```bash
-npm test
+yarn test
 ```
 
 If there are any failing tests, update your code until all tests pass.
@@ -171,7 +171,7 @@ to check:
 * The pull request must have a description. The description should
   explain what you did and how its effects can be seen.
 * The change introduces no functional regression. Be sure to run
-  `npm test` to verify your changes before submitting a pull request.
+  `yarn test` to verify your changes before submitting a pull request.
 * Make separate pull requests for unrelated changes. Large pull requests
   with multiple unrelated changes may be closed without merging.
 * All changes must be accompanied by documentation and tests, even if
