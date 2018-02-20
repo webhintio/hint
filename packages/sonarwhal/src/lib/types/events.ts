@@ -67,9 +67,3 @@ export interface IManifestFetchError extends IEvent {
 
 /** The object emitted by a connector on `fetch::missing::manifest`. */
 export interface IManifestFetchMissing extends IEvent { }
-
-/** The object emitted by the `javascript` parser */
-export interface IScriptParse extends IEvent {
-    /** The source code parsed */
-    sourceCode: any;
-}

@@ -59,7 +59,7 @@
     "statements": 85
   },{{/if}}
   "scripts": {
-   "build": "npm run clean && npm-run-all build:*",
+    "build": "npm run clean && npm-run-all build:*",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc",
     "clean": "rimraf dist",

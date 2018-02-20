@@ -1,5 +1,5 @@
-import { IEvent, {{#each eventTypes}}{{this}}, {{/each}}Parser } from '{{#if isExternal}}sonarwhal/dist/src/lib/types{{else}}../../types{{/if}}';
-import { Sonarwhal } from '{{#if isExternal}}sonarwhal/dist/src/lib/sonarwhal{{else}}../../sonarwhal{{/if}}';
+import { IEvent, {{#each eventTypes}}{{this}}, {{/each}}Parser } from 'sonarwhal/dist/src/lib/types';
+import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
 
 export default class {{capitalizedName}} extends Parser {
     public constructor(sonarwhal: Sonarwhal) {

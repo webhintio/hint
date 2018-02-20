@@ -1,9 +1,10 @@
 import * as eslint from 'eslint';
 import * as espree from 'espree';
 
-import { determineMediaTypeForScript } from '../../utils/content-type';
-import { IAsyncHTMLElement, IElementFound, IFetchEnd, IScriptParse, Parser } from '../../types';
-import { Sonarwhal } from '../../sonarwhal';
+import { determineMediaTypeForScript } from 'sonarwhal/dist/src/lib/utils/content-type';
+import { IAsyncHTMLElement, IElementFound, IFetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
+import { IScriptParse } from './IScriptParse';
+import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
 
 const scriptContentRegex: RegExp = /^<script[^>]*>([\s\S]*)<\/script>$/;
 // This is the default configuration in eslint for espree.
