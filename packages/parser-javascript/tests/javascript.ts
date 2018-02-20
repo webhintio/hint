@@ -7,12 +7,12 @@ const eslint = { SourceCode() { } };
 const espree = { parse() { } };
 const element = { getAttribute() { }, outerHTML() { } };
 
-proxyquire('../../../src/lib/parsers/javascript/javascript', {
+proxyquire('../src/javascript', {
     eslint,
     espree
 });
 
-import * as JavascriptParser from '../../../src/lib/parsers/javascript/javascript';
+import * as JavascriptParser from '../src/javascript';
 
 test.beforeEach((t) => {
     t.context.eslint = eslint;
