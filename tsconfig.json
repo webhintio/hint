@@ -14,5 +14,10 @@
         "newLine": "lf",
         "removeComments": true,
         "target": "esnext"
-    }
+    },
+    "exclude": [
+        "dist",
+        "node_modules",
+        "packages"
+    ]
 }
