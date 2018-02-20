@@ -46,6 +46,7 @@
   "main": "dist/src/codeframe.js",
   "name": "@sonarwhal/formatter-codeframe",
   "nyc": {
+    "branches": 80,
     "extends": "../../../../.nycrc"
   },
   "peerDependencies": {
