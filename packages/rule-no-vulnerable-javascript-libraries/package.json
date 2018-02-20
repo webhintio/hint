@@ -56,7 +56,6 @@
   "peerDependencies": {
     "sonarwhal": "^0.26.0"
   },
-  "private": true,
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
