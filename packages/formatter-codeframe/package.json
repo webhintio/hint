@@ -35,11 +35,11 @@
   "keywords": [
     "sonarwhal",
     "sonarwhal-formatter",
-    "json"
+    "codeframe"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/json.js",
-  "name": "@sonarwhal/formatter-json",
+  "main": "dist/src/codeframe.js",
+  "name": "@sonarwhal/formatter-codeframe",
   "nyc": {
     "extends": "../../../../.nycrc"
   },
