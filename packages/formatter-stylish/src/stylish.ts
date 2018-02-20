@@ -15,10 +15,10 @@ import * as _ from 'lodash';
 import * as table from 'text-table';
 import * as pluralize from 'pluralize';
 
-import { cutString } from '../../utils/misc';
-import { debug as d } from '../../utils/debug';
-import { IFormatter, IProblem, Severity } from '../../types';
-import * as logger from '../../utils/logging';
+import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
+import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
+import { IFormatter, IProblem, Severity } from 'sonarwhal/dist/src/lib/types';
+import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 
 const debug = d(__filename);
 
