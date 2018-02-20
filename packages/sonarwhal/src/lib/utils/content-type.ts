@@ -18,7 +18,7 @@ const debug = d(__filename);
 const getMediaTypeBasedOnFileExtension = (fileExtension: string): string => {
     return fileExtension && Object.keys(mimeDB).find((key) => {
         return mimeDB[key].extensions && mimeDB[key].extensions.includes(fileExtension);
-    });
+    }) || null; // if nothing is found, we return null to be consistent
 };
 
 const determineCharset = (originalCharset: string, mediaType: string): string => {
@@ -300,6 +300,7 @@ const parseContentTypeHeader = (headers): MediaType => {
 
     let contentType: MediaType;
 
+    /* istanbul ignore next */
     try {
         if (contentTypeHeaderValue === '') {
             throw new TypeError('invalid media type');
@@ -361,10 +362,7 @@ const getContentTypeData = (element: IAsyncHTMLElement, resource: string, header
     };
 };
 
-/*
- * Check if a media type is one of a file type that is text based.
- */
-
+/** Checks if a media type is one of a file type that is text based. */
 const isTextMediaType = (mediaType: string): boolean => {
     const textMediaTypes: Array<RegExp> = [
         /application\/(?:javascript|json|x-javascript|xml)/i,
@@ -382,6 +380,11 @@ const isTextMediaType = (mediaType: string): boolean => {
     return false;
 };
 
+/**
+ * Returns the group to which the mediaType belongs to. E.g.:
+ * `image`, `font`, `script`, `css`, `html`, `manifest`, `xml`
+ * or `unkown`.
+ */
 const getType = (mediaType: string) => {
     if (mediaType.startsWith('image')) {
         return 'image';
@@ -411,6 +414,7 @@ const getType = (mediaType: string) => {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 export {
+    determineMediaTypeBasedOnFileExtension,
     determineMediaTypeForScript,
     getContentTypeData,
     getFileExtension,

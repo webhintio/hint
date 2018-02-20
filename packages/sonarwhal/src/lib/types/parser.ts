@@ -4,6 +4,7 @@ import { Sonarwhal } from '../sonarwhal';
 export abstract class Parser {
     protected sonarwhal: Sonarwhal;
 
+    /* istanbul ignore next */
     public constructor(sonarwhal: Sonarwhal) {
         this.sonarwhal = sonarwhal;
     }
