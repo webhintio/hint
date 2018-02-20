@@ -16,9 +16,7 @@ configuration file:
 
 ## List of official `parser`s
 
-The built-in `parser`s are:
-
-* `javascript`: A `JavaScript` parser built on top of `ESLint` so rules for
+* [`javascript`][@sonarwhal/parser-javascript]: A `JavaScript` parser built on top of `ESLint` so rules for
   analyzing `JavaScript` files can be built.
 
 ## How to use a parser
@@ -34,3 +32,7 @@ This event is of type `IScriptParse` which has the following information:
 * `resource`: the parsed resource. If the JavaScript is in a `script tag`
   and not a file, the value will be `Internal javascript`.
 * `sourceCode`: a `eslint` `SourceCode` object.
+
+<!-- Link labels: -->
+
+[@sonarwhal/parser-javascript]: https://npmjs.com/packages/@sonarwhal/parser-javascript/
