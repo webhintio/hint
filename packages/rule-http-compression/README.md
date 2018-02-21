@@ -598,23 +598,26 @@ Important notes:
 
         # 1) Brotli
 
-            # If `Accept-Encoding` header contains `gzip` and the
-            # request is made over HTTP.
+            # If `Accept-Encoding` header contains `br`
 
-            RewriteCond "%{HTTPS:Accept-encoding}" "br"
+            RewriteCond "%{HTTP:Accept-encoding}" "br"
+
+            # and the request is made over HTTPS.
+
+            RewriteCond "%{HTTPS}" "on"
 
             # The Brotli pre-compressed version of the file exists
             # (e.g.: `script.js` is requested and `script.js.gz` exists).
 
             RewriteCond "%{REQUEST_FILENAME}\.br" "-s"
 
-            # Then serve the Brotli pre-compressed version of the file.
+            # Then, serve the Brotli pre-compressed version of the file.
 
             RewriteRule "^(.*)" "$1\.br" [QSA]
 
-            # Set the media types of the file, as otherwise, because
-            # the file has the `.gz` extension, it wil be served with
-            # the gzip media type.
+            # Set the correct media type of the requested file. Otherwise,
+            # it will be served with the br media type since the file has
+            # the `.br` extension.
             #
             # Also, set the special purpose environment variables so
             # that Apache doesn't recompress these files.
