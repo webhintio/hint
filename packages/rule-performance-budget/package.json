@@ -35,7 +35,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "performance-budget",
-    "performance-budget-rule"
+    "performance-budget-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

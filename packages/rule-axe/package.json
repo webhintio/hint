@@ -38,7 +38,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "axe",
-    "axe-rule"
+    "axe-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

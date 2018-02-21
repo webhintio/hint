@@ -45,7 +45,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "no-vulnerable-javascript-libraries",
-    "no-vulnerable-javascript-libraries-rule"
+    "no-vulnerable-javascript-libraries-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

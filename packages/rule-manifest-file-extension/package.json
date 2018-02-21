@@ -35,7 +35,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "manifest-file-extension",
-    "manifest-file-extension-rule"
+    "manifest-file-extension-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

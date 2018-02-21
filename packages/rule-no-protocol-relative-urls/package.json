@@ -35,7 +35,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "no-protocol-relative-urls",
-    "no-protocol-relative-urls-rule"
+    "no-protocol-relative-urls-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

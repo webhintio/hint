@@ -40,7 +40,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "html-checker",
-    "html-checker-rule"
+    "html-checker-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

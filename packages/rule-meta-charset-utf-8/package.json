@@ -35,7 +35,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "meta-charset-utf-8",
-    "meta-charset-utf-8-rule"
+    "meta-charset-utf-8-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",
