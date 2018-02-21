@@ -14,7 +14,7 @@ const generateNewCommitMessage = (originalCommitMessage) => {
     const result = regex.exec(originalCommitMessage);
 
     if (result) {
-        return `Upgrade: \\\`${result[1]}\\\` to \\\`v${result[2]}\\\``;
+        return `Update: \\\`${result[1]}\\\` to \\\`v${result[2]}\\\``;
     }
 
     return null;

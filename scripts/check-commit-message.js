@@ -54,8 +54,7 @@ const checkFirstLine = (line) => {
         'Chore:',
         'Docs:',
         'New:',
-        'Update:',
-        'Upgrade:'
+        'Update:'
     ];
 
     let issues = [];

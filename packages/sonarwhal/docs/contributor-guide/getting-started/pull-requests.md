@@ -108,9 +108,7 @@ following:
 * `Docs` - changes to documentation only.
 * `Fix` - for a bug fix.
 * `New` - implemented a new feature.
-* `Update` - for a backwards-compatible changes or a change to
-   a rule that increases the number of reported problems.
-* `Upgrade` - for a dependency upgrade.
+* `Update` - for a dependency upgrade.
 
 Here are some good commit message summary examples:
 
@@ -120,10 +118,6 @@ Docs: Fix broken links in `pull-requests.md`
 
 ```text
 New: Add rule to check life-work balance
-```
-
-```text
-Upgrade: `eslint` to `v5.0.0`
 ```
 
 ```text
