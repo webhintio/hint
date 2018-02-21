@@ -40,7 +40,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "disown-opener",
-    "disown-opener-rule"
+    "disown-opener-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

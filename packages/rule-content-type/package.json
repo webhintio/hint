@@ -38,7 +38,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "content-type",
-    "content-type-rule"
+    "content-type-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

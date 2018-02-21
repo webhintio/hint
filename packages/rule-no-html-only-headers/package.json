@@ -38,7 +38,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "no-html-only-headers",
-    "no-html-only-headers-rule"
+    "no-html-only-headers-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",
