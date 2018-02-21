@@ -985,7 +985,6 @@ export class Connector implements IConnector {
         return response;
     }
 
-    /* eslint-disable indent */
     /**
      * The `exceptionDetails` provided by the debugger protocol
      * does not contain the useful information such as name, message,
@@ -993,7 +992,6 @@ export class Connector implements IConnector {
      * Instead, map to a successful object that contains this information.
      * @param {string|Error} err The error to convert istanbul ignore next
      */
-    /* eslint-enable indent */
     private wrapRuntimeEvalErrorInBrowser(e) {
         const err = e || new Error();
         const fallbackMessage: string = typeof err === 'string' ? err : 'unknown error';
