@@ -53,36 +53,12 @@ and more, see the online [user guide](https://sonarwhal.com/docs/user-guide/),
 or the [local version](./docs/user-guide/index.md) for the most recent
 (and unstable) content.
 
-## Quick start contributor guide
+## Contributing to sonarwhal
 
-To know more about the internals of `sonarwhal`, how to create new
-rules, collectors, formatters, etc, take a look at the online
-[contributor guide](https://sonarwhal.com/docs/contributor-guide/) (or
-the [local version](./docs/contributor-guide/index.md)).
-
-The following are meant only if you are working on `sonarwhal`’s codebase:
-
-* `npm run sonarwhal <url>` will analyze the website with the current
-   configuration and using the latest build available in the `dist`
-   directory.
-* `npm run sonarwhal -- --debug <url>` same as above, but will show all
-   the debug information.
-* `npm run lint` will lint the code.
-* `npm run watch` will start watchmode. This is the recommended task
-   to run in the background while developing. It does the following:
-  * sync all the resources from `src` to `dist` (basically anything
-    that is not a `.ts` file).
-  * compile the typescript files incrementally to `dist`.
-  * run all the tests incrementally.
-* `npm run build` will do the same as the `watch` task but only once
-  and without running the tests.
-* `npm test` will run the tests with code coverage using the code
-  available in `dist`. It is better to run this task after `build`.
-
-The initialization of the `watch` task is a bit especial: it will
-compile and copy the assets before starting to watch for new files
-to copy, build, or test. Because of concurrency, it might be that
-the tests are run twice initially.
+To know more about the internals of `sonarwhal`, the structure of the
+project, how to create new rules, collectors, formatters, etc, take a
+look at the online [contributor guide](https://sonarwhal.com/docs/contributor-guide/)
+(or the [local version](./docs/contributor-guide/index.md)).
 
 ## Code of Conduct
 
