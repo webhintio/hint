@@ -75,6 +75,7 @@ export const execute = async (args: string | Array<string> | Object): Promise<nu
     while (cliActions.length > 0 && !handled) {
         const action = cliActions.shift();
 
+        /* istanbul ignore next */
         try {
             handled = await action(currentOptions);
         } catch (e) {
