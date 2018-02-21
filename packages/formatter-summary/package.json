@@ -51,7 +51,7 @@
     "extends": "../../../../.nycrc"
   },
   "peerDependencies": {
-    "sonarwhal": "^0.25.0"
+    "sonarwhal": "^0.26.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",
