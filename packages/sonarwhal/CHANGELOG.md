@@ -1,4 +1,4 @@
-# 0.27.0 (February 20, 2018)
+# 0.26.0 (February 20, 2018)
 
 ## Breaking Changes
 
