@@ -39,7 +39,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "http-compression",
-    "http-compression-rule"
+    "http-compression-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

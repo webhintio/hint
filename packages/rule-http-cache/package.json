@@ -38,7 +38,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "http-cache",
-    "http-cache-rule"
+    "http-cache-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

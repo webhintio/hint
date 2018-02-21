@@ -35,7 +35,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "validate-set-cookie-header",
-    "validate-set-cookie-header-rule"
+    "validate-set-cookie-header-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

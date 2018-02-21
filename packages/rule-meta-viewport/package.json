@@ -38,7 +38,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "meta-viewport",
-    "meta-viewport-rule"
+    "meta-viewport-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

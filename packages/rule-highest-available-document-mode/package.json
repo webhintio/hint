@@ -35,7 +35,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "highest-available-document-mode",
-    "highest-available-document-mode-rule"
+    "highest-available-document-mode-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

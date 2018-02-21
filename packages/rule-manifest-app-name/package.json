@@ -38,7 +38,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "manifest-app-name",
-    "manifest-app-name-rule"
+    "manifest-app-name-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

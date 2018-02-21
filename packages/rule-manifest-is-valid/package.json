@@ -35,7 +35,8 @@
     "sonarwhal",
     "sonarwhal-rule",
     "manifest-is-valid",
-    "manifest-is-valid-rule"
+    "manifest-is-valid-rule",
+    "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",
