@@ -172,7 +172,7 @@ const isExcludedCommit = (commit) => {
 
     // Releases are special cases, so they don't need to be checked.
 
-    if (/^v\d+\.\d+\.\d+/i.test(commit.message)) {
+    if (/^🚀 (sonarwhal|(connector|formatter|rule)(-[0-9a-z]+)+) - v\d+\.\d+\.\d+/i.test(commit.message)) {
         return true;
     }
 
