@@ -56,7 +56,6 @@
   "peerDependencies": {
     "sonarwhal": "^0.26.0"
   },
-  "private": true,
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -72,5 +71,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
