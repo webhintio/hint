@@ -240,6 +240,58 @@ export const getInstalledConnectors = (): Array<string> => {
     return getInstalledResources(TYPE.connector);
 };
 
+export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
+    const rulesIds: Array<string> = Object.keys(config);
+
+    const rules: Map<string, IRuleBuilder> = rulesIds.reduce((acum: Map<string, IRuleBuilder>, ruleId: string) => {
+        const rule: IRuleBuilder = loadResource(ruleId, TYPE.rule);
+        const valid: boolean = validateRule(rule, config[ruleId], ruleId);
+
+        if (!valid) {
+            throw new Error(`Rule ${ruleId} doesn't have a valid configuration`);
+        }
+
+        acum.set(ruleId, rule);
+
+        return acum;
+    }, new Map<string, IRuleBuilder>());
+
+    return rules;
+};
+
+export const loadParsers = (parsersIds: Array<string>): Map<string, Parser> => {
+
+    const parsers: Map<string, Parser> = parsersIds.reduce((acum: Map<string, Parser>, parserId: string) => {
+        const parser: Parser = loadResource(parserId, TYPE.parser);
+
+        acum.set(parserId, parser);
+
+        return acum;
+    }, new Map<string, Parser>());
+
+    return parsers;
+};
+
+export const loadRule = (ruleId: string): IRuleBuilder => {
+    return loadResource(ruleId, TYPE.rule);
+};
+
+export const loadConnector = (connectorId: string): IConnectorBuilder => {
+    return loadResource(connectorId, TYPE.connector);
+};
+
+export const loadFormatter = (formatterId: string): IFormatter => {
+    return loadResource(formatterId, TYPE.formatter);
+};
+
+export const loadParser = (parserId: string): Parser => {
+    return loadResource(parserId, TYPE.parser);
+};
+
+export const loadConfiguration = (configurationId: string) => {
+    return loadResource(configurationId, TYPE.configuration);
+};
+
 /**
  * Searches all the packages on npm given `searchTerm`.
  */
@@ -457,50 +509,4 @@ const loadResources = async (ids: Array<string>, type: string): Promise<[Map<str
     resourcesFound = installedResources ? new Map([...resourcesFound, ...installedResources]) : resourcesFound;
 
     return [resourcesFound, resourcesNotFound];
-};
-
-export const loadRules = async (config: Object): Promise<Map<string, IRuleBuilder>> => {
-    const rulesIds: Array<string> = Object.keys(config);
-
-    const [rules, rulesNotFound]: [Map<string, IRuleBuilder>, Array<string>] = await loadResources(rulesIds, TYPE.rule);
-
-    if (rulesNotFound.length > 0) {
-        throw new Error(`Rule${rulesNotFound.length > 1 ? 's' : ''} ${rulesNotFound.join(' ')} not found.`);
-    }
-
-    for (const [ruleId, rule] of rules) {
-        const valid: boolean = validateRule(rule, config[ruleId], ruleId);
-
-        if (!valid) {
-            throw new Error(`Rule ${ruleId} doesn't have a valid configuration`);
-        }
-    }
-
-    return rules;
-};
-
-export const loadParsers = async (parsersIds: Array<string>): Promise<Map<string, Parser>> => {
-    const [parsers, parsersNotFound]: [Map<string, Parser>, Array<string>] = await loadResources(parsersIds, TYPE.parser);
-
-    if (parsersNotFound.length > 0) {
-        throw new Error(`Parser${parsersNotFound.length > 1 ? 's' : ''} ${parsersNotFound.join(' ')} not found.`);
-    }
-
-    return parsers;
-};
-
-export const loadRule = (ruleId: string): IRuleBuilder => {
-    return loadResource(ruleId, TYPE.rule);
-};
-
-export const loadConnector = (connectorId: string): IConnectorBuilder => {
-    return loadResource(connectorId, TYPE.connector);
-};
-
-export const loadFormatter = (formatterId: string): IFormatter => {
-    return loadResource(formatterId, TYPE.formatter);
-};
-
-export const loadParser = (parserId: string): Parser => {
-    return loadResource(parserId, TYPE.parser);
 };
