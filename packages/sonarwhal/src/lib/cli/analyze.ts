@@ -132,7 +132,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
 
     config.watch = actions.watch;
 
-    sonarwhal = new Sonarwhal(config);
+    sonarwhal = await Sonarwhal.create(config);
 
     const start: number = Date.now();
     const spinner: IORA = ora({ spinner: 'line' });

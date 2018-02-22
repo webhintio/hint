@@ -17,11 +17,13 @@ import { promisify } from 'util';
 import * as globby from 'globby';
 import * as npm from 'npm';
 import * as esearch from 'npm/lib/search/esearch';
+import * as inquirer from 'inquirer';
 
 import { findNodeModulesRoot, findPackageRoot, readFile } from './misc';
 import { debug as d } from './debug';
 import { IConnectorBuilder, IFormatter, NpmPackage, Parser, Resource, IRuleBuilder } from '../types';
 import { validate as validateRule } from '../config/config-rules';
+import { installPackages } from './npm';
 
 const debug: debug.IDebugger = d(__filename);
 const SONARWHAL_ROOT: string = findPackageRoot();
@@ -48,7 +50,7 @@ const getCoreResources = (type: string): Array<string> => {
         return resourceIds.get(type);
     }
 
-    const resourcesFiles: Array<string> = globby.sync(`dist/src/lib/${type}s/**/*.js`, {cwd: SONARWHAL_ROOT});
+    const resourcesFiles: Array<string> = globby.sync(`dist/src/lib/${type}s/**/*.js`, { cwd: SONARWHAL_ROOT });
 
     const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
         const resourceName: string = path.basename(resourceFile, '.js');
@@ -237,56 +239,8 @@ export const getInstalledConnectors = (): Array<string> => {
     return getInstalledResources(TYPE.connector);
 };
 
-export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
-    const rulesIds: Array<string> = Object.keys(config);
-
-    const rules: Map<string, IRuleBuilder> = rulesIds.reduce((acum: Map<string, IRuleBuilder>, ruleId: string) => {
-        const rule: IRuleBuilder = loadResource(ruleId, TYPE.rule);
-        const valid: boolean = validateRule(rule, config[ruleId], ruleId);
-
-        if (!valid) {
-            throw new Error(`Rule ${ruleId} doesn't have a valid configuration`);
-        }
-
-        acum.set(ruleId, rule);
-
-        return acum;
-    }, new Map<string, IRuleBuilder>());
-
-    return rules;
-};
-
-export const loadParsers = (parsersIds: Array<string>): Map<string, Parser> => {
-
-    const parsers: Map<string, Parser> = parsersIds.reduce((acum: Map<string, Parser>, parserId: string) => {
-        const parser: Parser = loadResource(parserId, TYPE.parser);
-
-        acum.set(parserId, parser);
-
-        return acum;
-    }, new Map<string, Parser>());
-
-    return parsers;
-};
-
-export const loadRule = (ruleId: string): IRuleBuilder => {
-    return loadResource(ruleId, TYPE.rule);
-};
-
-export const loadConnector = (connectorId: string): IConnectorBuilder => {
-    return loadResource(connectorId, TYPE.connector);
-};
-
-export const loadFormatter = (formatterId: string): IFormatter => {
-    return loadResource(formatterId, TYPE.formatter);
-};
-
-export const loadParser = (parserId: string): Parser => {
-    return loadResource(parserId, TYPE.parser);
-};
-
 /**
- * Searches all the packages in npm given `searchTerm`.
+ * Searches all the packages on npm given `searchTerm`.
  */
 const searchNpmPackages = (searchTerm: string): Promise<Array<NpmPackage>> => {
     return new Promise((resolve, reject) => {
@@ -392,4 +346,155 @@ export const getExternalFormattersFromNpm = () => {
 /** Get core formatters from npm. */
 export const getCoreFormattersFromNpm = () => {
     return getCorePackages(TYPE.formatter);
+};
+
+const getPackagesToInstall = async (packagesIds: Array<string>, type: string) => {
+    let promise: Promise<[Array<NpmPackage>, Array<NpmPackage>]>;
+
+    switch (type) {
+        case TYPE.connector:
+            promise = Promise.all([getCoreConnectorsFromNpm(), getExternalConnectorsFromNpm()]);
+            break;
+        case TYPE.formatter:
+            promise = Promise.all([getCoreFormattersFromNpm(), getExternalFormattersFromNpm()]);
+            break;
+        case TYPE.parser:
+            promise = Promise.all([getCoreParsersFromNpm(), getExternalParsersFromNpm()]);
+            break;
+        case TYPE.rule:
+            promise = Promise.all([getCoreRulesFromNpm(), getExternalRulesFromNpm()]);
+            break;
+        default:
+            throw new Error(`Type ${type} unknown`);
+    }
+
+    const [npmCorePackages, npmExternalPackages] = await promise;
+    const npmPackages: Array<string> = npmCorePackages
+        .concat(npmExternalPackages)
+        .filter((npmPackage) => {
+            return packagesIds.includes(npmPackage.name.replace(`@sonarwhal/${type}-`, '').replace(`sonarwhal-${type}-`, ''));
+        })
+        .map((npmPackage) => {
+            return npmPackage.name;
+        });
+    const notExists: Array<string> = [];
+
+    for (const packageId of packagesIds) {
+        if (!npmPackages.includes(`@sonarwhal/${type}-${packageId}`) && !npmPackages.includes(`sonarwhal-${type}-${packageId}`)) {
+            notExists.push(packageId);
+        }
+    }
+
+    if (notExists.length > 0) {
+        throw new Error(`${type.charAt(0).toUpperCase()}${type.slice(1)}s ${notExists.join(' ')} not found. Please, review your configuration.`);
+    }
+
+    return npmPackages;
+};
+
+const installMissingPackages = async (ids: Array<string>, type: string) => {
+    // Check if the missing package exists on npm.
+    const packages = await getPackagesToInstall(ids, type);
+
+    console.log(`The following ${type}s are not installed:`);
+    console.log(packages.join(' '));
+
+    // Ask user if he wants to install the packages.
+    const result = await inquirer.prompt([{
+        default: true,
+        message: `Do you want to install the missing ${type}s?`,
+        name: 'ok',
+        type: 'confirm'
+    }]) as any;
+
+    if (!result.ok) {
+        throw new Error(`${type.charAt(0).toUpperCase()}${type.slice(1)}s ${packages.join(' ')} not found. Please, install them.`);
+    }
+
+    // Install Packages
+    installPackages(packages);
+};
+
+const loadResources = async (ids: Array<string>, type: string): Promise<[Map<string, any>, Array<string>]> => {
+    const load = (idsToLoad: Array<string>, resourceType: string): [Map<string, IRuleBuilder>, Array<string>] => {
+        const notFound: Array<string> = [];
+        const found: Map<string, IRuleBuilder> = new Map<string, IRuleBuilder>();
+
+        for (const ruleId of idsToLoad) {
+            let rule: IRuleBuilder;
+
+            try {
+                rule = loadResource(ruleId, resourceType);
+            } catch (err) {
+                notFound.push(ruleId);
+            }
+
+            if (!rule) {
+                continue;
+            }
+
+            found.set(ruleId, rule);
+        }
+
+        return [found, notFound];
+    };
+
+    let [resourcesFound, resourcesNotFound]: [Map<string, IRuleBuilder>, Array<string>] = load(ids, type);
+    let installedResources: Map<string, IRuleBuilder>;
+
+    if (resourcesNotFound.length > 0) {
+        await installMissingPackages(resourcesNotFound, type);
+
+        [installedResources, resourcesNotFound] = load(resourcesNotFound, type);
+    }
+
+    resourcesFound = installedResources ? new Map([...resourcesFound, ...installedResources]) : resourcesFound;
+
+    return [resourcesFound, resourcesNotFound];
+};
+
+export const loadRules = async (config: Object): Promise<Map<string, IRuleBuilder>> => {
+    const rulesIds: Array<string> = Object.keys(config);
+
+    const [rules, rulesNotFound]: [Map<string, IRuleBuilder>, Array<string>] = await loadResources(rulesIds, TYPE.rule);
+
+    if (rulesNotFound.length > 0) {
+        throw new Error(`Rule${rulesNotFound.length > 1 ? 's' : ''} ${rulesNotFound.join(' ')} not found.`);
+    }
+
+    for (const [ruleId, rule] of rules) {
+        const valid: boolean = validateRule(rule, config[ruleId], ruleId);
+
+        if (!valid) {
+            throw new Error(`Rule ${ruleId} doesn't have a valid configuration`);
+        }
+    }
+
+    return rules;
+};
+
+export const loadParsers = async (parsersIds: Array<string>): Promise<Map<string, Parser>> => {
+    const [parsers, parsersNotFound]: [Map<string, Parser>, Array<string>] = await loadResources(parsersIds, TYPE.parser);
+
+    if (parsersNotFound.length > 0) {
+        throw new Error(`Parser${parsersNotFound.length > 1 ? 's' : ''} ${parsersNotFound.join(' ')} not found.`);
+    }
+
+    return parsers;
+};
+
+export const loadRule = (ruleId: string): IRuleBuilder => {
+    return loadResource(ruleId, TYPE.rule);
+};
+
+export const loadConnector = (connectorId: string): IConnectorBuilder => {
+    return loadResource(connectorId, TYPE.connector);
+};
+
+export const loadFormatter = (formatterId: string): IFormatter => {
+    return loadResource(formatterId, TYPE.formatter);
+};
+
+export const loadParser = (parserId: string): Parser => {
+    return loadResource(parserId, TYPE.parser);
 };
