@@ -3,7 +3,7 @@ import * as ora from 'ora';
 
 import * as Config from '../config';
 import { Sonarwhal } from '../sonarwhal';
-import { CLIOptions, IConfig, IFormatter, IORA, IProblem, Severity, URL } from '../types';
+import { CLIOptions, UserConfig, IFormatter, IORA, IProblem, Severity, URL } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/get-as-uri';
 import * as logger from '../utils/logging';
@@ -45,12 +45,12 @@ const askUserToCreateConfig = async () => {
 };
 
 const tryToLoadConfig = async (actions: CLIOptions) => {
-    let config: IConfig;
+    let config: UserConfig;
     const configPath: string = actions.config || Config.getFilenameForDirectory(process.cwd());
 
     debug(`Loading configuration file from ${configPath}.`);
     try {
-        config = Config.load(configPath);
+        config = Config.loadUserConfig(configPath);
     } catch (e) {
         logger.log(`Couldn't load a valid configuration file in ${configPath}.`);
         const created = await askUserToCreateConfig();
@@ -122,7 +122,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    const config: IConfig = await tryToLoadConfig(actions);
+    const config: UserConfig = await tryToLoadConfig(actions);
 
     if (!config) {
         logger.log(`Unable to find a valid configuration file. Please add a .sonarwhalrc file by running 'sonarwhal --init'. `);
@@ -130,7 +130,16 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    config.watch = actions.watch;
+    if (actions.watch) {
+        if (typeof config.connector === 'string') {
+            config.connector = {
+                name: config.connector,
+                options: {}
+            };
+        }
+        config.connector.options.watch = actions.watch;
+    }
+
 
     sonarwhal = await Sonarwhal.create(config);
 

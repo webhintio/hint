@@ -23,6 +23,7 @@ export interface IRuleConfigList {
 
 export interface IConnectorOptionsConfig {
     waitFor?: number;
+    watch?: boolean;
 }
 
 export interface IConnectorConfig {
@@ -35,7 +36,7 @@ export type IgnoredUrl = {
     rules: Array<string>;
 };
 
-export interface IConfig {
+export interface UserConfig {
     connector?: IConnectorConfig | string;
     extends?: Array<string>;
     parsers?: Array<string>;
@@ -45,7 +46,6 @@ export interface IConfig {
     formatters?: Array<string>;
     ignoredUrls?: Array<IgnoredUrl>;
     plugins?: any;
-    watch?: boolean;
 }
 
 /** A resource required by sonarwhal: Connector, Formatter, Plugin, Rule. */
