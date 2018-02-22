@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as ajv from 'ajv';
 
-import { IFetchEnd, Parser, BabelConfig, IBabelConfigInvalid, IBabelConfigParsed, IBabelConfigInvalidSchema } from '../../types';
+import { IScanEnd, IFetchEnd, Parser, BabelConfig, IBabelConfigInvalid, IBabelConfigParsed, IBabelConfigInvalidSchema } from '../../types';
 import { Sonarwhal } from '../../sonarwhal';
 import { loadJSONFile } from '../../utils/misc';
 
@@ -15,14 +15,18 @@ export default class BabelConfigParser extends Parser {
 
 
         this.schema = loadJSONFile(path.join(__dirname, 'schema', 'babelConfigSchema.json'));
-        sonarwhal.on('fetch::end', this.parseBabelConfig.bind(this));
-        sonarwhal.on('targetfetch::end', this.parseBabelConfig.bind(this));
+        /**
+         * .babelrc => type: 'unknown' ('file-type' module doesn't support the type of 'json').
+         * babelrc.json => type: 'json' (file type from extention).
+         */
+        sonarwhal.on('fetch::end::json', this.parseBabelConfig.bind(this));
+        sonarwhal.on('fetch::end::unknown', this.parseBabelConfig.bind(this));
         sonarwhal.on('scan::end', this.parseEnd.bind(this));
     }
 
-    private async parseEnd() {
+    private async parseEnd(scanEnd: IScanEnd) {
         if (!this.configFound) {
-            await this.sonarwhal.emitAsync('notfound::babel-config');
+            await this.sonarwhal.emitAsync('notfound::babel-config', scanEnd);
         }
     }
 
@@ -56,8 +60,7 @@ export default class BabelConfigParser extends Parser {
         const resource = fetchEnd.resource;
 
         if (!resource.match(/\.?babelrc([^.]*\.)?(json)?$/gi)) {
-            // * babelrc.json
-            // * .babelrc
+            // `babelrc.json` or `.babelrc`
             return;
         }
 
@@ -65,7 +68,11 @@ export default class BabelConfigParser extends Parser {
         let config: BabelConfig;
 
         try {
-            config = JSON.parse(fetchEnd.response.body.content);
+            const response = fetchEnd.response;
+            // When using local connector to read local files, 'content' is empty.
+            const content = response.body.content || response.body.rawContent.toString();
+
+            config = JSON.parse(content);
 
             // Validate schema.
             await this.validateSchema(config, resource);

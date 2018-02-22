@@ -4,10 +4,11 @@
 import * as ajv from 'ajv';
 import * as _ from 'lodash';
 
-import { Category } from '../../enums/category';
-import { RuleContext } from '../../rule-context';
-import { IRule, IRuleBuilder, IBabelConfigInvalid, IBabelConfigInvalidSchema } from '../../types';
-import { debug as d } from '../../utils/debug';
+import { Category } from 'sonarwhal/dist/src/lib/enums/category';
+import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
+import { IRule, IRuleBuilder, IBabelConfigInvalid, IBabelConfigInvalidSchema } from 'sonarwhal/dist/src/lib/types';
+import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -48,11 +49,11 @@ const rule: IRuleBuilder = {
             return `'${property}' ${error.message.replace(/"/g, '\'')}. Value found '${error.data}'`;
         };
 
-        const generateTypeError = (error: ajv. ErrorObject) => {
+        const generateTypeError = (error: ajv.ErrorObject) => {
             const property = error.dataPath.substr(1);
 
             return `'${property}' ${error.message.replace(/"/g, '\'')}.`;
-        }
+        };
 
         /**
          * Returns a readable error message.
@@ -130,12 +131,11 @@ const rule: IRuleBuilder = {
     },
     meta: {
         docs: {
-            category: Category.interoperability,
+            category: Category.other,
             description: `\`babel-config-is-valid\` warns again providing an invalid babel configuration file \`.babelrc\``
         },
-        recommended: false,
         schema: [],
-        worksWithLocalFiles: true
+        scope: RuleScope.local
     }
 };
 
