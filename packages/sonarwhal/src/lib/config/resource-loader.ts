@@ -19,8 +19,8 @@ import * as npm from 'npm';
 import * as esearch from 'npm/lib/search/esearch';
 import * as inquirer from 'inquirer';
 
-import { findNodeModulesRoot, findPackageRoot, readFile } from './misc';
-import { debug as d } from './debug';
+import { findNodeModulesRoot, findPackageRoot, readFile } from '../utils/misc';
+import { debug as d } from '../utils/debug';
 import { IConnectorBuilder, IFormatter, NpmPackage, Parser, Resource, IRuleBuilder } from '../types';
 import { validate as validateRule } from '../config/config-rules';
 import { installPackages } from './npm';
@@ -38,6 +38,7 @@ const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>()
 
 /** The type of resource */
 export const TYPE = {
+    configuration: 'configuration',
     connector: 'connector',
     formatter: 'formatter',
     parser: 'parser',
@@ -306,6 +307,11 @@ const getExternalPackages = async (type: string): Promise<Array<NpmPackage>> => 
      * include other packages that doesn't start with `sonarwhal-{type}`.
      */
     return filterPackages(rules, `sonarwhal-${type}`);
+};
+
+/** Get official configurations from npm. */
+export const getConfigurationsFromNpm = () => {
+    return getCorePackages(TYPE.configuration);
 };
 
 /** Get external rules from npm. */

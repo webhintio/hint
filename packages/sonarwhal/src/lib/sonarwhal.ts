@@ -20,7 +20,7 @@ import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
 import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, Parser, RuleConfig, Severity, IgnoredUrl } from './types';
 import * as logger from './utils/logging';
-import * as resourceLoader from './utils/resource-loader';
+import * as resourceLoader from './config/resource-loader';
 import normalizeRules from './utils/normalize-rules';
 import { RuleContext } from './rule-context';
 import { RuleScope } from './enums/rulescope';

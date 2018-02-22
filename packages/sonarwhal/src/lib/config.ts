@@ -16,11 +16,13 @@
 import * as path from 'path';
 
 import * as shell from 'shelljs';
+import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
-import { IConfig } from './types';
+import { IConfig, IFormatter, Parser } from './types';
 import { loadJSFile, loadJSONFile } from './utils/misc';
 import { validateConfig } from './config/config-validator';
+import * as resourceLoader from './config/resource-loader';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -158,3 +160,147 @@ export const getFilenameForDirectory = (directory: string): string | null => {
 
     return null;
 };
+
+// ------------------------------------------------------------------------
+
+/**
+ * Calculates the final configuration taking into account any `extends` fields.
+ * Configurations for `extends` are applied left to right.
+ *
+ */
+const composeConfig = (userConfig: IConfig) => {
+    if (!userConfig.extends || !Array.isArray(userConfig.extends) || userConfig.extends.length === 0) {
+        return userConfig;
+    }
+
+    const configurations = userConfig.extends.map((config) => {
+        const loadedConfiguration = resourceLoader.loadConfiguration(config);
+
+        if(!validateConfig(loadedConfiguration)){
+            throw new Error(`Configuration package "${config}" is not valid`);
+        }
+
+        return composeConfig(loadedConfiguration);
+    });
+
+    const finalConfig = _.merge({}, ...configurations, userConfig);
+
+    return finalConfig;
+};
+
+
+export class SonarwhalConfig {
+
+    private _connector;
+    private _formatters: Array<IFormatter>;
+    private _browserslist: Array<string> = [];
+    private _rules;
+    private parsers: Array<Parser>
+    private _timeout: number = 60000;
+
+    private constructor(userConfig: IConfig) {
+        this._timeout = userConfig.rulesTimeout || this._timeout;
+
+        return this;
+    }
+
+    /**
+     * Loads a configuration file regardless of the source. Inspects the file path
+     * to determine the correctly way to load the config file.
+     */
+    public static async loadFromPath(filePath: string) {
+        /**
+         * 1. Load the file from the HD
+         * 2. Validate it's OK
+         * 3. Read extends and validate they are OK
+         * 4. Apply extends
+         * 5. Load resources
+         * 6. Return final configuration object with resources loaded
+         */
+
+        // 1
+        const resolvedPath: string = path.resolve(process.cwd(), filePath);
+        let userConfig: IConfig = loadConfigFile(resolvedPath);
+
+        // 2
+        if (!userConfig) {
+            throw new Error(`Couldn't find a configuration file`);
+        }
+
+        if (!validateConfig(userConfig)) {
+            throw new Error(`Couldn't find any valid configuration`);
+        }
+
+        // 3, 4
+        userConfig = composeConfig(userConfig);
+
+        if (!userConfig.browserslist) {
+            loadBrowsersList(userConfig);
+        }
+
+        debug('Loading configuration');
+
+        debug('Loading connector');
+
+        if (!userConfig.connector) {
+            throw new Error(`Connector not found in the configuration`);
+        }
+
+        if (typeof userConfig.connector === 'string') {
+            this.connectorId = userConfig.connector;
+            this.connectorConfig = {};
+        } else {
+            this.connectorId = userConfig.connector.name;
+            this.connectorConfig = userConfig.connector.options;
+        }
+
+        this.connectorConfig = Object.assign(this.connectorConfig, { watch: userConfig.watch });
+
+        debug('Loading supported browsers');
+        if (!userConfig.browserslist || userConfig.browserslist.length === 0) {
+            this.browserslist = browserslist();
+        } else {
+            this.browserslist = browserslist(userConfig.browserslist);
+        }
+
+        debug('Setting the selected formatters');
+        if (Array.isArray(userConfig.formatters)) {
+            this._formatters = userConfig.formatters;
+        } else {
+            this._formatters = [userConfig.formatters];
+        }
+
+        debug('Initializing ignored urls');
+        this.ignoredUrls = new Map();
+        if (userConfig.ignoredUrls) {
+            userConfig.ignoredUrls.forEach((ignoredUrl: IgnoredUrl) => {
+                const { domain: urlRegexString, rules } = ignoredUrl;
+
+                rules.forEach((rule: string) => {
+                    const ruleName = rule === '*' ? 'all' : rule;
+
+                    const urlsInRule: Array<RegExp> = this.ignoredUrls.get(ruleName);
+                    const urlRegex: RegExp = new RegExp(urlRegexString, 'i');
+
+                    if (!urlsInRule) {
+                        this.ignoredUrls.set(ruleName, [urlRegex]);
+                    } else {
+                        urlsInRule.push(urlRegex);
+                    }
+                });
+            });
+        }
+
+        const connectorBuilder: IConnectorBuilder = resourceLoader.loadConnector(this.connectorId);
+
+        if (!connectorBuilder) {
+            throw new Error(`Connector "${this.connectorId}" not found`);
+        }
+
+        this.connector = connectorBuilder(this, this.connectorConfig);
+        this.initParsers(userConfig);
+        this.initRules(userConfig);
+
+        return new SonarwhalConfig(userConfig);
+    }
+}

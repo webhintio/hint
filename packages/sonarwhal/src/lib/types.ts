@@ -36,7 +36,8 @@ export type IgnoredUrl = {
 };
 
 export interface IConfig {
-    connector: IConnectorConfig | string;
+    connector?: IConnectorConfig | string;
+    extends?: Array<string>;
     parsers?: Array<string>;
     rules?: IRuleConfigList | Array<RuleConfig>;
     browserslist?: string | Array<string>;
