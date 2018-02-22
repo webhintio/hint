@@ -386,6 +386,11 @@ const isTextMediaType = (mediaType: string): boolean => {
  * or `unkown`.
  */
 const getType = (mediaType: string) => {
+    // e.g, `.babelrc`, mediaType can't be decided from extension or from the file type.
+    if (!mediaType) {
+        return 'unknown';
+    }
+
     if (mediaType.startsWith('image')) {
         return 'image';
     }
@@ -399,6 +404,8 @@ const getType = (mediaType: string) => {
             return 'script';
         case 'text/css':
             return 'css';
+        case 'application/json':
+            return 'json';
         case 'application/manifest+json':
             return 'manifest';
         case 'text/html':
