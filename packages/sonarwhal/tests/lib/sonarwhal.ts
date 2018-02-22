@@ -1,4 +1,3 @@
-/* eslint-disable no-new */
 import * as url from 'url';
 
 import * as sinon from 'sinon';

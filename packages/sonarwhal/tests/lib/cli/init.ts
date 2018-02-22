@@ -194,8 +194,8 @@ test.serial('initSonarwhalrc should install all rules if the user choose to inst
 
     await initSonarwhalrc(actions);
 
-    t.true(t.context.npm.installCoreRules.args[0][0].includes('rule1')); // eslint-disable-line no-sync
-    t.false(t.context.npm.installCoreRules.args[0][0].includes('rule2')); // eslint-disable-line no-sync
+    t.true(t.context.npm.installCoreRules.args[0][0].includes('rule1'));
+    t.false(t.context.npm.installCoreRules.args[0][0].includes('rule2'));
 
     sandbox.restore();
 });
@@ -217,7 +217,7 @@ test.serial('initSonarwhalrc should install the rules choosen', async (t) => {
 
     await initSonarwhalrc(actions);
 
-    t.true(t.context.npm.installCoreRules.args[0][0].includes('rule2')); // eslint-disable-line no-sync
+    t.true(t.context.npm.installCoreRules.args[0][0].includes('rule2'));
 
     sandbox.restore();
 });
