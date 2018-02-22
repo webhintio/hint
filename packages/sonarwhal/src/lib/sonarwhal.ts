@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, Parser, RuleConfig, Severity, IgnoredUrl } from './types';
+import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, UserConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, Parser, RuleConfig, Severity, IgnoredUrl } from './types';
 import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
@@ -87,7 +87,7 @@ export class Sonarwhal extends EventEmitter {
         });
     }
 
-    private constructor(config: IConfig) {
+    public constructor(config: UserConfig) {
         super({
             delimiter: '::',
             maxListeners: 0,
@@ -113,7 +113,7 @@ export class Sonarwhal extends EventEmitter {
             this.connectorConfig = config.connector.options;
         }
 
-        this.connectorConfig = Object.assign(this.connectorConfig, { watch: config.watch });
+        // this.connectorConfig = Object.assign(this.connectorConfig, { watch: config.watch });
 
         debug('Loading supported browsers');
         if (!config.browserslist || config.browserslist.length === 0) {
@@ -159,18 +159,7 @@ export class Sonarwhal extends EventEmitter {
         this.connector = connectorBuilder(this, this.connectorConfig);
     }
 
-    public static async create(config: IConfig): Promise<Sonarwhal> {
-        const sonarwhal = new Sonarwhal(config);
-
-        await sonarwhal.initRules(config);
-        await sonarwhal.initParsers(config);
-
-        // await sonarwhal.initFormatters(config);
-
-        return sonarwhal;
-    }
-
-    private async initParsers(config: IConfig) {
+    private initParsers(config: UserConfig) {
         debug('Loading parsers');
 
         this.parsers = [];
@@ -178,7 +167,7 @@ export class Sonarwhal extends EventEmitter {
             return;
         }
 
-        const parsers = await resourceLoader.loadParsers(config.parsers);
+        const parsers = resourceLoader.loadParsers(config.parsers);
 
         parsers.forEach((ParserConst, parserId) => {
             debug(`Loading parser ${parserId}`);
@@ -189,7 +178,7 @@ export class Sonarwhal extends EventEmitter {
         });
     }
 
-    private async initRules(config: IConfig) {
+    private initRules(config: UserConfig) {
         debug('Loading rules');
         this.rules = new Map();
         if (!config.rules) {
@@ -198,7 +187,7 @@ export class Sonarwhal extends EventEmitter {
 
         config.rules = normalizeRules(config.rules);
 
-        const rules: Map<string, IRuleBuilder> = await resourceLoader.loadRules(config.rules);
+        const rules: Map<string, IRuleBuilder> = resourceLoader.loadRules(config.rules);
         const rulesIds: Array<string> = Object.keys(config.rules);
         const that = this;
         const createEventHandler = (handler: Function, ruleId: string) => {

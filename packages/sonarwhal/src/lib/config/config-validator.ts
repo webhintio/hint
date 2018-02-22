@@ -12,7 +12,7 @@
 import * as schemaValidator from 'is-my-json-valid/require';
 
 import { debug as d } from '../utils/debug';
-import { IConfig } from '../types';
+import { UserConfig } from '../types';
 import * as logger from '../utils/logging';
 
 const debug = d(__filename);
@@ -27,7 +27,7 @@ const validate = schemaValidator('config-schema.json');
  */
 
 /** Validates that a given config object is valid */
-export const validateConfig = (config: IConfig): boolean => {
+export const validateConfig = (config: UserConfig): boolean => {
 
     debug('Validating configuration');
     if (!validate(config)) {

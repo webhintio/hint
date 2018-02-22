@@ -9,7 +9,7 @@ import * as retry from 'async-retry';
 
 import { ids as connectors } from './connectors';
 import { createServer } from './test-server';
-import { IConfig } from '../../src/lib/types';
+import { UserConfig } from '../../src/lib/types';
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
 import { IRuleTest } from './rule-test-type';
 import { Sonarwhal } from '../../src/lib/sonarwhal';
@@ -21,7 +21,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
      * Creates a valid sonarwhal configuration. Eventually we should
      * test all available connectors and not only JSDOM
      */
-    const createConfig = (id: string, connector: string, opts?): IConfig => {
+    const createConfig = (id: string, connector: string, opts?): UserConfig => {
         const rules = {};
 
         if (opts && opts.ruleOptions) {
