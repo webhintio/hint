@@ -8,7 +8,7 @@ import * as proxyquire from 'proxyquire';
 
 import { delay } from '../../../src/lib/utils/misc';
 
-const esearchContainer = { esearch() { } };
+const npm = { search() { } };
 
 // TODO: Add tests to verify the order of loading is the right one: core -> scoped -> prefixed. This only checks core resources
 test('loadResource looks for resources in the right order (core > @sonarwhal > sonarwhal- ', (t) => {
@@ -76,52 +76,21 @@ test('getInstalledConnectors should returns the installed connectors', (t) => {
     globbyStub.restore();
 });
 
-test.serial('getNpmPackages should search for the word "sonarwhal" by default', async (t) => {
-    const mockedStream = new stream.Writable();
-
-    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
-
-    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
-
-    proxyquire('../../../src/lib/utils/resource-loader', {
-        globby,
-        'npm/lib/search/esearch': esearchContainer.esearch
-    });
-
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
-
-    t.context.esearchContainer = esearchContainer;
-
-    const promise = resourceLoader.getNpmPackages();
-
-    await delay(500);
-    mockedStream.emit('end');
-
-    await promise;
-
-    const options = t.context.esearchContainer.esearch.args[0][0];
-
-    t.is(options.include[0], 'sonarwhal');
-    t.is(options.include.length, 1);
-
-    t.context.esearchContainer.esearch.restore();
-});
-
 test.serial('getExternalRulesFromNpm should search for the word "sonarwhal-rule"', async (t) => {
     const mockedStream = new stream.Writable();
+    const sandbox = sinon.createSandbox();
 
-    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+    sandbox.stub(npm, 'search').returns(mockedStream);
+    t.context.npm = npm;
 
     delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        globby,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        '../utils/npm': npm,
+        globby
     });
 
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
-
-    t.context.esearchContainer = esearchContainer;
 
     const promise = resourceLoader.getExternalRulesFromNpm();
 
@@ -130,29 +99,30 @@ test.serial('getExternalRulesFromNpm should search for the word "sonarwhal-rule"
 
     await promise;
 
-    const options = t.context.esearchContainer.esearch.args[0][0];
+    const options = t.context.npm.search.args[0][0];
 
     t.is(options.include[0], 'sonarwhal-rule');
     t.is(options.include.length, 1);
 
-    t.context.esearchContainer.esearch.restore();
+    sandbox.restore();
 });
 
 test.serial('getCoreRulesFromNpm should search for the word "@sonarwhal/rule"', async (t) => {
     const mockedStream = new stream.Writable();
+    const sandbox = sinon.createSandbox();
 
-    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+    sandbox.stub(npm, 'search').returns(mockedStream);
 
     delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        globby,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        '../utils/npm': npm,
+        globby
     });
 
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
 
-    t.context.esearchContainer = esearchContainer;
+    t.context.npm = npm;
 
     const promise = resourceLoader.getCoreRulesFromNpm();
 
@@ -161,29 +131,30 @@ test.serial('getCoreRulesFromNpm should search for the word "@sonarwhal/rule"', 
 
     await promise;
 
-    const options = t.context.esearchContainer.esearch.args[0][0];
+    const options = t.context.npm.search.args[0][0];
 
     t.is(options.include[0], '@sonarwhal/rule');
     t.is(options.include.length, 1);
 
-    t.context.esearchContainer.esearch.restore();
+    sandbox.restore();
 });
 
 test.serial('getExternalConnectorsFromNpm should search for the word "sonarwhal-connector"', async (t) => {
     const mockedStream = new stream.Writable();
+    const sandbox = sinon.createSandbox();
 
-    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+    sandbox.stub(npm, 'search').returns(mockedStream);
 
     delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        globby,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        '../utils/npm': npm,
+        globby
     });
 
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
 
-    t.context.esearchContainer = esearchContainer;
+    t.context.npm = npm;
 
     const promise = resourceLoader.getExternalConnectorsFromNpm();
 
@@ -192,29 +163,30 @@ test.serial('getExternalConnectorsFromNpm should search for the word "sonarwhal-
 
     await promise;
 
-    const options = t.context.esearchContainer.esearch.args[0][0];
+    const options = t.context.npm.search.args[0][0];
 
     t.is(options.include[0], 'sonarwhal-connector');
     t.is(options.include.length, 1);
 
-    t.context.esearchContainer.esearch.restore();
+    sandbox.restore();
 });
 
 test.serial('getCoreConnectorsFromNpm should search for the word "@sonarwhal/connector"', async (t) => {
     const mockedStream = new stream.Writable();
+    const sandbox = sinon.createSandbox();
 
-    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+    sandbox.stub(npm, 'search').returns(mockedStream);
 
     delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        globby,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        '../utils/npm': npm,
+        globby
     });
 
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
 
-    t.context.esearchContainer = esearchContainer;
+    t.context.npm = npm;
 
     const promise = resourceLoader.getCoreConnectorsFromNpm();
 
@@ -223,29 +195,30 @@ test.serial('getCoreConnectorsFromNpm should search for the word "@sonarwhal/con
 
     await promise;
 
-    const options = t.context.esearchContainer.esearch.args[0][0];
+    const options = t.context.npm.search.args[0][0];
 
     t.is(options.include[0], '@sonarwhal/connector');
     t.is(options.include.length, 1);
 
-    t.context.esearchContainer.esearch.restore();
+    sandbox.restore();
 });
 
 test.serial('getExternalParsersFromNpm should search for the word "sonarwhal-parser"', async (t) => {
     const mockedStream = new stream.Writable();
+    const sandbox = sinon.createSandbox();
 
-    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+    sandbox.stub(npm, 'search').returns(mockedStream);
 
     delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        globby,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        '../utils/npm': npm,
+        globby
     });
 
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
 
-    t.context.esearchContainer = esearchContainer;
+    t.context.npm = npm;
 
     const promise = resourceLoader.getExternalParsersFromNpm();
 
@@ -254,29 +227,30 @@ test.serial('getExternalParsersFromNpm should search for the word "sonarwhal-par
 
     await promise;
 
-    const options = t.context.esearchContainer.esearch.args[0][0];
+    const options = t.context.npm.search.args[0][0];
 
     t.is(options.include[0], 'sonarwhal-parser');
     t.is(options.include.length, 1);
 
-    t.context.esearchContainer.esearch.restore();
+    sandbox.restore();
 });
 
 test.serial('getCoreParsersFromNpm should search for the word "@sonarwhal/parser"', async (t) => {
     const mockedStream = new stream.Writable();
+    const sandbox = sinon.createSandbox();
 
-    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+    sandbox.stub(npm, 'search').returns(mockedStream);
 
     delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        globby,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        '../utils/npm': npm,
+        globby
     });
 
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
 
-    t.context.esearchContainer = esearchContainer;
+    t.context.npm = npm;
 
     const promise = resourceLoader.getCoreParsersFromNpm();
 
@@ -285,29 +259,30 @@ test.serial('getCoreParsersFromNpm should search for the word "@sonarwhal/parser
 
     await promise;
 
-    const options = t.context.esearchContainer.esearch.args[0][0];
+    const options = t.context.npm.search.args[0][0];
 
     t.is(options.include[0], '@sonarwhal/parser');
     t.is(options.include.length, 1);
 
-    t.context.esearchContainer.esearch.restore();
+    sandbox.restore();
 });
 
 test.serial('getExternalFormattersFromNpm should search for the word "sonarwhal-formatter"', async (t) => {
     const mockedStream = new stream.Writable();
+    const sandbox = sinon.createSandbox();
 
-    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+    sandbox.stub(npm, 'search').returns(mockedStream);
 
     delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        globby,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        '../utils/npm': npm,
+        globby
     });
 
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
 
-    t.context.esearchContainer = esearchContainer;
+    t.context.npm = npm;
 
     const promise = resourceLoader.getExternalFormattersFromNpm();
 
@@ -316,29 +291,30 @@ test.serial('getExternalFormattersFromNpm should search for the word "sonarwhal-
 
     await promise;
 
-    const options = t.context.esearchContainer.esearch.args[0][0];
+    const options = t.context.npm.search.args[0][0];
 
     t.is(options.include[0], 'sonarwhal-formatter');
     t.is(options.include.length, 1);
 
-    t.context.esearchContainer.esearch.restore();
+    sandbox.restore();
 });
 
 test.serial('getCoreFormattersFromNpm should search for the word "@sonarwhal/formatter"', async (t) => {
     const mockedStream = new stream.Writable();
+    const sandbox = sinon.createSandbox();
 
-    sinon.stub(esearchContainer, 'esearch').returns(mockedStream);
+    sinon.stub(npm, 'search').returns(mockedStream);
 
     delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js')];
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        globby,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        '../utils/npm': npm,
+        globby
     });
 
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
 
-    t.context.esearchContainer = esearchContainer;
+    t.context.npm = npm;
 
     const promise = resourceLoader.getCoreFormattersFromNpm();
 
@@ -347,10 +323,10 @@ test.serial('getCoreFormattersFromNpm should search for the word "@sonarwhal/for
 
     await promise;
 
-    const options = t.context.esearchContainer.esearch.args[0][0];
+    const options = t.context.npm.search.args[0][0];
 
     t.is(options.include[0], '@sonarwhal/formatter');
     t.is(options.include.length, 1);
 
-    t.context.esearchContainer.esearch.restore();
+    sandbox.restore();
 });

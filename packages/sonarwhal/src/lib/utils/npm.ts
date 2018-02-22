@@ -1,12 +1,17 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import * as esearch from 'npm/lib/search/esearch';
+import * as npm from 'npm';
+import { promisify } from 'util';
+import { spawnSync, SpawnSyncReturns } from 'child_process';
 
+import { NpmPackage } from '../types';
 import { debug as d } from './debug';
 import * as logger from './logging';
 
 const debug: debug.IDebugger = d(__filename);
+const npmLoadAsync = promisify(npm.load);
 
-import { spawnSync, SpawnSyncReturns } from 'child_process';
 
 const packageExists = () => {
     const packagePath: string = path.join(process.cwd(), 'package.json');
@@ -21,6 +26,7 @@ export const installPackages = (packages: Array<string>) => {
 
     try {
         debug(`Running command ${command}`);
+        logger.log('Installing packages...');
 
         const result: SpawnSyncReturns<Buffer> = spawnSync(command, { shell: true });
 
@@ -45,10 +51,37 @@ to install all the rules.`);
     }
 };
 
-export const installCoreRules = (ids: Array<string>) => {
-    const npmPackages = ids.map((id) => {
-        return `@sonarwhal/rule-${id}`;
-    });
+const loadNpm = () => {
+    return npmLoadAsync({ loaded: false });
+};
 
-    return installPackages(npmPackages);
+/**
+ * Searches all the packages in npm given `searchTerm`.
+ */
+export const search = (searchTerm: string): Promise<Array<NpmPackage>> => {
+    return new Promise(async (resolve, reject) => {
+        await loadNpm();
+
+        const results: Array<NpmPackage> = [];
+
+        const searchOptions = {
+            description: true,
+            excluded: [],
+            include: [searchTerm],
+            limit: 1000,
+            staleness: 900,
+            unicode: false
+        };
+
+        esearch(searchOptions)
+            .on('data', (data) => {
+                results.push(data as NpmPackage);
+            })
+            .on('error', (err) => {
+                reject(err);
+            })
+            .on('end', () => {
+                resolve(results as Array<NpmPackage>);
+            });
+    });
 };
