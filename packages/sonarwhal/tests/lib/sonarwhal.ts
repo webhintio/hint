@@ -42,14 +42,17 @@ test.afterEach.always((t) => {
     }
 });
 
-test(`If config is an empty object, we should throw an error`, (t) => {
-    t.throws(async () => {
-        // <any>{} to avoid the type checking if not is not possible to use just {}
+test.serial(`If config is an empty object, we should throw an error`, async (t) => {
+    t.plan(1);
+
+    try {
         await Sonarwhal.create({} as any);
-    }, Error);
+    } catch (err) {
+        t.true(err instanceof Error);
+    }
 });
 
-test(`If config doesn't have any rule, we shouldn't create any rules`, async (t) => {
+test.serial(`If config doesn't have any rule, we shouldn't create any rules`, async (t) => {
     sinon.spy(t.context.resourceLoader, 'loadRules');
 
     await Sonarwhal.create({ connector: 'connector' });
@@ -57,31 +60,30 @@ test(`If config doesn't have any rule, we shouldn't create any rules`, async (t)
     t.false(t.context.resourceLoader.loadRules.called);
 });
 
-test(`If the config object is invalid, we should throw an error`, (t) => {
-    t.throws(async () => {
+test.serial(`If the config object is invalid, we should throw an error`, async (t) => {
+    t.plan(1);
+
+    try {
         await Sonarwhal.create({
             invalidProperty: 'invalid',
             randomProperty: 'random'
         } as any);
-    }, Error);
+    } catch (err) {
+        t.true(err instanceof Error);
+    }
 });
 
-test(`If a rule config is invalid, we should throw an error`, (t) => {
-    t.throws(async () => {
-        await Sonarwhal.create({
-            connector: 'connector',
-            rules: { 'disallowed-headers': 'invalid-severity' }
-        });
-    }, Error);
-});
+test.serial(`If a rule doesn't exist, we should throw an error`, async (t) => {
+    t.plan(1);
 
-test(`If a rule doesn't exist, we should throw an error`, (t) => {
-    t.throws(async () => {
+    try {
         await Sonarwhal.create({
             connector: 'connector',
             rules: { 'invalid-rule': 'error' }
         });
-    }, Error);
+    } catch (err) {
+        t.true(err instanceof Error);
+    }
 });
 
 test.serial(`If config.browserslist is an string, we should initilize the property targetedBrowsers`, async (t) => {
