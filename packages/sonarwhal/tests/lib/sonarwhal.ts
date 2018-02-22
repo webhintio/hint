@@ -43,23 +43,23 @@ test.afterEach.always((t) => {
 });
 
 test(`If config is an empty object, we should throw an error`, (t) => {
-    t.throws(() => {
+    t.throws(async () => {
         // <any>{} to avoid the type checking if not is not possible to use just {}
-        new Sonarwhal({} as any);
+        await Sonarwhal.create({} as any);
     }, Error);
 });
 
-test(`If config doesn't have any rule, we shouldn't create any rules`, (t) => {
+test(`If config doesn't have any rule, we shouldn't create any rules`, async (t) => {
     sinon.spy(t.context.resourceLoader, 'loadRules');
 
-    new Sonarwhal({ connector: 'connector' });
+    await Sonarwhal.create({ connector: 'connector' });
 
     t.false(t.context.resourceLoader.loadRules.called);
 });
 
 test(`If the config object is invalid, we should throw an error`, (t) => {
-    t.throws(() => {
-        new Sonarwhal({
+    t.throws(async () => {
+        await Sonarwhal.create({
             invalidProperty: 'invalid',
             randomProperty: 'random'
         } as any);
@@ -67,8 +67,8 @@ test(`If the config object is invalid, we should throw an error`, (t) => {
 });
 
 test(`If a rule config is invalid, we should throw an error`, (t) => {
-    t.throws(() => {
-        new Sonarwhal({
+    t.throws(async () => {
+        await Sonarwhal.create({
             connector: 'connector',
             rules: { 'disallowed-headers': 'invalid-severity' }
         });
@@ -76,18 +76,18 @@ test(`If a rule config is invalid, we should throw an error`, (t) => {
 });
 
 test(`If a rule doesn't exist, we should throw an error`, (t) => {
-    t.throws(() => {
-        new Sonarwhal({
+    t.throws(async () => {
+        await Sonarwhal.create({
             connector: 'connector',
             rules: { 'invalid-rule': 'error' }
         });
     }, Error);
 });
 
-test.serial(`If config.browserslist is an string, we should initilize the property targetedBrowsers`, (t) => {
+test.serial(`If config.browserslist is an string, we should initilize the property targetedBrowsers`, async (t) => {
     sinon.spy(t.context.resourceLoader, 'loadRules');
 
-    const sonarwhalObject = new Sonarwhal({
+    const sonarwhalObject = await Sonarwhal.create({
         browserslist: '> 5%',
         connector: 'connector'
     });
@@ -98,7 +98,7 @@ test.serial(`If config.browserslist is an string, we should initilize the proper
 });
 
 /*
- * test.serial('If config.plugins is an array we should create just those plugins', (t) => {
+ * test.serial('If config.plugins is an array we should create just those plugins', async (t) => {
  *     const plugin = {
  *         create() {
  *             return {};
@@ -119,7 +119,7 @@ test.serial(`If config.browserslist is an string, we should initilize the proper
  *             'fetch::end': () => { },
  *             'fetch::error': () => { }
  *         });
- *     new Sonarwhal({ connector: 'connector', plugins: ['plugin1Name', 'plugin2Name'] });
+ *     await Sonarwhal.create({ connector: 'connector', plugins: ['plugin1Name', 'plugin2Name'] });
  *     t.true(t.context.resourceLoader.getPlugins.called);
  *     t.is(t.context.plugin.create.callCount, 2);
  *     t.is(t.context.eventemitter.prototype.on.callCount, 3);
@@ -130,7 +130,7 @@ test.serial(`If config.browserslist is an string, we should initilize the proper
  * });
  */
 
-test.serial('If config.rules is an object with rules, we should create just those rules', (t) => {
+test.serial('If config.rules is an object with rules, we should create just those rules', async (t) => {
     const rule = {
         create() {
             return {};
@@ -150,7 +150,7 @@ test.serial('If config.rules is an object with rules, we should create just thos
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'connector',
         rules: {
             'disallowed-headers': 'warning',
@@ -167,7 +167,7 @@ test.serial('If config.rules is an object with rules, we should create just thos
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If config.rules has some rules "off", we shouldn't create those rules`, (t) => {
+test.serial(`If config.rules has some rules "off", we shouldn't create those rules`, async (t) => {
     const rule = {
         create() {
             return {};
@@ -183,7 +183,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'connector',
         rules: {
             'disallowed-headers': 'warning',
@@ -197,7 +197,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial('If config.rules is an array with rules, we should create just those rules', (t) => {
+test.serial('If config.rules is an array with rules, we should create just those rules', async (t) => {
     const rule = {
         create() {
             return {};
@@ -217,7 +217,7 @@ test.serial('If config.rules is an array with rules, we should create just those
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'connector',
         rules: [
             'disallowed-headers:warning',
@@ -234,7 +234,7 @@ test.serial('If config.rules is an array with rules, we should create just those
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If config.rules is an array and has some rules "off", we shouldn't create those rules`, (t) => {
+test.serial(`If config.rules is an array and has some rules "off", we shouldn't create those rules`, async (t) => {
     const rule = {
         create() {
             return {};
@@ -250,7 +250,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'connector',
         rules: [
             'disallowed-headers:warning',
@@ -264,7 +264,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial('If config.rules is an array with shorthand warning rules, we should create just those rules', (t) => {
+test.serial('If config.rules is an array with shorthand warning rules, we should create just those rules', async (t) => {
     const rule = {
         create() {
             return {};
@@ -284,7 +284,7 @@ test.serial('If config.rules is an array with shorthand warning rules, we should
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'connector',
         rules: [
             '?disallowed-headers',
@@ -301,7 +301,7 @@ test.serial('If config.rules is an array with shorthand warning rules, we should
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If config.rules is an array and has some rules "off", we shouldn't create those rules`, (t) => {
+test.serial(`If config.rules is an array and has some rules "off", we shouldn't create those rules`, async (t) => {
     const rule = {
         create() {
             return {};
@@ -317,7 +317,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'connector',
         rules: [
             'disallowed-headers:warning',
@@ -331,7 +331,7 @@ test.serial(`If config.rules is an array and has some rules "off", we shouldn't 
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't ignore those rules if the connector isn't in that property`, (t) => {
+test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't ignore those rules if the connector isn't in that property`, async (t) => {
     const rule = {
         create() {
             return {};
@@ -351,7 +351,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
         .onSecondCall()
         .returns({ 'fetch::error': () => { } });
 
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'jsdom',
         rules: {
             'disallowed-headers': 'warning',
@@ -368,7 +368,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ignore those rules if the connector is in that property`, (t) => {
+test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ignore those rules if the connector is in that property`, async (t) => {
     const rule = {
         create() {
             return {};
@@ -391,7 +391,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
     sinon.spy(ruleWithIgnoredConnector, 'create');
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'chrome',
         rules: {
             'disallowed-headers': 'warning',
@@ -406,7 +406,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If the rule scope is 'local' and the connector isn't local the rule should be ignored`, (t) => {
+test.serial(`If the rule scope is 'local' and the connector isn't local the rule should be ignored`, async (t) => {
     const rule = {
         create() {
             return {};
@@ -429,7 +429,7 @@ test.serial(`If the rule scope is 'local' and the connector isn't local the rule
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
     sinon.spy(ruleWithScopeLocal, 'create');
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'chrome',
         rules: {
             'disallowed-headers': 'warning',
@@ -444,7 +444,7 @@ test.serial(`If the rule scope is 'local' and the connector isn't local the rule
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If the rule scope is 'site' and the connector is local the rule should be ignored`, (t) => {
+test.serial(`If the rule scope is 'site' and the connector is local the rule should be ignored`, async (t) => {
     const rule = {
         create() {
             return {};
@@ -467,7 +467,7 @@ test.serial(`If the rule scope is 'site' and the connector is local the rule sho
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
     sinon.spy(ruleWithScopeSite, 'create');
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'local',
         rules: {
             'disallowed-headers': 'warning',
@@ -482,7 +482,7 @@ test.serial(`If the rule scope is 'site' and the connector is local the rule sho
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If the rule scope is 'any' and the connector is local the rule should be used`, (t) => {
+test.serial(`If the rule scope is 'any' and the connector is local the rule should be used`, async (t) => {
     const rule = {
         create() {
             return {};
@@ -505,7 +505,7 @@ test.serial(`If the rule scope is 'any' and the connector is local the rule shou
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
     sinon.spy(ruleWithScopeSite, 'create');
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'local',
         rules: {
             'disallowed-headers': 'warning',
@@ -520,7 +520,7 @@ test.serial(`If the rule scope is 'any' and the connector is local the rule shou
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If the rule scope is 'any' and the connector isn't local the rule should be used`, (t) => {
+test.serial(`If the rule scope is 'any' and the connector isn't local the rule should be used`, async (t) => {
     const rule = {
         create() {
             return {};
@@ -543,7 +543,7 @@ test.serial(`If the rule scope is 'any' and the connector isn't local the rule s
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
     sinon.spy(ruleWithScopeSite, 'create');
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'jsdom',
         rules: {
             'disallowed-headers': 'warning',
@@ -573,7 +573,7 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    const sonarwhalObject = new Sonarwhal({
+    const sonarwhalObject = await Sonarwhal.create({
         connector: 'connector',
         ignoredUrls: [{
             domain: '.*\\.domain1\.com/.*', // eslint-disable-line no-useless-escape
@@ -589,7 +589,7 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
     t.context.eventemitter.prototype.emitAsync.restore();
 });
 
-test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) => {
+test.serial(`If a rule is ignoring some url, it shouldn't run the event`, async (t) => {
     const rule = {
         create() {
             return {};
@@ -604,7 +604,7 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
     ]));
     sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'connector',
         ignoredUrls: [{
             domain: '.*\\.domain1\.com/.*', // eslint-disable-line no-useless-escape
@@ -644,7 +644,7 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
         }
     });
 
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: 'connector',
         rules: { 'disallowed-headers': 'warning' },
         rulesTimeout: 1000
@@ -657,11 +657,11 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If connectorId doesn't exist, it should throw an error`, (t) => {
+test.serial(`If connectorId doesn't exist, it should throw an error`, async (t) => {
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(null);
 
     try {
-        new Sonarwhal({ connector: 'invalidConnector' });
+        await Sonarwhal.create({ connector: 'invalidConnector' });
 
         t.false(true);
     } catch (err) {
@@ -669,24 +669,24 @@ test.serial(`If connectorId doesn't exist, it should throw an error`, (t) => {
     }
 });
 
-test.serial('If connectorId is valid, we should init the connector', (t) => {
+test.serial('If connectorId is valid, we should init the connector', async (t) => {
     t.context.connectorFunction = () => { };
 
     sinon.stub(t.context, 'connectorFunction').returns({});
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    new Sonarwhal({ connector: 'myconnector' });
+    await Sonarwhal.create({ connector: 'myconnector' });
 
     t.true(t.context.connectorFunction.called);
 });
 
-test.serial('If connector is an object with valid data, we should init the connector', (t) => {
+test.serial('If connector is an object with valid data, we should init the connector', async (t) => {
     t.context.connectorFunction = () => { };
 
     sinon.stub(t.context, 'connectorFunction').returns({});
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    new Sonarwhal({
+    await Sonarwhal.create({
         connector: {
             name: 'myconnector',
             options: {}
@@ -696,8 +696,8 @@ test.serial('If connector is an object with valid data, we should init the conne
     t.true(t.context.connectorFunction.called);
 });
 
-test.serial('formatter should return the formatter configured', (t) => {
-    const sonarwhalObject = new Sonarwhal({
+test.serial('formatter should return the formatter configured', async (t) => {
+    const sonarwhalObject = await Sonarwhal.create({
         connector: 'connector',
         formatters: ['formatter']
     });
@@ -712,7 +712,7 @@ test.serial('pageContent should return the HTML', async (t) => {
     sinon.stub(t.context, 'connectorFunction').returns({ html });
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonarwhalObject = new Sonarwhal({
+    const sonarwhalObject = await Sonarwhal.create({
         connector: {
             name: 'myconnector',
             options: {}
@@ -722,14 +722,14 @@ test.serial('pageContent should return the HTML', async (t) => {
     t.is(await sonarwhalObject.pageContent, html);
 });
 
-test.serial(`pageHeaders should return the page's response headers`, (t) => {
+test.serial(`pageHeaders should return the page's response headers`, async (t) => {
     const headers = { header1: 'value1' };
 
     t.context.connectorFunction = () => { };
     sinon.stub(t.context, 'connectorFunction').returns({ headers });
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonarwhalObject = new Sonarwhal({
+    const sonarwhalObject = await Sonarwhal.create({
         connector: {
             name: 'myconnector',
             options: {}
@@ -747,7 +747,7 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
     sinon.stub(t.context, 'connectorFunction').returns({ collect: t.context.collect });
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonarwhalObject = new Sonarwhal({
+    const sonarwhalObject = await Sonarwhal.create({
         connector: {
             name: 'myconnector',
             options: {}
@@ -770,7 +770,7 @@ test.serial('executeOn should return all messages', async (t) => {
     sinon.stub(t.context, 'connectorFunction').returns({ collect: t.context.collect });
     sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
 
-    const sonarwhalObject = new Sonarwhal({
+    const sonarwhalObject = await Sonarwhal.create({
         connector: {
             name: 'myconnector',
             options: {}
