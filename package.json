@@ -17,7 +17,7 @@
     "eslint": "^4.18.1",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
-    "eslint-plugin-typescript": "^0.8.1",
+    "eslint-plugin-typescript": "^0.9.0",
     "husky": "^0.14.3",
     "loop": "^3.0.2",
     "markdownlint-cli": "^0.7.0",
