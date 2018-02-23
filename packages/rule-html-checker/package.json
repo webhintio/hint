@@ -24,7 +24,7 @@
     "npm-run-all": "^4.1.2",
     "nyc": "^11.4.1",
     "rimraf": "^2.6.2",
-    "sonarwhal": "^0.26.0",
+    "sonarwhal": "^0.27.0",
     "typescript": "^2.6.2",
     "typescript-eslint-parser": "^14.0.0"
   },
@@ -50,7 +50,7 @@
     "extends": "../../../../.nycrc"
   },
   "peerDependencies": {
-    "sonarwhal": "^0.26.0"
+    "sonarwhal": "^0.27.0"
   },
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
