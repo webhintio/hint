@@ -9,7 +9,7 @@
   "dependencies": {
     "image-size": "^0.6.2"
   },
-  "description": "",
+  "description": "sonarwhal rule that checks for best practices related to the apple-touch-icons",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",

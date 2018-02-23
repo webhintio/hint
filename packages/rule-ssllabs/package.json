@@ -9,7 +9,7 @@
   "dependencies": {
     "node-ssllabs": "^0.5.0"
   },
-  "description": "",
+  "description": "sonarwhal rule that checks using SSL Labs for best practices related to the website's SSL configuration",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",

@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "",
+  "description": "sonarwhal rule that checks if the web app manifest file has the correct file extension",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",

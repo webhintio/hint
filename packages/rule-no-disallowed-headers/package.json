@@ -9,7 +9,7 @@
   "dependencies": {
     "pluralize": "^7.0.0"
   },
-  "description": "",
+  "description": "sonarwhal rule that checks if disallowed response headers are sent",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",

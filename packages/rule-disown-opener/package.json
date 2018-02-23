@@ -11,7 +11,7 @@
     "pluralize": "^7.0.0",
     "same-origin": "^0.1.1"
   },
-  "description": "",
+  "description": "sonarwhal rule that checks if external links disown the opener",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
