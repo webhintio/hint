@@ -19,7 +19,7 @@ import * as sameOrigin from 'same-origin';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { cutString, isRegularProtocol } from 'sonarwhal/dist/src/lib/utils/misc';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -32,8 +32,29 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class DisownOpenerRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: 'Require `noopener` (and `noreferrer`) on `a` and `area` element with target="_blank"'
+        },
+        schema: [{
+            additionalProperties: false,
+            properties: { includeSameOriginURLs: { type: 'boolean' } },
+            type: ['object', null]
+        }],
+        scope: RuleScope.any
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
 
         let includeSameOriginURLs: boolean = false;
 
@@ -151,23 +172,7 @@ const rule: IRuleBuilder = {
          *   * https://github.com/w3c/webappsec/issues/139
          */
 
-        return {
-            'element::a': validate,
-            'element::area': validate
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: 'Require `noopener` (and `noreferrer`) on `a` and `area` element with target="_blank"'
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: { includeSameOriginURLs: { type: 'boolean' } },
-            type: ['object', null]
-        }],
-        scope: RuleScope.any
+        context.on(this.id, 'element::a', validate);
+        context.on(this.id, 'element::area', validate);
     }
-};
-
-export default rule;
+}

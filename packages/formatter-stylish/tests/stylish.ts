@@ -8,7 +8,7 @@ const logging = { log() { } };
 
 proxyquire('../src/stylish', { 'sonarwhal/dist/src/lib/utils/logging': logging });
 
-import stylish from '../src/stylish';
+import StylishFormatter from '../../../src/lib/formatters/stylish/stylish';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
@@ -22,13 +22,17 @@ test.afterEach.always((t) => {
 });
 
 test(`Stylish formatter doesn't print anything if no values`, (t) => {
-    stylish.format(problems.noproblems);
+    const formatter = new StylishFormatter();
+
+    formatter.format(problems.noproblems);
 
     t.is(t.context.logger.log.callCount, 0);
 });
 
 test(`Stylish formatter prints a table and a summary for each resource`, (t) => {
-    stylish.format(problems.multipleproblemsandresources);
+    const formatter = new StylishFormatter();
+
+    formatter.format(problems.multipleproblemsandresources);
 
     const log = t.context.logger.log;
     let problem = problems.multipleproblemsandresources[1];

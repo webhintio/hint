@@ -2,9 +2,9 @@ import * as url from 'url';
 
 import test from 'ava';
 
-import { builders } from '../../helpers/connectors';
+import { connectors } from '../../helpers/connectors';
 
-import { IConnector, IConnectorBuilder } from '../../../src/lib/types';
+import { IConnector, IConnectorConstructor } from '../../../src/lib/types';
 
 test.beforeEach((t) => {
     const sonarwhal = {
@@ -20,12 +20,12 @@ test.afterEach.always(async (t) => {
 });
 
 const testConnectorInvalidUrl = (connectorInfo) => {
-    const connectorBuilder: IConnectorBuilder = connectorInfo.builder;
+    const ConnectorConstructor: IConnectorConstructor = connectorInfo.ctor;
     const name: string = connectorInfo.name;
 
     test(`[${name}] Load an invalid url throws an error`, async (t) => {
         const { sonarwhal } = t.context;
-        const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
+        const connector: IConnector = new ConnectorConstructor(sonarwhal, {});
 
         t.context.connector = connector;
 
@@ -33,6 +33,6 @@ const testConnectorInvalidUrl = (connectorInfo) => {
     });
 };
 
-builders.forEach((connector) => {
+connectors.forEach((connector) => {
     testConnectorInvalidUrl(connector);
 });

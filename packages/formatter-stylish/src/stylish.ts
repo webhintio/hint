@@ -36,9 +36,9 @@ const printPosition = (position: number, text: string) => {
  * ------------------------------------------------------------------------------
  */
 
-const formatter: IFormatter = {
+export default class StylishFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    format(messages: Array<IProblem>) {
+    public format(messages: Array<IProblem>) {
 
         debug('Formatting results');
 
@@ -103,6 +103,4 @@ const formatter: IFormatter = {
 
         logger.log(color.bold(`\u2716 Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
     }
-};
-
-export default formatter;
+}

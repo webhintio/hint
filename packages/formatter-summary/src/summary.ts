@@ -26,9 +26,9 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const formatter: IFormatter = {
+export default class SummaryFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    format(messages: Array<IProblem>) {
+    public format(messages: Array<IProblem>) {
         debug('Formatting results');
 
         if (_.defaultTo(messages.length, 0) === 0) {
@@ -74,6 +74,4 @@ const formatter: IFormatter = {
 
         logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
     }
-};
-
-export default formatter;
+}

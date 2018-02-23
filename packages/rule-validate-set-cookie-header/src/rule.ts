@@ -4,7 +4,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, IAsyncHTMLElement, IResponse, IRuleBuilder, IRule, Severity } from 'sonarwhal/dist/src/lib/types';
+import { IFetchEnd, IAsyncHTMLElement, IResponse, IRule, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isHTTPS, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { ParsedSetCookieHeader } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
@@ -18,8 +18,27 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class ValidateSetCookieHeaderRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: 'This rule validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.'
+        },
+        ignoredConnectors: [],
+        schema: [],
+        scope: RuleScope.site
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
+
         /** If targetBrowsers contain ie 6, ie 7 or ie 8 */
         let supportOlderBrowsers: boolean;
         /**
@@ -310,17 +329,6 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: 'This rule validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.'
-        },
-        ignoredConnectors: [],
-        schema: [],
-        scope: RuleScope.site
+        context.on(this.id, 'fetch::end::*', validate);
     }
-};
-
-module.exports = rule;
+}

@@ -14,7 +14,7 @@ import * as uniqBy from 'lodash.uniqby';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IFetchEnd, IRule, IRuleBuilder, IProblemLocation, Severity } from 'sonarwhal/dist/src/lib/types';
+import { IFetchEnd, IRule, IProblemLocation, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
@@ -31,8 +31,41 @@ type CheckerData = {
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class HtmlCheckerRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.interoperability,
+            description: `Validate HTML using 'the Nu HTML checker'`
+        },
+        schema: [{
+            properties: {
+                details: { type: 'boolean' },
+                ignore: {
+                    anyOf: [
+                        {
+                            items: { type: 'string' },
+                            type: 'array'
+                        }, { type: 'string' }
+                    ]
+                },
+                validator: {
+                    pattern: '^(http|https)://',
+                    type: 'string'
+                }
+            }
+        }],
+        scope: RuleScope.any
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
         /** The promise that represents the scan by HTML checker. */
         let htmlCheckerPromises: Array<CheckerData> = [];
         /** Array of strings that needes to be ignored from the checker result. */
@@ -173,35 +206,7 @@ const rule: IRuleBuilder = {
 
         loadRuleConfig();
 
-        return {
-            'fetch::end::html': start,
-            'scan::end': end
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.interoperability,
-            description: `Validate HTML using 'the Nu HTML checker'`
-        },
-        schema: [{
-            properties: {
-                details: { type: 'boolean' },
-                ignore: {
-                    anyOf: [
-                        {
-                            items: { type: 'string' },
-                            type: 'array'
-                        }, { type: 'string' }
-                    ]
-                },
-                validator: {
-                    pattern: '^(http|https)://',
-                    type: 'string'
-                }
-            }
-        }],
-        scope: RuleScope.any
+        context.on(this.id, 'fetch::end::html', start);
+        context.on(this.id, 'scan::end', end);
     }
-};
-
-module.exports = rule;
+}

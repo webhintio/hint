@@ -35,7 +35,7 @@ import * as jsdom from 'jsdom/lib/old-api';
 import { debug as d } from '../../utils/debug';
 import { getContentTypeData, getType } from '../../utils/content-type';
 import {
-    IConnector, IConnectorBuilder,
+    IConnector,
     IElementFound, IEvent, IFetchEnd, IFetchError, IManifestFetchError, ITraverseDown, ITraverseUp,
     INetworkData, URL
 } from '../../types';
@@ -66,7 +66,7 @@ const defaultOptions = {
     waitFor: 1000
 };
 
-class JSDOMConnector implements IConnector {
+export default class JSDOMConnector implements IConnector {
     private _options;
     private _headers;
     private _request: Requester;
@@ -554,11 +554,3 @@ class JSDOMConnector implements IConnector {
         return this._document.pageHTML();
     }
 }
-
-const builder: IConnectorBuilder = (server: Sonarwhal, config): IConnector => {
-    const connector = new JSDOMConnector(server, config);
-
-    return connector;
-};
-
-export default builder;

@@ -26,7 +26,7 @@ import { isFile, readFileAsync } from '../../utils/misc';
 import * as logger from '../../utils/logging';
 
 import {
-    IConnector, IConnectorBuilder,
+    IConnector,
     IEvent, IFetchEnd, IScanEnd,
     // INetworkData,
     URL
@@ -44,7 +44,7 @@ const debug: debug.IDebugger = d(__filename);
 
 const defaultOptions = {};
 
-class LocalConnector implements IConnector {
+export default class LocalConnector implements IConnector {
     private _options;
     private sonarwhal: Sonarwhal;
     private _href: string;
@@ -287,11 +287,3 @@ class LocalConnector implements IConnector {
         return Promise.resolve();
     }
 }
-
-const builder: IConnectorBuilder = (server: Sonarwhal, config): IConnector => {
-    const connector = new LocalConnector(server, config);
-
-    return connector;
-};
-
-export default builder;

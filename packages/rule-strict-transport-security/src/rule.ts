@@ -6,7 +6,7 @@ import * as url from 'url';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IResponse, IFetchEnd, IRule, IRuleBuilder, INetworkData } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IResponse, IFetchEnd, IRule, INetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
@@ -17,8 +17,31 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class StrictTransportSecurityRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: `Require 'Strict-Transport-Security' header`
+        },
+        schema: [{
+            properties: {
+                checkPreload: { type: 'boolean' },
+                minMaxAgeValue: { type: 'number' }
+            }
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
+
         /** The minimum period (in seconds) allowed for `max-age`. */
         let minMaxAgeValue: number;
         /** Whether or not check the preload attribute */
@@ -223,21 +246,6 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: `Require 'Strict-Transport-Security' header`
-        },
-        schema: [{
-            properties: {
-                checkPreload: { type: 'boolean' },
-                minMaxAgeValue: { type: 'number' }
-            }
-        }],
-        scope: RuleScope.site
+        context.on(this.id, 'fetch::end::*', validate);
     }
-};
-
-module.exports = rule;
+}

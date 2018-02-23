@@ -10,7 +10,7 @@
  */
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, ITraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isLocalFile, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -21,8 +21,29 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class HighestAvailableDocumentModeRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.interoperability,
+            description: 'Require highest available document mode'
+        },
+        schema: [{
+            additionalProperties: false,
+            properties: { requireMetaTag: { type: 'boolean' } },
+            type: ['object', null]
+        }],
+        scope: RuleScope.any
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
 
         let requireMetaTag: boolean = false;
         let suggestRemoval: boolean = false;
@@ -203,20 +224,6 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return { 'traverse::end': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require highest available document mode'
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: { requireMetaTag: { type: 'boolean' } },
-            type: ['object', null]
-        }],
-        scope: RuleScope.any
+        context.on(this.id, 'traverse::end', validate);
     }
-};
-
-export default rule;
+}

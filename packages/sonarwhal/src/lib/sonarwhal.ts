@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, UserConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, Parser, RuleConfig, Severity, IgnoredUrl } from './types';
+import { IAsyncHTMLElement, IConnector, INetworkData, UserConfig, IEvent, IProblem, IProblemLocation, IRule, RuleConfig, Severity, IgnoredUrl, IRuleConstructor, IConnectorConstructor, IParserConstructor, IParser } from './types';
 import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 import normalizeRules from './utils/normalize-rules';
@@ -35,8 +35,7 @@ const debug: debug.IDebugger = d(__filename);
 
 export class Sonarwhal extends EventEmitter {
     // TODO: review which ones need to be private or not
-    private parsers: Array<Parser>
-    private plugins: Map<string, IPlugin>
+    private parsers: Array<IParser>
     private rules: Map<string, IRule>
     private connector: IConnector
     private connectorId: string
@@ -46,6 +45,7 @@ export class Sonarwhal extends EventEmitter {
     private ignoredUrls: Map<string, Array<RegExp>>;
     private _formatters: Array<string>
     private _timeout: number = 60000;
+    private _config: UserConfig;
 
     /** The DOM of the loaded page. */
     public get pageDOM(): object {
@@ -95,6 +95,7 @@ export class Sonarwhal extends EventEmitter {
         });
 
         debug('Initializing sonarwhal engine');
+        this._config = config;
         this._timeout = config.rulesTimeout || this._timeout;
 
         this.messages = [];
@@ -150,16 +151,20 @@ export class Sonarwhal extends EventEmitter {
             });
         }
 
-        const connectorBuilder: IConnectorBuilder = resourceLoader.loadConnector(this.connectorId);
+        const Connector: IConnectorConstructor = resourceLoader.loadConnector(this.connectorId);
 
-        if (!connectorBuilder) {
+        if (!Connector) {
             throw new Error(`Connector "${this.connectorId}" not found`);
         }
 
-        this.connector = connectorBuilder(this, this.connectorConfig);
+        this.connector = new Connector(this, this.connectorConfig);
+        this.initParsers();
+        this.initRules();
     }
 
-    private initParsers(config: UserConfig) {
+    private initParsers() {
+        const config = this._config;
+
         debug('Loading parsers');
 
         this.parsers = [];
@@ -167,18 +172,20 @@ export class Sonarwhal extends EventEmitter {
             return;
         }
 
-        const parsers = resourceLoader.loadParsers(config.parsers);
+        const parsers: Map<string, IParserConstructor> = resourceLoader.loadParsers(config.parsers);
 
         parsers.forEach((ParserConst, parserId) => {
             debug(`Loading parser ${parserId}`);
-            // TODO: there has to be a better way than doing "as any" here
-            const parser = new (ParserConst as any)(this);
+
+            const parser: IParser = new ParserConst(this);
 
             this.parsers.push(parser);
         });
     }
 
-    private initRules(config: UserConfig) {
+    private initRules() {
+        const config = this._config;
+
         debug('Loading rules');
         this.rules = new Map();
         if (!config.rules) {
@@ -187,9 +194,44 @@ export class Sonarwhal extends EventEmitter {
 
         config.rules = normalizeRules(config.rules);
 
-        const rules: Map<string, IRuleBuilder> = resourceLoader.loadRules(config.rules);
+        const rules: Map<string, IRuleConstructor> = resourceLoader.loadRules(config.rules);
         const rulesIds: Array<string> = Object.keys(config.rules);
+
+
+        const ignoreRule = (rule): boolean => {
+            const ignoredConnectors: Array<string> = rule.meta.ignoredConnectors || [];
+
+            return (this.connectorId === 'local' && rule.meta.scope === RuleScope.site) ||
+                (this.connectorId !== 'local' && rule.meta.scope === RuleScope.local) ||
+                ignoredConnectors.includes(this.connectorId);
+        };
+
+        rulesIds.forEach((id: string) => {
+            const Rule: IRuleConstructor = rules.get(id);
+
+            const ruleOptions: RuleConfig | Array<RuleConfig> = config.rules[id];
+            const severity: Severity = getSeverity(ruleOptions);
+
+            if (ignoreRule(Rule)) {
+                debug(`Rule "${id}" is disabled for the connector "${this.connectorId}"`);
+                // TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
+                logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the connector "${this.connectorId}"`));
+            } else if (severity) {
+                const context: RuleContext = new RuleContext(id, this, severity, ruleOptions, Rule.meta);
+                const rule: IRule = new Rule(id, context);
+
+                this.rules.set(id, rule);
+            } else {
+                debug(`Rule "${id}" is disabled`);
+            }
+        });
+
+        debug(`Rules loaded: ${this.rules.size}`);
+    }
+
+    public onRuleEvent(id: string, eventName: string, listener: Function) {
         const that = this;
+
         const createEventHandler = (handler: Function, ruleId: string) => {
             return function (event: IEvent): Promise<any> {
                 const urlsIgnored: Array<RegExp> = that.ignoredUrls.get(ruleId);
@@ -212,7 +254,7 @@ export class Sonarwhal extends EventEmitter {
                         debug(`Rule ${ruleId} timeout`);
 
                         resolve(null);
-                    }, config.rulesTimeout || 120000);
+                    }, that._config.rulesTimeout || 120000);
 
                     immediateId = setImmediate(async () => {
                         const result: any = await handler(event, this.event); // eslint-disable-line no-invalid-this
@@ -227,39 +269,7 @@ export class Sonarwhal extends EventEmitter {
             };
         };
 
-        const ignoreRule = (rule): boolean => {
-            const ignoredConnectors: Array<string> = rule.meta.ignoredConnectors || [];
-
-            return (this.connectorId === 'local' && rule.meta.scope === RuleScope.site) ||
-                (this.connectorId !== 'local' && rule.meta.scope === RuleScope.local) ||
-                ignoredConnectors.includes(this.connectorId);
-        };
-
-        rulesIds.forEach((id: string) => {
-            const rule: IRuleBuilder = rules.get(id);
-
-            const ruleOptions: RuleConfig | Array<RuleConfig> = config.rules[id];
-            const severity: Severity = getSeverity(ruleOptions);
-
-            if (ignoreRule(rule)) {
-                debug(`Rule "${id}" is disabled for the connector "${this.connectorId}"`);
-                // TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
-                logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the connector "${this.connectorId}"`));
-            } else if (severity) {
-                const context: RuleContext = new RuleContext(id, this, severity, ruleOptions, rule.meta);
-                const instance: IRule = rule.create(context);
-
-                Object.keys(instance).forEach((eventName: string) => {
-                    this.on(eventName, createEventHandler(instance[eventName], id));
-                });
-
-                this.rules.set(id, instance);
-            } else {
-                debug(`Rule "${id}" is disabled`);
-            }
-        });
-
-        debug(`Rules loaded: ${this.rules.size}`);
+        this.on(eventName, createEventHandler(listener, id));
     }
 
     public fetchContent(target: string | url.Url, headers: object): Promise<INetworkData> {

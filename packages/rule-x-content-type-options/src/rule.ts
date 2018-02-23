@@ -11,7 +11,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -24,8 +24,25 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class XContentTypeOptionsRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: `Require 'X-Content-Type-Options' header`
+        },
+        schema: [],
+        scope: RuleScope.site
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
 
         const validate = async (fetchEnd: IFetchEnd) => {
             const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
@@ -76,16 +93,6 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: `Require 'X-Content-Type-Options' header`
-        },
-        schema: [],
-        scope: RuleScope.site
+        context.on(this.id, 'fetch::end::*', validate);
     }
-};
-
-module.exports = rule;
+}

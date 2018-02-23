@@ -1,16 +1,14 @@
 import * as url from 'url';
 
-import { IConnectorBuilder } from './types/connector';
-import { IFormatter } from './types/formatters';
-import { IPluginBuilder } from './types/plugins';
-import { IRuleBuilder } from './types/rules';
+import { IFormatterConstructor } from './types/formatters';
+import { IConnectorConstructor } from './types/connector';
+import { IRuleConstructor } from './types/rules';
 
 export * from './types/asynchtml';
 export * from './types/connector';
 export * from './types/events';
 export * from './types/formatters';
 export * from './types/network';
-export * from './types/plugins';
 export * from './types/problems';
 export * from './types/rules';
 export * from './types/parser';
@@ -48,8 +46,8 @@ export interface UserConfig {
     plugins?: any;
 }
 
-/** A resource required by sonarwhal: Connector, Formatter, Plugin, Rule. */
-export type Resource = IConnectorBuilder | IFormatter | IPluginBuilder | IRuleBuilder;
+/** A resource required by sonarwhal: Connector, Formatter, Rule. */
+export type Resource = IConnectorConstructor | IFormatterConstructor | IRuleConstructor;
 
 /** An alias for url.Url. */
 export type URL = url.Url;

@@ -15,7 +15,7 @@ import { promisify } from 'util';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, IScanEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IFetchEnd, IScanEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -28,8 +28,52 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class SSLLabsRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: 'Strength of your SSL configuration'
+        },
+        schema: [{
+            additionalProperties: false,
+            properties: {
+                grade: {
+                    pattern: '^(A\\+|A\\-|[A-F]|T|M)$',
+                    type: 'string'
+                },
+                ssllabs: {
+                    properties: {
+                        all: {
+                            pattern: '^(on|done)$',
+                            type: 'string'
+                        },
+                        fromCache: { type: 'boolean' },
+                        ignoreMismatch: { type: 'boolean' },
+                        maxAge: {
+                            minimum: 0,
+                            type: 'integer'
+                        },
+                        publish: { type: 'boolean' },
+                        startNew: { type: 'boolean' }
+                    },
+                    type: 'object'
+                }
+            },
+            type: 'object'
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
+
         /** The promise that represents the scan by SSL Labs. */
         let promise: Promise<SSLLabsResult>;
         /** The minimum grade required to pass. */
@@ -173,45 +217,7 @@ There might be something wrong with SSL Labs servers.`;
          * (e.g.: https://developer.microsoft.com/en-us/microsoft-edge/
          * instead of http://edge.ms).
          */
-        return {
-            'fetch::end::html': start,
-            'scan::end': end
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: 'Strength of your SSL configuration'
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                grade: {
-                    pattern: '^(A\\+|A\\-|[A-F]|T|M)$',
-                    type: 'string'
-                },
-                ssllabs: {
-                    properties: {
-                        all: {
-                            pattern: '^(on|done)$',
-                            type: 'string'
-                        },
-                        fromCache: { type: 'boolean' },
-                        ignoreMismatch: { type: 'boolean' },
-                        maxAge: {
-                            minimum: 0,
-                            type: 'integer'
-                        },
-                        publish: { type: 'boolean' },
-                        startNew: { type: 'boolean' }
-                    },
-                    type: 'object'
-                }
-            },
-            type: 'object'
-        }],
-        scope: RuleScope.site
+        context.on(this.id, 'fetch::end::html', start);
+        context.on(this.id, 'scan::end', end);
     }
-};
-
-export default rule;
+}

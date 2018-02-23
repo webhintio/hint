@@ -13,7 +13,7 @@ import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'ax
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IRule, IRuleBuilder, Severity, ITraverseEnd } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IRule, Severity, ITraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { readFileAsync } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -26,8 +26,57 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class AxeRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.accessibility,
+            description: 'Runs axe-core tests in the target'
+        },
+        schema: [{
+            additionalProperties: false,
+            properties: {
+                rules: {
+                    patternProperties: {
+                        '^.+$': {
+                            additionalProperties: false,
+                            properties: { enabled: { type: 'boolean' } },
+                            required: ['enabled'],
+                            type: 'object'
+                        }
+                    },
+                    type: 'object'
+                },
+                runOnly: {
+                    additionalProperties: false,
+                    properties: {
+                        type: { type: 'string' },
+                        values: {
+                            items: { type: 'string' },
+                            minItems: 1,
+                            type: 'array',
+                            uniqueItems: true
+                        }
+                    },
+                    type: 'object'
+                }
+            }
+        }],
+        /*
+         * axe can not analize a file itself, it needs a connector.
+         * TODO: Change to any once the local connector has jsdom.
+         */
+        scope: RuleScope.site
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
 
         let axeConfig: object = {};
 
@@ -112,48 +161,6 @@ const rule: IRuleBuilder = {
 
         loadRuleConfig();
 
-        return { 'traverse::end': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.accessibility,
-            description: 'Runs axe-core tests in the target'
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                rules: {
-                    patternProperties: {
-                        '^.+$': {
-                            additionalProperties: false,
-                            properties: { enabled: { type: 'boolean' } },
-                            required: ['enabled'],
-                            type: 'object'
-                        }
-                    },
-                    type: 'object'
-                },
-                runOnly: {
-                    additionalProperties: false,
-                    properties: {
-                        type: { type: 'string' },
-                        values: {
-                            items: { type: 'string' },
-                            minItems: 1,
-                            type: 'array',
-                            uniqueItems: true
-                        }
-                    },
-                    type: 'object'
-                }
-            }
-        }],
-        /*
-         * axe can not analize a file itself, it needs a connector.
-         * TODO: Change to any once the local connector has jsdom.
-         */
-        scope: RuleScope.site
+        context.on(this.id, 'traverse::end', validate);
     }
-};
-
-module.exports = rule;
+}

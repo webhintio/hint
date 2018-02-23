@@ -11,7 +11,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IElementFound, IFetchEnd, IManifestFetchError, ITraverseEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IElementFound, IFetchEnd, IManifestFetchError, ITraverseEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -24,8 +24,25 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class ManifetsExistsRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.pwa,
+            description: 'Require a web app manifest'
+        },
+        schema: [],
+        scope: RuleScope.any
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
 
         let manifestIsSpecified = false;
 
@@ -82,21 +99,9 @@ const rule: IRuleBuilder = {
             return;
         };
 
-        return {
-            'element::link': manifestExists,
-            'fetch::end::manifest': manifestEnd,
-            'fetch::error::manifest': manifestError,
-            'traverse::end': manifestMissing
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.pwa,
-            description: 'Require a web app manifest'
-        },
-        schema: [],
-        scope: RuleScope.any
+        context.on(this.id, 'element::link', manifestExists);
+        context.on(this.id, 'fetch::end::manifest', manifestEnd);
+        context.on(this.id, 'fetch::error::manifest', manifestError);
+        context.on(this.id, 'traverse::end', manifestMissing);
     }
-};
-
-export default rule;
+}

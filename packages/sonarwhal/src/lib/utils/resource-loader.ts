@@ -21,7 +21,7 @@ import * as inquirer from 'inquirer';
 
 import { findNodeModulesRoot, findPackageRoot, readFile } from '../utils/misc';
 import { debug as d } from '../utils/debug';
-import { IConnectorBuilder, IFormatter, NpmPackage, Parser, Resource, IRuleBuilder } from '../types';
+import { NpmPackage, Parser, Resource, IRuleConstructor, IConnectorConstructor, IParserConstructor, IFormatterConstructor } from '../types';
 import { validate as validateRule } from '../config/config-rules';
 import { installPackages } from './npm';
 
@@ -240,47 +240,47 @@ export const getInstalledConnectors = (): Array<string> => {
     return getInstalledResources(TYPE.connector);
 };
 
-export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
+export const loadRules = (config: Object): Map<string, IRuleConstructor> => {
     const rulesIds: Array<string> = Object.keys(config);
 
-    const rules: Map<string, IRuleBuilder> = rulesIds.reduce((acum: Map<string, IRuleBuilder>, ruleId: string) => {
-        const rule: IRuleBuilder = loadResource(ruleId, TYPE.rule);
-        const valid: boolean = validateRule(rule, config[ruleId], ruleId);
+    const rules: Map<string, IRuleConstructor> = rulesIds.reduce((acum: Map<string, IRuleConstructor>, ruleId: string) => {
+        const Rule = loadResource(ruleId, TYPE.rule);
+        const valid: boolean = validateRule(Rule.meta, config[ruleId], ruleId);
 
         if (!valid) {
             throw new Error(`Rule ${ruleId} doesn't have a valid configuration`);
         }
 
-        acum.set(ruleId, rule);
+        acum.set(ruleId, Rule);
 
         return acum;
-    }, new Map<string, IRuleBuilder>());
+    }, new Map<string, IRuleConstructor>());
 
     return rules;
 };
 
-export const loadParsers = (parsersIds: Array<string>): Map<string, Parser> => {
+export const loadParsers = (parsersIds: Array<string>): Map<string, IParserConstructor> => {
 
-    const parsers: Map<string, Parser> = parsersIds.reduce((acum: Map<string, Parser>, parserId: string) => {
-        const parser: Parser = loadResource(parserId, TYPE.parser);
+    const parsers: Map<string, IParserConstructor> = parsersIds.reduce((acum: Map<string, IParserConstructor>, parserId: string) => {
+        const parser: IParserConstructor = loadResource(parserId, TYPE.parser);
 
         acum.set(parserId, parser);
 
         return acum;
-    }, new Map<string, Parser>());
+    }, new Map<string, IParserConstructor>());
 
     return parsers;
 };
 
-export const loadRule = (ruleId: string): IRuleBuilder => {
+export const loadRule = (ruleId: string): IRuleConstructor => {
     return loadResource(ruleId, TYPE.rule);
 };
 
-export const loadConnector = (connectorId: string): IConnectorBuilder => {
+export const loadConnector = (connectorId: string): IConnectorConstructor => {
     return loadResource(connectorId, TYPE.connector);
 };
 
-export const loadFormatter = (formatterId: string): IFormatter => {
+export const loadFormatter = (formatterId: string): IFormatterConstructor => {
     return loadResource(formatterId, TYPE.formatter);
 };
 

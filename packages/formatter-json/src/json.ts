@@ -23,9 +23,9 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const formatter: IFormatter = {
+export default class JSONFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    format(messages: Array<IProblem>) {
+    public format(messages: Array<IProblem>) {
 
         debug('Formatting results');
 
@@ -38,6 +38,4 @@ const formatter: IFormatter = {
             logger.log(JSON.stringify(sortedMessages, null, 2));
         });
     }
-};
-
-export default formatter;
+}

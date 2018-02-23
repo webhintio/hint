@@ -91,20 +91,38 @@ because you forgot to build your project after making changes.*
 ## How do we write the rule?
 
 Now navigate to `src/rules/validate-footer/validate-footer.ts`. You can see that
-there is already some code there. The rule object contains a rule constructor
-`create` and a `meta` property. The `create` function returns an object that
-defines what event this rule subscribes to. The keys are the name of the events
-and values are the validating functions triggered upon the events. In the
-generated template by the wizard, the `element::footer` event is already
-populated for us so we can focus on implementing the actual validateFooter
-function. As shown in the code below, we have access to the footer element in
-the page and use that for our check - if the HTML doesn’t include the target
-string, we simply file a report by calling `context.report` with the *resource*
-(URL), the *element* (footer), and the *error message*. Note that
-`context.report` is an asynchronous method, so always use `await`.
+there is already some code there. The rule class contains a constructor
+`constructor`, a static property `meta`, and a property `id`.
+At the end of the `constructor`, it use `context.on` to subscribe the rule
+to events the rule needs to listen to. The parameters for  `contexts.on` are the
+rule id, the name of the event and the validating function triggered upon the
+events. In the generated template by the wizard, the `element::footer` event is
+already populated for us so we can focus on implementing the actual
+validateFooter function. As shown in the code below, we have access to the
+footer element in the page and use that for our check - if the HTML doesn’t
+include the target string, we simply file a report by calling `context.report`
+with the *resource* (URL), the *element* (footer), and the *error message*.
+Note that `context.report` is an asynchronous method, so always use `await`.
 
 ```ts
-create(context: RuleContext): IRule {
+export default class FooterRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.other,
+            description: `A rule to validate footer`
+        },
+        recommended: false,
+        schema: [],
+        worksWithLocalFiles: true
+    }
+
+public constructor(context: RuleContext) {
     const stringToBeIncluded = `(c) sonarwhal`;
     const validateFooter = async (elementFound: IElementFound) => {
         const { element, resource } = elementFound;
@@ -117,9 +135,7 @@ create(context: RuleContext): IRule {
         }
     };
 
-    return {
-        'element::footer': validateFooter
-    };
+    context.on(this.id, 'element::footer', validateFooter);
 }
 ```
 
@@ -157,24 +173,14 @@ in the `meta` part of the rule constructor. This helps the rule to decide if a
 config option is valid before using it.
 
 ```ts
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
-        let stringToBeIncluded;
+export default class CopyrightRule implements IRule {
+    private _id: string;
 
-        const loadRuleConfigs = () => {
-            // Load Config options.
-            stringToBeIncluded = (context.ruleOptions && context.ruleOptions.stringToBeIncluded) || `(c) sonarwhal`;
-        };
+    public get id() {
+        return this._id;
+    }
 
-        const validateFooter = async (elementFound: IElementFound) => { ... };
-
-        loadRuleConfigs();
-
-        return {
-            'element::footer': validateFooter
-        };
-    },
-    meta: {
+    public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.other,
             description: `A new rule to validate footer`
@@ -189,9 +195,25 @@ const rule: IRuleBuilder = {
         }],
         worksWithLocalFiles: true
     }
-};
 
-module.exports = rule;
+    public constructor(id: string, context: RuleContext) {
+        this._id = id;
+
+        let stringToBeIncluded;
+
+        const loadRuleConfigs = () => {
+            // Load Config options.
+            stringToBeIncluded = (context.ruleOptions && context.ruleOptions.stringToBeIncluded) || `(c) sonarwhal`;
+        };
+
+        const validateFooter = async (elementFound: IElementFound) => { ... };
+
+        loadRuleConfigs();
+
+        context.on('element::footer', validateFooter);
+    }
+}
+
 ```
 
 Accordingly, when running sonarwhal, we need to pass in the config values. We do

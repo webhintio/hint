@@ -7,7 +7,7 @@ import * as mkdirp from 'mkdirp';
 
 import { CLIOptions } from '../../types';
 import * as logger from '../../utils/logging';
-import { isOfficial, writeFileAsync } from '../../utils/misc';
+import { isOfficial, writeFileAsync, toCamelCase } from '../../utils/misc';
 import {
     processDir, questions, normalize,
     QuestionsType, NewRule
@@ -103,6 +103,7 @@ const normalizeData = (results: inquirer.Answers) => {
     const prefix = results.official ? '@sonarwhal/' : 'sonarwhal-';
 
     const newData = Object.assign({}, results, {
+        className: toCamelCase(normalizedName),
         description: escapeSafeString(results.description),
         normalizedName, // occurences of the name in md and ts files
         official: results.official,

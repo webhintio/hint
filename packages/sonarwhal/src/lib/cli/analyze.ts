@@ -3,7 +3,7 @@ import * as ora from 'ora';
 
 import * as Config from '../config';
 import { Sonarwhal } from '../sonarwhal';
-import { CLIOptions, UserConfig, IFormatter, IORA, IProblem, Severity, URL } from '../types';
+import { CLIOptions, UserConfig, IORA, IProblem, Severity, URL, IFormatterConstructor } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/get-as-uri';
 import * as logger from '../utils/logging';
@@ -95,7 +95,9 @@ const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: IORA) => {
 };
 
 const format = (formatterName: string, results: IProblem[]) => {
-    const formatter: IFormatter = resourceLoader.loadFormatter(formatterName) || resourceLoader.loadFormatter('json');
+    const FormatterConstructor: IFormatterConstructor = resourceLoader.loadFormatter(formatterName) || resourceLoader.loadFormatter('json');
+
+    const formatter = new FormatterConstructor();
 
     formatter.format(results);
 };

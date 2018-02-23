@@ -9,7 +9,7 @@ import * as retry from 'async-retry';
 
 import { ids as connectors } from './connectors';
 import { createServer } from './test-server';
-import { UserConfig } from '../../src/lib/types';
+import { UserConfig, IRuleConstructor } from '../../src/lib/types';
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
 import { IRuleTest } from './rule-test-type';
 import { Sonarwhal } from '../../src/lib/sonarwhal';
@@ -169,7 +169,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
         });
     };
 
-    const rule = resourceLoader.loadRule(ruleId);
+    const Rule: IRuleConstructor = resourceLoader.loadRule(ruleId);
 
     /* Run all the tests for a given rule in all connectors. */
     connectors.forEach((connector) => {
@@ -179,7 +179,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
          * run the tests for this rule in this connector.
          */
 
-        if (!rule.meta.ignoredConnectors || !rule.meta.ignoredConnectors.includes(connector)) {
+        if (!Rule.meta.ignoredConnectors || !Rule.meta.ignoredConnectors.includes(connector)) {
             ruleTests.forEach((ruleTest) => {
                 let runner;
 

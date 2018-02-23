@@ -7,8 +7,8 @@ import { parseMetaViewPortContent } from 'metaviewport-parser';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { isHTMLDocument, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, ITraverseEnd } from 'sonarwhal/dist/src/lib/types';
-import { IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, ITraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IRule } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -18,8 +18,25 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class MetaViewportRule implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.interoperability,
+            description: 'Require viewport meta tag'
+        },
+        schema: [],
+        scope: RuleScope.any
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
 
         /*
          * This function exists because not all connector (e.g.: jsdom)
@@ -62,7 +79,7 @@ const rule: IRuleBuilder = {
             });
         };
 
-        const checkContentValue = async (contentValue: string|null, resource: string, viewportMetaTag: IAsyncHTMLElement) => {
+        const checkContentValue = async (contentValue: string | null, resource: string, viewportMetaTag: IAsyncHTMLElement) => {
 
             if (!contentValue) {
                 await context.report(resource, viewportMetaTag, `Meta tag should have non-empty 'content' attribute`);
@@ -201,16 +218,6 @@ const rule: IRuleBuilder = {
 
         };
 
-        return { 'traverse::end': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require viewport meta tag'
-        },
-        schema: [],
-        scope: RuleScope.any
+        context.on(this.id, 'traverse::end', validate);
     }
-};
-
-export default rule;
+}
