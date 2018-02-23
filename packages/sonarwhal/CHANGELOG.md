@@ -1,3 +1,14 @@
+# 0.27.0 (February 23, 2018)
+
+## Bug fixes / Improvements
+
+* [[`2b1145e961`](https://github.com/sonarwhal/sonar/commit/2b1145e961e9ad86015ad3443d2383f42940a61c)] - Docs: Update contributor documentation (see also: [`#827`](https://github.com/sonarwhal/sonar/issues/827)).
+
+## New features
+
+* [[`1bd7cbadb5`](https://github.com/sonarwhal/sonar/commit/1bd7cbadb51408f4f21293828e2ea2796bc9cfc0)] - New: Make `sonarwhal` install missing packages (see also: [`#834`](https://github.com/sonarwhal/sonar/issues/834)).
+
+
 # 0.26.0 (February 20, 2018)
 
 ## Breaking Changes
