@@ -9,7 +9,7 @@
   "dependencies": {
     "amphtml-validator": "^1.0.21"
   },
-  "description": "",
+  "description": "sonarwhal rule that validates AMP HTML pages using the AMP Validator",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
