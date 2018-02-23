@@ -16,7 +16,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { CompressionCheckOptions } from './rule-types';
 import { getFileExtension, isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
 import { getHeaderValueNormalized, isRegularProtocol, isHTTP, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IResponse, IRule, IFetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -28,8 +28,37 @@ const uaString = 'Mozilla/5.0 Gecko';
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class HttpCompressionRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.performance,
+            description: 'Require resources to be served compressed'
+        },
+        id: 'http-compression',
+        schema: [{
+            additionalProperties: false,
+            definitions: {
+                options: {
+                    additionalProperties: false,
+                    minProperties: 1,
+                    properties: {
+                        brotli: { type: 'boolean' },
+                        gzip: { type: 'boolean' },
+                        zopfli: { type: 'boolean' }
+                    }
+                }
+            },
+            properties: {
+                resource: { $ref: '#/definitions/options' },
+                target: { $ref: '#/definitions/options' }
+            },
+            type: 'object'
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
 
         const getRuleOptions = (property: string): CompressionCheckOptions => {
             return Object.assign(
@@ -651,34 +680,6 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.performance,
-            description: 'Require resources to be served compressed'
-        },
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                options: {
-                    additionalProperties: false,
-                    minProperties: 1,
-                    properties: {
-                        brotli: { type: 'boolean' },
-                        gzip: { type: 'boolean' },
-                        zopfli: { type: 'boolean' }
-                    }
-                }
-            },
-            properties: {
-                resource: { $ref: '#/definitions/options' },
-                target: { $ref: '#/definitions/options' }
-            },
-            type: 'object'
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', validate);
     }
-};
-
-export default rule;
+}

@@ -6,7 +6,7 @@ import * as amphtmlValidator from 'amphtml-validator';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
+import { IRule, RuleMetadata, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -18,8 +18,22 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class AmpValidatorRule implements IRule {
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.performance,
+            description: `Require HTML page to be AMP valid.`
+        },
+        id: 'amp-validator',
+        schema: [{
+            additionalProperties: false,
+            properties: { 'errors-only': { type: 'boolean' } },
+            type: 'object'
+        }],
+        scope: RuleScope.any
+    }
+
+    public constructor(context: RuleContext) {
         let validPromise;
         const errorsOnly = context.ruleOptions && context.ruleOptions['errors-only'] || false;
         let events: Array<IFetchEnd> = [];
@@ -69,23 +83,7 @@ const rule: IRuleBuilder = {
             events = [];
         };
 
-        return {
-            'fetch::end::html': onFetchEndHTML,
-            'scan::end': onScanEnd
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.performance,
-            description: `Require HTML page to be AMP valid.`
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: { 'errors-only': { type: 'boolean' } },
-            type: 'object'
-        }],
-        scope: RuleScope.any
+        context.on('fetch::end::html', onFetchEndHTML);
+        context.on('scan::end', onScanEnd);
     }
-};
-
-module.exports = rule;
+}

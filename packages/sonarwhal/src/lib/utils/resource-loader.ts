@@ -17,13 +17,12 @@ import { promisify } from 'util';
 import * as globby from 'globby';
 import * as npm from 'npm';
 import * as esearch from 'npm/lib/search/esearch';
-import * as inquirer from 'inquirer';
 
 import { findNodeModulesRoot, findPackageRoot, readFile } from '../utils/misc';
 import { debug as d } from '../utils/debug';
-import { IConnectorBuilder, IFormatter, NpmPackage, Parser, Resource, IRuleBuilder } from '../types';
+import { NpmPackage, Parser, Resource, IRuleConstructor, IConnectorConstructor, IParserConstructor, IFormatterConstructor, SonarwhalResources } from '../types';
 import { validate as validateRule } from '../config/config-rules';
-import { installPackages } from './npm';
+import { SonarwhalConfig } from '../config';
 
 const debug: debug.IDebugger = d(__filename);
 const SONARWHAL_ROOT: string = findPackageRoot();
@@ -122,18 +121,10 @@ export const tryToLoadFrom = (resourcePath: string): any => {
  */
 const hasMultipleResources = (resource, type: string) => {
     switch (type) {
-        case TYPE.connector:
-            // In a simple connector, resource should be a function.
-            return typeof resource === 'object';
-        case TYPE.formatter:
-            // In a simple formatter, the property format should exist.
-            return !resource.format;
         case TYPE.rule:
-            // In a simple rule, the properties create and meta should exist.
-            return !(resource.create && resource.meta);
-        case TYPE.parser:
-            // In a simple parser, the property default should exists.
-            return !resource.default && typeof resource !== 'function';
+            // In a simple rule, the property meta should exist.
+            return !resource.meta;
+        // Only case with multiple resources is rules
         default:
             return false;
     }
@@ -240,47 +231,47 @@ export const getInstalledConnectors = (): Array<string> => {
     return getInstalledResources(TYPE.connector);
 };
 
-export const loadRules = (config: Object): Map<string, IRuleBuilder> => {
+export const loadRules = (config: Object): Map<string, IRuleConstructor> => {
     const rulesIds: Array<string> = Object.keys(config);
 
-    const rules: Map<string, IRuleBuilder> = rulesIds.reduce((acum: Map<string, IRuleBuilder>, ruleId: string) => {
-        const rule: IRuleBuilder = loadResource(ruleId, TYPE.rule);
-        const valid: boolean = validateRule(rule, config[ruleId], ruleId);
+    const rules: Map<string, IRuleConstructor> = rulesIds.reduce((acum: Map<string, IRuleConstructor>, ruleId: string) => {
+        const Rule = loadResource(ruleId, TYPE.rule);
+        const valid: boolean = validateRule(Rule.meta, config[ruleId], ruleId);
 
         if (!valid) {
             throw new Error(`Rule ${ruleId} doesn't have a valid configuration`);
         }
 
-        acum.set(ruleId, rule);
+        acum.set(ruleId, Rule);
 
         return acum;
-    }, new Map<string, IRuleBuilder>());
+    }, new Map<string, IRuleConstructor>());
 
     return rules;
 };
 
-export const loadParsers = (parsersIds: Array<string>): Map<string, Parser> => {
+export const loadParsers = (parsersIds: Array<string>): Map<string, IParserConstructor> => {
 
-    const parsers: Map<string, Parser> = parsersIds.reduce((acum: Map<string, Parser>, parserId: string) => {
-        const parser: Parser = loadResource(parserId, TYPE.parser);
+    const parsers: Map<string, IParserConstructor> = parsersIds.reduce((acum: Map<string, IParserConstructor>, parserId: string) => {
+        const parser: IParserConstructor = loadResource(parserId, TYPE.parser);
 
         acum.set(parserId, parser);
 
         return acum;
-    }, new Map<string, Parser>());
+    }, new Map<string, IParserConstructor>());
 
     return parsers;
 };
 
-export const loadRule = (ruleId: string): IRuleBuilder => {
+export const loadRule = (ruleId: string): IRuleConstructor => {
     return loadResource(ruleId, TYPE.rule);
 };
 
-export const loadConnector = (connectorId: string): IConnectorBuilder => {
+export const loadConnector = (connectorId: string): IConnectorConstructor => {
     return loadResource(connectorId, TYPE.connector);
 };
 
-export const loadFormatter = (formatterId: string): IFormatter => {
+export const loadFormatter = (formatterId: string): IFormatterConstructor => {
     return loadResource(formatterId, TYPE.formatter);
 };
 
@@ -406,107 +397,52 @@ export const getCoreFormattersFromNpm = () => {
     return getCorePackages(TYPE.formatter);
 };
 
-const getPackagesToInstall = async (packagesIds: Array<string>, type: string) => {
-    let promise: Promise<[Array<NpmPackage>, Array<NpmPackage>]>;
 
-    switch (type) {
-        case TYPE.connector:
-            promise = Promise.all([getCoreConnectorsFromNpm(), getExternalConnectorsFromNpm()]);
-            break;
-        case TYPE.formatter:
-            promise = Promise.all([getCoreFormattersFromNpm(), getExternalFormattersFromNpm()]);
-            break;
-        case TYPE.parser:
-            promise = Promise.all([getCoreParsersFromNpm(), getExternalParsersFromNpm()]);
-            break;
-        case TYPE.rule:
-            promise = Promise.all([getCoreRulesFromNpm(), getExternalRulesFromNpm()]);
-            break;
-        default:
-            throw new Error(`Type ${type} unknown`);
-    }
+// -------------------------------------
 
-    const [npmCorePackages, npmExternalPackages] = await promise;
-    const npmPackages: Array<string> = npmCorePackages
-        .concat(npmExternalPackages)
-        .filter((npmPackage) => {
-            return packagesIds.includes(npmPackage.name.replace(`@sonarwhal/${type}-`, '').replace(`sonarwhal-${type}-`, ''));
-        })
-        .map((npmPackage) => {
-            return npmPackage.name;
-        });
-    const notExists: Array<string> = [];
+const loadListOfResources = (list: Array<string> | Object, type: string) => {
+    const missing = [];
 
-    for (const packageId of packagesIds) {
-        if (!npmPackages.includes(`@sonarwhal/${type}-${packageId}`) && !npmPackages.includes(`sonarwhal-${type}-${packageId}`)) {
-            notExists.push(packageId);
-        }
-    }
+    // In the case of rules, we get an object with rulename/priority, not an array
+    const items = Array.isArray(list) ?
+        list :
+        Object.keys(list);
 
-    if (notExists.length > 0) {
-        throw new Error(`${type.charAt(0).toUpperCase()}${type.slice(1)}s ${notExists.join(' ')} not found. Please, review your configuration.`);
-    }
+    const loadedResources = items.reduce((loaded, resourceId) => {
+        try {
+            const parser = loadResource(resourceId, type);
 
-    return npmPackages;
-};
-
-const installMissingPackages = async (ids: Array<string>, type: string) => {
-    // Check if the missing package exists on npm.
-    const packages = await getPackagesToInstall(ids, type);
-
-    console.log(`The following ${type}s are not installed:`);
-    console.log(packages.join(' '));
-
-    // Ask user if he wants to install the packages.
-    const result = await inquirer.prompt([{
-        default: true,
-        message: `Do you want to install the missing ${type}s?`,
-        name: 'ok',
-        type: 'confirm'
-    }]) as any;
-
-    if (!result.ok) {
-        throw new Error(`${type.charAt(0).toUpperCase()}${type.slice(1)}s ${packages.join(' ')} not found. Please, install them.`);
-    }
-
-    // Install Packages
-    installPackages(packages);
-};
-
-const loadResources = async (ids: Array<string>, type: string): Promise<[Map<string, any>, Array<string>]> => {
-    const load = (idsToLoad: Array<string>, resourceType: string): [Map<string, IRuleBuilder>, Array<string>] => {
-        const notFound: Array<string> = [];
-        const found: Map<string, IRuleBuilder> = new Map<string, IRuleBuilder>();
-
-        for (const ruleId of idsToLoad) {
-            let rule: IRuleBuilder;
-
-            try {
-                rule = loadResource(ruleId, resourceType);
-            } catch (err) {
-                notFound.push(ruleId);
-            }
-
-            if (!rule) {
-                continue;
-            }
-
-            found.set(ruleId, rule);
+            loaded.push(parser);
+        } catch (e) {
+            missing.push(`${type}-${resourceId}`);
         }
 
-        return [found, notFound];
+        return loaded;
+    }, []);
+
+    return {
+        missing,
+        resources: loadedResources
     };
+};
 
-    let [resourcesFound, resourcesNotFound]: [Map<string, IRuleBuilder>, Array<string>] = load(ids, type);
-    let installedResources: Map<string, IRuleBuilder>;
+/** Returns all the resources from a `SonarwhhalConfig` */
+export const loadResources = (config: SonarwhalConfig): SonarwhalResources => {
+    const connector = loadConnector(config.connector.name);
+    const { resources: rules, missing: missingRules } = loadListOfResources(config.rules, TYPE.rule);
+    const { resources: parsers, missing: missingParsers } = loadListOfResources(config.parsers, TYPE.parser);
+    const { resources: formatters, missing: missingFormatters } = loadListOfResources(config.formatters, TYPE.formatter);
+    const missing = [].concat(missingRules, missingParsers, missingFormatters);
 
-    if (resourcesNotFound.length > 0) {
-        await installMissingPackages(resourcesNotFound, type);
-
-        [installedResources, resourcesNotFound] = load(resourcesNotFound, type);
+    if (!connector) {
+        missing.push(config.connector);
     }
 
-    resourcesFound = installedResources ? new Map([...resourcesFound, ...installedResources]) : resourcesFound;
-
-    return [resourcesFound, resourcesNotFound];
+    return {
+        connector,
+        formatters,
+        missing,
+        parsers,
+        rules
+    };
 };

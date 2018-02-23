@@ -6,7 +6,7 @@ import * as pluralize from 'pluralize';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { getHeaderValueNormalized, isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
+import { IRule, IFetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -21,8 +21,35 @@ type ParsedDirectives = {
     usedDirectives: Directives;
 };
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class HttpCacheRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.performance,
+            description: `Checks if your cache-control header and asset strategy follows best practices`
+        },
+        id: 'http-cache',
+        schema: [{
+            additionalProperties: false,
+            definitions: {
+                'string-array': {
+                    items: { type: 'string' },
+                    minItems: 1,
+                    type: 'array',
+                    uniqueItems: true
+                }
+            },
+            properties: {
+                maxAgeResource: 'number',
+                maxAgeTarget: 'number',
+                revvingPatterns: { $ref: '#/definitions/string-array' }
+            }
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
+
         /**
          * Max time the HTML of a page can be cached.
          * https://jakearchibald.com/2016/caching-best-practices/#used-carefully-max-age-mutable-content-can-be-beneficial
@@ -415,31 +442,6 @@ const rule: IRuleBuilder = {
             return;
         };
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.performance,
-            description: `Checks if your cache-control header and asset strategy follows best practices`
-        },
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                'string-array': {
-                    items: { type: 'string' },
-                    minItems: 1,
-                    type: 'array',
-                    uniqueItems: true
-                }
-            },
-            properties: {
-                maxAgeResource: 'number',
-                maxAgeTarget: 'number',
-                revvingPatterns: { $ref: '#/definitions/string-array' }
-            }
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', validate);
     }
-};
-
-module.exports = rule;
+}

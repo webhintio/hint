@@ -6,7 +6,7 @@
  */
 
 import { Sonarwhal } from './sonarwhal';
-import { IAsyncHTMLElement, INetworkData, IProblemLocation, IRuleMetadata, Severity } from './types';
+import { IAsyncHTMLElement, INetworkData, IProblemLocation, RuleMetadata, Severity } from './types';
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 
 
@@ -14,11 +14,11 @@ import { findInElement, findProblemLocation } from './utils/location-helpers';
 export class RuleContext {
     private id: string
     private options: Array<any>
-    private meta: IRuleMetadata
+    private meta: RuleMetadata
     private severity: Severity
     private sonarwhal: Sonarwhal
 
-    public constructor(ruleId: string, sonarwhal: Sonarwhal, severity: Severity, options, meta: IRuleMetadata) {
+    public constructor(ruleId: string, sonarwhal: Sonarwhal, severity: Severity, options, meta: RuleMetadata) {
 
         this.id = ruleId;
         this.options = options;
@@ -27,7 +27,6 @@ export class RuleContext {
         this.severity = severity;
 
         Object.freeze(this);
-
     }
 
     /** The DOM of the page. */
@@ -112,5 +111,10 @@ export class RuleContext {
             message,
             resource
         );
+    }
+
+    /** Subscribe an event in sonarwhal. */
+    public on(event, listener) {
+        this.sonarwhal.onRuleEvent(this.id, event, listener);
     }
 }

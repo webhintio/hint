@@ -2,10 +2,10 @@ import * as url from 'url';
 
 import { IAsyncHTMLElement } from './asynchtml';
 import { INetworkData } from './network';
+import { Sonarwhal } from '../sonarwhal';
 
-/** The builder of a Connector */
-export interface IConnectorBuilder {
-    (sonarwhal, options): IConnector;
+export interface IConnectorConstructor {
+    new(server: Sonarwhal, config: object, launcher?: ILauncher): IConnector;
 }
 
 /** A connector to be used by sonarwhal */

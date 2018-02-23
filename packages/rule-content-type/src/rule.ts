@@ -13,7 +13,7 @@ import { MediaType, parse } from 'content-type';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IResponse, IRule, IFetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { getHeaderValueNormalized, isDataURI, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
@@ -27,8 +27,23 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class ContentTypeRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.interoperability,
+            description: 'Require `Content-Type` header with appropriate value'
+        },
+        id: 'content-type',
+        schema: [{
+            items: { type: 'string' },
+            type: ['object', null],
+            uniqueItems: true
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
 
         let userDefinedMediaTypes;
 
@@ -139,20 +154,6 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require `Content-Type` header with appropriate value'
-        },
-        schema: [{
-            items: { type: 'string' },
-            type: ['object', null],
-            uniqueItems: true
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', validate);
     }
-};
-
-export default rule;
+}

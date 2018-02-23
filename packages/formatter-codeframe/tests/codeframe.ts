@@ -7,7 +7,7 @@ const logging = { log() { } };
 
 proxyquire('../src/codeframe', { 'sonarwhal/dist/src/lib/utils/logging': logging });
 
-import codeframe from '../src/codeframe';
+import CodeframeFormatter from '../../../src/lib/formatters/codeframe/codeframe';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
@@ -21,13 +21,17 @@ test.afterEach.always((t) => {
 });
 
 test(`Codeframe formatter doesn't print anything if no values`, (t) => {
-    codeframe.format(problems.noproblems);
+    const formatter = new CodeframeFormatter();
+
+    formatter.format(problems.noproblems);
 
     t.is(t.context.logger.log.callCount, 0);
 });
 
 test(`Codeframe formatter prints a table and a summary for each resource`, (t) => {
-    codeframe.format(problems.codeframeproblems);
+    const formatter = new CodeframeFormatter();
+
+    formatter.format(problems.codeframeproblems);
 
     const log = t.context.logger.log;
     let problem = problems.codeframeproblems[0];

@@ -10,7 +10,7 @@
  */
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, ITraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isLocalFile, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -21,8 +21,23 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class HighestAvailableDocumentModeRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.interoperability,
+            description: 'Require highest available document mode'
+        },
+        id: 'highest-available-document-mode',
+        schema: [{
+            additionalProperties: false,
+            properties: { requireMetaTag: { type: 'boolean' } },
+            type: ['object', null]
+        }],
+        scope: RuleScope.any
+    }
+
+    public constructor(context: RuleContext) {
 
         let requireMetaTag: boolean = false;
         let suggestRemoval: boolean = false;
@@ -203,20 +218,6 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return { 'traverse::end': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require highest available document mode'
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: { requireMetaTag: { type: 'boolean' } },
-            type: ['object', null]
-        }],
-        scope: RuleScope.any
+        context.on('traverse::end', validate);
     }
-};
-
-export default rule;
+}

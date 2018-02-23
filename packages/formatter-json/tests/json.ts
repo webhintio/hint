@@ -6,7 +6,7 @@ const logging = { log() { } };
 
 proxyquire('../src/json', { 'sonarwhal/dist/src/lib/utils/logging': logging });
 
-import json from '../src/json';
+import JsonFormatter from '../../../src/lib/formatters/json/json';
 import * as problems from './fixtures/list-of-problems';
 import { Severity } from 'sonarwhal/dist/src/lib/types';
 
@@ -21,14 +21,17 @@ test.afterEach.always((t) => {
 });
 
 test(`JSON formatter doesn't print anything if no values`, (t) => {
-    json.format(problems.noproblems);
+    const formatter = new JsonFormatter();
+
+    formatter.format(problems.noproblems);
 
     t.is(t.context.logger.log.callCount, 0);
 });
 
 test(`JSON formatter is called twice per resource with problems and with sorted problems`, (t) => {
+    const formatter = new JsonFormatter();
 
-    json.format(problems.multipleproblems);
+    formatter.format(problems.multipleproblems);
 
     const sortedMessages = [
         {

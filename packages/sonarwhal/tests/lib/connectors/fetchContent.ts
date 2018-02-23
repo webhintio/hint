@@ -6,9 +6,9 @@ import * as url from 'url';
 
 import test from 'ava';
 
-import { builders } from '../../helpers/connectors';
+import { connectors } from '../../helpers/connectors';
 import { createServer } from '../../helpers/test-server';
-import { IConnector, IConnectorBuilder, INetworkData } from '../../../src/lib/types';
+import { IConnector, INetworkData, IConnectorConstructor } from '../../../src/lib/types';
 
 test.beforeEach(async (t) => {
     const sonarwhal = {
@@ -32,13 +32,13 @@ test.afterEach.always(async (t) => {
 });
 
 const testConnectorFetchContent = (connectorInfo) => {
-    const connectorBuilder: IConnectorBuilder = connectorInfo.builder;
+    const ConnectorConstructor: IConnectorConstructor = connectorInfo.ctor;
     const name: string = connectorInfo.name;
 
     test(`[${name}] Fetch Content`, async (t) => {
         const file = fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png'));
         const { sonarwhal } = t.context;
-        const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
+        const connector: IConnector = new ConnectorConstructor(sonarwhal, {});
         const server = t.context.server;
 
         t.context.connector = connector;
@@ -56,6 +56,6 @@ const testConnectorFetchContent = (connectorInfo) => {
 
 };
 
-builders.forEach((connector) => {
+connectors.forEach((connector) => {
     testConnectorFetchContent(connector);
 });

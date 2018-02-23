@@ -109,12 +109,12 @@ const codeFrame = (code: string, location: IProblemLocation) => {
  * ------------------------------------------------------------------------------
  */
 
-const formatter: IFormatter = {
+export default class CodeframeFormatter implements IFormatter {
     /**
      * Format the problems grouped by `resource` name and sorted by line and column number,
      *  indicating where in the element there is an error.
      */
-    format(messages: Array<IProblem>) {
+    public format(messages: Array<IProblem>) {
         debug('Formatting results');
 
         if (messages.length === 0) {
@@ -153,6 +153,4 @@ const formatter: IFormatter = {
 
         logger.log(color.bold(`\u2716 Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
     }
-};
-
-export default formatter;
+}

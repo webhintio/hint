@@ -13,7 +13,7 @@ import * as url from 'url';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, INetworkData, IResponse, ITraverseEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IFetchEnd, INetworkData, IResponse, ITraverseEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -26,8 +26,19 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class NoFriendlyErrorPagesRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.interoperability,
+            description: 'Disallow small error pages'
+        },
+        id: 'no-friendly-error-pages',
+        schema: [],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
 
         // This rule mainly applies to Internet Explorer 5-11.
 
@@ -36,7 +47,7 @@ const rule: IRuleBuilder = {
         })) {
             debug(`Rule does not apply for targeted browsers`);
 
-            return {};
+            return;
         }
 
         const foundErrorPages = {};
@@ -143,19 +154,7 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return {
-            'fetch::end::*': checkForErrorPages,
-            'traverse::end': validate
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.interoperability,
-            description: 'Disallow small error pages'
-        },
-        schema: [],
-        scope: RuleScope.site
+        context.on('fetch::end::*', checkForErrorPages);
+        context.on('traverse::end', validate);
     }
-};
-
-module.exports = rule;
+}

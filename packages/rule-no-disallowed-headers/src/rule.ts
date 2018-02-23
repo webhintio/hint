@@ -13,7 +13,7 @@ import * as pluralize from 'pluralize';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IAsyncHTMLElement, IFetchEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IFetchEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { IResponse } from 'sonarwhal/dist/src/lib/types/network';
 import { getHeaderValueNormalized, isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
@@ -27,8 +27,34 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class NoDisallowedHeadersRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: 'Disallow certain HTTP response headers'
+        },
+        id: 'no-disallowed-headers',
+        schema: [{
+            additionalProperties: false,
+            definitions: {
+                'string-array': {
+                    items: { type: 'string' },
+                    minItems: 1,
+                    type: 'array',
+                    uniqueItems: true
+                }
+            },
+            properties: {
+                ignore: { $ref: '#/definitions/string-array' },
+                include: { $ref: '#/definitions/string-array' }
+            },
+            type: ['object', null]
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
 
         let disallowedHeaders: Array<string> = [
             'public-key-pins',
@@ -144,31 +170,6 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: 'Disallow certain HTTP response headers'
-        },
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                'string-array': {
-                    items: { type: 'string' },
-                    minItems: 1,
-                    type: 'array',
-                    uniqueItems: true
-                }
-            },
-            properties: {
-                ignore: { $ref: '#/definitions/string-array' },
-                include: { $ref: '#/definitions/string-array' }
-            },
-            type: ['object', null]
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', validate);
     }
-};
-
-module.exports = rule;
+}

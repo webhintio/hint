@@ -6,7 +6,7 @@ import * as url from 'url';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, IRuleBuilder, IFetchEnd, IScanEnd, IResponse } from 'sonarwhal/dist/src/lib/types';
+import { IRule, IFetchEnd, IScanEnd, IResponse, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isHTTPS } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 
@@ -34,8 +34,32 @@ const defaultConfig: PerfBudgetConfig = {
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class PerformanceBudgetRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.performance,
+            description: `Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed`
+        },
+        id: 'performance-budget',
+        schema: [{
+            additionalProperties: false,
+            properties: {
+                connectionType: {
+                    oneOf: [{ enum: Connections.ids }],
+                    type: 'string'
+                },
+                loadTime: {
+                    minimum: 1,
+                    type: 'number'
+                }
+            },
+            type: 'object'
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
 
         /** An array containing all the responses. */
         const responses: Array<ResourceResponse> = [];
@@ -261,32 +285,7 @@ That's ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s tar
             }
         };
 
-        return {
-            'fetch::end::*': onFetchEnd,
-            'scan::end': onScanEnd
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.performance,
-            description: `Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed`
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                connectionType: {
-                    oneOf: [{ enum: Connections.ids }],
-                    type: 'string'
-                },
-                loadTime: {
-                    minimum: 1,
-                    type: 'number'
-                }
-            },
-            type: 'object'
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', onFetchEnd);
+        context.on('scan::end', onScanEnd);
     }
-};
-
-module.exports = rule;
+}

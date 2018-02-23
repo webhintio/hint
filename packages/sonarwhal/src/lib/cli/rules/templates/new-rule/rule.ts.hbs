@@ -5,7 +5,7 @@
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, IRuleBuilder, {{events}} } from 'sonarwhal/dist/src/lib/types';
+import { IRule, {{events}}, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -17,8 +17,32 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class {{className}} implements IRule {
+    private _id: string;
+
+    public get id() {
+        return this._id;
+    }
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.{{category}},
+            description: `{{description}}`
+        },
+        schema: [
+            /*
+             * If you want to allow the user to configure your rule
+             * you should use a valid JSON schema. More info in:
+             * https://sonarwhal.com/docs/contributor-guide/rules/#themetaproperty
+             */
+        ],
+        scope: RuleScope.{{scope}}
+    }
+
+    public constructor(id: string, context: RuleContext) {
+
+        this._id = id;
+
         // Your code here.
         {{#useCase.dom}}
         const validateElement = async (elementFound: IElementFound) => {
@@ -65,39 +89,21 @@ const rule: IRuleBuilder = {
         };
         {{/useCase.jsInjection}}
 
-        return {
-            {{#useCase.dom}}
-            'element::{{elementType}}': validateElement
-            {{/useCase.dom}}
-            {{#useCase.request}}
-            'fetch::end::*': validateFetchEnd,
-            'fetch::error': validateFetchError,
-            'fetch::start': validateFetchStart
-            {{/useCase.request}}
-            {{#useCase.thirdPartyService}}
-            'fetch::end::*': validateFetchEnd,
-            'fetch::start': validateFetchStart
-            {{/useCase.thirdPartyService}}
-            {{#useCase.jsInjection}}
-            'scan::end': validateScanEnd
-            {{/useCase.jsInjection}}
-            // As many events as you need
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.{{category}},
-            description: `{{description}}`
-        },
-        schema: [
-            /*
-             * If you want to allow the user to configure your rule
-             * you should use a valid JSON schema. More info in:
-             * https://sonarwhal.com/docs/contributor-guide/rules/#themetaproperty
-             */
-        ],
-        scope: RuleScope.{{scope}}
+        {{#useCase.dom}}
+        context.on(this.id, 'element::{{elementType}}', validateElement);
+        {{/useCase.dom}}
+        {{#useCase.request}}
+        context.on(this.id, 'fetch::end::*', validateFetchEnd);
+        context.on(this.id, 'fetch::error', validateFetchError);
+        context.on(this.id, 'fetch::start', validateFetchStart);
+        {{/useCase.request}}
+        {{#useCase.thirdPartyService}}
+        context.on(this.id, 'fetch::end::*', validateFetchEnd);
+        context.on(this.id, 'fetch::start', validateFetchStart);
+        {{/useCase.thirdPartyService}}
+        {{#useCase.jsInjection}}
+        context.on(this.id, 'scan::end', validateScanEnd);
+        {{/useCase.jsInjection}}
+        // As many events as you need
     }
-};
-
-module.exports = rule;
+}

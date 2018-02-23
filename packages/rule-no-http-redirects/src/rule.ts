@@ -7,7 +7,7 @@ import * as pluralize from 'pluralize';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
+import { IRule, IFetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -17,8 +17,33 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class NoHttpRedirectRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.performance,
+            description: `Checks if there are unnecesary redirects when accessign resources`
+        },
+        id: 'no-http-redirects',
+        schema: [{
+            additionalProperties: false,
+            properties: {
+                'max-html-redirects': {
+                    minimum: 0,
+                    type: 'integer'
+                },
+                'max-resource-redirects': {
+                    minimum: 0,
+                    type: 'integer'
+                }
+            },
+            type: 'object'
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
+
         /** The maximum number of hops for a resource. */
         const maxResourceHops: number = context.ruleOptions && context.ruleOptions['max-resource-redirects'] || 0;
         /** The maximum number of hops for the html. */
@@ -39,29 +64,6 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return { 'fetch::end::*': validateRequestEnd };
-    },
-    meta: {
-        docs: {
-            category: Category.performance,
-            description: `Checks if there are unnecesary redirects when accessign resources`
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                'max-html-redirects': {
-                    minimum: 0,
-                    type: 'integer'
-                },
-                'max-resource-redirects': {
-                    minimum: 0,
-                    type: 'integer'
-                }
-            },
-            type: 'object'
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', validateRequestEnd);
     }
-};
-
-module.exports = rule;
+}

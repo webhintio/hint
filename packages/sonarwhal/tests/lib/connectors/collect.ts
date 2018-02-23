@@ -7,9 +7,9 @@ import * as sinon from 'sinon';
 
 import test from 'ava';
 
-import { builders } from '../../helpers/connectors';
+import { connectors } from '../../helpers/connectors';
 import { createServer } from '../../helpers/test-server';
-import { IConnector, IConnectorBuilder } from '../../../src/lib/types';
+import { IConnector, IConnectorConstructor } from '../../../src/lib/types';
 import { generateHTMLPage } from '../../helpers/misc';
 
 test.beforeEach(async (t) => {
@@ -40,9 +40,9 @@ test.afterEach.always((t) => {
 const pathToFaviconInDir = path.join(__dirname, './fixtures/common/favicon.ico');
 const pathToFaviconInLinkElement = path.join(__dirname, './fixtures/common/favicon-32x32.png');
 
-const runTest = async (t, connectorBuilder, serverConfig?) => {
+const runTest = async (t, ConnectorConstructor: IConnectorConstructor, serverConfig?) => {
     const { sonarwhal } = t.context;
-    const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
+    const connector: IConnector = new ConnectorConstructor(sonarwhal, {});
     const server = t.context.server;
 
     if (serverConfig) {
@@ -54,7 +54,7 @@ const runTest = async (t, connectorBuilder, serverConfig?) => {
 };
 
 const testConnectorCollect = (connectorInfo) => {
-    const connectorBuilder: IConnectorBuilder = connectorInfo.builder;
+    const ConnectorConstructor: IConnectorConstructor = connectorInfo.ctor;
     const name: string = connectorInfo.name;
 
     test(`[${name}] Favicon is present in a 'link' element with 'rel' attribute set to 'icon' `, async (t) => {
@@ -64,7 +64,7 @@ const testConnectorCollect = (connectorInfo) => {
             '/images/favicon-favicon-32x32.png': fs.readFileSync(pathToFaviconInLinkElement)
         };
 
-        await runTest(t, connectorBuilder, serverConfig);
+        await runTest(t, ConnectorConstructor, serverConfig);
 
         t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end::image').callCount, 1);
         t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInLinkElementDir);
@@ -75,7 +75,7 @@ const testConnectorCollect = (connectorInfo) => {
         const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
         const serverConfig = { '/favicon.ico': fs.readFileSync(pathToFaviconInDir) };
 
-        await runTest(t, connectorBuilder, serverConfig);
+        await runTest(t, ConnectorConstructor, serverConfig);
 
         t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end::image').callCount, 1);
         t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
@@ -89,7 +89,7 @@ const testConnectorCollect = (connectorInfo) => {
             '/images/favicon-favicon-32x32.png': fs.readFileSync(pathToFaviconInLinkElement)
         };
 
-        await runTest(t, connectorBuilder, serverConfig);
+        await runTest(t, ConnectorConstructor, serverConfig);
 
         t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end::image').callCount, 1);
         // Should load favicon from the link element if it exists
@@ -103,7 +103,7 @@ const testConnectorCollect = (connectorInfo) => {
             '/favicon.ico': fs.readFileSync(pathToFaviconInDir)
         };
 
-        await runTest(t, connectorBuilder, serverConfig);
+        await runTest(t, ConnectorConstructor, serverConfig);
 
         t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end::image').callCount, 1);
         // Should load favicon from the root even though the link element exists because 'href' is empty.
@@ -113,7 +113,7 @@ const testConnectorCollect = (connectorInfo) => {
     test(`[${name}] Favicon is not present in either the root directory or the 'link' element`, async (t) => {
         const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
 
-        await runTest(t, connectorBuilder);
+        await runTest(t, ConnectorConstructor);
 
         // Requests to `/favicon.ico` are always sent when favicon doesn't exist as a `link` tag in the html.
         t.is(t.context.sonarwhal.emitAsync.withArgs('fetch::end::image').callCount, 1);
@@ -121,6 +121,6 @@ const testConnectorCollect = (connectorInfo) => {
     });
 };
 
-builders.forEach((connector) => {
+connectors.forEach((connector) => {
     testConnectorCollect(connector);
 });

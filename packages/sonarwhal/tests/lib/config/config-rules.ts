@@ -1,21 +1,23 @@
 import test from 'ava';
 
 import * as configRules from '../../../src/lib/config/config-rules';
-import { IRuleBuilder, RuleConfig } from '../../../src/lib/types';
+import { RuleConfig, IRule } from '../../../src/lib/types';
 import { RuleScope } from '../../../src/lib/enums/rulescope';
+import { RuleContext } from '../../../src/lib/rule-context';
 
-const ruleEmptySchema: IRuleBuilder = {
-    create() {
-        return null;
-    },
-    meta: { schema: [], scope: RuleScope.site }
-};
+class RuleEmptySchema implements IRule {
 
-const ruleWithSchema: IRuleBuilder = {
-    create() {
-        return null;
-    },
-    meta: {
+    public static readonly meta = { id: '', schema: [], scope: RuleScope.site }
+
+    public constructor(context: RuleContext) {
+        context.on('event', () => { });
+    }
+}
+
+class RuleWithSchema implements IRule {
+
+    public static readonly meta = {
+        id: 'rule',
         schema: [{
             additionalProperties: false,
             definitions: {
@@ -34,7 +36,11 @@ const ruleWithSchema: IRuleBuilder = {
         }],
         scope: RuleScope.site
     }
-};
+
+    public constructor(context: RuleContext) {
+        context.on('event', () => { });
+    }
+}
 
 test('getSeverity with an string should return the right value', (t) => {
     const data = new Map([
@@ -89,7 +95,7 @@ test('getSeverity with an array should return the right value', (t) => {
 });
 
 test('validate should return false if config is an object', (t) => {
-    const valid = configRules.validate(ruleEmptySchema, { warning: true }, '1');
+    const valid = configRules.validate(RuleEmptySchema.meta, { warning: true }, '1');
 
     t.false(valid);
 });
@@ -99,25 +105,25 @@ test('validate should throw an exception if the severity is not valid', (t) => {
 
     for (const value of data) {
         t.throws(() => {
-            configRules.validate(ruleEmptySchema, value, '1');
+            configRules.validate(RuleEmptySchema.meta, value, '1');
         }, Error);
     }
 });
 
 test('validate should return true if config is not an array', (t) => {
-    const valid = configRules.validate(ruleEmptySchema, 'off', '1');
+    const valid = configRules.validate(RuleEmptySchema.meta, 'off', '1');
 
     t.true(valid);
 });
 
 test('validate should return true if the schema is an empty array', (t) => {
-    const valid = configRules.validate(ruleEmptySchema, ['off', {}], '1');
+    const valid = configRules.validate(RuleEmptySchema.meta, ['off', {}], '1');
 
     t.true(valid);
 });
 
 test('validate should return true if config is an array with just an element', (t) => {
-    const valid = configRules.validate(ruleWithSchema, ['warning'], '1');
+    const valid = configRules.validate(RuleWithSchema.meta, ['warning'], '1');
 
     t.true(valid);
 });
@@ -128,7 +134,7 @@ test(`validate should return true if the configuration of a rule is valid`, (t) 
         include: ['Custom-Header']
     }];
 
-    const valid = configRules.validate(ruleWithSchema, validConfiguration, '1');
+    const valid = configRules.validate(RuleWithSchema.meta, validConfiguration, '1');
 
     t.true(valid);
 });
@@ -136,7 +142,7 @@ test(`validate should return true if the configuration of a rule is valid`, (t) 
 test(`validate should return false if the configuration of a rule is invalid`, (t) => {
     const invvalidConfiguration = ['warning', { ignore: 'Server' }];
 
-    const valid = configRules.validate(ruleWithSchema, invvalidConfiguration, '1');
+    const valid = configRules.validate(RuleWithSchema.meta, invvalidConfiguration, '1');
 
     t.false(valid);
 });
