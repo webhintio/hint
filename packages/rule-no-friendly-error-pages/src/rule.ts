@@ -27,24 +27,18 @@ const debug = d(__filename);
  */
 
 export default class NoFriendlyErrorPagesRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.interoperability,
             description: 'Disallow small error pages'
         },
+        id: 'no-friendly-error-pages',
         schema: [],
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         // This rule mainly applies to Internet Explorer 5-11.
 
@@ -160,7 +154,7 @@ export default class NoFriendlyErrorPagesRule implements IRule {
             }
         };
 
-        context.on(this.id, 'fetch::end::*', checkForErrorPages);
-        context.on(this.id, 'traverse::end', validate);
+        context.on('fetch::end::*', checkForErrorPages);
+        context.on('traverse::end', validate);
     }
 }

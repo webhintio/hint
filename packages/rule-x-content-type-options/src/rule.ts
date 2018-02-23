@@ -25,24 +25,18 @@ const debug = d(__filename);
  */
 
 export default class XContentTypeOptionsRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.security,
             description: `Require 'X-Content-Type-Options' header`
         },
+        id: 'x-content-type-options',
         schema: [],
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         const validate = async (fetchEnd: IFetchEnd) => {
             const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
@@ -93,6 +87,6 @@ export default class XContentTypeOptionsRule implements IRule {
             }
         };
 
-        context.on(this.id, 'fetch::end::*', validate);
+        context.on('fetch::end::*', validate);
     }
 }

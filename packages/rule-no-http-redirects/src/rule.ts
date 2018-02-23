@@ -18,17 +18,13 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  */
 
 export default class NoHttpRedirectRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.performance,
             description: `Checks if there are unnecesary redirects when accessign resources`
         },
+        id: 'no-http-redirects',
         schema: [{
             additionalProperties: false,
             properties: {
@@ -46,9 +42,7 @@ export default class NoHttpRedirectRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         /** The maximum number of hops for a resource. */
         const maxResourceHops: number = context.ruleOptions && context.ruleOptions['max-resource-redirects'] || 0;
@@ -70,6 +64,6 @@ export default class NoHttpRedirectRule implements IRule {
             }
         };
 
-        context.on(this.id, 'fetch::end::*', validateRequestEnd);
+        context.on('fetch::end::*', validateRequestEnd);
     }
 }

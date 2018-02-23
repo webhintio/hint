@@ -22,17 +22,13 @@ type ParsedDirectives = {
 };
 
 export default class HttpCacheRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.performance,
             description: `Checks if your cache-control header and asset strategy follows best practices`
         },
+        id: 'http-cache',
         schema: [{
             additionalProperties: false,
             definitions: {
@@ -52,9 +48,7 @@ export default class HttpCacheRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         /**
          * Max time the HTML of a page can be cached.
@@ -448,6 +442,6 @@ export default class HttpCacheRule implements IRule {
             return;
         };
 
-        context.on(this.id, 'fetch::end::*', validate);
+        context.on('fetch::end::*', validate);
     }
 }

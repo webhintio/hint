@@ -19,24 +19,18 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  */
 
 export default class MetaViewportRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.interoperability,
             description: 'Require viewport meta tag'
         },
+        id: 'meta-viewport',
         schema: [],
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         /*
          * This function exists because not all connector (e.g.: jsdom)
@@ -218,6 +212,6 @@ export default class MetaViewportRule implements IRule {
 
         };
 
-        context.on(this.id, 'traverse::end', validate);
+        context.on('traverse::end', validate);
     }
 }

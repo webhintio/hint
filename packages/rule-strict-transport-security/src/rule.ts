@@ -18,17 +18,13 @@ const debug = d(__filename);
  */
 
 export default class StrictTransportSecurityRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.security,
             description: `Require 'Strict-Transport-Security' header`
         },
+        id: 'strict-transport-security',
         schema: [{
             properties: {
                 checkPreload: { type: 'boolean' },
@@ -38,9 +34,7 @@ export default class StrictTransportSecurityRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         /** The minimum period (in seconds) allowed for `max-age`. */
         let minMaxAgeValue: number;
@@ -246,6 +240,6 @@ export default class StrictTransportSecurityRule implements IRule {
 
         loadRuleConfigs();
 
-        context.on(this.id, 'fetch::end::*', validate);
+        context.on('fetch::end::*', validate);
     }
 }

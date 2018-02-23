@@ -28,17 +28,13 @@ const debug = d(__filename);
  */
 
 export default class NoHtmlOnlyHeadersRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.performance,
             description: 'Disallow unneeded HTTP headers for non-HTML resources'
         },
+        id: 'no-html-only-headers',
         schema: [{
             additionalProperties: false,
             definitions: {
@@ -58,9 +54,7 @@ export default class NoHtmlOnlyHeadersRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         let unneededHeaders: Array<string> = [
             'content-security-policy',
@@ -139,6 +133,6 @@ export default class NoHtmlOnlyHeadersRule implements IRule {
 
         loadRuleConfigs();
 
-        context.on(this.id, 'fetch::end::*', validate);
+        context.on('fetch::end::*', validate);
     }
 }

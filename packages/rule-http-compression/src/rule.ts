@@ -29,17 +29,13 @@ const uaString = 'Mozilla/5.0 Gecko';
  */
 
 export default class HttpCompressionRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.performance,
             description: 'Require resources to be served compressed'
         },
+        id: 'http-compression',
         schema: [{
             additionalProperties: false,
             definitions: {
@@ -62,9 +58,7 @@ export default class HttpCompressionRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         const getRuleOptions = (property: string): CompressionCheckOptions => {
             return Object.assign(
@@ -686,6 +680,6 @@ export default class HttpCompressionRule implements IRule {
             }
         };
 
-        context.on(this.id, 'fetch::end::*', validate);
+        context.on('fetch::end::*', validate);
     }
 }

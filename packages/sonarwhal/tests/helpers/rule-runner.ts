@@ -13,6 +13,7 @@ import { UserConfig, IRuleConstructor } from '../../src/lib/types';
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
 import { IRuleTest } from './rule-test-type';
 import { Sonarwhal } from '../../src/lib/sonarwhal';
+import { SonarwhalConfig } from '../../src/lib/config';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
 export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: { [key: string]: any } = {}) => {
@@ -21,7 +22,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
      * Creates a valid sonarwhal configuration. Eventually we should
      * test all available connectors and not only JSDOM
      */
-    const createConfig = (id: string, connector: string, opts?): UserConfig => {
+    const createConfig = (id: string, connector: string, opts?): SonarwhalConfig => {
         const rules = {};
 
         if (opts && opts.ruleOptions) {
@@ -56,7 +57,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
             config.connector.options = { overrideInvalidCert: true };
         }
 
-        return config;
+        return SonarwhalConfig.fromConfig(config);
     };
 
     /**
@@ -117,7 +118,9 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
             await ruleTest.before();
         }
 
-        const sonarwhal: Sonarwhal = await Sonarwhal.create(createConfig(ruleId, connector, configs));
+        const config = createConfig(ruleId, connector, configs);
+        const resources = resourceLoader.loadResources(config);
+        const sonarwhal: Sonarwhal = new Sonarwhal(config, resources);
 
         // We only configure the server the first time
         if (attemp === 1 && serverConfig) {

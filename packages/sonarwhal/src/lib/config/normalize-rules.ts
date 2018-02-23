@@ -1,3 +1,5 @@
+import { RuleConfig, RulesConfigObject } from '../types';
+
 /**
  * @fileoverview Used for normalizing rules that are passed as configuration.
  * Rules are stored as objects internally, so this module converts rule arrays
@@ -48,7 +50,7 @@ const normalizeRule = (rule: string): INormalizedRule => {
  * * { "rule1": "warning" } => { "rule1": "warning" }
  * * ["rule1:warning"] => { "rule1": "warning" }
  */
-export default function normalizeRules (rules) {
+export default function normalizeRules (rules: RulesConfigObject | Array<[string, RuleConfig]>): RulesConfigObject {
     if (!Array.isArray(rules)) {
         return rules;
     }

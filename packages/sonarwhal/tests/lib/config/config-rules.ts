@@ -6,25 +6,18 @@ import { RuleScope } from '../../../src/lib/enums/rulescope';
 import { RuleContext } from '../../../src/lib/rule-context';
 
 class RuleEmptySchema implements IRule {
-    private _id: string;
-    public get id() {
-        return this._id;
-    }
 
-    public static readonly meta = { schema: [], scope: RuleScope.site }
+    public static readonly meta = { id: '', schema: [], scope: RuleScope.site }
 
-    public constructor(id: string, context: RuleContext) {
-        context.on(id, 'event', () => { });
+    public constructor(context: RuleContext) {
+        context.on('event', () => { });
     }
 }
 
 class RuleWithSchema implements IRule {
-    private _id: string;
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta = {
+        id: 'rule',
         schema: [{
             additionalProperties: false,
             definitions: {
@@ -44,8 +37,8 @@ class RuleWithSchema implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-        context.on(id, 'event', () => { });
+    public constructor(context: RuleContext) {
+        context.on('event', () => { });
     }
 }
 

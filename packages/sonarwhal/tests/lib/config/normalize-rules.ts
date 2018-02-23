@@ -1,5 +1,5 @@
 import test from 'ava';
-import normalizeRules from '../../../src/lib/utils/normalize-rules';
+import normalizeRules from '../../../src/lib/config/normalize-rules';
 
 test(`should normalize basic rules`, (t) => {
     const rules = [

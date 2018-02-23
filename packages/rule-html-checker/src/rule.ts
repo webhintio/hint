@@ -32,17 +32,13 @@ type CheckerData = {
  */
 
 export default class HtmlCheckerRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.interoperability,
             description: `Validate HTML using 'the Nu HTML checker'`
         },
+        id: 'html-checker',
         schema: [{
             properties: {
                 details: { type: 'boolean' },
@@ -63,9 +59,8 @@ export default class HtmlCheckerRule implements IRule {
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
+    public constructor(context: RuleContext) {
 
-        this._id = id;
         /** The promise that represents the scan by HTML checker. */
         let htmlCheckerPromises: Array<CheckerData> = [];
         /** Array of strings that needes to be ignored from the checker result. */
@@ -206,7 +201,7 @@ export default class HtmlCheckerRule implements IRule {
 
         loadRuleConfig();
 
-        context.on(this.id, 'fetch::end::html', start);
-        context.on(this.id, 'scan::end', end);
+        context.on('fetch::end::html', start);
+        context.on('scan::end', end);
     }
 }

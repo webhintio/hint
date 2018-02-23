@@ -29,17 +29,13 @@ const debug = d(__filename);
  */
 
 export default class SSLLabsRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.security,
             description: 'Strength of your SSL configuration'
         },
+        id: 'ssllabs',
         schema: [{
             additionalProperties: false,
             properties: {
@@ -70,9 +66,7 @@ export default class SSLLabsRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         /** The promise that represents the scan by SSL Labs. */
         let promise: Promise<SSLLabsResult>;
@@ -217,7 +211,7 @@ There might be something wrong with SSL Labs servers.`;
          * (e.g.: https://developer.microsoft.com/en-us/microsoft-edge/
          * instead of http://edge.ms).
          */
-        context.on(this.id, 'fetch::end::html', start);
-        context.on(this.id, 'scan::end', end);
+        context.on('fetch::end::html', start);
+        context.on('scan::end', end);
     }
 }

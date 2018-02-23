@@ -22,25 +22,19 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-export default class ManifestIsValid implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
+export default class ManifestIsValidRule implements IRule {
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.pwa,
             description: 'Require valid web app manifest'
         },
+        id: 'manifest-is-valid',
         schema: [],
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         const manifestIsValid = async (data: IFetchEnd) => {
             const { resource, response: { body: { content }, statusCode } }: { resource: string, response: IResponse } = data;
@@ -66,6 +60,6 @@ export default class ManifestIsValid implements IRule {
             }
         };
 
-        context.on(this.id, 'fetch::end::manifest', manifestIsValid);
+        context.on('fetch::end::manifest', manifestIsValid);
     }
 }

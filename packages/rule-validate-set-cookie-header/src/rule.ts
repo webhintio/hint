@@ -19,25 +19,19 @@ const debug = d(__filename);
  */
 
 export default class ValidateSetCookieHeaderRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.security,
             description: 'This rule validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.'
         },
+        id: 'validate-set-cookie-header',
         ignoredConnectors: [],
         schema: [],
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         /** If targetBrowsers contain ie 6, ie 7 or ie 8 */
         let supportOlderBrowsers: boolean;
@@ -329,6 +323,6 @@ export default class ValidateSetCookieHeaderRule implements IRule {
 
         loadRuleConfigs();
 
-        context.on(this.id, 'fetch::end::*', validate);
+        context.on('fetch::end::*', validate);
     }
 }

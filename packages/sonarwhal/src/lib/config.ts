@@ -20,9 +20,10 @@ import * as shell from 'shelljs';
 import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
-import { UserConfig, IgnoredUrl } from './types';
+import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, RulesConfigObject } from './types';
 import { loadJSFile, loadJSONFile } from './utils/misc';
 import { validateConfig } from './config/config-validator';
+import normalizeRules from './config/normalize-rules';
 import * as resourceLoader from './utils/resource-loader';
 
 const debug: debug.IDebugger = d(__filename);
@@ -210,29 +211,75 @@ const loadIgnoredUrls = (userConfig: UserConfig): Map<string, RegExp[]> => {
 };
 
 export class SonarwhalConfig {
-    public readonly browserslist;
-    public readonly connector;
+    public readonly browserslist: Array<string>;
+    public readonly connector: ConnectorConfig;
     public readonly formatters: Array<string>;
     public readonly ignoredUrls;
     public readonly parsers: Array<string>;
-    public readonly rules;
+    public readonly rules: RulesConfigObject;
     public readonly rulesTimeout: number;
 
-    private constructor(userConfig: UserConfig, browsers, ignoredUrls) {
+    private constructor(userConfig: UserConfig, browsers: Array<string>, ignoredUrls, rules: RulesConfigObject) {
         this.browserslist = browsers;
-        this.connector = userConfig.connector;
         this.formatters = userConfig.formatters;
         this.ignoredUrls = ignoredUrls;
         this.parsers = userConfig.parsers;
-        this.rules = userConfig.rules;
+        this.rules = rules;
+
         this.rulesTimeout = userConfig.rulesTimeout || 60000;
+
+        if (typeof userConfig.connector === 'string') {
+            this.connector = {
+                name: userConfig.connector,
+                options: {}
+            };
+        } else {
+            this.connector = userConfig.connector;
+        }
+
+
+    }
+
+    public static fromConfig(config: UserConfig, actions?: CLIOptions): SonarwhalConfig {
+
+        if (!config) {
+            throw new Error(`Couldn't find a configuration file`);
+        }
+
+        if (!validateConfig(config)) {
+            throw new Error(`Couldn't find any valid configuration`);
+        }
+
+        // 3, 4
+        const userConfig = composeConfig(config);
+
+        // In case the user uses the --watch flag when running sonarwhal
+        if (actions.watch) {
+            if (typeof userConfig.connector === 'string') {
+                userConfig.connector = {
+                    name: userConfig.connector,
+                    options: {}
+                };
+            }
+            userConfig.connector.options.watch = actions.watch;
+        }
+
+        if (!Array.isArray(userConfig.formatters)) {
+            userConfig.formatters = [userConfig.formatters];
+        }
+
+        const browsers = loadBrowsersList(userConfig);
+        const ignoredUrls = loadIgnoredUrls(userConfig);
+        const rules = normalizeRules(userConfig.rules);
+
+        return new SonarwhalConfig(userConfig, browsers, ignoredUrls, normalizeRules(rules));
     }
 
     /**
      * Loads a configuration file regardless of the source. Inspects the file path
      * to determine the correctly way to load the config file.
      */
-    public static create(filePath: string) {
+    public static fromFilePath(filePath: string, actions: CLIOptions): SonarwhalConfig {
         /**
          * 1. Load the file from the HD
          * 2. Validate it's OK
@@ -243,29 +290,8 @@ export class SonarwhalConfig {
 
         // 1
         const resolvedPath: string = path.resolve(process.cwd(), filePath);
-        let userConfig = loadConfigFile(resolvedPath);
+        const userConfig = loadConfigFile(resolvedPath);
 
-        // 2
-        if (!userConfig) {
-            throw new Error(`Couldn't find a configuration file`);
-        }
-
-        if (!validateConfig(userConfig)) {
-            throw new Error(`Couldn't find any valid configuration`);
-        }
-
-        // 3, 4
-        userConfig = composeConfig(userConfig);
-
-        debug('Setting the selected formatters');
-
-        if (!Array.isArray(userConfig.formatters)) {
-            userConfig.formatters = [userConfig.formatters];
-        }
-
-        const browsers = loadBrowsersList(userConfig);
-        const ignoredUrls = loadIgnoredUrls(userConfig);
-
-        return new SonarwhalConfig(userConfig, browsers, ignoredUrls);
+        return this.fromConfig(userConfig, actions);
     }
 }

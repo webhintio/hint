@@ -23,17 +23,13 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  */
 
 export default class ImageOptimizationCloudinaryRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.performance,
             description: `Image optimization with cloudinary`
         },
+        id: 'image-optimization-cloudinary',
         schema: [{
             additionalProperties: false,
             properties: {
@@ -46,9 +42,7 @@ export default class ImageOptimizationCloudinaryRule implements IRule {
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         /*
          * HACK: Need to do a require here in order to be capable of mocking
@@ -191,7 +185,7 @@ export default class ImageOptimizationCloudinaryRule implements IRule {
         // `context.ruleOptions` will be `null` if not specied
         configured = isConfigured(context.ruleOptions || { apiKey: '', apiSecret: '', cloudName: '', threshold: 0 });
 
-        context.on(this.id, 'fetch::end::*', analyzeImage);
-        context.on(this.id, 'scan::end', end);
+        context.on('fetch::end::*', analyzeImage);
+        context.on('scan::end', end);
     }
 }

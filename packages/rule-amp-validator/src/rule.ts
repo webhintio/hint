@@ -19,17 +19,12 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class AmpValidatorRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
-
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.performance,
             description: `Require HTML page to be AMP valid.`
         },
+        id: 'amp-validator',
         schema: [{
             additionalProperties: false,
             properties: { 'errors-only': { type: 'boolean' } },
@@ -38,10 +33,7 @@ export default class AmpValidatorRule implements IRule {
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
-
+    public constructor(context: RuleContext) {
         let validPromise;
         const errorsOnly = context.ruleOptions && context.ruleOptions['errors-only'] || false;
         let events: Array<IFetchEnd> = [];
@@ -91,7 +83,7 @@ export default class AmpValidatorRule implements IRule {
             events = [];
         };
 
-        context.on(this.id, 'fetch::end::html', onFetchEndHTML);
-        context.on(this.id, 'scan::end', onScanEnd);
+        context.on('fetch::end::html', onFetchEndHTML);
+        context.on('scan::end', onScanEnd);
     }
 }

@@ -22,17 +22,13 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  */
 
 export default class HighestAvailableDocumentModeRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.interoperability,
             description: 'Require highest available document mode'
         },
+        id: 'highest-available-document-mode',
         schema: [{
             additionalProperties: false,
             properties: { requireMetaTag: { type: 'boolean' } },
@@ -41,9 +37,7 @@ export default class HighestAvailableDocumentModeRule implements IRule {
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         let requireMetaTag: boolean = false;
         let suggestRemoval: boolean = false;
@@ -224,6 +218,6 @@ export default class HighestAvailableDocumentModeRule implements IRule {
 
         loadRuleConfigs();
 
-        context.on(this.id, 'traverse::end', validate);
+        context.on('traverse::end', validate);
     }
 }

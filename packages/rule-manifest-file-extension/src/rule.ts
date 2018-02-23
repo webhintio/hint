@@ -11,7 +11,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IElementFound, IRule } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { getFileExtension, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -25,24 +25,18 @@ const debug = d(__filename);
  */
 
 export default class ManifestFileExtensionRule implements IRule {
-    private _id: string;
 
-    public get id() {
-        return this._id;
-    }
-
-    public static readonly meta = {
+    public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.pwa,
             description: 'Require `.webmanifest` as the file extension for the web app manifest file'
         },
+        id: 'manifest-file-extension',
         schema: [],
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         const standardManifestFileExtension: string = 'webmanifest';
 
@@ -61,6 +55,6 @@ export default class ManifestFileExtensionRule implements IRule {
             }
         };
 
-        context.on(this.id, 'element::link', validate);
+        context.on('element::link', validate);
     }
 }

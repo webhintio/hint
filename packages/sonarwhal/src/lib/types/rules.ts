@@ -10,6 +10,8 @@ export type MetadataDocs = {
 export type RuleMetadata = {
     /** Documentation related to the rule */
     docs?: MetadataDocs;
+    /** The id of the rule */
+    id: string;
     /** List of connectors that should not run the rule */
     ignoredConnectors?: Array<string>;
     /** The schema the rule configuration must follow in order to be valid */
@@ -19,11 +21,9 @@ export type RuleMetadata = {
 };
 
 export interface IRuleConstructor {
-    new(id: string, context: RuleContext): IRule;
+    new(context: RuleContext): IRule;
     meta: RuleMetadata;
 }
 
 /** A rule to be executed */
-export interface IRule {
-    id: string;
-}
+export interface IRule { }

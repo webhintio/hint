@@ -27,17 +27,13 @@ const debug = d(__filename);
  */
 
 export default class NoVulnerableJavascriptLibrariesRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.security,
             description: `This rule checks if the site is running any vulnerable library using https://snyk.io database`
         },
+        id: 'no-vulnerable-javascript-libraries',
         schema: [{
             additionalProperties: false,
             properties: {
@@ -55,9 +51,7 @@ export default class NoVulnerableJavascriptLibrariesRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         let minimumSeverity = 'low';
 
@@ -230,6 +224,6 @@ export default class NoVulnerableJavascriptLibrariesRule implements IRule {
 
         minimumSeverity = (context.ruleOptions && context.ruleOptions.severity) || 'low';
 
-        context.on(this.id, 'scan::end', validateLibraries);
+        context.on('scan::end', validateLibraries);
     }
 }

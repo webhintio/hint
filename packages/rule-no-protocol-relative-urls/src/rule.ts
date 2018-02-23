@@ -24,24 +24,18 @@ const debug = d(__filename);
  */
 
 export default class NoProtocolRelativeUrlsRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.security,
             description: 'Disallow protocol relative URLs'
         },
+        id: 'no-protocol-relative-urls',
         schema: [],
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         const validate = async (data: IElementFound) => {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
@@ -64,8 +58,8 @@ export default class NoProtocolRelativeUrlsRule implements IRule {
             }
         };
 
-        context.on(this.id, 'element::a', validate);
-        context.on(this.id, 'element::link', validate);
-        context.on(this.id, 'element::script', validate);
+        context.on('element::a', validate);
+        context.on('element::link', validate);
+        context.on('element::script', validate);
     }
 }

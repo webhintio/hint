@@ -26,24 +26,18 @@ const debug = d(__filename);
  */
 
 export default class ManifestAppNameRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.pwa,
             description: 'Require web site/app name to be specified'
         },
+        id: 'manifest-app-name',
         schema: [],
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         const checkIfDefined = async (resource: string, content: string, memberName: string) => {
             if (typeof content === 'undefined') {
@@ -149,6 +143,6 @@ export default class ManifestAppNameRule implements IRule {
             await checkIfUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit);
         };
 
-        context.on(this.id, 'fetch::end::manifest', validate);
+        context.on('fetch::end::manifest', validate);
     }
 }

@@ -25,24 +25,18 @@ const debug = d(__filename);
  */
 
 export default class ManifetsExistsRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.pwa,
             description: 'Require a web app manifest'
         },
+        id: 'manifest-exists-rule',
         schema: [],
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         let manifestIsSpecified = false;
 
@@ -99,9 +93,9 @@ export default class ManifetsExistsRule implements IRule {
             return;
         };
 
-        context.on(this.id, 'element::link', manifestExists);
-        context.on(this.id, 'fetch::end::manifest', manifestEnd);
-        context.on(this.id, 'fetch::error::manifest', manifestError);
-        context.on(this.id, 'traverse::end', manifestMissing);
+        context.on('element::link', manifestExists);
+        context.on('fetch::end::manifest', manifestEnd);
+        context.on('fetch::error::manifest', manifestError);
+        context.on('traverse::end', manifestMissing);
     }
 }

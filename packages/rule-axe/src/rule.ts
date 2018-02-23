@@ -27,17 +27,13 @@ const debug = d(__filename);
  */
 
 export default class AxeRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.accessibility,
             description: 'Runs axe-core tests in the target'
         },
+        id: 'axe',
         schema: [{
             additionalProperties: false,
             properties: {
@@ -74,9 +70,7 @@ export default class AxeRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         let axeConfig: object = {};
 
@@ -161,6 +155,6 @@ export default class AxeRule implements IRule {
 
         loadRuleConfig();
 
-        context.on(this.id, 'traverse::end', validate);
+        context.on('traverse::end', validate);
     }
 }

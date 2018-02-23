@@ -33,17 +33,13 @@ const debug = d(__filename);
  */
 
 export default class DisownOpenerRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.security,
             description: 'Require `noopener` (and `noreferrer`) on `a` and `area` element with target="_blank"'
         },
+        id: 'disown-opener',
         schema: [{
             additionalProperties: false,
             properties: { includeSameOriginURLs: { type: 'boolean' } },
@@ -52,9 +48,7 @@ export default class DisownOpenerRule implements IRule {
         scope: RuleScope.any
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         let includeSameOriginURLs: boolean = false;
 
@@ -172,7 +166,7 @@ export default class DisownOpenerRule implements IRule {
          *   * https://github.com/w3c/webappsec/issues/139
          */
 
-        context.on(this.id, 'element::a', validate);
-        context.on(this.id, 'element::area', validate);
+        context.on('element::a', validate);
+        context.on('element::area', validate);
     }
 }

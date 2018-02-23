@@ -35,17 +35,13 @@ const defaultConfig: PerfBudgetConfig = {
  */
 
 export default class PerformanceBudgetRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.performance,
             description: `Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed`
         },
+        id: 'performance-budget',
         schema: [{
             additionalProperties: false,
             properties: {
@@ -63,9 +59,7 @@ export default class PerformanceBudgetRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         /** An array containing all the responses. */
         const responses: Array<ResourceResponse> = [];
@@ -291,7 +285,7 @@ That's ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s tar
             }
         };
 
-        context.on(this.id, 'fetch::end::*', onFetchEnd);
-        context.on(this.id, 'scan::end', onScanEnd);
+        context.on('fetch::end::*', onFetchEnd);
+        context.on('scan::end', onScanEnd);
     }
 }

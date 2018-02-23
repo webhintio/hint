@@ -27,7 +27,6 @@ export class RuleContext {
         this.severity = severity;
 
         Object.freeze(this);
-
     }
 
     /** The DOM of the page. */
@@ -115,7 +114,7 @@ export class RuleContext {
     }
 
     /** Subscribe an event in sonarwhal. */
-    public on(id, event, listener) {
-        this.sonarwhal.onRuleEvent(id, event, listener);
+    public on(event, listener) {
+        this.sonarwhal.onRuleEvent(this.id, event, listener);
     }
 }

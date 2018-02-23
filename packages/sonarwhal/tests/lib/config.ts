@@ -3,7 +3,7 @@ import * as path from 'path';
 import test from 'ava';
 
 import * as config from '../../src/lib/config';
-import {IConnectorConfig} from '../../src/lib/types';
+import { ConnectorConfig } from '../../src/lib/types';
 
 test('if there is no configuration file, it should return null', (t) => {
     const result = config.getFilenameForDirectory('./fixtures/getFileNameForDirectoryEmpty');

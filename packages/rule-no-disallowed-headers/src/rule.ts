@@ -28,17 +28,13 @@ const debug = d(__filename);
  */
 
 export default class NoDisallowedHeadersRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.security,
             description: 'Disallow certain HTTP response headers'
         },
+        id: 'no-disallowed-headers',
         schema: [{
             additionalProperties: false,
             definitions: {
@@ -58,9 +54,7 @@ export default class NoDisallowedHeadersRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         let disallowedHeaders: Array<string> = [
             'public-key-pins',
@@ -176,6 +170,6 @@ export default class NoDisallowedHeadersRule implements IRule {
 
         loadRuleConfigs();
 
-        context.on(this.id, 'fetch::end::*', validate);
+        context.on('fetch::end::*', validate);
     }
 }

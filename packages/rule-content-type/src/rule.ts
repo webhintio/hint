@@ -28,17 +28,13 @@ const debug = d(__filename);
  */
 
 export default class ContentTypeRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.interoperability,
             description: 'Require `Content-Type` header with appropriate value'
         },
+        id: 'content-type',
         schema: [{
             items: { type: 'string' },
             type: ['object', null],
@@ -47,9 +43,7 @@ export default class ContentTypeRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         let userDefinedMediaTypes;
 
@@ -160,6 +154,6 @@ export default class ContentTypeRule implements IRule {
 
         loadRuleConfigs();
 
-        context.on(this.id, 'fetch::end::*', validate);
+        context.on('fetch::end::*', validate);
     }
 }
