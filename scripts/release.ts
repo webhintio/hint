@@ -45,7 +45,7 @@ type GitHub = {
 
 const GITHUB: GitHub = {};
 
-const REPOSITORY_SLUG = 'sonarwhal/sonar';
+const REPOSITORY_SLUG = 'sonarwhal/sonarwhal';
 const REPOSITORY_URL = `https://github.com/${REPOSITORY_SLUG}`;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
