@@ -14,7 +14,6 @@ const resourceLoader = {
     getCoreRulesFromNpm() { },
     getInstalledConnectors() { }
 };
-const child = { spawnSync() { } };
 const fs = {
     existsSync() { },
     writeFile() { }
@@ -32,11 +31,13 @@ const stubUtilObject = {
     }
 };
 
+const npm = { installCoreRules() { } };
+
 proxyquire('../../../src/lib/cli/init', {
     '../utils/logging': logger,
+    '../utils/npm': npm,
     '../utils/resource-loader': resourceLoader,
     './browserslist': stubBrowserslistObject,
-    child_process: child, // eslint-disable-line camelcase
     fs,
     inquirer,
     util: stubUtilObject
@@ -48,16 +49,19 @@ test.beforeEach((t) => {
     sinon.stub(promisifyObject, 'promisify').resolves();
     sinon.stub(stubBrowserslistObject, 'generateBrowserslistConfig').resolves([]);
     sinon.spy(stubUtilObject, 'promisify');
+    sinon.stub(npm, 'installCoreRules').resolves();
 
     t.context.util = stubUtilObject.promisify;
     t.context.promisify = promisifyObject.promisify;
     t.context.browserslistGenerator = stubBrowserslistObject.generateBrowserslistConfig;
+    t.context.npm = npm;
 });
 
 test.afterEach.always((t) => {
     t.context.util.restore();
     t.context.promisify.restore();
     t.context.browserslistGenerator.restore();
+    t.context.npm.installCoreRules.restore();
 });
 
 const connectors = [
@@ -94,7 +98,6 @@ test.serial(`Generate should call to "inquirer.prompt" with the right data`, asy
     sandbox.stub(resourceLoader, 'getInstalledConnectors').returns(installedConnectors);
     sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
     sandbox.stub(fs, 'existsSync').returns(true);
-    sandbox.stub(child, 'spawnSync').returns({ status: 0 });
     sandbox.stub(inquirer, 'prompt').resolves({
         connector: '',
         default: '',
@@ -133,7 +136,6 @@ test.serial(`Generate should call to "fs.writeFile" with the right data`, async 
     sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
     sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
     sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(child, 'spawnSync').returns({ status: 0 });
     sandbox.stub(fs, 'existsSync').returns(true);
 
     await initSonarwhalrc(actions);
@@ -161,7 +163,6 @@ test.serial(`If the user choose to use the default rules configuration, all reco
     sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
     sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
     sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(child, 'spawnSync').returns({ status: 0 });
     sandbox.stub(fs, 'existsSync').returns(true);
 
     await initSonarwhalrc(actions);
@@ -189,14 +190,12 @@ test.serial('initSonarwhalrc should install all rules if the user choose to inst
     sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
     sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
     sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(child, 'spawnSync').returns({ status: 0 });
     sandbox.stub(fs, 'existsSync').returns(true);
-    t.context.child = child;
 
     await initSonarwhalrc(actions);
 
-    t.true(t.context.child.spawnSync.args[0][0].includes('@sonarwhal/rule-rule1')); // eslint-disable-line no-sync
-    t.false(t.context.child.spawnSync.args[0][0].includes('@sonarwhal/rule-rule2')); // eslint-disable-line no-sync
+    t.true(t.context.npm.installCoreRules.args[0][0].includes('rule1'));
+    t.false(t.context.npm.installCoreRules.args[0][0].includes('rule2'));
 
     sandbox.restore();
 });
@@ -214,106 +213,11 @@ test.serial('initSonarwhalrc should install the rules choosen', async (t) => {
     sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
     sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
     sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(child, 'spawnSync').returns({ status: 0 });
     sandbox.stub(fs, 'existsSync').returns(true);
-    t.context.child = child;
 
     await initSonarwhalrc(actions);
 
-    t.true(t.context.child.spawnSync.args[0][0].includes('@sonarwhal/rule-rule2')); // eslint-disable-line no-sync
-
-    sandbox.restore();
-});
-
-test.serial(`If 'package.json' doesn't exist, we should install the packages globally`, async (t) => {
-    const sandbox = sinon.sandbox.create();
-    const questionsResults = {
-        connector: 'chrome',
-        default: true,
-        formatter: 'json',
-        rules: []
-    };
-
-    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
-    sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
-    sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
-    sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(child, 'spawnSync').returns({ status: 0 });
-    sandbox.stub(fs, 'existsSync').returns(false);
-    t.context.child = child;
-
-    await initSonarwhalrc(actions);
-
-    t.true(t.context.child.spawnSync.args[0][0].includes('-g')); // eslint-disable-line no-sync
-
-    sandbox.restore();
-});
-
-test.serial(`if instalation fails, the user should show a message about how to install the dependencies manually`, async (t) => {
-    const sandbox = sinon.sandbox.create();
-    const questionsResults = {
-        connector: 'chrome',
-        default: true,
-        formatter: 'json',
-        rules: []
-    };
-
-    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
-    sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
-    sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
-    sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(logger, 'log').resolves();
-    sandbox.stub(logger, 'error').resolves();
-    sandbox.stub(child, 'spawnSync').returns({
-        output: [null, null, Buffer.from('Error installing packages')],
-        status: 1
-    });
-    sandbox.stub(fs, 'existsSync').returns(true);
-    t.context.logger = logger;
-
-    await initSonarwhalrc(actions);
-
-    const errorMessage = t.context.logger.error.args[0][0];
-    const installMessage = t.context.logger.error.args[t.context.logger.log.args.length - 1][0];
-
-    t.true(t.context.logger.error.calledTwice);
-    t.is(errorMessage.message, 'Error installing packages');
-    t.true(installMessage.includes('npm install @sonarwhal/rule-rule1'));
-    t.false(installMessage.includes('@sonarwhal/rule-rule2'));
-
-    sandbox.restore();
-});
-
-test.serial(`if instalation fails and packages.json doesn't exist, the user should show a message about how to install the dependencies manually`, async (t) => {
-    const sandbox = sinon.sandbox.create();
-    const questionsResults = {
-        connector: 'chrome',
-        default: true,
-        formatter: 'json',
-        rules: []
-    };
-
-    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
-    sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
-    sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
-    sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(logger, 'log').resolves();
-    sandbox.stub(logger, 'error').resolves();
-    sandbox.stub(child, 'spawnSync').returns({
-        output: [null, null, Buffer.from('Error installing packages')],
-        status: 1
-    });
-    sandbox.stub(fs, 'existsSync').returns(false);
-    t.context.logger = logger;
-
-    await initSonarwhalrc(actions);
-
-    const errorMessage = t.context.logger.error.args[0][0];
-    const installMessage = t.context.logger.error.args[t.context.logger.log.args.length - 1][0];
-
-    t.true(t.context.logger.error.calledTwice);
-    t.is(errorMessage.message, 'Error installing packages');
-    t.true(installMessage.includes('npm install @sonarwhal/rule-rule1 -g'));
+    t.true(t.context.npm.installCoreRules.args[0][0].includes('rule2'));
 
     sandbox.restore();
 });

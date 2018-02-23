@@ -11,6 +11,9 @@ class Sonarwhal extends EventEmitter {
     public formatters = ['json'];
     public close() { }
     public executeOn() { }
+    public static create() {
+        return new Sonarwhal();
+    }
 }
 
 const formatter = { format: () => { } };
@@ -65,6 +68,7 @@ test.beforeEach((t) => {
     t.context.logger = logger;
     t.context.spinner = spinner;
     t.context.inquirer = inquirer;
+    t.context.Sonarwhal = Sonarwhal;
 });
 
 test.afterEach.always((t) => {
@@ -86,6 +90,7 @@ test.serial('If config is not defined, it should get the config file from the di
     await analyzer.analyze(actions);
 
     t.true(t.context.config.getFilenameForDirectory.called);
+
 
     sandbox.restore();
 });

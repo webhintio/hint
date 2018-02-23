@@ -117,7 +117,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
             await ruleTest.before();
         }
 
-        const sonarwhal: Sonarwhal = new Sonarwhal(createConfig(ruleId, connector, configs));
+        const sonarwhal: Sonarwhal = await Sonarwhal.create(createConfig(ruleId, connector, configs));
 
         // We only configure the server the first time
         if (attemp === 1 && serverConfig) {
