@@ -9,7 +9,7 @@
   "dependencies": {
     "punycode": "^2.1.0"
   },
-  "description": "",
+  "description": "sonarwhal rule that checks for best practices related to the web app manifest's name and short_name members",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",

@@ -12,7 +12,7 @@
     "pluralize": "^7.0.0",
     "semver": "^5.5.0"
   },
-  "description": "",
+  "description": "sonarwhal rule that checks using Snyk for vulnerable JavaScript libraries",
   "devDependencies": {
     "angular": "1.4.9",
     "ava": "^0.25.0",

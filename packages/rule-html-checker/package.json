@@ -10,7 +10,7 @@
     "html-validator": "^2.2.3",
     "lodash.uniqby": "^4.7.0"
   },
-  "description": "",
+  "description": "sonarwhal rule that validates HTML pages using the Nu HTML checker",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
