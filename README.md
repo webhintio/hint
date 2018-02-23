@@ -50,15 +50,16 @@ sonarwhal https://example.com
 
 For more in depth information on how to get started, configurations,
 and more, see the online [user guide](https://sonarwhal.com/docs/user-guide/),
-or the [local version](./docs/user-guide/index.md) for the most recent
-(and unstable) content.
+or the [local version](./packages/sonarwhal/docs/user-guide/index.md)
+for the most recent (and unstable) content.
 
 ## Contributing to sonarwhal
 
 To know more about the internals of `sonarwhal`, the structure of the
 project, how to create new rules, collectors, formatters, etc, take a
-look at the online [contributor guide](https://sonarwhal.com/docs/contributor-guide/)
-(or the [local version](./docs/contributor-guide/index.md)).
+look at the online [contributor
+guide](https://sonarwhal.com/docs/contributor-guide/) (or the [local
+version](./packages/sonarwhal/docs/contributor-guide/index.md)).
 
 ## Code of Conduct
 
