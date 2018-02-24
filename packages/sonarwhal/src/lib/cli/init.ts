@@ -59,9 +59,12 @@ const extendConfig = async (): Promise<UserConfig> => {
 
     const answers: inquirer.Answers = await inquirer.prompt(questions);
     const sonarwhalConfig = { extends: [answers.configuration] };
+    const installed = await installPackages([answers.configuration]);
 
-    // TODO: the name might be different
-    await installPackages([answers.configuration]);
+    // Maybe there was an error during the installation
+    if (!installed) {
+        return null;
+    }
 
     return sonarwhalConfig;
 };
