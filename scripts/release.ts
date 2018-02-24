@@ -352,7 +352,7 @@ const gitReset = async () => {
 const publishOnNPM = (ctx, message = 'Enter OTP: ') => {
     return listrInput(message, {
         done: async (otp) => {
-            await exec(`npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''} --otp=${otp}`);
+            await exec(`cd ${ctx.packagePath} && npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''} --otp=${otp}`);
         }
     }).catch((err) => {
         if (err.stderr.indexOf('You must provide a one-time pass') !== -1) {
@@ -625,8 +625,9 @@ const getTasks = (packagePath: string) => {
             enabled: (ctx) => {
                 return !ctx.skipRemainingTasks;
             },
+
             task: (ctx) => {
-                publishOnNPM(ctx);
+                return publishOnNPM(ctx);
             },
             title: `Publish on npm.`
         },
