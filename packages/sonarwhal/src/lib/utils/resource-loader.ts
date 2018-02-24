@@ -12,22 +12,18 @@
  */
 
 import * as path from 'path';
-import { promisify } from 'util';
 
 import * as globby from 'globby';
-import * as npm from 'npm';
-import * as esearch from 'npm/lib/search/esearch';
 
 import { findNodeModulesRoot, findPackageRoot, readFile } from '../utils/misc';
 import { debug as d } from '../utils/debug';
-import { NpmPackage, Parser, Resource, IRuleConstructor, IConnectorConstructor, IParserConstructor, IFormatterConstructor, SonarwhalResources } from '../types';
+import { Parser, Resource, IRuleConstructor, IConnectorConstructor, IParserConstructor, IFormatterConstructor, SonarwhalResources } from '../types';
 import { validate as validateRule } from '../config/config-rules';
 import { SonarwhalConfig } from '../config';
 
 const debug: debug.IDebugger = d(__filename);
 const SONARWHAL_ROOT: string = findPackageRoot();
 const NODE_MODULES_ROOT: string = findNodeModulesRoot();
-const npmLoadAsync = promisify(npm.load);
 
 /** Cache of resource builders, indexex by resource Id. */
 const resources: Map<string, Resource> = new Map<string, Resource>();
@@ -67,7 +63,7 @@ const getCoreResources = (type: string): Array<string> => {
     return ids;
 };
 
-const getInstalledResources = (type: string): Array<string> => {
+export const getInstalledResources = (type: string): Array<string> => {
     const installedType = `installed-${type}`;
 
     if (resourceIds.has(installedType)) {
@@ -282,121 +278,6 @@ export const loadParser = (parserId: string): Parser => {
 export const loadConfiguration = (configurationId: string) => {
     return loadResource(configurationId, TYPE.configuration);
 };
-
-/**
- * Searches all the packages on npm given `searchTerm`.
- */
-const searchNpmPackages = (searchTerm: string): Promise<Array<NpmPackage>> => {
-    return new Promise((resolve, reject) => {
-        const results = [];
-
-        const searchOptions = {
-            description: true,
-            excluded: [],
-            include: [searchTerm],
-            limit: 1000,
-            staleness: 900,
-            unicode: false
-        };
-
-        esearch(searchOptions)
-            .on('data', (data) => {
-                results.push(data);
-            })
-            .on('error', (err) => {
-                reject(err);
-            })
-            .on('end', () => {
-                resolve(results);
-            });
-    });
-};
-
-const loadNpm = () => {
-    return npmLoadAsync({ loaded: false });
-};
-
-/** Filters the packages that `startsWith` `initTerm`. */
-const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
-    return packages.filter((pkg) => {
-        return pkg.name.startsWith(initTerm);
-    });
-};
-
-/** Get packages from npm. */
-export const getNpmPackages = async (searchTerm: string = 'sonarwhal'): Promise<Array<NpmPackage>> => {
-    await loadNpm();
-
-    return searchNpmPackages(searchTerm);
-};
-
-/** Get core packages from npm. */
-const getCorePackages = async (type: string): Promise<Array<NpmPackage>> => {
-    const rules = await getNpmPackages(`@sonarwhal/${type}`);
-
-    /*
-     * We need to filter the results because the search can
-     * include other packages that doesn't start with `@sonarwhal/{type}`.
-     */
-    return filterPackages(rules, `@sonarwhal/${type}`);
-};
-
-/** Get external packages from npm. */
-const getExternalPackages = async (type: string): Promise<Array<NpmPackage>> => {
-    const rules = await getNpmPackages(`sonarwhal-${type}`);
-
-    /*
-     * We need to filter the results because the search can
-     * include other packages that doesn't start with `sonarwhal-{type}`.
-     */
-    return filterPackages(rules, `sonarwhal-${type}`);
-};
-
-/** Get official configurations from npm. */
-export const getConfigurationsFromNpm = () => {
-    return getCorePackages(TYPE.configuration);
-};
-
-/** Get external rules from npm. */
-export const getExternalRulesFromNpm = () => {
-    return getExternalPackages(TYPE.rule);
-};
-
-/** Get core rules from npm. */
-export const getCoreRulesFromNpm = () => {
-    return getCorePackages(TYPE.rule);
-};
-
-/** Get external connectors from npm. */
-export const getExternalConnectorsFromNpm = () => {
-    return getExternalPackages(TYPE.connector);
-};
-
-/** Get core connectors from npm. */
-export const getCoreConnectorsFromNpm = () => {
-    return getCorePackages(TYPE.connector);
-};
-
-/** Get external parsers from npm. */
-export const getExternalParsersFromNpm = () => {
-    return getExternalPackages(TYPE.parser);
-};
-
-/** Get core parsers from npm. */
-export const getCoreParsersFromNpm = () => {
-    return getCorePackages(TYPE.parser);
-};
-
-/** Get external formatters from npm. */
-export const getExternalFormattersFromNpm = () => {
-    return getExternalPackages(TYPE.formatter);
-};
-
-/** Get core formatters from npm. */
-export const getCoreFormattersFromNpm = () => {
-    return getCorePackages(TYPE.formatter);
-};
-
 
 // -------------------------------------
 

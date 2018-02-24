@@ -1,0 +1,43 @@
+{
+  "dependencies": {
+    "@sonarwhal/rule-apple-touch-icons": "^1.0.0",
+    "@sonarwhal/rule-axe": "^1.0.0",
+    "@sonarwhal/rule-content-type": "^1.0.0",
+    "@sonarwhal/rule-disown-opener": "^1.0.0",
+    "@sonarwhal/rule-highest-available-document-mode": "^1.0.0",
+    "@sonarwhal/rule-html-checker": "^1.0.0",
+    "@sonarwhal/rule-http-cache": "^1.0.0",
+    "@sonarwhal/rule-http-compression": "^1.0.0",
+    "@sonarwhal/rule-meta-charset-utf-8": "^1.0.0",
+    "@sonarwhal/rule-meta-viewport": "^1.0.0",
+    "@sonarwhal/rule-no-disallowed-headers": "^1.0.0",
+    "@sonarwhal/rule-no-friendly-error-pages": "^1.0.0",
+    "@sonarwhal/rule-no-html-only-headers": "^1.0.0",
+    "@sonarwhal/rule-no-http-redirects": "^1.0.0",
+    "@sonarwhal/rule-no-protocol-relative-urls": "^1.0.0",
+    "@sonarwhal/rule-no-vulnerable-javascript-libraries": "^1.0.1",
+    "@sonarwhal/rule-strict-transport-security": "^1.0.0",
+    "@sonarwhal/rule-validate-set-cookie-header": "^1.0.0",
+    "@sonarwhal/rule-x-content-type-options": "^1.0.0"
+  },
+  "description": "soanrwhal's recommended rules configuration",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "dist/src",
+    "npm-shrinkwrap.json"
+  ],
+  "keywords": [
+    "configuration",
+    "recommended",
+    "sonarwhal",
+    "sonarwhal-configuration"
+  ],
+  "license": "Apache-2.0",
+  "main": "index.json",
+  "name": "@sonarwhal/configuration-recommended",
+  "private": true,
+  "repository": "sonarwhal/sonarwhal",
+  "version": "1.0.0"
+}
