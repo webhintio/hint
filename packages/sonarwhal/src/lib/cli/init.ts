@@ -14,72 +14,73 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { CLIOptions } from '../types';
+import { CLIOptions, UserConfig } from '../types';
 import { debug as d } from '../utils/debug';
 import * as logger from '../utils/logging';
-import * as resourceLoader from '../utils/resource-loader';
+import { getInstalledResources, TYPE as ResourceType } from '../utils/resource-loader';
 import { generateBrowserslistConfig } from './browserslist';
+import { getOfficialPackages, installPackages } from '../utils/npm';
 import { NpmPackage } from '../types';
-import { installCoreRules } from '../utils/npm';
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
 
-const installNPMRules = (rules) => {
-    const rulesIds: Array<string> = [];
-
-    for (const [key, value] of Object.entries(rules)) {
-        if (value !== 'off') {
-            rulesIds.push(key);
-        }
+/** Validates if the given array is not empty and if so, prints an error message. */
+const anyResources = (resources: Array<any>, type: string) => {
+    if (resources.length > 0) {
+        return true;
     }
 
-    return installCoreRules(rulesIds);
+    logger.error(`No ${type}s found, sorry`);
+
+    return false;
 };
 
-/** Initiates a wizard to generate a valid `.sonarwhalrc` file based on user responses. */
-export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => {
-    if (!options.init) {
-        return false;
+
+/** Shwos the user a list of official configuration packages available in npm to install. */
+const extendConfig = async (): Promise<UserConfig> => {
+    const configPackages: Array<NpmPackage> = await getOfficialPackages(ResourceType.configuration);
+
+    if (!anyResources(configPackages, ResourceType.configuration)) {
+        return null;
     }
 
-    debug('Initiating generator');
-
-    const connectorKeys: Array<inquirer.ChoiceType> = resourceLoader.getCoreConnectors().concat(resourceLoader.getInstalledConnectors());
-    const formattersKeys: Array<inquirer.ChoiceType> = resourceLoader.getCoreFormatters();
-    const npmRules: Array<NpmPackage> = await resourceLoader.getCoreRulesFromNpm();
-    const rules = npmRules.map((rule) => {
-        return {
-            description: rule.description,
-            id: rule.name.replace('@sonarwhal/rule-', ''),
-            recommended: rule.keywords.includes('sonarwhal-recommended')
-        };
+    const choices = configPackages.map((pkg) => {
+        return pkg.name;
     });
 
-    const sonarwhalConfig = {
-        browserslist: [],
-        connector: {
-            name: '',
-            options: { waitFor: 1000 }
-        },
-        formatters: [defaultFormatter],
-        ignoredUrls: [],
-        rules: {},
-        rulesTimeout: 120000
-    };
+    const questions: inquirer.Questions = [{
+        choices,
+        message: 'Choose the configuration you want to extend from',
+        name: 'configuration',
+        pageSize: 15,
+        type: 'list'
+    }];
 
-    const rulesKeys = [];
+    const answers: inquirer.Answers = await inquirer.prompt(questions);
+    const sonarwhalConfig = { extends: [answers.configuration] };
 
-    for (const { description, id } of rules) {
-        rulesKeys.push({
-            name: `${id} - ${description}`,
-            value: id
-        });
+    // TODO: the name might be different
+    await installPackages([answers.configuration]);
+
+    return sonarwhalConfig;
+};
+
+/** Prompts a series of questions to create a new configuration object based on the installed packages. */
+const customConfig = async (): Promise<UserConfig> => {
+    const connectorKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.connector);
+    const formattersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.formatter);
+    const parsersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.parser);
+    const rulesKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.rule);
+
+    if (!anyResources(connectorKeys, ResourceType.connector) ||
+        !anyResources(formattersKeys, ResourceType.formatter) ||
+        !anyResources(rulesKeys, ResourceType.rule)) {
+
+        return null;
     }
 
-    logger.log('Welcome to sonarwhal configuration generator');
-
-    const questions: inquirer.Questions = [
+    const customQuestions: inquirer.Questions = [
         {
             choices: connectorKeys,
             message: 'What connector do you want to use?',
@@ -94,11 +95,6 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
             type: 'list'
         },
         {
-            message: 'Do you want to use the recommended rules configuration?',
-            name: 'default',
-            type: 'confirm'
-        },
-        {
             choices: rulesKeys,
             message: 'Choose the rules you want to add to your configuration',
             name: 'rules',
@@ -110,35 +106,80 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
         }
     ];
 
-    const results: inquirer.Answers = await inquirer.prompt(questions);
+    // Parsers are not mandatory
+    if (parsersKeys.length > 0) {
+        customQuestions.push({
+            choices: parsersKeys,
+            message: 'What parsers do you want to use?',
+            name: 'parsers',
+            pageSize: 15,
+            type: 'checkbox'
+        });
+    }
+
+    const results: inquirer.Answers = await inquirer.prompt(customQuestions);
+
+    const sonarwhalConfig = {
+        browserslist: [],
+        connector: {
+            name: '',
+            options: { waitFor: 1000 }
+        },
+        extends: [],
+        formatters: [defaultFormatter],
+        ignoredUrls: [],
+        rules: {},
+        rulesTimeout: 120000
+    };
 
     sonarwhalConfig.connector.name = results.connector;
     sonarwhalConfig.formatters = [results.formatter];
 
-    if (results.default) {
-        logger.log('Using recommended rules');
-        rules.forEach((rule) => {
-            if (rule.recommended) {
-                sonarwhalConfig.rules[rule.id] = 'error';
-            }
-        });
-    } else {
-        rules.forEach((rule) => {
-            if (results.rules.includes(rule.id)) {
-                sonarwhalConfig.rules[rule.id] = 'error';
-            } else {
-                sonarwhalConfig.rules[rule.id] = 'off';
-            }
-        });
-    }
+    results.results.forEach((rule) => {
+        sonarwhalConfig.rules[rule] = 'error';
+    });
 
     sonarwhalConfig.browserslist = await generateBrowserslistConfig();
+
+    return sonarwhalConfig;
+};
+
+/**
+ * Initiates a wizard to generate a valid `.sonarwhalrc` file based on:
+ * * an existing published configuration package
+ * * the installed resources
+ */
+export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => {
+    if (!options.init) {
+        return false;
+    }
+
+    debug('Starting --init');
+
+    logger.log('Welcome to sonarwhal configuration generator');
+
+    const initialQuestion: inquirer.Questions = [{
+        choices: ['predefined', 'custom'],
+        default: 'predefined',
+        message: 'Do you want to use a predefined configuration or create your own based on your installed packages?',
+        name: 'configType',
+        type: 'list'
+    }];
+
+    const initialAnswer: inquirer.Answers = await inquirer.prompt(initialQuestion);
+
+    const sonarwhalConfig = initialAnswer.configType === 'predefined' ?
+        await extendConfig() :
+        await customConfig();
+
+    // No resources installed or no configuration packages available, we have to quit
+    if (!sonarwhalConfig) {
+        return true;
+    }
 
     const filePath: string = path.join(process.cwd(), '.sonarwhalrc');
 
     await promisify(fs.writeFile)(filePath, JSON.stringify(sonarwhalConfig, null, 4), 'utf8');
-
-    installNPMRules(sonarwhalConfig.rules);
 
     return true;
 };
