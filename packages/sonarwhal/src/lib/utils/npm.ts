@@ -19,7 +19,7 @@ const packageExists = () => {
     return fs.existsSync(packagePath); // eslint-disable-line no-sync
 };
 
-export const installPackages = (packages: Array<string>) => {
+export const installPackages = (packages: Array<string>): boolean => {
     const global: boolean = !packageExists();
 
     const command: string = `npm install ${packages.join(' ')}${global ? ' -g' : ''}`;
@@ -36,18 +36,24 @@ export const installPackages = (packages: Array<string>) => {
 
         logger.log('Packages intalled successfully');
 
-        return 0;
+        return true;
     } catch (err) {
-        /*
-         * There was an error installing packages.
-         * Show message to install packages manually.
-         */
-        logger.error(err);
-        logger.error(`Something went wrong installing the packages, please run:
-${process.platform !== 'win32' ? 'sudo ' : ''}${command}
-to install all the rules.`);
+        debug(err);
+        // One of the packages doesn't exists
+        logger.error(`Error executing "${command}"`);
+        if (err.message.includes('404')) {
+            logger.error(`One or more of the packages don't exist`);
+        } else {
+            /*
+             * There was an error installing packages.
+             * Show message to install packages manually (maybe permissions error?).
+             */
+            logger.error(`Try executing:
+    ${process.platform !== 'win32' ? 'sudo ' : ''}${command}
+            manually to install all the packages.`);
+        }
 
-        return 1;
+        return false;
     }
 };
 

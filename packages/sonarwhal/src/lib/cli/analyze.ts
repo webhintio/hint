@@ -1,5 +1,6 @@
 import * as inquirer from 'inquirer';
 import * as ora from 'ora';
+import * as pluralize from 'pluralize';
 
 import { SonarwhalConfig, getFilenameForDirectory } from '../config';
 import { Sonarwhal } from '../sonarwhal';
@@ -9,6 +10,7 @@ import { getAsUris } from '../utils/get-as-uri';
 import * as logger from '../utils/logging';
 import { cutString } from '../utils/misc';
 import * as resourceLoader from '../utils/resource-loader';
+import { installPackages } from '../utils/npm';
 import { initSonarwhalrc } from './init';
 
 const debug: debug.IDebugger = d(__filename);
@@ -31,7 +33,7 @@ const confirmLaunchInit = (): inquirer.Answers => {
     return inquirer.prompt(question);
 };
 
-const askUserToCreateConfig = async () => {
+const askUserToCreateConfig = async (): Promise<boolean> => {
     const launchInit: inquirer.Answers = await confirmLaunchInit();
 
     if (!launchInit.confirm) {
@@ -42,6 +44,19 @@ const askUserToCreateConfig = async () => {
     logger.log(`Configuration file .sonarwhalrc was created.`);
 
     return true;
+};
+
+const askUserToInstallDependencies = async (dependencies: Array<string>): Promise<boolean> => {
+
+    const question: Array<object> = [{
+        message: `There ${pluralize('is', dependencies.length)} ${dependencies.length} ${pluralize('package', dependencies.length)} from your .sonarwhalrc file not installed. Do you want us to try to install them?`,
+        name: 'confirm',
+        type: 'confirm'
+    }];
+
+    const answer = await inquirer.prompt(question);
+
+    return answer.confirm;
 };
 
 const tryToLoadConfig = async (actions: CLIOptions): Promise<SonarwhalConfig> => {
@@ -127,13 +142,14 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
     const resources = resourceLoader.loadResources(config);
 
     if (resources.missing.length > 0) {
-        logger.error(`The following dependencies are missing:`);
-        resources.missing.forEach((dependency) => {
-            logger.error(dependency);
+        const missingPackages = resources.missing.map((name) => {
+            return `@sonarwhal/${name}`;
         });
 
-        // We should prompt the user if we should install them here
-        return false;
+        if (!(await askUserToInstallDependencies(resources.missing) && await installPackages(missingPackages))) {
+            // The user doesn't want to install the dependencies or something went wrong installing them
+            return false;
+        }
     }
 
     sonarwhal = new Sonarwhal(config, resources);
