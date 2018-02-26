@@ -50,21 +50,21 @@ const normalizeRule = (rule: string): INormalizedRule => {
  * * { "rule1": "warning" } => { "rule1": "warning" }
  * * ["rule1:warning"] => { "rule1": "warning" }
  */
-export default function normalizeRules (rules: RulesConfigObject | Array<[string, RuleConfig]>): RulesConfigObject {
+export default function normalizeRules(rules: RulesConfigObject | Array<RuleConfig>): RulesConfigObject {
     if (!Array.isArray(rules)) {
         return rules;
     }
 
     const result = {};
 
-    rules.forEach((rule) => {
+    for (const rule of rules) {
         if (typeof rule === 'string') {
             const { ruleName, ruleLevel } = normalizeRule(rule);
 
             result[ruleName] = ruleLevel;
         } else if (Array.isArray(rule)) {
             const [ruleKey, ruleConfig] = rule;
-            const { ruleName, ruleLevel } = normalizeRule(ruleKey);
+            const { ruleName, ruleLevel } = normalizeRule(ruleKey as string);
 
             result[ruleName] = [ruleLevel];
 
@@ -74,7 +74,7 @@ export default function normalizeRules (rules: RulesConfigObject | Array<[string
         } else {
             throw new Error(`Invalid rule type specified: "${rule}". Arrays and objects are supported.`);
         }
-    });
+    }
 
     return result;
 }

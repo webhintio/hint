@@ -61,7 +61,7 @@ const extendConfig = async (): Promise<UserConfig> => {
     const sonarwhalConfig = { extends: [answers.configuration] };
     const installed = await installPackages([answers.configuration]);
 
-    // Maybe there was an error during the installation
+    // Maybe there was an error during the installation, the error and message output is handled in the npm package
     if (!installed) {
         return null;
     }
@@ -138,7 +138,7 @@ const customConfig = async (): Promise<UserConfig> => {
     sonarwhalConfig.connector.name = results.connector;
     sonarwhalConfig.formatters = [results.formatter];
 
-    results.results.forEach((rule) => {
+    results.rules.forEach((rule) => {
         sonarwhalConfig.rules[rule] = 'error';
     });
 

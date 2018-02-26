@@ -5,7 +5,13 @@ import test from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-const npm = { load() { } };
+import { delay } from '../../../src/lib/utils/misc';
+
+const npm = {
+    load(sync, cb) {
+        cb();
+    }
+};
 const fs = { existsSync() { } };
 const child = { spawnSync() { } };
 const logger = {
@@ -101,7 +107,7 @@ test.serial('search should search for the right data', async (t) => {
 
     sandbox.stub(esearchContainer, 'esearch').returns(mockedStream);
 
-    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/npm')];
+    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/npm.js')];
 
     proxyquire('../../../src/lib/utils/npm', {
         './logging': logger,
@@ -136,7 +142,7 @@ test.serial('search should fail if something goes wrong', async (t) => {
 
     sandbox.stub(esearchContainer, 'esearch').returns(mockedStream);
 
-    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/npm')];
+    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/npm.js')];
 
     proxyquire('../../../src/lib/utils/npm', {
         './logging': logger,

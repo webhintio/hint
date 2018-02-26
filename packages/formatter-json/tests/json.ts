@@ -6,7 +6,7 @@ const logging = { log() { } };
 
 proxyquire('../src/json', { 'sonarwhal/dist/src/lib/utils/logging': logging });
 
-import JsonFormatter from '../../../src/lib/formatters/json/json';
+import JsonFormatter from '../src/json';
 import * as problems from './fixtures/list-of-problems';
 import { Severity } from 'sonarwhal/dist/src/lib/types';
 

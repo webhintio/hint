@@ -76,7 +76,7 @@ const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
 /**
  * Searches all the packages in npm given `searchTerm`.
  */
-const search = (searchTerm: string): Promise<Array<NpmPackage>> => {
+export const search = (searchTerm: string): Promise<Array<NpmPackage>> => {
     return new Promise(async (resolve, reject) => {
         await loadNpm();
 

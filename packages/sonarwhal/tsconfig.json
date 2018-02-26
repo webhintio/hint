@@ -4,10 +4,7 @@
     },
     "exclude": [
         "dist",
-        "node_modules",
-        "tests/lib/config.ts",
-        "tests/lib/sonarwhal.ts",
-        "tests/lib/config/normalize-rules.ts"
+        "node_modules"
     ],
     "extends": "../../tsconfig.json",
     "include": [

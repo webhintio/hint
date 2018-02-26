@@ -7,7 +7,7 @@ const logging = { log() { } };
 
 proxyquire('../src/codeframe', { 'sonarwhal/dist/src/lib/utils/logging': logging });
 
-import CodeframeFormatter from '../../../src/lib/formatters/codeframe/codeframe';
+import CodeframeFormatter from '../src/codeframe';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {

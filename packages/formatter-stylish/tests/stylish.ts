@@ -8,7 +8,7 @@ const logging = { log() { } };
 
 proxyquire('../src/stylish', { 'sonarwhal/dist/src/lib/utils/logging': logging });
 
-import StylishFormatter from '../../../src/lib/formatters/stylish/stylish';
+import StylishFormatter from '../src/stylish';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {

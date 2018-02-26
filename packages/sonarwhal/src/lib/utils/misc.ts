@@ -305,6 +305,14 @@ const isOfficial = async (): Promise<boolean> => {
     }
 };
 
+/**
+ * Returns the package found in the given `pathString` or an
+ * exception if no package is found
+ */
+const getPackage = (pathString: string) => {
+    return require(`${pathString}/package.json`);
+};
+
 /** Returns an object that represents the `package.json` version of `sonarwhal` */
 const getSonarwhalPackage = () => {
     return require(path.join(__dirname, '../../../../package.json'));
@@ -317,6 +325,7 @@ export {
     findPackageRoot,
     getFileExtension,
     getHeaderValueNormalized,
+    getPackage,
     getSonarwhalPackage,
     hasAttributeWithValue,
     hasProtocol,

@@ -1,5 +1,6 @@
 import test from 'ava';
 import normalizeRules from '../../../src/lib/config/normalize-rules';
+import { RuleConfig, RulesConfigObject } from '../../../src/lib/types';
 
 test(`should normalize basic rules`, (t) => {
     const rules = [
@@ -20,12 +21,12 @@ test(`should normalize basic rules`, (t) => {
 });
 
 test(`should normalize rules including array`, (t) => {
-    const rules = [
+    const rules: Array<RuleConfig> = [
         'rule1',
-        ['rule2', { customization1: 'value1'}]
+        ['rule2', { customization1: 'value1' }]
     ];
 
-    const expected = {
+    const expected: RulesConfigObject = {
         rule1: 'error',
         rule2: ['error', { customization1: 'value1' }]
     };
@@ -34,13 +35,13 @@ test(`should normalize rules including array`, (t) => {
 });
 
 test(`should normalize rules with shorthand prefixes`, (t) => {
-    const rules = [
+    const rules: Array<RuleConfig> = [
         '?rule1',
         '-rule2',
         ['?rule3', { customization1: 'value1' }]
     ];
 
-    const expected = {
+    const expected: RulesConfigObject = {
         rule1: 'warning',
         rule2: 'off',
         rule3: ['warning', { customization1: 'value1' }]

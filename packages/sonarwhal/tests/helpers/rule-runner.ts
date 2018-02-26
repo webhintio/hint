@@ -9,7 +9,7 @@ import * as retry from 'async-retry';
 
 import { ids as connectors } from './connectors';
 import { createServer } from './test-server';
-import { UserConfig, IRuleConstructor } from '../../src/lib/types';
+import { IRuleConstructor, RulesConfigObject } from '../../src/lib/types';
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
 import { RuleTest } from './rule-test-type';
 import { Sonarwhal } from '../../src/lib/sonarwhal';
@@ -23,7 +23,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
      * test all available connectors and not only JSDOM
      */
     const createConfig = (id: string, connector: string, opts?): SonarwhalConfig => {
-        const rules = {};
+        const rules: RulesConfigObject = {};
 
         if (opts && opts.ruleOptions) {
             rules[id] = ['error', opts.ruleOptions];

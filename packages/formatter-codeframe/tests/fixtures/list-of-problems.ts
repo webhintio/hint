@@ -1,6 +1,6 @@
-import { IProblem, Severity } from 'sonarwhal/dist/src/lib/types';
+import { Problem, Severity } from 'sonarwhal/dist/src/lib/types';
 
-const codeframeproblems: Array<IProblem> = [{
+const codeframeproblems: Array<Problem> = [{
     location: {
         column: -1,
         line: -1
@@ -107,7 +107,7 @@ const codeframeproblems: Array<IProblem> = [{
         </body></html>`
 }];
 
-const noproblems: Array<IProblem> = [];
+const noproblems: Array<Problem> = [];
 
 export {
     codeframeproblems,
