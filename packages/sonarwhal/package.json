@@ -41,6 +41,7 @@
     "request-promise": "^4.2.2",
     "require-uncached": "^1.0.3",
     "shelljs": "^0.8.1",
+    "semver": "^5.5.0",
     "strip-bom": "^3.0.0",
     "strip-json-comments": "^2.0.1",
     "text-table": "^0.2.0",

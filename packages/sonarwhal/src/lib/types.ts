@@ -117,6 +117,7 @@ export type NpmPackage = {
 export type SonarwhalResources = {
     connector: IConnectorConstructor;
     formatters: Array<IFormatterConstructor>;
+    incompatible: Array<string>;
     missing: Array<string>;
     parsers: Array<IParserConstructor>;
     rules: Array<IRuleConstructor>;

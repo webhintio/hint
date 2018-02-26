@@ -24,6 +24,7 @@ import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, RulesConfigObject 
 import { loadJSFile, loadJSONFile } from './utils/misc';
 import { validateConfig } from './config/config-validator';
 import normalizeRules from './config/normalize-rules';
+import { validate as validateRule } from './config/config-rules';
 import * as resourceLoader from './utils/resource-loader';
 
 const debug: debug.IDebugger = d(__filename);
@@ -84,6 +85,10 @@ const loadConfigFile = (filePath: string): UserConfig => {
     return config;
 };
 
+/**
+ * Generates the list of browsers to target using the `browserslist` property
+ * of the `sonarwhal` configuration or `package.json` or uses the default one
+ */
 const loadBrowsersList = (config: UserConfig) => {
     const directory: string = process.cwd();
     const files: Array<string> = CONFIG_FILES.reduce((total, configFile) => {
@@ -210,6 +215,21 @@ const loadIgnoredUrls = (userConfig: UserConfig): Map<string, RegExp[]> => {
     return ignoredUrls;
 };
 
+/** Validates that the given configuration for a rule is valid */
+const validateRules = (rulesConfig: RulesConfigObject, userConfig: UserConfig) => {
+    const rules = Object.keys(rulesConfig);
+
+    rules.forEach((rule) => {
+        const Rule = resourceLoader.loadRule(rule);
+
+        const valid: boolean = validateRule(Rule.meta, userConfig.rules[rule], rule);
+
+        if (!valid) {
+            throw new Error(`Rule ${rule} has an invalid configuration`);
+        }
+    });
+};
+
 export class SonarwhalConfig {
     public readonly browserslist: Array<string>;
     public readonly connector: ConnectorConfig;
@@ -236,8 +256,6 @@ export class SonarwhalConfig {
         } else {
             this.connector = userConfig.connector;
         }
-
-
     }
 
     public static fromConfig(config: UserConfig, actions?: CLIOptions): SonarwhalConfig {
@@ -271,6 +289,8 @@ export class SonarwhalConfig {
         const browsers = loadBrowsersList(userConfig);
         const ignoredUrls = loadIgnoredUrls(userConfig);
         const rules = normalizeRules(userConfig.rules);
+
+        validateRules(rules, userConfig);
 
         return new SonarwhalConfig(userConfig, browsers, ignoredUrls, normalizeRules(rules));
     }

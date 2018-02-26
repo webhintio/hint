@@ -305,6 +305,11 @@ const isOfficial = async (): Promise<boolean> => {
     }
 };
 
+/** Returns an object that represents the `package.json` version of `sonarwhal` */
+const getSonarwhalPackage = () => {
+    return require(path.join(__dirname, '../../../../package.json'));
+};
+
 export {
     cutString,
     delay,
@@ -312,6 +317,7 @@ export {
     findPackageRoot,
     getFileExtension,
     getHeaderValueNormalized,
+    getSonarwhalPackage,
     hasAttributeWithValue,
     hasProtocol,
     isDataURI,
