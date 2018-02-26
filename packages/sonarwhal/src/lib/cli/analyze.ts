@@ -4,7 +4,7 @@ import * as pluralize from 'pluralize';
 
 import { SonarwhalConfig, getFilenameForDirectory } from '../config';
 import { Sonarwhal } from '../sonarwhal';
-import { CLIOptions, IORA, IProblem, Severity, URL } from '../types';
+import { CLIOptions, ORA, Problem, Severity, URL } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/get-as-uri';
 import * as logger from '../utils/logging';
@@ -97,7 +97,7 @@ const getEvent = (event: string) => {
     return event;
 };
 
-const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: IORA) => {
+const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: ORA) => {
     sonarwhalInstance.prependAny((event: string, value: { resource: string }) => {
         const message: string = messages[getEvent(event)];
 
@@ -155,7 +155,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
     sonarwhal = new Sonarwhal(config, resources);
 
     const start: number = Date.now();
-    const spinner: IORA = ora({ spinner: 'line' });
+    const spinner: ORA = ora({ spinner: 'line' });
     let exitCode: number = 0;
 
     if (!actions.debug) {
@@ -169,13 +169,13 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         }
     };
 
-    const hasError = (reports: Array<IProblem>): boolean => {
-        return reports.some((result: IProblem) => {
+    const hasError = (reports: Array<Problem>): boolean => {
+        return reports.some((result: Problem) => {
             return result.severity === Severity.error;
         });
     };
 
-    const print = (reports: Array<IProblem>) => {
+    const print = (reports: Array<Problem>) => {
         if (hasError(reports)) {
             endSpinner('fail');
         } else {
@@ -191,7 +191,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
 
     for (const target of targets) {
         try {
-            const results: Array<IProblem> = await sonarwhal.executeOn(target);
+            const results: Array<Problem> = await sonarwhal.executeOn(target);
 
             if (hasError(results)) {
                 exitCode = 1;

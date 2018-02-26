@@ -5,7 +5,7 @@ import * as pluralize from 'pluralize';
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -14,7 +14,7 @@ const generateMissingMessage = (value: string, linkTypes: Array<string>): string
     return `'${cutString(value, 100)}' is missing 'rel' ${pluralize('value', linkTypes.length)} '${linkTypes.join('\', \'')}'`;
 };
 
-const testsForOldBrowsers: Array<IRuleTest> = [
+const testsForOldBrowsers: Array<RuleTest> = [
 
     // No 'target="_blank"'
 
@@ -152,7 +152,7 @@ const testsForOldBrowsers: Array<IRuleTest> = [
     }
 ];
 
-const testsWithFullSupportBrowsers: Array<IRuleTest> = [
+const testsWithFullSupportBrowsers: Array<RuleTest> = [
     {
         name: `'a' with 'href="https://example.com"' has 'target="_blank"', and 'noopener' is supported by all targeted browsers`,
         reports: [{ message: generateMissingMessage('<a href="https://example.com" id="test" class="t … test4 test5 test5 test6" target="_blank">test</a>', ['noopener']) }],
@@ -164,7 +164,7 @@ const testsWithFullSupportBrowsers: Array<IRuleTest> = [
     }
 ];
 
-const testsForIncludeSameOriginURLsConfig: Array<IRuleTest> = [
+const testsForIncludeSameOriginURLsConfig: Array<RuleTest> = [
     {
         name: `'a' with 'href=""' has 'target="_blank"'`,
         reports: [{ message: generateMissingMessage('<a href="" target="_blank">test</a>', ['noopener', 'noreferrer']) }],

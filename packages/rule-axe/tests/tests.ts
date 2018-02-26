@@ -1,6 +1,6 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
@@ -26,7 +26,7 @@ const html = {
 </div>`)
 };
 
-const tests: Array<IRuleTest> = [
+const tests: Array<RuleTest> = [
     {
         name: `Page doesn't have any a11y problems and passes`,
         serverConfig: html.noProblems
@@ -43,7 +43,7 @@ const tests: Array<IRuleTest> = [
     }
 ];
 
-const testsWithCustomConfiguration: Array<IRuleTest> = [
+const testsWithCustomConfiguration: Array<RuleTest> = [
     {
         name: `Page doesn't have any a11y problems and passes`,
         serverConfig: html.noProblems

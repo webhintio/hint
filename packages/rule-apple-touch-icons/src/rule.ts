@@ -9,7 +9,7 @@ import * as getImageData from 'image-size';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { isHTMLDocument, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, ITraverseEnd, INetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, TraverseEnd, NetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -114,7 +114,7 @@ export default class AppleTouchIconsRule implements IRule {
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-            let networkData: INetworkData;
+            let networkData: NetworkData;
 
             /*
              * Try to see if the `apple-touch-icon` file actually
@@ -217,7 +217,7 @@ export default class AppleTouchIconsRule implements IRule {
         };
 
 
-        const validate = async (event: ITraverseEnd) => {
+        const validate = async (event: TraverseEnd) => {
             const { resource }: { resource: string } = event;
 
             // The following checks don't make sense for non-HTML documents.

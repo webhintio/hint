@@ -8,7 +8,7 @@ import test from 'ava';
 
 import { connectors } from '../../helpers/connectors';
 import { createServer } from '../../helpers/test-server';
-import { IConnector, INetworkData, IConnectorConstructor } from '../../../src/lib/types';
+import { IConnector, NetworkData, IConnectorConstructor } from '../../../src/lib/types';
 
 test.beforeEach(async (t) => {
     const sonarwhal = {
@@ -45,7 +45,7 @@ const testConnectorFetchContent = (connectorInfo) => {
 
         server.configure({ '/nellie.png': { content: file } });
 
-        const result: INetworkData = await connector.fetchContent(url.parse(`http://localhost:${server.port}/nellie.png`));
+        const result: NetworkData = await connector.fetchContent(url.parse(`http://localhost:${server.port}/nellie.png`));
         const rawResponse = await result.response.body.rawResponse();
 
         t.is(result.response.statusCode, 200);

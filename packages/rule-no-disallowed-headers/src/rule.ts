@@ -13,8 +13,8 @@ import * as pluralize from 'pluralize';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IAsyncHTMLElement, IFetchEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { IResponse } from 'sonarwhal/dist/src/lib/types/network';
+import { IAsyncHTMLElement, FetchEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { Response } from 'sonarwhal/dist/src/lib/types/network';
 import { getHeaderValueNormalized, isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -123,8 +123,8 @@ export default class NoDisallowedHeadersRule implements IRule {
             });
         };
 
-        const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, response, resource }: { element: IAsyncHTMLElement, response: IResponse, resource: string } = fetchEnd;
+        const validate = async (fetchEnd: FetchEnd) => {
+            const { element, response, resource }: { element: IAsyncHTMLElement, response: Response, resource: string } = fetchEnd;
 
             // This check does not make sense for data URI.
 

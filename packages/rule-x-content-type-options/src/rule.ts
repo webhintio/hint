@@ -11,7 +11,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, FetchEnd, Response, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -38,8 +38,8 @@ export default class XContentTypeOptionsRule implements IRule {
 
     public constructor(context: RuleContext) {
 
-        const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+        const validate = async (fetchEnd: FetchEnd) => {
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
 
             // This check does not make sense for data URI.
 

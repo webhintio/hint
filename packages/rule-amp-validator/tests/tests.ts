@@ -1,6 +1,6 @@
 /* eslint sort-keys: 0 */
 
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import { readFile } from 'sonarwhal/dist/src/lib/utils/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
@@ -11,7 +11,7 @@ const validAMPHTML = readFile(`${__dirname}/fixtures/valid-amp.html`);
 const invalidAMPHTML = readFile(`${__dirname}/fixtures/invalid-amp.html`);
 const deprecateAMP = readFile(`${__dirname}/fixtures/deprecated-amp.html`);
 
-const defaultTests: Array<IRuleTest> = [
+const defaultTests: Array<RuleTest> = [
     {
         name: 'Valid AMP HTML passes',
         serverConfig: validAMPHTML
@@ -35,7 +35,7 @@ const defaultTests: Array<IRuleTest> = [
     }
 ];
 
-const configuredTests: Array<IRuleTest> = [{
+const configuredTests: Array<RuleTest> = [{
     name: 'Deprecated AMP attribute passes if errorsOnly is true',
     serverConfig: deprecateAMP
 }];

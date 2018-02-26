@@ -13,7 +13,7 @@ import * as url from 'url';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, INetworkData, IResponse, ITraverseEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, NetworkData, Response, TraverseEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -60,8 +60,8 @@ export default class NoFriendlyErrorPagesRule implements IRule {
         const statusCodesWith256Threshold: Array<number> = [403, 405, 410];
         const statusCodesWith512Threshold: Array<number> = [400, 404, 406, 408, 409, 500, 501, 505];
 
-        const checkForErrorPages = (fetchEnd: IFetchEnd) => {
-            const { resource, response }: { resource: string, response: IResponse } = fetchEnd;
+        const checkForErrorPages = (fetchEnd: FetchEnd) => {
+            const { resource, response }: { resource: string, response: Response } = fetchEnd;
 
             // This check does not make sense for data URI.
 
@@ -115,7 +115,7 @@ export default class NoFriendlyErrorPagesRule implements IRule {
              */
 
             try {
-                const networkData: INetworkData = await context.fetchContent(url.resolve(baseURL, `.well-known/${Math.random()}`));
+                const networkData: NetworkData = await context.fetchContent(url.resolve(baseURL, `.well-known/${Math.random()}`));
 
                 checkForErrorPages({
                     element: null,
@@ -130,7 +130,7 @@ export default class NoFriendlyErrorPagesRule implements IRule {
 
         };
 
-        const validate = async (event: ITraverseEnd) => {
+        const validate = async (event: TraverseEnd) => {
 
             /*
              * If no error responses were found, and more specifically,

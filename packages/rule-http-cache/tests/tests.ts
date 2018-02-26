@@ -1,11 +1,11 @@
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 
 const ruleName = getRuleName(__dirname);
 
-const defaultTests: Array<IRuleTest> = [
+const defaultTests: Array<RuleTest> = [
     {
         name: `Target with "Cache-Control: no-cache" passes`,
         serverConfig: {
@@ -343,7 +343,7 @@ const defaultTests: Array<IRuleTest> = [
         }
     }];
 
-const customRegexTests: Array<IRuleTest> = [
+const customRegexTests: Array<RuleTest> = [
     {
         name: 'JS with long max-age, immutable and file revving fails custom regex',
         reports: [{ message: 'No configured patterns for cache busting match http://localhost/script.123.js. See docs to add a custom one.' }],

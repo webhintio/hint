@@ -6,7 +6,7 @@
  */
 
 import { Sonarwhal } from './sonarwhal';
-import { IAsyncHTMLElement, INetworkData, IProblemLocation, RuleMetadata, Severity } from './types';
+import { IAsyncHTMLElement, NetworkData, ProblemLocation, RuleMetadata, Severity } from './types';
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 
 
@@ -70,7 +70,7 @@ export class RuleContext {
     }
 
     /** A useful way of making requests. */
-    public fetchContent(target, headers?): Promise<INetworkData> {
+    public fetchContent(target, headers?): Promise<NetworkData> {
         return this.sonarwhal.fetchContent(target, headers);
     }
 
@@ -79,18 +79,18 @@ export class RuleContext {
     }
 
     /** Finds the exact location of the given content in the HTML that represents the `element`. */
-    public findInElement(element: IAsyncHTMLElement, content: string): Promise<IProblemLocation> {
+    public findInElement(element: IAsyncHTMLElement, content: string): Promise<ProblemLocation> {
         return findInElement(element, content);
     }
 
     /** Finds the approximative location in the page's HTML for a match in an element. */
-    public findProblemLocation(element: IAsyncHTMLElement, content?: string): Promise<IProblemLocation> {
+    public findProblemLocation(element: IAsyncHTMLElement, content?: string): Promise<ProblemLocation> {
         return findProblemLocation(element, { column: 0, line: 0 }, content);
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: IProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> {
-        let position: IProblemLocation = location;
+    public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: ProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> {
+        let position: ProblemLocation = location;
         let sourceCode: string = null;
 
         if (element) {

@@ -15,7 +15,7 @@ import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
 
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFormatter, IProblem, Severity } from 'sonarwhal/dist/src/lib/types';
+import { IFormatter, Problem, Severity } from 'sonarwhal/dist/src/lib/types';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 
 const debug = d(__filename);
@@ -28,7 +28,7 @@ const debug = d(__filename);
 
 export default class SummaryFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public format(messages: Array<IProblem>) {
+    public format(messages: Array<Problem>) {
         debug('Formatting results');
 
         if (_.defaultTo(messages.length, 0) === 0) {
@@ -42,7 +42,7 @@ export default class SummaryFormatter implements IFormatter {
         const tableData: Array<Array<string>> = [];
         let totalErrors: number = 0;
         let totalWarnings: number = 0;
-        const resources: _.Dictionary<Array<IProblem>> = _.groupBy(messages, 'ruleId');
+        const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'ruleId');
         const sortedResources = Object.entries(resources).sort(([ruleA, problemsA], [ruleB, problemsB]) => {
             if (problemsA.length < problemsB.length) {
                 return -1;

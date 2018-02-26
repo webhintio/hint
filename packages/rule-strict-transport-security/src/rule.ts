@@ -6,7 +6,7 @@ import * as url from 'url';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IResponse, IFetchEnd, IRule, INetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, Response, FetchEnd, IRule, NetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
@@ -155,8 +155,8 @@ export default class StrictTransportSecurityRule implements IRule {
             return issues;
         };
 
-        const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+        const validate = async (fetchEnd: FetchEnd) => {
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
 
             const headerValue: string = normalizeString(response.headers && response.headers['strict-transport-security']);
             let parsedHeader;
@@ -171,7 +171,7 @@ export default class StrictTransportSecurityRule implements IRule {
                 const httpsResource = url.format(Object.assign(url.parse(resource), { protocol: `https` }));
 
                 try {
-                    const networkData: INetworkData = await context.fetchContent(httpsResource);
+                    const networkData: NetworkData = await context.fetchContent(httpsResource);
 
                     if (!networkData || !networkData.response) {
                         return;

@@ -2,8 +2,8 @@ import * as eslint from 'eslint';
 import * as espree from 'espree';
 
 import { determineMediaTypeForScript } from 'sonarwhal/dist/src/lib/utils/content-type';
-import { IAsyncHTMLElement, IElementFound, IFetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
-import { IScriptParse } from './IScriptParse';
+import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
+import { ScriptParse } from './types';
 import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
 
 const scriptContentRegex: RegExp = /^<script[^>]*>([\s\S]*)<\/script>$/;
@@ -27,7 +27,7 @@ export default class JavascriptParser extends Parser {
     private async emitScript(code: string, resource: string) {
         const ast = espree.parse(code, defaultParserOptions);
 
-        const scriptData: IScriptParse = {
+        const scriptData: ScriptParse = {
             resource,
             sourceCode: new eslint.SourceCode(code, ast)
         };
@@ -35,7 +35,7 @@ export default class JavascriptParser extends Parser {
         await this.sonarwhal.emitAsync('parse::javascript', scriptData);
     }
 
-    private async parseJavascript(fetchEnd: IFetchEnd) {
+    private async parseJavascript(fetchEnd: FetchEnd) {
         const code = fetchEnd.response.body.content;
         const resource = fetchEnd.resource;
 
@@ -66,7 +66,7 @@ export default class JavascriptParser extends Parser {
         return match[1].trim();
     }
 
-    private async parseJavascriptTag(elementFound: IElementFound) {
+    private async parseJavascriptTag(elementFound: ElementFound) {
         const element: IAsyncHTMLElement = elementFound.element;
 
         if (this.hasSrcAttribute(element)) {

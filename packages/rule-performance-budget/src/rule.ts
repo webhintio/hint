@@ -6,7 +6,7 @@ import * as url from 'url';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, IFetchEnd, IScanEnd, IResponse, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IRule, FetchEnd, ScanEnd, Response, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isHTTPS } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 
@@ -84,7 +84,7 @@ export default class PerformanceBudgetRule implements IRule {
         };
 
         /** Updates the total count of redirects (`performedRedirects`) for the given response and the total number of requests. */
-        const updateCounters = (response: IResponse) => {
+        const updateCounters = (response: Response) => {
             performedRedirects += response.hops.length;
             performedRequests++;
         };
@@ -94,7 +94,7 @@ export default class PerformanceBudgetRule implements IRule {
          * `responses`. It takes into account the mime type, compressed,
          * and uncompressed size.
          */
-        const updateSizes = async (resource: string, response: IResponse) => {
+        const updateSizes = async (resource: string, response: Response) => {
             const uncompressedSize: number = response.body.rawContent ?
                 response.body.rawContent.byteLength :
                 response.body.content.length;
@@ -116,7 +116,7 @@ export default class PerformanceBudgetRule implements IRule {
             });
         };
 
-        const onFetchEnd = async (fetchEnd: IFetchEnd) => {
+        const onFetchEnd = async (fetchEnd: FetchEnd) => {
             debug(`Validating rule Performance budget`);
             const { resource, response } = fetchEnd;
 
@@ -272,7 +272,7 @@ export default class PerformanceBudgetRule implements IRule {
          * Calculates if the size of all the loaded resources is small enough to
          * load the site in the allocated time.
          */
-        const onScanEnd = async (scanEnd: IScanEnd) => {
+        const onScanEnd = async (scanEnd: ScanEnd) => {
             const { resource } = scanEnd;
             const config: NetworkConfig = getConfiguration();
             const loadTime = getBestCaseScenario(config);

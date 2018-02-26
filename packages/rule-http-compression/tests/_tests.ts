@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 
 const uaString = 'Mozilla/5.0 Gecko';
 
@@ -217,7 +217,7 @@ const createBrotliServerConfig = (configs) => {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const testsForBrotli: Array<IRuleTest> = [
+const testsForBrotli: Array<RuleTest> = [
     {
         name: `Resource is not served compressed with Brotli when Brotli compression is requested`,
         reports: [{ message: generateCompressionMessage('Brotli', false, 'over HTTPS') }],
@@ -239,7 +239,7 @@ const testsForBrotli: Array<IRuleTest> = [
     }
 ];
 
-const testsForBrotliOverHTTP: Array<IRuleTest> = [
+const testsForBrotliOverHTTP: Array<RuleTest> = [
     {
         name: `Resource is served compressed with Brotli over HTTP`,
         reports: [{ message: 'Should not be served compressed with Brotli over HTTP.' }],
@@ -258,7 +258,7 @@ const testsForBrotliOverHTTP: Array<IRuleTest> = [
     }
 ];
 
-const testsForBrotliSmallSize: Array<IRuleTest> = [
+const testsForBrotliSmallSize: Array<RuleTest> = [
     {
         name: `Resource is served compressed with Brotli when Brotli compression is requested but uncompressed size is smaller the compressed size`,
         reports: [{ message: generateSizeMessage('Brotli', true) }],
@@ -266,7 +266,7 @@ const testsForBrotliSmallSize: Array<IRuleTest> = [
     }
 ];
 
-const testsForBrotliUASniffing = (): Array<IRuleTest> => {
+const testsForBrotliUASniffing = (): Array<RuleTest> => {
     const headersConfig = {
         request: {
             headers: {
@@ -293,7 +293,7 @@ const testsForBrotliUASniffing = (): Array<IRuleTest> => {
     ];
 };
 
-const testsForDefaults = (https: boolean = false): Array<IRuleTest> => {
+const testsForDefaults = (https: boolean = false): Array<RuleTest> => {
     return [
         {
             name: `Only resources that should be served compressed are served compressed`,
@@ -339,7 +339,7 @@ const testsForDefaults = (https: boolean = false): Array<IRuleTest> => {
     ];
 };
 
-const testsForDisallowedCompressionMethods = (https: boolean = false): Array<IRuleTest> => {
+const testsForDisallowedCompressionMethods = (https: boolean = false): Array<RuleTest> => {
     return [
         {
             name: `Compressed resource is served with disallowed 'Content-Encoding: x-gzip' header`,
@@ -388,7 +388,7 @@ const testsForDisallowedCompressionMethods = (https: boolean = false): Array<IRu
     ];
 };
 
-const testsForGzipZopfli = (https: boolean = false): Array<IRuleTest> => {
+const testsForGzipZopfli = (https: boolean = false): Array<RuleTest> => {
     return [
         {
             name: `Resource is not served compressed with gzip when gzip compression is requested`,
@@ -453,7 +453,7 @@ const testsForGzipZopfli = (https: boolean = false): Array<IRuleTest> => {
     ];
 };
 
-const testsForGzipZopfliCaching = (https: boolean = false): Array<IRuleTest> => {
+const testsForGzipZopfliCaching = (https: boolean = false): Array<RuleTest> => {
     return [
         {
             name: `Resource is served compressed with Zopfli and without the 'Vary' or 'Cache-Control' header when gzip compression is requested`,
@@ -516,7 +516,7 @@ const testsForGzipZopfliCaching = (https: boolean = false): Array<IRuleTest> => 
     ];
 };
 
-const testsForGzipZopfliSmallSize = (https: boolean = false): Array<IRuleTest> => {
+const testsForGzipZopfliSmallSize = (https: boolean = false): Array<RuleTest> => {
     return [
         {
             name: `Resource is served compressed with gzip when gzip compression is requested but uncompressed size is smaller the compressed size`,
@@ -543,7 +543,7 @@ const testsForGzipZopfliSmallSize = (https: boolean = false): Array<IRuleTest> =
     ];
 };
 
-const testsForGzipZopfliUASniffing = (https: boolean = false): Array<IRuleTest> => {
+const testsForGzipZopfliUASniffing = (https: boolean = false): Array<RuleTest> => {
     const headersConfig = {
         request: {
             headers: {
@@ -585,7 +585,7 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): Array<IRuleTest> 
     ];
 };
 
-const testsForNoCompression = (https: boolean = false): Array<IRuleTest> => {
+const testsForNoCompression = (https: boolean = false): Array<RuleTest> => {
     return [
         {
             name: `Resource is served compressed when requested uncompressed`,
@@ -639,7 +639,7 @@ const testsForNoCompression = (https: boolean = false): Array<IRuleTest> => {
     ];
 };
 
-const testsForSpecialCases = (https: boolean = false): Array<IRuleTest> => {
+const testsForSpecialCases = (https: boolean = false): Array<RuleTest> => {
     return [
 
         // SVGZ.
@@ -657,7 +657,7 @@ const testsForSpecialCases = (https: boolean = false): Array<IRuleTest> => {
     ];
 };
 
-const testsForUserConfigs = (encoding, isTarget: boolean = true, https: boolean = false): Array<IRuleTest> => {
+const testsForUserConfigs = (encoding, isTarget: boolean = true, https: boolean = false): Array<RuleTest> => {
     const isBrotli = encoding === 'Brotli';
     const isGzip = encoding === 'gzip';
 

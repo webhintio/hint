@@ -15,7 +15,7 @@ import { promisify } from 'util';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, IScanEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, ScanEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -139,7 +139,7 @@ export default class SSLLabsRule implements IRule {
             await context.report(resource, null, `Couldn't get results from SSL Labs for ${resource}.`);
         };
 
-        const start = (data: IFetchEnd) => {
+        const start = (data: FetchEnd) => {
             const { resource }: { resource: string } = data;
 
             if (!resource.startsWith('https://')) {
@@ -169,7 +169,7 @@ export default class SSLLabsRule implements IRule {
                 });
         };
 
-        const end = async (data: IScanEnd) => {
+        const end = async (data: ScanEnd) => {
             const { resource }: { resource: string } = data;
 
             if (!promise || failed) {

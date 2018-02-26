@@ -13,7 +13,7 @@ import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'ax
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IRule, Severity, ITraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, IRule, Severity, TraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { readFileAsync } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -103,7 +103,7 @@ export default class AxeRule implements IRule {
             return elements[0];
         };
 
-        const validate = async (traverseEnd: ITraverseEnd) => {
+        const validate = async (traverseEnd: TraverseEnd) => {
             const { resource } = traverseEnd;
             const axeCore: string = await readFileAsync(require.resolve('axe-core'));
             const script: string = `(function () {

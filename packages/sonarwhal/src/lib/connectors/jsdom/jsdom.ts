@@ -36,8 +36,8 @@ import { debug as d } from '../../utils/debug';
 import { getContentTypeData, getType } from '../../utils/content-type';
 import {
     IConnector,
-    IElementFound, IEvent, IFetchEnd, IFetchError, IManifestFetchError, ITraverseDown, ITraverseUp,
-    INetworkData, URL
+    ElementFound, Event, FetchEnd, FetchError, ManifestFetchError, TraverseDown, TraverseUp,
+    NetworkData, URL
 } from '../../types';
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
 import { resolveUrl } from '../utils/resolver';
@@ -73,7 +73,7 @@ export default class JSDOMConnector implements IConnector {
     private _server: Sonarwhal;
     private _href: string;
     private _finalHref: string;
-    private _targetNetworkData: INetworkData;
+    private _targetNetworkData: NetworkData;
     private _manifestIsSpecified: boolean = false;
     private _window: Window;
     private _document: JSDOMAsyncHTMLDocument;
@@ -99,7 +99,7 @@ export default class JSDOMConnector implements IConnector {
      * the configured ones for the connector.
      */
 
-    private _fetchUrl(target: URL, customHeaders?: object): Promise<INetworkData> {
+    private _fetchUrl(target: URL, customHeaders?: object): Promise<NetworkData> {
         const uri: string = url.format(target);
 
         if (!customHeaders) {
@@ -126,7 +126,7 @@ export default class JSDOMConnector implements IConnector {
          * maybe we create a custom object that only exposes read only
          * properties?
          */
-        const event: IElementFound = {
+        const event: ElementFound = {
             element: new JSDOMAsyncHTMLElement(element),
             resource: this._finalHref
         };
@@ -140,7 +140,7 @@ export default class JSDOMConnector implements IConnector {
             const child: HTMLElement = element.children[i] as HTMLElement;
 
             debug('next children');
-            const traverseDown: ITraverseDown = {
+            const traverseDown: TraverseDown = {
                 element: new JSDOMAsyncHTMLElement(element),
                 resource: this._finalHref
             };
@@ -150,7 +150,7 @@ export default class JSDOMConnector implements IConnector {
 
         }
 
-        const traverseUp: ITraverseUp = {
+        const traverseUp: TraverseUp = {
             element: new JSDOMAsyncHTMLElement(element),
             resource: this._finalHref
         };
@@ -181,11 +181,11 @@ export default class JSDOMConnector implements IConnector {
         await this._server.emitAsync('fetch::start', { resource: resourceUrl });
 
         try {
-            const resourceNetworkData: INetworkData = await this.fetchContent(resourceUrl);
+            const resourceNetworkData: NetworkData = await this.fetchContent(resourceUrl);
 
             debug(`resource ${resourceUrl} fetched`);
 
-            const fetchEndEvent: IFetchEnd = {
+            const fetchEndEvent: FetchEnd = {
                 element,
                 request: resourceNetworkData.request,
                 resource: resourceNetworkData.response.url,
@@ -208,7 +208,7 @@ export default class JSDOMConnector implements IConnector {
             return callback(null, resourceNetworkData.response.body.content);
         } catch (err) {
             const hops: Array<string> = this._request.getRedirects(err.uri);
-            const fetchError: IFetchError = {
+            const fetchError: FetchError = {
                 element,
                 error: err.error,
                 hops,
@@ -293,9 +293,9 @@ export default class JSDOMConnector implements IConnector {
          */
 
         try {
-            const manifestData: INetworkData = await this.fetchContent(manifestURL);
+            const manifestData: NetworkData = await this.fetchContent(manifestURL);
 
-            const event: IFetchEnd = {
+            const event: FetchEnd = {
                 element: new JSDOMAsyncHTMLElement(element),
                 request: manifestData.request,
                 resource: manifestURL,
@@ -315,7 +315,7 @@ export default class JSDOMConnector implements IConnector {
         } catch (e) {
             debug('Failed to fetch the web app manifest file');
 
-            const event: IManifestFetchError = {
+            const event: ManifestFetchError = {
                 error: e,
                 resource: manifestURL
             };
@@ -343,7 +343,7 @@ export default class JSDOMConnector implements IConnector {
         /** The target in string format */
         const href: string = this._href = target.href;
 
-        const initialEvent: IEvent = { resource: href };
+        const initialEvent: Event = { resource: href };
 
         this._fetchedHrefs = new Set();
 
@@ -358,7 +358,7 @@ export default class JSDOMConnector implements IConnector {
                 this._targetNetworkData = await this.fetchContent(target);
             } catch (err) {
                 const hops: Array<string> = this._request.getRedirects(err.uri);
-                const fetchError: IFetchError = {
+                const fetchError: FetchError = {
                     element: null,
                     error: err.error ? err.error : err,
                     hops,
@@ -380,7 +380,7 @@ export default class JSDOMConnector implements IConnector {
 
             debug(`HTML for ${this._finalHref} downloaded`);
 
-            const fetchEnd: IFetchEnd = {
+            const fetchEnd: FetchEnd = {
                 element: null,
                 request: this._targetNetworkData.request,
                 resource: this._finalHref,
@@ -415,7 +415,7 @@ export default class JSDOMConnector implements IConnector {
                      * to wait a few seconds if the site is lazy loading something.
                      */
                     setTimeout(async () => {
-                        const event: IEvent = { resource: this._finalHref };
+                        const event: Event = { resource: this._finalHref };
 
                         debug(`${this._finalHref} loaded, traversing`);
                         try {
@@ -476,7 +476,7 @@ export default class JSDOMConnector implements IConnector {
      * * a URL and doesn't have a valid protocol it will fail.
      * * a string, if it starts with // it will treat it as a url, and as a file otherwise.
      */
-    public fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {
+    public fetchContent(target: URL | string, customHeaders?: object): Promise<NetworkData> {
         let parsedTarget: URL | string = target;
 
         if (typeof parsedTarget === 'string') {

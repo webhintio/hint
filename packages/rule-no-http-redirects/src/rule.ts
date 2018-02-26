@@ -7,7 +7,7 @@ import * as pluralize from 'pluralize';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, IFetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -55,7 +55,7 @@ export default class NoHttpRedirectRule implements IRule {
          *
          * Ex.: `validateRequestEnd(10)(fetchEnd)` will verify if the event `fetchEnd` has had less than 10 hops.
          */
-        const validateRequestEnd = async (fetchEnd: IFetchEnd, eventName: string) => {
+        const validateRequestEnd = async (fetchEnd: FetchEnd, eventName: string) => {
             const maxHops: number = eventName === 'fetch::end::html' ? maxHTMLHops : maxResourceHops;
             const { request, response, element } = fetchEnd;
 

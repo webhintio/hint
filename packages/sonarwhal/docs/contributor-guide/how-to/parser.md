@@ -20,7 +20,7 @@ export default class CustomParser extends Parser {
         this.sonarwhal.on('fetch::end::resource', this.onFetchEnd);
     }
 
-    public async onFetchEnd(data: IFetchEnd) {
+    public async onFetchEnd(data: FetchEnd) {
         // Your magic to detect if the parser understands the content here
         // You probably want to check the contentType first
         // and maybe leter use a schema if a configuration file or something else

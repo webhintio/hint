@@ -6,7 +6,7 @@ import * as pluralize from 'pluralize';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { getHeaderValueNormalized, isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IRule, IFetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -242,7 +242,7 @@ export default class HttpCacheRule implements IRule {
          * an error because it's up to the browser vendor to decide what
          * to do.
          */
-        const hasCacheControl = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const hasCacheControl = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { resource, response: { headers } } = fetchEnd;
             const cacheControl: string = headers && headers['cache-control'] || null;
 
@@ -258,7 +258,7 @@ export default class HttpCacheRule implements IRule {
         /*
          * Validates if all the cache-control directives and values are correct.
          */
-        const hasInvalidDirectives = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const hasInvalidDirectives = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { invalidDirectives, invalidValues } = directives;
             const { resource } = fetchEnd;
 
@@ -284,7 +284,7 @@ export default class HttpCacheRule implements IRule {
         /*
          * Validates if there is any non recommended directives.
          */
-        const hasNoneNonRecommendedDirectives = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const hasNoneNonRecommendedDirectives = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { usedDirectives } = directives;
             const { resource } = fetchEnd;
             const nonRecommendedDirective = nonRecommendedDirectives(usedDirectives);
@@ -304,7 +304,7 @@ export default class HttpCacheRule implements IRule {
          * Validates that `no-cache` and `no-store` are not used in combination
          *  with `max-age` or `s-maxage`.
          */
-        const validateDirectiveCombinations = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const validateDirectiveCombinations = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { header, usedDirectives } = directives;
 
             if (usedDirectives.has('no-cache') || usedDirectives.has('no-store')) {
@@ -325,7 +325,7 @@ export default class HttpCacheRule implements IRule {
         /**
          * Validates the target uses no-cache or a small max-age value
          */
-        const hasSmallCache = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const hasSmallCache = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { header, usedDirectives } = directives;
 
             if (usedDirectives.has('no-cache')) {
@@ -348,7 +348,7 @@ export default class HttpCacheRule implements IRule {
         /**
          * Validates that a resource (JS, CSS, images, etc.) has the right caching directives.
          */
-        const hasLongCache = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const hasLongCache = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { header, usedDirectives } = directives;
             const { resource, element } = fetchEnd;
 
@@ -370,7 +370,7 @@ export default class HttpCacheRule implements IRule {
         /**
          * Validates that a resource (JS, CSS, images, etc.) is using the right file revving format.
          */
-        const usesFileRevving = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const usesFileRevving = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { element, resource } = fetchEnd;
             const matches = cacheRevvingPatterns.find((pattern) => {
                 return !!resource.match(pattern);
@@ -387,7 +387,7 @@ export default class HttpCacheRule implements IRule {
             return true;
         };
 
-        const validate = async (fetchEnd: IFetchEnd, eventName: string) => {
+        const validate = async (fetchEnd: FetchEnd, eventName: string) => {
             const type: TargetType = eventName === 'fetch::end::html' ? 'html' : 'fetch';
             const { resource } = fetchEnd;
 

@@ -45,43 +45,43 @@ export default class {{className}} implements IRule {
 
         // Your code here.
         {{#useCase.dom}}
-        const validateElement = async (elementFound: IElementFound) => {
+        const validateElement = async (elementFound: ElementFound) => {
             // Code to validate the rule on the event when an element is visited.
 
             {{>event-code event="elementFound"}}
         };
         {{/useCase.dom}}
         {{#useCase.request}}
-        const validateFetchStart = async (fetchStart: IFetchStart) => {
+        const validateFetchStart = async (fetchStart: FetchStart) => {
             // Code to validate the rule on the event fetch::start.
 
             {{>event-code event="fetchStart"}}
         };
-        const validateFetchEnd = async (fetchEnd: IFetchEnd) => {
+        const validateFetchEnd = async (fetchEnd: FetchEnd) => {
             // Code to validate the rule on the event fetch::end::*.
 
             {{>event-code event="fetchEnd"}}
         };
-        const validateFetchError = async (fetchError: IFetchError) => {
+        const validateFetchError = async (fetchError: FetchError) => {
             // Code to validate the rule on the event fetch::error.
 
             {{>event-code event="fetchError"}}
         };
         {{/useCase.request}}
         {{#useCase.thirdPartyService}}
-        const validateFetchStart = async (fetchStart: IFetchStart) => {
+        const validateFetchStart = async (fetchStart: FetchStart) => {
             // Code to validate the rule on the event fetch::start.
 
             {{>event-code event="fetchStart"}}
         };
-        const validateFetchEnd = async (fetchEnd: IFetchEnd) => {
+        const validateFetchEnd = async (fetchEnd: FetchEnd) => {
             // Code to validate the rule on the event fetch::end::*.
 
             {{>event-code event="fetchEnd"}}
         };
         {{/useCase.thirdPartyService}}
         {{#useCase.jsInjection}}
-        const validateScanEnd = async (scanEnd: IScanEnd) => {
+        const validateScanEnd = async (scanEnd: ScanEnd) => {
             const jsCode = 'var a = 1 + 1;';
             const result = await context.evaluate(jsCode);
 

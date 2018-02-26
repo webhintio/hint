@@ -12,7 +12,7 @@ import * as semver from 'semver';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, IScanEnd, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IRule, ScanEnd, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { Library, Vulnerability } from './rule-types';
 import { readFileAsync, loadJSONFile, requestAsync, writeFileAsync } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
@@ -198,7 +198,7 @@ export default class NoVulnerableJavascriptLibrariesRule implements IRule {
         };
 
         /** Checks if the JS libraries used by a website have known vulnerabilities. */
-        const validateLibraries = async (scanEnd: IScanEnd) => {
+        const validateLibraries = async (scanEnd: ScanEnd) => {
             const script = await createScript();
             const resource = scanEnd.resource;
             let detectedLibraries;

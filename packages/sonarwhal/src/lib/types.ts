@@ -39,14 +39,14 @@ export type RulesConfigObject = {
     [key: string]: RuleConfig | Array<RuleConfig>;
 };
 
-export interface IConnectorOptionsConfig {
+export type ConnectorOptionsConfig = {
     waitFor?: number;
     watch?: boolean;
-}
+};
 
 export type ConnectorConfig = {
     name: string;
-    options?: IConnectorOptionsConfig;
+    options?: ConnectorOptionsConfig;
 };
 
 export type IgnoredUrl = {
@@ -87,12 +87,12 @@ export type CLIOptions = {
     watch: boolean;
 };
 
-export interface IORA {
+export type ORA = {
     start(): void;
     succeed(): void;
     fail(): void;
     text: string;
-}
+};
 
 /**
  * An user in a npm package.

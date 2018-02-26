@@ -1,5 +1,5 @@
 import { debug as d } from './debug';
-import { IAsyncHTMLAttribute, IAsyncHTMLElement, IProblemLocation } from './../types';
+import { AsyncHTMLAttribute, IAsyncHTMLElement, ProblemLocation } from './../types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -21,7 +21,7 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
 
     // attributes doesn't have the Symbol.Iterator();
     for (let i = 0; i < attributes.length; i++) {
-        const attribute: IAsyncHTMLAttribute = attributes[i] || attributes.item(i);
+        const attribute: AsyncHTMLAttribute = attributes[i] || attributes.item(i);
 
         /*
          * jsdom breaks when attribute names have a `.` (invalid) but it is widely used,
@@ -65,7 +65,7 @@ const getIndicesOf = (searchStr: string, str: string): Array<number> => {
 };
 
 /** Finds the Location of an HTMLElement in the document */
-export const findElementLocation = async (element: IAsyncHTMLElement): Promise<IProblemLocation> => {
+export const findElementLocation = async (element: IAsyncHTMLElement): Promise<ProblemLocation> => {
     const html: string = await element.ownerDocument.pageHTML();
     const elementHTML: string = await element.outerHTML();
     const indexOccurences: Array<number> = getIndicesOf(elementHTML, html);
@@ -110,7 +110,7 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<I
  * * If no content is provided, the return value is {0, 0}
  * * If the content is not found, the return value is {-1, -1}
  */
-export const findInElement = async (element: IAsyncHTMLElement, content: string): Promise<IProblemLocation> => {
+export const findInElement = async (element: IAsyncHTMLElement, content: string): Promise<ProblemLocation> => {
     if (!content) {
         return {
             column: 0,
@@ -143,9 +143,9 @@ export const findInElement = async (element: IAsyncHTMLElement, content: string)
 };
 
 /** Returns the real location of a problem in the given HTML */
-export const findProblemLocation = async (element: IAsyncHTMLElement, offset: IProblemLocation, content?: string): Promise<IProblemLocation> => {
-    const elementLocation: IProblemLocation = await findElementLocation(element);
-    const problemLocation: IProblemLocation = await findInElement(element, content);
+export const findProblemLocation = async (element: IAsyncHTMLElement, offset: ProblemLocation, content?: string): Promise<ProblemLocation> => {
+    const elementLocation: ProblemLocation = await findElementLocation(element);
+    const problemLocation: ProblemLocation = await findInElement(element, content);
 
     if (problemLocation.line === 1) {
         return {
