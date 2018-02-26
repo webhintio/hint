@@ -61,7 +61,7 @@
     "lint:md": "markdownlint --ignore **/CHANGELOG.md packages/**/*.md README.md",
     "new:rule": "cd packages && node sonarwhal/dist/src/bin/sonarwhal.js --new-rule",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
-    "release": "yarn clean:packages && git reset --quiet HEAD && git checkout --quiet . && node dist/scripts/release.js",
+    "release": "node dist/scripts/release.js",
     "test": "yarn build && nyc ava",
     "test-on-travis": "yarn lint && yarn build && nyc ava --concurrency=2 --timeout=2m",
     "watch:scripts": "yarn clean && npm-run-all --continue-on-error --parallel watch:scripts:*",
