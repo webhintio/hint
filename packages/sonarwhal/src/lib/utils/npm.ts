@@ -22,11 +22,16 @@ const packageExists = () => {
 export const installPackages = (packages: Array<string>): boolean => {
     const global: boolean = !packageExists();
 
+    if (packages.length === 0) {
+        return true;
+    }
+
     const command: string = `npm install ${packages.join(' ')}${global ? ' -g' : ''}`;
 
     try {
         debug(`Running command ${command}`);
         logger.log('Installing packages...');
+        logger.log(command);
 
         const result: SpawnSyncReturns<Buffer> = spawnSync(command, { shell: true });
 

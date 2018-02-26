@@ -49,7 +49,7 @@ const askUserToCreateConfig = async (): Promise<boolean> => {
 const askUserToInstallDependencies = async (dependencies: Array<string>): Promise<boolean> => {
 
     const question: Array<object> = [{
-        message: `There ${pluralize('is', dependencies.length)} ${dependencies.length} ${pluralize('package', dependencies.length)} from your .sonarwhalrc file not installed. Do you want us to try to install them?`,
+        message: `There ${pluralize('is', dependencies.length)} ${dependencies.length} ${pluralize('package', dependencies.length)} from your .sonarwhalrc file not installed or with an incompatible version. Do you want us to try to install/update them?`,
         name: 'confirm',
         type: 'confirm'
     }];
@@ -67,6 +67,8 @@ const tryToLoadConfig = async (actions: CLIOptions): Promise<SonarwhalConfig> =>
     try {
         config = SonarwhalConfig.fromFilePath(configPath, actions);
     } catch (e) {
+        logger.error(e);
+
         logger.log(`Couldn't load a valid configuration file in ${configPath}.`);
         const created = await askUserToCreateConfig();
 
@@ -141,12 +143,19 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
 
     const resources = resourceLoader.loadResources(config);
 
-    if (resources.missing.length > 0) {
+    if (resources.missing.length > 0 || resources.incompatible.length > 0) {
         const missingPackages = resources.missing.map((name) => {
             return `@sonarwhal/${name}`;
         });
 
-        if (!(await askUserToInstallDependencies(resources.missing) && await installPackages(missingPackages))) {
+        const incompatiblePackages = resources.incompatible.map((name) => {
+            return `@sonarwhal/${name}`;
+        });
+
+        if (!(await askUserToInstallDependencies(resources.missing.concat(resources.incompatible)) &&
+              await installPackages(missingPackages) &&
+              await installPackages(incompatiblePackages))) {
+
             // The user doesn't want to install the dependencies or something went wrong installing them
             return false;
         }
