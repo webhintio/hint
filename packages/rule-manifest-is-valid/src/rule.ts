@@ -10,7 +10,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, IResponse, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, Response, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -36,8 +36,8 @@ export default class ManifestIsValidRule implements IRule {
 
     public constructor(context: RuleContext) {
 
-        const manifestIsValid = async (data: IFetchEnd) => {
-            const { resource, response: { body: { content }, statusCode } }: { resource: string, response: IResponse } = data;
+        const manifestIsValid = async (data: FetchEnd) => {
+            const { resource, response: { body: { content }, statusCode } }: { resource: string, response: Response } = data;
 
             if (statusCode !== 200) {
                 return;

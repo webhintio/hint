@@ -10,7 +10,7 @@
  */
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, ITraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, TraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isHTMLDocument, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -50,7 +50,7 @@ export default class MetaCharsetUTF8Rule implements IRule { // eslint-disable-li
         };
 
 
-        const validate = async (event: ITraverseEnd) => {
+        const validate = async (event: TraverseEnd) => {
             const { resource }: { resource: string } = event;
 
             // The following checks don't make sense for non-HTML documents.

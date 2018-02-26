@@ -26,8 +26,8 @@ import { resolveUrl } from '../utils/resolver';
 
 import {
     BrowserInfo, IConnector,
-    IAsyncHTMLElement, IElementFound, IEvent, IFetchEnd, IFetchError, ILauncher, IManifestFetchError, ITraverseUp, ITraverseDown,
-    IResponse, IRequest, INetworkData, URL
+    IAsyncHTMLElement, ElementFound, Event, FetchEnd, FetchError, ILauncher, ManifestFetchError, TraverseUp, TraverseDown,
+    Response, Request, NetworkData, URL
 } from '../../types';
 
 import { normalizeHeaders } from '../utils/normalize-headers';
@@ -76,7 +76,7 @@ export class Connector implements IConnector {
     /** Browser PID */
     private pid: number;
 
-    private _targetNetworkData: INetworkData;
+    private _targetNetworkData: NetworkData;
     private launcher: ILauncher;
 
     public constructor(server: Sonarwhal, config: object, launcher: ILauncher) {
@@ -269,7 +269,7 @@ export class Connector implements IConnector {
 
         if (params.type === 'Manifest') {
             const { request: { url: resource } } = request;
-            const event: IManifestFetchError = {
+            const event: ManifestFetchError = {
                 error: new Error(params.errorText),
                 resource
             };
@@ -301,7 +301,7 @@ export class Connector implements IConnector {
 
         const hops: Array<string> = this._redirects.calculate(resource);
 
-        const event: IFetchError = {
+        const event: FetchError = {
             element,
             error: params,
             hops,
@@ -420,13 +420,13 @@ export class Connector implements IConnector {
     }
 
     /** Returns a Response for the given request. */
-    private async createResponse(cdpResponse, element: IAsyncHTMLElement): Promise<IResponse> {
+    private async createResponse(cdpResponse, element: IAsyncHTMLElement): Promise<Response> {
         const resourceUrl: string = cdpResponse.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const resourceHeaders: object = normalizeHeaders(cdpResponse.response.headers);
         const { content, rawContent, rawResponse } = await this.getResponseBody(cdpResponse);
 
-        const response: IResponse = {
+        const response: Response = {
             body: {
                 content,
                 rawContent,
@@ -476,14 +476,14 @@ export class Connector implements IConnector {
             }
         }
 
-        const response: IResponse = await this.createResponse(params, element);
+        const response: Response = await this.createResponse(params, element);
 
-        const request: IRequest = {
+        const request: Request = {
             headers: params.response.requestHeaders,
             url: originalUrl
         };
 
-        const data: IFetchEnd = {
+        const data: FetchEnd = {
             element,
             request,
             resource: resourceUrl,
@@ -529,9 +529,9 @@ export class Connector implements IConnector {
          */
 
         try {
-            const manifestData: INetworkData = await this.fetchContent(manifestURL);
+            const manifestData: NetworkData = await this.fetchContent(manifestURL);
 
-            const event: IFetchEnd = {
+            const event: FetchEnd = {
                 element,
                 request: manifestData.request,
                 resource: manifestURL,
@@ -546,7 +546,7 @@ export class Connector implements IConnector {
         } catch (e) {
             debug('Failed to fetch the web app manifest file');
 
-            const event: IManifestFetchError = {
+            const event: ManifestFetchError = {
                 error: e,
                 resource: manifestURL
             };
@@ -591,7 +591,7 @@ export class Connector implements IConnector {
         const wrappedElement: AsyncHTMLElement = new AsyncHTMLElement(element, this._dom, this._client.DOM);
 
         debug(`emitting ${eventName}`);
-        const event: IElementFound = {
+        const event: ElementFound = {
             element: wrappedElement,
             resource: this._finalHref
         };
@@ -606,7 +606,7 @@ export class Connector implements IConnector {
 
         for (const child of elementChildren) {
             debug('next children');
-            const traverseDown: ITraverseDown = {
+            const traverseDown: TraverseDown = {
                 element,
                 resource: this._finalHref
             };
@@ -615,7 +615,7 @@ export class Connector implements IConnector {
             await this.traverseAndNotify(child);
         }
 
-        const traverseUp: ITraverseUp = {
+        const traverseUp: TraverseUp = {
             element,
             resource: this._finalHref
         };
@@ -750,7 +750,7 @@ export class Connector implements IConnector {
 
             const content = await this.fetchContent(url.parse(this._finalHref + href.substr(1)));
 
-            const data: IFetchEnd = {
+            const data: FetchEnd = {
                 element: null,
                 request: content.request,
                 resource: content.response.url,
@@ -761,7 +761,7 @@ export class Connector implements IConnector {
         } catch (error) {
             const hops = this._redirects.calculate(href);
 
-            const event: IFetchError = {
+            const event: FetchError = {
                 element,
                 error,
                 hops,
@@ -785,7 +785,7 @@ export class Connector implements IConnector {
         return async () => {
             await delay(this._options.waitFor);
             const { DOM } = this._client;
-            const event: IEvent = { resource: this._finalHref };
+            const event: Event = { resource: this._finalHref };
 
             try {
                 this._dom = new AsyncHTMLDocument(DOM);
@@ -842,7 +842,7 @@ export class Connector implements IConnector {
         return promisify(async (callback) => {
             this._href = target.href.replace(target.hash, '');
             this._finalHref = target.href; // This value will be updated if we load the site
-            const event: IEvent = { resource: target.href };
+            const event: Event = { resource: target.href };
             let client;
 
             await this._server.emit('scan::start', event);
@@ -964,7 +964,7 @@ export class Connector implements IConnector {
         }
     }
 
-    public async fetchContent(target: URL | string, customHeaders?: object): Promise<INetworkData> {
+    public async fetchContent(target: URL | string, customHeaders?: object): Promise<NetworkData> {
         /*
          * TODO: This should create a new tab, navigate to the
          * resource and control what is received somehow via an event.
@@ -980,7 +980,7 @@ export class Connector implements IConnector {
         };
 
         const request: Requester = new Requester(options);
-        const response: INetworkData = await request.get(href);
+        const response: NetworkData = await request.get(href);
 
         return response;
     }

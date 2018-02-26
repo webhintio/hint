@@ -1,24 +1,24 @@
 /** Request data from fetching an item using a connector. */
-export interface IRequest {
+export type Request = {
     /** The headers used by the connector to make the request */
     headers: any;
     /** The initial requested URL. */
     url: string;
-}
+};
 
-export interface IResponseBody {
+export type ResponseBody = {
     /** The uncompressed response's body. A `string` if text, otherwise a `Buffer`. */
     content: string;
     /** The uncompressed bytes of the response's body. */
     rawContent: Buffer;
     /** The original bytes of the body. They could be compressed or not. */
     rawResponse(): Promise<Buffer>;
-}
+};
 
 /** Response data from fetching an item using a connector. */
-export interface IResponse {
+export type Response = {
     /** The content of the body sent by the server in different forms. */
-    body: IResponseBody;
+    body: ResponseBody;
     /** The charset of the response's body. */
     charset: string;
     /** The headers sent by the server. */
@@ -31,12 +31,12 @@ export interface IResponse {
     statusCode: number;
     /** The url that returned the data. When in a redirect it will be the final one and not the initiator. */
     url: string;
-}
+};
 
 /** Network data from fetching an item using a connector */
-export interface INetworkData {
+export type NetworkData = {
     /** The response of a request. */
-    response: IResponse;
+    response: Response;
     /** The initial request sent, regarderless if there are any redirects. */
-    request: IRequest;
-}
+    request: Request;
+};

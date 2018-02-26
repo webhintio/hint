@@ -1,6 +1,6 @@
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -9,7 +9,7 @@ const generateMegaViewport = (content: string = 'WiDTh = deVicE-Width, IniTial-S
     return `<mEtA   NaMe="ViEwPort" cOnTenT="${content}">`;
 };
 
-const testsForDefaults: Array<IRuleTest> = [
+const testsForDefaults: Array<RuleTest> = [
     {
         name: `Resource is not an HTML document`,
         serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
@@ -79,7 +79,7 @@ const testsForDefaults: Array<IRuleTest> = [
     }
 ];
 
-const testsForBrowsersWithOrientationChangeBug: Array<IRuleTest> = [
+const testsForBrowsersWithOrientationChangeBug: Array<RuleTest> = [
     {
         name: `'viewport' meta tag does not have 'initial-scale' required by the targeted browsers`,
         reports: [{ message: `Meta tag should have 'initial-scale=1'` }],
@@ -87,7 +87,7 @@ const testsForBrowsersWithOrientationChangeBug: Array<IRuleTest> = [
     }
 ];
 
-const testsForBrowsersWithoutOrientationChangeBug: Array<IRuleTest> = [
+const testsForBrowsersWithoutOrientationChangeBug: Array<RuleTest> = [
     {
         name: `'viewport' meta tag does not have 'initial-scale', but it's not required by the targeted browsers`,
         serverConfig: generateHTMLPage(generateMegaViewport('width=device-width'))

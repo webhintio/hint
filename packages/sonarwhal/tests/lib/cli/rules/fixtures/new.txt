@@ -5,7 +5,7 @@
 import { Category } from '../../enums/category';
 import { RuleContext } from '../../rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, IRuleBuilder, IFetchStart, IFetchEnd, IFetchError } from '../../types';
+import { IRule, IRuleBuilder, FetchStart, FetchEnd, FetchError } from '../../types';
 import { debug as d } from '../../utils/debug';
 import { RuleScope } from '../../enums/rulescope';
 
@@ -20,7 +20,7 @@ const debug: debug.IDebugger = d(__filename);
 const rule: IRuleBuilder = {
     create(context: RuleContext): IRule {
         // Your code here.
-        const validateFetchStart = async (fetchStart: IFetchStart) => {
+        const validateFetchStart = async (fetchStart: FetchStart) => {
             // Code to validate the rule on the event fetch::start.
 
             const { resource } = fetchStart;
@@ -40,7 +40,7 @@ const rule: IRuleBuilder = {
                 await context.report(resource, null, 'Your error message here');
             }
         };
-        const validateFetchEnd = async (fetchEnd: IFetchEnd) => {
+        const validateFetchEnd = async (fetchEnd: FetchEnd) => {
             // Code to validate the rule on the event fetch::end::*.
 
             const { resource } = fetchEnd;
@@ -60,7 +60,7 @@ const rule: IRuleBuilder = {
                 await context.report(resource, null, 'Your error message here');
             }
         };
-        const validateFetchError = async (fetchError: IFetchError) => {
+        const validateFetchError = async (fetchError: FetchError) => {
             // Code to validate the rule on the event fetch::error.
 
             const { resource } = fetchError;

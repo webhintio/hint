@@ -27,8 +27,7 @@ import * as logger from '../../utils/logging';
 
 import {
     IConnector,
-    IEvent, IFetchEnd, IScanEnd,
-    // INetworkData,
+    Event, FetchEnd, ScanEnd,
     URL
 } from '../../types';
 // import { Requester } from '../utils/requester';
@@ -92,7 +91,7 @@ export default class LocalConnector implements IConnector {
         }
 
         // Need to do some magic to create a fetch::end::*
-        const event: IFetchEnd = {
+        const event: FetchEnd = {
             element: null,
             request: null,
             resource: url.format(getAsUri(filePath)),
@@ -147,7 +146,7 @@ export default class LocalConnector implements IConnector {
 
     private async notify() {
         const href: string = this._href;
-        const scanEndEvent: IScanEnd = { resource: href };
+        const scanEndEvent: ScanEnd = { resource: href };
 
         await this.sonarwhal.emitAsync('scan::end', scanEndEvent);
         await this.sonarwhal.notify();
@@ -252,7 +251,7 @@ export default class LocalConnector implements IConnector {
     public async collect(target: URL) {
         /** The target in string format */
         const href: string = this._href = target.href;
-        const initialEvent: IEvent = { resource: href };
+        const initialEvent: Event = { resource: href };
 
         this.sonarwhal.emitAsync('scan::start', initialEvent);
 

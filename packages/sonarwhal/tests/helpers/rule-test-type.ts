@@ -1,12 +1,12 @@
-import { IProblemLocation } from '../../src/lib/types';
+import { ProblemLocation } from '../../src/lib/types';
 
-export interface IReport {
+export type Report = {
     /** The message to validate */
     message: string;
-    position?: IProblemLocation;
-}
+    position?: ProblemLocation;
+};
 
-export interface IRuleTest {
+export type RuleTest = {
     /** The code to execute before `closing` the connector. */
     after?();
     /** The code to execute before creating the connector. */
@@ -14,9 +14,9 @@ export interface IRuleTest {
     /** The name of the test. */
     name: string;
     /** The expected results of the execution. */
-    reports?: Array<IReport>;
+    reports?: Array<Report>;
     /** The configuration `test-server` should use. */
     serverConfig?: any;
     /** The url to `executeOn` if different than `localhost`. */
     serverUrl?: string;
-}
+};

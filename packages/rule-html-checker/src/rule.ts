@@ -14,13 +14,13 @@ import * as uniqBy from 'lodash.uniqby';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IFetchEnd, IRule, IProblemLocation, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, IRule, ProblemLocation, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
 type CheckerData = {
-    event: IFetchEnd;
+    event: FetchEnd;
     failed: boolean;
     promise: Promise<any>;
 };
@@ -113,7 +113,7 @@ export default class HtmlCheckerRule implements IRule {
 
         const locateAndReport = (resource: string) => {
             return (messageItem: HtmlError): Promise<void> => {
-                const position: IProblemLocation = {
+                const position: ProblemLocation = {
                     column: messageItem.firstColumn,
                     elementColumn: messageItem.hiliteStart + 1,
                     elementLine: 1, // We will pass in the single-line code snippet generated from the HTML checker, so the elementLine is always 1
@@ -129,7 +129,7 @@ export default class HtmlCheckerRule implements IRule {
             await context.report(resource, null, `Couldn't get results from HTML checker for ${resource}. Error: ${error}`);
         };
 
-        const start = (data: IFetchEnd) => {
+        const start = (data: FetchEnd) => {
             const { response } = data;
 
             /*

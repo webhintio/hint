@@ -13,7 +13,7 @@ import { MediaType, parse } from 'content-type';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IResponse, IRule, IFetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, Response, IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { getHeaderValueNormalized, isDataURI, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
@@ -62,8 +62,8 @@ export default class ContentTypeRule implements IRule {
             return results && (results[1] as string);
         };
 
-        const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+        const validate = async (fetchEnd: FetchEnd) => {
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
 
             // This check does not make sense for data URIs.
 

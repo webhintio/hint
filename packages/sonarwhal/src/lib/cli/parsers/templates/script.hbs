@@ -1,4 +1,4 @@
-import { IEvent, {{#each eventTypes}}{{this}}, {{/each}}Parser } from 'sonarwhal/dist/src/lib/types';
+import { Event, {{#each eventTypes}}{{this}}, {{/each}}Parser } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
 
 export default class {{capitalizedName}} extends Parser {
@@ -13,14 +13,14 @@ export default class {{capitalizedName}} extends Parser {
 
     private async {{handler}}({{varName}}: {{type}}) {
         /*
-         * You can extend IEvent to add the information
+         * You can extend Event to add the information
          * you will need in you rules.
          * i.e.
-         *    interface IScriptParse extends IEvent {
+         *    type ScriptParse = Event & {
          *        sourceCode: any;
          *    }
          */
-        const eventData: IEvent = {{varName}};
+        const eventData: Event = {{varName}};
 
         await this.sonarwhal.emitAsync('parse::{{../normalizedName}}', eventData);
     }

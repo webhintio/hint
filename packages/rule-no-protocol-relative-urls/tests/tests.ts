@@ -2,10 +2,10 @@
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const tests: Array<IRuleTest> = [
+const tests: Array<RuleTest> = [
     {
         name: `'link' with no initial slashes passes the rule`,
         serverConfig: generateHTMLPage('<link rel="manifest" href="site.webmanifest">')

@@ -7,7 +7,7 @@ import { parseMetaViewPortContent } from 'metaviewport-parser';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { isHTMLDocument, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, ITraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, TraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { IRule } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -153,7 +153,7 @@ export default class MetaViewportRule implements IRule {
             }
         };
 
-        const validate = async (event: ITraverseEnd) => {
+        const validate = async (event: TraverseEnd) => {
 
             const { resource }: { resource: string } = event;
 

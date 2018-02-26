@@ -5,10 +5,22 @@ export enum Severity {
     error = 2
 }
 
+/** The location of a Problem in the code */
+export type ProblemLocation = {
+    /** The column number where a Problem is */
+    column: number;
+    /** The line number where a Problem is */
+    line: number;
+    /** The column number relative to the element where a Problem is */
+    elementColumn?: number;
+    /** The line number relative to the element where a Problem is */
+    elementLine?: number;
+};
+
 /** A problem found by a Rule in sonarwhal */
-export interface IProblem {
+export type Problem = {
     /** The location number where the Problem is */
-    location: IProblemLocation;
+    location: ProblemLocation;
     /** A message providing more information about the Problem */
     message: string;
     /** The html element where the Problem is */
@@ -19,16 +31,4 @@ export interface IProblem {
     ruleId: string;
     /** The severity of the rule based on the actual configuration */
     severity: Severity;
-}
-
-/** The location of a Problem in the code */
-export interface IProblemLocation {
-    /** The column number where a Problem is */
-    column: number;
-    /** The line number where a Problem is */
-    line: number;
-    /** The column number relative to the element where a Problem is */
-    elementColumn?: number;
-    /** The line number relative to the element where a Problem is */
-    elementLine?: number;
-}
+};

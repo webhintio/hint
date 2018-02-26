@@ -9,7 +9,7 @@ import * as fs from 'fs-extra';
 import * as getImageData from 'image-size';
 
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, IFetchEnd, IScanEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IRule, FetchEnd, ScanEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
@@ -56,7 +56,7 @@ export default class ImageOptimizationCloudinaryRule implements IRule {
         /* eslint-disable camelcase */
 
         /** Sends the image to cloudinary to identify optimizations on size and format. */
-        const processImage = async (data: IFetchEnd): Promise<cloudinaryResult> => {
+        const processImage = async (data: FetchEnd): Promise<cloudinaryResult> => {
 
             /*
              * Using the MD5 hash of the file is the recommended way to avoid duplicates
@@ -122,7 +122,7 @@ export default class ImageOptimizationCloudinaryRule implements IRule {
         /* eslint-enable camelcase */
 
         /** Analyzes the response if it's an image. */
-        const analyzeImage = (fetchEnd: IFetchEnd) => {
+        const analyzeImage = (fetchEnd: FetchEnd) => {
             if (!configured) {
                 return;
             }
@@ -142,7 +142,7 @@ export default class ImageOptimizationCloudinaryRule implements IRule {
         };
 
         /** Waits to gather the results of all the images and notifies if there is any possible savings. */
-        const end = async (data: IScanEnd) => {
+        const end = async (data: ScanEnd) => {
             if (!configured) {
                 await context.report('', null, `No valid configuration for Cloudinary found. Rule coudn't run.`);
 

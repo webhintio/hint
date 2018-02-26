@@ -2,7 +2,7 @@
 
 import * as mock from 'mock-require';
 
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
@@ -34,7 +34,7 @@ const results = {
     nohttps: { endpoints: [{ details: { protocols: [] } }] }
 };
 
-const testsForDefaults: Array<IRuleTest> = [
+const testsForDefaults: Array<RuleTest> = [
     {
         name: `Site with with A+ grade passes`,
         serverUrl: 'https://example.com',
@@ -59,7 +59,7 @@ const testsForDefaults: Array<IRuleTest> = [
     }
 ];
 
-const testsForConfigs: Array<IRuleTest> = [
+const testsForConfigs: Array<RuleTest> = [
     {
         name: `Site with A+ grade passes with A+ minimum`,
         serverUrl: 'https://example.com',
@@ -88,7 +88,7 @@ const testsForConfigs: Array<IRuleTest> = [
     }
 ];
 
-const testsForErrors: Array<IRuleTest> = [
+const testsForErrors: Array<RuleTest> = [
     {
         name: 'Issue gettings results from SSL Labs reports error',
         reports: [{ message: `Couldn't get results from SSL Labs for https://example.com/.` }],

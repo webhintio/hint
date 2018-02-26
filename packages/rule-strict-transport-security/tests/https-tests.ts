@@ -1,4 +1,4 @@
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
@@ -7,7 +7,7 @@ import * as common from './_common';
 
 const ruleName = getRuleName(__dirname);
 
-const defaultTests: Array<IRuleTest> = [
+const defaultTests: Array<RuleTest> = [
     {
         name: `HTML page is served over HTTPS without 'Strict-Transport-Security' header specified`,
         reports: [{ message: common.noHeaderError }],
@@ -98,14 +98,14 @@ const defaultTests: Array<IRuleTest> = [
     }
 ];
 
-const configMaxAgeTests: Array<IRuleTest> = [{
+const configMaxAgeTests: Array<RuleTest> = [{
     name: `Change the minimum max-age value`,
     // the max-age that passes before is now too short
     reports: [{ message: common.generateTooShortError(common.OkayMaxAge + 1) }],
     serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.maxAgeOnlyHeader } })
 }];
 
-const configPreloadTets: Array<IRuleTest> = [
+const configPreloadTets: Array<RuleTest> = [
     {
         name: `The 'Strict-Transport-Security' header doesn't have 'preload' attribute`,
         serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.maxAgeOnlyHeader } })

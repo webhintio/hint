@@ -4,7 +4,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, IAsyncHTMLElement, IResponse, IRule, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, IAsyncHTMLElement, Response, IRule, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isHTTPS, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { ParsedSetCookieHeader } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
@@ -270,8 +270,8 @@ export default class ValidateSetCookieHeaderRule implements IRule {
             });
         };
 
-        const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+        const validate = async (fetchEnd: FetchEnd) => {
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
             const defaultValidators: Array<Validator> = [validateNameAndValue, validatePrefixes, validateSecurityAttributes, validateExpireDate, validateMaxAgeAndExpires];
 
             // This check does not apply if URI starts with protocols others than http/https.

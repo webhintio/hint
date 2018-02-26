@@ -2,13 +2,13 @@
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const metaCharset = '<mEtA CHaRseT="UtF-8">';
 const metaHttpEquiv = '<MeTa HTTP-EquiV="ConTent-Type" Content="TexT/HTML; CharSet=UtF-8">';
 
-const tests: Array<IRuleTest> = [
+const tests: Array<RuleTest> = [
     {
         name: `'charset' meta tag is not specified`,
         reports: [{ message: `No charset meta tag was specified` }],

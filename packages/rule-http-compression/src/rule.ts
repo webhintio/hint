@@ -16,7 +16,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { CompressionCheckOptions } from './rule-types';
 import { getFileExtension, isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
 import { getHeaderValueNormalized, isRegularProtocol, isHTTP, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IAsyncHTMLElement, IResponse, IRule, IFetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, Response, IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -433,7 +433,7 @@ export default class HttpCompressionRule implements IRule {
                     (contentEncodingHeaderValue !== 'identity'));
         };
 
-        const checkForDisallowedCompressionMethods = async (resource: string, element: IAsyncHTMLElement, response: IResponse) => {
+        const checkForDisallowedCompressionMethods = async (resource: string, element: IAsyncHTMLElement, response: Response) => {
 
             // See: https://www.iana.org/assignments/http-parameters/http-parameters.xml.
 
@@ -569,7 +569,7 @@ export default class HttpCompressionRule implements IRule {
 
         };
 
-        const isSpecialCase = async (resource: string, element: IAsyncHTMLElement, response: IResponse): Promise<boolean> => {
+        const isSpecialCase = async (resource: string, element: IAsyncHTMLElement, response: Response): Promise<boolean> => {
 
             /*
              * Check for special cases:
@@ -595,10 +595,10 @@ export default class HttpCompressionRule implements IRule {
             return false;
         };
 
-        const validate = async (fetchEnd: IFetchEnd, eventName: string) => {
+        const validate = async (fetchEnd: FetchEnd, eventName: string) => {
             const shouldCheckIfCompressedWith: CompressionCheckOptions = eventName === 'fetch::end::html' ? htmlOptions : resourceOptions;
 
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
 
             /*
              * We shouldn't validate error responses, and 204 (response with no body).

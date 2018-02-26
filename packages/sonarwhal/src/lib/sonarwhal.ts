@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, INetworkData, UserConfig, IEvent, IProblem, IProblemLocation, IRule, RuleConfig, Severity, IConnectorConstructor, IRuleConstructor, IParser, SonarwhalResources, IFormatter } from './types';
+import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IRule, RuleConfig, Severity, IRuleConstructor, IConnectorConstructor, IParser, IFormatter, SonarwhalResources } from './types';
 import * as logger from './utils/logging';
 import { RuleContext } from './rule-context';
 import { RuleScope } from './enums/rulescope';
@@ -38,7 +38,7 @@ export class Sonarwhal extends EventEmitter {
     private rules: Map<string, IRule>
     private connector: IConnector
     private connectorConfig: object
-    private messages: Array<IProblem>
+    private messages: Array<Problem>
     private browserslist: Array<string> = [];
     private ignoredUrls: Map<string, Array<RegExp>>;
     private _formatters: Array<IFormatter>
@@ -154,7 +154,7 @@ export class Sonarwhal extends EventEmitter {
         const that = this;
 
         const createEventHandler = (handler: Function, ruleId: string) => {
-            return function (event: IEvent): Promise<any> {
+            return function (event: Event): Promise<any> {
                 const urlsIgnored: Array<RegExp> = that.ignoredUrls.get(ruleId);
 
                 if (that.isIgnored(urlsIgnored, event.resource)) {
@@ -193,7 +193,7 @@ export class Sonarwhal extends EventEmitter {
         this.on(eventName, createEventHandler(listener, id));
     }
 
-    public fetchContent(target: string | url.Url, headers: object): Promise<INetworkData> {
+    public fetchContent(target: string | url.Url, headers: object): Promise<NetworkData> {
         return this.connector.fetchContent(target, headers);
     }
 
@@ -207,8 +207,8 @@ export class Sonarwhal extends EventEmitter {
     }
 
     /** Reports a message from one of the rules. */
-    public report(ruleId: string, severity: Severity, sourceCode: string, location: IProblemLocation, message: string, resource: string) {
-        const problem: IProblem = {
+    public report(ruleId: string, severity: Severity, sourceCode: string, location: ProblemLocation, message: string, resource: string) {
+        const problem: Problem = {
             location: location || { column: -1, line: -1 },
             message,
             resource,
@@ -237,7 +237,7 @@ export class Sonarwhal extends EventEmitter {
     }
 
     /** Runs all the configured rules and plugins on a target */
-    public async executeOn(target: url.Url): Promise<Array<IProblem>> {
+    public async executeOn(target: url.Url): Promise<Array<Problem>> {
 
         const start: number = Date.now();
 

@@ -19,7 +19,7 @@ import * as sameOrigin from 'same-origin';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { cutString, isRegularProtocol } from 'sonarwhal/dist/src/lib/utils/misc';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, ElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -119,7 +119,7 @@ export default class DisownOpenerRule implements IRule {
             return false;
         };
 
-        const validate = async (data: IElementFound) => {
+        const validate = async (data: ElementFound) => {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
 
             if (!hasTargetBlank(element) ||

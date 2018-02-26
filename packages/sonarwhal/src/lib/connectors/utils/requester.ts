@@ -14,7 +14,7 @@ import * as iconv from 'iconv-lite';
 
 import { debug as d } from '../../utils/debug';
 import { getContentTypeData } from '../../utils/content-type';
-import { INetworkData } from '../../types'; //eslint-disable-line
+import { NetworkData } from '../../types'; //eslint-disable-line
 import { RedirectManager } from './redirects';
 
 const debug = d(__filename);
@@ -72,7 +72,7 @@ export class Requester {
      * [`iconv-lite`](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings)
      * it will decode the response.
      */
-    public get(uri: string): Promise<INetworkData> {
+    public get(uri: string): Promise<NetworkData> {
         debug(`Requesting ${uri}`);
 
         return new Promise((resolve: Function, reject: Function) => {
@@ -115,7 +115,7 @@ export class Requester {
                 const hops: Array<string> = this._redirects.calculate(uri);
                 const body: string = iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
 
-                const networkData: INetworkData = {
+                const networkData: NetworkData = {
                     request: {
                         headers: response.request.headers,
                         url: hops[0] || uri

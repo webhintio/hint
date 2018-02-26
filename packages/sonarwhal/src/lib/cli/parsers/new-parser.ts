@@ -45,19 +45,19 @@ type ParserEventType = {
  * ------------------------------------------------------------------------------
  */
 const events = {
-    'element::': 'IElementFound',
-    'fetch::end::*': 'IFetchEnd',
-    'fetch::end::html': 'IFetchEnd',
-    'fetch::error': 'IFetchError',
-    'fetch::error::manifest': 'IManifestFetchError',
-    'fetch::missing::manifest': 'IManifestFetchMissing',
-    'fetch::start': 'IFetchStart',
-    'scan::end': 'IScanEnd',
-    'scan::start': 'IScanStart',
-    'traverse::down': 'ITraverseDown',
-    'traverse::end': 'ITraverseEnd',
-    'traverse::start': 'ITraverseStart',
-    'traverse::up': 'ITraverseUp'
+    'element::': 'ElementFound',
+    'fetch::end::*': 'FetchEnd',
+    'fetch::end::html': 'FetchEnd',
+    'fetch::error': 'FetchError',
+    'fetch::error::manifest': 'ManifestFetchError',
+    'fetch::missing::manifest': 'ManifestFetchMissing',
+    'fetch::start': 'FetchStart',
+    'scan::end': 'ScanEnd',
+    'scan::start': 'ScanStart',
+    'traverse::down': 'TraverseDown',
+    'traverse::end': 'TraverseEnd',
+    'traverse::start': 'TraverseStart',
+    'traverse::up': 'TraverseUp'
 };
 
 /**

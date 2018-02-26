@@ -6,7 +6,7 @@ import * as amphtmlValidator from 'amphtml-validator';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, RuleMetadata, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
+import { IRule, RuleMetadata, FetchEnd } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -36,9 +36,9 @@ export default class AmpValidatorRule implements IRule {
     public constructor(context: RuleContext) {
         let validPromise;
         const errorsOnly = context.ruleOptions && context.ruleOptions['errors-only'] || false;
-        let events: Array<IFetchEnd> = [];
+        let events: Array<FetchEnd> = [];
 
-        const onFetchEndHTML = (fetchEnd: IFetchEnd) => {
+        const onFetchEndHTML = (fetchEnd: FetchEnd) => {
             const { response: { body: { content }, statusCode } } = fetchEnd;
 
             if (statusCode !== 200 || !content) {

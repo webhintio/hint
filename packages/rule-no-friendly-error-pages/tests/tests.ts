@@ -2,7 +2,7 @@
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -68,7 +68,7 @@ const testsForWhenRuleDoesNotApply = [{
     }
 }];
 
-const tests: Array<IRuleTest> = [];
+const tests: Array<RuleTest> = [];
 
 addTests(tests, statusCodesWith256Threshold, 256);
 addTests(tests, statusCodesWith512Threshold, 512);

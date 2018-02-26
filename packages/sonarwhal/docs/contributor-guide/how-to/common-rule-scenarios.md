@@ -91,18 +91,17 @@ context.evaluate(script);
 If your rule does not work properly with certain connectors you can
 use the property `ignoreConnectors` so it is not run when they are used.
 
-<!-- eslint-disable no-unused-vars, object-curly-newline -->
-
-```js
-const rule = {
-    create(context) {
-        // Your code here
-    },
-
-    meta: {
+```ts
+export default class MyRule implements IRule {
+    public static readonly meta: RuleMetadata = {
+        id: 'my-rule',
         ignoredConnectors: ['jsdom']
     }
-};
+
+    public constructor(context) {
+        // Your code here
+    }
+}
 ```
 
 ## Interact with other services
@@ -117,28 +116,32 @@ will have to listen to `scan::start` and `scan::end` events respectively.
 The `create` method of your rule should be similar to the following:
 
 ```ts
-create(context: RuleContext): IRule {
-    /** The promise that represents the connection to the online service. */
-    let promise: Promise<any>;
+export default class MyRule implements IRule {
+    public static readonly meta: RuleMetadata = {
+        id: 'my-rule'
+    }
 
-    const start = (data: IScanStartEvent) => {
-        // Initialize promise to service here but do not return it.
-    };
+    public constructor(context) {
+        /** The promise that represents the connection to the online service. */
+        let promise: Promise<any>;
 
-    const end = (data: IScanEndEvent): Promise<any> => {
-        return promise
-            .then((results) => {
-                // Report any results via `context.report` here.
-            })
-            .catch((e) => {
-                // Always good to handle errors.
-            });
-    };
+        const start = (data: ScanStartEvent) => {
+            // Initialize promise to service here but do not return it.
+        };
 
-    return {
-        'scan::start': start,
-        'scan::end': end
-    };
+        const end = (data: ScanEndEvent): Promise<any> => {
+            return promise
+                .then((results) => {
+                    // Report any results via `context.report` here.
+                })
+                .catch((e) => {
+                    // Always good to handle errors.
+                });
+        };
+
+        context.on('scan::start', start);
+        context.on('scan::end', end);
+    }
 }
 ```
 
@@ -160,13 +163,24 @@ Here is an example rule that use the parser:
 ```ts
 import * as eslint from 'eslint';
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class ScriptSemiColonRule implements IRule {
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.interoperability,
+            description: `Check if your scripts use semicolon`
+        },
+        id: 'script-semicolon',
+        recommended: false,
+        schema: [],
+        worksWithLocalFiles: true
+    }
+
+    public constructor(context) {
         let validPromise;
         const errorsOnly = context.ruleOptions && context.ruleOptions['errors-only'] || false;
         let html;
 
-        const onParseJavascript = async (scriptParse: IScriptParse) => {
+        const onParseJavascript = async (scriptParse: ScriptParse) => {
             const results = linter.verify(scriptParse.sourceCode, {
                 rules: {
                     semi: 2
@@ -178,20 +192,9 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return {
-            'parse::javascript': onParseJavascript
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.interoperability,
-            description: `Check if your scripts use semicolon`
-        },
-        recommended: false,
-        schema: [],
-        worksWithLocalFiles: true
+        context.on('parse::javascript', onParseJavascript);
     }
-};
+}
 ```
 
 And when writing tests, you need to specify the parsers that you need:

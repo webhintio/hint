@@ -106,36 +106,32 @@ Note that `context.report` is an asynchronous method, so always use `await`.
 
 ```ts
 export default class FooterRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
-
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.other,
             description: `A rule to validate footer`
         },
+        id: 'footer',
         recommended: false,
         schema: [],
         worksWithLocalFiles: true
     }
 
-public constructor(context: RuleContext) {
-    const stringToBeIncluded = `(c) sonarwhal`;
-    const validateFooter = async (elementFound: IElementFound) => {
-        const { element, resource } = elementFound;
-        const footerHTML = await element.outerHTML();
+    public constructor(context: RuleContext) {
+        const stringToBeIncluded = `(c) sonarwhal`;
+        const validateFooter = async (elementFound: ElementFound) => {
+            const { element, resource } = elementFound;
+            const footerHTML = await element.outerHTML();
 
-        debug(`Validating rule validate-footer`);
+            debug(`Validating rule validate-footer`);
 
-        if (!footerHTML.includes(stringToBeIncluded)) {
-            await context.report(resource, element, `"${stringToBeIncluded}" is not included in the footer.`);
-        }
-    };
+            if (!footerHTML.includes(stringToBeIncluded)) {
+                await context.report(resource, element, `"${stringToBeIncluded}" is not included in the footer.`);
+            }
+        };
 
-    context.on(this.id, 'element::footer', validateFooter);
+        context.on('element::footer', validateFooter);
+    }
 }
 ```
 
@@ -174,17 +170,12 @@ config option is valid before using it.
 
 ```ts
 export default class CopyrightRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
-
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.other,
             description: `A new rule to validate footer`
         },
+        id: 'copyright',
         recommended: false,
         schema: [{
             additionalProperties: false,
@@ -197,8 +188,6 @@ export default class CopyrightRule implements IRule {
     }
 
     public constructor(id: string, context: RuleContext) {
-        this._id = id;
-
         let stringToBeIncluded;
 
         const loadRuleConfigs = () => {
@@ -206,7 +195,7 @@ export default class CopyrightRule implements IRule {
             stringToBeIncluded = (context.ruleOptions && context.ruleOptions.stringToBeIncluded) || `(c) sonarwhal`;
         };
 
-        const validateFooter = async (elementFound: IElementFound) => { ... };
+        const validateFooter = async (elementFound: ElementFound) => { ... };
 
         loadRuleConfigs();
 
@@ -269,7 +258,7 @@ const footer = {
     wrongTextInFooter: `<footer>(c) Sonarwhal</footer>`
 };
 
-const defaultTests: Array<IRuleTest> = [
+const defaultTests: Array<RuleTest> = [
     {
         name: `Footer exists and it contains '(c) sonarwhal'`,
         serverConfig: generateHTMLPage('', footer.noProblem)

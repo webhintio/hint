@@ -4,7 +4,7 @@ import * as mock from 'mock-require';
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -66,7 +66,7 @@ const mockCloudinary = (responses?) => {
     mock('cloudinary', mockedModule);
 };
 
-const tests: Array<IRuleTest> = [
+const tests: Array<RuleTest> = [
     {
         before() {
             mockCloudinary(savings50);
@@ -100,7 +100,7 @@ const tests: Array<IRuleTest> = [
     }
 ];
 
-const testThresholds: Array<IRuleTest> = [
+const testThresholds: Array<RuleTest> = [
     {
         before() {
             mockCloudinary([savings33, savings33]);
@@ -125,7 +125,7 @@ const testThresholds: Array<IRuleTest> = [
     }
 ];
 
-const noConfigTest: Array<IRuleTest> = [
+const noConfigTest: Array<RuleTest> = [
     {
         before() {
             mockCloudinary(savings50);

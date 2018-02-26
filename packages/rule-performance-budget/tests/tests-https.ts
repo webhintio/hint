@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -44,7 +44,7 @@ const generateServerConfig = (imageCount: number, redirects = false) => {
     return serverConfig;
 };
 
-const tests: Array<IRuleTest> = [
+const tests: Array<RuleTest> = [
     {
         name: 'Plain page loads fast enough',
         serverConfig: generateHTMLPage()
@@ -71,7 +71,7 @@ That's 17.6s more than the 5s target.`
     }
 ];
 
-const loadTimeTests: Array<IRuleTest> = [
+const loadTimeTests: Array<RuleTest> = [
     {
         name: 'Plain page loads fast enough',
         serverConfig: generateHTMLPage()
@@ -86,7 +86,7 @@ That's 1.7s more than the 1s target.`
     }
 ];
 
-const connectionTypeTests: Array<IRuleTest> = [
+const connectionTypeTests: Array<RuleTest> = [
     {
         name: 'Plain page loads fast enough',
         serverConfig: generateHTMLPage()

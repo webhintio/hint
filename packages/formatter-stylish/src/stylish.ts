@@ -17,7 +17,7 @@ import * as pluralize from 'pluralize';
 
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFormatter, IProblem, Severity } from 'sonarwhal/dist/src/lib/types';
+import { IFormatter, Problem, Severity } from 'sonarwhal/dist/src/lib/types';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 
 const debug = d(__filename);
@@ -38,7 +38,7 @@ const printPosition = (position: number, text: string) => {
 
 export default class StylishFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public format(messages: Array<IProblem>) {
+    public format(messages: Array<Problem>) {
 
         debug('Formatting results');
 
@@ -46,20 +46,20 @@ export default class StylishFormatter implements IFormatter {
             return;
         }
 
-        const resources: _.Dictionary<Array<IProblem>> = _.groupBy(messages, 'resource');
+        const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'resource');
         let totalErrors: number = 0;
         let totalWarnings: number = 0;
 
-        _.forEach(resources, (msgs: Array<IProblem>, resource: string) => {
+        _.forEach(resources, (msgs: Array<Problem>, resource: string) => {
             let warnings: number = 0;
             let errors: number = 0;
-            const sortedMessages: Array<IProblem> = _.sortBy(msgs, ['location.line', 'location.column']);
+            const sortedMessages: Array<Problem> = _.sortBy(msgs, ['location.line', 'location.column']);
             const tableData: Array<Array<string>> = [];
             let hasPosition: boolean = false;
 
             logger.log(chalk.cyan(`${cutString(resource, 80)}`));
 
-            _.forEach(sortedMessages, (msg: IProblem) => {
+            _.forEach(sortedMessages, (msg: Problem) => {
                 const severity: string = Severity.error === msg.severity ? chalk.red('Error') : chalk.yellow('Warning');
 
                 if (Severity.error === msg.severity) {
