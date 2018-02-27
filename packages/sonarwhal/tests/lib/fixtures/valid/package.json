@@ -1,0 +1,48 @@
+{
+  "private": true,
+  "sonarwhalConfig": {
+    "connector": {
+      "name": "chrome",
+      "options": {
+        "waitFor": 1000
+      }
+    },
+    "formatters": [
+      "json"
+    ],
+    "rules": {
+      "disallowed-headers": ["warning", {}],
+      "manifest-exists": "warning",
+      "manifest-file-extension": "warning",
+      "manifest-is-valid": "warning",
+      "no-friendly-error-pages": "warning",
+      "no-html-only-headers": "warning",
+      "no-protocol-relative-urls": "warning",
+      "x-content-type-options": "warning"
+    },
+    "ignoredUrls": [
+      {
+        "domain": "^https?://.*\\.domain1\\.com/.*",
+        "rules": [
+          "*"
+        ]
+      },
+      {
+        "domain": "^https?://.*\\.domain2\\.com/.*",
+        "rules": [
+          "disallowed-headers"
+        ]
+      },
+      {
+        "domain": "^https?://.*\\.domain3\\.com/.*",
+        "rules": [
+          "*"
+        ]
+      }
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 1 version"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+    "extends": [
+        "basics"
+    ],
+    "connector": {
+        "name": "chrome",
+        "options": {
+            "waitFor": 1000
+        }
+    },
+    "formatters": [
+        "json"
+    ],
+    "rules": {
+        "disallowed-headers": "error"
+    }
+}
