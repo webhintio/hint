@@ -30,10 +30,19 @@ be done mostly via [`event`s][events]. The other pieces are:
 When a user invokes `sonarwhal https://example.com` basically what happens is
 this:
 
-1. The `CLI` creates a new `sonarwhal`
-1. `sonarwhal` loads the configuration in `.sonarwhalrc` or
-   `package.json` and the associated resources
-1. `CLI` then calls the `analyze` method.
+1. The `CLI` creates a new `SonarwhalConfig` object based on the user's
+   `.sonarwharc` file. This process validates that the rules are configured
+   correctly, etc.
+1. The `CLI` then passes this `SonarwhalConfig` to the `resource-loader` that
+   will return a `SonarwhalResources` object that contains the `Constructors`
+   of the configured resources. `resource-loader` checks at the same time if
+   the resources actually exist, are compatible with the current `sonarwhal`
+   version, etc. If there are missing dependencies, the names will be in the
+   `missing` property of the result. For incompatibilities, it will be the
+   `incompatible`.
+1. If everything goes well, a new `Sonarwhal` object is created using the
+   previous `SonarwhalConfig` and `SonarwhalResources`, then `CLI` calls its
+   `analyze` method.
 1. `sonarwhal` then calls the `collect` method of the configured `connector`.
 1. The `connector` will navigate to the `URL` traverse the HTML, and send
    `event`s related to this and the resource loading process.
