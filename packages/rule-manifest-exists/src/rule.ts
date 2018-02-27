@@ -31,7 +31,7 @@ export default class ManifetsExistsRule implements IRule {
             category: Category.pwa,
             description: 'Require a web app manifest'
         },
-        id: 'manifest-exists-rule',
+        id: 'manifest-exists',
         schema: [],
         scope: RuleScope.any
     }
