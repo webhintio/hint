@@ -1,6 +1,6 @@
-import { IProblem, Severity } from 'sonarwhal/dist/src/lib/types';
+import { Problem, Severity } from 'sonarwhal/dist/src/lib/types';
 
-const summaryProblems: Array<IProblem> = [{
+const summaryProblems: Array<Problem> = [{
     location: {
         column: 10,
         elementColumn: 10,
@@ -62,7 +62,7 @@ const summaryProblems: Array<IProblem> = [{
     </a>`
 }];
 
-const summarySameNumberOfErrors: Array<IProblem> = [{
+const summarySameNumberOfErrors: Array<Problem> = [{
     location: {
         column: 10,
         elementColumn: 10,
@@ -88,7 +88,7 @@ const summarySameNumberOfErrors: Array<IProblem> = [{
 }];
 
 
-const summaryWarnings: Array<IProblem> = [{
+const summaryWarnings: Array<Problem> = [{
     location: {
         column: 10,
         elementColumn: 10,
@@ -113,7 +113,7 @@ const summaryWarnings: Array<IProblem> = [{
     sourceCode: ''
 }];
 
-const noproblems: Array<IProblem> = [];
+const noproblems: Array<Problem> = [];
 
 export {
     noproblems,

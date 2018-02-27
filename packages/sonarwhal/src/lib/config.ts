@@ -241,14 +241,15 @@ export class SonarwhalConfig {
         // 3, 4
         const userConfig = composeConfig(config);
 
+        if (typeof userConfig.connector === 'string') {
+            userConfig.connector = {
+                name: userConfig.connector,
+                options: {}
+            };
+        }
+
         // In case the user uses the --watch flag when running sonarwhal
-        if (actions.watch) {
-            if (typeof userConfig.connector === 'string') {
-                userConfig.connector = {
-                    name: userConfig.connector,
-                    options: {}
-                };
-            }
+        if (actions && actions.watch) {
             userConfig.connector.options.watch = actions.watch;
         }
 

@@ -9,7 +9,7 @@ const logging = { log() { } };
 
 proxyquire('../src/summary', { 'sonarwhal/dist/src/lib/utils/logging': logging });
 
-import SummaryFormatter from '../../../src/lib/formatters/summary/summary';
+import SummaryFormatter from '../src/summary';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
@@ -34,7 +34,9 @@ test(`Summary formatter prints in yellow if only warnings found`, (t) => {
     const log = t.context.logger.log;
     const tableData = [];
 
-    summary.format(problems.summaryWarnings);
+    const formatter = new SummaryFormatter();
+
+    formatter.format(problems.summaryWarnings);
 
     tableData.push([chalk.cyan('random-rule'), chalk.yellow(`2 warnings`)]);
 
@@ -65,7 +67,9 @@ test(`Summary formatter sorts by name if same number of errors`, (t) => {
     const log = t.context.logger.log;
     const tableData = [];
 
-    summary.format(problems.summarySameNumberOfErrors);
+    const formatter = new SummaryFormatter();
+
+    formatter.format(problems.summarySameNumberOfErrors);
 
     tableData.push([chalk.cyan('random-rule'), chalk.red(`1 error`)]);
     tableData.push([chalk.cyan('random-rule2'), chalk.red(`1 error`)]);

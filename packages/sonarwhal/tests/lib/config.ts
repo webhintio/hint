@@ -218,7 +218,7 @@ test.serial(`if the configuration file contains an invalid extends property, ret
     sandbox.restore();
 });
 
-test.serial(`if a Rule has an invalid configuration, it should throw an exception`, async (t) => {
+test.serial(`if a Rule has an invalid configuration, it should throw an exception`, (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeDisallowedRule implements IRule {

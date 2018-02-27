@@ -193,7 +193,7 @@ test('loadResources loads all the resources of a given config', (t) => {
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
     const resources = resourceLoader.loadResources(config);
 
-    t.is(resources.missing.length, 1, `Found all resources`);
+    t.true(resources.missing.length > 0, `Found all resources`);
 });
 /**
  * More tests:

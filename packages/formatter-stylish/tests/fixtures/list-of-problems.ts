@@ -1,6 +1,6 @@
-import { IProblem, Severity } from 'sonarwhal/dist/src/lib/types';
+import { Problem, Severity } from 'sonarwhal/dist/src/lib/types';
 
-const multipleproblemsandresources: Array<IProblem> = [{
+const multipleproblemsandresources: Array<Problem> = [{
     location: {
         column: 10,
         elementColumn: 10,
@@ -62,7 +62,7 @@ const multipleproblemsandresources: Array<IProblem> = [{
     </a>`
 }];
 
-const noproblems: Array<IProblem> = [];
+const noproblems: Array<Problem> = [];
 
 export {
     multipleproblemsandresources,
