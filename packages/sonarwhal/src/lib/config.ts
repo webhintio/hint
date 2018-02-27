@@ -284,10 +284,11 @@ export class SonarwhalConfig {
         // 1
         const resolvedPath: string = path.resolve(process.cwd(), filePath);
         const userConfig = loadConfigFile(resolvedPath);
+        const config = this.fromConfig(userConfig, actions);
 
-        userConfig.browserslist = loadBrowsersList(userConfig);
+        userConfig.browserslist = userConfig.browserslist || loadBrowsersList(userConfig);
 
-        return this.fromConfig(userConfig, actions);
+        return config;
     }
 
     /**
