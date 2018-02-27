@@ -1,6 +1,7 @@
 import { EOL } from 'os';
 import * as path from 'path';
 
+import { argv } from 'yargs';
 import * as inquirer from 'inquirer';
 import * as Listr from 'listr';
 import * as listrInput from 'listr-input';
@@ -86,7 +87,7 @@ const removePackageFiles = (dir: string = 'packages/*') => {
 
 const cleanup = (ctx) => {
     removePackageFiles(ctx.packagePath);
-    delete ctx.packageNewTag;
+    ctx = {}; // eslint-disable-line no-param-reassign
 };
 
 const createGitHubToken = async (showInitialMessage = true) => {
@@ -229,6 +230,10 @@ const gitCommitChanges = async (commitMessage: string) => {
 
 const gitCommitBuildChanges = async (ctx) => {
     await gitCommitChanges(`🚀 ${ctx.packageName} - v${ctx.newPackageVersion}`);
+};
+
+const gitCommitPrerelease = async () => {
+    await gitCommitChanges(`🚀 Prerelease`);
 };
 
 const deleteGitHubToken = async () => {
@@ -384,12 +389,16 @@ const getCommitSHAsSinceLastRelease = async (ctx) => {
 const getLastReleasedVersionNumber = async (ctx) => {
     const packageJSONFileContent = (await exec(`git show ${ctx.packageLastTag}:${ctx.packageJSONFilePath}`)).stdout;
 
-    ctx.packageLastReleaseVersion = (JSON.parse(packageJSONFileContent)).version;
+    ctx.packageVersion = (JSON.parse(packageJSONFileContent)).version;
+};
+
+const getVersionNumber = (ctx) => {
+    ctx.newPackageVersion = ctx.packageJSONFileContent.version;
 };
 
 const getReleaseData = (ctx) => {
     ({
-        semverIncrement: ctx.packageSemVerIncrement,
+        semverIncrement: ctx.packageSemverIncrement,
         releaseNotes: ctx.packageReleaseNotes
     } = getChangelogData(ctx.commitSHAsSinceLastRelease, ctx.packageName));
 
@@ -420,7 +429,11 @@ const getReleaseNotes = (changelogFilePath: string): string => {
 };
 
 const gitCreateRelease = async (ctx) => {
-    await createRelease(ctx.packageNewTag, getReleaseNotes(ctx.changelogFilePath));
+    if (!ctx.isUnpublishedPackage) {
+        await createRelease(ctx.packageNewTag, getReleaseNotes(ctx.changelogFilePath));
+    } else {
+        await createRelease(ctx.packageNewTag, `${shell.cat(ctx.changelogFilePath)}`);
+    }
 };
 
 const gitDeleteTag = async (tag: string) => {
@@ -434,7 +447,7 @@ const gitGetLastTaggedRelease = async (ctx) => {
 };
 
 const gitPush = async (ctx) => {
-    await exec(`git push origin master ${ctx.packageNewTag}`);
+    await exec(`git push origin master ${ctx.packageNewTag ? ctx.packageNewTag : ''}`);
 };
 
 const gitReset = async () => {
@@ -462,14 +475,18 @@ const npmInstall = async (ctx) => {
     await exec(`cd ${ctx.packagePath} && npm install`);
 };
 
-const npmPublish = (ctx, message = 'Enter OTP: ') => {
-    return listrInput(message, {
+const npmPublish = (ctx) => {
+    return listrInput('Enter OTP: ', {
         done: async (otp) => {
-            await exec(`cd ${ctx.packagePath} && npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''} --otp=${otp}`);
+            if (!ctx.isPrerelease) {
+                await exec(`cd ${ctx.packagePath} && npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''} --otp=${otp}`);
+            } else {
+                await exec(`cd ${ctx.packagePath} && npm publish --tag next --otp=${otp}`);
+            }
         }
     }).catch((err) => {
         if (err.stderr.indexOf('You must provide a one-time pass') !== -1) {
-            return npmPublish(ctx, 'OTP was incorrect, try again:');
+            return npmPublish(ctx);
         }
 
         throw new Error(err);
@@ -506,13 +523,22 @@ const npmShrinkwrap = async (ctx) => {
 };
 
 const npmUpdateVersion = async (ctx) => {
-    const version = (await exec(`cd ${ctx.packagePath} && npm --quiet version ${ctx.packageSemVerIncrement} --no-git-tag-version`)).stdout;
+    const version = (await exec(`cd ${ctx.packagePath} && npm --quiet version ${ctx.packageSemverIncrement} --no-git-tag-version`)).stdout;
 
     /*
      * `verstion` will be something such as `vX.X.X`,
      *  so the `v` will need to be removed.
      */
     ctx.newPackageVersion = version.substring(1, version.length);
+};
+
+const npmUpdateVersionForPrerelease = (ctx) => {
+    const newPrereleaseVersion = semver.inc(ctx.packageJSONFileContent.version, (`pre${ctx.packageSemverIncrement}` as any), ('beta' as any));
+
+    ctx.packageJSONFileContent.version = newPrereleaseVersion;
+    ctx.newPackageVersion = newPrereleaseVersion;
+
+    updateFile(`${ctx.packageJSONFilePath}`, `${JSON.stringify(ctx.packageJSONFileContent, null, 2)}\n`);
 };
 
 const updateChangelog = (ctx) => {
@@ -538,38 +564,11 @@ const updateSnykSnapshot = async () => {
     );
 };
 
-const updateSonarwhalVersionNumber = async (ctx) => {
-    const packages = [...shell.ls('-d', `packages/!(${ctx.packageName})`)];
-
-    for (const pkg of packages) {
-
-        const packageJSONFilePath = `${pkg}/package.json`;
-        const packageJSONFileContent = require(`../../${packageJSONFilePath}`);
-
-        const sonarwhalDevDependencyRange = packageJSONFileContent.devDependencies.sonarwhal;
-        const sonarwhalPeerDependencyRange = packageJSONFileContent.peerDependencies.sonarwhal;
-
-        /*
-         * Update the sonarwhal `devDependency` and `peerDependency`.
-         * (This is done so that everything is keeped in sync)
-         */
-
-        if (sonarwhalDevDependencyRange) {
-            packageJSONFileContent.devDependencies.sonarwhal = `^${ctx.newPackageVersion}`;
-        }
-
-        if (sonarwhalPeerDependencyRange) {
-            packageJSONFileContent.peerDependencies.sonarwhal = `^${ctx.newPackageVersion}`;
-        }
-
-        if (sonarwhalDevDependencyRange || sonarwhalPeerDependencyRange) {
-            updateFile(`${packageJSONFilePath}`, `${JSON.stringify(packageJSONFileContent, null, 2)}\n`);
-        }
-    }
+const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx) => {
 
     const semverIncrement = semver.diff(ctx.packageVersion, ctx.newPackageVersion);
 
-    // `semver.diff` returns null if the versions are the same.
+    // `semver.diff` returns `null` if the versions are the same.
 
     if (!semverIncrement) {
         return;
@@ -582,45 +581,54 @@ const updateSonarwhalVersionNumber = async (ctx) => {
      * TODO: Update this to include only `major` and `premajor`
      *       once `sonarwhal` reaches v1.
      */
-    if (['minor', 'preminor', 'major', 'premajor'].includes(semverIncrement)) {
+
+    if ((ctx.packageName === 'sonarwhal' && ['minor', 'preminor'].includes(semverIncrement)) ||
+        ['major', 'premajor'].includes(semverIncrement)) {
         commitPrefix = 'Breaking:';
     }
 
     await gitCommitChanges(`${commitPrefix} \\\`${ctx.packageName}\\\` to \\\`v${ctx.newPackageVersion}\\\``);
 };
 
+const updatePackageVersionNumberInOtherPackages = (ctx) => {
+    const packages = [...shell.ls('-d', `packages/!(${ctx.packageName})`)];
+
+    for (const pkg of packages) {
+
+        const packageJSONFilePath = `${pkg}/package.json`;
+        const packageJSONFileContent = require(`../../${packageJSONFilePath}`);
+
+        const dependencyName = ctx.packageName === 'sonarwhal' ? ctx.packageName : `@sonarwhal/${ctx.packageName}`;
+
+        const dependencyRange = packageJSONFileContent.dependencies && packageJSONFileContent.dependencies[dependencyName];
+        const devDependencyRange = packageJSONFileContent.devDependencies && packageJSONFileContent.devDependencies[dependencyName];
+        const peerDependencyRange = packageJSONFileContent.peerDependencies && packageJSONFileContent.peerDependencies[dependencyName];
+
+        if (dependencyRange) {
+            packageJSONFileContent.dependencies[dependencyName] = `^${ctx.newPackageVersion}`;
+        }
+
+        if (devDependencyRange) {
+            packageJSONFileContent.devDependencies[dependencyName] = `^${ctx.newPackageVersion}`;
+        }
+
+        if (peerDependencyRange) {
+            packageJSONFileContent.peerDependencies[dependencyName] = `^${ctx.newPackageVersion}`;
+        }
+
+        if (dependencyRange || devDependencyRange || peerDependencyRange) {
+            updateFile(`${packageJSONFilePath}`, `${JSON.stringify(packageJSONFileContent, null, 2)}\n`);
+        }
+    }
+};
+
 const waitForUser = async () => {
     return await listrInput('Press any key once you are done with the review:');
 };
 
-const getTasks = (packagePath: string) => {
-
-    const packageName = packagePath.substring(packagePath.lastIndexOf('/') + 1);
-    const packageJSONFileContent = require(`../../${packagePath}/package.json`);
+const getTasksForRelease = (packageName: string, packageJSONFileContent) => {
 
     const tasks = [];
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    tasks.push({
-        task: (ctx) => {
-            ctx.skipRemainingTasks = false;
-
-            ctx.packagePath = packagePath;
-            ctx.packageName = ctx.packagePath.substring(ctx.packagePath.lastIndexOf('/') + 1);
-
-            ctx.changelogFilePath = `${ctx.packagePath}/CHANGELOG.md`;
-            ctx.packageJSONFilePath = `${ctx.packagePath}/package.json`;
-            ctx.packageLockJSONFilePath = `${ctx.packagePath}/package-lock.json`;
-            ctx.shrinkwrapFilePath = `${ctx.packagePath}/npm-shrinkwrap.json`;
-
-            ctx.packageJSONFileContent = packageJSONFileContent;
-
-            ctx.packageVersion = ctx.packageJSONFileContent.version;
-            ctx.isUnpublishedPackage = ctx.packageJSONFileContent.private === true;
-        },
-        title: `Get package information.`
-    });
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -640,16 +648,14 @@ const getTasks = (packagePath: string) => {
 
     if (packageJSONFileContent.private === true) {
         tasks.push(
+            newTask('Get version number.', getVersionNumber),
             newTask('Remove `"private": true` from the `package.json` file.', npmRemovePrivateField),
             newTask('Update `CHANGELOG.md` file.', updateChangelog)
         );
-    }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Published package tasks.
 
-    // Unpublished package tasks.
-
-    if (!packageJSONFileContent.private) {
+    } else {
         tasks.push(
             newTask('Get last tagged release.', gitGetLastTaggedRelease),
             newTask('Get last released version number.', getLastReleasedVersionNumber),
@@ -663,7 +669,7 @@ const getTasks = (packagePath: string) => {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    // Common tasks.
+    // Common tasks for both published and unpublished packages.
 
     tasks.push(
         newTask('Install dependencies.', npmInstall),
@@ -675,16 +681,79 @@ const getTasks = (packagePath: string) => {
         newTask('Create `npm-shrinkwrap.json` file.', npmShrinkwrap),
         newTask(`Publish on npm.`, npmPublish),
         newTask(`Push changes upstream.`, gitPush),
-        newTask(`Create release.`, gitCreateRelease)
+        newTask(`Create release.`, gitCreateRelease),
+
+        /*
+         * To keep things in sync, after a package is released,
+         * update all other packages to use its newly released version.
+         */
+
+        newTask(`Update \`${packageName}\` version numbers in other packages.`, updatePackageVersionNumberInOtherPackages),
+        newTask(`Commit updated \`${packageName}\` version numbers.`, commitUpdatedPackageVersionNumberInOtherPackages)
     );
 
+    return tasks;
+};
+
+const getTaksForPrerelease = (packageName: string) => {
+
+    const tasks = [];
+
+    tasks.push(
+        newTask('Get last tagged release.', gitGetLastTaggedRelease),
+        newTask('Get commits SHAs since last release.', getCommitSHAsSinceLastRelease),
+        newTask('Get semver increment.', getReleaseData),
+        newTask('Update version in `package.json`.', npmUpdateVersionForPrerelease),
+        newTask('Install dependencies.', npmInstall),
+        newTask('Run release build.', npmRunBuildForRelease),
+        newTask('Remove `devDependencies`.', npmRemoveDevDependencies),
+        newTask('Create `npm-shrinkwrap.json` file.', npmShrinkwrap),
+        newTask(`Publish on npm.`, npmPublish),
+        newTask(`Update \`${packageName}\` version number in other packages.`, updatePackageVersionNumberInOtherPackages)
+    );
+
+    return tasks;
+};
+
+const getTasks = (packagePath: string) => {
+
+    const packageName = packagePath.substring(packagePath.lastIndexOf('/') + 1);
+    const packageJSONFileContent = require(`../../${packagePath}/package.json`);
+    const isUnpublishedPackage = packageJSONFileContent.private === true;
+    const isPrerelease = !!argv.prerelease;
+
+    const tasks = [];
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    if (packageName === 'sonarwhal') {
-        tasks.push(newTask('Update `sonarwhal` version numbers.', updateSonarwhalVersionNumber, packageName === 'sonarwhal'));
+    tasks.push({
+        task: (ctx) => {
+            ctx.skipRemainingTasks = false;
+
+            ctx.packagePath = packagePath;
+            ctx.packageName = ctx.packagePath.substring(ctx.packagePath.lastIndexOf('/') + 1);
+
+            ctx.changelogFilePath = `${ctx.packagePath}/CHANGELOG.md`;
+            ctx.packageJSONFilePath = `${ctx.packagePath}/package.json`;
+            ctx.packageLockJSONFilePath = `${ctx.packagePath}/package-lock.json`;
+            ctx.shrinkwrapFilePath = `${ctx.packagePath}/npm-shrinkwrap.json`;
+
+            ctx.packageJSONFileContent = packageJSONFileContent;
+
+            ctx.isUnpublishedPackage = isUnpublishedPackage;
+            ctx.isPrerelease = isPrerelease;
+        },
+        title: `Get package information.`
+    });
+
+    if (!isPrerelease) {
+        tasks.push(...getTasksForRelease(packageName, packageJSONFileContent));
+
+    // For prereleases, ignore packages that have not yet been released.
+
+    } else if (!isUnpublishedPackage) {
+        tasks.push(...getTaksForPrerelease(packageName));
     }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     tasks.push(newTask(`Cleanup.`, cleanup));
 
@@ -698,8 +767,22 @@ const main = async () => {
     await gitReset();
     await createGitHubToken();
 
-    const packages = ['packages/sonarwhal', ...shell.ls('-d', 'packages/rule-*')];
+    /*
+     * Note: The order of the followings matters as some
+     * packages depend on previous ones to be released first.
+     */
+
+    const packages = [
+        'packages/sonarwhal',
+        ...shell.ls('-d', 'packages/formatter-*'),
+        // ...shell.ls('-d', 'packages/connector-*'),
+        ...shell.ls('-d', 'packages/parser-*'),
+        ...shell.ls('-d', 'packages/rule-*'),
+        ...shell.ls('-d', 'packages/configuration-*')
+    ];
     const tasks = [];
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     for (const pkg of packages) {
         tasks.push({
@@ -710,7 +793,21 @@ const main = async () => {
         });
     }
 
-    new Listr(tasks).run()
+    /*
+     * For prereleases no commits or tags
+     * are done, just this one at the end.
+     */
+
+    if (argv.prerelease) {
+        tasks.push(
+            newTask('Commit changes.', gitCommitPrerelease),
+            newTask(`Push changes upstream.`, gitPush)
+        );
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    await new Listr(tasks).run()
         .catch(async (err) => {
             console.error(err);
 
