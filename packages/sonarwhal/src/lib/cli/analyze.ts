@@ -2,7 +2,7 @@ import * as inquirer from 'inquirer';
 import * as ora from 'ora';
 import * as pluralize from 'pluralize';
 
-import { SonarwhalConfig, getFilenameForDirectory } from '../config';
+import { SonarwhalConfig } from '../config';
 import { Sonarwhal } from '../sonarwhal';
 import { CLIOptions, ORA, Problem, Severity, URL } from '../types';
 import { debug as d } from '../utils/debug';
@@ -61,7 +61,7 @@ const askUserToInstallDependencies = async (dependencies: Array<string>): Promis
 
 const tryToLoadConfig = async (actions: CLIOptions): Promise<SonarwhalConfig> => {
     let config: SonarwhalConfig;
-    const configPath: string = actions.config || getFilenameForDirectory(process.cwd());
+    const configPath: string = actions.config || SonarwhalConfig.getFilenameForDirectory(process.cwd());
 
     debug(`Loading configuration file from ${configPath}.`);
     try {

@@ -124,36 +124,6 @@ const loadBrowsersList = (config: UserConfig) => {
     return browserslist(config.browserslist);
 };
 
-/** Loads a configuration file from the given file path. */
-export const loadUserConfig = (filePath: string): UserConfig => {
-
-    const resolvedPath: string = path.resolve(process.cwd(), filePath);
-    const config: UserConfig = loadConfigFile(resolvedPath);
-
-    if (!config || !validateConfig(config)) {
-        throw new Error(`Couldn't find any valid configuration`);
-    }
-
-    return config;
-};
-
-/**
- * Retrieves the configuration filename for a given directory. It loops over all
- * of the valid configuration filenames in order to find the first one that exists.
- */
-export const getFilenameForDirectory = (directory: string): string | null => {
-
-    for (let i = 0, len = CONFIG_FILES.length; i < len; i++) {
-        const filename: string = path.join(directory, CONFIG_FILES[i]);
-
-        if (shell.test('-f', filename)) {
-            return filename;
-        }
-    }
-
-    return null;
-};
-
 // ------------------------------------------------------------------------
 
 /**
@@ -314,4 +284,21 @@ export class SonarwhalConfig {
 
         return this.fromConfig(userConfig, actions);
     }
+
+    /**
+     * Retrieves the configuration filename for a given directory. It loops over all
+     * of the valid configuration filenames in order to find the first one that exists.
+     */
+    public static getFilenameForDirectory = (directory: string): string | null => {
+
+        for (let i = 0, len = CONFIG_FILES.length; i < len; i++) {
+            const filename: string = path.join(directory, CONFIG_FILES[i]);
+
+            if (shell.test('-f', filename)) {
+                return filename;
+            }
+        }
+
+        return null;
+    };
 }

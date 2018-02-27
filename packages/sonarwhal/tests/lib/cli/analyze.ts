@@ -3,28 +3,37 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
-import * as config from '../../../src/lib/config';
-import { CLIOptions, Severity } from '../../../src/lib/types';
+import { CLIOptions, Severity, IFormatter, Problem } from '../../../src/lib/types';
 const actions = { _: ['http://localhost/'] } as CLIOptions;
 
-class Sonarwhal extends EventEmitter {
-    public formatters = ['json'];
-    public close() { }
-    public executeOn() { }
-    public static create() {
-        return new Sonarwhal();
-    }
-}
+const sonarwhalContainer = {
+    Sonarwhal: class Sonarwhal extends EventEmitter {
+        public get formatters() {
+            return [];
+        }
 
-const formatter = { format: () => { } };
+        public close() { }
+        public executeOn() { }
+    }
+};
+
+
+// const formatter = { format: () => { } };
 const resourceLoader = {
-    loadFormatter() {
-        return formatter;
+    loadResources() {
+        return {};
     }
 };
 const logger = {
     error() { },
     log() { }
+};
+
+const config = {
+    SonarwhalConfig: {
+        fromFilePath() { },
+        getFilenameForDirectory() { }
+    }
 };
 
 const generator = { initSonarwhalrc() { } };
@@ -44,7 +53,7 @@ const inquirer = { prompt() { } };
 
 proxyquire('../../../src/lib/cli/analyze', {
     '../config': config,
-    '../sonarwhal': { Sonarwhal },
+    '../sonarwhal': sonarwhalContainer,
     '../utils/logging': logger,
     '../utils/resource-loader': resourceLoader,
     './init': generator,
@@ -53,28 +62,29 @@ proxyquire('../../../src/lib/cli/analyze', {
 });
 
 import * as analyzer from '../../../src/lib/cli/analyze';
+// import { SonarwhalConfig } from '../../../src/lib/config';
 
 test.beforeEach((t) => {
     sinon.spy(logger, 'log');
     sinon.spy(logger, 'error');
-    sinon.spy(config, 'getFilenameForDirectory');
+    sinon.spy(config.SonarwhalConfig, 'getFilenameForDirectory');
     sinon.stub(generator, 'initSonarwhalrc').resolves();
     sinon.spy(spinner, 'start');
     sinon.spy(spinner, 'fail');
     sinon.spy(spinner, 'succeed');
 
-    t.context.config = config;
+    t.context.SonarwhalConfig = config.SonarwhalConfig;
     t.context.generator = generator;
     t.context.logger = logger;
     t.context.spinner = spinner;
     t.context.inquirer = inquirer;
-    t.context.Sonarwhal = Sonarwhal;
+    t.context.resourceLoader = resourceLoader;
 });
 
 test.afterEach.always((t) => {
     t.context.logger.log.restore();
     t.context.logger.error.restore();
-    t.context.config.getFilenameForDirectory.restore();
+    t.context.SonarwhalConfig.getFilenameForDirectory.restore();
     t.context.generator.initSonarwhalrc.restore();
     t.context.spinner.start.restore();
     t.context.spinner.fail.restore();
@@ -84,12 +94,16 @@ test.afterEach.always((t) => {
 test.serial('If config is not defined, it should get the config file from the directory process.cwd()', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load')
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        incompatible: [],
+        missing: []
+    });
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath')
         .onFirstCall()
         .returns({});
     await analyzer.analyze(actions);
 
-    t.true(t.context.config.getFilenameForDirectory.called);
+    t.true(t.context.SonarwhalConfig.getFilenameForDirectory.called);
 
 
     sandbox.restore();
@@ -100,7 +114,11 @@ test.serial('If config file does not exist, it should create a configuration fil
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load')
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        incompatible: [],
+        missing: []
+    });
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath')
         .onFirstCall()
         .throws(error)
         .onSecondCall()
@@ -121,7 +139,11 @@ test.serial('If config file does not exist and user refuses to create a configur
     const error = { message: `Couldn't find any valid configuration` };
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load')
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        incompatible: [],
+        missing: []
+    });
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath')
         .onFirstCall()
         .throws(error);
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
@@ -139,14 +161,18 @@ test.serial('If config file does not exist and user refuses to create a configur
 test.serial('If configuration file exists, it should use it', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        incompatible: [],
+        missing: []
+    });
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     const customConfigOptions = ({ _: ['http://localhost'], config: 'configfile.cfg' } as CLIOptions);
 
     await analyzer.analyze(customConfigOptions);
 
-    t.false(t.context.config.getFilenameForDirectory.called);
-    t.is(t.context.config.load.args[0][0], 'configfile.cfg');
+    t.false(t.context.SonarwhalConfig.getFilenameForDirectory.called);
+    t.is(t.context.SonarwhalConfig.fromFilePath.args[0][0], 'configfile.cfg');
 
     sandbox.restore();
 });
@@ -154,14 +180,35 @@ test.serial('If configuration file exists, it should use it', async (t) => {
 test.serial('If executeOn returns an error, it should exit with code 1 and call formatter.format', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
-    sandbox.spy(formatter, 'format');
+    class FakeFormatter implements IFormatter {
+        public static called: boolean = false;
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            FakeFormatter.called = true;
+            console.log(problems);
+        }
+    }
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: []
+    });
+
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
+        return [new FakeFormatter()];
+    });
+    sandbox.stub(sonarwhalObj, 'executeOn').resolves([{ severity: Severity.error }]);
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
-    sandbox.stub(t.context.config, 'load').returns({});
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     const exitCode = await analyzer.analyze(actions);
 
-    t.true((formatter.format as sinon.SinonSpy).called);
+    t.true(FakeFormatter.called);
     t.false(exitCode);
 
     sandbox.restore();
@@ -170,8 +217,12 @@ test.serial('If executeOn returns an error, it should exit with code 1 and call 
 test.serial('If executeOn returns an error, it should call to spinner.fail()', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        incompatible: [],
+        missing: []
+    });
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
+    sandbox.stub(sonarwhalContainer.Sonarwhal.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
 
     await analyzer.analyze(actions);
 
@@ -183,8 +234,12 @@ test.serial('If executeOn returns an error, it should call to spinner.fail()', a
 test.serial('If executeOn throws an exception, it should exit with code 1', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').throws(new Error());
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        incompatible: [],
+        missing: []
+    });
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
+    sandbox.stub(sonarwhalContainer.Sonarwhal.prototype, 'executeOn').throws(new Error());
 
     const result = await analyzer.analyze(actions);
 
@@ -196,8 +251,12 @@ test.serial('If executeOn throws an exception, it should exit with code 1', asyn
 test.serial('If executeOn throws an exception, it should call to spinner.fail()', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').throws(new Error());
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        incompatible: [],
+        missing: []
+    });
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
+    sandbox.stub(sonarwhalContainer.Sonarwhal.prototype, 'executeOn').throws(new Error());
 
     await analyzer.analyze(actions);
 
@@ -209,13 +268,35 @@ test.serial('If executeOn throws an exception, it should call to spinner.fail()'
 test.serial('If executeOn returns no errors, it should exit with code 0 and call formatter.format', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').resolves([{ severity: 0 }]);
-    sandbox.spy(formatter, 'format');
+    class FakeFormatter implements IFormatter {
+        public static called: boolean = false;
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            FakeFormatter.called = true;
+            console.log(problems);
+        }
+    }
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: []
+    });
+
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
+        return [new FakeFormatter()];
+    });
+    sandbox.stub(sonarwhalObj, 'executeOn').resolves([{ severity: 0 }]);
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
+
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     const exitCode = await analyzer.analyze(actions);
 
-    t.true((formatter.format as sinon.SinonSpy).called);
+    t.true(FakeFormatter.called);
     t.true(exitCode);
 
     sandbox.restore();
@@ -224,8 +305,31 @@ test.serial('If executeOn returns no errors, it should exit with code 0 and call
 test.serial('If executeOn returns no errors, it should call to spinner.succeed()', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').resolves([{ severity: 0 }]);
+    class FakeFormatter implements IFormatter {
+        public static called: boolean = false;
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            FakeFormatter.called = true;
+            console.log(problems);
+        }
+    }
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: []
+    });
+
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
+        return [new FakeFormatter()];
+    });
+    sandbox.stub(sonarwhalObj, 'executeOn').resolves([{ severity: 0 }]);
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
+
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     await analyzer.analyze(actions);
 
@@ -237,10 +341,32 @@ test.serial('If executeOn returns no errors, it should call to spinner.succeed()
 test.serial('Event fetch::start should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+    class FakeFormatter implements IFormatter {
+        public static called: boolean = false;
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            FakeFormatter.called = true;
+            console.log(problems);
+        }
+    }
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: []
+    });
+
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
+        return [new FakeFormatter()];
+    });
+    sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
         await analyzer.sonarwhal.emitAsync('fetch::start', { resource: 'http://localhost/' });
     });
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     await analyzer.analyze(actions);
 
@@ -252,10 +378,32 @@ test.serial('Event fetch::start should write a message in the spinner', async (t
 test.serial('Event fetch::end should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+    class FakeFormatter implements IFormatter {
+        public static called: boolean = false;
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            FakeFormatter.called = true;
+            console.log(problems);
+        }
+    }
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: []
+    });
+
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
+        return [new FakeFormatter()];
+    });
+    sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
         await analyzer.sonarwhal.emitAsync('fetch::end', { resource: 'http://localhost/' });
     });
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     await analyzer.analyze(actions);
 
@@ -267,10 +415,32 @@ test.serial('Event fetch::end should write a message in the spinner', async (t) 
 test.serial('Event fetch::end::manifest should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
-        await analyzer.sonarwhal.emitAsync('fetch::end', { resource: 'http://localhost/' });
+    class FakeFormatter implements IFormatter {
+        public static called: boolean = false;
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            FakeFormatter.called = true;
+            console.log(problems);
+        }
+    }
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: []
     });
+
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
+        return [new FakeFormatter()];
+    });
+    sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
+        await analyzer.sonarwhal.emitAsync('fetch::end::manifest', { resource: 'http://localhost/' });
+    });
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     await analyzer.analyze(actions);
 
@@ -282,10 +452,32 @@ test.serial('Event fetch::end::manifest should write a message in the spinner', 
 test.serial('Event fetch::end::html should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
-        await analyzer.sonarwhal.emitAsync('fetch::end', { resource: 'http://localhost/' });
+    class FakeFormatter implements IFormatter {
+        public static called: boolean = false;
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            FakeFormatter.called = true;
+            console.log(problems);
+        }
+    }
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: []
     });
+
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
+        return [new FakeFormatter()];
+    });
+    sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
+        await analyzer.sonarwhal.emitAsync('fetch::end::html', { resource: 'http://localhost/' });
+    });
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     await analyzer.analyze(actions);
 
@@ -297,10 +489,32 @@ test.serial('Event fetch::end::html should write a message in the spinner', asyn
 test.serial('Event traverse::up should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+    class FakeFormatter implements IFormatter {
+        public static called: boolean = false;
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            FakeFormatter.called = true;
+            console.log(problems);
+        }
+    }
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: []
+    });
+
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
+        return [new FakeFormatter()];
+    });
+    sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
         await analyzer.sonarwhal.emitAsync('traverse::up', { resource: 'http://localhost/' });
     });
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     await analyzer.analyze(actions);
 
@@ -312,10 +526,32 @@ test.serial('Event traverse::up should write a message in the spinner', async (t
 test.serial('Event traverse::end should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+    class FakeFormatter implements IFormatter {
+        public static called: boolean = false;
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            FakeFormatter.called = true;
+            console.log(problems);
+        }
+    }
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: []
+    });
+
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
+        return [new FakeFormatter()];
+    });
+    sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
         await analyzer.sonarwhal.emitAsync('traverse::end', { resource: 'http://localhost/' });
     });
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     await analyzer.analyze(actions);
 
@@ -327,10 +563,32 @@ test.serial('Event traverse::end should write a message in the spinner', async (
 test.serial('Event scan::end should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.config, 'load').returns({});
-    sandbox.stub(Sonarwhal.prototype, 'executeOn').callsFake(async () => {
+    class FakeFormatter implements IFormatter {
+        public static called: boolean = false;
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            FakeFormatter.called = true;
+            console.log(problems);
+        }
+    }
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: []
+    });
+
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
+        return [new FakeFormatter()];
+    });
+    sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
         await analyzer.sonarwhal.emitAsync('scan::end', { resource: 'http://localhost/' });
     });
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
+    sandbox.stub(t.context.SonarwhalConfig, 'fromFilePath').returns({});
 
     await analyzer.analyze(actions);
 
