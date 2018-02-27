@@ -16,7 +16,7 @@ import * as path from 'path';
 import * as globby from 'globby';
 import * as semver from 'semver';
 
-import { getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, readFile } from '../utils/misc';
+import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, readFile } from '../utils/misc';
 import { debug as d } from '../utils/debug';
 import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
 import { SonarwhalConfig } from '../config';
@@ -37,7 +37,7 @@ const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>()
  */
 const isVersionValid = (resourcePath: string): boolean => {
     try {
-        const pkg = require(`${resourcePath}/package.json`);
+        const pkg = getPackage(resourcePath);
         const sonarwhalPkg = getSonarwhalPackage();
 
         return semver.satisfies(sonarwhalPkg.version, pkg.peerDependencies.sonarwhal);
@@ -89,6 +89,7 @@ export const getInstalledResources = (type: string): Array<string> => {
 
 /** Tries to load a module from `resourcePath`. */
 export const tryToLoadFrom = (resourcePath: string): any => {
+    // This is exported so it's easier to stub during tests
     let builder: any = null;
 
     try {
@@ -249,7 +250,14 @@ export const loadConfiguration = (configurationId: string) => {
 /** Returns all the resources from a `SonarwhalConfig` */
 export const loadResources = (config: SonarwhalConfig): SonarwhalResources => {
     // TODO: validate connector version is OK once all are extracted
-    const connector = loadResource(config.connector.name, TYPE.connector, true);
+    let connector = null;
+
+    try {
+        connector = loadResource(config.connector.name, TYPE.connector, true);
+    } catch (e) {
+        console.error(e);
+    }
+
     const { incompatible: incompatibleRules, resources: rules, missing: missingRules } = loadListOfResources(config.rules, TYPE.rule);
     const { incompatible: incompatibleParsers, resources: parsers, missing: missingParsers } = loadListOfResources(config.parsers, TYPE.parser);
     const { incompatible: incompatibleFormatters, resources: formatters, missing: missingFormatters } = loadListOfResources(config.formatters, TYPE.formatter);
