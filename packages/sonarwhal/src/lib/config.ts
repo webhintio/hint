@@ -101,19 +101,21 @@ const loadBrowsersList = (config: UserConfig) => {
         return total;
     }, []);
 
-    for (let i = 0; i < files.length; i++) {
-        const file: string = files[i];
-        const tmpConfig: UserConfig = loadConfigFile(file);
+    if (!config.browserslist) {
+        for (let i = 0; i < files.length; i++) {
+            const file: string = files[i];
+            const tmpConfig: UserConfig = loadConfigFile(file);
 
-        if (tmpConfig && tmpConfig.browserslist) {
-            config.browserslist = tmpConfig.browserslist;
-            break;
-        }
+            if (tmpConfig && tmpConfig.browserslist) {
+                config.browserslist = tmpConfig.browserslist;
+                break;
+            }
 
-        if (file.endsWith('package.json')) {
-            const packagejson = loadJSONFile(file);
+            if (file.endsWith('package.json')) {
+                const packagejson = loadJSONFile(file);
 
-            config.browserslist = packagejson.browserslist;
+                config.browserslist = packagejson.browserslist;
+            }
         }
     }
 
@@ -257,7 +259,7 @@ export class SonarwhalConfig {
             userConfig.formatters = [userConfig.formatters];
         }
 
-        const browsers = loadBrowsersList(userConfig);
+        const browsers = browserslist(config.browserslist);
         const ignoredUrls = loadIgnoredUrls(userConfig);
         const rules = normalizeRules(userConfig.rules);
 
@@ -282,8 +284,11 @@ export class SonarwhalConfig {
         // 1
         const resolvedPath: string = path.resolve(process.cwd(), filePath);
         const userConfig = loadConfigFile(resolvedPath);
+        const config = this.fromConfig(userConfig, actions);
 
-        return this.fromConfig(userConfig, actions);
+        userConfig.browserslist = userConfig.browserslist || loadBrowsersList(userConfig);
+
+        return config;
     }
 
     /**
