@@ -789,7 +789,7 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
         }
 
         public collect(target: url.Url) {
-            if (this.error) {
+            if (this.error) { // eslint-disable-line no-constant-condition
                 throw new Error('Error runing collect');
             }
 

@@ -116,11 +116,11 @@ export class Sonarwhal extends EventEmitter {
             return new Parser(this);
         });
 
+        this.rules = new Map();
+
         resources.rules.forEach((Rule) => {
             debug('Loading rules');
             const id = Rule.meta.id;
-
-            this.rules = new Map();
 
             const ignoreRule = (RuleCtor: IRuleConstructor): boolean => {
                 const ignoredConnectors: Array<string> = RuleCtor.meta.ignoredConnectors || [];
@@ -129,8 +129,6 @@ export class Sonarwhal extends EventEmitter {
                     (connectorId !== 'local' && RuleCtor.meta.scope === RuleScope.local) ||
                     ignoredConnectors.includes(connectorId);
             };
-
-            // const Rule: IRuleConstructor = rules.get(id);
 
             const ruleOptions: RuleConfig | Array<RuleConfig> = config.rules[id];
             const severity: Severity = getSeverity(ruleOptions);
@@ -155,7 +153,8 @@ export class Sonarwhal extends EventEmitter {
 
         const createEventHandler = (handler: Function, ruleId: string) => {
             return function (event: Event): Promise<any> {
-                const urlsIgnored: Array<RegExp> = that.ignoredUrls.get(ruleId);
+                const urlsIgnoredForAll = that.ignoredUrls.get('all');
+                const urlsIgnored: Array<RegExp> = !urlsIgnoredForAll ? that.ignoredUrls.get(ruleId) : that.ignoredUrls.get(ruleId).concat(urlsIgnoredForAll);
 
                 if (that.isIgnored(urlsIgnored, event.resource)) {
                     return null;
