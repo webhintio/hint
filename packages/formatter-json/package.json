@@ -8,7 +8,9 @@
   },
   "description": "sonarwhal formatter that prints the JSON object of the results",
   "dependencies": {
-    "lodash": "^4.17.5"
+    "lodash.foreach": "^4.5.0",
+    "lodash.groupby": "^4.6.0",
+    "lodash.sortby": "^4.7.0"
   },
   "devDependencies": {
     "ava": "^0.25.0",
