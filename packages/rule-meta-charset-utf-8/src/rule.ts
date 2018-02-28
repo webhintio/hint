@@ -21,7 +21,7 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  * ------------------------------------------------------------------------------
  */
 
-export default class MetaCharsetUTF8Rule implements IRule { // eslint-disable-line typescript/class-name-casing
+export default class MetaCharsetUTF8Rule implements IRule {
 
     public static readonly meta: RuleMetadata = {
         docs: {

@@ -1,87 +1,194 @@
-import chalk from 'chalk';
+import * as _ from 'lodash';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import * as misc from '../../src/lib/utils/misc';
+import { CLIOptions, NpmPackage } from '../../../src/lib/types';
 
-const stubbedNotifier = {
-    notify() { },
-    update: {}
+const actions = ({ init: true } as CLIOptions);
+const inquirer = { prompt() { } };
+const stubBrowserslistObject = { generateBrowserslistConfig() { } };
+const resourceLoader = { getInstalledResources() { } };
+const child = { spawnSync() { } };
+const fs = {
+    existsSync() { },
+    writeFile() { }
+};
+const logger = {
+    error() { },
+    log() { }
 };
 
-const updateNotifier = () => {
-    return stubbedNotifier;
+const npm = {
+    getOfficialPackages() { },
+    installPackages() { }
 };
 
-const cliActions = [];
+const promisifyObject = { promisify() { } };
 
-proxyquire('../../src/lib/cli', {
-    './cli/options': cliActions,
-    './utils/misc': misc,
-    'update-notifier': updateNotifier
+const stubUtilObject = {
+    promisify() {
+        return promisifyObject.promisify;
+    }
+};
+
+proxyquire('../../../src/lib/cli/init', {
+    '../utils/logging': logger,
+    '../utils/npm': npm,
+    '../utils/resource-loader': resourceLoader,
+    './browserslist': stubBrowserslistObject,
+    child_process: child, // eslint-disable-line camelcase
+    fs,
+    inquirer,
+    util: stubUtilObject
 });
 
-test.beforeEach((t) => {
-    sinon.stub(stubbedNotifier, 'notify').resolves();
+import { initSonarwhalrc } from '../../../src/lib/cli/init';
 
-    t.context.notifier = stubbedNotifier;
-    t.context.misc = misc;
+test.beforeEach((t) => {
+    sinon.stub(promisifyObject, 'promisify').resolves();
+    sinon.stub(stubBrowserslistObject, 'generateBrowserslistConfig').resolves([]);
+    sinon.spy(stubUtilObject, 'promisify');
+
+    t.context.util = stubUtilObject.promisify;
+    t.context.promisify = promisifyObject.promisify;
+    t.context.browserslistGenerator = stubBrowserslistObject.generateBrowserslistConfig;
 });
 
 test.afterEach.always((t) => {
-    t.context.notifier.notify.restore();
-
-    if (t.context.misc.loadJSONFile.restore) {
-        t.context.misc.loadJSONFile.restore();
-    }
+    t.context.util.restore();
+    t.context.promisify.restore();
+    t.context.browserslistGenerator.restore();
 });
 
-test.serial('Users should be notified if there is a new version of sonarwhal', async (t) => {
-    const newUpdate = {
-        current: '0.2.0',
-        latest: '0.3.0',
-        name: 'sonarwhal',
-        type: 'minor'
+const formatters = [
+    'formatter1',
+    'formatter2'
+];
+
+const installedRules = [
+    '@sonarwhal/rule-rule1',
+    '@sonarwhal/rule-rule2'
+];
+
+const installedConnectors = [
+    'installedConnector1',
+    'installedConnector2'
+];
+
+const installedParsers = [];
+
+test.serial('initSonarwhalrc should install the configuration package if user chooses a recommended configuration', async (t) => {
+    const sandbox = sinon.sandbox.create();
+    const initAnswers = { configType: 'predefined' };
+    const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
+
+    sandbox.stub(npm, 'getOfficialPackages').resolves([{
+        date: null,
+        description: '',
+        keywords: [],
+        maintainers: [],
+        name: '@sonarwhal/configuration-recommended',
+        version: '1.0.0'
+    }] as Array<NpmPackage>);
+
+    const stub = sandbox.stub(npm, 'installPackages').returns(true);
+
+    sandbox.stub(inquirer, 'prompt')
+        .onFirstCall()
+        .resolves(initAnswers)
+        .onSecondCall()
+        .resolves(configAnswer);
+
+    await initSonarwhalrc(actions);
+
+    const fileData = JSON.parse(t.context.promisify.args[0][1]);
+
+    t.true(stub.called, `npm hasn't tried to install any package`);
+    t.true(_.isEqual(fileData, { extends: [configAnswer.configuration] }));
+
+    sandbox.restore();
+});
+
+
+test.serial(`"inquirer.prompt" should use the installed resources if the user doesn't want a predefined configuration`, async (t) => {
+    const sandbox = sinon.sandbox.create();
+    const answers = {
+        connector: 'jsdom',
+        default: '',
+        formatter: 'json',
+        rules: ['rule1', 'rule2']
     };
 
-    const expectedMessage = `Update available ${chalk.red(newUpdate.current)}${chalk.reset(' → ')}${chalk.green(newUpdate.latest)}
-See ${chalk.cyan('https://sonarwhal.com/about/changelog/')} for details`;
+    sandbox.stub(resourceLoader, 'getInstalledResources')
+        .onFirstCall()
+        .returns(installedConnectors)
+        .onSecondCall()
+        .returns(formatters)
+        .onThirdCall()
+        .returns(installedParsers)
+        .onCall(3)
+        .returns(installedRules);
 
-    t.context.notifier.update = newUpdate;
-    const cli = require('../../src/lib/cli');
+    const initAnswers = { configType: 'custom' };
 
-    await cli.execute('');
+    sandbox.stub(inquirer, 'prompt')
+        .onFirstCall()
+        .resolves(initAnswers)
+        .onSecondCall()
+        .resolves(answers);
 
-    t.true(t.context.notifier.notify.calledOnce);
-    t.is(t.context.notifier.notify.args[0][0].message, expectedMessage);
-});
+    await initSonarwhalrc(actions);
 
-test.serial(`Users shouldn't be notified if the current version is up to date`, async (t) => {
-    t.context.notifier.update = null;
-    const cli = require('../../src/lib/cli');
+    const questions = (inquirer.prompt as sinon.SinonStub).args[1][0];
 
-    await cli.execute('');
+    t.is(questions[0].choices.length, installedConnectors.length);
+    t.is(questions[1].choices.length, formatters.length);
+    t.is(questions[2].choices.length, installedRules.length);
 
-    t.is(t.context.notifier.notify.callCount, 0);
-});
+    const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
-test.serial(`Users shouldn't be notified if they just updated to the latest version and the data is still cached`, async (t) => {
-    const newUpdate = {
-        current: '0.2.0',
-        latest: '0.3.0',
-        name: 'sonarwhal',
-        type: 'minor'
-    };
-
-    t.context.notifier.update = newUpdate;
-    sinon.stub(t.context.misc, 'loadJSONFile').callsFake(() => {
-        return { version: '0.3.0' };
+    t.is(fileData.connector.name, answers.connector);
+    t.deepEqual(fileData.rules, {
+        rule1: 'error',
+        rule2: 'error'
     });
+    t.deepEqual(fileData.formatters, [answers.formatter]);
 
-    const cli = require('../../src/lib/cli');
+    sandbox.restore();
+});
 
-    await cli.execute('');
+test.serial(`if instalation of a config package fails, "initSonarwhalrc" returns true`, async (t) => {
+    const sandbox = sinon.sandbox.create();
+    const initAnswers = { configType: 'predefined' };
+    const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
 
-    t.is(t.context.notifier.notify.callCount, 0);
+    sandbox.stub(npm, 'getOfficialPackages').resolves([{
+        date: null,
+        description: '',
+        keywords: [],
+        maintainers: [],
+        name: '@sonarwhal/configuration-recommended',
+        version: '1.0.0'
+    }] as Array<NpmPackage>);
+
+    sandbox.stub(npm, 'installPackages').returns(false);
+
+    sandbox.stub(inquirer, 'prompt')
+        .onFirstCall()
+        .resolves(initAnswers)
+        .onSecondCall()
+        .resolves(configAnswer);
+
+    const result = await initSonarwhalrc(actions);
+
+    t.true(result, `initSonarwhalrc doesn't return true if installation of resources fails`);
+
+    sandbox.restore();
+});
+
+test.serial('If init is not an option, it should return false', async (t) => {
+    const result = await initSonarwhalrc(({}) as CLIOptions);
+
+    t.false(result);
 });
