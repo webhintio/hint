@@ -9,9 +9,11 @@ The minimum required `.sonarwhalrc` file to use it is the following:
 
 ```json
 {
+
     "extends": ["web-recommended"]
 }
 ```
+
 and it will be as if you had this:
 
 ```json
