@@ -1,4 +1,10 @@
 {
+    "connector": {
+        "name": "jsdom",
+        "options": {
+            "waitFor": 5000
+        }
+    },
     "formatters": [
         "summary"
     ],
