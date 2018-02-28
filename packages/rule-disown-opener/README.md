@@ -1,4 +1,4 @@
-# Require external links to disown opener (`disown-opener`)
+# Require external links to disown opener (`@sonarwhal/rule-disown-opener`)
 
 `disown-opener` warns against not specifying the `rel` attribute
 with both the `noopener` and `noreferrer` values (or only `noopener`

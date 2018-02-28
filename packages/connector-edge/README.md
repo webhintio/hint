@@ -1,4 +1,4 @@
-# @sonarwhal/connector-edge
+# Edge connector (`@sonarwhal/connector-edge`)
 
 A connector to use Microsoft Edge via the [edge diagnostics adapter](https://github.com/Microsoft/edge-diagnostics-adapter)
 in `sonarwhal`.

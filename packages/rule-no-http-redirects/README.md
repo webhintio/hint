@@ -1,4 +1,4 @@
-# Avoid HTTP redirects in requests (`no-http-redirects`)
+# Avoid HTTP redirects in requests (`@sonarwhal/rule-no-http-redirects`)
 
 `no-http-redirects` checks if there are any HTTP redirects in the page
 `sonarwhal` is analyzing.

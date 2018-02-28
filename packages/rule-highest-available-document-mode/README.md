@@ -1,4 +1,4 @@
-# Require highest available document mode (`highest-available-document-mode`)
+# Require highest available document mode (`@sonarwhal/rule-highest-available-document-mode`)
 
 `highest-available-document-mode` warns against not informing browsers
 that support document modes to use the highest one available.

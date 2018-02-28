@@ -1,4 +1,4 @@
-# Require viewport meta tag with proper value (`meta-viewport`)
+# Require viewport meta tag with proper value (`@sonarwhal/rule-meta-viewport`)
 
 `meta-viewport` warns against not having a single `viewport` meta
 tag in the `<head>` with the proper value.
