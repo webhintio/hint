@@ -34,6 +34,7 @@
   },
   "files": [
     "dist/src",
+    "images",
     "npm-shrinkwrap.json"
   ],
   "homepage": "https://sonarwhal.com/",
