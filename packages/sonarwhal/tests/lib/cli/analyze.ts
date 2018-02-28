@@ -105,7 +105,6 @@ test.serial('If config is not defined, it should get the config file from the di
 
     t.true(t.context.SonarwhalConfig.getFilenameForDirectory.called);
 
-
     sandbox.restore();
 });
 
