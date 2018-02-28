@@ -92,10 +92,10 @@ because you forgot to build your project after making changes.*
 
 Now navigate to `src/rules/validate-footer/validate-footer.ts`. You can see that
 there is already some code there. The rule class contains a constructor
-`constructor`, a static property `meta`, and a property `id`.
+`constructor` and a static property `meta`.
 At the end of the `constructor`, it use `context.on` to subscribe the rule
 to events the rule needs to listen to. The parameters for  `contexts.on` are the
-rule id, the name of the event and the validating function triggered upon the
+name of the event and the validating function triggered upon the
 events. In the generated template by the wizard, the `element::footer` event is
 already populated for us so we can focus on implementing the actual
 validateFooter function. As shown in the code below, we have access to the
@@ -187,7 +187,7 @@ export default class CopyrightRule implements IRule {
         worksWithLocalFiles: true
     }
 
-    public constructor(id: string, context: RuleContext) {
+    public constructor(context: RuleContext) {
         let stringToBeIncluded;
 
         const loadRuleConfigs = () => {

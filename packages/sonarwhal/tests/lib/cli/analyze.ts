@@ -17,8 +17,6 @@ const sonarwhalContainer = {
     }
 };
 
-
-// const formatter = { format: () => { } };
 const resourceLoader = {
     loadResources() {
         return {};
@@ -62,7 +60,6 @@ proxyquire('../../../src/lib/cli/analyze', {
 });
 
 import * as analyzer from '../../../src/lib/cli/analyze';
-// import { SonarwhalConfig } from '../../../src/lib/config';
 
 test.beforeEach((t) => {
     sinon.spy(logger, 'log');

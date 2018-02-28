@@ -18,11 +18,6 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class NewRule implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
@@ -30,6 +25,7 @@ export default class NewRule implements IRule {
             description: `This is a \`description\` that contains 'single quote' and "double qutoes"`
         },
         recommended: true,
+        id: "new-rule",
         schema: [
             /*
              * If you want to allow the user to configure your rule
@@ -40,9 +36,7 @@ export default class NewRule implements IRule {
         scope: RuleScope.site
     }
 
-    public constructor(id: string, context: RuleContext): IRule {
-
-        this._id = id;
+    public constructor(context: RuleContext): IRule {
 
         // Your code here.
         const validateFetchStart = async (fetchStart: FetchStart) => {
@@ -106,9 +100,9 @@ export default class NewRule implements IRule {
             }
         };
 
-        context.on(this.id, 'fetch::end', validateFetchEnd);
-        context.on(this.id, 'fetch::error', validateFetchError);
-        context.on(this.id, 'fetch::start', validateFetchStart);
+        context.on('fetch::end', validateFetchEnd);
+        context.on('fetch::error', validateFetchError);
+        context.on('fetch::start', validateFetchStart);
         // As many events as you need
     }
 }

@@ -98,7 +98,7 @@ export default class MyRule implements IRule {
         ignoredConnectors: ['jsdom']
     }
 
-    public constructor(context) {
+    public constructor(context: RuleContext) {
         // Your code here
     }
 }
@@ -121,7 +121,7 @@ export default class MyRule implements IRule {
         id: 'my-rule'
     }
 
-    public constructor(context) {
+    public constructor(context: RuleContext) {
         /** The promise that represents the connection to the online service. */
         let promise: Promise<any>;
 
@@ -175,7 +175,7 @@ export default class ScriptSemiColonRule implements IRule {
         worksWithLocalFiles: true
     }
 
-    public constructor(context) {
+    public constructor(context: RuleContext) {
         let validPromise;
         const errorsOnly = context.ruleOptions && context.ruleOptions['errors-only'] || false;
         let html;

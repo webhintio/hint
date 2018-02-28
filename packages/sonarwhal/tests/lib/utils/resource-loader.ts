@@ -5,7 +5,6 @@ import * as sinon from 'sinon';
 import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
 import { SonarwhalConfig } from '../../../src/lib/config';
-// import * as resourceLoader from '../../../src/lib/utils/resource-loader';
 
 const cacheKey = path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js');
 
