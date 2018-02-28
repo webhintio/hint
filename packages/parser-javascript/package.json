@@ -10,7 +10,7 @@
     "eslint": "^4.18.0",
     "espree": "^3.5.3"
   },
-  "description": "",
+  "description": "sonarwhal parser needed to analyze JavaScript files",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
