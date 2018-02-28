@@ -18,17 +18,13 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class {{className}} implements IRule {
-    private _id: string;
-
-    public get id() {
-        return this._id;
-    }
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.{{category}},
             description: `{{description}}`
         },
+        id: "{{normalizedName}}",
         schema: [
             /*
              * If you want to allow the user to configure your rule
@@ -39,9 +35,7 @@ export default class {{className}} implements IRule {
         scope: RuleScope.{{scope}}
     }
 
-    public constructor(id: string, context: RuleContext) {
-
-        this._id = id;
+    public constructor(context: RuleContext) {
 
         // Your code here.
         {{#useCase.dom}}
@@ -90,19 +84,19 @@ export default class {{className}} implements IRule {
         {{/useCase.jsInjection}}
 
         {{#useCase.dom}}
-        context.on(this.id, 'element::{{elementType}}', validateElement);
+        context.on('element::{{elementType}}', validateElement);
         {{/useCase.dom}}
         {{#useCase.request}}
-        context.on(this.id, 'fetch::end::*', validateFetchEnd);
-        context.on(this.id, 'fetch::error', validateFetchError);
-        context.on(this.id, 'fetch::start', validateFetchStart);
+        context.on('fetch::end::*', validateFetchEnd);
+        context.on('fetch::error', validateFetchError);
+        context.on('fetch::start', validateFetchStart);
         {{/useCase.request}}
         {{#useCase.thirdPartyService}}
-        context.on(this.id, 'fetch::end::*', validateFetchEnd);
-        context.on(this.id, 'fetch::start', validateFetchStart);
+        context.on('fetch::end::*', validateFetchEnd);
+        context.on('fetch::start', validateFetchStart);
         {{/useCase.thirdPartyService}}
         {{#useCase.jsInjection}}
-        context.on(this.id, 'scan::end', validateScanEnd);
+        context.on('scan::end', validateScanEnd);
         {{/useCase.jsInjection}}
         // As many events as you need
     }

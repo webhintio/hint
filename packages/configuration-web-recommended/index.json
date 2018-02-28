@@ -9,7 +9,6 @@
         "summary"
     ],
     "rules": {
-        "amp-validator": "off",
         "apple-touch-icons": "error",
         "axe": "error",
         "content-type": "error",
@@ -18,7 +17,6 @@
         "html-checker": "error",
         "http-cache": "error",
         "http-compression": "error",
-        "image-optimization-cloudinary": "off",
         "manifest-app-name": "error",
         "manifest-exists": "error",
         "manifest-file-extension": "error",
@@ -31,7 +29,7 @@
         "no-http-redirects": "error",
         "no-protocol-relative-urls": "error",
         "no-vulnerable-javascript-libraries": "error",
-        "ssllabs": "off",
+        "ssllabs": "error",
         "strict-transport-security": "error",
         "validate-set-cookie-header": "error",
         "x-content-type-options": "error"

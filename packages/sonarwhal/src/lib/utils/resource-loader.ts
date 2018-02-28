@@ -20,6 +20,7 @@ import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, 
 import { debug as d } from '../utils/debug';
 import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
 import { SonarwhalConfig } from '../config';
+import { ResourceType } from '../enums/resourcetype';
 
 const debug: debug.IDebugger = d(__filename);
 const SONARWHAL_ROOT: string = findPackageRoot();
@@ -54,15 +55,6 @@ const isVersionValid = (resourcePath: string): boolean => {
  * Public
  * ------------------------------------------------------------------------------
  */
-
-/** The type of resource */
-export const TYPE = {
-    configuration: 'configuration',
-    connector: 'connector',
-    formatter: 'formatter',
-    parser: 'parser',
-    rule: 'rule'
-};
 
 export const getInstalledResources = (type: string): Array<string> => {
     const installedType = `installed-${type}`;
@@ -111,9 +103,9 @@ export const tryToLoadFrom = (resourcePath: string): any => {
 /**
  * Check if it is a package with multiple resources.
  */
-const hasMultipleResources = (resource, type: string) => {
+const hasMultipleResources = (resource, type: ResourceType) => {
     switch (type) {
-        case TYPE.rule:
+        case ResourceType.rule:
             // In a simple rule, the property meta should exist.
             return !resource.meta;
         // Only case with multiple resources is rules
@@ -127,7 +119,7 @@ const hasMultipleResources = (resource, type: string) => {
  * If that path contains a package with multiple resources
  * then get just the one with the given `name`.
  */
-const getResource = (source: string, type: string, name: string) => {
+const getResource = (source: string, type: ResourceType, name: string) => {
     const resource = tryToLoadFrom(source);
 
     if (!resource) {
@@ -159,7 +151,7 @@ const getResource = (source: string, type: string, name: string) => {
  * 4. external rules
  *
  */
-export const loadResource = (name: string, type: string, verifyVersion = false) => {
+export const loadResource = (name: string, type: ResourceType, verifyVersion = false) => {
     debug(`Searching ${name}…`);
 
     const packageName = name.includes('/') ? name.split('/')[0] : name;
@@ -207,7 +199,7 @@ export const loadResource = (name: string, type: string, verifyVersion = false) 
     return resource;
 };
 
-const loadListOfResources = (list: Array<string> | Object, type: string): { incompatible: Array<string>, missing: Array<string>, resources: Array<any> } => {
+const loadListOfResources = (list: Array<string> | Object, type: ResourceType): { incompatible: Array<string>, missing: Array<string>, resources: Array<any> } => {
     const missing: Array<string> = [];
     const incompatible: Array<string> = [];
 
@@ -240,11 +232,11 @@ const loadListOfResources = (list: Array<string> | Object, type: string): { inco
 };
 
 export const loadRule = (ruleId: string): IRuleConstructor => {
-    return loadResource(ruleId, TYPE.rule);
+    return loadResource(ruleId, ResourceType.rule);
 };
 
 export const loadConfiguration = (configurationId: string) => {
-    return loadResource(configurationId, TYPE.configuration);
+    return loadResource(configurationId, ResourceType.configuration);
 };
 
 /** Returns all the resources from a `SonarwhalConfig` */
@@ -253,14 +245,14 @@ export const loadResources = (config: SonarwhalConfig): SonarwhalResources => {
     let connector = null;
 
     try {
-        connector = loadResource(config.connector.name, TYPE.connector, true);
+        connector = loadResource(config.connector.name, ResourceType.connector, true);
     } catch (e) {
         console.error(e);
     }
 
-    const { incompatible: incompatibleRules, resources: rules, missing: missingRules } = loadListOfResources(config.rules, TYPE.rule);
-    const { incompatible: incompatibleParsers, resources: parsers, missing: missingParsers } = loadListOfResources(config.parsers, TYPE.parser);
-    const { incompatible: incompatibleFormatters, resources: formatters, missing: missingFormatters } = loadListOfResources(config.formatters, TYPE.formatter);
+    const { incompatible: incompatibleRules, resources: rules, missing: missingRules } = loadListOfResources(config.rules, ResourceType.rule);
+    const { incompatible: incompatibleParsers, resources: parsers, missing: missingParsers } = loadListOfResources(config.parsers, ResourceType.parser);
+    const { incompatible: incompatibleFormatters, resources: formatters, missing: missingFormatters } = loadListOfResources(config.formatters, ResourceType.formatter);
     const missing = [].concat(missingRules, missingParsers, missingFormatters);
     const incompatible = [].concat(incompatibleFormatters, incompatibleParsers, incompatibleRules);
 
