@@ -14,7 +14,7 @@
 import chalk from 'chalk';
 import * as groupBy from 'lodash.groupby';
 import * as sortBy from 'lodash.sortby';
-import * as forEach from 'lodash.forEach';
+import * as forEach from 'lodash.foreach';
 import * as pluralize from 'pluralize';
 
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';

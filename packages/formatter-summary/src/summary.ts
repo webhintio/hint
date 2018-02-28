@@ -9,7 +9,7 @@
  */
 
 import chalk from 'chalk';
-import * as forEach from 'lodash.forEach';
+import * as forEach from 'lodash.foreach';
 import * as groupBy from 'lodash.groupby';
 import * as pluralize from 'pluralize';
 import * as table from 'text-table';

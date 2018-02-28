@@ -9,9 +9,9 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as forEach from 'lodash.forEach';
-import * as groupBy from 'lodash.forEach';
-import * as sortBy from 'lodash.forEach';
+import * as forEach from 'lodash.foreach';
+import * as groupBy from 'lodash.groupby';
+import * as sortBy from 'lodash.sortby';
 
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IFormatter, Problem } from 'sonarwhal/dist/src/lib/types';
