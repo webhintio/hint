@@ -9,7 +9,6 @@ The minimum required `.sonarwhalrc` file to use it is the following:
 
 ```json
 {
-
     "extends": ["web-recommended"]
 }
 ```
@@ -28,7 +27,6 @@ and it will be as if you had this:
         "summary"
     ],
     "rules": {
-        "amp-validator": "off",
         "apple-touch-icons": "error",
         "axe": "error",
         "content-type": "error",
@@ -37,30 +35,14 @@ and it will be as if you had this:
         "html-checker": "error",
         "http-cache": "error",
         "http-compression": "error",
-        "image-optimization-cloudinary": "off",
-        "manifest-app-name": "error",
-        "manifest-exists": "error",
-        "manifest-file-extension": "error",
-        "manifest-is-valid": "error",
-        "meta-charset-utf-8": "error",
-        "meta-viewport": "error",
-        "no-disallowed-headers": "error",
-        "no-friendly-error-pages": "error",
-        "no-html-only-headers": "error",
-        "no-http-redirects": "error",
-        "no-protocol-relative-urls": "error",
-        "no-vulnerable-javascript-libraries": "error",
-        "ssllabs": "off",
-        "strict-transport-security": "error",
-        "validate-set-cookie-header": "error",
-        "x-content-type-options": "error"
+        ...
     },
     "rulesTimeout": 120000
 }
 ```
 
 If you prefer to use another formatter (or any other rule/connector, etc.) you
-can do so as follows:
+can do something like:
 
 ```json
 {
