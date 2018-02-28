@@ -1,4 +1,4 @@
-# Disallow unneeded HTTP headers for non-HTML resources (`no-html-only-headers`)
+# Disallow unneeded HTTP headers for non-HTML resources (`@sonarwhal/rule-no-html-only-headers`)
 
 `no-html-only-headers` warns against responding with HTTP headers that
 are not needed for non-HTML resources.

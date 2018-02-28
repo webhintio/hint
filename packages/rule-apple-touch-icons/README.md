@@ -1,4 +1,4 @@
-# Require an apple touch icon (`apple-touch-icons`)
+# Require an apple touch icon (`@sonarwhal/rule-apple-touch-icons`)
 
 `apple-touch-icons` warns against not using a single `180×180px`
 PNG image for the `apple-touch-icon`.

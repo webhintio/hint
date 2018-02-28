@@ -1,4 +1,4 @@
-# Require a web app manifest file (`manifest-exists`)
+# Require a web app manifest file (`@sonarwhal/rule-manifest-exists`)
 
 `manifest-exists` warns against not providing a [web app manifest][spec]
 file.

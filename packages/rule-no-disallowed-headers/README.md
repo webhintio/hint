@@ -1,4 +1,4 @@
-# Disallow certain HTTP headers (`no-disallowed-headers`)
+# Disallow certain HTTP headers (`@sonarwhal/rule-no-disallowed-headers`)
 
 `no-disallowed-headers` warns against responding with certain HTTP
 headers.

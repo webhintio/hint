@@ -1,4 +1,4 @@
-# Nu HTML Test (`html-checker`)
+# Nu HTML Test (`@sonarwhal/rule-html-checker`)
 
 `html-checker` validates the markup of a website against the
 [Nu HTML checker][nu html checker].

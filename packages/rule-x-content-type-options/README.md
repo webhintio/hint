@@ -1,4 +1,4 @@
-# Require `X-Content-Type-Options` HTTP response header (`x-content-type-options`)
+# Require `X-Content-Type-Options` HTTP response header (`@sonarwhal/rule-x-content-type-options`)
 
 `x-content-type-options` warns against not serving scripts and
 stylesheets with the `X-Content-Type-Options: nosniff` HTTP response
