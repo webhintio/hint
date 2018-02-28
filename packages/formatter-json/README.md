@@ -9,6 +9,10 @@ To use it you need to configure your `.sonarwhalrc` file as follows:
 
 ```json
 {
-    "formatters": "json"
+    "connector": { ... },
+    "formatters": "json",
+    "rules": {
+        ...
+    }
 }
 ```

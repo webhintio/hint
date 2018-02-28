@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "",
+  "description": "sonarwhal formatter that prints the JSON object of the results",
   "dependencies": {
     "lodash": "^4.17.5"
   },

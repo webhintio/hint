@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "",
+  "description": "sonarwhal formatter that prints the results using the codeframe style",
   "dependencies": {
     "chalk": "^2.3.1",
     "lodash": "^4.17.5",
