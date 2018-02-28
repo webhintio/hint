@@ -11,9 +11,7 @@ const actions = ({ newParser: true } as CLIOptions);
 const fsExtra = { copy() { } };
 const inquirer = { prompt() { } };
 const misc = {
-    findPackageRoot() {
-        return path.join(__dirname, '../../../../../');
-    },
+    isOfficial() { },
     normalizeStringByDelimiter() { },
     readFileAsync() { },
     writeFileAsync() { }
@@ -63,7 +61,7 @@ test.serial('If newParser is not an option, it should return false', async (t) =
     t.false(result);
 });
 
-test.serial('It should create a new core parser.', async (t) => {
+test.serial('It should create a new official parser.', async (t) => {
     const parserInfoResult = {
         description: 'description',
         name: 'name'
@@ -76,7 +74,7 @@ test.serial('It should create a new core parser.', async (t) => {
 
     const packageRoot = path.join(__dirname, '../../../../../');
 
-    sandbox.stub(misc, 'findPackageRoot').returns(packageRoot);
+    sandbox.stub(misc, 'isOfficial').resolves(true);
     sandbox.stub(process, 'cwd').returns(packageRoot);
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
@@ -86,10 +84,10 @@ test.serial('It should create a new core parser.', async (t) => {
 
     const result = await parser.newParser(actions);
 
-    // 2 files (code + test)
-    t.is(t.context.handlebars.compileTemplate.callCount, 2, `Handlebars doesn't complile the right number of files`);
-    // 3 files (code + test + doc)
-    t.is(t.context.misc.writeFileAsync.callCount, 3, 'Invalid number of files created');
+    // 6 files (2 code + test + doc + tsconfig.json + package.json)
+    t.is(t.context.handlebars.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
+    // 6 files (2 code + test + doc + tsconfig.json + package.json)
+    t.is(t.context.misc.writeFileAsync.callCount, 6, 'Invalid number of files created');
 
     t.true(result);
     t.false(t.context.fs.copy.called);
@@ -97,7 +95,7 @@ test.serial('It should create a new core parser.', async (t) => {
     sandbox.restore();
 });
 
-test.serial('It should create a new core parser with no duplicate events.', async (t) => {
+test.serial('It should create a new official parser with no duplicate events.', async (t) => {
     const parserInfoResult = {
         description: 'description',
         name: 'name'
@@ -119,7 +117,7 @@ test.serial('It should create a new core parser with no duplicate events.', asyn
     const sandbox = sinon.sandbox.create();
     const packageRoot = path.join(__dirname, '../../../../../');
 
-    sandbox.stub(misc, 'findPackageRoot').returns(packageRoot);
+    sandbox.stub(misc, 'isOfficial').resolves(true);
     sandbox.stub(process, 'cwd').returns(packageRoot);
     sandbox.stub(inquirer, 'prompt')
         .onCall(0)
@@ -147,10 +145,10 @@ test.serial('It should create a new core parser with no duplicate events.', asyn
     });
     const eventsSet = new Set(events);
 
-    // 2 files (code + test)
-    t.is(t.context.handlebars.compileTemplate.callCount, 2, `Handlebars doesn't complile the right number of files`);
-    // 3 files (code + test + doc)
-    t.is(t.context.misc.writeFileAsync.callCount, 3, 'Invalid number of files created');
+    // 6 files (2 code + test + doc + tsconfig.json + package.json)
+    t.is(t.context.handlebars.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
+    // 6 files (2 code + test + doc + tsconfig.json + package.json)
+    t.is(t.context.misc.writeFileAsync.callCount, 6, 'Invalid number of files created');
 
     t.false(containFetchEnd);
     t.true(containElement);
@@ -163,7 +161,7 @@ test.serial('It should create a new core parser with no duplicate events.', asyn
     sandbox.restore();
 });
 
-test.serial('It should create a new external parser.', async (t) => {
+test.serial('It should create a new non-official parser.', async (t) => {
     const parserInfoResult = {
         description: 'description',
         name: 'name'
@@ -174,7 +172,7 @@ test.serial('It should create a new external parser.', async (t) => {
     };
     const sandbox = sinon.sandbox.create();
 
-    sandbox.stub(misc, 'findPackageRoot').returns('/test/');
+    sandbox.stub(misc, 'isOfficial').resolves(false);
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
         .resolves(parserInfoResult)
@@ -183,9 +181,9 @@ test.serial('It should create a new external parser.', async (t) => {
 
     const result = await parser.newParser(actions);
 
-    // 6 files (2 code + test + doc + package.json + .sonarwhalrc)
+    // 6 files (2 code + test + doc + tsconfig.json + package.json)
     t.is(t.context.handlebars.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
-    // 6 files (2 code + test + doc + package.json + .sonarwhalrc)
+    // 6 files (2 code + test + doc + tsconfig.json + package.json)
     t.is(t.context.misc.writeFileAsync.callCount, 6, 'Invalid number of files created');
 
     t.true(result);
