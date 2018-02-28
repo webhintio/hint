@@ -37,8 +37,13 @@
     "index.json"
   ],
   "keywords": [
-    "configuration",
-    "recommended",
+    "a11y",
+    "accessibility",
+    "best-practices",
+    "interoperability",
+    "lint",
+    "performance",
+    "security",
     "sonarwhal",
     "sonarwhal-configuration"
   ],
