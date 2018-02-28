@@ -10,7 +10,10 @@ import * as handlebarsUtils from '../../../../src/lib/utils/handlebars';
 const actions = ({ newRule: true } as CLIOptions);
 
 const inquirer = { prompt() { } };
-const misc = { writeFileAsync() { } };
+const misc = {
+    isOfficial() { },
+    writeFileAsync() { }
+};
 const fsExtra = { copy() { } };
 const mkdirp = (dir, callback) => {
     callback();
@@ -48,6 +51,7 @@ test.serial('It creates a rule if the option multiple rules is false', async (t)
     const miscWriteFileAsyncStub = sandbox.stub(misc, 'writeFileAsync').resolves();
     const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').returns('');
 
+    sandbox.stub(misc, 'isOfficial').resolves(false);
     sandbox.stub(rulesCommon, 'processDir').get(() => {
         return root;
     });
@@ -94,6 +98,7 @@ test.serial('It creates a package with multiple rules', async (t) => {
     const miscWriteFileAsyncStub = sandbox.stub(misc, 'writeFileAsync').resolves();
     const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').returns('');
 
+    sandbox.stub(misc, 'isOfficial').resolves(false);
     sandbox.stub(rulesCommon, 'processDir').get(() => {
         return root;
     });
