@@ -4,7 +4,7 @@
 
 <p align="center">
     <img src="https://user-images.githubusercontent.com/1223565/34734522-e0dd1226-f520-11e7-8277-ec0e0a7199c1.png" alt="sonarwhal logo">
-    <a href="https://travis-ci.org/sonarwhal/sonarwhal"><img src="https://travis-ci.org/sonarwhal/sonarwhal.svg?branch=master" alt="Travis CI Build Status"></a> <a href="https://ci.appveyor.com/project/NellieTheNarwhal/sonarwhal"><img src="https://ci.appveyor.com/api/projects/status/r2via8w2s1ras3ui?svg=true" alt="AppVeyor Build Status"></a> <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/sonarwhal/sonarwhal.svg?ts=1493307106027" alt="Greenkeeper Status"></a> <a href="https://gitter.im/sonarwhal/Lobby"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"></a>
+    <a href="https://travis-ci.org/sonarwhal/sonarwhal"><img src="https://travis-ci.org/sonarwhal/sonarwhal.svg?branch=master" alt="Travis CI Build Status"></a> <a href="https://ci.appveyor.com/project/NellieTheNarwhal/sonarwhal"><img src="https://ci.appveyor.com/api/projects/status/r2via8w2s1ras3ui?svg=true" alt="AppVeyor Build Status"></a> <a href="https://gitter.im/sonarwhal/Lobby"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"></a>
 </p>
 
 <!-- markdownlint-enable -->

@@ -37,11 +37,6 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "greenkeeper": {
-    "ignore": [
-      "@types/node"
-    ]
-  },
   "name": "@sonarwhal/monorepo",
   "private": true,
   "scripts": {

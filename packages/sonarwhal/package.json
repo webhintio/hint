@@ -93,11 +93,6 @@
     "docs",
     "npm-shrinkwrap.json"
   ],
-  "greenkeeper": {
-    "ignore": [
-      "@types/node"
-    ]
-  },
   "homepage": "https://sonarwhal.com/",
   "keywords": [
     "a11y",

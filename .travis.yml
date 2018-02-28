@@ -65,40 +65,6 @@ jobs:
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    # Stage used for automatically merging Greenkeeper's commits
-    # that pass the tests.
-    #
-    # [!] Runs: Only for branches created by Greenkeeper.
-
-    - stage: greenkeeper-merge
-      if: type = push and branch =~ ^greenkeeper\/.*-.*$
-
-      os: linux
-      node_js: lts/*
-
-      script:
-        - ./.travis/set-up-ssh.sh && node ./.travis/greenkeeper-merge.js
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    # Stage used for updating Greenkeeper's commits so that they:
-    #
-    #  * Also update the `package-lock.json` file.
-    #  * Follow the project's commit message conventions.
-    #
-    # [!] Runs: Only for branches created by Greenkeeper.
-
-    - stage: greenkeeper-update
-      if: type = push and branch =~ ^greenkeeper\/.*-.*$
-
-      os: linux
-      node_js: lts/*
-
-      script:
-        - ./.travis/set-up-ssh.sh && node ./.travis/greenkeeper-update.js
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
     # Stage used for testing the code on different OSes and versions
     # # of node.
     #
@@ -151,9 +117,7 @@ notifications:
 
 stages:
   - check-links
-  - greenkeeper-update
   - test
-  - greenkeeper-merge
   - deploy
 
 sudo: required
