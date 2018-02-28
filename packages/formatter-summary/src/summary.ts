@@ -9,7 +9,8 @@
  */
 
 import chalk from 'chalk';
-import * as _ from 'lodash';
+import * as forEach from 'lodash.forEach';
+import * as groupBy from 'lodash.groupby';
 import * as pluralize from 'pluralize';
 import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
@@ -18,6 +19,10 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IFormatter, Problem, Severity } from 'sonarwhal/dist/src/lib/types';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 
+const _ = {
+    forEach,
+    groupBy
+};
 const debug = d(__filename);
 
 /*

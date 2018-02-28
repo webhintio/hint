@@ -12,7 +12,9 @@
  */
 
 import chalk from 'chalk';
-import * as _ from 'lodash';
+import * as groupBy from 'lodash.groupby';
+import * as sortBy from 'lodash.sortby';
+import * as forEach from 'lodash.forEach';
 import * as pluralize from 'pluralize';
 
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
@@ -20,7 +22,13 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IFormatter, Problem, ProblemLocation, Severity } from 'sonarwhal/dist/src/lib/types';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 
+const _ = {
+    forEach,
+    groupBy,
+    sortBy
+};
 const debug = d(__filename);
+
 
 const countLeftWhiteSpaces = (txt: string): number => {
     const match = txt.match(/(\s+)/);

@@ -9,12 +9,19 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as _ from 'lodash';
+import * as forEach from 'lodash.forEach';
+import * as groupBy from 'lodash.forEach';
+import * as sortBy from 'lodash.forEach';
 
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IFormatter, Problem } from 'sonarwhal/dist/src/lib/types';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 
+const _ = {
+    forEach,
+    groupBy,
+    sortBy
+};
 const debug = d(__filename);
 
 /*
