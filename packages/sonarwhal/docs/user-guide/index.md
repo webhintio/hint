@@ -27,9 +27,17 @@ sonarwhal --init
 ```
 
 This command will start a wizard that will ask you a series of
-questions (e.g.: what connector to use, what formatter, which rules,
-etc.). Answer them and you will end up with something similar to the
-following:
+questions (e.g.: do you want to use a predefined `configuration` or prefer to
+create one with the installed resource, what connector to use, formatter,
+rules, etc.). Answer them and you will end up with something similar to the
+following if you decided to use a predefined configuration:
+
+```json
+{
+    "extends": ["configurationName"]
+}
+```
+or the following if custom:
 
 ```json
 {
@@ -65,9 +73,11 @@ Now that you have your first result, is time to learn a bit more about
 the different pieces:
 
 * [Rules](./concepts/rules/)
+* [Configurations](./concepts/configurations/)
 * [Connectors](./concepts/connectors/)
 * [Formatters](./concepts/formatters/)
 * [Parsers](./concepts/parsers/)
+
 
 ### Permission issues during installation
 
