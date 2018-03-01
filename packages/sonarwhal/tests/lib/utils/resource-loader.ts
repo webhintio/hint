@@ -144,7 +144,7 @@ test('loadResource throws an error if the version is incompatible when using "ve
     tryToLoadFromStub.returns(fakeResource);
 
     const { message } = t.throws(() => {
-        resourceLoader.loadResource('another-fake-resource', 'formatter', true);
+        resourceLoader.loadResource('another-fake-resource', 'formatter', [], true);
     });
 
     t.is(message, `Resource another-fake-resource isn't compatible with current sonarwhal version`, 'Received a different exception');
@@ -169,7 +169,7 @@ test('loadResource returns the resource if versions are compatible', (t) => {
 
     tryToLoadFromStub.returns(fakeResource);
 
-    const resource = resourceLoader.loadResource('another-fake-resource', 'formatter', true);
+    const resource = resourceLoader.loadResource('another-fake-resource', 'formatter', [], true);
 
     t.is(resource, fakeResource, `Resources aren't the same`);
 });
@@ -183,6 +183,7 @@ test('loadResources loads all the resources of a given config', (t) => {
             name: 'jsdom',
             options: {}
         },
+        extends: [],
         formatters: ['json'],
         ignoredUrls: [],
         parsers: [],

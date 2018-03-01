@@ -192,7 +192,7 @@ const validateRules = (rulesConfig: RulesConfigObject, userConfig: UserConfig) =
     const rules = Object.keys(rulesConfig);
 
     rules.forEach((rule) => {
-        const Rule = resourceLoader.loadRule(rule);
+        const Rule = resourceLoader.loadRule(rule, userConfig.extends);
 
         const valid: boolean = validateRule(Rule.meta, userConfig.rules[rule], rule);
 
@@ -210,6 +210,7 @@ export class SonarwhalConfig {
     public readonly parsers: Array<string>;
     public readonly rules: RulesConfigObject;
     public readonly rulesTimeout: number;
+    public readonly extends: Array<string>;
 
     private constructor(userConfig: UserConfig, browsers: Array<string>, ignoredUrls, rules: RulesConfigObject) {
         this.browserslist = browsers;
@@ -217,6 +218,7 @@ export class SonarwhalConfig {
         this.ignoredUrls = ignoredUrls;
         this.parsers = userConfig.parsers;
         this.rules = rules;
+        this.extends = userConfig.extends;
 
         this.rulesTimeout = userConfig.rulesTimeout || 60000;
 
