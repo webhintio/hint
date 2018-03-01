@@ -11,6 +11,7 @@
 import chalk from 'chalk';
 import * as forEach from 'lodash.foreach';
 import * as groupBy from 'lodash.groupby';
+import * as defaultTo from 'lodash.defaultto';
 import * as pluralize from 'pluralize';
 import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
@@ -20,6 +21,7 @@ import { IFormatter, Problem, Severity } from 'sonarwhal/dist/src/lib/types';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 
 const _ = {
+    defaultTo,
     forEach,
     groupBy
 };
