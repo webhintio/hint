@@ -106,6 +106,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     new Sonarwhal({
         browserslist: null,
         connector: { name: 'connector' },
+        extends: [],
         formatters: [],
         ignoredUrls: [],
         parsers: [],
@@ -167,6 +168,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
     new Sonarwhal({
         browserslist: null,
         connector: { name: 'jsdom' },
+        extends: [],
         formatters: [],
         ignoredUrls: [],
         parsers: [],
@@ -232,6 +234,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
     new Sonarwhal({
         browserslist: null,
         connector: { name: 'chrome' },
+        extends: [],
         formatters: [],
         ignoredUrls: [],
         parsers: [],
@@ -289,6 +292,7 @@ test.serial(`If the rule scope is 'local' and the connector isn't local the rule
     new Sonarwhal({
         browserslist: null,
         connector: { name: 'chrome' },
+        extends: [],
         formatters: [],
         ignoredUrls: [],
         parsers: [],
@@ -346,6 +350,7 @@ test.serial(`If the rule scope is 'site' and the connector is local the rule sho
     new Sonarwhal({
         browserslist: null,
         connector: { name: 'local' },
+        extends: [],
         formatters: [],
         ignoredUrls: [],
         parsers: [],
@@ -403,6 +408,7 @@ test.serial(`If the rule scope is 'any' and the connector is local the rule shou
     new Sonarwhal({
         browserslist: null,
         connector: { name: 'local' },
+        extends: [],
         formatters: [],
         ignoredUrls: [],
         parsers: [],
@@ -462,6 +468,7 @@ test.serial(`If the rule scope is 'any' and the connector isn't local the rule s
     new Sonarwhal({
         browserslist: null,
         connector: { name: 'chrome' },
+        extends: [],
         formatters: [],
         ignoredUrls: [],
         parsers: [],
@@ -490,6 +497,7 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
         browserslist: null,
         connector: { name: 'connector' },
         formatters: [],
+        extends: [],
         ignoredUrls: new Map([['all', [/.*\.domain1\.com\/.*/i]]]),
         parsers: [],
         rules: { 'disallowed-headers': 'warning' },
@@ -533,6 +541,7 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
     new Sonarwhal({
         browserslist: null,
         connector: { name: 'connector' },
+        extends: [],
         formatters: [],
         ignoredUrls: new Map([['all', [/.*\.domain1\.com\/.*/i]], ['disallowed-headers', [/.*\.domain2\.com\/.*/i]]]),
         parsers: [],
@@ -582,6 +591,7 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
     new Sonarwhal({
         browserslist: null,
         connector: { name: 'connector' },
+        extends: [],
         formatters: [],
         ignoredUrls: new Map(),
         parsers: [],

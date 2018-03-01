@@ -172,7 +172,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
         });
     };
 
-    const Rule: IRuleConstructor = resourceLoader.loadRule(ruleId);
+    const Rule: IRuleConstructor = resourceLoader.loadRule(ruleId, []);
 
     /* Run all the tests for a given rule in all connectors. */
     connectors.forEach((connector) => {
