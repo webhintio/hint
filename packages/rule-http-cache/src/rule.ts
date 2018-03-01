@@ -6,7 +6,7 @@ import * as pluralize from 'pluralize';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { getHeaderValueNormalized, isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
+import { IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -21,8 +21,35 @@ type ParsedDirectives = {
     usedDirectives: Directives;
 };
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class HttpCacheRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.performance,
+            description: `Checks if your cache-control header and asset strategy follows best practices`
+        },
+        id: 'http-cache',
+        schema: [{
+            additionalProperties: false,
+            definitions: {
+                'string-array': {
+                    items: { type: 'string' },
+                    minItems: 1,
+                    type: 'array',
+                    uniqueItems: true
+                }
+            },
+            properties: {
+                maxAgeResource: 'number',
+                maxAgeTarget: 'number',
+                revvingPatterns: { $ref: '#/definitions/string-array' }
+            }
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
+
         /**
          * Max time the HTML of a page can be cached.
          * https://jakearchibald.com/2016/caching-best-practices/#used-carefully-max-age-mutable-content-can-be-beneficial
@@ -215,7 +242,7 @@ const rule: IRuleBuilder = {
          * an error because it's up to the browser vendor to decide what
          * to do.
          */
-        const hasCacheControl = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const hasCacheControl = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { resource, response: { headers } } = fetchEnd;
             const cacheControl: string = headers && headers['cache-control'] || null;
 
@@ -231,7 +258,7 @@ const rule: IRuleBuilder = {
         /*
          * Validates if all the cache-control directives and values are correct.
          */
-        const hasInvalidDirectives = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const hasInvalidDirectives = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { invalidDirectives, invalidValues } = directives;
             const { resource } = fetchEnd;
 
@@ -257,7 +284,7 @@ const rule: IRuleBuilder = {
         /*
          * Validates if there is any non recommended directives.
          */
-        const hasNoneNonRecommendedDirectives = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const hasNoneNonRecommendedDirectives = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { usedDirectives } = directives;
             const { resource } = fetchEnd;
             const nonRecommendedDirective = nonRecommendedDirectives(usedDirectives);
@@ -277,7 +304,7 @@ const rule: IRuleBuilder = {
          * Validates that `no-cache` and `no-store` are not used in combination
          *  with `max-age` or `s-maxage`.
          */
-        const validateDirectiveCombinations = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const validateDirectiveCombinations = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { header, usedDirectives } = directives;
 
             if (usedDirectives.has('no-cache') || usedDirectives.has('no-store')) {
@@ -298,7 +325,7 @@ const rule: IRuleBuilder = {
         /**
          * Validates the target uses no-cache or a small max-age value
          */
-        const hasSmallCache = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const hasSmallCache = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { header, usedDirectives } = directives;
 
             if (usedDirectives.has('no-cache')) {
@@ -321,7 +348,7 @@ const rule: IRuleBuilder = {
         /**
          * Validates that a resource (JS, CSS, images, etc.) has the right caching directives.
          */
-        const hasLongCache = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const hasLongCache = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { header, usedDirectives } = directives;
             const { resource, element } = fetchEnd;
 
@@ -343,7 +370,7 @@ const rule: IRuleBuilder = {
         /**
          * Validates that a resource (JS, CSS, images, etc.) is using the right file revving format.
          */
-        const usesFileRevving = async (directives: ParsedDirectives, fetchEnd: IFetchEnd): Promise<boolean> => {
+        const usesFileRevving = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { element, resource } = fetchEnd;
             const matches = cacheRevvingPatterns.find((pattern) => {
                 return !!resource.match(pattern);
@@ -360,7 +387,7 @@ const rule: IRuleBuilder = {
             return true;
         };
 
-        const validate = async (fetchEnd: IFetchEnd, eventName: string) => {
+        const validate = async (fetchEnd: FetchEnd, eventName: string) => {
             const type: TargetType = eventName === 'fetch::end::html' ? 'html' : 'fetch';
             const { resource } = fetchEnd;
 
@@ -415,31 +442,6 @@ const rule: IRuleBuilder = {
             return;
         };
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.performance,
-            description: `Checks if your cache-control header and asset strategy follows best practices`
-        },
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                'string-array': {
-                    items: { type: 'string' },
-                    minItems: 1,
-                    type: 'array',
-                    uniqueItems: true
-                }
-            },
-            properties: {
-                maxAgeResource: 'number',
-                maxAgeTarget: 'number',
-                revvingPatterns: { $ref: '#/definitions/string-array' }
-            }
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', validate);
     }
-};
-
-module.exports = rule;
+}

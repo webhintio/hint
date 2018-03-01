@@ -20,10 +20,10 @@ Handlebars.registerHelper('toCamelCase', toCamelCase);
 
 /** A map that matches usecases with events. */
 const events: Map<string, Array<string>> = new Map([
-    ['dom', ['IElementFound']],
-    ['request', ['IFetchStart', 'IFetchEnd', 'IFetchError']],
-    ['thirdPartyService', ['IFetchStart', 'IFetchEnd']],
-    ['jsInjection', ['IScanEnd']]
+    ['dom', ['ElementFound']],
+    ['request', ['FetchStart', 'FetchEnd', 'FetchError']],
+    ['thirdPartyService', ['FetchStart', 'FetchEnd']],
+    ['jsInjection', ['ScanEnd']]
 ]);
 
 /**  Usage categories that the new rule applies to */

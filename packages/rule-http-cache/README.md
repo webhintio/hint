@@ -1,4 +1,4 @@
-# HTTP Cache (`http-cache`)
+# HTTP Cache (`@sonarwhal/rule-http-cache`)
 
 `http-cache` verifies that the page and all its resources follow a good,
 sustainable caching strategy.

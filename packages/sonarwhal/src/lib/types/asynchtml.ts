@@ -1,10 +1,10 @@
-export interface IAsyncHTMLAttribute {
+export type AsyncHTMLAttribute = {
     /** Attribute name of the element */
     name: string;
 
     /** Attribute value of the element */
     value: string;
-}
+};
 
 /**
  * A wrapper of an HTMLElement that gives access to the required resources

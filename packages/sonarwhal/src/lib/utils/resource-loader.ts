@@ -12,23 +12,19 @@
  */
 
 import * as path from 'path';
-import { promisify } from 'util';
 
 import * as globby from 'globby';
-import * as npm from 'npm';
-import * as esearch from 'npm/lib/search/esearch';
-import * as inquirer from 'inquirer';
+import * as semver from 'semver';
 
-import { findNodeModulesRoot, findPackageRoot, readFile } from './misc';
-import { debug as d } from './debug';
-import { IConnectorBuilder, IFormatter, NpmPackage, Parser, Resource, IRuleBuilder } from '../types';
-import { validate as validateRule } from '../config/config-rules';
-import { installPackages } from './npm';
+import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, readFile } from '../utils/misc';
+import { debug as d } from '../utils/debug';
+import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
+import { SonarwhalConfig } from '../config';
+import { ResourceType } from '../enums/resourcetype';
 
 const debug: debug.IDebugger = d(__filename);
 const SONARWHAL_ROOT: string = findPackageRoot();
 const NODE_MODULES_ROOT: string = findNodeModulesRoot();
-const npmLoadAsync = promisify(npm.load);
 
 /** Cache of resource builders, indexex by resource Id. */
 const resources: Map<string, Resource> = new Map<string, Resource>();
@@ -36,38 +32,31 @@ const resources: Map<string, Resource> = new Map<string, Resource>();
 /** Cache of resources ids. */
 const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>();
 
-/** The type of resource */
-export const TYPE = {
-    connector: 'connector',
-    formatter: 'formatter',
-    parser: 'parser',
-    rule: 'rule'
-};
+/**
+ * Validates if a given package can be used with the current `sonarwhal` version
+ * by looking at its `peerDependencies`
+ */
+const isVersionValid = (resourcePath: string): boolean => {
+    try {
+        const pkg = getPackage(resourcePath);
+        const sonarwhalPkg = getSonarwhalPackage();
 
-/** Returns a list with the ids of all the core resources of the given `type`. */
-const getCoreResources = (type: string): Array<string> => {
-    if (resourceIds.has(type)) {
-        return resourceIds.get(type);
+        return semver.satisfies(sonarwhalPkg.version, pkg.peerDependencies.sonarwhal);
+    } catch (e) {
+        // We failed to load the package.json so it's a core resource
+        debug(e);
+
+        return true;
     }
-
-    const resourcesFiles: Array<string> = globby.sync(`dist/src/lib/${type}s/**/*.js`, { cwd: SONARWHAL_ROOT });
-
-    const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
-        const resourceName: string = path.basename(resourceFile, '.js');
-
-        if (path.dirname(resourceFile).includes(resourceName)) {
-            list.push(resourceName);
-        }
-
-        return list;
-    }, []);
-
-    resourceIds.set(type, ids);
-
-    return ids;
 };
 
-const getInstalledResources = (type: string): Array<string> => {
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
+
+export const getInstalledResources = (type: string): Array<string> => {
     const installedType = `installed-${type}`;
 
     if (resourceIds.has(installedType)) {
@@ -90,14 +79,9 @@ const getInstalledResources = (type: string): Array<string> => {
     return ids;
 };
 
-/*
- * ------------------------------------------------------------------------------
- * Public
- * ------------------------------------------------------------------------------
- */
-
 /** Tries to load a module from `resourcePath`. */
 export const tryToLoadFrom = (resourcePath: string): any => {
+    // This is exported so it's easier to stub during tests
     let builder: any = null;
 
     try {
@@ -119,20 +103,12 @@ export const tryToLoadFrom = (resourcePath: string): any => {
 /**
  * Check if it is a package with multiple resources.
  */
-const hasMultipleResources = (resource, type: string) => {
+const hasMultipleResources = (resource, type: ResourceType) => {
     switch (type) {
-        case TYPE.connector:
-            // In a simple connector, resource should be a function.
-            return typeof resource === 'object';
-        case TYPE.formatter:
-            // In a simple formatter, the property format should exist.
-            return !resource.format;
-        case TYPE.rule:
-            // In a simple rule, the properties create and meta should exist.
-            return !(resource.create && resource.meta);
-        case TYPE.parser:
-            // In a simple parser, the property default should exists.
-            return !resource.default && typeof resource !== 'function';
+        case ResourceType.rule:
+            // In a simple rule, the property meta should exist.
+            return !resource.meta;
+        // Only case with multiple resources is rules
         default:
             return false;
     }
@@ -143,7 +119,7 @@ const hasMultipleResources = (resource, type: string) => {
  * If that path contains a package with multiple resources
  * then get just the one with the given `name`.
  */
-const getResource = (source: string, type: string, name: string) => {
+const getResource = (source: string, type: ResourceType, name: string) => {
     const resource = tryToLoadFrom(source);
 
     if (!resource) {
@@ -164,6 +140,33 @@ const getResource = (source: string, type: string, name: string) => {
 };
 
 /**
+ * Looks inside the configurations looking for resources.
+ */
+const generateConfigPathsToResources = (configurations: Array<string>, name: string, type: ResourceType) => {
+    return configurations.reduce((total: Array<string>, configuration: string) => {
+        const basePackagePaths = ['@sonarwhal/configuration-', 'sonarwhal-configuration-'];
+
+        for (const basePackagePath of basePackagePaths) {
+            const packageName = `${basePackagePath}${configuration}`;
+
+            try {
+                const packagePath = path.dirname(require.resolve(packageName));
+
+                const resourcePackages = globby.sync(`node_modules/{@sonarwhal/,sonarwhal-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
+                    return path.dirname(pkg);
+                });
+
+                total = total.concat(resourcePackages);
+            } catch (err) {
+                debug(`Package ${packageName} not found`);
+            }
+        }
+
+        return total;
+    }, []);
+};
+
+/**
  * Looks for a sonarwhal resource with the given `name` and tries to load it.
  * If no valid resource is found, it throws an `Error`.
  *
@@ -175,7 +178,7 @@ const getResource = (source: string, type: string, name: string) => {
  * 4. external rules
  *
  */
-export const loadResource = (name: string, type: string) => {
+export const loadResource = (name: string, type: ResourceType, configurations: Array<string> = [], verifyVersion = false) => {
     debug(`Searching ${name}…`);
 
     const packageName = name.includes('/') ? name.split('/')[0] : name;
@@ -183,27 +186,49 @@ export const loadResource = (name: string, type: string) => {
 
     const key: string = `${type}-${packageName}`;
 
-    if (resources.has(key)) {
+    // When we check the version we ignore if there was a previous version loaded
+    if (resources.has(key) && !verifyVersion) {
         return resources.get(key);
     }
+
+    const configPathsToResources = generateConfigPathsToResources(configurations, packageName, type);
 
     const sources: Array<string> = [
         `@sonarwhal/${key}`, // Officially supported package
         `sonarwhal-${key}`, // Third party package
-        path.normalize(`${SONARWHAL_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
-        path.normalize(`${path.resolve(SONARWHAL_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
-    ];
+        path.normalize(`${SONARWHAL_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`) // Part of core. E.g.: built-in formatters, parsers, connectors
+        // path.normalize(`${path.resolve(SONARWHAL_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
+    ].concat(configPathsToResources);
 
-    let resource: any;
+    let resource;
+    let resourcePath: string;
+    let isValid: boolean = true;
 
     sources.some((source: string) => {
-        resource = getResource(source, type, resourceName);
-        if (resource) {
+        const res = getResource(source, type, resourceName);
+
+        if (res) {
             debug(`${name} found in ${source}`);
+
+            if (verifyVersion && !isVersionValid(source)) {
+                debug(`Resource ${name} isn't compatible with current sonarwhal version`);
+
+                isValid = false;
+
+                return false;
+            }
+
+            isValid = true;
+            resourcePath = source;
+            resource = res;
         }
 
         return resource;
     });
+
+    if(!isValid) {
+        throw new Error(`Resource ${name} isn't compatible with current sonarwhal version`);
+    }
 
     if (!resource) {
         debug(`Resource ${name} not found`);
@@ -215,286 +240,74 @@ export const loadResource = (name: string, type: string) => {
     return resource;
 };
 
-export const getCoreRules = (): Array<string> => {
-    // This needs to be merged with https://github.com/sonarwhal/sonarwhal/pull/785
-    return getCoreResources(TYPE.rule);
-};
 
-export const getCoreFormatters = (): Array<string> => {
-    // This needs to be merged with https://github.com/sonarwhal/sonarwhal/pull/785
-    return getCoreResources(TYPE.formatter);
-};
+const loadListOfResources = (list: Array<string> | Object, type: ResourceType, configurations: Array<string> = []): { incompatible: Array<string>, missing: Array<string>, resources: Array<any> } => {
+    const missing: Array<string> = [];
+    const incompatible: Array<string> = [];
 
-export const getCoreConnectors = (): Array<string> => {
-    // This needs to be merged with https://github.com/sonarwhal/sonarwhal/pull/785
-    return getCoreResources(TYPE.connector);
-};
+    // In the case of rules, we get an object with rulename/priority, not an array
+    const items = Array.isArray(list) ?
+        list :
+        Object.keys(list);
 
-export const getCoreParsers = (): Array<string> => {
-    // This needs to be merged with https://github.com/sonarwhal/sonarwhal/pull/785
-    return getCoreResources(TYPE.parser);
-};
+    const loadedResources = items.reduce((loaded, resourceId) => {
+        try {
+            const resource = loadResource(resourceId, type, configurations, true);
 
-export const getInstalledConnectors = (): Array<string> => {
-    return getInstalledResources(TYPE.connector);
-};
-
-/**
- * Searches all the packages on npm given `searchTerm`.
- */
-const searchNpmPackages = (searchTerm: string): Promise<Array<NpmPackage>> => {
-    return new Promise((resolve, reject) => {
-        const results = [];
-
-        const searchOptions = {
-            description: true,
-            excluded: [],
-            include: [searchTerm],
-            limit: 1000,
-            staleness: 900,
-            unicode: false
-        };
-
-        esearch(searchOptions)
-            .on('data', (data) => {
-                results.push(data);
-            })
-            .on('error', (err) => {
-                reject(err);
-            })
-            .on('end', () => {
-                resolve(results);
-            });
-    });
-};
-
-const loadNpm = () => {
-    return npmLoadAsync({ loaded: false });
-};
-
-/** Filters the packages that `startsWith` `initTerm`. */
-const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
-    return packages.filter((pkg) => {
-        return pkg.name.startsWith(initTerm);
-    });
-};
-
-/** Get packages from npm. */
-export const getNpmPackages = async (searchTerm: string = 'sonarwhal'): Promise<Array<NpmPackage>> => {
-    await loadNpm();
-
-    return searchNpmPackages(searchTerm);
-};
-
-/** Get core packages from npm. */
-const getCorePackages = async (type: string): Promise<Array<NpmPackage>> => {
-    const rules = await getNpmPackages(`@sonarwhal/${type}`);
-
-    /*
-     * We need to filter the results because the search can
-     * include other packages that doesn't start with `@sonarwhal/{type}`.
-     */
-    return filterPackages(rules, `@sonarwhal/${type}`);
-};
-
-/** Get external packages from npm. */
-const getExternalPackages = async (type: string): Promise<Array<NpmPackage>> => {
-    const rules = await getNpmPackages(`sonarwhal-${type}`);
-
-    /*
-     * We need to filter the results because the search can
-     * include other packages that doesn't start with `sonarwhal-{type}`.
-     */
-    return filterPackages(rules, `sonarwhal-${type}`);
-};
-
-/** Get external rules from npm. */
-export const getExternalRulesFromNpm = () => {
-    return getExternalPackages(TYPE.rule);
-};
-
-/** Get core rules from npm. */
-export const getCoreRulesFromNpm = () => {
-    return getCorePackages(TYPE.rule);
-};
-
-/** Get external connectors from npm. */
-export const getExternalConnectorsFromNpm = () => {
-    return getExternalPackages(TYPE.connector);
-};
-
-/** Get core connectors from npm. */
-export const getCoreConnectorsFromNpm = () => {
-    return getCorePackages(TYPE.connector);
-};
-
-/** Get external parsers from npm. */
-export const getExternalParsersFromNpm = () => {
-    return getExternalPackages(TYPE.parser);
-};
-
-/** Get core parsers from npm. */
-export const getCoreParsersFromNpm = () => {
-    return getCorePackages(TYPE.parser);
-};
-
-/** Get external formatters from npm. */
-export const getExternalFormattersFromNpm = () => {
-    return getExternalPackages(TYPE.formatter);
-};
-
-/** Get core formatters from npm. */
-export const getCoreFormattersFromNpm = () => {
-    return getCorePackages(TYPE.formatter);
-};
-
-const getPackagesToInstall = async (packagesIds: Array<string>, type: string) => {
-    let promise: Promise<[Array<NpmPackage>, Array<NpmPackage>]>;
-
-    switch (type) {
-        case TYPE.connector:
-            promise = Promise.all([getCoreConnectorsFromNpm(), getExternalConnectorsFromNpm()]);
-            break;
-        case TYPE.formatter:
-            promise = Promise.all([getCoreFormattersFromNpm(), getExternalFormattersFromNpm()]);
-            break;
-        case TYPE.parser:
-            promise = Promise.all([getCoreParsersFromNpm(), getExternalParsersFromNpm()]);
-            break;
-        case TYPE.rule:
-            promise = Promise.all([getCoreRulesFromNpm(), getExternalRulesFromNpm()]);
-            break;
-        default:
-            throw new Error(`Type ${type} unknown`);
-    }
-
-    const [npmCorePackages, npmExternalPackages] = await promise;
-    const npmPackages: Array<string> = npmCorePackages
-        .concat(npmExternalPackages)
-        .filter((npmPackage) => {
-            return packagesIds.includes(npmPackage.name.replace(`@sonarwhal/${type}-`, '').replace(`sonarwhal-${type}-`, ''));
-        })
-        .map((npmPackage) => {
-            return npmPackage.name;
-        });
-    const notExists: Array<string> = [];
-
-    for (const packageId of packagesIds) {
-        if (!npmPackages.includes(`@sonarwhal/${type}-${packageId}`) && !npmPackages.includes(`sonarwhal-${type}-${packageId}`)) {
-            notExists.push(packageId);
-        }
-    }
-
-    if (notExists.length > 0) {
-        throw new Error(`${type.charAt(0).toUpperCase()}${type.slice(1)}s ${notExists.join(' ')} not found. Please, review your configuration.`);
-    }
-
-    return npmPackages;
-};
-
-const installMissingPackages = async (ids: Array<string>, type: string) => {
-    // Check if the missing package exists on npm.
-    const packages = await getPackagesToInstall(ids, type);
-
-    console.log(`The following ${type}s are not installed:`);
-    console.log(packages.join(' '));
-
-    // Ask user if he wants to install the packages.
-    const result = await inquirer.prompt([{
-        default: true,
-        message: `Do you want to install the missing ${type}s?`,
-        name: 'ok',
-        type: 'confirm'
-    }]) as any;
-
-    if (!result.ok) {
-        throw new Error(`${type.charAt(0).toUpperCase()}${type.slice(1)}s ${packages.join(' ')} not found. Please, install them.`);
-    }
-
-    // Install Packages
-    installPackages(packages);
-};
-
-const loadResources = async (ids: Array<string>, type: string): Promise<[Map<string, any>, Array<string>]> => {
-    const load = (idsToLoad: Array<string>, resourceType: string): [Map<string, IRuleBuilder>, Array<string>] => {
-        const notFound: Array<string> = [];
-        const found: Map<string, IRuleBuilder> = new Map<string, IRuleBuilder>();
-
-        for (const ruleId of idsToLoad) {
-            let rule: IRuleBuilder;
-
-            try {
-                rule = loadResource(ruleId, resourceType);
-            } catch (err) {
-                notFound.push(ruleId);
+            loaded.push(resource);
+        } catch (e) {
+            if (e.message.includes(`isn't compatible`)) {
+                incompatible.push(`${type}-${resourceId}`);
+            } else {
+                missing.push(`${type}-${resourceId}`);
             }
-
-            if (!rule) {
-                continue;
-            }
-
-            found.set(ruleId, rule);
         }
 
-        return [found, notFound];
+        return loaded;
+    }, []);
+
+    return {
+        incompatible,
+        missing,
+        resources: loadedResources
     };
+};
 
-    let [resourcesFound, resourcesNotFound]: [Map<string, IRuleBuilder>, Array<string>] = load(ids, type);
-    let installedResources: Map<string, IRuleBuilder>;
+export const loadRule = (ruleId: string, configurations: Array<string>): IRuleConstructor => {
+    return loadResource(ruleId, ResourceType.rule, configurations);
+};
 
-    if (resourcesNotFound.length > 0) {
-        await installMissingPackages(resourcesNotFound, type);
+export const loadConfiguration = (configurationId: string) => {
+    return loadResource(configurationId, ResourceType.configuration);
+};
 
-        [installedResources, resourcesNotFound] = load(resourcesNotFound, type);
+/** Returns all the resources from a `SonarwhalConfig` */
+export const loadResources = (config: SonarwhalConfig): SonarwhalResources => {
+    // TODO: validate connector version is OK once all are extracted
+    let connector = null;
+
+    try {
+        connector = loadResource(config.connector.name, ResourceType.connector, config.extends, true);
+    } catch (e) {
+        console.error(e);
     }
 
-    resourcesFound = installedResources ? new Map([...resourcesFound, ...installedResources]) : resourcesFound;
+    const { incompatible: incompatibleRules, resources: rules, missing: missingRules } = loadListOfResources(config.rules, ResourceType.rule, config.extends);
+    const { incompatible: incompatibleParsers, resources: parsers, missing: missingParsers } = loadListOfResources(config.parsers, ResourceType.parser, config.extends);
+    const { incompatible: incompatibleFormatters, resources: formatters, missing: missingFormatters } = loadListOfResources(config.formatters, ResourceType.formatter, config.extends);
+    const missing = [].concat(missingRules, missingParsers, missingFormatters);
+    const incompatible = [].concat(incompatibleFormatters, incompatibleParsers, incompatibleRules);
 
-    return [resourcesFound, resourcesNotFound];
-};
-
-export const loadRules = async (config: Object): Promise<Map<string, IRuleBuilder>> => {
-    const rulesIds: Array<string> = Object.keys(config);
-
-    const [rules, rulesNotFound]: [Map<string, IRuleBuilder>, Array<string>] = await loadResources(rulesIds, TYPE.rule);
-
-    if (rulesNotFound.length > 0) {
-        throw new Error(`Rule${rulesNotFound.length > 1 ? 's' : ''} ${rulesNotFound.join(' ')} not found.`);
+    if (!connector) {
+        missing.push(config.connector);
     }
 
-    for (const [ruleId, rule] of rules) {
-        const valid: boolean = validateRule(rule, config[ruleId], ruleId);
-
-        if (!valid) {
-            throw new Error(`Rule ${ruleId} doesn't have a valid configuration`);
-        }
-    }
-
-    return rules;
-};
-
-export const loadParsers = async (parsersIds: Array<string>): Promise<Map<string, Parser>> => {
-    const [parsers, parsersNotFound]: [Map<string, Parser>, Array<string>] = await loadResources(parsersIds, TYPE.parser);
-
-    if (parsersNotFound.length > 0) {
-        throw new Error(`Parser${parsersNotFound.length > 1 ? 's' : ''} ${parsersNotFound.join(' ')} not found.`);
-    }
-
-    return parsers;
-};
-
-export const loadRule = (ruleId: string): IRuleBuilder => {
-    return loadResource(ruleId, TYPE.rule);
-};
-
-export const loadConnector = (connectorId: string): IConnectorBuilder => {
-    return loadResource(connectorId, TYPE.connector);
-};
-
-export const loadFormatter = (formatterId: string): IFormatter => {
-    return loadResource(formatterId, TYPE.formatter);
-};
-
-export const loadParser = (parserId: string): Parser => {
-    return loadResource(parserId, TYPE.parser);
+    return {
+        connector,
+        formatters,
+        incompatible,
+        missing,
+        parsers,
+        rules
+    };
 };

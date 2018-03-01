@@ -1,4 +1,4 @@
-# Disallow small error pages (`no-friendly-error-pages`)
+# Disallow small error pages (`@sonarwhal/rule-no-friendly-error-pages`)
 
 `no-friendly-error-pages` warns against using error pages that
 have the size under a certain threshold.

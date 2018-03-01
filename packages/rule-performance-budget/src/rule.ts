@@ -6,7 +6,7 @@ import * as url from 'url';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, IRuleBuilder, IFetchEnd, IScanEnd, IResponse } from 'sonarwhal/dist/src/lib/types';
+import { IRule, FetchEnd, ScanEnd, Response, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isHTTPS } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 
@@ -34,8 +34,32 @@ const defaultConfig: PerfBudgetConfig = {
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class PerformanceBudgetRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.performance,
+            description: `Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed`
+        },
+        id: 'performance-budget',
+        schema: [{
+            additionalProperties: false,
+            properties: {
+                connectionType: {
+                    oneOf: [{ enum: Connections.ids }],
+                    type: 'string'
+                },
+                loadTime: {
+                    minimum: 1,
+                    type: 'number'
+                }
+            },
+            type: 'object'
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
 
         /** An array containing all the responses. */
         const responses: Array<ResourceResponse> = [];
@@ -60,7 +84,7 @@ const rule: IRuleBuilder = {
         };
 
         /** Updates the total count of redirects (`performedRedirects`) for the given response and the total number of requests. */
-        const updateCounters = (response: IResponse) => {
+        const updateCounters = (response: Response) => {
             performedRedirects += response.hops.length;
             performedRequests++;
         };
@@ -70,7 +94,7 @@ const rule: IRuleBuilder = {
          * `responses`. It takes into account the mime type, compressed,
          * and uncompressed size.
          */
-        const updateSizes = async (resource: string, response: IResponse) => {
+        const updateSizes = async (resource: string, response: Response) => {
             const uncompressedSize: number = response.body.rawContent ?
                 response.body.rawContent.byteLength :
                 response.body.content.length;
@@ -92,7 +116,7 @@ const rule: IRuleBuilder = {
             });
         };
 
-        const onFetchEnd = async (fetchEnd: IFetchEnd) => {
+        const onFetchEnd = async (fetchEnd: FetchEnd) => {
             debug(`Validating rule Performance budget`);
             const { resource, response } = fetchEnd;
 
@@ -248,7 +272,7 @@ const rule: IRuleBuilder = {
          * Calculates if the size of all the loaded resources is small enough to
          * load the site in the allocated time.
          */
-        const onScanEnd = async (scanEnd: IScanEnd) => {
+        const onScanEnd = async (scanEnd: ScanEnd) => {
             const { resource } = scanEnd;
             const config: NetworkConfig = getConfiguration();
             const loadTime = getBestCaseScenario(config);
@@ -261,32 +285,7 @@ That's ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s tar
             }
         };
 
-        return {
-            'fetch::end::*': onFetchEnd,
-            'scan::end': onScanEnd
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.performance,
-            description: `Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed`
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                connectionType: {
-                    oneOf: [{ enum: Connections.ids }],
-                    type: 'string'
-                },
-                loadTime: {
-                    minimum: 1,
-                    type: 'number'
-                }
-            },
-            type: 'object'
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', onFetchEnd);
+        context.on('scan::end', onScanEnd);
     }
-};
-
-module.exports = rule;
+}

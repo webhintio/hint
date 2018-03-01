@@ -1,4 +1,4 @@
-# Accessibility assessment with aXe (`axe`)
+# Accessibility assessment with aXe (`@sonarwhal/rule-axe`)
 
 `aXe` is the accessibility engine for automated testing of HTML-based
 user interfaces. This rules performs the default accessibility tests

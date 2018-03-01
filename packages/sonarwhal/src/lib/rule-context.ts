@@ -6,7 +6,7 @@
  */
 
 import { Sonarwhal } from './sonarwhal';
-import { IAsyncHTMLElement, INetworkData, IProblemLocation, IRuleMetadata, Severity } from './types';
+import { IAsyncHTMLElement, NetworkData, ProblemLocation, RuleMetadata, Severity } from './types';
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 
 
@@ -14,11 +14,11 @@ import { findInElement, findProblemLocation } from './utils/location-helpers';
 export class RuleContext {
     private id: string
     private options: Array<any>
-    private meta: IRuleMetadata
+    private meta: RuleMetadata
     private severity: Severity
     private sonarwhal: Sonarwhal
 
-    public constructor(ruleId: string, sonarwhal: Sonarwhal, severity: Severity, options, meta: IRuleMetadata) {
+    public constructor(ruleId: string, sonarwhal: Sonarwhal, severity: Severity, options, meta: RuleMetadata) {
 
         this.id = ruleId;
         this.options = options;
@@ -27,7 +27,6 @@ export class RuleContext {
         this.severity = severity;
 
         Object.freeze(this);
-
     }
 
     /** The DOM of the page. */
@@ -71,7 +70,7 @@ export class RuleContext {
     }
 
     /** A useful way of making requests. */
-    public fetchContent(target, headers?): Promise<INetworkData> {
+    public fetchContent(target, headers?): Promise<NetworkData> {
         return this.sonarwhal.fetchContent(target, headers);
     }
 
@@ -80,18 +79,18 @@ export class RuleContext {
     }
 
     /** Finds the exact location of the given content in the HTML that represents the `element`. */
-    public findInElement(element: IAsyncHTMLElement, content: string): Promise<IProblemLocation> {
+    public findInElement(element: IAsyncHTMLElement, content: string): Promise<ProblemLocation> {
         return findInElement(element, content);
     }
 
     /** Finds the approximative location in the page's HTML for a match in an element. */
-    public findProblemLocation(element: IAsyncHTMLElement, content?: string): Promise<IProblemLocation> {
+    public findProblemLocation(element: IAsyncHTMLElement, content?: string): Promise<ProblemLocation> {
         return findProblemLocation(element, { column: 0, line: 0 }, content);
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: IProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> {
-        let position: IProblemLocation = location;
+    public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: ProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> {
+        let position: ProblemLocation = location;
         let sourceCode: string = null;
 
         if (element) {
@@ -112,5 +111,10 @@ export class RuleContext {
             message,
             resource
         );
+    }
+
+    /** Subscribe an event in sonarwhal. */
+    public on(event, listener) {
+        this.sonarwhal.onRuleEvent(this.id, event, listener);
     }
 }

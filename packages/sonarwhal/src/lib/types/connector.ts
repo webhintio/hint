@@ -1,11 +1,11 @@
 import * as url from 'url';
 
 import { IAsyncHTMLElement } from './asynchtml';
-import { INetworkData } from './network';
+import { NetworkData } from './network';
+import { Sonarwhal } from '../sonarwhal';
 
-/** The builder of a Connector */
-export interface IConnectorBuilder {
-    (sonarwhal, options): IConnector;
+export interface IConnectorConstructor {
+    new(server: Sonarwhal, config: object, launcher?: ILauncher): IConnector;
 }
 
 /** A connector to be used by sonarwhal */
@@ -21,7 +21,7 @@ export interface IConnector {
     /** Releases any used resource and/or browser. */
     close(): Promise<void>;
     /** Download an external resource using ` customHeaders` if needed. */
-    fetchContent?(target: url.Url | string, customHeaders?: object): Promise<INetworkData>;
+    fetchContent?(target: url.Url | string, customHeaders?: object): Promise<NetworkData>;
     /** Evaluates the given JavaScript `code` asynchronously in the target. */
     evaluate?(code: string): Promise<any>;
     /** Finds all the nodes that match the given query. */

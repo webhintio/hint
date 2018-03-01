@@ -11,22 +11,15 @@
  */
 
 import { Connector } from '../debugging-protocol-common/debugging-protocol-connector';
-import { IConnector, IConnectorBuilder, ILauncher } from '../../types';
+import { ILauncher } from '../../types';
 import { CDPLauncher } from './chrome-launcher';
 
 import { Sonarwhal } from '../../sonarwhal';
 
-class ChromeConnector extends Connector {
-    public constructor(server: Sonarwhal, config: object, launcher: ILauncher) {
+export default class ChromeConnector extends Connector {
+    public constructor(server: Sonarwhal, config: object) {
+        const launcher: ILauncher = new CDPLauncher(config);
+
         super(server, config, launcher);
     }
 }
-
-const builder: IConnectorBuilder = (server: Sonarwhal, config): IConnector => {
-    const launcher = new CDPLauncher(config);
-    const connector = new ChromeConnector(server, config, launcher);
-
-    return connector;
-};
-
-export default builder;

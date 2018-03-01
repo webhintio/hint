@@ -1,4 +1,4 @@
-# Require resources to be served compressed (`http-compression`)
+# Require resources to be served compressed (`@sonarwhal/rule-http-compression`)
 
 `http-compression` warns against not serving resources compressed when
 requested as such using the most appropriate encoding.

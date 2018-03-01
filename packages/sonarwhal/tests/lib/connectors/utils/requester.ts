@@ -6,7 +6,7 @@ import test from 'ava';
 import { promisify } from 'util';
 import { createServer } from '../../../helpers/test-server';
 import { Requester } from '../../../../src/lib/connectors/utils/requester';
-import { INetworkData } from '../../../../src/lib/types';
+import { NetworkData } from '../../../../src/lib/types';
 
 const compress = promisify(zlib.gzip);
 const text = `This is a text
@@ -171,7 +171,7 @@ test(`Requester follows all hops, reports the right number and returns the final
 
     server.configure(hopsServerConfig);
 
-    const { response } = await requester.get(`http://localhost:${server.port}/hop301`) as INetworkData;
+    const { response } = await requester.get(`http://localhost:${server.port}/hop301`) as NetworkData;
 
     t.is(response.hops.length, Object.keys(hopsServerConfig).length - 1);
     t.is(response.body.content, hopsServerConfig['/']);

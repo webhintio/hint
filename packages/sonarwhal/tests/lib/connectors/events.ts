@@ -13,9 +13,9 @@ import * as _ from 'lodash';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { builders } from '../../helpers/connectors';
+import { connectors } from '../../helpers/connectors';
 import { createServer } from '../../helpers/test-server';
-import { IConnector, IConnectorBuilder } from '../../../src/lib/types';
+import { IConnector, IConnectorConstructor } from '../../../src/lib/types';
 
 
 /* eslint-disable sort-keys */
@@ -250,12 +250,12 @@ const updateLocalhost = (content, port) => {
 };
 
 const testConnectorEvents = (connectorInfo) => {
-    const connectorBuilder: IConnectorBuilder = connectorInfo.builder;
+    const ConnectorConstructor: IConnectorConstructor = connectorInfo.ctor;
     const name: string = connectorInfo.name;
 
     test(`[${name}] Events`, async (t) => {
         const { sonarwhal } = t.context;
-        const connector: IConnector = await (connectorBuilder)(sonarwhal, {});
+        const connector: IConnector = new ConnectorConstructor(sonarwhal, {});
         const server = t.context.server;
 
         t.context.connector = connector;
@@ -313,6 +313,6 @@ const testConnectorEvents = (connectorInfo) => {
     });
 };
 
-builders.forEach((connector) => {
+connectors.forEach((connector) => {
     testConnectorEvents(connector);
 });

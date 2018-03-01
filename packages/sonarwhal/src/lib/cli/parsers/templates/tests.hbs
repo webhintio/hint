@@ -3,19 +3,11 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-{{#if isExternal}}
-proxyquire('../../src/parsers/{{normalizedName}}/{{normalizedName}}', {
-{{else}}
-proxyquire('../../../src/lib/parsers/{{normalizedName}}/{{normalizedName}}', {
-{{/if}}
+proxyquire('../src/{{normalizedName}}', {
     // Dependecies you need to stub/spy/mock.
 });
 
-{{#if isExternal}}
-import * as {{capitalizedName}} from '../../src/parsers/{{normalizedName}}/{{normalizedName}}';
-{{else}}
-import * as {{capitalizedName}} from '../../../src/lib/parsers/{{normalizedName}}/{{normalizedName}}';
-{{/if}}
+import * as {{capitalizedName}} from '../src/{{normalizedName}}';
 
 test.beforeEach((t) => {
     t.context.sonarwhal = new EventEmitter2({

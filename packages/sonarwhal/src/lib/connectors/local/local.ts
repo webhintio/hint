@@ -26,9 +26,8 @@ import { isFile, readFileAsync } from '../../utils/misc';
 import * as logger from '../../utils/logging';
 
 import {
-    IConnector, IConnectorBuilder,
-    IEvent, IFetchEnd, IScanEnd,
-    // INetworkData,
+    IConnector,
+    Event, FetchEnd, ScanEnd,
     URL
 } from '../../types';
 // import { Requester } from '../utils/requester';
@@ -44,7 +43,7 @@ const debug: debug.IDebugger = d(__filename);
 
 const defaultOptions = {};
 
-class LocalConnector implements IConnector {
+export default class LocalConnector implements IConnector {
     private _options;
     private sonarwhal: Sonarwhal;
     private _href: string;
@@ -92,7 +91,7 @@ class LocalConnector implements IConnector {
         }
 
         // Need to do some magic to create a fetch::end::*
-        const event: IFetchEnd = {
+        const event: FetchEnd = {
             element: null,
             request: null,
             resource: url.format(getAsUri(filePath)),
@@ -147,7 +146,7 @@ class LocalConnector implements IConnector {
 
     private async notify() {
         const href: string = this._href;
-        const scanEndEvent: IScanEnd = { resource: href };
+        const scanEndEvent: ScanEnd = { resource: href };
 
         await this.sonarwhal.emitAsync('scan::end', scanEndEvent);
         await this.sonarwhal.notify();
@@ -252,7 +251,7 @@ class LocalConnector implements IConnector {
     public async collect(target: URL) {
         /** The target in string format */
         const href: string = this._href = target.href;
-        const initialEvent: IEvent = { resource: href };
+        const initialEvent: Event = { resource: href };
 
         this.sonarwhal.emitAsync('scan::start', initialEvent);
 
@@ -287,11 +286,3 @@ class LocalConnector implements IConnector {
         return Promise.resolve();
     }
 }
-
-const builder: IConnectorBuilder = (server: Sonarwhal, config): IConnector => {
-    const connector = new LocalConnector(server, config);
-
-    return connector;
-};
-
-export default builder;

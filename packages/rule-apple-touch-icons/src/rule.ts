@@ -9,7 +9,7 @@ import * as getImageData from 'image-size';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { isHTMLDocument, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd, INetworkData } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, TraverseEnd, NetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -21,8 +21,19 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class AppleTouchIconsRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.pwa,
+            description: `Require an 'apple-touch-icon'`
+        },
+        id: 'apple-touch-icons',
+        schema: [],
+        scope: RuleScope.any
+    }
+
+    public constructor(context: RuleContext) {
 
         /*
          * This function exists because not all connector (e.g.: jsdom)
@@ -103,7 +114,7 @@ const rule: IRuleBuilder = {
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-            let networkData: INetworkData;
+            let networkData: NetworkData;
 
             /*
              * Try to see if the `apple-touch-icon` file actually
@@ -206,7 +217,7 @@ const rule: IRuleBuilder = {
         };
 
 
-        const validate = async (event: ITraverseEnd) => {
+        const validate = async (event: TraverseEnd) => {
             const { resource }: { resource: string } = event;
 
             // The following checks don't make sense for non-HTML documents.
@@ -291,17 +302,6 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return { 'traverse::end': validate };
-    },
-
-    meta: {
-        docs: {
-            category: Category.pwa,
-            description: `Require an 'apple-touch-icon'`
-        },
-        schema: [],
-        scope: RuleScope.any
+        context.on('traverse::end', validate);
     }
-};
-
-module.exports = rule;
+}

@@ -1,4 +1,4 @@
-# Validate `Set-Cookie` Header (`validate-set-cookie-header`)
+# Validate `Set-Cookie` Header (`@sonarwhal/rule-validate-set-cookie-header`)
 
 This rule validates the `set-cookie` header and confirms that the
 `Secure` and `HttpOnly` directives are defined when sent from a

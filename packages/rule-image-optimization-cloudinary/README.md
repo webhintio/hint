@@ -1,4 +1,4 @@
-# Image optimization with Cloudinary (`image-optimization-cloudinary`)
+# Image optimization with Cloudinary (`@sonarwhal/rule-image-optimization-cloudinary`)
 
 `image-optimization-cloudinary` uses the [Cloudinary][cloudinary]
 service to analyze your images and see if there could be size savings

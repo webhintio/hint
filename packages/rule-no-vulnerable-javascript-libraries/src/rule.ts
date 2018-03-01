@@ -12,7 +12,7 @@ import * as semver from 'semver';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, IRuleBuilder, IScanEnd, Severity } from 'sonarwhal/dist/src/lib/types';
+import { IRule, ScanEnd, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { Library, Vulnerability } from './rule-types';
 import { readFileAsync, loadJSONFile, requestAsync, writeFileAsync } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
@@ -26,8 +26,33 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class NoVulnerableJavascriptLibrariesRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: `This rule checks if the site is running any vulnerable library using https://snyk.io database`
+        },
+        id: 'no-vulnerable-javascript-libraries',
+        schema: [{
+            additionalProperties: false,
+            properties: {
+                severity: {
+                    pattern: '^(low|medium|high)$',
+                    type: 'string'
+                }
+            },
+            type: 'object'
+        }],
+        /*
+         * Snyk can not analize a file itself, it needs a connector.
+         * TODO: Change to any once the local connector has jsdom.
+         */
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
+
         let minimumSeverity = 'low';
 
         /**
@@ -173,7 +198,7 @@ const rule: IRuleBuilder = {
         };
 
         /** Checks if the JS libraries used by a website have known vulnerabilities. */
-        const validateLibraries = async (scanEnd: IScanEnd) => {
+        const validateLibraries = async (scanEnd: ScanEnd) => {
             const script = await createScript();
             const resource = scanEnd.resource;
             let detectedLibraries;
@@ -199,29 +224,6 @@ const rule: IRuleBuilder = {
 
         minimumSeverity = (context.ruleOptions && context.ruleOptions.severity) || 'low';
 
-        return { 'scan::end': validateLibraries };
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: `This rule checks if the site is running any vulnerable library using https://snyk.io database`
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                severity: {
-                    pattern: '^(low|medium|high)$',
-                    type: 'string'
-                }
-            },
-            type: 'object'
-        }],
-        /*
-         * Snyk can not analize a file itself, it needs a connector.
-         * TODO: Change to any once the local connector has jsdom.
-         */
-        scope: RuleScope.site
+        context.on('scan::end', validateLibraries);
     }
-};
-
-module.exports = rule;
+}

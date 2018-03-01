@@ -13,7 +13,7 @@ import * as url from 'url';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, INetworkData, IResponse, ITraverseEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, NetworkData, Response, TraverseEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -26,8 +26,19 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class NoFriendlyErrorPagesRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.interoperability,
+            description: 'Disallow small error pages'
+        },
+        id: 'no-friendly-error-pages',
+        schema: [],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
 
         // This rule mainly applies to Internet Explorer 5-11.
 
@@ -36,7 +47,7 @@ const rule: IRuleBuilder = {
         })) {
             debug(`Rule does not apply for targeted browsers`);
 
-            return {};
+            return;
         }
 
         const foundErrorPages = {};
@@ -49,8 +60,8 @@ const rule: IRuleBuilder = {
         const statusCodesWith256Threshold: Array<number> = [403, 405, 410];
         const statusCodesWith512Threshold: Array<number> = [400, 404, 406, 408, 409, 500, 501, 505];
 
-        const checkForErrorPages = (fetchEnd: IFetchEnd) => {
-            const { resource, response }: { resource: string, response: IResponse } = fetchEnd;
+        const checkForErrorPages = (fetchEnd: FetchEnd) => {
+            const { resource, response }: { resource: string, response: Response } = fetchEnd;
 
             // This check does not make sense for data URI.
 
@@ -104,7 +115,7 @@ const rule: IRuleBuilder = {
              */
 
             try {
-                const networkData: INetworkData = await context.fetchContent(url.resolve(baseURL, `.well-known/${Math.random()}`));
+                const networkData: NetworkData = await context.fetchContent(url.resolve(baseURL, `.well-known/${Math.random()}`));
 
                 checkForErrorPages({
                     element: null,
@@ -119,7 +130,7 @@ const rule: IRuleBuilder = {
 
         };
 
-        const validate = async (event: ITraverseEnd) => {
+        const validate = async (event: TraverseEnd) => {
 
             /*
              * If no error responses were found, and more specifically,
@@ -143,19 +154,7 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return {
-            'fetch::end::*': checkForErrorPages,
-            'traverse::end': validate
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.interoperability,
-            description: 'Disallow small error pages'
-        },
-        schema: [],
-        scope: RuleScope.site
+        context.on('fetch::end::*', checkForErrorPages);
+        context.on('traverse::end', validate);
     }
-};
-
-module.exports = rule;
+}

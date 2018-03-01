@@ -1,4 +1,4 @@
-# Performance budget (`performance-budget`)
+# Performance budget (`@sonarwhal/rule-performance-budget`)
 
 > A web performance budget is a group of limits to certain values that affect
 > site performance that should not be exceeded in the design and development of

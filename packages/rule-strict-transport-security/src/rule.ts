@@ -6,7 +6,7 @@ import * as url from 'url';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IResponse, IFetchEnd, IRule, IRuleBuilder, INetworkData } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, Response, FetchEnd, IRule, NetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
@@ -17,8 +17,25 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class StrictTransportSecurityRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: `Require 'Strict-Transport-Security' header`
+        },
+        id: 'strict-transport-security',
+        schema: [{
+            properties: {
+                checkPreload: { type: 'boolean' },
+                minMaxAgeValue: { type: 'number' }
+            }
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
+
         /** The minimum period (in seconds) allowed for `max-age`. */
         let minMaxAgeValue: number;
         /** Whether or not check the preload attribute */
@@ -138,8 +155,8 @@ const rule: IRuleBuilder = {
             return issues;
         };
 
-        const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+        const validate = async (fetchEnd: FetchEnd) => {
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
 
             const headerValue: string = normalizeString(response.headers && response.headers['strict-transport-security']);
             let parsedHeader;
@@ -154,7 +171,7 @@ const rule: IRuleBuilder = {
                 const httpsResource = url.format(Object.assign(url.parse(resource), { protocol: `https` }));
 
                 try {
-                    const networkData: INetworkData = await context.fetchContent(httpsResource);
+                    const networkData: NetworkData = await context.fetchContent(httpsResource);
 
                     if (!networkData || !networkData.response) {
                         return;
@@ -223,21 +240,6 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: `Require 'Strict-Transport-Security' header`
-        },
-        schema: [{
-            properties: {
-                checkPreload: { type: 'boolean' },
-                minMaxAgeValue: { type: 'number' }
-            }
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', validate);
     }
-};
-
-module.exports = rule;
+}

@@ -11,7 +11,7 @@ const misc = { isFile() { } };
 
 proxyquire('../../../../src/lib/connectors/local/local', { misc: '../../utils/misc' });
 
-import builder from '../../../../src/lib/connectors/local/local';
+import LocalConnector from '../../../../src/lib/connectors/local/local';
 
 test.beforeEach((t) => {
     t.context.sonarwhal = sonarwhal;
@@ -25,7 +25,7 @@ test.serial(`If target is a file, it should emit 'fetch::start' event`, async (t
     sandbox.stub(misc, 'isFile').returns(true);
     sandbox.spy(sonarwhal, 'emitAsync');
 
-    const connector = builder(sonarwhal, {});
+    const connector = new LocalConnector(sonarwhal as any, {});
 
     await connector.collect(fileUri);
 
@@ -45,7 +45,7 @@ test.serial(`If target is a html file, it should emit 'fetch::end::html' event i
     sandbox.stub(misc, 'isFile').returns(true);
     sandbox.spy(sonarwhal, 'emitAsync');
 
-    const connector = builder(sonarwhal, {});
+    const connector = new LocalConnector(sonarwhal as any, {});
 
     await connector.collect(fileUri);
 
@@ -65,7 +65,7 @@ test.serial(`If target is a file (text), 'content' is setted`, async (t) => {
     sandbox.stub(misc, 'isFile').returns(true);
     sandbox.spy(sonarwhal, 'emitAsync');
 
-    const connector = builder(sonarwhal, {});
+    const connector = new LocalConnector(sonarwhal as any, {});
 
     await connector.collect(fileUri);
 
@@ -85,7 +85,7 @@ test.serial(`If target is a file (image), 'content' is empty`, async (t) => {
     sandbox.stub(misc, 'isFile').returns(true);
     sandbox.spy(sonarwhal, 'emitAsync');
 
-    const connector = builder(sonarwhal, {});
+    const connector = new LocalConnector(sonarwhal as any, {});
 
     await connector.collect(fileUri);
 
@@ -105,7 +105,7 @@ test.serial(`If target is an image, 'content' is empty`, async (t) => {
     sandbox.stub(misc, 'isFile').returns(true);
     sandbox.spy(sonarwhal, 'emitAsync');
 
-    const connector = builder(sonarwhal, {});
+    const connector = new LocalConnector(sonarwhal as any, {});
 
     await connector.collect(fileUri);
 
@@ -125,7 +125,7 @@ test.serial(`If target is a directory, shouldn't emit the event 'fetch::start'`,
     sandbox.stub(misc, 'isFile').returns(false);
     sandbox.spy(sonarwhal, 'emitAsync');
 
-    const connector = builder(sonarwhal, {});
+    const connector = new LocalConnector(sonarwhal as any, {});
 
     await connector.collect(directoryUri);
 

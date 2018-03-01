@@ -9,7 +9,7 @@ import * as fs from 'fs-extra';
 import * as getImageData from 'image-size';
 
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, IRuleBuilder, IFetchEnd, IScanEnd } from 'sonarwhal/dist/src/lib/types';
+import { IRule, FetchEnd, ScanEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
@@ -22,8 +22,28 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class ImageOptimizationCloudinaryRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.performance,
+            description: `Image optimization with cloudinary`
+        },
+        id: 'image-optimization-cloudinary',
+        schema: [{
+            additionalProperties: false,
+            properties: {
+                apiKey: { type: 'string' },
+                apiSecret: { type: 'string' },
+                cloudName: { type: 'string' },
+                threshold: { type: 'number' }
+            }
+        }],
+        scope: RuleScope.any
+    }
+
+    public constructor(context: RuleContext) {
+
         /*
          * HACK: Need to do a require here in order to be capable of mocking
          *when testing the rule and `import` doesn't work here.
@@ -36,7 +56,7 @@ const rule: IRuleBuilder = {
         /* eslint-disable camelcase */
 
         /** Sends the image to cloudinary to identify optimizations on size and format. */
-        const processImage = async (data: IFetchEnd): Promise<cloudinaryResult> => {
+        const processImage = async (data: FetchEnd): Promise<cloudinaryResult> => {
 
             /*
              * Using the MD5 hash of the file is the recommended way to avoid duplicates
@@ -102,7 +122,7 @@ const rule: IRuleBuilder = {
         /* eslint-enable camelcase */
 
         /** Analyzes the response if it's an image. */
-        const analyzeImage = (fetchEnd: IFetchEnd) => {
+        const analyzeImage = (fetchEnd: FetchEnd) => {
             if (!configured) {
                 return;
             }
@@ -122,7 +142,7 @@ const rule: IRuleBuilder = {
         };
 
         /** Waits to gather the results of all the images and notifies if there is any possible savings. */
-        const end = async (data: IScanEnd) => {
+        const end = async (data: ScanEnd) => {
             if (!configured) {
                 await context.report('', null, `No valid configuration for Cloudinary found. Rule coudn't run.`);
 
@@ -165,27 +185,7 @@ const rule: IRuleBuilder = {
         // `context.ruleOptions` will be `null` if not specied
         configured = isConfigured(context.ruleOptions || { apiKey: '', apiSecret: '', cloudName: '', threshold: 0 });
 
-        return {
-            'fetch::end::*': analyzeImage,
-            'scan::end': end
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.performance,
-            description: `Image optimization with cloudinary`
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                apiKey: { type: 'string' },
-                apiSecret: { type: 'string' },
-                cloudName: { type: 'string' },
-                threshold: { type: 'number' }
-            }
-        }],
-        scope: RuleScope.any
+        context.on('fetch::end::*', analyzeImage);
+        context.on('scan::end', end);
     }
-};
-
-module.exports = rule;
+}

@@ -1,6 +1,6 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
@@ -55,7 +55,7 @@ const messages = (cookieName: string = 'cookiename'): { [key: string]: string } 
     };
 };
 
-const defaultTests: Array<IRuleTest> = [
+const defaultTests: Array<RuleTest> = [
     {
         name: `Standard set-cookie header`,
         serverConfig: { '/': { headers: standardHeader } }

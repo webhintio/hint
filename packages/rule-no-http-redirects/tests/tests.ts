@@ -1,11 +1,11 @@
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 
 const ruleName = getRuleName(__dirname);
 
-const tests: Array<IRuleTest> = [
+const tests: Array<RuleTest> = [
     {
         name: 'No redirects pass the rule',
         serverConfig: generateHTMLPage()
@@ -51,7 +51,7 @@ const tests: Array<IRuleTest> = [
     }
 ];
 
-const testsWithCustomConfiguration: Array<IRuleTest> = [
+const testsWithCustomConfiguration: Array<RuleTest> = [
     {
         name: 'No redirects pass the rule',
         serverConfig: generateHTMLPage()

@@ -61,29 +61,28 @@ depending on the rule type):
 
 ```ts
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { IFetchEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class MyNewRule implements IRule {
+    public static readonly meta: RuleMetadata = {}
+
+    public constructor(context: RuleContext) {
         // Your code here.
 
-        const validateFetchEnd = (fetchEnd: IFetchEnd) => {
+        const validateFetchEnd = (fetchEnd: FetchEnd) => {
             // Code to validate the rule on the event fetch::end.
         }
 
-        const validateElement = (element: IElementFound) => {
+        const validateElement = (element: ElementFound) => {
             // Code to validate the rule on the event element::element-type.
         }
 
-        return {
-          'element': validateElement,
-          'fetch::end::*': validateFetchEnd,
-          // As many events as you need, you can see the
-          // list of events [here](../connectors/events.md).
-      };
-    },
-    meta: {}
+        context.on('element', validateElement);
+        context.on('fetch::end::*', validateFetchEnd);
+        // As many events as you need, you can see the
+        // list of events [here](../connectors/events.md).
+    }
 }
 ```
 
@@ -131,6 +130,7 @@ Rules have an object `meta` that defines several properties:
         "category": "Category",
         "description": "string"
     },
+    "id": "rule-id",
     "recommended": "boolean", // If the rule is part of the recommended options
     "schema": ["json schema"], // An array of valid JSON schemas
     "worksWithLocalFiles": "boolean" // If the rule works with `file://`

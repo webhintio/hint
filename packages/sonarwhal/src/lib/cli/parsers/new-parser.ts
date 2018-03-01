@@ -7,9 +7,8 @@ import * as mkdirp from 'mkdirp';
 
 import { CLIOptions } from '../../types';
 import * as logger from '../../utils/logging';
-import { findPackageRoot, normalizeStringByDelimiter as normalize, writeFileAsync, readFileAsync } from '../../utils/misc';
+import { isOfficial, normalizeStringByDelimiter as normalize, writeFileAsync } from '../../utils/misc';
 import { escapeSafeString, compileTemplate, sonarwhalPackage } from '../../utils/handlebars';
-import { debug as d } from '../../utils/debug';
 
 /*
  * ------------------------------------------------------------------------------
@@ -29,6 +28,7 @@ type QuestionsType = {
     description: string;
     eventsSelected: Array<EventType>;
     name: string;
+    isOfficial: boolean;
 };
 
 /** Type for events in the parser. */
@@ -45,19 +45,19 @@ type ParserEventType = {
  * ------------------------------------------------------------------------------
  */
 const events = {
-    'element::': 'IElementFound',
-    'fetch::end::*': 'IFetchEnd',
-    'fetch::end::html': 'IFetchEnd',
-    'fetch::error': 'IFetchError',
-    'fetch::error::manifest': 'IManifestFetchError',
-    'fetch::missing::manifest': 'IManifestFetchMissing',
-    'fetch::start': 'IFetchStart',
-    'scan::end': 'IScanEnd',
-    'scan::start': 'IScanStart',
-    'traverse::down': 'ITraverseDown',
-    'traverse::end': 'ITraverseEnd',
-    'traverse::start': 'ITraverseStart',
-    'traverse::up': 'ITraverseUp'
+    'element::': 'ElementFound',
+    'fetch::end::*': 'FetchEnd',
+    'fetch::end::html': 'FetchEnd',
+    'fetch::error': 'FetchError',
+    'fetch::error::manifest': 'ManifestFetchError',
+    'fetch::missing::manifest': 'ManifestFetchMissing',
+    'fetch::start': 'FetchStart',
+    'scan::end': 'ScanEnd',
+    'scan::start': 'ScanStart',
+    'traverse::down': 'TraverseDown',
+    'traverse::end': 'TraverseEnd',
+    'traverse::start': 'TraverseStart',
+    'traverse::up': 'TraverseUp'
 };
 
 /**
@@ -65,6 +65,10 @@ const events = {
  * i.e.: my-awesome parser -> MyAwesomeParser
  */
 const capitalize = (str: string): string => {
+    if (str === '*') {
+        return '';
+    }
+
     const splittedText: Array<string> = normalize(str, ' ').split(' ');
 
     const result = splittedText.reduce((total, text) => {
@@ -88,11 +92,10 @@ class NewParser {
     public packageDir: string;
     public processDir: string;
     public destination: string;
-    public parserDocsPath: string;
-    public isExternal: boolean;
     public packageMain: string;
     public packageName: string;
     public version: string;
+    public official: boolean;
 
     public constructor(parserData: QuestionsType) {
         this.name = parserData.name;
@@ -108,7 +111,7 @@ class NewParser {
             const type: string = events[event.event];
             const typeCamelCase: string = type.substr(1);
             const eventSplit = event.event.split('::');
-            const handler: string = `on${capitalize(eventSplit[0])}${capitalize(isElement ? event.element : eventSplit[1])}`;
+            const handler: string = `on${capitalize(eventSplit[0])}${capitalize(isElement ? event.element : eventSplit[1])}${eventSplit[2] ? capitalize(eventSplit[2]) : ''}`;
             const varName: string = `${typeCamelCase.charAt(0).toLowerCase()}${typeCamelCase.substr(1)}`;
 
             this.events.push({
@@ -121,14 +124,15 @@ class NewParser {
             eventTypesSet.add(type);
         });
 
+        this.official = parserData.isOfficial;
+
+        const prefix = this.official ? '@sonarwhal/' : 'sonarwhal-';
+
         this.version = sonarwhalPackage.version;
         this.packageMain = `dist/src/index.js`; // package.json#main
-        this.packageName = `sonarwhal-parser-${this.normalizedName}`; // package.json#name
-        this.packageDir = findPackageRoot();
+        this.packageName = `${prefix}parser-${this.normalizedName}`; // package.json#name
+        this.destination = path.join(process.cwd(), `parser-${this.normalizedName}`);
         this.processDir = process.cwd();
-        this.isExternal = this.packageDir !== this.processDir;
-        this.destination = !this.isExternal ? this.packageDir : path.join(this.processDir, `sonarwhal-parser-${this.normalizedName}`);
-        this.parserDocsPath = path.join(this.packageDir, 'docs', 'user-guide', 'concepts', 'parsers.md');
         // Handlebars doesn't support 'Set' by default.
         this.eventTypes = [...eventTypesSet];
     }
@@ -139,7 +143,6 @@ class NewParser {
  * Constants and Private functions.
  * ------------------------------------------------------------------------------
  */
-const debug = d(__filename);
 const mkdirpAsync = promisify(mkdirp);
 const eventList: Array<string> = Object.keys(events);
 
@@ -200,7 +203,7 @@ const questions = (repeat: boolean = false) => {
 };
 
 const copyFiles = async (data: NewParser) => {
-    if (!data.isExternal) {
+    if (data.official) {
         return;
     }
 
@@ -212,35 +215,32 @@ const copyFiles = async (data: NewParser) => {
 };
 
 const generateFiles = async (data: NewParser) => {
-    let files = [
+    const files = [
         {
-            destination: path.join(data.destination, 'src', !data.isExternal ? 'lib' : '.', 'parsers', data.normalizedName, `${data.normalizedName}.ts`),
+            destination: path.join(data.destination, 'src', `${data.normalizedName}.ts`),
             path: path.join(__dirname, 'templates', 'script.hbs')
         },
         {
-            destination: path.join(data.destination, 'tests', !data.isExternal ? 'lib' : '.', 'parsers', `${data.normalizedName}.ts`),
+            destination: path.join(data.destination, 'tests', `${data.normalizedName}.ts`),
             path: path.join(__dirname, 'templates', 'tests.hbs')
+        },
+        {
+            destination: path.join(data.destination, 'src', `index.ts`),
+            path: path.join(__dirname, 'templates', 'index.hbs')
+        },
+        {
+            destination: path.join(data.destination, 'package.json'),
+            path: path.join(__dirname, 'templates', 'package.hbs')
+        },
+        {
+            destination: path.join(data.destination, 'README.md'),
+            path: path.join(__dirname, 'templates', 'doc.hbs')
+        },
+        {
+            destination: path.join(data.destination, 'tsconfig.json'),
+            path: path.join(__dirname, 'templates', 'tsconfig.json.hbs')
         }
     ];
-
-    if (data.isExternal) {
-        const externalFiles = [
-            {
-                destination: path.join(data.destination, 'src', `index.ts`),
-                path: path.join(__dirname, 'templates', 'index.hbs')
-            },
-            {
-                destination: path.join(data.destination, 'package.json'),
-                path: path.join(__dirname, 'templates', 'package.hbs')
-            },
-            {
-                destination: path.join(data.destination, '.sonarwhalrc'),
-                path: path.join(__dirname, 'templates', 'config.hbs')
-            }
-        ];
-
-        files = files.concat(externalFiles);
-    }
 
     for (const file of files) {
         const { destination: dest, path: filePath } = file;
@@ -250,39 +250,6 @@ const generateFiles = async (data: NewParser) => {
         await mkdirpAsync(path.dirname(dest));
         await writeFileAsync(dest, fileContent);
     }
-};
-
-const addDocumentation = async (data: NewParser) => {
-    if (data.isExternal) {
-        const filePath = path.join(__dirname, 'templates', 'doc.hbs');
-        const dest = path.join(data.destination, 'README.md');
-        const content = await compileTemplate(filePath, data);
-
-        return writeFileAsync(dest, content);
-    }
-
-    let text;
-
-    try {
-        text = await readFileAsync(data.parserDocsPath);
-    } catch (err) {
-        debug(`Error reading file: ${data.parserDocsPath}`);
-        throw (err);
-    }
-
-    text = text.trim();
-
-    const lines = text.split(/\r\n\r\n|\n\n/gi);
-    const indexTitleAfterList = lines.findIndex((line) => {
-        return line === '## How to use a parser';
-    });
-    const indexToAddNewParser = indexTitleAfterList - 1;
-
-    lines[indexToAddNewParser] = `${lines[indexToAddNewParser]}\n* \`${data.name}\`: ${data.description}`;
-
-    lines.push(`### \`${data.name}\` parser\n`);
-
-    return writeFileAsync(data.parserDocsPath, lines.join('\n\n'));
 };
 
 /*
@@ -298,6 +265,8 @@ export const newParser = async (actions: CLIOptions): Promise<boolean> => {
 
     const results: QuestionsType = (await inquirer.prompt(questions()) as QuestionsType);
     const eventsSelected: Array<EventType> = [];
+
+    results.isOfficial = await isOfficial();
 
     if (!results.name) {
         throw new Error(`Name can't be empty`);
@@ -334,7 +303,6 @@ export const newParser = async (actions: CLIOptions): Promise<boolean> => {
 
     await copyFiles(parserData);
     await generateFiles(parserData);
-    await addDocumentation(parserData);
 
     logger.log(`
 New parser created in ${parserData.destination}
@@ -342,7 +310,7 @@ New parser created in ${parserData.destination}
 --------------------------------------
 ----          How to use          ----
 --------------------------------------
-1. Go to the folder sonarwhal-parser-${parserData.normalizedName}
+1. Go to the folder ${parserData.destination}
 2. Run 'npm run init' to install all the dependencies and build the project
 3. Run 'npm run sonarwhal -- https://YourUrl' to analyze you site
 `);

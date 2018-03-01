@@ -1,14 +1,16 @@
 import * as inquirer from 'inquirer';
 import * as ora from 'ora';
+import * as pluralize from 'pluralize';
 
-import * as Config from '../config';
+import { SonarwhalConfig } from '../config';
 import { Sonarwhal } from '../sonarwhal';
-import { CLIOptions, IConfig, IFormatter, IORA, IProblem, Severity, URL } from '../types';
+import { CLIOptions, ORA, Problem, Severity, URL } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/get-as-uri';
 import * as logger from '../utils/logging';
 import { cutString } from '../utils/misc';
 import * as resourceLoader from '../utils/resource-loader';
+import { installPackages } from '../utils/npm';
 import { initSonarwhalrc } from './init';
 
 const debug: debug.IDebugger = d(__filename);
@@ -31,7 +33,7 @@ const confirmLaunchInit = (): inquirer.Answers => {
     return inquirer.prompt(question);
 };
 
-const askUserToCreateConfig = async () => {
+const askUserToCreateConfig = async (): Promise<boolean> => {
     const launchInit: inquirer.Answers = await confirmLaunchInit();
 
     if (!launchInit.confirm) {
@@ -44,14 +46,29 @@ const askUserToCreateConfig = async () => {
     return true;
 };
 
-const tryToLoadConfig = async (actions: CLIOptions) => {
-    let config: IConfig;
-    const configPath: string = actions.config || Config.getFilenameForDirectory(process.cwd());
+const askUserToInstallDependencies = async (dependencies: Array<string>): Promise<boolean> => {
+
+    const question: Array<object> = [{
+        message: `There ${pluralize('is', dependencies.length)} ${dependencies.length} ${pluralize('package', dependencies.length)} from your .sonarwhalrc file not installed or with an incompatible version. Do you want us to try to install/update them?`,
+        name: 'confirm',
+        type: 'confirm'
+    }];
+
+    const answer = await inquirer.prompt(question);
+
+    return answer.confirm;
+};
+
+const tryToLoadConfig = async (actions: CLIOptions): Promise<SonarwhalConfig> => {
+    let config: SonarwhalConfig;
+    const configPath: string = actions.config || SonarwhalConfig.getFilenameForDirectory(process.cwd());
 
     debug(`Loading configuration file from ${configPath}.`);
     try {
-        config = Config.load(configPath);
+        config = SonarwhalConfig.fromFilePath(configPath, actions);
     } catch (e) {
+        logger.error(e);
+
         logger.log(`Couldn't load a valid configuration file in ${configPath}.`);
         const created = await askUserToCreateConfig();
 
@@ -82,7 +99,7 @@ const getEvent = (event: string) => {
     return event;
 };
 
-const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: IORA) => {
+const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: ORA) => {
     sonarwhalInstance.prependAny((event: string, value: { resource: string }) => {
         const message: string = messages[getEvent(event)];
 
@@ -92,12 +109,6 @@ const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: IORA) => {
 
         spinner.text = message.replace('%url%', cutString(value.resource));
     });
-};
-
-const format = (formatterName: string, results: IProblem[]) => {
-    const formatter: IFormatter = resourceLoader.loadFormatter(formatterName) || resourceLoader.loadFormatter('json');
-
-    formatter.format(results);
 };
 
 /*
@@ -122,20 +133,38 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    const config: IConfig = await tryToLoadConfig(actions);
+    const config: SonarwhalConfig = await tryToLoadConfig(actions);
 
     if (!config) {
-        logger.log(`Unable to find a valid configuration file. Please add a .sonarwhalrc file by running 'sonarwhal --init'. `);
+        logger.error(`Unable to find a valid configuration file. Please add a .sonarwhalrc file by running 'sonarwhal --init'. `);
 
         return false;
     }
 
-    config.watch = actions.watch;
+    const resources = resourceLoader.loadResources(config);
 
-    sonarwhal = await Sonarwhal.create(config);
+    if (resources.missing.length > 0 || resources.incompatible.length > 0) {
+        const missingPackages = resources.missing.map((name) => {
+            return `@sonarwhal/${name}`;
+        });
+
+        const incompatiblePackages = resources.incompatible.map((name) => {
+            return `@sonarwhal/${name}`;
+        });
+
+        if (!(await askUserToInstallDependencies(resources.missing.concat(resources.incompatible)) &&
+              await installPackages(missingPackages) &&
+              await installPackages(incompatiblePackages))) {
+
+            // The user doesn't want to install the dependencies or something went wrong installing them
+            return false;
+        }
+    }
+
+    sonarwhal = new Sonarwhal(config, resources);
 
     const start: number = Date.now();
-    const spinner: IORA = ora({ spinner: 'line' });
+    const spinner: ORA = ora({ spinner: 'line' });
     let exitCode: number = 0;
 
     if (!actions.debug) {
@@ -149,13 +178,13 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         }
     };
 
-    const hasError = (reports: Array<IProblem>): boolean => {
-        return reports.some((result: IProblem) => {
+    const hasError = (reports: Array<Problem>): boolean => {
+        return reports.some((result: Problem) => {
             return result.severity === Severity.error;
         });
     };
 
-    const print = (reports: Array<IProblem>) => {
+    const print = (reports: Array<Problem>) => {
         if (hasError(reports)) {
             endSpinner('fail');
         } else {
@@ -163,7 +192,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         }
 
         sonarwhal.formatters.forEach((formatter) => {
-            format(formatter, reports);
+            formatter.format(reports);
         });
     };
 
@@ -171,7 +200,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
 
     for (const target of targets) {
         try {
-            const results: Array<IProblem> = await sonarwhal.executeOn(target);
+            const results: Array<Problem> = await sonarwhal.executeOn(target);
 
             if (hasError(results)) {
                 exitCode = 1;

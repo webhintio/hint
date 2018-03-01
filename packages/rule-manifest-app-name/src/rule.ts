@@ -13,7 +13,7 @@ const { ucs2 } = require('punycode');
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, Response, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -25,8 +25,19 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class ManifestAppNameRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.pwa,
+            description: 'Require web site/app name to be specified'
+        },
+        id: 'manifest-app-name',
+        schema: [],
+        scope: RuleScope.any
+    }
+
+    public constructor(context: RuleContext) {
 
         const checkIfDefined = async (resource: string, content: string, memberName: string) => {
             if (typeof content === 'undefined') {
@@ -50,8 +61,8 @@ const rule: IRuleBuilder = {
             return true;
         };
 
-        const validate = async (data: IFetchEnd) => {
-            const { resource, response: { body: { content }, statusCode } }: { resource: string, response: IResponse } = data;
+        const validate = async (data: FetchEnd) => {
+            const { resource, response: { body: { content }, statusCode } }: { resource: string, response: Response } = data;
 
             if (statusCode !== 200) {
                 debug('Request for manifest file has HTTP status code different than 200');
@@ -132,17 +143,6 @@ const rule: IRuleBuilder = {
             await checkIfUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit);
         };
 
-        return { 'fetch::end::manifest': validate };
-    },
-
-    meta: {
-        docs: {
-            category: Category.pwa,
-            description: 'Require web site/app name to be specified'
-        },
-        schema: [],
-        scope: RuleScope.any
+        context.on('fetch::end::manifest', validate);
     }
-};
-
-export default rule;
+}

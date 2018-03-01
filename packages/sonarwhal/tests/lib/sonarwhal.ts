@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 import * as url from 'url';
 
 import * as sinon from 'sinon';
@@ -6,13 +7,8 @@ import test from 'ava';
 
 import { delay } from '../../src/lib/utils/misc';
 import { RuleScope } from '../../src/lib/enums/rulescope';
+import { SonarwhalConfig } from '../../src/lib/config';
 
-const resourceLoader = {
-    loadConnector() {
-        return () => { };
-    },
-    loadRules() { }
-};
 const eventEmitter = { EventEmitter2: function EventEmitter2() { } };
 
 eventEmitter.EventEmitter2.prototype.on = () => { };
@@ -20,214 +16,178 @@ eventEmitter.EventEmitter2.prototype.emitAsync = () => {
     return Promise.resolve([]);
 };
 
-proxyquire('../../src/lib/sonarwhal', {
-    './utils/resource-loader': resourceLoader,
-    eventemitter2: eventEmitter
-});
+proxyquire('../../src/lib/sonarwhal', { eventemitter2: eventEmitter });
 
 import { Sonarwhal } from '../../src/lib/sonarwhal';
+import { SonarwhalResources, IFormatter, IConnector, IRule, RuleMetadata, Problem } from '../../src/lib/types';
+
+class FakeConnector implements IConnector {
+    private config;
+    public constructor(server: Sonarwhal, config: object) {
+        this.config = config;
+    }
+
+    public collect(target: url.Url) {
+        return Promise.resolve(target);
+    }
+
+    public close() {
+        return Promise.resolve();
+    }
+}
 
 test.beforeEach((t) => {
-    t.context.resourceLoader = resourceLoader;
     t.context.eventemitter = eventEmitter.EventEmitter2;
 });
 
-test.afterEach.always((t) => {
-    if (t.context.resourceLoader.loadRules.restore) {
-        t.context.resourceLoader.loadRules.restore();
-    }
-    if (t.context.resourceLoader.loadConnector.restore) {
-        t.context.resourceLoader.loadConnector.restore();
-    }
+test.serial(`If config is an empty object, we should throw an error`, (t) => {
+    t.throws(() => {
+        // <any>{} to avoid the type checking if not is not possible to use just {}
+        new Sonarwhal({} as SonarwhalConfig, {} as SonarwhalResources);
+    }, Error);
 });
 
-test.serial(`If config is an empty object, we should throw an error`, async (t) => {
-    t.plan(1);
-
-    try {
-        await Sonarwhal.create({} as any);
-    } catch (err) {
-        t.true(err instanceof Error);
-    }
-});
-
-test.serial(`If config doesn't have any rule, we shouldn't create any rules`, async (t) => {
-    sinon.spy(t.context.resourceLoader, 'loadRules');
-
-    await Sonarwhal.create({ connector: 'connector' });
-
-    t.false(t.context.resourceLoader.loadRules.called);
-});
-
-test.serial(`If the config object is invalid, we should throw an error`, async (t) => {
-    t.plan(1);
-
-    try {
-        await Sonarwhal.create({
+test.serial(`If the config object is invalid, we should throw an error`, (t) => {
+    t.throws(() => {
+        new Sonarwhal({
             invalidProperty: 'invalid',
             randomProperty: 'random'
-        } as any);
-    } catch (err) {
-        t.true(err instanceof Error);
-    }
+        } as any, {} as SonarwhalResources);
+    }, Error);
 });
 
-test.serial(`If a rule doesn't exist, we should throw an error`, async (t) => {
-    t.plan(1);
-
-    try {
-        await Sonarwhal.create({
-            connector: 'connector',
-            rules: { 'invalid-rule': 'error' }
-        });
-    } catch (err) {
-        t.true(err instanceof Error);
-    }
-});
-
-test.serial(`If config.browserslist is an string, we should initilize the property targetedBrowsers`, async (t) => {
-    sinon.spy(t.context.resourceLoader, 'loadRules');
-
-    const sonarwhalObject = await Sonarwhal.create({
-        browserslist: '> 5%',
-        connector: 'connector'
+test.serial(`If config.browserslist is an array of strings, we should initilize the property targetedBrowsers`, (t) => {
+    const sonarwhalObject = new Sonarwhal({
+        browserslist: ['> 5%'],
+        connector: { name: 'connector' }
+    } as SonarwhalConfig, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: []
     });
 
     t.true(sonarwhalObject.targetedBrowsers.length > 0);
-
-    t.false(t.context.resourceLoader.loadRules.called);
 });
 
-/*
- * test.serial('If config.plugins is an array we should create just those plugins', async (t) => {
- *     const plugin = {
- *         create() {
- *             return {};
- *         }
- *     };
- *     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
- *     t.context.plugin = plugin;
- *     sinon.stub(t.context.resourceLoader, 'getPlugins').returns(new Map([
- *         ['plugin1Name', plugin],
- *         ['plugin2Name', plugin],
- *         ['plubin3Name', plugin]
- *     ]));
- *     sinon.stub(plugin, 'create')
- *         .onFirstCall()
- *         .returns({ 'fetch::end': () => { } })
- *         .onSecondCall()
- *         .returns({
- *             'fetch::end': () => { },
- *             'fetch::error': () => { }
- *         });
- *     await Sonarwhal.create({ connector: 'connector', plugins: ['plugin1Name', 'plugin2Name'] });
- *     t.true(t.context.resourceLoader.getPlugins.called);
- *     t.is(t.context.plugin.create.callCount, 2);
- *     t.is(t.context.eventemitter.prototype.on.callCount, 3);
- *     t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
- *     t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::end');
- *     t.is(t.context.eventemitter.prototype.on.args[2][0], 'fetch::error');
- *     t.context.eventemitter.prototype.on.restore();
- * });
- */
-
-test.serial('If config.rules is an object with rules, we should create just those rules', async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
-
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create')
-        .onFirstCall()
-        .returns({ 'fetch::end': () => { } })
-        .onSecondCall()
-        .returns({ 'fetch::error': () => { } });
-
-    await Sonarwhal.create({
-        connector: 'connector',
-        rules: {
-            'disallowed-headers': 'warning',
-            'manifest-exists': 'warning'
+test.serial(`If config.rules has some rules "off", we shouldn't create those rules`, (t) => {
+    class FakeDisallowedRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeDisallowedRule.called = true;
+            this.context = context;
         }
-    });
 
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.true(t.context.rule.create.calledTwice);
-    t.true(t.context.eventemitter.prototype.on.calledTwice);
-    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
-    t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
+        public static readonly meta: RuleMetadata = {
+            id: 'disallowed-headers',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
 
-    t.context.eventemitter.prototype.on.restore();
-});
+    class FakeManifestRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeManifestRule.called = true;
+            this.context = context;
+        }
 
-test.serial(`If config.rules has some rules "off", we shouldn't create those rules`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
+        public static readonly meta: RuleMetadata = {
+            id: 'manifest-exists',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
 
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
-
-    await Sonarwhal.create({
-        connector: 'connector',
+    new Sonarwhal({
+        browserslist: null,
+        connector: { name: 'connector' },
+        extends: [],
+        formatters: [],
+        ignoredUrls: [],
+        parsers: [],
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'off'
-        }
+        },
+        rulesTimeout: null
+    } as SonarwhalConfig, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: [FakeDisallowedRule, FakeManifestRule]
     });
 
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.true(t.context.rule.create.calledOnce);
-
-    t.context.eventemitter.prototype.on.restore();
+    t.true(FakeDisallowedRule.called);
+    t.false(FakeManifestRule.called);
 });
 
-test.serial('If config.rules is an array with rules, we should create just those rules', async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
+test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't ignore those rules if the connector isn't in that property`, (t) => {
+    class FakeDisallowedRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeDisallowedRule.called = true;
+            this.context = context;
+
+            context.on('fetch::end', () => { });
+        }
+
+        public static readonly meta: RuleMetadata = {
+            id: 'disallowed-headers',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
+
+    class FakeManifestRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeManifestRule.called = true;
+            this.context = context;
+
+            context.on('fetch::error', () => { });
+        }
+
+        public static readonly meta: RuleMetadata = {
+            id: 'manifest-exists',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create')
-        .onFirstCall()
-        .returns({ 'fetch::end': () => { } })
-        .onSecondCall()
-        .returns({ 'fetch::error': () => { } });
 
-    await Sonarwhal.create({
-        connector: 'connector',
-        rules: [
-            'disallowed-headers:warning',
-            'manifest-exists:warning'
-        ]
+    new Sonarwhal({
+        browserslist: null,
+        connector: { name: 'jsdom' },
+        extends: [],
+        formatters: [],
+        ignoredUrls: [],
+        parsers: [],
+        rules: {
+            'disallowed-headers': 'warning',
+            'manifest-exists': 'warning'
+        },
+        rulesTimeout: null
+    }, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: [FakeDisallowedRule, FakeManifestRule]
     });
 
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.true(t.context.rule.create.calledTwice);
+    t.true(FakeDisallowedRule.called);
+    t.true(FakeManifestRule.called);
     t.true(t.context.eventemitter.prototype.on.calledTwice);
     t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
     t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
@@ -235,352 +195,320 @@ test.serial('If config.rules is an array with rules, we should create just those
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If config.rules is an array and has some rules "off", we shouldn't create those rules`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
+test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ignore those rules if the connector is in that property`, (t) => {
+    class FakeDisallowedRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeDisallowedRule.called = true;
+            this.context = context;
 
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
+            context.on('fetch::end', () => { });
+        }
 
-    await Sonarwhal.create({
-        connector: 'connector',
-        rules: [
-            'disallowed-headers:warning',
-            'manifest-exists:off'
-        ]
-    });
+        public static readonly meta: RuleMetadata = {
+            id: 'disallowed-headers',
+            ignoredConnectors: ['chrome'],
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
 
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.true(t.context.rule.create.calledOnce);
+    class FakeManifestRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeManifestRule.called = true;
+            this.context = context;
 
-    t.context.eventemitter.prototype.on.restore();
-});
+            context.on('fetch::error', () => { });
+        }
 
-test.serial('If config.rules is an array with shorthand warning rules, we should create just those rules', async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
+        public static readonly meta: RuleMetadata = {
+            id: 'manifest-exists',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
 
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create')
-        .onFirstCall()
-        .returns({ 'fetch::end': () => { } })
-        .onSecondCall()
-        .returns({ 'fetch::error': () => { } });
-
-    await Sonarwhal.create({
-        connector: 'connector',
-        rules: [
-            '?disallowed-headers',
-            'manifest-exists:warning'
-        ]
-    });
-
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.true(t.context.rule.create.calledTwice);
-    t.true(t.context.eventemitter.prototype.on.calledTwice);
-    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
-    t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
-
-    t.context.eventemitter.prototype.on.restore();
-});
-
-test.serial(`If config.rules is an array and has some rules "off", we shouldn't create those rules`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
-
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
-
-    await Sonarwhal.create({
-        connector: 'connector',
-        rules: [
-            'disallowed-headers:warning',
-            '-manifest-exists'
-        ]
-    });
-
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.true(t.context.rule.create.calledOnce);
-
-    t.context.eventemitter.prototype.on.restore();
-});
-
-test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't ignore those rules if the connector isn't in that property`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: { ignoredConnectors: ['chrome'] }
-    };
-
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create')
-        .onFirstCall()
-        .returns({ 'fetch::end': () => { } })
-        .onSecondCall()
-        .returns({ 'fetch::error': () => { } });
-
-    await Sonarwhal.create({
-        connector: 'jsdom',
+    new Sonarwhal({
+        browserslist: null,
+        connector: { name: 'chrome' },
+        extends: [],
+        formatters: [],
+        ignoredUrls: [],
+        parsers: [],
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
-        }
+        },
+        rulesTimeout: null
+    }, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: [FakeDisallowedRule, FakeManifestRule]
     });
 
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.true(t.context.rule.create.calledTwice);
-    t.true(t.context.eventemitter.prototype.on.calledTwice);
-    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
-    t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
-
-    t.context.eventemitter.prototype.on.restore();
+    t.false(FakeDisallowedRule.called);
+    t.true(FakeManifestRule.called);
 });
 
-test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ignore those rules if the connector is in that property`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
-    const ruleWithIgnoredConnector = {
-        create() {
-            return {};
-        },
-        meta: { ignoredConnectors: ['chrome'] }
-    };
+test.serial(`If the rule scope is 'local' and the connector isn't local the rule should be ignored`, (t) => {
+    class FakeDisallowedRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeDisallowedRule.called = true;
+            this.context = context;
+        }
 
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    t.context.ruleWithIgnoredConnector = ruleWithIgnoredConnector;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', ruleWithIgnoredConnector],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
-    sinon.spy(ruleWithIgnoredConnector, 'create');
-    await Sonarwhal.create({
-        connector: 'chrome',
+        public static readonly meta: RuleMetadata = {
+            id: 'disallowed-headers',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
+
+    class FakeManifestRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeManifestRule.called = true;
+            this.context = context;
+
+            context.on('fetch::error', () => { });
+        }
+
+        public static readonly meta: RuleMetadata = {
+            id: 'manifest-exists',
+            schema: [],
+            scope: RuleScope.local
+        }
+    }
+
+    new Sonarwhal({
+        browserslist: null,
+        connector: { name: 'chrome' },
+        extends: [],
+        formatters: [],
+        ignoredUrls: [],
+        parsers: [],
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
-        }
+        },
+        rulesTimeout: null
+    }, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: [FakeDisallowedRule, FakeManifestRule]
     });
 
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.false(t.context.ruleWithIgnoredConnector.create.called);
-    t.true(t.context.rule.create.calledOnce);
-
-    t.context.eventemitter.prototype.on.restore();
+    t.true(FakeDisallowedRule.called);
+    t.false(FakeManifestRule.called);
 });
 
-test.serial(`If the rule scope is 'local' and the connector isn't local the rule should be ignored`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
-    const ruleWithScopeLocal = {
-        create() {
-            return {};
-        },
-        meta: { scope: RuleScope.local }
-    };
+test.serial(`If the rule scope is 'site' and the connector is local the rule should be ignored`, (t) => {
+    class FakeDisallowedRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeDisallowedRule.called = true;
+            this.context = context;
+        }
 
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    t.context.ruleWithScopeLocal = ruleWithScopeLocal;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', ruleWithScopeLocal],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
-    sinon.spy(ruleWithScopeLocal, 'create');
-    await Sonarwhal.create({
-        connector: 'chrome',
+        public static readonly meta: RuleMetadata = {
+            id: 'disallowed-headers',
+            schema: [],
+            scope: RuleScope.site
+        }
+    }
+
+    class FakeManifestRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeManifestRule.called = true;
+            this.context = context;
+
+            context.on('fetch::error', () => { });
+        }
+
+        public static readonly meta: RuleMetadata = {
+            id: 'manifest-exists',
+            schema: [],
+            scope: RuleScope.local
+        }
+    }
+
+    new Sonarwhal({
+        browserslist: null,
+        connector: { name: 'local' },
+        extends: [],
+        formatters: [],
+        ignoredUrls: [],
+        parsers: [],
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
-        }
+        },
+        rulesTimeout: null
+    }, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: [FakeDisallowedRule, FakeManifestRule]
     });
 
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.false(t.context.ruleWithScopeLocal.create.called);
-    t.true(t.context.rule.create.calledOnce);
-
-    t.context.eventemitter.prototype.on.restore();
+    t.false(FakeDisallowedRule.called);
+    t.true(FakeManifestRule.called);
 });
 
-test.serial(`If the rule scope is 'site' and the connector is local the rule should be ignored`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
-    const ruleWithScopeSite = {
-        create() {
-            return {};
-        },
-        meta: { scope: RuleScope.site }
-    };
+test.serial(`If the rule scope is 'any' and the connector is local the rule should be used`, (t) => {
+    class FakeDisallowedRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeDisallowedRule.called = true;
+            this.context = context;
+        }
 
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    t.context.ruleWithScopeSite = ruleWithScopeSite;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', ruleWithScopeSite],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
-    sinon.spy(ruleWithScopeSite, 'create');
-    await Sonarwhal.create({
-        connector: 'local',
+        public static readonly meta: RuleMetadata = {
+            id: 'disallowed-headers',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
+
+    class FakeManifestRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeManifestRule.called = true;
+            this.context = context;
+
+            context.on('fetch::error', () => { });
+        }
+
+        public static readonly meta: RuleMetadata = {
+            id: 'manifest-exists',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
+
+    new Sonarwhal({
+        browserslist: null,
+        connector: { name: 'local' },
+        extends: [],
+        formatters: [],
+        ignoredUrls: [],
+        parsers: [],
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
-        }
+        },
+        rulesTimeout: null
+    }, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: [FakeDisallowedRule, FakeManifestRule]
     });
 
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.false(t.context.ruleWithScopeSite.create.called);
-    t.true(t.context.rule.create.calledOnce);
-
-    t.context.eventemitter.prototype.on.restore();
+    t.true(FakeDisallowedRule.called);
+    t.true(FakeManifestRule.called);
 });
 
-test.serial(`If the rule scope is 'any' and the connector is local the rule should be used`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
-    const ruleWithScopeSite = {
-        create() {
-            return {};
-        },
-        meta: { scope: RuleScope.any }
-    };
+test.serial(`If the rule scope is 'any' and the connector isn't local the rule should be used`, (t) => {
+    class FakeDisallowedRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeDisallowedRule.called = true;
+            this.context = context;
 
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    t.context.ruleWithScopeSite = ruleWithScopeSite;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', ruleWithScopeSite],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
-    sinon.spy(ruleWithScopeSite, 'create');
-    await Sonarwhal.create({
-        connector: 'local',
+            context.on('fetch::end::html', () => { });
+        }
+
+        public static readonly meta: RuleMetadata = {
+            id: 'disallowed-headers',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
+
+    class FakeManifestRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeManifestRule.called = true;
+            this.context = context;
+
+            context.on('fetch::error', () => { });
+        }
+
+        public static readonly meta: RuleMetadata = {
+            id: 'manifest-exists',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
+
+    new Sonarwhal({
+        browserslist: null,
+        connector: { name: 'chrome' },
+        extends: [],
+        formatters: [],
+        ignoredUrls: [],
+        parsers: [],
         rules: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
-        }
+        },
+        rulesTimeout: null
+    }, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: [FakeDisallowedRule, FakeManifestRule]
     });
 
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.true(t.context.ruleWithScopeSite.create.called);
-    t.true(t.context.rule.create.calledOnce);
-
-    t.context.eventemitter.prototype.on.restore();
-});
-
-test.serial(`If the rule scope is 'any' and the connector isn't local the rule should be used`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
-    const ruleWithScopeSite = {
-        create() {
-            return {};
-        },
-        meta: { scope: RuleScope.any }
-    };
-
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    t.context.ruleWithScopeSite = ruleWithScopeSite;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', ruleWithScopeSite],
-        ['manifest-exists', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
-    sinon.spy(ruleWithScopeSite, 'create');
-    await Sonarwhal.create({
-        connector: 'jsdom',
-        rules: {
-            'disallowed-headers': 'warning',
-            'manifest-exists': 'warning'
-        }
-    });
-
-    t.true(t.context.resourceLoader.loadRules.called);
-    t.true(t.context.ruleWithScopeSite.create.called);
-    t.true(t.context.rule.create.calledOnce);
-
-    t.context.eventemitter.prototype.on.restore();
+    t.true(FakeDisallowedRule.called);
+    t.true(FakeManifestRule.called);
 });
 
 test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
-
-    t.context.rule = rule;
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'emitAsync');
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    const sonarwhalObject = await Sonarwhal.create({
-        connector: 'connector',
-        ignoredUrls: [{
-            domain: '.*\\.domain1\.com/.*', // eslint-disable-line no-useless-escape
-            rules: ['*']
-        }],
-        rules: { 'disallowed-headers': 'warning' }
+    const sonarwhalObject = new Sonarwhal({
+        browserslist: null,
+        connector: { name: 'connector' },
+        formatters: [],
+        extends: [],
+        ignoredUrls: new Map([['all', [/.*\.domain1\.com\/.*/i]]]),
+        parsers: [],
+        rules: { 'disallowed-headers': 'warning' },
+        rulesTimeout: null
+    }, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: []
     });
 
     await sonarwhalObject.emitAsync('event', { resource: 'http://www.domain1.com/test' });
@@ -590,31 +518,43 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
     t.context.eventemitter.prototype.emitAsync.restore();
 });
 
-test.serial(`If a rule is ignoring some url, it shouldn't run the event`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
+test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) => {
+    class FakeDisallowedRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeDisallowedRule.called = true;
+            this.context = context;
+
+            context.on('fetch::end::html', () => { });
+        }
+
+        public static readonly meta: RuleMetadata = {
+            id: 'disallowed-headers',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({ 'fetch::end': () => { } });
 
-    await Sonarwhal.create({
-        connector: 'connector',
-        ignoredUrls: [{
-            domain: '.*\\.domain1\.com/.*', // eslint-disable-line no-useless-escape
-            rules: ['disallowed-headers']
-        }, {
-            domain: '.*\\.domain2\.com/.*', // eslint-disable-line no-useless-escape
-            rules: ['disallowed-headers']
-        }],
-        rules: { 'disallowed-headers': 'warning' }
+    new Sonarwhal({
+        browserslist: null,
+        connector: { name: 'connector' },
+        extends: [],
+        formatters: [],
+        ignoredUrls: new Map([['all', [/.*\.domain1\.com\/.*/i]], ['disallowed-headers', [/.*\.domain2\.com\/.*/i]]]),
+        parsers: [],
+        rules: { 'disallowed-headers': 'warning' },
+        rulesTimeout: null
+
+    }, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: [FakeDisallowedRule]
     });
 
     const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
@@ -625,30 +565,45 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, async 
 });
 
 test.serial(`If a rule is taking too much time, it should be ignored after the configured timeout`, async (t) => {
-    const rule = {
-        create() {
-            return {};
-        },
-        meta: {}
-    };
+    class FakeDisallowedRule implements IRule {
+        public static called: boolean = false;
+        private context;
+        public constructor(context) {
+            FakeDisallowedRule.called = true;
+            this.context = context;
+
+            context.on('fetch::end::html', async () => {
+                await delay(5000);
+
+                return 'finish';
+            });
+        }
+
+        public static readonly meta: RuleMetadata = {
+            id: 'disallowed-headers',
+            schema: [],
+            scope: RuleScope.any
+        }
+    }
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
-    t.context.rule = rule;
-    sinon.stub(t.context.resourceLoader, 'loadRules').returns(new Map([
-        ['disallowed-headers', rule]
-    ]));
-    sinon.stub(rule, 'create').returns({
-        'fetch::end': async () => {
-            await delay(5000);
 
-            return 'finish';
-        }
-    });
-
-    await Sonarwhal.create({
-        connector: 'connector',
+    new Sonarwhal({
+        browserslist: null,
+        connector: { name: 'connector' },
+        extends: [],
+        formatters: [],
+        ignoredUrls: new Map(),
+        parsers: [],
         rules: { 'disallowed-headers': 'warning' },
         rulesTimeout: 1000
+    }, {
+        connector: FakeConnector,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: [FakeDisallowedRule]
     });
 
     const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
@@ -658,124 +613,256 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If connectorId doesn't exist, it should throw an error`, async (t) => {
-    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(null);
+test.serial(`If there is no connector, it should throw an error`, (t) => {
+    t.plan(1);
 
     try {
-        await Sonarwhal.create({ connector: 'invalidConnector' });
-
-        t.false(true);
+        new Sonarwhal({ connector: { name: 'invalidConnector' } } as SonarwhalConfig, { connector: null } as SonarwhalResources);
     } catch (err) {
         t.is(err.message, 'Connector "invalidConnector" not found');
     }
 });
 
-test.serial('If connectorId is valid, we should init the connector', async (t) => {
-    t.context.connectorFunction = () => { };
+test.serial('If connector is in the resources, we should init the connector', (t) => {
+    class FakeConnectorInit implements IConnector {
+        public static called: boolean = false;
+        private config;
+        public constructor(server: Sonarwhal, config: object) {
+            FakeConnectorInit.called = true;
+            this.config = config;
+        }
 
-    sinon.stub(t.context, 'connectorFunction').returns({});
-    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
+        public collect(target: url.Url) {
+            return Promise.resolve(target);
+        }
 
-    await Sonarwhal.create({ connector: 'myconnector' });
+        public close() {
+            return Promise.resolve();
+        }
+    }
 
-    t.true(t.context.connectorFunction.called);
+    new Sonarwhal({ connector: { name: 'myconnector' } } as SonarwhalConfig, {
+        connector: FakeConnectorInit,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: []
+    });
+
+    t.true(FakeConnectorInit.called);
 });
 
-test.serial('If connector is an object with valid data, we should init the connector', async (t) => {
-    t.context.connectorFunction = () => { };
+test.serial('If connector is an object with valid data, we should init the connector', (t) => {
+    class FakeConnectorInit implements IConnector {
+        public static called: boolean = false;
+        private config;
+        public constructor(server: Sonarwhal, config: object) {
+            FakeConnectorInit.called = true;
+            this.config = config;
+        }
 
-    sinon.stub(t.context, 'connectorFunction').returns({});
-    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
+        public collect(target: url.Url) {
+            return Promise.resolve(target);
+        }
 
-    await Sonarwhal.create({
+        public close() {
+            return Promise.resolve();
+        }
+    }
+
+    new Sonarwhal({
         connector: {
             name: 'myconnector',
             options: {}
         }
+    } as SonarwhalConfig, {
+        connector: FakeConnectorInit,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: []
     });
 
-    t.true(t.context.connectorFunction.called);
+    t.true(FakeConnectorInit.called);
 });
 
-test.serial('formatter should return the formatter configured', async (t) => {
-    const sonarwhalObject = await Sonarwhal.create({
-        connector: 'connector',
+test.serial('formatter should return the formatter configured', (t) => {
+    class FakeFormatter implements IFormatter {
+        public constructor() { }
+
+        public format(problems: Array<Problem>) {
+            console.log(problems);
+        }
+    }
+
+    const sonarwhalObject = new Sonarwhal({
+        connector: { name: 'connector' },
         formatters: ['formatter']
+    } as SonarwhalConfig, {
+        connector: FakeConnector,
+        formatters: [FakeFormatter],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: []
     });
 
-    t.is(sonarwhalObject.formatters[0], 'formatter');
+    t.true(sonarwhalObject.formatters[0] instanceof FakeFormatter);
 });
 
 test.serial('pageContent should return the HTML', async (t) => {
     const html = '<html></html>';
 
-    t.context.connectorFunction = () => { };
-    sinon.stub(t.context, 'connectorFunction').returns({ html });
-    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
+    class FakeConnectorPageContent implements IConnector {
+        private config;
+        public constructor(server: Sonarwhal, config: object) {
+            this.config = config;
+        }
 
-    const sonarwhalObject = await Sonarwhal.create({
+        public collect(target: url.Url) {
+            return Promise.resolve(target);
+        }
+
+        public close() {
+            return Promise.resolve();
+        }
+
+        public get html() {
+            return Promise.resolve(html);
+        }
+    }
+
+    const sonarwhalObject = new Sonarwhal({
         connector: {
             name: 'myconnector',
             options: {}
         }
+    } as SonarwhalConfig, {
+        connector: FakeConnectorPageContent,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: []
     });
 
     t.is(await sonarwhalObject.pageContent, html);
 });
 
-test.serial(`pageHeaders should return the page's response headers`, async (t) => {
+test.serial(`pageHeaders should return the page's response headers`, (t) => {
     const headers = { header1: 'value1' };
 
-    t.context.connectorFunction = () => { };
-    sinon.stub(t.context, 'connectorFunction').returns({ headers });
-    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
+    class FakeConnectorPageContent implements IConnector {
+        private config;
+        public constructor(server: Sonarwhal, config: object) {
+            this.config = config;
+        }
 
-    const sonarwhalObject = await Sonarwhal.create({
+        public collect(target: url.Url) {
+            return Promise.resolve(target);
+        }
+
+        public close() {
+            return Promise.resolve();
+        }
+
+        public get headers() {
+            return headers;
+        }
+    }
+
+    const sonarwhalObject = new Sonarwhal({
         connector: {
             name: 'myconnector',
             options: {}
         }
+    } as SonarwhalConfig, {
+        connector: FakeConnectorPageContent,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: []
     });
 
     t.is(sonarwhalObject.pageHeaders, headers);
 });
 
 test.serial('If connector.collect fails, it should return an error', async (t) => {
-    t.context.collect = () => {
-        throw new Error('Error runing collect');
-    };
-    t.context.connectorFunction = () => { };
-    sinon.stub(t.context, 'connectorFunction').returns({ collect: t.context.collect });
-    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
+    class FakeConnectorCollectFail implements IConnector {
+        private error: boolean = true;
+        private config;
+        public constructor(server: Sonarwhal, config: object) {
+            this.config = config;
+        }
 
-    const sonarwhalObject = await Sonarwhal.create({
+        public collect(target: url.Url) {
+            if (this.error) {
+                throw new Error('Error runing collect');
+            }
+
+            return Promise.resolve(target);
+        }
+
+        public close() {
+            return Promise.resolve();
+        }
+    }
+
+    const sonarwhalObject = new Sonarwhal({
         connector: {
             name: 'myconnector',
             options: {}
         }
+    } as SonarwhalConfig, {
+        connector: FakeConnectorCollectFail,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: []
     });
 
     const localUrl = new url.URL('http://localhost/');
 
+    t.plan(1);
     try {
         await sonarwhalObject.executeOn(localUrl);
-        t.false(true);
     } catch (err) {
         t.is(err.message, 'Error runing collect');
     }
 });
 
 test.serial('executeOn should return all messages', async (t) => {
-    t.context.collect = () => { };
-    t.context.connectorFunction = () => { };
-    sinon.stub(t.context, 'connectorFunction').returns({ collect: t.context.collect });
-    sinon.stub(t.context.resourceLoader, 'loadConnector').returns(t.context.connectorFunction);
+    class FakeConnectorCollect implements IConnector {
+        private config;
+        public constructor(server: Sonarwhal, config: object) {
+            this.config = config;
+        }
 
-    const sonarwhalObject = await Sonarwhal.create({
+        public collect(target: url.Url) {
+            return Promise.resolve(target);
+        }
+
+        public close() {
+            return Promise.resolve();
+        }
+    }
+
+    const sonarwhalObject = new Sonarwhal({
         connector: {
             name: 'myconnector',
             options: {}
         }
+    } as SonarwhalConfig, {
+        connector: FakeConnectorCollect,
+        formatters: [],
+        incompatible: [],
+        missing: [],
+        parsers: [],
+        rules: []
     });
 
     const localUrl = new url.URL('http://localhost/');

@@ -55,6 +55,7 @@
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",
     "lint:md": "markdownlint --ignore **/CHANGELOG.md packages/**/*.md README.md",
     "new:rule": "cd packages && node sonarwhal/dist/src/bin/sonarwhal.js --new-rule",
+    "new:parser": "cd packages && node sonarwhal/dist/src/bin/sonarwhal.js --new-parser",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
     "release": "node dist/scripts/release.js",
     "test": "yarn build && nyc ava",

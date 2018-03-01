@@ -1,4 +1,4 @@
-# SSL Server Test (`ssllabs`)
+# SSL Server Test (`@sonarwhal/rule-ssllabs`)
 
 `ssllabs` deeply analyzes the SSL configuration of a web server using
 [SSL Labs’ SSL Server Test][ssllabs].

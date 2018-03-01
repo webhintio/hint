@@ -11,7 +11,7 @@
 import * as schemaValidator from 'is-my-json-valid';
 
 import { debug as d } from '../utils/debug';
-import { IRuleBuilder, RuleConfig } from '../types';
+import { RuleMetadata, RuleConfig } from '../types';
 import { Severity } from '../types/problems';
 
 const debug = d(__filename);
@@ -54,7 +54,7 @@ const validateRule = (schema: Array<object>, ruleConfig: object): boolean => {
 };
 
 /** Validates that a rule has a valid configuration based on its schema */
-export const validate = (rule: IRuleBuilder, config, ruleId: string): boolean => {
+export const validate = (meta: RuleMetadata, config, ruleId: string): boolean => {
 
     debug(`Validating rule ${ruleId}`);
 
@@ -70,7 +70,7 @@ export const validate = (rule: IRuleBuilder, config, ruleId: string): boolean =>
     }
 
     // Rule schema validation
-    const schema: Array<any> = rule.meta.schema;
+    const schema: Array<any> = meta.schema;
 
     /*
      * Only way to have something else to validate is if rule config
@@ -95,5 +95,5 @@ export const validate = (rule: IRuleBuilder, config, ruleId: string): boolean =>
         });
     }
 
-    return validateRule(rule.meta.schema, config[1]);
+    return validateRule(meta.schema, config[1]);
 };

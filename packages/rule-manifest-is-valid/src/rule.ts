@@ -10,7 +10,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, Response, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -22,11 +22,22 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class ManifestIsValidRule implements IRule {
 
-        const manifestIsValid = async (data: IFetchEnd) => {
-            const { resource, response: { body: { content }, statusCode } }: { resource: string, response: IResponse } = data;
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.pwa,
+            description: 'Require valid web app manifest'
+        },
+        id: 'manifest-is-valid',
+        schema: [],
+        scope: RuleScope.any
+    }
+
+    public constructor(context: RuleContext) {
+
+        const manifestIsValid = async (data: FetchEnd) => {
+            const { resource, response: { body: { content }, statusCode } }: { resource: string, response: Response } = data;
 
             if (statusCode !== 200) {
                 return;
@@ -49,16 +60,6 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return { 'fetch::end::manifest': manifestIsValid };
-    },
-    meta: {
-        docs: {
-            category: Category.pwa,
-            description: 'Require valid web app manifest'
-        },
-        schema: [],
-        scope: RuleScope.any
+        context.on('fetch::end::manifest', manifestIsValid);
     }
-};
-
-export default rule;
+}

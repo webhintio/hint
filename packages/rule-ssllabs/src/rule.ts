@@ -15,7 +15,7 @@ import { promisify } from 'util';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, IScanEnd, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, ScanEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -28,8 +28,46 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class SSLLabsRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: 'Strength of your SSL configuration'
+        },
+        id: 'ssllabs',
+        schema: [{
+            additionalProperties: false,
+            properties: {
+                grade: {
+                    pattern: '^(A\\+|A\\-|[A-F]|T|M)$',
+                    type: 'string'
+                },
+                ssllabs: {
+                    properties: {
+                        all: {
+                            pattern: '^(on|done)$',
+                            type: 'string'
+                        },
+                        fromCache: { type: 'boolean' },
+                        ignoreMismatch: { type: 'boolean' },
+                        maxAge: {
+                            minimum: 0,
+                            type: 'integer'
+                        },
+                        publish: { type: 'boolean' },
+                        startNew: { type: 'boolean' }
+                    },
+                    type: 'object'
+                }
+            },
+            type: 'object'
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
+
         /** The promise that represents the scan by SSL Labs. */
         let promise: Promise<SSLLabsResult>;
         /** The minimum grade required to pass. */
@@ -101,7 +139,7 @@ const rule: IRuleBuilder = {
             await context.report(resource, null, `Couldn't get results from SSL Labs for ${resource}.`);
         };
 
-        const start = (data: IFetchEnd) => {
+        const start = (data: FetchEnd) => {
             const { resource }: { resource: string } = data;
 
             if (!resource.startsWith('https://')) {
@@ -131,7 +169,7 @@ const rule: IRuleBuilder = {
                 });
         };
 
-        const end = async (data: IScanEnd) => {
+        const end = async (data: ScanEnd) => {
             const { resource }: { resource: string } = data;
 
             if (!promise || failed) {
@@ -173,45 +211,7 @@ There might be something wrong with SSL Labs servers.`;
          * (e.g.: https://developer.microsoft.com/en-us/microsoft-edge/
          * instead of http://edge.ms).
          */
-        return {
-            'fetch::end::html': start,
-            'scan::end': end
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: 'Strength of your SSL configuration'
-        },
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                grade: {
-                    pattern: '^(A\\+|A\\-|[A-F]|T|M)$',
-                    type: 'string'
-                },
-                ssllabs: {
-                    properties: {
-                        all: {
-                            pattern: '^(on|done)$',
-                            type: 'string'
-                        },
-                        fromCache: { type: 'boolean' },
-                        ignoreMismatch: { type: 'boolean' },
-                        maxAge: {
-                            minimum: 0,
-                            type: 'integer'
-                        },
-                        publish: { type: 'boolean' },
-                        startNew: { type: 'boolean' }
-                    },
-                    type: 'object'
-                }
-            },
-            type: 'object'
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::html', start);
+        context.on('scan::end', end);
     }
-};
-
-export default rule;
+}

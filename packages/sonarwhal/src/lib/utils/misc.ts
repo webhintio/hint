@@ -14,6 +14,7 @@ import * as requestAsync from 'request-promise';
 import { IAsyncHTMLElement } from '../types';
 import { debug as d } from './debug';
 const debug: debug.IDebugger = d(__filename);
+const processDir = process.cwd();
 
 // const readdir = promisify(fs.readdir);
 const readdir = fs.readdirSync; // eslint-disable-line no-sync
@@ -286,6 +287,37 @@ const pathExists = (pathString: string): boolean => {
     return shell.test('-e', pathString);
 };
 
+/**
+ * Returns if the rule that is going to be created is an official.
+ *
+ * To do this we search the first `package.json` starting in `porcess.cwd()`
+ * and go up the tree. If the name is `sonarwhal` then it's an official one.
+ * If not or no `package.json` are found, then it isn't.
+ */
+const isOfficial = async (): Promise<boolean> => {
+    try {
+        const pkg = JSON.parse(await readFileAsync(path.join(findPackageRoot(processDir), 'package.json')));
+
+        return pkg.name === '@sonarwhal/monorepo';
+    } catch (e) {
+        // No `package.json` was found, so it's not official
+        return false;
+    }
+};
+
+/**
+ * Returns the package found in the given `pathString` or an
+ * exception if no package is found
+ */
+const getPackage = (pathString: string) => {
+    return require(`${pathString}/package.json`);
+};
+
+/** Returns an object that represents the `package.json` version of `sonarwhal` */
+const getSonarwhalPackage = () => {
+    return require(path.join(__dirname, '../../../../package.json'));
+};
+
 export {
     cutString,
     delay,
@@ -293,6 +325,8 @@ export {
     findPackageRoot,
     getFileExtension,
     getHeaderValueNormalized,
+    getPackage,
+    getSonarwhalPackage,
     hasAttributeWithValue,
     hasProtocol,
     isDataURI,
@@ -302,6 +336,7 @@ export {
     isHTTP,
     isHTTPS,
     isLocalFile,
+    isOfficial,
     isRegularProtocol,
     loadJSFile,
     loadJSONFile,

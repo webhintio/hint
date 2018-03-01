@@ -2,7 +2,7 @@
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -13,7 +13,7 @@ const generateHTMLPageWithMetaTag = (metaTagValue: string = 'iE=eDgE') => {
     return generateHTMLPage(`<MEtA hTTp-EqUIv="X-Ua-CompATible" ConTenT="${metaTagValue}">`);
 };
 
-const testsForNonDocumentModeBrowsers: Array<IRuleTest> = [
+const testsForNonDocumentModeBrowsers: Array<RuleTest> = [
     {
         name: `HTML page is served with 'X-UA-Compatible' header but the targeted browsers don't support document modes`,
         reports: [{ message: `'x-ua-compatible' header is not needed` }],
@@ -26,7 +26,7 @@ const testsForNonDocumentModeBrowsers: Array<IRuleTest> = [
     }
 ];
 
-const testsForHeaders: Array<IRuleTest> = [
+const testsForHeaders: Array<RuleTest> = [
     {
         name: `HTML page is served without 'X-UA-Compatible' header`,
         reports: [{ message: `'x-ua-compatible' header was not specified` }],
@@ -53,7 +53,7 @@ const testsForHeaders: Array<IRuleTest> = [
     }
 ];
 
-const testsForRequireMetaTagConfig: Array<IRuleTest> = [
+const testsForRequireMetaTagConfig: Array<RuleTest> = [
     {
         name: `'X-UA-Compatible' meta tag is not specified`,
         reports: [{ message: `No 'x-ua-compatible' meta tag was specified` }],

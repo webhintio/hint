@@ -18,12 +18,11 @@ import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, IConnectorBuilder, INetworkData, IConfig, IEvent, IProblem, IProblemLocation, IRule, IRuleBuilder, IPlugin, Parser, RuleConfig, Severity, IgnoredUrl } from './types';
+import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IRule, RuleConfig, Severity, IRuleConstructor, IConnectorConstructor, IParser, IFormatter, SonarwhalResources } from './types';
 import * as logger from './utils/logging';
-import * as resourceLoader from './utils/resource-loader';
-import normalizeRules from './utils/normalize-rules';
 import { RuleContext } from './rule-context';
 import { RuleScope } from './enums/rulescope';
+import { SonarwhalConfig } from './config';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -35,17 +34,16 @@ const debug: debug.IDebugger = d(__filename);
 
 export class Sonarwhal extends EventEmitter {
     // TODO: review which ones need to be private or not
-    private parsers: Array<Parser>
-    private plugins: Map<string, IPlugin>
+    private parsers: Array<IParser>
     private rules: Map<string, IRule>
     private connector: IConnector
-    private connectorId: string
     private connectorConfig: object
-    private messages: Array<IProblem>
+    private messages: Array<Problem>
     private browserslist: Array<string> = [];
     private ignoredUrls: Map<string, Array<RegExp>>;
-    private _formatters: Array<string>
+    private _formatters: Array<IFormatter>
     private _timeout: number = 60000;
+    private _config: UserConfig;
 
     /** The DOM of the loaded page. */
     public get pageDOM(): object {
@@ -68,7 +66,7 @@ export class Sonarwhal extends EventEmitter {
     }
 
     /** The list of configured formatters. */
-    public get formatters(): Array<string> {
+    public get formatters(): Array<IFormatter> {
         return this._formatters;
     }
 
@@ -87,7 +85,7 @@ export class Sonarwhal extends EventEmitter {
         });
     }
 
-    private constructor(config: IConfig) {
+    public constructor(config: SonarwhalConfig, resources: SonarwhalResources) {
         super({
             delimiter: '::',
             maxListeners: 0,
@@ -95,115 +93,68 @@ export class Sonarwhal extends EventEmitter {
         });
 
         debug('Initializing sonarwhal engine');
-        this._timeout = config.rulesTimeout || this._timeout;
-
+        this._timeout = config.rulesTimeout;
         this.messages = [];
+        this.browserslist = config.browserslist;
+        this.ignoredUrls = config.ignoredUrls;
 
-        debug('Loading connector');
+        const Connector: IConnectorConstructor = resources.connector;
+        const connectorId = config.connector.name;
 
-        if (!config.connector) {
-            throw new Error(`Connector not found in the configuration`);
+        if (!Connector) {
+            throw new Error(`Connector "${connectorId}" not found`);
         }
 
-        if (typeof config.connector === 'string') {
-            this.connectorId = config.connector;
-            this.connectorConfig = {};
-        } else {
-            this.connectorId = config.connector.name;
-            this.connectorConfig = config.connector.options;
-        }
+        this.connector = new Connector(this, config.connector.options);
+        this._formatters = resources.formatters.map((Formatter) => {
+            return new Formatter();
+        });
 
-        this.connectorConfig = Object.assign(this.connectorConfig, { watch: config.watch });
+        this.parsers = resources.parsers.map((Parser) => {
+            debug(`Loading parser`);
 
-        debug('Loading supported browsers');
-        if (!config.browserslist || config.browserslist.length === 0) {
-            this.browserslist = browserslist();
-        } else {
-            this.browserslist = browserslist(config.browserslist);
-        }
+            return new Parser(this);
+        });
 
-        debug('Setting the selected formatters');
-        if (Array.isArray(config.formatters)) {
-            this._formatters = config.formatters;
-        } else {
-            this._formatters = [config.formatters];
-        }
+        this.rules = new Map();
 
-        debug('Initializing ignored urls');
-        this.ignoredUrls = new Map();
-        if (config.ignoredUrls) {
-            config.ignoredUrls.forEach((ignoredUrl: IgnoredUrl) => {
-                const { domain: urlRegexString, rules } = ignoredUrl;
+        resources.rules.forEach((Rule) => {
+            debug('Loading rules');
+            const id = Rule.meta.id;
 
-                rules.forEach((rule: string) => {
-                    const ruleName = rule === '*' ? 'all' : rule;
+            const ignoreRule = (RuleCtor: IRuleConstructor): boolean => {
+                const ignoredConnectors: Array<string> = RuleCtor.meta.ignoredConnectors || [];
 
-                    const urlsInRule: Array<RegExp> = this.ignoredUrls.get(ruleName);
-                    const urlRegex: RegExp = new RegExp(urlRegexString, 'i');
+                return (connectorId === 'local' && RuleCtor.meta.scope === RuleScope.site) ||
+                    (connectorId !== 'local' && RuleCtor.meta.scope === RuleScope.local) ||
+                    ignoredConnectors.includes(connectorId);
+            };
 
-                    if (!urlsInRule) {
-                        this.ignoredUrls.set(ruleName, [urlRegex]);
-                    } else {
-                        urlsInRule.push(urlRegex);
-                    }
-                });
-            });
-        }
+            const ruleOptions: RuleConfig | Array<RuleConfig> = config.rules[id];
+            const severity: Severity = getSeverity(ruleOptions);
 
-        const connectorBuilder: IConnectorBuilder = resourceLoader.loadConnector(this.connectorId);
+            if (ignoreRule(Rule)) {
+                debug(`Rule "${id}" is disabled for the connector "${connectorId}"`);
+                // TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
+                logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the connector "${connectorId}"`));
+            } else if (severity) {
+                const context: RuleContext = new RuleContext(id, this, severity, ruleOptions, Rule.meta);
+                const rule: IRule = new Rule(context);
 
-        if (!connectorBuilder) {
-            throw new Error(`Connector "${this.connectorId}" not found`);
-        }
-
-        this.connector = connectorBuilder(this, this.connectorConfig);
-    }
-
-    public static async create(config: IConfig): Promise<Sonarwhal> {
-        const sonarwhal = new Sonarwhal(config);
-
-        await sonarwhal.initRules(config);
-        await sonarwhal.initParsers(config);
-
-        // await sonarwhal.initFormatters(config);
-
-        return sonarwhal;
-    }
-
-    private async initParsers(config: IConfig) {
-        debug('Loading parsers');
-
-        this.parsers = [];
-        if (!config.parsers) {
-            return;
-        }
-
-        const parsers = await resourceLoader.loadParsers(config.parsers);
-
-        parsers.forEach((ParserConst, parserId) => {
-            debug(`Loading parser ${parserId}`);
-            // TODO: there has to be a better way than doing "as any" here
-            const parser = new (ParserConst as any)(this);
-
-            this.parsers.push(parser);
+                this.rules.set(id, rule);
+            } else {
+                debug(`Rule "${id}" is disabled`);
+            }
         });
     }
 
-    private async initRules(config: IConfig) {
-        debug('Loading rules');
-        this.rules = new Map();
-        if (!config.rules) {
-            return;
-        }
-
-        config.rules = normalizeRules(config.rules);
-
-        const rules: Map<string, IRuleBuilder> = await resourceLoader.loadRules(config.rules);
-        const rulesIds: Array<string> = Object.keys(config.rules);
+    public onRuleEvent(id: string, eventName: string, listener: Function) {
         const that = this;
+
         const createEventHandler = (handler: Function, ruleId: string) => {
-            return function (event: IEvent): Promise<any> {
-                const urlsIgnored: Array<RegExp> = that.ignoredUrls.get(ruleId);
+            return function (event: Event): Promise<any> {
+                const urlsIgnoredForAll = that.ignoredUrls.get('all');
+                const urlsIgnored: Array<RegExp> = !urlsIgnoredForAll ? that.ignoredUrls.get(ruleId) : that.ignoredUrls.get(ruleId).concat(urlsIgnoredForAll);
 
                 if (that.isIgnored(urlsIgnored, event.resource)) {
                     return null;
@@ -223,7 +174,7 @@ export class Sonarwhal extends EventEmitter {
                         debug(`Rule ${ruleId} timeout`);
 
                         resolve(null);
-                    }, config.rulesTimeout || 120000);
+                    }, that._timeout);
 
                     immediateId = setImmediate(async () => {
                         const result: any = await handler(event, this.event); // eslint-disable-line no-invalid-this
@@ -238,42 +189,10 @@ export class Sonarwhal extends EventEmitter {
             };
         };
 
-        const ignoreRule = (rule): boolean => {
-            const ignoredConnectors: Array<string> = rule.meta.ignoredConnectors || [];
-
-            return (this.connectorId === 'local' && rule.meta.scope === RuleScope.site) ||
-                (this.connectorId !== 'local' && rule.meta.scope === RuleScope.local) ||
-                ignoredConnectors.includes(this.connectorId);
-        };
-
-        rulesIds.forEach((id: string) => {
-            const rule: IRuleBuilder = rules.get(id);
-
-            const ruleOptions: RuleConfig | Array<RuleConfig> = config.rules[id];
-            const severity: Severity = getSeverity(ruleOptions);
-
-            if (ignoreRule(rule)) {
-                debug(`Rule "${id}" is disabled for the connector "${this.connectorId}"`);
-                // TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
-                logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the connector "${this.connectorId}"`));
-            } else if (severity) {
-                const context: RuleContext = new RuleContext(id, this, severity, ruleOptions, rule.meta);
-                const instance: IRule = rule.create(context);
-
-                Object.keys(instance).forEach((eventName: string) => {
-                    this.on(eventName, createEventHandler(instance[eventName], id));
-                });
-
-                this.rules.set(id, instance);
-            } else {
-                debug(`Rule "${id}" is disabled`);
-            }
-        });
-
-        debug(`Rules loaded: ${this.rules.size}`);
+        this.on(eventName, createEventHandler(listener, id));
     }
 
-    public fetchContent(target: string | url.Url, headers: object): Promise<INetworkData> {
+    public fetchContent(target: string | url.Url, headers: object): Promise<NetworkData> {
         return this.connector.fetchContent(target, headers);
     }
 
@@ -287,8 +206,8 @@ export class Sonarwhal extends EventEmitter {
     }
 
     /** Reports a message from one of the rules. */
-    public report(ruleId: string, severity: Severity, sourceCode: string, location: IProblemLocation, message: string, resource: string) {
-        const problem: IProblem = {
+    public report(ruleId: string, severity: Severity, sourceCode: string, location: ProblemLocation, message: string, resource: string) {
+        const problem: Problem = {
             location: location || { column: -1, line: -1 },
             message,
             resource,
@@ -317,7 +236,7 @@ export class Sonarwhal extends EventEmitter {
     }
 
     /** Runs all the configured rules and plugins on a target */
-    public async executeOn(target: url.Url): Promise<Array<IProblem>> {
+    public async executeOn(target: url.Url): Promise<Array<Problem>> {
 
         const start: number = Date.now();
 

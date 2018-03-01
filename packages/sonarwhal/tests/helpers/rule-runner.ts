@@ -9,20 +9,21 @@ import * as retry from 'async-retry';
 
 import { ids as connectors } from './connectors';
 import { createServer } from './test-server';
-import { IConfig } from '../../src/lib/types';
+import { IRuleConstructor, RulesConfigObject } from '../../src/lib/types';
 import * as resourceLoader from '../../src/lib/utils/resource-loader';
-import { IRuleTest } from './rule-test-type';
+import { RuleTest } from './rule-test-type';
 import { Sonarwhal } from '../../src/lib/sonarwhal';
+import { SonarwhalConfig } from '../../src/lib/config';
 
 /** Executes all the tests from `ruleTests` in the rule whose id is `ruleId` */
-export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: { [key: string]: any } = {}) => {
+export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { [key: string]: any } = {}) => {
 
     /**
      * Creates a valid sonarwhal configuration. Eventually we should
      * test all available connectors and not only JSDOM
      */
-    const createConfig = (id: string, connector: string, opts?): IConfig => {
-        const rules = {};
+    const createConfig = (id: string, connector: string, opts?): SonarwhalConfig => {
+        const rules: RulesConfigObject = {};
 
         if (opts && opts.ruleOptions) {
             rules[id] = ['error', opts.ruleOptions];
@@ -56,7 +57,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
             config.connector.options = { overrideInvalidCert: true };
         }
 
-        return config;
+        return SonarwhalConfig.fromConfig(config);
     };
 
     /**
@@ -109,7 +110,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
      * Creates a new connector with just the rule to be tested and executing
      * any required `before` task as indicated by `ruleTest`.
      */
-    const createConnector = async (t, ruleTest: IRuleTest, connector: string, attemp: number): Promise<Sonarwhal> => {
+    const createConnector = async (t, ruleTest: RuleTest, connector: string, attemp: number): Promise<Sonarwhal> => {
         const { server } = t.context;
         const { serverConfig } = ruleTest;
 
@@ -117,7 +118,9 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
             await ruleTest.before();
         }
 
-        const sonarwhal: Sonarwhal = await Sonarwhal.create(createConfig(ruleId, connector, configs));
+        const config = createConfig(ruleId, connector, configs);
+        const resources = resourceLoader.loadResources(config);
+        const sonarwhal: Sonarwhal = new Sonarwhal(config, resources);
 
         // We only configure the server the first time
         if (attemp === 1 && serverConfig) {
@@ -131,7 +134,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
      * Stops a connector executing any required `after` task as indicated by
      * `ruleTest`.
      */
-    const stopConnector = async (ruleTest: IRuleTest, connector): Promise<void> => {
+    const stopConnector = async (ruleTest: RuleTest, connector): Promise<void> => {
         if (ruleTest.after) {
             await ruleTest.after();
         }
@@ -140,7 +143,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
     };
 
     /** Runs a test for the rule being tested */
-    const runRule = (t, ruleTest: IRuleTest, connector: string) => {
+    const runRule = (t, ruleTest: RuleTest, connector: string) => {
         return retry(async (bail, attemp) => {
             if (attemp > 1) {
                 console.log(`[${connector}] ${ruleTest.name} - try ${attemp}`);
@@ -169,7 +172,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
         });
     };
 
-    const rule = resourceLoader.loadRule(ruleId);
+    const Rule: IRuleConstructor = resourceLoader.loadRule(ruleId, []);
 
     /* Run all the tests for a given rule in all connectors. */
     connectors.forEach((connector) => {
@@ -179,7 +182,7 @@ export const testRule = (ruleId: string, ruleTests: Array<IRuleTest>, configs: {
          * run the tests for this rule in this connector.
          */
 
-        if (!rule.meta.ignoredConnectors || !rule.meta.ignoredConnectors.includes(connector)) {
+        if (!Rule.meta.ignoredConnectors || !Rule.meta.ignoredConnectors.includes(connector)) {
             ruleTests.forEach((ruleTest) => {
                 let runner;
 

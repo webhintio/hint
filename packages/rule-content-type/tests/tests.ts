@@ -4,7 +4,7 @@ import * as fs from 'fs';
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const ruleName = getRuleName(__dirname);
@@ -35,7 +35,7 @@ const generateHTMLPageData = (content: string) => {
     };
 };
 
-const testsForDefaults: Array<IRuleTest> = [
+const testsForDefaults: Array<RuleTest> = [
 
     // No `Content-Type` header.
 
@@ -313,7 +313,7 @@ const testsForDefaults: Array<IRuleTest> = [
     }
 ];
 
-const testsForConfigs: Array<IRuleTest> = [
+const testsForConfigs: Array<RuleTest> = [
     {
         name: `Script is served with 'Content-Type' header with the correct media type but wrong because of the custom config`,
         reports: [{ message: generateRequireValueMessage('application/javascript') }],

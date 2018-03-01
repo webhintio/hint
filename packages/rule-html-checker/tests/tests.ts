@@ -2,7 +2,7 @@
 
 import * as mock from 'mock-require';
 
-import { IRuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
@@ -98,7 +98,7 @@ const htmlCheckerMock = (response) => {
     mock('html-validator', mockedChecker);
 };
 
-const testsForDefaults: Array<IRuleTest> = [
+const testsForDefaults: Array<RuleTest> = [
     {
         name: 'No reports if HTML checker returns no messages',
         serverUrl: exampleUrl,
@@ -128,7 +128,7 @@ const testsForDefaults: Array<IRuleTest> = [
     }
 ];
 
-const testsForIgnoreStringConfigs: Array<IRuleTest> = [
+const testsForIgnoreStringConfigs: Array<RuleTest> = [
     {
         name: 'Ignore selected message(string) from the report',
         serverUrl: exampleUrl,
@@ -145,7 +145,7 @@ const testsForIgnoreStringConfigs: Array<IRuleTest> = [
     }
 ];
 
-const testsForIgnoreArrayConfigs: Array<IRuleTest> = [
+const testsForIgnoreArrayConfigs: Array<RuleTest> = [
     {
         name: 'Ignore selected messages(array) from the report',
         serverUrl: exampleUrl,
@@ -155,7 +155,7 @@ const testsForIgnoreArrayConfigs: Array<IRuleTest> = [
     }
 ];
 
-const testsForValidatorConfig: Array<IRuleTest> = [
+const testsForValidatorConfig: Array<RuleTest> = [
     {
         name: 'Use configed validator service other than the default',
         serverUrl: exampleUrl,
@@ -172,7 +172,7 @@ const testsForValidatorConfig: Array<IRuleTest> = [
     }
 ];
 
-const testsForDetailsConfig: Array<IRuleTest> = [
+const testsForDetailsConfig: Array<RuleTest> = [
     {
         name: 'Configure to show complete list of errors/warnings',
         serverUrl: exampleUrl,
@@ -208,7 +208,7 @@ const testsForDetailsConfig: Array<IRuleTest> = [
     }
 ];
 
-const testsForErrors: Array<IRuleTest> = [
+const testsForErrors: Array<RuleTest> = [
     {
         name: 'Reports error when not able to get result from the HTML Checker',
         serverUrl: exampleUrl,

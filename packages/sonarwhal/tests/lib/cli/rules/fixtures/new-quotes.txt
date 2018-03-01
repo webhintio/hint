@@ -5,7 +5,7 @@
 import { Category } from '../../enums/category';
 import { RuleContext } from '../../rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, IRuleBuilder, IFetchStart, IFetchEnd, IFetchError } from '../../types';
+import { IRule, FetchStart, FetchEnd, FetchError, RuleMetadata } from '../../types';
 import { debug as d } from '../../utils/debug';
 import { RuleScope } from '../../enums/rulescope';
 
@@ -17,10 +17,29 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class NewRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.pwa,
+            description: `This is a \`description\` that contains 'single quote' and "double qutoes"`
+        },
+        recommended: true,
+        id: "new-rule",
+        schema: [
+            /*
+             * If you want to allow the user to configure your rule
+             * you should use a valid JSON schema. More info in:
+             * https://sonarwhal.com/docs/contributor-guide/rules/#themetaproperty
+             */
+        ],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext): IRule {
+
         // Your code here.
-        const validateFetchStart = async (fetchStart: IFetchStart) => {
+        const validateFetchStart = async (fetchStart: FetchStart) => {
             // Code to validate the rule on the event fetch::start.
 
             const { resource } = fetchStart;
@@ -40,7 +59,7 @@ const rule: IRuleBuilder = {
                 await context.report(resource, null, 'Your error message here');
             }
         };
-        const validateFetchEnd = async (fetchEnd: IFetchEnd) => {
+        const validateFetchEnd = async (fetchEnd: FetchEnd) => {
             // Code to validate the rule on the event fetch::end.
 
             const { resource } = fetchEnd;
@@ -60,7 +79,7 @@ const rule: IRuleBuilder = {
                 await context.report(resource, null, 'Your error message here');
             }
         };
-        const validateFetchError = async (fetchError: IFetchError) => {
+        const validateFetchError = async (fetchError: FetchError) => {
             // Code to validate the rule on the event fetch::error.
 
             const { resource } = fetchError;
@@ -81,28 +100,9 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return {
-            'fetch::end': validateFetchEnd,
-            'fetch::error': validateFetchError,
-            'fetch::start': validateFetchStart
-            // As many events as you need
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.pwa,
-            description: `This is a \`description\` that contains 'single quote' and "double qutoes"`
-        },
-        recommended: true,
-        schema: [
-            /*
-             * If you want to allow the user to configure your rule
-             * you should use a valid JSON schema. More info in:
-             * https://sonarwhal.com/docs/contributor-guide/rules/#themetaproperty
-             */
-        ],
-        scope: RuleScope.site
+        context.on('fetch::end', validateFetchEnd);
+        context.on('fetch::error', validateFetchError);
+        context.on('fetch::start', validateFetchStart);
+        // As many events as you need
     }
-};
-
-module.exports = rule;
+}

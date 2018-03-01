@@ -3,20 +3,18 @@
 A `formatter` formats the results of `sonarwhal`: from crafting `JSON` to
 connecting to a database and storing the results in it.
 
-To create one, you will need a module that exports an object with a
-method named `format()`. This method will receive an array of `message`s
-if any issues have been found.
+To create one, you will need a class that implements the interface
+`IFormatter`. This inteface has a method `format` witch will receive an
+array of `message`s if any issues have been found.
 
 The following is a basic `formatter` that `.stringify()`s the results:
 
 ```js
-const formatter = {
-    format(messages) {
+export default class JSONFormatter implements IFormatter {
+    public format(messages: Array<Problem>) {
         console.log(JSON.stringify(messages, null, 2));
     }
-};
-
-export default formatter;
+}
 ```
 
 A `message` looks like this:
@@ -38,9 +36,9 @@ look as follows:
 ```js
 import * as _ from 'lodash';
 
-const formatter = {
+export default class JSONFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    format(messages) {
+    public format(messages: Array<Problem>) {
         const resources = _.groupBy(messages, 'resource');
 
         _.forEach(resources, (msgs, resource) => {
@@ -50,9 +48,7 @@ const formatter = {
             console.log(JSON.stringify(sortedMessages, null, 2));
         });
     }
-};
-
-export default formatter;
+}
 ```
 
 You can always check the code of any of the official `formatter`s for

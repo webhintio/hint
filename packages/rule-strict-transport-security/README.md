@@ -1,4 +1,4 @@
-# Require `Strict-Transport-Security` response header (`strict-transport-security`)
+# Require `Strict-Transport-Security` response header (`@sonarwhal/rule-strict-transport-security`)
 
 `strict-transport-security` warns against serving resources over
 HTTPS without `strict-transport-security` header and validates the

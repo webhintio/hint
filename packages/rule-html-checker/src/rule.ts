@@ -14,13 +14,13 @@ import * as uniqBy from 'lodash.uniqby';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IFetchEnd, IRule, IRuleBuilder, IProblemLocation, Severity } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, IRule, ProblemLocation, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
 type CheckerData = {
-    event: IFetchEnd;
+    event: FetchEnd;
     failed: boolean;
     promise: Promise<any>;
 };
@@ -31,8 +31,36 @@ type CheckerData = {
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class HtmlCheckerRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.interoperability,
+            description: `Validate HTML using 'the Nu HTML checker'`
+        },
+        id: 'html-checker',
+        schema: [{
+            properties: {
+                details: { type: 'boolean' },
+                ignore: {
+                    anyOf: [
+                        {
+                            items: { type: 'string' },
+                            type: 'array'
+                        }, { type: 'string' }
+                    ]
+                },
+                validator: {
+                    pattern: '^(http|https)://',
+                    type: 'string'
+                }
+            }
+        }],
+        scope: RuleScope.any
+    }
+
+    public constructor(context: RuleContext) {
+
         /** The promise that represents the scan by HTML checker. */
         let htmlCheckerPromises: Array<CheckerData> = [];
         /** Array of strings that needes to be ignored from the checker result. */
@@ -85,7 +113,7 @@ const rule: IRuleBuilder = {
 
         const locateAndReport = (resource: string) => {
             return (messageItem: HtmlError): Promise<void> => {
-                const position: IProblemLocation = {
+                const position: ProblemLocation = {
                     column: messageItem.firstColumn,
                     elementColumn: messageItem.hiliteStart + 1,
                     elementLine: 1, // We will pass in the single-line code snippet generated from the HTML checker, so the elementLine is always 1
@@ -101,7 +129,7 @@ const rule: IRuleBuilder = {
             await context.report(resource, null, `Couldn't get results from HTML checker for ${resource}. Error: ${error}`);
         };
 
-        const start = (data: IFetchEnd) => {
+        const start = (data: FetchEnd) => {
             const { response } = data;
 
             /*
@@ -173,35 +201,7 @@ const rule: IRuleBuilder = {
 
         loadRuleConfig();
 
-        return {
-            'fetch::end::html': start,
-            'scan::end': end
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.interoperability,
-            description: `Validate HTML using 'the Nu HTML checker'`
-        },
-        schema: [{
-            properties: {
-                details: { type: 'boolean' },
-                ignore: {
-                    anyOf: [
-                        {
-                            items: { type: 'string' },
-                            type: 'array'
-                        }, { type: 'string' }
-                    ]
-                },
-                validator: {
-                    pattern: '^(http|https)://',
-                    type: 'string'
-                }
-            }
-        }],
-        scope: RuleScope.any
+        context.on('fetch::end::html', start);
+        context.on('scan::end', end);
     }
-};
-
-module.exports = rule;
+}

@@ -14,7 +14,7 @@ import * as pluralize from 'pluralize';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IAsyncHTMLElement, IFetchEnd, IResponse, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, FetchEnd, Response, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -27,8 +27,34 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class NoHtmlOnlyHeadersRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.performance,
+            description: 'Disallow unneeded HTTP headers for non-HTML resources'
+        },
+        id: 'no-html-only-headers',
+        schema: [{
+            additionalProperties: false,
+            definitions: {
+                'string-array': {
+                    items: { type: 'string' },
+                    minItems: 1,
+                    type: 'array',
+                    uniqueItems: true
+                }
+            },
+            properties: {
+                ignore: { $ref: '#/definitions/string-array' },
+                include: { $ref: '#/definitions/string-array' }
+            },
+            type: ['object', null]
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
 
         let unneededHeaders: Array<string> = [
             'content-security-policy',
@@ -46,7 +72,7 @@ const rule: IRuleBuilder = {
             unneededHeaders = mergeIgnoreIncludeArrays(unneededHeaders, ignoreHeaders, includeHeaders);
         };
 
-        const willBeTreatedAsHTML = (response: IResponse): boolean => {
+        const willBeTreatedAsHTML = (response: Response): boolean => {
             const contentTypeHeader: string = response.headers['content-type'];
             const mediaType: string = contentTypeHeader ? contentTypeHeader.split(';')[0].trim() : '';
 
@@ -84,8 +110,8 @@ const rule: IRuleBuilder = {
             return false;
         };
 
-        const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+        const validate = async (fetchEnd: FetchEnd) => {
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
 
             // This check does not make sense for data URI.
 
@@ -107,31 +133,6 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.performance,
-            description: 'Disallow unneeded HTTP headers for non-HTML resources'
-        },
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                'string-array': {
-                    items: { type: 'string' },
-                    minItems: 1,
-                    type: 'array',
-                    uniqueItems: true
-                }
-            },
-            properties: {
-                ignore: { $ref: '#/definitions/string-array' },
-                include: { $ref: '#/definitions/string-array' }
-            },
-            type: ['object', null]
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', validate);
     }
-};
-
-module.exports = rule;
+}

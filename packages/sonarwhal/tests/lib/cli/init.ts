@@ -3,17 +3,13 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { CLIOptions } from '../../../src/lib/types';
+import { CLIOptions, NpmPackage } from '../../../src/lib/types';
 
 const actions = ({ init: true } as CLIOptions);
 const inquirer = { prompt() { } };
 const stubBrowserslistObject = { generateBrowserslistConfig() { } };
-const resourceLoader = {
-    getCoreConnectors() { },
-    getCoreFormatters() { },
-    getCoreRulesFromNpm() { },
-    getInstalledConnectors() { }
-};
+const resourceLoader = { getInstalledResources() { } };
+const child = { spawnSync() { } };
 const fs = {
     existsSync() { },
     writeFile() { }
@@ -21,6 +17,11 @@ const fs = {
 const logger = {
     error() { },
     log() { }
+};
+
+const npm = {
+    getOfficialPackages() { },
+    installPackages() { }
 };
 
 const promisifyObject = { promisify() { } };
@@ -31,13 +32,12 @@ const stubUtilObject = {
     }
 };
 
-const npm = { installCoreRules() { } };
-
 proxyquire('../../../src/lib/cli/init', {
     '../utils/logging': logger,
     '../utils/npm': npm,
     '../utils/resource-loader': resourceLoader,
     './browserslist': stubBrowserslistObject,
+    child_process: child, // eslint-disable-line camelcase
     fs,
     inquirer,
     util: stubUtilObject
@@ -49,175 +49,140 @@ test.beforeEach((t) => {
     sinon.stub(promisifyObject, 'promisify').resolves();
     sinon.stub(stubBrowserslistObject, 'generateBrowserslistConfig').resolves([]);
     sinon.spy(stubUtilObject, 'promisify');
-    sinon.stub(npm, 'installCoreRules').resolves();
 
     t.context.util = stubUtilObject.promisify;
     t.context.promisify = promisifyObject.promisify;
     t.context.browserslistGenerator = stubBrowserslistObject.generateBrowserslistConfig;
-    t.context.npm = npm;
 });
 
 test.afterEach.always((t) => {
     t.context.util.restore();
     t.context.promisify.restore();
     t.context.browserslistGenerator.restore();
-    t.context.npm.installCoreRules.restore();
 });
 
-const connectors = [
-    'connector1',
-    'connector2'];
+const formatters = [
+    'formatter1',
+    'formatter2'
+];
+
+const installedRules = [
+    '@sonarwhal/rule-rule1',
+    '@sonarwhal/rule-rule2'
+];
 
 const installedConnectors = [
     'installedConnector1',
     'installedConnector2'
 ];
 
-const rules = [
-    {
-        description: 'rule 1 description',
-        keywords: ['key1', 'key2', 'sonarwhal-recommended'],
-        name: '@sonarwhal/rule-rule1'
-    },
-    {
-        description: 'rule 2 description',
-        keywords: ['key3', 'key4'],
-        name: '@sonarwhal/rule-rule2'
-    }
-];
+const installedParsers = [];
 
-const formatters = [
-    'formatter1',
-    'formatter2'];
-
-test.serial(`Generate should call to "inquirer.prompt" with the right data`, async (t) => {
+test.serial('initSonarwhalrc should install the configuration package if user chooses a recommended configuration', async (t) => {
     const sandbox = sinon.sandbox.create();
+    const initAnswers = { configType: 'predefined' };
+    const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
 
-    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
-    sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
-    sandbox.stub(resourceLoader, 'getInstalledConnectors').returns(installedConnectors);
-    sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
-    sandbox.stub(fs, 'existsSync').returns(true);
-    sandbox.stub(inquirer, 'prompt').resolves({
-        connector: '',
+    sandbox.stub(npm, 'getOfficialPackages').resolves([{
+        date: null,
+        description: '',
+        keywords: [],
+        maintainers: [],
+        name: '@sonarwhal/configuration-recommended',
+        version: '1.0.0'
+    }] as Array<NpmPackage>);
+
+    const stub = sandbox.stub(npm, 'installPackages').returns(true);
+
+    sandbox.stub(inquirer, 'prompt')
+        .onFirstCall()
+        .resolves(initAnswers)
+        .onSecondCall()
+        .resolves(configAnswer);
+
+    await initSonarwhalrc(actions);
+
+    const fileData = JSON.parse(t.context.promisify.args[0][1]);
+
+    t.true(stub.called, `npm hasn't tried to install any package`);
+    t.true(_.isEqual(fileData, { extends: [configAnswer.configuration] }));
+
+    sandbox.restore();
+});
+
+
+test.serial(`"inquirer.prompt" should use the installed resources if the user doesn't want a predefined configuration`, async (t) => {
+    const sandbox = sinon.sandbox.create();
+    const answers = {
+        connector: 'jsdom',
         default: '',
-        formatter: '',
-        rules: []
-    });
+        formatter: 'json',
+        rules: ['rule1', 'rule2']
+    };
+
+    sandbox.stub(resourceLoader, 'getInstalledResources')
+        .onFirstCall()
+        .returns(installedConnectors)
+        .onSecondCall()
+        .returns(formatters)
+        .onThirdCall()
+        .returns(installedParsers)
+        .onCall(3)
+        .returns(installedRules);
+
+    const initAnswers = { configType: 'custom' };
+
+    sandbox.stub(inquirer, 'prompt')
+        .onFirstCall()
+        .resolves(initAnswers)
+        .onSecondCall()
+        .resolves(answers);
 
     await initSonarwhalrc(actions);
 
-    const questions = (inquirer.prompt as sinon.SinonStub).args[0][0];
+    const questions = (inquirer.prompt as sinon.SinonStub).args[1][0];
 
-    t.is(questions[0].choices.length, connectors.length + installedConnectors.length);
+    t.is(questions[0].choices.length, installedConnectors.length);
     t.is(questions[1].choices.length, formatters.length);
-    t.is(questions[3].choices.length, rules.length);
-    const rule0Name = rules[0].name.replace('@sonarwhal/rule-', '');
-    const rule1Name = rules[1].name.replace('@sonarwhal/rule-', '');
-
-    t.is(questions[3].choices[0].value, rule0Name);
-    t.is(questions[3].choices[0].name, `${rule0Name} - ${rules[0].description}`);
-    t.is(questions[3].choices[1].value, rule1Name);
-    t.is(questions[3].choices[1].name, `${rule1Name} - ${rules[1].description}`);
-
-    sandbox.restore();
-});
-
-test.serial(`Generate should call to "fs.writeFile" with the right data`, async (t) => {
-    const sandbox = sinon.sandbox.create();
-    const questionsResults = {
-        connector: 'chrome',
-        default: false,
-        formatter: 'json',
-        rules: ['rule1']
-    };
-
-    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
-    sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
-    sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
-    sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(fs, 'existsSync').returns(true);
-
-    await initSonarwhalrc(actions);
+    t.is(questions[2].choices.length, installedRules.length);
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
-    t.is(fileData.connector.name, questionsResults.connector);
-    t.true(_.isEqual(fileData.formatters, [questionsResults.formatter]));
-    t.is(fileData.rules.rule1, 'error');
-    t.is(fileData.rules.rule2, 'off');
+    t.is(fileData.connector.name, answers.connector);
+    t.deepEqual(fileData.rules, {
+        rule1: 'error',
+        rule2: 'error'
+    });
+    t.deepEqual(fileData.formatters, [answers.formatter]);
 
     sandbox.restore();
 });
 
-test.serial(`If the user choose to use the default rules configuration, all recommended rules should be set to "error" in the configuration file`, async (t) => {
+test.serial(`if instalation of a config package fails, "initSonarwhalrc" returns true`, async (t) => {
     const sandbox = sinon.sandbox.create();
-    const questionsResults = {
-        connector: 'chrome',
-        default: true,
-        formatter: 'json',
-        rules: []
-    };
+    const initAnswers = { configType: 'predefined' };
+    const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
 
-    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
-    sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
-    sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
-    sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(fs, 'existsSync').returns(true);
+    sandbox.stub(npm, 'getOfficialPackages').resolves([{
+        date: null,
+        description: '',
+        keywords: [],
+        maintainers: [],
+        name: '@sonarwhal/configuration-recommended',
+        version: '1.0.0'
+    }] as Array<NpmPackage>);
 
-    await initSonarwhalrc(actions);
+    sandbox.stub(npm, 'installPackages').returns(false);
 
-    const fileData = JSON.parse(t.context.promisify.args[0][1]);
+    sandbox.stub(inquirer, 'prompt')
+        .onFirstCall()
+        .resolves(initAnswers)
+        .onSecondCall()
+        .resolves(configAnswer);
 
-    t.is(fileData.connector.name, questionsResults.connector);
-    t.true(_.isEqual(fileData.formatters, [questionsResults.formatter]));
-    t.is(fileData.rules.rule2, void 0);
-    t.is(fileData.rules.rule1, 'error');
+    const result = await initSonarwhalrc(actions);
 
-    sandbox.restore();
-});
-
-test.serial('initSonarwhalrc should install all rules if the user choose to install the recommended rules', async (t) => {
-    const sandbox = sinon.sandbox.create();
-    const questionsResults = {
-        connector: 'chrome',
-        default: true,
-        formatter: 'json',
-        rules: []
-    };
-
-    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
-    sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
-    sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
-    sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(fs, 'existsSync').returns(true);
-
-    await initSonarwhalrc(actions);
-
-    t.true(t.context.npm.installCoreRules.args[0][0].includes('rule1'));
-    t.false(t.context.npm.installCoreRules.args[0][0].includes('rule2'));
-
-    sandbox.restore();
-});
-
-test.serial('initSonarwhalrc should install the rules choosen', async (t) => {
-    const sandbox = sinon.sandbox.create();
-    const questionsResults = {
-        connector: 'chrome',
-        default: false,
-        formatter: 'json',
-        rules: ['rule2']
-    };
-
-    sandbox.stub(resourceLoader, 'getCoreConnectors').returns(connectors);
-    sandbox.stub(resourceLoader, 'getCoreFormatters').returns(formatters);
-    sandbox.stub(resourceLoader, 'getCoreRulesFromNpm').resolves(rules);
-    sandbox.stub(inquirer, 'prompt').resolves(questionsResults);
-    sandbox.stub(fs, 'existsSync').returns(true);
-
-    await initSonarwhalrc(actions);
-
-    t.true(t.context.npm.installCoreRules.args[0][0].includes('rule2'));
+    t.true(result, `initSonarwhalrc doesn't return true if installation of resources fails`);
 
     sandbox.restore();
 });

@@ -16,7 +16,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { CompressionCheckOptions } from './rule-types';
 import { getFileExtension, isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
 import { getHeaderValueNormalized, isRegularProtocol, isHTTP, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IAsyncHTMLElement, IResponse, IRule, IRuleBuilder, IFetchEnd } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, Response, IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -28,8 +28,37 @@ const uaString = 'Mozilla/5.0 Gecko';
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class HttpCompressionRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.performance,
+            description: 'Require resources to be served compressed'
+        },
+        id: 'http-compression',
+        schema: [{
+            additionalProperties: false,
+            definitions: {
+                options: {
+                    additionalProperties: false,
+                    minProperties: 1,
+                    properties: {
+                        brotli: { type: 'boolean' },
+                        gzip: { type: 'boolean' },
+                        zopfli: { type: 'boolean' }
+                    }
+                }
+            },
+            properties: {
+                resource: { $ref: '#/definitions/options' },
+                target: { $ref: '#/definitions/options' }
+            },
+            type: 'object'
+        }],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
 
         const getRuleOptions = (property: string): CompressionCheckOptions => {
             return Object.assign(
@@ -404,7 +433,7 @@ const rule: IRuleBuilder = {
                     (contentEncodingHeaderValue !== 'identity'));
         };
 
-        const checkForDisallowedCompressionMethods = async (resource: string, element: IAsyncHTMLElement, response: IResponse) => {
+        const checkForDisallowedCompressionMethods = async (resource: string, element: IAsyncHTMLElement, response: Response) => {
 
             // See: https://www.iana.org/assignments/http-parameters/http-parameters.xml.
 
@@ -540,7 +569,7 @@ const rule: IRuleBuilder = {
 
         };
 
-        const isSpecialCase = async (resource: string, element: IAsyncHTMLElement, response: IResponse): Promise<boolean> => {
+        const isSpecialCase = async (resource: string, element: IAsyncHTMLElement, response: Response): Promise<boolean> => {
 
             /*
              * Check for special cases:
@@ -566,10 +595,10 @@ const rule: IRuleBuilder = {
             return false;
         };
 
-        const validate = async (fetchEnd: IFetchEnd, eventName: string) => {
+        const validate = async (fetchEnd: FetchEnd, eventName: string) => {
             const shouldCheckIfCompressedWith: CompressionCheckOptions = eventName === 'fetch::end::html' ? htmlOptions : resourceOptions;
 
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
 
             /*
              * We shouldn't validate error responses, and 204 (response with no body).
@@ -651,34 +680,6 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.performance,
-            description: 'Require resources to be served compressed'
-        },
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                options: {
-                    additionalProperties: false,
-                    minProperties: 1,
-                    properties: {
-                        brotli: { type: 'boolean' },
-                        gzip: { type: 'boolean' },
-                        zopfli: { type: 'boolean' }
-                    }
-                }
-            },
-            properties: {
-                resource: { $ref: '#/definitions/options' },
-                target: { $ref: '#/definitions/options' }
-            },
-            type: 'object'
-        }],
-        scope: RuleScope.site
+        context.on('fetch::end::*', validate);
     }
-};
-
-export default rule;
+}

@@ -1,4 +1,4 @@
-# Require manifest to specify the web site/app name (`manifest-app-name`)
+# Require manifest to specify the web site/app name (`@sonarwhal/rule-manifest-app-name`)
 
 `manifest-app-name` warns against not specifying the web site/app’s
 name.

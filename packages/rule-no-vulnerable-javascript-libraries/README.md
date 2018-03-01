@@ -1,4 +1,4 @@
-# No vulnerable libraries (`no-vulnerable-javascript-libraries`)
+# No vulnerable libraries (`@sonarwhal/rule-no-vulnerable-javascript-libraries`)
 
 This rules uses Snyk’s [Vulnerability DB][snykdb] to identify if
 a website is running a vulnerable client-side JavaScript library

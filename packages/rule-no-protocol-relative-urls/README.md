@@ -1,4 +1,4 @@
-# Disallow protocol-relative URLs (`no-protocol-relative-urls`)
+# Disallow protocol-relative URLs (`@sonarwhal/rule-no-protocol-relative-urls`)
 
 `no-protocol-relative-urls` warns against using scheme-relative URLs
 (commonly known as protocol-relative URLs).

@@ -29,7 +29,7 @@ lower cased.
 **Format:**
 
 ```ts
-export interface IElementFound {
+type ElementFound = {
     /** The URI of the resource firing this event. */
     resource: string;
     /** The visited element. */
@@ -45,15 +45,15 @@ the content of a `resource` (`js`, `css`, `image`, etc.).
 **Format:**
 
 ```ts
-export interface IFetchEnd {
+type FetchEnd {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
     /** The URL of the target */
     resource: string;
     /** The request made to fetch the target. */
-    request: IRequest;
+    request: Request;
     /** The response sent while fetching the target. */
-    response: IResponse;
+    response: Response;
 }
 ```
 
@@ -65,7 +65,7 @@ downloading the content of a `resource`.
 **Format:**
 
 ```ts
-export interface IFetchError {
+type FetchError {
     /** The URL of the target. */
     resource: string;
     /** The element that initiated the request. */
@@ -85,7 +85,7 @@ to fetch the `target`.
 **Format:**
 
 ```ts
-export interface IFetchStart {
+type FetchStart {
     /** The URL to download */
     resource: string;
 }
@@ -99,15 +99,15 @@ the web manifest of a page.
 **Format:**
 
 ```ts
-export interface IManifestFetchEnd {
+type ManifestFetchEnd {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
     /** The URL of the target */
     resource: string;
     /** The request made to fetch the target. */
-    request: IRequest;
+    request: Request;
     /** The response sent while fetching the target. */
-    response: IResponse;
+    response: Response;
 }
 ```
 
@@ -121,7 +121,7 @@ the web manifest.
 **Format:**
 
 ```ts
-export interface IFetchStart {
+type FetchStart {
     /** The URL to download */
     resource: string;
 }
@@ -138,7 +138,7 @@ downloading the web manifest.
 **Format:**
 
 ```ts
-export interface IManifestFetchError {
+type ManifestFetchError {
     /** The URL of the target. */
     resource: string;
     /** The error found. */
@@ -154,7 +154,7 @@ download.
 **Format:**
 
 ```ts
-export interface IManifestFetchMissing {
+type ManifestFetchMissing {
     /** The URL to download */
     resource: string;
 }
@@ -168,7 +168,7 @@ JavaScript resource (a file or a `<script>` tag).
 **Format:**
 
 ```ts
-export interface IScriptParse {
+type ScriptParse {
     /** The URL of the resource. */
     resource: string;
     /** The source code parsed */
@@ -184,7 +184,7 @@ events and its about to return. This is the last event to be emitted.
 **Format:**
 
 ```ts
-export interface IScanEnd {
+type ScanEnd {
      /** The final URL analyzed. */
     resource: string;
 }
@@ -198,7 +198,7 @@ analysis. This is the first event to be emitted.
 **Format:**
 
 ```ts
-export interface IScanStart {
+type ScanStart {
     /** The URL to analyze. */
     resource: string;
 }
@@ -219,7 +219,7 @@ is to be traversed.
 **Format:**
 
 ```ts
-export interface ITraverseDown {
+type TraverseDown {
     /** The parent element to be traversed. */
     element: IAsyncHTMLElement;
     /** The URL of the target. */
@@ -235,7 +235,7 @@ the DOM entirely.
 **Format:**
 
 ```ts
-export interface ITraverseEnd {
+type TraverseEnd {
     /** The URL of the target. */
     resource: string;
 }
@@ -249,7 +249,7 @@ the DOM.
 **Format:**
 
 ```ts
-export interface ITraverseStart {
+type TraverseStart {
     /** The URL of the target. */
     resource: string;
 }
@@ -264,7 +264,7 @@ node that was traversed.
 **Format:**
 
 ```ts
-export interface ITraverseUp {
+type TraverseUp {
     /** The parent element that was traversed. */
     element: IAsyncHTMLElement;
     /** The URL of the target. */

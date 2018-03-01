@@ -4,7 +4,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFetchEnd, IAsyncHTMLElement, IResponse, IRuleBuilder, IRule, Severity } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, IAsyncHTMLElement, Response, IRule, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isHTTPS, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { ParsedSetCookieHeader } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
@@ -18,8 +18,21 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class ValidateSetCookieHeaderRule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: 'This rule validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.'
+        },
+        id: 'validate-set-cookie-header',
+        ignoredConnectors: [],
+        schema: [],
+        scope: RuleScope.site
+    }
+
+    public constructor(context: RuleContext) {
+
         /** If targetBrowsers contain ie 6, ie 7 or ie 8 */
         let supportOlderBrowsers: boolean;
         /**
@@ -257,8 +270,8 @@ const rule: IRuleBuilder = {
             });
         };
 
-        const validate = async (fetchEnd: IFetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: IResponse } = fetchEnd;
+        const validate = async (fetchEnd: FetchEnd) => {
+            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
             const defaultValidators: Array<Validator> = [validateNameAndValue, validatePrefixes, validateSecurityAttributes, validateExpireDate, validateMaxAgeAndExpires];
 
             // This check does not apply if URI starts with protocols others than http/https.
@@ -310,17 +323,6 @@ const rule: IRuleBuilder = {
 
         loadRuleConfigs();
 
-        return { 'fetch::end::*': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: 'This rule validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.'
-        },
-        ignoredConnectors: [],
-        schema: [],
-        scope: RuleScope.site
+        context.on('fetch::end::*', validate);
     }
-};
-
-module.exports = rule;
+}

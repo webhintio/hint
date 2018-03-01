@@ -10,7 +10,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IElementFound, IRule, IRuleBuilder } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement, ElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -23,10 +23,21 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class NoProtocolRelativeUrlsRule implements IRule {
 
-        const validate = async (data: IElementFound) => {
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.security,
+            description: 'Disallow protocol relative URLs'
+        },
+        id: 'no-protocol-relative-urls',
+        schema: [],
+        scope: RuleScope.any
+    }
+
+    public constructor(context: RuleContext) {
+
+        const validate = async (data: ElementFound) => {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
             const html: string = await element.outerHTML();
 
@@ -47,21 +58,8 @@ const rule: IRuleBuilder = {
             }
         };
 
-        return {
-            'element::a': validate,
-            'element::link': validate,
-            'element::script': validate
-        };
-
-    },
-    meta: {
-        docs: {
-            category: Category.security,
-            description: 'Disallow protocol relative URLs'
-        },
-        schema: [],
-        scope: RuleScope.any
+        context.on('element::a', validate);
+        context.on('element::link', validate);
+        context.on('element::script', validate);
     }
-};
-
-export default rule;
+}

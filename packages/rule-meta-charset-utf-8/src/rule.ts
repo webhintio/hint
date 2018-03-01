@@ -10,7 +10,7 @@
  */
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, IRuleBuilder, ITraverseEnd } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, TraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { isHTMLDocument, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -21,8 +21,19 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+export default class MetaCharsetUTF8Rule implements IRule {
+
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.interoperability,
+            description: 'Require `<meta charset="utf-8">`'
+        },
+        id: 'meta-charset-utf-8',
+        schema: [],
+        scope: RuleScope.any
+    }
+
+    public constructor(context: RuleContext) {
 
         /*
          * This function exists because not all connector (e.g.: jsdom)
@@ -39,7 +50,7 @@ const rule: IRuleBuilder = {
         };
 
 
-        const validate = async (event: ITraverseEnd) => {
+        const validate = async (event: TraverseEnd) => {
             const { resource }: { resource: string } = event;
 
             // The following checks don't make sense for non-HTML documents.
@@ -132,16 +143,6 @@ const rule: IRuleBuilder = {
              */
         };
 
-        return { 'traverse::end': validate };
-    },
-    meta: {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require `<meta charset="utf-8">`'
-        },
-        schema: [],
-        scope: RuleScope.any
+        context.on('traverse::end', validate);
     }
-};
-
-export default rule;
+}

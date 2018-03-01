@@ -5,7 +5,7 @@
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, IRuleBuilder, {{events}} } from 'sonarwhal/dist/src/lib/types';
+import { IRule, {{events}}, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -17,78 +17,14 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
-        // Your code here.
-        {{#useCase.dom}}
-        const validateElement = async (elementFound: IElementFound) => {
-            // Code to validate the rule on the event when an element is visited.
+export default class {{className}} implements IRule {
 
-            {{>event-code event="elementFound"}}
-        };
-        {{/useCase.dom}}
-        {{#useCase.request}}
-        const validateFetchStart = async (fetchStart: IFetchStart) => {
-            // Code to validate the rule on the event fetch::start.
-
-            {{>event-code event="fetchStart"}}
-        };
-        const validateFetchEnd = async (fetchEnd: IFetchEnd) => {
-            // Code to validate the rule on the event fetch::end::*.
-
-            {{>event-code event="fetchEnd"}}
-        };
-        const validateFetchError = async (fetchError: IFetchError) => {
-            // Code to validate the rule on the event fetch::error.
-
-            {{>event-code event="fetchError"}}
-        };
-        {{/useCase.request}}
-        {{#useCase.thirdPartyService}}
-        const validateFetchStart = async (fetchStart: IFetchStart) => {
-            // Code to validate the rule on the event fetch::start.
-
-            {{>event-code event="fetchStart"}}
-        };
-        const validateFetchEnd = async (fetchEnd: IFetchEnd) => {
-            // Code to validate the rule on the event fetch::end::*.
-
-            {{>event-code event="fetchEnd"}}
-        };
-        {{/useCase.thirdPartyService}}
-        {{#useCase.jsInjection}}
-        const validateScanEnd = async (scanEnd: IScanEnd) => {
-            const jsCode = 'var a = 1 + 1;';
-            const result = await context.evaluate(jsCode);
-
-            return;
-        };
-        {{/useCase.jsInjection}}
-
-        return {
-            {{#useCase.dom}}
-            'element::{{elementType}}': validateElement
-            {{/useCase.dom}}
-            {{#useCase.request}}
-            'fetch::end::*': validateFetchEnd,
-            'fetch::error': validateFetchError,
-            'fetch::start': validateFetchStart
-            {{/useCase.request}}
-            {{#useCase.thirdPartyService}}
-            'fetch::end::*': validateFetchEnd,
-            'fetch::start': validateFetchStart
-            {{/useCase.thirdPartyService}}
-            {{#useCase.jsInjection}}
-            'scan::end': validateScanEnd
-            {{/useCase.jsInjection}}
-            // As many events as you need
-        };
-    },
-    meta: {
+    public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.{{category}},
             description: `{{description}}`
         },
+        id: "{{normalizedName}}",
         schema: [
             /*
              * If you want to allow the user to configure your rule
@@ -98,6 +34,70 @@ const rule: IRuleBuilder = {
         ],
         scope: RuleScope.{{scope}}
     }
-};
 
-module.exports = rule;
+    public constructor(context: RuleContext) {
+
+        // Your code here.
+        {{#useCase.dom}}
+        const validateElement = async (elementFound: ElementFound) => {
+            // Code to validate the rule on the event when an element is visited.
+
+            {{>event-code event="elementFound"}}
+        };
+        {{/useCase.dom}}
+        {{#useCase.request}}
+        const validateFetchStart = async (fetchStart: FetchStart) => {
+            // Code to validate the rule on the event fetch::start.
+
+            {{>event-code event="fetchStart"}}
+        };
+        const validateFetchEnd = async (fetchEnd: FetchEnd) => {
+            // Code to validate the rule on the event fetch::end::*.
+
+            {{>event-code event="fetchEnd"}}
+        };
+        const validateFetchError = async (fetchError: FetchError) => {
+            // Code to validate the rule on the event fetch::error.
+
+            {{>event-code event="fetchError"}}
+        };
+        {{/useCase.request}}
+        {{#useCase.thirdPartyService}}
+        const validateFetchStart = async (fetchStart: FetchStart) => {
+            // Code to validate the rule on the event fetch::start.
+
+            {{>event-code event="fetchStart"}}
+        };
+        const validateFetchEnd = async (fetchEnd: FetchEnd) => {
+            // Code to validate the rule on the event fetch::end::*.
+
+            {{>event-code event="fetchEnd"}}
+        };
+        {{/useCase.thirdPartyService}}
+        {{#useCase.jsInjection}}
+        const validateScanEnd = async (scanEnd: ScanEnd) => {
+            const jsCode = 'var a = 1 + 1;';
+            const result = await context.evaluate(jsCode);
+
+            return;
+        };
+        {{/useCase.jsInjection}}
+
+        {{#useCase.dom}}
+        context.on('element::{{elementType}}', validateElement);
+        {{/useCase.dom}}
+        {{#useCase.request}}
+        context.on('fetch::end::*', validateFetchEnd);
+        context.on('fetch::error', validateFetchError);
+        context.on('fetch::start', validateFetchStart);
+        {{/useCase.request}}
+        {{#useCase.thirdPartyService}}
+        context.on('fetch::end::*', validateFetchEnd);
+        context.on('fetch::start', validateFetchStart);
+        {{/useCase.thirdPartyService}}
+        {{#useCase.jsInjection}}
+        context.on('scan::end', validateScanEnd);
+        {{/useCase.jsInjection}}
+        // As many events as you need
+    }
+}

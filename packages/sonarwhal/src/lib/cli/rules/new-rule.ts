@@ -7,7 +7,7 @@ import * as mkdirp from 'mkdirp';
 
 import { CLIOptions } from '../../types';
 import * as logger from '../../utils/logging';
-import { findPackageRoot, writeFileAsync } from '../../utils/misc';
+import { isOfficial, writeFileAsync, toCamelCase } from '../../utils/misc';
 import {
     processDir, questions, normalize,
     QuestionsType, NewRule
@@ -103,6 +103,7 @@ const normalizeData = (results: inquirer.Answers) => {
     const prefix = results.official ? '@sonarwhal/' : 'sonarwhal-';
 
     const newData = Object.assign({}, results, {
+        className: toCamelCase(normalizedName),
         description: escapeSafeString(results.description),
         normalizedName, // occurences of the name in md and ts files
         official: results.official,
@@ -119,24 +120,6 @@ const normalizeData = (results: inquirer.Answers) => {
     return newData;
 };
 
-/**
- * Returns if the rule that is going to be created is an official.
- *
- * To do this we search the first `package.json` starting in `porcess.cwd()`
- * and go up the tree. If the name is `sonarwhal` then it's an official one.
- * If not or no `package.json` are found, then it isn't.
- */
-const isOfficial = (): Boolean => {
-    try {
-        const pkg = fs.readJSONSync(path.join(findPackageRoot(processDir), 'package.json')); // eslint-disable-line no-sync
-
-        return pkg.name === '@sonarwhal/monorepo';
-    } catch (e) {
-        // No `package.json` was found, so it's not official
-        return false;
-    }
-};
-
 /** Add a new rule. */
 export const newRule = async (actions: CLIOptions): Promise<boolean> => {
     if (!actions.newRule) {
@@ -147,7 +130,7 @@ export const newRule = async (actions: CLIOptions): Promise<boolean> => {
         const results = await inquirer.prompt(questions(QuestionsType.external));
         const rules = [];
 
-        results.official = isOfficial();
+        results.official = await isOfficial();
 
         const askRules = async () => {
             const rule = await inquirer.prompt(questions(QuestionsType.externalRule));
