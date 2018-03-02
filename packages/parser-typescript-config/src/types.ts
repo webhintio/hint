@@ -2,12 +2,14 @@ import * as ajv from 'ajv';
 
 import { Event } from 'sonarwhal/dist/src/lib/types/events';
 
+/** Valid values for the `JSX` compiler option. */
 export enum TypeScriptJSXEnum {
     preserve = 'preserve',
     react = 'react',
     reactNative = 'react-native'
 }
 
+/** Valid values for the `lib` compiler option. */
 export enum TypeScriptLibEnum {
     es5 = 'es5',
     es6 = 'es6',
@@ -91,14 +93,17 @@ export enum TypeScriptNewLineEnum {
     LF = 'LF'
 }
 
+/** Specify path mapping to be computed relative to baseUrl option. */
 export type TypeScriptPaths = {
     [key: string]: Array<string>;
 };
 
+/** List of TypeScript language server plugins to load. */
 export type TypeScriptPlugin = {
     name: string;
 };
 
+/** Instructs the TypeScript compiler how to compile .ts files. */
 export type TypeScriptCompilerOptions = {
     allowJs: boolean;
     allowSyntheticDefaultImports: boolean;
@@ -173,12 +178,14 @@ export type TypeScriptCompilerOptions = {
     esModuleInterop: boolean;
 };
 
+/** Auto type (.d.ts) acquisition options for this project.*/
 export type TypeScriptTypeAcquisition = {
     enable: boolean;
     include: Array<string>;
     exclude: Array<string>;
 };
 
+/** TypeScript Configuration */
 export type TypeScriptConfig = {
     compilerOptions: TypeScriptCompilerOptions;
     compileOnSave: boolean;
@@ -189,10 +196,12 @@ export type TypeScriptConfig = {
     typeAcquisition: TypeScriptTypeAcquisition;
 };
 
+/** Data type sent for Invalid JSON event */
 export type TypeScriptConfigInvalid = Event & {
     error: Error;
 };
 
+/** Data type sent for Invalid Schema event */
 export type TypeScriptConfigInvalidSchema = Event & {
     errors: Array<ajv.ErrorObject>;
 };

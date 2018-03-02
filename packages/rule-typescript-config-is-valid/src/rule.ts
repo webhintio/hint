@@ -2,7 +2,9 @@
  * @fileoverview `typescript-config-is-valid` warns again providing an invalid typescript configuration file `tsconfig.json`.
  */
 import * as ajv from 'ajv';
-import * as _ from 'lodash';
+import * as without from 'lodash.without';
+import * as groupBy from 'lodash.groupby';
+import * as map from 'lodash.map';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -23,7 +25,7 @@ export default class TypeScriptConfigIsValid implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.interoperability,
-            description: `\`typescript-config-is-valid\` warns again providing an invalid typescript configuration file \`tsconfig.json\``
+            description: '`typescript-config-is-valid` warns again providing an invalid typescript configuration file `tsconfig.json`'
         },
         id: 'typescript-config-is-valid',
         schema: [],
@@ -91,11 +93,11 @@ export default class TypeScriptConfigIsValid implements IRule {
         const report = async (errors: Array<ajv.ErrorObject>, resource: string) => {
             for (const error of errors) {
                 /*
-                 * When some of the error is 'anyOf' we need to build the message
+                 * When some of the errors are 'anyOf' we need to build the message
                  * with the other errors.
                  */
                 if (error.keyword === 'anyOf') {
-                    const otherErrors = _.without(errors, error);
+                    const otherErrors = without(errors, error);
 
                     const results = otherErrors.map((otherError) => {
                         return prettyfy(otherError);
@@ -111,7 +113,7 @@ export default class TypeScriptConfigIsValid implements IRule {
         const invalidJSONFile = async (typeScriptConfigInvalid: TypeScriptConfigInvalid) => {
             const { error, resource } = typeScriptConfigInvalid;
 
-            debug(`Validating rule typescript-config-is-valid`);
+            debug(`invalid-json::typescript-config received`);
 
             await context.report(resource, null, error.message);
         };
@@ -119,11 +121,11 @@ export default class TypeScriptConfigIsValid implements IRule {
         const invalidSchema = async (fetchEnd: TypeScriptConfigInvalidSchema) => {
             const { errors, resource } = fetchEnd;
 
-            debug(`Validating rule typescript-config-is-valid`);
+            debug(`invalid-schema::typescript-config received`);
 
-            const grouped: _.Dictionary<Array<ajv.ErrorObject>> = _.groupBy(errors, 'dataPath');
+            const grouped: _.Dictionary<Array<ajv.ErrorObject>> = groupBy(errors, 'dataPath');
 
-            const promises = _.map(grouped, (values) => {
+            const promises = map(grouped, (values) => {
                 return report(values, resource);
             });
 

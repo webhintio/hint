@@ -7,14 +7,12 @@ import { FetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
 import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
 
-
 export default class TypeScriptConfigParser extends Parser {
     private configFound: boolean = false;
     private schema: any;
 
     public constructor(sonarwhal: Sonarwhal) {
         super(sonarwhal);
-
 
         this.schema = loadJSONFile(path.join(__dirname, 'schema', 'tsConfigSchema.json'));
         sonarwhal.on('fetch::end::*', this.parseTypeScript.bind(this));
@@ -28,11 +26,14 @@ export default class TypeScriptConfigParser extends Parser {
     }
 
     private async validateSchema(config: TypeScriptConfig, resource: string) {
-        // ajv is lower case to be able to get the types.
+        /*
+         * If we want to use the ajv types in TypeScript, we need to import
+         * ajv in a lowsercase variable 'ajv', otherwhite, we can't use types
+         * like `ajv.Ajv'.
+         */
         const x: ajv.Ajv = new ajv({ // eslint-disable-line new-cap
             $data: true,
             allErrors: true,
-            // schemaId: 'auto',
             verbose: true
         });
 
@@ -56,6 +57,16 @@ export default class TypeScriptConfigParser extends Parser {
     private async parseTypeScript(fetchEnd: FetchEnd) {
         const resource = fetchEnd.resource;
 
+        /**
+         * Match examples:
+         * tsconfig.json
+         * tsconfig.improved.json
+         * tsconfig.whatever.json
+         *
+         * Not Match examples:
+         * tsconfigimproved.json
+         * anythingelse.json
+         */
         if (!resource.match(/tsconfig\.([^.]*\.)?json/gi)) {
             return;
         }

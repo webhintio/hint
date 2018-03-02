@@ -18,7 +18,6 @@
 * [`html-checker`](../../../../rule-html-checker/README.md)
 * [`meta-viewport`](../../../../rule-meta-viewport/README.md)
 * [`no-friendly-error-pages`](../../../../rule-no-friendly-error-pages/README.md)
-* [`typescript-config-is-valid`](typescript-config-is-valid.md)
 
 ## Performance
 
@@ -46,3 +45,6 @@
 * [`strict-transport-security`](../../../../rule-strict-transport-security/README.md)
 * [`validate-set-cookie-header`](../../../../rule-validate-set-cookie-header/README.md)
 * [`x-content-type-options`](../../../../rule-x-content-type-options/README.md)
+
+## Development
+* [`typescript-config-is-valid`](typescript-config-is-valid.md)
