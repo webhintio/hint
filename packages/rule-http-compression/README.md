@@ -895,9 +895,9 @@ Important notes:
                     <action type="Rewrite" value="{C:3}" />
                 </rule>
                 <!-- add vary header -->
-                <rule name="AddVaryContentEncoding" preCondition="PreCompressedBrotli" enabled="true">
+                <rule name="AddVaryAcceptEncoding" preCondition="PreCompressedFile" enabled="true">
                     <match serverVariable="RESPONSE_Vary" pattern=".*" />
-                    <action type="Rewrite" value="Content-Encoding" />
+                    <action type="Rewrite" value="Accept-Encoding" />
                 </rule>
                 <!-- indicate response is encoded with brotli -->
                 <rule name="AddEncodingBrotli" preCondition="PreCompressedBrotli" enabled="true" stopProcessing="true">
