@@ -22,19 +22,19 @@ And then activate it via the `.sonarwhalrc` configuration file:
 This `parser` emits the following events the events:
 
 * `parse::typescript-config`, of type `TypeScriptConfigParse`
-which contains the following information:
+  which contains the following information:
 
   * `resource`: the parsed resource.
   * `config`: an object with the configuration.
 
 * `invalid-json::typescript-config`, of type `TypeScriptConfigInvalid`
-wich contains the folloing information:
+  wich contains the folloing information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
 * `invalid-schema::typescript-config`, of type `TypeScriptConfigInvalidSchema`
-wich contains the following information:
+  wich contains the following information:
 
   * `resource`: the parsed resource.
   * `errors`: all the errors that the schama validator returns.

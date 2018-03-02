@@ -11,7 +11,7 @@ need to be sure the configuration file is valid.
 ## What does the rule check?
 
 This rule check if the typescript configuration is valid.
-To do this we are using the 
+To do this we are using the
 [tsconfig schema][typescript schema] with some minor
 changes.
 
@@ -50,6 +50,7 @@ The configuration is valid:
 ```
 
 ## Further Reading
+
 * [TypeScript Documentation][typescript docs]
 
 [typescript schema]: http://json.schemastore.org/tsconfig

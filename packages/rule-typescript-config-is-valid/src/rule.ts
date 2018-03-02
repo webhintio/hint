@@ -76,6 +76,7 @@ export default class TypeScriptConfigIsValid implements IRule {
                 case 'pattern':
                     result = generatePatternError(error);
                     break;
+                /* istanbul ignore next */
                 default:
                     result = error.message;
                     break;

@@ -195,7 +195,7 @@ export type TypeScriptConfigInvalid = Event & {
 
 export type TypeScriptConfigInvalidSchema = Event & {
     errors: Array<ajv.ErrorObject>;
-}
+};
 
 /** The object emitted by the `typescript-config` parser */
 export type TypeScriptConfigParse = Event & {
