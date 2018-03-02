@@ -8,7 +8,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { TypeScriptConfigInvalid, TypeScriptConfigInvalidSchema} from '@sonarwhal/parser-typescript-config/dist/src/types';
+import { TypeScriptConfigInvalid, TypeScriptConfigInvalidSchema } from '@sonarwhal/parser-typescript-config/dist/src/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 
 const debug: debug.IDebugger = d(__filename);
@@ -29,7 +29,8 @@ export default class TypeScriptConfigIsValid implements IRule {
         schema: [],
         scope: RuleScope.local
     }
-    create(context: RuleContext): IRule {
+
+    public constructor(context: RuleContext) {
         /**
          * Returns a readable error for 'additionalProperty' errors.
          */
@@ -128,9 +129,7 @@ export default class TypeScriptConfigIsValid implements IRule {
             await Promise.all(promises);
         };
 
-        return {
-            'invalid-json::typescript-config': invalidJSONFile,
-            'invalid-schema::typescript-config': invalidSchema
-        };
+        context.on('invalid-json::typescript-config', invalidJSONFile);
+        context.on('invalid-schema::typescript-config', invalidSchema);
     }
 }

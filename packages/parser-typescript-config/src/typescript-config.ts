@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as ajv from 'ajv';
 
 import { TypeScriptConfig, TypeScriptConfigInvalid, TypeScriptConfigParse, TypeScriptConfigInvalidSchema } from './types';
-import { FetchEnd, Parser} from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
 import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
 
@@ -17,14 +17,13 @@ export default class TypeScriptConfigParser extends Parser {
 
 
         this.schema = loadJSONFile(path.join(__dirname, 'schema', 'tsConfigSchema.json'));
-        sonarwhal.on('fetch::end', this.parseTypeScript.bind(this));
-        sonarwhal.on('targetfetch::end', this.parseTypeScript.bind(this));
+        sonarwhal.on('fetch::end::*', this.parseTypeScript.bind(this));
         sonarwhal.on('scan::end', this.parseEnd.bind(this));
     }
 
     private async parseEnd() {
         if (!this.configFound) {
-            await this.sonarwhal.emitAsync('notfound::typescript-config');
+            await this.sonarwhal.emitAsync('notfound::typescript-config', {});
         }
     }
 
@@ -33,7 +32,7 @@ export default class TypeScriptConfigParser extends Parser {
         const x: ajv.Ajv = new ajv({ // eslint-disable-line new-cap
             $data: true,
             allErrors: true,
-            schemaId: 'auto',
+            // schemaId: 'auto',
             verbose: true
         });
 
