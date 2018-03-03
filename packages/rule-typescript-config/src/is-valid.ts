@@ -1,6 +1,8 @@
 /**
  * @fileoverview `typescript-config-is-valid` warns again providing an invalid typescript configuration file `tsconfig.json`.
  */
+import * as path from 'path';
+
 import * as ajv from 'ajv';
 import * as without from 'lodash.without';
 import * as groupBy from 'lodash.groupby';
@@ -10,8 +12,10 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { TypeScriptConfigInvalid, TypeScriptConfigInvalidSchema } from '@sonarwhal/parser-typescript-config/dist/src/types';
+import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
+
+import { TypeScriptConfigInvalid, TypeScriptConfigParse, TypeScriptConfig } from '@sonarwhal/parser-typescript-config/dist/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -27,12 +31,30 @@ export default class TypeScriptConfigIsValid implements IRule {
             category: Category.interoperability,
             description: '`typescript-config-is-valid` warns again providing an invalid typescript configuration file `tsconfig.json`'
         },
-        id: 'typescript-config-is-valid',
+        id: 'typescript-config/is-valid',
         schema: [],
         scope: RuleScope.local
     }
 
+    private schema;
+
+    /*
+     * If we want to use the ajv types in TypeScript, we need to import
+     * ajv in a lowsercase variable 'ajv', otherwhite, we can't use types
+     * like `ajv.Ajv'.
+     */
+    private validator: ajv.Ajv;
+
     public constructor(context: RuleContext) {
+        this.schema = loadJSONFile(path.join(__dirname, 'schema', 'tsConfigSchema.json'));
+        this.validator = new ajv({ // eslint-disable-line new-cap
+            $data: true,
+            allErrors: true,
+            schemaId: 'id',
+            verbose: true
+        });
+        this.validator.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
+
         /**
          * Returns a readable error for 'additionalProperty' errors.
          */
@@ -118,14 +140,29 @@ export default class TypeScriptConfigIsValid implements IRule {
             await context.report(resource, null, error.message);
         };
 
-        const invalidSchema = async (fetchEnd: TypeScriptConfigInvalidSchema) => {
-            const { errors, resource } = fetchEnd;
+        const validateSchema = (config: TypeScriptConfig) => {
 
-            debug(`invalid-schema::typescript-config received`);
+            const validate = this.validator.compile(this.schema);
 
-            const grouped: _.Dictionary<Array<ajv.ErrorObject>> = groupBy(errors, 'dataPath');
+            const valid = validate(config);
 
-            const promises = map(grouped, (values) => {
+            if (!valid) {
+                return validate.errors;
+            }
+
+            return [];
+        };
+
+        const validate = async (fetchEnd: TypeScriptConfigParse) => {
+            const { config, resource } = fetchEnd;
+
+            debug(`parse::typescript-config received`);
+
+            const errors = validateSchema(config);
+
+            const grouped = groupBy(errors, 'dataPath');
+
+            const promises = map(grouped, (values: Array<ajv.ErrorObject>) => {
                 return report(values, resource);
             });
 
@@ -133,6 +170,6 @@ export default class TypeScriptConfigIsValid implements IRule {
         };
 
         context.on('invalid-json::typescript-config', invalidJSONFile);
-        context.on('invalid-schema::typescript-config', invalidSchema);
+        context.on('parse::typescript-config', validate);
     }
 }

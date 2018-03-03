@@ -63,56 +63,14 @@ test.serial('If the file contains an invalid json, it should fail', async (t) =>
     sandbox.restore();
 });
 
-test.serial('If the file contains an invalid schema, it should fail', async (t) => {
+test.serial('If we receive a valid json with a valid name, it should emit the event parse::typescript-config', async (t) => {
     const sandbox = sinon.sandbox.create();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
     new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
-    const invalidSchema = {
-        compilerOptions: {
-            alwaysStrict: true,
-            declaration: true,
-            inlineSourceMap: true,
-            lib: [
-                'dom',
-                'dom.iterable',
-                'invalid.value',
-                'esnext',
-                'esnext.asynciterable'
-            ],
-            module: 'commonjs',
-            newLine: 'lf',
-            removeComments: false,
-            target: 'esnext'
-        }
-    };
-
-    await t.context.sonarwhal.emitAsync('fetch::end::json', {
-        resource: 'tsconfig.improved.json',
-        response: { body: { content: JSON.stringify(invalidSchema) } }
-    });
-
-    // 3 times, the previous call, the invalid schema and the parse.
-    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'invalid-schema::typescript-config');
-    t.is(t.context.sonarwhal.emitAsync.args[1][1].errors[0].data, 'invalid.value');
-    t.is(t.context.sonarwhal.emitAsync.args[1][1].errors[0].message, 'should be equal to one of the allowed values');
-    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::typescript-config');
-    t.deepEqual(t.context.sonarwhal.emitAsync.args[2][1].config, invalidSchema);
-
-    sandbox.restore();
-});
-
-test.serial('If the file contains a valid schema, it should pass', async (t) => {
-    const sandbox = sinon.sandbox.create();
-
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
-
-    new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
-
-    const validSchema = {
+    const validJSON = {
         compilerOptions: {
             alwaysStrict: true,
             declaration: true,
@@ -132,7 +90,7 @@ test.serial('If the file contains a valid schema, it should pass', async (t) => 
 
     await t.context.sonarwhal.emitAsync('fetch::end::json', {
         resource: 'tsconfig.improved.json',
-        response: { body: { content: JSON.stringify(validSchema) } }
+        response: { body: { content: JSON.stringify(validJSON) } }
     });
 
     await t.context.sonarwhal.emitAsync('scan::end');
@@ -140,7 +98,7 @@ test.serial('If the file contains a valid schema, it should pass', async (t) => 
     // 3 times, the two previous call and the parse.
     t.is(t.context.sonarwhal.emitAsync.callCount, 3);
     t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config');
-    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, validSchema);
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, validJSON);
 
     sandbox.restore();
 });

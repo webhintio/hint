@@ -33,15 +33,9 @@ This `parser` emits the following events:
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `invalid-schema::typescript-config`, of type `TypeScriptConfigInvalidSchema`
-  wich contains the following information:
-
-  * `resource`: the parsed resource.
-  * `errors`: all the errors that the schama validator returns.
-
 * `notfound::typescript-config`. This event is sent if the parser doesn't
-find any configuration file at the end of the scan.
-This event doesn't containt anything else.
+  find any configuration file at the end of the scan.
+  This event doesn't containt anything else.
 
 ## Types
 
