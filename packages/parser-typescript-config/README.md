@@ -13,7 +13,12 @@ And then activate it via the `.sonarwhalrc` configuration file:
 
 ```json
 {
-    "parsers": ["typescript-config"]
+    ...
+    "parsers": ["typescript-config"],
+    "rules": {
+        ...
+    },
+    ...
 }
 ```
 
