@@ -1,3 +1,23 @@
+# 0.28.0 (March 6, 2018)
+
+## Breaking Changes
+
+* [[`cb2f670722`](https://github.com/sonarwhal/sonarwhal/commit/cb2f67072276cfe624cf60bf2381eb6cb1ef5a16)] - Breaking: Use types instead of interfaces.
+* [[`af5a07c8cd`](https://github.com/sonarwhal/sonarwhal/commit/af5a07c8cd825d5b41bf65444d78a83e743875b9)] - Breaking: Use classes instead of components.
+
+## Bug fixes / Improvements
+
+* [[`a96856b17e`](https://github.com/sonarwhal/sonarwhal/commit/a96856b17ee43dd2a49b0fd28476c1b7edd4e0f0)] - Docs: Add information about configurations.
+* [[`efe26fcbc0`](https://github.com/sonarwhal/sonarwhal/commit/efe26fcbc0a78a2eabb2e96adfbc9b1166820863)] - Fix: `browserslist` generation.
+* [[`29138e3c82`](https://github.com/sonarwhal/sonarwhal/commit/29138e3c82dba32468fffdea991b18e27081a67f)] - Docs: Update `architecture.md`.
+* [[`ac344b587b`](https://github.com/sonarwhal/sonarwhal/commit/ac344b587b4d0592c973d6abfd9ee6bb4480d0f7)] - Fix: Add missing dependencies.
+* [[`bd8c54786a`](https://github.com/sonarwhal/sonarwhal/commit/bd8c54786a2211df37254e84972222dcb86bf1ca)] - Fix: Add missing `shelljs` dependency.
+
+## New features
+
+* [[`5cde8da7eb`](https://github.com/sonarwhal/sonarwhal/commit/5cde8da7eb7d64079ab6c626d1dd48107730d8d0)] - New: Support configuration rules in global.
+
+
 # 0.27.0 (February 23, 2018)
 
 ## Bug fixes / Improvements

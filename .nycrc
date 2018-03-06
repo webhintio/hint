@@ -1,17 +1,17 @@
 {
-    "branches": 85,
+    "branches": 0,
     "cache": true,
     "check-coverage": true,
     "exclude": [
         "**/dist/tests/**"
     ],
-    "functions": 80,
+    "functions": 0,
     "instrument": true,
-    "lines": 85,
+    "lines": 5,
     "reporter": [
         "lcov",
         "text"
     ],
     "sourceMap": true,
-    "statements": 85
+    "statements": 5
 }
