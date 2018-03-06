@@ -104,14 +104,14 @@ export const getInstalledResources = (type: ResourceType): Array<string> => {
     const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
         const resource = require(path.dirname(resourceFile));
         const packageName = JSON.parse(readFile(resourceFile)).name;
-        const resourceName = packageName.substr(packageName.lastIndexOf('/') + 1);
+        const resourceName = packageName.substr(packageName.lastIndexOf('/') + 1).replace(`${type}-`, '');
 
         if (!hasMultipleResources(resource, type)) {
             list.push(resourceName);
         } else {
             const rules = Object.entries(resource);
 
-            if (rules.length === 1 && resource[resourceName.replace(`${type}-`, '')]) {
+            if (rules.length === 1 && resource[resourceName]) {
                 list.push(resourceName);
             } else {
                 for (const [key] of rules) {
@@ -279,7 +279,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
 };
 
 
-const loadListOfResources = (list: Array<string> | Object, type: ResourceType, configurations: Array<string> = []): { incompatible: Array<string>, missing: Array<string>, resources: Array<any> } => {
+const loadListOfResources = (list: Array<string> | Object = [], type: ResourceType, configurations: Array<string> = []): { incompatible: Array<string>, missing: Array<string>, resources: Array<any> } => {
     const missing: Array<string> = [];
     const incompatible: Array<string> = [];
 
