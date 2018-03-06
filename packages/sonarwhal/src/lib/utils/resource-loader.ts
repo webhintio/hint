@@ -199,7 +199,8 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
         `@sonarwhal/${key}`, // Officially supported package
         `sonarwhal-${key}`, // Third party package
         path.normalize(`${SONARWHAL_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
-        path.normalize(process.cwd()) // External rules.
+        // Specify the `/dist/src/index.js` here, otherwise the tests will fail due to the `main` parameter in the sonarwhal package.json
+        path.normalize(`${process.cwd()}/dist/src/index.js`) // External rules.
         // path.normalize(`${path.resolve(SONARWHAL_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
     ].concat(configPathsToResources);
 
