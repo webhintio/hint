@@ -587,7 +587,7 @@ const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx) => {
         commitPrefix = 'Breaking:';
     }
 
-    await gitCommitChanges(`${commitPrefix} \\\`${ctx.packageName}\\\` to \\\`v${ctx.newPackageVersion}\\\``);
+    await gitCommitChanges(`${commitPrefix} Update \\\`${ctx.packageName}\\\` to \\\`v${ctx.newPackageVersion}\\\``);
 };
 
 const updatePackageVersionNumberInOtherPackages = (ctx) => {

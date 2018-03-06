@@ -11,12 +11,12 @@
     "eslint-plugin-typescript": "^0.8.1",
     "markdownlint-cli": "^0.7.0",
     "npm-run-all": "^4.1.2",
-    "sonarwhal": "^0.27.0",
+    "sonarwhal": "^0.28.0",
     "typescript": "^2.6.2",
     "typescript-eslint-parser": "^13.0.0"
   },
   "peerDependencies": {
-    "sonarwhal": "^0.27.0"
+    "sonarwhal": "^0.28.0"
   },
   "engines": {
     "node": ">=8.0.0"
