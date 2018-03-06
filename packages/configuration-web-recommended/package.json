@@ -20,7 +20,7 @@
     "@sonarwhal/rule-meta-viewport": "^2.0.0",
     "@sonarwhal/rule-no-disallowed-headers": "^2.0.0",
     "@sonarwhal/rule-no-friendly-error-pages": "^2.0.0",
-    "@sonarwhal/rule-no-html-only-headers": "^1.0.0",
+    "@sonarwhal/rule-no-html-only-headers": "^2.0.0",
     "@sonarwhal/rule-no-http-redirects": "^1.0.0",
     "@sonarwhal/rule-no-protocol-relative-urls": "^1.0.0",
     "@sonarwhal/rule-no-vulnerable-javascript-libraries": "^1.0.1",
