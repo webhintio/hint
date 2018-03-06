@@ -1,5 +1,5 @@
 {
-    "branches": 85,
+    "branches": 80,
     "cache": true,
     "check-coverage": true,
     "exclude": [
@@ -7,11 +7,11 @@
     ],
     "functions": 80,
     "instrument": true,
-    "lines": 85,
+    "lines": 80,
     "reporter": [
         "lcov",
         "text"
     ],
     "sourceMap": true,
-    "statements": 85
+    "statements": 80
 }
