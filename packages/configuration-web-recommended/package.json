@@ -12,7 +12,7 @@
     "@sonarwhal/rule-http-cache": "^2.0.0",
     "@sonarwhal/rule-http-compression": "^2.0.0",
     "@sonarwhal/rule-image-optimization-cloudinary": "^2.0.0",
-    "@sonarwhal/rule-manifest-app-name": "^1.0.0",
+    "@sonarwhal/rule-manifest-app-name": "^2.0.0",
     "@sonarwhal/rule-manifest-exists": "^1.0.0",
     "@sonarwhal/rule-manifest-file-extension": "^1.0.0",
     "@sonarwhal/rule-manifest-is-valid": "^1.0.0",
