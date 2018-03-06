@@ -161,6 +161,14 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         }
     }
 
+    const invalidConfigRules = SonarwhalConfig.validateRuleConfig(config);
+
+    if (invalidConfigRules.length > 0) {
+        logger.error(`Invalid rule configuration in .sonarwhalrc: ${invalidConfigRules.join(', ')}.`);
+
+        return false;
+    }
+
     sonarwhal = new Sonarwhal(config, resources);
 
     const start: number = Date.now();

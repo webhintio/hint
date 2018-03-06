@@ -190,16 +190,18 @@ const loadIgnoredUrls = (userConfig: UserConfig): Map<string, RegExp[]> => {
 /** Validates that the given configuration for a rule is valid */
 const validateRules = (rulesConfig: RulesConfigObject, userConfig: UserConfig) => {
     const rules = Object.keys(rulesConfig);
-
-    rules.forEach((rule) => {
+    const invalidRuleConfigs = rules.reduce((invalidRules, rule) => {
         const Rule = resourceLoader.loadRule(rule, userConfig.extends);
-
         const valid: boolean = validateRule(Rule.meta, userConfig.rules[rule], rule);
 
         if (!valid) {
-            throw new Error(`Rule ${rule} has an invalid configuration`);
+            invalidRules.push(rule);
         }
-    });
+
+        return invalidRules;
+    }, []);
+
+    return invalidRuleConfigs;
 };
 
 export class SonarwhalConfig {
@@ -265,9 +267,17 @@ export class SonarwhalConfig {
         const ignoredUrls = loadIgnoredUrls(userConfig);
         const rules = normalizeRules(userConfig.rules);
 
-        validateRules(rules, userConfig);
-
         return new SonarwhalConfig(userConfig, browsers, ignoredUrls, normalizeRules(rules));
+    }
+
+    /**
+     * Return a list of rules that have invalid configurations.
+     * @param config
+     */
+    public static validateRuleConfig(config: UserConfig): Array<string> {
+        const rules = normalizeRules(config.rules);
+
+        return validateRules(rules, config);
     }
 
     /**
