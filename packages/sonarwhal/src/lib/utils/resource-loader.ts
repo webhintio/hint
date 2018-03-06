@@ -55,6 +55,34 @@ const isVersionValid = (resourcePath: string): boolean => {
  * Public
  * ------------------------------------------------------------------------------
  */
+/** Returns a list with the ids of all the core resources of the given `type`. */
+
+export const getCoreResources = (type: string): Array<string> => {
+    if (resourceIds.has(type)) {
+
+        return resourceIds.get(type);
+
+    }
+
+    const resourcesFiles: Array<string> = globby.sync(`dist/src/lib/${type}s/**/*.js`, { cwd: SONARWHAL_ROOT });
+    const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
+
+        const resourceName: string = path.basename(resourceFile, '.js');
+
+        if (path.dirname(resourceFile).includes(resourceName)) {
+
+            list.push(resourceName);
+
+        }
+
+        return list;
+    }, []);
+
+    resourceIds.set(type, ids);
+
+    return ids;
+
+};
 
 export const getInstalledResources = (type: string): Array<string> => {
     const installedType = `installed-${type}`;

@@ -17,7 +17,7 @@ import * as inquirer from 'inquirer';
 import { CLIOptions, UserConfig } from '../types';
 import { debug as d } from '../utils/debug';
 import * as logger from '../utils/logging';
-import { getInstalledResources } from '../utils/resource-loader';
+import { getInstalledResources, getCoreResources } from '../utils/resource-loader';
 import { ResourceType } from '../enums/resourcetype';
 import { generateBrowserslistConfig } from './browserslist';
 import { getOfficialPackages, installPackages } from '../utils/npm';
@@ -32,7 +32,7 @@ const anyResources = (resources: Array<any>, type: string) => {
         return true;
     }
 
-    logger.error(`No ${type}s found, sorry`);
+    logger.error(`Couldn't find any installed ${type}s. Visit https://www.npmjs.com/search?q=%40sonarwhal%2F${type}.`);
 
     return false;
 };
@@ -72,10 +72,10 @@ const extendConfig = async (): Promise<UserConfig> => {
 
 /** Prompts a series of questions to create a new configuration object based on the installed packages. */
 const customConfig = async (): Promise<UserConfig> => {
-    const connectorKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.connector);
-    const formattersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.formatter);
-    const parsersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.parser);
-    const rulesKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.rule);
+    const connectorKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
+    const formattersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
+    const parsersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
+    const rulesKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.rule).concat(getCoreResources(ResourceType.rule));
 
     if (!anyResources(connectorKeys, ResourceType.connector) ||
         !anyResources(formattersKeys, ResourceType.formatter) ||
