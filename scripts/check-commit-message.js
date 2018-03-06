@@ -169,9 +169,13 @@ const getCommitData = () => {
 
 const isExcludedCommit = (commit) => {
 
-    // Releases are special cases, so they don't need to be checked.
+    /*
+     * Automatically generated commit messages are
+     * special cases, so they don't need to be checked.
+     */
 
-    if (/^🚀 (sonarwhal|(connector|formatter|rule)(-[0-9a-z]+)+) - v\d+\.\d+\.\d+/i.test(commit.message)) {
+    if ((/^🚀 (sonarwhal|(connector|formatter|parser|rule)(-[0-9a-z]+)+) - v\d+\.\d+\.\d+/i).test(commit.message) ||
+        (/^(Chore|Breaking): Update `(sonarwhal|(connector|formatter|parser|rule)(-[0-9a-z]+)+)` to `v\d+\.\d+\.\d+`/i).test(commit.messages)) {
         return true;
     }
 
