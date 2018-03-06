@@ -10,7 +10,7 @@
     "@sonarwhal/rule-highest-available-document-mode": "^2.0.0",
     "@sonarwhal/rule-html-checker": "^2.0.0",
     "@sonarwhal/rule-http-cache": "^2.0.0",
-    "@sonarwhal/rule-http-compression": "^1.0.0",
+    "@sonarwhal/rule-http-compression": "^2.0.0",
     "@sonarwhal/rule-image-optimization-cloudinary": "^1.0.0",
     "@sonarwhal/rule-manifest-app-name": "^1.0.0",
     "@sonarwhal/rule-manifest-exists": "^1.0.0",
