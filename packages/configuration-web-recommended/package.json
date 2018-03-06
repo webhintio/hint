@@ -3,7 +3,7 @@
     "@sonarwhal/formatter-codeframe": "^1.0.0",
     "@sonarwhal/formatter-stylish": "^1.0.0",
     "@sonarwhal/formatter-summary": "^1.0.0",
-    "@sonarwhal/rule-apple-touch-icons": "^1.0.0",
+    "@sonarwhal/rule-apple-touch-icons": "^2.0.0",
     "@sonarwhal/rule-axe": "^1.0.0",
     "@sonarwhal/rule-content-type": "^1.0.0",
     "@sonarwhal/rule-disown-opener": "^1.0.0",
