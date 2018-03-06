@@ -1,3 +1,10 @@
+# 0.28.1 (March 6, 2018)
+
+## Bug fixes / Improvements
+
+* [[`7aeb1f04b4`](https://github.com/sonarwhal/sonarwhal/commit/7aeb1f04b47299e1a1180b37bb6390d5472fcbf7)] - Fix: Add path to load external packages.
+
+
 # 0.28.0 (March 6, 2018)
 
 ## Breaking Changes
