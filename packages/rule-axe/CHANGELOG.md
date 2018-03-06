@@ -1,3 +1,16 @@
+# 2.0.0 (March 6, 2018)
+
+## Breaking Changes
+
+* [[`89df6fbbfc`](https://github.com/sonarwhal/sonarwhal/commit/89df6fbbfcb6be936a12c77fe932a7ccc0e35d73)] - Breaking: Update `sonarwhal` to `v0.28.0`.
+* [[`cb2f670722`](https://github.com/sonarwhal/sonarwhal/commit/cb2f67072276cfe624cf60bf2381eb6cb1ef5a16)] - Breaking: Use types instead of interfaces.
+* [[`af5a07c8cd`](https://github.com/sonarwhal/sonarwhal/commit/af5a07c8cd825d5b41bf65444d78a83e743875b9)] - Breaking: Use classes instead of components.
+
+## Bug fixes / Improvements
+
+* [[`346c2b6d6b`](https://github.com/sonarwhal/sonarwhal/commit/346c2b6d6babefad55ce1bdcc7d5481a47adfc04)] - Fix: Upgrade `axe-core` to `3.0.0-beta.2`.
+
+
 # 1.0.1 (February 23, 2018)
 
 ## Bug fixes / Improvements
