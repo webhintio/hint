@@ -119,8 +119,8 @@
   "repository": "https://github.com/sonarwhal/sonarwhal",
   "scripts": {
     "ava": "ava",
-    "build": "npm run clean && npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build": "yarn clean && npm-run-all build:*",
+    "build-release": "yarn clean && yarn build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc",
     "clean": "rimraf dist",
@@ -128,12 +128,12 @@
     "lint:js": "eslint . --cache --report-unused-disable-directives --ext js --ext md --ext ts",
     "lint:md": "markdownlint docs src/lib/rules/**/*.md",
     "sonarwhal": "node dist/src/bin/sonarwhal",
-    "test": "npm run build && nyc ava",
-    "test-on-travis": "npm run lint && npm run commitmsg && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
-    "watch": "npm run build && npm-run-all --parallel -c watch:*",
-    "watch:resources": "npm run build:assets -- -w --no-initial",
+    "test": "yarn build && nyc ava",
+    "test-on-travis": "yarn lint && yarn commitmsg && yarn build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
+    "watch": "yarn build && npm-run-all --parallel -c watch:*",
+    "watch:resources": "yarn build:assets -- -w --no-initial",
     "watch:test": "ava --watch",
-    "watch:ts": "npm run build:ts -- --watch"
+    "watch:ts": "yarn build:ts -- --watch"
   },
   "version": "0.28.0"
 }

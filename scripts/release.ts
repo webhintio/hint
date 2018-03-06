@@ -213,7 +213,7 @@ const extractDataFromCommit = async (sha: string): Promise<Commit> => {
 
 const gitCommitChanges = async (commitMessage: string) => {
     // Add all changes to the staging aread.
-    await exec(`git add -A`);
+    await exec(`git add packages yarn.lock`);
 
     /*
      * If there aren't any changes in the staging area,
@@ -263,6 +263,26 @@ const deleteGitHubToken = async () => {
 
     if (res.statusCode !== 204) {
         console.error(`Failed to delete GitHub Token: ${GITHUB.tokenID}`);
+    }
+};
+
+const disableYarnWorkspaces = () => {
+    const mainPackageJSONFilePath = 'package.json';
+    const mainPackageJSONFileContent = require(`../../${mainPackageJSONFilePath}`);
+
+    if (mainPackageJSONFileContent.workspaces) {
+        delete mainPackageJSONFileContent.workspaces;
+        updateFile(mainPackageJSONFilePath, `${JSON.stringify(mainPackageJSONFileContent, null, 2)}\n`);
+    }
+};
+
+const enableYarnWorkspaces = () => {
+    const mainPackageJSONFilePath = 'package.json';
+    const mainPackageJSONFileContent = require(`../../${mainPackageJSONFilePath}`);
+
+    if (!mainPackageJSONFileContent.workspaces) {
+        mainPackageJSONFileContent.workspaces = ['packages/!(connector-edge)'];
+        updateFile(mainPackageJSONFilePath, `${JSON.stringify(mainPackageJSONFileContent, null, 2)}\n`);
     }
 };
 
@@ -471,8 +491,8 @@ const newTask = (title: string, task, condition?: boolean) => {
     };
 };
 
-const npmInstall = async (ctx) => {
-    await exec(`cd ${ctx.packagePath} && npm install`);
+const yarnInstall = async (ctx) => {
+    await exec(`cd ${ctx.packagePath} && yarn install`);
 };
 
 const npmPublish = (ctx) => {
@@ -506,12 +526,12 @@ const npmRemovePrivateField = (ctx) => {
     updateFile(ctx.packageJSONFilePath, `${JSON.stringify(ctx.packageJSONFileContent, null, 2)}\n`);
 };
 
-const npmRunBuildForRelease = async (ctx) => {
-    await exec(`cd ${ctx.packagePath} && npm run build-release`);
+const yarnRunBuildForRelease = async (ctx) => {
+    await exec(`cd ${ctx.packagePath} && yarn build-release`);
 };
 
-const npmRunTests = async (ctx) => {
-    await exec(`cd ${ctx.packagePath} && npm test`);
+const yarnRunTests = async (ctx) => {
+    await exec(`cd ${ctx.packagePath} && yarn test`);
 };
 
 const npmShrinkwrap = async (ctx) => {
@@ -675,9 +695,9 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent) => {
 
     if (!packageName.startsWith('configuration-')) {
         tasks.push(
-            newTask('Install dependencies.', npmInstall),
-            newTask('Run tests.', npmRunTests),
-            newTask('Run release build.', npmRunBuildForRelease),
+            newTask('Install dependencies.', yarnInstall),
+            newTask('Run tests.', yarnRunTests),
+            newTask('Run release build.', yarnRunBuildForRelease),
         );
     }
 
@@ -711,8 +731,8 @@ const getTaksForPrerelease = (packageName: string) => {
         newTask('Get commits SHAs since last release.', getCommitSHAsSinceLastRelease),
         newTask('Get semver increment.', getReleaseData),
         newTask('Update version in `package.json`.', npmUpdateVersionForPrerelease),
-        newTask('Install dependencies.', npmInstall),
-        newTask('Run release build.', npmRunBuildForRelease),
+        newTask('Install dependencies.', yarnInstall),
+        newTask('Run release build.', yarnRunBuildForRelease),
         newTask('Remove `devDependencies`.', npmRemoveDevDependencies),
         newTask('Create `npm-shrinkwrap.json` file.', npmShrinkwrap),
         newTask(`Publish on npm.`, npmPublish),
@@ -772,6 +792,8 @@ const getTasks = (packagePath: string) => {
 const main = async () => {
 
     await gitReset();
+    // Workaround until a native option is possible.
+    disableYarnWorkspaces();
     await createGitHubToken();
 
     /*
@@ -820,12 +842,13 @@ const main = async () => {
 
             // Try to revert things to their previous state.
 
+            await gitReset();
             await gitDeleteTag(err.context.packageNewTag);
             await removePackageFiles();
-            await gitReset();
             await deleteGitHubToken();
         });
 
+    enableYarnWorkspaces();
     await deleteGitHubToken();
 };
 

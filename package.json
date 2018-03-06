@@ -58,7 +58,7 @@
     "new:parser": "cd packages && node sonarwhal/dist/src/bin/sonarwhal.js --new-parser",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
     "release": "node dist/scripts/release.js",
-    "pre-release": "npm run release -- --prerelease",
+    "pre-release": "yarn release --prerelease",
     "test": "yarn build && nyc ava",
     "test-on-travis": "yarn lint && yarn build && nyc ava --concurrency=2 --timeout=2m",
     "watch:scripts": "yarn clean && npm-run-all --continue-on-error --parallel watch:scripts:*",
