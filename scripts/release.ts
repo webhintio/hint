@@ -671,10 +671,17 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent) => {
 
     // Common tasks for both published and unpublished packages.
 
+    // `configurations` don't have tests or build step.
+
+    if (!packageName.startsWith('configuration-')) {
+        tasks.push(
+            newTask('Install dependencies.', npmInstall),
+            newTask('Run tests.', npmRunTests),
+            newTask('Run release build.', npmRunBuildForRelease),
+        );
+    }
+
     tasks.push(
-        newTask('Install dependencies.', npmInstall),
-        newTask('Run tests.', npmRunTests),
-        newTask('Run release build.', npmRunBuildForRelease),
         newTask('Commit changes.', gitCommitBuildChanges),
         newTask('Tag new version.', gitTagNewVersion),
         newTask('Remove `devDependencies`.', npmRemoveDevDependencies),
