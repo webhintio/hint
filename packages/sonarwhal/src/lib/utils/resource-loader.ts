@@ -16,7 +16,7 @@ import * as path from 'path';
 import * as globby from 'globby';
 import * as semver from 'semver';
 
-import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, readFile } from '../utils/misc';
+import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, isNormalizedIncluded, readFile } from '../utils/misc';
 import { debug as d } from '../utils/debug';
 import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
 import { SonarwhalConfig } from '../config';
@@ -231,12 +231,13 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     }
 
     const configPathsToResources = generateConfigPathsToResources(configurations, packageName, type);
+    const currentProcessDir = process.cwd();
 
     const sources: Array<string> = [
         `@sonarwhal/${key}`, // Officially supported package
         `sonarwhal-${key}`, // Third party package
         path.normalize(`${SONARWHAL_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
-        path.normalize(process.cwd()) // External rules.
+        path.normalize(currentProcessDir) // External rules.
         // path.normalize(`${path.resolve(SONARWHAL_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
     ].concat(configPathsToResources);
 
@@ -248,6 +249,18 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
 
         if (res) {
             debug(`${name} found in ${source}`);
+
+            if (source === currentProcessDir) {
+                try {
+                    const packageConfig = getPackage(source);
+
+                    if (!isNormalizedIncluded(packageConfig.name, key)) {
+                        return false;
+                    }
+                } catch (e) {
+                    return false;
+                }
+            }
 
             if (verifyVersion && !isVersionValid(source)) {
                 debug(`Resource ${name} isn't compatible with current sonarwhal version`);

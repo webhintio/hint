@@ -14,7 +14,7 @@ const installedConnectors = [
 ];
 
 const fakeResource = {};
-
+const fakeRule = { meta: {} };
 const cleanCache = () => {
     delete require.cache[cacheKey];
 };
@@ -172,6 +172,66 @@ test('loadResource returns the resource if versions are compatible', (t) => {
     const resource = resourceLoader.loadResource('another-fake-resource', 'formatter', [], true);
 
     t.is(resource, fakeResource, `Resources aren't the same`);
+});
+
+test('loadResource throws an error if the rule is loaded from the current working directory but the rule name doesn\'t match', (t) => {
+    cleanCache();
+
+    proxyquire('../../../src/lib/utils/resource-loader', {
+        '../utils/misc': {
+            getPackage() {
+                return { name: 'fake-resource' };
+            }
+        }
+    });
+
+    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
+    const processStub = sinon.stub(process, 'cwd');
+
+    tryToLoadFromStub.onFirstCall().returns(null);
+    tryToLoadFromStub.onSecondCall().returns(null);
+    tryToLoadFromStub.onThirdCall().returns(null);
+    tryToLoadFromStub.returns(fakeResource);
+    processStub.returns('fakePath');
+
+    const { message } = t.throws(() => {
+        resourceLoader.loadResource('another-fake-resource', 'rule');
+    });
+
+    t.is(message, 'Resource another-fake-resource not found', 'Received a different exception');
+
+    tryToLoadFromStub.restore();
+    processStub.restore();
+});
+
+test('loadResource doesn\'t throw an error if the rule is loaded from the current working directory but the rule name matches', (t) => {
+    cleanCache();
+
+    proxyquire('../../../src/lib/utils/resource-loader', {
+        '../utils/misc': {
+            getPackage() {
+                return { name: 'rule-another-fake-resource' };
+            }
+        }
+    });
+
+    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
+    const processStub = sinon.stub(process, 'cwd');
+
+    tryToLoadFromStub.onFirstCall().returns(null);
+    tryToLoadFromStub.onSecondCall().returns(null);
+    tryToLoadFromStub.onThirdCall().returns(null);
+    tryToLoadFromStub.returns(fakeRule);
+    processStub.returns('fakePath');
+
+    t.notThrows(() => {
+        resourceLoader.loadResource('another-fake-resource', 'rule');
+    });
+
+    tryToLoadFromStub.restore();
+    processStub.restore();
 });
 
 test('loadResources loads all the resources of a given config', (t) => {
