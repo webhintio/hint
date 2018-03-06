@@ -55,8 +55,8 @@ const isVersionValid = (resourcePath: string): boolean => {
  * Public
  * ------------------------------------------------------------------------------
  */
-/** Returns a list with the ids of all the core resources of the given `type`. */
 
+/** Returns a list with the ids of all the core resources of the given `type`. */
 export const getCoreResources = (type: string): Array<string> => {
     if (resourceIds.has(type)) {
 
@@ -81,23 +81,49 @@ export const getCoreResources = (type: string): Array<string> => {
     resourceIds.set(type, ids);
 
     return ids;
-
 };
 
-export const getInstalledResources = (type: string): Array<string> => {
+/**
+ * Check if it is a package with multiple resources.
+ */
+const hasMultipleResources = (resource, type: ResourceType) => {
+    switch (type) {
+        case ResourceType.rule:
+            // In a simple rule, the property meta should exist.
+            return !resource.meta;
+        // Only case with multiple resources is rules
+        default:
+            return false;
+    }
+};
+
+export const getInstalledResources = (type: ResourceType): Array<string> => {
     const installedType = `installed-${type}`;
 
     if (resourceIds.has(installedType)) {
         return resourceIds.get(installedType);
     }
 
-    const resourcesFiles: Array<string> = globby.sync(`${NODE_MODULES_ROOT}/@sonarwhal/${type}-*/**/package.json`);
+    const resourcesFiles: Array<string> = globby.sync(`${NODE_MODULES_ROOT}/@sonarwhal/${type}-*/package.json`);
 
     const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
+        const resource = require(path.dirname(resourceFile));
         const packageName = JSON.parse(readFile(resourceFile)).name;
         const resourceName = packageName.substr(packageName.lastIndexOf('/') + 1);
 
-        list.push(resourceName);
+        if (!hasMultipleResources(resource, type)) {
+            list.push(resourceName);
+        } else {
+            const rules = Object.entries(resource);
+
+            if (rules.length === 1 && resource[resourceName.replace(`${type}-`, '')]) {
+                list.push(resourceName);
+            } else {
+                for (const [key] of rules) {
+                    list.push(`${resourceName}/${key}`);
+                }
+            }
+        }
 
         return list;
     }, []);
@@ -126,20 +152,6 @@ export const tryToLoadFrom = (resourcePath: string): any => {
     }
 
     return builder;
-};
-
-/**
- * Check if it is a package with multiple resources.
- */
-const hasMultipleResources = (resource, type: ResourceType) => {
-    switch (type) {
-        case ResourceType.rule:
-            // In a simple rule, the property meta should exist.
-            return !resource.meta;
-        // Only case with multiple resources is rules
-        default:
-            return false;
-    }
 };
 
 /**
@@ -211,10 +223,12 @@ const generateConfigPathsToResources = (configurations: Array<string>, name: str
 export const loadResource = (name: string, type: ResourceType, configurations: Array<string> = [], verifyVersion = false) => {
     debug(`Searching ${name}…`);
 
-    const packageName = name.includes('/') ? name.split('/')[0] : name;
-    const resourceName = name.includes('/') ? name.split('/')[1] : name;
+    const nameSplitted = name.split('/');
 
-    const key: string = `${type}-${packageName}`;
+    const packageName = nameSplitted[0];
+    const resourceName = nameSplitted[1] || packageName;
+
+    const key: string = `${type}-${name}`;
 
     // When we check the version we ignore if there was a previous version loaded
     if (resources.has(key) && !verifyVersion) {
