@@ -6,7 +6,7 @@
     "@sonarwhal/rule-apple-touch-icons": "^2.0.0",
     "@sonarwhal/rule-axe": "^2.0.0",
     "@sonarwhal/rule-content-type": "^2.0.0",
-    "@sonarwhal/rule-disown-opener": "^1.0.0",
+    "@sonarwhal/rule-disown-opener": "^2.0.0",
     "@sonarwhal/rule-highest-available-document-mode": "^1.0.0",
     "@sonarwhal/rule-html-checker": "^1.0.0",
     "@sonarwhal/rule-http-cache": "^1.0.0",
