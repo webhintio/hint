@@ -16,7 +16,7 @@
     "@sonarwhal/rule-manifest-exists": "^2.0.0",
     "@sonarwhal/rule-manifest-file-extension": "^2.0.0",
     "@sonarwhal/rule-manifest-is-valid": "^2.0.0",
-    "@sonarwhal/rule-meta-charset-utf-8": "^1.0.0",
+    "@sonarwhal/rule-meta-charset-utf-8": "^2.0.0",
     "@sonarwhal/rule-meta-viewport": "^1.0.0",
     "@sonarwhal/rule-no-disallowed-headers": "^1.0.0",
     "@sonarwhal/rule-no-friendly-error-pages": "^1.0.0",
