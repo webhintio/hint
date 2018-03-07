@@ -174,8 +174,8 @@ const isExcludedCommit = (commit) => {
      * special cases, so they don't need to be checked.
      */
 
-    if ((/^🚀 (sonarwhal|(connector|formatter|parser|rule)(-[0-9a-z]+)+) - v\d+\.\d+\.\d+/i).test(commit.message) ||
-        (/^(Chore|Breaking): Update `(sonarwhal|(connector|formatter|parser|rule)(-[0-9a-z]+)+)` to `v\d+\.\d+\.\d+`/i).test(commit.message)) {
+    if ((/^🚀 (sonarwhal|(configuration|connector|formatter|parser|rule)(-[0-9a-z]+)+) - v\d+\.\d+\.\d+/i).test(commit.message) ||
+        (/^(Chore|Breaking): Update `(sonarwhal|(configuration|connector|formatter|parser|rule)(-[0-9a-z]+)+)` to `v\d+\.\d+\.\d+`/i).test(commit.message)) {
         return true;
     }
 
