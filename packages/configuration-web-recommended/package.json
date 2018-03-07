@@ -23,7 +23,7 @@
     "@sonarwhal/rule-no-html-only-headers": "^2.0.1",
     "@sonarwhal/rule-no-http-redirects": "^2.0.1",
     "@sonarwhal/rule-no-protocol-relative-urls": "^2.0.0",
-    "@sonarwhal/rule-no-vulnerable-javascript-libraries": "^1.0.1",
+    "@sonarwhal/rule-no-vulnerable-javascript-libraries": "^2.0.0",
     "@sonarwhal/rule-ssllabs": "^1.0.0",
     "@sonarwhal/rule-strict-transport-security": "^1.0.0",
     "@sonarwhal/rule-validate-set-cookie-header": "^1.0.0",
