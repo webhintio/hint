@@ -145,6 +145,11 @@ const normalizeStringByDelimiter = (value: string, delimiter: string) => {
     return normalizeString(value).replace(/[^a-z0-9]/gi, delimiter);
 };
 
+/** Return if normalized `source` string includes normalized `included` string. */
+const isNormalizedIncluded = (source: string, included: string) => {
+    return normalizeString(source).includes(normalizeString(included));
+};
+
 /** Convert '-' delimitered string to camel case name. */
 const toCamelCase = (value: string) => {
     return value.split('-').reduce((accu: string, w: string) => {
@@ -321,6 +326,7 @@ const getSonarwhalPackage = () => {
 export {
     cutString,
     delay,
+    isNormalizedIncluded,
     findNodeModulesRoot,
     findPackageRoot,
     getFileExtension,
