@@ -249,12 +249,9 @@ test.serial(`if a Rule has an invalid configuration, it should throw an exceptio
 
     sandbox.stub(resourceLoader, 'loadRule').returns(FakeDisallowedRule);
 
-    t.plan(1);
-    try {
-        config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/package.json'), { watch: false } as CLIOptions);
-    } catch (err) {
-        t.is(err.message, 'Rule disallowed-headers has an invalid configuration');
-    }
+    const configuration = config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/package.json'), { watch: false } as CLIOptions);
+    const { invalid } = config.SonarwhalConfig.validateRulesConfig(configuration);
 
+    t.is(invalid.length, 1);
     sandbox.restore();
 });
