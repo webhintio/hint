@@ -37,6 +37,11 @@ const anyResources = (resources: Array<any>, type: string) => {
     return false;
 };
 
+const getConfigurationName = (pkgName: string): string => {
+    const nameSplitted = pkgName.split('/');
+
+    return nameSplitted[1].replace('configuration-', '');
+};
 
 /** Shwos the user a list of official configuration packages available in npm to install. */
 const extendConfig = async (): Promise<UserConfig> => {
@@ -47,7 +52,10 @@ const extendConfig = async (): Promise<UserConfig> => {
     }
 
     const choices = configPackages.map((pkg) => {
-        return pkg.name;
+        return {
+            name: getConfigurationName(pkg.name),
+            value: pkg.name
+        };
     });
 
     const questions: inquirer.Questions = [{
@@ -59,7 +67,7 @@ const extendConfig = async (): Promise<UserConfig> => {
     }];
 
     const answers: inquirer.Answers = await inquirer.prompt(questions);
-    const sonarwhalConfig = { extends: [answers.configuration] };
+    const sonarwhalConfig = { extends: [getConfigurationName(answers.configuration)] };
     const installed = await installPackages([answers.configuration]);
 
     // Maybe there was an error during the installation, the error and message output is handled in the npm package
