@@ -89,8 +89,8 @@ test('getInstalledResources should return the installed resources', (t) => {
     const globbyStub = sinon.stub(globby, 'sync').returns(installedConnectors);
     const connectors = resourceLoader.getInstalledResources('connector');
 
-    t.true(connectors.includes('installedConnector1'));
-    t.true(connectors.includes('installedConnector2'));
+    t.true(connectors.includes('installedconnector1'));
+    t.true(connectors.includes('installedconnector2'));
 
     globbyStub.restore();
 });

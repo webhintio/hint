@@ -24,7 +24,7 @@ const debug = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-export default class ManifetsExistsRule implements IRule {
+export default class ManifestExistsRule implements IRule {
 
     public static readonly meta: RuleMetadata = {
         docs: {

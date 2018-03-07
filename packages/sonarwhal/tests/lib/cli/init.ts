@@ -8,7 +8,10 @@ import { CLIOptions, NpmPackage } from '../../../src/lib/types';
 const actions = ({ init: true } as CLIOptions);
 const inquirer = { prompt() { } };
 const stubBrowserslistObject = { generateBrowserslistConfig() { } };
-const resourceLoader = { getInstalledResources() { } };
+const resourceLoader = {
+    getCoreResources() { },
+    getInstalledResources() { }
+};
 const child = { spawnSync() { } };
 const fs = {
     existsSync() { },
@@ -129,6 +132,8 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
         .returns(installedParsers)
         .onCall(3)
         .returns(installedRules);
+
+    sandbox.stub(resourceLoader, 'getCoreResources').returns([]);
 
     const initAnswers = { configType: 'custom' };
 
