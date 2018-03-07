@@ -63,6 +63,26 @@ test.serial('If the file contains an invalid json, it should fail', async (t) =>
     sandbox.restore();
 });
 
+test.serial('If the file contains a valid json with an invalid schema, it should fail', async (t) => {
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+
+    new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
+
+    await t.context.sonarwhal.emitAsync('fetch::end::json', {
+        resource: 'tsconfig.improved.json',
+        response: { body: { content: '{"compilerOptions": { "invalidProperty": "invalid value" }}' } }
+    });
+
+    // 2 times, the previous call, and the expected call.
+    t.true(t.context.sonarwhal.emitAsync.calledTwice);
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'invalid-schema::typescript-config');
+    t.is(t.context.sonarwhal.emitAsync.args[1][1].errors[0].message, 'should NOT have additional properties');
+
+    sandbox.restore();
+});
+
 test.serial('If we receive a valid json with a valid name, it should emit the event parse::typescript-config', async (t) => {
     const sandbox = sinon.sandbox.create();
 

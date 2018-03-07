@@ -1,3 +1,5 @@
+import * as ajv from 'ajv';
+
 import { Event } from 'sonarwhal/dist/src/lib/types/events';
 
 /** Valid values for the `JSX` compiler option. */
@@ -197,6 +199,11 @@ export type TypeScriptConfig = {
 /** Data type sent for Invalid JSON event */
 export type TypeScriptConfigInvalid = Event & {
     error: Error;
+};
+
+/** Data type sent for JSON doesn't validate Schema event */
+export type TypeScriptConfigInvalidSchema = Event & {
+    errors: Array<ajv.ErrorObject>;
 };
 
 /** The object emitted by the `typescript-config` parser */
