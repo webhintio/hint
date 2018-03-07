@@ -58,7 +58,7 @@
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
-    "lint:md": "markdownlint *.md",
+    "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
     "test": "yarn lint && yarn build && nyc ava",
     "watch": "yarn build && npm-run-all --parallel -c watch:*",
     "watch:assets": "yarn build:assets -- -w --no-initial",

@@ -47,7 +47,7 @@
     "build:ts": "tsc",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
-    "lint:md": "markdownlint README.md",
+    "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "preinstall": "node scripts/preinstall.js",
     "test": "echo",
