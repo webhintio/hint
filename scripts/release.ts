@@ -442,6 +442,10 @@ const gitDeleteTag = async (tag: string) => {
     }
 };
 
+const gitFetchTags = async () => {
+    await exec('git fetch --tags');
+};
+
 const gitGetLastTaggedRelease = async (ctx) => {
     ctx.packageLastTag = (await exec(`git describe --tags --abbrev=0 --match "${ctx.packageName}-v*"`)).stdout;
 };
@@ -671,11 +675,12 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent) => {
 
     // Common tasks for both published and unpublished packages.
 
+    tasks.push(newTask('Install dependencies.', npmInstall));
+
     // `configurations` don't have tests or build step.
 
     if (!packageName.startsWith('configuration-')) {
         tasks.push(
-            newTask('Install dependencies.', npmInstall),
             newTask('Run tests.', npmRunTests),
             newTask('Run release build.', npmRunBuildForRelease),
         );
@@ -772,7 +777,7 @@ const getTasks = (packagePath: string) => {
 
 const main = async () => {
 
-    await gitReset();
+    await gitFetchTags();
     await createGitHubToken();
 
     /*
