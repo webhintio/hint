@@ -93,7 +93,6 @@ export default class TypeScriptConfigParser extends Parser {
                 resource
             };
 
-            // Emit the configuration even if it isn't valid.
             await this.sonarwhal.emitAsync('parse::typescript-config', event);
         } catch (err) {
             const errorEvent: TypeScriptConfigInvalid = {
