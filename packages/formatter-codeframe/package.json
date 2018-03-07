@@ -27,7 +27,7 @@
     "nyc": "^11.4.1",
     "proxyquire": "^2.0.0",
     "rimraf": "^2.6.2",
-    "sonarwhal": "^0.28.1",
+    "sonarwhal": "^0.28.2",
     "typescript": "^2.6.2",
     "typescript-eslint-parser": "^14.0.0"
   },
@@ -53,7 +53,7 @@
     "extends": "../../../../.nycrc"
   },
   "peerDependencies": {
-    "sonarwhal": "^0.28.1"
+    "sonarwhal": "^0.28.2"
   },
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
@@ -71,5 +71,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "yarn build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

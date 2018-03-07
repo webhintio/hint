@@ -1,3 +1,10 @@
+# 0.28.2 (March 7, 2018)
+
+## Bug fixes / Improvements
+
+* Optimize published package.
+
+
 # 0.28.1 (March 6, 2018)
 
 ## Bug fixes / Improvements
