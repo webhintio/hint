@@ -187,23 +187,6 @@ const loadIgnoredUrls = (userConfig: UserConfig): Map<string, RegExp[]> => {
     return ignoredUrls;
 };
 
-/** Validates that the given configuration for a rule is valid */
-const validateRules = (rulesConfig: RulesConfigObject, userConfig: UserConfig) => {
-    const rules = Object.keys(rulesConfig);
-    const invalidRuleConfigs = rules.reduce((invalidRules, rule) => {
-        const Rule = resourceLoader.loadRule(rule, userConfig.extends);
-        const valid: boolean = validateRule(Rule.meta, userConfig.rules[rule], rule);
-
-        if (!valid) {
-            invalidRules.push(rule);
-        }
-
-        return invalidRules;
-    }, []);
-
-    return invalidRuleConfigs;
-};
-
 export class SonarwhalConfig {
     public readonly browserslist: Array<string>;
     public readonly connector: ConnectorConfig;
@@ -271,13 +254,25 @@ export class SonarwhalConfig {
     }
 
     /**
-     * Return a list of rules that have invalid configurations.
+     * Separate rules based on if the rule configs are valid.
      * @param config
      */
-    public static validateRuleConfig(config: UserConfig): Array<string> {
-        const rules = normalizeRules(config.rules);
+    public static validateRulesConfig(config: SonarwhalConfig) {
+        const rules = Object.keys(config.rules);
+        const validateResult = rules.reduce((result, rule) => {
+            const Rule = resourceLoader.loadRule(rule, config.extends);
+            const valid: boolean = validateRule(Rule.meta, config.rules[rule], rule);
 
-        return validateRules(rules, config);
+            if (!valid) {
+                result.invalid.push(rule);
+            } else {
+                result.valid.push(rule);
+            }
+
+            return result;
+        }, { invalid: [], valid: [] });
+
+        return validateResult;
     }
 
     /**

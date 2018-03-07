@@ -250,8 +250,8 @@ test.serial(`if a Rule has an invalid configuration, it should throw an exceptio
     sandbox.stub(resourceLoader, 'loadRule').returns(FakeDisallowedRule);
 
     const configuration = config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/package.json'), { watch: false } as CLIOptions);
-    const invalidConfigRules = config.SonarwhalConfig.validateRuleConfig(configuration);
+    const { invalid } = config.SonarwhalConfig.validateRulesConfig(configuration);
 
-    t.is(invalidConfigRules.length, 1);
+    t.is(invalid.length, 1);
     sandbox.restore();
 });

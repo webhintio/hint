@@ -153,15 +153,15 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         });
 
         if (!(await askUserToInstallDependencies(resources.missing.concat(resources.incompatible)) &&
-              await installPackages(missingPackages) &&
-              await installPackages(incompatiblePackages))) {
+            await installPackages(missingPackages) &&
+            await installPackages(incompatiblePackages))) {
 
             // The user doesn't want to install the dependencies or something went wrong installing them
             return false;
         }
     }
 
-    const invalidConfigRules = SonarwhalConfig.validateRuleConfig(config);
+    const invalidConfigRules = SonarwhalConfig.validateRulesConfig(config).invalid;
 
     if (invalidConfigRules.length > 0) {
         logger.error(`Invalid rule configuration in .sonarwhalrc: ${invalidConfigRules.join(', ')}.`);
