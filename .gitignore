@@ -5,6 +5,7 @@
 .eslintcache
 .nyc_output
 .vscode
+cdp.lock
 coverage
 dist
 node_modules
