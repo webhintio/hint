@@ -27,7 +27,8 @@ const defaultTests: Array<RuleTest> = [
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
     },
     {
-        name: `page with a library with a tagged version and no vulnerabilities (knockout 3.4.0-rc) passes`,
+        name: `page with a library with a tagged version and vulnerabilities (knockout 3.4.0-rc) fails`,
+        reports: [{ message: 'Knockout@3.4.0rc has 1 known vulnerabilities (1 medium). See https://snyk.io/vuln/npm:knockout for more information.' }],
         serverConfig: generateHTMLPage(generateScriptTag(knockout))
     },
     {
@@ -56,7 +57,7 @@ const userMediumConfigTests: Array<RuleTest> = [
     },
     {
         name: `page with a library with vulnerabilities high fails if configured severity is "medium"`,
-        reports: [{ message: 'AngularJS@1.4.9 has 9 known vulnerabilities (3 high, 6 medium). See https://snyk.io/vuln/npm:angular for more information.' }],
+        reports: [{ message: 'AngularJS@1.4.9 has 10 known vulnerabilities (3 high, 7 medium). See https://snyk.io/vuln/npm:angular for more information.' }],
         serverConfig: generateHTMLPage(generateScriptTag(angular))
     }
 ];
