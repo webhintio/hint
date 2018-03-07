@@ -266,26 +266,6 @@ const deleteGitHubToken = async () => {
     }
 };
 
-const disableYarnWorkspaces = () => {
-    const mainPackageJSONFilePath = 'package.json';
-    const mainPackageJSONFileContent = require(`../../${mainPackageJSONFilePath}`);
-
-    if (mainPackageJSONFileContent.workspaces) {
-        delete mainPackageJSONFileContent.workspaces;
-        updateFile(mainPackageJSONFilePath, `${JSON.stringify(mainPackageJSONFileContent, null, 2)}\n`);
-    }
-};
-
-const enableYarnWorkspaces = () => {
-    const mainPackageJSONFilePath = 'package.json';
-    const mainPackageJSONFileContent = require(`../../${mainPackageJSONFilePath}`);
-
-    if (!mainPackageJSONFileContent.workspaces) {
-        mainPackageJSONFileContent.workspaces = ['packages/!(connector-edge)'];
-        updateFile(mainPackageJSONFilePath, `${JSON.stringify(mainPackageJSONFileContent, null, 2)}\n`);
-    }
-};
-
 const prettyPrintArray = (a: string[]): string => {
     return [a.slice(0, -1).join(', '), a.slice(-1)[0]].join(a.length < 2 ? '' : ', and ');
 };
@@ -491,8 +471,8 @@ const newTask = (title: string, task, condition?: boolean) => {
     };
 };
 
-const yarnInstall = async (ctx) => {
-    await exec(`cd ${ctx.packagePath} && yarn install`);
+const npmInstall = async (ctx) => {
+    await exec(`cd ${ctx.packagePath} && npm install`);
 };
 
 const npmPublish = (ctx) => {
@@ -526,12 +506,12 @@ const npmRemovePrivateField = (ctx) => {
     updateFile(ctx.packageJSONFilePath, `${JSON.stringify(ctx.packageJSONFileContent, null, 2)}\n`);
 };
 
-const yarnRunBuildForRelease = async (ctx) => {
-    await exec(`cd ${ctx.packagePath} && yarn build-release`);
+const npmRunBuildForRelease = async (ctx) => {
+    await exec(`cd ${ctx.packagePath} && npm run build-release`);
 };
 
-const yarnRunTests = async (ctx) => {
-    await exec(`cd ${ctx.packagePath} && yarn test`);
+const npmRunTests = async (ctx) => {
+    await exec(`cd ${ctx.packagePath} && npm run test`);
 };
 
 const npmShrinkwrap = async (ctx) => {
@@ -695,9 +675,9 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent) => {
 
     if (!packageName.startsWith('configuration-')) {
         tasks.push(
-            newTask('Install dependencies.', yarnInstall),
-            newTask('Run tests.', yarnRunTests),
-            newTask('Run release build.', yarnRunBuildForRelease),
+            newTask('Install dependencies.', npmInstall),
+            newTask('Run tests.', npmRunTests),
+            newTask('Run release build.', npmRunBuildForRelease),
         );
     }
 
@@ -716,7 +696,8 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent) => {
          */
 
         newTask(`Update \`${packageName}\` version numbers in other packages.`, updatePackageVersionNumberInOtherPackages),
-        newTask(`Commit updated \`${packageName}\` version numbers.`, commitUpdatedPackageVersionNumberInOtherPackages)
+        newTask(`Commit updated \`${packageName}\` version numbers.`, commitUpdatedPackageVersionNumberInOtherPackages),
+        newTask(`Push changes upstream.`, gitPush)
     );
 
     return tasks;
@@ -731,8 +712,8 @@ const getTaksForPrerelease = (packageName: string) => {
         newTask('Get commits SHAs since last release.', getCommitSHAsSinceLastRelease),
         newTask('Get semver increment.', getReleaseData),
         newTask('Update version in `package.json`.', npmUpdateVersionForPrerelease),
-        newTask('Install dependencies.', yarnInstall),
-        newTask('Run release build.', yarnRunBuildForRelease),
+        newTask('Install dependencies.', npmInstall),
+        newTask('Run release build.', npmRunBuildForRelease),
         newTask('Remove `devDependencies`.', npmRemoveDevDependencies),
         newTask('Create `npm-shrinkwrap.json` file.', npmShrinkwrap),
         newTask(`Publish on npm.`, npmPublish),
@@ -792,8 +773,6 @@ const getTasks = (packagePath: string) => {
 const main = async () => {
 
     await gitReset();
-    // Workaround until a native option is possible.
-    disableYarnWorkspaces();
     await createGitHubToken();
 
     /*
@@ -848,7 +827,6 @@ const main = async () => {
             await deleteGitHubToken();
         });
 
-    enableYarnWorkspaces();
     await deleteGitHubToken();
 };
 
