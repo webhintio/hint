@@ -108,7 +108,7 @@ test.serial('initSonarwhalrc should install the configuration package if user ch
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
     t.true(stub.called, `npm hasn't tried to install any package`);
-    t.true(_.isEqual(fileData, { extends: [configAnswer.configuration] }));
+    t.true(_.isEqual(fileData, { extends: ['recommended'] }));
 
     sandbox.restore();
 });

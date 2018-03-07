@@ -39,8 +39,12 @@
         "formatters": {
             "description": "The formatter(s) to use for the results",
             "oneOf": [
-                {"type": "array"},
-                {"type": "string"}
+                {
+                    "type": "array"
+                },
+                {
+                    "type": "string"
+                }
             ]
         },
         "parsers": {
@@ -128,9 +132,18 @@
             }
         }
     },
-    "required": [
-        "connector",
-        "rules"
+    "anyOf": [
+        {
+            "required": [
+                "connector",
+                "rules"
+            ]
+        },
+        {
+            "required": [
+                "extends"
+            ]
+        }
     ],
     "additionalProperties": false,
     "definitions": {
