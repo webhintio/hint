@@ -53,7 +53,6 @@
   "peerDependencies": {
     "sonarwhal": "^0.28.2"
   },
-  "private": true,
   "repository": "sonarwhal/sonarwhal",
   "version": "1.0.0"
 }
