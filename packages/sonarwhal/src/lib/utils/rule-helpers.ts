@@ -35,8 +35,9 @@ export const getIncludedHeaders = (headers: object, headerList: Array<string> = 
  * * `/something/rule-another/` --> `another`
  * * `/something/rule-another` --> `another`
  */
-export const getRuleName = (dirname: string): string => {
+export const getRuleName = (dirname: string, packageName?: string): string => {
     const parts = dirname.split(path.sep);
+    let ruleName = '';
 
     const normalize = (name) => {
         return name.replace('rule-', '');
@@ -44,11 +45,13 @@ export const getRuleName = (dirname: string): string => {
 
     for (let i = 0; i < parts.length; i++) {
         if (parts[i].startsWith('rule-') || (parts[i - 1] && parts[i - 1].startsWith('rules'))) {
-            return normalize(parts[i]);
+            ruleName = normalize(parts[i]);
+
+            return packageName ? `${packageName}/${ruleName}` : ruleName;
         }
     }
 
-    return '';
+    return ruleName;
 };
 
 /**
