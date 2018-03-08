@@ -6,5 +6,5 @@ export interface IFormatterConstructor {
 
 /** A format function that will output the results obtained by sonarwhal */
 export interface IFormatter {
-    format(problems: Array<Problem>): void;
+    format(problems: Array<Problem>, target: string): void;
 }

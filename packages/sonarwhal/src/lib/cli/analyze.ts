@@ -181,7 +181,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
     }
 
     const endSpinner = (method: string) => {
-        if (!actions.debug) {
+        if (!actions.debug && spinner[method]) {
             spinner[method]();
         }
     };
@@ -192,7 +192,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         });
     };
 
-    const print = (reports: Array<Problem>) => {
+    const print = (reports: Array<Problem>, target: string) => {
         if (hasError(reports)) {
             endSpinner('fail');
         } else {
@@ -200,7 +200,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         }
 
         sonarwhal.formatters.forEach((formatter) => {
-            formatter.format(reports);
+            formatter.format(reports, target);
         });
     };
 
@@ -214,7 +214,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
                 exitCode = 1;
             }
 
-            print(results);
+            print(results, target.href);
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');
