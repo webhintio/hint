@@ -38,6 +38,10 @@ export default class TypeScriptConfigIsValid implements IRule {
          * Returns a readable error for 'additionalProperty' errors.
          */
         const generateAdditionalPropertiesError = (error: ajv.ErrorObject): string => {
+            if (error.keyword !== 'additionalProperties') {
+                return null;
+            }
+
             const property = error.dataPath.substr(1);
             const additionalProperty = (error.params as ajv.AdditionalPropertiesParams).additionalProperty;
 
@@ -48,6 +52,10 @@ export default class TypeScriptConfigIsValid implements IRule {
          * Returns a readable error for 'enum' errors.
          */
         const generateEnumError = (error: ajv.ErrorObject): string => {
+            if (error.keyword !== 'enum') {
+                return null;
+            }
+
             const property = error.dataPath.substr(1);
             const allowedValues = (error.params as ajv.EnumParams).allowedValues;
 
@@ -58,34 +66,30 @@ export default class TypeScriptConfigIsValid implements IRule {
          * Returns a readable error for 'pattern' errors.
          */
         const generatePatternError = (error: ajv.ErrorObject) => {
+            if (error.keyword !== 'pattern') {
+                return null;
+            }
+
             const property = error.dataPath.substr(1);
 
             return `'${property}' ${error.message.replace(/"/g, '\'')}. Value found '${error.data}'`;
         };
 
+        const errorGenerators: Array<((error: ajv.ErrorObject) => string)> = [generateAdditionalPropertiesError, generateEnumError, generatePatternError];
+
         /**
          * Returns a readable error message.
          */
         const prettyfy = (error: ajv.ErrorObject): string => {
-            let result: string;
+            return errorGenerators.reduce((total, generator) => {
+                const errorMessage: string = generator(error);
 
-            switch (error.keyword) {
-                case 'additionalProperties':
-                    result = generateAdditionalPropertiesError(error);
-                    break;
-                case 'enum':
-                    result = generateEnumError(error);
-                    break;
-                case 'pattern':
-                    result = generatePatternError(error);
-                    break;
-                /* istanbul ignore next */
-                default:
-                    result = error.message;
-                    break;
-            }
+                if (errorMessage) {
+                    return errorMessage;
+                }
 
-            return result;
+                return total;
+            }, error.message);
         };
 
         /**
