@@ -20,8 +20,8 @@ configuration file:
 parser built on top of `ESLint` so rules for analyzing `JavaScript`
 files can be built.
 
-* [`typescript-parser`][@sonarwhal/parser-typescript-config]: A parser
-that validate if the `TypeScript configuration` is valid.
+* [`typescript-config`][@sonarwhal/parser-typescript-config]: A parser
+that validates if the `TypeScript configuration` is valid.
 
 ## How to use a parser
 

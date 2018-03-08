@@ -20,8 +20,7 @@ import { getAsUri } from '../../src/lib/utils/get-as-uri';
 const localhostRegex = /(http|https):\/\/localhost[:]*[0-9]*\//g;
 
 /**
- * Creates a valid sonarwhal configuration. Eventually we should
- * test all available connectors and not only JSDOM
+ * Creates a valid sonarwhal configuration.
  */
 const createConfig = (id: string, connector: string, opts?): SonarwhalConfig => {
     const rules: RulesConfigObject = {};

@@ -19,7 +19,7 @@ export default class TypeScriptConfigParser extends Parser {
 
         /*
          * If we want to use the ajv types in TypeScript, we need to import
-         * ajv in a lowsercase variable 'ajv', otherwhite, we can't use types
+         * ajv in a lowsercase variable 'ajv', otherwise, we can't use types
          * like `ajv.Ajv'.
          */
         this.validator = new ajv({ // eslint-disable-line new-cap
@@ -60,6 +60,7 @@ export default class TypeScriptConfigParser extends Parser {
 
     private async parseTypeScript(fetchEnd: FetchEnd) {
         const resource = fetchEnd.resource;
+        const fileName = path.basename(resource);
 
         /**
          * Match examples:
@@ -71,7 +72,7 @@ export default class TypeScriptConfigParser extends Parser {
          * tsconfigimproved.json
          * anythingelse.json
          */
-        if (!resource.match(/tsconfig\.([^.]*\.)?json/gi)) {
+        if (!fileName.match(/^tsconfig\.([^.]*\.)?json/gi)) {
             return;
         }
 

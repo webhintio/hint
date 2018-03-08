@@ -47,4 +47,5 @@
 * [`x-content-type-options`](../../../../rule-x-content-type-options/README.md)
 
 ## Development
+
 * [`typescript-config-is-valid`](typescript-config-is-valid.md)
