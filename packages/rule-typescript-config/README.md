@@ -1,6 +1,6 @@
 # typescript-config/is-valid (`@sonarwhal/rule-typescript-config`)
 
-`typescript-config/is-valid` warns again providing an
+`typescript-config/is-valid` warns against providing an
 invalid TypeScript configuration file (i.e. `tsconfig.json`).
 
 ## Why is this important?

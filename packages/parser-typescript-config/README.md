@@ -27,8 +27,8 @@ And then activate it via the `.sonarwhalrc` configuration file:
 
 This parser detect if a TypeScript configuration file is present in your
 project, checking the name of the file (i.e. `tsconfig.json`,
-`tsconfig.developement.json`). This parser just read your config file and
-validate the content.
+`tsconfig.developement.json`). This parser detects if a config file has a
+valid content.
 
 ## Events emitted
 
