@@ -19,8 +19,11 @@ npm install -g --engine-strict sonarwhal
 You can also install it as a `devDependency` if you prefer not to
 have it globally.
 
-The next thing that `sonarwhal` needs is a `.sonarwhalrc` file. The
-fastest and easiest way to create one is by using the flag `--init`:
+The next thing that `sonarwhal` needs is a `.sonarwhalrc` file. By
+default, `sonarwhal` will look for this file first in the current
+folder and then in the user's home directory.
+
+The fastest and easiest way to create one is by using the flag `--init`:
 
 ```bash
 sonarwhal --init
