@@ -109,10 +109,9 @@ class NewParser {
         parserData.eventsSelected.forEach((event: EventType) => {
             const isElement = event.event === 'element::';
             const type: string = events[event.event];
-            const typeCamelCase: string = type.substr(1);
             const eventSplit = event.event.split('::');
             const handler: string = `on${capitalize(eventSplit[0])}${capitalize(isElement ? event.element : eventSplit[1])}${eventSplit[2] ? capitalize(eventSplit[2]) : ''}`;
-            const varName: string = `${typeCamelCase.charAt(0).toLowerCase()}${typeCamelCase.substr(1)}`;
+            const varName: string = `${type.charAt(0).toLowerCase()}${type.substr(1)}`;
 
             this.events.push({
                 event: isElement ? event.event + event.element : event.event,
