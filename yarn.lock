@@ -77,6 +77,13 @@
     edge-diagnostics-adapter "^0.6.0"
     node-windows "^0.1.14"
 
+"@sonarwhal/rule-html-checker@^2.0.3-beta.0":
+  version "2.0.3-beta.0"
+  resolved "https://registry.yarnpkg.com/@sonarwhal/rule-html-checker/-/rule-html-checker-2.0.3-beta.0.tgz#b2c07ed5067f31a4fe86494d5d53426f8f2efb7a"
+  dependencies:
+    html-validator "^2.2.3"
+    lodash.uniqby "^4.7.0"
+
 "@types/caseless@*":
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.1.tgz#9794c69c8385d0192acc471a540d1f8e0d16218a"
@@ -2368,9 +2375,9 @@ eslint-plugin-markdown@^1.0.0-beta.7:
     remark-parse "^3.0.0"
     unified "^6.1.2"
 
-eslint-plugin-typescript@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.9.0.tgz#9b7075bc1560e879ae3403030564026106a1184d"
+eslint-plugin-typescript@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.10.0.tgz#009a8fcaf0ec7bf68f6fb71576df0d84ebd0b114"
   dependencies:
     requireindex "~1.1.0"
 
@@ -6813,6 +6820,51 @@ socks@^1.1.10:
   dependencies:
     ip "^1.1.4"
     smart-buffer "^1.0.13"
+
+sonarwhal@^0.28.2:
+  version "0.28.2"
+  resolved "https://registry.yarnpkg.com/sonarwhal/-/sonarwhal-0.28.2.tgz#68351fda0f4061c83d5415ad79a3539eff49f318"
+  dependencies:
+    browserslist "^3.0.0"
+    canvas-prebuilt "^1.6.5-prerelease.1"
+    chalk "^2.3.2"
+    chokidar "^2.0.0"
+    chrome-launcher "^0.10.2"
+    chrome-remote-interface "^0.25.5"
+    content-type "^1.0.4"
+    debug "^3.1.0"
+    eventemitter2 "^5.0.1"
+    file-type "^7.5.0"
+    file-url "^2.0.2"
+    fs-extra "^5.0.0"
+    globby "^8.0.1"
+    handlebars "^4.0.11"
+    iconv-lite "^0.4.19"
+    inquirer "^5.1.0"
+    is-ci "^1.1.0"
+    is-my-json-valid "^2.17.1"
+    is-svg "^3.0.0"
+    jsdom "^11.6.2"
+    lockfile "^1.0.3"
+    lodash "^4.17.5"
+    log-symbols "^2.2.0"
+    mime-db "^1.32.0"
+    mkdirp "^0.5.1"
+    npm "^5.7.1"
+    optionator "^0.8.2"
+    ora "^2.0.0"
+    pluralize "^7.0.0"
+    request "^2.83.0"
+    request-promise "^4.2.2"
+    require-uncached "^1.0.3"
+    semver "^5.5.0"
+    shelljs "^0.8.1"
+    strip-bom "^3.0.0"
+    strip-json-comments "^2.0.1"
+    text-table "^0.2.0"
+    update-notifier "^2.3.0"
+  optionalDependencies:
+    "@sonarwhal/connector-edge" "^0.1.4"
 
 sort-keys@^2.0.0:
   version "2.0.0"

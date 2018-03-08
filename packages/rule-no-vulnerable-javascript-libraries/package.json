@@ -20,7 +20,7 @@
     "eslint": "^4.18.2",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
-    "eslint-plugin-typescript": "^0.9.0",
+    "eslint-plugin-typescript": "^0.10.0",
     "jquery": "2.1.4",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
     "markdownlint-cli": "^0.7.0",

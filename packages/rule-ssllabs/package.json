@@ -16,7 +16,7 @@
     "eslint": "^4.18.2",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
-    "eslint-plugin-typescript": "^0.9.0",
+    "eslint-plugin-typescript": "^0.10.0",
     "markdownlint-cli": "^0.7.0",
     "mock-require": "^3.0.1",
     "npm-link-check": "^2.0.0",
