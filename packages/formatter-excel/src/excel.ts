@@ -1,6 +1,6 @@
 /**
- * @fileoverview The most basic formatter, it just stringifyes whatever object
- * is passed to it.
+ * @fileoverview A sonarwhal formatter that outputs the issues in an Excel file
+ * (xlsx).
  */
 
 /*
@@ -91,22 +91,26 @@ export default class ExcelFormatter implements IFormatter {
             sheet.getColumn('E').width = 25;
             sheet.getColumn('F').width = 150;
 
-            applyToCell(sheet.getCell(`E${counter}`),
+            applyToCell(
+                sheet.getCell(`E${counter}`),
                 { value: resource },
                 bold);
 
             counter += 2;
 
-            applyToCell(sheet.getCell(`E${counter}`),
+            applyToCell(
+                sheet.getCell(`E${counter}`),
                 { value: 'Rule id' },
                 tableHeader);
-            applyToCell(sheet.getCell(`F${counter}`),
+            applyToCell(
+                sheet.getCell(`F${counter}`),
                 { value: 'Issue' },
                 tableHeader);
             counter++;
 
             _.forEach(sortedMessages, (problem) => {
-                applyToCell(sheet.getCell(`E${counter}`),
+                applyToCell(
+                    sheet.getCell(`E${counter}`),
                     {
                         value: {
                             hyperlink: `https://sonarwhal.com/docs/user-guide/rules/rule-${problem.ruleId}/`,
@@ -114,7 +118,8 @@ export default class ExcelFormatter implements IFormatter {
                         }
                     },
                     border);
-                applyToCell(sheet.getCell(`F${counter}`),
+                applyToCell(
+                    sheet.getCell(`F${counter}`),
                     { value: problem.message },
                     border);
                 counter++;
@@ -130,16 +135,19 @@ export default class ExcelFormatter implements IFormatter {
             sheet.getColumn('F').width = 20;
 
             // Title of the sheet
-            applyToCell(sheet.getCell(`E${counter}`),
+            applyToCell(
+                sheet.getCell(`E${counter}`),
                 { value: `Summary for ${scannedUrl}` },
                 bold);
             counter += 2;
 
             // Header with summary
-            applyToCell(sheet.getCell(`E${counter}`),
+            applyToCell(
+                sheet.getCell(`E${counter}`),
                 { value: `Resource url` },
                 tableHeader);
-            applyToCell(sheet.getCell(`F${counter}`),
+            applyToCell(
+                sheet.getCell(`F${counter}`),
                 { value: `# of issues` },
                 rightAlign,
                 tableHeader);
@@ -148,7 +156,8 @@ export default class ExcelFormatter implements IFormatter {
             _.forEach(resourcesList, (resource) => {
                 const resourceShortName = getName(resource);
 
-                applyToCell(sheet.getCell(`E${counter}`),
+                applyToCell(
+                    sheet.getCell(`E${counter}`),
                     {
                         value: {
                             hyperlink: `#'${resourceShortName}'!A1`,
@@ -157,7 +166,8 @@ export default class ExcelFormatter implements IFormatter {
                     },
                     border);
 
-                applyToCell(sheet.getCell(`F${counter}`),
+                applyToCell(
+                    sheet.getCell(`F${counter}`),
                     { value: resources[resource].length },
                     border);
 
