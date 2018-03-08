@@ -295,11 +295,13 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
 const loadListOfResources = (list: Array<string> | Object = [], type: ResourceType, configurations: Array<string> = []): { incompatible: Array<string>, missing: Array<string>, resources: Array<any> } => {
     const missing: Array<string> = [];
     const incompatible: Array<string> = [];
+    // In case `Parsers` are not defined by the user.
+    const safeList: Array<string> | Object = list || [];
 
     // In the case of rules, we get an object with rulename/priority, not an array
-    const items = Array.isArray(list) ?
-        list :
-        Object.keys(list);
+    const items = Array.isArray(safeList) ?
+    safeList :
+        Object.keys(safeList);
 
     const loadedResources = items.reduce((loaded, resourceId) => {
         try {
