@@ -347,12 +347,7 @@ const getChangelogData = (commits: Array<Commit>, packageName: string): Changelo
     let semverIncrement: SemverIncrement = 'patch';
 
     if (breakingChanges) {
-        // TODO: Remove this once `sonarwhal` v1.0.0 is released.
-        if (packageName === 'sonarwhal') {
-            semverIncrement = 'minor';
-        } else {
-            semverIncrement = 'major';
-        }
+        semverIncrement = 'major';
     } else if (newFeatures) {
         semverIncrement = 'minor';
     }
@@ -581,13 +576,7 @@ const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx) => {
     // patch, prepatch, or prerelease
     let commitPrefix = 'Chore:';
 
-    /*
-     * TODO: Update this to include only `major` and `premajor`
-     *       once `sonarwhal` reaches v1.
-     */
-
-    if ((ctx.packageName === 'sonarwhal' && ['minor', 'preminor'].includes(semverIncrement)) ||
-        ['major', 'premajor'].includes(semverIncrement)) {
+    if (['major', 'premajor'].includes(semverIncrement)) {
         commitPrefix = 'Breaking:';
     }
 
@@ -717,8 +706,19 @@ const getTaksForPrerelease = (packageName: string) => {
         newTask('Get commits SHAs since last release.', getCommitSHAsSinceLastRelease),
         newTask('Get semver increment.', getReleaseData),
         newTask('Update version in `package.json`.', npmUpdateVersionForPrerelease),
-        newTask('Install dependencies.', npmInstall),
-        newTask('Run release build.', npmRunBuildForRelease),
+        newTask('Install dependencies.', npmInstall)
+    );
+
+    // `configurations` don't have tests or build step.
+
+    if (!packageName.startsWith('configuration-')) {
+        tasks.push(
+            newTask('Run tests.', npmRunTests),
+            newTask('Run release build.', npmRunBuildForRelease)
+        );
+    }
+
+    tasks.push(
         newTask('Remove `devDependencies`.', npmRemoveDevDependencies),
         newTask('Create `npm-shrinkwrap.json` file.', npmShrinkwrap),
         newTask(`Publish on npm.`, npmPublish),
