@@ -6,6 +6,11 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "lodash.groupby": "^4.6.0",
+    "lodash.map": "^4.6.0",
+    "lodash.without": "^4.4.0"
+  },
   "description": "sonarwhal rule that checks if the TypeScript configuration is valid.",
   "devDependencies": {
     "@sonarwhal/parser-typescript-config": "^1.0.0",
@@ -65,10 +70,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0",
-  "dependencies": {
-    "lodash.groupby": "^4.6.0",
-    "lodash.map": "^4.6.0",
-    "lodash.without": "^4.4.0"
-  }
+  "version": "1.0.0"
 }

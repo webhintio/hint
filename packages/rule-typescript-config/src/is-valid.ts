@@ -1,5 +1,5 @@
 /**
- * @fileoverview `typescript-config-is-valid` warns again providing an invalid typescript configuration file `tsconfig.json`.
+ * @fileoverview `typescript-config/is-valid` warns against providing an invalid TypeScript configuration file `tsconfig.json`.
  */
 import * as ajv from 'ajv';
 import * as without from 'lodash.without';
@@ -26,7 +26,7 @@ export default class TypeScriptConfigIsValid implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.interoperability,
-            description: '`typescript-config-is-valid` warns again providing an invalid typescript configuration file `tsconfig.json`'
+            description: '`typescript-config/is-valid` warns again providing an invalid TypeScript configuration file `tsconfig.json`'
         },
         id: 'typescript-config/is-valid',
         schema: [],

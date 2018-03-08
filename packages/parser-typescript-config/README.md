@@ -25,9 +25,10 @@ And then activate it via the `.sonarwhalrc` configuration file:
 }
 ```
 
-This parser detect if a typescript config is present in your project, checking
-the name of the file (i.e. `tsconfig.json`, `tsconfig.developement.json`).
-This parser just read your config file and validate the content.
+This parser detect if a TypeScript configuration file is present in your
+project, checking the name of the file (i.e. `tsconfig.json`,
+`tsconfig.developement.json`). This parser just read your config file and
+validate the content.
 
 ## Events emitted
 
@@ -58,7 +59,7 @@ This `parser` emits the following events:
 ## Types
 
 If you need to import any type or enum defined in this parser, you just need to
-import them as follow:
+import them as follows:
 
 ```ts
 import { TypeOrEnumYouWantToUse } from '@sonarwhal/parser-typescript-config/dist/src/types';

@@ -233,6 +233,15 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     const configPathsToResources = generateConfigPathsToResources(configurations, packageName, type);
     const currentProcessDir = process.cwd();
 
+    /*
+     * We can't use the key for the Official packages neither for the Third party ones because
+     * in case that we have a multi-rules packages, the key for the cache has to contain
+     * the key for the specific rule, but we need to load the package that contains the rule.
+     * i.e.
+     * if we want to load the rule `rule-typescript-config/is-valid` the key for the cache
+     * has to be `rule-typescript-config/is-valid`.
+     * But we need to load the package `@sonarwhal/rule-typescript-config`.
+     */
     const sources: Array<string> = [
         `@sonarwhal/${type}-${packageName}`, // Officially supported package
         `sonarwhal-${type}-${packageName}`, // Third party package

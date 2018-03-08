@@ -48,4 +48,4 @@
 
 ## Development
 
-* [`typescript-config-is-valid`](typescript-config-is-valid.md)
+* [`typescript-config/is-valid`](../../../../rule-typescript-config/README.md)

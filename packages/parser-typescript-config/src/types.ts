@@ -208,6 +208,6 @@ export type TypeScriptConfigInvalidSchema = Event & {
 
 /** The object emitted by the `typescript-config` parser */
 export type TypeScriptConfigParse = Event & {
-    /** The typescript config parsed */
+    /** The TypeScript config parsed */
     config: any;
 };

@@ -12,7 +12,7 @@ test.beforeEach((t) => {
     });
 });
 
-test.serial('If any file is parsed, it should emit a `notfound::typescript-config` error', async (t) => {
+test('If any file is parsed, it should emit a `notfound::typescript-config` error', async (t) => {
     const sandbox = sinon.sandbox.create();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
@@ -28,7 +28,7 @@ test.serial('If any file is parsed, it should emit a `notfound::typescript-confi
     sandbox.restore();
 });
 
-test.serial(`If the resource doesn't match the regex, nothing should happen`, async (t) => {
+test(`If the resource doesn't match the regex, nothing should happen`, async (t) => {
     const sandbox = sinon.sandbox.create();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
@@ -43,7 +43,7 @@ test.serial(`If the resource doesn't match the regex, nothing should happen`, as
     sandbox.restore();
 });
 
-test.serial('If the file contains an invalid json, it should fail', async (t) => {
+test('If the file contains an invalid json, it should fail', async (t) => {
     const sandbox = sinon.sandbox.create();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
@@ -63,7 +63,7 @@ test.serial('If the file contains an invalid json, it should fail', async (t) =>
     sandbox.restore();
 });
 
-test.serial('If the file contains a valid json with an invalid schema, it should fail', async (t) => {
+test('If the file contains a valid json with an invalid schema, it should fail', async (t) => {
     const sandbox = sinon.sandbox.create();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
@@ -83,7 +83,7 @@ test.serial('If the file contains a valid json with an invalid schema, it should
     sandbox.restore();
 });
 
-test.serial('If we receive a valid json with a valid name, it should emit the event parse::typescript-config', async (t) => {
+test('If we receive a valid json with a valid name, it should emit the event parse::typescript-config', async (t) => {
     const sandbox = sinon.sandbox.create();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
