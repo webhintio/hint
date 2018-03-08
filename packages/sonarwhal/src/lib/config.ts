@@ -13,6 +13,7 @@
  * ------------------------------------------------------------------------------
  */
 
+import * as os from 'os';
 import * as path from 'path';
 
 import * as browserslist from 'browserslist';
@@ -301,6 +302,7 @@ export class SonarwhalConfig {
     /**
      * Retrieves the configuration filename for a given directory. It loops over all
      * of the valid configuration filenames in order to find the first one that exists.
+     * If no valid file is found in that directory, it will look into `os.homedir()`.
      */
     public static getFilenameForDirectory = (directory: string): string | null => {
 
@@ -312,6 +314,13 @@ export class SonarwhalConfig {
             }
         }
 
-        return null;
+        const homedir = os.homedir();
+
+        // If we reach this point we've tested in the original directory and homedir
+        if (directory === homedir) {
+            return null;
+        }
+
+        return SonarwhalConfig.getFilenameForDirectory(homedir);
     };
 }
