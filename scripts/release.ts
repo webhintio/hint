@@ -324,7 +324,7 @@ const getChangelogContent = (ctx) => {
     return `# ${ctx.newPackageVersion} (${getDate()})\n\n${ctx.packageReleaseNotes}\n`;
 };
 
-const getChangelogData = (commits: Array<Commit>, packageName: string): ChangelogData => {
+const getChangelogData = (commits: Array<Commit>): ChangelogData => {
 
     /*
      * Note: Commits that use tags that do not denote user-facing
@@ -347,12 +347,7 @@ const getChangelogData = (commits: Array<Commit>, packageName: string): Changelo
     let semverIncrement: SemverIncrement = 'patch';
 
     if (breakingChanges) {
-        // TODO: Remove this once `sonarwhal` v1.0.0 is released.
-        if (packageName === 'sonarwhal') {
-            semverIncrement = 'minor';
-        } else {
-            semverIncrement = 'major';
-        }
+        semverIncrement = 'major';
     } else if (newFeatures) {
         semverIncrement = 'minor';
     }
@@ -400,9 +395,9 @@ const getReleaseData = (ctx) => {
     ({
         semverIncrement: ctx.packageSemverIncrement,
         releaseNotes: ctx.packageReleaseNotes
-    } = getChangelogData(ctx.commitSHAsSinceLastRelease, ctx.packageName));
+    } = getChangelogData(ctx.commitSHAsSinceLastRelease));
 
-    if (!ctx.packageReleaseNotes) {
+    if (!ctx.isPrerelease && !ctx.packageReleaseNotes) {
         ctx.skipRemainingTasks = true;
     }
 };
@@ -485,7 +480,7 @@ const npmPublish = (ctx) => {
             if (!ctx.isPrerelease) {
                 await exec(`cd ${ctx.packagePath} && npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''} --otp=${otp}`);
             } else {
-                await exec(`cd ${ctx.packagePath} && npm publish --tag next --otp=${otp}`);
+                await exec(`cd ${ctx.packagePath} && npm publish --otp=${otp} --tag next`);
             }
         }
     }).catch((err) => {
@@ -581,13 +576,7 @@ const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx) => {
     // patch, prepatch, or prerelease
     let commitPrefix = 'Chore:';
 
-    /*
-     * TODO: Update this to include only `major` and `premajor`
-     *       once `sonarwhal` reaches v1.
-     */
-
-    if ((ctx.packageName === 'sonarwhal' && ['minor', 'preminor'].includes(semverIncrement)) ||
-        ['major', 'premajor'].includes(semverIncrement)) {
+    if (['major', 'premajor'].includes(semverIncrement)) {
         commitPrefix = 'Breaking:';
     }
 
@@ -717,8 +706,19 @@ const getTaksForPrerelease = (packageName: string) => {
         newTask('Get commits SHAs since last release.', getCommitSHAsSinceLastRelease),
         newTask('Get semver increment.', getReleaseData),
         newTask('Update version in `package.json`.', npmUpdateVersionForPrerelease),
-        newTask('Install dependencies.', npmInstall),
-        newTask('Run release build.', npmRunBuildForRelease),
+        newTask('Install dependencies.', npmInstall)
+    );
+
+    // `configurations` don't have tests or build step.
+
+    if (!packageName.startsWith('configuration-')) {
+        tasks.push(
+            newTask('Run tests.', npmRunTests),
+            newTask('Run release build.', npmRunBuildForRelease)
+        );
+    }
+
+    tasks.push(
         newTask('Remove `devDependencies`.', npmRemoveDevDependencies),
         newTask('Create `npm-shrinkwrap.json` file.', npmShrinkwrap),
         newTask(`Publish on npm.`, npmPublish),
