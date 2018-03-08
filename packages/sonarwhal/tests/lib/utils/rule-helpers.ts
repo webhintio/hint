@@ -142,3 +142,16 @@ test.serial(`getRuleName - returns an empty string if it can't determine the rul
 
     t.deepEqual(ruleName, '');
 });
+
+test.serial(`getRuleName - returns a combined string if a package name is passed`, (t) => {
+    const sandbox = sinon.createSandbox();
+
+    sandbox.stub(path, 'sep').get(() => {
+        return '/';
+    });
+
+    const filePath = '/another/rule-something';
+    const ruleName = ruleHelpers.getRuleName(filePath, 'package');
+
+    t.deepEqual(ruleName, 'package/something');
+});

@@ -35,7 +35,7 @@ export const getIncludedHeaders = (headers: object, headerList: Array<string> = 
  * * `/something/rule-another/` --> `another`
  * * `/something/rule-another` --> `another`
  */
-export const getRuleName = (dirname: string, packageName: string): string => {
+export const getRuleName = (dirname: string, packageName?: string): string => {
     const parts = dirname.split(path.sep);
     let ruleName = '';
 
