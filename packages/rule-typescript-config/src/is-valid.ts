@@ -81,14 +81,14 @@ export default class TypeScriptConfigIsValid implements IRule {
          * Returns a readable error message.
          */
         const prettyfy = (error: ajv.ErrorObject): string => {
-            return errorGenerators.reduce((total, generator) => {
-                const errorMessage: string = generator(error);
+            return errorGenerators.reduce((message, generator) => {
+                const newErrorMessage: string = generator(error);
 
-                if (errorMessage) {
-                    return errorMessage;
+                if (newErrorMessage) {
+                    return newErrorMessage;
                 }
 
-                return total;
+                return message;
             }, error.message);
         };
 
