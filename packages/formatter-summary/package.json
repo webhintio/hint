@@ -8,8 +8,9 @@
   },
   "dependencies": {
     "chalk": "^2.3.2",
-    "lodash": "^4.17.5",
     "lodash.defaultto": "^4.14.0",
+    "lodash.foreach": "^4.5.0",
+    "lodash.groupby": "^4.6.0",
     "log-symbols": "^2.2.0",
     "pluralize": "^7.0.0",
     "text-table": "^0.2.0"
