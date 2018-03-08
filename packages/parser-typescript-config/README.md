@@ -9,6 +9,9 @@ To use it you will have to install it via `npm`:
 npm install @sonarwhal/parser-typescript-config
 ```
 
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
 And then activate it via the `.sonarwhalrc` configuration file:
 
 ```json
@@ -30,16 +33,16 @@ This `parser` emits the following events:
   which contains the following information:
 
   * `resource`: the parsed resource.
-  * `config`: an object with a valid the configuration.
+  * `config`: an object with a valid configuration.
 
 * `invalid-json::typescript-config`, of type `TypeScriptConfigInvalid`
-  wich contains the folloing information:
+  which contains the following information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
 * `invalid-schema::typescript-config`, of type `TypeScriptConfigInvalidSchema`
-  wich contains the following information:
+  which contains the following information:
 
   * `resource`: the parsed resource.
   * `errors`: all the errors that the schama validator returns.
