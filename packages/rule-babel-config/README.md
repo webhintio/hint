@@ -1,32 +1,49 @@
-# babel-config-is-valid (`babel-config-is-valid`)
+# babel-config/is-valid (`@sonarwhal/rule-babel-config`)
 
-Verify that the babel config is valid.
+Validate the Babel configuration specified in `.babelrc` or the `babel` property in `package.json` against the [babel configuration schema][babel config schema].
 
 ## Why is this important?
 
-Explain why this rule is important for your users
+Babel needs to be properly configured to reflect user's preference.
 
 ## What does the rule check?
 
-A bit more detail of what the rule does.
+This rule checks if the Babel configuration specified in `.bablerc` or the `babel` property in `package.json` adheres to the requirement of the schema.
 
 ### Examples that **trigger** the rule
 
-A list of code examples that will fail this rule.
-It's good to put some edge cases in here.
+```json
+{
+    "plugins": [
+        "example"
+    ],
+    "moduleId": 1, // This should be a string.
+    "ignore": [
+        "foo.js",
+        "bar/**/*.js"
+    ]
+}
+```
 
 ### Examples that **pass** the rule
 
-A list of code examples that will pass this rule.
-It's good to put some edge cases in here.
+```json
+{
+    "plugins": [
+        "example"
+    ],
+    "moduleId": "id",
+    "ignore": [
+        "foo.js",
+        "bar/**/*.js"
+    ]
+}
 
-## Can the rule be configured?
-
-If this rule allows some configuration, please put the format and
-options for the user.
+```
 
 ## Further Reading
 
-What can the user read to know more about this subject?
+* [Babel Documentation][babel documentation]
 
-## License
+[babel config schema]: http://json.schemastore.org/babelrc
+[babel documentation]: https://babeljs.io/docs/usage/babelrc/
