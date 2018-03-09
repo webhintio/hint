@@ -36,9 +36,9 @@ export type BabelConfigInvalid = Event & {
 };
 
 
-/** The object emitted by the `typescript-config` parser */
+/** The object emitted by the `babel-config` parser */
 export type BabelConfigParsed = Event & {
-    /** The typescript config parsed */
+    /** The babel config parsed */
     config: any;
 };
 

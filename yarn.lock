@@ -388,14 +388,6 @@ ajv@^6.2.1:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-ajv@^6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.2.1.tgz#28a6abc493a2abe0fb4c8507acaedb43fa550671"
-  dependencies:
-    fast-deep-equal "^1.0.0"
-    fast-json-stable-stringify "^2.0.0"
-    json-schema-traverse "^0.3.0"
-
 align-text@^0.1.1, align-text@^0.1.3:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/align-text/-/align-text-0.1.4.tgz#0cd90a561093f35d0a99256c22b7069433fad117"
@@ -2380,6 +2372,18 @@ eslint-plugin-markdown@^1.0.0-beta.7:
 eslint-plugin-typescript@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.10.0.tgz#009a8fcaf0ec7bf68f6fb71576df0d84ebd0b114"
+  dependencies:
+    requireindex "~1.1.0"
+
+eslint-plugin-typescript@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.8.1.tgz#e5b2d18e744a04528eac58b099fe1032c4d744ff"
+  dependencies:
+    requireindex "~1.1.0"
+
+eslint-plugin-typescript@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.9.0.tgz#9b7075bc1560e879ae3403030564026106a1184d"
   dependencies:
     requireindex "~1.1.0"
 
