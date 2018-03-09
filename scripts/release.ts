@@ -474,22 +474,12 @@ const npmInstall = async (ctx) => {
     await exec(`cd ${ctx.packagePath} && npm install`);
 };
 
-const npmPublish = (ctx) => {
-    return listrInput('Enter OTP: ', {
-        done: async (otp) => {
-            if (!ctx.isPrerelease) {
-                await exec(`cd ${ctx.packagePath} && npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''} --otp=${otp}`);
-            } else {
-                await exec(`cd ${ctx.packagePath} && npm publish --otp=${otp} --tag next`);
-            }
-        }
-    }).catch((err) => {
-        if (err.stderr.indexOf('You must provide a one-time pass') !== -1) {
-            return npmPublish(ctx);
-        }
-
-        throw new Error(err);
-    });
+const npmPublish = async (ctx) => {
+    if (!ctx.isPrerelease) {
+        await exec(`cd ${ctx.packagePath} && npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''}`);
+    } else {
+        await exec(`cd ${ctx.packagePath} && npm publish --tag next`);
+    }
 };
 
 const npmRemoveDevDependencies = async (ctx) => {
@@ -777,8 +767,20 @@ const getTasks = (packagePath: string) => {
 
 const main = async () => {
 
+    const isPrerelease = argv.prerelease;
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     await gitFetchTags();
-    await createGitHubToken();
+
+    /*
+     * For prereleases the release logs are not published,
+     * so there is no need to create a GitHub token.
+     */
+
+    if (!isPrerelease) {
+        await createGitHubToken();
+    }
 
     /*
      * Note: The order of the followings matters as some
@@ -795,8 +797,6 @@ const main = async () => {
     ];
     const tasks = [];
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
     for (const pkg of packages) {
         tasks.push({
             task: () => {
@@ -811,7 +811,7 @@ const main = async () => {
      * are done, just this one at the end.
      */
 
-    if (argv.prerelease) {
+    if (isPrerelease) {
         tasks.push(
             newTask('Commit changes.', gitCommitPrerelease),
             newTask(`Push changes upstream.`, gitPush)
@@ -822,17 +822,18 @@ const main = async () => {
 
     await new Listr(tasks).run()
         .catch(async (err) => {
-            console.error(err);
+            console.error(typeof err === 'object' ? JSON.stringify(err, null, 4) : err);
 
             // Try to revert things to their previous state.
 
             await gitReset();
             await gitDeleteTag(err.context.packageNewTag);
             await removePackageFiles();
-            await deleteGitHubToken();
         });
 
-    await deleteGitHubToken();
+    if (!isPrerelease) {
+        await deleteGitHubToken();
+    }
 };
 
 main();
