@@ -1,11 +1,11 @@
 import * as path from 'path';
 import * as ajv from 'ajv';
 
-import { IScanEnd, IFetchEnd, Parser, BabelConfig, IBabelConfigInvalid, IBabelConfigParsed, IBabelConfigInvalidSchema } from '../../types';
-import { Sonarwhal } from '../../sonarwhal';
-import { loadJSONFile } from '../../utils/misc';
+import { ScanEnd, FetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
+import { Sonarwhal } from 'sonarwhal';
+import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
 
-
+import { BabelConfig, BabelConfigInvalid, BabelConfigParsed, BabelConfigInvalidSchema } from './BabelConfigParse';
 export default class BabelConfigParser extends Parser {
     private configFound: boolean = false;
     private schema: any;
@@ -24,7 +24,7 @@ export default class BabelConfigParser extends Parser {
         sonarwhal.on('scan::end', this.parseEnd.bind(this));
     }
 
-    private async parseEnd(scanEnd: IScanEnd) {
+    private async parseEnd(scanEnd: ScanEnd) {
         if (!this.configFound) {
             await this.sonarwhal.emitAsync('notfound::babel-config', scanEnd);
         }
@@ -35,7 +35,7 @@ export default class BabelConfigParser extends Parser {
         const x: ajv.Ajv = new ajv({ // eslint-disable-line new-cap
             $data: true,
             allErrors: true,
-            schemaId: 'auto',
+            schemaId: 'id',
             verbose: true
         });
 
@@ -45,7 +45,7 @@ export default class BabelConfigParser extends Parser {
         const valid = validate(config);
 
         if (!valid) {
-            const event: IBabelConfigInvalidSchema = {
+            const event: BabelConfigInvalidSchema = {
                 errors: validate.errors,
                 resource
             };
@@ -56,7 +56,7 @@ export default class BabelConfigParser extends Parser {
         return valid;
     }
 
-    private async parseBabelConfig(fetchEnd: IFetchEnd) {
+    private async parseBabelConfig(fetchEnd: FetchEnd) {
         const resource = fetchEnd.resource;
 
         if (!resource.match(/\.?babelrc([^.]*\.)?(json)?$/gi)) {
@@ -77,7 +77,7 @@ export default class BabelConfigParser extends Parser {
             // Validate schema.
             await this.validateSchema(config, resource);
 
-            const event: IBabelConfigParsed = {
+            const event: BabelConfigParsed = {
                 config,
                 resource
             };
@@ -85,7 +85,7 @@ export default class BabelConfigParser extends Parser {
             // Emit the configuration even if it isn't valid.
             await this.sonarwhal.emitAsync('parse::babel-config', event);
         } catch (err) {
-            const errorEvent: IBabelConfigInvalid = {
+            const errorEvent: BabelConfigInvalid = {
                 error: err,
                 resource
             };

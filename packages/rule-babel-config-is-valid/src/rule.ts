@@ -6,9 +6,11 @@ import * as _ from 'lodash';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, IRuleBuilder, IBabelConfigInvalid, IBabelConfigInvalidSchema } from 'sonarwhal/dist/src/lib/types';
+import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+
+import {BabelConfigInvalid, BabelConfigInvalidSchema } from '@sonarwhal/'
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -17,12 +19,21 @@ const debug: debug.IDebugger = d(__filename);
  * Public
  * ------------------------------------------------------------------------------
  */
+export default class BabelConfigIsValidRule implements IRule {
+    public static readonly meta: RuleMetadata = {
+        docs: {
+            category: Category.other,
+            description: `\`babel-config-is-valid\` warns again providing an invalid babel configuration file \`.babelrc\``
+        },
+        id: 'babel-config-is-valid',
+        schema: [],
+        scope: RuleScope.local
+    }
 
-const rule: IRuleBuilder = {
-    create(context: RuleContext): IRule {
+    public constructor(context: RuleContext) {
         /**
-         * Returns a readable error for 'additionalProperty' errors.
-         */
+        * Returns a readable error for 'additionalProperty' errors.
+        */
         const generateAdditionalPropertiesError = (error: ajv.ErrorObject): string => {
             const property = error.dataPath.substr(1);
             const additionalProperty = (error.params as ajv.AdditionalPropertiesParams).additionalProperty;
@@ -106,13 +117,13 @@ const rule: IRuleBuilder = {
             }
         };
 
-        const invalidJSONFile = async (babelConfigInvalid: IBabelConfigInvalid) => {
+        const invalidJSONFile = async (babelConfigInvalid: BabelConfigInvalid) => {
             const { error, resource } = babelConfigInvalid;
 
             await context.report(resource, null, error.message);
         };
 
-        const invalidSchema = async (fetchEnd: IBabelConfigInvalidSchema) => {
+        const invalidSchema = async (fetchEnd: BabelConfigInvalidSchema) => {
             const { errors, resource } = fetchEnd;
 
             const grouped: _.Dictionary<Array<ajv.ErrorObject>> = _.groupBy(errors, 'dataPath');
@@ -124,19 +135,7 @@ const rule: IRuleBuilder = {
             await Promise.all(promises);
         };
 
-        return {
-            'invalid-json::babel-config': invalidJSONFile,
-            'invalid-schema::babel-config': invalidSchema
-        };
-    },
-    meta: {
-        docs: {
-            category: Category.other,
-            description: `\`babel-config-is-valid\` warns again providing an invalid babel configuration file \`.babelrc\``
-        },
-        schema: [],
-        scope: RuleScope.local
+        context.on('invalid-json::babel-config', invalidJSONFile);
+        context.on('invalid-schema::babel-config', invalidSchema);
     }
-};
-
-module.exports = rule;
+}

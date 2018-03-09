@@ -1,5 +1,5 @@
 import * as ajv from 'ajv';
-import { IEvent } from './events';
+import { Event } from 'sonarwhal/dist/src/lib/types/events';
 
 export type BabelConfig = {
     ast: boolean;
@@ -31,16 +31,17 @@ export type BabelConfig = {
 
 // The interfaces below could be combined with typescript config parsers.
 
-export interface IBabelConfigInvalid extends IEvent {
+export type BabelConfigInvalid = Event & {
     error: Error;
-}
+};
+
 
 /** The object emitted by the `typescript-config` parser */
-export interface IBabelConfigParsed extends IEvent {
+export type BabelConfigParsed = Event & {
     /** The typescript config parsed */
     config: any;
-}
+};
 
-export interface IBabelConfigInvalidSchema extends IEvent {
+export type BabelConfigInvalidSchema = Event & {
     errors: Array<ajv.ErrorObject>;
-}
+};
