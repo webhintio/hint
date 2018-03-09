@@ -51,7 +51,7 @@
   "main": "index.json",
   "name": "@sonarwhal/configuration-web-recommended",
   "peerDependencies": {
-    "sonarwhal": "^0.29.0-beta.0"
+    "sonarwhal": "^1.0.0"
   },
   "repository": "sonarwhal/sonarwhal",
   "version": "1.0.1-beta.0"
