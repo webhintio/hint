@@ -1,3 +1,19 @@
+# 1.0.0 (March 9, 2018)
+
+## Bug fixes / Improvements
+
+* [[`a8a158b014`](https://github.com/sonarwhal/sonarwhal/commit/a8a158b01408daff2e97ae0de783b0d0a9b833ef)] - Fix: Dependencies and scripts for `--new-parser`.
+* [[`30579567c3`](https://github.com/sonarwhal/sonarwhal/commit/30579567c306e66476aea2d9f4f2f72379d5e863)] - Fix: Dependencies and scripts for `--new-rule`.
+* [[`af07cd0b1f`](https://github.com/sonarwhal/sonarwhal/commit/af07cd0b1faad75bc04d6a794a66ffe89349b2fc)] - Fix: `Init` wizard when using a configuration.
+* [[`366e833121`](https://github.com/sonarwhal/sonarwhal/commit/366e833121a8f59be07ad25bdc96ae3e36b2fcfd)] - Fix: Improve `init` wizard.
+
+## New features
+
+* [[`d0d18917e0`](https://github.com/sonarwhal/sonarwhal/commit/d0d18917e02f449b46ef3df0381f90eb658c5dbf)] - New: Search for `.sonarwhalrc` in user's `homedir` (see also: [`#718`](https://github.com/sonarwhal/sonarwhal/issues/718)).
+* [[`09fb512397`](https://github.com/sonarwhal/sonarwhal/commit/09fb512397b0b0318fb72de76b6204158e06d9ee)] - New: Add optional parameter `target` to `formatters`.
+* [[`e3b097b06f`](https://github.com/sonarwhal/sonarwhal/commit/e3b097b06f06a83375a1e184dc432746113fd8c2)] - New: Optional param `packageName` in `getRuleName`.
+
+
 # 0.28.2 (March 7, 2018)
 
 ## Bug fixes / Improvements
