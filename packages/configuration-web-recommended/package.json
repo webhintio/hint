@@ -7,7 +7,7 @@
     "@sonarwhal/rule-axe": "^2.0.2-beta.0",
     "@sonarwhal/rule-content-type": "^3.0.0",
     "@sonarwhal/rule-disown-opener": "^3.0.0",
-    "@sonarwhal/rule-highest-available-document-mode": "^2.0.2-beta.0",
+    "@sonarwhal/rule-highest-available-document-mode": "^3.0.0",
     "@sonarwhal/rule-html-checker": "^2.0.3-beta.0",
     "@sonarwhal/rule-http-cache": "^2.0.4-beta.0",
     "@sonarwhal/rule-http-compression": "^2.0.2-beta.0",
