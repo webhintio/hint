@@ -1,3 +1,14 @@
+# 3.0.0 (March 9, 2018)
+
+## Breaking Changes
+
+* [[`886e482374`](https://github.com/sonarwhal/sonarwhal/commit/886e482374239974b06c1dad932a7d3324e9de9a)] - Breaking: Update `sonarwhal` to `v1.0.0`.
+
+## New features
+
+* [[`bdb8c9450b`](https://github.com/sonarwhal/sonarwhal/commit/bdb8c9450b26dd6b2bfe9c23f92b23e1f33105ac)] - Update: `snyk-snapshot.json`.
+
+
 # 2.0.0 (March 7, 2018)
 
 ## Breaking Changes
