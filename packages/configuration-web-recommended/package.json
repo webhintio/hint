@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@sonarwhal/formatter-codeframe": "^1.0.2-beta.0",
+    "@sonarwhal/formatter-codeframe": "^2.0.0",
     "@sonarwhal/formatter-stylish": "^1.0.2-beta.0",
     "@sonarwhal/formatter-summary": "^1.0.3-beta.0",
     "@sonarwhal/rule-apple-touch-icons": "^2.0.2-beta.0",
