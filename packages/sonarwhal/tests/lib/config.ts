@@ -226,8 +226,6 @@ test(`if the configuration file contains an invalid extends property, returns an
 
     sandbox.stub(resourceLoader, 'loadConfiguration').returns(exts);
 
-    // t.plan(1);
-
     const err = t.throws(() => {
         config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/withextends.json'), { watch: false } as CLIOptions);
     });
