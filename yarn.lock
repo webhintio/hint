@@ -305,9 +305,9 @@
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.2.tgz#e0d481d8bb282ad8a8c9e100ceb72c995fb5e709"
 
-"@types/update-notifier@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@types/update-notifier/-/update-notifier-2.0.0.tgz#a1adf2850fbec39e1622fa97ce1314b73e469a19"
+"@types/update-notifier@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@types/update-notifier/-/update-notifier-2.2.0.tgz#a61bd58270247606f77ec388586e53026803c7d9"
 
 JSONStream@^1.3.2:
   version "1.3.2"
@@ -1255,6 +1255,13 @@ browserslist@^3.0.0:
     caniuse-lite "^1.0.30000809"
     electron-to-chromium "^1.3.33"
 
+browserslist@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-3.1.2.tgz#893f29399d640ed35fe06bacd7eb1d78609a47e5"
+  dependencies:
+    caniuse-lite "^1.0.30000813"
+    electron-to-chromium "^1.3.36"
+
 buf-compare@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/buf-compare/-/buf-compare-1.0.1.tgz#fef28da8b8113a0a0db4430b0b6467b69730b34a"
@@ -1389,6 +1396,10 @@ caniuse-api@^2.0.0:
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000809:
   version "1.0.30000810"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000810.tgz#47585fffce0e9f3593a6feea4673b945424351d9"
+
+caniuse-lite@^1.0.30000813:
+  version "1.0.30000813"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000813.tgz#7b25e27fdfb8d133f3c932b01f77452140fcc6c9"
 
 canvas-prebuilt@^1.6.5-prerelease.1:
   version "1.6.5-prerelease.1"
@@ -2227,6 +2238,10 @@ ee-first@1.1.1:
 electron-to-chromium@^1.3.30, electron-to-chromium@^1.3.33:
   version "1.3.34"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.34.tgz#d93498f40391bb0c16a603d8241b9951404157ed"
+
+electron-to-chromium@^1.3.36:
+  version "1.3.36"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.36.tgz#0eabf71a9ebea9013fb1cc35a390e068624f27e8"
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
