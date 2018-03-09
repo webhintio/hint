@@ -20,3 +20,12 @@ export type RuleTest = {
     /** The url to `executeOn` if different than `localhost`. */
     serverUrl?: string;
 };
+
+export type RuleLocalTest = {
+    /** Path to send to the local connector. */
+    path: string;
+    /** The name of the test. */
+    name: string;
+    /** The expected results of the execution. */
+    reports?: Array<Report>;
+};
