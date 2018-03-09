@@ -13,7 +13,7 @@
     "@sonarwhal/rule-http-compression": "^3.0.0",
     "@sonarwhal/rule-image-optimization-cloudinary": "^3.0.0",
     "@sonarwhal/rule-manifest-app-name": "^3.0.0",
-    "@sonarwhal/rule-manifest-exists": "^2.0.2-beta.0",
+    "@sonarwhal/rule-manifest-exists": "^3.0.0",
     "@sonarwhal/rule-manifest-file-extension": "^2.0.2-beta.0",
     "@sonarwhal/rule-manifest-is-valid": "^2.0.2-beta.0",
     "@sonarwhal/rule-meta-charset-utf-8": "^2.0.2-beta.0",
