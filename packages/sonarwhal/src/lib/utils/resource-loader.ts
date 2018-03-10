@@ -263,7 +263,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
                 try {
                     const packageConfig = getPackage(source);
 
-                    if (!isNormalizedIncluded(packageConfig.name, key)) {
+                    if (!isNormalizedIncluded(packageConfig.name, packageName)) {
                         return false;
                     }
                 } catch (e) {
