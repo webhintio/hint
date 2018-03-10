@@ -154,7 +154,7 @@ export class Sonarwhal extends EventEmitter {
         const createEventHandler = (handler: Function, ruleId: string) => {
             return function (event: Event): Promise<any> {
                 const urlsIgnoredForAll = that.ignoredUrls.get('all');
-                const urlsIgnored: Array<RegExp> = !urlsIgnoredForAll ? that.ignoredUrls.get(ruleId) : that.ignoredUrls.get(ruleId).concat(urlsIgnoredForAll);
+                const urlsIgnored: Array<RegExp> = !urlsIgnoredForAll ? that.ignoredUrls.get(ruleId) : that.ignoredUrls.get(ruleId) ? that.ignoredUrls.get(ruleId).concat(urlsIgnoredForAll) : urlsIgnoredForAll;
 
                 if (that.isIgnored(urlsIgnored, event.resource)) {
                     return null;
