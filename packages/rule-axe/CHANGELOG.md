@@ -1,3 +1,11 @@
+# 3.0.0 (March 9, 2018)
+
+## Breaking Changes
+
+* [[`4d68220eb8`](https://github.com/sonarwhal/sonarwhal/commit/4d68220eb80d0cfbbe999683cb246ac2d341cc24)] - Breaking: Update `axe-core` to `3.0.0-beta.3`.
+* [[`886e482374`](https://github.com/sonarwhal/sonarwhal/commit/886e482374239974b06c1dad932a7d3324e9de9a)] - Breaking: Update `sonarwhal` to `v1.0.0`.
+
+
 # 2.0.1 (March 7, 2018)
 
 ## Bug fixes / Improvements
