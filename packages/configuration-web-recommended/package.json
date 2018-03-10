@@ -27,7 +27,7 @@
     "@sonarwhal/rule-ssllabs": "^3.0.0",
     "@sonarwhal/rule-strict-transport-security": "^3.0.0",
     "@sonarwhal/rule-validate-set-cookie-header": "^3.0.0",
-    "@sonarwhal/rule-x-content-type-options": "^2.0.1-beta.0"
+    "@sonarwhal/rule-x-content-type-options": "^3.0.0"
   },
   "description": "sonarwhal's recommended rules configuration for live websites",
   "engines": {
