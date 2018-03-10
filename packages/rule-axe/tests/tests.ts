@@ -8,19 +8,21 @@ import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 const ruleName = getRuleName(__dirname);
 
 const html = {
-    noProblems: generateHTMLPage(undefined, '<div role="main"></div>'),
+    noProblems: generateHTMLPage(undefined, '<div role="main"><h1>test</h1></div>'),
     missingLang: `<!doctype html>
  <html>
     <head>
         <title>test</title>
     </head>
     <body>
-        <div role="main"></div>
+        <div role="main">
+            <h1>test</h1>
+        </div>
     </body>
 </html>`,
     tabindex: generateHTMLPage(undefined, `
 <div role="main">
-    <header>Header</header>
+    <h1>test</h1>
     <a href="#skip" tabindex="4">Skip</a>
     <div id="skip">Introduction</div>
 </div>`)
