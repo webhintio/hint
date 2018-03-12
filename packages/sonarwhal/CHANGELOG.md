@@ -1,3 +1,10 @@
+# 1.0.1 (March 12, 2018)
+
+## Bug fixes / Improvements
+
+* [[`91b8ca1306`](https://github.com/sonarwhal/sonarwhal/commit/91b8ca1306117eee5b8fb9bc181bb3c254ac097c)] - Fix: Handle undefined `ignoredUrls` (see also: [`#873`](https://github.com/sonarwhal/sonarwhal/issues/873)).
+
+
 # 1.0.0 (March 9, 2018)
 
 ## Bug fixes / Improvements
