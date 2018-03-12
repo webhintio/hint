@@ -1,4 +1,4 @@
-import { EOL, platform } from 'os';
+import { EOL } from 'os';
 import * as path from 'path';
 
 import { argv } from 'yargs';
@@ -787,20 +787,22 @@ const main = async () => {
      * packages depend on previous ones to be released first.
      */
 
-    const packages = [
-        'packages/sonarwhal',
-        ...shell.ls('-d', 'packages/formatter-*')];
+    const exceptions = ['packages/rule-typescript-config'];
 
-    if (platform() === 'win32') {
-        packages.concat(...shell.ls('-d', 'packages/connector-edge'));
+    if (process.platform !== 'win32') {
+        exceptions.push('packages/connector-edge');
     }
 
-    packages.concat([
-        // ...shell.ls('-d', 'packages/connector-(!edge)'), // TODO: Find a way to add all connectors but edge
+    const packages = [
+        'packages/sonarwhal',
+        ...shell.ls('-d', 'packages/formatter-*'),
+        ...shell.ls('-d', 'packages/connector-*'),
         ...shell.ls('-d', 'packages/parser-*'),
         ...shell.ls('-d', 'packages/rule-*'),
         ...shell.ls('-d', 'packages/configuration-*')
-    ]);
+    ].filter((name) => {
+        return !exceptions.includes(name);
+    });
 
     const tasks = [];
 
