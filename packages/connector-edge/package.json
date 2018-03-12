@@ -42,8 +42,8 @@
   ],
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
-    "build": "yarn clean && npm-run-all build:*",
-    "build-release": "yarn clean && yarn build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build": "npm run clean && npm-run-all build:*",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:ts": "tsc",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
@@ -51,8 +51,8 @@
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "preinstall": "node scripts/preinstall.js",
     "test": "echo",
-    "watch": "yarn build && npm-run-all --parallel -c watch:*",
-    "watch:ts": "yarn build:ts -- --watch"
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:ts": "npm run build:ts -- --watch"
   },
   "version": "0.1.5"
 }
