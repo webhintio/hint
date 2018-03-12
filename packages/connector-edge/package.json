@@ -5,15 +5,16 @@
   },
   "description": "sonarwhal connector for Microsoft Edge",
   "devDependencies": {
-    "eslint": "^4.18.1",
+    "eslint": "^4.18.2",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
-    "eslint-plugin-typescript": "^0.8.1",
+    "eslint-plugin-typescript": "^0.10.0",
     "markdownlint-cli": "^0.7.0",
     "npm-run-all": "^4.1.2",
+    "rimraf": "^2.6.2",
     "sonarwhal": "^1.0.1",
     "typescript": "^2.6.2",
-    "typescript-eslint-parser": "^13.0.0"
+    "typescript-eslint-parser": "^14.0.0"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.1"
@@ -44,7 +45,7 @@
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build-release": "npm run clean && tsc --inlineSourceMap false --removeComments true",
     "build:ts": "tsc",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
