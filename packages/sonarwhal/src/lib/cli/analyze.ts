@@ -63,6 +63,18 @@ const tryToLoadConfig = async (actions: CLIOptions): Promise<SonarwhalConfig> =>
     let config: SonarwhalConfig;
     const configPath: string = actions.config || SonarwhalConfig.getFilenameForDirectory(process.cwd());
 
+    if (!configPath) {
+        logger.error(`Couldn't find a valid path to load the configuration file.`);
+
+        const created = await askUserToCreateConfig();
+
+        if (created) {
+            config = await tryToLoadConfig(actions);
+        }
+
+        return config;
+    }
+
     debug(`Loading configuration file from ${configPath}.`);
     try {
         config = SonarwhalConfig.fromFilePath(configPath, actions);
