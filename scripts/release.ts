@@ -1,4 +1,4 @@
-import { EOL } from 'os';
+import { EOL, platform } from 'os';
 import * as path from 'path';
 
 import { argv } from 'yargs';
@@ -636,7 +636,7 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent) => {
             newTask('Update `CHANGELOG.md` file.', updateChangelog)
         );
 
-    // Published package tasks.
+        // Published package tasks.
 
     } else {
         tasks.push(
@@ -752,7 +752,7 @@ const getTasks = (packagePath: string) => {
     if (!isPrerelease) {
         tasks.push(...getTasksForRelease(packageName, packageJSONFileContent));
 
-    // For prereleases, ignore packages that have not yet been released.
+        // For prereleases, ignore packages that have not yet been released.
 
     } else if (!isUnpublishedPackage) {
         tasks.push(...getTaksForPrerelease(packageName));
@@ -789,12 +789,19 @@ const main = async () => {
 
     const packages = [
         'packages/sonarwhal',
-        ...shell.ls('-d', 'packages/formatter-*'),
-        // ...shell.ls('-d', 'packages/connector-*'),
+        ...shell.ls('-d', 'packages/formatter-*')];
+
+    if (platform() === 'win32') {
+        packages.concat(...shell.ls('-d', 'packages/connector-edge'));
+    }
+
+    packages.concat([
+        // ...shell.ls('-d', 'packages/connector-(!edge)'), // TODO: Find a way to add all connectors but edge
         ...shell.ls('-d', 'packages/parser-*'),
         ...shell.ls('-d', 'packages/rule-*'),
         ...shell.ls('-d', 'packages/configuration-*')
-    ];
+    ]);
+
     const tasks = [];
 
     for (const pkg of packages) {
