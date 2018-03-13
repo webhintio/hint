@@ -1,3 +1,11 @@
+# 1.0.2 (March 12, 2018)
+
+## Bug fixes / Improvements
+
+* [[`0fb48ef4f0`](https://github.com/sonarwhal/sonarwhal/commit/0fb48ef4f0076ea8715c777316ddfaa1b17e6e27)] - Fix: Issue with passing unknown commands (see also: [`#877`](https://github.com/sonarwhal/sonarwhal/issues/877)).
+* [[`37fb863f80`](https://github.com/sonarwhal/sonarwhal/commit/37fb863f80126d920caba95feefe8b54c01d0c0f)] - Fix: Issue when no configuration file exists (see also: [`#876`](https://github.com/sonarwhal/sonarwhal/issues/876)).
+
+
 # 1.0.1 (March 12, 2018)
 
 ## Bug fixes / Improvements
