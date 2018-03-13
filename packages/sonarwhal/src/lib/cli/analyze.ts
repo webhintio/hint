@@ -1,3 +1,6 @@
+import { promisify } from 'util';
+
+import * as async from 'async';
 import * as inquirer from 'inquirer';
 import * as ora from 'ora';
 import * as pluralize from 'pluralize';
@@ -13,6 +16,7 @@ import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
 import { initSonarwhalrc } from './init';
 
+const each = promisify(async.each);
 const debug: debug.IDebugger = d(__filename);
 
 /*
@@ -204,15 +208,15 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         });
     };
 
-    const print = (reports: Array<Problem>, target: string) => {
+    const print = async (reports: Array<Problem>, target: string): Promise<void> => {
         if (hasError(reports)) {
             endSpinner('fail');
         } else {
             endSpinner('succeed');
         }
 
-        sonarwhal.formatters.forEach((formatter) => {
-            formatter.format(reports, target);
+        await each(sonarwhal.formatters, async (formatter) => {
+            await formatter.format(reports, target);
         });
     };
 
@@ -226,7 +230,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
                 exitCode = 1;
             }
 
-            print(results, target.href);
+            await print(results, target.href);
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');
