@@ -1,3 +1,10 @@
+# 1.0.3 (March 12, 2018)
+
+## Bug fixes / Improvements
+
+* [[`283a28a075`](https://github.com/sonarwhal/sonarwhal/commit/283a28a075a0fdc26264d40deac116b3400693e7)] - Fix: Update `connector-edge` to `v1.0.0`.
+
+
 # 1.0.2 (March 12, 2018)
 
 ## Bug fixes / Improvements
