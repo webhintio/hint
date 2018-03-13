@@ -10,6 +10,8 @@ const stubbedNotifier = {
     update: {}
 };
 
+const stubbedLogger = { error() { } };
+
 const updateNotifier = () => {
     return stubbedNotifier;
 };
@@ -17,16 +19,18 @@ const updateNotifier = () => {
 const cliActions = [];
 
 proxyquire('../../src/lib/cli', {
-    './cli/options': cliActions,
+    './cli/actions': cliActions,
+    './utils/logging': stubbedLogger,
     './utils/misc': misc,
     'update-notifier': updateNotifier
 });
 
 test.beforeEach((t) => {
     sinon.stub(stubbedNotifier, 'notify').resolves();
-
+    sinon.spy(stubbedLogger, 'error');
     t.context.notifier = stubbedNotifier;
     t.context.misc = misc;
+    t.context.logger = stubbedLogger;
 });
 
 test.afterEach.always((t) => {
@@ -35,6 +39,8 @@ test.afterEach.always((t) => {
     if (t.context.misc.loadJSONFile.restore) {
         t.context.misc.loadJSONFile.restore();
     }
+
+    t.context.logger.error.restore();
 });
 
 test.serial('Users should be notified if there is a new version of sonarwhal', async (t) => {
@@ -84,4 +90,15 @@ test.serial(`Users shouldn't be notified if they just updated to the latest vers
     await cli.execute('');
 
     t.is(t.context.notifier.notify.callCount, 0);
+});
+
+test.serial(`The process should exit if non-existing arguments are passed in to 'execute'`, async (t) => {
+    t.context.notifier.update = null;
+
+    const cli = require('../../src/lib/cli');
+
+    await t.notThrows(cli.execute(['', '', '--inti']));
+
+    t.true(t.context.logger.error.calledOnce);
+    t.is(t.context.logger.error.args[0][0], `Invalid option '--inti' - perhaps you meant '--init'?`);
 });
