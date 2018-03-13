@@ -1,6 +1,7 @@
 import test from 'ava';
 
 import * as contentType from '../../../src/lib/utils/content-type';
+import * as fs from 'fs';
 
 test('determineMediaTypeBasedOnFileExtension determines the right mime type based on the extension', (t) => {
     const extensions = {
@@ -30,6 +31,31 @@ test('determineMediaTypeBasedOnFileExtension determines the right mime type base
         const calculatedMediaType = contentType.determineMediaTypeBasedOnFileExtension(`something.${extension}`);
 
         t.is(calculatedMediaType, mediaType, `The calculated value for .${extension} is ${calculatedMediaType} instead of ${mediaType}`);
+    });
+});
+
+test('determineMediaTypeBasedOnFileName sets the mime type as `text/json` if the file name matches `.somethingrc`', (t) => {
+    const configFileNames = ['.babelrc', '.Babelrc'];
+    const nonConfigFileNames = ['something.rc', '.rc', '.babel', 'index.html'];
+    const jsonRawContent = fs.readFileSync(`${__dirname}/fixtures/fixture.json`); // eslint-disable-line no-sync
+    const nonJsonRawContent = fs.readFileSync(`${__dirname}/fixtures/dummy.txt`); // eslint-disable-line no-sync
+
+    configFileNames.forEach((fileName) => {
+        const calculatedMediaType = contentType.determineMediaTypeBasedOnFileName(`localhost:3000/${fileName}`, jsonRawContent);
+
+        t.is(calculatedMediaType, 'text/json', `The calculated value for ${fileName} is ${calculatedMediaType} instead of 'text/json'`);
+    });
+
+    configFileNames.forEach((fileName) => {
+        const calculatedMediaType = contentType.determineMediaTypeBasedOnFileName(`localhost:3000/${fileName}`, nonJsonRawContent);
+
+        t.is(calculatedMediaType, 'text/plain', `The calculated value for ${fileName} is ${calculatedMediaType} instead of 'text/plain'`);
+    });
+
+    nonConfigFileNames.forEach((fileName) => {
+        const calculatedMediaType = contentType.determineMediaTypeBasedOnFileName(`localhost:3000/${fileName}`, nonJsonRawContent);
+
+        t.is(calculatedMediaType, null, `The calculated value for ${fileName} is ${calculatedMediaType} instead of null`);
     });
 });
 
