@@ -29,6 +29,7 @@
         "no-http-redirects": "error",
         "no-protocol-relative-urls": "error",
         "no-vulnerable-javascript-libraries": "error",
+        "sri": "error",
         "ssllabs": "error",
         "strict-transport-security": "error",
         "validate-set-cookie-header": "error",
