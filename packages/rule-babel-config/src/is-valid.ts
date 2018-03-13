@@ -1,5 +1,5 @@
 /**
- * @fileoverview `babel-config-is-valid` warns again providing an invalid babel configuration file.
+ * @fileoverview `babel-config-is-valid` warns against providing an invalid babel configuration file.
  */
 import * as ajv from 'ajv';
 import * as without from 'lodash.without';
@@ -12,7 +12,7 @@ import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
-import { BabelConfigInvalid, BabelConfigInvalidSchema } from '@sonarwhal/parser-babel-config/dist/src/BabelConfigParse';
+import { BabelConfigInvalid, BabelConfigInvalidSchema } from '@sonarwhal/parser-babel-config/dist/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -25,7 +25,7 @@ export default class BabelConfigIsValidRule implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.other,
-            description: `'babel-config-is-valid' warns again providing an invalid babel configuration file \`.babelrc\``
+            description: `'babel-config-is-valid' warns against providing an invalid babel configuration file \`.babelrc\``
         },
         id: 'babel-config/is-valid',
         schema: [],
@@ -40,9 +40,7 @@ export default class BabelConfigIsValidRule implements IRule {
             type: 'type'
         };
 
-        /**
-         * Returns a readable error for 'additionalProperty' errors.
-         */
+        /** Returns a readable error for 'additionalProperty' errors. */
         const generateAdditionalPropertiesError = (error: ajv.ErrorObject): string => {
             if (error.keyword !== errorKeywords.additionalProperties) {
                 return null;
@@ -54,9 +52,7 @@ export default class BabelConfigIsValidRule implements IRule {
             return `'${property}' ${error.message}. Additional property found '${additionalProperty}'.`;
         };
 
-        /**
-         * Returns a readable error for 'enum' errors.
-         */
+        /** Returns a readable error for 'enum' errors. */
         const generateEnumError = (error: ajv.ErrorObject): string => {
             if (error.keyword !== errorKeywords.enum) {
                 return null;
@@ -68,9 +64,7 @@ export default class BabelConfigIsValidRule implements IRule {
             return `'${property}' ${error.message} '${allowedValues.join(', ')}'. Value found '${error.data}'`;
         };
 
-        /**
-         * Returns a readable error for 'pattern' errors.
-         */
+        /** Returns a readable error for 'pattern' errors. */
         const generatePatternError = (error: ajv.ErrorObject) => {
             if (error.keyword !== errorKeywords.pattern) {
                 return null;
@@ -92,9 +86,8 @@ export default class BabelConfigIsValidRule implements IRule {
         };
 
         const errorGenerators: Array<((error: ajv.ErrorObject) => string)> = [generateAdditionalPropertiesError, generateEnumError, generatePatternError, generateTypeError];
-        /**
-         * Returns a readable error message.
-         */
+
+        /** Returns a readable error message. */
         const prettyfy = (error: ajv.ErrorObject): string => {
             return errorGenerators.reduce((message, generator) => {
                 const newErrorMessage: string = generator(error);
@@ -107,9 +100,7 @@ export default class BabelConfigIsValidRule implements IRule {
             }, error.message);
         };
 
-        /**
-         * Report all the validation errors received.
-         */
+        /** Report all the validation errors received. */
         const report = async (errors: Array<ajv.ErrorObject>, resource: string) => {
             for (const error of errors) {
                 /*

@@ -25,8 +25,9 @@ And then activate it via the `.sonarwhalrc` configuration file:
 }
 ```
 
-This parser detect if a `.babelrc` configuration file is present in your
-project, or if the Babel configuration is specified in `package.json`, and validates the Babel configuration against the schema.
+This parser detects if a `.babelrc` configuration file is present, or if the
+Babel configuration is specified in `package.json`, and validates the Babel
+configuration against the schema.
 
 ## Events emitted
 

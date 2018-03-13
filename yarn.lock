@@ -2375,12 +2375,6 @@ eslint-plugin-typescript@^0.10.0:
   dependencies:
     requireindex "~1.1.0"
 
-eslint-plugin-typescript@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.8.1.tgz#e5b2d18e744a04528eac58b099fe1032c4d744ff"
-  dependencies:
-    requireindex "~1.1.0"
-
 eslint-plugin-typescript@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.9.0.tgz#9b7075bc1560e879ae3403030564026106a1184d"

@@ -5,7 +5,7 @@ import { ScanEnd, FetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal';
 import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
 
-import { BabelConfig, BabelConfigInvalid, BabelConfigParsed, BabelConfigInvalidSchema } from './BabelConfigParse';
+import { BabelConfig, BabelConfigInvalid, BabelConfigParsed, BabelConfigInvalidSchema } from './types';
 
 export default class BabelConfigParser extends Parser {
     private configFound: boolean = false;
@@ -28,7 +28,7 @@ export default class BabelConfigParser extends Parser {
             verbose: true
         });
 
-        this.validator.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'))
+        this.validator.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
 
         /**
          * .babelrc => type: 'unknown' ('file-type' module doesn't support the type of 'json').
@@ -64,7 +64,6 @@ export default class BabelConfigParser extends Parser {
 
     private async parseBabelConfig(fetchEnd: FetchEnd) {
         const resource = fetchEnd.resource;
-        const allowedFileNames = ['.babelrc', 'package.json'];
         const resourceFileName = path.basename(resource);
         const isPackageJson: boolean = resourceFileName === 'package.json';
         const isBabelrc: boolean = resourceFileName === '.babelrc';
@@ -73,7 +72,7 @@ export default class BabelConfigParser extends Parser {
             return;
         }
 
-        this.configFound = true;
+        this.configFound = true; // It could be a `package.json` w/o `babel`, which will be verified below.
         let config: BabelConfig;
 
         try {
@@ -82,20 +81,24 @@ export default class BabelConfigParser extends Parser {
             const content = JSON.parse(response.body.content || response.body.rawContent.toString());
 
             if (isPackageJson && !content.babel) {
+                this.configFound = false;
+
                 return;
             }
 
             config = isPackageJson ? content.babel : content;
 
-            // Validate schema.
-            await this.validateSchema(config, resource);
+            const valid = await this.validateSchema(config, resource);
+
+            if (!valid) {
+                return;
+            }
 
             const event: BabelConfigParsed = {
                 config,
                 resource
             };
 
-            // Emit the configuration even if it isn't valid.
             await this.sonarwhal.emitAsync('parse::babel-config', event);
         } catch (err) {
             const errorEvent: BabelConfigInvalid = {

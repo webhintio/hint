@@ -23,7 +23,7 @@
     "nyc": "^11.4.1",
     "proxyquire": "^2.0.0",
     "rimraf": "^2.6.2",
-    "sonarwhal": "^0.29.0-beta.0",
+    "sonarwhal": "^1.0.3",
     "typescript": "^2.6.2",
     "typescript-eslint-parser": "^14.0.0"
   },
@@ -47,23 +47,24 @@
     "extends": "../../../../.nycrc"
   },
   "peerDependencies": {
-    "sonarwhal": "^0.29.0-beta.0"
+    "sonarwhal": "^1.0.3"
   },
+  "private": true,
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
-    "build": "yarn clean && npm-run-all build:*",
-    "build-release": "yarn clean && yarn build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build": "npm run clean && npm-run-all build:*",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
-    "test": "yarn lint && yarn build && nyc ava",
-    "watch": "yarn build && npm-run-all --parallel -c watch:*",
-    "watch:assets": "yarn build:assets -- -w --no-initial",
+    "test": "npm run lint && npm run build && nyc ava",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:assets": "npm run build:assets -- -w --no-initial",
     "watch:test": "ava --watch",
-    "watch:ts": "yarn build:ts -- --watch"
+    "watch:ts": "npm run build:ts -- --watch"
   },
   "version": "1.0.0"
 }

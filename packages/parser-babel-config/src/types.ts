@@ -29,8 +29,6 @@ export type BabelConfig = {
     sourceRoot: string;
 };
 
-// The interfaces below could be combined with typescript config parsers.
-
 export type BabelConfigInvalid = Event & {
     error: Error;
 };
