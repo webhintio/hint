@@ -211,7 +211,7 @@ const extractDataFromCommit = async (sha: string): Promise<Commit> => {
     };
 };
 
-const gitCommitChanges = async (commitMessage: string) => {
+const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false) => {
     // Add all changes to the staging aread.
     await exec(`git add packages yarn.lock`);
 
@@ -225,15 +225,15 @@ const gitCommitChanges = async (commitMessage: string) => {
     }
 
     // Otherwise commit the changes.
-    await exec(`git commit -m "${commitMessage}\n\n[skip ci]"`);
+    await exec(`git commit -m "${commitMessage}${skipCI ? '\n\n[skip ci]' : ''}"`);
 };
 
 const gitCommitBuildChanges = async (ctx) => {
-    await gitCommitChanges(`🚀 ${ctx.packageName} - v${ctx.newPackageVersion}`);
+    await gitCommitChanges(`🚀 ${ctx.packageName} - v${ctx.newPackageVersion}`, true);
 };
 
 const gitCommitPrerelease = async () => {
-    await gitCommitChanges(`🚀 Prerelease`);
+    await gitCommitChanges(`🚀 Prerelease`, true);
 };
 
 const deleteGitHubToken = async () => {
@@ -570,7 +570,7 @@ const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx) => {
         commitPrefix = 'Breaking:';
     }
 
-    await gitCommitChanges(`${commitPrefix} Update \\\`${ctx.packageName}\\\` to \\\`v${ctx.newPackageVersion}\\\``);
+    await gitCommitChanges(`${commitPrefix} Update \\\`${ctx.packageName}\\\` to \\\`v${ctx.newPackageVersion}\\\``, true);
 };
 
 const updatePackageVersionNumberInOtherPackages = (ctx) => {
@@ -608,6 +608,11 @@ const updatePackageVersionNumberInOtherPackages = (ctx) => {
             updateFile(`${packageJSONFilePath}`, `${JSON.stringify(packageJSONFileContent, null, 2)}\n`);
         }
     }
+};
+
+const updateYarnLockFile = async () => {
+    await exec('yarn');
+    await gitCommitChanges(`Chore: Update \\\`yarn.lock\\\` file`);
 };
 
 const waitForUser = async () => {
@@ -825,12 +830,15 @@ const main = async () => {
      * are done, just this one at the end.
      */
 
+
     if (isPrerelease) {
         tasks.push(
             newTask('Commit changes.', gitCommitPrerelease),
             newTask(`Push changes upstream.`, gitPush)
         );
     }
+
+    tasks.push(newTask('Update `yarn.lock`', updateYarnLockFile));
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
