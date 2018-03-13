@@ -62,7 +62,7 @@ export default class SRIRule implements IRule {
      * * base64
      * * `sha384-hash`
      */
-    private calculateHash(content: string, sha): string {
+    private calculateHash(content: string, sha: string): string {
         const hash = crypto
             .createHash(sha)
             .update(content)
@@ -94,7 +94,7 @@ export default class SRIRule implements IRule {
          * No need to report anything, but we can stop processing things right away.
          */
         const isScript: boolean = element.nodeName === 'SCRIPT' && !!element.getAttribute('src');
-        const isStyle: boolean = element.nodeName === 'LINK' && element.getAttribute('rel') === 'stylesheet';
+        const isStyle: boolean = element.nodeName === 'LINK' && normalizeString(element.getAttribute('rel')) === 'stylesheet';
 
         return Promise.resolve(isScript || isStyle);
     }

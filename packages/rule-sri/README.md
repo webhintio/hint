@@ -1,13 +1,13 @@
-# Require scripts and styles to use subresource integrity (`sri`)
+# Require scripts and styles to use subresource integrity (`@sonarwhal/rule-sri`)
 
-`sri` warns about requesting scripts or styles without using Subresource
+`sri` warns about requesting scripts or stylesheets without using subresource
 integrity.
 
 ## Why is this important?
 
 Nowadays it's very common to use third party resources from CDNs or different
 services (analytics, ads, etc.), and thus, increasing the risk surface of your
-web application.
+web site/app.
 
 While there are techniques to verify the agent is talking with the right server
 (TLS, HSTS, etc.), an attacker (or administrator) with access to the server can
@@ -29,11 +29,11 @@ This rule checks that a website uses correctly SRI, more especifically:
   have an `integrity` attribute.
 * [The `integrity` attribute has to be valid][sri format]. I.e.: it should
   contain something in the form of `sha(256|384|512)-HASH`, where `HASH` is
-  the hashed value of the downlaoded body's response using the previous
-  algorithm (`sha256`, `sha384`, or `sha512`).
-* The minium cryptographic hash function used has to be [`sha384`][collisions].
-  If multiple are provided, the highest one will be used to determine if the
-  baseline is met.
+  the hashed value of the downlaoded body's response using the previously
+  specified algorithm (`sha256`, `sha384`, or `sha512`).
+* The minium cryptographic hash function used is [`sha384`][collisions].
+  If multiple ones are provided, the highest one will be used to determine if
+  the baseline is met.
 * When using a cross-origin resource (e.g.: using a script hosted in a third
   party CDN), the `<script>` tag needs to have a valid
   [`crossorigin` attribute][crossorigin].
