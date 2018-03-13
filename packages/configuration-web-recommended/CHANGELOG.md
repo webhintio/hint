@@ -1,3 +1,10 @@
+# 2.0.1 (March 13, 2018)
+
+## New features
+
+* [[`3a070f3598`](https://github.com/sonarwhal/sonarwhal/commit/3a070f3598d3d727e5531d3ace2f93d001c571f8)] - New: Add `rule-sri`.
+
+
 # 2.0.0 (March 9, 2018)
 
 ## Breaking Changes
