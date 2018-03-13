@@ -586,6 +586,7 @@ const updatePackageVersionNumberInOtherPackages = (ctx) => {
         const dependencyRange = packageJSONFileContent.dependencies && packageJSONFileContent.dependencies[dependencyName];
         const devDependencyRange = packageJSONFileContent.devDependencies && packageJSONFileContent.devDependencies[dependencyName];
         const peerDependencyRange = packageJSONFileContent.peerDependencies && packageJSONFileContent.peerDependencies[dependencyName];
+        const optionalDependencyRange = packageJSONFileContent.optionalDependencies && packageJSONFileContent.optionalDependencies[dependencyName];
 
         if (dependencyRange) {
             packageJSONFileContent.dependencies[dependencyName] = `^${ctx.newPackageVersion}`;
@@ -597,6 +598,10 @@ const updatePackageVersionNumberInOtherPackages = (ctx) => {
 
         if (peerDependencyRange) {
             packageJSONFileContent.peerDependencies[dependencyName] = `^${ctx.newPackageVersion}`;
+        }
+
+        if (optionalDependencyRange) {
+            packageJSONFileContent.optionalDependencyRange[dependencyName] = `^${ctx.newPackageVersion}`;
         }
 
         if (dependencyRange || devDependencyRange || peerDependencyRange) {
