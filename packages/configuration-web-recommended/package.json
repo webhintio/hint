@@ -52,7 +52,7 @@
   "main": "index.json",
   "name": "@sonarwhal/configuration-web-recommended",
   "peerDependencies": {
-    "sonarwhal": "^1.0.3"
+    "sonarwhal": "^1.0.4"
   },
   "repository": "sonarwhal/sonarwhal",
   "version": "2.0.0"
