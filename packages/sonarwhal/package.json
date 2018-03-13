@@ -114,7 +114,7 @@
     ]
   },
   "optionalDependencies": {
-    "@sonarwhal/connector-edge": "^0.1.4"
+    "@sonarwhal/connector-edge": "^1.0.0"
   },
   "repository": "https://github.com/sonarwhal/sonarwhal",
   "scripts": {

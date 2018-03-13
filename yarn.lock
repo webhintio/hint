@@ -70,9 +70,9 @@
   dependencies:
     samsam "1.3.0"
 
-"@sonarwhal/connector-edge@^0.1.4":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@sonarwhal/connector-edge/-/connector-edge-0.1.5.tgz#df728d6fe4f70eed09605955f90e8e770df33f69"
+"@sonarwhal/connector-edge@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@sonarwhal/connector-edge/-/connector-edge-1.0.0.tgz#7e901a5d22e6a7ec59945796df7bcf22b27dc1ff"
   dependencies:
     edge-diagnostics-adapter "^0.6.0"
     node-windows "^0.1.14"
