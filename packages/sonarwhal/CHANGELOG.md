@@ -1,3 +1,10 @@
+# 1.0.4 (March 13, 2018)
+
+## Bug fixes / Improvements
+
+* [[`82aa8227ba`](https://github.com/sonarwhal/sonarwhal/commit/82aa8227ba71aeb926bfc26c23f8976bdccc8ef3)] - Fix: Call `formatter.format` asynchronously (see also: [`#880`](https://github.com/sonarwhal/sonarwhal/issues/880)).
+
+
 # 1.0.3 (March 12, 2018)
 
 ## Bug fixes / Improvements
