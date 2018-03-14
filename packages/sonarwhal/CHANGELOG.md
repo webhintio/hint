@@ -1,3 +1,11 @@
+# 1.0.5 (March 14, 2018)
+
+## Bug fixes / Improvements
+
+* [[`6765280f4e`](https://github.com/sonarwhal/sonarwhal/commit/6765280f4e16aad2b0727471cfec1ac0c6817a3e)] - Fix: Generated `.sonarwhalrc` from `--new-rule` (see also: [`#878`](https://github.com/sonarwhal/sonarwhal/issues/878)).
+* [[`ad126251d6`](https://github.com/sonarwhal/sonarwhal/commit/ad126251d6e7a4d59e45418ccb3539745e53905b)] - Fix: Remove unused options in CLI help (see also: [`#886`](https://github.com/sonarwhal/sonarwhal/issues/886)).
+
+
 # 1.0.4 (March 13, 2018)
 
 ## Bug fixes / Improvements
