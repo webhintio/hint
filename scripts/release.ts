@@ -797,7 +797,7 @@ const main = async () => {
      * packages depend on previous ones to be released first.
      */
 
-    const exceptions = ['packages/rule-typescript-config'];
+    const exceptions = [];
 
     if (process.platform !== 'win32') {
         exceptions.push('packages/connector-edge');
