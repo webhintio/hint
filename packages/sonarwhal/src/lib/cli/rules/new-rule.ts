@@ -105,6 +105,7 @@ const normalizeData = (results: inquirer.Answers) => {
     const newData = Object.assign({}, results, {
         className: toCamelCase(normalizedName),
         description: escapeSafeString(results.description),
+        isMulti: results.multi,
         normalizedName, // occurences of the name in md and ts files
         official: results.official,
         packageMain: `dist/src/index.js`, // package.json#main

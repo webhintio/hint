@@ -9,7 +9,7 @@
     "rulesTimeout": 120000,
     "rules": {
         {{#each rules}}
-        "{{normalizedName}}": "warning"{{#unless @last}},{{/unless}}
+        "{{#if ../isMulti}}{{../normalizedName}}/{{/if}}{{normalizedName}}": "warning"{{#unless @last}},{{/unless}}
         {{/each}}
     }
 }
