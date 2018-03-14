@@ -45,7 +45,7 @@
   "main": "dist/src/index.js",
   "name": "@sonarwhal/rule-no-disallowed-headers",
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.5"

@@ -47,7 +47,7 @@
   "main": "dist/src/index.js",
   "name": "@sonarwhal/rule-image-optimization-cloudinary",
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.5"

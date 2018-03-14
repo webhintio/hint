@@ -47,7 +47,7 @@
   "main": "dist/src/json.js",
   "name": "@sonarwhal/formatter-json",
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.5"

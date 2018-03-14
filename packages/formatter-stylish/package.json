@@ -50,7 +50,7 @@
   "main": "dist/src/stylish.js",
   "name": "@sonarwhal/formatter-stylish",
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.5"

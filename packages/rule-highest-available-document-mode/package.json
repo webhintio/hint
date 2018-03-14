@@ -42,7 +42,7 @@
   "main": "dist/src/index.js",
   "name": "@sonarwhal/rule-highest-available-document-mode",
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.5"

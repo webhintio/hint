@@ -49,7 +49,7 @@
   "main": "dist/src/excel.js",
   "name": "@sonarwhal/formatter-excel",
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.5"

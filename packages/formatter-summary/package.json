@@ -51,7 +51,7 @@
   "main": "dist/src/summary.js",
   "name": "@sonarwhal/formatter-summary",
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.5"

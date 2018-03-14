@@ -50,7 +50,7 @@
   "name": "@sonarwhal/formatter-codeframe",
   "nyc": {
     "branches": 80,
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.5"

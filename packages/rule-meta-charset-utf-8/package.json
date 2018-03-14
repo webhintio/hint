@@ -42,7 +42,7 @@
   "main": "dist/src/index.js",
   "name": "@sonarwhal/rule-meta-charset-utf-8",
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.5"

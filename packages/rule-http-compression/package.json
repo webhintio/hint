@@ -46,7 +46,7 @@
   "main": "dist/src/index.js",
   "name": "@sonarwhal/rule-http-compression",
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "sonarwhal": "^1.0.5"
