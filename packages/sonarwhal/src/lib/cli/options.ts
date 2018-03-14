@@ -35,27 +35,6 @@ export const options = optionator({
             option: 'init',
             type: 'Boolean'
         },
-        /*
-         * {
-         *     option: 'env',
-         *     type: '[String]',
-         *     description: 'Specify environments'
-         * },
-         */
-        {heading: 'Output'},
-        {
-            alias: 'o',
-            description: 'Specify file to write report to',
-            option: 'output-file',
-            type: 'path::String'
-        },
-        {
-            alias: 'f',
-            default: 'stylish',
-            description: 'Use a specific output format',
-            option: 'format',
-            type: 'String'
-        },
         {heading: 'Miscellaneous'},
         {
             default: false,
@@ -85,12 +64,6 @@ export const options = optionator({
             alias: 'p',
             description: `Generate a new parser`,
             option: 'new-parser',
-            type: 'Boolean'
-        },
-        {
-            alias: 'r',
-            description: `Remove an existing rule (in sonarwhal's main repo)`,
-            option: 'remove-rule',
             type: 'Boolean'
         },
         {
