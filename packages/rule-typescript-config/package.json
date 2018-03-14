@@ -48,7 +48,7 @@
   "main": "dist/src/index.js",
   "name": "@sonarwhal/rule-typescript-config",
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "@sonarwhal/parser-typescript-config": "^1.0.0",
