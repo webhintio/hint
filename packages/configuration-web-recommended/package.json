@@ -25,7 +25,7 @@
     "@sonarwhal/rule-no-protocol-relative-urls": "^3.0.0",
     "@sonarwhal/rule-no-vulnerable-javascript-libraries": "^3.0.0",
     "@sonarwhal/rule-sri": "^1.0.0",
-    "@sonarwhal/rule-ssllabs": "^3.0.0",
+    "@sonarwhal/rule-ssllabs": "^3.0.1",
     "@sonarwhal/rule-strict-transport-security": "^3.0.0",
     "@sonarwhal/rule-validate-set-cookie-header": "^3.0.0",
     "@sonarwhal/rule-x-content-type-options": "^3.0.0"
