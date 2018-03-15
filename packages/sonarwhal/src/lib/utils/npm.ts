@@ -12,21 +12,43 @@ import * as logger from './logging';
 const debug: debug.IDebugger = d(__filename);
 const npmLoadAsync = promisify(npm.load);
 
-
-const packageExists = () => {
+const getPackageContent = (): string => {
     const packagePath: string = path.join(process.cwd(), 'package.json');
+    let packageContent: string;
 
-    return fs.existsSync(packagePath); // eslint-disable-line no-sync
+    try {
+        packageContent = fs.readFileSync(packagePath, 'utf8'); // eslint-disable-line no-sync
+    } catch (err) {
+        // package.json` doesn't exist.
+        return null;
+    }
+
+    return packageContent;
 };
 
 export const installPackages = (packages: Array<string>): boolean => {
-    const global: boolean = !packageExists();
+    /** Content of package.json in the current directory */
+    const packageContent: string = getPackageContent();
+    /** Whether or not the package should be installed as devDependencies. */
+    let isDev: boolean = false;
 
     if (packages.length === 0) {
         return true;
     }
 
-    const command: string = `npm install ${packages.join(' ')}${global ? ' -g' : ''}`;
+    try {
+        const jsonContent = JSON.parse(packageContent);
+
+        // If `sonarwhal` is a devDependency, then set all packages as devDependencies.
+        isDev = jsonContent && jsonContent.devDependencies.hasOwnProperty('sonarwhal');
+    } catch (err) {
+        // The package.json is not valid. Do nothing.
+    }
+
+
+    let command: string = `npm install ${packages.join(' ')}${!packageContent ? ' -g' : ''}`;
+
+    command += isDev ? ' --save-dev' : '';
 
     try {
         debug(`Running command ${command}`);
@@ -39,7 +61,7 @@ export const installPackages = (packages: Array<string>): boolean => {
             throw new Error(result.output[2].toString());
         }
 
-        logger.log('Packages intalled successfully');
+        logger.log('Packages installed successfully');
 
         return true;
     } catch (err) {
