@@ -131,7 +131,7 @@ test.serial('If the content type is unknown, it should still validate if the fil
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
-    await t.context.sonarwhal.emitAsync('fetch::end::unknown', {
+    await t.context.sonarwhal.emitAsync('fetch::end::json', {
         resource: '.babelrc',
         response: { body: { content: invalidSchemaContent } }
     });

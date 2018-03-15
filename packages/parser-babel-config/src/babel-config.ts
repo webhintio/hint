@@ -31,11 +31,9 @@ export default class BabelConfigParser extends Parser {
         this.validator.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
 
         /**
-         * .babelrc => type: 'unknown' ('file-type' module doesn't support the type of 'json').
          * package.json => type: 'json' (file type from extention).
          */
         sonarwhal.on('fetch::end::json', this.parseBabelConfig.bind(this));
-        sonarwhal.on('fetch::end::unknown', this.parseBabelConfig.bind(this));
         sonarwhal.on('scan::end', this.parseEnd.bind(this));
     }
 
@@ -78,7 +76,7 @@ export default class BabelConfigParser extends Parser {
         try {
             const response = fetchEnd.response;
             // When using local connector to read local files, 'content' is empty.
-            const content = JSON.parse(response.body.content || response.body.rawContent.toString());
+            const content = JSON.parse(response.body.content);
 
             if (isPackageJson && !content.babel) {
                 this.configFound = false;
