@@ -49,9 +49,12 @@ const getFileName = (resource: string) => {
  * Try to determine the resource's file extension.
  */
 const getFileExtension = (resource: string): string => {
-    // The url needs to be parsed first
-    // otherwise the result from path.extname could be incorrect, e.g.: https://sonarwhal.com => '.com'
-    return path.extname(url.parse(resource).pathname).split('.')
+    /*
+     * The url needs to be parsed first
+     * otherwise the result from path.extname could be incorrect, e.g.: https://sonarwhal.com => '.com'
+     */
+    return path.extname(url.parse(resource).pathname)
+        .split('.')
         .pop();
 };
 

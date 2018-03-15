@@ -250,7 +250,13 @@ const determineMediaTypeBasedOnFileExtension = (resource: string): string => {
     return getMediaTypeBasedOnFileExtension(fileExtension);
 };
 
-/** Set file type as `text` if the file name matches the pattern of `.somethingrc` */
+/**
+ * Determine the media type based on the file name, extension and content.
+ * This is only for edge cases. So far it detects:
+ *
+ * * `.configrc` files: If the content is a valid `json`, it will return `text/json`, `text/plain` otherwise
+ *
+ */
 const determineMediaTypeBasedOnFileName = (resource: string, rawContent: Buffer): string => {
     const fileName = getFileName(resource);
 
