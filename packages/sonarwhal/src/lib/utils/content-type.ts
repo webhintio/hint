@@ -5,7 +5,7 @@ import { parse, MediaType } from 'content-type';
 
 import { debug as d } from './debug';
 import { IAsyncHTMLElement } from '../types';
-import { getFileExtension, normalizeString } from './misc';
+import { getFileExtension, getFileName, normalizeString } from './misc';
 
 const debug = d(__filename);
 
@@ -250,6 +250,36 @@ const determineMediaTypeBasedOnFileExtension = (resource: string): string => {
     return getMediaTypeBasedOnFileExtension(fileExtension);
 };
 
+/**
+ * Determine the media type based on the file name, extension and content.
+ * This is only for edge cases. So far it detects:
+ *
+ * * `.configrc` files: If the content is a valid `json`, it will return `text/json`, `text/plain` otherwise
+ *
+ */
+const determineMediaTypeBasedOnFileName = (resource: string, rawContent: Buffer): string => {
+    const fileName = getFileName(resource);
+
+    if (!fileName) {
+        return null;
+    }
+
+    const configFileNameRegex = /^\.[a-z0-9]+rc$/i;
+
+    if (!configFileNameRegex.test(fileName)) {
+        return null;
+    }
+
+    try {
+        // Determine if this is a json file.
+        JSON.parse(rawContent.toString());
+    } catch (err) {
+        return 'text/plain';
+    }
+
+    return 'text/json';
+};
+
 const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string => {
     const detectedFileType = fileType(rawContent);
 
@@ -350,6 +380,7 @@ const getContentTypeData = (element: IAsyncHTMLElement, resource: string, header
         determineMediaTypeBasedOnElement(element) ||
         determineMediaTypeBasedOnFileType(rawContent) ||
         determineMediaTypeBasedOnFileExtension(resource) ||
+        determineMediaTypeBasedOnFileName(resource, rawContent) ||
         originalMediaType;
 
     mediaType = getPreferedMediaType(mediaType);
@@ -422,6 +453,7 @@ const getType = (mediaType: string) => {
 
 export {
     determineMediaTypeBasedOnFileExtension,
+    determineMediaTypeBasedOnFileName,
     determineMediaTypeForScript,
     getContentTypeData,
     getFileExtension,
