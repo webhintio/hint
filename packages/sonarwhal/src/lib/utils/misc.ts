@@ -40,11 +40,21 @@ const delay = (millisecs: number): Promise<object> => {
     });
 };
 
+/** Try to determine the resource's file name. */
+const getFileName = (resource: string) => {
+    return path.basename(resource);
+};
+
 /*
  * Try to determine the resource's file extension.
  */
 const getFileExtension = (resource: string): string => {
-    return path.extname(url.parse(resource).pathname).split('.')
+    /*
+     * The url needs to be parsed first
+     * otherwise the result from path.extname could be incorrect, e.g.: https://sonarwhal.com => '.com'
+     */
+    return path.extname(url.parse(resource).pathname)
+        .split('.')
         .pop();
 };
 
@@ -330,6 +340,7 @@ export {
     findNodeModulesRoot,
     findPackageRoot,
     getFileExtension,
+    getFileName,
     getHeaderValueNormalized,
     getPackage,
     getSonarwhalPackage,
