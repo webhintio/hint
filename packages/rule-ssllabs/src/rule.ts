@@ -189,7 +189,7 @@ export default class SSLLabsRule implements IRule {
 
             debug(`Received SSL Labs results for ${resource}`);
 
-            if (!host.endpoints || host.endpoints.length === 0) {
+            if (!host || !host.endpoints || host.endpoints.length === 0) {
                 const msg = `Didn't get any result for ${resource}.
 There might be something wrong with SSL Labs servers.`;
 

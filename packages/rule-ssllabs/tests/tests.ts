@@ -12,7 +12,7 @@ const ssllabsMock = (response) => {
     const mockedModule = {
         // Original node-ssllabs uses callback and we promisify in the rule
         scan: (options, callback) => {
-            if (!response) {
+            if (response === null) {
                 return callback('Error');
             }
 
@@ -117,6 +117,17 @@ There might be something wrong with SSL Labs servers.`
         serverUrl: 'https://example.com',
         before() {
             ssllabsMock({ endpoints: [] });
+        }
+    },
+    {
+        name: 'Response with right status code but nothing inside reports an error',
+        reports: [{
+            message: `Didn't get any result for https://example.com/.
+There might be something wrong with SSL Labs servers.`
+        }],
+        serverUrl: 'https://example.com',
+        before() {
+            ssllabsMock(undefined);
         }
     }
 ];
