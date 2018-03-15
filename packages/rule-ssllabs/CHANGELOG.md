@@ -1,3 +1,10 @@
+# 3.0.1 (March 15, 2018)
+
+## Bug fixes / Improvements
+
+* [[`e45d4e8086`](https://github.com/sonarwhal/sonarwhal/commit/e45d4e8086da94c85be6697a0810d6b9d4ddc778)] - Fix: Fail if response from `ssllabs` is empty (see also: [`#848`](https://github.com/sonarwhal/sonarwhal/issues/848)).
+
+
 # 3.0.0 (March 9, 2018)
 
 ## Breaking Changes
