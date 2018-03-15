@@ -35,7 +35,7 @@ This rule checks that a website uses correctly SRI, more especifically:
   If multiple ones are provided, the highest one will be used to determine if
   the baseline is met.
 * When using a cross-origin resource (e.g.: using a script hosted in a third
-  party CDN), the `<script>` tag needs to have a valid
+  party CDN), the `<script>` or `<link>` tag needs to have a valid
   [`crossorigin` attribute][crossorigin].
 * The resource is served on a [secure context][secure context] (i.e.: HTTPS) to
   guarantee the HTML and resource haven't been tampered during the delivery.

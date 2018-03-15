@@ -113,11 +113,6 @@ export default class SRIRule implements IRule {
         const { element, resource } = evt;
         const resourceOrigin: string = new URL(resource).origin;
 
-        // CORS validation only applies to scripts, styles are OK
-        if (element.nodeName !== 'SCRIPT') {
-            return true;
-        }
-
         if (this.origin === resourceOrigin) {
             return true;
         }
