@@ -580,31 +580,25 @@ const updatePackageVersionNumberInOtherPackages = (ctx) => {
 
         const packageJSONFilePath = `${pkg}/package.json`;
         const packageJSONFileContent = require(`../../${packageJSONFilePath}`);
-
         const dependencyName = ctx.packageName === 'sonarwhal' ? ctx.packageName : `@sonarwhal/${ctx.packageName}`;
 
-        const dependencyRange = packageJSONFileContent.dependencies && packageJSONFileContent.dependencies[dependencyName];
-        const devDependencyRange = packageJSONFileContent.devDependencies && packageJSONFileContent.devDependencies[dependencyName];
-        const peerDependencyRange = packageJSONFileContent.peerDependencies && packageJSONFileContent.peerDependencies[dependencyName];
-        const optionalDependencyRange = packageJSONFileContent.optionalDependencies && packageJSONFileContent.optionalDependencies[dependencyName];
+        let packageJSONFileHasBeenUpdated = false;
 
-        if (dependencyRange) {
-            packageJSONFileContent.dependencies[dependencyName] = `^${ctx.newPackageVersion}`;
-        }
+        [
+            'dependencies',
+            'devDependencie',
+            'optionalDependencies',
+            'peerDependencies'
+        ].forEach((dependencyType) => {
+            const dependencyRange = packageJSONFileContent[dependencyType] && packageJSONFileContent[dependencyType][dependencyName];
 
-        if (devDependencyRange) {
-            packageJSONFileContent.devDependencies[dependencyName] = `^${ctx.newPackageVersion}`;
-        }
+            if (dependencyRange) {
+                packageJSONFileContent[dependencyType][dependencyName] = `^${ctx.newPackageVersion}`;
+                packageJSONFileHasBeenUpdated = true;
+            }
+        });
 
-        if (peerDependencyRange) {
-            packageJSONFileContent.peerDependencies[dependencyName] = `^${ctx.newPackageVersion}`;
-        }
-
-        if (optionalDependencyRange) {
-            packageJSONFileContent.optionalDependencyRange[dependencyName] = `^${ctx.newPackageVersion}`;
-        }
-
-        if (dependencyRange || devDependencyRange || peerDependencyRange) {
+        if (packageJSONFileHasBeenUpdated) {
             updateFile(`${packageJSONFilePath}`, `${JSON.stringify(packageJSONFileContent, null, 2)}\n`);
         }
     }
