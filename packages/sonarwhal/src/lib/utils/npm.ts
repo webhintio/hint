@@ -1,5 +1,3 @@
-import * as path from 'path';
-import * as fs from 'fs';
 import * as esearch from 'npm/lib/search/esearch';
 import * as npm from 'npm';
 import { promisify } from 'util';
@@ -8,49 +6,48 @@ import { spawnSync, SpawnSyncReturns } from 'child_process';
 import { NpmPackage } from '../types';
 import { debug as d } from './debug';
 import * as logger from './logging';
+import { loadJSONFile, findPackageRoot } from './misc';
 
 const debug: debug.IDebugger = d(__filename);
 const npmLoadAsync = promisify(npm.load);
 
-const getPackageContent = (): string => {
-    const packagePath: string = path.join(process.cwd(), 'package.json');
-    let packageContent: string;
-
-    try {
-        packageContent = fs.readFileSync(packagePath, 'utf8'); // eslint-disable-line no-sync
-    } catch (err) {
-        // package.json` doesn't exist.
-        return null;
-    }
-
-    return packageContent;
-};
-
 export const installPackages = (packages: Array<string>): boolean => {
-    /** Content of package.json in the current directory */
-    const packageContent: string = getPackageContent();
+    /** Whether or not the package should be installed globally. */
+    let global: boolean = false;
     /** Whether or not the package should be installed as devDependencies. */
     let isDev: boolean = false;
+    /** Path to `package.json`. */
+    let packagePath: string;
+    /** Current working directory. */
+    const currentWorkingDir = process.cwd();
+    /** Command to install the packages. */
+    let command: string = `npm install ${packages.join(' ')}`;
 
     if (packages.length === 0) {
         return true;
     }
 
     try {
-        const jsonContent = JSON.parse(packageContent);
+        packagePath = findPackageRoot(currentWorkingDir);
 
-        // If `sonarwhal` is a devDependency, then set all packages as devDependencies.
-        isDev = jsonContent && jsonContent.devDependencies.hasOwnProperty('sonarwhal');
-    } catch (err) {
-        // The package.json is not valid. Do nothing.
+        global = packagePath !== currentWorkingDir;
+    } catch (error) {
+        // `package.json` is not found.
+        global = true;
     }
 
-
-    let command: string = `npm install ${packages.join(' ')}${!packageContent ? ' -g' : ''}`;
-
-    command += isDev ? ' --save-dev' : '';
-
     try {
+        if (!global) {
+            const jsonContent = loadJSONFile(packagePath);
+
+            // If `sonarwhal` is a devDependency, then set all packages as devDependencies.
+            isDev = jsonContent.devDependencies && jsonContent.devDependencies.hasOwnProperty('sonarwhal');
+
+        }
+
+        command += global ? ' -g' : '';
+        command += isDev ? ' --save-dev' : '';
+
         debug(`Running command ${command}`);
         logger.log('Installing packages...');
         logger.log(command);

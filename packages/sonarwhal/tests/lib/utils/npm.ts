@@ -12,32 +12,37 @@ const npm = {
         cb();
     }
 };
-const fs = { readFileSync() { } };
+
 const child = { spawnSync() { } };
 const logger = {
     error() { },
     log() { }
 };
+const misc = {
+    findPackageRoot() { },
+    loadJSONFile() { }
+};
 
 const esearchContainer = { esearch() { } };
-const devDependencyJson = readFile(`${__dirname}/fixtures/dev-package.json`);
-const dependencyJson = readFile(`${__dirname}/fixtures/dep-package.json`);
-const invalidJson = readFile(`${__dirname}/fixtures/invalid.json`);
+const devDependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dev-package.json`));
+const dependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dep-package.json`));
 
 proxyquire('../../../src/lib/utils/npm', {
     './logging': logger,
+    './misc': misc,
     child_process: child, // eslint-disable-line camelcase
-    fs,
     npm,
     'npm/lib/search/esearch': esearchContainer.esearch
 });
 
-test.serial('installPackages should run the right command if package.json exists and has `sonarwhal` as a devDependency', (t) => {
+test.serial('installPackages should run the right command if package.json exists in the current work directory, and has `sonarwhal` as a devDependency', (t) => {
     const sandbox = sinon.createSandbox();
     const npmUtils = require('../../../src/lib/utils/npm');
 
     sandbox.stub(child, 'spawnSync').returns({ status: 0 });
-    sandbox.stub(fs, 'readFileSync').returns(devDependencyJson);
+    sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
+    sandbox.stub(process, 'cwd').returns('/example/path');
+    sandbox.stub(misc, 'loadJSONFile').returns(devDependencyJson);
     npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
 
     t.context.child = child;
@@ -47,12 +52,14 @@ test.serial('installPackages should run the right command if package.json exists
     sandbox.restore();
 });
 
-test.serial('installPackages should run the right command if package.json exists and has `sonarwhal` as a regular dependency', (t) => {
+test.serial('installPackages should run the right command if package.json exists in the current working directory, and has `sonarwhal` as a regular dependency', (t) => {
     const sandbox = sinon.createSandbox();
     const npmUtils = require('../../../src/lib/utils/npm');
 
     sandbox.stub(child, 'spawnSync').returns({ status: 0 });
-    sandbox.stub(fs, 'readFileSync').returns(dependencyJson);
+    sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
+    sandbox.stub(process, 'cwd').returns('/example/path');
+    sandbox.stub(misc, 'loadJSONFile').returns(dependencyJson);
     npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
 
     t.context.child = child;
@@ -62,12 +69,12 @@ test.serial('installPackages should run the right command if package.json exists
     sandbox.restore();
 });
 
-test.serial(`installPackages should run the right command if package.json doesn't exist`, (t) => {
+test.serial(`installPackages should run the right command if path to package.json doesn't exist`, (t) => {
     const sandbox = sinon.createSandbox();
     const npmUtils = require('../../../src/lib/utils/npm');
 
     sandbox.stub(child, 'spawnSync').returns({ status: 0 });
-    sandbox.stub(fs, 'readFileSync').throws(new Error(`Path doesn't exist.`));
+    sandbox.stub(misc, 'findPackageRoot').throws(new Error(`Path doesn't exist.`));
 
     npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
 
@@ -83,13 +90,14 @@ test.serial(`installPackages should run the right command if package.json exists
     const npmUtils = require('../../../src/lib/utils/npm');
 
     sandbox.stub(child, 'spawnSync').returns({ status: 0 });
-    sandbox.stub(fs, 'readFileSync').returns(invalidJson);
+    sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
+    sandbox.stub(process, 'cwd').returns('/example/path');
+    sandbox.stub(misc, 'loadJSONFile').throws(new Error('Invalid JSON.'));
 
     npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
 
     t.context.child = child;
-
-    t.is(t.context.child.spawnSync.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1'); // eslint-disable-line no-sync
+    t.false(t.context.child.spawnSync.called); // eslint-disable-line no-sync
 
     sandbox.restore();
 });
@@ -102,7 +110,9 @@ test.serial('installPackages should show the command to run if the installation 
         output: [null, null, Buffer.from('Error installing packages')],
         status: 1
     });
-    sandbox.stub(fs, 'readFileSync').returns(devDependencyJson);
+    sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
+    sandbox.stub(process, 'cwd').returns('/example/path');
+    sandbox.stub(misc, 'loadJSONFile').returns(devDependencyJson);
     sandbox.spy(logger, 'log');
 
     npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
@@ -123,7 +133,7 @@ test.serial(`installPackages should show the command to run if the installation 
         output: [null, null, Buffer.from('Error installing packages')],
         status: 1
     });
-    sandbox.stub(fs, 'readFileSync').throws(new Error(`Path doesn't exist.`));
+    sandbox.stub(misc, 'findPackageRoot').throws(new Error(`Path doesn't exist.`));
     sandbox.spy(logger, 'log');
 
     npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
@@ -145,8 +155,8 @@ test.serial('search should search for the right data', async (t) => {
 
     proxyquire('../../../src/lib/utils/npm', {
         './logging': logger,
+        './misc': misc,
         child_process: child, // eslint-disable-line camelcase
-        fs,
         npm,
         'npm/lib/search/esearch': esearchContainer.esearch
     });
@@ -180,8 +190,8 @@ test.serial('search should fail if something goes wrong', async (t) => {
 
     proxyquire('../../../src/lib/utils/npm', {
         './logging': logger,
+        './misc': misc,
         child_process: child, // eslint-disable-line camelcase
-        fs,
         npm,
         'npm/lib/search/esearch': esearchContainer.esearch
     });
