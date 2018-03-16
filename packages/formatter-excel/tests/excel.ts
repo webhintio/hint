@@ -49,7 +49,7 @@ test(`Excel formatter generates the right number of sheets with the good content
     t.is(summary.actualColumnCount, 2, `summary.actualColumnCount isn't 2`);
     t.is(summary.actualRowCount, 3, `summary.actualRowCount isn't 3`);
 
-    t.is(report.name, 'http-myresource-com', 'Title is not myresource.com');
+    t.true(report.name.startsWith('resource-'), `Title doesn't start with resource-`);
     t.is(report.actualColumnCount, 2, `report.actualColumnCount isn't 2`);
     t.is(report.actualRowCount, 6, `report.actualRowCount isn't 3`);
 
