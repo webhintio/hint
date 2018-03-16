@@ -1,3 +1,10 @@
+# 1.1.0 (March 15, 2018)
+
+## New features
+
+* [[`1f30ec2d72`](https://github.com/sonarwhal/sonarwhal/commit/1f30ec2d72e94413d40f3ae9e121b9a2a5d9a321)] - New: Define media type for `rc` config files.
+
+
 # 1.0.5 (March 14, 2018)
 
 ## Bug fixes / Improvements
