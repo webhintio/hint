@@ -65,15 +65,20 @@ export default class ExcelFormatter implements IFormatter {
             }
         }, border);
 
+        const names: Map<string, string> = new Map();
         /**
          * Replaces `://`, `/`, `.` for `-` so the names are compatible with the sheets
          */
         const getName = (name: string) => {
-            return name
-                .replace(/:\/\//g, '-')
-                .replace(/\./g, '-')
-                .replace(/\//g, '-')
-                .replace(/-$/, '');
+            if (names.has(name)) {
+                return names.get(name);
+            }
+
+            const finalName = `resource-${names.size}`;
+
+            names.set(name, finalName);
+
+            return finalName;
         };
 
         /** Applies all the given properties to `cell`. */
@@ -185,7 +190,10 @@ export default class ExcelFormatter implements IFormatter {
 
         try {
             // We save the file with the friendly target name
-            const name = getName(target);
+            const name = target.replace(/:\/\//g, '-')
+                .replace(/\./g, '-')
+                .replace(/\//g, '-')
+                .replace(/-$/, '');
 
             await workbook.xlsx.writeFile(`${process.cwd()}/${name}.xlsx`);
         } catch (e) {
