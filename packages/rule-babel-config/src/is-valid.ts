@@ -1,5 +1,5 @@
 /**
- * @fileoverview `babel-config-is-valid` warns against providing an invalid babel configuration file.
+ * @fileoverview `babel-config/is-valid` warns against providing an invalid babel configuration file.
  */
 import * as ajv from 'ajv';
 import * as without from 'lodash.without';
@@ -25,7 +25,7 @@ export default class BabelConfigIsValidRule implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.other,
-            description: `'babel-config-is-valid' warns against providing an invalid babel configuration file \`.babelrc\``
+            description: `'babel-config/is-valid' warns against providing an invalid babel configuration file \`.babelrc\``
         },
         id: 'babel-config/is-valid',
         schema: [],

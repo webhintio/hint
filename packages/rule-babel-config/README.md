@@ -10,7 +10,7 @@ Babel needs to be properly configured to reflect user's preference.
 
 ## What does the rule check?
 
-This rule checks if the Babel configuration specified in `.bablerc` or
+This rule checks if the Babel configuration specified in `.babelrc` or
 the `babel` property in `package.json` adheres to the requirement of
 the schema.
 

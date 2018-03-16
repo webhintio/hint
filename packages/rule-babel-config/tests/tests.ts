@@ -13,20 +13,20 @@ const tests: Array<RuleLocalTest> = [
     {
         name: `Invalid .babelrc configuration should fail`,
         path: path.join(__dirname, 'fixtures', 'invalid-schema', '.babelrc'),
-        reports: [{ message: `'moduleId' should be string.`}]
+        reports: [{ message: `'moduleId' should be string.` }]
     },
     {
-        name: 'If package.json doesn\'t contain "babel" property, it should pass',
+        name: `If package.json doesn't contain "babel" property, it should pass`,
         path: path.join(__dirname, 'fixtures', 'no-babel-package-json', 'package.json')
     },
     {
-        name: 'If package.json doesn\'t contain valid "babel" property, it should pass',
+        name: `If package.json contains valid "babel" property, it should pass`,
         path: path.join(__dirname, 'fixtures', 'has-valid-babel-package-json', 'package.json')
     },
     {
-        name: 'If package.json doesn\'t contain invalid "babel" property, it should fail',
+        name: `If package.json contain invalid "babel" property, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-invalid-babel-package-json', 'package.json'),
-        reports: [{ message: `'moduleId' should be string.`}]
+        reports: [{ message: `'moduleId' should be string.` }]
     }
 ];
 

@@ -1,4 +1,5 @@
 {
+    "additionalProperties": false,
     "title": "JSON schema for Babel 6+ configuration files",
     "$schema": "http://json-schema.org/draft-04/schema#",
     "type": "object",

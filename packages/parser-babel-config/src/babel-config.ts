@@ -44,7 +44,6 @@ export default class BabelConfigParser extends Parser {
     }
 
     private async validateSchema(config: BabelConfig, resource: string) {
-        // ajv is lower case to be able to get the types.
         const validate: ajv.ValidateFunction = this.validator.compile(this.schema);
         const valid = validate(config);
 
@@ -70,7 +69,6 @@ export default class BabelConfigParser extends Parser {
             return;
         }
 
-        this.configFound = true; // It could be a `package.json` w/o `babel`, which will be verified below.
         let config: BabelConfig;
 
         try {
@@ -79,11 +77,10 @@ export default class BabelConfigParser extends Parser {
             const content = JSON.parse(response.body.content);
 
             if (isPackageJson && !content.babel) {
-                this.configFound = false;
-
                 return;
             }
 
+            this.configFound = true;
             config = isPackageJson ? content.babel : content;
 
             const valid = await this.validateSchema(config, resource);
