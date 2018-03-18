@@ -270,28 +270,119 @@ const prettyPrintArray = (a: string[]): string => {
     return [a.slice(0, -1).join(', '), a.slice(-1)[0]].join(a.length < 2 ? '' : ', and ');
 };
 
-const prettyPrintCommit = (commit: Commit): string => {
+const getCommitAuthorInfo = async (commitSHA: string): Promise<object> => {
+    let commitInfo;
+
+    // Get commit related info.
+
+    const responseForCommitInfoRequest = await promisify(request)({
+        headers: {
+            Authorization: `token ${GITHUB.token}`,
+            'User-Agent': 'Nellie The Narwhal'
+        },
+        method: 'GET',
+        url: `https://api.github.com/repos/${REPOSITORY_SLUG}/commits/${commitSHA}`
+    });
+
+    if (responseForCommitInfoRequest.statusCode === 200) {
+        try {
+            commitInfo = JSON.parse(responseForCommitInfoRequest.body);
+        } catch (e) {
+            // Ignore as it's not important.
+        }
+    }
+
+    if (!commitInfo) {
+        return null;
+    }
+
+    /*
+     * Get commit author related info.
+     *
+     * This is done because the previous request doesn't provide
+     * the user name, only the user name associated with the commit,
+     * which in most cases, is wrongly set.
+     */
+
+    const responseForUserInfoRequest = await promisify(request)({
+        headers: {
+            Authorization: `token ${GITHUB.token}`,
+            'User-Agent': 'Nellie The Narwhal'
+        },
+        method: 'GET',
+        url: `https://api.github.com/users/${commitInfo.author.login}`
+    });
+
+    if (responseForUserInfoRequest.statusCode === 200) {
+        try {
+            const response = JSON.parse(responseForUserInfoRequest.body);
+
+            if (response.name) {
+                return {
+                    gitHubProfileURL: response.html_url,
+                    /*
+                     * Get the user name, and if one is not provided,
+                     * use the name associated with the commit.
+                     */
+                    name: response.name || commitInfo.commit.author.name
+                };
+            }
+        } catch (e) {
+            // Ignore as this is not important.
+        }
+    }
+
+    return null;
+};
+
+const prettyPrintCommit = async (commit: Commit): Promise<string> => {
+
+    let additionalInfo = false;
+    let commitAuthorInfo = '';
+    let issuesInfo = '';
     let result = `* [[\`${commit.sha.substring(0, 10)}\`](${REPOSITORY_URL}/commit/${commit.sha})] - ${commit.title}`;
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Get commit author information.
+
+    const commitAuthor = await getCommitAuthorInfo(commit.sha);
+
+    if (commitAuthor) {
+        commitAuthorInfo = `by [\`${(commitAuthor as any).name}\`](${(commitAuthor as any).gitHubProfileURL})`;
+        additionalInfo = true;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Get related issues information.
 
     const issues = commit.associatedIssues.map((issue) => {
         return `[\`#${issue}\`](${REPOSITORY_URL}/issues/${issue})`;
     });
 
     if (issues.length > 0) {
-        result = `${result} (see also: ${prettyPrintArray(issues)})`;
+        issuesInfo = `see also: ${prettyPrintArray(issues)}`;
+        additionalInfo = true;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    if (additionalInfo) {
+        result = `${result} (${commitAuthorInfo}${commitAuthorInfo && issuesInfo ? ' / ': ''}${issuesInfo})`;
     }
 
     return `${result}.`;
 };
 
-const generateChangelogSection = (title: string, tags: Array<string>, commits: Array<Commit>): string => {
+const generateChangelogSection = async (title: string, tags: Array<string>, commits: Array<Commit>): Promise<string> => {
     let result = '';
 
-    commits.forEach((commit) => {
+    for (const commit of commits) {
         if (tags.includes(commit.tag)) {
-            result += `${prettyPrintCommit(commit)}\n`;
+            result += `${await prettyPrintCommit(commit)}\n`;
         }
-    });
+    }
 
     if (result !== '') {
         result = `## ${title}\n\n${result}`;
@@ -324,7 +415,7 @@ const getChangelogContent = (ctx) => {
     return `# ${ctx.newPackageVersion} (${getDate()})\n\n${ctx.packageReleaseNotes}\n`;
 };
 
-const getChangelogData = (commits: Array<Commit>): ChangelogData => {
+const getChangelogData = async (commits: Array<Commit>): Promise<ChangelogData> => {
 
     /*
      * Note: Commits that use tags that do not denote user-facing
@@ -332,9 +423,9 @@ const getChangelogData = (commits: Array<Commit>): ChangelogData => {
      * release notes.
      */
 
-    const breakingChanges = generateChangelogSection('Breaking Changes', ['Breaking'], commits);
-    const bugFixesAndImprovements = generateChangelogSection('Bug fixes / Improvements', ['Docs', 'Fix'], commits);
-    const newFeatures = generateChangelogSection('New features', ['New', 'Update'], commits);
+    const breakingChanges = await generateChangelogSection('Breaking Changes', ['Breaking'], commits);
+    const bugFixesAndImprovements = await generateChangelogSection('Bug fixes / Improvements', ['Docs', 'Fix'], commits);
+    const newFeatures = await generateChangelogSection('New features', ['New', 'Update'], commits);
 
     let releaseNotes = '';
 
@@ -391,11 +482,11 @@ const getVersionNumber = (ctx) => {
     ctx.newPackageVersion = ctx.packageJSONFileContent.version;
 };
 
-const getReleaseData = (ctx) => {
+const getReleaseData = async (ctx) => {
     ({
         semverIncrement: ctx.packageSemverIncrement,
         releaseNotes: ctx.packageReleaseNotes
-    } = getChangelogData(ctx.commitSHAsSinceLastRelease));
+    } = await getChangelogData(ctx.commitSHAsSinceLastRelease));
 
     if (!ctx.isPrerelease && !ctx.packageReleaseNotes) {
         ctx.skipRemainingTasks = true;
@@ -823,7 +914,6 @@ const main = async () => {
      * For prereleases no commits or tags
      * are done, just this one at the end.
      */
-
 
     if (isPrerelease) {
         tasks.push(
