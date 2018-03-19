@@ -9,8 +9,10 @@
  * ------------------------------------------------------------------------------
  */
 
+import * as cheerio from 'cheerio';
+
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, TraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, FetchEnd, RuleMetadata, TraverseEnd } from 'sonarwhal/dist/src/lib/types';
 import { isHTMLDocument, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -34,7 +36,7 @@ export default class MetaCharsetUTF8Rule implements IRule {
     }
 
     public constructor(context: RuleContext) {
-
+        let receivedDOM;
         /*
          * This function exists because not all connector (e.g.: jsdom)
          * support matching attribute values case-insensitively.
@@ -49,6 +51,18 @@ export default class MetaCharsetUTF8Rule implements IRule {
             });
         };
 
+        /** Stores the DOM received on the initial load */
+        const setReceivedDom = (event: FetchEnd) => {
+            // The first time we receive this event is the main content, we don't care about iframes, requests by ads, etc.
+            /* istanbul ignore if */
+            if (typeof receivedDOM !== 'undefined') {
+                return;
+            }
+
+            receivedDOM = event.response.body.content ?
+                cheerio.load(event.response.body.content) :
+                cheerio.load('');
+        };
 
         const validate = async (event: TraverseEnd) => {
             const { resource }: { resource: string } = event;
@@ -62,7 +76,7 @@ export default class MetaCharsetUTF8Rule implements IRule {
             /*
              * There are 2 versions of the charset meta tag:
              *
-             *  * <meta charset="<charset">
+             *  * <meta charset="charset">
              *  * <meta http-equiv="content-type" content="text/html; charset=<charset>">
              *
              * Also, there is a XML declaration:
@@ -103,12 +117,19 @@ export default class MetaCharsetUTF8Rule implements IRule {
              *       within the first 1024 bytes of the document, but
              *       that check will be done by the html/markup validator.
              */
+            const charsetMetaTagHTML = await charsetMetaTag.outerHTML();
+            const firstHeadElement = receivedDOM('head :first-child')[0];
+            const receivedMetas = receivedDOM('meta');
+            const firstMeta = receivedMetas.length > 0 ? receivedMetas[0] : '';
+            const firstMetaHTML = firstMeta ? receivedDOM.html(firstMeta) : '';
+            const headElementContent: string = receivedDOM.html(receivedDOM('head'));
 
-            const firstHeadElement: IAsyncHTMLElement = (await pageDOM.querySelectorAll('head :first-child'))[0];
-            const headElementContent: string = await (await pageDOM.querySelectorAll('head'))[0].outerHTML();
-
-            if (!firstHeadElement || !firstHeadElement.isSame(charsetMetaTag) ||
+            if (!firstHeadElement ||
+                firstHeadElement !== receivedMetas[0] ||
+                !firstMetaHTML ||
+                charsetMetaTagHTML !== firstMetaHTML ||
                 !(/^<head[^>]*>\s*<meta/).test(headElementContent)) {
+
                 await context.report(resource, charsetMetaTag, `Charset meta tag should be the first thing in '<head>'`);
             }
 
@@ -143,6 +164,7 @@ export default class MetaCharsetUTF8Rule implements IRule {
              */
         };
 
+        context.on('fetch::end::html', setReceivedDom);
         context.on('traverse::end', validate);
     }
 }
