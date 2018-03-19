@@ -13,7 +13,6 @@ export * from './types/network';
 export * from './types/problems';
 export * from './types/rules';
 export * from './types/parser';
-
 /**
  * The configuration of a rule. This could be:
  *
