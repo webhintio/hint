@@ -91,7 +91,7 @@ telling us what you think can be improved.
 
 <!-- Link labels: -->
 
-[axe]: https://www.deque.com/products/axe/
+[axe]: https://axe-core.org/
 [connector docs]: /docs/contributor-guide/connectors/index.md
 [issues]: https://github.com/sonarwhal/sonarwhal/issues
 [jsdom]: https://github.com/tmpvar/jsdom
