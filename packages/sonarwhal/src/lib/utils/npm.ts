@@ -1,5 +1,3 @@
-import * as path from 'path';
-import * as fs from 'fs';
 import * as esearch from 'npm/lib/search/esearch';
 import * as npm from 'npm';
 import { promisify } from 'util';
@@ -8,27 +6,48 @@ import { spawnSync, SpawnSyncReturns } from 'child_process';
 import { NpmPackage } from '../types';
 import { debug as d } from './debug';
 import * as logger from './logging';
+import { loadJSONFile, findPackageRoot } from './misc';
 
 const debug: debug.IDebugger = d(__filename);
 const npmLoadAsync = promisify(npm.load);
 
-
-const packageExists = () => {
-    const packagePath: string = path.join(process.cwd(), 'package.json');
-
-    return fs.existsSync(packagePath); // eslint-disable-line no-sync
-};
-
 export const installPackages = (packages: Array<string>): boolean => {
-    const global: boolean = !packageExists();
+    /** Whether or not the package should be installed globally. */
+    let global: boolean = false;
+    /** Whether or not the package should be installed as devDependencies. */
+    let isDev: boolean = false;
+    /** Path to `package.json`. */
+    let packagePath: string;
+    /** Current working directory. */
+    const currentWorkingDir = process.cwd();
+    /** Command to install the packages. */
+    let command: string = `npm install ${packages.join(' ')}`;
 
     if (packages.length === 0) {
         return true;
     }
 
-    const command: string = `npm install ${packages.join(' ')}${global ? ' -g' : ''}`;
+    try {
+        packagePath = findPackageRoot(currentWorkingDir);
+
+        global = packagePath !== currentWorkingDir;
+    } catch (error) {
+        // `package.json` is not found.
+        global = true;
+    }
 
     try {
+        if (!global) {
+            const jsonContent = loadJSONFile(packagePath);
+
+            // If `sonarwhal` is a devDependency, then set all packages as devDependencies.
+            isDev = jsonContent.devDependencies && jsonContent.devDependencies.hasOwnProperty('sonarwhal');
+
+        }
+
+        command += global ? ' -g' : '';
+        command += isDev ? ' --save-dev' : '';
+
         debug(`Running command ${command}`);
         logger.log('Installing packages...');
         logger.log(command);
@@ -39,7 +58,7 @@ export const installPackages = (packages: Array<string>): boolean => {
             throw new Error(result.output[2].toString());
         }
 
-        logger.log('Packages intalled successfully');
+        logger.log('Packages installed successfully');
 
         return true;
     } catch (err) {
