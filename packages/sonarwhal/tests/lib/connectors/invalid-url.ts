@@ -1,4 +1,4 @@
-import * as url from 'url';
+import { URL } from 'url';
 
 import test from 'ava';
 
@@ -29,7 +29,7 @@ const testConnectorInvalidUrl = (connectorInfo) => {
 
         t.context.connector = connector;
 
-        await t.throws(connector.collect(url.parse('https://localhome')));
+        await t.throws(connector.collect(new URL('https://localhome')));
     });
 };
 

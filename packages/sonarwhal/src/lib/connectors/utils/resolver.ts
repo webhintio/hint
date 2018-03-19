@@ -1,4 +1,4 @@
-import * as url from 'url';
+import { URL } from 'url';
 
 /**
  * Returns the full url domain if it is relative/absolute to a domain or
@@ -11,10 +11,6 @@ import * as url from 'url';
  * -> `'http://example.com/favicon.ico'`
  *
  */
-export const resolveUrl = (href: string, baseUrl: string) => {
-    if (url.parse(href).protocol) {
-        return href;
-    }
-
-    return url.resolve(baseUrl, href);
+export const resolveUrl = (href: string, baseUrl: string): string => {
+    return new URL(href, baseUrl).href;
 };

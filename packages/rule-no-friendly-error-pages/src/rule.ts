@@ -10,6 +10,7 @@
  */
 
 import * as url from 'url';
+import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
@@ -91,7 +92,7 @@ export default class NoFriendlyErrorPagesRule implements IRule {
         };
 
         const tryToGenerateErrorPage = async (targetURL: string) => {
-            const baseURL: string = url.format(Object.assign(url.parse(targetURL), {
+            const baseURL: string = url.format(Object.assign(new URL(targetURL), {
                 fragment: false,
                 search: false
             }));

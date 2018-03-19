@@ -1,4 +1,4 @@
-import * as url from 'url';
+import { URL } from 'url';
 
 import test from 'ava';
 
@@ -79,7 +79,7 @@ const testConnectorEvaluate = (connectorInfo) => {
 
         server.configure(generateHTMLPage(null, ''));
 
-        await connector.collect(url.parse(`http://localhost:${server.port}/`));
+        await connector.collect(new URL(`http://localhost:${server.port}/`));
 
         for (let i = 0; i < scripts.length; i++) {
             const { code, result: expectedResult } = scripts[i];
