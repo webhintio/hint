@@ -436,6 +436,7 @@ const getType = (mediaType: string) => {
         case 'text/css':
             return 'css';
         case 'application/json':
+        case 'text/json':
             return 'json';
         case 'application/manifest+json':
             return 'manifest';
@@ -444,6 +445,8 @@ const getType = (mediaType: string) => {
             return 'html';
         case 'text/xml':
             return 'xml';
+        case 'text/plain':
+            return 'txt';
     }
 
     return 'unknown';
