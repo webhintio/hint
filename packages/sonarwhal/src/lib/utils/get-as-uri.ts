@@ -1,4 +1,5 @@
 import * as url from 'url';
+import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
 import * as _ from 'lodash';
 import * as fileUrl from 'file-url';
@@ -16,9 +17,16 @@ const debug: debug.IDebugger = d(__filename);
  * * null if not valid
  *
  */
-export const getAsUri = (source: string): url.Url => {
+export const getAsUri = (source: string): URL => {
     const entry: string = source.trim();
-    let target: url.Url = url.parse(entry);
+    let target: URL;
+
+    try {
+        target = new URL(entry);
+    } catch (err) {
+        target = new URL(`http://${entry}`);
+    }
+
     const protocol: string = target.protocol;
 
     /*
@@ -36,13 +44,13 @@ export const getAsUri = (source: string): url.Url => {
      * If it does exist and it's a regular file.
      */
     if (isFile(entry) || isDirectory(entry)) {
-        target = url.parse(fileUrl(entry));
+        target = new URL(fileUrl(entry));
         debug(`Adding valid target: ${url.format(target)}`);
 
         return target;
     }
 
-    target = url.parse(`http://${entry}`);
+    target = new URL(`http://${entry}`);
 
     /*
      * And it doesn't exist locally, and is a valid URL:
@@ -69,9 +77,9 @@ export const getAsUri = (source: string): url.Url => {
  * * null if not valid
  *
  */
-export const getAsUris = (source: Array<string>): Array<url.Url> => {
-    const targets: Array<url.Url> = source.reduce((uris: Array<url.Url>, entry: string): Array<url.Url> => {
-        const uri: url.Url = getAsUri(entry);
+export const getAsUris = (source: Array<string>): Array<URL> => {
+    const targets: Array<URL> = source.reduce((uris: Array<URL>, entry: string): Array<URL> => {
+        const uri: URL = getAsUri(entry);
 
         if (uri) {
             uris.push(uri);

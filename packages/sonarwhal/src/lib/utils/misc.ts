@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as url from 'url';
+import { URL } from 'url';
 import { promisify } from 'util';
 
 import { parse as parseContentTypeHeader } from 'content-type';
@@ -49,12 +49,20 @@ const getFileName = (resource: string) => {
  * Try to determine the resource's file extension.
  */
 const getFileExtension = (resource: string): string => {
-    /*
-     * The url needs to be parsed first
-     * otherwise the result from path.extname could be incorrect, e.g.: https://sonarwhal.com => '.com'
-     */
-    return path.extname(url.parse(resource).pathname)
-        .split('.')
+    let url: URL;
+
+    try {
+        /*
+         * he url needs to be parsed first
+         * otherwise the result from path.extname could be incorrect, e.g.: https://sonarwhal.com => '.com'
+         */
+        url = new URL(resource);
+    } catch (err) {
+        return path.extname(resource).split('.')
+            .pop();
+    }
+
+    return path.extname(url.pathname).split('.')
         .pop();
 };
 
@@ -69,7 +77,7 @@ const getHeaderValueNormalized = (headers: object, headerName: string, defaultVa
 
 /** Convenience function to check if a resource uses a specific protocol. */
 const hasProtocol = (resource: string, protocol: string): boolean => {
-    return url.parse(resource).protocol === protocol;
+    return new URL(resource).protocol === protocol;
 };
 
 /** Convenience function to check if a resource is a data URI. */
@@ -128,20 +136,19 @@ const normalizeString = (value: string, defaultValue?: string): string => {
     return value.toLowerCase().trim();
 };
 
+const protocolRegex = /([^:]*):.*/;
+
 /** Convenience function to check if a uri's protocol is http/https if specified. */
 const isRegularProtocol = (uri: string): boolean => {
     const normalizedUri = normalizeString(uri);
-    const protocol = url.parse(normalizedUri).protocol;
-
+    const exec = protocolRegex.exec(normalizedUri);
+    const protocol = exec ? exec[1] : null;
     /*
      * Ignore cases such as `javascript:void(0)`,
      * `data:text/html,...`, `file://` etc.
-     *
-     * Note: `null` is when the protocol is not
-     * specified (e.g.: test.html).
      */
 
-    if (![null, 'http:', 'https:'].includes(protocol)) {
+    if (![null, 'http', 'https'].includes(protocol)) {
         debug(`Ignore protocol: ${protocol}`);
 
         return false;

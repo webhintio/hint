@@ -7,7 +7,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import * as url from 'url';
+import { URL } from 'url';
 
 import * as _ from 'lodash';
 import * as sinon from 'sinon';
@@ -284,7 +284,7 @@ const testConnectorEvents = (connectorInfo) => {
             return updateLocalhost(event, server.port);
         });
 
-        await connector.collect(url.parse(`http://localhost:${server.port}/`));
+        await connector.collect(new URL(`http://localhost:${server.port}/`));
 
         const { emit, emitAsync } = t.context.sonarwhal;
         const invokes = [];

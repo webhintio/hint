@@ -10,7 +10,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as url from 'url';
+import { URL } from 'url';
 
 import { isSupported } from 'caniuse-api';
 import * as pluralize from 'pluralize';
@@ -72,11 +72,7 @@ export default class DisownOpenerRule implements IRule {
         const checkSameOrigin = (resource: string, element: IAsyncHTMLElement): boolean => {
             const hrefValue: string = normalizeString(element.getAttribute('href'));
 
-            let fullURL: string = hrefValue;
-
-            if (!url.parse(hrefValue).protocol) {
-                fullURL = url.resolve(resource, hrefValue);
-            }
+            const fullURL: string = new URL(hrefValue, resource).href;
 
             /*
              * Same origin URLs are ignored by default, but users can

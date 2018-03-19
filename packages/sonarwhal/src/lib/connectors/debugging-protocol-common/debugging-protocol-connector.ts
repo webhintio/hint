@@ -11,7 +11,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as url from 'url';
+import { URL } from 'url';
 
 import * as cdp from 'chrome-remote-interface';
 import * as _ from 'lodash';
@@ -27,7 +27,7 @@ import { resolveUrl } from '../utils/resolver';
 import {
     BrowserInfo, IConnector,
     IAsyncHTMLElement, ElementFound, Event, FetchEnd, FetchError, ILauncher, ManifestFetchError, TraverseUp, TraverseDown,
-    Response, Request, NetworkData, URL
+    Response, Request, NetworkData
 } from '../../types';
 
 import { normalizeHeaders } from '../utils/normalize-headers';
@@ -158,7 +158,7 @@ export class Connector implements IConnector {
         // We need to calculate the original url because it might have redirects
         const originalUrl: Array<string> = this._redirects.calculate(requestUrl);
 
-        requestUrl = url.parse(originalUrl[0] || requestUrl);
+        requestUrl = new URL(originalUrl[0] || requestUrl);
         const parts: Array<string> = requestUrl.href.split('/');
 
         /*
@@ -177,7 +177,7 @@ export class Connector implements IConnector {
         if (!this._finalHref) {
             return false;
         }
-        const faviconUrl = url.resolve(this._finalHref, '/favicon.ico');
+        const faviconUrl = new URL('/favicon.ico', this._finalHref).href;
         const event = params.request || params.response;
 
         if (!event) {
@@ -521,7 +521,7 @@ export class Connector implements IConnector {
     }
 
     private async getManifestManually(element: IAsyncHTMLElement) {
-        const manifestURL = resolveUrl(element.getAttribute('href'), this._finalHref);
+        const manifestURL: string = resolveUrl(element.getAttribute('href'), this._finalHref);
 
         /*
          * Try to see if the web app manifest file actually
@@ -748,7 +748,7 @@ export class Connector implements IConnector {
             debug(`resource ${href} to be fetched`);
             await this._server.emitAsync('fetch::start', { resource: href });
 
-            const content = await this.fetchContent(url.parse(this._finalHref + href.substr(1)));
+            const content = await this.fetchContent(new URL(this._finalHref + href.substr(1)));
 
             const data: FetchEnd = {
                 element: null,

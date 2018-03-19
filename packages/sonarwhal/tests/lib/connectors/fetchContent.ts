@@ -2,7 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import * as url from 'url';
+import { URL } from 'url';
 
 import test from 'ava';
 
@@ -45,7 +45,7 @@ const testConnectorFetchContent = (connectorInfo) => {
 
         server.configure({ '/nellie.png': { content: file } });
 
-        const result: NetworkData = await connector.fetchContent(url.parse(`http://localhost:${server.port}/nellie.png`));
+        const result: NetworkData = await connector.fetchContent(new URL(`http://localhost:${server.port}/nellie.png`));
         const rawResponse = await result.response.body.rawResponse();
 
         t.is(result.response.statusCode, 200);

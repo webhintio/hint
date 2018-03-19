@@ -193,7 +193,7 @@ export class Sonarwhal extends EventEmitter {
         this.on(eventName, createEventHandler(listener, id));
     }
 
-    public fetchContent(target: string | url.Url, headers: object): Promise<NetworkData> {
+    public fetchContent(target: string | url.URL, headers: object): Promise<NetworkData> {
         return this.connector.fetchContent(target, headers);
     }
 
@@ -220,7 +220,7 @@ export class Sonarwhal extends EventEmitter {
         this.messages.push(problem);
     }
 
-    public clean(fileUrl: url.Url) {
+    public clean(fileUrl: url.URL) {
         const file = url.format(fileUrl);
 
         _.remove(this.messages, (message) => {
@@ -237,11 +237,11 @@ export class Sonarwhal extends EventEmitter {
     }
 
     /** Runs all the configured rules and plugins on a target */
-    public async executeOn(target: url.Url): Promise<Array<Problem>> {
+    public async executeOn(target: url.URL): Promise<Array<Problem>> {
 
         const start: number = Date.now();
 
-        debug(`Starting the analysis on ${target.path}`);
+        debug(`Starting the analysis on ${target.pathname}${target.search}`);
 
         await this.connector.collect(target);
 
