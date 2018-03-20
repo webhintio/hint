@@ -1,3 +1,15 @@
+# 1.2.0 (March 20, 2018)
+
+## Bug fixes / Improvements
+
+* [[`f20ca70df9`](https://github.com/sonarwhal/sonarwhal/commit/f20ca70df954bea6b12357599d25cb9c001681ff)] - Fix: Install packages as sonarwhal was installed (by [`Qing Zhou`](https://github.com/qzhou1607) / see also: [`#868`](https://github.com/sonarwhal/sonarwhal/issues/868)).
+* [[`0704ed5bfd`](https://github.com/sonarwhal/sonarwhal/commit/0704ed5bfd329e9e9148cb8ef0650f9de4179808)] - Docs: Fix `aXe` link from `FAQ.md` (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#899`](https://github.com/sonarwhal/sonarwhal/issues/899)).
+
+## New features
+
+* [[`7edd85baf5`](https://github.com/sonarwhal/sonarwhal/commit/7edd85baf5a9f481a4475996d9de6d5005fa06c6)] - New: Add `text/plain` media type to `getType` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.1.0 (March 15, 2018)
 
 ## New features
