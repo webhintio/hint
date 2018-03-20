@@ -58,6 +58,29 @@ const tests: Array<RuleTest> = [
     {
         name: `Target is served with a non-HTML specific media type`,
         serverConfig: { '/': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } } }
+    },
+    {
+        name: `Content is injected before meta 'charset' after load should pass`,
+        serverConfig: generateHTMLPage(`${metaCharset}
+        <script>
+            var meta = document.querySelector('meta');
+            for(var i = 0; i < 10; i++){
+                const script = document.createElement('script');
+                meta.parentNode.insertBefore(script, meta);
+            }
+        </script>`)
+    },
+    {
+        name: `Meta 'charset' is injected after load, should fail`,
+        reports: [{ message: `Charset meta tag should be the first thing in '<head>'` }],
+        serverConfig: generateHTMLPage(`<title>No charset</title>
+        <script>
+            var head = document.querySelector('head');
+            var meta = document.createElement('meta');
+            var title = document.querySelector('title');
+            meta.setAttribute('charset', 'utf-8');
+            head.insertBefore(meta, title);
+        </script>`)
     }
 
     /*

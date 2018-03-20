@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2"
+  },
   "description": "sonarwhal rule that checks for best practices related to the meta charset",
   "devDependencies": {
     "ava": "^0.25.0",
