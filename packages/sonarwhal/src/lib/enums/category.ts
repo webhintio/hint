@@ -1,8 +1,9 @@
 export enum Category {
-    pwa = 'pwa',
     accessibility = 'accessibility',
+    development = 'development',
     interoperability = 'interoperability',
-    security = 'security',
     other = 'other',
-    performance = 'performance'
+    pwa = 'pwa',
+    performance = 'performance',
+    security = 'security'
 }
