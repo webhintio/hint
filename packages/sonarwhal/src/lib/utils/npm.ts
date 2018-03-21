@@ -20,6 +20,9 @@ export const installPackages = (packages: Array<string>): boolean => {
     let packagePath: string;
     /** Current working directory. */
     const currentWorkingDir = process.cwd();
+    /** Wheter or not the process is running in windows */
+    const isWindows = process.platform === 'win32';
+
     /** Command to install the packages. */
     let command: string = `npm install ${packages.join(' ')}`;
 
@@ -73,7 +76,7 @@ export const installPackages = (packages: Array<string>): boolean => {
              * Show message to install packages manually (maybe permissions error?).
              */
             logger.error(`Try executing:
-    ${process.platform !== 'win32' ? 'sudo ' : ''}${command}
+    ${!isWindows && global ? 'sudo ' : ''}${command}
             manually to install all the packages.`);
         }
 

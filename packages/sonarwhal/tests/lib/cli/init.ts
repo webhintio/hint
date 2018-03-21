@@ -81,7 +81,7 @@ const installedConnectors = [
 
 const installedParsers = [];
 
-test.serial('initSonarwhalrc should install the configuration package if user chooses a recommended configuration', async (t) => {
+test.serial(`initSonarwhalrc should install the configuration package if user chooses a recommended configuration and the configuration doesn't exists`, async (t) => {
     const sandbox = sinon.sandbox.create();
     const initAnswers = { configType: 'predefined' };
     const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
@@ -96,6 +96,8 @@ test.serial('initSonarwhalrc should install the configuration package if user ch
     }] as Array<NpmPackage>);
 
     const stub = sandbox.stub(npm, 'installPackages').returns(true);
+
+    sandbox.stub(resourceLoader, 'getInstalledResources').returns([]);
 
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
@@ -113,6 +115,39 @@ test.serial('initSonarwhalrc should install the configuration package if user ch
     sandbox.restore();
 });
 
+test.serial(`initSonarwhalrc shouldn't install the configuration package if user chooses a recommended configuration and the configuration already exists`, async (t) => {
+    const sandbox = sinon.sandbox.create();
+    const initAnswers = { configType: 'predefined' };
+    const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
+
+    sandbox.stub(npm, 'getOfficialPackages').resolves([{
+        date: null,
+        description: '',
+        keywords: [],
+        maintainers: [],
+        name: '@sonarwhal/configuration-recommended',
+        version: '1.0.0'
+    }] as Array<NpmPackage>);
+
+    const stub = sandbox.stub(npm, 'installPackages').returns(true);
+
+    sandbox.stub(resourceLoader, 'getInstalledResources').returns(['recommended']);
+
+    sandbox.stub(inquirer, 'prompt')
+        .onFirstCall()
+        .resolves(initAnswers)
+        .onSecondCall()
+        .resolves(configAnswer);
+
+    await initSonarwhalrc(actions);
+
+    const fileData = JSON.parse(t.context.promisify.args[0][1]);
+
+    t.false(stub.called, `npm has tried to install any package`);
+    t.true(_.isEqual(fileData, { extends: ['recommended'] }));
+
+    sandbox.restore();
+});
 
 test.serial(`"inquirer.prompt" should use the installed resources if the user doesn't want a predefined configuration`, async (t) => {
     const sandbox = sinon.sandbox.create();
@@ -178,6 +213,7 @@ test.serial(`if instalation of a config package fails, "initSonarwhalrc" returns
     }] as Array<NpmPackage>);
 
     sandbox.stub(npm, 'installPackages').returns(false);
+    sandbox.stub(resourceLoader, 'getInstalledResources').returns([]);
 
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
