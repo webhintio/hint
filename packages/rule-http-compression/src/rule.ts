@@ -50,8 +50,8 @@ export default class HttpCompressionRule implements IRule {
                 }
             },
             properties: {
-                resource: { $ref: '#/definitions/options' },
-                target: { $ref: '#/definitions/options' }
+                html: { $ref: '#/definitions/options' },
+                resource: { $ref: '#/definitions/options' }
             },
             type: 'object'
         }],
