@@ -222,19 +222,29 @@ Yes, you can use:
 * `ignore` to specify which of the disallowed HTTP headers
   should be ignored
 
-E.g. The following configuration will make the rule allow responses to
-be served with the `Server` HTTP header, but not with `Custom-Header`.
+E.g. The following rule configuration used in the [`.sonarwhalrc`][sonarwhalrc]
+file will make the rule allow responses to be served with the `Server`
+HTTP header, but not with `Custom-Header`.
 
 ```json
-"no-disallowed-headers": [ "warning", {
-    "ignore": ["Server"],
-    "include": ["Custom-Header"]
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "no-disallowed-headers": [ "warning", {
+            "ignore": ["Server"],
+            "include": ["Custom-Header"]
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 <!-- Link labels: -->
 
 [hpkp deprecation]: https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 
 <!-- Apache links -->
 

@@ -209,15 +209,23 @@ Yes, you can use:
 * `ignore` to specify which of the disallowed HTTP headers
   should be ignored
 
-E.g. The following configuration will make the rule allow non-HTML
-resources to be served with the `Content-Security-Policy` HTTP header,
-but not with `Custom-Header`.
+E.g. The following rule configuration used in the [`.sonarwhalrc`][sonarwhalrc]
+file will make the rule allow non-HTML resources to be served with the
+`Content-Security-Policy` HTTP header, but not with `Custom-Header`.
 
 ```json
-"no-html-only-headers": [ "warning", {
-    "ignore": ["Content-Security-Policy"],
-    "include": ["Custom-Header"]
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "no-html-only-headers": [ "warning", {
+            "ignore": ["Content-Security-Policy"],
+            "include": ["Custom-Header"]
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 <!-- Apache links -->
@@ -227,6 +235,7 @@ but not with `Custom-Header`.
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 
 <!-- IIS links -->
 

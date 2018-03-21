@@ -20,15 +20,24 @@ HTML of your page.
 
 ## Can the rule be configured?
 
-Yes, you can decide if you want to receive errors only or
-also warnings found by [amphtml-validator][amphtml-validator]. By default
-all warnings and errors are reported. If you prefer to see only the errors
-use the following configuration:
+Yes, you can decide if you want to receive errors only, or also
+warnings found by [`amphtml-validator`][amphtml-validator].
+By default all warnings and errors are reported. If you prefer to
+see only the errors you can use the following rule configuration
+in your [`.sonarwhalrc`][sonarwhalrc] file:
 
 ```json
-"amp-validator": ["error", {
-    "errorsOnly": true
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "amp-validator": ["error", {
+            "errorsOnly": true
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 ## Further Reading
@@ -36,8 +45,11 @@ use the following configuration:
 * [What is AMP][amp]
 * [How AMP Works][amp-works]
 
-[amp]: https://www.ampproject.org/learn/overview/
+<!-- Link labels: -->
+
 [amp-cache]: https://www.ampproject.org/docs/guides/how_cached
 [amp-works]: https://www.ampproject.org/learn/about-how/
-[ampproject]: https://github.com/ampproject/amphtml
+[amp]: https://www.ampproject.org/learn/overview/
 [amphtml-validator]: https://www.npmjs.com/package/amphtml-validator
+[ampproject]: https://github.com/ampproject/amphtml
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/

@@ -343,10 +343,20 @@ Note that:
 `requireMetaTag` can be set to `true` to allow and require the use of
 `meta` tag.
 
+In the [`.sonarwhalrc`][sonarwhalrc] file:
+
 ```json
-"highest-available-document-mode": [ "warning", {
-    "requireMetaTag": true
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "highest-available-document-mode": [ "warning", {
+            "requireMetaTag": true
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 Also, note that this rule takes into consideration the [targeted
@@ -364,6 +374,7 @@ not sending the HTTP response header.
 [chrome frame]: https://blog.chromium.org/2013/06/retiring-chrome-frame.html
 [doc modes]: https://msdn.microsoft.com/en-us/library/cc288325.aspx
 [ie complications]: https://hsivonen.fi/doctype/#ie8
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 
 <!-- Apache links -->
 

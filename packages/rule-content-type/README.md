@@ -391,15 +391,25 @@ for which those values should be required.
 
 `<regex>: <content_type_value>`
 
-E.g. The following configuration will make `sonarwhal` require that
-all resources requested from a URL that matches the regular expression
-`.*\.js` be served with a `Content-Type` header with the value of
-`application/javascript; charset=utf-8`.
+E.g. The following rule configuration will make `sonarwhal` require
+that all resources requested from a URL that matches the regular
+expression `.*\.js` be served with a `Content-Type` header with the
+value of `application/javascript; charset=utf-8`.
+
+In the [`.sonarwhalrc`][sonarwhalrc] file:
 
 ```json
-"content-type": [ "warning", {
-    ".*\\.js": "application/javascript; charset=utf-8"
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "content-type": ["error", {
+            ".*\\.js": "application/javascript; charset=utf-8"
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 Note: You can also use the [`ignoredUrls`](../index.md#rule-configuration)
@@ -417,6 +427,7 @@ property from the `.sonarwhalrc` file to exclude domains you don’t control
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
 [required media type]: https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache#Referencing_a_cache_manifest_file
 [server configs]: https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Configuring_server_MIME_types
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 
 <!-- Apache links -->
 

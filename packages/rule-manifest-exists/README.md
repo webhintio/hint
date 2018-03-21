@@ -117,8 +117,6 @@ More than one web app manifest file is specified:
 </html>
 ```
 
-TODO: Add information on CORS.
-
 ## Further Reading
 
 * [Web App Manifest Specification][spec]

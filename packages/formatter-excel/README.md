@@ -7,14 +7,20 @@ resource in its sheet:
 
 ![Example output for one of the details sheet of the excel formatter](images/details.png)
 
-To use it you need to configure your `.sonarwhalrc` file as follows:
+To use it you need to configure your [`.sonarwhalrc`][sonarwhalrc] file
+as follows:
 
 ```json
 {
-    "connector": { ... },
+    "connector": {...},
     "formatters": "excel",
     "rules": {
         ...
-    }
+    },
+    ...
 }
 ```
+
+<!-- Link labels: -->
+
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/

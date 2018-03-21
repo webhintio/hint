@@ -12,11 +12,13 @@ npm install @sonarwhal/parser-typescript-config
 If you want to install it globally, add the parameter `-g`.
 If you want to install it as a dev dependency, add the parameter `--save-dev`
 
-And then activate it via the `.sonarwhalrc` configuration file:
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
 
 ```json
 {
-    ...
+    "connector": {...},
+    "formatters": [...],
     "parsers": ["typescript-config"],
     "rules": {
         ...
@@ -64,3 +66,7 @@ import them as follows:
 ```ts
 import { TypeOrEnumYouWantToUse } from '@sonarwhal/parser-typescript-config/dist/src/types';
 ```
+
+<!-- Link labels: -->
+
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/

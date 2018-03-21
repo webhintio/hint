@@ -44,16 +44,25 @@ For explanation behind those requirements, please checkout:
 ## Can the rule be configured?
 
 By default only the first occurance of each error/warning is reported
-when validating the markup. However, you can configure the rule to view the
-complete list.
+when validating the markup. However, you can configure the rule to view
+the complete list.
 
-The following configuration will enable the full-list view of errors/warnings
-reported by the HTML checker:
+The following rule configuration in the [`.sonarwhalrc`][sonarwhalrc]
+file will enable the full-list view of errors/warnings reported by the
+HTML checker:
 
 ```json
-"html-checker": ["error", {
-    "details": true
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "html-checker": ["error", {
+            "details": true
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 You can ignore certain error/warning by setting the `ignore` option
@@ -64,18 +73,34 @@ E.g. The following configuration will ignore the errors/warnings with
 the message of `Invalid attribute`:
 
 ```json
-"html-checker": ["error", {
-    "ignore": "Invalid attribute"
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "html-checker": ["error", {
+            "ignore": "Invalid attribute"
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 Alternative, you can pass in an array if you have more than one type
 of messages to ignore:
 
 ```json
-"html-checker": ["error", {
-    "ignore": ["Invalid attribute", "Invalid tag"]
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "html-checker": ["error", {
+            "ignore": ["Invalid attribute", "Invalid tag"]
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 You can also override the default validator by passing in the endpoint
@@ -83,9 +108,17 @@ of an alternative validator. However, you need to make sure that this
 alternative validator exposes the same REST interface as the default one.
 
 ```json
-"html-checker": ["error", {
-    "validator": "https://html5.validator.nu"
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "html-checker": ["error", {
+            "validator": "https://html5.validator.nu"
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 ## Further Reading
@@ -99,5 +132,6 @@ alternative validator exposes the same REST interface as the default one.
 [html5 validator]: https://html5.validator.nu
 [nu html checker docs]: https://validator.w3.org/nu/about.html
 [nu html checker]: https://validator.github.io/validator/
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [validator interface]: https://github.com/validator/validator/wiki/Service-%C2%BB-HTTP-interface
 [w3 validator]: https://validator.w3.org/nu/

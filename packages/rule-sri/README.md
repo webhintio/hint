@@ -113,13 +113,22 @@ Cross-origin resource with valid `crossorigin` attribute:
 
 ## Can the rule be configured?
 
-Yes, by default the baseline algorithm is `sha384` but you can change it to
-`sha256`, or `sha512`:
+Yes, by default the baseline algorithm is `sha384` but you can
+change it to `sha256`, or `sha512` by specifying that in the
+[`.sonarwhalrc`][sonarwhalrc] file:
 
 ```json
-"sri": ["warning", {
-    "baseline": "sha512"
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "sri": ["warning", {
+            "baseline": "sha512"
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 The above will validate that the `integrity` of all scripts and styles use
@@ -138,6 +147,7 @@ The above will validate that the `integrity` of all scripts and styles use
 [crossorigin]: https://w3c.github.io/webappsec-subresource-integrity/#is-response-eligible
 [prevent cryptojacking]: https://scotthelme.co.uk/protect-site-from-cryptojacking-csp-sri/
 [secure context]: https://w3c.github.io/webappsec-subresource-integrity/#non-secure-contexts
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [sri format]: https://w3c.github.io/webappsec-subresource-integrity/#resource-integrity
 [sri spec]: https://w3c.github.io/webappsec-subresource-integrity/
 [srihash generator]: https://www.srihash.org/
