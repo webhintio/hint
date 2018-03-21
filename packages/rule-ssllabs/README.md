@@ -35,14 +35,23 @@ Notes:
 
 By default the minimum grade is `A-` but you can configure it to
 any valid [grade reported by SSL Labs][ssllabs server rating guide]
-by setting the `grade` option for the `ssllabs` rule.
+by setting the `grade` option for the `ssllabs` rule in the
+[`.sonarwhalrc`][sonarwhalrc] file.
 
 E.g. The following configuration will change the minium grade to `A+`:
 
 ```json
-"ssllabs": [ "error", {
-    "grade": "A+"
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "ssllabs": [ "error", {
+            "grade": "A+"
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 SSL Labs’ scanner also allows some configuration. By default the one
@@ -59,12 +68,20 @@ used is:
 You can override the defaults with the following configuration:
 
 ```json
-"ssllabs": [ "error", {
-    "ssllabs": {
-        "fromCache": false,
-        //...
-    }
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "ssllabs": [ "error", {
+            "ssllabs": {
+                "fromCache": false,
+                ...
+            }
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 The list of possible parameters is available in [SSL Labs’
@@ -82,6 +99,7 @@ in [`node-ssllabs`’ advanced usage][node-ssllabs usage].
 
 [node-ssllabs usage]: https://github.com/keithws/node-ssllabs#advanced-usage
 [node-ssllabs]: https://github.com/keithws/node-ssllabs
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [ssl best practices]: https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices
 [ssllabs api]: https://www.ssllabs.com/projects/ssllabs-apis/
 [ssllabs methodology]: https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide#methodology-overview

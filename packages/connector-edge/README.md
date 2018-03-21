@@ -1,7 +1,7 @@
 # Edge connector (`@sonarwhal/connector-edge`)
 
-A connector to use Microsoft Edge via the [edge diagnostics adapter](https://github.com/Microsoft/edge-diagnostics-adapter)
-in `sonarwhal`.
+A connector to use Microsoft Edge via the [edge diagnostics
+adapter][eda] in `sonarwhal`.
 
 ## Installation
 
@@ -31,13 +31,16 @@ npm install @sonarwhal/connector-edge
 
 ## Usage
 
-Configure the connector name in your `.sonarwhalrc` configuration file:
+Configure the connector name in your [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
 
 ```json
 {
+    ...
     "connector": {
         "name": "connector-edge"
-    }
+    },
+    ...
 }
 ```
 
@@ -46,13 +49,15 @@ browser or tab:
 
 ```json
 {
+    ...
     "connector": {
         "name": "connector-edge",
         "options": {
             "useTabUrl": true,
             "tabUrl": "https://empty.sonarwhal.com/"
         }
-    }
+    },
+    ...
 }
 ```
 
@@ -66,3 +71,8 @@ By participating in this project you agree to abide by its terms.
 ## License
 
 The code is available under the [Apache 2.0 license](LICENSE.txt).
+
+<!-- Link labels: -->
+
+[eda]: https://github.com/Microsoft/edge-diagnostics-adapter
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/

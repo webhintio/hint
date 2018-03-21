@@ -178,15 +178,24 @@ Note that:
 ## Can the rule be configured?
 
 Yes, you can configure the value that `max-age` is checked against
-with. By default, this limit is set as 18 weeks (10886400s);
+with in the [`.sonarwhalrc`][sonarwhalrc] file. By default, this limit
+is set as 18 weeks (10886400s);
 
 E.g. The following configuration will change the `max-age` value
 limit to `123456`.
 
 ```json
-"strict-transport-security": ["error", {
-    "minMaxAgeValue": 123456
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "strict-transport-security": ["error", {
+            "minMaxAgeValue": 123456
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 Also, you can configure the rule so that if `preload` directive is
@@ -197,9 +206,18 @@ This validation is disabled by default.
 E.g. The following configuration will enable the `preload` validation.
 
 ```json
-"strict-transport-security": ["error", {
-    "checkPreload": true
-}]
+
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "strict-transport-security": ["error", {
+            "checkPreload": true
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 ## Further Reading
@@ -214,6 +232,7 @@ E.g. The following configuration will enable the `preload` validation.
 [pineapple]: https://www.troyhunt.com/the-beginners-guide-to-breaking-website/
 [preload form]:https://hstspreload.org/
 [preload list]:https://cs.chromium.org/codesearch/f/chromium/src/net/http/transport_security_state_static.json
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [sql injection]: https://www.owasp.org/index.php/SQL_Injection
 [understading hsts]: https://www.troyhunt.com/understanding-http-strict-transport/
 [xss]: https://www.owasp.org/index.php/Cross-site_Scripting_%28XSS%29

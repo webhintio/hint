@@ -23,13 +23,20 @@ if the cached content is older than 24h.
 
 ## Can the rule be configured?
 
-You can configure the minimum severity to report:
+You can configure the minimum severity to report in the
+[`.sonarwhalrc`][sonarwhalrc] file:
 
 ```json
 {
-    "no-vulnerable-libraries": ["error", {
-        "severity": "low|medium|high"
-    }]
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "no-vulnerable-libraries": ["error", {
+            "severity": "low|medium|high"
+        }],
+        ...
+    },
+    ...
 }
 ```
 
@@ -45,8 +52,11 @@ If you configure this rule to `high`, and `sonarwhal` only finds
 * [Thou shalt not depend on me: analysing the use of outdated JavaScript
    libraries on the web][not depend on me]
 
+<!-- Link labels: -->
+
 [77 vulnerable]: https://snyk.io/blog/77-percent-of-sites-use-vulnerable-js-libraries/
 [js-library-detector]: https://npmjs.com/package/js-library-detector
 [not depend on me]: https://blog.acolyer.org/2017/03/07/thou-shalt-not-depend-on-me-analysing-the-use-of-outdated-javascript-libraries-on-the-web/
 [snykdb]: https://snyk.io/vuln/
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [XSS]: https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting

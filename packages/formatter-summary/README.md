@@ -5,10 +5,20 @@ how many errors or warnings a rule has found:
 
 ![Example output for the summary formatter](images/summary-output.png)
 
-To use it you need to configure your `.sonarwhalrc` file as follows:
+To use it you need to configure your [`.sonarwhalrc`][sonarwhalrc] file
+as follows:
 
 ```json
 {
-    "formatters": "summary"
+    "connector": {...},
+    "formatters": "summary",
+    "rules": {
+        ...
+    },
+    ...
 }
 ```
+
+<!-- Link labels: -->
+
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/

@@ -43,18 +43,25 @@ This rule uses [`axe.run`][axe.run] and the default values ([WCAG
 You can modify what rules or categories are executed via an `options`
 object that follows [aXe’s documentation][axe docs].
 
-Some examples of configurations:
+Some examples of rule configurations that you can have in the
+[`.sonarwhalrc`][sonarwhalrc] file:
 
 Run only WCAG 2.0 Level A rules:
 
 ```json
 {
-    "axe": ["error", {
-        "runOnly": {
-            "type": "tag",
-            "values": ["wcag2a"]
-        }
-    }]
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "axe": ["error", {
+            "runOnly": {
+                "type": "tag",
+                "values": ["wcag2a"]
+            }
+        }],
+        ...
+    },
+    ...
 }
 ```
 
@@ -62,12 +69,18 @@ Run only a specified set of rules:
 
 ```json
 {
-    "axe": ["error", {
-        "runOnly": {
-            "type": "rule",
-            "values": ["ruleId1", "ruleId2", "ruleId3" ]
-        }
-    }]
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "axe": ["error", {
+            "runOnly": {
+                "type": "rule",
+                "values": ["ruleId1", "ruleId2", "ruleId3" ]
+            }
+        }],
+        ...
+    },
+    ...
 }
 ```
 
@@ -75,12 +88,18 @@ Run all enabled rules except for a list of rules:
 
 ```json
 {
-    "axe": ["error",{
-        "rules": {
-            "color-contrast": { "enabled": false },
-            "valid-lang": { "enabled": false }
-        }
-    }]
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "axe": ["error",{
+            "rules": {
+                "color-contrast": { "enabled": false },
+                "valid-lang": { "enabled": false }
+            }
+        }],
+        ...
+    },
+    ...
 }
 ```
 
@@ -96,6 +115,7 @@ Run all enabled rules except for a list of rules:
 [axe docs]: https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#options-parameter
 [axe rules]: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 [axe.run]: https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#api-name-axerun
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [wai soc]: https://www.w3.org/WAI/bcase/soc
 [wai]: https://www.w3.org/WAI/intro/accessibility.php
 [wcag 2.0]: https://www.w3.org/TR/WCAG20/

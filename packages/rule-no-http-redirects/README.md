@@ -49,15 +49,21 @@ and alerts if at least one is found.
 
 By default no redirects are allowed but you can change this behavior.
 
-The following configuration will allow 3 redirects for resources and
-1 for the main URL:
+The following rule configuration used in the [`.sonarwhalrc`][sonarwhalrc]
+file will allow 3 redirects for resources and 1 for the main URL:
 
 ```json
 {
-    "no-http-redirects": ["error", {
-        "max-resource-redirects": 3,
-        "max-html-redirects": 1
-    }]
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "no-http-redirects": ["error", {
+            "max-resource-redirects": 3,
+            "max-html-redirects": 1
+        }],
+        ...
+    },
+    ...
 }
 ```
 
@@ -71,11 +77,14 @@ The following configuration will allow 3 redirects for resources and
 * [Redirections in HTTP][MDN-Redirections]
 * [Transmision Control Protocol][wikipedia-tcp]
 
+<!-- Link labels: -->
+
 [50-tricks]: https://channel9.msdn.com/events/Build/2012/3-132#time=19m35s
 [how-dns-works]: https://www.verisign.com/en_US/website-presence/online/how-dns-works/index.xhtml
 [MDN-Redirections]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections
 [pagespeed-insights]: https://developers.google.com/speed/docs/insights/mobile#adapting-to-high-latency-mobile-networks
 [rfc1035]: https://tools.ietf.org/html/rfc1035
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [tcp-connection-diagram]: https://www.eventhelix.com/RealtimeMantra/Networking/tcp/#.WgOQBkxFy2c
 [wikipedia-tcp-establishment]: https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_establishment
 [wikipedia-tcp]: https://en.wikipedia.org/wiki/Transmission_Control_Protocol
