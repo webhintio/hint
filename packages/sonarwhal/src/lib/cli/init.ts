@@ -44,7 +44,7 @@ const getConfigurationName = (pkgName: string): string => {
 };
 
 /** Shwos the user a list of official configuration packages available in npm to install. */
-const extendConfig = async (): Promise<UserConfig> => {
+const extendConfig = async (): Promise<{ config: UserConfig, packages?: Array<string> }> => {
     const configPackages: Array<NpmPackage> = await getOfficialPackages(ResourceType.configuration);
 
     if (!anyResources(configPackages, ResourceType.configuration)) {
@@ -68,18 +68,15 @@ const extendConfig = async (): Promise<UserConfig> => {
 
     const answers: inquirer.Answers = await inquirer.prompt(questions);
     const sonarwhalConfig = { extends: [getConfigurationName(answers.configuration)] };
-    const installed = await installPackages([answers.configuration]);
 
-    // Maybe there was an error during the installation, the error and message output is handled in the npm package
-    if (!installed) {
-        return null;
-    }
-
-    return sonarwhalConfig;
+    return {
+        config: sonarwhalConfig,
+        packages: [answers.configuration]
+    };
 };
 
 /** Prompts a series of questions to create a new configuration object based on the installed packages. */
-const customConfig = async (): Promise<UserConfig> => {
+const customConfig = async (): Promise<{ config: UserConfig, packages?: Array<string> }> => {
     const connectorKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
     const formattersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
     const parsersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
@@ -153,7 +150,7 @@ const customConfig = async (): Promise<UserConfig> => {
 
     sonarwhalConfig.browserslist = await generateBrowserslistConfig();
 
-    return sonarwhalConfig;
+    return { config: sonarwhalConfig };
 };
 
 /**
@@ -180,18 +177,27 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
 
     const initialAnswer: inquirer.Answers = await inquirer.prompt(initialQuestion);
 
-    const sonarwhalConfig = initialAnswer.configType === 'predefined' ?
+    const result = initialAnswer.configType === 'predefined' ?
         await extendConfig() :
         await customConfig();
 
-    // No resources installed or no configuration packages available, we have to quit
-    if (!sonarwhalConfig) {
-        return true;
-    }
-
     const filePath: string = path.join(process.cwd(), '.sonarwhalrc');
 
-    await promisify(fs.writeFile)(filePath, JSON.stringify(sonarwhalConfig, null, 4), 'utf8');
+    await promisify(fs.writeFile)(filePath, JSON.stringify(result.config, null, 4), 'utf8');
+
+    if (result.packages) {
+        const isInstalled = getInstalledResources(ResourceType.configuration).includes(getConfigurationName(result.packages[0]));
+
+        if (isInstalled) {
+            return true;
+        }
+
+        try {
+            await installPackages(result.packages);
+        } catch (err) {
+            // Do nothing.
+        }
+    }
 
     return true;
 };
