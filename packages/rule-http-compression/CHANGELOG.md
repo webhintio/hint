@@ -1,3 +1,10 @@
+# 3.0.1 (March 21, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c33c87fe20`](https://github.com/sonarwhal/sonarwhal/commit/c33c87fe2005250fc1724876b7405fe69019e6a0)] - Fix: Update `schema` to a valid one (by [`Antón Molleda`](https://github.com/molant) / see also: [`#907`](https://github.com/sonarwhal/sonarwhal/issues/907)).
+
+
 # 3.0.0 (March 9, 2018)
 
 ## Breaking Changes
