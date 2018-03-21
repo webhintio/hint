@@ -43,15 +43,15 @@ ruleRunner.testRule(ruleName, testsForBrotliSmallSize, testConfigs);
 ruleRunner.testRule(ruleName, testsForBrotliUASniffing(), testConfigs);
 
 // Tests for the user options.
-[true, false].forEach((isTarget) => {
+[true, false].forEach((isHTML) => {
     ['gzip', 'zopfli', 'brotli'].forEach((encoding) => {
         ruleRunner.testRule(
             ruleName,
-            testsForUserConfigs(`${encoding}`, isTarget, true),
+            testsForUserConfigs(`${encoding}`, isHTML, true),
             Object.assign(
                 {},
                 testConfigs,
-                { ruleOptions: { [isTarget ? 'target' : 'resource']: { [encoding]: false } } }
+                { ruleOptions: { [isHTML ? 'html' : 'resource']: { [encoding]: false } } }
             )
         );
     });
