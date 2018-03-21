@@ -1,3 +1,10 @@
+# 3.0.1 (March 21, 2018)
+
+## Bug fixes / Improvements
+
+* [[`0f99caed75`](https://github.com/sonarwhal/sonarwhal/commit/0f99caed75530ec7e2fae210b5db0e9d64e993d8)] - Fix: Better detect meta charset's position (by [`Antón Molleda`](https://github.com/molant) / see also: [`#900`](https://github.com/sonarwhal/sonarwhal/issues/900)).
+
+
 # 3.0.0 (March 9, 2018)
 
 ## Breaking Changes
