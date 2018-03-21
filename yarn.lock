@@ -77,10 +77,6 @@
     edge-diagnostics-adapter "^0.6.0"
     node-windows "^0.1.14"
 
-"@std/esm@^0.23.3":
-  version "0.23.4"
-  resolved "https://registry.yarnpkg.com/@std/esm/-/esm-0.23.4.tgz#e047aeb8a79bbea1d2f62f862de5d88c8faafd37"
-
 "@types/caseless@*":
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.1.tgz#9794c69c8385d0192acc471a540d1f8e0d16218a"
@@ -6835,12 +6831,11 @@ signal-exit@^3.0.0, signal-exit@^3.0.1, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
-sinon@^4.2.2:
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-4.4.3.tgz#f21f08a2fa8cc013c5720751b02c4484a9af31fc"
+sinon@^4.2.2, sinon@^4.4.8:
+  version "4.4.8"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-4.4.8.tgz#0479e0ccb8caa0d737ce9773c8d53d57d38f2d84"
   dependencies:
     "@sinonjs/formatio" "^2.0.0"
-    "@std/esm" "^0.23.3"
     diff "^3.1.0"
     lodash.get "^4.4.2"
     lolex "^2.2.0"
