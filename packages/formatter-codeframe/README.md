@@ -6,14 +6,20 @@ was found (if applicable):
 
 ![Example output for the codeframe formatter](images/codeframe-output.png)
 
-To use it you need to configure your `.sonarwhalrc` file as follows:
+To use it you need to configure your [`.sonarwhalrc`][sonarwhalrc] file
+as follows:
 
 ```json
 {
-    "connector": { ... },
+    "connector": {...},
     "formatters": "codeframe",
     "rules": {
         ...
-    }
+    },
+    ...
 }
 ```
+
+<!-- Link labels: -->
+
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/

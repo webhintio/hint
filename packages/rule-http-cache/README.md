@@ -350,10 +350,21 @@ If none on the built-in regular expressions work for your use case, you
 can provide your own via the `revvingPatterns` property. This property
 accepts an `Array` of escaped `RegExp`:
 
+in then [`.sonarwhalrc`][sonarwhalrc] file:
+
 ```json
-"http-cache": ["error", {
-    "revvingPatterns": ["\\/\\d+\\/\\w+\\.\\w{1,3}"]
-}]
+
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "http-cache": ["error", {
+            "revvingPatterns": ["\\/\\d+\\/\\w+\\.\\w{1,3}"]
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 Also pay attention to the escaping. The example above will validate
@@ -381,6 +392,7 @@ https://example.com/assets/12345/styles.css
 [maxage0]: http://httparchive.org/about.php#maxage0
 [maxage0 image]: https://chart.googleapis.com/chart?chd=t:-1%7C49,51,100,100,51,51,51,51,51,51,100,50,50,50,50,50,50,50,51,51,51,50,50,50&chxl=0:%7C+%7C12%2F16%7C+%7C1%2F17%7C+%7C2%2F17%7C+%7C3%2F17%7C+%7C4%2F17%7C+%7C5%2F17%7C+%7C6%2F17%7C+%7C7%2F17%7C+%7C8%2F17%7C+%7C9%2F17%7C+%7C10%2F17%7C+%7C11%2F17&chxt=x&chs=600x300&cht=lxy&chco=184852&chxs=0,676767,11.5,0,lt,676767&chxtc=0,8&chm=N**+%,184852,0,1::2,12,,h::8&chds=0,100,0,100&chts=184852,24&chtt=Cacheable+Resources&chls=2&chma=5,5,5,25
 [revving files]: https://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 
 <!-- Apache links -->
 

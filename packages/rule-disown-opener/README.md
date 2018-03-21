@@ -154,10 +154,20 @@ Let’s presume the original page is `https://example1.com`.
 `includeSameOriginURLs` can be used to specify that same origin URLs
 should also include `rel="noopener noreferrer"`.
 
+In the [`.sonarwhalrc`][sonarwhalrc] file:
+
 ```json
-"disown-opener": [ "warning", {
-    "includeSameOriginURLs": true
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "disown-opener": ["error", {
+            "includeSameOriginURLs": true
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 Also, note that this rule takes into consideration the [targeted
@@ -181,5 +191,6 @@ value.
 [noreferrer chromium]: https://blog.chromium.org/2009/12/links-that-open-in-new-processes.html
 [performance problem]: https://jakearchibald.com/2016/performance-benefits-of-rel-noopener/
 [security problem]: https://mathiasbynens.github.io/rel-noopener/
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [tab nabbing]: http://www.azarask.in/blog/post/a-new-type-of-phishing-attack/
 [window.opener]: https://developer.mozilla.org/en-US/docs/Web/API/Window/opener

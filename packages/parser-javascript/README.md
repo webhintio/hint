@@ -9,11 +9,18 @@ To use it you will have to install it via `npm`:
 npm install @sonarwhal/parser-javascript
 ```
 
-And then activate it via the `.sonarwhalrc` configuration file:
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
 
 ```json
 {
-    "parsers": ["javascript"]
+    "connector": {...},
+    "formatters": [...],
+    "parsers": ["javascript"],
+    "rules": {
+        ...
+    },
+    ...
 }
 ```
 
@@ -25,3 +32,7 @@ which has the following information:
 * `resource`: the parsed resource. If the JavaScript is in a `script tag`
   and not a file, the value will be `Internal javascript`.
 * `sourceCode`: a `eslint` `SourceCode` object.
+
+<!-- Link labels: -->
+
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/

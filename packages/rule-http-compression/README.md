@@ -978,16 +978,26 @@ you don't want the rule to check for. This can be done for the `html`
 (main page) and/or the `resources` the rule determines should be served
 compressed, using the following format:
 
+In the [`.sonarwhalrc`][sonarwhalrc] file:
+
 ```json
-"http-compression": [ "warning", {
-    "resource": {
-        "<compression_type>": <true|false>,
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "http-compression": [ "warning", {
+            "resource": {
+                "<compression_type>": <true|false>,
+                ...
+            },
+            "html": {
+                "<compression_type>": <true|false>,
+                ...
+            }
+        },
         ...
     },
-    "html": {
-        "<compression_type>": <true|false>,
-        ...
-    }
+    ...
 }
 ```
 
@@ -996,14 +1006,22 @@ Where `<compression_method>` can be one of: `brotli`, `gzip`, or
 
 E.g. If you want the rule to check if only the page resources are
 served compressed using Brotli, and not the page itself, you can
-use the following configuration:
+use the following configuration in the [`.sonarwhalrc`][sonarwhalrc]:
 
 ```json
-"http-compression": [ "warning", {
-    "html": {
-        "brotli": false
-    }
-}]
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "http-compression": [ "warning", {
+            "html": {
+                "brotli": false
+            }
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 Note: You can also use the [`ignoredUrls`](../index.md#rule-configuration)
@@ -1018,6 +1036,7 @@ property from the `.sonarwhalrc` file to exclude domains you don’t control
 [deflate issues]: https://stackoverflow.com/questions/9170338/why-are-major-web-sites-using-GZIP/9186091#9186091
 [gzip is not enough]: https://www.youtube.com/watch?v=whGwm0Lky2s
 [gzip ratio]: https://www.youtube.com/watch?v=Mjab_aZsdxw&t=24s
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [unship sdch]: https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/nQl0ORHy7sw
 [wdmsc]: https://whatdoesmysitecost.com/
 [zopfli blog post]: https://developers.googleblog.com/2013/02/compress-data-more-densely-with-zopfli.html

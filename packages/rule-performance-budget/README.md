@@ -83,14 +83,22 @@ This is the list of things taken into account:
 
 ## Can the rule be configured?
 
-You can change the type of connection and/or the target load time as follows:
+You can change the type of connection and/or the target load time
+in the [`.sonarwhalrc`][sonarwhalrc] file, using something such as
+the following:
 
 ```json
 {
-    "performance-budget": ["error", {
-        "connectionType": "Dial",
-        "loadTime": 10
-    }]
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "performance-budget": ["error", {
+            "connectionType": "Dial",
+            "loadTime": 10
+        }],
+        ...
+    },
+    ...
 }
 ```
 
@@ -153,10 +161,11 @@ This means that if the user changes the `connectionType` but not the
 [http2]: https://hpbn.co/http2/
 [keycdn-wpb]: https://www.keycdn.com/blog/web-performance-budget/
 [rtt]: https://hpbn.co/primer-on-latency-and-bandwidth/#speed-of-light-and-propagation-latency
+[slow-start phase]: https://hpbn.co/building-blocks-of-tcp/#slow-start
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [state of the internet]: https://www.akamai.com/us/en/multimedia/documents/state-of-the-internet/q1-2017-state-of-the-internet-connectivity-report.pdf
 [tcp handshake]: https://hpbn.co/building-blocks-of-tcp/#three-way-handshake
 [three-way handshake]: https://hpbn.co/building-blocks-of-tcp/#three-way-handshake
-[slow-start phase]: https://hpbn.co/building-blocks-of-tcp/#slow-start
-[tls handshake]: https://hpbn.co/transport-layer-security-tls/#tls-handshake
 [tls false start]: https://hpbn.co/transport-layer-security-tls/#enable-tls-false-start
+[tls handshake]: https://hpbn.co/transport-layer-security-tls/#tls-handshake
 [tls session resumption]: https://hpbn.co/transport-layer-security-tls/#tls-session-resumption
