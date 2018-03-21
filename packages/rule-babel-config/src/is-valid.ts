@@ -24,7 +24,7 @@ const debug: debug.IDebugger = d(__filename);
 export default class BabelConfigIsValidRule implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
-            category: Category.other,
+            category: Category.development,
             description: `'babel-config/is-valid' warns against providing an invalid babel configuration file \`.babelrc\``
         },
         id: 'babel-config/is-valid',

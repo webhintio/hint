@@ -25,7 +25,7 @@ const debug: debug.IDebugger = d(__filename);
 export default class TypeScriptConfigIsValid implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
-            category: Category.interoperability,
+            category: Category.development,
             description: '`typescript-config/is-valid` warns again providing an invalid TypeScript configuration file `tsconfig.json`'
         },
         id: 'typescript-config/is-valid',
