@@ -1,5 +1,6 @@
 /**
- * @fileoverview `typescript-config/is-valid` warns against providing an invalid TypeScript configuration file `tsconfig.json`.
+ * @fileoverview `typescript-config/no-comments` checks that the property `removeComments`
+ * is enabled in your TypeScript configuration file (i.e `tsconfig.json`).
  */
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -33,11 +34,11 @@ export default class TypeScriptConfigNoComments implements IRule {
         const validate = async (evt: TypeScriptConfigParse) => {
             const { config, resource } = evt;
 
-            if (!(config && config.compilerOptions && config.compilerOptions.removeComments)) {
+            if (!config.compilerOptions.removeComments) {
                 await context.report(resource, null, 'The compiler option "removeComments" should be enabled to reduce the output size.');
             }
         };
 
-        context.on('parse::typescript-config', validate);
+        context.on('parse::typescript-config::end', validate);
     }
 }
