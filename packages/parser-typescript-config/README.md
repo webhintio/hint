@@ -40,7 +40,7 @@ This `parser` emits the following events:
   which contains the following information:
 
   * `resource`: the parsed resource.
-  * `config`: an object with a valid configuration.
+  * `config`: an object with a valid configuration (`TypeScriptConfig`).
 
 * `invalid-json::typescript-config`, of type `TypeScriptConfigInvalid`
   which contains the following information:
