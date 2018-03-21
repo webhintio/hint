@@ -53,7 +53,7 @@ const getFileExtension = (resource: string): string => {
 
     try {
         /*
-         * he url needs to be parsed first
+         * The url needs to be parsed first
          * otherwise the result from path.extname could be incorrect, e.g.: https://sonarwhal.com => '.com'
          */
         url = new URL(resource);
