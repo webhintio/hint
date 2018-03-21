@@ -24,10 +24,10 @@ export const getAsUri = (source: string): URL => {
     try {
         target = new URL(entry);
     } catch (err) {
-        target = new URL(`http://${entry}`);
+        target = null;
     }
 
-    const protocol: string = target.protocol;
+    const protocol: string = target ? target.protocol : null;
 
     /*
      * If it's a URI.
