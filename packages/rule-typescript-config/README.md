@@ -23,7 +23,9 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "rules": {
-        "typescript-config/is-valid": "error"
+        "typescript-config/is-valid": "error",
+        "typescript-config/no-comment": "error",
+        "typescript-config/target": "error"
     },
     ...
 }
@@ -37,10 +39,14 @@ need to be sure that your configuration is the best for your needs.
 ## Rules
 
 * [typescript-config/is-valid][is-valid]
+* [typescript-config/no-comment][no-comment]
+* [typescript-config/target][terget]
 
 ## Further Reading
 
 * [TypeScript Documentation][typescript docs]
 
 [is-valid]: ./docs/is-valid.md
+[no-comment]: ./docs/no-comment.md
+[target]: ./docs/target.md
 [typescript docs]: https://www.typescriptlang.org/docs/home.html

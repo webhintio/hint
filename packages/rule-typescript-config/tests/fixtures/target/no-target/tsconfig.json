@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "declaration": true,
+        "inlineSourceMap": true,
+        "module": "commonjs",
+        "newLine": "lf",
+        "removeComments": false
+    },
+    "exclude": [
+        "dist",
+        "node_modules",
+        "packages"
+    ]
+}

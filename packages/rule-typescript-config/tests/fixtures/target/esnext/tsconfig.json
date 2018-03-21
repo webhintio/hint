@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "declaration": true,
+        "inlineSourceMap": true,
+        "module": "commonjs",
+        "newLine": "lf",
+        "removeComments": false,
+        "target": "esnext"
+    },
+    "exclude": [
+        "dist",
+        "node_modules",
+        "packages"
+    ]
+}
