@@ -241,7 +241,7 @@ export class Sonarwhal extends EventEmitter {
 
         const start: number = Date.now();
 
-        debug(`Starting the analysis on ${target.pathname}${target.search}`);
+        debug(`Starting the analysis on ${target.href}`);
 
         await this.connector.collect(target);
 
