@@ -14,7 +14,6 @@ import { URL } from 'url';
 
 import { isSupported } from 'caniuse-api';
 import * as pluralize from 'pluralize';
-import * as sameOrigin from 'same-origin';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { cutString, isRegularProtocol } from 'sonarwhal/dist/src/lib/utils/misc';
@@ -79,7 +78,7 @@ export default class DisownOpenerRule implements IRule {
              * change that by setting `includeSameOriginURLs` to `true`.
              */
 
-            if (sameOrigin(resource, fullURL) && !includeSameOriginURLs) {
+            if ((new URL(resource).origin === new URL(fullURL).origin) && !includeSameOriginURLs) {
                 debug('Is same origin');
 
                 return false;
