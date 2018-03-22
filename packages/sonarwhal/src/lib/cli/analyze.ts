@@ -1,5 +1,6 @@
 import { promisify } from 'util';
 import { URL } from 'url';
+import * as path from 'path';
 
 import * as async from 'async';
 import * as inquirer from 'inquirer';
@@ -8,7 +9,7 @@ import * as pluralize from 'pluralize';
 
 import { SonarwhalConfig } from '../config';
 import { Sonarwhal } from '../sonarwhal';
-import { CLIOptions, ORA, Problem, Severity } from '../types';
+import { CLIOptions, ORA, Problem, Severity, UserConfig } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/get-as-uri';
 import * as logger from '../utils/logging';
@@ -64,34 +65,22 @@ const askUserToInstallDependencies = async (dependencies: Array<string>): Promis
     return answer.confirm;
 };
 
-const tryToLoadConfig = async (actions: CLIOptions): Promise<SonarwhalConfig> => {
-    let config: SonarwhalConfig;
+const getUserConfig = (actions: CLIOptions): UserConfig => {
+    let config: UserConfig;
     const configPath: string = actions.config || SonarwhalConfig.getFilenameForDirectory(process.cwd());
 
     if (!configPath) {
-        logger.error(`Couldn't find a valid path to load the configuration file.`);
-
-        const created = await askUserToCreateConfig();
-
-        if (created) {
-            config = await tryToLoadConfig(actions);
-        }
-
-        return config;
+        return null;
     }
 
     debug(`Loading configuration file from ${configPath}.`);
     try {
-        config = SonarwhalConfig.fromFilePath(configPath, actions);
+        const resolvedPath: string = path.resolve(process.cwd(), configPath);
+
+        config = SonarwhalConfig.loadConfigFile(resolvedPath);
     } catch (e) {
         logger.error(e);
-
-        logger.log(`Couldn't load a valid configuration file in ${configPath}.`);
-        const created = await askUserToCreateConfig();
-
-        if (created) {
-            config = await tryToLoadConfig(actions);
-        }
+        config = null;
     }
 
     return config;
@@ -150,14 +139,23 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    const config: SonarwhalConfig = await tryToLoadConfig(actions);
+    let userConfig: UserConfig = await getUserConfig(actions);
 
-    if (!config) {
-        logger.error(`Unable to find a valid configuration file. Please add a .sonarwhalrc file by running 'sonarwhal --init'. `);
+    if (!userConfig) {
+        logger.error(`Couldn't find a valid path to load the configuration file.`);
 
-        return false;
+        const created = await askUserToCreateConfig();
+
+        if (created) {
+            userConfig = await getUserConfig(actions);
+        } else {
+            logger.error(`Unable to find a valid configuration file. Please add a .sonarwhalrc file by running 'sonarwhal --init'. `);
+
+            return false;
+        }
     }
 
+    const config = SonarwhalConfig.fromConfig(userConfig, actions);
     const resources = resourceLoader.loadResources(config);
 
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {

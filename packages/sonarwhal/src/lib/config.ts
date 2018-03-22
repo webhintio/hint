@@ -57,76 +57,6 @@ const loadPackageJSONConfigFile = (filePath: string): UserConfig => {
     }
 };
 
-/**
- * Loads a configuration file regardless of the source. Inspects the file path
- * to determine the correctly way to load the config file.
- */
-const loadConfigFile = (filePath: string): UserConfig => {
-
-    let config: UserConfig;
-
-    switch (path.extname(filePath)) {
-        case '':
-        case '.json':
-            if (path.basename(filePath) === 'package.json') {
-                config = loadPackageJSONConfigFile(filePath);
-            } else {
-                config = loadJSONFile(filePath);
-            }
-            break;
-
-        case '.js':
-            config = loadJSFile(filePath);
-            break;
-
-        default:
-            config = null;
-    }
-
-    return config;
-};
-
-/**
- * Generates the list of browsers to target using the `browserslist` property
- * of the `sonarwhal` configuration or `package.json` or uses the default one
- */
-const loadBrowsersList = (config: UserConfig) => {
-    const directory: string = process.cwd();
-    const files: Array<string> = CONFIG_FILES.reduce((total, configFile) => {
-        const filename: string = path.join(directory, configFile);
-
-        if (shell.test('-f', filename)) {
-            total.push(filename);
-        }
-
-        return total;
-    }, []);
-
-    if (!config.browserslist) {
-        for (let i = 0; i < files.length; i++) {
-            const file: string = files[i];
-            const tmpConfig: UserConfig = loadConfigFile(file);
-
-            if (tmpConfig && tmpConfig.browserslist) {
-                config.browserslist = tmpConfig.browserslist;
-                break;
-            }
-
-            if (file.endsWith('package.json')) {
-                const packagejson = loadJSONFile(file);
-
-                config.browserslist = packagejson.browserslist;
-            }
-        }
-    }
-
-    if (!config.browserslist || config.browserslist.length === 0) {
-        return browserslist();
-    }
-
-    return browserslist(config.browserslist);
-};
-
 // ------------------------------------------------------------------------
 
 /**
@@ -218,6 +148,76 @@ export class SonarwhalConfig {
         }
     }
 
+    /**
+     * Generates the list of browsers to target using the `browserslist` property
+     * of the `sonarwhal` configuration or `package.json` or uses the default one
+     */
+    public static loadBrowsersList(config: UserConfig) {
+        const directory: string = process.cwd();
+        const files: Array<string> = CONFIG_FILES.reduce((total, configFile) => {
+            const filename: string = path.join(directory, configFile);
+
+            if (shell.test('-f', filename)) {
+                total.push(filename);
+            }
+
+            return total;
+        }, []);
+
+        if (!config.browserslist) {
+            for (let i = 0; i < files.length; i++) {
+                const file: string = files[i];
+                const tmpConfig: UserConfig = SonarwhalConfig.loadConfigFile(file);
+
+                if (tmpConfig && tmpConfig.browserslist) {
+                    config.browserslist = tmpConfig.browserslist;
+                    break;
+                }
+
+                if (file.endsWith('package.json')) {
+                    const packagejson = loadJSONFile(file);
+
+                    config.browserslist = packagejson.browserslist;
+                }
+            }
+        }
+
+        if (!config.browserslist || config.browserslist.length === 0) {
+            return browserslist();
+        }
+
+        return browserslist(config.browserslist);
+    }
+
+
+    /**
+     * Loads a configuration file regardless of the source. Inspects the file path
+     * to determine the correctly way to load the config file.
+     */
+    public static loadConfigFile(filePath: string): UserConfig {
+        let config: UserConfig;
+
+        switch (path.extname(filePath)) {
+            case '':
+            case '.json':
+                if (path.basename(filePath) === 'package.json') {
+                    config = loadPackageJSONConfigFile(filePath);
+                } else {
+                    config = loadJSONFile(filePath);
+                }
+                break;
+
+            case '.js':
+                config = loadJSFile(filePath);
+                break;
+
+            default:
+                config = null;
+        }
+
+        return config;
+    }
+
     public static fromConfig(config: UserConfig, actions?: CLIOptions): SonarwhalConfig {
 
         if (!config) {
@@ -291,10 +291,10 @@ export class SonarwhalConfig {
 
         // 1
         const resolvedPath: string = path.resolve(process.cwd(), filePath);
-        const userConfig = loadConfigFile(resolvedPath);
+        const userConfig = SonarwhalConfig.loadConfigFile(resolvedPath);
         const config = this.fromConfig(userConfig, actions);
 
-        userConfig.browserslist = userConfig.browserslist || loadBrowsersList(userConfig);
+        userConfig.browserslist = userConfig.browserslist || SonarwhalConfig.loadBrowsersList(userConfig);
 
         return config;
     }
