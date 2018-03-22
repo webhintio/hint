@@ -1,15 +1,9 @@
 import * as url from 'url';
+import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
 import test from 'ava';
 
 import { getAsUri, getAsUris } from '../../../src/lib/utils/get-as-uri';
-
-/*
- * TS complains that "Property Url does not exist on type 'typeof "url"'"
- * if we do `instanceof url.Url`
- * We bypasse the limitation this way
- */
-const Url = url.parse('http://locahost').constructor;
 
 const normalize = (path) => {
     const prefix = path.indexOf('/') === 0 ? '' : '/';
@@ -26,12 +20,12 @@ const targets = [
     [`${__filename}noexists`, null]
 ];
 
-test('getAsUri converts http, file and path strings to valid url.Url objects', (t) => {
+test('getAsUri converts http, file and path strings to valid URL objects', (t) => {
     targets.forEach((target) => {
         const uri = getAsUri(target[0]);
 
         if (target[1]) {
-            t.true(uri instanceof Url);
+            t.true(uri instanceof URL);
             t.is(url.format(uri).toLowerCase(), target[1].toLowerCase());
         } else {
             t.falsy(uri);
@@ -39,7 +33,7 @@ test('getAsUri converts http, file and path strings to valid url.Url objects', (
     });
 });
 
-test('getAsUris converts to url.Url and removes invalid entries', (t) => {
+test('getAsUris converts to URL and removes invalid entries', (t) => {
     const urls = targets.map((entry) => {
         return entry[0];
     });
@@ -48,6 +42,6 @@ test('getAsUris converts to url.Url and removes invalid entries', (t) => {
 
     t.is(results.length, 5);
     results.forEach((result) => {
-        t.true(result instanceof Url);
+        t.true(result instanceof URL);
     });
 });

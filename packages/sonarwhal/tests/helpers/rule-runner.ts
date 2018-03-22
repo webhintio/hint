@@ -2,7 +2,7 @@
  * @fileoverview Allows to tests rules individually creating a server.
  */
 
-import * as url from 'url';
+import { URL } from 'url';
 
 import { test } from 'ava';
 import * as retry from 'async-retry';
@@ -157,7 +157,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
                 const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
 
                 const sonarwhal = await createConnector(t, ruleTest, connector, attemp);
-                const results = await sonarwhal.executeOn(url.parse(target));
+                const results = await sonarwhal.executeOn(new URL(target));
 
                 await stopConnector(ruleTest, sonarwhal);
 

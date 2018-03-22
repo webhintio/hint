@@ -27,8 +27,7 @@ import * as logger from '../../utils/logging';
 
 import {
     IConnector,
-    Event, FetchEnd, ScanEnd,
-    URL
+    Event, FetchEnd, ScanEnd
 } from '../../types';
 // import { Requester } from '../utils/requester';
 import { Sonarwhal } from '../../sonarwhal';
@@ -248,7 +247,7 @@ export default class LocalConnector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    public async collect(target: URL) {
+    public async collect(target: url.URL) {
         /** The target in string format */
         const href: string = this._href = target.href;
         const initialEvent: Event = { resource: href };

@@ -1,4 +1,5 @@
 import { promisify } from 'util';
+import { URL } from 'url';
 
 import * as async from 'async';
 import * as inquirer from 'inquirer';
@@ -7,7 +8,7 @@ import * as pluralize from 'pluralize';
 
 import { SonarwhalConfig } from '../config';
 import { Sonarwhal } from '../sonarwhal';
-import { CLIOptions, ORA, Problem, Severity, URL } from '../types';
+import { CLIOptions, ORA, Problem, Severity } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/get-as-uri';
 import * as logger from '../utils/logging';

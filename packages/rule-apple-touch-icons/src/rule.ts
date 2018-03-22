@@ -2,7 +2,7 @@
  * @fileoverview Check for correct usage of `apple-touch-icon`.
  */
 
-import * as url from 'url';
+import { URL } from 'url';
 
 import * as getImageData from 'image-size';
 
@@ -99,18 +99,12 @@ export default class AppleTouchIconsRule implements IRule {
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-            let appleTouchIconURL = '';
-
             /*
              * If `href` exists and is not an empty string, try
              * to figure out the full URL of the `apple-touch-icon`.
              */
 
-            if (url.parse(appleTouchIconHref).protocol) {
-                appleTouchIconURL = appleTouchIconHref;
-            } else {
-                appleTouchIconURL = url.resolve(resource, appleTouchIconHref);
-            }
+            const appleTouchIconURL = new URL(appleTouchIconHref, resource).href;
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

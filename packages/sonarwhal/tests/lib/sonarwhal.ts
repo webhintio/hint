@@ -27,7 +27,7 @@ class FakeConnector implements IConnector {
         this.config = config;
     }
 
-    public collect(target: url.Url) {
+    public collect(target: url.URL) {
         return Promise.resolve(target);
     }
 
@@ -632,7 +632,7 @@ test.serial('If connector is in the resources, we should init the connector', (t
             this.config = config;
         }
 
-        public collect(target: url.Url) {
+        public collect(target: url.URL) {
             return Promise.resolve(target);
         }
 
@@ -662,7 +662,7 @@ test.serial('If connector is an object with valid data, we should init the conne
             this.config = config;
         }
 
-        public collect(target: url.Url) {
+        public collect(target: url.URL) {
             return Promise.resolve(target);
         }
 
@@ -721,7 +721,7 @@ test.serial('pageContent should return the HTML', async (t) => {
             this.config = config;
         }
 
-        public collect(target: url.Url) {
+        public collect(target: url.URL) {
             return Promise.resolve(target);
         }
 
@@ -760,7 +760,7 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
             this.config = config;
         }
 
-        public collect(target: url.Url) {
+        public collect(target: url.URL) {
             return Promise.resolve(target);
         }
 
@@ -798,7 +798,7 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
             this.config = config;
         }
 
-        public collect(target: url.Url) {
+        public collect(target: url.URL) {
             if (this.error) {
                 throw new Error('Error runing collect');
             }
@@ -842,7 +842,7 @@ test.serial('executeOn should return all messages', async (t) => {
             this.config = config;
         }
 
-        public collect(target: url.Url) {
+        public collect(target: url.URL) {
             return Promise.resolve(target);
         }
 

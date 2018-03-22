@@ -27,6 +27,8 @@
 
 import * as path from 'path';
 import * as url from 'url';
+import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
+
 import * as util from 'util';
 import { fork, ChildProcess } from 'child_process';
 
@@ -37,7 +39,7 @@ import { getContentTypeData, getType } from '../../utils/content-type';
 import {
     IConnector,
     ElementFound, Event, FetchEnd, FetchError, ManifestFetchError, TraverseDown, TraverseUp,
-    NetworkData, URL
+    NetworkData
 } from '../../types';
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
 import { resolveUrl } from '../utils/resolver';
@@ -166,8 +168,8 @@ export default class JSDOMConnector implements IConnector {
         let resourceUrl: string = resource.url.href;
         const element = resource.element ? new JSDOMAsyncHTMLElement(resource.element) : null;
 
-        if (!url.parse(resourceUrl).protocol) {
-            resourceUrl = url.resolve(this._finalHref, resourceUrl);
+        if (!resource.url.protocol) {
+            resourceUrl = new URL(resource.url.href, this._finalHref).href;
         }
 
         // Ignore if the resource has already been fetched.
@@ -231,7 +233,7 @@ export default class JSDOMConnector implements IConnector {
         const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
-            await util.promisify(this.resourceLoader).call(this, { element, url: url.parse(href) });
+            await util.promisify(this.resourceLoader).call(this, { element, url: new URL(href, this._finalHref) });
         } catch (e) {
             debug('Error loading ${href}', e);
         }
@@ -485,7 +487,7 @@ export default class JSDOMConnector implements IConnector {
              * to get the right protocol but it doesn't seem return the right value.
              */
             parsedTarget = parsedTarget.indexOf('//') === 0 ? `http:${parsedTarget}` : parsedTarget;
-            parsedTarget = url.parse(parsedTarget);
+            parsedTarget = new URL(parsedTarget);
 
             return this.fetchContent(parsedTarget, customHeaders);
         }

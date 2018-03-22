@@ -2,7 +2,7 @@
  * @fileoverview Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed
  */
 
-import * as url from 'url';
+import { URL } from 'url';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
@@ -74,7 +74,7 @@ export default class PerformanceBudgetRule implements IRule {
 
         /** Update the stored information for unique domains (`uniqueDomains`) and connections over https (`secureDomains`). */
         const updateDomainsInfo = (resource: string) => {
-            const resourceUrl = url.parse(resource);
+            const resourceUrl = new URL(resource);
 
             uniqueDomains.add(resourceUrl.hostname);
 

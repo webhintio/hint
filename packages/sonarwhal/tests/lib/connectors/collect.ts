@@ -2,7 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import * as url from 'url';
+import { URL } from 'url';
 import * as sinon from 'sinon';
 
 import test from 'ava';
@@ -49,7 +49,7 @@ const runTest = async (t, ConnectorConstructor: IConnectorConstructor, serverCon
         server.configure(serverConfig);
     }
 
-    await connector.collect(url.parse(`http://localhost:${server.port}/`));
+    await connector.collect(new URL(`http://localhost:${server.port}/`));
     await connector.close();
 };
 

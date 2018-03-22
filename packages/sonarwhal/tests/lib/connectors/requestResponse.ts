@@ -7,7 +7,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import * as url from 'url';
+import { URL } from 'url';
 import * as zlib from 'zlib';
 
 import * as _ from 'lodash';
@@ -117,7 +117,7 @@ const testRequestResponse = (connectorInfo) => {
             }
         });
 
-        await connector.collect(url.parse(`http://localhost:${server.port}/`));
+        await connector.collect(new URL(`http://localhost:${server.port}/`));
 
         const invokedFetchEnd = findEvent(emitAsync, 'fetch::end::html') || findEvent(emit, 'fetch::end::html');
         /* eslint-disable sort-keys */

@@ -2,6 +2,7 @@
  * @fileoverview Check if responses served over HTTPS also have the Strict-Transport-Security header with a proper value max-age value.
  */
 import * as url from 'url';
+import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
@@ -111,7 +112,7 @@ export default class StrictTransportSecurityRule implements IRule {
         };
 
         const verifyPreload = async (resource): Promise<{ [key: string]: any }> => {
-            const originalDomain = url.parse(resource).hostname;
+            const originalDomain = new URL(resource).hostname;
             const mainDomain = originalDomain.replace(/^www./, '');
             // Some hostnames in the list include `www.`, e.g., `www.gov.uk`.
             let status: string;
@@ -168,7 +169,7 @@ export default class StrictTransportSecurityRule implements IRule {
             }
 
             if (!isHTTPS(resource) && !headerValue) {
-                const httpsResource = url.format(Object.assign(url.parse(resource), { protocol: `https` }));
+                const httpsResource = url.format(Object.assign(new URL(resource), { protocol: `https` }));
 
                 try {
                     const networkData: NetworkData = await context.fetchContent(httpsResource);

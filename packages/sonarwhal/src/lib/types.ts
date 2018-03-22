@@ -1,5 +1,3 @@
-import * as url from 'url';
-
 import { IFormatterConstructor } from './types/formatters';
 import { IConnectorConstructor } from './types/connector';
 import { IParserConstructor } from './types/parser';
@@ -67,9 +65,6 @@ export type UserConfig = {
 
 /** A resource required by sonarwhal: Connector, Formatter, Rule. */
 export type Resource = IConnectorConstructor | IFormatterConstructor | IRuleConstructor;
-
-/** An alias for url.Url. */
-export type URL = url.Url;
 
 export type CLIOptions = {
     _: Array<string>;
