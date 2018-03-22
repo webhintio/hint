@@ -23,6 +23,16 @@ const misc = {
     findPackageRoot() { },
     loadJSONFile() { }
 };
+const spinner = {
+    fail() { },
+    start() { },
+    succeed() { },
+    text: ''
+};
+
+const ora = () => {
+    return spinner;
+};
 
 const esearchContainer = { esearch() { } };
 const devDependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dev-package.json`));
@@ -43,7 +53,8 @@ proxyquire('../../../src/lib/utils/npm', {
     './misc': misc,
     child_process: child, // eslint-disable-line camelcase
     npm,
-    'npm/lib/search/esearch': esearchContainer.esearch
+    'npm/lib/search/esearch': esearchContainer.esearch,
+    ora
 });
 
 test.serial('installPackages should run the right command if package.json exists in the current work directory, and has `sonarwhal` as a devDependency', async (t) => {
@@ -207,7 +218,8 @@ test.serial('search should search for the right data', async (t) => {
         './misc': misc,
         child_process: child, // eslint-disable-line camelcase
         npm,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        'npm/lib/search/esearch': esearchContainer.esearch,
+        ora
     });
 
     const npmUtils = require('../../../src/lib/utils/npm');
@@ -242,7 +254,8 @@ test.serial('search should fail if something goes wrong', async (t) => {
         './misc': misc,
         child_process: child, // eslint-disable-line camelcase
         npm,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        'npm/lib/search/esearch': esearchContainer.esearch,
+        ora
     });
 
     const npmUtils = require('../../../src/lib/utils/npm');
