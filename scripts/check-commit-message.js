@@ -59,8 +59,8 @@ const checkFirstLine = (line) => {
 
     let issues = [];
 
-    if (ucs2.decode(line).length > 50) {
-        issues.push('[Line 1] Has over 50 characters.');
+    if (ucs2.decode(line).length > 72) {
+        issues.push('[Line 1] Has over 72 characters.');
     }
 
     const tag = ALLOWED_TAGS.filter((allowedTag) => {
