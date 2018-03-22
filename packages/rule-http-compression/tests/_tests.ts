@@ -9,7 +9,7 @@ const uaString = 'Mozilla/5.0 Gecko';
 // Error messages.
 
 const generateCompressionMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => {
-    return `Should${notRequired ? ' not' : ''} be served compressed${encoding ? ` with ${encoding}` : ''}${suffix ? ` ${suffix}` : ''}.`;
+    return `Should${notRequired ? ' not' : ''} be served compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
 };
 
 const generateContentEncodingMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => {
@@ -279,7 +279,7 @@ const testsForBrotliUASniffing = (): Array<RuleTest> => {
     return [
         {
             name: `Resource is not served compressed with Brotli when Brotli compression is requested with uncommon user agent string`,
-            reports: [{ message: generateCompressionMessage('Brotli', false, `over HTTPS regardless of the user agent`) }],
+            reports: [{ message: generateCompressionMessage('Brotli', false, `over HTTPS, regardless of the user agent`) }],
             serverConfig: createBrotliServerConfig(
                 Object.assign(
                     headersConfig,
@@ -556,7 +556,7 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): Array<RuleTest> =
     return [
         {
             name: `Resource is not served compressed with gzip when gzip compression is requested with uncommon user agent string`,
-            reports: [{ message: generateCompressionMessage('gzip', false, `regardless of the user agent`) }],
+            reports: [{ message: generateCompressionMessage('gzip', false, `, regardless of the user agent`) }],
             serverConfig: createGzipZopfliServerConfig(
                 Object.assign(
                     headersConfig,
@@ -570,7 +570,7 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): Array<RuleTest> =
         },
         {
             name: `Resource is not served compressed with Zopfli when Zopfli compression is requested with uncommon user agent string`,
-            reports: [{ message: generateCompressionMessage('Zopfli', false, `regardless of the user agent`) }],
+            reports: [{ message: generateCompressionMessage('Zopfli', false, `, regardless of the user agent`) }],
             serverConfig: createGzipZopfliServerConfig(
                 Object.assign(
                     headersConfig,
