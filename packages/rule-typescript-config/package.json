@@ -51,7 +51,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@sonarwhal/parser-typescript-config": "^1.0.0",
+    "@sonarwhal/parser-typescript-config": "^1.0.1",
     "sonarwhal": "^1.2.1"
   },
   "repository": "sonarwhal/sonarwhal",
