@@ -7,7 +7,6 @@ import * as proxyquire from 'proxyquire';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { delay, readFile } from '../../../src/lib/utils/misc';
-import { emit } from 'cluster';
 
 const npm = {
     load(sync, cb) {
@@ -66,7 +65,7 @@ test.serial('installPackages should run the right command if package.json exists
 
     t.context.child = child;
 
-    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 --save-dev'); // eslint-disable-line no-sync
+    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 --save-dev');
 
     sandbox.restore();
 });
@@ -90,7 +89,7 @@ test.serial('installPackages should run the right command if package.json exists
 
     t.context.child = child;
 
-    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1'); // eslint-disable-line no-sync
+    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1');
 
     sandbox.restore();
 });
@@ -113,7 +112,7 @@ test.serial(`installPackages should run the right command if path to package.jso
 
     t.context.child = child;
 
-    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g'); // eslint-disable-line no-sync
+    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g');
 
     sandbox.restore();
 });
@@ -137,7 +136,7 @@ test.serial(`installPackages should run the right command if package.json exists
     await promise;
 
     t.context.child = child;
-    t.false(t.context.child.spawn.called); // eslint-disable-line no-sync
+    t.false(t.context.child.spawn.called);
 
     sandbox.restore();
 });
@@ -164,8 +163,8 @@ test.serial('installPackages should show the command to run if the installation 
 
     t.context.child = child;
 
-    t.true(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 --save-dev')); // eslint-disable-line no-sync
-    t.false(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g')); // eslint-disable-line no-sync
+    t.true(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 --save-dev'));
+    t.false(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g'));
 
     sandbox.restore();
 });
@@ -190,7 +189,7 @@ test.serial(`installPackages should show the command to run if the installation 
 
     t.context.child = child;
 
-    t.true(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g')); // eslint-disable-line no-sync
+    t.true(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g'));
 
     sandbox.restore();
 });
