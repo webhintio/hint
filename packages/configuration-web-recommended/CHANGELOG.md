@@ -1,3 +1,14 @@
+# 3.0.0 (March 22, 2018)
+
+## Breaking Changes
+
+* [[`b00267fb75`](https://github.com/sonarwhal/sonarwhal/commit/b00267fb75b63372b34c6006132dc56d56588b73)] - Breaking: Update `rule-http-compression` to `v4.0.0` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+## Bug fixes / Improvements
+
+* [[`36329fc161`](https://github.com/sonarwhal/sonarwhal/commit/36329fc161d90e8cf1b593d6fcde7262f3ceabae)] - Docs: Make it more clear how to integrate the rule configurations into the `.sonarwhalrc` file (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#904`](https://github.com/sonarwhal/sonarwhal/issues/904)).
+
+
 # 2.0.1 (March 13, 2018)
 
 ## New features
