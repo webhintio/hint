@@ -4,6 +4,7 @@ import * as stream from 'stream';
 import test from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
+import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { delay, readFile } from '../../../src/lib/utils/misc';
 
@@ -13,7 +14,7 @@ const npm = {
     }
 };
 
-const child = { spawnSync() { } };
+const child = { spawn() { } };
 const logger = {
     error() { },
     log() { }
@@ -22,125 +23,184 @@ const misc = {
     findPackageRoot() { },
     loadJSONFile() { }
 };
+const spinner = {
+    fail() { },
+    start() { },
+    succeed() { },
+    text: ''
+};
+
+const ora = () => {
+    return spinner;
+};
 
 const esearchContainer = { esearch() { } };
 const devDependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dev-package.json`));
 const dependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dep-package.json`));
+
+const getEmitter = () => {
+    const emitter = new EventEmitter();
+
+    (emitter as any).stderr = new EventEmitter();
+
+    (((emitter as any).stderr) as any).setEncoding = () => { };
+
+    return emitter;
+};
 
 proxyquire('../../../src/lib/utils/npm', {
     './logging': logger,
     './misc': misc,
     child_process: child, // eslint-disable-line camelcase
     npm,
-    'npm/lib/search/esearch': esearchContainer.esearch
+    'npm/lib/search/esearch': esearchContainer.esearch,
+    ora
 });
 
-test.serial('installPackages should run the right command if package.json exists in the current work directory, and has `sonarwhal` as a devDependency', (t) => {
+test.serial('installPackages should run the right command if package.json exists in the current work directory, and has `sonarwhal` as a devDependency', async (t) => {
+    const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = require('../../../src/lib/utils/npm');
 
-    sandbox.stub(child, 'spawnSync').returns({ status: 0 });
+    sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(misc, 'loadJSONFile').returns(devDependencyJson);
-    npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+
+    await delay(500);
+
+    emitter.emit('exit', 0);
+
+    await promise;
 
     t.context.child = child;
 
-    t.is(t.context.child.spawnSync.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 --save-dev'); // eslint-disable-line no-sync
+    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 --save-dev');
 
     sandbox.restore();
 });
 
-test.serial('installPackages should run the right command if package.json exists in the current working directory, and has `sonarwhal` as a regular dependency', (t) => {
+test.serial('installPackages should run the right command if package.json exists in the current working directory, and has `sonarwhal` as a regular dependency', async (t) => {
+    const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = require('../../../src/lib/utils/npm');
 
-    sandbox.stub(child, 'spawnSync').returns({ status: 0 });
+    sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(misc, 'loadJSONFile').returns(dependencyJson);
-    npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+
+    await delay(500);
+
+    emitter.emit('exit', 0);
+
+    await promise;
 
     t.context.child = child;
 
-    t.is(t.context.child.spawnSync.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1'); // eslint-disable-line no-sync
+    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1');
 
     sandbox.restore();
 });
 
-test.serial(`installPackages should run the right command if path to package.json doesn't exist`, (t) => {
+test.serial(`installPackages should run the right command if path to package.json doesn't exist`, async (t) => {
+    const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = require('../../../src/lib/utils/npm');
 
-    sandbox.stub(child, 'spawnSync').returns({ status: 0 });
+    sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').throws(new Error(`Path doesn't exist.`));
 
-    npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+
+    await delay(500);
+
+    emitter.emit('exit', 0);
+
+    await promise;
 
     t.context.child = child;
 
-    t.is(t.context.child.spawnSync.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g'); // eslint-disable-line no-sync
+    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g');
 
     sandbox.restore();
 });
 
-test.serial(`installPackages should run the right command if package.json exists but is not valid`, (t) => {
+test.serial(`installPackages should run the right command if package.json exists but is not valid`, async (t) => {
+    const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = require('../../../src/lib/utils/npm');
 
-    sandbox.stub(child, 'spawnSync').returns({ status: 0 });
+    sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(misc, 'loadJSONFile').throws(new Error('Invalid JSON.'));
 
-    npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+
+    await delay(500);
+
+    emitter.emit('exit', 0);
+
+    await promise;
 
     t.context.child = child;
-    t.false(t.context.child.spawnSync.called); // eslint-disable-line no-sync
+    t.false(t.context.child.spawn.called);
 
     sandbox.restore();
 });
 
-test.serial('installPackages should show the command to run if the installation fail and package.json exists', (t) => {
+test.serial('installPackages should show the command to run if the installation fail and package.json exists', async (t) => {
+    const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = require('../../../src/lib/utils/npm');
 
-    sandbox.stub(child, 'spawnSync').returns({
-        output: [null, null, Buffer.from('Error installing packages')],
-        status: 1
-    });
+    sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(misc, 'loadJSONFile').returns(devDependencyJson);
     sandbox.spy(logger, 'log');
 
-    npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+
+    await delay(500);
+
+    (emitter as any).stderr.emit('data', 'Error installing packages');
+    emitter.emit('exit', 1);
+
+    await promise;
 
     t.context.child = child;
 
-    t.true(t.context.child.spawnSync.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 --save-dev')); // eslint-disable-line no-sync
-    t.false(t.context.child.spawnSync.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g')); // eslint-disable-line no-sync
+    t.true(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 --save-dev'));
+    t.false(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g'));
 
     sandbox.restore();
 });
 
-test.serial(`installPackages should show the command to run if the installation fail and package.json doesn't exist`, (t) => {
+test.serial(`installPackages should show the command to run if the installation fail and package.json doesn't exist`, async (t) => {
+    const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = require('../../../src/lib/utils/npm');
 
-    sandbox.stub(child, 'spawnSync').returns({
-        output: [null, null, Buffer.from('Error installing packages')],
-        status: 1
-    });
+    sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').throws(new Error(`Path doesn't exist.`));
     sandbox.spy(logger, 'log');
 
-    npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+
+    await delay(500);
+
+    (emitter as any).stderr.emit('data', 'Error installing packages');
+    emitter.emit('exit', 1);
+
+    await promise;
 
     t.context.child = child;
 
-    t.true(t.context.child.spawnSync.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g')); // eslint-disable-line no-sync
+    t.true(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g'));
 
     sandbox.restore();
 });
@@ -158,7 +218,8 @@ test.serial('search should search for the right data', async (t) => {
         './misc': misc,
         child_process: child, // eslint-disable-line camelcase
         npm,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        'npm/lib/search/esearch': esearchContainer.esearch,
+        ora
     });
 
     const npmUtils = require('../../../src/lib/utils/npm');
@@ -193,7 +254,8 @@ test.serial('search should fail if something goes wrong', async (t) => {
         './misc': misc,
         child_process: child, // eslint-disable-line camelcase
         npm,
-        'npm/lib/search/esearch': esearchContainer.esearch
+        'npm/lib/search/esearch': esearchContainer.esearch,
+        ora
     });
 
     const npmUtils = require('../../../src/lib/utils/npm');
