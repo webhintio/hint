@@ -17,7 +17,7 @@
     "typescript-eslint-parser": "^14.0.0"
   },
   "peerDependencies": {
-    "sonarwhal": "^1.2.0"
+    "sonarwhal": "^1.2.1"
   },
   "engines": {
     "node": ">=8.0.0"

@@ -47,7 +47,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "sonarwhal": "^1.2.0"
+    "sonarwhal": "^1.2.1"
   },
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
