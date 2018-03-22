@@ -1,3 +1,10 @@
+# 1.2.1 (March 22, 2018)
+
+## Bug fixes / Improvements
+
+* [[`f679ad4181`](https://github.com/sonarwhal/sonarwhal/commit/f679ad4181add3044faff03087f680767feeebb2)] - Fix: Infinite loop when running the `--init` command (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#908`](https://github.com/sonarwhal/sonarwhal/issues/908)).
+
+
 # 1.2.0 (March 20, 2018)
 
 ## Bug fixes / Improvements
