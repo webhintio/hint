@@ -355,6 +355,20 @@ const getSonarwhalPackage = () => {
     return require(path.join(__dirname, '../../../../package.json'));
 };
 
+/**
+ * Returns the same object but with all the properties lower cased. This is
+ * helpful when working with `headers`.
+ */
+const toLowerCaseKeys = (obj) => {
+    const entries = Object.entries(obj);
+
+    return entries.reduce((lowerCased, [key, value]) => {
+        lowerCased[key.toLowerCase()] = value;
+
+        return lowerCased;
+    }, {});
+};
+
 export {
     cutString,
     delay,
@@ -388,5 +402,6 @@ export {
     requestAsync,
     toCamelCase,
     toPascalCase,
+    toLowerCaseKeys,
     writeFileAsync
 };

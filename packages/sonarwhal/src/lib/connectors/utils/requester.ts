@@ -8,22 +8,50 @@
  */
 
 import * as url from 'url';
+import { promisify } from 'util';
+import * as zlib from 'zlib';
 
+import * as async from 'async';
+import * as brotli from 'iltorb';
 import * as request from 'request';
 import * as iconv from 'iconv-lite';
 
 import { debug as d } from '../../utils/debug';
+import { getHeaderValueNormalized, toLowerCaseKeys } from '../../utils/misc';
 import { getContentTypeData } from '../../utils/content-type';
 import { NetworkData } from '../../types'; //eslint-disable-line
 import { RedirectManager } from './redirects';
 
 const debug = d(__filename);
+const decompressBrotli = promisify(brotli.decompress);
+const decompressGzip = promisify(zlib.gunzip);
+const inflateAsync = promisify(zlib.inflate);
+const inflateRawAsync = promisify(zlib.inflateRaw);
+const inflate = (buff: Buffer): Promise<Buffer> => {
+    /*
+     * We detect if the data conforms to RFC 1950 Section 2.2:
+     * * CM (Compression Method, bits 0-3) field should be 8
+     * * FCHECK (bits 0-4) should be a multiple of 31
+     *
+     * https://www.ietf.org/rfc/rfc1950.txt
+     */
+    if ((buff[0] & 0x0f) === 8 && (buff.readUInt16BE(0) % 31 === 0)) {
+        return inflateAsync(buff) as any;
+    }
+
+    return inflateRawAsync(buff) as any;
+};
+
+const identity = (buff: Buffer): Promise<Buffer> => {
+    return Promise.resolve(Buffer.from(buff));
+};
+const asyncSome = promisify(async.someSeries);
 
 const defaults = {
     encoding: null,
     followRedirect: false,
-    gzip: true,
     headers: {
+        'Accept-Encoding': 'gzip, deflate, br',
         'Accept-Language': 'en-US,en;q=0.8,es;q=0.6,fr;q=0.4',
         'Cache-Control': 'no-cache',
         DNT: 1,
@@ -45,6 +73,84 @@ export class Requester {
     /** Maximum number of redirects */
     private _maxRedirects: number = 10;
 
+    /** Tries to decompress the given `Buffer` `content` using the given `decompressor` */
+    private async tryToDecompress(decompressor, content): Promise<Buffer> {
+        try {
+            const result = await decompressor(content);
+
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    /** Returns the functions to try to use in order for a given algorithm. */
+    private decompressors(algorithm: string): Array<Function> {
+        const priorities = {
+            br: 0,
+            gzip: 1,
+            deflate: 2, // eslint-disable-line sort-keys
+            identity: 3
+        };
+
+        const functions = [
+            decompressBrotli,
+            decompressGzip,
+            inflate,
+            identity
+        ];
+
+        // In case of an algorithm not defined by us
+        const priority = typeof priorities[algorithm.trim()] === 'undefined' ?
+            priorities.identity :
+            priorities[algorithm];
+
+        return functions.slice(priority);
+    }
+
+    /**
+     * Tries to uncompresses a buffer with fallbacks in case `content-encoding`
+     * is not accurate. E.g.:
+     * `Content-Encoding` is `br` but content is actually `gzip`. It will try
+     * first with Brotli, then gzip, then return a copy of the original Buffer
+     *
+     */
+    private async decompressResponse(contentEncoding: string, rawBodyResponse: Buffer): Promise<Buffer> {
+        const that = this;
+        /*
+         * The "Content-Encoding" header field indicates what content codings
+         * have been applied to the representation, beyond those inherent in the
+         * media type, and thus what decoding mechanisms have to be applied in
+         * order to obtain data in the media type referenced by the Content-Type
+         * header field. Content-Encoding is primarily used to allow a
+         * representation.
+         *
+         * https://tools.ietf.org/html/rfc7231#section-3.1.2.2
+         *
+         * This means contentEncoding could be `gzip, br` and we will need to
+         * unzip and unbrotli
+         */
+
+        const algorithms = contentEncoding ?
+            contentEncoding.split(',') :
+            ['']; // `contentEncoding` could be null. For our purposes '' is OK
+        const decompressors = this.decompressors(algorithms.shift().trim());
+        let rawBody: Buffer;
+
+        await asyncSome(decompressors, async (decompressor) => {
+            rawBody = await that.tryToDecompress(decompressor, rawBodyResponse);
+
+            return !!rawBody;
+        });
+
+        // There's another decompression we need to do
+        if (algorithms.length > 0) {
+            return this.decompressResponse(algorithms.join(','), rawBody);
+        }
+
+        return rawBody;
+    }
+
     public constructor(customOptions?: request.CoreOptions) {
         if (customOptions) {
             customOptions.followRedirect = false;
@@ -52,7 +158,12 @@ export class Requester {
             this._maxRedirects = customOptions.maxRedirects || this._maxRedirects;
 
             if (customOptions.headers) {
-                customOptions.headers = Object.assign({}, defaults.headers, customOptions.headers);
+                /*
+                 * We lower case everything because someone could use 'ACCEPT-Encoding' and then we will have 2 different keys.
+                 * `request` probably normalizes this already but this way it's explicit and we know the user's headers will
+                 * always take precedence.
+                 */
+                customOptions.headers = Object.assign({}, toLowerCaseKeys(defaults.headers), toLowerCaseKeys(customOptions.headers));
             }
         }
 
@@ -79,7 +190,7 @@ export class Requester {
             const byteChunks: Array<Buffer> = [];
             let rawBodyResponse: Buffer;
 
-            this._request({ uri }, async (err, response, rawBody) => {
+            this._request({ uri }, async (err, response) => {
                 if (err) {
                     debug(`Request for ${uri} failed\n${err}`);
 
@@ -111,7 +222,9 @@ export class Requester {
                     }
                 }
 
-                const { charset, mediaType } = getContentTypeData(null, uri, response.headers, response.body.rawContent);
+                const contentEncoding: string = getHeaderValueNormalized(response.headers, 'content-encoding');
+                const rawBody: Buffer = await this.decompressResponse(contentEncoding, rawBodyResponse);
+                const { charset, mediaType } = getContentTypeData(null, uri, response.headers, rawBody);
                 const hops: Array<string> = this._redirects.calculate(uri);
                 const body: string = iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
 
@@ -140,7 +253,10 @@ export class Requester {
                 return resolve(networkData);
             })
                 /*
-                 * This will allow us to get the raw response's body, handy if it is compressed.
+                 * Somehow the Buffer body from `callback(err, resp, body)` is different than the one we get
+                 * if we do this method. Even though both output the same result after decompressing,
+                 * the real bytes sent over the wire for the content are these ones.
+                 *
                  * See: https://github.com/request/request/tree/6f286c81586a90e6a9d97055f131fdc68e523120#examples.
                  */
                 .on('response', (response) => {
