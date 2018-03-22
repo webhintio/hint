@@ -1,3 +1,10 @@
+# 1.2.2 (March 22, 2018)
+
+## Bug fixes / Improvements
+
+* [[`e3be5b9aa9`](https://github.com/sonarwhal/sonarwhal/commit/e3be5b9aa92135074b3005ee07c6c6fb99c69487)] - Fix: Add `development` category (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 1.2.1 (March 22, 2018)
 
 ## Bug fixes / Improvements
