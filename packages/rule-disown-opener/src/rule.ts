@@ -16,7 +16,7 @@ import { isSupported } from 'caniuse-api';
 import * as pluralize from 'pluralize';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { cutString, isRegularProtocol } from 'sonarwhal/dist/src/lib/utils/misc';
+import { cutString, isRegularProtocol, sameOrigin } from 'sonarwhal/dist/src/lib/utils/misc';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, ElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
