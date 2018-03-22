@@ -11,7 +11,7 @@
     "@sonarwhal/rule-html-checker": "^3.0.1",
     "@sonarwhal/rule-http-cache": "^3.0.1",
     "@sonarwhal/rule-http-compression": "^4.0.0",
-    "@sonarwhal/rule-image-optimization-cloudinary": "^3.0.0",
+    "@sonarwhal/rule-image-optimization-cloudinary": "^3.0.1",
     "@sonarwhal/rule-manifest-app-name": "^3.0.0",
     "@sonarwhal/rule-manifest-exists": "^3.0.0",
     "@sonarwhal/rule-manifest-file-extension": "^3.0.0",
