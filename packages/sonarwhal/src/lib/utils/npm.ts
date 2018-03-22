@@ -1,9 +1,12 @@
 import * as esearch from 'npm/lib/search/esearch';
 import * as npm from 'npm';
 import { promisify } from 'util';
-import { spawnSync, SpawnSyncReturns } from 'child_process';
+import { spawn } from 'child_process';
+import * as path from 'path';
 
-import { NpmPackage } from '../types';
+import * as ora from 'ora';
+
+import { NpmPackage, ORA } from '../types';
 import { debug as d } from './debug';
 import * as logger from './logging';
 import { loadJSONFile, findPackageRoot } from './misc';
@@ -11,7 +14,31 @@ import { loadJSONFile, findPackageRoot } from './misc';
 const debug: debug.IDebugger = d(__filename);
 const npmLoadAsync = promisify(npm.load);
 
-export const installPackages = (packages: Array<string>): boolean => {
+const install = (command: string) => {
+    return new Promise((resolve, reject) => {
+        const npmInstall = spawn(command, [], { shell: true });
+        let errors: string = '';
+
+        npmInstall.stderr.setEncoding('utf8');
+        npmInstall.stderr.on('data', (data) => {
+            errors += data;
+        });
+
+        npmInstall.on('error', (err) => {
+            reject(err);
+        });
+
+        npmInstall.on('exit', (code) => {
+            if (code !== 0) {
+                return reject(errors);
+            }
+
+            return resolve(true);
+        });
+    });
+};
+
+export const installPackages = async (packages: Array<string>): Promise<boolean> => {
     /** Whether or not the package should be installed globally. */
     let global: boolean = false;
     /** Whether or not the package should be installed as devDependencies. */
@@ -24,7 +51,7 @@ export const installPackages = (packages: Array<string>): boolean => {
     let command: string = `npm install ${packages.join(' ')}`;
 
     if (packages.length === 0) {
-        return true;
+        return Promise.resolve(true);
     }
 
     try {
@@ -36,9 +63,11 @@ export const installPackages = (packages: Array<string>): boolean => {
         global = true;
     }
 
+    const spinner: ORA = ora({ spinner: 'line' });
+
     try {
         if (!global) {
-            const jsonContent = loadJSONFile(packagePath);
+            const jsonContent = loadJSONFile(path.join(packagePath, 'package.json'));
 
             // If `sonarwhal` is a devDependency, then set all packages as devDependencies.
             isDev = jsonContent.devDependencies && jsonContent.devDependencies.hasOwnProperty('sonarwhal');
@@ -50,22 +79,21 @@ export const installPackages = (packages: Array<string>): boolean => {
 
         debug(`Running command ${command}`);
         logger.log('Installing packages...');
-        logger.log(command);
+        spinner.text = `Running command: ${command}`;
 
-        const result: SpawnSyncReturns<Buffer> = spawnSync(command, { shell: true });
+        spinner.start();
 
-        if (result.status !== 0) {
-            throw new Error(result.output[2].toString());
-        }
+        await install(command);
 
-        logger.log('Packages installed successfully');
+        spinner.succeed();
 
         return true;
     } catch (err) {
         debug(err);
         // One of the packages doesn't exists
-        logger.error(`Error executing "${command}"`);
-        if (err.message.includes('404')) {
+        spinner.text = `Error executing "${command}"`;
+        spinner.fail();
+        if ((err.message || err).includes('404')) {
             logger.error(`One or more of the packages don't exist`);
         } else {
             /*
