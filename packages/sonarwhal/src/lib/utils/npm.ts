@@ -25,7 +25,7 @@ const install = (command: string) => {
         });
 
         npmInstall.on('error', (err) => {
-            reject(err);
+            return reject(err);
         });
 
         npmInstall.on('exit', (code) => {
