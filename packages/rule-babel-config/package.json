@@ -52,7 +52,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@sonarwhal/parser-babel-config": "^1.0.0",
+    "@sonarwhal/parser-babel-config": "^1.0.1",
     "sonarwhal": "^1.2.1"
   },
   "private": true,
