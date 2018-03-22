@@ -1,3 +1,10 @@
+# 1.0.2 (March 22, 2018)
+
+## Bug fixes / Improvements
+
+* [[`cb07f57e74`](https://github.com/sonarwhal/sonarwhal/commit/cb07f57e74486a731db9ab54c4bc576df05ef34f)] - Fix: Set type to `TypeScriptConfigParse.config` (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 1.0.1 (March 22, 2018)
 
 ## Bug fixes / Improvements
