@@ -1,13 +1,6 @@
 /**
  * @fileoverview Launches the given browser with the right configuration to be used via the Chrome Debugging Protocol
  *
- * Supported browsers: Chrome
- *
- * This is a mix between:
- * * [lighthouse chrome launcher](https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-cli/chrome-launcher.ts) (Apache 2.0 License)
- * * [karma chrome launcher](https://github.com/karma-runner/karma-chrome-launcher/blob/master/index.js) (MIT License)
- * * And custom code
- *
  */
 
 import * as chromeLauncher from 'chrome-launcher';
