@@ -53,7 +53,7 @@
   },
   "peerDependencies": {
     "@sonarwhal/parser-babel-config": "^1.0.1",
-    "sonarwhal": "^1.2.1"
+    "sonarwhal": "^1.2.2"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",
