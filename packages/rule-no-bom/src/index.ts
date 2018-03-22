@@ -1,5 +1,5 @@
 /**
- * @fileoverview Warns agains using the BOM character at the beginning of an HTML file
+ * @fileoverview Warns agains using the BOM character at the beginning of a text file
  */
 
 import * as noBom from './no-bom';

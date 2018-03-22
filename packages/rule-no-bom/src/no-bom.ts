@@ -42,12 +42,12 @@ export default class implements IRule {
              * Chrome strips the BOM so we need to request the asset again using `fetchContent`
              * that will use the `request` module
              */
-            const { resource } = fetchEnd;
+            const { resource, element } = fetchEnd;
             const request = await context.fetchContent(resource);
             const content = request.response.body.rawContent;
 
             if (content[0] === 0xEF && content[1] === 0xBB && content[2] === 0xBF) {
-                await context.report(resource, null, `Text based files shouldn't start with the BOM character to force UTF-8 encoding`);
+                await context.report(resource, element, `Text based files shouldn't start with the BOM character to force UTF-8 encoding`);
             }
 
         };

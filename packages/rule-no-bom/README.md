@@ -1,11 +1,11 @@
-# Warn if the byte-order mark (BOM) chararcter is at beginning of a text file (`no-bom`)
+# Warn if the byte-order mark (BOM) chararcter is at beginning of a text file (`@sonarwhal/rule-no-bom`)
 
 `no-bom` warns against having the byte-order mark (BOM) character at the
 beginning of a text file.
 
 ## Why is this important?
 
-Having the BOM character at the beginning of a file over the Internet
+Having the BOM character at the beginning of a file over the internet
 (especially HTML) can have some bad side effects on some browsers. The BOM
 character can be used to indicate the charset of the content is `UTF-8` but
 this doesn't mean it will be taken into account. For example, IE10 and IE11

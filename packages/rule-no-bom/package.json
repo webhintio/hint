@@ -1,5 +1,4 @@
 {
-  "author": "",
   "ava": {
     "failFast": false,
     "files": [
@@ -7,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "Warns against using the BOM character at the beginning of a text file",
+  "description": "sonarwhal rule that against using the BOM character at the beginning of a text file.",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
