@@ -8,8 +8,7 @@
   },
   "dependencies": {
     "caniuse-api": "^2.0.0",
-    "pluralize": "^7.0.0",
-    "same-origin": "^0.1.1"
+    "pluralize": "^7.0.0"
   },
   "description": "sonarwhal rule that checks if external links disown the opener",
   "devDependencies": {
