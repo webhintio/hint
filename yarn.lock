@@ -2564,9 +2564,9 @@ eventemitter2@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-5.0.1.tgz#6197a095d5fb6b57e8942f6fd7eaad63a09c9452"
 
-exceljs@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-0.9.1.tgz#a584bf9355860c5b7aac438c54a337e678dd65ca"
+exceljs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.0.0.tgz#2973f1fc049eb358040ff0b8660466ddfe7802c4"
   dependencies:
     archiver "^1.3.0"
     fast-csv "^2.4.0"
