@@ -106,7 +106,7 @@ export default class HttpCompressionRule implements IRule {
         };
 
         const generateCompressionMessage = (encoding: string, notRequired?: boolean, suffix?: string) => {
-            return `Should${notRequired ? ' not' : ''} be served compressed${encoding ? ` with ${encoding}` : ''}${suffix ? ` ${suffix}` : ''}.`;
+            return `Should${notRequired ? ' not' : ''} be served compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
         };
 
         const generateSizeMessage = async (resource: string, element: IAsyncHTMLElement, encoding: string, sizeDifference) => {
@@ -324,7 +324,7 @@ export default class HttpCompressionRule implements IRule {
             });
 
             if (!isCompressedWithBrotli(uaRawResponse)) {
-                await context.report(resource, element, generateCompressionMessage('Brotli', false, `over HTTPS regardless of the user agent`));
+                await context.report(resource, element, generateCompressionMessage('Brotli', false, `over HTTPS, regardless of the user agent`));
             }
         };
 
@@ -384,7 +384,7 @@ export default class HttpCompressionRule implements IRule {
 
             if (!isCompressedWithGzip(uaRawResponse) &&
                 shouldCheckIfCompressedWith.gzip) {
-                await context.report(resource, element, generateCompressionMessage('gzip', false, `regardless of the user agent`));
+                await context.report(resource, element, generateCompressionMessage('gzip', false, ', regardless of the user agent'));
 
                 return;
             }
@@ -392,7 +392,7 @@ export default class HttpCompressionRule implements IRule {
             if (isNotCompressedWithZopfli(uaRawResponse) &&
                 !notCompressedWithZopfli &&
                 shouldCheckIfCompressedWith.zopfli) {
-                await context.report(resource, element, generateCompressionMessage('Zopfli', false, `regardless of the user agent`));
+                await context.report(resource, element, generateCompressionMessage('Zopfli', false, ', regardless of the user agent'));
             }
 
         };
