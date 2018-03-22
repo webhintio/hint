@@ -190,18 +190,14 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
 
     await promisify(fs.writeFile)(filePath, JSON.stringify(result.config, null, 4), 'utf8');
 
-    if (result.packages) {
+    if (Array.isArray(result.packages) && result.packages.length > 0) {
         const isInstalled = getInstalledResources(ResourceType.configuration).includes(getConfigurationName(result.packages[0]));
 
         if (isInstalled) {
             return true;
         }
 
-        try {
-            await installPackages(result.packages);
-        } catch (err) {
-            // Do nothing.
-        }
+        await installPackages(result.packages);
     }
 
     return true;
