@@ -2,7 +2,7 @@
   "dependencies": {
     "@sonarwhal/formatter-codeframe": "^2.0.1",
     "@sonarwhal/formatter-stylish": "^2.0.1",
-    "@sonarwhal/formatter-summary": "^2.0.0",
+    "@sonarwhal/formatter-summary": "^2.0.1",
     "@sonarwhal/rule-apple-touch-icons": "^3.0.0",
     "@sonarwhal/rule-axe": "^3.0.0",
     "@sonarwhal/rule-content-type": "^3.0.0",
