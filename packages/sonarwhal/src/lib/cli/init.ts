@@ -26,6 +26,11 @@ import { NpmPackage } from '../types';
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
 
+type InitUserConfig = {
+    config: UserConfig;
+    packages?: Array<string>;
+};
+
 /** Validates if the given array is not empty and if so, prints an error message. */
 const anyResources = (resources: Array<any>, type: string) => {
     if (resources.length > 0) {
@@ -44,7 +49,7 @@ const getConfigurationName = (pkgName: string): string => {
 };
 
 /** Shwos the user a list of official configuration packages available in npm to install. */
-const extendConfig = async (): Promise<{ config: UserConfig, packages?: Array<string> }> => {
+const extendConfig = async (): Promise<InitUserConfig> => {
     const configPackages: Array<NpmPackage> = await getOfficialPackages(ResourceType.configuration);
 
     if (!anyResources(configPackages, ResourceType.configuration)) {
@@ -76,7 +81,7 @@ const extendConfig = async (): Promise<{ config: UserConfig, packages?: Array<st
 };
 
 /** Prompts a series of questions to create a new configuration object based on the installed packages. */
-const customConfig = async (): Promise<{ config: UserConfig, packages?: Array<string> }> => {
+const customConfig = async (): Promise<InitUserConfig> => {
     const connectorKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
     const formattersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
     const parsersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
