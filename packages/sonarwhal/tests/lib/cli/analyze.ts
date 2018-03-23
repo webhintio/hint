@@ -57,7 +57,7 @@ proxyquire('../../../src/lib/cli/analyze', {
     '../sonarwhal': sonarwhalContainer,
     '../utils/logging': logger,
     '../utils/resource-loader': resourceLoader,
-    './init': generator,
+    './wizards/init': generator,
     inquirer,
     ora
 });

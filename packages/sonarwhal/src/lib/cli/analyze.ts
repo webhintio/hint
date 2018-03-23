@@ -16,7 +16,7 @@ import * as logger from '../utils/logging';
 import { cutString } from '../utils/misc';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
-import { initSonarwhalrc } from './init';
+import { initSonarwhalrc } from './wizards/init';
 
 const each = promisify(async.each);
 const debug: debug.IDebugger = d(__filename);

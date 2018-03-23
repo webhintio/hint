@@ -7,9 +7,12 @@
     },
     "formatters": "summary",
     "rulesTimeout": 120000,
+    "parsers": [{{#if isParser}}"{{normalizedName}}"{{/if}}],
     "rules": {
+    {{#if isRule}}
         {{#each rules}}
         "{{#if ../isMulti}}{{../normalizedName}}/{{/if}}{{normalizedName}}": "warning"{{#unless @last}},{{/unless}}
         {{/each}}
+    {{/if}}
     }
 }

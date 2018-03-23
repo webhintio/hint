@@ -96,6 +96,7 @@ class NewParser {
     public packageName: string;
     public version: string;
     public official: boolean;
+    public isParser: boolean = true;
 
     public constructor(parserData: QuestionsType) {
         this.name = parserData.name;
@@ -144,6 +145,8 @@ class NewParser {
  */
 const mkdirpAsync = promisify(mkdirp);
 const eventList: Array<string> = Object.keys(events);
+const TEMPLATE_PATH: string = './templates/new-parser';
+const SHARED_TEMPLATE_PATH = './shared-templates';
 
 /** Configure questions depending on what we need. */
 const questions = (repeat: boolean = false) => {
@@ -202,14 +205,14 @@ const questions = (repeat: boolean = false) => {
 };
 
 const copyFiles = async (data: NewParser) => {
-    if (data.official) {
-        return;
-    }
-
-    const filesPath = path.join(__dirname, '..', 'external-files');
+    const files = path.join(__dirname, 'files');
+    const noOfficialFiles = path.join(__dirname, 'no-official-files');
 
     logger.log(`Creating new rule in ${data.destination}`);
-    await fs.copy(filesPath, data.destination);
+    if (!data.official) {
+        await fs.copy(noOfficialFiles, data.destination);
+    }
+    await fs.copy(files, data.destination);
     logger.log('Files copied');
 };
 
@@ -217,29 +220,36 @@ const generateFiles = async (data: NewParser) => {
     const files = [
         {
             destination: path.join(data.destination, 'src', `${data.normalizedName}.ts`),
-            path: path.join(__dirname, 'templates', 'script.hbs')
+            path: path.join(__dirname, TEMPLATE_PATH, 'script.hbs')
         },
         {
             destination: path.join(data.destination, 'tests', `${data.normalizedName}.ts`),
-            path: path.join(__dirname, 'templates', 'tests.hbs')
+            path: path.join(__dirname, TEMPLATE_PATH, 'tests.hbs')
         },
         {
             destination: path.join(data.destination, 'src', `index.ts`),
-            path: path.join(__dirname, 'templates', 'index.hbs')
-        },
-        {
-            destination: path.join(data.destination, 'package.json'),
-            path: path.join(__dirname, 'templates', 'package.hbs')
+            path: path.join(__dirname, TEMPLATE_PATH, 'index.hbs')
         },
         {
             destination: path.join(data.destination, 'README.md'),
-            path: path.join(__dirname, 'templates', 'doc.hbs')
+            path: path.join(__dirname, TEMPLATE_PATH, 'doc.hbs')
         },
         {
             destination: path.join(data.destination, 'tsconfig.json'),
-            path: path.join(__dirname, 'templates', 'tsconfig.json.hbs')
+            path: path.join(__dirname, SHARED_TEMPLATE_PATH, 'tsconfig.json.hbs')
+        },
+        {
+            destination: path.join(data.destination, 'package.json'),
+            path: path.join(__dirname, SHARED_TEMPLATE_PATH, 'package.hbs')
         }
     ];
+
+    if (!data.official) {
+        files.push({
+            destination: path.join(data.destination, '.sonarwhalrc'),
+            path: path.join(__dirname, SHARED_TEMPLATE_PATH, 'config.hbs')
+        });
+    }
 
     for (const file of files) {
         const { destination: dest, path: filePath } = file;

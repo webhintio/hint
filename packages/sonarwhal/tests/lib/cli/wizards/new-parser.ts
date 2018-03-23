@@ -24,7 +24,7 @@ const mkdirp = (dir, callback) => {
     callback();
 };
 
-proxyquire('../../../../src/lib/cli/parsers/new-parser', {
+proxyquire('../../../../src/lib/cli/wizards/new-parser', {
     '../../utils/handlebars': handlebars,
     '../../utils/misc': misc,
     'fs-extra': fsExtra,
@@ -32,7 +32,7 @@ proxyquire('../../../../src/lib/cli/parsers/new-parser', {
     mkdirp
 });
 
-import * as parser from '../../../../src/lib/cli/parsers/new-parser';
+import * as parser from '../../../../src/lib/cli/wizards/new-parser';
 
 test.beforeEach((t) => {
     sinon.stub(fsExtra, 'copy').resolves();
@@ -90,7 +90,7 @@ test.serial('It should create a new official parser.', async (t) => {
     t.is(t.context.misc.writeFileAsync.callCount, 6, 'Invalid number of files created');
 
     t.true(result);
-    t.false(t.context.fs.copy.called);
+    t.true(t.context.fs.copy.calledOnce);
 
     sandbox.restore();
 });
@@ -156,7 +156,7 @@ test.serial('It should create a new official parser with no duplicate events.', 
     t.is(events.length, eventsSet.size);
 
     t.true(result);
-    t.false(t.context.fs.copy.called);
+    t.true(t.context.fs.copy.calledOnce);
 
     sandbox.restore();
 });
@@ -181,13 +181,13 @@ test.serial('It should create a new non-official parser.', async (t) => {
 
     const result = await parser.newParser(actions);
 
-    // 6 files (2 code + test + doc + tsconfig.json + package.json)
-    t.is(t.context.handlebars.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
-    // 6 files (2 code + test + doc + tsconfig.json + package.json)
-    t.is(t.context.misc.writeFileAsync.callCount, 6, 'Invalid number of files created');
+    // 7 files (2 code + test + doc + tsconfig.json + package.json + .sonarwhalrc)
+    t.is(t.context.handlebars.compileTemplate.callCount, 7, `Handlebars doesn't complile the right number of files`);
+    // 7 files (2 code + test + doc + tsconfig.json + package.json + .sonarwhalrc)
+    t.is(t.context.misc.writeFileAsync.callCount, 7, 'Invalid number of files created');
 
     t.true(result);
-    t.true(t.context.fs.copy.calledOnce);
+    t.true(t.context.fs.copy.calledTwice);
 
     sandbox.restore();
 });
