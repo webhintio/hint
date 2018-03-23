@@ -355,10 +355,6 @@ const getSonarwhalPackage = () => {
     return require(path.join(__dirname, '../../../../package.json'));
 };
 
-const sameOrigin = (url1: string, url2: string): boolean => {
-    return new URL(url1).origin === new URL(url2).origin;
-};
-
 export {
     cutString,
     delay,
@@ -390,7 +386,6 @@ export {
     readFileAsync,
     requestJSONAsync,
     requestAsync,
-    sameOrigin,
     toCamelCase,
     toPascalCase,
     writeFileAsync

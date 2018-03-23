@@ -1,5 +1,4 @@
 {
-  "author": "",
   "ava": {
     "failFast": false,
     "files": [
@@ -48,7 +47,7 @@
   "main": "{{packageMain}}",
   "name": "{{packageName}}",{{#if official}}
   "nyc": {
-    "extends": "../../../../.nycrc"
+    "extends": "../../.nycrc"
   },{{else}}
   "nyc": {
     "branches": 85,
@@ -64,8 +63,10 @@
     "sourceMap": true,
     "statements": 85
   },{{/if}}
+  "private": true,
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc",
     "clean": "rimraf dist",
@@ -86,5 +87,5 @@
   },{{#if official}}
   "repository": "sonarwhal/sonarwhal",{{else}}
   "repository": "",{{/if}}
-  "version": "0.1.0"
+  "version": "1.0.0"
 }
