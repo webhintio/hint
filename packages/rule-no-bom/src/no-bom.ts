@@ -47,7 +47,7 @@ export default class implements IRule {
             const content = request.response.body.rawContent;
 
             if (content[0] === 0xEF && content[1] === 0xBB && content[2] === 0xBF) {
-                await context.report(resource, element, `Text based files shouldn't start with the BOM character to force UTF-8 encoding`);
+                await context.report(resource, element, `Text based resource shouldn't start with the BOM character to force UTF-8 encoding`);
             }
 
         };

@@ -20,7 +20,7 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `HTML with BOM should fail`,
-        reports: [{ message: `Text based files shouldn't start with the BOM character to force UTF-8 encoding` }],
+        reports: [{ message: `Text based resource shouldn't start with the BOM character to force UTF-8 encoding` }],
         serverConfig: {
             '/': {
                 content: bom,
