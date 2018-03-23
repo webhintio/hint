@@ -1,9 +1,7 @@
-import * as esearch from 'npm/lib/search/esearch';
-import * as npm from 'npm';
-import { promisify } from 'util';
 import { spawn } from 'child_process';
 import * as path from 'path';
 
+import * as npmRegistryFetch from 'npm-registry-fetch';
 import * as ora from 'ora';
 
 import { NpmPackage, ORA } from '../types';
@@ -12,7 +10,6 @@ import * as logger from './logging';
 import { loadJSONFile, findPackageRoot } from './misc';
 
 const debug: debug.IDebugger = d(__filename);
-const npmLoadAsync = promisify(npm.load);
 
 const install = (command: string) => {
     return new Promise((resolve, reject) => {
@@ -112,10 +109,6 @@ export const installPackages = async (packages: Array<string>): Promise<boolean>
     }
 };
 
-const loadNpm = () => {
-    return npmLoadAsync({ loaded: false });
-};
-
 /** Filters the packages that `startsWith` `initTerm`. */
 const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
     return packages.filter((pkg) => {
@@ -123,35 +116,34 @@ const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
     });
 };
 
+/** Get npm packages from the object returned for npmRegistryFetch.json. */
+const getPackages = (result): Array<NpmPackage> => {
+    return result.objects.map((obj) => {
+        return obj.package;
+    });
+};
+
+/** Generate a seach query to search packages. */
+const generateSearchQuery = (searchTerm, from?, size = 100) => {
+    return `/-/v1/search?text=${searchTerm}&size=${size}${from ? `&from=${from}` : ''}`;
+};
+
 /**
  * Searches all the packages in npm given `searchTerm`.
  */
-export const search = (searchTerm: string): Promise<Array<NpmPackage>> => {
-    return new Promise(async (resolve, reject) => {
-        await loadNpm();
+export const search = async (searchTerm: string): Promise<Array<NpmPackage>> => {
+    const result = await npmRegistryFetch.json(generateSearchQuery(searchTerm));
 
-        const results: Array<NpmPackage> = [];
+    let total = getPackages(result);
 
-        const searchOptions = {
-            description: true,
-            excluded: [],
-            include: [searchTerm],
-            limit: 1000,
-            staleness: 900,
-            unicode: false
-        };
+    while (result.total > total.length) {
+        const r = await npmRegistryFetch.json(generateSearchQuery(searchTerm, total.length));
 
-        esearch(searchOptions)
-            .on('data', (data) => {
-                results.push(data as NpmPackage);
-            })
-            .on('error', (err) => {
-                reject(err);
-            })
-            .on('end', () => {
-                resolve(results as Array<NpmPackage>);
-            });
-    });
+        total = total.concat(getPackages(r));
+    }
+
+
+    return total;
 };
 
 /** Get core packages from npm. */
