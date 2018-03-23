@@ -8,8 +8,7 @@
   },
   "dependencies": {
     "lodash.groupby": "^4.6.0",
-    "lodash.map": "^4.6.0",
-    "lodash.without": "^4.4.0"
+    "lodash.map": "^4.6.0"
   },
   "description": "sonarwhal rule that checks if the Babel configuration is valid.",
   "devDependencies": {
