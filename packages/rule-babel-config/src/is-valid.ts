@@ -2,7 +2,6 @@
  * @fileoverview `babel-config/is-valid` warns against providing an invalid babel configuration file.
  */
 import * as ajv from 'ajv';
-import * as without from 'lodash.without';
 import * as groupBy from 'lodash.groupby';
 import * as map from 'lodash.map';
 
@@ -36,7 +35,6 @@ export default class BabelConfigIsValidRule implements IRule {
         const errorKeywords = {
             additionalProperties: 'additionalProperties',
             enum: 'enum',
-            pattern: 'pattern',
             type: 'type'
         };
 
@@ -64,17 +62,6 @@ export default class BabelConfigIsValidRule implements IRule {
             return `'${property}' ${error.message} '${allowedValues.join(', ')}'. Value found '${error.data}'`;
         };
 
-        /** Returns a readable error for 'pattern' errors. */
-        const generatePatternError = (error: ajv.ErrorObject) => {
-            if (error.keyword !== errorKeywords.pattern) {
-                return null;
-            }
-
-            const property = error.dataPath.substr(1);
-
-            return `'${property}' ${error.message.replace(/"/g, '\'')}. Value found '${error.data}'`;
-        };
-
         const generateTypeError = (error: ajv.ErrorObject) => {
             if (error.keyword !== errorKeywords.type) {
                 return null;
@@ -85,7 +72,7 @@ export default class BabelConfigIsValidRule implements IRule {
             return `'${property}' ${error.message.replace(/"/g, '\'')}.`;
         };
 
-        const errorGenerators: Array<((error: ajv.ErrorObject) => string)> = [generateAdditionalPropertiesError, generateEnumError, generatePatternError, generateTypeError];
+        const errorGenerators: Array<((error: ajv.ErrorObject) => string)> = [generateAdditionalPropertiesError, generateEnumError, generateTypeError];
 
         /** Returns a readable error message. */
         const prettyfy = (error: ajv.ErrorObject): string => {
@@ -103,21 +90,7 @@ export default class BabelConfigIsValidRule implements IRule {
         /** Report all the validation errors received. */
         const report = async (errors: Array<ajv.ErrorObject>, resource: string) => {
             for (const error of errors) {
-                /*
-                 * When some of the error is 'anyOf' we need to build the message
-                 * with the other errors.
-                 */
-                if (error.keyword === 'anyOf') {
-                    const otherErrors = without(errors, error);
-
-                    const results = otherErrors.map((otherError) => {
-                        return prettyfy(otherError);
-                    });
-
-                    await context.report(resource, null, results.join(' or '));
-                } else {
-                    await context.report(resource, null, prettyfy(error));
-                }
+                await context.report(resource, null, prettyfy(error));
             }
         };
 
