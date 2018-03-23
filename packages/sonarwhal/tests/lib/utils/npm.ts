@@ -1,6 +1,3 @@
-import * as path from 'path';
-import * as stream from 'stream';
-
 import test from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
@@ -8,11 +5,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import { delay, readFile } from '../../../src/lib/utils/misc';
 
-const npm = {
-    load(sync, cb) {
-        cb();
-    }
-};
+const npmRegistryFetch = { json() { } };
 
 const child = { spawn() { } };
 const logger = {
@@ -34,7 +27,6 @@ const ora = () => {
     return spinner;
 };
 
-const esearchContainer = { esearch() { } };
 const devDependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dev-package.json`));
 const dependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dep-package.json`));
 
@@ -52,9 +44,12 @@ proxyquire('../../../src/lib/utils/npm', {
     './logging': logger,
     './misc': misc,
     child_process: child, // eslint-disable-line camelcase
-    npm,
-    'npm/lib/search/esearch': esearchContainer.esearch,
+    'npm-registry-fetch': npmRegistryFetch,
     ora
+});
+
+test.beforeEach((t) => {
+    t.context.npmRegistryFetch = npmRegistryFetch;
 });
 
 test.serial('installPackages should run the right command if package.json exists in the current work directory, and has `sonarwhal` as a devDependency', async (t) => {
@@ -205,74 +200,59 @@ test.serial(`installPackages should show the command to run if the installation 
     sandbox.restore();
 });
 
-test.serial('search should search for the right data', async (t) => {
+test.serial('search should search the right query', async (t) => {
     const sandbox = sinon.createSandbox();
-    const mockedStream = new stream.Writable();
 
-    sandbox.stub(esearchContainer, 'esearch').returns(mockedStream);
-
-    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/npm.js')];
-
-    proxyquire('../../../src/lib/utils/npm', {
-        './logging': logger,
-        './misc': misc,
-        child_process: child, // eslint-disable-line camelcase
-        npm,
-        'npm/lib/search/esearch': esearchContainer.esearch,
-        ora
+    sandbox.stub(npmRegistryFetch, 'json').resolves({
+        objects: [],
+        total: 0
     });
 
     const npmUtils = require('../../../src/lib/utils/npm');
 
-    t.context.esearchContainer = esearchContainer;
+    await npmUtils.search('sonarwhal-rule');
 
-    const promise = npmUtils.search('sonarwhal-rule');
-
-    await delay(500);
-    mockedStream.emit('end');
-
-    await promise;
-
-    const options = t.context.esearchContainer.esearch.args[0][0];
-
-    t.is(options.include[0], 'sonarwhal-rule');
-    t.is(options.include.length, 1);
+    t.true(t.context.npmRegistryFetch.json.calledOnce);
+    t.is(t.context.npmRegistryFetch.json.args[0][0], '/-/v1/search?text=sonarwhal-rule&size=100');
 
     sandbox.restore();
 });
 
-test.serial('search should fail if something goes wrong', async (t) => {
+test.serial('search should get all the results', async (t) => {
     const sandbox = sinon.createSandbox();
-    const mockedStream = new stream.Writable();
 
-    sandbox.stub(esearchContainer, 'esearch').returns(mockedStream);
+    sandbox.stub(npmRegistryFetch, 'json')
+        .onFirstCall()
+        .resolves({
+            objects: [{}, {}, {}, {}, {}],
+            total: 13
+        })
+        .onSecondCall()
+        .resolves({
+            objects: [{}, {}, {}, {}, {}],
+            total: 13
+        })
+        .onThirdCall()
+        .resolves({
+            objects: [{}, {}, {}],
+            total: 13
+        });
 
-    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/npm.js')];
-
-    proxyquire('../../../src/lib/utils/npm', {
-        './logging': logger,
-        './misc': misc,
-        child_process: child, // eslint-disable-line camelcase
-        npm,
-        'npm/lib/search/esearch': esearchContainer.esearch,
-        ora
-    });
 
     const npmUtils = require('../../../src/lib/utils/npm');
 
-    t.context.esearchContainer = esearchContainer;
+    await npmUtils.search('sonarwhal-rule');
 
-    const promise = npmUtils.search('sonarwhal-rule');
+    t.is(t.context.npmRegistryFetch.json.callCount, 3);
 
-    await delay(500);
-    mockedStream.emit('error', new Error('Error searching'));
+    const args = t.context.npmRegistryFetch.json.args;
 
-    t.plan(1);
-    try {
-        await promise;
-    } catch (err) {
-        t.is(err.message, 'Error searching');
-    }
+    t.true(args[0][0].includes('text=sonarwhal-rule'));
+    t.false(args[0][0].includes('&from='));
+    t.true(args[1][0].includes('text=sonarwhal-rule'));
+    t.true(args[1][0].includes('&from=5'));
+    t.true(args[2][0].includes('text=sonarwhal-rule'));
+    t.true(args[2][0].includes('&from=10'));
 
     sandbox.restore();
 });
