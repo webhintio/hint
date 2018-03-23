@@ -80,36 +80,8 @@ export default class LocalConnector implements IConnector {
     }
 
     private async fetch(filePath: string) {
-        const rawContent = await fs.readFile(filePath);
-        const contentType = getContentTypeData(null, filePath, null, rawContent);
-        const type = getType(contentType.mediaType);
-        let content = '';
-
-        if (isTextMediaType(contentType.mediaType)) {
-            content = rawContent.toString(contentType.charset);
-        }
-
-        // Need to do some magic to create a fetch::end::*
-        const event: FetchEnd = {
-            element: null,
-            request: null,
-            resource: url.format(getAsUri(filePath)),
-            response: {
-                body: {
-                    content,
-                    rawContent,
-                    rawResponse() {
-                        return Promise.resolve(rawContent);
-                    }
-                },
-                charset: contentType.charset,
-                headers: null,
-                hops: [],
-                mediaType: contentType.mediaType,
-                statusCode: 200,
-                url: filePath
-            }
-        };
+        const event: FetchEnd = await this.fetchContent(filePath);
+        const type = getType(event.response.mediaType);
 
         await this.sonarwhal.emitAsync(`fetch::end::${type}`, event);
     }
@@ -246,6 +218,50 @@ export default class LocalConnector implements IConnector {
      * Public methods
      * ------------------------------------------------------------------------------
      */
+
+    public async fetchContent(target: string) {
+        /*
+         * target can have one of these forms:
+         *   - /path/to/file
+         *   - C:/path/to/file
+         *   - file:///path/to/file
+         *   - file:///C:/path/to/file
+         *
+         * That's why we need to parse it to an URL
+         * and then get the path string.
+         */
+        const uri: url.URL = getAsUri(target);
+        const filePath: string = getAsPathString(uri);
+        const rawContent = await fs.readFile(filePath);
+        const contentType = getContentTypeData(null, filePath, null, rawContent);
+        let content = '';
+
+        if (isTextMediaType(contentType.mediaType)) {
+            content = rawContent.toString(contentType.charset);
+        }
+
+        // Need to do some magic to create a fetch::end::*
+        return {
+            element: null,
+            request: null,
+            resource: url.format(getAsUri(filePath)),
+            response: {
+                body: {
+                    content,
+                    rawContent,
+                    rawResponse() {
+                        return Promise.resolve(rawContent);
+                    }
+                },
+                charset: contentType.charset,
+                headers: null,
+                hops: [],
+                mediaType: contentType.mediaType,
+                statusCode: 200,
+                url: filePath
+            }
+        };
+    }
 
     public async collect(target: url.URL) {
         /** The target in string format */
