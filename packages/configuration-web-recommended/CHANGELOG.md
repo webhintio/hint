@@ -1,3 +1,10 @@
+# 3.1.0 (March 22, 2018)
+
+## New features
+
+* [[`27347f8efd`](https://github.com/sonarwhal/sonarwhal/commit/27347f8efde08e9a366fbc38c65cb285551a3f0d)] - New: Add `rule-no-bom` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#371`](https://github.com/sonarwhal/sonarwhal/issues/371)).
+
+
 # 3.0.0 (March 22, 2018)
 
 ## Breaking Changes
