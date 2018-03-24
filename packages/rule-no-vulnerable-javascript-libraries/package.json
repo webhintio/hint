@@ -23,7 +23,7 @@
     "eslint-plugin-typescript": "^0.10.0",
     "jquery": "2.1.4",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
-    "markdownlint-cli": "^0.8.0",
+    "markdownlint-cli": "^0.8.1",
     "moment": "1.0.0",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
