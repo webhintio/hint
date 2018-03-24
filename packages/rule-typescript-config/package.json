@@ -52,7 +52,7 @@
   },
   "peerDependencies": {
     "@sonarwhal/parser-typescript-config": "^1.0.2",
-    "sonarwhal": "^1.2.2"
+    "sonarwhal": "^1.3.0"
   },
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
