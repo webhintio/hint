@@ -1,3 +1,11 @@
+# 4.0.0 (March 23, 2018)
+
+## Breaking Changes
+
+* [[`aaa9428a78`](https://github.com/sonarwhal/sonarwhal/commit/aaa9428a78176d37f90a46c2b647cdada835864e)] - Breaking: Update `rule-no-bom` to `v2.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+* [[`6da8cc540d`](https://github.com/sonarwhal/sonarwhal/commit/6da8cc540d3f1081192d6ee47626b1561f1debee)] - Breaking: Update `rule-axe` to `v4.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 3.1.0 (March 22, 2018)
 
 ## New features
