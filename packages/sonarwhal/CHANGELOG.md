@@ -1,3 +1,10 @@
+# 1.3.0 (March 23, 2018)
+
+## New features
+
+* [[`e19d413edc`](https://github.com/sonarwhal/sonarwhal/commit/e19d413edc0f536c168147f1c62ae9ac705a4741)] - New: Support `fetchContent` in local connector (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.2.2 (March 22, 2018)
 
 ## Bug fixes / Improvements
