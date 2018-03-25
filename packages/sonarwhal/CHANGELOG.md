@@ -1,3 +1,10 @@
+# 1.3.1 (March 24, 2018)
+
+## Bug fixes / Improvements
+
+* [[`ad77355179`](https://github.com/sonarwhal/sonarwhal/commit/ad77355179d0f29d29ea1f688ac9765930b86c8f)] - Fix: Update `--new-rule` process (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#857`](https://github.com/sonarwhal/sonarwhal/issues/857)).
+
+
 # 1.3.0 (March 23, 2018)
 
 ## New features
