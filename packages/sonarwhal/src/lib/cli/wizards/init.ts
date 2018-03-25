@@ -14,14 +14,14 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { CLIOptions, UserConfig } from '../types';
-import { debug as d } from '../utils/debug';
-import * as logger from '../utils/logging';
-import { getInstalledResources, getCoreResources } from '../utils/resource-loader';
-import { ResourceType } from '../enums/resourcetype';
-import { generateBrowserslistConfig } from './browserslist';
-import { getOfficialPackages, installPackages } from '../utils/npm';
-import { NpmPackage } from '../types';
+import { CLIOptions, UserConfig } from '../../types';
+import { debug as d } from '../../utils/debug';
+import * as logger from '../../utils/logging';
+import { getInstalledResources, getCoreResources } from '../../utils/resource-loader';
+import { ResourceType } from '../../enums/resourcetype';
+import { generateBrowserslistConfig } from '../browserslist';
+import { getOfficialPackages, installPackages } from '../../utils/npm';
+import { NpmPackage } from '../../types';
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
@@ -185,6 +185,10 @@ export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => 
     const result = initialAnswer.configType === 'predefined' ?
         await extendConfig() :
         await customConfig();
+
+    if (!result) {
+        return false;
+    }
 
     const filePath: string = path.join(process.cwd(), '.sonarwhalrc');
 

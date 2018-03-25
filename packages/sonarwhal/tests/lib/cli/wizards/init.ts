@@ -3,7 +3,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { CLIOptions, NpmPackage } from '../../../src/lib/types';
+import { CLIOptions, NpmPackage } from '../../../../src/lib/types';
 
 const actions = ({ init: true } as CLIOptions);
 const inquirer = { prompt() { } };
@@ -35,18 +35,18 @@ const stubUtilObject = {
     }
 };
 
-proxyquire('../../../src/lib/cli/init', {
-    '../utils/logging': logger,
-    '../utils/npm': npm,
-    '../utils/resource-loader': resourceLoader,
-    './browserslist': stubBrowserslistObject,
+proxyquire('../../../../src/lib/cli/wizards/init', {
+    '../../utils/logging': logger,
+    '../../utils/npm': npm,
+    '../../utils/resource-loader': resourceLoader,
+    '../browserslist': stubBrowserslistObject,
     child_process: child, // eslint-disable-line camelcase
     fs,
     inquirer,
     util: stubUtilObject
 });
 
-import { initSonarwhalrc } from '../../../src/lib/cli/init';
+import { initSonarwhalrc } from '../../../../src/lib/cli/wizards/init';
 
 test.beforeEach((t) => {
     sinon.stub(promisifyObject, 'promisify').resolves();

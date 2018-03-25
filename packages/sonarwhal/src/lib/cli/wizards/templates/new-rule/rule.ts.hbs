@@ -24,7 +24,7 @@ export default class {{className}} implements IRule {
             category: Category.{{category}},
             description: `{{description}}`
         },
-        id: "{{normalizedName}}",
+        id: '{{#if parentName}}{{parentName}}/{{/if}}{{normalizedName}}',
         schema: [
             /*
              * If you want to allow the user to configure your rule

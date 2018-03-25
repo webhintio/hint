@@ -186,6 +186,17 @@ const toCamelCase = (value: string) => {
     }, '');
 };
 
+/** Convert '-' delimitered string to pascal case name. */
+const toPascalCase = (value: string) => {
+    return value.split('-').reduce((accu: string, w: string) => {
+        let current = accu;
+
+        current += w.length ? `${w.charAt(0).toUpperCase()}${w.substr(1).toLowerCase()}` : '';
+
+        return current;
+    }, '');
+};
+
 /** Convenience wrapper for synchronously reading file contents. */
 const readFile = (filePath: string): string => {
     return stripBom(fs.readFileSync(filePath, 'utf8')); // eslint-disable-line no-sync
@@ -376,5 +387,6 @@ export {
     requestJSONAsync,
     requestAsync,
     toCamelCase,
+    toPascalCase,
     writeFileAsync
 };
