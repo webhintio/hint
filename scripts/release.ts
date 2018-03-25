@@ -677,7 +677,7 @@ const updatePackageVersionNumberInOtherPackages = (ctx) => {
 
         [
             'dependencies',
-            'devDependencie',
+            'devDependencies',
             'optionalDependencies',
             'peerDependencies'
         ].forEach((dependencyType) => {
