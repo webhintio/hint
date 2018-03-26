@@ -118,7 +118,7 @@ export default class TypeScriptConfigIsValid implements IRule {
         const invalidJSONFile = async (typeScriptConfigInvalid: TypeScriptConfigInvalid) => {
             const { error, resource } = typeScriptConfigInvalid;
 
-            debug(`invalid-json::typescript-config received`);
+            debug(`parse::typescript-config::error::json received`);
 
             await context.report(resource, null, error.message);
         };
@@ -126,7 +126,7 @@ export default class TypeScriptConfigIsValid implements IRule {
         const invalidSchema = async (fetchEnd: TypeScriptConfigInvalidSchema) => {
             const { errors, resource } = fetchEnd;
 
-            debug(`invalid-schema::typescript-config received`);
+            debug(`parse::typescript-config::error::schema received`);
 
             const grouped: _.Dictionary<Array<ajv.ErrorObject>> = groupBy(errors, 'dataPath');
 
@@ -138,7 +138,7 @@ export default class TypeScriptConfigIsValid implements IRule {
         };
 
 
-        context.on('invalid-json::typescript-config', invalidJSONFile);
-        context.on('invalid-schema::typescript-config', invalidSchema);
+        context.on('parse::typescript-config::error::json', invalidJSONFile);
+        context.on('parse::typescript-config::error::schema', invalidSchema);
     }
 }

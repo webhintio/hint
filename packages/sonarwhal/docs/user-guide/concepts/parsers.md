@@ -30,7 +30,7 @@ To use a parse you need to subscribe to the event(s) that the parser dispatches.
 ### `javascript` parser
 
 To create a rule that understands JavaScript you will need to use the
-event `parser::javascript` emitted by the
+event `parse::javascript` emitted by the
 [`javascript parser`][@sonarwhal/parser-javascript].
 This event is of type `ScriptParse` which has the following information:
 
@@ -41,7 +41,7 @@ This event is of type `ScriptParse` which has the following information:
 ### `typescript-config` parser
 
 To create a rule that understands a TypeScript configuration you will need
-to use the event `parser::typescript-config` emiited by the
+to use the event `parse::typescript-config` emiited by the
 [`typescript-config`][@sonarwhal/parser-typescript-config].
 This event is of type `TypeScriptConfigParse` wich has the following
 information:

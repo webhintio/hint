@@ -151,7 +151,7 @@ In case you need a more complete example, please look at the
 ## Validate JavaScript
 
 To create a rule that understands JavaScript you will need to use the
-event `parser::javascript` emitted by the [`javascript parser`][parsers].
+event `parse::javascript` emitted by the [`javascript parser`][parsers].
 This event is of type `IScriptParse` which has the following information:
 
 * `resource`: the parsed resource. If the JavaScript is in a `<script> tag`

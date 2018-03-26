@@ -11,7 +11,7 @@ test.beforeEach((t) => {
     });
 });
 
-test('If no file is parsed, it should emit a `notfound::babel-config` error', async (t) => {
+test('If no file is parsed, it should emit a `parse::babel-config::error::not-found` error', async (t) => {
     const sandbox = sinon.sandbox.create();
 
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
@@ -20,12 +20,12 @@ test('If no file is parsed, it should emit a `notfound::babel-config` error', as
     await t.context.sonarwhal.emitAsync('scan::end', {});
 
     t.true(t.context.sonarwhal.emitAsync.calledTwice);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'notfound::babel-config');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::not-found');
 
     sandbox.restore();
 });
 
-test(`If a 'package.json' file is parsed, but it doesn't have the 'babel' property, it should emit a 'notfound::babel-config' error`, async (t) => {
+test(`If a 'package.json' file is parsed, but it doesn't have the 'babel' property, it should emit a 'parse::babel-config::error::not-found' error`, async (t) => {
     const sandbox = sinon.sandbox.create();
 
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
@@ -39,7 +39,7 @@ test(`If a 'package.json' file is parsed, but it doesn't have the 'babel' proper
     await t.context.sonarwhal.emitAsync('scan::end', {});
 
     t.is(t.context.sonarwhal.emitAsync.callCount, 3);
-    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'notfound::babel-config');
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::babel-config::error::not-found');
 
     sandbox.restore();
 });
@@ -69,12 +69,12 @@ test('If the file contains an invalid json, it should fail', async (t) => {
     });
 
     t.true(t.context.sonarwhal.emitAsync.calledTwice);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'invalid-json::babel-config');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::json');
 
     sandbox.restore();
 });
 
-test(`If .babelrc contains an invalid schema, it should emit the 'invalid-schema::babel-config' event`, async (t) => {
+test(`If .babelrc contains an invalid schema, it should emit the 'parse::babel-config::error::schema' event`, async (t) => {
     const sandbox = sinon.sandbox.create();
 
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
@@ -95,12 +95,12 @@ test(`If .babelrc contains an invalid schema, it should emit the 'invalid-schema
     });
 
     t.is(t.context.sonarwhal.emitAsync.callCount, 2);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'invalid-schema::babel-config');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::schema');
 
     sandbox.restore();
 });
 
-test(`If 'package.json' contains an invalid 'babel' property, it should emit the 'invalid-schema::babel-config' event`, async (t) => {
+test(`If 'package.json' contains an invalid 'babel' property, it should emit the 'parse::babel-config::error::schema' event`, async (t) => {
     const sandbox = sinon.sandbox.create();
     const invalidSchemaContent = `{
         "babel": {
@@ -123,7 +123,7 @@ test(`If 'package.json' contains an invalid 'babel' property, it should emit the
     });
 
     t.is(t.context.sonarwhal.emitAsync.callCount, 2);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'invalid-schema::babel-config');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::schema');
 
     sandbox.restore();
 });
@@ -149,7 +149,7 @@ test('If the content type is unknown, it should still validate if the file name 
     });
 
     t.is(t.context.sonarwhal.emitAsync.callCount, 2);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'invalid-schema::babel-config');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::schema');
 
     sandbox.restore();
 });

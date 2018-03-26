@@ -32,7 +32,7 @@ export default class JavascriptParser extends Parser {
             sourceCode: new eslint.SourceCode(code, ast)
         };
 
-        await this.sonarwhal.emitAsync('parse::javascript', scriptData);
+        await this.sonarwhal.emitAsync('parse::javascript::end', scriptData);
     }
 
     private async parseJavascript(fetchEnd: FetchEnd) {
