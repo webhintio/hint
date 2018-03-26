@@ -108,6 +108,28 @@ test('If we receive a valid json with a valid name, it should emit the event par
         }
     };
 
+    const parsedJSON = {
+        compilerOptions:
+            {
+                alwaysStrict: true,
+                declaration: true,
+                inlineSourceMap: true,
+                jsxFactory: 'React.createElement',
+                lib: [
+                    'dom',
+                    'dom.iterable',
+                    'esnext',
+                    'esnext.asynciterable'
+                ],
+                maxNodeModuleJsDepth: 0,
+                module: 'commonjs',
+                moduleResolution: 'classic',
+                newLine: 'lf',
+                removeComments: false,
+                target: 'esnext'
+            }
+    };
+
     await t.context.sonarwhal.emitAsync('fetch::end::json', {
         resource: 'tsconfig.improved.json',
         response: { body: { content: JSON.stringify(validJSON) } }
@@ -118,7 +140,8 @@ test('If we receive a valid json with a valid name, it should emit the event par
     // 3 times, the two previous call and the parse.
     t.is(t.context.sonarwhal.emitAsync.callCount, 3);
     t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::end');
-    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, validJSON);
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].originalConfig, validJSON);
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, parsedJSON);
 
     sandbox.restore();
 });

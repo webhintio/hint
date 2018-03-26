@@ -6,9 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "dependencies": {
-    "ajv": "^6.2.1"
-  },
+  "dependencies": {},
   "description": "sonarwhal parser needed to analyze TypeScript config files",
   "devDependencies": {
     "ava": "^0.25.0",
