@@ -17,7 +17,7 @@ import * as request from 'request';
 import * as iconv from 'iconv-lite';
 
 import { debug as d } from '../../utils/debug';
-import { toLowerCaseKeys } from '../../utils/misc';
+import { getHeaderValueNormalized, toLowerCaseKeys } from '../../utils/misc';
 import { getContentTypeData } from '../../utils/content-type';
 import { NetworkData } from '../../types'; //eslint-disable-line
 import { RedirectManager } from './redirects';
@@ -33,7 +33,7 @@ const inflate = (buff: Buffer): Promise<Buffer> => {
      * * CM (Compression Method, bits 0-3) field should be 8
      * * FCHECK (bits 0-4) should be a multiple of 31
      *
-     * http://www.ietf.org/rfc/rfc1950.txt
+     * https://www.ietf.org/rfc/rfc1950.txt
      */
     if ((buff[0] & 0x0f) === 8 && (buff.readUInt16BE(0) % 31 === 0)) {
         return inflateAsync(buff) as any;
@@ -100,8 +100,8 @@ export class Requester {
             identity
         ];
 
-        // In case we an algorithm we don't understand
-        const priority = typeof priorities[algorithm] === 'undefined' ?
+        // In case of an algorithm not defined by us
+        const priority = typeof priorities[algorithm.trim()] === 'undefined' ?
             priorities.identity :
             priorities[algorithm];
 
@@ -112,12 +112,29 @@ export class Requester {
      * Tries to uncompresses a buffer with fallbacks in case `content-encoding`
      * is not accurate. E.g.:
      * `Content-Encoding` is `br` but content is actually `gzip`. It will try
-     * first with brotli, then gzip, then return a copy of the original Buffer
+     * first with Brotli, then gzip, then return a copy of the original Buffer
      *
      */
-    private async decompressResponse(contentEncoding, rawBodyResponse): Promise<Buffer> {
+    private async decompressResponse(contentEncoding: string, rawBodyResponse: Buffer): Promise<Buffer> {
         const that = this;
-        const decompressors = this.decompressors(contentEncoding);
+        /*
+         * The "Content-Encoding" header field indicates what content codings
+         * have been applied to the representation, beyond those inherent in the
+         * media type, and thus what decoding mechanisms have to be applied in
+         * order to obtain data in the media type referenced by the Content-Type
+         * header field. Content-Encoding is primarily used to allow a
+         * representation.
+         *
+         * https://tools.ietf.org/html/rfc7231#section-3.1.2.2
+         *
+         * This means contentEncoding could be `gzip, br` and we will need to
+         * unzip and unbrotli
+         */
+
+        const algorithms = contentEncoding ?
+            contentEncoding.split(',') :
+            ['']; // `contentEncoding` could be null. For our purposes '' is OK
+        const decompressors = this.decompressors(algorithms.shift().trim());
         let rawBody: Buffer;
 
         await asyncSome(decompressors, async (decompressor) => {
@@ -125,6 +142,11 @@ export class Requester {
 
             return !!rawBody;
         });
+
+        // There's another decompression we need to do
+        if (algorithms.length > 0) {
+            return this.decompressResponse(algorithms.join(','), rawBody);
+        }
 
         return rawBody;
     }
@@ -200,7 +222,8 @@ export class Requester {
                     }
                 }
 
-                const rawBody: Buffer = await this.decompressResponse(response.headers['content-encoding'], rawBodyResponse);
+                const contentEncoding: string = getHeaderValueNormalized(response.headers, 'content-encoding');
+                const rawBody: Buffer = await this.decompressResponse(contentEncoding, rawBodyResponse);
                 const { charset, mediaType } = getContentTypeData(null, uri, response.headers, rawBody);
                 const hops: Array<string> = this._redirects.calculate(uri);
                 const body: string = iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
