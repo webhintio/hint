@@ -37,7 +37,7 @@ export default class TypeScriptConfigParser extends Parser {
 
     private async parseEnd() {
         if (!this.configFound) {
-            await this.sonarwhal.emitAsync('notfound::typescript-config', {});
+            await this.sonarwhal.emitAsync('parser::typescript-config::error::not-found', {});
         }
     }
 
@@ -52,7 +52,7 @@ export default class TypeScriptConfigParser extends Parser {
                 resource
             };
 
-            await this.sonarwhal.emitAsync('invalid-schema::typescript-config', event);
+            await this.sonarwhal.emitAsync('parser::typescript-config::error::schema', event);
         }
 
         return valid;
@@ -94,14 +94,14 @@ export default class TypeScriptConfigParser extends Parser {
                 resource
             };
 
-            await this.sonarwhal.emitAsync('parse::typescript-config', event);
+            await this.sonarwhal.emitAsync('parser::typescript-config::end', event);
         } catch (err) {
             const errorEvent: TypeScriptConfigInvalid = {
                 error: err,
                 resource
             };
 
-            await this.sonarwhal.emitAsync('invalid-json::typescript-config', errorEvent);
+            await this.sonarwhal.emitAsync('parser::typescript-config::error::json', errorEvent);
         }
     }
 }
