@@ -175,6 +175,18 @@ test('toCamelCase transforms a - separated string to camelCase', (t) => {
     t.is(transformed, expected, `${transformed} !== ${expected}`);
 });
 
+test('toLowerCaseKeys lowercases the properties of an object', (t) => {
+    const obj = {
+        SometHing: true,
+        ANOTHER: false
+    };
+
+    const expected = [['something', true], ['another', false]];
+    const actual: [string, boolean][] = Object.entries(misc.toLowerCaseKeys(obj));
+
+    t.deepEqual(actual, expected, `Entries are not the same.`);
+});
+
 /** AVA macro for readFileAsync regular tests */
 const readFileAsyncMacro = async (t, context) => {
     const location = path.join(__dirname, `./fixtures/${context.file}`);

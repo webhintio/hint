@@ -54,19 +54,7 @@ import { Sonarwhal } from '../../sonarwhal';
 
 const debug: debug.IDebugger = d(__filename);
 
-const defaultOptions = {
-    followRedirect: false,
-    gzip: true,
-    headers: {
-        'Accept-Language': 'en-US,en;q=0.8,es;q=0.6,fr;q=0.4',
-        'Cache-Control': 'no-cache',
-        DNT: 1,
-        Pragma: 'no-cache',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-    },
-    jar: true,
-    waitFor: 1000
-};
+const defaultOptions = { waitFor: 1000 };
 
 export default class JSDOMConnector implements IConnector {
     private _options;

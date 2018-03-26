@@ -1,14 +1,21 @@
+import { promisify } from 'util';
 import * as zlib from 'zlib';
 
 import * as iconv from 'iconv-lite';
+import * as brotli from 'iltorb';
 import test from 'ava';
 
-import { promisify } from 'util';
 import { createServer } from '../../../helpers/test-server';
 import { Requester } from '../../../../src/lib/connectors/utils/requester';
 import { NetworkData } from '../../../../src/lib/types';
 
-const compress = promisify(zlib.gzip);
+const compressGzip: Function = promisify(zlib.gzip) as any;
+const compressBrotli: Function = promisify(brotli.compress) as any;
+const compress = {
+    br: compressBrotli,
+    gzip: compressGzip
+};
+
 const text = `This is a text
     with several characters <> "'
     áéíóúàèìòùâêîôûäëïöü`;
@@ -64,17 +71,19 @@ const contentTypes = [
  * and the supported `charset`s, even when the server response is compressed.
  *
  */
-const testTextDecoding = async (t, encoding: string, contentType: string, useCompression: boolean) => {
+const testTextDecoding = async (t, encoding: string, contentType: string, compression?: 'gzip' | 'br') => {
     const { requester, server } = t.context;
     const originalBytes = iconv.encode(text, encoding);
     const transformedText = iconv.decode(originalBytes, encoding);
-    const content: Buffer = useCompression ? await compress(originalBytes) : originalBytes;
+    const content: Buffer = compression ?
+        await compress[compression](originalBytes) :
+        originalBytes;
 
     server.configure({
         '/': {
             content,
             headers: {
-                'Content-Encoding': useCompression ? 'gzip' : 'identity',
+                'Content-Encoding': compression ? compression : 'identity',
                 'Content-Type': `${contentType}; charset=${encoding}`
             }
         }
@@ -95,8 +104,9 @@ const testTextDecoding = async (t, encoding: string, contentType: string, useCom
 
 supportedEncodings.forEach((encoding) => {
     contentTypes.forEach((contentType) => {
-        test(`requester handles ${encoding}`, testTextDecoding, encoding, contentType, false);
-        test(`requester handles ${encoding}`, testTextDecoding, encoding, contentType, true);
+        test(`requester handles ${encoding} uncompressed`, testTextDecoding, encoding, contentType);
+        test(`requester handles ${encoding} compressed with gzip`, testTextDecoding, encoding, contentType, 'gzip');
+        test(`requester handles ${encoding} compressed with brotli`, testTextDecoding, encoding, contentType, 'br');
     });
 });
 
