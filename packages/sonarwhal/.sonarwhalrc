@@ -18,12 +18,14 @@
         "html-checker": "warning",
         "http-cache": "warning",
         "http-compression": "warning",
-        "image-optimization-cloudinary": "warning",
-        "manifest-app-name": "error",
+        "image-optimization-cloudinary": "off",
+        "manifest-app-name": "warning",
         "manifest-exists": "warning",
         "manifest-file-extension": "warning",
         "manifest-is-valid": "warning",
         "meta-charset-utf-8": "warning",
+        "meta-viewport": "warning",
+        "no-bom": "warning",
         "no-disallowed-headers": "warning",
         "no-friendly-error-pages": "warning",
         "no-html-only-headers": "warning",
@@ -31,9 +33,10 @@
         "no-protocol-relative-urls": "warning",
         "no-vulnerable-javascript-libraries": "warning",
         "performance-budget": "warning",
+        "sri": "warning",
         "ssllabs": "off",
         "strict-transport-security": "warning",
-        "x-content-type-options": "warning",
-        "validate-set-cookie-header": "warning"
+        "validate-set-cookie-header": "warning",
+        "x-content-type-options": "warning"
     }
 }
