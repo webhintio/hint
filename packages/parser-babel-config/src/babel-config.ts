@@ -39,7 +39,7 @@ export default class BabelConfigParser extends Parser {
 
     private async parseEnd(scanEnd: ScanEnd) {
         if (!this.configFound) {
-            await this.sonarwhal.emitAsync('notfound::babel-config', scanEnd);
+            await this.sonarwhal.emitAsync('parser::babel-config::error::not-found', scanEnd);
         }
     }
 
@@ -53,7 +53,7 @@ export default class BabelConfigParser extends Parser {
                 resource
             };
 
-            await this.sonarwhal.emitAsync('invalid-schema::babel-config', event);
+            await this.sonarwhal.emitAsync('parser::babel-config::error::schema', event);
         }
 
         return valid;
@@ -94,14 +94,14 @@ export default class BabelConfigParser extends Parser {
                 resource
             };
 
-            await this.sonarwhal.emitAsync('parse::babel-config', event);
+            await this.sonarwhal.emitAsync('parser::babel-config::end', event);
         } catch (err) {
             const errorEvent: BabelConfigInvalid = {
                 error: err,
                 resource
             };
 
-            await this.sonarwhal.emitAsync('invalid-json::babel-config', errorEvent);
+            await this.sonarwhal.emitAsync('parser::babel-config::error::json', errorEvent);
         }
     }
 }

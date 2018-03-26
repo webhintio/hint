@@ -1,1 +1,1 @@
-This file is just to check that if there is no TypeScript config file, an event is 'notfound::typescript-config' event is dispached.
+This file is just to check that if there is no TypeScript config file, an event is 'parser::typescript-config::error::not-found' event is dispached.
