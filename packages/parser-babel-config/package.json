@@ -6,7 +6,6 @@
     ],
     "timeout": "1m"
   },
-  "dependencies": {},
   "description": "sonarwhal parser to analyze babel config",
   "devDependencies": {
     "ava": "^0.25.0",
