@@ -23,7 +23,7 @@ const defaultTests: Array<RuleTest> = [
     },
     {
         name: `page with a vulnerable library (jquery 2.1.4) fails`,
-        reports: [{ message: 'jQuery@2.1.4 has 2 known vulnerabilities (1 medium, 1 low). See https://snyk.io/vuln/npm:jquery for more information.' }],
+        reports: [{ message: 'jQuery@2.1.4 has 1 known vulnerabilities (1 medium). See https://snyk.io/vuln/npm:jquery for more information.' }],
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
     },
     {
