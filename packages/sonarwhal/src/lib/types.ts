@@ -11,6 +11,7 @@ export * from './types/network';
 export * from './types/problems';
 export * from './types/rules';
 export * from './types/parser';
+export * from './types/schema-validation-result';
 /**
  * The configuration of a rule. This could be:
  *
