@@ -32,7 +32,7 @@ class RuleWithSchema implements IRule {
                 ignore: { $ref: '#/definitions/string-array' },
                 include: { $ref: '#/definitions/string-array' }
             },
-            type: ['object', null]
+            type: 'object'
         }],
         scope: RuleScope.site
     }

@@ -28,7 +28,6 @@
     "iltorb": "^2.0.6",
     "inquirer": "^5.1.0",
     "is-ci": "^1.1.0",
-    "is-my-json-valid": "^2.17.1",
     "is-svg": "^3.0.0",
     "jsdom": "^11.6.2",
     "lockfile": "^1.0.3",
