@@ -36,26 +36,26 @@ valid content.
 
 This `parser` emits the following events:
 
-* `parse::typescript-config`, of type `TypeScriptConfigParse`
+* `parse::typescript-config::end`, of type `TypeScriptConfigParse`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `config`: an object with a valid configuration (`TypeScriptConfig`).
 
-* `invalid-json::typescript-config`, of type `TypeScriptConfigInvalid`
+* `parse::typescript-config::error::json`, of type `TypeScriptConfigInvalid`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `invalid-schema::typescript-config`, of type `TypeScriptConfigInvalidSchema`
-  which contains the following information:
+* `parse::typescript-config::error::schema`, of type
+  `TypeScriptConfigInvalidSchema` which contains the following information:
 
   * `resource`: the parsed resource.
   * `errors`: all the errors that the schama validator returns.
 
-* `notfound::typescript-config`. This event is sent if the parser doesn't
-  find any configuration file at the end of the scan.
+* `parse::typescript-config::error::not-found`. This event is sent if the
+  parser doesn't find any configuration file at the end of the scan.
   This event doesn't containt anything else.
 
 ## Types

@@ -26,7 +26,7 @@ configuration file:
 
 ## Events emitted
 
-This `parser` emits the event `parser::javascript`, of type `IScriptParse`
+This `parser` emits the event `parse::javascript`, of type `IScriptParse`
 which has the following information:
 
 * `resource`: the parsed resource. If the JavaScript is in a `script tag`

@@ -97,7 +97,7 @@ export default class BabelConfigIsValidRule implements IRule {
         const invalidJSONFile = async (babelConfigInvalid: BabelConfigInvalid) => {
             const { error, resource } = babelConfigInvalid;
 
-            debug(`invalid-json::babel-config received`);
+            debug(`parse::babel-config::error::json received`);
 
             await context.report(resource, null, error.message);
         };
@@ -105,7 +105,7 @@ export default class BabelConfigIsValidRule implements IRule {
         const invalidSchema = async (fetchEnd: BabelConfigInvalidSchema) => {
             const { errors, resource } = fetchEnd;
 
-            debug(`invalid-schema::babel-config received`);
+            debug(`parse::babel-config::error::schema received`);
 
             const grouped: _.Dictionary<Array<ajv.ErrorObject>> = groupBy(errors, 'dataPath');
             const promises = map(grouped, (values) => {
@@ -115,7 +115,7 @@ export default class BabelConfigIsValidRule implements IRule {
             await Promise.all(promises);
         };
 
-        context.on('invalid-json::babel-config', invalidJSONFile);
-        context.on('invalid-schema::babel-config', invalidSchema);
+        context.on('parse::babel-config::error::json', invalidJSONFile);
+        context.on('parse::babel-config::error::schema', invalidSchema);
     }
 }

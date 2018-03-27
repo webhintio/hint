@@ -35,25 +35,25 @@ configuration against the schema.
 
 This `parser` emits the following events:
 
-* `parse::babel-config`, of type `BabelConfigParse`
+* `parse::babel-config::end`, of type `BabelConfigParse`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `config`: an object with a valid configuration.
 
-* `invalid-json::babel-config`, of type `BabelConfigInvalid`
+* `parse::babel-config::error::json`, of type `BabelConfigInvalid`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `invalid-schema::babel-config`, of type `BabelConfigInvalidSchema`
+* `parse::babel-config::error::schema`, of type `BabelConfigInvalidSchema`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `errors`: all the errors that the schama validator returns.
 
-* `notfound::babel-config`. This event is sent if the parser doesn't
+* `parse::babel-config::error::not-found`. This event is sent if the parser doesn't
   find any configuration file at the end of the scan.
   This event doesn't containt anything else.
 

@@ -12,7 +12,7 @@ test.beforeEach((t) => {
     });
 });
 
-test('If any file is parsed, it should emit a `notfound::typescript-config` error', async (t) => {
+test('If any file is parsed, it should emit a `parse::typescript-config::error::not-found` error', async (t) => {
     const sandbox = sinon.sandbox.create();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
@@ -23,7 +23,7 @@ test('If any file is parsed, it should emit a `notfound::typescript-config` erro
 
     // 2 times, the previous call, and the expected call.
     t.true(t.context.sonarwhal.emitAsync.calledTwice);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'notfound::typescript-config');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::error::not-found');
 
     sandbox.restore();
 });
@@ -57,7 +57,7 @@ test('If the file contains an invalid json, it should fail', async (t) => {
 
     // 2 times, the previous call, and the expected call.
     t.true(t.context.sonarwhal.emitAsync.calledTwice);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'invalid-json::typescript-config');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::error::json');
     t.is(t.context.sonarwhal.emitAsync.args[1][1].error.message, 'Unexpected end of JSON input');
 
     sandbox.restore();
@@ -77,13 +77,13 @@ test('If the file contains a valid json with an invalid schema, it should fail',
 
     // 2 times, the previous call, and the expected call.
     t.true(t.context.sonarwhal.emitAsync.calledTwice);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'invalid-schema::typescript-config');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::error::schema');
     t.is(t.context.sonarwhal.emitAsync.args[1][1].errors[0].message, 'should NOT have additional properties');
 
     sandbox.restore();
 });
 
-test('If we receive a valid json with a valid name, it should emit the event parse::typescript-config', async (t) => {
+test('If we receive a valid json with a valid name, it should emit the event parse::typescript-config::end', async (t) => {
     const sandbox = sinon.sandbox.create();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
@@ -117,7 +117,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
 
     // 3 times, the two previous call and the parse.
     t.is(t.context.sonarwhal.emitAsync.callCount, 3);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config');
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::end');
     t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, validJSON);
 
     sandbox.restore();
