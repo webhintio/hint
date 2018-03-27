@@ -1,11 +1,12 @@
 import * as path from 'path';
 import * as ajv from 'ajv';
 
-import { ScanEnd, FetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
+import { ScanEnd, FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal';
 import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
+import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
 
-import { BabelConfig, BabelConfigInvalid, BabelConfigParsed, BabelConfigInvalidSchema } from './types';
+import { BabelConfig, BabelConfigInvalidJSON, BabelConfigParsed, BabelConfigInvalidSchema } from './types';
 
 export default class BabelConfigParser extends Parser {
     private configFound: boolean = false;
@@ -15,20 +16,6 @@ export default class BabelConfigParser extends Parser {
     public constructor(sonarwhal: Sonarwhal) {
         super(sonarwhal);
         this.schema = loadJSONFile(path.join(__dirname, 'schema', 'babelConfigSchema.json'));
-
-        /*
-         * If we want to use the ajv types in TypeScript, we need to import
-         * ajv in a lowsercase variable 'ajv', otherwise, we can't use types
-         * like `ajv.Ajv'.
-         */
-        this.validator = new ajv({ // eslint-disable-line new-cap
-            $data: true,
-            allErrors: true,
-            schemaId: 'id',
-            verbose: true
-        });
-
-        this.validator.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
 
         /**
          * package.json => type: 'json' (file type from extention).
@@ -43,20 +30,22 @@ export default class BabelConfigParser extends Parser {
         }
     }
 
-    private async validateSchema(config: BabelConfig, resource: string) {
-        const validate: ajv.ValidateFunction = this.validator.compile(this.schema);
-        const valid = validate(config);
+    private async validateSchema(config: BabelConfig, resource: string): Promise<SchemaValidationResult> {
+        const validationResult = validate(this.schema, config);
+
+        const valid = validationResult.valid;
 
         if (!valid) {
             const event: BabelConfigInvalidSchema = {
-                errors: validate.errors,
+                errors: validationResult.errors,
+                prettifiedErrors: validationResult.prettifiedErrors,
                 resource
             };
 
             await this.sonarwhal.emitAsync('parse::babel-config::error::schema', event);
         }
 
-        return valid;
+        return validationResult;
     }
 
     private async parseBabelConfig(fetchEnd: FetchEnd) {
@@ -83,20 +72,21 @@ export default class BabelConfigParser extends Parser {
             this.configFound = true;
             config = isPackageJson ? content.babel : content;
 
-            const valid = await this.validateSchema(config, resource);
+            const validationResult: SchemaValidationResult = await this.validateSchema(config, resource);
 
-            if (!valid) {
+            if (!validationResult.valid) {
                 return;
             }
 
             const event: BabelConfigParsed = {
-                config,
+                config: validationResult.data,
+                originalConfig: config,
                 resource
             };
 
             await this.sonarwhal.emitAsync('parse::babel-config::end', event);
         } catch (err) {
-            const errorEvent: BabelConfigInvalid = {
+            const errorEvent: BabelConfigInvalidJSON = {
                 error: err,
                 resource
             };

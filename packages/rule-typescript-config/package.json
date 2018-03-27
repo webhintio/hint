@@ -6,15 +6,9 @@
     ],
     "timeout": "1m"
   },
-  "dependencies": {
-    "lodash.groupby": "^4.6.0",
-    "lodash.map": "^4.6.0",
-    "lodash.without": "^4.4.0"
-  },
   "description": "sonarwhal rule that checks if the TypeScript configuration is valid.",
   "devDependencies": {
     "@sonarwhal/parser-typescript-config": "^1.0.0",
-    "ajv": "^6.2.1",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^4.19.1",
