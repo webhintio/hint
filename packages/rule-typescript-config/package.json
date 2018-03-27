@@ -6,7 +6,6 @@
     ],
     "timeout": "1m"
   },
-  "dependencies": {},
   "description": "sonarwhal rule that checks if the TypeScript configuration is valid.",
   "devDependencies": {
     "@sonarwhal/parser-typescript-config": "^1.0.0",

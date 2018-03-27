@@ -44,7 +44,7 @@ const generateError = (type: string, action: ((error: ajv.ErrorObject, property:
 const generateAdditionalPropertiesError = generateError(ErrorKeyword.additionalProperties, (error: ajv.ErrorObject, property: string): string => {
     const additionalProperty = (error.params as ajv.AdditionalPropertiesParams).additionalProperty;
 
-    return `'${property}' ${error.message}. Additional property found '${additionalProperty}'.`;
+    return `${property ? `'${property}' ` : ''}${property ? error.message : `${error.message[0].toLocaleUpperCase()}${error.message.substr(1)}`}. Additional property found '${additionalProperty}'.`;
 });
 
 /**

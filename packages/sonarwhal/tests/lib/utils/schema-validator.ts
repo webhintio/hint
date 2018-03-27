@@ -38,7 +38,7 @@ test('validate should generate the right message for an additional property erro
     const result: SchemaValidationResult = validate(baseSchema, data);
 
     t.deepEqual(data, result.data);
-    t.is(result.prettifiedErrors[0], `'' should NOT have additional properties. Additional property found 'z'.`);
+    t.is(result.prettifiedErrors[0], `Should NOT have additional properties. Additional property found 'z'.`);
     t.is(result.errors[0].keyword, 'additionalProperties');
 });
 

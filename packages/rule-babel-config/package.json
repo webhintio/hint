@@ -6,7 +6,6 @@
     ],
     "timeout": "1m"
   },
-  "dependencies": {},
   "description": "sonarwhal rule that checks if the Babel configuration is valid.",
   "devDependencies": {
     "@sonarwhal/parser-babel-config": "^1.0.0",
