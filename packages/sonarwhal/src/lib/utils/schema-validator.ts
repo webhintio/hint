@@ -77,7 +77,7 @@ const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorOb
     const otherErrors = _.without(errors, error);
 
     const results = _.map(otherErrors, (otherError) => {
-        // eslint-disable-next-line typescript/no-use-before-define, no-use-before-define 
+        // eslint-disable-next-line typescript/no-use-before-define, no-use-before-define
         return generate(otherError);
     });
 
