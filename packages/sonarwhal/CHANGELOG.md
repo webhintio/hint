@@ -1,3 +1,15 @@
+# 1.4.0 (March 27, 2018)
+
+## Bug fixes / Improvements
+
+* [[`e77c041b38`](https://github.com/sonarwhal/sonarwhal/commit/e77c041b38996a15e89c82da5ebd3e83a58fec83)] - Docs: Update parser related event information (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+## New features
+
+* [[`616d82b4f9`](https://github.com/sonarwhal/sonarwhal/commit/616d82b4f9c2318841052a9fa5233695132635bf)] - New: Move `ajv` related logic into a new util in `sonarwhal` (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#929`](https://github.com/sonarwhal/sonarwhal/issues/929)).
+* [[`e5bc8f283b`](https://github.com/sonarwhal/sonarwhal/commit/e5bc8f283b86614e656baa2e0b964abba43d48bf)] - New: Add `Brotli` support to `requester` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#735`](https://github.com/sonarwhal/sonarwhal/issues/735)).
+
+
 # 1.3.1 (March 24, 2018)
 
 ## Bug fixes / Improvements
