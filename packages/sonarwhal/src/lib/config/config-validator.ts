@@ -9,16 +9,17 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as schemaValidator from 'is-my-json-valid/require';
+import * as path from 'path';
 
+import { readJSONSync } from 'fs-extra';
+
+import { validate } from '../utils/schema-validator';
 import { debug as d } from '../utils/debug';
 import { UserConfig } from '../types';
 import * as logger from '../utils/logging';
 
 const debug = d(__filename);
-
-/** Validates that a configuration is valid */
-const validate = schemaValidator('config-schema.json');
+const schema = readJSONSync(path.join(__dirname, 'config-schema.json'));
 
 /*
  * ------------------------------------------------------------------------------
@@ -30,7 +31,7 @@ const validate = schemaValidator('config-schema.json');
 export const validateConfig = (config: UserConfig): boolean => {
 
     debug('Validating configuration');
-    if (!validate(config)) {
+    if (!validate(schema, config).valid) {
         logger.error('Configuration schema is not valid');
 
         return false;

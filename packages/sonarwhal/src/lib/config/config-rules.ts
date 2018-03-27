@@ -8,8 +8,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as schemaValidator from 'is-my-json-valid';
-
+import { validate as schemaValidator } from '../utils/schema-validator';
 import { debug as d } from '../utils/debug';
 import { RuleMetadata, RuleConfig } from '../types';
 import { Severity } from '../types/problems';
@@ -47,10 +46,8 @@ export const getSeverity = (config: RuleConfig | Array<RuleConfig>): Severity =>
 
 };
 
-const validateRule = (schema: Array<object>, ruleConfig: object): boolean => {
-    const validator = schemaValidator(schema);
-
-    return validator(ruleConfig);
+const validateRule = (schema: object, ruleConfig: object): boolean => {
+    return schemaValidator(schema, ruleConfig).valid;
 };
 
 /** Validates that a rule has a valid configuration based on its schema */
