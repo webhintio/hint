@@ -36,7 +36,7 @@ const tests: Array<RuleLocalTest> = [
     {
         name: `If .babelrc contain an additional property, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-additional-property', '.babelrc'),
-        reports: [{ message: `'' should NOT have additional properties. Additional property found 'additional'.` }]
+        reports: [{ message: `Should NOT have additional properties. Additional property found 'additional'.` }]
     },
     {
         name: `If .babelrc contain an invalid value, it should fail`,

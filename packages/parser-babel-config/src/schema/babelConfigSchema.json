@@ -80,7 +80,17 @@
         "moduleIds": {
             "default": false,
             "description": "If truthy, insert an explicit id for modules. By default, all modules are anonymous. (Not available for common modules)",
-            "type": "string"
+            "anyOf": [
+                {
+                    "type": "string",
+                    "minLength": 1
+                },
+                {
+                    "enum": [
+                        false
+                    ]
+                }
+            ]
         },
         "moduleRoot": {
             "description": "Optional prefix for the AMD module formatter that will be prepend to the filename on module definitions. (defaults to \"sourceRoot\")",

@@ -197,17 +197,20 @@ export type TypeScriptConfig = {
 };
 
 /** Data type sent for Invalid JSON event */
-export type TypeScriptConfigInvalid = Event & {
+export type TypeScriptConfigInvalidJSON = Event & {
     error: Error;
 };
 
 /** Data type sent for JSON doesn't validate Schema event */
 export type TypeScriptConfigInvalidSchema = Event & {
     errors: Array<ajv.ErrorObject>;
+    prettifiedErrors: Array<string>;
 };
 
 /** The object emitted by the `typescript-config` parser */
 export type TypeScriptConfigParse = Event & {
     /** The TypeScript config parsed */
     config: TypeScriptConfig;
+    /** The original TypeScript config */
+    originalConfig: TypeScriptConfig;
 };

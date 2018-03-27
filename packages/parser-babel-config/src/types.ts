@@ -29,7 +29,7 @@ export type BabelConfig = {
     sourceRoot: string;
 };
 
-export type BabelConfigInvalid = Event & {
+export type BabelConfigInvalidJSON = Event & {
     error: Error;
 };
 
@@ -37,9 +37,12 @@ export type BabelConfigInvalid = Event & {
 /** The object emitted by the `babel-config` parser */
 export type BabelConfigParsed = Event & {
     /** The babel config parsed */
-    config: any;
+    config: BabelConfig;
+    /** The original babel config */
+    originalConfig: BabelConfig;
 };
 
 export type BabelConfigInvalidSchema = Event & {
     errors: Array<ajv.ErrorObject>;
+    prettifiedErrors: Array<string>;
 };
