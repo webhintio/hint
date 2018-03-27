@@ -8,7 +8,7 @@
   },
   "description": "sonarwhal rule that checks if the TypeScript configuration is valid.",
   "devDependencies": {
-    "@sonarwhal/parser-typescript-config": "^1.0.0",
+    "@sonarwhal/parser-typescript-config": "^2.0.0",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^4.19.1",
@@ -45,7 +45,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@sonarwhal/parser-typescript-config": "^1.0.2",
+    "@sonarwhal/parser-typescript-config": "^2.0.0",
     "sonarwhal": "^1.4.0"
   },
   "repository": "sonarwhal/sonarwhal",
