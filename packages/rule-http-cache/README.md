@@ -5,13 +5,12 @@ sustainable caching strategy.
 
 ## Why is this important?
 
-You can easily improve the performance of your website by having a
-right caching strategy:
+The right caching strategy can help improve site performance through:
 
 * Shorter load times
-* Less bandwidth required
-* Reduce server costs
-* Have a predictable behavior across browsers
+* Reduced bandwidth
+* Reduced server costs
+* Having predictable behavior across browsers
 
 Currently about ~50% of resources on the web can't be cached due to
 their configuration:
