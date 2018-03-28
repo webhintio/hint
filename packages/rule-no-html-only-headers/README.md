@@ -5,7 +5,7 @@ are not needed for non-HTML resources.
 
 ## Why is this important?
 
-Some HTTP headers do not make sense to be send for non-HTML
+Some HTTP headers do not make sense to be sent for non-HTML
 resources, as sending them does not provide any value to users,
 and just contributes to header bloat.
 
