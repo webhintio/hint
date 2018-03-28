@@ -1,21 +1,21 @@
 # Require an apple touch icon (`@sonarwhal/rule-apple-touch-icons`)
 
-`apple-touch-icons` warns against not using a single `180×180px`
-PNG image for the `apple-touch-icon`.
+`apple-touch-icons` requires that a single `180×180px` PNG
+`apple-touch-icon` is used.
 
 ## Why is this important?
 
-Safari for iOS supports since `iOS 1.1.3` a way for developers
-to specify the image (known as [touch icon][touch icons]) that will
-be used when the user adds the web site/app to the homescreen.
+Since `iOS 1.1.3` Safari for iOS has supported a way for developers
+to specify an image that will be used to represent the web site/app
+on the homescreen. The image is known as the [touch icon][touch icons]).
 
-Nowadays there is a better and standard way of specifying images
-that browsers can use using the [web app manifest file][web app
-manifest spec], but unfortunately, Safari for iOS doesn’t support
-that (yet).
+The newer, standard way to do this is via the [web app manifest
+file][web app manifest spec], but at this time, Safari for iOS doesn’t
+support that method.
 
-Furthermore, over the years, the requirements for the size of the
-touch icon have changed quite a bit:
+Over time as Apple released different size displays for their devices,
+the requirements for the size of the touch icon have changed quite a
+bit:
 
 * `57×57px` – iPhone with @1x display and iPod Touch
 * `72×72px` – iPad and iPad mini with @1x display running iOS ≤ 6
@@ -26,16 +26,14 @@ touch icon have changed quite a bit:
 * `152×152px` – iPad and iPad mini with @2x display running iOS 7
 * `180×180px` – iPad and iPad mini with @2x display running iOS 8+
 
-and developers tend to include all these sizes, but there is no
-need to do that. Declaring just one `180×180px` PNG image, e.g.:
+However, declaring just one `180×180px` PNG image, e.g.:
 
 ```html
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 ```
 
-in the `<head>` of the page is enough.
-
-Including all the different sizes is actually not even recommended as:
+in the `<head>` of the page is enough, and including all the different
+sizes is not recommended as:
 
 * It will just increase the size of the pages with very little to no
   real benefit (most users will probably not add the site to their
@@ -60,11 +58,11 @@ Other notes:
   the root of the site is not recommended as [Apple usually changes
   what is requested by default][h5bp issue 1622].
 
-* In older version of Safari for iOS the [`precomposed` keyword][icon
+* In older versions of Safari for iOS the [`precomposed` keyword][icon
   effects] could be used to prevent iOS from adding different visual
   effects to the touch icon (i.e. rounded corners, drop shadow,
   reflective shine). Starting with iOS 7 no special effects are applied
-  to touch icons, so nowadays there is no need to use the `precomposed`
+  to touch icons, so there is no need to use the `precomposed`
   keyword anymore.
 
 * Safari for iOS < 4.2 [ignored the `sizes` attribute, so the order
