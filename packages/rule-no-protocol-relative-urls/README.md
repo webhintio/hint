@@ -5,19 +5,24 @@
 
 ## Why is this important?
 
-Nowadays the tendency of the [web is to move to HTTPS][https only web],
-so the use of [protocol-relative URLs][protocol-relative urls] has
-become an anti-pattern.
+A shorthand way of specifying URLs is to remove the protocol and
+let the browser determine the relative protocol based on the 
+current connection to the resource (server/file etc).
 
-Particularly for web sites/apps served over HTTP, using protocol-relative
-URLs can have some drawbacks, which among other include:
+As the web moves [towards HTTPS everywhere][https only web],
+the use of [protocol-relative URLs][protocol-relative urls] has
+become an anti-pattern, exposing some sites to man in the middle
+compromises and is therefore best avoided.
+
+Particularly for web sites/apps served over HTTP, other drawbacks
+when using protocol relative URLs include:
 
 * Performance
 
   * If the web site/app is served over HTTP, for every
     protocol-relative URL that does support HTTPS and:
 
-    * does redirect to it (i.e. most CDNs) the load time will take
+    * does a redirect to it (i.e. most CDNs), the load time will take
       longer than if the request was made directly to the `https://`
       version of the URL.
 
@@ -30,7 +35,7 @@ URLs can have some drawbacks, which among other include:
 
 * Security
 
-  Especially if protocol-relative URLs are used for CDN links, their
+  If protocol-relative URLs are used for CDN links, their
   domain is not in the browser’s [HSTS preload list][hsts preload list],
   and the first request is not made over HTTP, there is a high risk
   of man-in-the-middle attacks.
