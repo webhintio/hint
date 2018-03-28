@@ -1,18 +1,16 @@
 # Require resources to be served compressed (`@sonarwhal/rule-http-compression`)
 
-`http-compression` warns against not serving resources compressed when
-requested as such using the most appropriate encoding.
+`http-compression` warns against serving resources uncompressed and suggests using the most appropriate encoding.
 
 ## Why is this important?
 
-One of the fastest and easiest ways one can improve the web site's/app's
-performance is to reduce the amount of data that needs to get delivered
+One of the fastest and easiest ways one can improve web site/app
+performance is to reduce the amount of data sent
 to the client by using HTTP compression. This not only [reduces the data
 used by the user][wdmsc], but can also significallty cut down on the
 server costs.
 
-However, there are a few things that need to be done right in order for
-get the most out of compression:
+Here are a few rules to follow to get the most out of compressing resources:
 
 * Only compress resources for which the result of the compression
   will be smaller than original size.
@@ -23,16 +21,16 @@ get the most out of compression:
   such as EOT, OTF, and TTF, etc.)
 
   However, compressing resources that are already compressed (e.g.:
-  images, audio files, PDFs, etc.) not only waste CPU resources, but
-  usually result in little to no reduction, or in some cases even
-  a bigger file size.
+  images, audio files, PDFs, etc.) not only wastes CPU resources, but
+  usually results in little to no reduction, or in some cases an increase
+  in file size.
 
-  The same goes for resources that are very small because of the
+  The same applies to resources that are very small because of the
   overhead of compression file formats.
 
-* Use most efficient compression method.
+* Use the most efficient compression method.
 
-  gzip is the most used encoding nowadays as it strikes a good
+  gzip is the most used encoding method currently as it strikes a good
   balance between compression ratio (as [high as 70%][gzip ratio]
   especially for larger files) and encoding time, and is supported
   pretty much everywhere.
@@ -40,34 +38,33 @@ get the most out of compression:
   Better savings can be achieved using [Zopfli][zopfli] which
   can reduce the size on average [3–8% more than gzip][zopfli
   blog post]. Since Zopfli output (for the gzip option) is valid
-  gzip content, Zopfli works eveywere gzip works. The only downsize
-  is that encoding takes more time than with gzip, thus,
+  gzip content, Zopfli works eveywere gzip works. The only down side
+  is that encoding takes more time than gzip,
   making Zopfli more suitable for static content (i.e. encoding
-  resources as part of build script, not on the fly).
+  resources as part of a build script, not on the fly).
 
-  But, things can be improved even futher using [Brotli][brotli].
-  This encoding allows to get [20–26% higher compression ratios][brotli
-  blog post] even over Zopfli. However, this encoding is not compatible
+  Things can be improved even futher using [Brotli][brotli].
+  This encoding can achieve [20–26% higher compression ratios][brotli
+  blog post] over Zopfli. However, this encoding is not compatible
   with gzip, limiting the support to modern browsers and its usage to
   [only over HTTPS (as proxies misinterpreting unknown encodings)][brotli
   over https].
 
-  So, in general, for best performance and interoperability resources
-  should be served compress with Zopfli, and Brotli over HTTPS with
-  a fallback to Zopfli if not supported HTTPS.
+  As a rule, for best performance and interoperability resources
+  should be served compressed with Zopfli using unsecure HTTP, and Brotli 
+  when sending over HTTPS with a fallback to Zopfli if HTTPS is not supported.
 
-* Avoid using deprecated or not widlly supported compression formats,
+* Avoid using deprecated or not widly supported compression formats,
   and `Content-Type` values.
 
   Avoid using deprecated `Content-Type` values such as `x-gzip`. Some
   user agents may alias them to the correct, current equivalent value
   (e.g.: alias `x-gzip` to gzip), but that is not always true.
 
-  Also avoid using encoding that are not widely supported (e.g.:
+  Also avoid using encodings that are not widely supported (e.g.:
   `compress`, `bzip2`, [`SDCH`][unship sdch], etc.), and/or may not
   be as efficient, or can create problems (e.g.: [`deflate`][deflate
-  issues]). In general these should be avoided, and one should just
-  stick to the encoding specified in the previous point.
+  issues]).
 
 * Avoid potential caching related issues.
 
@@ -76,27 +73,25 @@ get the most out of compression:
   something such as `Cache-Control: private` that prevents caching
   in proxy caches and such altogether).
 
-  This needs to be done in order to avoid problems such as an
-  intermediate proxy caching the compress version of the resource and
-  then sending it to all user agents regardless if they support that
-  particular encoding or not, or if they even want the compressed
-  version or not.
+  This needs to be done to avoid problems such as an intermediate proxy
+  caching the compressed version of the resource and then sending it
+  to all user agents requests, whether they support that
+  particular encoding or even requested the compressed version.
 
 * Resources should be served compressed only when requested as such,
   appropriately encoded, and without relying on user agent sniffing.
 
   The `Accept-Encoding` request header specified should be respected.
-  Sending a content encoded with a different encoding than one of the
+  Sending a resource encoded with a different encoding than one of the
   ones accepted can lead to problems.
 
 * Dealing with special cases.
 
-  One such special case are `SVGZ` files that are just `SVG` files
+  One such special case is `SVGZ` files that are just `SVG` files
   compressed with gzip. Since they are already compressed, they
   shouldn't be compressed again. However sending them without the
   `Content-Encoding: gzip` header will create problems as user agents
-  will not know they need to decompress them before displaying them,
-  and thus, try to display them directly.
+  will not know they need to decompress before trying to display them.
 
 ## What does the rule check?
 
@@ -117,7 +112,7 @@ checks that:
 * Potential caching related issues are avoided.
 
 * Resources are served compressed only when requested as such, are
-  appropriately encoded, and no user sniffing is done.
+  appropriately encoded, and no user-agent detection is done.
 
 * Special cases (such as `SVGZ`) are handled correctly.
 
