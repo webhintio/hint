@@ -14,8 +14,8 @@ As a result, it contains sensitive data in a lot of the cases.
 To create a cookie, the `Set-Cookie` header is sent from a
 server in reponse to requests.
 
-In the `Set-Cookie` header, a cookie is defined by a name associated with a value.
-And a web server is allowed to configure the `domain` and `path`
+In the `Set-Cookie` header, a cookie is defined by a name associated
+with a value. A web server can configure the `domain` and `path`
 directives to restrain the scope of cookies. While session cookies
 are deleted when a browser shuts down, the permanent cookies
 expire at the time defined by `Expires` or `Max-Age`.
@@ -27,7 +27,7 @@ are particularly relevant to the security of cookies:
 * Setting the `HttpOnly` directive prevents access to cookie value through javascript.
 
 Applying both of these directives makes it difficult to exploit
-cross-site scripting ([XSS][xss]) vulnerability and hijack the
+cross-site scripting ([XSS][xss]) vulnerabilities and hijack the
 authenticated user sessions. The [wiki][http cookie wiki] page
 of `HTTP cookies` offers detailed examples of [cookie theft][cookie theft]
 and [proxy request][proxy request] when cookies are not well protected.
