@@ -15,15 +15,13 @@ usually a good idea to also add the charset meta tag because:
 
 * Server configurations might change (or servers might not send the
   charset parameter on the `Content-Type` HTTP response header).
-* The page might be saved locally, case in which the HTTP header will
+* The page might be saved locally, in which case the HTTP header will
   not be present when viewing the page.
 
 One should [always choose `utf-8` as the encoding, and convert any
 content in legacy encodings to `utf-8`][why use utf-8].
 
-For the charset meta tag `<meta charset="utf-8">` should be used.
-
-`<meta charset="utf-8">`:
+As for the charset meta tag, always use `<meta charset="utf-8">` as:
 
 * [Is backwards compatible and works in all known browsers][html5
   character encoding], so it should always be used over the old
