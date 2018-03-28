@@ -5,23 +5,23 @@
 
 ## Why is this important?
 
-The following is a simplify version of what happens when the user
-requests a URL in a browser:
+Consider the following simplified desription f what happens when a user
+requests a URL within a browser:
 
-1. DNS Lookup: Translate the domain to an IP. If the browser doesn’t
-   know it, it has to ask a DNS server which in some cases involves
+1. DNS Lookup: Translate the server domain to an IP. If the browser doesn’t
+   know it, it asks a DNS server which in some cases involves
    multiple queries until the final IP is obtained.
-1. Open a [TCP connection][wikipedia-tcp-establishement] to the IP
+1. Open a [TCP connection][wikipedia-tcp-establishement] to the server IP
    address requesting the URL.
 1. The server responds to that request by sending some content over
    the TCP connection.
    If the resource uses SSL, then [TLS negotation(s)][wikipedia-tls-handshake]
-   happen as well.
+   happens as well.
 
-When a redirect happens, `3.` contains the new URL the browser needs to
-request, so the whole sequence is repeated. DNS Lookup isn’t cheap,
+When a redirect occurs, `3.` contains the new URL the browser needs to
+request, repeating the whole sequence of steps. DNS Lookup isn’t cheap,
 neither is [creating a TCP connection][tcp-connection-diagram]. The
-impact of redirects is even more on mobile users, where the [network
+impact of redirects is felt even more by mobile users, where the [network
 latency is usually higher][pagespeed-insights].
 As a rule of thumb, the more you can avoid redirects the better.
 
