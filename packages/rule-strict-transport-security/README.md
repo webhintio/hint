@@ -6,7 +6,7 @@ header directives and their corresponding values.
 
 ## Why is this important?
 
-Web security is a crucial concern for developers nowadays.
+Web security should be a critical concern for web developers.
 Unlike [cross-site scripting (XSS)][xss] and [SQL injection][sql
 injection], the exploit of insufficient protection over the transport
 layer can be harder to picture in practice. If a website accepts
@@ -15,21 +15,21 @@ opportunites for a "man-in-the-middle" attack, when the redirect could
 be exploited and lead the user to a malicious site.
 
 By specifying the `Strict-Transport-Security` header along with a
-`max-age` value in the response, a website is able to declare themselves
-to be only accessible via the secure connections within the specified
-time period. So for future attempts to the same domain via the insecure
+`max-age` value in the response, a website can declare that
+only secure connections within the specified time period will be
+accepted. For future requests to the same domain via insecure
 connections, the browser knows that it should never load the site using
-HTTP and automatically convert all attempts to HTTPS requests instead.
+HTTP and automatically convert all requests to HTTPS instead.
 
 Notably, to prevent the `Strict-Transport-Security` header from being
 stripped by the attacker on the user’s first visit, major browsers
 include a "pre-loaded" list of sites that must be loaded via HTTPS.
-You can submit your domain name in the [online form][preload form] to
-be included in the list. After being included, browsers will never be
-able to connect to your domain using an insecure connection. So use
-with great caution: Before you decide to have your own domain included,
-make sure that you are able to support HTTPS for all the subdomains
-and will never again need the insecure scheme.
+You can submit your domain name in the [online form][preload form]
+to be included in the list. After being included, all insecure
+connection requests will be disallowed. Use with great caution:
+Before you decide to have your own domain included, make sure that
+you are able to support HTTPS for all the subdomains and that you'll
+never again need the insecure scheme.
 
 More information about HTTP Strict Transport (HSTS), please see:
 
