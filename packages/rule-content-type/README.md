@@ -6,7 +6,7 @@ the appropriate media type and charset for the response.
 
 ## Why is this important?
 
-Even thought browsers sometimes [ignore][server configs] the value of
+Even though browsers sometimes [ignore][server configs] the value of
 the `Content-Type` header and try to [sniff the content][mime sniffing
 spec], it’s indicated to always send the appropriate media type and
 charset for the response as, among other:
