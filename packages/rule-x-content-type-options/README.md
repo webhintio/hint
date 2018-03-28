@@ -1,27 +1,25 @@
 # Require `X-Content-Type-Options` HTTP response header (`@sonarwhal/rule-x-content-type-options`)
 
-`x-content-type-options` warns against not serving scripts and
-stylesheets with the `X-Content-Type-Options: nosniff` HTTP response
-header.
+`x-content-type-options` checks that all scripts and
+stylesheets are sent to the browser with the
+`X-Content-Type-Options: nosniff` HTTP response header.
 
 ## Why is this important?
 
 Sometimes the metadata browsers need in order to know how to interpret
-the content of a resource is incorrect, not reliable, or even absent.
-So, in order to overcome those problems and provide a better user
-experience, regardless of the specified `Content-Type` HTTP header sent
-by servers, browsers use contextual clues and inspect the bytes of the
-response (known as [MIME sniffing][mime sniffing spec] in order to detect
-the file format.
+the content of a resource is either incorrect, not reliable, or absent.
+In those cases, browsers use contextual clues that inspect the
+bytes of the response in order to detect the file format. This
+is known as [MIME sniffing][mime sniffing spec] and it runs regardless
+of the specified `Content-Type` HTTP header sent by servers.
 
 For example, if a browser requests a script, but that script is served
 with an incorrect media type (e.g. `x/x`), the browser will still detect
 the script and execute it.
 
-While, as previously stated, content sniffing can be beneficial, it
-can also expose the web site/app to attacks based on MIME-type confusion
-which can lead to security problems, especially in the case of servers
-hosting untrusted content.
+While content sniffing can be beneficial, it can also expose the web 
+site/app to attacks based on MIME-type confusion exposing security 
+problems, especially in the case of servers hosting untrusted content.
 
 Fortunately, browsers provide a way to opt-out of MIME sniffing by
 using the `X-Content-Type-Options: nosniff` HTTP response header.
@@ -29,7 +27,7 @@ using the `X-Content-Type-Options: nosniff` HTTP response header.
 Going back to the previous example, if the `X-Content-Type-Options: nosniff`
 header is sent for the script, if the browser detects that it’s a script
 and it wasn’t served with one of the [JavaScript media type][javascript
-media types], it will block it.
+media types], the script will be blocked.
 
 Note: [Modern browsers only respect the header for scripts and
 stylesheets][fetch spec blocking], and sending the header for other
@@ -38,7 +36,7 @@ spec issue].
 
 ## What does the rule check?
 
-The rule checks if only scripts and stylesheets are served with the
+The rule checks if all scripts and stylesheets are served with the
 `X-Content-Type-Options` HTTP headers with the value of `nosniff`.
 
 ### Examples that **trigger** the rule
