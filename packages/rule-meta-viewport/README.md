@@ -63,7 +63,7 @@ Notes:
       Setting the `width` property to a specific size (e.g.: `width=320`)
       is [not recommended][fixed width problem].
 
-    * Having `width=device-width` also constitutes an performance
+    * Having `width=device-width` also constitutes a performance
       improvement, as under most circumstances, it enables fast tapping,
       removing the 300-350 ms tap delay on [Safari for iOS 10+][ios 10
       interaction behaviors] and [other mobile browsers][tap delay].
@@ -79,17 +79,17 @@ Notes:
 * `user-scalable`, `maximum-scale`, and `minimum-scale` properties
   should not be used.
 
-  These properties allowed to block the user from zooming on a page.
-  Since nowadays there is such a wide range of devices with different
-  display dimensions, screen resolutions, pixel densities, etc., it is
-  very difficult, to choose an appropriate text size in a design.
-  So, what usually happends is that most of the time using these
-  properties enables users to pick a text size that is unreadable while
-  giving the user no way to zoom, annoying them, or making the web
-  site/app inaccessibble to some people.
+  These properties can block the user from zooming on a page.
+  With such a wide range of devices available with different
+  display dimensions, screen resolutions, pixel densities, etc.,
+  it is difficult to choose an appropriate text size in a design.
+  Most of the time using these properties enable users to pick a
+  text size that is unreadable while preventing them from zooming,
+  frustrating them, or making the web site/app inaccessible in
+  some cases.
 
-  So, because of the issue described above, these properties are now
-  ignored by some some mobile browser such as [Safari for iOS 10+][ios
+  Considering the issues described, these properties are now
+  ignored by some mobile browsers such as [Safari for iOS 10+][ios
   10 interaction behaviors].
 
 ## What does the rule check?
