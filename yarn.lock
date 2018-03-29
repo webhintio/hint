@@ -2475,14 +2475,14 @@ eventemitter2@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-5.0.1.tgz#6197a095d5fb6b57e8942f6fd7eaad63a09c9452"
 
-exceljs@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.0.1.tgz#b97cf64682fcd083b365dee71c68971c44eaf151"
+exceljs@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.1.0.tgz#46dc4213b8765404e90e471ec628192a26a583eb"
   dependencies:
     archiver "^1.3.0"
     fast-csv "^2.4.0"
     jszip "3.1.3"
-    moment "2.19.3"
+    moment ">=2.19.3"
     node-unzip-2 "^0.2.7"
     promish ">=5.0.2"
     sax "^1.2.2"
@@ -4746,9 +4746,9 @@ moment@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-1.0.0.tgz#ab5d9c16bff1b0027f9ad6270ee9d04562a202b6"
 
-moment@2.19.3:
-  version "2.19.3"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
+moment@>=2.19.3:
+  version "2.21.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
 
 move-concurrently@^1.0.1:
   version "1.0.1"
