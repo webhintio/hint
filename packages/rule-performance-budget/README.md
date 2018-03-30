@@ -21,6 +21,32 @@ mindful not only about the size of their sites, but also the number of
 requests, different domains, third party scripts, etc. The time required by a
 browser to download a 200kB file is not the same than 20 files of 10kB.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-performance-budget
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "performance-budget": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 This rule calculates how long it will take to download all the resources loaded

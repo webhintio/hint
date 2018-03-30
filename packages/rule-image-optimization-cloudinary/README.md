@@ -20,6 +20,32 @@ or 1,810kB.
 By having your images optimized, you will help your users have a better
 and faster experience when navigating in your website.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-image-optimization-cloudinary
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "image-optimization-cloudinary": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 This rule will use Cloudinary’s infrastructure to upload any images

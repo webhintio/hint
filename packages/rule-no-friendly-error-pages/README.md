@@ -20,6 +20,32 @@ as [Chrome][chromium issue].
 While in `Internet Explorer` users can disabled the `Show friendly
 HTTP error messages` functionality, that is not usually the case.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-no-friendly-error-pages
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "no-friendly-error-pages": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 The rule looks at all responses and checks if any of them have one

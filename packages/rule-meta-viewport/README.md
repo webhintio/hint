@@ -92,6 +92,32 @@ Notes:
   ignored by some mobile browsers such as [Safari for iOS 10+][ios
   10 interaction behaviors].
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-meta-viewport
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "meta-viewport": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 The rule checks if the `viewport` meta tag was specified a single

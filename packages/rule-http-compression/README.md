@@ -95,6 +95,32 @@ resources:
   `Content-Encoding: gzip` header will create problems as user agents
   will not know they need to decompress before trying to display them.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-http-compression
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "http-compression": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 The rule checks for the use cases previously specified, namely, it

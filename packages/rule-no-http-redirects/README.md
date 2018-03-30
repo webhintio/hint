@@ -25,6 +25,32 @@ impact of redirects is felt even more by mobile users, where the [network
 latency is usually higher][pagespeed-insights].
 As a rule of thumb, the more you can avoid redirects the better.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-no-http-redirects
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "no-http-redirects": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 This rule checks:

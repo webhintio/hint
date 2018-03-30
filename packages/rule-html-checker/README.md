@@ -21,6 +21,32 @@
 This rule interacts with this service via [`html-validator`][html-validator],
 and is able to test both remote websites and local server instances.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-html-checker
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "html-checker": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 According to the Nu Html checker [documentation][nu html checker docs],

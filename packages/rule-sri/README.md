@@ -21,6 +21,32 @@ Subresource integrity [is a standard][sri spec] that mitigates this by ensuring
 that an exact representation of a resource, and only that representation, loads
 and executes.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-sri
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "sri": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 This rule checks that a website uses correctly SRI, more especifically:

@@ -36,6 +36,32 @@ More information about HTTP Strict Transport (HSTS), please see:
 * [HTTP Strict Transport Security wiki][hsts wiki]
 * [HTTP Strict Transport Security Cheat Sheet][hsts cheat sheat]
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-strict-transport-security
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "strict-transport-security": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 For a site served over HTTPS, this rule checks the following:

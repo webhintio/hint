@@ -45,6 +45,32 @@ when using protocol relative URLs include:
   a high-value target, and therefore, are much more likely to be
   attacked than most of the individual sites that use them.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-no-protocol-relative-urls
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "no-protocol-relative-urls": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 The rule checks for protocol-relative URLs.

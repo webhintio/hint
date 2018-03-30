@@ -19,6 +19,32 @@ their configuration:
 
 [Source: http archive][maxage0]
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-http-cache
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "http-cache": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 This rule checks the configuration of the `cache-control` header to

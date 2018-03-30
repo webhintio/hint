@@ -29,6 +29,32 @@ accessibility is required by laws and policies in some cases.
 
 ***From [WAI’s Introduction to Web Accessibility][wai].***
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-axe
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "axe": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 By default this rule runs all the [WCAG 2.0][wcag 2.0] Level A and

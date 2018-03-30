@@ -69,6 +69,32 @@ Notes:
   property] property that will prevent the `window.opener` reference
   from being set.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-disown-opener
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "disown-opener": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 By default, the rule checks if the `rel` attribute was specified with

@@ -18,6 +18,32 @@ to put metadata about your site/web app, and providing it:
   [opera][opera], [samsung internet][samsung internet]) in deciding if
   they will show the add to homescreen prompt to users
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-manifest-exists
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "manifest-exists": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 This rule checks if:

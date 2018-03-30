@@ -45,6 +45,32 @@ As for the charset meta tag, always use `<meta charset="utf-8">` as:
   avoiding potential encoding-related security issues ([such as the
   one in old IE][ie issue]).
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-meta-charset-utf-8
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "meta-charset-utf-8": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 The rule checks if `<meta charset="utf-8">` is specified as the first

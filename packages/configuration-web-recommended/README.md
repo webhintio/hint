@@ -5,6 +5,15 @@ production websites.
 
 This package will automatically install all the missing dependencies.
 
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/configuration-web-recommended
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
 The minimum required [`.sonarwhalrc`][sonarwhalrc] file to use it is
 the following:
 

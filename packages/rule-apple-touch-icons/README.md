@@ -69,6 +69,32 @@ Other notes:
   in which the icons were declared mattered][icon sizes]. When using
   just one image there is no need to use the `sizes` attribute.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-apple-touch-icons
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "apple-touch-icons": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 The rule checks if a single `apple-touch-icon` declaration exists in

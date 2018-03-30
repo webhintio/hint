@@ -7,8 +7,17 @@ resource in its sheet:
 
 ![Example output for one of the details sheet of the excel formatter](images/details.png)
 
-To use it you need to configure your [`.sonarwhalrc`][sonarwhalrc] file
-as follows:
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/formatter-excel
+```
+
+If you want to install it globally, add the parameter `-g`.
+If you want to install it as a dev dependency, add the parameter `--save-dev`
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
 
 ```json
 {
