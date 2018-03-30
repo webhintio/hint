@@ -11,6 +11,34 @@ is important, as among other things, that could allow a malicious person
 to take advantage of one of them to create a [Cross-site Scripting][XSS]
 attack and steal private information.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-no-vulnerable-javascript-libraries
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "no-vulnerable-javascript-libraries": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 This rules uses Snyk’s [Vulnerability DB][snykdb] and

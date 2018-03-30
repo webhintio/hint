@@ -44,6 +44,34 @@ Notes:
   the meta tag is no longer recommended as [`Chrome Frame` has been
   deprecated][chrome frame] for quite some time.
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-highest-available-document-mode
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "highest-available-document-mode": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 By default the rule checks if the `X-UA-Compatible` response header is

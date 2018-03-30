@@ -13,6 +13,34 @@ AMP page will load (quickly) in any modern browser.
 If you are building an AMP page, you need to make sure the HTML is valid.
 Only valid AMP content can be added to an [AMP Cache][amp-cache].
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-amp-validator
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "amp-validator": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 This rule uses [amphtml-validator][amphtml-validator] to validate the
