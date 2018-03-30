@@ -28,8 +28,10 @@ To use it you will have to install it via `npm`:
 npm install @sonarwhal/rule-image-optimization-cloudinary
 ```
 
-If you want to install it globally, add the parameter `-g`.
-If you want to install it as a dev dependency, add the parameter `--save-dev`
+You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see the
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
 
 And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
 configuration file:
