@@ -11,9 +11,9 @@ To use it you will have to install it via `npm`:
 npm install @sonarwhal/configuration-web-recommended
 ```
 
-You can make `npm` install it as a `devDependency` using the `--save-dev`
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
 parameter, or to install it globally, you can use the `-g` parameter. For
-other options see the
+other options see
 [`npm`'s documentation](https://docs.npmjs.com/cli/install).
 
 The minimum required [`.sonarwhalrc`][sonarwhalrc] file to use it is
