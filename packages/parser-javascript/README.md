@@ -9,6 +9,11 @@ To use it you will have to install it via `npm`:
 npm install @sonarwhal/parser-javascript
 ```
 
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
 And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
 configuration file:
 

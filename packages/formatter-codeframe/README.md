@@ -6,8 +6,19 @@ was found (if applicable):
 
 ![Example output for the codeframe formatter](images/codeframe-output.png)
 
-To use it you need to configure your [`.sonarwhalrc`][sonarwhalrc] file
-as follows:
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/formatter-codeframe
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
 
 ```json
 {

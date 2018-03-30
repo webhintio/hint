@@ -1,18 +1,47 @@
-# babel-config/is-valid (`@sonarwhal/rule-babel-config`)
+# babel-config (`@sonarwhal/rule-babel-config`)
 
-Validate the Babel configuration specified in `.babelrc` or the `babel`
-property in `package.json` against the
-[babel configuration schema][babel config schema].
+`babel-config` contains rules to check if your Babel configuration has
+the most recommended configuration.
 
 ## Why is this important?
 
 Babel needs to be properly configured to reflect user's preference.
 
-## What does the rule check?
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-babel-config
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "babel-config/is-valid": "error"
+    },
+    ...
+}
+```
+
+## Rule: `is-valid` (`babel-config/is-valid`)
+
+### What does the rule check?
 
 This rule checks if the Babel configuration specified in `.babelrc` or
 the `babel` property in `package.json` adheres to the requirement of
-the schema.
+the [babel configuration schema][babel config schema].
 
 ### Examples that **trigger** the rule
 

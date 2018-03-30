@@ -13,6 +13,34 @@ it makes it:
   the web app manifest file
 * possible to benefit from [existing configurations][other configs]
 
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-manifest-file-extension
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "manifest-file-extension": "error"
+    },
+    ...
+}
+```
+
 ## What does the rule check?
 
 The rule checks if the recommended [`.webmanifest`][file extension]
