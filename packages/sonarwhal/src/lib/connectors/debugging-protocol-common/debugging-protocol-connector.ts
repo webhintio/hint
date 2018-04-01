@@ -22,11 +22,10 @@ import { getContentTypeData, getType } from '../../utils/content-type';
 import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
 import { cutString, delay, hasAttributeWithValue } from '../../utils/misc';
-import { resolveUrl } from '../utils/resolver';
 
 import {
     BrowserInfo, IConnector,
-    IAsyncHTMLElement, ElementFound, Event, FetchEnd, FetchError, ILauncher, ManifestFetchError, TraverseUp, TraverseDown,
+    IAsyncHTMLElement, ElementFound, Event, FetchEnd, FetchError, ILauncher, TraverseUp, TraverseDown,
     Response, Request, NetworkData
 } from '../../types';
 
@@ -67,8 +66,6 @@ export class Connector implements IConnector {
     private _pendingResponseReceived: Array<Function>;
     /** List of all the tabs used by the connector. */
     private _tabs = [];
-    /** Tells if the page has specified a manifest or not. */
-    private _manifestIsSpecified: boolean = false;
     /** Tells if a favicon of a page has been downloaded from a link tag. */
     private _faviconLoaded: boolean = false;
     /** The amount of time before an event is going to be timedout. */
@@ -267,18 +264,6 @@ export class Connector implements IConnector {
             return;
         }
 
-        if (params.type === 'Manifest') {
-            const { request: { url: resource } } = request;
-            const event: ManifestFetchError = {
-                error: new Error(params.errorText),
-                resource
-            };
-
-            await this._server.emitAsync('fetch::error::manifest', event);
-
-            return;
-        }
-
         // DOM is not ready so we queue up the event for later
         if (!this._dom) {
             this._pendingResponseReceived.push(this.onLoadingFailed.bind(this, params));
@@ -457,10 +442,6 @@ export class Connector implements IConnector {
         let element = null;
         let eventName: string = this._href === originalUrl ? 'fetch::end::html' : 'fetch::end';
 
-        if (params.type === 'Manifest') {
-            eventName = 'fetch::end::manifest';
-        }
-
         if (eventName !== 'fetch::end::html') {
             // DOM is not ready so we queue up the event for later
             if (!this._dom) {
@@ -520,56 +501,6 @@ export class Connector implements IConnector {
         this._requests.delete(params.requestId);
     }
 
-    private async getManifestManually(element: IAsyncHTMLElement) {
-        const manifestURL: string = resolveUrl(element.getAttribute('href'), this._finalHref);
-
-        /*
-         * Try to see if the web app manifest file actually
-         * exists and is accesible.
-         */
-
-        try {
-            const manifestData: NetworkData = await this.fetchContent(manifestURL);
-
-            const event: FetchEnd = {
-                element,
-                request: manifestData.request,
-                resource: manifestURL,
-                response: manifestData.response
-            };
-
-            await this._server.emitAsync('fetch::end::manifest', event);
-
-            return;
-
-            // Check if fetching/reading the file failed.
-        } catch (e) {
-            debug('Failed to fetch the web app manifest file');
-
-            const event: ManifestFetchError = {
-                error: e,
-                resource: manifestURL
-            };
-
-            await this._server.emitAsync('fetch::error::manifest', event);
-        }
-    }
-
-    private async getManifest(element: IAsyncHTMLElement) {
-        this._manifestIsSpecified = true;
-
-        try {
-            /*
-             * CDP will not download the manifest on its own, so we have to "force" it
-             * This will trigger the `onRequestWillBeSent`, `onResponseReceived`, and
-             * `onLoadingFailed` for the manifest URL.
-             */
-            await this._client.Page.getAppManifest();
-        } catch (err) {
-            await this.getManifestManually(element);
-        }
-    }
-
     /** Traverses the DOM notifying when a new element is traversed. */
     private async traverseAndNotify(element) {
         /*
@@ -597,10 +528,6 @@ export class Connector implements IConnector {
         };
 
         await this._server.emitAsync(eventName, event);
-
-        if (eventName === 'element::link' && wrappedElement.getAttribute('rel') === 'manifest') {
-            await this.getManifest(wrappedElement);
-        }
 
         const elementChildren = wrappedElement.children;
 
@@ -800,10 +727,6 @@ export class Connector implements IConnector {
                 await this._server.emitAsync('traverse::start', event);
                 await this.traverseAndNotify(this._dom.root);
                 await this._server.emitAsync('traverse::end', event);
-
-                if (!this._manifestIsSpecified) {
-                    await this._server.emitAsync('fetch::missing::manifest', { resource: this._href });
-                }
 
                 if (!this._faviconLoaded) {
                     const faviconElement = (await this._dom.querySelectorAll('link[rel~="icon"]'))[0];

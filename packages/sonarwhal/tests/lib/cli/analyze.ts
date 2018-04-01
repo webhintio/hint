@@ -473,46 +473,6 @@ test.serial('Event fetch::end should write a message in the spinner', async (t) 
     sandbox.restore();
 });
 
-test.serial('Event fetch::end::manifest should write a message in the spinner', async (t) => {
-    const sandbox = sinon.createSandbox();
-
-    class FakeFormatter implements IFormatter {
-        public static called: boolean = false;
-        public constructor() { }
-
-        public format(problems: Array<Problem>) {
-            FakeFormatter.called = true;
-            console.log(problems);
-        }
-    }
-
-    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
-        formatters: [FakeFormatter],
-        incompatible: [],
-        missing: []
-    });
-
-    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
-
-    sandbox.stub(sonarwhalObj, 'formatters').get(() => {
-        return [new FakeFormatter()];
-    });
-    sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
-        await analyzer.sonarwhal.emitAsync('fetch::end::manifest', { resource: 'http://localhost/' });
-    });
-    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
-    sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
-
-    await analyzer.analyze(actions);
-
-    t.is(spinner.text, 'http://localhost/ downloaded');
-
-    sandbox.restore();
-});
-
 test.serial('Event fetch::end::html should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
