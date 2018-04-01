@@ -23,14 +23,6 @@ const defaultTests: Array<RuleTest> = [
         })
     },
     {
-        name: `Manifest is served over HTTPS without 'Strict-Transport-Security' header specified`,
-        reports: [{ message: common.noHeaderError }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, {
-            '/': common.htmlPageWithManifestData,
-            '/test.webmanifest': ''
-        })
-    },
-    {
         name: `HTML pages is served over HTTPS and 'max-age' defined is too short`,
         reports: [{ message: common.tooShortErrorDefault }],
         serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.tooShortHeader } })
@@ -41,14 +33,6 @@ const defaultTests: Array<RuleTest> = [
         serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, {
             '/': common.htmlPageWithScriptData,
             '/test.js': { headers: common.tooShortHeader }
-        })
-    },
-    {
-        name: `Manifest is served over HTTPS and 'max-age' defined is too short`,
-        reports: [{ message: common.tooShortErrorDefault }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, {
-            '/': common.htmlPageWithManifestData,
-            '/test.webmanifest': { headers: common.tooShortHeader }
         })
     },
     {

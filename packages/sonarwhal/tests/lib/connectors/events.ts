@@ -141,7 +141,6 @@ const events = [
         resource: 'test://fa.il',
         hops: ['http://localhost/script5.js']
     }],
-    ['fetch::missing::manifest', { resource: 'http://localhost/' }],
     ['scan::end', { resource: 'http://localhost/' }]
 ];
 /* eslint-enable sort-keys */
@@ -298,7 +297,7 @@ const testConnectorEvents = (connectorInfo) => {
         }
 
         // List of events that only have to be called once per execution
-        const singles = ['fetch::error', 'scan::start', 'scan::end', 'fetch::missing::manifest', 'fetch::end::html'];
+        const singles = ['fetch::error', 'scan::start', 'scan::end', 'fetch::end::html'];
         const groupedEvents = _.groupBy(invokes, (invoke) => {
             return invoke[0];
         });

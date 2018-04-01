@@ -128,14 +128,6 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
-        name: `Manifest is served with 'Content-Type' header with wrong 'charset'`,
-        reports: [{ message: incorrectCharsetMessage }],
-        serverConfig: {
-            '/': generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.json">')),
-            '/test.json': { headers: { 'Content-Type': 'application/manifest+json; charset=iso-8859-1' } }
-        }
-    },
-    {
         name: `Script is served with 'Content-Type' header with wrong 'charset'`,
         reports: [{ message: incorrectCharsetMessage }],
         serverConfig: {
@@ -179,17 +171,6 @@ const testsForDefaults: Array<RuleTest> = [
             '/test.png': {
                 content: pngFileContent,
                 headers: { 'Content-Type': 'font/woff' }
-            }
-        }
-    },
-    {
-        name: `Manifest is served with 'Content-Type' header with the wrong media type`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('application/manifest+json', 'font/woff') }],
-        serverConfig: {
-            '/': generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="/test.json">')),
-            '/test.json': {
-                content: pngFileContent,
-                headers: { 'Content-Type': 'font/woff; charset=utf-8' }
             }
         }
     },
@@ -295,13 +276,6 @@ const testsForDefaults: Array<RuleTest> = [
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
             '/test.png': { headers: { 'content-Type': 'image/PNG' } }
-        }
-    },
-    {
-        name: `Manifest is served with correct value for 'Content-Type' header`,
-        serverConfig: {
-            '/': generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.json">')),
-            '/test.json': { headers: { 'CONTENT-TYPE': 'APPLICATION/MANIFEST+JSON; CHARSET=UTF-8' } }
         }
     },
     {

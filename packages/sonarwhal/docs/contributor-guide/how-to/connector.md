@@ -50,15 +50,6 @@ this order:
      in the DOM,
    * [`traverse::up`][events traverseup] when going up.
 1. [`traverse::end`][events traverseend]
-1. Before sending the final event, the connector needs to try to
-   download the web manifest: to download the manifest automatically
-   and send the following events:
-   * [`fetch::end::manifest`][events fetchendmanifest] with the
-     content of the manifest,
-   * [`fetch::error::manifest`][events fetcherrormanifest] if there
-     has been an error downloading the manifest,
-   * [`fetch::missing::manifest`][events fetchmissingmanifest] if no
-     manifest is specified.
 1. The final event is [`scan::end`][events scanend].
 
 For more details about how the events look like and the properties they
@@ -152,7 +143,4 @@ following tests:
 [events traversedown]: ../getting-started/events.md#traversedown
 [events traverseup]: ../getting-started/events.md#traverseup
 [events traverseend]: ../getting-started/events.md#traverseend
-[events fetchendmanifest]: ../getting-started/events.md#fetchendmanifest
-[events fetcherrormanifest]: ../getting-started/events.md#fetcherrormanifest
-[events fetchmissingmanifest]: ../getting-started/events.md#fetchmissingmanifest
 [events scanend]: ../getting-started/events.md#scanend
