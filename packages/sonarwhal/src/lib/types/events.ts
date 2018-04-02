@@ -12,10 +12,7 @@ export type ScanStart = Event;
 /** The object emitted when the connector has finished the process. */
 export type ScanEnd = Event;
 
-/** The object emitted by a connector on `fetch::start`. */
-export type FetchStart = Event;
-
-/** The object emitted by a connector on `fetch::end::*`. */
+/** The object emitted on `fetch::end::*`. */
 export type FetchEnd = Event & {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
@@ -25,7 +22,7 @@ export type FetchEnd = Event & {
     response: Response;
 };
 
-/** The object emitted by a connector on `fetch::error` */
+/** The object emitted on `fetch::error::*` */
 export type FetchError = Event & {
     /** The element that initiated the request. */
     element: IAsyncHTMLElement;
@@ -34,6 +31,12 @@ export type FetchError = Event & {
     /** The redirects performed for the url. */
     hops: Array<string>;
 };
+
+/** The object emitted on `fetch::missing::*`. */
+export type FetchMissing = Event;
+
+/** The object emitted on `fetch::start::*`. */
+export type FetchStart = Event;
 
 /** The object emitted by a connector on `traverse::start` */
 export type TraverseStart = Event;

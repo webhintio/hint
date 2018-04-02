@@ -7,8 +7,9 @@ their signature, and the `interface` they implement.
 
 * [`element::<element-type>`](#elementelement-type)
 * [`fetch::end::<resource-type>`](#fetchendresource-type)
-* [`fetch::error`](#fetcherror)
-* [`fetch::start`](#fetchstart)
+* [`fetch::error`](#fetcherrorresource-type)
+* [`fetch::missing`](#fetchmissingresource-type)
+* [`fetch::start`](#fetchstartresource-type)
 * [`fetch::end::manifest`](#fetchendmanifest)
 * [`fetch::error::manifest`](#fetcherrormanifest)
 * [`fetch::start::manifest`](#fetchstartmanifest)
@@ -39,8 +40,8 @@ type ElementFound = {
 
 ## `fetch::end::<resource-type>`
 
-Event is emitted **when** the `connector` has finished downloading
-the content of a `resource` (`js`, `css`, `image`, etc.).
+Event is emitted **when** the content of a `resource` (`js`, `css`,
+`image`, etc.) has finished downloading.
 
 **Format:**
 
@@ -57,10 +58,10 @@ type FetchEnd {
 }
 ```
 
-## `fetch::error`
+## `fetch::error::<resource-type>`
 
-Event is emitted **when** the `connector` has encountered a problem
-downloading the content of a `resource`.
+Event is emitted **when** a problem downloading the content of
+a `resource` was encountered.
 
 **Format:**
 
@@ -77,10 +78,23 @@ type FetchError {
 }
 ```
 
-## `fetch::start`
+## `fetch::missing::<resource-type>`
 
-Event is emitted **when** the `connector` is about to start the request
-to fetch the `target`.
+Event is emitted **when** a resource is not found.
+
+**Format:**
+
+```ts
+type FetchMissing {
+    /** The URL to download */
+    resource: string;
+}
+```
+
+## `fetch::start::<resource-type>`
+
+Event is emitted **when** the request to fetch the `target` is about
+to start
 
 **Format:**
 
