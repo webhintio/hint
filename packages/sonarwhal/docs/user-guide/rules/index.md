@@ -9,13 +9,13 @@
 ## Accessibility
 
 * [`axe`](../../../../rule-axe/README.md)
-* [`meta-charset-utf-8`](../../../../rule-meta-charset-utf-8/README.md)
 
 ## Interoperability
 
 * [`content-type`](../../../../rule-content-type/README.md)
 * [`highest-available-document-mode`](../../../../rule-highest-available-document-mode/README.md)
 * [`html-checker`](../../../../rule-html-checker/README.md)
+* [`meta-charset-utf-8`](../../../../rule-meta-charset-utf-8/README.md)
 * [`meta-viewport`](../../../../rule-meta-viewport/README.md)
 * [`no-friendly-error-pages`](../../../../rule-no-friendly-error-pages/README.md)
 
