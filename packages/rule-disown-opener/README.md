@@ -1,10 +1,10 @@
 # Require external links to disown opener (`@sonarwhal/rule-disown-opener`)
 
-`disown-opener` warns against not specifying the `rel` attribute
-with both the `noopener` and `noreferrer` values (or only `noopener`
-if all the [targeted browsers](../index.md#browser-configuration)
-support it) on `a` and `area` elements that have `target="_blank"`
-and link to other origins.
+`disown-opener` checks for the `rel` attribute on `a` and 
+`area` elements that have `target="_blank"` and link to
+other origins. Both the `noopener` and `noreferrer` values 
+(or only `noopener` if all the [targeted browsers](../index.md#browser-configuration)
+support it) must be present.
 
 ## Why is this important?
 
@@ -16,24 +16,24 @@ Links that have `target="_blank"`, such as
   When using `target="_blank"` the page that was linked to gains
   access to the original page’s [`window.opener`][window.opener].
   This allows it to redirect the original page to whatever it wants,
-  like for example, a phishing page designed to look like a real page
-  frequently used by users, asking for login credentials (see also:
-  [tab nabbing][tab nabbing]).
+  a technique frequently used for malicious attacks on the user.
+  For example, the user could be redirected to a phishing page 
+  designed to look like the expected page and then asking for login
+  credentials (see also: [tab nabbing][tab nabbing]).
 
   By adding `ref="noopener"` (and `noreferrer` for older browsers)
-  the `window.opener` reference won’t be set, and thus, the ability
-  for the page that was linked to from redirecting the original one
-  is removed.
+  the `window.opener` reference won’t be set removing the ability
+  for the page that was linked to from redirecting the original one.
 
-* [performance problem][performance problem]
+* [a performance problem][performance problem]
 
-  Most modern browser are multi-process. However, due to the
+  Most modern browsers are multi-process. However, due to the
   synchronous cross-window access the DOM allows via `window.opener`,
   in most browsers pages launched via `target="_blank"` end up in the
-  same process as the origin page, and that can lead to pages
-  experiencing jank.
+  origin page's UI process interrupting UI processing which can degrade
+  page rendering performance.
 
-  In Chromium based browser, using `ref="noopener"` (or
+  In Chromium based browsers, using `ref="noopener"` (or
   [`rel="noreferrer"`][noreferrer chromium] for older versions), and
   thus, preventing the `window.opener` reference from being set, allows
   new pages to be opened in their own process.
