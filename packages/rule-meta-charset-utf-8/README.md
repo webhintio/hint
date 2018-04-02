@@ -1,7 +1,7 @@
 # Require charset meta tag with the value of `utf-8` (`@sonarwhal/rule-meta-charset-utf-8`)
 
-`meta-charset-utf-8` warns against not declaring the character encoding
-as `utf-8` inline.
+`meta-charset-utf-8` checks the page explicitly declares character encoding
+as `utf-8` inline as a meta tag early in the document.
 
 ## Why is this important?
 
