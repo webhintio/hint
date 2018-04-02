@@ -1,15 +1,16 @@
 # No vulnerable libraries (`@sonarwhal/rule-no-vulnerable-javascript-libraries`)
 
-This rules uses Snyk’s [Vulnerability DB][snykdb] to identify if
-a website is running a vulnerable client-side JavaScript library
-or framework.
+This rule checks for known vulnerabilities within client-side JavaScript
+libraries and frameworks detected on a web site.
+
+Sonarwhal uses Snyk’s [Vulnerability DB][snykdb] service to lookup
+published vulnerabilities.
 
 ## Why is this important?
 
 Making sure your website dependencies are free of known vulnerabilities
-is important, as among other things, that could allow a malicious person
-to take advantage of one of them to create a [Cross-site Scripting][XSS]
-attack and steal private information.
+is important in preventing malicious attacks like [Cross-site Scripting][XSS]
+used to compromise web site information.
 
 ## How to use this rule?
 
