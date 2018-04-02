@@ -12,12 +12,14 @@ languages (e.g.: ASP.NET, PHP), that by default have values that
 contain information about the technology that set them: its name,
 version number, etc.
 
-   Sending these types of HTTP headers does not provide any value to
-users, contributes to header bloat, and just gives more information
-to any potential attackers about the technology stack being used.
+   Sending these types of HTTP headers 
+   * does not provide any value to the user experience
+   * contributes to header bloat
+   * exposes information to potential attackers about the technology
+   stack being used.
 
-2) Headers that have limited support, require a lot of knowledge to
-make them work correctly, and can easily create more problems then
+2) Uncommon or esoteric headers that have limited support, require 
+a lot of knowledge to use correctly, and can create more problems then
 they solve.
 
    One example here is the `Public-Key-Pins` header. It has [limited
