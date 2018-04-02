@@ -1,7 +1,7 @@
 # No vulnerable libraries (`@sonarwhal/rule-no-vulnerable-javascript-libraries`)
 
 This rule checks for known vulnerabilities within client-side JavaScript
-libraries and frameworks detected on this web site.
+libraries and frameworks detected on a web site.
 
 Sonarwhal uses Snyk’s [Vulnerability DB][snykdb] service to lookup
 published vulnerabilities.
