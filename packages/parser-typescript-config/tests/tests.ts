@@ -2,7 +2,7 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-import TypeScriptConfigParser from '../src/typescript-config';
+import TypeScriptConfigParser from '../src/parser';
 
 test.beforeEach((t) => {
     t.context.sonarwhal = new EventEmitter2({

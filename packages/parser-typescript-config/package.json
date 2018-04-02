@@ -38,7 +38,7 @@
     "typescript-config"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/typescript-config.js",
+  "main": "dist/src/parser.js",
   "name": "@sonarwhal/parser-typescript-config",
   "nyc": {
     "extends": "../../.nycrc"

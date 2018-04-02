@@ -1,7 +1,8 @@
 import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
-import BabelConfigParser from '../src/babel-config';
+
+import BabelConfigParser from '../src/parser';
 
 test.beforeEach((t) => {
     t.context.sonarwhal = new EventEmitter2({

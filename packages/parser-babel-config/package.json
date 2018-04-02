@@ -39,7 +39,7 @@
     "babel-config"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/babel-config.js",
+  "main": "dist/src/parser.js",
   "name": "@sonarwhal/parser-babel-config",
   "nyc": {
     "extends": "../../.nycrc"

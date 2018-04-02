@@ -13,7 +13,7 @@ export default class TypeScriptConfigParser extends Parser {
     public constructor(sonarwhal: Sonarwhal) {
         super(sonarwhal);
 
-        this.schema = loadJSONFile(path.join(__dirname, 'schema', 'tsConfigSchema.json'));
+        this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
         sonarwhal.on('fetch::end::*', this.parseTypeScript.bind(this));
         sonarwhal.on('scan::end', this.parseEnd.bind(this));

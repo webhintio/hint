@@ -42,7 +42,7 @@
     "javascript"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/javascript.js",
+  "main": "dist/src/parser.js",
   "name": "@sonarwhal/parser-javascript",
   "nyc": {
     "extends": "../../.nycrc"

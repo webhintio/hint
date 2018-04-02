@@ -15,7 +15,7 @@ export default class BabelConfigParser extends Parser {
 
     public constructor(sonarwhal: Sonarwhal) {
         super(sonarwhal);
-        this.schema = loadJSONFile(path.join(__dirname, 'schema', 'babelConfigSchema.json'));
+        this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
         /**
          * package.json => type: 'json' (file type from extention).

@@ -3,7 +3,7 @@ import * as espree from 'espree';
 
 import { determineMediaTypeForScript } from 'sonarwhal/dist/src/lib/utils/content-type';
 import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
-import { ScriptParse } from './ScriptParse';
+import { ScriptParse } from './types';
 import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
 
 const scriptContentRegex: RegExp = /^<script[^>]*>([\s\S]*)<\/script>$/;
