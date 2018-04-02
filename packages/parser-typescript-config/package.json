@@ -7,6 +7,9 @@
     "timeout": "1m"
   },
   "description": "sonarwhal parser needed to analyze TypeScript config files",
+  "dependencies": {
+    "lodash.clonedeep": "^4.5.0"
+  },
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
