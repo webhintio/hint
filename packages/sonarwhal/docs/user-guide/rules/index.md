@@ -17,6 +17,7 @@
 * [`html-checker`](../../../../rule-html-checker/README.md)
 * [`meta-charset-utf-8`](../../../../rule-meta-charset-utf-8/README.md)
 * [`meta-viewport`](../../../../rule-meta-viewport/README.md)
+* [`no-bom`](../../../../rule-no-bom/README.md)
 * [`no-friendly-error-pages`](../../../../rule-no-friendly-error-pages/README.md)
 
 ## Performance
