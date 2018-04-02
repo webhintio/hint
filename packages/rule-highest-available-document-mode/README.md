@@ -26,13 +26,13 @@ or specifying the `x-ua-compatible` meta tag:
 will force Internet Explorer 8/9/10 to render the page in the highest
 available mode in [the various cases when it may not][ie complications],
 and therefore, ensure that anyone browsing the site from those browsers
-is treated to the best possible user experience that browser can offer.
+will get the best possible user experience that browser can offer.
 
-If possible, it is recommended to send the HTTP response header
-instead of using the `meta` tag, as the latter will not always work
-(e.g.: if the site is served on a non-standard port, as Internet
-Explorer’s preference option `Display intranet sites in Compatibility
-View` is checked by default).
+Of the two methods, sending the HTTP response header
+instead of using the `meta` tag is recommended, as the latter will not 
+always work (e.g.: if the site is served on a non-standard port, as
+Internet Explorer’s preference option `Display intranet sites in
+Compatibility View` is checked by default).
 
 Notes:
 
@@ -41,7 +41,7 @@ Notes:
   `<meta>` tags.
 
 * Appending `chrome=1` to the value of the HTTP response header or
-  the meta tag is no longer recommended as [`Chrome Frame` has been
+  the meta tag is not recommended as [`Chrome Frame` has been
   deprecated][chrome frame] for quite some time.
 
 ## How to use this rule?
