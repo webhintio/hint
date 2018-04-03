@@ -1,24 +1,25 @@
 # Require manifest to specify the web site/app name (`@sonarwhal/rule-manifest-app-name`)
 
-`manifest-app-name` warns against not specifying the web site/app’s
+`manifest-app-name` checks that a name is specified for the app
+within the manifest.
 name.
 
 ## Why is this important?
 
-Browsers that have support for the [web app manifest file][manifest
+Browsers that support the [web app manifest file][manifest
 spec] will use [`name`][manifest name] member (or the
 [`short_name`][manifest short_name], when there is insufficient space)
-to display the name of the site/app in situations such as: amongst
-a list of other applications, as a label for an icon, etc.
+to display the name of the app in various places across the OS like
+the list of apps installed, a app icon label etc.
 
 If these members are not defined, browsers will try to get the name
 from other sources such as the value of the [`application-name` meta
 tag, `<title>`, or just default to a specific value (e.g.:
-`Untitled`)][manifest metadata]. This can lead to bad user experience,
-as the web site/app name may be truncated or just wrong.
+`Untitled`)][manifest metadata]. This can lead to a bad user experience,
+as the app name may be truncated or just wrong.
 
-In general it is recommended to specify and have the `name` member
-under 30 character, and if it’s over 12 characters also have a
+It is recommended to specify the `name` member and keep it's length
+under 30 characters, and if it’s over 12 characters, include a
 `short_name` member that is at most 12 characters.
 
 Notes:
