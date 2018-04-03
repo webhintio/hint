@@ -1,17 +1,18 @@
 import * as path from 'path';
-import * as ajv from 'ajv';
+
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { ScanEnd, FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal';
 import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
 import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
+import { finalConfig, ErrorCodes } from 'sonarwhal/dist/src/lib/utils/extends-merger';
 
 import { BabelConfig, BabelConfigInvalidJSON, BabelConfigParsed, BabelConfigInvalidSchema } from './types';
 
 export default class BabelConfigParser extends Parser {
     private configFound: boolean = false;
     private schema: any;
-    private validator: ajv.Ajv;
 
     public constructor(sonarwhal: Sonarwhal) {
         super(sonarwhal);
@@ -72,6 +73,28 @@ export default class BabelConfigParser extends Parser {
             this.configFound = true;
             config = isPackageJson ? content.babel : content;
 
+            const originalConfig: BabelConfig = cloneDeep(config);
+
+            try {
+                config = finalConfig(config, resource);
+            } catch (err) {
+                if (err.code === ErrorCodes.circular) {
+                    const errorEvent: BabelConfigInvalidJSON = {
+                        error: err.message,
+                        resource: err.resource
+                    };
+
+                    await this.sonarwhal.emitAsync('parse::babel-config::error::circular', errorEvent);
+                } else {
+                    await this.sonarwhal.emitAsync('parse::babel-config::error::extends', err);
+                }
+                config = null;
+            }
+
+            if (!config) {
+                return;
+            }
+
             const validationResult: SchemaValidationResult = await this.validateSchema(config, resource);
 
             if (!validationResult.valid) {
@@ -80,7 +103,7 @@ export default class BabelConfigParser extends Parser {
 
             const event: BabelConfigParsed = {
                 config: validationResult.data,
-                originalConfig: config,
+                originalConfig,
                 resource
             };
 
