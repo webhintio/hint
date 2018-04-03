@@ -10,7 +10,7 @@
   "dependencies": {
     "ajv": "^6.4.0",
     "async": "^2.6.0",
-    "browserslist": "^3.2.3",
+    "browserslist": "^3.2.4",
     "canvas-prebuilt": "^1.6.5-prerelease.1",
     "chalk": "^2.3.2",
     "chokidar": "^2.0.3",
@@ -71,7 +71,7 @@
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^4.19.1",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.11.0",
     "express": "^4.16.2",
@@ -81,7 +81,7 @@
     "on-headers": "^1.0.1",
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
-    "sinon": "^4.4.8",
+    "sinon": "^4.5.0",
     "typescript": "^2.8.1",
     "typescript-eslint-parser": "^14.0.0"
   },
