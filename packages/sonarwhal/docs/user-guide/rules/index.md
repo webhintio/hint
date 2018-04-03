@@ -42,6 +42,7 @@
 * [`no-disallowed-headers`](../../../../rule-no-disallowed-headers/README.md)
 * [`no-protocol-relative-urls`](../../../../rule-no-protocol-relative-urls/README.md)
 * [`no-vulnerable-javascript-libraries`](../../../../rule-no-vulnerable-javascript-libraries/README.md)
+* [`sri`]( ../../../../rule-sri/README.md)
 * [`ssllabs`](../../../../rule-ssllabs/README.md)
 * [`strict-transport-security`](../../../../rule-strict-transport-security/README.md)
 * [`validate-set-cookie-header`](../../../../rule-validate-set-cookie-header/README.md)
