@@ -1,24 +1,28 @@
 # Disallow small error pages (`@sonarwhal/rule-no-friendly-error-pages`)
 
-`no-friendly-error-pages` warns against using error pages that
-have the size under a certain threshold.
+`no-friendly-error-pages` warns against using custom error pages with 
+byte size under a certain threshold.
 
 ## Why is this important?
 
-By default [`Internet Explorer 5-11` will show its custom error
-pages][friendly error pages] if the response body’s byte length
-is shorter than:
+[`Internet Explorer 5-11` will show its custom error
+pages][friendly error pages] instead of the page you intented
+in order to avoid terse server error messages like 'Error - 400'
+being shown to users. IE has two criteria for displaying
+it's more user friendly page:
+
+If the response body’s byte length is shorter than:
 
 * `256` bytes for responses with the status code: `403`, `405`,
-  or `410`
+  `410` OR
 * `512` bytes for responses with the status code: `400`, `404`,
   `406`, `408`, `409`, `500`, `501`, or `505`
 
 Similar behavior existed in older versions of other browsers, such
 as [Chrome][chromium issue].
 
-While in `Internet Explorer` users can disabled the `Show friendly
-HTTP error messages` functionality, that is not usually the case.
+Although it's possible for users of `Internet Explorer`to disable the
+`Show friendly HTTP error messages` functionality, it is not typical.
 
 ## How to use this rule?
 
