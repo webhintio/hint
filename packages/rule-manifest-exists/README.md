@@ -1,17 +1,17 @@
 # Require a web app manifest file (`@sonarwhal/rule-manifest-exists`)
 
-`manifest-exists` warns against not providing a [web app manifest][spec]
-file.
+`manifest-exists` warns when a [web app manifest][spec]
+file is not provided.
 
 ## Why is this important?
 
 The web app manifest file constitutes a standard centralized place
-to put metadata about your site/web app, and providing it:
+to put metadata about your web application, and providing it:
 
-* informs browsers (and possible [others][windows] where to look for
-  information about your site/web app, information that they may need
-  in different contexts (e.g. what icon and name should they use for
-  your site/web app when the user adds it to the homescreen)
+* informs browsers (and possible [others][windows] where to look
+  for information about your web app, information that they may need
+  in different contexts (e.g. what icon and name should be used if
+  your web app is added to the homescreen)
 
 * is an essential piece in the context of progressive web apps,
   being one of the signals used by some browsers (e.g. [Chrome][chrome],
