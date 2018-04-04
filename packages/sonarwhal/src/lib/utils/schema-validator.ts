@@ -11,10 +11,11 @@ import { SchemaValidationResult } from '../types';
 const validator = new ajv({ // eslint-disable-line new-cap
     $data: true,
     allErrors: true,
+    logger: false,
     schemaId: 'id',
     useDefaults: true,
     verbose: true
-});
+} as ajv.Options);
 
 validator.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
 
