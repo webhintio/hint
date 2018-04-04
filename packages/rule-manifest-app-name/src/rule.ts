@@ -1,6 +1,6 @@
 /**
  * @fileoverview Check if the web app manifest file includes the `name`
- * and `short_name` member with appropriate values.
+ * and `short_name` properties with appropriate values.
  */
 
 /*
@@ -12,12 +12,13 @@
 const { ucs2 } = require('punycode');
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { FetchEnd, Response, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import {
+    Manifest,
+    ManifestParsed
+} from '@sonarwhal/parser-manifest/dist/src/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-
-const debug = d(__filename);
 
 /*
  * ------------------------------------------------------------------------------
@@ -30,7 +31,7 @@ export default class ManifestAppNameRule implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.pwa,
-            description: 'Require web site/app name to be specified'
+            description: 'Require web application name to be specified in the web app manifest file'
         },
         id: 'manifest-app-name',
         schema: [],
@@ -39,21 +40,21 @@ export default class ManifestAppNameRule implements IRule {
 
     public constructor(context: RuleContext) {
 
-        const checkIfDefined = async (resource: string, content: string, memberName: string) => {
+        const checkIfPropertyExists = async (resource: string, content: string, propertyName: string) => {
             if (typeof content === 'undefined') {
-                await context.report(resource, null, `Manifest should contain the '${memberName}' member`);
+                await context.report(resource, null, `Should contain the '${propertyName}' property`);
             }
         };
 
-        const checkIfNonEmpty = async (resource: string, content: string, memberName: string) => {
+        const checkIfPropertyValueIsNotEmpty = async (resource: string, content: string, propertyName: string) => {
             if (content && (content.trim() === '')) {
-                await context.report(resource, null, `Manifest should contain non-empty '${memberName}' member`);
+                await context.report(resource, null, `Should have non-empty '${propertyName}' property value`);
             }
         };
 
-        const checkIfUnderLimit = async (resource: string, content: string, memberName: string, shortNameLengthLimit: number) => {
+        const checkIfPropertyValueIsUnderLimit = async (resource: string, content: string, propertyName: string, shortNameLengthLimit: number) => {
             if (content && (ucs2.decode(content).length > shortNameLengthLimit)) {
-                await context.report(resource, null, `Manifest should have '${memberName}' member under ${shortNameLengthLimit} characters`);
+                await context.report(resource, null, `Should have the '${propertyName}' property value under ${shortNameLengthLimit} characters`);
 
                 return false;
             }
@@ -61,32 +62,10 @@ export default class ManifestAppNameRule implements IRule {
             return true;
         };
 
-        const validate = async (data: FetchEnd) => {
-            const { resource, response: { body: { content }, statusCode } }: { resource: string, response: Response } = data;
+        const validate = async (manifestParsed: ManifestParsed) => {
+            const { parsedContent: manifest, resource }: { parsedContent: Manifest, resource: string } = manifestParsed;
 
-            if (statusCode !== 200) {
-                debug('Request for manifest file has HTTP status code different than 200');
-
-                return;
-            }
-
-            let jsonContent;
-
-            if (!content) {
-                await context.report(resource, null, 'Manifest file does not contain valid JSON');
-
-                return;
-            }
-
-            try {
-                jsonContent = JSON.parse(content);
-            } catch (e) {
-                debug('Manifest file does not contain valid JSON');
-
-                return;
-            }
-
-            const name = jsonContent.name;
+            const name = manifest.name;
 
             /*
              * The 30 character limit is used in order to be consistent
@@ -96,7 +75,7 @@ export default class ManifestAppNameRule implements IRule {
              * https://support.google.com/googleplay/android-developer/answer/113469#store_listing
              */
 
-            const nameLengthLimit = 30;
+            const nameLengthLimit: number = 30;
 
             /*
              * The 12 character limit is used to ensure that for most
@@ -118,14 +97,14 @@ export default class ManifestAppNameRule implements IRule {
              *  https://developer.chrome.com/apps/manifest/name#short_name
              */
 
-            const shortNameLengthLimit = 12;
+            const shortNameLengthLimit: number = 12;
 
-            await checkIfDefined(resource, name, 'name');
-            await checkIfNonEmpty(resource, name, 'name');
-            await checkIfUnderLimit(resource, name, 'name', nameLengthLimit);
+            await checkIfPropertyExists(resource, name, 'name');
+            await checkIfPropertyValueIsNotEmpty(resource, name, 'name');
+            await checkIfPropertyValueIsUnderLimit(resource, name, 'name', nameLengthLimit);
 
-            const shortName = jsonContent.short_name;
-            const shortNameIsRequired = name && (name.trim() !== '') && (ucs2.decode(name).length > shortNameLengthLimit);
+            const shortName: string = manifest.short_name;
+            const shortNameIsRequired: boolean = name && (name.trim() !== '') && (ucs2.decode(name).length > shortNameLengthLimit);
 
             /*
              * Validate 'short_name' if:
@@ -138,11 +117,11 @@ export default class ManifestAppNameRule implements IRule {
                 return;
             }
 
-            await checkIfDefined(resource, shortName, 'short_name');
-            await checkIfNonEmpty(resource, shortName, 'short_name');
-            await checkIfUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit);
+            await checkIfPropertyExists(resource, shortName, 'short_name');
+            await checkIfPropertyValueIsNotEmpty(resource, shortName, 'short_name');
+            await checkIfPropertyValueIsUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit);
         };
 
-        context.on('fetch::end::manifest', validate);
+        context.on('parse::manifest::end', validate);
     }
 }
