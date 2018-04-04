@@ -750,38 +750,29 @@ Important notes:
 <IfModule mod_deflate.c>
 
     # 3) gzip
-    #
-    # [!] For Apache versions below version 2.3.7 you don't need to
-    # enable `mod_filter` and can remove the `<IfModule mod_filter.c>`
-    # and `</IfModule>` lines as `AddOutputFilterByType` is still in
-    # the core directives.
-    #
-    # https://httpd.apache.org/docs/current/mod/mod_filter.html#addoutputfilterbytype
 
-    <IfModule mod_filter.c>
-        AddOutputFilterByType DEFLATE "application/atom+xml" \
-                                      "application/json" \
-                                      "application/manifest+json" \
-                                      "application/rdf+xml" \
-                                      "application/rss+xml" \
-                                      "application/schema+json" \
-                                      "application/vnd.ms-fontobject" \
-                                      "application/xhtml+xml" \
-                                      "font/collection" \
-                                      "font/opentype" \
-                                      "font/otf" \
-                                      "font/ttf" \
-                                      "image/bmp" \
-                                      "image/svg+xml" \
-                                      "image/x-icon" \
-                                      "text/cache-manifest" \
-                                      "text/css" \
-                                      "text/html" \
-                                      "text/javascript" \
-                                      "text/plain" \
-                                      "text/vtt" \
-                                      "text/xml"
-    </IfModule>
+    AddOutputFilterByType DEFLATE "application/atom+xml" \
+                                  "application/json" \
+                                  "application/manifest+json" \
+                                  "application/rdf+xml" \
+                                  "application/rss+xml" \
+                                  "application/schema+json" \
+                                  "application/vnd.ms-fontobject" \
+                                  "application/xhtml+xml" \
+                                  "font/collection" \
+                                  "font/opentype" \
+                                  "font/otf" \
+                                  "font/ttf" \
+                                  "image/bmp" \
+                                  "image/svg+xml" \
+                                  "image/x-icon" \
+                                  "text/cache-manifest" \
+                                  "text/css" \
+                                  "text/html" \
+                                  "text/javascript" \
+                                  "text/plain" \
+                                  "text/vtt" \
+                                  "text/xml"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -801,10 +792,9 @@ Important notes:
 
 Also note that:
 
-* The above snippet works with Apache `v2.2.0+`, but you need to
-  have [`mod_deflate`][mod_deflate], [`mod_mime`][mod_mime],
-  [`mod_rewrite`][mod_rewrite], and for Apache versions below
-  `v2.3.7` [`mod_filter`][mod_filter] [enabled][how to enable apache
+* The above snippet works with Apache `v2.4.0+`, but you need to
+  have [`mod_deflate`][mod_deflate], and [`mod_mime`][mod_mime],
+  [`mod_rewrite`][mod_rewrite] [enabled][how to enable apache
   modules] in order for it to take effect.
 
 * If you have access to the [main Apache configuration file][main
