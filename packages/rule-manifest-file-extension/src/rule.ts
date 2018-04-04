@@ -10,13 +10,10 @@
  */
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, ElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { getFileExtension, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-
-const debug = d(__filename);
 
 /*
  * ------------------------------------------------------------------------------
@@ -44,12 +41,9 @@ export default class ManifestFileExtensionRule implements IRule {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
 
             if (normalizeString(element.getAttribute('rel')) === 'manifest') {
-                const href: string = normalizeString(element.getAttribute('href'));
-                const fileExtension: string = getFileExtension(href);
+                const fileExtension: string = getFileExtension(normalizeString(element.getAttribute('href')));
 
                 if (fileExtension !== standardManifestFileExtension) {
-                    debug('Manifest file with invalid extension found');
-
                     await context.report(resource, element, `The file extension should be '${standardManifestFileExtension}'${fileExtension ? ` (not '${fileExtension}')` : ''}`, fileExtension);
                 }
             }

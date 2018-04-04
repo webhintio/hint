@@ -7,31 +7,31 @@ import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const tests: Array<RuleTest> = [
     {
-        name: `Manifest file is not specified, so the rule does not apply and the test should pass`,
+        name: `Web app manifest file is not specified, so the rule does not apply and the test should pass`,
         serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')
     },
     {
-        name: `Manifest file has incorrect file extension`,
+        name: `Web app manifest file has incorrect file extension`,
         reports: [{ message: `The file extension should be 'webmanifest' (not 'json')` }],
         serverConfig: generateHTMLPage(`<link rel="manifest" href="site.json">
         <link rel="stylesheet" href="style.css">`)
     },
     {
-        name: `Manifest file is specified only as '.webmanifest'`,
+        name: `Web app manifest file is specified only as '.webmanifest'`,
         reports: [{ message: `The file extension should be 'webmanifest'` }],
         serverConfig: generateHTMLPage(`<link rel="manifest" href=".webmanifest">
         <link rel="stylesheet" href="style.css">`)
     },
     {
-        name: `Manifest file has correct file extension`,
+        name: `Web app manifest file has correct file extension`,
         serverConfig: generateHTMLPage(`<link rel="manifest" href="site.webmanifest">
         <link rel="stylesheet" href="style.css">`)
     },
     {
-        name: `Manifest file has correct file extension being specified in a path that contains '.'`,
+        name: `Web app manifest file has correct file extension being specified in a path that contains '.'`,
         serverConfig: generateHTMLPage(`<link rel="manifest" href="/.well-known/site.webmanifest">
         <link rel="stylesheet" href="style.css">`)
     }
 ];
 
-ruleRunner.testRule(getRuleName(__dirname), tests);
+ruleRunner.testRule(getRuleName(__dirname), tests, { parsers: ['manifest'] });
