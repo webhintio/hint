@@ -140,7 +140,7 @@ you can do something such as the following:
 
 Note that:
 
-* The above snippet works with Apache `v2.2.0+`, but you need to have
+* The above snippet works with Apache `v2.4.0+`, but you need to have
   [`mod_headers`][mod_headers] [enabled][how to enable apache modules]
   in order for it to take effect.
 

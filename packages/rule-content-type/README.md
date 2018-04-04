@@ -171,22 +171,10 @@ header, and thus, make your web site/app pass this rule.
 
   # Data interchange
 
-    # 2.2.x+
-
+    AddType application/json                            map
     AddType text/xml                                    xml
 
-    # 2.2.x - 2.4.x
-
-    AddType application/json                            json
-    AddType application/rss+xml                         rss
-
-    # 2.4.x+
-
-    AddType application/json                            map
-
   # JavaScript
-
-    # 2.2.x+
 
     # See: https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages.
     AddType text/javascript                             js mjs
@@ -194,51 +182,27 @@ header, and thus, make your web site/app pass this rule.
 
   # Manifest files
 
-    # 2.2.x+
-
     AddType application/manifest+json                   webmanifest
     AddType text/cache-manifest                         appcache
 
 
   # Media files
 
-    # 2.2.x - 2.4.x
-
-    AddType audio/mp4                                   f4a f4b m4a
-    AddType audio/ogg                                   oga ogg spx
-    AddType video/mp4                                   mp4 mp4v mpg4
-    AddType video/ogg                                   ogv
-    AddType video/webm                                  webm
-    AddType video/x-flv                                 flv
-
-    # 2.2.x+
-
     AddType image/svg+xml                               svgz
-    AddType image/x-icon                                cur
-
-    # 2.4.x+
-
     AddType image/webp                                  webp
+    AddType image/x-icon                                cur
 
 
   # Web fonts
 
-    # 2.2.x - 2.4.x
-
-    AddType application/vnd.ms-fontobject               eot
-
-    # 2.2.x+
-
-    AddType font/woff                                   woff
-    AddType font/woff2                                  woff2
-    AddType font/ttf                                    ttf
     AddType font/collection                             ttc
     AddType font/otf                                    otf
+    AddType font/ttf                                    ttf
+    AddType font/woff                                   woff
+    AddType font/woff2                                  woff2
 
 
   # Other
-
-    # 2.2.x+
 
     AddType text/vtt                                    vtt
 
@@ -279,7 +243,7 @@ AddDefaultCharset utf-8
 
 Note that:
 
-* The above snippet works with Apache `v2.2.0+`, but you need to have
+* The above snippet works with Apache `v2.4.0+`, but you need to have
   [`mod_mime`][mod_mime] [enabled][how to enable apache modules]
   in order for it to take effect.
 

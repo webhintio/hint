@@ -287,7 +287,7 @@ Important notes:
 
 Also note that:
 
-* The above snippet works with Apache `v2.2.0+`, but you need to
+* The above snippet works with Apache `v2.4.0+`, but you need to
   have [`mod_expires`][mod_expires] and [`mod_headers`][mod_headers]
   [enabled][how to enable apache modules]
   in order for it to take effect.

@@ -155,7 +155,7 @@ ServerTokens Prod
 
 Note that:
 
-* The above snippets works with Apache `v2.2.0+`, but you need to have
+* The above snippets works with Apache `v2.4.0+`, but you need to have
   [`mod_headers`][mod_headers] [enabled][how to enable apache modules]
   in order for them to take effect.
 
