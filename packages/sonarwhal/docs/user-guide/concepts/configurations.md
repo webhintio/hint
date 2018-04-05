@@ -14,7 +14,7 @@ To use a `configuration`, you have to:
    `--init`, the wizard will list you the official configuration packages but
    you can search on `npm`. Any package `@sonarwhal/configuration-` or
    `sonarwhal-configuration-` should be a valid candidate.
-2. Once installed, update your `.sonarwhalrc` to use it (this step is no needed
+2. Once installed, update your `.sonarwhalrc` to use it (this step is not needed
    if you are using the wizard):
 
 ```json
