@@ -39,7 +39,7 @@
     "sonarwhal-recommended"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/index.js",
+  "main": "dist/src/rule.js",
   "name": "@sonarwhal/rule-manifest-is-valid",
   "nyc": {
     "extends": "../../.nycrc"
