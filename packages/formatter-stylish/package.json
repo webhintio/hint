@@ -48,7 +48,7 @@
     "stylish"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/stylish.js",
+  "main": "dist/src/formatter.js",
   "name": "@sonarwhal/formatter-stylish",
   "nyc": {
     "extends": "../../.nycrc"

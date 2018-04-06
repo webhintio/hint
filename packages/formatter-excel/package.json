@@ -47,7 +47,7 @@
     "excel"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/excel.js",
+  "main": "dist/src/formatter.js",
   "name": "@sonarwhal/formatter-excel",
   "nyc": {
     "extends": "../../.nycrc"

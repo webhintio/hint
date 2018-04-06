@@ -47,7 +47,7 @@
     "codeframe"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/codeframe.js",
+  "main": "dist/src/formatter.js",
   "name": "@sonarwhal/formatter-codeframe",
   "nyc": {
     "branches": 80,
