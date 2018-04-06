@@ -10,14 +10,14 @@ import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
     delete require.cache[require.resolve('lodash')];
-    delete require.cache[path.resolve(__dirname, '../src/excel.js')];
+    delete require.cache[path.resolve(__dirname, '../src/formatter.js')];
 
     const groupBy = require('lodash.groupby');
     const spy = sinon.spy(groupBy);
 
-    proxyquire('../src/excel', { 'lodash.groupby': spy });
+    proxyquire('../src/formatter', { 'lodash.groupby': spy });
 
-    const ExcelFormatter = require('../src/excel').default;
+    const ExcelFormatter = require('../src/formatter').default;
 
     t.context.ExcelFormatter = ExcelFormatter;
     t.context.spy = spy;

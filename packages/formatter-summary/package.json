@@ -49,7 +49,7 @@
     "summary"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/summary.js",
+  "main": "dist/src/formatter.js",
   "name": "@sonarwhal/formatter-summary",
   "nyc": {
     "extends": "../../.nycrc"
