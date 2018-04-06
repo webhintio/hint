@@ -1,21 +1,19 @@
 import * as path from 'path';
 
 import * as cloneDeep from 'lodash.clonedeep';
-
-import { TypeScriptConfig, TypeScriptConfigInvalidJSON, TypeScriptConfigParse, TypeScriptConfigInvalidSchema } from './types';
-import { FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
+import { FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib/types';
 import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
 import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
-import { finalConfig, ErrorCodes } from 'sonarwhal/dist/src/lib/utils/extends-merger';
 
+import { TypeScriptConfig, TypeScriptConfigInvalidJSON, TypeScriptConfigInvalidSchema, TypeScriptConfigParse } from './types';
 
 export default class TypeScriptConfigParser extends Parser {
     private configFound: boolean = false;
     private schema: any;
 
     public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal);
+        super(sonarwhal, 'typescript-config');
 
         this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
@@ -25,7 +23,7 @@ export default class TypeScriptConfigParser extends Parser {
 
     private async parseEnd() {
         if (!this.configFound) {
-            await this.sonarwhal.emitAsync('parse::typescript-config::error::not-found', {});
+            await this.sonarwhal.emitAsync(`parse::${this.name}::error::not-found`, {});
         }
     }
 
@@ -41,7 +39,7 @@ export default class TypeScriptConfigParser extends Parser {
                 resource
             };
 
-            await this.sonarwhal.emitAsync('parse::typescript-config::error::schema', event);
+            await this.sonarwhal.emitAsync(`parse::${this.name}::error::schema`, event);
         }
 
         return validationResult;
@@ -73,21 +71,7 @@ export default class TypeScriptConfigParser extends Parser {
 
             const originalConfig = cloneDeep(config);
 
-            try {
-                config = finalConfig(config, resource);
-            } catch (err) {
-                if (err.code === ErrorCodes.circular) {
-                    const errorEvent: TypeScriptConfigInvalidJSON = {
-                        error: err.message,
-                        resource: err.resource
-                    };
-
-                    await this.sonarwhal.emitAsync('parse::typescript-config::error::circular', errorEvent);
-                } else {
-                    await this.sonarwhal.emitAsync('parse::typescript-config::error::extends', err);
-                }
-                config = null;
-            }
+            config = await this.finalConfig<TypeScriptConfig, TypeScriptConfigInvalidJSON>(config, resource);
 
             if (!config) {
                 return;
@@ -106,14 +90,14 @@ export default class TypeScriptConfigParser extends Parser {
                 resource
             };
 
-            await this.sonarwhal.emitAsync('parse::typescript-config::end', event);
+            await this.sonarwhal.emitAsync(`parse::${this.name}::end`, event);
         } catch (err) {
             const errorEvent: TypeScriptConfigInvalidJSON = {
                 error: err,
                 resource
             };
 
-            await this.sonarwhal.emitAsync('parse::typescript-config::error::json', errorEvent);
+            await this.sonarwhal.emitAsync(`parse::${this.name}::error::json`, errorEvent);
         }
     }
 }

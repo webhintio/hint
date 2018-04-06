@@ -1,0 +1,6 @@
+{
+    "compilerOptions": {
+        "module": "esnext"
+    },
+    "extends": "../circular-2/tsconfig.circular.json"
+}

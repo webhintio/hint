@@ -6,6 +6,11 @@ export type Event = {
     resource: string;
 };
 
+export type ErrorEvent = Event & {
+    /** The Error that emit the event */
+    error: Error;
+};
+
 /** The object emitted when the connector is going to start the process. */
 export type ScanStart = Event;
 

@@ -37,7 +37,21 @@ const tests: Array<RuleLocalTest> = [
             { message: `'compilerOptions.target' should match pattern '^([eE][sS]([356]|(201[567])|[nN][eE][xX][tT]))$'. Value found 'invalid'` },
             { message: `'compilerOptions.target' should be equal to one of the allowed values 'es3, es5, es6, es2015, es2016, es2017, esnext'. Value found 'invalid' or 'compilerOptions.target' should match pattern '^([eE][sS]([356]|(201[567])|[nN][eE][xX][tT]))$'. Value found 'invalid'` }
         ]
+    },
+    {
+        name: 'If the configuration has a circular reference, it should fail',
+        path: path.join(__dirname, 'fixtures', 'circular'),
+        reports: [
+            { message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', 'tsconfig.circular.json')}` }
+        ]
+    },
+    {
+        name: 'If the configuration has an invalid extends, it should fail',
+        path: path.join(__dirname, 'fixtures', 'invalid-extends'),
+        reports: [
+            { message: `Unexpected token ' in JSON at position 148` }
+        ]
     }
 ];
 
-ruleRunner.testLocalRule(ruleName, tests, {parsers: ['typescript-config']});
+ruleRunner.testLocalRule(ruleName, tests, { parsers: ['typescript-config'] });
