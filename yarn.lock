@@ -284,9 +284,9 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-"@types/sinon@^4.1.3":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-4.3.0.tgz#7f53915994a00ccea24f4e0c24709822ed11a3b1"
+"@types/sinon@^4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-4.3.1.tgz#32458f9b166cd44c23844eee4937814276f35199"
 
 "@types/through@*":
   version "0.0.29"
@@ -2679,9 +2679,9 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
-figgy-pudding@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-2.0.1.tgz#56c8fc878e06e1090799b9bcc91cbd85c2c92278"
+figgy-pudding@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.0.0.tgz#b27194ad339c61b6f492bcc52852b5f107af9a16"
 
 figures@^1.7.0:
   version "1.7.0"
@@ -3397,9 +3397,15 @@ husky@^0.14.3:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
 
-iconv-lite@0.4.19, iconv-lite@^0.4.17, iconv-lite@^0.4.19, iconv-lite@~0.4.13:
+iconv-lite@0.4.19, iconv-lite@^0.4.17, iconv-lite@~0.4.13:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
+
+iconv-lite@^0.4.21:
+  version "0.4.21"
+  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.21.tgz#c47f8733d02171189ebc4a400f3218d348094798"
+  dependencies:
+    safer-buffer "^2.1.0"
 
 if-async@^3.7.4:
   version "3.7.4"
@@ -3417,9 +3423,9 @@ ignore@^3.3.3, ignore@^3.3.5:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.7.tgz#612289bfb3c220e186a58118618d5be8c1bab021"
 
-iltorb@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/iltorb/-/iltorb-2.2.0.tgz#fa51437a5289c8aa30c29354226ce1d93ea33cff"
+iltorb@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/iltorb/-/iltorb-2.3.0.tgz#baa5dd221ff953dbeb2c232f8d1985ab02f6a7f3"
   dependencies:
     detect-libc "^1.0.3"
     nan "^2.8.0"
@@ -4930,12 +4936,12 @@ npm-package-arg@^6.0.0:
     semver "^5.4.1"
     validate-npm-package-name "^3.0.0"
 
-npm-registry-fetch@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-1.1.0.tgz#f58bc5ac7726414e23e7dd4b48384e0726669c0c"
+npm-registry-fetch@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-1.1.1.tgz#710bc5947d9ee2c549375072dab6d5d17baf2eb2"
   dependencies:
     bluebird "^3.5.1"
-    figgy-pudding "^2.0.1"
+    figgy-pudding "^3.0.0"
     lru-cache "^4.1.2"
     make-fetch-happen "^3.0.0"
     npm-package-arg "^6.0.0"
@@ -6072,6 +6078,10 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safe-regex/-/safe-regex-1.1.0.tgz#40a3669f3b077d1e943d44629e157dd48023bf2e"
   dependencies:
     ret "~0.1.10"
+
+safer-buffer@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.0.tgz#d9f653a55538c8d7829cb1a92e90bbcbc5ff5d3b"
 
 samsam@1.3.0:
   version "1.3.0"
