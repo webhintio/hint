@@ -6,7 +6,7 @@
 ## Why is this important?
 
 > SSL/TLS is a deceptively simple technology. It is easy to deploy,
-and it just works--except when it does not. The main problem is that
+and it works--except when it does not. The main problem is that
 encryption is not often easy to deploy correctly. To ensure that TLS
 provides the necessary security, system administrators and developers
 must put extra effort into properly configuring their servers and

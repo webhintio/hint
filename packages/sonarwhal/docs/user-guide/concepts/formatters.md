@@ -6,8 +6,8 @@ the results via the `console` in different formats, a `JSON` file,
 `XML`, etc.
 
 You can specify one or more `formatter`s as the output. E.g.: You want
-a summary in the screen as well as a text report. You just need to
-add the name inside the property `formatters`:
+a summary in the screen as well as a text report. You need to add the
+name inside the property `formatters`:
 
 ```json
 {
@@ -45,8 +45,8 @@ The officially supported `formatter`s that can be installed via `npm` are:
 
 ![Example output for the codeframe formatter](images/codeframe.png)
 
-* [`@sonarwhal/formatter-summary`][formatter-summary] shows just a summary of
-  all the warnings and errors found for all the resources:
+* [`@sonarwhal/formatter-summary`][formatter-summary] shows a summary
+  of all the warnings and errors found for all the resources:
 
 ![Example output for the summary formatter](images/summary-output.png)
 

@@ -26,7 +26,7 @@ bit:
 * `152×152px` – iPad and iPad mini with @2x display running iOS 7
 * `180×180px` – iPad and iPad mini with @2x display running iOS 8+
 
-However, declaring just one `180×180px` PNG image, e.g.:
+However, declaring one `180×180px` PNG image, e.g.:
 
 ```html
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -35,7 +35,7 @@ However, declaring just one `180×180px` PNG image, e.g.:
 in the `<head>` of the page is enough, and including all the different
 sizes is not recommended as:
 
-* It will just increase the size of the pages with very little to no
+* It will increase the size of the pages with very little to no
   real benefit (most users will probably not add the site to their
   homescreens).
 
@@ -54,8 +54,8 @@ as users upgrade their devices and their iOS version.
 
 Other notes:
 
-* Not declaring the touch icon in the page, and just having it in
-  the root of the site is not recommended as [Apple usually changes
+* Not declaring the touch icon in the page, and having it in the
+  root of the site is not recommended as [Apple usually changes
   what is requested by default][h5bp issue 1622].
 
 * In older versions of Safari for iOS the [`precomposed` keyword][icon
@@ -67,7 +67,7 @@ Other notes:
 
 * Safari for iOS < 4.2 [ignored the `sizes` attribute, so the order
   in which the icons were declared mattered][icon sizes]. When using
-  just one image there is no need to use the `sizes` attribute.
+  one image there is no need to use the `sizes` attribute.
 
 ## How to use this rule?
 
@@ -234,7 +234,7 @@ apple-touch-icon.png: PNG image data, 180 x 180, ...
 
 * [Everything you always wanted to know about touch
   icons][touch icons]
-* [Is there a need for multiple touch icons when just one will work?][h5bp
+* [Is there a need for multiple touch icons when one will work?][h5bp
   issue 1367]
 
 <!-- Link labels: -->

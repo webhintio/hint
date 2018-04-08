@@ -1,6 +1,6 @@
 /**
- * @fileoverview The most basic formatter, it just stringifyes whatever object
- * is passed to it.
+ * @fileoverview The most basic formatter, it stringifyes whatever
+ * object is passed to it.
  */
 
 /*

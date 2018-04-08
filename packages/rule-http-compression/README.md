@@ -89,7 +89,7 @@ resources:
 
 * Dealing with special cases.
 
-  One such special case is `SVGZ` files that are just `SVG` files
+  One such special case is `SVGZ` files that are `SVG` files
   compressed with gzip. Since they are already compressed, they
   shouldn't be compressed again. However sending them without the
   `Content-Encoding: gzip` header will create problems as user agents
@@ -563,7 +563,7 @@ to conditionally compress with Brotli as well as add the
 take more time. So, when provided, `mod_brotli` may be used to compress
 dynamic resources (especially if set to use lower compression quality
 levels), but for static resources it's indicated to compress them as
-part of the build process and just configure Apache to serve those
+part of the build process and configure Apache to serve those
 pre-compressed resources whenever Brotli compression is requested over
 HTTPS.
 
@@ -814,7 +814,7 @@ Also note that:
   [using `.htaccess` files slows down][htaccess is slow] Apache!
 
   If you don't have access to the main configuration file (quite
-  common with hosting services), just add the snippets in a `.htaccess`
+  common with hosting services), add the snippets in a `.htaccess`
   file in the root of the web site/app.
 
 </details>
@@ -830,9 +830,9 @@ configured to server those pre-compressed files when gzip compression is
 requested by the user agent.
 
 Brotli, like Zopfli, takes more time. It's indicated to compress
-resources at build time, and configure IIS to just serve those
-pre-compressed resources whenever Brotli compression is requested over
-HTTPS by the user agent.
+resources at build time, and configure IIS to serve those pre-compressed
+resources whenever Brotli compression is requested over HTTPS by the
+user agent.
 
 If you don't want to start from scratch, below is a generic starter
 snippet that contains the necessary configurations to ensure that

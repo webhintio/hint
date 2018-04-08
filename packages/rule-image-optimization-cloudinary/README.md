@@ -76,7 +76,7 @@ configuration from the [`.sonarwhalrc`][sonarwhalrc] file:
 }
 ```
 
-By default, this rule will notify you even if there is just 1kB savings.
+By default, this rule will notify you even if there is a 1kB savings.
 If you want to change the `threshold` you can do it by having something
 as the following in the [`.sonarwhalrc`][sonarwhalrc] file:
 

@@ -46,7 +46,7 @@ user of the stable release of Window, you will need to use at least the
 
 `connector`s can be configured. Maybe you want to do a request with
 another `userAgent`, change some of the other defaults, etc. For that,
-you just have to add the property `options` to your `connector` property
+you have to add the property `options` to your `connector` property
 with the values you want to modify:
 
 ```json

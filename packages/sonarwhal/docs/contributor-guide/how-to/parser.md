@@ -43,7 +43,7 @@ events (custom or not):
 await this.sonarwhal.emitAsync('customparser::custom', data);
 ```
 
-Just make sure to document which ones you are sending so `rule`s can use
+Make sure to document which ones you are sending so `rule`s can use
 them and know what to expect.
 
 You can always check the code of any of the official `parser`s for

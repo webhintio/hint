@@ -7,7 +7,7 @@ are not needed for non-HTML resources.
 
 Some HTTP headers do not make sense to be sent for non-HTML
 resources, as sending them does not provide any value to users,
-and just contributes to header bloat.
+and contributes to header bloat.
 
 ## How to use this rule?
 
@@ -151,7 +151,7 @@ Note that:
   [using `.htaccess` files slows down][htaccess is slow] Apache!
 
   If you don't have access to the main configuration file (quite
-  common with hosting services), just add the snippets in a `.htaccess`
+  common with hosting services), add the snippets in a `.htaccess`
   file in the root of the web site/app.
 
 </details>

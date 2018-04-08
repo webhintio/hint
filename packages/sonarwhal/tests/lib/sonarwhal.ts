@@ -42,7 +42,7 @@ test.beforeEach((t) => {
 
 test.serial(`If config is an empty object, we should throw an error`, (t) => {
     t.throws(() => {
-        // <any>{} to avoid the type checking if not is not possible to use just {}
+        // <any>{} to avoid the type checking if not is not possible to use {}
         new Sonarwhal({} as SonarwhalConfig, {} as SonarwhalResources);
     }, Error);
 });

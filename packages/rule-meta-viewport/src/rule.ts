@@ -100,7 +100,7 @@ export default class MetaViewportRule implements IRule {
                 /*
                  * The following properties allow to block the user
                  * from zooming, behavior that most of the time results
-                 * in accessibility problems or just annoying users.
+                 * in accessibility problems or annoying users.
                  *
                  * Because of that, they are now ignored by browsers
                  * such as Safari for iOS 10+.

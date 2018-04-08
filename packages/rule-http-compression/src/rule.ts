@@ -402,20 +402,20 @@ export default class HttpCompressionRule implements IRule {
                 isCompressedWithBrotli(rawResponse) ||
 
                 /*
-                 * Other compression methods may be used, but there is
-                 * no way to check for all possible cases. So, if this
-                 * point is reached, just consider 'content-encoding'
-                 * header as a possible indication of the response being
-                 * compressed.
+                 * Other compression methods may be used, but there
+                 * is no way to check for all possible cases. So, if
+                 * this point is reached, consider 'content-encoding'
+                 * header as a possible indication of the response
+                 * being compressed.
                  */
 
                 (contentEncodingHeaderValue &&
 
                     /*
-                     * Although `identity` should not be sent as
-                     * a value for `content-encoding`, if sent, for
-                     * the * scope of this function, just ignore it
-                     * and consider no encoding was specified.
+                     * Although `identity` should not be sent as a value
+                     * for `content-encoding`, if sent, for the scope of
+                     * this function, ignore it and consider no encoding
+                     * was specified.
                      *
                      *  From (now kinda obsolete)
                      *  https://tools.ietf.org/html/rfc2616#page-24:
@@ -460,7 +460,7 @@ export default class HttpCompressionRule implements IRule {
                         return;
                     }
 
-                    // For anything else just flag it as disallowed.
+                    // For anything else flag it as disallowed.
                     await context.report(resource, element, generateDisallowedCompressionMessage(encoding));
                 }
             }

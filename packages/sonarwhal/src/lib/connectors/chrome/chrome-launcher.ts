@@ -61,9 +61,10 @@ export class CDPLauncher extends Launcher {
              */
             /*
              * When running rule tests serially (because we mock a dependency),
-             * sometimes the connector tries to connect to a browser that is being
-             * closed and the connection fails. We wait a few milliseconds just to
-             * make sure this doesn't happen. The number is by trial and error.
+             * sometimes the connector tries to connect to a browser that
+             * is being closed and the connection fails. We wait a few
+             * milliseconds to make sure this doesn't happen. The number
+             * is by trial and error.
              */
             await delay(400);
 

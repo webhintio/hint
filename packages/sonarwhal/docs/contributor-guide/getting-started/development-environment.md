@@ -81,7 +81,7 @@ The following is the list of all the available ones:
 
 | Command | Description | Availability |
 | --------| ----------- | ------------ |
-| `ava`   | Shortcut to the `ava` binary. Useful if you want to test just one file and/or skip some of the steps of the `test` task | everywhere |
+| `ava`   | Shortcut to the `ava` binary. Useful if you want to test one file and/or skip some of the steps of the `test` task | everywhere |
 | `build` | This will build the current package or all the packages from scratch | everywhere |
 | `build:connector-edge` | This builds the `connector-edge` package that is only possible on Windows. This separation is needed because we test on Travis | root |
 | `build:sonarwhal` | This builds the main `sonarwhal` package | root |

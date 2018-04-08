@@ -149,7 +149,7 @@ const getCommitData = () => {
     /*
      * Otherwise, it means this script is execute as part of the tests,
      * and since there is no easy way to know how many new commits were
-     * added, just check all commits since the last release.
+     * added, check all commits since the last release.
      */
 
     } else {
@@ -243,9 +243,8 @@ const main = () => {
 
         /*
          * Because the commit messages are not valid, to not
-         * complicate things (see: getCommitData), just remove
-         * the special file Git uses to store the commit message,
-         * if it exists.
+         * complicate things (see: getCommitData), remove the special
+         * file Git uses to store the commit message, if it exists.
          *
          * " If `git commit` exits due to an error before creating a
          *   commit, any commit message that has been provided by the

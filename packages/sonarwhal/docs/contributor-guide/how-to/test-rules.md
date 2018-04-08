@@ -10,7 +10,7 @@ If you have used the built-in tools to create a new rule (core or
 custom), everything should already set up to use `rule-runner.ts`
 and the `testRule` method.
 
-If not, you just need to:
+If not, you need to:
 
 1. Create a `tests.ts` file in a folder with the name of the rule
    (e.g.: `src/tests/rules/<rule-id>/tests.ts`)
@@ -85,8 +85,8 @@ const serverConfig = {
 Notes:
 
 * If `content` is not specified, it will default to an empty string `''`.
-* To remove any of the default HTTP response headers, just set their
-  value to `null` (e.g.: `headers: { '<response_header>': null }`).
+* To remove any of the default HTTP response headers, set their value
+  to `null` (e.g.: `headers: { '<response_header>': null }`).
 * `status` defaults to `200`, so it only needs to be specified if its
   value is different.
 
@@ -96,8 +96,8 @@ connectors.
 ## Throwing an error
 
 If you need to force an error in the `connector` when visiting a URL
-you just have to make the content `null`. This will force a redirect
-to `test://fail`, thus, causing an exception.
+you have to make the content `null`. This will force a redirect to
+`test://fail`, thus, causing an exception.
 
 ## Testing an external URL
 

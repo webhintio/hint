@@ -11,11 +11,11 @@ spec] will use [`name`][manifest name] member (or the
 to display the name of the app in various places across the OS such as
 the list of apps installed, a app icon label etc.
 
-If these members are not defined, browsers will try to get the name
-from other sources such as the value of the [`application-name` meta
-tag, `<title>`, or just default to a specific value (e.g.:
-`Untitled`)][manifest metadata]. This can lead to a bad user experience,
-as the app name may be truncated or just wrong.
+If these members are not defined, browsers will try to get the
+name from other sources such as the value of the [`application-name`
+meta tag, `<title>`, or default to a specific value (e.g.:
+`Untitled`)][manifest metadata]. This can lead to a bad user
+experience, as the app name may be truncated or wrong.
 
 It is recommended to specify the `name` member and keep it's length
 under 30 characters, and if it’s over 12 characters, include a
@@ -24,7 +24,7 @@ under 30 characters, and if it’s over 12 characters, include a
 Notes:
 
 * If the `name` is under or 12 characters, there isn’t a need to
-  specify `short_name` as browsers can just use `name`.
+  specify `short_name` as browsers can use `name`.
 
 * The 12 character limit is used to ensure that for most cases the
   value won’t be truncated. However depending on [other things][sonarwhal

@@ -2,7 +2,7 @@
 
 ## Getting started
 
-If you just want to have an idea of what `sonarwhal` does and you
+If you want to have an idea of what `sonarwhal` does and you
 have an updated version of `npm` (v5.2.0) and [Node LTS (v8.9.2)
 or later][nodejs] you can use the following command:
 
@@ -58,7 +58,7 @@ or the following if custom:
 }
 ```
 
-Then you just have to run the following command to scan a website:
+Then you have to run the following command to scan a website:
 
 ```bash
 sonarwhal https://example.com

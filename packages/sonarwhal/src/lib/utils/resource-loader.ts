@@ -152,7 +152,7 @@ export const tryToLoadFrom = (resourcePath: string): any => {
 /**
  * Get a resource with the given `name` from a path
  * If that path contains a package with multiple resources
- * then get just the one with the given `name`.
+ * then get only the one with the given `name`.
  */
 const getResource = (source: string, type: ResourceType, name: string) => {
     const resource = tryToLoadFrom(source);

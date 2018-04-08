@@ -55,7 +55,7 @@ try {
 
 } catch (e) {
     /*
-     * If something fails, just ignore it, users will
-     * just get the default commit message, not a big deal.
+     * If something fails, ignore it, users will get
+     * the default commit message, not a big deal.
      */
 }

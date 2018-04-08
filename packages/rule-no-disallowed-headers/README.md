@@ -114,8 +114,8 @@ HTTP/... 200 OK
 <details><summary>How to configure Apache</summary>
 
 If the headers are sent, in most cases, to make Apache stop sending
-them requires just removing the configurations that tells Apache to
-add them (e.g. for the `X-UA-Compatible` header, that would be mean
+them requires removing the configurations that tells Apache to add
+them (e.g. for the `X-UA-Compatible` header, that would be mean
 removing something such as `Header set X-UA-Compatible "IE=edge"`).
 However, if the headers are added from somewhere in the stack (e.g.:
 the framework level, language level such as PHP, etc.), and that cannot
@@ -166,7 +166,7 @@ Note that:
   [using `.htaccess` files slows down][htaccess is slow] Apache!
 
   If you don't have access to the main configuration file (quite
-  common with hosting services), just add the first snippets in a
+  common with hosting services), add the first snippets in a
   `.htaccess` file in the root of the web site/app.
 
 </details>

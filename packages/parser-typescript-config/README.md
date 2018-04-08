@@ -62,8 +62,8 @@ This `parser` emits the following events:
 
 ## Types
 
-If you need to import any type or enum defined in this parser, you just need to
-import them as follows:
+If you need to import any type or enum defined in this parser, you
+need to import them as follows:
 
 ```ts
 import { TypeOrEnumYouWantToUse } from '@sonarwhal/parser-typescript-config/dist/src/types';

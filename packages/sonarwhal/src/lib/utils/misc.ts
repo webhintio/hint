@@ -93,7 +93,7 @@ const isLocalFile = (resource: string): boolean => {
 /** Convenience function to check if a resource is a HTMLDocument. */
 const isHTMLDocument = (targetURL: string, responseHeaders: object): boolean => {
 
-    // If it's a local file, just presume it's a HTML document.
+    // If it's a local file, presume it's a HTML document.
 
     if (isLocalFile(targetURL)) {
         return true;

@@ -10,7 +10,7 @@ by using the charset parameter on the `Content-Type` HTTP response
 header (e.g.: `Content-Type: text/html; charset=utf-8`) and/or using
 the charset meta tag in the file.
 
-Sending just the `Content-Type` HTTP header is in general ok, but it’s
+Sending the `Content-Type` HTTP header is in general ok, but it’s
 usually a good idea to also add the charset meta tag because:
 
 * Server configurations might change (or servers might not send the

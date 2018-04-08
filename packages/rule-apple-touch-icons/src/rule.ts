@@ -251,9 +251,9 @@ export default class AppleTouchIconsRule implements IRule {
 
             /*
              * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-             * Since we are recommending just one icon, the `sizes`
-             * attribute is not needed. Also, pre-4.2 versions of iOS
-             * ignore the `sizes` attribute.
+             * Since we are recommending one icon, the `sizes` attribute
+             * is not needed. Also, pre-4.2 versions of iOS ignore the
+             * `sizes` attribute.
              *
              * https://mathiasbynens.be/notes/touch-icons
              * https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes

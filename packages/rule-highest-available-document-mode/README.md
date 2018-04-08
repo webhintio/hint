@@ -278,12 +278,12 @@ header using the [`Header` directive][header directive].
 ## Removing the `X-UA-Compatible` header on Apache
 
 If the header is sent, in most cases, to make Apache stop sending
-the `X-UA-Compatible` requires just removing the configuration that
-adds it (i.e.: something such as `Header set X-UA-Compatible
-"IE=edge"`). However, if the header is added from somewhere in the
-stack (e.g. the framework level, language level such as PHP, etc.),
-and that cannot be changed, you can try to remove it at the `Apache`
-level, using the following:
+the `X-UA-Compatible` requires removing the configuration that adds
+it (i.e.: something such as `Header set X-UA-Compatible "IE=edge"`).
+However, if the header is added from somewhere in the stack (e.g.
+the framework level, language level such as PHP, etc.), and that
+cannot be changed, you can try to remove it at the `Apache` level,
+using the following:
 
 ```apache
 <IfModule mod_headers.c>
@@ -304,7 +304,7 @@ Note that:
   [using `.htaccess` files slows down][htaccess is slow] Apache!
 
   If you don't have access to the main configuration file (quite
-  common with hosting services), just add the snippets in a `.htaccess`
+  common with hosting services), add the snippets in a `.htaccess`
   file in the root of the web site/app.
 
 </details>

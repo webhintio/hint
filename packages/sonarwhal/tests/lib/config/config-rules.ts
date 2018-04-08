@@ -122,7 +122,7 @@ test('validate should return true if the schema is an empty array', (t) => {
     t.true(valid);
 });
 
-test('validate should return true if config is an array with just an element', (t) => {
+test('validate should return true if config is an array with only an element', (t) => {
     const valid = configRules.validate(RuleWithSchema.meta, ['warning'], '1');
 
     t.true(valid);

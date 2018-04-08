@@ -125,7 +125,10 @@ export default class PerformanceBudgetRule implements IRule {
             await updateSizes(resource, response);
         };
 
-        /** Returns the details for the selected network configuration or the default one. */
+        /**
+         * Returns the details for the selected network
+         * configuration or the default one.
+         */
         const getConfiguration = (): NetworkConfig => {
             const userConfig = Object.assign({}, defaultConfig, context.ruleOptions) as PerfBudgetConfig;
             const config = Connections.getById(userConfig.connectionType);
@@ -152,10 +155,12 @@ export default class PerformanceBudgetRule implements IRule {
         };
 
         /**
-         * Calculates the minimum required time in seconds to establish all the TCP connections.
+         * Calculates the minimum required time in seconds to establish
+         * all the TCP connections.
          *
-         * All TCP connections beging with a _Three-way handshake_, but clients can start sending application
-         * data after they receive the `ACK` message, si the delay is just 1 RTT:
+         * All TCP connections beging with a _Three-way handshake_, but
+         * clients can start sending application data after they receive
+         * the `ACK` message, if the delay is just 1 RTT:
          *
          * `time = connections * RTT`
          *
@@ -169,7 +174,8 @@ export default class PerformanceBudgetRule implements IRule {
         };
 
         /**
-         * Calculates the minimum required time in seconds to do all the TLS handshaking of a website.
+         * Calculates the minimum required time in seconds to do all
+         * the TLS handshaking of a website.
          *
          * It assumes 1 RTT per TLS connection as an optimistic scenario.
          * More info in: https://hpbn.co/transport-layer-security-tls/#tls-handshake
@@ -184,7 +190,8 @@ export default class PerformanceBudgetRule implements IRule {
         };
 
         /**
-         * Calculates the minimum required time in seconds to process all the redirects found.
+         * Calculates the minimum required time in seconds to process
+         * all the redirects found.
          *
          * The time for a redirect is 1 RTT
          */

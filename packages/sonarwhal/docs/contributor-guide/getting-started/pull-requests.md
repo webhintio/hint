@@ -15,12 +15,12 @@ language, etc.), make sure there is an issue that describes what
 you intend to do, the issue has been accepted, and was not assigned
 to anyone else.
 
-If there is no such issue, create a new issue. If there is one that is
-not assigned, just leave a comment stating that you want to work on it,
+If there is no such issue, create a new issue. If there is one that
+is not assigned, leave a comment stating that you want to work on it,
 and we will assign it to you.
 
 For bug fixes, documentation changes, and other small changes, there is
-no need to create an issue, and you can just make the pull request.
+no need to create an issue, and you can make the pull request.
 
 ## Getting started
 

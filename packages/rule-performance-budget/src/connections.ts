@@ -58,7 +58,7 @@ const getConnections = (): Array<NetworkConfig> => {
 
     const configsText = configContent
         .replace(/#.*?\n/g, '') // remove comments
-        .replace(/\r\n/g, '\n') // remove \r just in case the file has a windows EOL
+        .replace(/\r\n/g, '\n') // remove \r in case the file has a Windows EOL
         .split(`\n\n`);
 
     const configs = configsText.map(parseConnection);

@@ -109,8 +109,8 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
     });
 
     /**
-     * Creates a new connector with just the rule to be tested and executing
-     * any required `before` task as indicated by `ruleTest`.
+     * Creates a new connector with only the rule to be tested and
+     * executing any required `before` task as indicated by `ruleTest`.
      */
     const createConnector = async (t, ruleTest: RuleTest, connector: string, attemp: number): Promise<Sonarwhal> => {
         const { server } = t.context;
