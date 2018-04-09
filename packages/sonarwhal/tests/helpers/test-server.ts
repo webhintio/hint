@@ -37,11 +37,11 @@ export class Server {
      * Because we don't know the port until we start the server, we need to update
      * the references to http://localhost in the HTML to http://localhost:finalport.
      */
-    private updateLocalhost (html: string): string {
+    private updateLocalhost(html: string): string {
         return html.replace(/\/\/localhost\//g, `//localhost:${this._port}/`);
     }
 
-    private handleHeaders (res, headers) {
+    private handleHeaders(res, headers) {
         onHeaders(res, () => {
             Object.entries(headers).forEach(([header, value]) => {
                 if (value !== null) {
@@ -53,7 +53,7 @@ export class Server {
         });
     }
 
-    private getContent (value): string {
+    private getContent(value): string {
         if (typeof value === 'string') {
             return this.updateLocalhost(value);
         } else if (value && typeof value.content !== 'undefined') {
@@ -63,7 +63,7 @@ export class Server {
         return '';
     }
 
-    private getNumberOfMatches (req, requestConditions) {
+    private getNumberOfMatches(req, requestConditions) {
         const headers = requestConditions.request && requestConditions.request.headers;
 
         /*
@@ -90,7 +90,7 @@ export class Server {
         return numberOfMatches;
     }
 
-    private getValue (req, config) {
+    private getValue(req, config) {
         let bestNumberOfMatches = 1;
         let bestMatch = null;
 
@@ -115,7 +115,7 @@ export class Server {
         return bestMatch;
     }
 
-    private isConditionalConfig (configuration): boolean {
+    private isConditionalConfig(configuration): boolean {
         /*
          * The following is done to quickly determine the type of
          * configuration. Possible options are:
@@ -167,7 +167,7 @@ export class Server {
         return false;
     }
 
-    private normalizeConfig (configuration) {
+    private normalizeConfig(configuration) {
         const config = {};
 
         /*
@@ -212,7 +212,7 @@ export class Server {
 
         for (const [k, v] of Object.entries(configuration)) {
             for (const [key, value] of Object.entries(v)) {
-                config[key] = Object.assign({}, config[key], { [k]: value});
+                config[key] = Object.assign({}, config[key], { [k]: value });
             }
         }
 
@@ -239,7 +239,7 @@ export class Server {
 
             this._app.get(key, (req, res) => {
 
-                const value = conditionalConfig ? this.getValue(req, val): val;
+                const value = conditionalConfig ? this.getValue(req, val) : val;
                 const content = this.getContent(value);
 
                 /*
