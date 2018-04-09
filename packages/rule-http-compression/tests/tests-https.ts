@@ -24,21 +24,26 @@ const ruleName = getRuleName(__dirname);
  */
 const testConfigs = {
     https: true,
-    ignoredConnectors: ['chrome']
+    ignoredConnectors: ['chrome'],
+    serial: false
 };
+
+const testConfigsSerial = Object.assign({}, testConfigs);
+
+testConfigsSerial.serial = true;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 ruleRunner.testRule(ruleName, testsForDefaults(true), testConfigs);
 ruleRunner.testRule(ruleName, testsForSpecialCases(true), testConfigs);
 ruleRunner.testRule(ruleName, testsForDisallowedCompressionMethods(true), testConfigs);
-ruleRunner.testRule(ruleName, testsForNoCompression(true), testConfigs);
-ruleRunner.testRule(ruleName, testsForGzipZopfli(true), testConfigs);
+ruleRunner.testRule(ruleName, testsForNoCompression(true), testConfigsSerial);
+ruleRunner.testRule(ruleName, testsForGzipZopfli(true), testConfigsSerial);
 ruleRunner.testRule(ruleName, testsForGzipZopfliCaching(true), testConfigs);
 ruleRunner.testRule(ruleName, testsForGzipZopfliSmallSize(true), testConfigs);
 ruleRunner.testRule(ruleName, testsForGzipZopfliUASniffing(true), testConfigs);
 
-ruleRunner.testRule(ruleName, testsForBrotli, testConfigs);
+ruleRunner.testRule(ruleName, testsForBrotli, testConfigsSerial);
 ruleRunner.testRule(ruleName, testsForBrotliSmallSize, testConfigs);
 ruleRunner.testRule(ruleName, testsForBrotliUASniffing(), testConfigs);
 

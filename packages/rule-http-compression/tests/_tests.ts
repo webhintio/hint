@@ -1,6 +1,12 @@
 import * as fs from 'fs';
 
+import * as mock from 'mock-require';
+
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+
+// We need to use `require` to be able to overwrite the method `asyncTry`.
+const fnWrapper = require('sonarwhal/dist/src/lib/utils/async-wrapper');
+const originalAsyncTry = fnWrapper.asyncTry;
 
 const uaString = 'Mozilla/5.0 Gecko';
 
@@ -13,7 +19,7 @@ const generateCompressionMessage = (encoding?: string, notRequired?: boolean, su
 };
 
 const generateContentEncodingMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => {
-    return `Should${notRequired ? ' not' : ''} be served with the 'content-encoding${encoding ? `: ${encoding}`: ''}' header${suffix ? ` ${suffix}` : ''}.`;
+    return `Should${notRequired ? ' not' : ''} be served with the 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
 };
 
 const generateDisallowedCompressionMessage = (encoding: string) => {
@@ -90,7 +96,7 @@ const createConfig = ({
     },
     imageFileContent = imageFile.original,
     imageFileHeaders = {},
-    request = { headers: { 'Accept-Encoding': 'gzip, deflate, br' }},
+    request = { headers: { 'Accept-Encoding': 'gzip, deflate, br' } },
     scriptFileContent = scriptFile.zopfli,
     scriptFileHeaders = {
         'Content-Encoding': 'gzip',
@@ -236,6 +242,30 @@ const testsForBrotli: Array<RuleTest> = [
                 vary: 'Accept-Encoding'
             }
         })
+    },
+    {
+        after() {
+            fnWrapper.asyncTry = originalAsyncTry;
+        },
+        before() {
+            fnWrapper.asyncTry = (fetch) => {
+                return (target, headers) => {
+                    if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'br') {
+                        return fetch(target, headers);
+                    }
+
+                    return null;
+                };
+            };
+
+            mock('sonarwhal/dist/src/lib/utils/async-wrapper', fnWrapper);
+        },
+        name: `If a request throws an exception, if should be managed and report an error`,
+        reports: [{ message: `Could not be fetched when requested compressed with Brotli` }],
+        serverConfig: createBrotliServerConfig({
+            scriptFileContent: scriptFile.brotli,
+            scriptFileHeaders: brotliConfigs.scriptFileHeaders
+        })
     }
 ];
 
@@ -262,7 +292,7 @@ const testsForBrotliSmallSize: Array<RuleTest> = [
     {
         name: `Resource is served compressed with Brotli when Brotli compression is requested but uncompressed size is smaller the compressed size`,
         reports: [{ message: generateSizeMessage('Brotli', true) }],
-        serverConfig: createBrotliServerConfig({ scriptFileContent: scriptSmallFile.brotli})
+        serverConfig: createBrotliServerConfig({ scriptFileContent: scriptSmallFile.brotli })
     }
 ];
 
@@ -285,7 +315,7 @@ const testsForBrotliUASniffing = (): Array<RuleTest> => {
                     headersConfig,
                     {
                         scriptFileContent: scriptFile.original,
-                        scriptFileHeaders: { 'Content-Encoding': null}
+                        scriptFileHeaders: { 'Content-Encoding': null }
                     }
                 )
             )
@@ -331,7 +361,7 @@ const testsForDefaults = (https: boolean = false): Array<RuleTest> => {
             serverConfig: createGzipZopfliServerConfig(
                 {
                     imageFileContent: imageFile.gzip,
-                    imageFileHeaders: { 'Content-Encoding': 'gzip'}
+                    imageFileHeaders: { 'Content-Encoding': 'gzip' }
                 },
                 https
             )
@@ -395,9 +425,9 @@ const testsForGzipZopfli = (https: boolean = false): Array<RuleTest> => {
             reports: [{ message: generateCompressionMessage('gzip') }],
             serverConfig: createGzipZopfliServerConfig(
                 {
-                    request: { headers: { 'Accept-Encoding': 'gzip' }},
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileContent: scriptFile.original,
-                    scriptFileHeaders: { 'Content-Encoding': null}
+                    scriptFileHeaders: { 'Content-Encoding': null }
                 },
                 https
             )
@@ -410,7 +440,7 @@ const testsForGzipZopfli = (https: boolean = false): Array<RuleTest> => {
             ],
             serverConfig: createGzipZopfliServerConfig(
                 {
-                    request: { headers: { 'Accept-Encoding': 'gzip' }},
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileContent: scriptFile.gzip,
                     scriptFileHeaders: {
                         'Content-Encoding': null,
@@ -425,7 +455,7 @@ const testsForGzipZopfli = (https: boolean = false): Array<RuleTest> => {
             reports: [{ message: generateCompressionMessage('Zopfli') }],
             serverConfig: createGzipZopfliServerConfig(
                 {
-                    request: { headers: { 'Accept-Encoding': 'gzip' }},
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileContent: scriptFile.gzip,
                     scriptFileHeaders: {
                         'Content-Encoding': 'gzip',
@@ -440,12 +470,39 @@ const testsForGzipZopfli = (https: boolean = false): Array<RuleTest> => {
             reports: [{ message: generateContentEncodingMessage('gzip') }],
             serverConfig: createGzipZopfliServerConfig(
                 {
-                    request: { headers: { 'Accept-Encoding': 'gzip' }},
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileContent: scriptFile.zopfli,
                     scriptFileHeaders: {
                         'Content-Encoding': null,
                         vary: 'Accept-Encoding'
                     }
+                },
+                https
+            )
+        },
+        {
+            after() {
+                fnWrapper.asyncTry = originalAsyncTry;
+            },
+            before() {
+                fnWrapper.asyncTry = (fetch) => {
+                    return (target, headers) => {
+                        if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'gzip') {
+                            return fetch(target, headers);
+                        }
+
+                        return null;
+                    };
+                };
+
+                mock('sonarwhal/dist/src/lib/utils/async-wrapper', fnWrapper);
+            },
+            name: `If a request throws an exception, if should be managed and report an error`,
+            reports: [{ message: 'Could not be fetched when requested compressed with gzip' }],
+            serverConfig: createGzipZopfliServerConfig(
+                {
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
+                    scriptFileContent: scriptFile.zopfli
                 },
                 https
             )
@@ -460,7 +517,7 @@ const testsForGzipZopfliCaching = (https: boolean = false): Array<RuleTest> => {
             reports: [{ message: varyMessage }],
             serverConfig: createGzipZopfliServerConfig(
                 {
-                    request: { headers: { 'Accept-Encoding': 'gzip' }},
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileHeaders: {
                         'Cache-control': null,
                         'Content-Encoding': 'gzip',
@@ -474,7 +531,7 @@ const testsForGzipZopfliCaching = (https: boolean = false): Array<RuleTest> => {
             name: `Resource is served compressed with Zopfli and with 'Cache-Control: private, max-age=0' header when gzip compression is requested`,
             serverConfig: createGzipZopfliServerConfig(
                 {
-                    request: { headers: { 'Accept-Encoding': 'gzip' }},
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileHeaders: {
                         'Cache-Control': 'private, max-age=0',
                         'Content-Encoding': 'gzip',
@@ -489,7 +546,7 @@ const testsForGzipZopfliCaching = (https: boolean = false): Array<RuleTest> => {
             reports: [{ message: varyMessage }],
             serverConfig: createGzipZopfliServerConfig(
                 {
-                    request: { headers: { 'Accept-Encoding': 'gzip' }},
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileHeaders: {
                         'Cache-Control': null,
                         'Content-Encoding': 'gzip',
@@ -504,7 +561,7 @@ const testsForGzipZopfliCaching = (https: boolean = false): Array<RuleTest> => {
             reports: [{ message: varyMessage }],
             serverConfig: createGzipZopfliServerConfig(
                 {
-                    request: { headers: { 'Accept-Encoding': 'gzip' }},
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileHeaders: {
                         'Content-Encoding': 'gzip',
                         vary: 'user-agent, Accept-encoding'
@@ -523,7 +580,7 @@ const testsForGzipZopfliSmallSize = (https: boolean = false): Array<RuleTest> =>
             reports: [{ message: generateSizeMessage('gzip', true) }],
             serverConfig: createGzipZopfliServerConfig(
                 {
-                    request: { headers: { 'Accept-Encoding': 'gzip' }},
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileContent: scriptSmallFile.gzip
                 },
                 https
@@ -534,7 +591,7 @@ const testsForGzipZopfliSmallSize = (https: boolean = false): Array<RuleTest> =>
             reports: [{ message: generateSizeMessage('Zopfli', true) }],
             serverConfig: createGzipZopfliServerConfig(
                 {
-                    request: { headers: { 'Accept-Encoding': 'gzip' }},
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileContent: scriptSmallFile.zopfli
                 },
                 https
@@ -562,7 +619,7 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): Array<RuleTest> =
                     headersConfig,
                     {
                         scriptFileContent: scriptFile.original,
-                        scriptFileHeaders: { 'Content-Encoding': null}
+                        scriptFileHeaders: { 'Content-Encoding': null }
                     }
                 ),
                 https
@@ -576,7 +633,7 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): Array<RuleTest> =
                     headersConfig,
                     {
                         scriptFileContent: scriptFile.gzip,
-                        scriptFileHeaders: { 'Content-Encoding': 'gzip'}
+                        scriptFileHeaders: { 'Content-Encoding': 'gzip' }
                     }
                 ),
                 https
@@ -599,7 +656,7 @@ const testsForNoCompression = (https: boolean = false): Array<RuleTest> => {
                     faviconFileHeaders: { 'Content-Encoding': null },
                     htmlFileContent: htmlFile.original,
                     htmlFileHeaders: { 'Content-Encoding': null },
-                    request: { headers: { 'Accept-Encoding': 'identity' }}
+                    request: { headers: { 'Accept-Encoding': 'identity' } }
                 },
                 https
             )
@@ -614,9 +671,9 @@ const testsForNoCompression = (https: boolean = false): Array<RuleTest> => {
                     faviconFileHeaders: { 'Content-Encoding': null },
                     htmlFileContent: htmlFile.original,
                     htmlFileHeaders: { 'Content-Encoding': null },
-                    request: { headers: { 'Accept-Encoding': 'identity' }},
+                    request: { headers: { 'Accept-Encoding': 'identity' } },
                     scriptFileContent: scriptFile.original,
-                    scriptFileHeaders: { 'Content-Encoding': 'identity'}
+                    scriptFileHeaders: { 'Content-Encoding': 'identity' }
                 },
                 https
             )
@@ -629,7 +686,39 @@ const testsForNoCompression = (https: boolean = false): Array<RuleTest> => {
                     faviconFileHeaders: { 'Content-Encoding': null },
                     htmlFileContent: htmlFile.original,
                     htmlFileHeaders: { 'Content-Encoding': null },
-                    request: { headers: { 'Accept-Encoding': 'identity' }},
+                    request: { headers: { 'Accept-Encoding': 'identity' } },
+                    scriptFileContent: scriptFile.original,
+                    scriptFileHeaders: { 'Content-Encoding': null }
+                },
+                https
+            )
+        },
+        {
+            after() {
+                fnWrapper.asyncTry = originalAsyncTry;
+            },
+            before() {
+                fnWrapper.asyncTry = (fetch) => {
+                    return (target, headers) => {
+                        if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'identity') {
+                            return fetch(target, headers);
+                        }
+
+                        return null;
+                    };
+                };
+
+                mock('sonarwhal/dist/src/lib/utils/async-wrapper', fnWrapper);
+            },
+            name: `If a request throws an exception, if should be managed and report an error`,
+            reports: [{ message: 'Could not be fetched when requested uncompressed' }],
+            serverConfig: createGzipZopfliServerConfig(
+                {
+                    faviconFileContent: faviconFile.original,
+                    faviconFileHeaders: { 'Content-Encoding': null },
+                    htmlFileContent: htmlFile.original,
+                    htmlFileHeaders: { 'Content-Encoding': null },
+                    request: { headers: { 'Accept-Encoding': 'identity' } },
                     scriptFileContent: scriptFile.original,
                     scriptFileHeaders: { 'Content-Encoding': null }
                 },
@@ -661,29 +750,29 @@ const testsForUserConfigs = (encoding, isTarget: boolean = true, https: boolean 
     const isBrotli = encoding === 'Brotli';
     const isGzip = encoding === 'gzip';
 
-    const configs = { request: { headers: { 'Accept-Encoding': isBrotli ? 'br' : 'gzip' }}};
+    const configs = { request: { headers: { 'Accept-Encoding': isBrotli ? 'br' : 'gzip' } } };
 
     if (!isBrotli) {
-        Object.assign(configs, { request: { headers: { vary: 'Accept-encoding' }}});
+        Object.assign(configs, { request: { headers: { vary: 'Accept-encoding' } } });
     }
 
     Object.assign(
         configs,
         isTarget ?
             {
-                htmlFileContent: isGzip ? htmlFile.zopfli: htmlFile.gzip,
+                htmlFileContent: isGzip ? htmlFile.zopfli : htmlFile.gzip,
                 htmlFileHeaders: { 'Content-Encoding': null }
             } :
             {
-                scriptFileContent: isGzip ? scriptFile.zopfli: scriptFile.gzip,
+                scriptFileContent: isGzip ? scriptFile.zopfli : scriptFile.gzip,
                 scriptFileHeaders: { 'Content-Encoding': null }
             }
     );
 
     return [
         {
-            name: `${isTarget ? 'Target' : 'Resource'} is not served compressed with ${encoding} when ${isBrotli ? 'Brotli': 'gzip'} compression is requested but the user configuration allows it`,
-            serverConfig: isBrotli && https ? createBrotliServerConfig(configs): createGzipZopfliServerConfig(configs, https)
+            name: `${isTarget ? 'Target' : 'Resource'} is not served compressed with ${encoding} when ${isBrotli ? 'Brotli' : 'gzip'} compression is requested but the user configuration allows it`,
+            serverConfig: isBrotli && https ? createBrotliServerConfig(configs) : createGzipZopfliServerConfig(configs, https)
         }
     ];
 };
