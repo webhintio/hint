@@ -4,6 +4,7 @@
  * Based on ESLint's rule-context
  * https://github.com/eslint/eslint/blob/master/lib/rule-context.js
  */
+import { URL } from 'url';
 
 import { Sonarwhal } from './sonarwhal';
 import { IAsyncHTMLElement, NetworkData, ProblemLocation, RuleMetadata, Severity } from './types';
@@ -70,7 +71,7 @@ export class RuleContext {
     }
 
     /** A useful way of making requests. */
-    public fetchContent(target, headers?): Promise<NetworkData> {
+    public fetchContent(target: string | URL, headers?: object): Promise<NetworkData> {
         return this.sonarwhal.fetchContent(target, headers);
     }
 

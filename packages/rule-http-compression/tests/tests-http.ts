@@ -20,15 +20,18 @@ const ruleName = getRuleName(__dirname);
  * TODO: Remove `ignoredConnectors` part once headless
  *       Chrome on Travis CI doesn't fail miserably. :(
  */
-const testConfigs = { ignoredConnectors: ['chrome'] };
+const testConfigs = { ignoredConnectors: ['chrome'], serial: false };
+const testConfigsSerial = Object.assign({}, testConfigs);
+
+testConfigsSerial.serial = true;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 ruleRunner.testRule(ruleName, testsForDefaults(), testConfigs);
 ruleRunner.testRule(ruleName, testsForSpecialCases(), testConfigs);
 ruleRunner.testRule(ruleName, testsForDisallowedCompressionMethods(), testConfigs);
-ruleRunner.testRule(ruleName, testsForNoCompression(), testConfigs);
-ruleRunner.testRule(ruleName, testsForGzipZopfli(), testConfigs);
+ruleRunner.testRule(ruleName, testsForNoCompression(), testConfigsSerial);
+ruleRunner.testRule(ruleName, testsForGzipZopfli(), testConfigsSerial);
 ruleRunner.testRule(ruleName, testsForGzipZopfliCaching(), testConfigs);
 ruleRunner.testRule(ruleName, testsForGzipZopfliSmallSize(), testConfigs);
 ruleRunner.testRule(ruleName, testsForGzipZopfliUASniffing(), testConfigs);
