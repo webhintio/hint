@@ -1,13 +1,13 @@
 /**
  * @fileoverview Warns against having the BOM character at the beginning of a text file
  */
-
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { FetchEnd, IRule, NetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { asyncTry } from 'sonarwhal/dist/src/lib/utils/async-wrapper';
+import { isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
+import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -43,7 +43,17 @@ export default class implements IRule {
              * that will use the `request` module
              */
             const { resource, element } = fetchEnd;
-            const request = await context.fetchContent(resource);
+            const safeFetch = asyncTry<NetworkData>(context.fetchContent.bind(context));
+            const request = await safeFetch(resource);
+
+            if (!request) {
+                await context.report(resource, element, 'Error fetching the content');
+
+                debug(`Error requesting the resource: ${resource}`);
+
+                return;
+            }
+
             const content = request.response.body.rawContent;
 
             if (content[0] === 0xEF && content[1] === 0xBB && content[2] === 0xBF) {

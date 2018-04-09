@@ -2,23 +2,22 @@
  * @fileoverview Check if resources are served compressed when requested
  * as such using the most appropriate encoding.
  */
-
 /*
  * ------------------------------------------------------------------------------
  * Requirements
  * ------------------------------------------------------------------------------
  */
-
 import * as decompressBrotli from 'brotli/decompress';
 import * as mimeDB from 'mime-db';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { CompressionCheckOptions } from './rule-types';
-import { getFileExtension, isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
-import { getHeaderValueNormalized, isRegularProtocol, isHTTP, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
-import { IAsyncHTMLElement, Response, IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { FetchEnd, IAsyncHTMLElement, IRule, NetworkData, Response, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { asyncTry } from 'sonarwhal/dist/src/lib/utils/async-wrapper';
+import { getFileExtension, isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
+import { getHeaderValueNormalized, isHTTP, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import { CompressionCheckOptions } from './rule-types';
 
 const uaString = 'Mozilla/5.0 Gecko';
 
@@ -114,12 +113,24 @@ export default class HttpCompressionRule implements IRule {
         };
 
         const getNetworkData = async (resource: string, requestHeaders) => {
-            const networkData = await context.fetchContent(resource, requestHeaders);
+            const safeFetch = asyncTry<NetworkData>(context.fetchContent.bind(context));
+            const networkData: NetworkData = await safeFetch(resource, requestHeaders);
+
+            if (!networkData) {
+                return null;
+            }
+
+            const safeRawResponse = asyncTry<Buffer>(networkData.response.body.rawResponse);
+            const rawResponse: Buffer = await safeRawResponse();
+
+            if (!rawResponse) {
+                return null;
+            }
 
             return {
                 contentEncodingHeaderValue: getHeaderValueNormalized(networkData.response.headers, 'content-encoding'),
                 rawContent: networkData.response.body.rawContent,
-                rawResponse: await networkData.response.body.rawResponse(),
+                rawResponse,
                 response: networkData.response
             };
         };
@@ -259,8 +270,15 @@ export default class HttpCompressionRule implements IRule {
         };
 
         const checkBrotli = async (resource, element) => {
-            const { contentEncodingHeaderValue, rawResponse, response } = await getNetworkData(resource, { 'Accept-Encoding': 'br' });
+            let networkData = await getNetworkData(resource, { 'Accept-Encoding': 'br' });
 
+            if (!networkData) {
+                await context.report(resource, element, `Couldn't fetch content when Brotli compression is requested`);
+
+                return;
+            }
+
+            const { contentEncodingHeaderValue, rawResponse, response } = networkData;
             const compressedWithBrotli = isCompressedWithBrotli(rawResponse);
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -318,10 +336,18 @@ export default class HttpCompressionRule implements IRule {
 
             // Check for user agent sniffing.
 
-            const { rawResponse: uaRawResponse } = await getNetworkData(resource, {
+            networkData = await getNetworkData(resource, {
                 'Accept-Encoding': 'br',
                 'User-Agent': uaString
             });
+
+            if (!networkData) {
+                await context.report(resource, element, `Couldn't fetch content when Brotli compression is requested`);
+
+                return;
+            }
+
+            const { rawResponse: uaRawResponse } = networkData;
 
             if (!isCompressedWithBrotli(uaRawResponse)) {
                 await context.report(resource, element, generateCompressionMessage('Brotli', false, `over HTTPS, regardless of the user agent`));
@@ -329,7 +355,15 @@ export default class HttpCompressionRule implements IRule {
         };
 
         const checkGzipZopfli = async (resource: string, element: IAsyncHTMLElement, shouldCheckIfCompressedWith: CompressionCheckOptions) => {
-            const { contentEncodingHeaderValue, rawContent, rawResponse, response } = await getNetworkData(resource, { 'Accept-Encoding': 'gzip' });
+            let networkData = await getNetworkData(resource, { 'Accept-Encoding': 'gzip' });
+
+            if (!networkData) {
+                await context.report(resource, element, 'Error fetching gzip content');
+
+                return;
+            }
+
+            const { contentEncodingHeaderValue, rawContent, rawResponse, response } = networkData;
 
             const compressedWithGzip = isCompressedWithGzip(rawResponse);
             const notCompressedWithZopfli = isNotCompressedWithZopfli(rawResponse);
@@ -377,10 +411,18 @@ export default class HttpCompressionRule implements IRule {
 
             // Check for user agent sniffing.
 
-            const { rawResponse: uaRawResponse } = await getNetworkData(resource, {
+            networkData = await getNetworkData(resource, {
                 'Accept-Encoding': 'gzip',
                 'User-Agent': uaString
             });
+
+            if (!networkData) {
+                await context.report(resource, element, 'Error fetching gzip content');
+
+                return;
+            }
+
+            const { rawResponse: uaRawResponse } = networkData;
 
             if (!isCompressedWithGzip(uaRawResponse) &&
                 shouldCheckIfCompressedWith.gzip) {
@@ -456,8 +498,19 @@ export default class HttpCompressionRule implements IRule {
                      * not being served with `content-encoding: gzip`.
                      */
 
-                    if (encoding === 'x-gzip' && isCompressedWithGzip(await response.body.rawResponse())) {
+                    const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse);
+
+                    const rawResponse: Buffer = await safeRawResponse();
+
+                    if (!rawResponse) {
+                        await context.report(resource, element, `Couldn't fetch the content`);
+
                         return;
+                    }
+
+                    if (encoding === 'x-gzip' && isCompressedWithGzip(rawResponse)) {
+                        return;
+
                     }
 
                     // For anything else flag it as disallowed.
@@ -500,7 +553,15 @@ export default class HttpCompressionRule implements IRule {
              *     the user agent. "
              */
 
-            const { contentEncodingHeaderValue, rawResponse } = await getNetworkData(resource, { 'Accept-Encoding': 'identity' });
+            const networkData = await getNetworkData(resource, { 'Accept-Encoding': 'identity' });
+
+            if (!networkData) {
+                await context.report(resource, element, 'Error fetching uncompressed content');
+
+                return;
+            }
+
+            const { contentEncodingHeaderValue, rawResponse } = networkData;
 
             if (responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {
                 await context.report(resource, element, generateCompressionMessage('', true, `for requests made with 'Accept-Encoding: identity'`));
@@ -582,8 +643,18 @@ export default class HttpCompressionRule implements IRule {
              *    correctly.
              */
 
+            const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse);
+
+            const rawResponse: Buffer = await safeRawResponse();
+
+            if (!rawResponse) {
+                await context.report(resource, element, `Couldn't fetch the content`);
+
+                return false;
+            }
+
             if ((response.mediaType === 'image/svg+xml' || getFileExtension(resource) === 'svgz') &&
-                isCompressedWithGzip(await response.body.rawResponse())) {
+                isCompressedWithGzip(rawResponse)) {
 
                 if (getHeaderValueNormalized(response.headers, 'content-encoding') !== 'gzip') {
                     await context.report(resource, element, generateContentEncodingMessage('gzip'));
@@ -629,8 +700,16 @@ export default class HttpCompressionRule implements IRule {
 
             // If the resource should not be compressed:
             if (!isCompressibleAccordingToMediaType(response.mediaType)) {
+                const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse);
 
-                const rawResponse = await response.body.rawResponse();
+                const rawResponse: Buffer = await safeRawResponse();
+
+                if (!rawResponse) {
+                    await context.report(resource, element, `Couldn't fetch the content`);
+
+                    return;
+                }
+
                 const contentEncodingHeaderValue = getHeaderValueNormalized(response.headers, 'content-encoding');
 
                 // * Check if the resource is actually compressed.
