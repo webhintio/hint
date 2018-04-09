@@ -40,7 +40,7 @@
   "private": true,
   "scripts": {
     "ava": "ava",
-    "build": "yarn clean && yarn build:sonarwhal && yarn build:connector-edge && loop \"yarn build\" --cwd packages/ --exclude configuration-web-recommended,connector-edge,sonarwhal",
+    "build": "yarn clean && yarn build:sonarwhal && yarn build:connector-edge && loop \"yarn build\" --cwd packages/ --exclude configuration-progressive-web-apps,configuration-web-recommended,connector-edge,sonarwhal",
     "build:connector-edge": "node -e \"process.platform !== 'win32' && process.exit(1);\" && (cd packages/connector-edge && yarn build) || echo \"\"",
     "build:scripts": "yarn clean && npm-run-all --parallel build:scripts:*",
     "build:scripts:non-ts": "cpx \"./scripts/{!(*.ts),.!(ts)}\" dist/scripts",
