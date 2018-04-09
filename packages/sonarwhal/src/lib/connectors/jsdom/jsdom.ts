@@ -38,11 +38,10 @@ import { debug as d } from '../../utils/debug';
 import { getContentTypeData, getType } from '../../utils/content-type';
 import {
     IConnector,
-    ElementFound, Event, FetchEnd, FetchError, ManifestFetchError, TraverseDown, TraverseUp,
+    ElementFound, Event, FetchEnd, FetchError, TraverseDown, TraverseUp,
     NetworkData
 } from '../../types';
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
-import { resolveUrl } from '../utils/resolver';
 import { Requester } from '../utils/requester';
 import { Sonarwhal } from '../../sonarwhal';
 
@@ -64,7 +63,6 @@ export default class JSDOMConnector implements IConnector {
     private _href: string;
     private _finalHref: string;
     private _targetNetworkData: NetworkData;
-    private _manifestIsSpecified: boolean = false;
     private _window: Window;
     private _document: JSDOMAsyncHTMLDocument;
     private _fetchedHrefs: Set<string>;
@@ -120,10 +118,6 @@ export default class JSDOMConnector implements IConnector {
             element: new JSDOMAsyncHTMLElement(element),
             resource: this._finalHref
         };
-
-        if (eventName === 'element::link' && element.getAttribute('rel') === 'manifest') {
-            await this.getManifest(element);
-        }
 
         await this._server.emitAsync(eventName, event);
         for (let i = 0; i < element.children.length; i++) {
@@ -224,93 +218,6 @@ export default class JSDOMConnector implements IConnector {
             await util.promisify(this.resourceLoader).call(this, { element, url: new URL(href, this._finalHref) });
         } catch (e) {
             debug('Error loading ${href}', e);
-        }
-    }
-
-    /**
-     * When `element` is passed, tries to download the manifest specified by it
-     * sending `fetch::end::manifest` or `fetch::error::manifest`.
-     *
-     * If no `element`, then checks if it has been download previously and if not
-     * sends a `manifestfetch::missing`.
-     */
-    private async getManifest(element?: HTMLElement) {
-
-        if (!element) {
-            if (this._manifestIsSpecified) {
-                return;
-            }
-
-            await this._server.emitAsync('fetch::missing::manifest', { resource: this._href });
-
-            return;
-        }
-
-        if (this._manifestIsSpecified) {
-            /*
-             * Nothing to do, we already have the manifest. Double declarations should
-             * be handled at the rule level.
-             */
-            return;
-        }
-
-        this._manifestIsSpecified = true;
-
-        /*
-         * Check if the specified file actually exists.
-         *
-         * https://w3c.github.io/manifest/#obtaining
-         */
-
-        const manifestHref: string = element.getAttribute('href');
-        let manifestURL: string = '';
-
-        if (!manifestHref) {
-            // Invalid href are handled at the rule level
-            return;
-        }
-
-        /*
-         * If `href` exists and is not an empty string, try
-         * to figure out the full URL of the web app manifest.
-         */
-
-        manifestURL = resolveUrl(manifestHref, this._finalHref);
-
-        /*
-         * Try to see if the web app manifest file actually
-         * exists and is accesible.
-         */
-
-        try {
-            const manifestData: NetworkData = await this.fetchContent(manifestURL);
-
-            const event: FetchEnd = {
-                element: new JSDOMAsyncHTMLElement(element),
-                request: manifestData.request,
-                resource: manifestURL,
-                response: manifestData.response
-            };
-
-            const { charset, mediaType } = getContentTypeData(event.element, event.resource, event.response.headers, event.response.body.rawContent);
-
-            event.response.mediaType = mediaType;
-            event.response.charset = charset;
-
-            await this._server.emitAsync('fetch::end::manifest', event);
-
-            return;
-
-            // Check if fetching/reading the file failed.
-        } catch (e) {
-            debug('Failed to fetch the web app manifest file');
-
-            const event: ManifestFetchError = {
-                error: e,
-                resource: manifestURL
-            };
-
-            await this._server.emitAsync('fetch::error::manifest', event);
         }
     }
 
@@ -415,7 +322,6 @@ export default class JSDOMConnector implements IConnector {
 
                             // We download only the first favicon found
                             await this.getFavicon(window.document.querySelector('link[rel~="icon"]'));
-                            await this.getManifest();
 
                             /*
                              * TODO: when we reach this moment we should wait for all pending request to be done and

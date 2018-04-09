@@ -58,12 +58,3 @@ export type ElementFound = Event & {
     /** The visited element. */
     element: IAsyncHTMLElement;
 };
-
-/** The object emitted by a connector on `fetch::error::manifest`. */
-export type ManifestFetchError = Event & {
-    /** The error when downloading the manifest.  */
-    error: Error;
-};
-
-/** The object emitted by a connector on `fetch::missing::manifest`. */
-export type ManifestFetchMissing = Event;

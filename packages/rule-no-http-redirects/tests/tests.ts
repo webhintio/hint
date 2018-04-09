@@ -27,18 +27,6 @@ const tests: Array<RuleTest> = [
         }
     },
     {
-        name: 'Redirect in manifest fails',
-        reports: [{ message: '1 redirect detected for http://localhost/site.webmanifest (max is 0).' }],
-        serverConfig: {
-            '/': generateHTMLPage(`<link rel="manifest" href="site.webmanifest">`),
-            '/site.webmanifest': {
-                content: '/site2.webmanifest',
-                status: 302
-            },
-            '/site2.webmanifest': ''
-        }
-    },
-    {
         name: 'Redirect in target fails',
         reports: [{ message: '1 redirect detected for http://localhost/ (max is 0).' }],
         serverConfig: {

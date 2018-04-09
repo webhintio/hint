@@ -3,11 +3,17 @@
     "failFast": false,
     "files": [
       "dist/tests/**/*.js"
-    ],
-    "timeout": "1m"
+        ],
+        "timeout": "1m"
+  },
+  "dependencies": {
+    "bcp47": "^1.1.2",
+    "caniuse-api": "^2.0.0",
+    "color-string": "^1.5.2"
   },
   "description": "sonarwhal rule that checks if the web app manifest file is valid",
   "devDependencies": {
+    "@sonarwhal/parser-manifest": "^1.0.0",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^4.19.1",
@@ -32,36 +38,37 @@
   ],
   "homepage": "https://sonarwhal.com/",
   "keywords": [
-    "sonarwhal",
-    "sonarwhal-rule",
     "manifest-is-valid",
     "manifest-is-valid-rule",
-    "sonarwhal-recommended"
-  ],
-  "license": "Apache-2.0",
-  "main": "dist/src/rule.js",
-  "name": "@sonarwhal/rule-manifest-is-valid",
-  "nyc": {
-    "extends": "../../.nycrc"
-  },
-  "peerDependencies": {
-    "sonarwhal": "^1.4.0"
-  },
-  "repository": "sonarwhal/sonarwhal",
-  "scripts": {
-    "build": "npm run clean && npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
-    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
-    "build:ts": "tsc",
-    "clean": "rimraf dist",
-    "lint": "npm-run-all lint:*",
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
-    "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
-    "test": "npm run lint && npm run build && nyc ava",
-    "watch": "npm run build && npm-run-all --parallel -c watch:*",
-    "watch:assets": "npm run build:assets -- -w --no-initial",
-    "watch:test": "ava --watch",
-    "watch:ts": "npm run build:ts -- --watch"
-  },
-  "version": "3.0.0"
+    "sonarwhal",
+    "sonarwhal-recommended",
+    "sonarwhal-rule"
+    ],
+    "license": "Apache-2.0",
+    "main": "dist/src/rule.js",
+    "name": "@sonarwhal/rule-manifest-is-valid",
+    "nyc": {
+      "extends": "../../.nycrc"
+    },
+    "peerDependencies": {
+      "@sonarwhal/parser-manifest": "^1.0.0",
+      "sonarwhal": "^1.4.0"
+    },
+    "repository": "sonarwhal/sonarwhal",
+    "scripts": {
+      "build": "npm run clean && npm-run-all build:*",
+      "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+      "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+      "build:ts": "tsc",
+      "clean": "rimraf dist",
+      "lint": "npm-run-all lint:*",
+      "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+      "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
+      "test": "npm run lint && npm run build && nyc ava",
+      "watch": "npm run build && npm-run-all --parallel -c watch:*",
+      "watch:assets": "npm run build:assets -- -w --no-initial",
+      "watch:test": "ava --watch",
+      "watch:ts": "npm run build:ts -- --watch"
+    },
+    "version": "3.0.0"
 }

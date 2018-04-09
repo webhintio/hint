@@ -9,10 +9,6 @@ their signature, and the `interface` they implement.
 * [`fetch::end::<resource-type>`](#fetchendresource-type)
 * [`fetch::error`](#fetcherrorresource-type)
 * [`fetch::start`](#fetchstartresource-type)
-* [`fetch::end::manifest`](#fetchendmanifest)
-* [`fetch::error::manifest`](#fetcherrormanifest)
-* [`fetch::start::manifest`](#fetchstartmanifest)
-* [`fetch::missing::manifest`](#fetchmissingmanifest)
 * [`scan::end`](#scanend)
 * [`scan::start`](#scanstart)
 * [`traverse::down`](#traversedown)
@@ -86,75 +82,6 @@ to start
 
 ```ts
 type FetchStart {
-    /** The URL to download */
-    resource: string;
-}
-```
-
-## `fetch::end::manifest`
-
-Event is emitted **when** the `connector` has finished downloading
-the web manifest of a page.
-
-**Format:**
-
-```ts
-type ManifestFetchEnd {
-    /** The element that initiated the request. */
-    element: IAsyncHTMLElement;
-    /** The URL of the target */
-    resource: string;
-    /** The request made to fetch the target. */
-    request: Request;
-    /** The response sent while fetching the target. */
-    response: Response;
-}
-```
-
-**Note:** This event interface extends from [`fetch::end::<resource-type>`](#fetchendresource-type).
-
-## `fetch::start::manifest`
-
-Event is emitted **when** the `connector` is about to start downloading
-the web manifest.
-
-**Format:**
-
-```ts
-type FetchStart {
-    /** The URL to download */
-    resource: string;
-}
-```
-
-**Note::** This event has the same interface as
-[`fetch::start`](#fetchstart).
-
-## `fetch::error::manifest`
-
-Event is emitted **when** the `connector` has encountered a problem
-downloading the web manifest.
-
-**Format:**
-
-```ts
-type ManifestFetchError {
-    /** The URL of the target. */
-    resource: string;
-    /** The error found. */
-    error: any;
-}
-```
-
-## `fetch::missing::manifest`
-
-Event is emitted **when** the `connector` hasn’t found any manifest to
-download.
-
-**Format:**
-
-```ts
-type ManifestFetchMissing {
     /** The URL to download */
     resource: string;
 }

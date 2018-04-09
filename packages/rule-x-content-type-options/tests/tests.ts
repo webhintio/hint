@@ -17,7 +17,6 @@ const generateInvalidValueMessage = (value: string = '') => {
 
 const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></script>');
 const htmlPageWithStylesheet = generateHTMLPage('<link rel="stylesheet" href="test.css">');
-const htmlPageWithManifest = generateHTMLPage('<link rel="manifest" href="test.webmanifest">');
 
 // Tests.
 
@@ -25,13 +24,6 @@ const tests: Array<RuleTest> = [
     {
         name: `HTML page is served without 'X-Content-Type-Options' header`,
         serverConfig: { '/': '' }
-    },
-    {
-        name: `Manifest is served without 'X-Content-Type-Options' header`,
-        serverConfig: {
-            '/': htmlPageWithManifest,
-            '/test.webmanifest': ''
-        }
     },
     {
         name: `Script is served without 'X-Content-Type-Options' header`,
@@ -57,14 +49,6 @@ const tests: Array<RuleTest> = [
         name: `HTML page is served with the 'X-Content-Type-Options' header`,
         reports: [{ message: unneededHeaderMessage }],
         serverConfig: { '/': { headers: { 'X-Content-Type-Options': 'nosniff' } } }
-    },
-    {
-        name: `Manifest is served without 'X-Content-Type-Options' header`,
-        reports: [{ message: unneededHeaderMessage }],
-        serverConfig: {
-            '/': htmlPageWithManifest,
-            '/test.webmanifest': { headers: { 'X-Content-Type-Options': 'invalid' } }
-        }
     },
     {
         name: `Script is served with 'X-Content-Type-Options' header with invalid value`,

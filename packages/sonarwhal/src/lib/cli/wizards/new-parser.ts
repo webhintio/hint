@@ -49,8 +49,6 @@ const events = {
     'fetch::end::*': 'FetchEnd',
     'fetch::end::html': 'FetchEnd',
     'fetch::error': 'FetchError',
-    'fetch::error::manifest': 'ManifestFetchError',
-    'fetch::missing::manifest': 'ManifestFetchMissing',
     'fetch::start': 'FetchStart',
     'scan::end': 'ScanEnd',
     'scan::start': 'ScanStart',

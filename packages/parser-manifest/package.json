@@ -6,9 +6,9 @@
     ],
     "timeout": "1m"
   },
-  "description": "sonarwhal rule that checks if the web app manifest file has the correct file extension",
+  "description": "sonarwhal parser for web app manifest files",
   "devDependencies": {
-    "@sonarwhal/parser-manifest": "^1.0.0",
+    "ajv": "^6.4.0",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^4.19.1",
@@ -19,7 +19,9 @@
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
     "nyc": "^11.4.1",
+    "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
+    "sinon": "^4.5.0",
     "sonarwhal": "^1.4.0",
     "typescript": "^2.8.1",
     "typescript-eslint-parser": "^14.0.0"
@@ -34,27 +36,26 @@
   "homepage": "https://sonarwhal.com/",
   "keywords": [
     "sonarwhal",
-    "sonarwhal-rule",
-    "manifest-file-extension",
-    "manifest-file-extension-rule",
-    "sonarwhal-recommended"
+    "sonarwhal-parser",
+    "manifest",
+    "manifest-parser"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/rule.js",
-  "name": "@sonarwhal/rule-manifest-file-extension",
+  "main": "dist/src/parser.js",
+  "name": "@sonarwhal/parser-manifest",
   "nyc": {
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@sonarwhal/parser-manifest": "^1.0.0",
     "sonarwhal": "^1.4.0"
   },
+  "private": true,
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
@@ -65,5 +66,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.0"
+  "version": "1.0.0"
 }

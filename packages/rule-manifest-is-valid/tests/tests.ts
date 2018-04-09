@@ -5,75 +5,110 @@ import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
+const ruleName = getRuleName(__dirname);
+
 const htmlWithManifestSpecified = generateHTMLPage('<link rel="manifest" href="site.webmanifest">');
 
-const tests: Array<RuleTest> = [
+const defaultTests: Array<RuleTest> = [
     {
-        name: `Manifest is not specified, so the rule does not apply and the test should pass`,
-        serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')
-    },
-    {
-        name: `Manifest is specified with no 'href', so the rule does not apply and the test should pass`,
-        serverConfig: generateHTMLPage('<link rel="manifest">')
-    },
-    {
-        name: `Manifest is specified with empty 'href', so the rule does not apply and the test should pass`,
-        serverConfig: generateHTMLPage('<link rel="manifest" href="">')
-    },
-    {
-        name: `Manifest is specified and its content is valid JSON`,
+        name: `Web app manifest is specified and its content is valid JSON`,
         serverConfig: {
             '/': htmlWithManifestSpecified,
-            '/site.webmanifest': '{}'
+            '/site.webmanifest': JSON.stringify({ name: 'test' })
         }
     },
     {
-        name: `Manifest is specified and its content is not valid JSON`,
-        reports: [{ message: `Manifest file doesn't contain valid JSON` }],
+        name: `Web app manifest is specified and its content is not valid JSON`,
+        reports: [{ message: `Should contain valid JSON` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': 'x'
         }
     },
-    /*
-     *     {
-     *         name: `Manifest is specified as a full URL and its content is valid JSON`,
-     *         serverConfig: {
-     *             '/':
-     * `<!doctype html>
-     * <html lang="en">
-     *     <head>
-     *         <title>test</title>
-     *         <link rel="manifest" href="https://example.com/site.webmanifest">
-     *     </head>
-     *     <body></body>
-     * </html>`,
-     *             '/site.webmanifest': '{}'
-     *         }
-     *     },
-     */
     {
-        name: `Manifest is specified and it's a binary file`,
-        reports: [{ message: `Manifest file is not a text file` }],
+        name: `Web app manifest is specified and its content does not validate agains the schema`,
+        reports: [
+            { message: `Should NOT have additional properties. Additional property found 'additionalProperty'.` },
+            { message: `'icons[0]' should NOT have additional properties. Additional property found 'density'.` },
+            { message: `'name' should be string.` }
+        ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
-            '/site.webmanifest': { headers: { 'Content-Type': 'image/png' } }
+            '/site.webmanifest': JSON.stringify({
+                additionalProperty: 'x',
+                background_color: '#f00', // eslint-disable-line camelcase
+
+                icons: [{
+                    density: 2,
+                    src: 'a.png',
+                    type: 'image/png'
+                }],
+                name: 5
+            })
         }
     },
     {
-        name: `Manifest is specified and request for file fails`,
+        name: `Web app manifest is specified and the 'lang' property is not valid`,
+        reports: [{ message: `'lang' property value ('en-x') is not a valid language tag` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
-            '/site.webmanifest': null
+            '/site.webmanifest': JSON.stringify({ lang: 'en-x' })
         }
     },
     {
-        name: `Manifest is specified and request for file fails with status code`,
+        name: `Web app manifest is specified and the 'background_color' and 'theme_color'' properties are not valid`,
+        reports: [
+            { message: `'background_color' property value ('invalid') is invalid` },
+            { message: `'theme_color' property value ('invalid') is invalid` }
+        ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
-            '/site.webmanifest': { status: 404 }
+            '/site.webmanifest': JSON.stringify({
+                /* eslint-disable camelcase */
+                background_color: 'invalid',
+                theme_color: 'invalid'
+                /* eslint-enable camelcase */
+            })
+        }
+    },
+    {
+        name: `Web app manifest is specified and the 'background_color' and 'theme_color'' properties are not supported`,
+        reports: [
+            { message: `'background_color' property value ('#ff0000aa') is not supported` },
+            { message: `'theme_color' property value ('#ff0000aa') is not supported` }
+        ],
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/site.webmanifest': JSON.stringify({
+                /* eslint-disable camelcase */
+                background_color: '#ff0000aa',
+                theme_color: '#ff0000aa'
+                /* eslint-enable camelcase */
+            })
         }
     }
 ];
 
-ruleRunner.testRule(getRuleName(__dirname), tests);
+const testsForHexWithAlphaSupport: Array<RuleTest> = [
+    {
+        name: `Web app manifest is specified and the 'background_color' and 'theme_color'' property values are supported because of the targeted browsers`,
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/site.webmanifest': JSON.stringify({
+                /* eslint-disable camelcase */
+                background_color: '#ff0000aa',
+                theme_color: '#ff0000aa'
+                /* eslint-enable camelcase */
+            })
+        }
+    }
+];
+
+ruleRunner.testRule(ruleName, defaultTests, { parsers: ['manifest'] });
+ruleRunner.testRule(ruleName, testsForHexWithAlphaSupport, {
+    parsers: ['manifest'],
+    browserslist: [
+        'chrome 65',
+        'firefox 60'
+    ]
+});

@@ -9,13 +9,13 @@ const htmlWithManifestSpecified = generateHTMLPage(`<link rel="manifest" href="s
 
 const tests: Array<RuleTest> = [
     {
-        name: `Manifest is not specified, so the rule does not apply and the test should pass`,
-        reports: [{ message: 'Manifest not specified' }],
+        name: `Manifest is not specified`,
+        reports: [{ message: 'Web app manifest not specified' }],
         serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')
     },
     {
         name: `Manifest is specified multiple times`,
-        reports: [{ message: 'Manifest already specified' }],
+        reports: [{ message: 'A web app manifest file was already specified' }],
         serverConfig: {
             '/': generateHTMLPage(`<link rel="manifest" href="site1.webmanifest"><link rel="manifest" href="site2.webmanifest">`),
             '/site1.webmanifest': '',
@@ -24,12 +24,12 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `Manifest is specified with no 'href'`,
-        reports: [{ message: `Manifest specified with invalid 'href'` }],
+        reports: [{ message: `Should have non-empty 'href'` }],
         serverConfig: generateHTMLPage('<link rel="manifest">')
     },
     {
         name: `Manifest is specified with empty 'href'`,
-        reports: [{ message: `Manifest specified with invalid 'href'` }],
+        reports: [{ message: `Should have non-empty 'href'` }],
         serverConfig: generateHTMLPage('<link rel="manifest" href="">')
     },
     {
@@ -55,7 +55,7 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `Manifest is specified and request for file fails`,
-        reports: [{ message: `Manifest file request failed` }],
+        reports: [{ message: 'File could not be fetched' }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': null
@@ -63,7 +63,7 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `Manifest is specified and request for file fails with status code 404`,
-        reports: [{ message: `Manifest file could not be fetched (status code: 404)` }],
+        reports: [{ message: `File could not be fetched (status code: 404)` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { status: 404 }
@@ -71,7 +71,7 @@ const tests: Array<RuleTest> = [
     },
     {
         name: `Manifest is specified and request for file fails with status code 500`,
-        reports: [{ message: `Manifest file could not be fetched (status code: 500)` }],
+        reports: [{ message: `File could not be fetched (status code: 500)` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { status: 500 }
@@ -79,4 +79,4 @@ const tests: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(getRuleName(__dirname), tests);
+ruleRunner.testRule(getRuleName(__dirname), tests, { parsers: ['manifest'] });
