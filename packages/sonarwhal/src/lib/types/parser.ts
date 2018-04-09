@@ -32,17 +32,25 @@ export abstract class Parser implements IParser {
 
         let configPath = getAsPathString(getAsUri(resource));
 
-        configIncludes.add(configPath);
+        /*
+         * `configPath` will have the format c:/path or /path
+         * depending on what OS we are running sonar.
+         * In case that we are running on Windows, we need
+         * to normalize the path to c:\path before continue.
+         */
+        configIncludes.add(path.normalize(configPath));
+
         let finalConfigJSON: T = merge({}, config);
 
         while (finalConfigJSON.extends) {
+            const lastPath = configPath;
             const configDir = path.dirname(configPath);
 
             configPath = path.resolve(configDir, finalConfigJSON.extends);
 
             if (configIncludes.has(configPath)) {
                 const errorEvent: U = {
-                    error: new Error(`Circular reference found in file ${configPath}`),
+                    error: new Error(`Circular reference found in file ${lastPath}`),
                     resource
                 } as U;
 
@@ -56,7 +64,7 @@ export abstract class Parser implements IParser {
             try {
                 const extendedConfig = loadJSONFile(configPath);
 
-
+                console.log(`adding: ${configPath}`);
                 configIncludes.add(configPath);
 
                 finalConfigJSON = merge({}, extendedConfig, finalConfigJSON);
