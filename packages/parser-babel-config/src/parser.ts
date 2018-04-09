@@ -1,5 +1,6 @@
 import * as path from 'path';
-import * as ajv from 'ajv';
+
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { ScanEnd, FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal';
@@ -11,10 +12,9 @@ import { BabelConfig, BabelConfigInvalidJSON, BabelConfigParsed, BabelConfigInva
 export default class BabelConfigParser extends Parser {
     private configFound: boolean = false;
     private schema: any;
-    private validator: ajv.Ajv;
 
     public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal);
+        super(sonarwhal, 'babel-config');
         this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
         /**
@@ -26,7 +26,7 @@ export default class BabelConfigParser extends Parser {
 
     private async parseEnd(scanEnd: ScanEnd) {
         if (!this.configFound) {
-            await this.sonarwhal.emitAsync('parse::babel-config::error::not-found', scanEnd);
+            await this.sonarwhal.emitAsync(`parse::${this.name}::error::not-found`, scanEnd);
         }
     }
 
@@ -42,7 +42,7 @@ export default class BabelConfigParser extends Parser {
                 resource
             };
 
-            await this.sonarwhal.emitAsync('parse::babel-config::error::schema', event);
+            await this.sonarwhal.emitAsync(`parse::${this.name}::error::schema`, event);
         }
 
         return validationResult;
@@ -72,6 +72,14 @@ export default class BabelConfigParser extends Parser {
             this.configFound = true;
             config = isPackageJson ? content.babel : content;
 
+            const originalConfig: BabelConfig = cloneDeep(config);
+
+            config = await this.finalConfig<BabelConfig, BabelConfigInvalidJSON>(config, resource);
+
+            if (!config) {
+                return;
+            }
+
             const validationResult: SchemaValidationResult = await this.validateSchema(config, resource);
 
             if (!validationResult.valid) {
@@ -80,18 +88,18 @@ export default class BabelConfigParser extends Parser {
 
             const event: BabelConfigParsed = {
                 config: validationResult.data,
-                originalConfig: config,
+                originalConfig,
                 resource
             };
 
-            await this.sonarwhal.emitAsync('parse::babel-config::end', event);
+            await this.sonarwhal.emitAsync(`parse::${this.name}::end`, event);
         } catch (err) {
             const errorEvent: BabelConfigInvalidJSON = {
                 error: err,
                 resource
             };
 
-            await this.sonarwhal.emitAsync('parse::babel-config::error::json', errorEvent);
+            await this.sonarwhal.emitAsync(`parse::${this.name}::error::json`, errorEvent);
         }
     }
 }

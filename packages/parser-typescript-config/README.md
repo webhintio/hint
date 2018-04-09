@@ -44,7 +44,19 @@ This `parser` emits the following events:
   * `resource`: the parsed resource.
   * `config`: an object with a valid configuration (`TypeScriptConfig`).
 
-* `parse::typescript-config::error::json`, of type `TypeScriptConfigInvalid`
+* `parse::typescript-config::error::json`, of type `TypeScriptConfigInvalidJSON`
+  which contains the following information:
+
+  * `resource`: the parsed resource.
+  * `error`: the error emited parsing the configuration file.
+
+* `parse::typescript-config::error::cicular`, of type `TypeScriptConfigInvalidJSON`
+  which contains the following information:
+
+  * `resource`: the parsed resource.
+  * `error`: the error emited parsing the configuration file.
+
+* `parse::typescript-config::error::extends`, of type `TypeScriptConfigInvalidJSON`
   which contains the following information:
 
   * `resource`: the parsed resource.

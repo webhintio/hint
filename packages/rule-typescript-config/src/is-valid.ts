@@ -30,10 +30,10 @@ export default class TypeScriptConfigIsValid implements IRule {
 
     public constructor(context: RuleContext) {
 
-        const invalidJSONFile = async (typeScriptConfigInvalid: TypeScriptConfigInvalidJSON) => {
+        const invalidJSONFile = async (typeScriptConfigInvalid: TypeScriptConfigInvalidJSON, event: string) => {
             const { error, resource } = typeScriptConfigInvalid;
 
-            debug(`parse::typescript-config::error::json received`);
+            debug(`${event} received`);
 
             await context.report(resource, null, error.message);
         };
@@ -49,6 +49,8 @@ export default class TypeScriptConfigIsValid implements IRule {
         };
 
         context.on('parse::typescript-config::error::json', invalidJSONFile);
+        context.on('parse::typescript-config::error::circular', invalidJSONFile);
+        context.on('parse::typescript-config::error::extends', invalidJSONFile);
         context.on('parse::typescript-config::error::schema', invalidSchema);
     }
 }

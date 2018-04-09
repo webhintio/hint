@@ -1,0 +1,6 @@
+{
+    "compilerOptions": {
+        "module": "esnext"
+    },
+    "extends": "./tsconfig.valid-with-extends-loop.json"
+}

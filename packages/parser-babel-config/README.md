@@ -43,7 +43,19 @@ This `parser` emits the following events:
   * `resource`: the parsed resource.
   * `config`: an object with a valid configuration.
 
-* `parse::babel-config::error::json`, of type `BabelConfigInvalid`
+* `parse::babel-config::error::json`, of type `BabelConfigInvalidJSON`
+  which contains the following information:
+
+  * `resource`: the parsed resource.
+  * `error`: the error emited parsing the configuration file.
+
+* `parse::babel-config::error::circular`, of type `BabelConfigInvalidJSON`
+  which contains the following information:
+
+  * `resource`: the parsed resource.
+  * `error`: the error emited parsing the configuration file.
+
+* `parse::babel-config::error::extends`, of type `BabelConfigInvalidJSON`
   which contains the following information:
 
   * `resource`: the parsed resource.

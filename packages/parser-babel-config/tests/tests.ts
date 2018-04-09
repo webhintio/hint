@@ -1,6 +1,12 @@
+import * as path from 'path';
+import * as url from 'url';
+
 import * as sinon from 'sinon';
-import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
+import test from 'ava';
+
+import * as misc from 'sonarwhal/dist/src/lib/utils/misc';
+import { getAsUri } from 'sonarwhal/dist/src/lib/utils/get-as-uri';
 
 import BabelConfigParser from '../src/parser';
 
@@ -151,6 +157,130 @@ test('If the content type is unknown, it should still validate if the file name 
 
     t.is(t.context.sonarwhal.emitAsync.callCount, 2);
     t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::schema');
+
+    sandbox.restore();
+});
+
+test('If we receive a valid json with a valid name, it should emit the event parse::babel-config::end', async (t) => {
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+
+    new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
+
+    const configPath = path.join(__dirname, 'fixtures', 'valid', '.babelrc');
+    const validJSON = misc.loadJSONFile(configPath);
+
+    const parsedJSON = {
+        ast: true,
+        code: true,
+        comments: true,
+        compact: 'auto',
+        env: {
+            test: {
+                presets:
+                    [['env',
+                        { targets: { node: 'current' } }]]
+            }
+        },
+        filename: 'unknown',
+        keepModuleIdExtensions: false,
+        moduleIds: false,
+        plugins: ['syntax-dynamic-import', 'transform-object-rest-spread'],
+        presets: [['env', {
+            modules: false,
+            targets: {
+                browsers:
+                    ['last 2 versions', '> 5% in BE'],
+                uglify: true
+            }
+        }]],
+        retainLines: false,
+        sourceMaps: false
+    };
+
+    await t.context.sonarwhal.emitAsync('fetch::end::json', {
+        resource: url.format(getAsUri(configPath)),
+        response: { body: { content: JSON.stringify(validJSON) } }
+    });
+
+    await t.context.sonarwhal.emitAsync('scan::end');
+
+    // 3 times, the two previous call and the parse.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::end');
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].originalConfig, validJSON);
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, parsedJSON);
+
+    sandbox.restore();
+});
+
+test('If we receive a valid json with an extends, it should emit the event parse::babel-config::end with the right data', async (t) => {
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+
+    new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
+
+    const configPath = path.join(__dirname, 'fixtures', 'valid-with-extends', '.babelrc');
+    const validJSON = misc.loadJSONFile(configPath);
+
+    await t.context.sonarwhal.emitAsync('fetch::end::json', {
+        resource: url.format(getAsUri(configPath)),
+        response: { body: { content: JSON.stringify(validJSON) } }
+    });
+
+    await t.context.sonarwhal.emitAsync('scan::end');
+
+    // 3 times, the two previous call and the parse.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::end');
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].originalConfig, validJSON);
+    t.is(t.context.sonarwhal.emitAsync.args[1][1].config.presets[0][1].targets.uglify, false);
+
+    sandbox.restore();
+});
+
+test('If we receive a json with an extends with a loop, it should emit the event parse::babel-config::error::circular', async (t) => {
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+
+    new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
+
+    const configPath = path.join(__dirname, 'fixtures', 'valid-with-extends-loop', '.babelrc');
+    const configuration = misc.readFile(configPath);
+
+    await t.context.sonarwhal.emitAsync('fetch::end::json', {
+        resource: url.format(getAsUri(configPath)),
+        response: { body: { content: configuration } }
+    });
+
+    // 2 times, the previous call and the parse error.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::circular');
+
+    sandbox.restore();
+});
+
+test('If we receive a json with an extends with an invalid json, it should emit the event parse::typescript-config::error::extends', async (t) => {
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+
+    new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
+
+    const configPath = path.join(__dirname, 'fixtures', 'valid-with-extends-invalid', '.babelrc');
+    const configuration = misc.readFile(configPath);
+
+    await t.context.sonarwhal.emitAsync('fetch::end::json', {
+        resource: url.format(getAsUri(configPath)),
+        response: { body: { content: configuration } }
+    });
+
+    // 2 times, the previous call and the parse error.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::extends');
 
     sandbox.restore();
 });

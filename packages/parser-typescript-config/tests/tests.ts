@@ -1,6 +1,12 @@
+import * as path from 'path';
+import * as url from 'url';
+
 import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
+
+import * as misc from 'sonarwhal/dist/src/lib/utils/misc';
+import { getAsUri } from 'sonarwhal/dist/src/lib/utils/get-as-uri';
 
 import TypeScriptConfigParser from '../src/parser';
 
@@ -90,23 +96,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
 
     new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
-    const validJSON = {
-        compilerOptions: {
-            alwaysStrict: true,
-            declaration: true,
-            inlineSourceMap: true,
-            lib: [
-                'dom',
-                'dom.iterable',
-                'esnext',
-                'esnext.asynciterable'
-            ],
-            module: 'commonjs',
-            newLine: 'lf',
-            removeComments: false,
-            target: 'esnext'
-        }
-    };
+    const validJSON = misc.loadJSONFile(path.join(__dirname, 'fixtures', 'tsconfig.valid.json'));
 
     const parsedJSON = {
         compilerOptions:
@@ -142,6 +132,95 @@ test('If we receive a valid json with a valid name, it should emit the event par
     t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::end');
     t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].originalConfig, validJSON);
     t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, parsedJSON);
+
+    sandbox.restore();
+});
+
+test('If we receive a valid json with an extends, it should emit the event parse::typescript-config::end with the right data', async (t) => {
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+
+    new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
+
+    const validJSON = misc.loadJSONFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends.json'));
+
+    const parsedJSON = {
+        compilerOptions:
+            {
+                alwaysStrict: true,
+                declaration: true,
+                inlineSourceMap: true,
+                jsxFactory: 'React.createElement',
+                lib: [
+                    'dom',
+                    'dom.iterable',
+                    'esnext',
+                    'esnext.asynciterable'
+                ],
+                maxNodeModuleJsDepth: 0,
+                module: 'esnext',
+                moduleResolution: 'classic',
+                newLine: 'lf',
+                removeComments: false,
+                target: 'esnext'
+            }
+    };
+
+    await t.context.sonarwhal.emitAsync('fetch::end::json', {
+        resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends.json'))),
+        response: { body: { content: JSON.stringify(validJSON) } }
+    });
+
+    await t.context.sonarwhal.emitAsync('scan::end');
+
+    // 3 times, the two previous call and the parse.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::end');
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].originalConfig, validJSON);
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, parsedJSON);
+
+    sandbox.restore();
+});
+
+test('If we receive a json with an extends with a loop, it should emit the event parse::typescript-config::error::circular', async (t) => {
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+
+    new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
+
+    const configuration = misc.readFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-loop.json'));
+
+    await t.context.sonarwhal.emitAsync('fetch::end::json', {
+        resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-loop.json'))),
+        response: { body: { content: configuration } }
+    });
+
+    // 2 times, the previous call and the parse error.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::error::circular');
+
+    sandbox.restore();
+});
+
+test('If we receive a json with an extends with an invalid json, it should emit the event parse::typescript-config::error::extends', async (t) => {
+    const sandbox = sinon.sandbox.create();
+
+    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+
+    new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
+
+    const configuration = misc.readFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-invalid.json'));
+
+    await t.context.sonarwhal.emitAsync('fetch::end::json', {
+        resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-invalid.json'))),
+        response: { body: { content: configuration } }
+    });
+
+    // 2 times, the previous call and the parse error.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::error::extends');
 
     sandbox.restore();
 });

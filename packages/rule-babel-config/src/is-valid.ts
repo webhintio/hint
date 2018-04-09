@@ -28,10 +28,10 @@ export default class BabelConfigIsValidRule implements IRule {
     }
 
     public constructor(context: RuleContext) {
-        const invalidJSONFile = async (babelConfigInvalid: BabelConfigInvalidJSON) => {
+        const invalidJSONFile = async (babelConfigInvalid: BabelConfigInvalidJSON, event: string) => {
             const { error, resource } = babelConfigInvalid;
 
-            debug(`parse::babel-config::error::json received`);
+            debug(`${event} received`);
 
             await context.report(resource, null, error.message);
         };
@@ -47,6 +47,8 @@ export default class BabelConfigIsValidRule implements IRule {
         };
 
         context.on('parse::babel-config::error::json', invalidJSONFile);
+        context.on('parse::babel-config::error::circular', invalidJSONFile);
+        context.on('parse::babel-config::error::extends', invalidJSONFile);
         context.on('parse::babel-config::error::schema', invalidSchema);
     }
 }

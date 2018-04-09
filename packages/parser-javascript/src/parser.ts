@@ -18,7 +18,7 @@ const defaultParserOptions = {
 
 export default class JavascriptParser extends Parser {
     public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal);
+        super(sonarwhal, 'javascript');
 
         sonarwhal.on('fetch::end::script', this.parseJavascript.bind(this));
         sonarwhal.on('element::script', this.parseJavascriptTag.bind(this));
@@ -32,7 +32,7 @@ export default class JavascriptParser extends Parser {
             sourceCode: new eslint.SourceCode(code, ast)
         };
 
-        await this.sonarwhal.emitAsync('parse::javascript::end', scriptData);
+        await this.sonarwhal.emitAsync(`parse::${this.name}::end`, scriptData);
     }
 
     private async parseJavascript(fetchEnd: FetchEnd) {

@@ -1,5 +1,5 @@
 import * as ajv from 'ajv';
-import { Event } from 'sonarwhal/dist/src/lib/types/events';
+import { Event, ErrorEvent } from 'sonarwhal/dist/src/lib/types/events';
 
 export type BabelConfig = {
     ast: boolean;
@@ -29,10 +29,7 @@ export type BabelConfig = {
     sourceRoot: string;
 };
 
-export type BabelConfigInvalidJSON = Event & {
-    error: Error;
-};
-
+export type BabelConfigInvalidJSON = ErrorEvent;
 
 /** The object emitted by the `babel-config` parser */
 export type BabelConfigParsed = Event & {

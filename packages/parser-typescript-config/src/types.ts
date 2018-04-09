@@ -1,6 +1,6 @@
 import * as ajv from 'ajv';
 
-import { Event } from 'sonarwhal/dist/src/lib/types/events';
+import { Event, ErrorEvent } from 'sonarwhal/dist/src/lib/types/events';
 
 /** Valid values for the `JSX` compiler option. */
 export enum TypeScriptJSXEnum {
@@ -197,9 +197,7 @@ export type TypeScriptConfig = {
 };
 
 /** Data type sent for Invalid JSON event */
-export type TypeScriptConfigInvalidJSON = Event & {
-    error: Error;
-};
+export type TypeScriptConfigInvalidJSON = ErrorEvent;
 
 /** Data type sent for JSON doesn't validate Schema event */
 export type TypeScriptConfigInvalidSchema = Event & {

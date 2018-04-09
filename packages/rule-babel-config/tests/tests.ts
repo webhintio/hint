@@ -29,19 +29,33 @@ const tests: Array<RuleLocalTest> = [
         path: path.join(__dirname, 'fixtures', 'has-valid-babel-package-json', 'package.json')
     },
     {
-        name: `If package.json contain invalid "babel" property, it should fail`,
+        name: `If package.json contains invalid "babel" property, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-invalid-babel-package-json', 'package.json'),
         reports: [{ message: `'moduleId' should be string.` }]
     },
     {
-        name: `If .babelrc contain an additional property, it should fail`,
+        name: `If .babelrc contains an additional property, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-additional-property', '.babelrc'),
         reports: [{ message: `Should NOT have additional properties. Additional property found 'additional'.` }]
     },
     {
-        name: `If .babelrc contain an invalid value, it should fail`,
+        name: `If .babelrc contains an invalid value, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-invalid-enum-property', '.babelrc'),
         reports: [{ message: `'sourceMaps' should be equal to one of the allowed values 'both, inline, true, false'. Value found 'invalidValue'` }]
+    },
+    {
+        name: 'If .babelrc contains a circular reference, it should fail',
+        path: path.join(__dirname, 'fixtures', 'circular'),
+        reports: [
+            { message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', '.babelrc')}` }
+        ]
+    },
+    {
+        name: 'If .babelrc contains an invalid extends, it should fail',
+        path: path.join(__dirname, 'fixtures', 'invalid-extends'),
+        reports: [
+            { message: `Unexpected token ' in JSON at position 191` }
+        ]
     }
 ];
 

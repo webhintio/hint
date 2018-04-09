@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "declaration": true,
+        "inlineSourceMap": true,
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext",
+            "esnext.asynciterable"
+        ],
+        "module": "commonjs",
+        "newLine": "lf",
+        "removeComments": false,
+        "target": "esnext"
+    }
+}

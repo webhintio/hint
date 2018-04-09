@@ -13,7 +13,7 @@ import { Sonarwhal } from '../../sonarwhal';
 export default class CustomParser extends Parser {
 
     public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal);
+        super(sonarwhal, '<parser_name>');
 
         // Replace 'resource' with the tipe you need (html, script,
         // css, image, etc.)
@@ -26,7 +26,7 @@ export default class CustomParser extends Parser {
         // and maybe leter use a schema if a configuration file or something else
 
         // If there's something to share, do it via an event
-        await this.sonarwhal.emitAsync('customparser::custom', data);
+        await this.sonarwhal.emitAsync('parse::<parser_name>::<end | error>', data);
     }
 }
 ```
@@ -40,7 +40,7 @@ Once you have analyzed the resource, the way to share information is via
 events (custom or not):
 
 ```ts
-await this.sonarwhal.emitAsync('customparser::custom', data);
+await this.sonarwhal.emitAsync('parse::<parser_name>::<end | error>', data);
 ```
 
 Make sure to document which ones you are sending so `rule`s can use

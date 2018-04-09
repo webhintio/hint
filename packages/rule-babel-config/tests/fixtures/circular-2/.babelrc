@@ -1,0 +1,18 @@
+{
+  "extends": "../circular/.babelrc",
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": [
+            "last 2 versions",
+            "> 5% in BE"
+          ],
+          "uglify": false
+        },
+        "modules": false
+      }
+    ]
+  ]
+}
