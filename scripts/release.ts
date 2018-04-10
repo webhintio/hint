@@ -882,7 +882,10 @@ const main = async () => {
      * packages depend on previous ones to be released first.
      */
 
-    const exceptions = [];
+    const exceptions = [
+        'packages/parser-webpack-config',
+        'packages/rule-webpack-config'
+    ];
 
     if (process.platform !== 'win32') {
         exceptions.push('packages/connector-edge');
