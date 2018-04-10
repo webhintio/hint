@@ -10,7 +10,7 @@
     "@sonarwhal/rule-html-checker": "^3.0.2",
     "@sonarwhal/rule-http-cache": "^3.0.2",
     "@sonarwhal/rule-http-compression": "^4.0.1",
-    "@sonarwhal/rule-image-optimization-cloudinary": "^3.0.1",
+    "@sonarwhal/rule-image-optimization-cloudinary": "^3.0.2",
     "@sonarwhal/rule-meta-charset-utf-8": "^3.0.1",
     "@sonarwhal/rule-meta-viewport": "^3.0.0",
     "@sonarwhal/rule-no-bom": "^2.0.0",
