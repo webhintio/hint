@@ -1,3 +1,15 @@
+# 4.0.0 (April 10, 2018)
+
+## Breaking Changes
+
+* [[`c5ccfd52da`](https://github.com/sonarwhal/sonarwhal/commit/c5ccfd52daaa06dc6fc3612c540b217b3c9dbba9)] - Breaking: Update package to use `parser-manifest` (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#463`](https://github.com/sonarwhal/sonarwhal/issues/463)).
+
+## Bug fixes / Improvements
+
+* [[`62775fa59a`](https://github.com/sonarwhal/sonarwhal/commit/62775fa59a098e57c5287147d3fabac15324bfea)] - Docs: Make minor fixes and improvements (by [`Jason McConnell`](https://github.com/Maggers) / see also: [`#971`](https://github.com/sonarwhal/sonarwhal/issues/971)).
+* [[`accff1527f`](https://github.com/sonarwhal/sonarwhal/commit/accff1527f07e4cb932cb79bf90ceadacbef0620)] - Docs: Add "how to install" information (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#958`](https://github.com/sonarwhal/sonarwhal/issues/958)).
+
+
 # 3.0.1 (March 22, 2018)
 
 ## Bug fixes / Improvements
