@@ -51,4 +51,6 @@
 
 ## Development
 
-* [`typescript-config/is-valid`](../../../../rule-typescript-config/README.md)
+* [`babel-config`](../../../../rule-babel-config/README.md)
+* [`typescript-config`](../../../../rule-typescript-config/README.md)
+* [`webpack-config`](../../../../rule-webpack-config/README.md)
