@@ -1,3 +1,11 @@
+# 1.0.3 (April 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`cd33af47a3`](https://github.com/sonarwhal/sonarwhal/commit/cd33af47a3c479e08a4f1654694a61ab2188ecf8)] - Docs: Make minor fixes and improvements (by [`Jason McConnell`](https://github.com/Maggers) / see also: [`#964`](https://github.com/sonarwhal/sonarwhal/issues/964)).
+* [[`accff1527f`](https://github.com/sonarwhal/sonarwhal/commit/accff1527f07e4cb932cb79bf90ceadacbef0620)] - Docs: Add "how to install" information (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#958`](https://github.com/sonarwhal/sonarwhal/issues/958)).
+
+
 # 1.0.2 (March 22, 2018)
 
 ## Bug fixes / Improvements
