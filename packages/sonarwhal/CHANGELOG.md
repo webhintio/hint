@@ -1,3 +1,19 @@
+# 1.5.0 (April 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`6163e3a7ad`](https://github.com/sonarwhal/sonarwhal/commit/6163e3a7adcf5d3f2bf2553bf8b3c411a4fd6d12)] - Fix: Remove web app manifest related code (by [`Cătălin Mariș`](https://github.com/alrra)).
+* [[`e543db47fb`](https://github.com/sonarwhal/sonarwhal/commit/e543db47fbfcf857fb3d7000d9334c4e64ebeb12)] - Docs: Remove/change "just [insert any task here]" (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#939`](https://github.com/sonarwhal/sonarwhal/issues/939)).
+* [[`57632ae5e8`](https://github.com/sonarwhal/sonarwhal/commit/57632ae5e893e027ac64440cf1d4e36bd6ae1845)] - Docs: Fix typo in `configurations.md` (by [`Aaron Wentzel`](https://github.com/awentzel) / see also: [`#983`](https://github.com/sonarwhal/sonarwhal/issues/983)).
+* [[`c62ad58e24`](https://github.com/sonarwhal/sonarwhal/commit/c62ad58e247af019ec1d6ea330b2317e963bdb08)] - Docs: Update event related information (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+## New features
+
+* [[`a539944f18`](https://github.com/sonarwhal/sonarwhal/commit/a539944f18a5bb37cc6e776d041e784b4d4e3765)] - New: Add support for `extends` on applicable `config` parsers (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#943`](https://github.com/sonarwhal/sonarwhal/issues/943)).
+* [[`156009de1e`](https://github.com/sonarwhal/sonarwhal/commit/156009de1e8dae36b5e42f9c63d7755d8dd5c673)] - New: Add `asyncTry` util (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`7424564129`](https://github.com/sonarwhal/sonarwhal/commit/7424564129c333a4ae2aeb4cf1f69f16e7e8f2f0)] - New: Update `iltorb` to `v2.2.0` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.4.0 (March 27, 2018)
 
 ## Bug fixes / Improvements
