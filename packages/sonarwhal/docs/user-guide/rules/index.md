@@ -35,6 +35,7 @@
 * [`manifest-app-name`](../../../../rule-manifest-app-name/README.md)
 * [`manifest-exists`](../../../../rule-manifest-exists/README.md)
 * [`manifest-file-extension`](../../../../rule-manifest-file-extension/README.md)
+* [`meta-theme-color`](../../../../rule-meta-theme-color/README.md)
 
 ## Security
 
