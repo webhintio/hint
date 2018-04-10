@@ -1,3 +1,13 @@
+# 4.0.1 (April 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`10215a13f7`](https://github.com/sonarwhal/sonarwhal/commit/10215a13f7b45254db9ac31d5647840bab33e277)] - Fix: Catch `fetchContent` exception in rules (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#977`](https://github.com/sonarwhal/sonarwhal/issues/977)).
+* [[`e543db47fb`](https://github.com/sonarwhal/sonarwhal/commit/e543db47fbfcf857fb3d7000d9334c4e64ebeb12)] - Docs: Remove/change "just [insert any task here]" (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#939`](https://github.com/sonarwhal/sonarwhal/issues/939)).
+* [[`accff1527f`](https://github.com/sonarwhal/sonarwhal/commit/accff1527f07e4cb932cb79bf90ceadacbef0620)] - Docs: Add "how to install" information (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#958`](https://github.com/sonarwhal/sonarwhal/issues/958)).
+* [[`1470f4acb5`](https://github.com/sonarwhal/sonarwhal/commit/1470f4acb5f973da42c72756dc1a0e62d9e4efa7)] - Docs: Make minor fixes and improvements (by [`Jason McConnell`](https://github.com/Maggers) / see also: [`#945`](https://github.com/sonarwhal/sonarwhal/issues/945)).
+
+
 # 4.0.0 (March 22, 2018)
 
 ## Breaking Changes
