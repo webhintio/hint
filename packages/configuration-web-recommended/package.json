@@ -15,7 +15,7 @@
     "@sonarwhal/rule-meta-viewport": "^3.0.1",
     "@sonarwhal/rule-no-bom": "^2.0.1",
     "@sonarwhal/rule-no-disallowed-headers": "^3.0.2",
-    "@sonarwhal/rule-no-friendly-error-pages": "^3.0.0",
+    "@sonarwhal/rule-no-friendly-error-pages": "^3.0.1",
     "@sonarwhal/rule-no-html-only-headers": "^3.0.1",
     "@sonarwhal/rule-no-http-redirects": "^3.0.1",
     "@sonarwhal/rule-no-protocol-relative-urls": "^3.0.0",
