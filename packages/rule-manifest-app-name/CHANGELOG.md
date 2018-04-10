@@ -1,3 +1,16 @@
+# 4.0.0 (April 10, 2018)
+
+## Breaking Changes
+
+* [[`c5ccfd52da`](https://github.com/sonarwhal/sonarwhal/commit/c5ccfd52daaa06dc6fc3612c540b217b3c9dbba9)] - Breaking: Update package to use `parser-manifest` (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#463`](https://github.com/sonarwhal/sonarwhal/issues/463)).
+
+## Bug fixes / Improvements
+
+* [[`e543db47fb`](https://github.com/sonarwhal/sonarwhal/commit/e543db47fbfcf857fb3d7000d9334c4e64ebeb12)] - Docs: Remove/change "just [insert any task here]" (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#939`](https://github.com/sonarwhal/sonarwhal/issues/939)).
+* [[`00c9f9cae6`](https://github.com/sonarwhal/sonarwhal/commit/00c9f9cae6c8db9ff010e0bba2adb853fc41696f)] - Docs: Make minor fixes and improvements (by [`Jason McConnell`](https://github.com/Maggers) / see also: [`#970`](https://github.com/sonarwhal/sonarwhal/issues/970)).
+* [[`accff1527f`](https://github.com/sonarwhal/sonarwhal/commit/accff1527f07e4cb932cb79bf90ceadacbef0620)] - Docs: Add "how to install" information (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#958`](https://github.com/sonarwhal/sonarwhal/issues/958)).
+
+
 # 3.0.0 (March 9, 2018)
 
 ## Breaking Changes
