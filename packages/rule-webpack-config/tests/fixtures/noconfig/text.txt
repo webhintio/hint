@@ -1,0 +1,1 @@
+This file is just to check that if there is no TypeScript config file, an event is 'parse::typescript-config::error::not-found' event is dispached.

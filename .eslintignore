@@ -1,3 +1,5 @@
 coverage
 dist
 node_modules
+fixtures
+packages/rule-webpack-config/docs/is-valid.md
