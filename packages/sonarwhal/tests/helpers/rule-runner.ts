@@ -235,11 +235,19 @@ export const testLocalRule = (ruleId: string, ruleTests: Array<RuleLocalTest>, c
             }
 
             try {
+                if (ruleTest.before) {
+                    await ruleTest.before();
+                }
+
                 const sonarwhal = new Sonarwhal(sonarwhalConfig, resources);
 
                 const results = await sonarwhal.executeOn(getAsUri(ruleTest.path));
 
                 await sonarwhal.close();
+
+                if (ruleTest.after) {
+                    await ruleTest.after();
+                }
 
                 return validateResults(t, results, ruleTest.reports);
             } catch (e) {
