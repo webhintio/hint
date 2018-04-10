@@ -39,7 +39,6 @@ and it will be as if you had this:
         "summary"
     ],
     "rules": {
-        "apple-touch-icons": "error",
         "axe": "error",
         "content-type": "error",
         "disown-opener": "error",

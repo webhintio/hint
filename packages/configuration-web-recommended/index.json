@@ -9,7 +9,6 @@
         "summary"
     ],
     "rules": {
-        "apple-touch-icons": "error",
         "axe": "error",
         "content-type": "error",
         "disown-opener": "error",
@@ -17,10 +16,6 @@
         "html-checker": "error",
         "http-cache": "error",
         "http-compression": "error",
-        "manifest-app-name": "error",
-        "manifest-exists": "error",
-        "manifest-file-extension": "error",
-        "manifest-is-valid": "error",
         "meta-charset-utf-8": "error",
         "meta-viewport": "error",
         "no-bom": "error",
