@@ -48,7 +48,7 @@ export default class ManifestParser extends Parser {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal);
+        super(sonarwhal, 'manifest');
 
         this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
