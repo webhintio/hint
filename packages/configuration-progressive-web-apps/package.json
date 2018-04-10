@@ -2,7 +2,7 @@
   "dependencies": {
     "@sonarwhal/formatter-summary": "^2.0.2",
     "@sonarwhal/parser-manifest": "^1.0.0",
-    "@sonarwhal/rule-apple-touch-icons": "^3.0.0",
+    "@sonarwhal/rule-apple-touch-icons": "^3.0.1",
     "@sonarwhal/rule-manifest-app-name": "^3.0.0",
     "@sonarwhal/rule-manifest-exists": "^3.0.1",
     "@sonarwhal/rule-manifest-file-extension": "^3.0.0",
