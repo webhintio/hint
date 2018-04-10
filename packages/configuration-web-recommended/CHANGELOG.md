@@ -1,3 +1,15 @@
+# 5.0.0 (April 10, 2018)
+
+## Breaking Changes
+
+* [[`0ac48543a5`](https://github.com/sonarwhal/sonarwhal/commit/0ac48543a571477a8651e57862a643159dc45983)] - Breaking: Remove PWAs related rules (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+## Bug fixes / Improvements
+
+* [[`b469cfcdf0`](https://github.com/sonarwhal/sonarwhal/commit/b469cfcdf09e206543740a998328e7cef3f0a2a4)] - Fix: Add missing `LICENSE.txt` file (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#987`](https://github.com/sonarwhal/sonarwhal/issues/987)).
+* [[`accff1527f`](https://github.com/sonarwhal/sonarwhal/commit/accff1527f07e4cb932cb79bf90ceadacbef0620)] - Docs: Add "how to install" information (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#958`](https://github.com/sonarwhal/sonarwhal/issues/958)).
+
+
 # 4.0.0 (March 23, 2018)
 
 ## Breaking Changes
