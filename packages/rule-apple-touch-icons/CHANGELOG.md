@@ -1,3 +1,12 @@
+# 3.0.1 (April 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`e543db47fb`](https://github.com/sonarwhal/sonarwhal/commit/e543db47fbfcf857fb3d7000d9334c4e64ebeb12)] - Docs: Remove/change "just [insert any task here]" (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#939`](https://github.com/sonarwhal/sonarwhal/issues/939)).
+* [[`accff1527f`](https://github.com/sonarwhal/sonarwhal/commit/accff1527f07e4cb932cb79bf90ceadacbef0620)] - Docs: Add "how to install" information (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#958`](https://github.com/sonarwhal/sonarwhal/issues/958)).
+* [[`30f27a31e2`](https://github.com/sonarwhal/sonarwhal/commit/30f27a31e2edf33eaae4f46ecd784e1b5bf920a9)] - Docs: Make minor fixes and improvements (by [`Jason McConnell`](https://github.com/Maggers) / see also: [`#949`](https://github.com/sonarwhal/sonarwhal/issues/949)).
+
+
 # 3.0.0 (March 9, 2018)
 
 ## Breaking Changes
