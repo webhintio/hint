@@ -288,6 +288,10 @@
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-4.3.1.tgz#32458f9b166cd44c23844eee4937814276f35199"
 
+"@types/tapable@*":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.1.tgz#938bfcc018eda2f386c34e37f084e6e961c08ca6"
+
 "@types/through@*":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/through/-/through-0.0.29.tgz#72943aac922e179339c651fa34a4428a4d722f93"
@@ -298,9 +302,24 @@
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.2.tgz#e0d481d8bb282ad8a8c9e100ceb72c995fb5e709"
 
+"@types/uglify-js@*":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.0.0.tgz#b765cf23abdc6ab2a67f2b72a9e94a1d43c6432e"
+  dependencies:
+    source-map "^0.6.1"
+
 "@types/update-notifier@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@types/update-notifier/-/update-notifier-2.2.0.tgz#a61bd58270247606f77ec388586e53026803c7d9"
+
+"@types/webpack@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.1.3.tgz#1cbb3fceb275590b63addf7cfb1534fda7e645a1"
+  dependencies:
+    "@types/node" "*"
+    "@types/tapable" "*"
+    "@types/uglify-js" "*"
+    source-map "^0.6.0"
 
 abab@^1.0.4:
   version "1.0.4"
@@ -2341,7 +2360,7 @@ eslint-module-utils@^2.2.0:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
-eslint-plugin-import@^2.10.0:
+eslint-plugin-import@^2.10.0, eslint-plugin-import@^2.8.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.10.0.tgz#fa09083d5a75288df9c6c7d09fe12255985655e7"
   dependencies:
@@ -6272,7 +6291,7 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-sinon@^4.5.0:
+sinon@^4.4.8, sinon@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/sinon/-/sinon-4.5.0.tgz#427ae312a337d3c516804ce2754e8c0d5028cb04"
   dependencies:

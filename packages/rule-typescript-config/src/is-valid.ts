@@ -21,7 +21,7 @@ export default class TypeScriptConfigIsValid implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.development,
-            description: '`typescript-config/is-valid` warns again providing an invalid TypeScript configuration file `tsconfig.json`'
+            description: '`typescript-config/is-valid` warns against providing an invalid TypeScript configuration file `tsconfig.json`'
         },
         id: 'typescript-config/is-valid',
         schema: [],
