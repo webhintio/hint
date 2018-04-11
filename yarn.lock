@@ -362,6 +362,12 @@ agent-base@4, agent-base@^4.1.0:
   dependencies:
     es6-promisify "^5.0.0"
 
+agent-base@~4.1.0:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-4.1.2.tgz#80fa6cde440f4dcf9af2617cf246099b5d99f0c8"
+  dependencies:
+    es6-promisify "^5.0.0"
+
 agentkeepalive@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/agentkeepalive/-/agentkeepalive-3.4.1.tgz#aa95aebc3a749bca5ed53e3880a09f5235b48f0c"
@@ -1281,21 +1287,22 @@ bytes@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.0.0.tgz#d32815404d689699f85a4ea4fa8755dd13a96048"
 
-cacache@^10.0.4:
-  version "10.0.4"
-  resolved "https://registry.yarnpkg.com/cacache/-/cacache-10.0.4.tgz#6452367999eff9d4188aefd9a14e9d7c6a263460"
+cacache@^11.0.0:
+  version "11.0.1"
+  resolved "https://registry.yarnpkg.com/cacache/-/cacache-11.0.1.tgz#63cde88b51aa5f50741e34833c9d0048a138d1dd"
   dependencies:
     bluebird "^3.5.1"
     chownr "^1.0.1"
+    figgy-pudding "^3.1.0"
     glob "^7.1.2"
     graceful-fs "^4.1.11"
-    lru-cache "^4.1.1"
-    mississippi "^2.0.0"
+    lru-cache "^4.1.2"
+    mississippi "^3.0.0"
     mkdirp "^0.5.1"
     move-concurrently "^1.0.1"
     promise-inflight "^1.0.1"
     rimraf "^2.6.2"
-    ssri "^5.2.4"
+    ssri "^6.0.0"
     unique-filename "^1.1.0"
     y18n "^4.0.0"
 
@@ -2709,9 +2716,9 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
-figgy-pudding@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.0.0.tgz#b27194ad339c61b6f492bcc52852b5f107af9a16"
+figgy-pudding@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.1.0.tgz#a77ed2284175976c424b390b298569e9df86dd1e"
 
 figures@^1.7.0:
   version "1.7.0"
@@ -3387,9 +3394,9 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
-https-proxy-agent@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-2.2.0.tgz#7fbba856be8cd677986f42ebd3664f6317257887"
+https-proxy-agent@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-2.2.1.tgz#51552970fa04d723e04c56d04178c3f92592bbc0"
   dependencies:
     agent-base "^4.1.0"
     debug "^3.1.0"
@@ -3562,7 +3569,7 @@ invert-kv@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
 
-ip@^1.1.4:
+ip@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
 
@@ -4464,7 +4471,7 @@ lowercase-keys@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-1.0.1.tgz#6f9e30b47084d971a7c820ff15a6c5167b74c26f"
 
-lru-cache@^4.0.1, lru-cache@^4.1.1, lru-cache@^4.1.2:
+lru-cache@^4.0.1, lru-cache@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-4.1.2.tgz#45234b2e6e2f2b33da125624c4664929a0224c3f"
   dependencies:
@@ -4477,21 +4484,21 @@ make-dir@^1.0.0:
   dependencies:
     pify "^3.0.0"
 
-make-fetch-happen@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/make-fetch-happen/-/make-fetch-happen-3.0.0.tgz#7b661d2372fc4710ab5cc8e1fa3c290eea69a961"
+make-fetch-happen@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/make-fetch-happen/-/make-fetch-happen-4.0.0.tgz#7a7d7cf5ec6d6255cbcd55abf3ea467e3e7e715b"
   dependencies:
     agentkeepalive "^3.4.1"
-    cacache "^10.0.4"
+    cacache "^11.0.0"
     http-cache-semantics "^3.8.1"
     http-proxy-agent "^2.1.0"
-    https-proxy-agent "^2.2.0"
+    https-proxy-agent "^2.2.1"
     lru-cache "^4.1.2"
     mississippi "^3.0.0"
     node-fetch-npm "^2.0.2"
     promise-retry "^1.1.1"
-    socks-proxy-agent "^3.0.1"
-    ssri "^5.2.4"
+    socks-proxy-agent "^4.0.0"
+    ssri "^5.3.0"
 
 map-cache@^0.2.2:
   version "0.2.2"
@@ -4719,21 +4726,6 @@ minimist@^1.1.0, minimist@^1.1.3, minimist@^1.2.0:
 minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
-
-mississippi@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/mississippi/-/mississippi-2.0.0.tgz#3442a508fafc28500486feea99409676e4ee5a6f"
-  dependencies:
-    concat-stream "^1.5.0"
-    duplexify "^3.4.2"
-    end-of-stream "^1.1.0"
-    flush-write-stream "^1.0.0"
-    from2 "^2.1.0"
-    parallel-transform "^1.1.0"
-    pump "^2.0.1"
-    pumpify "^1.3.3"
-    stream-each "^1.1.0"
-    through2 "^2.0.0"
 
 mississippi@^3.0.0:
   version "3.0.0"
@@ -4970,16 +4962,15 @@ npm-package-arg@^6.0.0:
     semver "^5.4.1"
     validate-npm-package-name "^3.0.0"
 
-npm-registry-fetch@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-1.1.1.tgz#710bc5947d9ee2c549375072dab6d5d17baf2eb2"
+npm-registry-fetch@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-3.1.1.tgz#e96bae698afdd45d4a01aca29e881fc0bc55206c"
   dependencies:
     bluebird "^3.5.1"
-    figgy-pudding "^3.0.0"
+    figgy-pudding "^3.1.0"
     lru-cache "^4.1.2"
-    make-fetch-happen "^3.0.0"
+    make-fetch-happen "^4.0.0"
     npm-package-arg "^6.0.0"
-    safe-buffer "^5.1.1"
 
 npm-run-all@^4.1.2:
   version "4.1.2"
@@ -6327,9 +6318,9 @@ slide@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
 
-smart-buffer@^1.0.13:
-  version "1.1.15"
-  resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-1.1.15.tgz#7f114b5b65fab3e2a35aa775bb12f0d1c649bf16"
+smart-buffer@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.0.1.tgz#07ea1ca8d4db24eb4cac86537d7d18995221ace3"
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
@@ -6370,19 +6361,19 @@ sntp@2.x.x:
   dependencies:
     hoek "4.x.x"
 
-socks-proxy-agent@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/socks-proxy-agent/-/socks-proxy-agent-3.0.1.tgz#2eae7cf8e2a82d34565761539a7f9718c5617659"
+socks-proxy-agent@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/socks-proxy-agent/-/socks-proxy-agent-4.0.0.tgz#e85e713bf30d5412364fbbcb6d628ff3437a41c0"
   dependencies:
-    agent-base "^4.1.0"
-    socks "^1.1.10"
+    agent-base "~4.1.0"
+    socks "~2.1.6"
 
-socks@^1.1.10:
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/socks/-/socks-1.1.10.tgz#5b8b7fc7c8f341c53ed056e929b7bf4de8ba7b5a"
+socks@~2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/socks/-/socks-2.1.6.tgz#684d98e137bdba484f3f4b13bacecb9fa5acc597"
   dependencies:
-    ip "^1.1.4"
-    smart-buffer "^1.0.13"
+    ip "^1.1.5"
+    smart-buffer "^4.0.1"
 
 sort-keys@^2.0.0:
   version "2.0.0"
@@ -6493,11 +6484,15 @@ sshpk@^1.7.0:
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
 
-ssri@^5.2.4:
+ssri@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/ssri/-/ssri-5.3.0.tgz#ba3872c9c6d33a0704a7d71ff045e5ec48999d06"
   dependencies:
     safe-buffer "^5.1.1"
+
+ssri@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.0.tgz#fc21bfc90e03275ac3e23d5a42e38b8a1cbc130d"
 
 stack-utils@^1.0.1:
   version "1.0.1"
