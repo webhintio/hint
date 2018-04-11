@@ -9,7 +9,6 @@ import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
 import { TypeScriptConfig, TypeScriptConfigInvalidJSON, TypeScriptConfigInvalidSchema, TypeScriptConfigParse } from './types';
 
 export default class TypeScriptConfigParser extends Parser {
-    private configFound: boolean = false;
     private schema: any;
 
     public constructor(sonarwhal: Sonarwhal) {
@@ -18,13 +17,6 @@ export default class TypeScriptConfigParser extends Parser {
         this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
         sonarwhal.on('fetch::end::*', this.parseTypeScript.bind(this));
-        sonarwhal.on('scan::end', this.parseEnd.bind(this));
-    }
-
-    private async parseEnd() {
-        if (!this.configFound) {
-            await this.sonarwhal.emitAsync(`parse::${this.name}::error::not-found`, {});
-        }
     }
 
     private async validateSchema(config: TypeScriptConfig, resource: string): Promise<SchemaValidationResult> {
@@ -63,7 +55,6 @@ export default class TypeScriptConfigParser extends Parser {
             return;
         }
 
-        this.configFound = true;
         let config: TypeScriptConfig;
 
         try {

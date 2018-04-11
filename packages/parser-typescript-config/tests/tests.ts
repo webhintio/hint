@@ -18,22 +18,6 @@ test.beforeEach((t) => {
     });
 });
 
-test('If any file is parsed, it should emit a `parse::typescript-config::error::not-found` error', async (t) => {
-    const sandbox = sinon.sandbox.create();
-
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
-
-    new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
-
-    await t.context.sonarwhal.emitAsync('scan::end', {});
-
-    // 2 times, the previous call, and the expected call.
-    t.true(t.context.sonarwhal.emitAsync.calledTwice);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::error::not-found');
-
-    sandbox.restore();
-});
-
 test(`If the resource doesn't match the regex, nothing should happen`, async (t) => {
     const sandbox = sinon.sandbox.create();
 
