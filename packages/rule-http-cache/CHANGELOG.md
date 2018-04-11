@@ -1,3 +1,10 @@
+# 3.0.3 (April 11, 2018)
+
+## Bug fixes / Improvements
+
+* [[`33eff4ef9b`](https://github.com/sonarwhal/sonarwhal/commit/33eff4ef9be061ded5bb83edcaf05d82b58e536f)] - Fix: Use correct type definition in JSON schema (by [`Christoph Guttandin`](https://github.com/chrisguttandin) / see also: [`#996`](https://github.com/sonarwhal/sonarwhal/issues/996)).
+
+
 # 3.0.2 (April 10, 2018)
 
 ## Bug fixes / Improvements
