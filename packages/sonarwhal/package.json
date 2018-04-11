@@ -54,7 +54,7 @@
     "@types/debug": "0.0.30",
     "@types/fs-extra": "^5.0.0",
     "@types/globby": "^6.1.0",
-    "@types/handlebars": "^4.0.36",
+    "@types/handlebars": "^4.0.37",
     "@types/inquirer": "0.0.36",
     "@types/jsdom": "^11.0.4",
     "@types/lockfile": "^1.0.0",
