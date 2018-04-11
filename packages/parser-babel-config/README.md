@@ -37,6 +37,11 @@ configuration against the schema.
 
 This `parser` emits the following events:
 
+* `parse::babel-config::start`, of type `BabelConfigParseStart`
+  which contains the following information:
+
+  * `resource`: the resource we are going to parse.
+
 * `parse::babel-config::end`, of type `BabelConfigParse`
   which contains the following information:
 

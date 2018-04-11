@@ -31,6 +31,9 @@ export type BabelConfig = {
 
 export type BabelConfigInvalidJSON = ErrorEvent;
 
+/** Data type sent when the parse starts parsing */
+export type BabelConfigParseStart = Event;
+
 /** The object emitted by the `babel-config` parser */
 export type BabelConfigParsed = Event & {
     /** The babel config parsed */
