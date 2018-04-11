@@ -3,13 +3,6 @@
 `typescript-config` contains rules to check if your TypeScript configuration
 has the most recommended configuration.
 
-## Why is this important?
-
-If you are building an app or a website using TypeScript, you
-need to be sure the configuration file is valid.
-
-## How to use this rule?
-
 To use it you will have to install it via `npm`:
 
 ```bash
@@ -36,53 +29,18 @@ configuration file:
 }
 ```
 
-## Rule: `is-valid` (`typescript-config/is-valid`)
+## Why is this important?
 
-### What does the rule check?
+If you are building an app or a website using TypeScript, you
+need to be sure that your configuration is the best for your needs.
 
-This rule checks if the TypeScript configuration is valid.
-To do this we are using the
-[tsconfig schema][typescript schema] but adding the property
-`"additionalProperties": false,` to the options `compilerOptions`
-and `typeAcquisition`.
+## Rules
 
-### Examples that **trigger** the rule
-
-The `compileOptions` has an invalid property:
-
-```json
-{
-    "compilerOptions": {
-        "invalidProperty": true
-    }
-}
-```
-
-A property has an invalid value:
-
-```json
-{
-    "compilerOptions": {
-        "target": "esnext2"
-    }
-}
-```
-
-### Examples that **pass** the rule
-
-The configuration is valid:
-
-```json
-{
-    "compilerOptions": {
-        "target": "esnext"
-    }
-}
-```
+* [typescript-config/is-valid][is-valid]
 
 ## Further Reading
 
 * [TypeScript Documentation][typescript docs]
 
-[typescript schema]: http://json.schemastore.org/tsconfig
+[is-valid]: ./docs/is-valid.md
 [typescript docs]: https://www.typescriptlang.org/docs/home.html
