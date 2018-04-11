@@ -7,7 +7,7 @@ import { Sonarwhal } from 'sonarwhal';
 import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
 import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
 
-import { BabelConfig, BabelConfigInvalidJSON, BabelConfigParsed, BabelConfigInvalidSchema } from './types';
+import { BabelConfig, BabelConfigInvalidJSON, BabelConfigParsed, BabelConfigInvalidSchema, BabelConfigParseStart } from './types';
 
 export default class BabelConfigParser extends Parser {
     private schema: any;
@@ -60,6 +60,10 @@ export default class BabelConfigParser extends Parser {
             if (isPackageJson && !content.babel) {
                 return;
             }
+
+            const parseStart: BabelConfigParseStart = { resource };
+
+            await this.sonarwhal.emitAsync(`parse::${this.name}::start`, parseStart);
 
             config = isPackageJson ? content.babel : content;
 

@@ -42,7 +42,8 @@ test('If the file contains an invalid json, it should fail', async (t) => {
         response: { body: { content: '{"invalidJson}' } }
     });
 
-    t.true(t.context.sonarwhal.emitAsync.calledTwice);
+    // 2 times, the previous call and the error
+    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
     t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::json');
 
     sandbox.restore();
@@ -68,8 +69,10 @@ test(`If .babelrc contains an invalid schema, it should emit the 'parse::babel-c
         response: { body: { content: invalidSchemaContent } }
     });
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::schema');
+    // 3 times, the previous call, the start parse and the error
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::start');
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::babel-config::error::schema');
 
     sandbox.restore();
 });
@@ -96,8 +99,9 @@ test(`If 'package.json' contains an invalid 'babel' property, it should emit the
         response: { body: { content: invalidSchemaContent } }
     });
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::schema');
+    // 3 times, the previous call, the start parse and the error
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::babel-config::error::schema');
 
     sandbox.restore();
 });
@@ -122,8 +126,9 @@ test('If the content type is unknown, it should still validate if the file name 
         response: { body: { content: invalidSchemaContent } }
     });
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::schema');
+    // 3 times, the previous call, the start parse and the error
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::babel-config::error::schema');
 
     sandbox.restore();
 });
@@ -171,13 +176,11 @@ test('If we receive a valid json with a valid name, it should emit the event par
         response: { body: { content: JSON.stringify(validJSON) } }
     });
 
-    await t.context.sonarwhal.emitAsync('scan::end');
-
-    // 3 times, the two previous call and the parse.
+    // 3 times, the previous call, the start parse and the end
     t.is(t.context.sonarwhal.emitAsync.callCount, 3);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::end');
-    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].originalConfig, validJSON);
-    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, parsedJSON);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::babel-config::end');
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[2][1].originalConfig, validJSON);
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[2][1].config, parsedJSON);
 
     sandbox.restore();
 });
@@ -197,13 +200,11 @@ test('If we receive a valid json with an extends, it should emit the event parse
         response: { body: { content: JSON.stringify(validJSON) } }
     });
 
-    await t.context.sonarwhal.emitAsync('scan::end');
-
-    // 3 times, the two previous call and the parse.
+    // 3 times, the previous call, the start parse and the end
     t.is(t.context.sonarwhal.emitAsync.callCount, 3);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::end');
-    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].originalConfig, validJSON);
-    t.is(t.context.sonarwhal.emitAsync.args[1][1].config.presets[0][1].targets.uglify, false);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::babel-config::end');
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[2][1].originalConfig, validJSON);
+    t.is(t.context.sonarwhal.emitAsync.args[2][1].config.presets[0][1].targets.uglify, false);
 
     sandbox.restore();
 });
@@ -223,9 +224,9 @@ test('If we receive a json with an extends with a loop, it should emit the event
         response: { body: { content: configuration } }
     });
 
-    // 2 times, the previous call and the parse error.
-    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::circular');
+    // 3 times, the previous call, the start parse and the error
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::babel-config::error::circular');
 
     sandbox.restore();
 });
@@ -245,9 +246,9 @@ test('If we receive a json with an extends with an invalid json, it should emit 
         response: { body: { content: configuration } }
     });
 
-    // 2 times, the previous call and the parse error.
-    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::babel-config::error::extends');
+    // 3 times, the previous call, the start parse and the error
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::babel-config::error::extends');
 
     sandbox.restore();
 });
