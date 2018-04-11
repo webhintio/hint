@@ -40,8 +40,8 @@ export default class HttpCacheRule implements IRule {
                 }
             },
             properties: {
-                maxAgeResource: 'number',
-                maxAgeTarget: 'number',
+                maxAgeResource: { type: 'number' },
+                maxAgeTarget: { type: 'number' },
                 revvingPatterns: { $ref: '#/definitions/string-array' }
             }
         }],
