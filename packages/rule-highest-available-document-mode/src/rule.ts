@@ -32,7 +32,7 @@ export default class HighestAvailableDocumentModeRule implements IRule {
         schema: [{
             additionalProperties: false,
             properties: { requireMetaTag: { type: 'boolean' } },
-            type: ['object', null]
+            type: ['object', 'null']
         }],
         scope: RuleScope.any
     }

@@ -37,7 +37,7 @@ export default class ContentTypeRule implements IRule {
         id: 'content-type',
         schema: [{
             items: { type: 'string' },
-            type: ['object', null],
+            type: ['object', 'null'],
             uniqueItems: true
         }],
         scope: RuleScope.site

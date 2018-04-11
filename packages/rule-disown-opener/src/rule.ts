@@ -42,7 +42,7 @@ export default class DisownOpenerRule implements IRule {
         schema: [{
             additionalProperties: false,
             properties: { includeSameOriginURLs: { type: 'boolean' } },
-            type: ['object', null]
+            type: ['object', 'null']
         }],
         scope: RuleScope.any
     }

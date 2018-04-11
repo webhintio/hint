@@ -49,7 +49,7 @@ export default class NoDisallowedHeadersRule implements IRule {
                 ignore: { $ref: '#/definitions/string-array' },
                 include: { $ref: '#/definitions/string-array' }
             },
-            type: ['object', null]
+            type: ['object', 'null']
         }],
         scope: RuleScope.site
     }
