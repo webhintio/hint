@@ -1,3 +1,14 @@
+# 1.6.0 (April 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c47bc723be`](https://github.com/sonarwhal/sonarwhal/commit/c47bc723be89067f8a8cc281f33700cf89a74b6e)] - Fix: Update `npm-registry-fetch` to `v3.1.1` (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#994`](https://github.com/sonarwhal/sonarwhal/issues/994)).
+
+## New features
+
+* [[`78893e7fb2`](https://github.com/sonarwhal/sonarwhal/commit/78893e7fb276dd5faf51ba31d04764fe86921abc)] - New: Add after/before support to local tests runner (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.5.0 (April 10, 2018)
 
 ## Bug fixes / Improvements
