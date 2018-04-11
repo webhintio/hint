@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { ScanEnd, FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal';
 import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
 import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
@@ -10,7 +10,6 @@ import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
 import { BabelConfig, BabelConfigInvalidJSON, BabelConfigParsed, BabelConfigInvalidSchema } from './types';
 
 export default class BabelConfigParser extends Parser {
-    private configFound: boolean = false;
     private schema: any;
 
     public constructor(sonarwhal: Sonarwhal) {
@@ -21,13 +20,6 @@ export default class BabelConfigParser extends Parser {
          * package.json => type: 'json' (file type from extention).
          */
         sonarwhal.on('fetch::end::json', this.parseBabelConfig.bind(this));
-        sonarwhal.on('scan::end', this.parseEnd.bind(this));
-    }
-
-    private async parseEnd(scanEnd: ScanEnd) {
-        if (!this.configFound) {
-            await this.sonarwhal.emitAsync(`parse::${this.name}::error::not-found`, scanEnd);
-        }
     }
 
     private async validateSchema(config: BabelConfig, resource: string): Promise<SchemaValidationResult> {
@@ -69,7 +61,6 @@ export default class BabelConfigParser extends Parser {
                 return;
             }
 
-            this.configFound = true;
             config = isPackageJson ? content.babel : content;
 
             const originalConfig: BabelConfig = cloneDeep(config);

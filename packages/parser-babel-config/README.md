@@ -67,10 +67,6 @@ This `parser` emits the following events:
   * `resource`: the parsed resource.
   * `errors`: all the errors that the schama validator returns.
 
-* `parse::babel-config::error::not-found`. This event is sent if the parser doesn't
-  find any configuration file at the end of the scan.
-  This event doesn't containt anything else.
-
 ## Types
 
 If you need to import any type or enum defined in this parser,
