@@ -1,3 +1,10 @@
+# 2.0.2 (April 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`b3af27f1db`](https://github.com/sonarwhal/sonarwhal/commit/b3af27f1db7fdc4286fcfd532b88e522ee95eeec)] - Fix: Typo in rule description (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 2.0.1 (April 10, 2018)
 
 ## Bug fixes / Improvements
