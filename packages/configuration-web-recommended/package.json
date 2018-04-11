@@ -8,7 +8,7 @@
     "@sonarwhal/rule-disown-opener": "^3.0.3",
     "@sonarwhal/rule-highest-available-document-mode": "^3.0.3",
     "@sonarwhal/rule-html-checker": "^3.0.2",
-    "@sonarwhal/rule-http-cache": "^3.0.2",
+    "@sonarwhal/rule-http-cache": "^3.0.3",
     "@sonarwhal/rule-http-compression": "^4.0.1",
     "@sonarwhal/rule-image-optimization-cloudinary": "^3.0.2",
     "@sonarwhal/rule-meta-charset-utf-8": "^3.0.2",
