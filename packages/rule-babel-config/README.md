@@ -3,12 +3,6 @@
 `babel-config` contains rules to check if your Babel configuration has
 the most recommended configuration.
 
-## Why is this important?
-
-Babel needs to be properly configured to reflect user's preference.
-
-## How to use this rule?
-
 To use it you will have to install it via `npm`:
 
 ```bash
@@ -35,48 +29,17 @@ configuration file:
 }
 ```
 
-## Rule: `is-valid` (`babel-config/is-valid`)
+## Why is this important?
 
-### What does the rule check?
+Babel needs to be properly configured to reflect user's preference.
 
-This rule checks if the Babel configuration specified in `.babelrc` or
-the `babel` property in `package.json` adheres to the requirement of
-the [babel configuration schema][babel config schema].
+## Rules
 
-### Examples that **trigger** the rule
-
-```json
-{
-    "plugins": [
-        "example"
-    ],
-    "moduleId": 1, // This should be a string.
-    "ignore": [
-        "foo.js",
-        "bar/**/*.js"
-    ]
-}
-```
-
-### Examples that **pass** the rule
-
-```json
-{
-    "plugins": [
-        "example"
-    ],
-    "moduleId": "id",
-    "ignore": [
-        "foo.js",
-        "bar/**/*.js"
-    ]
-}
-
-```
+* [babel-config/is-valid][is-valid]
 
 ## Further Reading
 
 * [Babel Documentation][babel documentation]
 
-[babel config schema]: http://json.schemastore.org/babelrc
+[is-valid]: ./docs/is-valid.md
 [babel documentation]: https://babeljs.io/docs/usage/babelrc/
