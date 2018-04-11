@@ -205,6 +205,9 @@ export type TypeScriptConfigInvalidSchema = Event & {
     prettifiedErrors: Array<string>;
 };
 
+/** Data type sent when the parse starts parsing */
+export type TypeScriptConfigParseStart = Event;
+
 /** The object emitted by the `typescript-config` parser */
 export type TypeScriptConfigParse = Event & {
     /** The TypeScript config parsed */

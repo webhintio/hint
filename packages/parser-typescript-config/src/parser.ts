@@ -6,7 +6,7 @@ import { FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib
 import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
 import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
 
-import { TypeScriptConfig, TypeScriptConfigInvalidJSON, TypeScriptConfigInvalidSchema, TypeScriptConfigParse } from './types';
+import { TypeScriptConfig, TypeScriptConfigInvalidJSON, TypeScriptConfigInvalidSchema, TypeScriptConfigParse, TypeScriptConfigParseStart } from './types';
 
 export default class TypeScriptConfigParser extends Parser {
     private schema: any;
@@ -54,6 +54,10 @@ export default class TypeScriptConfigParser extends Parser {
         if (!fileName.match(/^tsconfig\.([^.]*\.)?json/gi)) {
             return;
         }
+
+        const parseStart: TypeScriptConfigParseStart = { resource };
+
+        await this.sonarwhal.emitAsync(`parse::${this.name}::start`, parseStart);
 
         let config: TypeScriptConfig;
 
