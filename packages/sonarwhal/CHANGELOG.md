@@ -6,7 +6,7 @@
 
 ## New features
 
-* [[`78893e7fb2`](https://github.com/sonarwhal/sonarwhal/commit/78893e7fb276dd5faf51ba31d04764fe86921abc)] - New: Add after/before support to local tests runner (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`78893e7fb2`](https://github.com/sonarwhal/sonarwhal/commit/78893e7fb276dd5faf51ba31d04764fe86921abc)] - New: Add `after`/`before` support to local tests runner (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
 
 
 # 1.5.0 (April 10, 2018)
