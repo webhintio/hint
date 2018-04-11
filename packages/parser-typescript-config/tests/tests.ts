@@ -45,10 +45,11 @@ test('If the file contains an invalid json, it should fail', async (t) => {
         response: { body: { content: '{"invalidJson}' } }
     });
 
-    // 2 times, the previous call, and the expected call.
-    t.true(t.context.sonarwhal.emitAsync.calledTwice);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::error::json');
-    t.is(t.context.sonarwhal.emitAsync.args[1][1].error.message, 'Unexpected end of JSON input');
+    // 3 times, the previous call, the start and the expected call.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::start');
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::typescript-config::error::json');
+    t.is(t.context.sonarwhal.emitAsync.args[2][1].error.message, 'Unexpected end of JSON input');
 
     sandbox.restore();
 });
@@ -65,10 +66,10 @@ test('If the file contains a valid json with an invalid schema, it should fail',
         response: { body: { content: '{"compilerOptions": { "invalidProperty": "invalid value" }}' } }
     });
 
-    // 2 times, the previous call, and the expected call.
-    t.true(t.context.sonarwhal.emitAsync.calledTwice);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::error::schema');
-    t.is(t.context.sonarwhal.emitAsync.args[1][1].errors[0].message, 'should NOT have additional properties');
+    // 3 times, the previous call, the start and the expected call.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::typescript-config::error::schema');
+    t.is(t.context.sonarwhal.emitAsync.args[2][1].errors[0].message, 'should NOT have additional properties');
 
     sandbox.restore();
 });
@@ -109,13 +110,11 @@ test('If we receive a valid json with a valid name, it should emit the event par
         response: { body: { content: JSON.stringify(validJSON) } }
     });
 
-    await t.context.sonarwhal.emitAsync('scan::end');
-
-    // 3 times, the two previous call and the parse.
+    // 3 times, the previous call, the start and the parse.
     t.is(t.context.sonarwhal.emitAsync.callCount, 3);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::end');
-    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].originalConfig, validJSON);
-    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, parsedJSON);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::typescript-config::end');
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[2][1].originalConfig, validJSON);
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[2][1].config, parsedJSON);
 
     sandbox.restore();
 });
@@ -156,13 +155,11 @@ test('If we receive a valid json with an extends, it should emit the event parse
         response: { body: { content: JSON.stringify(validJSON) } }
     });
 
-    await t.context.sonarwhal.emitAsync('scan::end');
-
-    // 3 times, the two previous call and the parse.
+    // 3 times, the previous call, the start parse and the parse.
     t.is(t.context.sonarwhal.emitAsync.callCount, 3);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::end');
-    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].originalConfig, validJSON);
-    t.deepEqual(t.context.sonarwhal.emitAsync.args[1][1].config, parsedJSON);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::typescript-config::end');
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[2][1].originalConfig, validJSON);
+    t.deepEqual(t.context.sonarwhal.emitAsync.args[2][1].config, parsedJSON);
 
     sandbox.restore();
 });
@@ -181,9 +178,9 @@ test('If we receive a json with an extends with a loop, it should emit the event
         response: { body: { content: configuration } }
     });
 
-    // 2 times, the previous call and the parse error.
-    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::error::circular');
+    // 3 times, the previous call, the start and the parse error.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::typescript-config::error::circular');
 
     sandbox.restore();
 });
@@ -202,9 +199,9 @@ test('If we receive a json with an extends with an invalid json, it should emit 
         response: { body: { content: configuration } }
     });
 
-    // 2 times, the previous call and the parse error.
-    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'parse::typescript-config::error::extends');
+    // 3 times, the previous call, the start and the parse error.
+    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'parse::typescript-config::error::extends');
 
     sandbox.restore();
 });

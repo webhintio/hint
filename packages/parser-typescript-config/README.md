@@ -38,6 +38,11 @@ valid content.
 
 This `parser` emits the following events:
 
+* `parse::typescript-config::start`, of type `TypeScriptConfigParseStart`
+  which contains the following information:
+
+  * `resource`: the resource we are going to parse.
+
 * `parse::typescript-config::end`, of type `TypeScriptConfigParse`
   which contains the following information:
 
