@@ -1,3 +1,10 @@
+# 3.0.3 (April 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c885a869d3`](https://github.com/sonarwhal/sonarwhal/commit/c885a869d31398f94fc0d5f5963d9b1256d17470)] - Fix: `schema is invalid` issue (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#993`](https://github.com/sonarwhal/sonarwhal/issues/993)).
+
+
 # 3.0.2 (April 10, 2018)
 
 ## Bug fixes / Improvements
