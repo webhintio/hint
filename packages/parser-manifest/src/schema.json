@@ -96,10 +96,26 @@
                     "type": "string"
                 }
             },
-            "required": [
-                "id",
-                "platform",
-                "url"
+            "oneOf": [
+                {
+                    "required": [
+                        "id",
+                        "platform"
+                    ]
+                },
+                {
+                    "required": [
+                        "id",
+                        "platform",
+                        "url"
+                    ]
+                },
+                {
+                    "required": [
+                        "platform",
+                        "url"
+                    ]
+                }
             ],
             "type": "object"
         }
