@@ -18,8 +18,8 @@ feel, providing a theme color is essential.
 Here is an example of browser UI when the `theme-color` meta tag is
 not specified and when it is:
 
-![Browser UI when the theme-color meta tag is not specified](./images/no_theme-color.png)
-&nbsp; ![Browser UI when the theme-color meta tag is specified](./images/theme-color.png)
+![Browser UI when the theme-color meta tag is not specified](images/no_theme-color.png)
+&nbsp; ![Browser UI when the theme-color meta tag is specified](images/theme-color.png)
 
 Note that:
 
