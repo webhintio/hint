@@ -7,7 +7,6 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "caniuse-api": "^2.0.0",
     "color-string": "^1.5.2"
   },
   "description": "sonarwhal rule that checks for best practices related to the 'theme-color' meta tag",
