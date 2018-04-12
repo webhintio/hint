@@ -3,16 +3,25 @@ import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const invalidColorValues = [
+    'currentcolor',
+    'invalid'
+];
+
+const unsupportedColorValues = [
+    '#f00a',
+    '#ff0000aa',
+    'hsl(5, 5%, 5%)',
+    'hsla(5, 5%, 5%, 0.5)',
+    'hwb(60, 3%, 60%)',
+    'rgb(5, 5, 5)',
+    'rgba(5, 5, 5, 0.5)'
+];
 
 const validColorValues = [
     '#f00',
     '#fF0000',
     'red',
-    'rgb(5, 5, 5)',
-    'rgba(5, 5, 5, 0.5)',
-    'hsl(5, 5%, 5%)',
-    'hsla(5, 5%, 5%, 0.5)',
     'transparent'
 ];
 
@@ -20,18 +29,29 @@ const generateThemeColorMetaTag = (contentValue: string = '#f00', nameValue: str
     return `<meta name="${nameValue}" content="${contentValue}">`;
 };
 
-const defaultTests: Array<RuleTest> = [];
+const generateTest = (colorValues: Array<string>, valueType: string = 'valid') => {
+    const tests = [];
+
+    for (const colorValue of colorValues) {
+        const test: RuleTest = {
+            name: `'theme-color' meta tag is specified with ${valueType} 'content' value of '${colorValue}'`,
+            serverConfig: generateHTMLPage(generateThemeColorMetaTag(colorValue))
+        };
+
+        if (valueType !== 'valid') {
+            test.reports = [{ message: `'content' attribute value ('${colorValue}') is ${valueType === 'invalid' ? 'invalid' : 'not supported everywhere'}` }];
+        }
+
+        tests.push(test);
+    }
+
+    return tests;
+};
+
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-for (const colorValue of validColorValues) {
-    defaultTests.push({
-        name: `'theme-color' meta tag is specified with valid 'content' value of '${colorValue}'`,
-        serverConfig: generateHTMLPage(generateThemeColorMetaTag(colorValue))
-    });
-}
-
-defaultTests.push(
+const tests: Array<RuleTest> = [
     {
         name: `'theme-color' meta tag is not specified`,
         reports: [{ message: `No 'theme-color' meta tag was specified` }],
@@ -42,31 +62,9 @@ defaultTests.push(
         reports: [{ message: `'name' attribute needs to be 'theme-color' (not ' theme-color ')` }],
         serverConfig: generateHTMLPage(generateThemeColorMetaTag('#f00', ' theme-color '))
     },
-    {
-        name: `'theme-color' meta tag is specified with invalid 'content' value of 'currentcolor'`,
-        reports: [{ message: `'content' attribute value ('currentcolor') is invalid` }],
-        serverConfig: generateHTMLPage(generateThemeColorMetaTag('currentcolor'))
-    },
-    {
-        name: `'theme-color' meta tag is specified with invalid 'content' value of 'invalid'`,
-        reports: [{ message: `'content' attribute value ('invalid') is invalid` }],
-        serverConfig: generateHTMLPage(generateThemeColorMetaTag('invalid'))
-    },
-    {
-        name: `'theme-color' meta tag is specified with unsupported 'content' value of '#f00a'`,
-        reports: [{ message: `'content' attribute value ('#f00a') is not unsupported` }],
-        serverConfig: generateHTMLPage(generateThemeColorMetaTag('#f00a'))
-    },
-    {
-        name: `'theme-color' meta tag is specified with unsupported 'content' value of '#ff0000aa'`,
-        reports: [{ message: `'content' attribute value ('#ff0000aa') is not unsupported` }],
-        serverConfig: generateHTMLPage(generateThemeColorMetaTag('#ff0000aa'))
-    },
-    {
-        name: `'theme-color' meta tag is specified with unsupported 'content' value of 'hwb(60, 3%, 60%)'`,
-        reports: [{ message: `'content' attribute value ('hwb(60, 3%, 60%)') is not unsupported` }],
-        serverConfig: generateHTMLPage(generateThemeColorMetaTag('hwb(60, 3%, 60%)'))
-    },
+    ...generateTest(validColorValues),
+    ...generateTest(invalidColorValues, 'invalid'),
+    ...generateTest(unsupportedColorValues, 'unsupported'),
     {
         name: `'theme-color' meta tag is specified in the '<body>'`,
         reports: [{ message: `Should not be specified in the '<body>'`}],
@@ -85,23 +83,6 @@ defaultTests.push(
         name: `Target is served with a non-HTML specific media type`,
         serverConfig: { '/': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } } }
     }
-);
-
-const testsForHexWithAlphaSupport = [
-    {
-        name: `'theme-color' meta tag is specified with supported 'content' value of '#f00a' because of the targeted browsers`,
-        serverConfig: generateHTMLPage(generateThemeColorMetaTag('#f00a'))
-    },
-    {
-        name: `'theme-color' meta tag is specified with supported 'content' value of '#ff0000aa' because of the targeted browsers`,
-        serverConfig: generateHTMLPage(generateThemeColorMetaTag('#ff0000aa'))
-    }
 ];
 
-ruleRunner.testRule(ruleName, defaultTests);
-ruleRunner.testRule(ruleName, testsForHexWithAlphaSupport, {
-    browserslist: [
-        'chrome 65',
-        'firefox 60'
-    ]
-});
+ruleRunner.testRule(getRuleName(__dirname), tests);

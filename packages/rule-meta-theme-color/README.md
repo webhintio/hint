@@ -1,23 +1,52 @@
 # Require a 'theme-color' meta tag with a valid value (`@sonarwhal/rule-meta-theme-color`)
 
 `rule-meta-theme-color` rule checks if a single `theme-color` meta tag
-is specified in the `<head>` with a valid value.
+is specified in the `<head>` with a valid value supported by all user
+agents.
 
 ## Why is this important?
 
-The [`theme-color` meta tag][spec] provides a way to suggest a color
-that browsers should use to customize the display of the page or of
-the surrounding user interface. For example, browsers might use the
-color for the page's title bar, or use it as a color highlight in a
-tab bar or task switcher.
+The [`theme-color` meta tag][theme-color spec] provides a way to
+suggest a color that browsers should use to customize the display
+of the page or of the surrounding user interface. For example,
+browsers might use the color for the page's title bar, or use it
+as a color highlight in a tab bar or task switcher.
 
-So, especially in the context of progressive web apps, for a more
-app-like feel, providing a theme color is essential.
+In the context of [progressive web apps][pwas], for a more app-like
+feel, providing a theme color is essential.
 
-Note: Always specify the theme color using the meta tag. Even though
-it can also be declared in the [web app manifest file][manifest],
-browsers only acknowledge it from there once the user has added the
-page to their homescreen.
+Here is an example of browser UI when the `theme-color` meta tag is
+not specified and when it is:
+
+![Browser UI when the theme-color meta tag is not specified](images/no_theme-color.png)
+&nbsp; ![Browser UI when the theme-color meta tag is specified](images/theme-color.png)
+
+Note that:
+
+* While the [specification][theme-color spec] defines that the theme
+  color can be any [valid CSS color][css color]:
+
+  * Values such as [`hex with alpha` are not supported][hex with alpha
+    support] everywhere `theme-color` is.
+
+  * Browsers that suppoted `rgba`, `hsla`, or `hex with alpha` values
+    will ignore the alpha value.
+
+  * Windows/Microsoft Store requires the color to be specified either
+    as `hex` or as a color name.
+
+  So, for interoperability, it's recommended to specify the theme color
+  either using `hex` or a color name.
+
+* Always specify the theme color using the meta tag. Even though
+  it can also be declared in the [web app manifest file][manifest]:
+
+  * Browsers only acknowledge the value from the web app manifest
+    file once the user has added the page to their homescreen.
+
+  * The `theme-color` meta tag overwrites the value specified in the
+    web app manifest file so it allows for better individual page level
+    customization.
 
 ## How to use this rule?
 
@@ -50,8 +79,8 @@ configuration file:
 ## What does the rule check?
 
 The rule checks if a single `theme-color` meta tag is specified in
-the `<head>` and the value of its `content` attribute is a [valid CSS
-color][color] supported by the [targeted browsers](browserslist).
+the `<head>` and the value of its `content` attribute is a [valid
+CSS color][css color] supported everywhere `theme-color` meta tag is.
 
 ### Examples that **trigger** the rule
 
@@ -71,29 +100,44 @@ The `theme-color` meta tag is not specified:
 The `theme-color` meta tag is wrongly specified as `<space>theme-color`:
 
 ```html
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf8">
-        <meta name=" theme-color" content="#f00">
-        ...
-    </head>
-    <body>...</body>
-</html>
+<meta name=" theme-color" content="#f00">
 ```
 
 The `theme-color` meta tag is specified with an invalid value:
 
 ```html
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf8">
-        <meta name="theme-color" content="invalid">
-        ...
-    </head>
-    <body>...</body>
-</html>
+<meta name="theme-color" content="invalid">
+```
+
+```html
+<meta name="theme-color" content="currentcolor">
+```
+
+The `theme-color` meta tag is specified with value that is not
+supported everywhere:
+
+```html
+<meta name="theme-color" content="#f00a">
+```
+
+```html
+<meta name="theme-color" content="#ff0000aa">
+```
+
+```html
+<meta name="theme-color" content="hsl(0, 50%, 50%)">
+```
+
+```html
+<meta name="theme-color" content="hsla(0, 50%, 50%, 1)">
+```
+
+```html
+<meta name="theme-color" content="rgb(255, 0, 0)">
+```
+
+```html
+<meta name="theme-color" content="rgba(255, 0, 0, 1)">
 ```
 
 The `theme-color` meta tag is not specified in the `<head>`:
@@ -129,6 +173,22 @@ Multiple `theme-color` meta tags are specified:
 
 ### Examples that **pass** the rule
 
+A single `theme-color` meta tag is specified in the `<head>` and
+the value of its `content` attribute is a [valid CSS color][css
+color] supported everywhere:
+
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>example</title>
+        <meta name="theme-color" content="red">
+        ...
+    </head>
+    <body>...</body>
+</html>
+```
+
 ```html
 <!doctype html>
 <html lang="en">
@@ -141,49 +201,14 @@ Multiple `theme-color` meta tags are specified:
 </html>
 ```
 
-Note: The `content` attribute value can be any [valid CSS
-color][color]. However, the rule will trigger an error for values
-that don't make any sense in this context such as `currentcolor`
-or values that are not supported by all browsers specified in your
-[`browserslist`](browserslist).
-
-Examples of valid values:
-
-* color names
-
-  * `<meta name="theme-color" content="red">`
-
-* `hex` using 3 or 6 digits
-
-  * `<meta name="theme-color" content="#f00">`
-  * `<meta name="theme-color" content="#ff0000">`
-
-* `hsl` / `hsla`
-
-  * `<meta name="theme-color" content="hsl(0, 50%, 50%)">`
-  * `<meta name="theme-color" content="hsla(0, 50%, 50%, 1)">`
-
-* `rgb` / `rgba`
-
-  * `<meta name="theme-color" content="rgb(255, 0, 0)">`
-  * `<meta name="theme-color" content="rgba(255, 0, 0, 1)">`
-
-And, depending on the [targeted
-browsers](https://sonarwhal.com/docs/user-guide/further-configuration/browser-context/)
-you may also use:
-
-* `hex` using 4 or 8 digits
-
-  * `<meta name="theme-color" content="#f000">`
-  * `<meta name="theme-color" content="#ff000000">`
-
 ## Further Reading
 
-* [`theme-color` specification][spec]
+* [`theme-color` specification][theme-color spec]
 
 <!-- Link labels: -->
 
-[browserslist]: https://sonarwhal.com/docs/user-guide/further-configuration/browser-context/
-[color]: https://drafts.csswg.org/css-color/#typedef-color
+[css color]: https://drafts.csswg.org/css-color/#typedef-color
+[hex with alpha support]: ]
 [manifest]: https://www.w3.org/TR/appmanifest/
-[spec]: https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color
+[pwas]: https://developer.mozilla.org/en-US/Apps/Progressive
+[theme-color spec]: https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color

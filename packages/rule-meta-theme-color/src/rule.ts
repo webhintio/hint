@@ -9,7 +9,6 @@
  * ------------------------------------------------------------------------------
  */
 
-import { isSupported } from 'caniuse-api';
 import { get as parseColor } from 'color-string';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
@@ -89,10 +88,19 @@ export default class MetaThemeColorRule implements IRule {
              *    * https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color
              *    * https://drafts.csswg.org/css-color/#typedef-color
              *
-             *  However, `HWB` and `hex with alpha` values are not
-             *  supported everywhere `theme-color` is. Also, values
-             *  such as `currentcolor` don't make sense, but they will
-             *  be catched by the above check.
+             *  However:
+             *
+             *    * Values such as `hwb` and `hex with alpha` are not
+             *      supported everywhere `theme-color` is.
+             *
+             *    * `rgba` and `hsla` even if supported, browsers ignore
+             *      the alpha.
+             *
+             *    * Windows/Microsoft Store require the color value to
+             *      be specified either as `hex` or as a color name.
+             *
+             *  Also, some values such as `currentcolor` don't make
+             *  sense, but they will be catched by the previous check.
              *
              *  See also:
              *
@@ -100,20 +108,13 @@ export default class MetaThemeColorRule implements IRule {
              *    * https://cs.chromium.org/chromium/src/third_party/WebKit/Source/platform/graphics/Color.cpp?rcl=6263bcf0ec9f112b5f0d84fc059c759302bd8c67
              */
 
-            const targetedBrowsers: string = context.targetedBrowsers.join();
-            const hexWithAlphaIsSupported = targetedBrowsers && isSupported('css-rrggbbaa', targetedBrowsers);
-            const hexWithAlphaRegex = /^#([0-9a-fA-F]{4}){1,2}$/;
+            const hexWithoutAlphaRegex = /^#([0-9a-fA-F]{3}){1,2}$/;
+            const colorNameRegex = /^[a-zA-Z]+$/;
 
-            if (
-                // `HWB` is not supported anywhere (?).
-                color.model === 'hwb' ||
-
-                // `RGBA` support depends on the browser.
-                (color.model === 'rgb' &&
-                    hexWithAlphaRegex.test(normalizedContentValue) &&
-                    !hexWithAlphaIsSupported)
+            if (!hexWithoutAlphaRegex.test(normalizedContentValue) &&
+                !colorNameRegex.test(normalizedContentValue)
             ) {
-                await context.report(resource, element, `'content' attribute value ('${contentValue}') is not unsupported`);
+                await context.report(resource, element, `'content' attribute value ('${contentValue}') is not supported everywhere`);
             }
         };
 
