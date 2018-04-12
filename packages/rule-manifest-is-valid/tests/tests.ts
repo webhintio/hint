@@ -5,8 +5,6 @@ import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
-
 const htmlWithManifestSpecified = generateHTMLPage('<link rel="manifest" href="site.webmanifest">');
 
 const defaultTests: Array<RuleTest> = [
@@ -56,7 +54,19 @@ const defaultTests: Array<RuleTest> = [
         }
     },
     {
-        name: `Web app manifest is specified and the 'background_color' and 'theme_color'' properties are not valid`,
+        name: `Web app manifest is specified and the 'background_color' and 'theme_color' properties are are valid`,
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/site.webmanifest': JSON.stringify({
+                /* eslint-disable camelcase */
+                background_color: 'red',
+                theme_color: '#ff0000'
+                /* eslint-enable camelcase */
+            })
+        }
+    },
+    {
+        name: `Web app manifest is specified and the 'background_color' and 'theme_color' properties are not valid`,
         reports: [
             { message: `'background_color' property value ('invalid') is invalid` },
             { message: `'theme_color' property value ('invalid') is invalid` }
@@ -72,10 +82,10 @@ const defaultTests: Array<RuleTest> = [
         }
     },
     {
-        name: `Web app manifest is specified and the 'background_color' and 'theme_color'' properties are not supported`,
+        name: `Web app manifest is specified and the 'background_color' and 'theme_color' properties are not supported`,
         reports: [
-            { message: `'background_color' property value ('#ff0000aa') is not supported` },
-            { message: `'theme_color' property value ('#ff0000aa') is not supported` }
+            { message: `'background_color' property value ('#ff0000aa') is not supported everywhere` },
+            { message: `'theme_color' property value ('#ff0000aa') is not supported everywhere` }
         ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
@@ -89,26 +99,4 @@ const defaultTests: Array<RuleTest> = [
     }
 ];
 
-const testsForHexWithAlphaSupport: Array<RuleTest> = [
-    {
-        name: `Web app manifest is specified and the 'background_color' and 'theme_color'' property values are supported because of the targeted browsers`,
-        serverConfig: {
-            '/': htmlWithManifestSpecified,
-            '/site.webmanifest': JSON.stringify({
-                /* eslint-disable camelcase */
-                background_color: '#ff0000aa',
-                theme_color: '#ff0000aa'
-                /* eslint-enable camelcase */
-            })
-        }
-    }
-];
-
-ruleRunner.testRule(ruleName, defaultTests, { parsers: ['manifest'] });
-ruleRunner.testRule(ruleName, testsForHexWithAlphaSupport, {
-    parsers: ['manifest'],
-    browserslist: [
-        'chrome 65',
-        'firefox 60'
-    ]
-});
+ruleRunner.testRule(getRuleName(__dirname), defaultTests, { parsers: ['manifest'] });
