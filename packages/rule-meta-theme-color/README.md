@@ -18,8 +18,8 @@ feel, providing a theme color is essential.
 Here is an example of browser UI when the `theme-color` meta tag is
 not specified and when it is:
 
-![Browser UI when the theme-color meta tag is not specified](images/no_theme-color.png)
-&nbsp; ![Browser UI when the theme-color meta tag is specified](images/theme-color.png)
+![Browser UI when the theme-color meta tag is not specified](./images/no_theme-color.png)
+&nbsp; ![Browser UI when the theme-color meta tag is specified](./images/theme-color.png)
 
 Note that:
 
@@ -211,4 +211,5 @@ color] supported everywhere:
 [hex with alpha support]: ]
 [manifest]: https://www.w3.org/TR/appmanifest/
 [pwas]: https://developer.mozilla.org/en-US/Apps/Progressive
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [theme-color spec]: https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color
