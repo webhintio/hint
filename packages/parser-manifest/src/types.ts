@@ -30,7 +30,7 @@ export type ManifestImageResource = {
         'badge any';
     sizes?: string;
     src: string;
-    type: string;
+    type?: string;
 };
 
 /*

@@ -230,8 +230,7 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
 
         icons: [{
             density: 2,
-            src: '/a.png',
-            type: 'image/png'
+            src: '/a.png'
         }],
 
         // Unknown proprietary extension.

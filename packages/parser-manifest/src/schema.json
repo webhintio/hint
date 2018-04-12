@@ -43,8 +43,7 @@
                 }
             },
             "required": [
-                "src",
-                "type"
+                "src"
             ],
             "type": "object"
         },
