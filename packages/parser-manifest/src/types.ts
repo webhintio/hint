@@ -46,9 +46,9 @@ export type ManifestExternalApplicationResourceFingerprint = {
 export type ManifestExternalApplicationResources = {
     platform: ManifestPlatform;
     fingerprints?: Array<ManifestExternalApplicationResourceFingerprint>;
-    id: string;
+    id?: string;
     min_version?: string;
-    url: string;
+    url?: string;
 };
 
 /*
