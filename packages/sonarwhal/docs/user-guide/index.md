@@ -66,7 +66,7 @@ sonarwhal https://example.com
 
 Wait a few seconds and you will get something similar to the following:
 
-![Example output for the summary formatter](./images/summary-output.png)
+![Example output for the summary formatter](images/summary-output.png)
 
 It might take a few minutes to get some of the results. Some of the
 rules (e.g.: [`SSL Labs`](./rules/ssllabs.md)) can take a few minutes
