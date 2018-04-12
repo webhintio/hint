@@ -8,7 +8,6 @@
  * ---------------------------------------------------------------------
  */
 
-import { isSupported } from 'caniuse-api';
 import { parse as bcp47 } from 'bcp47';
 import { get as parseColor } from 'color-string';
 
@@ -54,9 +53,8 @@ export default class ManifestIsValidRule implements IRule {
                 'theme_color'
             ];
 
-            const targetedBrowsers: string = context.targetedBrowsers.join();
-            const hexWithAlphaIsSupported = targetedBrowsers && isSupported('css-rrggbbaa', targetedBrowsers);
-            const hexWithAlphaRegex = /^#([0-9a-fA-F]{4}){1,2}$/;
+            const hexWithoutAlphaRegex = /^#([0-9a-fA-F]{3}){1,2}$/;
+            const colorNameRegex = /^[a-zA-Z]+$/;
 
             for (const property of colorProperties) {
                 const colorValue = manifest[property];
@@ -82,16 +80,10 @@ export default class ManifestIsValidRule implements IRule {
                  * catched by the above check.
                  */
 
-                if (
-                    // `HWB` is not supported anywhere (?).
-                    color.model === 'hwb' ||
-
-                    // `RGBA` support depends on the browser.
-                    (color.model === 'rgb' &&
-                        hexWithAlphaRegex.test(normalizedColorValue) &&
-                        !hexWithAlphaIsSupported)
+                if (!hexWithoutAlphaRegex.test(normalizedColorValue) &&
+                    !colorNameRegex.test(normalizedColorValue)
                 ) {
-                    await context.report(resource, element, `'${property}' property value ('${colorValue}') is not supported`);
+                    await context.report(resource, element, `'${property}' property value ('${colorValue}') is not supported everywhere`);
                 }
             }
         };
