@@ -5,30 +5,32 @@ specified within the manifest file.
 
 ## Why is this important?
 
-Browsers that support the [web app manifest file][manifest
-spec] will use [`name`][manifest name] member (or the
-[`short_name`][manifest short_name], when there is insufficient space)
-to display the name of the app in various places across the OS such as
-the list of apps installed, a app icon label etc.
+Browsers that support the [web app manifest file][manifest spec] will
+use the value of the [`name`][manifest name] property (or
+[`short_name`][manifest short_name]'s value, when there is insufficient
+space) to display the name of the app in various places across the OS
+such as the list of apps installed, an app icon label etc.
 
-If these members are not defined, browsers will try to get the
-name from other sources such as the value of the [`application-name`
-meta tag, `<title>`, or default to a specific value (e.g.:
-`Untitled`)][manifest metadata]. This can lead to a bad user
-experience, as the app name may be truncated or wrong.
+If these properties are not defined, browsers will try to get the name
+from other sources such as the value of the [`application-name` meta tag,
+`<title>`, or default to a specific value (e.g.: `Untitled`)][manifest
+metadata]. This can lead to a bad user experience, as the app name may
+be truncated or wrong.
 
-It is recommended to specify the `name` member and keep it's length
-under 30 characters, and if it’s over 12 characters, include a
-`short_name` member that is at most 12 characters.
+So, in order to reduce the risk of having the app name truncated, it's
+recommended to define the `name` property and keep it's value under 30
+characters, and if it’s over 12 characters, include a `short_name`
+property that is at most 12 characters.
 
 Notes:
 
-* If the `name` is under or 12 characters, there isn’t a need to
-  specify `short_name` as browsers can use `name`.
+* If the `name` property value is under or 12 characters, there is
+  no need to provide the `short_name` property as browsers can use
+  the value of `name`.
 
 * The 12 character limit is used to ensure that for most cases the
-  value won’t be truncated. However depending on [other things][sonarwhal
-  issue], such as:
+  value won’t be truncated. However depending on [other
+  things][sonarwhal issue], such as:
 
   * what font the user is using
   * what characters the web site/app name includes (e.g. `i` occupies
@@ -36,8 +38,16 @@ Notes:
 
   the text may still be truncated even if it’s under 12 characters.
 
-* The 30 character limit is used in order to be consistent with the
-  native OSes/[app stores][app store] limits/recommendations.
+* The above recommended limits are set to be consistent with the native
+  OSes and/or store limits/recommendations, e.g.:
+
+  * For [Windows][windows] and the [Microsoft Store (which now also
+    includes progressive web apps)][microsoft store] the recommendation
+    is to have the value of the `name` property be up to 256 characters
+    while the value of the `short_name` property can be up to 40 characters.
+
+  * [Android][android] and [iOS][ios] also recommend the application
+    name be under 30 characters.
 
 ## How to use this rule?
 
@@ -139,9 +149,12 @@ this rule fail.
 
 <!-- Link labels: -->
 
-[app store]: https://developer.apple.com/app-store/product-page/
+[android]: https://support.google.com/googleplay/android-developer/answer/113469?hl=en#store_listing
+[ios]: https://developer.apple.com/app-store/product-page/
 [manifest metadata]: https://w3c.github.io/manifest/#authority-of-the-manifest%27s-metadata
 [manifest name]: https://w3c.github.io/manifest/#name-member
 [manifest short_name]: https://w3c.github.io/manifest/#short_name-member
 [manifest spec]: https://w3c.github.io/manifest/
+[microsoft store]: https://www.windowscentral.com/first-batch-windows-10-progressive-web-apps-here
 [sonarwhal issue]: https://github.com/sonarwhal/sonarwhal/issues/136
+[windows]: https://blogs.windows.com/msedgedev/2018/02/06/welcoming-progressive-web-apps-edge-windows-10/
