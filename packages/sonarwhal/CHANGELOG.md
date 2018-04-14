@@ -1,3 +1,10 @@
+# 1.6.1 (April 14, 2018)
+
+## Bug fixes / Improvements
+
+* [[`459a958155`](https://github.com/sonarwhal/sonarwhal/commit/459a9581558c2b982b3a37e68be30e5d793a19ac)] - Docs: Fix image links and sizes (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1006`](https://github.com/sonarwhal/sonarwhal/issues/1006)).
+
+
 # 1.6.0 (April 10, 2018)
 
 ## Bug fixes / Improvements
