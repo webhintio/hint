@@ -1,3 +1,10 @@
+# 3.0.0 (April 14, 2018)
+
+## Breaking Changes
+
+* [[`81583ef23d`](https://github.com/sonarwhal/sonarwhal/commit/81583ef23d9d8a961b62644736cc51e59d3d98b2)] - Breaking: Update `parser-babel-config` to `v3.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 2.0.1 (April 10, 2018)
 
 ## Bug fixes / Improvements
