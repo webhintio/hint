@@ -1,3 +1,14 @@
+# 3.0.0 (April 14, 2018)
+
+## Breaking Changes
+
+* [[`e0dd8d8d9e`](https://github.com/sonarwhal/sonarwhal/commit/e0dd8d8d9ebda1c1dcdfaf03d061371d4565e6d1)] - Breaking: Drop `parse::typescript-config::error::not-found` event (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+## New features
+
+* [[`ab4611bbcb`](https://github.com/sonarwhal/sonarwhal/commit/ab4611bbcbc471586103ce7498ced956fd0911b7)] - New: Add `parse::typescript-config::start` event (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 2.1.0 (April 10, 2018)
 
 ## Bug fixes / Improvements
