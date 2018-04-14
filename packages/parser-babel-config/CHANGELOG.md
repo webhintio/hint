@@ -1,3 +1,14 @@
+# 3.0.0 (April 14, 2018)
+
+## Breaking Changes
+
+* [[`b4b984a0bc`](https://github.com/sonarwhal/sonarwhal/commit/b4b984a0bc040a37b310ace90888b38d5703ccbb)] - Breaking: Drop `parse::babel-config::error::not-found` event (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+## New features
+
+* [[`1b743e30b2`](https://github.com/sonarwhal/sonarwhal/commit/1b743e30b2cc7de41f0791105358d9635a620512)] - New: Add `parse::babel-config::start` event (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 2.1.0 (April 10, 2018)
 
 ## Bug fixes / Improvements
