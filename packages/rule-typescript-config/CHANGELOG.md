@@ -1,3 +1,14 @@
+# 3.0.0 (April 14, 2018)
+
+## Breaking Changes
+
+* [[`12bc9e648c`](https://github.com/sonarwhal/sonarwhal/commit/12bc9e648c16b881c631f78a50a386870fd7d636)] - Breaking: Update `parser-typescript-config` to `v3.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+## Bug fixes / Improvements
+
+* [[`f3afe2ebca`](https://github.com/sonarwhal/sonarwhal/commit/f3afe2ebca3226d4f8d73d0ba78881a3753ad521)] - Docs: Split multirule packages documentation (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 2.0.2 (April 10, 2018)
 
 ## Bug fixes / Improvements
