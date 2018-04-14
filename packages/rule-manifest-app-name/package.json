@@ -11,7 +11,7 @@
   },
   "description": "sonarwhal rule that checks for best practices related to the web app manifest's name and short_name members",
   "devDependencies": {
-    "@sonarwhal/parser-manifest": "^1.0.0",
+    "@sonarwhal/parser-manifest": "^1.0.1",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^4.19.1",
@@ -49,7 +49,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@sonarwhal/parser-manifest": "^1.0.0",
+    "@sonarwhal/parser-manifest": "^1.0.1",
     "sonarwhal": "^1.6.1"
   },
   "repository": "sonarwhal/sonarwhal",
