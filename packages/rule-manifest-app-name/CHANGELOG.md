@@ -1,3 +1,10 @@
+# 4.0.1 (April 14, 2018)
+
+## Bug fixes / Improvements
+
+* [[`b8ec7f752c`](https://github.com/sonarwhal/sonarwhal/commit/b8ec7f752c3e6305fee4463564e75111ccee6255)] - Docs: Add information about Windows/Microsoft Store limits (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 4.0.0 (April 10, 2018)
 
 ## Breaking Changes
