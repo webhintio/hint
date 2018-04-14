@@ -8,7 +8,7 @@
   },
   "description": "sonarwhal rule that checks if the Babel configuration is valid.",
   "devDependencies": {
-    "@sonarwhal/parser-babel-config": "^2.1.0",
+    "@sonarwhal/parser-babel-config": "^3.0.0",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^4.19.1",
@@ -46,7 +46,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@sonarwhal/parser-babel-config": "^2.1.0",
+    "@sonarwhal/parser-babel-config": "^3.0.0",
     "sonarwhal": "^1.6.1"
   },
   "repository": "sonarwhal/sonarwhal",
