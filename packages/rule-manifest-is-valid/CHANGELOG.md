@@ -1,3 +1,14 @@
+# 5.0.0 (April 14, 2018)
+
+## Breaking Changes
+
+* [[`d8b74c453d`](https://github.com/sonarwhal/sonarwhal/commit/d8b74c453d50daf9b7f8f3f334097925ff5bd63f)] - Breaking: Restrict color values to `hex` and color names (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+## Bug fixes / Improvements
+
+* [[`83040851d4`](https://github.com/sonarwhal/sonarwhal/commit/83040851d4ff452fdf4cc91b577d890a93d36de0)] - Docs: Add information about the rule (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#988`](https://github.com/sonarwhal/sonarwhal/issues/988)).
+
+
 # 4.0.0 (April 10, 2018)
 
 ## Breaking Changes
