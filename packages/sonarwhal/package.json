@@ -12,7 +12,7 @@
     "async": "^2.6.0",
     "browserslist": "^3.2.4",
     "canvas-prebuilt": "^1.6.5-prerelease.1",
-    "chalk": "^2.3.2",
+    "chalk": "^2.4.0",
     "chokidar": "^2.0.3",
     "chrome-launcher": "^0.10.2",
     "chrome-remote-interface": "^0.25.5",
@@ -30,7 +30,7 @@
     "is-ci": "^1.1.0",
     "is-svg": "^3.0.0",
     "jsdom": "^11.6.2",
-    "lockfile": "^1.0.3",
+    "lockfile": "^1.0.4",
     "lodash": "^4.17.5",
     "log-symbols": "^2.2.0",
     "mime-db": "^1.32.0",
@@ -47,18 +47,18 @@
     "strip-bom": "^3.0.0",
     "strip-json-comments": "^2.0.1",
     "text-table": "^0.2.0",
-    "update-notifier": "^2.3.0"
+    "update-notifier": "^2.5.0"
   },
   "description": "The linting tool for the web",
   "devDependencies": {
     "@types/debug": "0.0.30",
-    "@types/fs-extra": "^5.0.0",
+    "@types/fs-extra": "^5.0.2",
     "@types/globby": "^6.1.0",
     "@types/handlebars": "^4.0.37",
     "@types/inquirer": "0.0.36",
     "@types/jsdom": "^11.0.4",
     "@types/lockfile": "^1.0.0",
-    "@types/lodash": "^4.14.106",
+    "@types/lodash": "^4.14.107",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "8.0.14",
@@ -71,7 +71,7 @@
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^4.19.1",
-    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.11.0",
     "express": "^4.16.2",
@@ -83,7 +83,7 @@
     "rimraf": "^2.6.2",
     "sinon": "^4.5.0",
     "typescript": "^2.8.1",
-    "typescript-eslint-parser": "^14.0.0"
+    "typescript-eslint-parser": "^15.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
