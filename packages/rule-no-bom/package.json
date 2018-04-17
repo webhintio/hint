@@ -33,6 +33,7 @@
   "keywords": [
     "rule",
     "sonarwhal",
+    "sonarwhal-rule",
     "no-bom",
     "no-bom-rule"
   ],
