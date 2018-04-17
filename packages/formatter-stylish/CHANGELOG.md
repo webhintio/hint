@@ -1,3 +1,10 @@
+# 2.0.3 (April 18, 2018)
+
+## Bug fixes / Improvements
+
+* [[`2c465384fa`](https://github.com/sonarwhal/sonarwhal/commit/2c465384fa7f0eaa574e2dc3c74da9486da442ae)] - Fix: Improve output on Windows (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1008`](https://github.com/sonarwhal/sonarwhal/issues/1008)).
+
+
 # 2.0.2 (April 10, 2018)
 
 ## Bug fixes / Improvements
