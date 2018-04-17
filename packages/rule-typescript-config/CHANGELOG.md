@@ -1,3 +1,11 @@
+# 3.1.0 (April 18, 2018)
+
+## New features
+
+* [[`58d90c2803`](https://github.com/sonarwhal/sonarwhal/commit/58d90c2803d2d80a4de723a370b88a36f5259eb2)] - New: Add `target` rule (by [`Antón Molleda`](https://github.com/molant)).
+* [[`07446f9c84`](https://github.com/sonarwhal/sonarwhal/commit/07446f9c847595f39b95801ca2dae13fa8b3b0de)] - New: Add `no-comments` rule (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 3.0.0 (April 14, 2018)
 
 ## Breaking Changes
