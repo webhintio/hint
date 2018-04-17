@@ -1,3 +1,10 @@
+# 1.0.4 (April 18, 2018)
+
+## Bug fixes / Improvements
+
+* [[`bd0e8e7517`](https://github.com/sonarwhal/sonarwhal/commit/bd0e8e7517df9f52c74e865233e8feafa3302381)] - Fix: Update package `keywords` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.0.3 (April 10, 2018)
 
 ## Bug fixes / Improvements
