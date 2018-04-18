@@ -90,7 +90,7 @@ export class RuleContext {
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, element: IAsyncHTMLElement, message: string, content?: string, location?: ProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> {
+    public async report(resource: string, element: IAsyncHTMLElement | null, message: string, content?: string, location?: ProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> {
         let position: ProblemLocation = location;
         let sourceCode: string = null;
 

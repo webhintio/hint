@@ -8,9 +8,9 @@ export type Report = {
 
 export type RuleTest = {
     /** The code to execute before `closing` the connector. */
-    after?();
+    after?(): void | Promise<void>;
     /** The code to execute before creating the connector. */
-    before?();
+    before?(): void | Promise<void>;
     /** The name of the test. */
     name: string;
     /** The expected results of the execution. */
@@ -23,9 +23,9 @@ export type RuleTest = {
 
 export type RuleLocalTest = {
     /** The code to execute before `closing` the connector. */
-    after?(context?);
+    after?(context?): void | Promise<void>;
     /** The code to execute before creating the connector. */
-    before?(context?);
+    before?(context?): void | Promise<void>;
     /** Path to send to the local connector. */
     path: string;
     /** The name of the test. */
