@@ -673,9 +673,11 @@ export class Connector implements IConnector {
 
         try {
             debug(`resource ${href} to be fetched`);
-            await this._server.emitAsync('fetch::start', { resource: href });
+            const fullFaviconUrl = this._finalHref + href.substr(1);
 
-            const content = await this.fetchContent(new URL(this._finalHref + href.substr(1)));
+            await this._server.emitAsync('fetch::start', { resource: fullFaviconUrl });
+
+            const content = await this.fetchContent(new URL(fullFaviconUrl));
 
             const data: FetchEnd = {
                 element: null,
