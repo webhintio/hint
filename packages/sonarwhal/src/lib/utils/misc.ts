@@ -210,7 +210,7 @@ const readFileAsync = async (filePath: string): Promise<string> => {
 };
 
 /** Request response in the json format from an endpoint */
-const requestJSONAsync = (uri: string, options: object): Promise<any> => {
+const requestJSONAsync = (uri: string, options: object): requestAsync.RequestPromise => {
     const params = Object.assign({
         json: true,
         uri
