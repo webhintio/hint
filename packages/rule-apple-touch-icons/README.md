@@ -7,11 +7,14 @@
 
 Since `iOS 1.1.3` Safari for iOS has supported a way for developers
 to specify an image that will be used to represent the web site/app
-on the homescreen. The image is known as the [touch icon][touch icons]).
+on the homescreen. The image is known as the [touch icon][touch icons].
 
-The newer, standard way to do this is via the [web app manifest
-file][web app manifest spec], but at this time, Safari for iOS doesn’t
-support that method.
+Note: As of `iOS 11.1.0` Safari for iOS [supports the web app manifest
+file][safari 11.1] which provides a standard, cross-browser way of
+defining, among other, the icons browsers can use in various contexts
+(homescreen, application menu, etc.). However, Safari ignores the icons
+defined in the web app manifest and still uses the non-standard
+`apple-touch-icon`.
 
 Over time as Apple released different size displays for their devices,
 the requirements for the size of the touch icon have changed quite a
@@ -26,7 +29,7 @@ bit:
 * `152×152px` – iPad and iPad mini with @2x display running iOS 7
 * `180×180px` – iPad and iPad mini with @2x display running iOS 8+
 
-However, declaring one `180×180px` PNG image, e.g.:
+Declaring one `180×180px` PNG image, e.g.:
 
 ```html
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -245,5 +248,6 @@ apple-touch-icon.png: PNG image data, 180 x 180, ...
 [icon effects]: https://mathiasbynens.be/notes/touch-icons#effects
 [icon scaling]: https://realfavicongenerator.net/blog/how-ios-scales-the-apple-touch-icon/
 [icon sizes]: https://mathiasbynens.be/notes/touch-icons#sizes
+[safari 11.1]: https://developer.apple.com/library/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_11_1.html#//apple_ref/doc/uid/TP40014305-CH14-SW6
 [touch icons]: https://mathiasbynens.be/notes/touch-icons
 [web app manifest spec]: https://w3c.github.io/manifest/
