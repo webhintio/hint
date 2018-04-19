@@ -22,7 +22,7 @@ import { IConnector, IConnectorConstructor } from '../../../src/lib/types';
 /** The minimum set of events the connectors need to implement. */
 const events = [
     ['scan::start', { resource: 'http://localhost/' }],
-    ['fetch::start', { resource: 'http://localhost/' }],
+    ['fetch::start::target', { resource: 'http://localhost/' }],
     ['fetch::end::html', {
         resource: 'http://localhost/',
         request: { url: 'http://localhost/' },
