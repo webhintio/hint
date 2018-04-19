@@ -274,7 +274,7 @@ export default class LocalConnector implements IConnector {
         let files;
 
         if (isFile(pathString)) {
-            await this.sonarwhal.emitAsync('fetch::start', initialEvent);
+            await this.sonarwhal.emitAsync('fetch::start::target', initialEvent);
             files = [pathString];
         } else {
             // TODO: the current @types/globby doesn't support gitignore. Remove "as any" when possible
