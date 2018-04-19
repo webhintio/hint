@@ -224,7 +224,7 @@ export class Connector implements IConnector {
             return;
         }
 
-        const eventName: string = 'fetch::start';
+        const eventName: string = this._href === requestUrl ? 'fetch::start::target' : 'fetch::start';
 
         debug(`About to start fetching ${cutString(requestUrl)}`);
 
