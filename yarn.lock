@@ -5066,7 +5066,7 @@ nwmatcher@^1.4.3:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.4.tgz#2285631f34a95f0d0395cd900c96ed39b58f346e"
 
-nyc@^11.7.1:
+nyc@^11.4.1, nyc@^11.7.1:
   version "11.7.1"
   resolved "https://registry.yarnpkg.com/nyc/-/nyc-11.7.1.tgz#7cb0a422e501b88ff2c1634341dec2560299d67b"
   dependencies:
@@ -6974,6 +6974,13 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
+typescript-eslint-parser@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/typescript-eslint-parser/-/typescript-eslint-parser-14.0.0.tgz#c90a8f541c1d96e5c55e2807c61d154e788520f9"
+  dependencies:
+    lodash.unescape "4.0.1"
+    semver "5.5.0"
+
 typescript-eslint-parser@^15.0.0:
   version "15.0.0"
   resolved "https://registry.yarnpkg.com/typescript-eslint-parser/-/typescript-eslint-parser-15.0.0.tgz#882fd3d7aabffbab0a7f98d2a59fb9a989c2b37f"
@@ -6981,7 +6988,7 @@ typescript-eslint-parser@^15.0.0:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript@^2.8.3:
+typescript@^2.8.1, typescript@^2.8.3:
   version "2.8.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.3.tgz#5d817f9b6f31bb871835f4edf0089f21abe6c170"
 
