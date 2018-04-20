@@ -249,5 +249,6 @@ apple-touch-icon.png: PNG image data, 180 x 180, ...
 [icon scaling]: https://realfavicongenerator.net/blog/how-ios-scales-the-apple-touch-icon/
 [icon sizes]: https://mathiasbynens.be/notes/touch-icons#sizes
 [safari 11.1]: https://developer.apple.com/library/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_11_1.html#//apple_ref/doc/uid/TP40014305-CH14-SW6
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [touch icons]: https://mathiasbynens.be/notes/touch-icons
 [web app manifest spec]: https://w3c.github.io/manifest/

@@ -160,6 +160,7 @@ The `meta charset` is not the first thing in `<head>`:
 
 [html5 character encoding]: https://blog.whatwg.org/the-road-to-html-5-character-encoding
 [ie issue]: https://msdn.microsoft.com/en-us/library/dd565635.aspx
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [spec aliases]: https://encoding.spec.whatwg.org/#names-and-labels
 [utf8 example]: https://twitter.com/jacobrossi/status/591435377291866112
 [whatwg charset]: https://html.spec.whatwg.org/multipage/semantics.html#charset

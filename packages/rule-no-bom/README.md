@@ -62,6 +62,9 @@ will pass.
 * [Byte order mark (Wikipedia)][bom]
 * [The byte-order mark (BOM) in HTML][bom in html]
 
+<!-- Link labels: -->
+
 [bom]: https://en.wikipedia.org/wiki/Byte_order_mark
 [bom in html]: https://www.w3.org/International/questions/qa-byte-order-mark.en
 [bom problems]: https://www.w3.org/International/questions/qa-byte-order-mark.en#problems
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/

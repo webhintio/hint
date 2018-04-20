@@ -114,3 +114,4 @@ does.
 [https only web]: https://w3ctag.github.io/web-https/#h-motivating-a-secure-web
 [ie issue]: https://www.stevesouders.com/blog/2010/02/10/5a-missing-schema-double-download/
 [protocol-relative urls]: https://www.paulirish.com/2010/the-protocol-relative-url/
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
