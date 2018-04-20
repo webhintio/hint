@@ -337,6 +337,10 @@ const generateRuleFiles = async (destination: string, data) => {
         destination: path.join(destination, 'tests'),
         path: path.join(__dirname, TEMPLATE_PATH, 'tests.ts.hbs')
     };
+    const docFile = {
+        destination: path.join(destination, 'docs'),
+        path: path.join(__dirname, TEMPLATE_PATH, 'rule-doc.hbs')
+    };
 
     for (const file of commonFiles) {
         const { destination: dest, path: p } = file;
@@ -354,10 +358,19 @@ const generateRuleFiles = async (destination: string, data) => {
         const rulePath = path.join(ruleFile.destination, `${rule.normalizedName}.ts`);
         // e.g.: rule-ssllabs/tests/ssllabs.ts
         const testPath = path.join(testFile.destination, `${rule.normalizedName}.ts`);
+        // e.g.: rule-typescript-config/docs/is-valid.ts
+        const docPath = path.join(docFile.destination, `${rule.normalizedName}.md`);
 
         await Promise.all([mkdirpAsync(path.dirname(rulePath)), mkdirpAsync(path.dirname(testPath))]);
 
         await Promise.all([writeFileAsync(rulePath, ruleContent), writeFileAsync(testPath, testContent)]);
+
+        if (data.isMulti) {
+            const docContent = await compileTemplate(docFile.path, rule);
+
+            await mkdirpAsync(path.dirname(docPath));
+            await writeFileAsync(docPath, docContent);
+        }
     }
 };
 

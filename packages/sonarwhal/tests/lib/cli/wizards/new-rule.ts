@@ -111,9 +111,9 @@ test.serial('It creates a package with multiple rules', async (t) => {
     t.is(fsExtraCopyStub.args[0][1], path.join(root, 'rule-awesome-package'), 'Copy path is not the expected one');
     t.is(fsExtraCopyStub.args[1][1], path.join(root, 'rule-awesome-package'), 'Copy path is not the expected one');
 
-    // index.ts, package.json, readme.md, tsconfig.json, .sonarwhalrc, rule.ts * 2, tests/rule.ts * 2
-    t.is(handlebarsCompileTemplateStub.callCount, 9, `Handlebars doesn't complile the right number of files`);
-    t.is(miscWriteFileAsyncStub.callCount, 9, 'Invalid number of files created');
+    // index.ts, package.json, readme.md, tsconfig.json, .sonarwhalrc, rule.ts * 2, tests/rule.ts * 2, docs/rule.md * 2
+    t.is(handlebarsCompileTemplateStub.callCount, 11, `Handlebars doesn't complile the right number of files`);
+    t.is(miscWriteFileAsyncStub.callCount, 11, 'Invalid number of files created');
 
     t.true(result);
 
