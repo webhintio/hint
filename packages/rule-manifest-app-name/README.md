@@ -157,4 +157,5 @@ this rule fail.
 [manifest spec]: https://w3c.github.io/manifest/
 [microsoft store]: https://www.windowscentral.com/first-batch-windows-10-progressive-web-apps-here
 [sonarwhal issue]: https://github.com/sonarwhal/sonarwhal/issues/136
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [windows]: https://blogs.windows.com/msedgedev/2018/02/06/welcoming-progressive-web-apps-edge-windows-10/

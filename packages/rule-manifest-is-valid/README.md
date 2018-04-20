@@ -153,4 +153,5 @@ according to the specification, and the property values work in
 
 [density issue]: https://github.com/w3c/manifest/issues/450
 [manifest spec]: https://w3c.github.io/manifest/
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [targeted browsers]: https://sonarwhal.com/docs/user-guide/further-configuration/browser-context/

@@ -154,5 +154,6 @@ More than one web app manifest file is specified:
 [chrome]: https://developers.google.com/web/fundamentals/engage-and-retain/app-install-banners/
 [opera]: https://dev.opera.com/blog/web-app-install-banners/
 [samsung internet]: https://medium.com/samsung-internet-dev/what-does-it-mean-to-be-an-app-ace43eb6b94d
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [spec]: https://www.w3.org/TR/appmanifest
 [windows]: https://medium.com/web-on-the-edge/progressive-web-apps-on-windows-8d8eb68d524e

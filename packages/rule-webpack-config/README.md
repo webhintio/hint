@@ -52,10 +52,13 @@ need to be sure that your configuration is the best for your needs.
 
 * [webpack Documentation][webpack docs]
 
-[webpack docs]: https://webpack.js.org/concepts/
+<!-- Link labels: -->
+
 [config-exists]: ./docs/config-exists.md
 [is-installed]: ./docs/is-installed.md
 [is-valid]: ./docs/is-valid.md
 [module-esnext-typescript]: ./docs/module-esnext-typescript.md
 [modules-false-babel]: ./docs/modules-false-babel.md
 [no-devtool-in-prod]: ./docs/no-devtool-in-prod.md
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[webpack docs]: https://webpack.js.org/concepts/

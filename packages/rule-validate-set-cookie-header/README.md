@@ -193,10 +193,13 @@ HTTP/... 200 OK
 Set-Cookie: __Secure-ID=123; Secure; Domain=example.com; HttpOnly
 ```
 
-[set-cookie web doc]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
-[xss]:https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting
+<!-- Link labels: -->
+
+[cookie prefixes]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Cookie_prefixes
 [cookie theft]:https://en.wikipedia.org/wiki/HTTP_cookie#Cross-site_scripting:_cookie_theft
-[proxy request]:https://en.wikipedia.org/wiki/HTTP_cookie#Cross-site_scripting:_proxy_request
 [http cookie wiki]:https://en.wikipedia.org/wiki/HTTP_cookie
 [HTTP State Management Mechanism]:https://tools.ietf.org/html/rfc6265
-[cookie prefixes]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Cookie_prefixes
+[proxy request]:https://en.wikipedia.org/wiki/HTTP_cookie#Cross-site_scripting:_proxy_request
+[set-cookie web doc]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[xss]:https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting

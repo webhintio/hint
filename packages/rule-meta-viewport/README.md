@@ -273,6 +273,7 @@ not require `initial-scale=1`.
 [ppk initial-scale]: https://www.quirksmode.org/mobile/metaviewport/#link15
 [ppk talk]: https://www.youtube.com/watch?v=8J6EdpXdzqc
 [ppk tests]: https://www.quirksmode.org/mobile/metaviewport/
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [spec]: https://drafts.csswg.org/css-device-adapt/#viewport-meta
 [tap delay]: https://developers.google.com/web/updates/2013/12/300ms-tap-delay-gone-away
 [viewport meta tag on mdn]: https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag

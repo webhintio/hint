@@ -46,7 +46,10 @@ need to be sure that your configuration is the best for your needs.
 
 * [TypeScript Documentation][typescript docs]
 
+<!-- Link labels: -->
+
 [is-valid]: ./docs/is-valid.md
 [no-comment]: ./docs/no-comment.md
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [target]: ./docs/target.md
 [typescript docs]: https://www.typescriptlang.org/docs/home.html
