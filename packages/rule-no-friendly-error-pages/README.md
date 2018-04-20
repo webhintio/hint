@@ -163,3 +163,4 @@ HTTP/... 500 Internal Server Error
 
 [chromium issue]: https://bugs.chromium.org/p/chromium/issues/detail?id=36558
 [friendly error pages]: https://blogs.msdn.microsoft.com/ieinternals/2010/08/18/friendly-http-error-pages/
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/

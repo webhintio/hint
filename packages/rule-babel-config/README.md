@@ -41,5 +41,8 @@ Babel needs to be properly configured to reflect user's preference.
 
 * [Babel Documentation][babel documentation]
 
-[is-valid]: ./docs/is-valid.md
+<!-- Link labels: -->
+
 [babel documentation]: https://babeljs.io/docs/usage/babelrc/
+[is-valid]: ./docs/is-valid.md
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/

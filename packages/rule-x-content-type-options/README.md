@@ -119,6 +119,7 @@ X-Content-Type-Options: nosniff
 [fetch spec issue]: https://github.com/whatwg/fetch/issues/395
 [javascript media types]: https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
+[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 
 <!-- Apache links -->
 
