@@ -71,6 +71,12 @@ export const options = optionator({
             description: 'Activate a watcher for the connector (if supported)',
             option: 'watch',
             type: 'Boolean'
+        },
+        {
+            alias: 'f',
+            description: 'Explicitly specify the formatters to be used',
+            option: 'formatters',
+            type: 'String'
         }
     ],
     prepend: 'sonarwhal [options] https://url.com'

@@ -4,7 +4,7 @@ import test from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { ConnectorConfig, CLIOptions, IRule, RuleMetadata } from '../../src/lib/types';
+import { ConnectorConfig, CLIOptions, IRule, RuleMetadata, UserConfig } from '../../src/lib/types';
 import { RuleScope } from '../../src/lib/enums/rulescope';
 import { readFileAsync } from '../../src/lib/utils/misc';
 
@@ -269,4 +269,46 @@ test(`if a Rule has an invalid configuration, it should tell which ones are inva
     const { invalid } = config.SonarwhalConfig.validateRulesConfig(configuration);
 
     t.is(invalid.length, 1);
+});
+
+test('If formatter is specified as CLI argument,fromConfig method will use that to build SonarwhalConfig', (t) => {
+    const { config } = t.context;
+    var userConfig = {
+        connector: {
+            name: 'chrome'
+        },
+        formatters: ['summary', 'excel'],
+        rules: {
+            'apple-touch-icons': 'warning'
+        }
+    } as UserConfig;
+    var cliOptions = { formatters: 'database', _: [ 'https://bing.com' ] } as CLIOptions;
+
+    const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
+
+    t.true(result.formatters.length==1);
+    t.true(result.formatters[0]==='database');
+    // Make sure we updated only the formatters. Other properties of userConfig should stay same
+    t.true(result.connector.name==='chrome');
+});
+
+test('If formatter is not specified as CLI argument, fromConfig method will use the formatter specified in the userConfig object as it is to build SonarwhalConfig', (t) => {
+    const { config } = t.context;
+    var userConfig = {
+        connector: {
+            name: 'chrome'
+        },
+        formatters: ['summary', 'excel'],
+        rules: {
+            'apple-touch-icons': 'warning'
+        }
+    } as UserConfig;
+    var cliOptions = {  _: [ 'https://bing.com' ] } as CLIOptions;
+
+    const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
+
+    t.true(result.formatters.length==2);
+    t.true(result.formatters[0]==='summary');
+    t.true(result.formatters[1]==='excel');
+
 });
