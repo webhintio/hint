@@ -48,6 +48,12 @@ Scan a website:
 sonarwhal https://example.com
 ```
 
+Scan a website explicitly specifying the formatter to be used (this will override the value specified in the `.sonarwhalrc`  json config):
+
+```bash
+sonarwhal https://example.com --formatters excel
+```
+
 For more in depth information on how to get started, configurations,
 and more, see the online [user guide](https://sonarwhal.com/docs/user-guide/),
 or the [local version](./packages/sonarwhal/docs/user-guide/index.md)
