@@ -48,7 +48,7 @@ Scan a website:
 sonarwhal https://example.com
 ```
 
-Scan a website explicitly specifying the formatter to be used (this will override the value specified in the `.sonarwhalrc`  json config):
+To use a different formatter than the one specified in your `.sonarwhalrc` file you can do the following:
 
 ```bash
 sonarwhal https://example.com --formatters excel

@@ -121,15 +121,15 @@ const loadIgnoredUrls = (userConfig: UserConfig): Map<string, RegExp[]> => {
 /**
  * Overrides the config values with values obtained from the CLI, if any
  */
-const updateConfigWithCommandLineValues = (config: UserConfig, actions: CLIOptions)=>{
+const updateConfigWithCommandLineValues = (config: UserConfig, actions: CLIOptions) => {
     debug('overriding config settings with values provided via CLI');
 
     // If formatters are provided, use them
     if (actions && actions.formatters) {
         config.formatters = actions.formatters.split(',');
-        debug(`Using formatters option provided from command line : ${actions.formatters}`);
+        debug(`Using formatters option provided from command line: ${actions.formatters}`);
     }
-}
+};
 
 export class SonarwhalConfig {
     public readonly browserslist: Array<string>;
@@ -256,12 +256,12 @@ export class SonarwhalConfig {
             userConfig.connector.options.watch = actions.watch;
         }
 
-        updateConfigWithCommandLineValues(userConfig,actions);
-        
+        updateConfigWithCommandLineValues(userConfig, actions);
+
         if (!Array.isArray(userConfig.formatters)) {
             userConfig.formatters = [userConfig.formatters];
         }
-        
+
         const browsers = browserslist(config.browserslist);
         const ignoredUrls = loadIgnoredUrls(userConfig);
         const rules = normalizeRules(userConfig.rules);

@@ -80,10 +80,10 @@ export type CLIOptions = {
     ['output-file']: string;
     version: boolean;
     watch: boolean;
-    
+
     /**
      * formatter name(s) to be used. If provided this will override the config file setting value
-     * For more than one formatter, use comma seperated string (Ex : excel,summary)
+     * For more than one formatter, use comma separated, with no spaces values. E.g.: "excel,summary"
      */
     formatters: string;
 };
