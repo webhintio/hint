@@ -40,6 +40,7 @@ need to be sure that your configuration is the best for your needs.
 
 * [typescript-config/is-valid][is-valid]
 * [typescript-config/no-comment][no-comment]
+* [typescript-config/strict][strict]
 * [typescript-config/target][target]
 
 ## Further Reading
@@ -51,5 +52,6 @@ need to be sure that your configuration is the best for your needs.
 [is-valid]: ./docs/is-valid.md
 [no-comment]: ./docs/no-comment.md
 [sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[strict]: ./docs/strict.md
 [target]: ./docs/target.md
 [typescript docs]: https://www.typescriptlang.org/docs/home.html
