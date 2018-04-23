@@ -7,8 +7,7 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-
-import { TypeScriptConfigParse } from '@sonarwhal/parser-typescript-config/dist/src/types';
+import { configChecker } from './helpers/config-checker';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -30,14 +29,7 @@ export default class TypeScriptConfigStrict implements IRule {
     }
 
     public constructor(context: RuleContext) {
-
-        const validate = async (evt: TypeScriptConfigParse) => {
-            const { config, resource } = evt;
-
-            if (!config.compilerOptions.strict) {
-                await context.report(resource, null, 'The compiler option "strict" should be enabled to reduce type errors.');
-            }
-        };
+        const validate = configChecker('compilerOptions.strict', true, 'The compiler option "strict" should be enabled to reduce type errors.', context);
 
         context.on('parse::typescript-config::end', validate);
     }
