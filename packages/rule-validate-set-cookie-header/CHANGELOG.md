@@ -1,3 +1,10 @@
+# 3.0.2 (April 23, 2018)
+
+## Bug fixes / Improvements
+
+* [[`ccc8a6f7c0`](https://github.com/sonarwhal/sonarwhal/commit/ccc8a6f7c0dda5ceaca1174e5da4e97c1c4f2f79)] - Docs: Add missing link to `.sonarwhalrc` documentation (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1016`](https://github.com/sonarwhal/sonarwhal/issues/1016)).
+
+
 # 3.0.1 (April 10, 2018)
 
 ## Bug fixes / Improvements
