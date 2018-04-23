@@ -1,3 +1,10 @@
+# 4.0.0 (April 24, 2018)
+
+## Breaking Changes
+
+* [[`f18762e8b4`](https://github.com/sonarwhal/sonarwhal/commit/f18762e8b4c605ee6649bdfaa43db5b99fee388b)] - Breaking: Update `html-validator` to `v3.0.0` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 3.0.2 (April 10, 2018)
 
 ## Bug fixes / Improvements
