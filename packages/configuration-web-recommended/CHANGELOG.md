@@ -1,3 +1,10 @@
+# 6.0.0 (April 24, 2018)
+
+## Breaking Changes
+
+* [[`0b19db5d98`](https://github.com/sonarwhal/sonarwhal/commit/0b19db5d9885d09c7bf7762567e92fb3294d9257)] - Breaking: Update `rule-html-checker` to `v4.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 5.0.0 (April 10, 2018)
 
 ## Breaking Changes
