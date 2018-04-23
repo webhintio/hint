@@ -1,3 +1,10 @@
+# 1.7.0 (April 23, 2018)
+
+## New features
+
+* [[`e983b85e4d`](https://github.com/sonarwhal/sonarwhal/commit/e983b85e4d8d9bc1eccd18f2887f06179cd9ebae)] - New: Support to set the formatter via CLI (by [`Shyju`](https://github.com/kshyju) / see also: [`#888`](https://github.com/sonarwhal/sonarwhal/issues/888)).
+
+
 # 1.6.1 (April 14, 2018)
 
 ## Bug fixes / Improvements
