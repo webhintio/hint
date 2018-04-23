@@ -6,7 +6,7 @@
     "@sonarwhal/rule-manifest-app-name": "^4.0.2",
     "@sonarwhal/rule-manifest-exists": "^4.0.1",
     "@sonarwhal/rule-manifest-file-extension": "^4.0.1",
-    "@sonarwhal/rule-manifest-is-valid": "^5.0.0"
+    "@sonarwhal/rule-manifest-is-valid": "^5.0.1"
   },
   "description": "sonarwhal's recommended rules configuration for progressive web apps (PWAs)",
   "engines": {
