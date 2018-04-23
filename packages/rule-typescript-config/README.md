@@ -40,7 +40,7 @@ need to be sure that your configuration is the best for your needs.
 
 * [typescript-config/is-valid][is-valid]
 * [typescript-config/no-comment][no-comment]
-* [typescript-config/target][terget]
+* [typescript-config/target][target]
 
 ## Further Reading
 
