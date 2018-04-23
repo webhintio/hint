@@ -3348,11 +3348,11 @@ html-encoding-sniffer@^1.0.2:
   dependencies:
     whatwg-encoding "^1.0.1"
 
-html-validator@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/html-validator/-/html-validator-2.2.3.tgz#83dd61cce510d192f03e48e6361e76d0a1ff28c9"
+html-validator@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/html-validator/-/html-validator-3.0.0.tgz#8eebb96ada8934f8e0e5452fdfcd0e57f0119a14"
   dependencies:
-    request "2.81.0"
+    request "2.85.0"
     valid-url "1.0.9"
 
 htmlparser2@^3.9.1:
@@ -5952,7 +5952,7 @@ request@2.81.0:
     tunnel-agent "^0.6.0"
     uuid "^3.0.0"
 
-request@^2.83.0:
+request@2.85.0, request@^2.83.0:
   version "2.85.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.85.0.tgz#5a03615a47c61420b3eb99b7dba204f83603e1fa"
   dependencies:
