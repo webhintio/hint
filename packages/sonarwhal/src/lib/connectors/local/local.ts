@@ -293,8 +293,6 @@ export default class LocalConnector implements IConnector {
         } else {
             await this.sonarwhal.emitAsync('scan::end', initialEvent);
         }
-
-        console.log('Finished');
     }
 
     public close() {
