@@ -278,14 +278,14 @@ test('If formatter is specified as CLI argument, fromConfig method will use that
         formatters: ['summary', 'excel'],
         rules: { 'apple-touch-icons': 'warning' }
     } as UserConfig;
-    const cliOptions = { _: ['https://bing.com'], formatters: 'database' } as CLIOptions;
+    const cliOptions = { _: ['https://example.com'], formatters: 'database' } as CLIOptions;
 
     const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
 
-    t.true(result.formatters.length===1);
-    t.true(result.formatters[0]==='database');
+    t.is(result.formatters.length, 1);
+    t.is(result.formatters[0], 'database');
     // Make sure we updated only the formatters. Other properties of userConfig should stay same
-    t.true(result.connector.name==='chrome');
+    t.is(result.connector.name, 'chrome');
 });
 
 test('If formatter is not specified as CLI argument, fromConfig method will use the formatter specified in the userConfig object as it is to build SonarwhalConfig', (t) => {
@@ -295,12 +295,11 @@ test('If formatter is not specified as CLI argument, fromConfig method will use 
         formatters: ['summary', 'excel'],
         rules: { 'apple-touch-icons': 'warning' }
     } as UserConfig;
-    const cliOptions = { _: ['https://bing.com'] } as CLIOptions;
+    const cliOptions = { _: ['https://example.com'] } as CLIOptions;
 
     const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
 
-    t.true(result.formatters.length===2);
-    t.true(result.formatters[0]==='summary');
-    t.true(result.formatters[1]==='excel');
-
+    t.is(result.formatters.length, 2);
+    t.is(result.formatters[0], 'summary');
+    t.is(result.formatters[1], 'excel');
 });
