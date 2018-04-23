@@ -1,3 +1,11 @@
+# 3.0.2 (April 23, 2018)
+
+## Bug fixes / Improvements
+
+* [[`ccc8a6f7c0`](https://github.com/sonarwhal/sonarwhal/commit/ccc8a6f7c0dda5ceaca1174e5da4e97c1c4f2f79)] - Docs: Add missing link to `.sonarwhalrc` documentation (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1016`](https://github.com/sonarwhal/sonarwhal/issues/1016)).
+* [[`c1afbf0350`](https://github.com/sonarwhal/sonarwhal/commit/c1afbf03507a5f9503734a36ff847b28e09010e0)] - Docs: Add note about Safari not using the web app manifest icons (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#661`](https://github.com/sonarwhal/sonarwhal/issues/661)).
+
+
 # 3.0.1 (April 10, 2018)
 
 ## Bug fixes / Improvements
