@@ -22,10 +22,10 @@
     "markdownlint-cli": "^0.8.1",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
-    "nyc": "^11.4.1",
+    "nyc": "^11.7.1",
     "rimraf": "^2.6.2",
     "sonarwhal": "^1.7.0",
-    "typescript": "^2.8.1",
+    "typescript": "^2.8.3",
     "typescript-eslint-parser": "^15.0.0"
   },
   "engines": {
