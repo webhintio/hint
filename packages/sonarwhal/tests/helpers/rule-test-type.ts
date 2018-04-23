@@ -23,9 +23,9 @@ export type RuleTest = {
 
 export type RuleLocalTest = {
     /** The code to execute before `closing` the connector. */
-    after?();
+    after?(context?);
     /** The code to execute before creating the connector. */
-    before?();
+    before?(context?);
     /** Path to send to the local connector. */
     path: string;
     /** The name of the test. */
