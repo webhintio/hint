@@ -38,6 +38,7 @@ need to be sure that your configuration is the best for your needs.
 
 ## Rules
 
+* [typescript-config/import-helpers][import-helpers]
 * [typescript-config/is-valid][is-valid]
 * [typescript-config/no-comment][no-comment]
 * [typescript-config/strict][strict]
@@ -49,6 +50,7 @@ need to be sure that your configuration is the best for your needs.
 
 <!-- Link labels: -->
 
+[import-helpers]: ./docs/import-helpers.md
 [is-valid]: ./docs/is-valid.md
 [no-comment]: ./docs/no-comment.md
 [sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
