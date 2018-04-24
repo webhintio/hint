@@ -21,8 +21,8 @@ By default TypeScript doesn't strip the comments:
 {
     ...
     "compilerOptions": {
-        "target": "es5"
-    }
+        "target": "es5",
+    },
     ...
 }
 ```
@@ -33,8 +33,9 @@ Also setting the value to `false` will fail:
 {
     ...
     "compilerOptions": {
-        "removeComments": false
-    }
+        "removeComments": false,
+        ...
+    },
     ...
 }
 ```
@@ -46,8 +47,10 @@ Also setting the value to `false` will fail:
 ```json
 {
     "compilerOptions": {
-        "removeComments": true
-    }
+        "removeComments": true,
+        ...
+    },
+    ...
 }
 ```
 

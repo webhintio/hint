@@ -12,7 +12,7 @@ issues with your users.
 
 ### What does the rule check?
 
-This rule checks the `compilerOptions` property `target` is the appropriate based
+This rule checks if the `compilerOptions` property `target` is the appropriate based
 on your `browserslist` configuration.
 
 The matrix is as follows:
@@ -50,8 +50,9 @@ Having a `target` not supported by all your targetted browsers:
 {
     ...
     "compilerOptions": {
-        "target": "es5"
-    }
+        "target": "es5",
+        ...
+    },
     ...
 }
 ```
@@ -72,8 +73,9 @@ Having a `target` that is lower than what all your browsers support:
 {
     ...
     "compilerOptions": {
-        "target": "es3"
-    }
+        "target": "es3",
+        ...
+    },
     ...
 }
 ```
@@ -96,8 +98,9 @@ The right `target` for the right browsers:
 {
     ...
     "compilerOptions": {
-        "target": "es3"
-    }
+        "target": "es3",
+        ...
+    },
     ...
 }
 ```
