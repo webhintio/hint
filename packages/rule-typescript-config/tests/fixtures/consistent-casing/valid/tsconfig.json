@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "declaration": true,
+        "inlineSourceMap": true,
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "es2017",
+            "esnext",
+            "esnext.asynciterable"
+        ],
+        "module": "commonjs",
+        "newLine": "lf",
+        "removeComments": true,
+        "target": "esnext",
+        "forceConsistentCasingInFileNames": true
+    },
+    "exclude": [
+        "dist",
+        "node_modules",
+        "packages"
+    ]
+}
