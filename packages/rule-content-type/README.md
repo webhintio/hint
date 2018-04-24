@@ -12,13 +12,13 @@ spec], it’s indicated to always send the appropriate media type and
 charset for the response as, among other:
 
 * [resources served with the wrong media type may be blocked][blocked
-  resources] (see also: [`X-Content-Type-Options` rule](x-content-type-options.md)),
+  resources] (see also: [`X-Content-Type-Options` rule](../rule-x-content-type-options)),
   or the official [media type may be required][required media type]
 
 * not sending the appropriate `charset`, where appropriate, may
   [prevent things from being rendered correctly][incorrect rendering]
   thus creating a bad user experience (see also:
-  [`meta-charset-utf-8` rule](meta-charset-utf-8.md))
+  [`meta-charset-utf-8` rule](../rule-meta-charset-utf-8))
 
 ## How to use this rule?
 
