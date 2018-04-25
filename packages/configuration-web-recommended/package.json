@@ -20,7 +20,7 @@
     "@sonarwhal/rule-no-http-redirects": "^3.0.2",
     "@sonarwhal/rule-no-protocol-relative-urls": "^3.0.2",
     "@sonarwhal/rule-no-vulnerable-javascript-libraries": "^3.1.1",
-    "@sonarwhal/rule-sri": "^1.0.4",
+    "@sonarwhal/rule-sri": "^1.0.5",
     "@sonarwhal/rule-ssllabs": "^3.0.3",
     "@sonarwhal/rule-strict-transport-security": "^3.0.2",
     "@sonarwhal/rule-validate-set-cookie-header": "^3.0.2",
