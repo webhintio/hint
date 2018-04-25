@@ -1,3 +1,18 @@
+# 3.2.0 (April 25, 2018)
+
+## Bug fixes / Improvements
+
+* [[`937e32d150`](https://github.com/sonarwhal/sonarwhal/commit/937e32d15058cff2a7708711b6d4a3ddf1eb857c)] - Docs: Update examples and fix typos (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1024`](https://github.com/sonarwhal/sonarwhal/issues/1024)).
+* [[`16904e1a51`](https://github.com/sonarwhal/sonarwhal/commit/16904e1a517e34a1ff79720eb37c6f8f9ee4606a)] - Docs: Fix link to `target` rule (by [`Antón Molleda`](https://github.com/molant)).
+* [[`2ee73fc829`](https://github.com/sonarwhal/sonarwhal/commit/2ee73fc8293294a2d4a7901860a8954af089fedf)] - Fix: Improve `no-comments` rule (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`a9a97fca6f`](https://github.com/sonarwhal/sonarwhal/commit/a9a97fca6f853b72d02151f4e7674bbf8f659b2c)] - New: Add `consistent-casing` rule (by [`Antón Molleda`](https://github.com/molant)).
+* [[`6565accdb9`](https://github.com/sonarwhal/sonarwhal/commit/6565accdb94ece1c1a94b19c840a7fe8edede69d)] - New: Add `import-helpers` rule (by [`Antón Molleda`](https://github.com/molant)).
+* [[`69aab2d66a`](https://github.com/sonarwhal/sonarwhal/commit/69aab2d66a631b4213d0873416c15ebac5a644cd)] - New: Add `strict` rule (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 3.1.1 (April 23, 2018)
 
 ## Bug fixes / Improvements
