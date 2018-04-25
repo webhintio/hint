@@ -86,6 +86,12 @@ export type CLIOptions = {
      * For more than one formatter, use comma separated, with no spaces values. E.g.: "excel,summary"
      */
     formatters: string;
+
+    /**
+     * rule name(s) to be used. If provided this will override the config file setting value
+     * For more than one rule, use comma separated, with no spaces values. E.g.: "content-type,axe"
+     */
+    rules: string;
 };
 
 export type ORA = {
