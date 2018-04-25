@@ -1,3 +1,10 @@
+# 1.7.1 (April 25, 2018)
+
+## Bug fixes / Improvements
+
+* [[`aa083a5d1e`](https://github.com/sonarwhal/sonarwhal/commit/aa083a5d1e677f386009c61cd33eae6f777ec544)] - Fix: Pass `ava` context to `before` and `after` for local rules (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 1.7.0 (April 23, 2018)
 
 ## New features
