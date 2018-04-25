@@ -9,7 +9,7 @@ A common practice in modern web development is to use third party
 resources from CDNs or different services (analytics, ads, etc.).
 However, doing so can increase the attack surface of your web site/app.
 
-Whileh  there are techniques to verify the agent is talking with the right server
+While there are techniques to verify the agent is talking with the right server
 (TLS, HSTS, etc.), an attacker (or administrator) with access to the server can
 manipulate the content with impunity.
 
