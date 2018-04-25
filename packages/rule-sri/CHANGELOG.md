@@ -1,3 +1,10 @@
+# 1.0.5 (April 25, 2018)
+
+## Bug fixes / Improvements
+
+* [[`970be7646f`](https://github.com/sonarwhal/sonarwhal/commit/970be7646ff8f925c34fc4e657fd261e5f9180fa)] - Docs: Fix typo (by [`Chasen Le Hara`](https://github.com/chasenlehara) / see also: [`#1026`](https://github.com/sonarwhal/sonarwhal/issues/1026)).
+
+
 # 1.0.4 (April 18, 2018)
 
 ## Bug fixes / Improvements
