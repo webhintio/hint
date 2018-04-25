@@ -60,6 +60,7 @@ To use a different rule than the one specified in your `.sonarwhalrc` file:
 ```bash
 sonarwhal https://example.com --rules html-checker
 ```
+
 For more in depth information on how to get started, configurations,
 and more, see the online [user guide](https://sonarwhal.com/docs/user-guide/),
 or the [local version](./packages/sonarwhal/docs/user-guide/index.md)
