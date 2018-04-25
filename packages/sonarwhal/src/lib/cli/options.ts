@@ -77,6 +77,12 @@ export const options = optionator({
             description: 'Explicitly specify the formatters to be used',
             option: 'formatters',
             type: 'String'
+        },
+        {
+            alias: 'r',
+            description: 'Explicitly specify the rules to be used',
+            option: 'rules',
+            type: 'String'
         }
     ],
     prepend: 'sonarwhal [options] https://url.com'
