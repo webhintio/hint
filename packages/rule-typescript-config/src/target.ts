@@ -1,5 +1,7 @@
 /**
- * @fileoverview `typescript-config/target` warns against providing a `compilerOptions.target` not optimized for your `browserslist`in your `tsconfig.json`.
+ * @fileoverview `typescript-config/target` warns against providing a `compilerOptions.target`
+ * in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined
+ * `browserslist` values.
  */
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -21,7 +23,7 @@ export default class TypeScriptConfigTarget implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.development,
-            description: '`typescript-config/target` warns against providing a `compilerOptions.target` not optimized for your `browserslist`in your `tsconfig.json`'
+            description: '`typescript-config/target` warns against providing a `compilerOptions.target` in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined `browserslist` values.'
         },
         id: 'typescript-config/target',
         schema: [],

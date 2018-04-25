@@ -1,7 +1,6 @@
 /**
- * @fileoverview `typescript-config/no-comments` checks if the
- * property `removeComments` is enabled in your TypeScript configuration
- * file (i.e `tsconfig.json`).
+ * @fileoverview `typescript-config/consistent-casing` checks if the property `forceConsistentCasingInFileNames`
+ * is enabled in the TypeScript configuration file (i.e `tsconfig.json`).
  */
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -18,19 +17,19 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-export default class TypeScriptConfigNoComments implements IRule {
+export default class TypeScriptConfigConsistentCasing implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.development,
-            description: '`typescript-config/no-comments` checks if the property `removeComments` is enabled in the TypeScript configuration file (i.e `tsconfig.json`)'
+            description: '`typescript-config/consistent-casing` checks if the property `forceConsistentCasingInFileNames` is enabled in the TypeScript configuration file (i.e `tsconfig.json`)'
         },
-        id: 'typescript-config/no-comments',
+        id: 'typescript-config/consistent-casing',
         schema: [],
         scope: RuleScope.local
     }
 
     public constructor(context: RuleContext) {
-        const validate = configChecker('compilerOptions.removeComments', true, 'The compiler option "removeComments" should be enabled to reduce the output size.', context);
+        const validate = configChecker('compilerOptions.forceConsistentCasingInFileNames', true, 'The compiler option "forceConsistentCasingInFileNames" should be enabled to reduce issues when working with different OSes.', context);
 
         context.on('parse::typescript-config::end', validate);
     }

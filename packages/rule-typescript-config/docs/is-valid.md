@@ -20,8 +20,10 @@ The `compileOptions` has an invalid property:
 ```json
 {
     "compilerOptions": {
-        "invalidProperty": true
-    }
+        "invalidProperty": true,
+        ...
+    },
+    ...
 }
 ```
 
@@ -30,8 +32,10 @@ A property has an invalid value:
 ```json
 {
     "compilerOptions": {
-        "target": "esnext2"
-    }
+        "target": "esnext2",
+        ...
+    },
+    ...
 }
 ```
 
@@ -42,8 +46,10 @@ The configuration is valid:
 ```json
 {
     "compilerOptions": {
-        "target": "esnext"
-    }
+        "target": "esnext",
+        ...
+    },
+    ...
 }
 ```
 
