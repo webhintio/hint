@@ -1,28 +1,28 @@
-# `no-comments`
+# `strict`
 
-`typescript-config/no-comments` checks that the property `removeComments`
+`typescript-config/strict` checks if the property `strict`
 is enabled in your TypeScript configuration file (i.e `tsconfig.json`).
 
 ### Why is this important?
 
-Removing the comments will make your final JavaScript files smaller. If you
-are delivering this files over the Internet, you want them to be a small as
-possible.
+By enabling the `strict` compiler option of TyepScript the compiler will
+run in the strictest of the modes catching more typing issues before runtime.
 
 ### What does the rule check?
 
-This rule checks the `compilerOptions` property `removeComments` is enabled.
+This rule checks if the `compilerOptions` property `strict` is enabled.
 
 #### Examples that **trigger** the rule
 
-By default TypeScript doesn't strip the comments:
+By default TypeScript doesn't enable the strict mode:
 
 ```json
 {
     ...
     "compilerOptions": {
         "target": "es5",
-    },
+        ...
+    }
     ...
 }
 ```
@@ -33,24 +33,23 @@ Also setting the value to `false` will fail:
 {
     ...
     "compilerOptions": {
-        "removeComments": false,
+        "strict": false,
         ...
-    },
+    }
     ...
 }
 ```
 
 #### Examples that **pass** the rule
 
-`removeComments` value is `true`:
+`strict` value is `true`:
 
 ```json
 {
     "compilerOptions": {
-        "removeComments": true,
+        "strict": true,
         ...
-    },
-    ...
+    }
 }
 ```
 

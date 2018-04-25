@@ -1,5 +1,5 @@
 /**
- * @fileoverview `typescript-config/no-comments` checks if the property `removeComments`
+ * @fileoverview `typescript-config/strict` checks if the property `strict`
  * is enabled in the TypeScript configuration file (i.e `tsconfig.json`).
  */
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
@@ -17,19 +17,19 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-export default class TypeScriptConfigNoComments implements IRule {
+export default class TypeScriptConfigStrict implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.development,
-            description: '`typescript-config/no-comments` checks that the property `removeComments` is enabled in the TypeScript configuration file (i.e `tsconfig.json`).'
+            description: '`typescript-config/strict` checks if the property `strict` is enabled in the TypeScript configuration file (i.e `tsconfig.json`).'
         },
-        id: 'typescript-config/no-comments',
+        id: 'typescript-config/strict',
         schema: [],
         scope: RuleScope.local
     }
 
     public constructor(context: RuleContext) {
-        const validate = configChecker('compilerOptions.removeComments', true, 'The compiler option "removeComments" should be enabled to reduce the output size.', context);
+        const validate = configChecker('compilerOptions.strict', true, 'The compiler option "strict" should be enabled to reduce type errors.', context);
 
         context.on('parse::typescript-config::end', validate);
     }

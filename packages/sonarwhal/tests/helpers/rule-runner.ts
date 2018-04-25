@@ -236,7 +236,7 @@ export const testLocalRule = (ruleId: string, ruleTests: Array<RuleLocalTest>, c
 
             try {
                 if (ruleTest.before) {
-                    await ruleTest.before();
+                    await ruleTest.before(t);
                 }
 
                 const sonarwhal = new Sonarwhal(sonarwhalConfig, resources);
@@ -246,7 +246,7 @@ export const testLocalRule = (ruleId: string, ruleTests: Array<RuleLocalTest>, c
                 await sonarwhal.close();
 
                 if (ruleTest.after) {
-                    await ruleTest.after();
+                    await ruleTest.after(t);
                 }
 
                 return validateResults(t, results, ruleTest.reports);
