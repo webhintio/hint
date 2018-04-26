@@ -147,7 +147,7 @@ const updateConfigWithCommandLineValues = (config: UserConfig, actions: CLIOptio
     if (actions && actions.rules) {
         const ruleNames = actions.rules.split(',');
 
-        config.rules = buildRulesConfigFromRuleNames(ruleNames, 'warning');
+        config.rules = buildRulesConfigFromRuleNames(ruleNames, 'error');
         debug(`Using rules option provided from command line: ${actions.rules}`);
     }
 };
