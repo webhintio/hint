@@ -1,3 +1,10 @@
+# 1.8.0 (April 26, 2018)
+
+## New features
+
+* [[`5ebd0e2471`](https://github.com/sonarwhal/sonarwhal/commit/5ebd0e2471e7be31a0c1f37d605ec84f417bd2bb)] - New: Support to set the rules via CLI (by [`Shyju`](https://github.com/kshyju) / see also: [`#1020`](https://github.com/sonarwhal/sonarwhal/issues/1020)).
+
+
 # 1.7.1 (April 25, 2018)
 
 ## Bug fixes / Improvements
