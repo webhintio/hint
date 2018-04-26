@@ -119,6 +119,19 @@ const loadIgnoredUrls = (userConfig: UserConfig): Map<string, RegExp[]> => {
 };
 
 /**
+ * Build and return a rules config object where the key is the rule name and the value is the severity
+ */
+const buildRulesConfigFromRuleNames = (ruleNames: string[], severity: string): RulesConfigObject => {
+    const ruleConfig: RulesConfigObject = {};
+
+    for (const ruleName of ruleNames) {
+        ruleConfig[ruleName] = severity;
+    }
+
+    return ruleConfig;
+};
+
+/**
  * Overrides the config values with values obtained from the CLI, if any
  */
 const updateConfigWithCommandLineValues = (config: UserConfig, actions: CLIOptions) => {
@@ -128,6 +141,14 @@ const updateConfigWithCommandLineValues = (config: UserConfig, actions: CLIOptio
     if (actions && actions.formatters) {
         config.formatters = actions.formatters.split(',');
         debug(`Using formatters option provided from command line: ${actions.formatters}`);
+    }
+
+    // If rules are provided, use them
+    if (actions && actions.rules) {
+        const ruleNames = actions.rules.split(',');
+
+        config.rules = buildRulesConfigFromRuleNames(ruleNames, 'error');
+        debug(`Using rules option provided from command line: ${actions.rules}`);
     }
 };
 

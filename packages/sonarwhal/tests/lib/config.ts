@@ -303,3 +303,54 @@ test('If formatter is not specified as CLI argument, fromConfig method will use 
     t.is(result.formatters[0], 'summary');
     t.is(result.formatters[1], 'excel');
 });
+
+test('If rules option is specified as CLI argument, fromConfig method will use that to build SonarwhalConfig', (t) => {
+    const { config } = t.context;
+    const userConfig = {
+        connector: { name: 'chrome' },
+        formatters: ['summary'],
+        rules: { 'apple-touch-icons': 'warning' }
+    } as UserConfig;
+    const cliOptions = { _: ['https://example.com'], rules: 'html-checker,content-type' } as CLIOptions;
+
+    const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
+
+    t.is(result.rules.hasOwnProperty('html-checker'), true);
+    t.is(result.rules.hasOwnProperty('content-type'), true);
+    // Make sure we updated only the rules. Other properties of userConfig should stay same
+    t.is(result.formatters[0], 'summary');
+});
+
+test('If rules option is not specified as CLI argument, fromConfig method will use the rules specified in the userConfig object as it is to build SonarwhalConfig', (t) => {
+    const { config } = t.context;
+    const userConfig = {
+        connector: { name: 'chrome' },
+        formatters: ['summary'],
+        rules: { 'apple-touch-icons': 'warning' }
+    } as UserConfig;
+    const cliOptions = { _: ['https://example.com'] } as CLIOptions;
+
+    const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
+
+    t.is(result.rules.hasOwnProperty('apple-touch-icons'), true);
+});
+
+test('If both rules and formatters options are specified as CLI arguments, fromConfig method will use that to build SonarwhalConfig', (t) => {
+    const { config } = t.context;
+    const userConfig = {
+        connector: { name: 'chrome' },
+        formatters: ['summary', 'excel'],
+        rules: { 'apple-touch-icons': 'warning' }
+    } as UserConfig;
+    const cliOptions = { _: ['https://example.com'], formatters: 'database', rules: 'html-checker'} as CLIOptions;
+
+    const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
+
+    // verify formatters
+    t.is(result.formatters.length, 1);
+    t.is(result.formatters[0], 'database');
+
+    // verify rules
+    t.is(result.rules.hasOwnProperty('html-checker'), true);
+    t.is(result.rules.hasOwnProperty('apple-touch-icons'), false);
+});
