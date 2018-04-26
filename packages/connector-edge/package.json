@@ -12,12 +12,12 @@
     "markdownlint-cli": "^0.7.0",
     "npm-run-all": "^4.1.2",
     "rimraf": "^2.6.2",
-    "sonarwhal": "^1.7.1",
+    "sonarwhal": "^1.8.0",
     "typescript": "^2.8.3",
     "typescript-eslint-parser": "^15.0.0"
   },
   "peerDependencies": {
-    "sonarwhal": "^1.7.1"
+    "sonarwhal": "^1.8.0"
   },
   "engines": {
     "node": ">=8.0.0"
