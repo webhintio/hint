@@ -31,8 +31,8 @@ media types], the script will be blocked.
 
 Note: [Modern browsers only respect the header for scripts and
 stylesheets][fetch spec blocking], and sending the header for other
-resources such as images may [create problems in older browsers][fetch
-spec issue].
+resources (such as images) when they are served with the wrong media
+type may [create problems in older browsers][fetch spec issue].
 
 ## How to use this rule?
 
