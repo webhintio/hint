@@ -9,7 +9,7 @@ const ruleName = getRuleName(__dirname);
 
 const metaTag = '<meta http-equiv="x-ua-compatible" content="ie=edge">';
 
-const generateHTMLPageWithMetaTag = (metaTagValue: string = 'iE=eDgE') => {
+const generateHTMLPageWithMetaTag = (metaTagValue = 'iE=eDgE') => {
     return generateHTMLPage(`<MEtA hTTp-EqUIv="X-Ua-CompATible" ConTenT="${metaTagValue}">`);
 };
 

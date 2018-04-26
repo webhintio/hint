@@ -35,7 +35,7 @@ export default class ManifestFileExtensionRule implements IRule {
 
     public constructor(context: RuleContext) {
 
-        const standardManifestFileExtension: string = 'webmanifest';
+        const standardManifestFileExtension = 'webmanifest';
 
         const validate = async (data: ElementFound) => {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;

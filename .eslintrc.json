@@ -260,6 +260,10 @@
         "typescript/member-naming": "error",
         "typescript/no-angle-bracket-type-assertion": "error",
         "typescript/no-array-constructor": "error",
+        "typescript/no-inferrable-types": ["error", {
+            "ignoreProperties": false,
+            "ignoreParameters": false
+        }],
         "typescript/no-namespace": "error",
         "typescript/no-parameter-properties": "error",
         "typescript/no-triple-slash-reference": "error",

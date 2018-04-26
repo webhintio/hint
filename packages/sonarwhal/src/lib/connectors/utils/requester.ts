@@ -71,7 +71,7 @@ export class Requester {
     /** Internal `redirectManager`. */
     private _redirects: RedirectManager = new RedirectManager();
     /** Maximum number of redirects */
-    private _maxRedirects: number = 10;
+    private _maxRedirects = 10;
 
     /** Tries to decompress the given `Buffer` `content` using the given `decompressor` */
     private async tryToDecompress(decompressor, content): Promise<Buffer> {

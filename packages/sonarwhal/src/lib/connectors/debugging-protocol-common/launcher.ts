@@ -15,7 +15,7 @@ import { BrowserInfo, ILauncher, LauncherOptions } from '../../types';
 
 export abstract class Launcher implements ILauncher {
     protected pidFile: string = path.join(process.cwd(), 'cdp.pid');
-    protected port: number = 9222;
+    protected port = 9222;
     protected options: LauncherOptions = null;
 
     public constructor(options: LauncherOptions) {

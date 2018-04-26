@@ -75,7 +75,7 @@ export default class ManifestAppNameRule implements IRule {
              * https://support.google.com/googleplay/android-developer/answer/113469#store_listing
              */
 
-            const nameLengthLimit: number = 30;
+            const nameLengthLimit = 30;
 
             /*
              * The 12 character limit is used to ensure that for most
@@ -97,7 +97,7 @@ export default class ManifestAppNameRule implements IRule {
              *  https://developer.chrome.com/apps/manifest/name#short_name
              */
 
-            const shortNameLengthLimit: number = 12;
+            const shortNameLengthLimit = 12;
 
             await checkIfPropertyExists(resource, name, 'name');
             await checkIfPropertyValueIsNotEmpty(resource, name, 'name');

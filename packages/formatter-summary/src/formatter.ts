@@ -47,8 +47,8 @@ export default class SummaryFormatter implements IFormatter {
         };
 
         const tableData: Array<Array<string>> = [];
-        let totalErrors: number = 0;
-        let totalWarnings: number = 0;
+        let totalErrors = 0;
+        let totalWarnings = 0;
         const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'ruleId');
         const sortedResources = Object.entries(resources).sort(([ruleA, problemsA], [ruleB, problemsB]) => {
             if (problemsA.length < problemsB.length) {

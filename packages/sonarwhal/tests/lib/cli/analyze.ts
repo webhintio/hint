@@ -217,7 +217,7 @@ test.serial('If executeOn returns an error, it should exit with code 1 and call 
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
-        public static called: boolean = false;
+        public static called = false;
         public constructor() { }
 
         public format(problems: Array<Problem>) {
@@ -318,7 +318,7 @@ test.serial('If executeOn returns no errors, it should exit with code 0 and call
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
-        public static called: boolean = false;
+        public static called = false;
         public constructor() { }
 
         public format(problems: Array<Problem>) {
@@ -358,7 +358,7 @@ test.serial('If executeOn returns no errors, it should call to spinner.succeed()
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
-        public static called: boolean = false;
+        public static called = false;
         public constructor() { }
 
         public format(problems: Array<Problem>) {
@@ -397,7 +397,7 @@ test.serial('Event fetch::start should write a message in the spinner', async (t
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
-        public static called: boolean = false;
+        public static called = false;
         public constructor() { }
 
         public format(problems: Array<Problem>) {
@@ -437,7 +437,7 @@ test.serial('Event fetch::end should write a message in the spinner', async (t) 
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
-        public static called: boolean = false;
+        public static called = false;
         public constructor() { }
 
         public format(problems: Array<Problem>) {
@@ -477,7 +477,7 @@ test.serial('Event fetch::end::html should write a message in the spinner', asyn
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
-        public static called: boolean = false;
+        public static called = false;
         public constructor() { }
 
         public format(problems: Array<Problem>) {
@@ -517,7 +517,7 @@ test.serial('Event traverse::up should write a message in the spinner', async (t
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
-        public static called: boolean = false;
+        public static called = false;
         public constructor() { }
 
         public format(problems: Array<Problem>) {
@@ -557,7 +557,7 @@ test.serial('Event traverse::end should write a message in the spinner', async (
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
-        public static called: boolean = false;
+        public static called = false;
         public constructor() { }
 
         public format(problems: Array<Problem>) {
@@ -597,7 +597,7 @@ test.serial('Event scan::end should write a message in the spinner', async (t) =
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
-        public static called: boolean = false;
+        public static called = false;
         public constructor() { }
 
         public format(problems: Array<Problem>) {

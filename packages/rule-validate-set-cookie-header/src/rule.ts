@@ -44,14 +44,14 @@ export default class ValidateSetCookieHeaderRule implements IRule {
          * A collection of illegal characters in cookie name
          * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
          */
-        const illegalCookieNameChars: string = '()<>@,;:\"/[]?={}'; // eslint-disable-line no-useless-escape
+        const illegalCookieNameChars = '()<>@,;:\"/[]?={}'; // eslint-disable-line no-useless-escape
         /**
          * A collection of illegal characters in cookie value
          * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
          */
-        const illegalCookieValueChars: string = ',;"/';
+        const illegalCookieValueChars = ',;"/';
         /** Header name used in report */
-        const headerName: string = 'set-cookie';
+        const headerName = 'set-cookie';
 
         type ValidationMessages = Array<string>;
         type Validator = (parsedSetCookie: ParsedSetCookieHeader) => ValidationMessages;

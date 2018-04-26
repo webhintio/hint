@@ -14,7 +14,7 @@ const debug: debug.IDebugger = d(__filename);
 const install = (command: string) => {
     return new Promise((resolve, reject) => {
         const npmInstall = spawn(command, [], { shell: true });
-        let errors: string = '';
+        let errors = '';
 
         npmInstall.stderr.setEncoding('utf8');
         npmInstall.stderr.on('data', (data) => {
@@ -37,9 +37,9 @@ const install = (command: string) => {
 
 export const installPackages = async (packages: Array<string>): Promise<boolean> => {
     /** Whether or not the package should be installed globally. */
-    let global: boolean = false;
+    let global = false;
     /** Whether or not the package should be installed as devDependencies. */
-    let isDev: boolean = false;
+    let isDev = false;
     /** Path to `package.json`. */
     let packagePath: string;
     /** Current working directory. */

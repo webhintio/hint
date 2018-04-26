@@ -80,7 +80,7 @@ export default class JavascriptParser extends Parser {
         }
 
         const code = this.getScriptContent(await element.outerHTML());
-        const resource: string = 'Internal javascript';
+        const resource = 'Internal javascript';
 
         await this.emitScript(code, resource);
     }

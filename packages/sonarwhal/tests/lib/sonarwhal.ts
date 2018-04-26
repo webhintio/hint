@@ -74,7 +74,7 @@ test.serial(`If config.browserslist is an array of strings, we should initilize 
 
 test.serial(`If config.rules has some rules "off", we shouldn't create those rules`, (t) => {
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -89,7 +89,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
     }
 
     class FakeManifestRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeManifestRule.called = true;
@@ -130,7 +130,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
 
 test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't ignore those rules if the connector isn't in that property`, (t) => {
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -147,7 +147,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
     }
 
     class FakeManifestRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeManifestRule.called = true;
@@ -197,7 +197,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
 
 test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ignore those rules if the connector is in that property`, (t) => {
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -215,7 +215,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
     }
 
     class FakeManifestRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeManifestRule.called = true;
@@ -258,7 +258,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
 
 test.serial(`If the rule scope is 'local' and the connector isn't local the rule should be ignored`, (t) => {
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -273,7 +273,7 @@ test.serial(`If the rule scope is 'local' and the connector isn't local the rule
     }
 
     class FakeManifestRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeManifestRule.called = true;
@@ -316,7 +316,7 @@ test.serial(`If the rule scope is 'local' and the connector isn't local the rule
 
 test.serial(`If the rule scope is 'site' and the connector is local the rule should be ignored`, (t) => {
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -331,7 +331,7 @@ test.serial(`If the rule scope is 'site' and the connector is local the rule sho
     }
 
     class FakeManifestRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeManifestRule.called = true;
@@ -374,7 +374,7 @@ test.serial(`If the rule scope is 'site' and the connector is local the rule sho
 
 test.serial(`If the rule scope is 'any' and the connector is local the rule should be used`, (t) => {
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -389,7 +389,7 @@ test.serial(`If the rule scope is 'any' and the connector is local the rule shou
     }
 
     class FakeManifestRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeManifestRule.called = true;
@@ -432,7 +432,7 @@ test.serial(`If the rule scope is 'any' and the connector is local the rule shou
 
 test.serial(`If the rule scope is 'any' and the connector isn't local the rule should be used`, (t) => {
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -449,7 +449,7 @@ test.serial(`If the rule scope is 'any' and the connector isn't local the rule s
     }
 
     class FakeManifestRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeManifestRule.called = true;
@@ -520,7 +520,7 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
 
 test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) => {
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -566,7 +566,7 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
 
 test.serial(`If a rule is taking too much time, it should be ignored after the configured timeout`, async (t) => {
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -625,7 +625,7 @@ test.serial(`If there is no connector, it should throw an error`, (t) => {
 
 test.serial('If connector is in the resources, we should init the connector', (t) => {
     class FakeConnectorInit implements IConnector {
-        public static called: boolean = false;
+        public static called = false;
         private config;
         public constructor(server: Sonarwhal, config: object) {
             FakeConnectorInit.called = true;
@@ -655,7 +655,7 @@ test.serial('If connector is in the resources, we should init the connector', (t
 
 test.serial('If connector is an object with valid data, we should init the connector', (t) => {
     class FakeConnectorInit implements IConnector {
-        public static called: boolean = false;
+        public static called = false;
         private config;
         public constructor(server: Sonarwhal, config: object) {
             FakeConnectorInit.called = true;
@@ -792,7 +792,7 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
 
 test.serial('If connector.collect fails, it should return an error', async (t) => {
     class FakeConnectorCollectFail implements IConnector {
-        private error: boolean = true;
+        private error = true;
         private config;
         public constructor(server: Sonarwhal, config: object) {
             this.config = config;

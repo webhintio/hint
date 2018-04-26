@@ -45,7 +45,7 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
 const getIndicesOf = (searchStr: string, str: string): Array<number> => {
     const searchStrLen: number = searchStr.length;
 
-    let startIndex: number = 0;
+    let startIndex = 0;
     let index: number;
     const indices: Array<number> = [];
 
@@ -72,7 +72,7 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<P
     const selector: string = selectorFromElement(element);
     const elements: Array<IAsyncHTMLElement> = await element.ownerDocument.querySelectorAll(selector);
 
-    let similarItems: number = 0;
+    let similarItems = 0;
 
     // We found the exact number of occurrences so we can access the right index
     for (let index = 0; index < elements.length; index++) {

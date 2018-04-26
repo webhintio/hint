@@ -27,7 +27,7 @@ const elevate = promisify(nodeWindows.elevate);
 const debug = d(__filename);
 
 export class EdgeLauncher extends Launcher {
-    private retryDelay: number = 500;
+    private retryDelay = 500;
 
     public constructor(options: LauncherOptions) {
         super(options);

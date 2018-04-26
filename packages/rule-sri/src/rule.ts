@@ -54,7 +54,7 @@ export default class SRIRule implements IRule {
     private resources: Map<string, string>;
     private context: RuleContext;
     private origin: string;
-    private baseline: string = 'sha384';
+    private baseline = 'sha384';
 
     /**
      * Returns the hash of the content for the given `sha` strengh in a format

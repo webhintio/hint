@@ -49,7 +49,7 @@ export default class DisownOpenerRule implements IRule {
 
     public constructor(context: RuleContext) {
 
-        let includeSameOriginURLs: boolean = false;
+        let includeSameOriginURLs = false;
 
         const loadRuleConfigs = () => {
             includeSameOriginURLs = (context.ruleOptions && context.ruleOptions.includeSameOriginURLs) || false;

@@ -68,9 +68,9 @@ export default class PerformanceBudgetRule implements IRule {
         /** Set with all the different HTTPS domains loaded by the site. */
         const secureDomains: Set<string> = new Set();
         /** Number of total redirects found to load the resources. */
-        let performedRedirects: number = 0;
+        let performedRedirects = 0;
         /** Number of total requests performed. */
-        let performedRequests: number = 0;
+        let performedRequests = 0;
 
         /** Update the stored information for unique domains (`uniqueDomains`) and connections over https (`secureDomains`). */
         const updateDomainsInfo = (resource: string) => {
@@ -221,9 +221,9 @@ export default class PerformanceBudgetRule implements IRule {
          * To know more about `slow-start` visit https://hpbn.co/building-blocks-of-tcp/#slow-start
          */
         const calculateTransferTimeForResource = (response: ResourceResponse, config: NetworkConfig): number => {
-            const networkSegmentSize: number = 1460;
-            const rwnd: number = 65535;
-            const cwnd: number = 10; // RFC-6928: https://tools.ietf.org/html/rfc6928
+            const networkSegmentSize = 1460;
+            const rwnd = 65535;
+            const cwnd = 10; // RFC-6928: https://tools.ietf.org/html/rfc6928
             const dataInFlight: number = Math.min(response.sentSize, rwnd);
             const segments: number = Math.ceil(dataInFlight / networkSegmentSize);
 

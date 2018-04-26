@@ -94,7 +94,7 @@ class NewParser {
     public packageName: string;
     public version: string;
     public official: boolean;
-    public isParser: boolean = true;
+    public isParser = true;
 
     public constructor(parserData: QuestionsType) {
         this.name = parserData.name;
@@ -143,11 +143,11 @@ class NewParser {
  */
 const mkdirpAsync = promisify(mkdirp);
 const eventList: Array<string> = Object.keys(events);
-const TEMPLATE_PATH: string = './templates/new-parser';
+const TEMPLATE_PATH = './templates/new-parser';
 const SHARED_TEMPLATE_PATH = './shared-templates';
 
 /** Configure questions depending on what we need. */
-const questions = (repeat: boolean = false) => {
+const questions = (repeat = false) => {
     return [
         {
             default: 'newParser',

@@ -25,11 +25,11 @@ const validColorValues = [
     'transparent'
 ];
 
-const generateThemeColorMetaTag = (contentValue: string = '#f00', nameValue: string = 'theme-color') => {
+const generateThemeColorMetaTag = (contentValue = '#f00', nameValue = 'theme-color') => {
     return `<meta name="${nameValue}" content="${contentValue}">`;
 };
 
-const generateTest = (colorValues: Array<string>, valueType: string = 'valid') => {
+const generateTest = (colorValues: Array<string>, valueType = 'valid') => {
     const tests = [];
 
     for (const colorValue of colorValues) {

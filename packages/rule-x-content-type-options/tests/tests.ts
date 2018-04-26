@@ -9,7 +9,7 @@ import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const noHeaderMessage = `'x-content-type-options' header is not specified`;
 const unneededHeaderMessage = `'x-content-type-options' header is not needed`;
-const generateInvalidValueMessage = (value: string = '') => {
+const generateInvalidValueMessage = (value = '') => {
     return `'x-content-type-options' header value (${value}) is invalid`;
 };
 

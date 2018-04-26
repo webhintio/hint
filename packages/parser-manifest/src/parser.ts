@@ -30,12 +30,12 @@ export default class ManifestParser extends Parser {
 
     // Event names.
 
-    private fetchEndEventName: string = 'fetch::end::manifest';
-    private fetchErrorEventName: string = 'fetch::error::manifest';
-    private fetchStartEventName: string = 'fetch::start::manifest';
+    private fetchEndEventName = 'fetch::end::manifest';
+    private fetchErrorEventName = 'fetch::error::manifest';
+    private fetchStartEventName = 'fetch::start::manifest';
 
     /* eslint-disable no-invalid-this */
-    private parseEventPrefix: string = 'parse::manifest';
+    private parseEventPrefix = 'parse::manifest';
     private parseEndEventName: string = `${this.parseEventPrefix}::end`;
     private parseErrorSchemaEventName: string = `${this.parseEventPrefix}::error::schema`;
     private parseJSONErrorEventName: string = `${this.parseEventPrefix}::error::json`;
@@ -142,7 +142,7 @@ export default class ManifestParser extends Parser {
     private async validateManifest (fetchEnd: FetchEnd) {
         const { element, resource, response, request } = fetchEnd;
 
-        let jsonContent: string = '';
+        let jsonContent = '';
 
         /*
          * Try to see if the content of the web app manifest file

@@ -39,8 +39,8 @@ export default class HighestAvailableDocumentModeRule implements IRule {
 
     public constructor(context: RuleContext) {
 
-        let requireMetaTag: boolean = false;
-        let suggestRemoval: boolean = false;
+        let requireMetaTag = false;
+        let suggestRemoval = false;
 
         /*
          * This function exists because not all connector (e.g.: jsdom)
@@ -154,7 +154,7 @@ export default class HighestAvailableDocumentModeRule implements IRule {
              */
 
             const headElements: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('head *');
-            let metaTagIsBeforeRequiredElements: boolean = true;
+            let metaTagIsBeforeRequiredElements = true;
 
             for (const headElement of headElements) {
                 if (headElement.isSame(XUACompatibleMetaTag)) {
