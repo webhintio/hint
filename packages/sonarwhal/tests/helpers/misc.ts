@@ -1,4 +1,4 @@
-export const generateHTMLPage = (head: string = '<title>test</title>', body: string = ''): string => {
+export const generateHTMLPage = (head = '<title>test</title>', body = ''): string => {
     return `<!doctype html>
 <html lang="en">
     <head>

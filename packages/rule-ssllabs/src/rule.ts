@@ -71,7 +71,7 @@ export default class SSLLabsRule implements IRule {
         /** The promise that represents the scan by SSL Labs. */
         let promise: Promise<SSLLabsResult>;
         /** The minimum grade required to pass. */
-        let minimumGrade: string = 'A-';
+        let minimumGrade = 'A-';
         /** The options to pass to the SSL Labs scanner. */
         let scanOptions: SSLLabsOptions = {
             all: 'done',
@@ -80,7 +80,7 @@ export default class SSLLabsRule implements IRule {
             maxAge: 2
         };
         /** Error processing the request if any. */
-        let failed: boolean = false;
+        let failed = false;
 
         /**
          * Enum with the different possible grades for an endpoint returned by SSL Labs scan.

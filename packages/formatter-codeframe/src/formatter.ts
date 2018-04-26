@@ -51,7 +51,7 @@ const codeFrame = (code: string, location: ProblemLocation) => {
     const line: number = location.elementLine;
     const column: number = location.elementColumn;
     const offsetColumn: number = location.column;
-    const extraLinesToShow: number = 2;
+    const extraLinesToShow = 2;
     const firstLine: number = line - extraLinesToShow > 0 ? line - extraLinesToShow : 0;
     const lastLine: number = line + (extraLinesToShow + 1) < codeInLines.length ? line + (extraLinesToShow + 1) : codeInLines.length;
 
@@ -131,8 +131,8 @@ export default class CodeframeFormatter implements IFormatter {
         }
 
         const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'resource');
-        let totalErrors: number = 0;
-        let totalWarnings: number = 0;
+        let totalErrors = 0;
+        let totalWarnings = 0;
 
         _.forEach(resources, (msgs: Array<Problem>, resource: string) => {
             const sortedMessages: Array<Problem> = _.sortBy(msgs, ['location.line', 'location.column']);

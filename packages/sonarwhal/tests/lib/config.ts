@@ -87,7 +87,7 @@ test(`if the config file doesn't have an extension, it should be parsed as JSON 
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -113,7 +113,7 @@ test(`if the config file is JavaScript, it should return the configuration part`
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -139,7 +139,7 @@ test(`if package.json contains a valid sonarwhal configuration, it should return
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -165,7 +165,7 @@ test(`if package.json contains the property "ignoredUrls", it shold return them`
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -193,7 +193,7 @@ test(`if the configuration file contains an extends property, it should combine 
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;
@@ -238,7 +238,7 @@ test(`if a Rule has an invalid configuration, it should tell which ones are inva
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedRule implements IRule {
-        public static called: boolean = false;
+        public static called = false;
         private context;
         public constructor(context) {
             FakeDisallowedRule.called = true;

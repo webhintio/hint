@@ -55,15 +55,15 @@ export default class StylishFormatter implements IFormatter {
         }
 
         const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'resource');
-        let totalErrors: number = 0;
-        let totalWarnings: number = 0;
+        let totalErrors = 0;
+        let totalWarnings = 0;
 
         _.forEach(resources, (msgs: Array<Problem>, resource: string) => {
-            let warnings: number = 0;
-            let errors: number = 0;
+            let warnings = 0;
+            let errors = 0;
             const sortedMessages: Array<Problem> = _.sortBy(msgs, ['location.line', 'location.column']);
             const tableData: Array<Array<string>> = [];
-            let hasPosition: boolean = false;
+            let hasPosition = false;
 
             logger.log(chalk.cyan(`${cutString(resource, 80)}`));
 

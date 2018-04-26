@@ -55,7 +55,7 @@ export class Connector implements IConnector {
     /** A set of requests done by the connector to retrieve initial information more easily. */
     private _requests: Map<string, any>;
     /** Indicates if there has been an error loading the page (e.g.: it doesn't exists). */
-    private _errorWithPage: boolean = false;
+    private _errorWithPage = false;
     /** The parsed and original HTML. */
     private _html: string;
     /** The DOM abstraction on top of adapter. */
@@ -67,7 +67,7 @@ export class Connector implements IConnector {
     /** List of all the tabs used by the connector. */
     private _tabs = [];
     /** Tells if a favicon of a page has been downloaded from a link tag. */
-    private _faviconLoaded: boolean = false;
+    private _faviconLoaded = false;
     /** The amount of time before an event is going to be timedout. */
     private _timeout: number;
     /** Browser PID */
@@ -224,7 +224,7 @@ export class Connector implements IConnector {
             return;
         }
 
-        const eventName: string = 'fetch::start';
+        const eventName = 'fetch::start';
 
         debug(`About to start fetching ${cutString(requestUrl)}`);
 
@@ -282,7 +282,7 @@ export class Connector implements IConnector {
         }
 
         const { request: { url: resource } } = requestInfo;
-        const eventName: string = 'fetch::error';
+        const eventName = 'fetch::error';
 
         const hops: Array<string> = this._redirects.calculate(resource);
 
@@ -306,7 +306,7 @@ export class Connector implements IConnector {
     }
 
     private async getResponseBody(cdpResponse): Promise<{ content: string, rawContent: Buffer, rawResponse(): Promise<Buffer> }> {
-        let content: string = '';
+        let content = '';
         let rawContent: Buffer = null;
         const rawResponse = (): Promise<Buffer> => {
             return Promise.resolve(null);
@@ -552,7 +552,7 @@ export class Connector implements IConnector {
 
     /** Wait until the browser load the first tab */
     private getClient(port, tab): Promise<object> {
-        let retries: number = 0;
+        let retries = 0;
         const loadCDP = async () => {
             try {
                 const client = await cdp({ port, tab });

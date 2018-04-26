@@ -188,7 +188,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
 
     const start: number = Date.now();
     const spinner: ORA = ora({ spinner: 'line' });
-    let exitCode: number = 0;
+    let exitCode = 0;
 
     if (!actions.debug) {
         spinner.start();

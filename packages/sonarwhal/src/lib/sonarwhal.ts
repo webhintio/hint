@@ -42,7 +42,7 @@ export class Sonarwhal extends EventEmitter {
     private browserslist: Array<string> = [];
     private ignoredUrls: Map<string, Array<RegExp>>;
     private _formatters: Array<IFormatter>
-    private _timeout: number = 60000;
+    private _timeout = 60000;
     private _config: UserConfig;
 
     /** The DOM of the loaded page. */

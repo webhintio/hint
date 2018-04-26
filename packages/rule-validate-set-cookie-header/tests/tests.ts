@@ -38,7 +38,7 @@ const expiresOnlyHeader = setCookie(`cookieName=cookieValue; expires=Wed, 21 Oct
 const bothMaxAgeAndExpireHeader = setCookie(`cookieName=cookieValue; Max-Age=123; expires=Wed, 21 Oct 2015 07:28:00 GMT; secure; httponly`);
 
 // Error messages.
-const messages = (cookieName: string = 'cookiename'): { [key: string]: string } => {
+const messages = (cookieName = 'cookiename'): { [key: string]: string } => {
     return {
         hasDomainHostPrefixError: `set-cookie header contains '__Host-' prefix but the 'domain' directive is set.`,
         invalidAttributeError: `'set-cookie' header contains unknown attribute 'maxage'.`,

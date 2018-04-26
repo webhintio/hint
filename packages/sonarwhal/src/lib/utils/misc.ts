@@ -23,7 +23,7 @@ const readdir = fs.readdirSync; // eslint-disable-line no-sync
  * Cut a given string adding ` … ` in the middle.
  * The default length is 50 characters.
  */
-const cutString = (txt: string, length: number = 50): string => {
+const cutString = (txt: string, length = 50): string => {
     if (txt.length <= length) {
         return txt;
     }
@@ -247,7 +247,7 @@ const loadJSFile = (filePath: string): any => {
  * up the tree until one is found. If none, it throws an `Error`:
  * `No package found`.
  */
-const findPackageRoot = (dirname: string = __dirname, fileToFind: string = 'package.json'): string => {
+const findPackageRoot = (dirname: string = __dirname, fileToFind = 'package.json'): string => {
     const content: Array<string> = readdir(dirname);
 
     if (content.includes(fileToFind)) {

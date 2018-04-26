@@ -75,7 +75,7 @@ const exec = (cmd): Promise<ExecResult> => {
     });
 };
 
-const removePackageFiles = (dir: string = 'packages/*') => {
+const removePackageFiles = (dir = 'packages/*') => {
     shell.rm('-rf',
         `${dir}/dist`,
         `${dir}/node_modules`,
@@ -211,7 +211,7 @@ const extractDataFromCommit = async (sha: string): Promise<Commit> => {
     };
 };
 
-const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false) => {
+const gitCommitChanges = async (commitMessage: string, skipCI = false) => {
     // Add all changes to the staging aread.
     await exec(`git add packages yarn.lock`);
 

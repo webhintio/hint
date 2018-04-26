@@ -251,7 +251,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     ].concat(configPathsToResources);
 
     let resource;
-    let isValid: boolean = true;
+    let isValid = true;
 
     sources.some((source: string) => {
         const res = getResource(source, type, resourceName);

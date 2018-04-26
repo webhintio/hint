@@ -10,7 +10,7 @@ import { getPackage } from 'sonarwhal/dist/src/lib/utils/misc';
 import { WebpackConfigParse, WebpackConfigInvalidConfiguration } from './types';
 
 export default class WebpackConfigParser extends Parser {
-    private configFound: boolean = false;
+    private configFound = false;
     private schema: any;
     private newKeyword;
 

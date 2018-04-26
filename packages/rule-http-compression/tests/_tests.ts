@@ -182,7 +182,7 @@ const createGzipZopfliConfigs = (configs = {}) => {
     );
 };
 
-const createServerConfig = (configs = {}, https: boolean = false) => {
+const createServerConfig = (configs = {}, https = false) => {
     return Object.assign(
 
         // Accept-Encoding: identity
@@ -203,7 +203,7 @@ const createServerConfig = (configs = {}, https: boolean = false) => {
     );
 };
 
-const createGzipZopfliServerConfig = (configs, https: boolean = false) => {
+const createGzipZopfliServerConfig = (configs, https = false) => {
     return Object.assign(
         createServerConfig({}, https),
         createGzipZopfliConfigs(configs)
@@ -323,7 +323,7 @@ const testsForBrotliUASniffing = (): Array<RuleTest> => {
     ];
 };
 
-const testsForDefaults = (https: boolean = false): Array<RuleTest> => {
+const testsForDefaults = (https = false): Array<RuleTest> => {
     return [
         {
             name: `Only resources that should be served compressed are served compressed`,
@@ -369,7 +369,7 @@ const testsForDefaults = (https: boolean = false): Array<RuleTest> => {
     ];
 };
 
-const testsForDisallowedCompressionMethods = (https: boolean = false): Array<RuleTest> => {
+const testsForDisallowedCompressionMethods = (https = false): Array<RuleTest> => {
     return [
         {
             name: `Compressed resource is served with disallowed 'Content-Encoding: x-gzip' header`,
@@ -418,7 +418,7 @@ const testsForDisallowedCompressionMethods = (https: boolean = false): Array<Rul
     ];
 };
 
-const testsForGzipZopfli = (https: boolean = false): Array<RuleTest> => {
+const testsForGzipZopfli = (https = false): Array<RuleTest> => {
     return [
         {
             name: `Resource is not served compressed with gzip when gzip compression is requested`,
@@ -510,7 +510,7 @@ const testsForGzipZopfli = (https: boolean = false): Array<RuleTest> => {
     ];
 };
 
-const testsForGzipZopfliCaching = (https: boolean = false): Array<RuleTest> => {
+const testsForGzipZopfliCaching = (https = false): Array<RuleTest> => {
     return [
         {
             name: `Resource is served compressed with Zopfli and without the 'Vary' or 'Cache-Control' header when gzip compression is requested`,
@@ -573,7 +573,7 @@ const testsForGzipZopfliCaching = (https: boolean = false): Array<RuleTest> => {
     ];
 };
 
-const testsForGzipZopfliSmallSize = (https: boolean = false): Array<RuleTest> => {
+const testsForGzipZopfliSmallSize = (https = false): Array<RuleTest> => {
     return [
         {
             name: `Resource is served compressed with gzip when gzip compression is requested but uncompressed size is smaller the compressed size`,
@@ -600,7 +600,7 @@ const testsForGzipZopfliSmallSize = (https: boolean = false): Array<RuleTest> =>
     ];
 };
 
-const testsForGzipZopfliUASniffing = (https: boolean = false): Array<RuleTest> => {
+const testsForGzipZopfliUASniffing = (https = false): Array<RuleTest> => {
     const headersConfig = {
         request: {
             headers: {
@@ -642,7 +642,7 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): Array<RuleTest> =
     ];
 };
 
-const testsForNoCompression = (https: boolean = false): Array<RuleTest> => {
+const testsForNoCompression = (https = false): Array<RuleTest> => {
     return [
         {
             name: `Resource is served compressed when requested uncompressed`,
@@ -728,7 +728,7 @@ const testsForNoCompression = (https: boolean = false): Array<RuleTest> => {
     ];
 };
 
-const testsForSpecialCases = (https: boolean = false): Array<RuleTest> => {
+const testsForSpecialCases = (https = false): Array<RuleTest> => {
     return [
 
         // SVGZ.
@@ -746,7 +746,7 @@ const testsForSpecialCases = (https: boolean = false): Array<RuleTest> => {
     ];
 };
 
-const testsForUserConfigs = (encoding, isTarget: boolean = true, https: boolean = false): Array<RuleTest> => {
+const testsForUserConfigs = (encoding, isTarget = true, https = false): Array<RuleTest> => {
     const isBrotli = encoding === 'Brotli';
     const isGzip = encoding === 'gzip';
 

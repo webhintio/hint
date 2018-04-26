@@ -127,7 +127,7 @@ class RulePackage {
     public rules: Array<INewRule>;
     public version: string;
     public destination: string;
-    public isRule: boolean = true;
+    public isRule = true;
 
     public constructor(data: inquirer.Answers) {
         this.name = data.name;

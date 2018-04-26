@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import Parser from '../src/parser';
 
 const elementLinkEventName = 'element::link';
-const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribute: string = 'site.webmanifest') => {
+const getElementLinkEventValue = (relAttribute = 'manifest', hrefAttribute = 'site.webmanifest') => {
     return {
         element: {
             getAttribute: (value) => {
@@ -21,19 +21,19 @@ const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribu
     };
 };
 
-const fetchEndEventName: string = 'fetch::end::manifest';
-const fetchErrorEventName: string = 'fetch::error::manifest';
-const fetchStartEventName: string = 'fetch::start::manifest';
+const fetchEndEventName = 'fetch::end::manifest';
+const fetchErrorEventName = 'fetch::error::manifest';
+const fetchStartEventName = 'fetch::start::manifest';
 
-const parseEventPrefix: string = 'parse::manifest';
+const parseEventPrefix = 'parse::manifest';
 const parseEndEventName: string = `${parseEventPrefix}::end`;
 const parseErrorSchemaEventName: string = `${parseEventPrefix}::error::schema`;
 const parseJSONErrorEventName: string = `${parseEventPrefix}::error::json`;
 
-const scanEndEventName: string = 'scan::end';
+const scanEndEventName = 'scan::end';
 const scanEndEventValue = { resource: 'https://example.com' };
 
-const createNetworkDataObject = (manifestContent: string = '', statusCode: number = 200) => {
+const createNetworkDataObject = (manifestContent = '', statusCode = 200) => {
     return {
         request: {
             headers: null,
@@ -55,7 +55,7 @@ const createNetworkDataObject = (manifestContent: string = '', statusCode: numbe
     };
 };
 
-const createMissingTest = async (t, relAttribute: string = 'manifest', hrefAttribute: string = '') => {
+const createMissingTest = async (t, relAttribute = 'manifest', hrefAttribute = '') => {
     const elementLinkEventValue = getElementLinkEventValue(relAttribute, hrefAttribute);
     const sandbox = sinon.sandbox.create();
     const sonarwhal = t.context.sonarwhal;

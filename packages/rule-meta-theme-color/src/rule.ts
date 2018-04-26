@@ -49,7 +49,7 @@ export default class MetaThemeColorRule implements IRule {
 
     public constructor(context: RuleContext) {
 
-        let bodyElementWasReached: boolean = false;
+        let bodyElementWasReached = false;
         let firstThemeColorMetaTag: IAsyncHTMLElement;
 
         const checkIfThemeColorMetaTagWasSpecified = async (event: TraverseEnd) => {
