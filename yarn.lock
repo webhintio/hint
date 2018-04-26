@@ -1252,9 +1252,9 @@ browserslist@^2.0.0:
     caniuse-lite "^1.0.30000792"
     electron-to-chromium "^1.3.30"
 
-browserslist@^3.2.5:
-  version "3.2.5"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-3.2.5.tgz#aa46a5ea33b5330178f3c91cfd85e148fcb57080"
+browserslist@^3.2.6:
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-3.2.6.tgz#138a44d04a9af64443679191d041f28ce5b965d5"
   dependencies:
     caniuse-lite "^1.0.30000830"
     electron-to-chromium "^1.3.42"
@@ -1450,9 +1450,9 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.1:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.0.tgz#a060a297a6b57e15b61ca63ce84995daa0fe6e52"
+chalk@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.1.tgz#18c49ab16a037b6eb0152cc83e3471338215b66e"
   dependencies:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"
@@ -2394,9 +2394,9 @@ eslint-plugin-markdown@^1.0.0-beta.7:
     remark-parse "^3.0.0"
     unified "^6.1.2"
 
-eslint-plugin-typescript@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.11.0.tgz#a8480beeac1634271737e0ff8af32d9119b0d272"
+eslint-plugin-typescript@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.12.0.tgz#e23d58cb27fe28e89fc641a1f20e8d862cb99aef"
   dependencies:
     requireindex "~1.1.0"
 
