@@ -1,3 +1,10 @@
+# 3.0.3 (April 26, 2018)
+
+## Bug fixes / Improvements
+
+* [[`5c798f533b`](https://github.com/sonarwhal/sonarwhal/commit/5c798f533b06675947b783384e4473153bb81172)] - Docs: Make it more clear when problems occur in older browsers (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 3.0.2 (April 23, 2018)
 
 ## Bug fixes / Improvements
