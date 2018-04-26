@@ -1,3 +1,5 @@
+import { AnyContext } from 'ava';
+
 import { ProblemLocation } from '../../src/lib/types';
 
 export type Report = {
@@ -23,9 +25,9 @@ export type RuleTest = {
 
 export type RuleLocalTest = {
     /** The code to execute before `closing` the connector. */
-    after?(context?): void | Promise<void>;
+    after?(context?: AnyContext): void | Promise<void>;
     /** The code to execute before creating the connector. */
-    before?(context?): void | Promise<void>;
+    before?(context?: AnyContext): void | Promise<void>;
     /** Path to send to the local connector. */
     path: string;
     /** The name of the test. */
