@@ -69,7 +69,7 @@ Wait a few seconds and you will get something similar to the following:
 ![Example output for the summary formatter](images/summary-output.png)
 
 It might take a few minutes to get some of the results. Some of the
-rules (e.g.: [`SSL Labs`](./rules/ssllabs.md)) can take a few minutes
+rules (e.g.: [`SSL Labs`](/rules/rule-ssllabs.md)) can take a few minutes
 to report the results.
 
 Now that you have your first result, is time to learn a bit more about
