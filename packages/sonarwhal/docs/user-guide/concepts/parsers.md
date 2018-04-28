@@ -17,11 +17,11 @@ configuration file:
 ## List of official `parser`s
 
 * [`javascript`][@sonarwhal/parser-javascript]: A `JavaScript`
-parser built on top of `ESLint` so rules for analyzing `JavaScript`
-files can be built.
+  parser built on top of `ESLint` so rules for analyzing `JavaScript`
+  files can be built.
 
 * [`typescript-config`][@sonarwhal/parser-typescript-config]: A parser
-that validates if the `TypeScript configuration` is valid.
+  that validates if the `TypeScript configuration` is valid.
 
 ## How to use a parser
 
@@ -46,8 +46,8 @@ to use the event `parse::typescript-config` emiited by the
 This event is of type `TypeScriptConfigParse` wich has the following
 information:
 
-  * `resource`: the parsed resource.
-  * `config`: an object with a valid the configuration.
+* `resource`: the parsed resource.
+* `config`: an object with a valid the configuration.
 
 <!-- Link labels: -->
 

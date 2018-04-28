@@ -57,7 +57,6 @@ The officially supported `formatter`s that can be installed via `npm` are:
 
 ![Example output for one of the details sheet of the excel formatter](images/excel-details.png)
 
-
 If you want to implement your own `formatter`, visit the [contributor
 guide][contributor guide]
 

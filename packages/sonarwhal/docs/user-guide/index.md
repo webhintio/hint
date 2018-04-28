@@ -40,6 +40,7 @@ following if you decided to use a predefined configuration:
     "extends": ["configurationName"]
 }
 ```
+
 or the following if custom:
 
 ```json
@@ -80,7 +81,6 @@ the different pieces:
 * [Connectors](./concepts/connectors/)
 * [Formatters](./concepts/formatters/)
 * [Parsers](./concepts/parsers/)
-
 
 ### Permission issues during installation
 

@@ -8,15 +8,16 @@ that we can use sonarwhal to validate the copyright in the footer for us.
 
 ## What is a rule?
 
-First of all, let’s grasp what a rule is and how it works. A rule is at the core
-of sonarwhal, it is a check that is used to verify if something was done as
-intended. In our example, if a page doesn’t have a footer or has a footer but
-misses the `(c) sonarwhal part`, the rule fails. Otherwise it passes. A rule
-subscribes to one or more events that are emitted from a connector. A connector
-is the way sonarwhal gets the information about a website or a resource using a
-browser, or something different that reads files from disk. For example, if a
-rule subscribes to `fetch::end::<resource-type>`, it means this rule will run each time the
-connector finishes downloading a resource file.
+First of all, let’s grasp what a rule is and how it works. A rule is at
+the core of sonarwhal, it is a check that is used to verify if something
+was done as intended. In our example, if a page doesn’t have a footer or
+has a footer but misses the `(c) sonarwhal part`, the rule fails. Otherwise
+it passes. A rule subscribes to one or more events that are emitted from
+a connector. A connector is the way sonarwhal gets the information about
+a website or a resource using a browser, or something different that reads
+files from disk. For example, if a rule subscribes to `fetch::end::<resource-type>`,
+it means this rule will run each time the connector finishes downloading
+a resource file.
 
 ## What is it like to create a new rule?
 

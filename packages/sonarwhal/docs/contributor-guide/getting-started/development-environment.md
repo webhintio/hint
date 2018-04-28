@@ -76,8 +76,10 @@ correctly. The upstream tests always pass.
 
 ## Built-in scripts
 
-There are different scripts in all the `package.json` (root and package ones).
-The following is the list of all the available ones:
+There are different scripts in all the `package.json` (root and package
+ones). The following is the list of all the available ones:
+
+<!-- markdownlint-disable MD013 -->
 
 | Command | Description | Availability |
 | --------| ----------- | ------------ |
@@ -100,6 +102,8 @@ The following is the list of all the available ones:
 | `watch:resources` | Copies all the static assets to `dist` and any new ones added | package |
 | `watch:test` | Runs the tests as soon as there is a test in the tests or in the code to test | package |
 | `watch:ts` | Compiles the TypeScript files as soon as there is a change | package |
+
+<!-- markdownlint-enable MD013 -->
 
 <!-- Link labels: -->
 
