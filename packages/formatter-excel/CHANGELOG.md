@@ -1,3 +1,10 @@
+# 1.0.4 (May 1, 2018)
+
+## Bug fixes / Improvements
+
+* [[`d7c1e225d9`](https://github.com/sonarwhal/sonarwhal/commit/d7c1e225d960320dd8ad5c76e4a65fedadafffe4)] - Fix: Issue with output file not being created when the URL has the port (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1035`](https://github.com/sonarwhal/sonarwhal/issues/1035)).
+
+
 # 1.0.3 (April 10, 2018)
 
 ## Bug fixes / Improvements
