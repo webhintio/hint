@@ -7,6 +7,9 @@ resource in its sheet:
 
 ![Example output for one of the details sheet of the excel formatter](images/details.png)
 
+The file will be created in the folder where `sonarwhal` is called from (i.e.:
+`process.cwd()`).
+
 To use it you will have to install it via `npm`:
 
 ```bash
