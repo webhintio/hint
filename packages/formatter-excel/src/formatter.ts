@@ -191,6 +191,7 @@ export default class ExcelFormatter implements IFormatter {
         try {
             // We save the file with the friendly target name
             const name = target.replace(/:\/\//g, '-')
+                .replace(/:/g, '-')
                 .replace(/\./g, '-')
                 .replace(/\//g, '-')
                 .replace(/-$/, '');

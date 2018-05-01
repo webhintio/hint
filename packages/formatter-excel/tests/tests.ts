@@ -35,10 +35,10 @@ test(`Excel formatter doesn't print anything if no values`, async (t) => {
 test(`Excel formatter generates the right number of sheets with the good content`, async (t) => {
     const formatter = new t.context.ExcelFormatter();
 
-    await formatter.format(problems.multipleproblems, 'http://myresource.com/');
+    await formatter.format(problems.multipleproblems, 'http://myresource.com:8080/');
 
     const workbook = new Excel.Workbook();
-    const filePath = path.join(process.cwd(), 'http-myresource-com.xlsx');
+    const filePath = path.join(process.cwd(), 'http-myresource-com-8080.xlsx');
 
     await workbook.xlsx.readFile(filePath);
 
