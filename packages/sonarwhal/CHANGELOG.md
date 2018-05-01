@@ -1,3 +1,10 @@
+# 1.8.1 (May 1, 2018)
+
+## Bug fixes / Improvements
+
+* [[`32b848fbd4`](https://github.com/sonarwhal/sonarwhal/commit/32b848fbd4567195b171d21941a608671e6c64aa)] - Docs: Fix broken links (by [`Michael Born`](https://github.com/mborn319) / see also: [`#1033`](https://github.com/sonarwhal/sonarwhal/issues/1033)).
+
+
 # 1.8.0 (April 26, 2018)
 
 ## New features
