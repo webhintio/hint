@@ -48,7 +48,7 @@
   "main": "index.json",
   "name": "@sonarwhal/configuration-web-recommended",
   "peerDependencies": {
-    "sonarwhal": "^1.8.0"
+    "sonarwhal": "^1.8.1"
   },
   "repository": "sonarwhal/sonarwhal",
   "version": "6.0.0"
