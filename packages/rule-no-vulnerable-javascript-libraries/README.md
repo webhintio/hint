@@ -61,7 +61,7 @@ You can configure the minimum severity to report in the
     "connector": {...},
     "formatters": [...],
     "rules": {
-        "no-vulnerable-libraries": ["error", {
+        "no-vulnerable-javascript-libraries": ["error", {
             "severity": "low|medium|high"
         }],
         ...
