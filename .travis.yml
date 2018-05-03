@@ -27,7 +27,6 @@ jobs:
 
   allow_failures:
     - os: osx
-    - node_js: node
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
