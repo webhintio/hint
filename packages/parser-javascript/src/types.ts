@@ -4,4 +4,7 @@ import { Event } from 'sonarwhal/dist/src/lib/types/events';
 export type ScriptParse = Event & {
     /** The source code parsed */
     sourceCode: any;
+
+    /** The token count from generated AST */
+    tokenCount: number;
 };

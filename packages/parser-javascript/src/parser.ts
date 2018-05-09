@@ -29,7 +29,8 @@ export default class JavascriptParser extends Parser {
 
         const scriptData: ScriptParse = {
             resource,
-            sourceCode: new eslint.SourceCode(code, ast)
+            sourceCode: new eslint.SourceCode(code, ast),
+            tokenCount: ast.tokens.length
         };
 
         await this.sonarwhal.emitAsync(`parse::${this.name}::end`, scriptData);
