@@ -5,10 +5,10 @@
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, FetchStart, FetchEnd, FetchError, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { ScriptParse } from '../dist/parser-javascript/src/types'
+import { ScriptParse } from '../dist/parser-javascript/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -28,41 +28,37 @@ export default class JsMinifyCheckRule implements IRule {
         id: 'js-minify-check',
         schema: [{
             additionalProperties: false,
-            properties: {
-                threshold: {
-                    type: 'number'                    
-                }}
-            }
-        ],
+            properties: { threshold: { type: 'number' } }
+        }],
         scope: RuleScope.any
     }
 
     public constructor(context: RuleContext) {
+        const getImprovementIndex = (scriptData: ScriptParse) => {
+            const contentLength = scriptData.sourceCode.text.length;
+            const tokenRatio = scriptData.tokenCount / contentLength;
 
-        
+            return Math.round((1 - tokenRatio) * 100);
+        };
+
         const validateContentMinified = async (scriptData: ScriptParse) => {
-          
+            /*
+             * We derived 75 as a safe threshold value after running tests on 15 popular
+             * js libraries and few custom scripts from sonarwhal.com website
+             */
             let threshold: number = 75;
-            if(context.ruleOptions && context.ruleOptions.threshold)
-            {
+
+            if (context.ruleOptions && context.ruleOptions.threshold) {
                 threshold = context.ruleOptions.threshold;
             }
 
-            const contentLength = scriptData.sourceCode.text.length;            
-            const tokenRatio = scriptData.tokenCount / contentLength;
-            const improvementIndex = await getImprovementIndex(scriptData);
+            const improvementIndex = getImprovementIndex(scriptData);
 
-            if(improvementIndex > threshold)
-            {
+            if (improvementIndex > threshold) {
                 await context.report(scriptData.resource, null, 'Javascript content can be minified');
-            }      
+            }
         };
 
-        const getImprovementIndex = async (scriptData: ScriptParse) => {            
-            const contentLength = scriptData.sourceCode.text.length;            
-            const tokenRatio = scriptData.tokenCount / contentLength;
-            return  Math.round((1 - tokenRatio) * 100); 
-        };
-        context.on('parse::javascript::end', validateContentMinified);      
+        context.on('parse::javascript::end', validateContentMinified);
     }
 }

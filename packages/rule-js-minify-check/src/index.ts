@@ -4,6 +4,4 @@
 
 import * as jsMinifyCheck from './js-minify-check';
 
-module.exports = {
-    'js-minify-check': jsMinifyCheck
-};
+module.exports = { 'js-minify-check': jsMinifyCheck };
