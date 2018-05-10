@@ -316,11 +316,20 @@ New parser created in ${parserData.destination}
 
 --------------------------------------
 ----          How to use          ----
---------------------------------------
-1. Go to the folder ${parserData.destination}
-2. Run 'npm run init' to install all the dependencies and build the project
-3. Run 'npm run sonarwhal -- https://YourUrl' to analyze you site
-`);
+--------------------------------------`);
+
+    if (parserData.official) {
+        logger.log(`1. Run 'yarn' to install the dependencies.
+2. Go to the folder '${parserData.destination}'.
+3. Run 'yarn build' to build the project.
+4. Go to the folder 'packages/sonarwhal'.
+5. Add your parser to '.sonarwhalrc'.
+6. Run 'yarn sonarwhal https://YourUrl' to analyze your site.`);
+    } else {
+        logger.log(`1. Go to the folder '${parserData.destination}'.
+2. Run 'npm run init' to install all the dependencies and build the project.
+3. Run 'npm run sonarwhal -- https://YourUrl' to analyze you site.`);
+    }
 
     return true;
 };
