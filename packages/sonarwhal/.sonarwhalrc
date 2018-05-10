@@ -5,38 +5,14 @@
             "waitFor": 1000
         }
     },
-    "formatters": ["summary", "excel"],
-    "parsers": [],
+    "formatters": ["summary","excel"],
+    "parsers": ["javascript"],
     "rulesTimeout": 120000,
     "rules": {
-        "amp-validator": "off",
-        "apple-touch-icons": "warning",
-        "axe": "warning",
+        
         "content-type": "warning",
         "disown-opener": "warning",
-        "highest-available-document-mode": "warning",
-        "html-checker": "warning",
-        "http-cache": "warning",
-        "http-compression": "warning",
-        "image-optimization-cloudinary": "off",
-        "manifest-app-name": "warning",
-        "manifest-exists": "warning",
-        "manifest-file-extension": "warning",
-        "manifest-is-valid": "warning",
-        "meta-charset-utf-8": "warning",
-        "meta-viewport": "warning",
-        "no-bom": "warning",
-        "no-disallowed-headers": "warning",
-        "no-friendly-error-pages": "warning",
-        "no-html-only-headers": "warning",
-        "no-http-redirects": "warning",
-        "no-protocol-relative-urls": "warning",
-        "no-vulnerable-javascript-libraries": "warning",
-        "performance-budget": "warning",
-        "sri": "warning",
-        "ssllabs": "off",
-        "strict-transport-security": "warning",
-        "validate-set-cookie-header": "warning",
-        "x-content-type-options": "warning"
+        "js-minify-check": "warning",      
+        "http-cache": "warning"
     }
 }
