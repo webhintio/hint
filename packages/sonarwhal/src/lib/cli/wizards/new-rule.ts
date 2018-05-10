@@ -417,11 +417,20 @@ New ${rulePackage.isMulti ? 'package' : 'rule'} ${rulePackage.name} created in $
 
 --------------------------------------
 ----          How to use          ----
---------------------------------------
-1. Go to the folder rule-${rulePackage.normalizedName}
-2. Run 'npm run init' to install all the dependencies and build the project
-3. Run 'npm run sonarwhal -- https://YourUrl' to analyze you site
-`);
+--------------------------------------`);
+
+        if (rulePackage.official) {
+            logger.log(`1. Run 'yarn' to install the dependencies.
+2. Go to the folder 'packages/rule-${rulePackage.normalizedName}'.
+3. Run 'yarn build' to build the project.
+4. Go to the folder 'packages/sonarwhal'.
+5. Add your rule to '.sonarwhalrc'.
+6. Run 'yarn sonarwhal https://YourUrl' to analyze your site.`);
+        } else {
+            logger.log(`1. Go to the folder 'rule-${rulePackage.normalizedName}'.
+2. Run 'npm run init' to install all the dependencies and build the project.
+3. Run 'npm run sonarwhal -- https://YourUrl' to analyze you site.`);
+        }
 
         return true;
     } catch (e) {
