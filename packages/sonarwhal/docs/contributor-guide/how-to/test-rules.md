@@ -6,9 +6,9 @@ testing a rule and how to configure the test server to do what you need.
 
 ## Getting started
 
-If you have used the built-in tools to create a new rule (core or
-custom), everything should already set up to use `rule-runner.ts`
-and the `testRule` method.
+If you have used the built-in tools to create a new rule (core or custom),
+everything should already set up to use `rule-runner.ts` and the `testRule`
+method.
 
 If not, you need to:
 
@@ -17,9 +17,9 @@ If not, you need to:
 1. Have the following template:
 
 ```ts
-import { RuleTest } from '../../../helpers/rule-test-type'; // eslint-disable-line no-unused-vars
-import * as ruleRunner from '../../../helpers/rule-runner';
-import { getRuleName } from '../../../../src/lib/utils/rule-helpers';
+import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type'; // eslint-disable-line no-unused-vars
+import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
+import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
 const ruleName = getRuleName(__dirname);
 
@@ -38,17 +38,68 @@ const tests: Array<RuleTest> = [
 ruleRunner.testRule(ruleName, tests);
 ```
 
-## testRule()
+The high level overview of what's is happening in the code above is as follows:
 
-The signature of `ruleRunner.testRule` is:
+1. `tests` (of type `Array<RuleTest>`) contains the list of things to test, the
+   server configuration to use (`serverConfig`) and the expected result(s)
+   (`reports`). If no results are defined that means `sonarwhal` should not
+   fail that configuration. Otherwise the results should match the ones
+   defined.
+1. `ruleRunner.testRule` will take an `Array<RuleTest>` and create a web server
+   for each one of the items in it. It will also create a `sonarwhal` object
+   with just the rule to test configured and run it against the web server for
+   that particular test.
+   The results from executing it are compared to those defined in
+   `RuleTest.reports`. If they match, then everything is good.
 
-* `ruleName`, the name of the rule.
-* `tests`, an `Array<RuleTest>`.
-* `ruleConfig`, (optional) to modify the defaults of the rule.
-* `serial`, (optional, defaults to `false`) to run the tests of that
-  rule serially.
+There's more information and detail in the following sections.
 
-`serverConfig` can be of different types depending on particular needs:
+## `RuleTest`
+
+`RuleTest` defines a test that needs to be validated. Its properties are:
+
+* `name`: The name of the test. It's a good practice to say what the test is
+  testing and what is the expected output. E.g.: "meta charset in body should
+  fail"
+* `serverConfig`: This is the server configuration used for that particular
+  test. When running the tests, a local web server will be created for each
+  `RuleTest` on a random port that `sonarwhal` will analyze. There's more
+  information about `serverConfig` below.
+* `reports`: An array of results to match with the output of running
+  `sonarwhal` to the specified configuration. Only the properties defined on
+  each item will be matched. This means you can decide to ignore some that are
+  not relevant to you, i.e.: in the code above you could decide to remove
+  `position` and the test engine will not try to validate that property.
+
+### Execute code `before` or `after` collecting the results
+
+In some scenarios you need to execute some code `before` or `after`
+the actual tests (e.g.: if you need to mock a dependency). For those
+cases you can use the `before` and `after` properties of `RuleTest`:
+
+```ts
+const tests: Array<RuleTest> = [
+    {
+        after() {
+            // Code to execute right before calling `connector.close` goes here.
+        }
+        before() {
+            // Code to execute before the creation of the sonarwhal object goes here.
+        },
+        name: 'Name of the tests',
+        serverUrl: 'https://example.com',
+        reports: [{
+            message: 'Message the error will have'
+        }]
+    },
+    { ... }
+];
+```
+
+## `serverConfig`
+
+`serverConfig` defined the web server configuration to use for a given test.
+It can be of different types depending on your particular needs:
 
 * `string` containing the response for `/` (HTML, plain text, etc.).
 * `object` with paths as properties names and their content as values:
@@ -61,6 +112,10 @@ const serverConfig = {
     'site.webmanifest': 'other content'
 };
 ```
+
+This code will create a local web server that will return `some HTML here` to
+all requests done to `/` and with `other content` to the requests done to
+`site.webmanifest`.
 
 You can even specify the headers and status code for the response for
 a specific path, by using the `headers` and `status` properties:
@@ -90,34 +145,7 @@ Notes:
 * `status` defaults to `200`, so it only needs to be specified if its
   value is different.
 
-`rule-runner` will automatically test the rule in all the supported
-connectors.
-
-## Throwing an error
-
-If you need to force an error in the `connector` when visiting a URL
-you have to make the content `null`. This will force a redirect to
-`test://fail`, thus, causing an exception.
-
-## Testing an external URL
-
-If you need to test an external resource (because you are integrating
-with a third party service) you need to use the property `serverUrl`:
-
-```ts
-const tests: Array<RuleTest> = [
-    {
-        name: 'Name of the tests',
-        reports: [{
-            message: 'Message the error will have'
-        }],
-        serverUrl: 'https://example.com'
-    },
-    { ... }
-];
-```
-
-## Conditional `response`s
+### Conditional `response`s
 
 Sometimes you need the server to respond differently to a route depending
 on the contents of a `request`, e.g.: when requesting an asset that can be
@@ -146,27 +174,69 @@ const serverConfig = {
 }
 ```
 
-## Execute code `before` or `after` collecting the results
+### Throwing an error
 
-In some scenarios you need to execute some code `before` or `after`
-the actual tests (e.g.: if you need to mock a dependency). For those
-cases you can use the `before` and `after` properties of `RuleTest`:
+If you need to force an error in the `connector` when visiting a URL
+you have to make the content `null`. This will force a redirect to
+`test://fail`, thus, causing an exception.
+
+## Testing an external URL
+
+If you need to test an external resource (because you are integrating
+with a third party service) you need to use the property `serverUrl`:
 
 ```ts
 const tests: Array<RuleTest> = [
     {
-        after() {
-            // Code to execute right before calling `connector.close` goes here.
-        }
-        before() {
-            // Code to execute before the creation of the sonarwhal object goes here.
-        },
         name: 'Name of the tests',
-        serverUrl: 'https://example.com',
         reports: [{
             message: 'Message the error will have'
-        }]
+        }],
+        serverUrl: 'https://example.com'
     },
     { ... }
 ];
 ```
+
+## `ruleRunner.testRule()`
+
+`ruleRunner` is in charge of executing and validating the tests. The signature
+of `ruleRunner.testRule` is:
+
+* `ruleName`, the name of the rule being tested.
+* `tests`, an `Array<RuleTest>`.
+* `configuration` (optional), allows you to modify the defaults of how the
+   tests are run.
+
+`configuration` can have the following properties:
+
+```json
+{
+    "browserslist": [],
+    "https": boolean, // default is false
+    "ruleOptions": {
+        // rule properties
+    }, // default is an empty object
+    "serial": boolean, //default is true
+}
+```
+
+* `browserslist`: You can change the targeted browsers to check that the rule
+  adapts correctly with this property. It uses the same format as the one in
+  `.sonarwhalrc`.
+* `https`: By default all tests are run over HTTP. If you need to test
+  something over HTTPS you want to set this property to `true`.
+  **NOTE**: Do not mix HTTP and HTTPS tests in the same file as it will not run
+  correctly.
+* `serial`: By default all tests are run in parallel. If you need to run them
+  serially set it to `true`
+* `ruleOptions`: Some rules allow further configuration. You can test those
+  configurations with this property.
+
+Each web server is started on a random port. If the `message` of a `report`
+contains `localhost`, it will be replaces automatically with
+`localhost:USEDPORT` so you don't have to worry about it.
+
+**Note**: `rule-runner` will automatically test the rule in as many connectors
+as possible, that's the reason why you might see tests being run more than
+once.
