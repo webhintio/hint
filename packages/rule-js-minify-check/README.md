@@ -1,10 +1,10 @@
 # js-minify-check (`@sonarwhal/rule-js-minify-check`)
 
-Description for js-minify-check
+This rule checks whether javascript used by your web page is minified or not.
 
 ## Why is this important?
 
-Explain why this rule is important for your users
+Minifying your javascript is a great way to improve your page load time. This includes removing unused variables & methods, renaming variables & methods to small variable names, removing cde comments etc. Minification should generate a smaller file. Smaller file->Less bytes to send from server to browser & less code to parse.
 
 ## How to use this rule?
 
@@ -26,7 +26,7 @@ configuration file:
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
+    "parsers": ["javascript"],
     "rules": {
         "js-minify-check": "error"
     },
@@ -34,29 +34,36 @@ configuration file:
 }
 ```
 
-## What does the rule check?
-
-A bit more detail of what the rule does.
-
-### Examples that **trigger** the rule
-
-A list of code examples that will fail this rule.
-It's good to put some edge cases in here.
-
-### Examples that **pass** the rule
-
-A list of code examples that will pass this rule.
-It's good to put some edge cases in here.
 
 ## Can the rule be configured?
 
-If this rule allows some configuration, please put the format and
-options for the user.
+By default, the rule uses `75` as the threshold value. But you can configure that as part of your [`.sonarwhalrc`][sonarwhalrc]
+config
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": ["javascript"],
+    "rules": {
+        "js-minify-check": ["error", {
+            "threshold": 80
+        }]
+    },
+    ...
+}
+```
+
+*The value 75 was derived after running test on some of the mostly used libraries and a couple of custom javascript files.*
+
 
 ## Further Reading
 
-What can the user read to know more about this subject?
+Here are some useful topics if you are new to minification
 
+[Minification](https://en.wikipedia.org/wiki/Minification_(programming))
+
+[Minify Resources (HTML, CSS, and JavaScript)](https://developers.google.com/speed/docs/insights/MinifyResources)
 <!-- Link labels: -->
 
 [sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
