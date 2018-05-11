@@ -26,7 +26,7 @@ test.beforeEach((t) => {
 });
 
 test.serial('If an script tag is an external javascript, then nothing happen', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
 
     sandbox.spy(eslint, 'SourceCode');
@@ -44,7 +44,7 @@ test.serial('If an script tag is an external javascript, then nothing happen', a
 });
 
 test.serial('If an script tag is not a javascript, then nothing should happen', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
 
     sandbox.spy(eslint, 'SourceCode');
@@ -67,7 +67,7 @@ test.serial('If an script tag is not a javascript, then nothing should happen', 
 });
 
 test.serial('If an script tag is an internal javascript, then we should parse the code and emit a parse::javascript::end event', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const sourceCodeObject = {};
@@ -107,7 +107,7 @@ test.serial('If an script tag is an internal javascript, then we should parse th
 });
 
 test.serial('If fetch::end::script is received, then we should parse the code and emit a parse::javascript::end event', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const parser = new JavascriptParser.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const sourceCodeObject = {};

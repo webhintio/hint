@@ -82,7 +82,7 @@ const installedConnectors = [
 const installedParsers = [];
 
 test.serial(`initSonarwhalrc should install the configuration package if user chooses a recommended configuration and the configuration doesn't exists`, async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const initAnswers = { configType: 'predefined' };
     const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
 
@@ -116,7 +116,7 @@ test.serial(`initSonarwhalrc should install the configuration package if user ch
 });
 
 test.serial(`initSonarwhalrc shouldn't install the configuration package if user chooses a recommended configuration and the configuration already exists`, async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const initAnswers = { configType: 'predefined' };
     const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
 
@@ -150,7 +150,7 @@ test.serial(`initSonarwhalrc shouldn't install the configuration package if user
 });
 
 test.serial(`"inquirer.prompt" should use the installed resources if the user doesn't want a predefined configuration`, async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const answers = {
         connector: 'jsdom',
         default: '',
@@ -199,7 +199,7 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
 });
 
 test.serial(`if instalation of a config package fails, "initSonarwhalrc" returns true`, async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const initAnswers = { configType: 'predefined' };
     const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
 

@@ -70,7 +70,7 @@ test.serial('It should create a new official parser.', async (t) => {
         again: false,
         event: 'fetch::end::*'
     };
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     const packageRoot = path.join(__dirname, '../../../../../');
 
@@ -114,7 +114,7 @@ test.serial('It should create a new official parser with no duplicate events.', 
         element: 'script',
         event: 'element::'
     };
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const packageRoot = path.join(__dirname, '../../../../../');
 
     sandbox.stub(misc, 'isOfficial').resolves(true);
@@ -170,7 +170,7 @@ test.serial('It should create a new non-official parser.', async (t) => {
         again: false,
         event: 'fetch::end::*'
     };
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.stub(misc, 'isOfficial').resolves(false);
     sandbox.stub(inquirer, 'prompt')

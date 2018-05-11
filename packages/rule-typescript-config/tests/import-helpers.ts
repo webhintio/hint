@@ -11,28 +11,28 @@ const ruleName = 'typescript-config/import-helpers';
 const tests: Array<RuleLocalTest> = [
     {
         after: (t) => {
-            t.sandbox.restore();
+            t.context.sandbox.restore();
         },
         before: (t) => {
-            const sandbox = sinon.sandbox.create();
+            const sandbox = sinon.createSandbox();
 
             sandbox.stub(misc, 'getPackage').returns({ exists: true });
 
-            t.sandbox = sandbox;
+            t.context.sandbox = sandbox;
         },
         name: 'Configuration with "compilerOptions.importHelpers = true" should pass',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'import')
     },
     {
         after: (t) => {
-            t.sandbox.restore();
+            t.context.sandbox.restore();
         },
         before: (t) => {
-            const sandbox = sinon.sandbox.create();
+            const sandbox = sinon.createSandbox();
 
             sandbox.stub(misc, 'getPackage').throws(new Error('Not found'));
 
-            t.sandbox = sandbox;
+            t.context.sandbox = sandbox;
         },
         name: 'Configuration with "compilerOptions.importHelpers = true" but tslibs is not installed should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'import'),
@@ -40,14 +40,14 @@ const tests: Array<RuleLocalTest> = [
     },
     {
         after: (t) => {
-            t.sandbox.restore();
+            t.context.sandbox.restore();
         },
         before: (t) => {
-            const sandbox = sinon.sandbox.create();
+            const sandbox = sinon.createSandbox();
 
             sandbox.stub(misc, 'getPackage').returns({ exists: true });
 
-            t.sandbox = sandbox;
+            t.context.sandbox = sandbox;
         },
         name: 'Configuration with "compilerOptions.importHelpers = false" should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'import-false'),
@@ -55,14 +55,14 @@ const tests: Array<RuleLocalTest> = [
     },
     {
         after: (t) => {
-            t.sandbox.restore();
+            t.context.sandbox.restore();
         },
         before: (t) => {
-            const sandbox = sinon.sandbox.create();
+            const sandbox = sinon.createSandbox();
 
             sandbox.stub(misc, 'getPackage').returns({ exists: true });
 
-            t.sandbox = sandbox;
+            t.context.sandbox = sandbox;
         },
         name: 'Configuration with no explicit "compilerOptions.importHelpers" should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'no-import'),
@@ -70,14 +70,14 @@ const tests: Array<RuleLocalTest> = [
     },
     {
         after: (t) => {
-            t.sandbox.restore();
+            t.context.sandbox.restore();
         },
         before: (t) => {
-            const sandbox = sinon.sandbox.create();
+            const sandbox = sinon.createSandbox();
 
             sandbox.stub(misc, 'getPackage').throws(new Error('Not found'));
 
-            t.sandbox = sandbox;
+            t.context.sandbox = sandbox;
         },
         name: 'Configuration with no explicit "compilerOptions.importHelpers" and no "tslib" installed should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'no-import'),
