@@ -54,6 +54,9 @@ The high level overview of what's is happening in the code above is as follows:
 
 There's more information and detail in the following sections.
 
+**Note:** `getRuleName()` only works if you are creating a package with a
+single rule at the moment. You can [track this issue here][getRuleName].
+
 ## `RuleTest`
 
 `RuleTest` defines a test that needs to be validated. Its properties are:
@@ -65,11 +68,12 @@ There's more information and detail in the following sections.
   test. When running the tests, a local web server will be created for each
   `RuleTest` on a random port that `sonarwhal` will analyze. There's more
   information about `serverConfig` below.
-* `reports`: An array of results to match with the output of running
-  `sonarwhal` to the specified configuration. Only the properties defined on
-  each item will be matched. This means you can decide to ignore some that are
-  not relevant to you, i.e.: in the code above you could decide to remove
-  `position` and the test engine will not try to validate that property.
+* `reports`: An array of `Report`s to match with the output of running
+  `sonarwhal` to the specified configuration. A `Report` is what `sonarwhal`
+  returns when it finds an issue. In this scenario, only the properties defined
+  on each `Report` will be matched. This means you can decide to ignore some
+  that are not relevant to you, i.e.: in the code above you could decide to
+  remove `position` and the test engine will not try to validate that property.
 
 ### Execute code `before` or `after` collecting the results
 
@@ -95,6 +99,13 @@ const tests: Array<RuleTest> = [
     { ... }
 ];
 ```
+
+An example will be if the rule integrates with another service. You don't want
+to actually connect to that service during the tests (slow down, need to force
+an specific output, etc.) so you will mock the connection to that service in
+the `before` property.
+[An example of rule that does this is `ssllabs`][ssllabs tests] where the call
+to the server is completely mocked to return different grades.
 
 ## `serverConfig`
 
@@ -240,3 +251,8 @@ contains `localhost`, it will be replaces automatically with
 **Note**: `rule-runner` will automatically test the rule in as many connectors
 as possible, that's the reason why you might see tests being run more than
 once.
+
+<!-- link labels -->
+
+[getRuleName]: https://github.com/sonarwhal/sonarwhal/issues/1054
+[ssllabs tests]: https://github.com/sonarwhal/sonarwhal/blob/master/packages/rule-ssllabs/tests/tests.ts
