@@ -4,7 +4,10 @@ This rule checks whether javascript used by your web page is minified or not.
 
 ## Why is this important?
 
-Minifying your javascript is a great way to improve your page load time. This includes removing unused variables & methods, renaming variables & methods to small variable names, removing cde comments etc. Minification should generate a smaller file. Smaller file->Less bytes to send from server to browser & less code to parse.
+Minifying your javascript is a great way to improve your page load time.
+This includes removing unused variables & methods, renaming variables & methods to small
+variable names, removing code comments etc.Minification should generate a smaller file.
+Smaller file=>Less bytes to send to browser => less code to parse.
 
 ## How to use this rule?
 
@@ -34,7 +37,6 @@ configuration file:
 }
 ```
 
-
 ## Can the rule be configured?
 
 By default, the rule uses `75` as the threshold value. But you can configure that as part of your [`.sonarwhalrc`][sonarwhalrc]
@@ -54,8 +56,8 @@ config
 }
 ```
 
-*The value 75 was derived after running test on some of the mostly used libraries and a couple of custom javascript files.*
-
+*The value 75 was derived after running test on some of the mostly used libraries
+and a couple of custom javascript files.*
 
 ## Further Reading
 
