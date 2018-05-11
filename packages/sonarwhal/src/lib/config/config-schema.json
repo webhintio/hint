@@ -179,7 +179,7 @@
                 }
             ],
             "maxItems": 2,
-            "minItems": 2,
+            "minItems": 1,
             "uniqueItems": true
         },
         "ruleobject": {

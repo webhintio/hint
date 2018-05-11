@@ -21,9 +21,70 @@ const validConfig = {
     }
 };
 const invalidConfig = { formatter: 'json' };
+const validRulesConfig = {
+    connector: {
+        name: 'chrome',
+        options: { waitFor: 1000 }
+    },
+    formatters: 'json',
+    rules: [
+        'disallowed-headers:warning',
+        '?manifest-exists',
+        '-manifest-file-extension',
+        'manifest-is-valid',
+        [
+            'no-friendly-error-pages',
+            {}
+        ],
+        'no-html-only-headers:error'
+    ]
+};
+const invalidRulesConfigObjectFormArrayInverted = {
+    connector: {
+        name: 'chrome',
+        options: { waitFor: 1000 }
+    },
+    formatters: 'json',
+    rules: { 'disallowed-headers': [{}, 'warning'] }
+};
+const invalidRulesConfigArrayFormNumber = {
+    connector: {
+        name: 'chrome',
+        options: { waitFor: 1000 }
+    },
+    formatters: 'json',
+    rules: [3]
+};
+const invalidRulesConfigArrayFormArrayInverted = {
+    connector: {
+        name: 'chrome',
+        options: { waitFor: 1000 }
+    },
+    formatters: 'json',
+    rules: [[{}, 'no-html-only-headers:error']]
+};
+
 
 test('if config has an invalid schema, it should return false', (t) => {
     const valid = configValidator.validateConfig(invalidConfig as any);
+
+    t.false(valid);
+});
+
+test('if rules config with object has array property in a bad order, validation should fail', (t) => {
+    const valid = configValidator.validateConfig(invalidRulesConfigObjectFormArrayInverted as any);
+
+    t.false(valid);
+});
+
+test('if rules config with array has a number, validation should fail', (t) => {
+    const valid = configValidator.validateConfig(invalidRulesConfigArrayFormNumber as any);
+
+    t.false(valid);
+});
+
+test('if rules config with array has an array item with the items inverted, validation should fail', (t) => {
+    const valid = configValidator.validateConfig(invalidRulesConfigArrayFormArrayInverted as any);
 
     t.false(valid);
 });
@@ -45,8 +106,14 @@ test('config with one formatters is valid', (t) => {
 });
 
 test('config with 2 formatters is valid', (t) => {
-    const validConfigs = Object.assign({ formatters: ['json', 'stylish']}, validConfig);
+    const validConfigs = Object.assign({ formatters: ['json', 'stylish'] }, validConfig);
     const valid = configValidator.validateConfig(validConfigs as any);
+
+    t.true(valid);
+});
+
+test('if the configuration is valid, it should validate', (t) => {
+    const valid = configValidator.validateConfig(validRulesConfig as any);
 
     t.true(valid);
 });
