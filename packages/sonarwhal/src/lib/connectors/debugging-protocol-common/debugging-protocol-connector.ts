@@ -440,9 +440,10 @@ export class Connector implements IConnector {
         const originalUrl: string = hops[0] || resourceUrl;
 
         let element = null;
-        let eventName: string = this._href === originalUrl ? 'fetch::end::html' : 'fetch::end';
+        let eventName: string = 'fetch::end';
+        const isTarget: boolean = this._href === originalUrl;
 
-        if (eventName !== 'fetch::end::html') {
+        if (!isTarget) {
             // DOM is not ready so we queue up the event for later
             if (!this._dom) {
                 this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
@@ -471,14 +472,14 @@ export class Connector implements IConnector {
             response
         };
 
-        if (eventName === 'fetch::end::html') {
+        if (isTarget) {
             this._targetNetworkData = {
                 request,
                 response
             };
-        } else if (eventName === 'fetch::end') {
-            eventName = `${eventName}::${getType(response.mediaType)}`;
         }
+
+        eventName = `${eventName}::${getType(response.mediaType)}`;
 
         if (hasAttributeWithValue(data.element, 'link', 'rel', 'icon')) {
             this._faviconLoaded = true;
