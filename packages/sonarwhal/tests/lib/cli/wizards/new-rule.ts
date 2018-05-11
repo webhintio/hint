@@ -43,7 +43,7 @@ test.serial('It creates a rule if the option multiple rules is false', async (t)
         useCase: 'request'
     };
     const root = '/tests/';
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     const fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
     const miscWriteFileAsyncStub = sandbox.stub(misc, 'writeFileAsync').resolves();
@@ -88,7 +88,7 @@ test.serial('It creates a package with multiple rules', async (t) => {
         useCase: 'request'
     };
     const root = '/tests/';
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     const fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
     const miscWriteFileAsyncStub = sandbox.stub(misc, 'writeFileAsync').resolves();

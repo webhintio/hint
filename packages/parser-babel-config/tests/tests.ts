@@ -19,7 +19,7 @@ test.beforeEach((t) => {
 });
 
 test(`If the resource doesn't match the target file names, nothing should happen`, async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
@@ -32,7 +32,7 @@ test(`If the resource doesn't match the target file names, nothing should happen
 });
 
 test('If the file contains an invalid json, it should fail', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
@@ -50,7 +50,7 @@ test('If the file contains an invalid json, it should fail', async (t) => {
 });
 
 test(`If .babelrc contains an invalid schema, it should emit the 'parse::babel-config::error::schema' event`, async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
     const invalidSchemaContent = `{
@@ -78,7 +78,7 @@ test(`If .babelrc contains an invalid schema, it should emit the 'parse::babel-c
 });
 
 test(`If 'package.json' contains an invalid 'babel' property, it should emit the 'parse::babel-config::error::schema' event`, async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const invalidSchemaContent = `{
         "babel": {
           "plugins": ["transform-react-jsx"],
@@ -107,7 +107,7 @@ test(`If 'package.json' contains an invalid 'babel' property, it should emit the
 });
 
 test('If the content type is unknown, it should still validate if the file name is a match', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
     const invalidSchemaContent = `{
@@ -134,7 +134,7 @@ test('If the content type is unknown, it should still validate if the file name 
 });
 
 test('If we receive a valid json with a valid name, it should emit the event parse::babel-config::end', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -186,7 +186,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
 });
 
 test('If we receive a valid json with an extends, it should emit the event parse::babel-config::end with the right data', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -210,7 +210,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
 });
 
 test('If we receive a json with an extends with a loop, it should emit the event parse::babel-config::error::circular', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -232,7 +232,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
 });
 
 test('If we receive a json with an extends with an invalid json, it should emit the event parse::typescript-config::error::extends', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 

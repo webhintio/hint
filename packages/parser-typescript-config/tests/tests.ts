@@ -19,7 +19,7 @@ test.beforeEach((t) => {
 });
 
 test(`If the resource doesn't match the regex, nothing should happen`, async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -34,7 +34,7 @@ test(`If the resource doesn't match the regex, nothing should happen`, async (t)
 });
 
 test('If the file contains an invalid json, it should fail', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -55,7 +55,7 @@ test('If the file contains an invalid json, it should fail', async (t) => {
 });
 
 test('If the file contains a valid json with an invalid schema, it should fail', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -75,7 +75,7 @@ test('If the file contains a valid json with an invalid schema, it should fail',
 });
 
 test('If we receive a valid json with a valid name, it should emit the event parse::typescript-config::end', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -120,7 +120,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
 });
 
 test('If we receive a valid json with an extends, it should emit the event parse::typescript-config::end with the right data', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -165,7 +165,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
 });
 
 test('If we receive a json with an extends with a loop, it should emit the event parse::typescript-config::error::circular', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -186,7 +186,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
 });
 
 test('If we receive a json with an extends with an invalid json, it should emit the event parse::typescript-config::error::extends', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
