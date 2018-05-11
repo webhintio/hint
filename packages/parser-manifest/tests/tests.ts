@@ -57,7 +57,7 @@ const createNetworkDataObject = (manifestContent: string = '', statusCode: numbe
 
 const createMissingTest = async (t, relAttribute: string = 'manifest', hrefAttribute: string = '') => {
     const elementLinkEventValue = getElementLinkEventValue(relAttribute, hrefAttribute);
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const sonarwhal = t.context.sonarwhal;
 
     sandbox.spy(sonarwhal, 'emitAsync');
@@ -77,7 +77,7 @@ const createMissingTest = async (t, relAttribute: string = 'manifest', hrefAttri
 
 const createParseTest = async (t, manifestContent: string, expectedEventName: string, verifyResult) => {
     const elementEventValue = getElementLinkEventValue();
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const sonarwhal = t.context.sonarwhal;
 
     sandbox.spy(sonarwhal, 'emitAsync');
@@ -113,7 +113,7 @@ test.beforeEach((t) => {
 });
 
 test(`No event is emitted when no web app manifest file is specified`, async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const sonarwhal = t.context.sonarwhal;
 
     sandbox.spy(sonarwhal, 'emitAsync');
@@ -139,7 +139,7 @@ test(`No event is emitted when only a '<link rel="stylesheet"...>' is specified`
 
 test(`'${fetchErrorEventName}' event is emitted when the manifest cannot be fetched`, async (t) => {
     const elementEventValue = getElementLinkEventValue();
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const sonarwhal = t.context.sonarwhal;
 
     sandbox.spy(sonarwhal, 'emitAsync');
@@ -165,7 +165,7 @@ test(`'${fetchErrorEventName}' event is emitted when the manifest cannot be fetc
 test(`'${fetchErrorEventName}' event is emitted when the response for the web app manifest has a status code differenr the 200`, async (t) => {
     const elementEventValue = getElementLinkEventValue();
     const manifestContent = '500 Internal Server Error';
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const sonarwhal = t.context.sonarwhal;
 
     sandbox.spy(sonarwhal, 'emitAsync');

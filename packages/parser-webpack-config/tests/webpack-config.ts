@@ -19,7 +19,7 @@ test.beforeEach((t) => {
 });
 
 test('If any file is parsed, it should emit a `parse::webpack-config::error::not-found` error', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -35,7 +35,7 @@ test('If any file is parsed, it should emit a `parse::webpack-config::error::not
 });
 
 test(`If the resource isn't the webpack configuration, nothing should happen`, async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -50,7 +50,7 @@ test(`If the resource isn't the webpack configuration, nothing should happen`, a
 });
 
 test('If the file contains an invalid configuration, it should fail', async (t) => {
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -68,7 +68,7 @@ test('If the file contains an invalid configuration, it should fail', async (t) 
 
 test.serial('If the configuration is valid and webpack is installed locally, it should emit the event parse::webpack-config::end', async (t) => {
     const configPath = path.join(__dirname, 'fixtures', 'valid', 'webpack.config.js');
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
     sandbox.stub(misc, 'getPackage').returns({ version: '4.0.0' });
@@ -91,7 +91,7 @@ test.serial('If the configuration is valid and webpack is installed locally, it 
 
 test.serial(`If the configuration is valid but webpack isn't installed locally, it should emit the event parse::webpack-config::error::not-install`, async (t) => {
     const configPath = path.join(__dirname, 'fixtures', 'valid', 'webpack.config.js');
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
     sandbox.stub(misc, 'getPackage').throws(new Error('error'));
