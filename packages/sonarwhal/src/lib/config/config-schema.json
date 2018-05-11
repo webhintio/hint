@@ -61,37 +61,35 @@
         },
         "rules": {
             "description": "The rules to validate",
-            "type": "object",
-            "patternProperties": {
-                "^.+$": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/errorlevelstring"
-                        },
-                        {
-                            "$ref": "#/definitions/errorlevelnumber"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "anyOf": [
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ruleobject"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "array",
+                                "items": [
                                     {
-                                        "$ref": "#/definitions/errorlevelstring"
-                                    },
-                                    {
-                                        "$ref": "#/definitions/errorlevelnumber"
+                                        "type": "string"
                                     },
                                     {
                                         "type": "object"
                                     }
-                                ]
-                            },
-                            "minItems": 1,
-                            "uniqueItems": true
-                        }
-                    ]
+                                ],
+                                "minItems": 2,
+                                "maxItems": 2
+                            }
+                        ]
+                    },
+                    "minItems": 1
                 }
-            },
+            ],
             "minItems": 1,
             "uniqueItems": true
         },
@@ -162,6 +160,47 @@
                 1,
                 2
             ]
+        },
+        "ruleconfig": {
+            "type": "array",
+            "items": [
+                {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/errorlevelstring"
+                        },
+                        {
+                            "$ref": "#/definitions/errorlevelnumber"
+                        }
+                    ]
+                },
+                {
+                    "type": "object"
+                }
+            ],
+            "maxItems": 2,
+            "minItems": 2,
+            "uniqueItems": true
+        },
+        "ruleobject": {
+            "type": "object",
+            "patternProperties": {
+                "^.+$": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/errorlevelstring"
+                        },
+                        {
+                            "$ref": "#/definitions/errorlevelnumber"
+                        },
+                        {
+                            "$ref": "#/definitions/ruleconfig"
+                        }
+                    ]
+                }
+            },
+            "minItems": 1,
+            "uniqueItems": true
         }
     }
 }
