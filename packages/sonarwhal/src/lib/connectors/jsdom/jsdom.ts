@@ -290,7 +290,7 @@ export default class JSDOMConnector implements IConnector {
             fetchEnd.response.charset = charset;
 
             // Event is also emitted when status code in response is not 200.
-            await this._server.emitAsync('fetch::end::html', fetchEnd);
+            await this._server.emitAsync(`fetch::end::${getType(mediaType)}`, fetchEnd);
 
             jsdom.env({
                 done: async (err, window) => {
