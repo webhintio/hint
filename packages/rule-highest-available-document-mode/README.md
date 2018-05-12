@@ -388,7 +388,7 @@ In the [`.sonarwhalrc`][sonarwhalrc] file:
 ```
 
 Also, note that this rule takes into consideration the [targeted
-browsers](../index.md#browser-configuration), and if Internet Explorer
+browsers](../sonarwhal/docs/user-guide/further-configuration/browser-context.md), and if Internet Explorer
 8/9/10 aren’t among them, it will suggest removing the `meta` tag or/and
 not sending the HTTP response header.
 
