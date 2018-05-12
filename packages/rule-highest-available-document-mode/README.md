@@ -388,9 +388,9 @@ In the [`.sonarwhalrc`][sonarwhalrc] file:
 ```
 
 Also, note that this rule takes into consideration the [targeted
-browsers](../index.md#browser-configuration), and if Internet Explorer
-8/9/10 aren’t among them, it will suggest removing the `meta` tag or/and
-not sending the HTTP response header.
+browsers][targeted browsers], and if Internet Explorer 8/9/10 aren’t
+among them, it will suggest removing the `meta` tag or/and not sending
+the HTTP response header.
 
 ## Further Reading
 
@@ -403,6 +403,7 @@ not sending the HTTP response header.
 [doc modes]: https://msdn.microsoft.com/en-us/library/cc288325.aspx
 [ie complications]: https://hsivonen.fi/doctype/#ie8
 [sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[targeted browsers]: https://sonarwhal.com/docs/user-guide/further-configuration/browser-context/
 
 <!-- Apache links -->
 
