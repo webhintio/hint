@@ -124,10 +124,10 @@ New: Add rule to check life-work balance
 Build: Generate new Travis CI token
 ```
 
-The **secound line** should be left blank if there are other lines
+The **second line** should be left blank if there are other lines
 after it.
 
-**All other lines**, were possible, should be wrapped to about 72
+**All other lines**, where possible, should be wrapped to about 72
 characters.
 
 **Note**: The commit message structure is very important as we use
