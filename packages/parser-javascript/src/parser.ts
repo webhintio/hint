@@ -28,9 +28,9 @@ export default class JavascriptParser extends Parser {
         const ast = espree.parse(code, defaultParserOptions);
 
         const scriptData: ScriptParse = {
+            ast,
             resource,
-            sourceCode: new eslint.SourceCode(code, ast),
-            tokenCount: ast && ast.tokens && ast.tokens.length || 0
+            sourceCode: new eslint.SourceCode(code, ast)
         };
 
         await this.sonarwhal.emitAsync(`parse::${this.name}::end`, scriptData);

@@ -1,14 +1,16 @@
 /**
- * @fileoverview Description for js-minify-check
+ * @fileoverview Rule for checking JavaScript is minified or not
+ * This rule calcualte the token ratio(tokeCount / contentLength)
+ * and generate a improvementIndex from that and compare it against
+ * a reasonable threshold to determine whether a script is minified or not
  */
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-// The list of types depends on the events you want to capture.
 import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { ScriptParse } from '../dist/parser-javascript/src/types';
+import { ScriptParse } from '../../parser-javascript/dist/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -17,15 +19,14 @@ const debug: debug.IDebugger = d(__filename);
  * Public
  * ------------------------------------------------------------------------------
  */
-
-export default class JsMinifyCheckRule implements IRule {
+export default class MinifiedJsRule implements IRule {
 
     public static readonly meta: RuleMetadata = {
         docs: {
             category: Category.performance,
-            description: `Description for js-minify-check`
+            description: `Rule to check script is minified or not`
         },
-        id: 'js-minify-check',
+        id: 'minified-js',
         schema: [{
             additionalProperties: false,
             properties: { threshold: { type: 'number' } }
@@ -36,7 +37,7 @@ export default class JsMinifyCheckRule implements IRule {
     public constructor(context: RuleContext) {
         const getImprovementIndex = (scriptData: ScriptParse) => {
             const contentLength = scriptData.sourceCode.text.length;
-            const tokenRatio = scriptData.tokenCount / contentLength;
+            const tokenRatio = scriptData.ast.tokens.length / contentLength;
 
             return Math.round((1 - tokenRatio) * 100);
         };

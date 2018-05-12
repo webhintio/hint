@@ -5,6 +5,6 @@ export type ScriptParse = Event & {
     /** The source code parsed */
     sourceCode: any;
 
-    /** The token count from generated AST */
-    tokenCount: number;
+    /** The ast generated from the script */
+    ast: any;
 };
