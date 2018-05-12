@@ -1,7 +1,7 @@
 # Browser configuration
 
 `sonarwhal` allows you to define what browsers are relevant to your
-scenarion by adding the property `browserslist` to your `.sonarwhalrc`
+scenario by adding the property `browserslist` to your `.sonarwhalrc`
 file, or in the `package.json` file. This property follows the same
 convention as [`browserslist`][browserslist]:
 
