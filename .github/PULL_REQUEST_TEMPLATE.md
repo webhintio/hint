@@ -27,7 +27,7 @@ For non-trivial changes, please make sure you also:
 If this is a non-trivial change, include information such as what
 benefits this change brings as well as possible drawbacks.
 
-If this fixes an existing issue, include the relavant issue number(s).
+If this fixes an existing issue, include the relevant issue number(s).
 
 Thank you for taking the time to open this PR!
 
