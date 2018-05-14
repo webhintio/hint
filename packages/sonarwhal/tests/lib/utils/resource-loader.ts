@@ -19,6 +19,44 @@ const cleanCache = () => {
     delete require.cache[cacheKey];
 };
 
+test.serial('tryToLoadFrom throws an error if a dependency is missing', (t) => {
+    const Module = require('module');
+    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+
+    const sandbox = sinon.createSandbox();
+
+    sandbox.stub(Module.prototype, 'require').throws({
+        code: 'MODULE_NOT_FOUND',
+        message: `Cannot load module 'iltorb'`
+    });
+
+    const { message } = t.throws(() => {
+        resourceLoader.tryToLoadFrom('sonarwhal');
+    });
+
+    t.is(message, 'Module iltorb not found when loading sonarwhal');
+
+    sandbox.restore();
+});
+
+test.serial('tryToLoadFrom does nothing if the package itself is missing', (t) => {
+    const Module = require('module');
+    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+
+    const sandbox = sinon.createSandbox();
+
+    sandbox.stub(Module.prototype, 'require').throws({
+        code: 'MODULE_NOT_FOUND',
+        message: `Cannot load module 'sonarwhal'`
+    });
+
+    const resource = resourceLoader.tryToLoadFrom('sonarwhal');
+
+    t.is(resource, null);
+
+    sandbox.restore();
+});
+
 // TODO: Add tests to verify the order of loading is the right one: core -> scoped -> prefixed. This only checks core resources
 test('loadResource looks for resources in the right order (core > @sonarwhal > sonarwhal- ', (t) => {
     cleanCache();
