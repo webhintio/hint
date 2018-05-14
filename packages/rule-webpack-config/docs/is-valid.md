@@ -1,4 +1,4 @@
-# `is-valid`
+# webpack configuration is valid (`is-valid`)
 
 ## Why is this important?
 

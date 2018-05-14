@@ -1,13 +1,13 @@
-# `no-devtool-in-prod`
+# Check `devtool` property in webpack configuration (`no-devtool-in-prod`)
 
 ## Why is this important?
 
-The 'devtool' property significantly increases the size of your JavaScript
+The `devtool` property significantly increases the size of your JavaScript
 bundles.
 
 ## What does the rule check?
 
-This checks if you are using the proper 'devtool' property for production
+This checks if you are using the proper `devtool` property for production
 webpack builds.
 
 ### Example that **trigger** the rule

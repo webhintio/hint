@@ -1,4 +1,4 @@
-# `target`
+# Check if the TypeScript target is appropiated (`target`)
 
 `typescript-config/target` takes into account your `sonarwhal`'s `browserslist`
 configuration and warns you if your `target` (`es3`, `es2015`, etc.) is
