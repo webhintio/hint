@@ -28,6 +28,7 @@ export default class JavascriptParser extends Parser {
         const ast = espree.parse(code, defaultParserOptions);
 
         const scriptData: ScriptParse = {
+            ast,
             resource,
             sourceCode: new eslint.SourceCode(code, ast)
         };
