@@ -1,4 +1,4 @@
-# `no-comments`
+# Enable remove comments in TypeScript configuration (`no-comments`)
 
 `typescript-config/no-comments` checks that the property `removeComments`
 is enabled in your TypeScript configuration file (i.e `tsconfig.json`).
