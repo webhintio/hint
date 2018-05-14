@@ -1,4 +1,4 @@
-# `is-installed`
+# Check if webpack is installed (`is-installed`)
 
 ## Why is this important?
 

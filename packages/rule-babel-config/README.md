@@ -1,4 +1,4 @@
-# babel-config (`@sonarwhal/rule-babel-config`)
+# Babel configuration rules set (`@sonarwhal/rule-babel-config`)
 
 `babel-config` contains rules to check if your Babel configuration has
 the most recommended configuration.

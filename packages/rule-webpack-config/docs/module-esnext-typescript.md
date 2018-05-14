@@ -1,4 +1,4 @@
-# `module-esnext-typescript`
+# Validate `module` property in TypeScript has the appropiate value for webpack (`module-esnext-typescript`)
 
 ## Why is this important?
 

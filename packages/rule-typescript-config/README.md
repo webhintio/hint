@@ -1,4 +1,4 @@
-# typescript-config (`@sonarwhal/rule-typescript-config`)
+# TypeScript configuration rules set (`@sonarwhal/rule-typescript-config`)
 
 `typescript-config` contains rules to check if your TypeScript configuration
 has the most recommended configuration.

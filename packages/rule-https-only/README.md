@@ -1,4 +1,4 @@
-# https-only (`https-only`)
+# Require https for you site and assets (`@sonarwhal/rule-https-only`)
 
 `https-only` checks if your site is using HTTPS and warns against having
 mixed content.
