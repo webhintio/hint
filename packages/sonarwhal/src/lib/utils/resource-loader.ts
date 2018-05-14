@@ -25,6 +25,7 @@ import { ResourceType } from '../enums/resourcetype';
 const debug: debug.IDebugger = d(__filename);
 const SONARWHAL_ROOT: string = findPackageRoot();
 const NODE_MODULES_ROOT: string = findNodeModulesRoot();
+const moduleNameRegex: RegExp = /[^']*'([^']*)'/g;
 
 /** Cache of resource builders, indexex by resource Id. */
 const resources: Map<string, Resource> = new Map<string, Resource>();
@@ -144,6 +145,28 @@ export const tryToLoadFrom = (resourcePath: string): any => {
         builder = resource.default || resource;
     } catch (e) {
         debug(`Can't require ${resourcePath}`);
+
+        if (e.code === 'MODULE_NOT_FOUND') {
+            /*
+             * This get the name of the missed module
+             * e.g: Cannot find module 'iltorb'
+             */
+            const exec = moduleNameRegex.exec(e.message);
+            const moduleName = exec ? exec[1] : null;
+
+            /*
+             * If the module not found is the same as the module
+             * we are trying to load, then is ok.
+             */
+            if (!moduleName || moduleName === resourcePath) {
+                return null;
+            }
+
+            // The resourcePath and the module not found are different.
+            throw new Error(`Module ${moduleName} not found when loading ${resourcePath}`);
+        }
+
+        throw e;
     }
 
     return builder;
