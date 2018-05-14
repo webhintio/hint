@@ -9,7 +9,7 @@ import * as pluralize from 'pluralize';
 
 import { SonarwhalConfig } from '../config';
 import { Sonarwhal } from '../sonarwhal';
-import { CLIOptions, ORA, Problem, Severity, UserConfig } from '../types';
+import { CLIOptions, ORA, Problem, Severity, UserConfig, SonarwhalResources } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/get-as-uri';
 import * as logger from '../utils/logging';
@@ -117,6 +117,16 @@ const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: ORA) => {
     });
 };
 
+const showMissingAndIncompatiblePackages = (resources: SonarwhalResources) => {
+    if (resources.missing.length > 0) {
+        console.log(`Missing packages: ${resources.missing.join(', ')}`);
+    }
+
+    if (resources.incompatible.length > 0) {
+        console.log(`Incompatible packages: ${resources.incompatible.join(', ')}`);
+    }
+};
+
 /*
  * ------------------------------------------------------------------------------
  * Public
@@ -166,6 +176,8 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         const incompatiblePackages = resources.incompatible.map((name) => {
             return `@sonarwhal/${name}`;
         });
+
+        showMissingAndIncompatiblePackages(resources);
 
         if (!(await askUserToInstallDependencies(resources.missing.concat(resources.incompatible)) &&
             await installPackages(missingPackages) &&
