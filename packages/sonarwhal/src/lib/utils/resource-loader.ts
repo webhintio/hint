@@ -147,9 +147,17 @@ export const tryToLoadFrom = (resourcePath: string): any => {
         debug(`Can't require ${resourcePath}`);
 
         if (e.code === 'MODULE_NOT_FOUND') {
+            /*
+             * This get the name of the missed module
+             * e.g: Cannot find module 'iltorb'
+             */
             const exec = moduleNameRegex.exec(e.message);
             const moduleName = exec ? exec[1] : null;
 
+            /*
+             * If the module not found is the same as the module
+             * we are trying to load, then is ok.
+             */
             if (!moduleName || moduleName === resourcePath) {
                 return null;
             }
