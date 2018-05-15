@@ -1,3 +1,10 @@
+# 3.0.4 (May 15, 2018)
+
+## Bug fixes / Improvements
+
+* [[`efe2cd0420`](https://github.com/sonarwhal/sonarwhal/commit/efe2cd04204b5fcef8cd3c00e85aaca638999e7f)] - Docs: Fix spelling mistakes (by [`Frank van Gemeren`](https://github.com/frvge) / see also: [`#1059`](https://github.com/sonarwhal/sonarwhal/issues/1059)).
+
+
 # 3.0.3 (April 10, 2018)
 
 ## Bug fixes / Improvements
