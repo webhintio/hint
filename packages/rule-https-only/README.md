@@ -63,8 +63,8 @@ If your site is served using HTTPS, but one or more resources use HTTP.
 
 ```html
 <body>
-    <img src="http://assets.com/image.png" />
-    <script src="http://assets.com/script.js"></script>
+    <img src="http://example.com/image.png" />
+    <script src="http://example.com/script.js"></script>
 </body>
 ```
 
@@ -74,8 +74,8 @@ Your site is served using HTTPS and its resources too.
 
 ```html
 <body>
-    <img src="https://assets.com/image.png" />
-    <script src="https://assets.com/script.js"></script>
+    <img src="https://example.com/image.png" />
+    <script src="https://example.com/script.js"></script>
 </body>
 ```
 
