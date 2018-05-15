@@ -1,3 +1,10 @@
+# 3.0.2 (May 15, 2018)
+
+## Bug fixes / Improvements
+
+* [[`b0bd2a1274`](https://github.com/sonarwhal/sonarwhal/commit/b0bd2a12740d7e8149a5b82b7a16dbd77503b2a8)] - Docs: Normalize documentation titles (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 3.0.1 (April 23, 2018)
 
 ## Bug fixes / Improvements
