@@ -8,6 +8,7 @@
   },
   "description": "Description for minified-js",
   "devDependencies": {
+    "@sonarwhal/parser-javascript": "^3.2.0",
     "@types/debug": "0.0.30",
     "@types/node": "8.0.14",
     "ava": "^0.25.0",
@@ -45,6 +46,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
+    "@sonarwhal/parser-javascript": "^3.2.0",
     "sonarwhal": "^1.9.0"
   },
   "private": true,

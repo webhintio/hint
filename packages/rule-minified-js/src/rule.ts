@@ -10,7 +10,7 @@ import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { ScriptParse } from '../../parser-javascript/dist/src/types';
+import { ScriptParse } from '@sonarwhal/parser-javascript/dist/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 
