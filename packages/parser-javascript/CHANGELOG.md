@@ -1,3 +1,10 @@
+# 3.2.0 (May 15, 2018)
+
+## New features
+
+* [[`3068bdb3f0`](https://github.com/sonarwhal/sonarwhal/commit/3068bdb3f051ddc53826492f289ec59bde647ec0)] - New: Add `ast` to `ScriptParse` event (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 3.1.0 (April 10, 2018)
 
 ## Bug fixes / Improvements
