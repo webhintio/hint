@@ -63,8 +63,8 @@ guide][contributor guide]
 <!-- Link labels: -->
 
 [contributor guide]: ../../../contributor-guide/formatters/
-[formatter-json]: https://npmjs.com/packages/@sonarwhal/formatter-json
-[formatter-stylish]: https://npmjs.com/packages/@sonarwhal/formatter-stylish
-[formatter-codeframe]: https://npmjs.com/packages/@sonarwhal/formatter-codeframe
-[formatter-summary]: https://npmjs.com/packages/@sonarwhal/formatter-summary
-[formatter-excel]: https://npmjs.com/packages/@sonarwhal/formatter-excel
+[formatter-json]: https://npmjs.com/package/@sonarwhal/formatter-json
+[formatter-stylish]: https://npmjs.com/package/@sonarwhal/formatter-stylish
+[formatter-codeframe]: https://npmjs.com/package/@sonarwhal/formatter-codeframe
+[formatter-summary]: https://npmjs.com/package/@sonarwhal/formatter-summary
+[formatter-excel]: https://npmjs.com/package/@sonarwhal/formatter-excel
