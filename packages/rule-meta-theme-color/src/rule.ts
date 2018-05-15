@@ -22,10 +22,7 @@ import {
     TraverseEnd
 } from 'sonarwhal/dist/src/lib/types';
 /* eslint-enable no-unused-vars */
-import {
-    isHTMLDocument,
-    normalizeString
-} from 'sonarwhal/dist/src/lib/utils/misc';
+import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -54,17 +51,6 @@ export default class MetaThemeColorRule implements IRule {
 
         const checkIfThemeColorMetaTagWasSpecified = async (event: TraverseEnd) => {
             const { resource } = event;
-
-            /*
-             * TODO: Remove this when `traverse::end` is
-             * not emited for non-html documents.
-             *
-             * https://github.com/sonarwhal/sonarwhal/issues/982
-             */
-
-            if (!isHTMLDocument(resource, context.pageHeaders)) {
-                return;
-            }
 
             if (!firstThemeColorMetaTag) {
                 await context.report(resource, null, `No 'theme-color' meta tag was specified`);

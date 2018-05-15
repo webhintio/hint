@@ -21,7 +21,7 @@ import { AsyncHTMLDocument, AsyncHTMLElement } from './async-html';
 import { getContentTypeData, getType } from '../../utils/content-type';
 import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
-import { cutString, delay, hasAttributeWithValue } from '../../utils/misc';
+import { cutString, delay, hasAttributeWithValue, isHTMLDocument } from '../../utils/misc';
 
 import {
     BrowserInfo, IConnector,
@@ -725,6 +725,16 @@ export class Connector implements IConnector {
 
                 if (this._errorWithPage) {
                     return callback(new Error('Problem loading the website'));
+                }
+
+                /*
+                 * If the target is not an HTML we don't need to
+                 * traverse it.
+                 */
+                if (!isHTMLDocument(this._finalHref, this.headers)) {
+                    await this._server.emitAsync('scan::end', event);
+
+                    return callback();
                 }
 
                 await this._server.emitAsync('traverse::start', event);

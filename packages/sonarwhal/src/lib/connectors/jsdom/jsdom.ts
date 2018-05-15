@@ -44,6 +44,7 @@ import {
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from './jsdom-async-html';
 import { Requester } from '../utils/requester';
 import { Sonarwhal } from '../../sonarwhal';
+import { isHTMLDocument } from '../../utils/misc';
 
 /*
  * ------------------------------------------------------------------------------
@@ -291,6 +292,18 @@ export default class JSDOMConnector implements IConnector {
 
             // Event is also emitted when status code in response is not 200.
             await this._server.emitAsync(`fetch::end::${getType(mediaType)}`, fetchEnd);
+
+            /*
+             * If the target is not an HTML we don't need to
+             * traverse it.
+             */
+            if (!isHTMLDocument(this._finalHref, this.headers)) {
+                await this._server.emitAsync('scan::end', { resource: this._finalHref });
+
+                resolve();
+
+                return;
+            }
 
             jsdom.env({
                 done: async (err, window) => {
