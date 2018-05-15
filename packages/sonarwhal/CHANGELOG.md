@@ -1,3 +1,21 @@
+# 1.9.0 (May 15, 2018)
+
+## Bug fixes / Improvements
+
+* [[`1ceba05e0f`](https://github.com/sonarwhal/sonarwhal/commit/1ceba05e0f71a4bd9dd5ab38e382766ffa9f9728)] - Docs: Fix `npm` package URLs (by [`Gaël Poupard`](https://github.com/ffoodd) / see also: [`#1068`](https://github.com/sonarwhal/sonarwhal/issues/1068)).
+* [[`efe2cd0420`](https://github.com/sonarwhal/sonarwhal/commit/efe2cd04204b5fcef8cd3c00e85aaca638999e7f)] - Docs: Fix spelling mistakes (by [`Frank van Gemeren`](https://github.com/frvge) / see also: [`#1059`](https://github.com/sonarwhal/sonarwhal/issues/1059)).
+* [[`db801f424b`](https://github.com/sonarwhal/sonarwhal/commit/db801f424bfc275758c56d50e8b246198e926de0)] - Docs: Fix typo in `browser-context.md` (by [`Tony Ross`](https://github.com/antross) / see also: [`#1056`](https://github.com/sonarwhal/sonarwhal/issues/1056)).
+* [[`2853f96713`](https://github.com/sonarwhal/sonarwhal/commit/2853f9671344f6b412460a8026655c228765f673)] - Docs: Add how to "Test a local server" (by [`Antón Molleda`](https://github.com/molant)).
+* [[`9b306fcb99`](https://github.com/sonarwhal/sonarwhal/commit/9b306fcb99a4fc92ef03a894b680140270ea80dd)] - Fix: Configuration schema for rules (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1025`](https://github.com/sonarwhal/sonarwhal/issues/1025)).
+* [[`92a2aa67b6`](https://github.com/sonarwhal/sonarwhal/commit/92a2aa67b67db89295b0a8ef3ae5f33c1801cc09)] - Docs: Improve "Test a rule" information (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1046`](https://github.com/sonarwhal/sonarwhal/issues/1046)).
+* [[`8161993d5e`](https://github.com/sonarwhal/sonarwhal/commit/8161993d5e17aeeeff284585cc6ee9a9d0148dfc)] - Fix: Make steps for how to use the new rule or parser more clear (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`78565b914a`](https://github.com/sonarwhal/sonarwhal/commit/78565b914a3cc092519fc8c30d6cb0f6c40bcac4)] - Fix: Favicon URL in event `fetch::start` (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+## New features
+
+* [[`2bc0d990db`](https://github.com/sonarwhal/sonarwhal/commit/2bc0d990dbe473c2cec639a6469a60ac2e85d479)] - New: Add event `fetch::start::target` (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.8.1 (May 1, 2018)
 
 ## Bug fixes / Improvements
