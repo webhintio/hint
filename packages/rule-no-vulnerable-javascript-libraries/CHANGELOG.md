@@ -1,3 +1,14 @@
+# 3.2.0 (May 15, 2018)
+
+## Bug fixes / Improvements
+
+* [[`2e1aa89f1d`](https://github.com/sonarwhal/sonarwhal/commit/2e1aa89f1d7e5b8b098c26983addf82648701393)] - Docs: Fix typo (by [`David Sveningsson`](https://github.com/ext) / see also: [`#1041`](https://github.com/sonarwhal/sonarwhal/issues/1041)).
+
+## New features
+
+* [[`36b7bb1f7a`](https://github.com/sonarwhal/sonarwhal/commit/36b7bb1f7a3956182bc11e9425a9bce69fd91d03)] - Update: `snyk-snapshot.json`.
+
+
 # 3.1.1 (April 10, 2018)
 
 ## Bug fixes / Improvements
