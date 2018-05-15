@@ -1,3 +1,10 @@
+# 3.0.4 (May 15, 2018)
+
+## Bug fixes / Improvements
+
+* [[`35de85a668`](https://github.com/sonarwhal/sonarwhal/commit/35de85a6680a96befe41c8304559f8af657c8d49)] - Docs: Fix broken link (by [`Tony Ross`](https://github.com/antross) / see also: [`#1057`](https://github.com/sonarwhal/sonarwhal/issues/1057)).
+
+
 # 3.0.3 (April 10, 2018)
 
 ## Bug fixes / Improvements
