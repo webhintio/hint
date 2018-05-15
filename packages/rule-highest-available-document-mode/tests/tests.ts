@@ -23,6 +23,10 @@ const testsForNonDocumentModeBrowsers: Array<RuleTest> = [
         name: `'X-UA-Compatible' meta tag is not specified but the targeted browsers don't support document modes`,
         reports: [{ message: `Meta tag is not needed` }],
         serverConfig: { '/': { content: generateHTMLPageWithMetaTag() } }
+    },
+    {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     }
 ];
 

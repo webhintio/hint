@@ -31,6 +31,10 @@ const tests: Array<RuleTest> = [
         name: `Web app manifest file has correct file extension being specified in a path that contains '.'`,
         serverConfig: generateHTMLPage(`<link rel="manifest" href="/.well-known/site.webmanifest">
         <link rel="stylesheet" href="style.css">`)
+    },
+    {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     }
 ];
 
