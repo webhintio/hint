@@ -17,6 +17,7 @@ import * as globby from 'globby';
 import * as semver from 'semver';
 
 import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, isNormalizedIncluded, readFile } from '../utils/misc';
+import * as logger from '../utils/logging';
 import { debug as d } from '../utils/debug';
 import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
 import { SonarwhalConfig } from '../config';
@@ -162,8 +163,12 @@ export const tryToLoadFrom = (resourcePath: string): any => {
                 return null;
             }
 
+            const errorMessage = `Module ${moduleName} not found when loading ${resourcePath}`;
+
+            logger.error(errorMessage);
+
             // The resourcePath and the module not found are different.
-            throw new Error(`Module ${moduleName} not found when loading ${resourcePath}`);
+            throw new Error(errorMessage);
         }
 
         throw e;
@@ -372,7 +377,7 @@ export const loadResources = (config: SonarwhalConfig): SonarwhalResources => {
     try {
         connector = loadResource(config.connector.name, ResourceType.connector, config.extends, true);
     } catch (e) {
-        console.error(e);
+        debug(e);
     }
 
     const { incompatible: incompatibleRules, resources: rules, missing: missingRules } = loadListOfResources(config.rules, ResourceType.rule, config.extends);
