@@ -17,11 +17,12 @@ import * as globby from 'globby';
 import * as semver from 'semver';
 
 import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, isNormalizedIncluded, readFile } from '../utils/misc';
-import * as logger from '../utils/logging';
 import { debug as d } from '../utils/debug';
 import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
 import { SonarwhalConfig } from '../config';
 import { ResourceType } from '../enums/resourcetype';
+import { ResourceErrorStatus } from '../enums/errorstatus';
+import { ResourceError } from '../types/resourceerror';
 
 const debug: debug.IDebugger = d(__filename);
 const SONARWHAL_ROOT: string = findPackageRoot();
@@ -165,13 +166,11 @@ export const tryToLoadFrom = (resourcePath: string): any => {
 
             const errorMessage = `Module ${moduleName} not found when loading ${resourcePath}`;
 
-            logger.error(errorMessage);
-
             // The resourcePath and the module not found are different.
-            throw new Error(errorMessage);
+            throw new ResourceError(e, ResourceErrorStatus.DependencyError, errorMessage);
         }
 
-        throw e;
+        throw new ResourceError(e, ResourceErrorStatus.Unknown);
     }
 
     return builder;
@@ -315,19 +314,18 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     });
 
     if (!isValid) {
-        throw new Error(`Resource ${name} isn't compatible with current sonarwhal version`);
+        throw new ResourceError(new Error(`Resource ${name} isn't compatible with current sonarwhal version`), ResourceErrorStatus.NotCompatible);
     }
 
     if (!resource) {
         debug(`Resource ${name} not found`);
-        throw new Error(`Resource ${name} not found`);
+        throw new ResourceError(new Error(`Resource ${name} not found`), ResourceErrorStatus.NotFound);
     }
 
     resources.set(key, resource);
 
     return resource;
 };
-
 
 const loadListOfResources = (list: Array<string> | Object = [], type: ResourceType, configurations: Array<string> = []): { incompatible: Array<string>, missing: Array<string>, resources: Array<any> } => {
     const missing: Array<string> = [];
@@ -344,10 +342,12 @@ const loadListOfResources = (list: Array<string> | Object = [], type: ResourceTy
 
             loaded.push(resource);
         } catch (e) {
-            if (e.message.includes(`isn't compatible`)) {
+            if (e.status === ResourceErrorStatus.NotCompatible) {
                 incompatible.push(`${type}-${resourceId}`);
-            } else {
+            } else if (e.status === ResourceErrorStatus.NotFound) {
                 missing.push(`${type}-${resourceId}`);
+            } else {
+                throw e;
             }
         }
 
@@ -378,6 +378,10 @@ export const loadResources = (config: SonarwhalConfig): SonarwhalResources => {
         connector = loadResource(config.connector.name, ResourceType.connector, config.extends, true);
     } catch (e) {
         debug(e);
+
+        if (e.status === ResourceErrorStatus.DependencyError) {
+            throw e;
+        }
     }
 
     const { incompatible: incompatibleRules, resources: rules, missing: missingRules } = loadListOfResources(config.rules, ResourceType.rule, config.extends);
