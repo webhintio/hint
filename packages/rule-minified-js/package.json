@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "Description for minified-js",
+  "description": "sonarwhal rule that checks if the JavaScript used by the web page is minified",
   "devDependencies": {
     "@sonarwhal/parser-javascript": "^3.2.0",
     "@types/debug": "0.0.30",
