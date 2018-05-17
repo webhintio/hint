@@ -31,7 +31,7 @@ configuration file:
     "formatters": [...],
     "parsers": ["javascript"],
     "rules": {
-        "js-minify-check": "error"
+        "minified-js": "error"
     },
     ...
 }
@@ -75,7 +75,7 @@ that with a custom value in your [`.sonarwhalrc`][sonarwhalrc] config:
     "formatters": [...],
     "parsers": ["javascript"],
     "rules": {
-        "js-minify-check": ["error", {
+        "minified-js": ["error", {
             "threshold": 80
         }]
     },
