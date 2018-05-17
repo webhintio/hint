@@ -167,7 +167,7 @@ export const tryToLoadFrom = (resourcePath: string): any => {
             const errorMessage = `Module ${moduleName} not found when loading ${resourcePath}`;
 
             // The resourcePath and the module not found are different.
-            throw new ResourceError(e, ResourceErrorStatus.DependencyError, errorMessage);
+            throw new ResourceError(errorMessage, ResourceErrorStatus.DependencyError);
         }
 
         throw new ResourceError(e, ResourceErrorStatus.Unknown);
@@ -314,12 +314,12 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     });
 
     if (!isValid) {
-        throw new ResourceError(new Error(`Resource ${name} isn't compatible with current sonarwhal version`), ResourceErrorStatus.NotCompatible);
+        throw new ResourceError(`Resource ${name} isn't compatible with current sonarwhal version`, ResourceErrorStatus.NotCompatible);
     }
 
     if (!resource) {
         debug(`Resource ${name} not found`);
-        throw new ResourceError(new Error(`Resource ${name} not found`), ResourceErrorStatus.NotFound);
+        throw new ResourceError(`Resource ${name} not found`, ResourceErrorStatus.NotFound);
     }
 
     resources.set(key, resource);
