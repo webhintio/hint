@@ -94,7 +94,7 @@ const customConfig = async (): Promise<InitUserConfig> => {
         return null;
     }
 
-    const customQuestions: inquirer.Questions = [
+    const customQuestions: Array<inquirer.Question> = [
         {
             choices: connectorKeys,
             message: 'What connector do you want to use?',

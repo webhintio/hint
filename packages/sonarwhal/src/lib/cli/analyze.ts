@@ -75,7 +75,7 @@ const askUserToInstallDependencies = async (resources: SonarwhalResources): Prom
         type: 'confirm'
     }];
 
-    const answer = await inquirer.prompt(question);
+    const answer: inquirer.Answers = await inquirer.prompt(question);
 
     return answer.confirm;
 };
