@@ -9,7 +9,7 @@ import * as pluralize from 'pluralize';
 
 import { SonarwhalConfig } from '../config';
 import { Sonarwhal } from '../sonarwhal';
-import { CLIOptions, ORA, Problem, Severity, UserConfig } from '../types';
+import { CLIOptions, ORA, Problem, Severity, UserConfig, SonarwhalResources } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/get-as-uri';
 import * as logger from '../utils/logging';
@@ -52,7 +52,22 @@ const askUserToCreateConfig = async (): Promise<boolean> => {
     return true;
 };
 
-const askUserToInstallDependencies = async (dependencies: Array<string>): Promise<boolean> => {
+const showMissingAndIncompatiblePackages = (resources: SonarwhalResources) => {
+    if (resources.missing.length > 0) {
+        logger.log(`The following ${pluralize('package', resources.missing.length)} ${pluralize('is', resources.missing.length)} missing:
+    ${resources.missing.join(', ')}`);
+    }
+
+    if (resources.incompatible.length > 0) {
+        logger.log(`The following ${pluralize('package', resources.incompatible.length)} ${pluralize('is', resources.incompatible.length)} incompatible:
+    ${resources.incompatible.join(', ')}`);
+    }
+};
+
+const askUserToInstallDependencies = async (resources: SonarwhalResources): Promise<boolean> => {
+    showMissingAndIncompatiblePackages(resources);
+
+    const dependencies: Array<string> = resources.incompatible.concat(resources.missing);
 
     const question: Array<object> = [{
         message: `There ${pluralize('is', dependencies.length)} ${dependencies.length} ${pluralize('package', dependencies.length)} from your .sonarwhalrc file not installed or with an incompatible version. Do you want us to try to install/update them?`,
@@ -167,7 +182,7 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
             return `@sonarwhal/${name}`;
         });
 
-        if (!(await askUserToInstallDependencies(resources.missing.concat(resources.incompatible)) &&
+        if (!(await askUserToInstallDependencies(resources) &&
             await installPackages(missingPackages) &&
             await installPackages(incompatiblePackages))) {
 
