@@ -279,7 +279,7 @@ export class SonarwhalConfig {
 
         updateConfigWithCommandLineValues(userConfig, actions);
 
-        if (!Array.isArray(userConfig.formatters)) {
+        if (userConfig.formatters && !Array.isArray(userConfig.formatters)) {
             userConfig.formatters = [userConfig.formatters];
         }
 
