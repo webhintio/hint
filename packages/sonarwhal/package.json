@@ -39,7 +39,7 @@
     "optionator": "^0.8.2",
     "ora": "^2.0.0",
     "pluralize": "^7.0.0",
-    "request": "^2.86.0",
+    "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "require-uncached": "^1.0.3",
     "semver": "^5.5.0",
