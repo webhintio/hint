@@ -5,10 +5,12 @@ import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
 const ruleName = getRuleName(__dirname);
 
+const message = 'P3P is deprecated and should not be used';
+
 const testsForDefaults: Array<RuleTest> = [
     {
         name: `HTML and JS with P3P headers should fail`,
-        reports: [{ message: 'P3P is deprecated and should not be used' }, { message: 'P3P is deprecated and should not be used' }],
+        reports: [{ message }, { message }],
         serverConfig: {
             '/': {
                 content: generateHTMLPage('<script src="test.js"></script>'),
@@ -26,7 +28,7 @@ const testsForDefaults: Array<RuleTest> = [
     },
     {
         name: `Link with rel="P3Pv1" should fail`,
-        reports: [{ message: 'P3P is deprecated and should not be used' }],
+        reports: [{ message }],
         serverConfig: { '/': generateHTMLPage('<link rel="P3Pv1">') }
     },
     {
@@ -35,7 +37,7 @@ const testsForDefaults: Array<RuleTest> = [
     },
     {
         name: `P3P well known location should fail`,
-        reports: [{ message: 'P3P is deprecated and should not be used' }],
+        reports: [{ message }],
         serverConfig: {
             '/': generateHTMLPage(''),
             '/w3c/p3p.xml': 'You should not have any p3p configuration'
