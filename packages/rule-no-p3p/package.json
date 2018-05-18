@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "Don't use P3P related headers",
+  "description": "sonarwhal rule that warns against using P3P",
   "devDependencies": {
     "@types/debug": "0.0.30",
     "@types/node": "8.0.14",
@@ -20,7 +20,7 @@
     "npm-run-all": "^4.1.2",
     "nyc": "^11.7.1",
     "rimraf": "^2.6.2",
-    "sonarwhal": "^1.8.1",
+    "sonarwhal": "^1.9.0",
     "typescript": "^2.8.3",
     "typescript-eslint-parser": "^15.0.0"
   },
@@ -33,18 +33,22 @@
   ],
   "homepage": "https://sonarwhal.com/",
   "keywords": [
-    "rule",
     "sonarwhal",
+    "sonarwhal-rule",
     "no-p3p",
     "no-p3p-rule"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/index.js",
+  "main": "dist/src/rule.js",
   "name": "@sonarwhal/rule-no-p3p",
   "nyc": {
     "extends": "../../.nycrc"
   },
+  "peerDependencies": {
+    "sonarwhal": "^1.9.0"
+  },
   "private": true,
+  "repository": "sonarwhal/sonarwhal",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
     "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
@@ -56,15 +60,10 @@
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
     "sonarwhal": "node node_modules/sonarwhal/dist/src/bin/sonarwhal.js",
     "test": "npm run lint && npm run build && nyc ava",
-    "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "peerDependencies": {
-    "sonarwhal": "^1.8.1"
-  },
-  "repository": "sonarwhal/sonarwhal",
   "version": "1.0.0"
 }
