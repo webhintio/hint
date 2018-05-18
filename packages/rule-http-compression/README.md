@@ -131,12 +131,12 @@ checks that:
 * Only resources for which the result of the compression is smaller
   than original size are served compressed.
 
-* The most efficient encodigs are used (by default the rule check if
+* The most efficient encodings are used (by default the rule check if
   Zopfli is used over HTTP and Brotli over `HTTPS`, however that can
   be changed, see: [`Can the rule be configured?`
   section](#can-the-rule-be-configured)).
 
-* Deprecated or not widely supported encodigs, and `Content-Type`
+* Deprecated or not widely supported encodings, and `Content-Type`
   values are not used.
 
 * Potential caching related issues are avoided.
