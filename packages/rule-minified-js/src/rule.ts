@@ -55,6 +55,8 @@ export default class MinifiedJsRule implements IRule {
         const validateContentMinified = async (scriptData: ScriptParse) => {
             const improvementIndex = getImprovementIndex(scriptData);
 
+            debug(`Calculated improvementIndex for ${scriptData.resource}: ${improvementIndex}`);
+
             if (improvementIndex > threshold) {
                 await context.report(scriptData.resource, null, 'JavaScript content could be minified');
             }
