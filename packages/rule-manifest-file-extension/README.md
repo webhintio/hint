@@ -13,6 +13,27 @@ it makes it:
   the web app manifest file
 * possible to benefit from [existing configurations][other configs]
 
+## What does the rule check?
+
+The rule checks if the recommended [`.webmanifest`][file extension]
+file extension is used for the web app manifest file.
+
+### Examples that **trigger** the rule
+
+```html
+<link rel="manifest" href="site.json">
+```
+
+```html
+<link rel="manifest" href="site.manifest">
+```
+
+### Examples that **pass** the rule
+
+```html
+<link rel="manifest" href="site.webmanifest">
+```
+
 ## How to use this rule?
 
 To use it you will have to install it via `npm`:
@@ -39,27 +60,6 @@ configuration file:
     },
     ...
 }
-```
-
-## What does the rule check?
-
-The rule checks if the recommended [`.webmanifest`][file extension]
-file extension is used for the web app manifest file.
-
-### Examples that **trigger** the rule
-
-```html
-<link rel="manifest" href="site.json">
-```
-
-```html
-<link rel="manifest" href="site.manifest">
-```
-
-### Examples that **pass** the rule
-
-```html
-<link rel="manifest" href="site.webmanifest">
 ```
 
 ## Further Reading

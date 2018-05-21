@@ -3,6 +3,21 @@
 `typescript-config` contains rules to check if your TypeScript configuration
 has the most recommended configuration.
 
+## Why is this important?
+
+If you are building an app or a website using TypeScript, you
+need to be sure that your configuration is the best for your needs.
+
+## Rules
+
+* [typescript-config/import-helpers][import-helpers]
+* [typescript-config/is-valid][is-valid]
+* [typescript-config/no-comment][no-comment]
+* [typescript-config/strict][strict]
+* [typescript-config/target][target]
+
+## How to use these rules?
+
 To use it you will have to install it via `npm`:
 
 ```bash
@@ -30,19 +45,6 @@ configuration file:
     ...
 }
 ```
-
-## Why is this important?
-
-If you are building an app or a website using TypeScript, you
-need to be sure that your configuration is the best for your needs.
-
-## Rules
-
-* [typescript-config/import-helpers][import-helpers]
-* [typescript-config/is-valid][is-valid]
-* [typescript-config/no-comment][no-comment]
-* [typescript-config/strict][strict]
-* [typescript-config/target][target]
 
 ## Further Reading
 

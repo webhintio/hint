@@ -49,34 +49,6 @@ Notes:
   * [Android][android] and [iOS][ios] also recommend the application
     name be under 30 characters.
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-manifest-app-name
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "manifest-app-name": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 The rule checks if a non-empty `name` member was specified and it’s
@@ -142,6 +114,34 @@ and a `short_name` shorter than 12 characters:
 Note: [Not specifying a manifest file](manifest-exists.md), or having
 an invalid one are covered by other rules, so those cases won’t make
 this rule fail.
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-manifest-app-name
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "manifest-app-name": "error"
+    },
+    ...
+}
+```
 
 ## Further Reading
 

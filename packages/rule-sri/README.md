@@ -21,34 +21,6 @@ Subresource integrity [is a standard][sri spec] that mitigates this by ensuring
 that an exact representation of a resource, and only that representation, loads
 and executes.
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-sri
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "sri": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 This rule checks that a website uses correctly SRI, more especifically:
@@ -161,6 +133,34 @@ change it to `sha256`, or `sha512` by specifying that in the
 
 The above will validate that the `integrity` of all scripts and styles use
 `sha512`.
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-sri
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "sri": "error"
+    },
+    ...
+}
+```
 
 ## Further Reading
 

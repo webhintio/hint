@@ -28,34 +28,6 @@ support and usage, it’s being deprecated (along with the related
 `Public-Key-Pins-Report-Only` header), and can easily create a lot
 of problems if not done correctly][hpkp deprecation].
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-no-disallowed-headers
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "no-disallowed-headers": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 By default, the rule checks if responses include one of the following
@@ -267,6 +239,34 @@ HTTP header, but not with `Custom-Header`.
             "include": ["Custom-Header"]
         }],
         ...
+    },
+    ...
+}
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-no-disallowed-headers
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "no-disallowed-headers": "error"
     },
     ...
 }
