@@ -15,13 +15,13 @@ const html = {
         <title>test</title>
     </head>
     <body>
-        <div role="main">
+        <div>
             <h1>test</h1>
         </div>
     </body>
 </html>`,
     tabindex: generateHTMLPage(undefined, `
-<div role="main">
+<div>
     <h1>test</h1>
     <a href="#skip" tabindex="4">Skip</a>
     <div id="skip">Introduction</div>
@@ -39,8 +39,7 @@ const tests: Array<RuleTest> = [
         serverConfig: html.missingLang
     },
     {
-        name: `HTML has tabindex > 0 and fails`,
-        reports: [{ message: 'Elements should not have tabindex greater than zero' }],
+        name: `HTML fails a recommended rule (tabindex > 0) because it's not WCAG 2.0`,
         serverConfig: html.tabindex
     }
 ];
