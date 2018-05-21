@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IRule, RuleConfig, Severity, IRuleConstructor, IConnectorConstructor, IParser, IFormatter, SonarwhalResources } from './types';
+import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IRule, RuleConfig, Severity, IRuleConstructor, IConnectorConstructor, Parser, IFormatter, SonarwhalResources } from './types';
 import * as logger from './utils/logging';
 import { RuleContext } from './rule-context';
 import { RuleScope } from './enums/rulescope';
@@ -34,7 +34,7 @@ const debug: debug.IDebugger = d(__filename);
 
 export class Sonarwhal extends EventEmitter {
     // TODO: review which ones need to be private or not
-    private parsers: Array<IParser>
+    private parsers: Array<Parser>
     private rules: Map<string, IRule>
     private connector: IConnector
     private connectorConfig: object
@@ -110,10 +110,10 @@ export class Sonarwhal extends EventEmitter {
             return new Formatter();
         });
 
-        this.parsers = resources.parsers.map((Parser) => {
+        this.parsers = resources.parsers.map((ParserConstructor) => {
             debug(`Loading parser`);
 
-            return new Parser(this);
+            return new ParserConstructor(this);
         });
 
         this.rules = new Map();
