@@ -15,34 +15,6 @@ developing their applications.
 ***From [SSL Labs’ SSL and TLS Deployment Best Practices][ssl best
 practices]***
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-ssllabs
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "ssllabs": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 This rule uses the [SSL Labs API][ssllabs api] via
@@ -116,6 +88,34 @@ The list of possible parameters is available in [SSL Labs’
 documentation][ssllabs protocol calls] with the difference
 that `on/off` parameters are `boolean`s in our case as shown
 in [`node-ssllabs`’ advanced usage][node-ssllabs usage].
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-ssllabs
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "ssllabs": "error"
+    },
+    ...
+}
+```
 
 ## Further Reading
 

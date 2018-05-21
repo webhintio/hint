@@ -34,34 +34,6 @@ stylesheets][fetch spec blocking], and sending the header for other
 resources (such as images) when they are served with the wrong media
 type may [create problems in older browsers][fetch spec issue].
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-x-content-type-options
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "x-content-type-options": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 The rule checks if all scripts and stylesheets are served with the
@@ -103,6 +75,34 @@ HTTP/... 200 OK
 ...
 Content-Type: text/javascript; charset=utf-8
 X-Content-Type-Options: nosniff
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-x-content-type-options
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "x-content-type-options": "error"
+    },
+    ...
+}
 ```
 
 ## Further Reading

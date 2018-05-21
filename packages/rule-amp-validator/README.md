@@ -13,6 +13,33 @@ AMP page will load (quickly) in any modern browser.
 If you are building an AMP page, you need to make sure the HTML is valid.
 Only valid AMP content can be added to an [AMP Cache][amp-cache].
 
+## What does the rule check?
+
+This rule uses [amphtml-validator][amphtml-validator] to validate the
+HTML of your page.
+
+## Can the rule be configured?
+
+Yes, you can decide if you want to receive errors only, or also
+warnings found by [`amphtml-validator`][amphtml-validator].
+By default all warnings and errors are reported. If you prefer to
+see only the errors you can use the following rule configuration
+in your [`.sonarwhalrc`][sonarwhalrc] file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "rules": {
+        "amp-validator": ["error", {
+            "errorsOnly": true
+        }],
+        ...
+    },
+    ...
+}
+```
+
 ## How to use this rule?
 
 To use it you will have to install it via `npm`:
@@ -36,33 +63,6 @@ configuration file:
     "parsers": [...],
     "rules": {
         "amp-validator": "error"
-    },
-    ...
-}
-```
-
-## What does the rule check?
-
-This rule uses [amphtml-validator][amphtml-validator] to validate the
-HTML of your page.
-
-## Can the rule be configured?
-
-Yes, you can decide if you want to receive errors only, or also
-warnings found by [`amphtml-validator`][amphtml-validator].
-By default all warnings and errors are reported. If you prefer to
-see only the errors you can use the following rule configuration
-in your [`.sonarwhalrc`][sonarwhalrc] file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "rules": {
-        "amp-validator": ["error", {
-            "errorsOnly": true
-        }],
-        ...
     },
     ...
 }

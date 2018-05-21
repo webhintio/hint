@@ -3,6 +3,16 @@
 `babel-config` contains rules to check if your Babel configuration has
 the most recommended configuration.
 
+## Why is this important?
+
+Babel needs to be properly configured to reflect user's preference.
+
+## Rules
+
+* [babel-config/is-valid][is-valid]
+
+## How to use this rule?
+
 To use it you will have to install it via `npm`:
 
 ```bash
@@ -28,14 +38,6 @@ configuration file:
     ...
 }
 ```
-
-## Why is this important?
-
-Babel needs to be properly configured to reflect user's preference.
-
-## Rules
-
-* [babel-config/is-valid][is-valid]
 
 ## Further Reading
 

@@ -20,34 +20,6 @@ charset for the response as, among other:
   thus creating a bad user experience (see also:
   [`meta-charset-utf-8` rule](../rule-meta-charset-utf-8))
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-content-type
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "content-type": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 The rule checks if responses include the `Content-Type` HTTP response
@@ -443,6 +415,34 @@ In the [`.sonarwhalrc`][sonarwhalrc] file:
 Note: You can also use the [`ignoredUrls`](../index.md#rule-configuration)
 property from the `.sonarwhalrc` file to exclude domains you don’t control
 (e.g.: CDNs) from these checks.
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-content-type
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "content-type": "error"
+    },
+    ...
+}
+```
 
 ## Further Reading
 

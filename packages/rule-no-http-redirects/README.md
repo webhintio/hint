@@ -25,34 +25,6 @@ impact of redirects is felt even more by mobile users, where the [network
 latency is usually higher][pagespeed-insights].
 As a rule of thumb, the more you can avoid redirects the better.
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-no-http-redirects
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "no-http-redirects": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 This rule checks:
@@ -90,6 +62,34 @@ file will allow 3 redirects for resources and 1 for the main URL:
             "max-html-redirects": 1
         }],
         ...
+    },
+    ...
+}
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-no-http-redirects
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "no-http-redirects": "error"
     },
     ...
 }
