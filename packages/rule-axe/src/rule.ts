@@ -72,7 +72,7 @@ export default class AxeRule implements IRule {
 
     public constructor(context: RuleContext) {
 
-        let axeConfig: object = {};
+        let axeConfig: object = { runOnly: ['wcag2a', 'wcag2aa'] };
 
         const loadRuleConfig = () => {
             if (!context.ruleOptions) {
