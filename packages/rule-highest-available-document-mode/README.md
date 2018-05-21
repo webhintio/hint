@@ -44,34 +44,6 @@ Notes:
   the meta tag is not recommended as [`Chrome Frame` has been
   deprecated][chrome frame] for quite some time.
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-highest-available-document-mode
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "highest-available-document-mode": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 By default the rule checks if the `X-UA-Compatible` response header is
@@ -391,6 +363,34 @@ Also, note that this rule takes into consideration the [targeted
 browsers][targeted browsers], and if Internet Explorer 8/9/10 aren’t
 among them, it will suggest removing the `meta` tag or/and not sending
 the HTTP response header.
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-highest-available-document-mode
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "highest-available-document-mode": "error"
+    },
+    ...
+}
+```
 
 ## Further Reading
 

@@ -9,34 +9,6 @@ This includes removing unused variables and methods, renaming variables
 and methods to smaller names, removing code comments, etc.
 Minification should generate a smaller file, and thus less code to parse.
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-minified-js
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation][NPM documentation].
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": ["javascript"],
-    "rules": {
-        "minified-js": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 This rule generates an *"Improvement Index"* value for the script content
@@ -78,6 +50,34 @@ that with a custom value in your [`.sonarwhalrc`][sonarwhalrc] config:
         "minified-js": ["error", {
             "threshold": 80
         }]
+    },
+    ...
+}
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-minified-js
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation][NPM documentation].
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": ["javascript"],
+    "rules": {
+        "minified-js": "error"
     },
     ...
 }

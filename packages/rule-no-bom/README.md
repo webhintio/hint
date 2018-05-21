@@ -14,6 +14,21 @@ precedence to BOM for the encoding.
 
 You can learn about other problems in [this section][bom problems].
 
+## What does the rule check?
+
+This rule checks that all text based media type files are served without the
+BOM character at the beginning.
+
+### Examples that **trigger** the rule
+
+A text file (such as HTML) that starts with the BOM character `U+FEFF`
+will fail.
+
+### Examples that **pass** the rule
+
+A text file (such as HTML) that doesn't start with the BOM character `U+FEFF`
+will pass.
+
 ## How to use this rule?
 
 To use it you will have to install it via `npm`:
@@ -41,21 +56,6 @@ configuration file:
     ...
 }
 ```
-
-## What does the rule check?
-
-This rule checks that all text based media type files are served without the
-BOM character at the beginning.
-
-### Examples that **trigger** the rule
-
-A text file (such as HTML) that starts with the BOM character `U+FEFF`
-will fail.
-
-### Examples that **pass** the rule
-
-A text file (such as HTML) that doesn't start with the BOM character `U+FEFF`
-will pass.
 
 ## Further Reading
 

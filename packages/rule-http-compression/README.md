@@ -95,34 +95,6 @@ resources:
   `Content-Encoding: gzip` header will create problems as user agents
   will not know they need to decompress before trying to display them.
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-http-compression
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "http-compression": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 The rule checks for the use cases previously specified, namely, it
@@ -1052,6 +1024,34 @@ use the following configuration in the [`.sonarwhalrc`][sonarwhalrc]:
 Note: You can also use the [`ignoredUrls`](../index.md#rule-configuration)
 property from the `.sonarwhalrc` file to exclude domains you don’t control
 (e.g.: CDNs) from these checks.
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-http-compression
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "http-compression": "error"
+    },
+    ...
+}
+```
 
 <!-- Link labels: -->
 
