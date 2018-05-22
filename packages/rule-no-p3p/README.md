@@ -8,8 +8,8 @@
 [P3P][p3p spec] (Platform for Privacy Preferences Project) is a deprecated
 technology meant to allow browsers to programmatically check privacy policies.
 
-Microsoft Internet Explorer was the most popular browser implementing `P3P`.
-With Windows 10, `P3P`'s support was removed entirely from IE 11 and has
+Microsoft Internet Explorer was the most popular browser that implemented
+`P3P`. With Windows 10, `P3P`'s support was removed entirely from IE 11 and has
 [minimal servicing for other versions of Windows][p3p not supported].
 Other popular browsers never implemented or removed this feature before
 Microsoft did.
@@ -24,7 +24,19 @@ P3P don't have a valid configuration. In some cases the value was used to
 circunvent IE cookie blocking (and thus rendering P3P inefective). Others it
 was typos and errors in the tokens (but still invalid policies).
 
-Because of all the above reasons it's suggested to not use `P3P` anymore.
+Because of all the above reasons it's recommended to not use `P3P` anymore.
+
+One thing to keep in mind if you need to support old versions of IE is that:
+
+> By default, IE will reject cookies coming from 3rd-party contexts. A
+3rd-party context is one where the domain on the content is different than the
+domain of the page that pulls in that content. Possible third-party contexts
+include pretty much any element that accepts a URL: `<script>`, `<img>`,
+`<link>`, `<frame>`, `<iframe>`, `<audio>`, `<video>`, et cetera. It also
+includes cross-domain XmlHttpRequests which attempt to send cookies when the
+`withCredentials` flag is set.
+
+*[A Quick Look at P3P (Eric Lawrence)][quick look]*
 
 ## What does the rule check?
 
@@ -80,11 +92,8 @@ The `P3P` header is not sent:
 
 ```text
 HTTP/... 200 OK
-date: Wed, 16 May 1971 16:21:53 GMT
-server: Apache
-cache-control: max-age=300
-vary: User-Agent
-content-type: text/html; charset=UTF-8
+
+Content-Type: text/html; charset=utf-8
 ...
 ```
 

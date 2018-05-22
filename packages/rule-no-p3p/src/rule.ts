@@ -8,6 +8,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { IAsyncHTMLElement, ElementFound, FetchEnd, Response, IRule, RuleMetadata, ScanStart } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
+import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 import { getIncludedHeaders } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
@@ -72,7 +73,7 @@ export default class NoP3pRule implements IRule {
 
             const rel: string = element.getAttribute('rel');
 
-            if (rel && rel.toLowerCase() === 'p3pv1') {
+            if (rel && normalizeString(rel) === 'p3pv1') {
                 await context.report(resource, element, errorMessage);
             }
         };
