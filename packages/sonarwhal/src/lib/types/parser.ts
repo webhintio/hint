@@ -13,13 +13,11 @@ export type ExtendableConfiguration = {
 };
 
 export interface IParserConstructor {
-    new(sonarwhal: Sonarwhal): IParser;
+    new(sonarwhal: Sonarwhal): Parser;
 }
 
-export interface IParser { }
-
 /** A `Parser` that understands a file content. */
-export abstract class Parser implements IParser {
+export abstract class Parser {
     protected sonarwhal: Sonarwhal;
     protected name: string;
 
