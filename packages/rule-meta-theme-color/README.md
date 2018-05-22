@@ -48,34 +48,6 @@ Note that:
     web app manifest file so it allows for better individual page level
     customization.
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-meta-theme-color
-```
-
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "meta-theme-color": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 The rule checks if a single `theme-color` meta tag is specified in
@@ -199,6 +171,34 @@ color] supported everywhere:
     </head>
     <body>...</body>
 </html>
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-meta-theme-color
+```
+
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "meta-theme-color": "error"
+    },
+    ...
+}
 ```
 
 ## Further Reading

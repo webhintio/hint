@@ -13,35 +13,6 @@ use your users CPU power).
 Also [certain browser features][certain features] are only available if the
 site is on HTTPS.
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-https-only
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "https-only": "error",
-        ...
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 This rule checks two things:
@@ -77,6 +48,35 @@ Your site is served using HTTPS and its resources too.
     <img src="https://example.com/image.png" />
     <script src="https://example.com/script.js"></script>
 </body>
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-https-only
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "https-only": "error",
+        ...
+    },
+    ...
+}
 ```
 
 ## Further Reading

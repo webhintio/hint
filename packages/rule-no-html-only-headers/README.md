@@ -9,34 +9,6 @@ Some HTTP headers do not make sense to be sent for non-HTML
 resources, as sending them does not provide any value to users,
 and contributes to header bloat.
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-no-html-only-headers
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "no-html-only-headers": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 The rule checks if non-HTML responses include any of the following
@@ -251,6 +223,34 @@ file will make the rule allow non-HTML resources to be served with the
             "include": ["Custom-Header"]
         }],
         ...
+    },
+    ...
+}
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-no-html-only-headers
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "no-html-only-headers": "error"
     },
     ...
 }

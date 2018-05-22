@@ -3,6 +3,22 @@
 `webpack-config` contains set of rules to check if your webpack configuration
 file (`webpack.config.js`) has the most recommended configuration.
 
+## Why is this important?
+
+If you are building an app or a website using webpack, you
+need to be sure that your configuration is the best for your needs.
+
+## Rules
+
+* [webpack-config/config-exists][config-exists]
+* [webpack-config/is-installed][is-installed]
+* [webpack-config/is-valid][is-valid]
+* [webpack-config/module-esnext-typescript][module-esnext-typescript]
+* [webpack-config/modules-false-babel][modules-false-babel]
+* [webpack-config/no-devtool-in-prod][no-devtool-in-prod]
+
+## How to use these rules?
+
 To use it you will have to install it via `npm`:
 
 ```bash
@@ -33,20 +49,6 @@ configuration file:
     ...
 }
 ```
-
-## Why is this important?
-
-If you are building an app or a website using webpack, you
-need to be sure that your configuration is the best for your needs.
-
-## Rules
-
-* [webpack-config/config-exists][config-exists]
-* [webpack-config/is-installed][is-installed]
-* [webpack-config/is-valid][is-valid]
-* [webpack-config/module-esnext-typescript][module-esnext-typescript]
-* [webpack-config/modules-false-babel][modules-false-babel]
-* [webpack-config/no-devtool-in-prod][no-devtool-in-prod]
 
 ## Further Reading
 

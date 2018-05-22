@@ -36,34 +36,6 @@ More information about HTTP Strict Transport (HSTS), please see:
 * [HTTP Strict Transport Security wiki][hsts wiki]
 * [HTTP Strict Transport Security Cheat Sheet][hsts cheat sheat]
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-strict-transport-security
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "strict-transport-security": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 For a site served over HTTPS, this rule checks the following:
@@ -243,6 +215,34 @@ E.g. The following configuration will enable the `preload` validation.
             "checkPreload": true
         }],
         ...
+    },
+    ...
+}
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-strict-transport-security
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "strict-transport-security": "error"
     },
     ...
 }

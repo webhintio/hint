@@ -39,34 +39,6 @@ are properly used, and also offers to validate the `Set-Cookie` header syntax.
 Note: More information about `Set-cookie` header is available in
 the [MDN web docs][set-cookie web doc].
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-validate-set-cookie-header
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "validate-set-cookie-header": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 * `Secure` and `HttpOnly` cookies:
@@ -191,6 +163,34 @@ HTTP/... 200 OK
 
 ...
 Set-Cookie: __Secure-ID=123; Secure; Domain=example.com; HttpOnly
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-validate-set-cookie-header
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "validate-set-cookie-header": "error"
+    },
+    ...
+}
 ```
 
 <!-- Link labels: -->

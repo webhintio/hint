@@ -14,34 +14,6 @@ Also, providing property values that are only supported by certain
 user agents for which the [specification][manifest spec] does not define
 a fallback, can lead to interoperability issues.
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-manifest-is-valid
-```
-
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "manifest-is-valid": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 `manifest-is-valid` checks if:
@@ -142,6 +114,34 @@ according to the specification, and the property values work in
   "short_name": "Example",
   "start_url": "index.html",
   "theme_color": "red"
+}
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-manifest-is-valid
+```
+
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "manifest-is-valid": "error"
+    },
+    ...
 }
 ```
 

@@ -45,34 +45,6 @@ As for the charset meta tag, always use `<meta charset="utf-8">` as:
   avoiding potential encoding-related security issues ([such as the
   one in old IE][ie issue]).
 
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-meta-charset-utf-8
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "meta-charset-utf-8": "error"
-    },
-    ...
-}
-```
-
 ## What does the rule check?
 
 The rule checks if `<meta charset="utf-8">` is specified as the first
@@ -147,6 +119,34 @@ The `meta charset` is not the first thing in `<head>`:
     </head>
     <body>...</body>
 </html>
+```
+
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-meta-charset-utf-8
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "meta-charset-utf-8": "error"
+    },
+    ...
+}
 ```
 
 ## Further Reading
