@@ -1,3 +1,10 @@
+# 4.0.2 (May 22, 2018)
+
+## Bug fixes / Improvements
+
+* [[`cf11c81371`](https://github.com/sonarwhal/sonarwhal/commit/cf11c8137170ded9e0c768fc9f7abc25f167ad03)] - Fix: Run only WCAG 2.0 Level A and AA aXe rules (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1087`](https://github.com/sonarwhal/sonarwhal/issues/1087)).
+
+
 # 4.0.1 (April 10, 2018)
 
 ## Bug fixes / Improvements
