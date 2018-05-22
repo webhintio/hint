@@ -1,3 +1,10 @@
+# 4.0.2 (May 22, 2018)
+
+## Bug fixes / Improvements
+
+* [[`9f62cad7e1`](https://github.com/sonarwhal/sonarwhal/commit/9f62cad7e131ba36e9a85c08cd552bb1294c6845)] - Docs: Fix spelling (by [`Tony Brix`](https://github.com/UziTech)).
+
+
 # 4.0.1 (April 10, 2018)
 
 ## Bug fixes / Improvements
