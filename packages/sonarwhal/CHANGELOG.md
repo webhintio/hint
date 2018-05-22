@@ -1,3 +1,11 @@
+# 1.9.1 (May 22, 2018)
+
+## Bug fixes / Improvements
+
+* [[`af4482bd2c`](https://github.com/sonarwhal/sonarwhal/commit/af4482bd2c1710da6c59738a624f5b83ff367d92)] - Fix: Improve error output when a dependency is missing and stop execution (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1014`](https://github.com/sonarwhal/sonarwhal/issues/1014)).
+* [[`7b384fc96f`](https://github.com/sonarwhal/sonarwhal/commit/7b384fc96fee2b41f2cd61f57f68ed70fd22a829)] - Fix: List missing and incompatible packages before install prompt (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1063`](https://github.com/sonarwhal/sonarwhal/issues/1063)).
+
+
 # 1.9.0 (May 15, 2018)
 
 ## Bug fixes / Improvements
