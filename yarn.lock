@@ -2428,12 +2428,6 @@ eslint-plugin-markdown@^1.0.0-beta.7:
     remark-parse "^3.0.0"
     unified "^6.1.2"
 
-eslint-plugin-typescript@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.11.0.tgz#a8480beeac1634271737e0ff8af32d9119b0d272"
-  dependencies:
-    requireindex "~1.1.0"
-
 eslint-plugin-typescript@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.12.0.tgz#e23d58cb27fe28e89fc641a1f20e8d862cb99aef"
@@ -4557,6 +4551,19 @@ markdown-it@8.4.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
+markdownlint-cli@^0.8.1:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/markdownlint-cli/-/markdownlint-cli-0.8.2.tgz#c4aec23ea45f9a869add4fc26354226c9158e454"
+  dependencies:
+    commander "~2.9.0"
+    deep-extend "~0.5.1"
+    get-stdin "~5.0.1"
+    glob "~7.0.3"
+    lodash.differencewith "~4.5.0"
+    lodash.flatten "~4.4.0"
+    markdownlint "~0.8.1"
+    rc "~1.2.7"
+
 markdownlint-cli@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/markdownlint-cli/-/markdownlint-cli-0.9.0.tgz#241a62e98ba5fd1594f57adb5823bc6bf83e95e2"
@@ -4569,6 +4576,12 @@ markdownlint-cli@^0.9.0:
     lodash.flatten "~4.4.0"
     markdownlint "~0.9.0"
     rc "~1.2.7"
+
+markdownlint@~0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.8.1.tgz#a87572ccc84273b2a723205e65fa657437fe06c6"
+  dependencies:
+    markdown-it "8.4.1"
 
 markdownlint@~0.9.0:
   version "0.9.0"
@@ -5086,7 +5099,7 @@ nwmatcher@^1.4.3:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.4.tgz#2285631f34a95f0d0395cd900c96ed39b58f346e"
 
-nyc@^11.8.0:
+nyc@^11.7.1, nyc@^11.8.0:
   version "11.8.0"
   resolved "https://registry.yarnpkg.com/nyc/-/nyc-11.8.0.tgz#1e8453b0644f8fea4d829b1a6636663157cd3b00"
   dependencies:
