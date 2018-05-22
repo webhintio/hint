@@ -13,12 +13,12 @@ const shortHandRulePrefixes = {
     '?': 'warning'
 };
 
-interface INormalizedRule extends Object {
+type NormalizedRule = {
     ruleLevel: string;
     ruleName: string;
-}
+};
 
-const normalizeRule = (rule: string): INormalizedRule => {
+const normalizeRule = (rule: string): NormalizedRule => {
     let ruleLevel: string;
     let ruleName: string;
 
