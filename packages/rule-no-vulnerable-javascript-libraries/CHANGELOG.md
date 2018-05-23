@@ -1,3 +1,10 @@
+# 3.3.0 (May 22, 2018)
+
+## New features
+
+* [[`4199b849ab`](https://github.com/sonarwhal/sonarwhal/commit/4199b849ab05c8e5ecf1cf03498ce3e6693e1145)] - Update: `snyk-snapshot.json`.
+
+
 # 3.2.0 (May 15, 2018)
 
 ## Bug fixes / Improvements
