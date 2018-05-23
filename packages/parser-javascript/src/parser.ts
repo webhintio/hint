@@ -25,15 +25,19 @@ export default class JavascriptParser extends Parser {
     }
 
     private async emitScript(code: string, resource: string) {
-        const ast = espree.parse(code, defaultParserOptions);
+        try {
+            const ast = espree.parse(code, defaultParserOptions);
 
-        const scriptData: ScriptParse = {
-            ast,
-            resource,
-            sourceCode: new eslint.SourceCode(code, ast)
-        };
+            const scriptData: ScriptParse = {
+                ast,
+                resource,
+                sourceCode: new eslint.SourceCode(code, ast)
+            };
 
-        await this.sonarwhal.emitAsync(`parse::${this.name}::end`, scriptData);
+            await this.sonarwhal.emitAsync(`parse::${this.name}::end`, scriptData);
+        } catch (err) {
+            console.log(`Error parsing code: ${code}`);
+        }
     }
 
     private async parseJavascript(fetchEnd: FetchEnd) {
