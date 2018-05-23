@@ -90,15 +90,39 @@ export default class HttpCacheRule implements IRule {
         /** The predefined patterns for file revving.*/
         const predefinedRevvingPatterns: Array<RegExp> = [
             /*
-             * E.g.:
-             * - https://example.com/assets/script.12345.js
-             * - https://example.com/assets/script-2.12345.js
-             * - https://example.com/assets/script_2-12345.js
-             * - https://example.com/assets/icon_meca_1473335663.svg
+             * E.g.: version/timestamp/hash
              *
-             * Live example: https://regex101.com/r/6VduJO/2/
+             * Live example: https://regex101.com/r/6VduJO/36/
              */
-            /\/(\w|-|_)+(\.|-|_)\w+\.\w+$/i
+
+            /*
+             * - https://example.com/assets/jquery-2.1.1.js
+             * - https://example.com/assets/jquery-2.1.1.min.js
+             * - https://example.com/assets/jquery-3.0.0-beta.js
+             * - https://example.com/assets/favicon.123.ico
+             * - https://example.com/wp-content/uploads/fvm/out/header-cb050ccd-1524626949.min.js
+             */
+            /\/[^/]+[._-]v?\d+(\.\d+(\.\d+)?)?[^/]*\.\w+$/i,
+
+            /*
+             * - https://cdn.example.com/jquery.lazy/1.6.5/jquery.lazy.min.js
+             */
+            /\/v?\d+\.\d+\.\d+.*?\//i,
+
+            /*
+             * - https://example.com/site/javascript/v5/jquery.cookie.js
+             * - https://static.xx.fbcdn.net/rsrc.php/v3iJhv4/yG/l/en_US/sqNNamBywvN.js
+             */
+            /\/v\d.*?\//i,
+
+            /*
+             * - https://example.com/assets/unicorn-d41d8cd98f.css
+             * - https://example.com/assets/app.e1c7a.bundle.js
+             * - https://example.com/assets/9f61f58dd1cc3bb82182.bundle.js
+             * - https://example.com/assets/9f61f.js
+             * - https://example.com/assets/9f61f.min.js
+             */
+            /\/([^/]+[._-])?([0-9a-f]{5,})([._-].*?)?\.\w+$/i
         ];
 
         /** The cache revving patterns to use for matching.*/
