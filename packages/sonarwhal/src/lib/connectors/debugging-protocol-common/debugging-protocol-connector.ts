@@ -409,7 +409,24 @@ export class Connector implements IConnector {
         const resourceUrl: string = cdpResponse.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const resourceHeaders: object = normalizeHeaders(cdpResponse.response.headers);
-        const { content, rawContent, rawResponse } = await this.getResponseBody(cdpResponse);
+        let { content, rawContent, rawResponse } = await this.getResponseBody(cdpResponse);
+        let retry = 3;
+
+        /*
+         * Sometimes, the content is empty at the beginning, but
+         * after few millisecons, it isn't.
+         */
+        while (!content && (!rawContent || rawContent.length === 0) && retry > 0) {
+            await delay(250);
+
+            ({ content, rawContent, rawResponse } = await this.getResponseBody(cdpResponse));
+
+            retry--;
+        }
+
+        if (retry === 0) {
+            debug(`${resourceUrl} is empty`);
+        }
 
         const response: Response = {
             body: {
