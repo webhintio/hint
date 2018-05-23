@@ -20,7 +20,7 @@ const paths = ['es3', 'es5', 'es2015', 'es2016', 'esnext', 'no-target'].reduce((
 
 const tests: Array<TestWithBrowserInfo> = [
     {
-        browserslist: ['IE 8', 'IE 9', 'Edge 15', 'Edge 16', 'Chrome 63', 'Chrome 60', 'android 4.4.3-4.4.4', 'android 62', 'Safari 10.1', 'Safari 10.0'],
+        browserslist: ['IE 8', 'IE 9', 'Edge 15', 'Edge 16', 'Chrome 63', 'Chrome 60', 'android 4.4.3-4.4.4', 'Safari 10.1', 'Safari 10.0'],
         name: 'Configuration with "compilerOptions.target = es3" and old browsers should pass',
         path: paths.es3
     },
