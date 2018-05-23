@@ -34,20 +34,36 @@ validate that the page and resources have a good caching strategy:
     one based on query string parameters (see: [problems with
     proxys][revving files])
 
-The built-in regular expression for file revving is:
+The built-in regular expressions for file revving are:
 
 ```regexp
-/\/(\w|-|_)+(\.|-|_)\w+\.\w+$/i
+/\/[^/]+[._-]v?\d+(\.\d+(\.\d+)?)?[^/]*\.\w+$/i
+/\/v?\d+\.\d+\.\d+.*?\//i
+/\/\d+\//
+/\/v\d.*?\//i
+/\/([^/]+[._-])?([0-9a-f]{5,})([._-].*?)?\.\w+$/i
 ```
 
-This will match urls like the following:
+This will match URLs like the following:
 
 ```text
-https://example.com/assets/script.13b55av.js
-https://example.com/assets/script-2.13b55av.js
-https://example.com/assets/script_2-13b55av.js
-https://example.com/assets/sw_script_13b553442.js
+https://example.com/assets/jquery-2.1.1.js
+https://example.com/assets/jquery-2.1.1.min.js
+https://example.com/assets/jquery-3.0.0-beta.js
+https://example.com/assets/favicon.123.ico
+https://example.com/wp-content/uploads/fvm/out/header-cb050ccd-1524626949.min.js
+https://cdn.example.com/jquery.lazy/1.6.5/jquery.lazy.min.js
+https://s3.amazonaws.com/example/wp-content/uploads/2017/07/15084048/jquery.mediaBoxes.dropdown.js
+https://example.com/site/javascript/v5/jquery.cookie.js
+https://static.xx.fbcdn.net/rsrc.php/v3iJhv4/yG/l/en_US/sqNNamBywvN.js
+https://example.com/assets/unicorn-d41d8cd98f.css
+https://example.com/assets/app.e1c7a.bundle.js
+https://example.com/assets/9f61f58dd1cc3bb82182.bundle.js
+https://example.com/assets/9f61f.js
+https://example.com/assets/9f61f.min.js
 ```
+
+[Test your URLs](https://regex101.com/r/6VduJO/36/)
 
 ### Examples that **trigger** the rule
 
