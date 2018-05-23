@@ -5,6 +5,7 @@ import * as mock from 'mock-require';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { delay } from 'sonarwhal/dist/src/lib/utils/misc';
 
 const ruleName = getRuleName(__dirname);
 const exampleUrl = 'https://empty.sonarwhal.com/';
@@ -77,25 +78,28 @@ const configCheckerMessages = {
 };
 
 const htmlCheckerMock = (response) => {
-    const mockedChecker = (scanOptions) => {
-        let responseMessages;
+    const mockedChecker = {
+        delay,
+        requestAsync(scanOptions) {
+            let responseMessages;
 
-        if (response.pass) { // No errors/warnings are detected in the target html
-            return Promise.resolve(noErrorMessages);
+            if (response.pass) { // No errors/warnings are detected in the target html
+                return Promise.resolve(JSON.stringify(noErrorMessages));
+            }
+
+            if (response.error) { // Errors/warnings are detected in the target html
+                const isDefaultChecker = scanOptions.url === defaultValidator;
+
+                responseMessages = isDefaultChecker ? defaultCheckerMessages : configCheckerMessages;
+
+                return Promise.resolve(JSON.stringify(responseMessages));
+            }
+
+            return Promise.reject(validatorError); // Error with the validator
         }
-
-        if (response.error) { // Errors/warnings are detected in the target html
-            const isDefaultChecker = scanOptions.validator === defaultValidator;
-
-            responseMessages = isDefaultChecker ? defaultCheckerMessages : configCheckerMessages;
-
-            return Promise.resolve(responseMessages);
-        }
-
-        return Promise.reject(validatorError); // Error with the validator
     };
 
-    mock('html-validator', mockedChecker);
+    mock('sonarwhal/dist/src/lib/utils/misc', mockedChecker);
 };
 
 const testsForDefaults: Array<RuleTest> = [

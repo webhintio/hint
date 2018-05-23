@@ -7,7 +7,6 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "html-validator": "^3.0.3",
     "lodash.uniqby": "^4.7.0"
   },
   "description": "sonarwhal rule that validates HTML pages using the Nu HTML checker",
