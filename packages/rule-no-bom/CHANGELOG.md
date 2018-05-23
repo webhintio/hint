@@ -1,3 +1,10 @@
+# 2.0.4 (May 23, 2018)
+
+## Bug fixes / Improvements
+
+* [[`b434962354`](https://github.com/sonarwhal/sonarwhal/commit/b434962354495fbd80285730d927df40b51bd5b9)] - Docs: Make minor improvements (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 2.0.3 (April 23, 2018)
 
 ## Bug fixes / Improvements
