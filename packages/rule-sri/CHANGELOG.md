@@ -1,3 +1,10 @@
+# 1.0.6 (May 24, 2018)
+
+## Bug fixes / Improvements
+
+* [[`7fbe2bac52`](https://github.com/sonarwhal/sonarwhal/commit/7fbe2bac522c5738f3ec3a7850e1ce136efc652b)] - Fix: Make `npm` package not include `devDependencies` (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1098`](https://github.com/sonarwhal/sonarwhal/issues/1098)).
+
+
 # 1.0.5 (April 25, 2018)
 
 ## Bug fixes / Improvements
