@@ -7,7 +7,7 @@ import { parse as parseContentTypeHeader } from 'content-type';
 import * as shell from 'shelljs';
 import * as request from 'request';
 
-import stripBom = require('strip-bom');
+import * as stripBom from 'strip-bom';
 import * as requireUncached from 'require-uncached';
 import * as stripComments from 'strip-json-comments';
 

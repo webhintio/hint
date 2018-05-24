@@ -55,7 +55,7 @@ test.serial('Users should be notified if there is a new version of sonarwhal', a
 See ${chalk.cyan('https://sonarwhal.com/about/changelog/')} for details`;
 
     t.context.notifier.update = newUpdate;
-    const cli = require('../../src/lib/cli');
+    const cli = await import('../../src/lib/cli');
 
     await cli.execute('');
 
@@ -65,7 +65,7 @@ See ${chalk.cyan('https://sonarwhal.com/about/changelog/')} for details`;
 
 test.serial(`Users shouldn't be notified if the current version is up to date`, async (t) => {
     t.context.notifier.update = null;
-    const cli = require('../../src/lib/cli');
+    const cli = await import('../../src/lib/cli');
 
     await cli.execute('');
 
@@ -85,7 +85,7 @@ test.serial(`Users shouldn't be notified if they just updated to the latest vers
         return { version: '0.3.0' };
     });
 
-    const cli = require('../../src/lib/cli');
+    const cli = await import('../../src/lib/cli');
 
     await cli.execute('');
 
@@ -95,7 +95,7 @@ test.serial(`Users shouldn't be notified if they just updated to the latest vers
 test.serial(`The process should exit if non-existing arguments are passed in to 'execute'`, async (t) => {
     t.context.notifier.update = null;
 
-    const cli = require('../../src/lib/cli');
+    const cli = await import('../../src/lib/cli');
 
     await t.notThrows(cli.execute(['', '', '--inti']));
 

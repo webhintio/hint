@@ -75,7 +75,7 @@ test.serial('If the configuration is valid and webpack is installed locally, it 
 
     new WebpackConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
-    const config = require(configPath);
+    const config = await import(configPath);
 
     await t.context.sonarwhal.emitAsync('fetch::end::script', { resource: configPath });
 

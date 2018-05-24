@@ -55,7 +55,7 @@ test.beforeEach((t) => {
 test.serial('installPackages should run the right command if package.json exists in the current work directory, and has `sonarwhal` as a devDependency', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
-    const npmUtils = require('../../../src/lib/utils/npm');
+    const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
@@ -79,7 +79,7 @@ test.serial('installPackages should run the right command if package.json exists
 test.serial('installPackages should run the right command if package.json exists in the current working directory, and has `sonarwhal` as a regular dependency', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
-    const npmUtils = require('../../../src/lib/utils/npm');
+    const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
@@ -103,7 +103,7 @@ test.serial('installPackages should run the right command if package.json exists
 test.serial(`installPackages should run the right command if path to package.json doesn't exist`, async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
-    const npmUtils = require('../../../src/lib/utils/npm');
+    const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').throws(new Error(`Path doesn't exist.`));
@@ -126,7 +126,7 @@ test.serial(`installPackages should run the right command if path to package.jso
 test.serial(`installPackages should run the right command if package.json exists but is not valid`, async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
-    const npmUtils = require('../../../src/lib/utils/npm');
+    const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
@@ -150,7 +150,7 @@ test.serial(`installPackages should run the right command if package.json exists
 test.serial('installPackages should show the command to run if the installation fail and package.json exists', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
-    const npmUtils = require('../../../src/lib/utils/npm');
+    const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
@@ -178,7 +178,7 @@ test.serial('installPackages should show the command to run if the installation 
 test.serial(`installPackages should show the command to run if the installation fail and package.json doesn't exist`, async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
-    const npmUtils = require('../../../src/lib/utils/npm');
+    const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').throws(new Error(`Path doesn't exist.`));
@@ -208,7 +208,7 @@ test.serial('search should search the right query', async (t) => {
         total: 0
     });
 
-    const npmUtils = require('../../../src/lib/utils/npm');
+    const npmUtils = await import('../../../src/lib/utils/npm');
 
     await npmUtils.search('sonarwhal-rule');
 
@@ -239,7 +239,7 @@ test.serial('search should get all the results', async (t) => {
         });
 
 
-    const npmUtils = require('../../../src/lib/utils/npm');
+    const npmUtils = await import('../../../src/lib/utils/npm');
 
     await npmUtils.search('sonarwhal-rule');
 
