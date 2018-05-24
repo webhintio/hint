@@ -254,6 +254,90 @@ const defaultTests: Array<RuleTest> = [
         }
     },
     {
+        name: 'JS with long max-age, immutable and file revving with multiple dots passes',
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/js.script.123.js"></script>'),
+            '/favicon.123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            },
+            '/js.script.123.js': {
+                content: 'var a = 10;',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            }
+        }
+    },
+    {
+        name: 'JS with long max-age, immutable and file revving with semver passes',
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/jquery-2.1.1.min.js"></script>'),
+            '/favicon.123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            },
+            '/jquery-2.1.1.min.js': {
+                content: 'var a = 10;',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            }
+        }
+    },
+    {
+        name: 'JS with long max-age, immutable and file revving with last modified timestamp passes',
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/js.script-1234567890.js"></script>'),
+            '/favicon.123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            },
+            '/js.script-1234567890.js': {
+                content: 'var a = 10;',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            }
+        }
+    },
+    {
+        name: 'JS with long max-age, immutable and file revving with file hash passes',
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/unicorn-d41d8cd98f.css"></script>'),
+            '/favicon.123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            },
+            '/unicorn-d41d8cd98f.css': {
+                content: 'a { color: yellow; }',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            }
+        }
+    },
+    {
+        name: 'JS with long max-age, immutable and file revving with file hash at the beginning passes',
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/9f61f58dd1cc3bb82182.bundle.js"></script>'),
+            '/9f61f58dd1cc3bb82182.bundle.js': {
+                content: 'var a = 10;',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            },
+            '/favicon.123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            }
+        }
+    },
+    {
+        name: 'JS with long max-age, immutable and file revving with facebook static passes',
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/rsrc.php/v3iJhv4/yG/l/en_US/sqNNamBywvN.js"></script>'),
+            '/favicon.123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            },
+            '/rsrc.php/v3iJhv4/yG/l/en_US/sqNNamBywvN.js': {
+                content: 'var a = 10;',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            }
+        }
+    },
+    {
         name: 'JS with long max-age, immutable and file revving with `_` passes',
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon_123.ico"><script src="/script_123.js"></script>'),
