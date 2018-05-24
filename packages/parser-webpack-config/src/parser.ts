@@ -52,7 +52,7 @@ export default class WebpackConfigParser extends Parser {
         this.configFound = true;
 
         try {
-            const config: webpack.Configuration = require(getAsPathString(getAsUri(resource)));
+            const config: webpack.Configuration = await import(getAsPathString(getAsUri(resource)));
 
             const version = this.getLocallyInstalledWebpack();
 

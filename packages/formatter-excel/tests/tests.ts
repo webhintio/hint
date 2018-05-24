@@ -8,22 +8,22 @@ import * as sinon from 'sinon';
 
 import * as problems from './fixtures/list-of-problems';
 
-test.beforeEach((t) => {
+test.beforeEach(async (t) => {
     delete require.cache[require.resolve('lodash')];
     delete require.cache[path.resolve(__dirname, '../src/formatter.js')];
 
-    const groupBy = require('lodash.groupby');
+    const groupBy = await import('lodash.groupby');
     const spy = sinon.spy(groupBy);
 
     proxyquire('../src/formatter', { 'lodash.groupby': spy });
 
-    const ExcelFormatter = require('../src/formatter').default;
+    const ExcelFormatter = (await import('../src/formatter')).default;
 
     t.context.ExcelFormatter = ExcelFormatter;
     t.context.spy = spy;
 });
 
-test(`Excel formatter doesn't print anything if no values`, async (t) => {
+test.serial(`Excel formatter doesn't print anything if no values`, async (t) => {
     const formatter = new t.context.ExcelFormatter();
     const spy = t.context.spy;
 
@@ -32,7 +32,7 @@ test(`Excel formatter doesn't print anything if no values`, async (t) => {
     t.is(spy.callCount, 0);
 });
 
-test(`Excel formatter generates the right number of sheets with the good content`, async (t) => {
+test.serial(`Excel formatter generates the right number of sheets with the good content`, async (t) => {
     const formatter = new t.context.ExcelFormatter();
 
     await formatter.format(problems.multipleproblems, 'http://myresource.com:8080/');

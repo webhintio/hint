@@ -5,6 +5,7 @@ import * as sinon from 'sinon';
 import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
 import { SonarwhalConfig } from '../../../src/lib/config';
+import { ResourceType } from '../../../src/lib/enums/resourcetype';
 
 const cacheKey = path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js');
 
@@ -19,9 +20,10 @@ const cleanCache = () => {
     delete require.cache[cacheKey];
 };
 
-test.serial('tryToLoadFrom throws an error if a dependency is missing', (t) => {
+test.serial('tryToLoadFrom throws an error if a dependency is missing', async (t) => {
+    // import doesn't find module
     const Module = require('module');
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
 
     const sandbox = sinon.createSandbox();
 
@@ -39,9 +41,10 @@ test.serial('tryToLoadFrom throws an error if a dependency is missing', (t) => {
     sandbox.restore();
 });
 
-test.serial('tryToLoadFrom does nothing if the package itself is missing', (t) => {
+test.serial('tryToLoadFrom does nothing if the package itself is missing', async (t) => {
+    // import doesn't find module
     const Module = require('module');
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
 
     const sandbox = sinon.createSandbox();
 
@@ -58,13 +61,13 @@ test.serial('tryToLoadFrom does nothing if the package itself is missing', (t) =
 });
 
 // TODO: Add tests to verify the order of loading is the right one: core -> scoped -> prefixed. This only checks core resources
-test('loadResource looks for resources in the right order (core > @sonarwhal > sonarwhal- ', (t) => {
+test('loadResource looks for resources in the right order (core > @sonarwhal > sonarwhal- ', async (t) => {
     cleanCache();
 
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
     const resourceName = 'missing-rule';
-    const resourceType = 'rule';
+    const resourceType: ResourceType = ResourceType.rule;
 
     tryToLoadFromStub.onFirstCall().returns(null);
     tryToLoadFromStub.onSecondCall().returns(null);
@@ -85,6 +88,7 @@ test('loadResource looks for resources in the right order (core > @sonarwhal > s
 test('loadRule calls loadResource with the right parameters', (t) => {
     cleanCache();
 
+    // Using require to allow call loadRule with just 1 parameter.
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
     const loadResourceStub = sinon.stub(resourceLoader, 'loadResource');
 
@@ -101,10 +105,10 @@ test('loadRule calls loadResource with the right parameters', (t) => {
     loadResourceStub.restore();
 });
 
-test('loadConfiguration calls loadResource with the right parameters', (t) => {
+test('loadConfiguration calls loadResource with the right parameters', async (t) => {
     cleanCache();
 
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const loadResourceStub = sinon.stub(resourceLoader, 'loadResource');
 
     loadResourceStub.throws({});
@@ -120,12 +124,12 @@ test('loadConfiguration calls loadResource with the right parameters', (t) => {
     loadResourceStub.restore();
 });
 
-test('getInstalledResources should return the installed resources', (t) => {
+test('getInstalledResources should return the installed resources', async (t) => {
     cleanCache();
 
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const globbyStub = sinon.stub(globby, 'sync').returns(installedConnectors);
-    const connectors = resourceLoader.getInstalledResources('connector');
+    const connectors = resourceLoader.getInstalledResources(ResourceType.connector);
 
     t.true(connectors.includes('installedconnector1'));
     t.true(connectors.includes('installedconnector2'));
@@ -133,16 +137,16 @@ test('getInstalledResources should return the installed resources', (t) => {
     globbyStub.restore();
 });
 
-test('loadResource ignores the version by default and returns the resource provided by tryToLoadFrom', (t) => {
+test.serial('loadResource ignores the version by default and returns the resource provided by tryToLoadFrom', async (t) => {
     cleanCache();
 
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
 
     tryToLoadFromStub.returns(fakeResource);
 
-    const resource = resourceLoader.loadResource('fake-resource', 'parser');
-    const resource2 = resourceLoader.loadResource('fake-resource', 'parser');
+    const resource = resourceLoader.loadResource('fake-resource', ResourceType.parser);
+    const resource2 = resourceLoader.loadResource('fake-resource', ResourceType.parser);
 
     t.is(resource, fakeResource);
     t.is(resource2, fakeResource);
@@ -151,18 +155,18 @@ test('loadResource ignores the version by default and returns the resource provi
     tryToLoadFromStub.restore();
 });
 
-test('loadResource throws an error if the resources is not found', (t) => {
+test('loadResource throws an error if the resources is not found', async (t) => {
     cleanCache();
 
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const { message } = t.throws(() => {
-        resourceLoader.loadResource('another-fake-resource', 'formatter');
+        resourceLoader.loadResource('another-fake-resource', ResourceType.formatter);
     });
 
     t.is(message, 'Resource another-fake-resource not found', 'Received a different exception');
 });
 
-test('loadResource throws an error if the version is incompatible when using "verifyVersion"', (t) => {
+test.serial('loadResource throws an error if the version is incompatible when using "verifyVersion"', async (t) => {
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
@@ -176,19 +180,19 @@ test('loadResource throws an error if the version is incompatible when using "ve
         }
     });
 
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
 
     tryToLoadFromStub.returns(fakeResource);
 
     const { message } = t.throws(() => {
-        resourceLoader.loadResource('another-fake-resource', 'formatter', [], true);
+        resourceLoader.loadResource('another-fake-resource', ResourceType.formatter, [], true);
     });
 
     t.is(message, `Resource another-fake-resource isn't compatible with current sonarwhal version`, 'Received a different exception');
 });
 
-test('loadResource returns the resource if versions are compatible', (t) => {
+test.serial('loadResource returns the resource if versions are compatible', async (t) => {
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
@@ -202,17 +206,17 @@ test('loadResource returns the resource if versions are compatible', (t) => {
         }
     });
 
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
 
     tryToLoadFromStub.returns(fakeResource);
 
-    const resource = resourceLoader.loadResource('another-fake-resource', 'formatter', [], true);
+    const resource = resourceLoader.loadResource('another-fake-resource', ResourceType.formatter, [], true);
 
     t.is(resource, fakeResource, `Resources aren't the same`);
 });
 
-test('loadResource throws an error if the rule is loaded from the current working directory but the rule name doesn\'t match', (t) => {
+test.serial('loadResource throws an error if the rule is loaded from the current working directory but the rule name doesn\'t match', async (t) => {
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
@@ -223,7 +227,7 @@ test('loadResource throws an error if the rule is loaded from the current workin
         }
     });
 
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
     const processStub = sinon.stub(process, 'cwd');
 
@@ -234,7 +238,7 @@ test('loadResource throws an error if the rule is loaded from the current workin
     processStub.returns('fakePath');
 
     const { message } = t.throws(() => {
-        resourceLoader.loadResource('another-fake-resource', 'rule');
+        resourceLoader.loadResource('another-fake-resource', ResourceType.rule);
     });
 
     t.is(message, 'Resource another-fake-resource not found', 'Received a different exception');
@@ -243,7 +247,7 @@ test('loadResource throws an error if the rule is loaded from the current workin
     processStub.restore();
 });
 
-test('loadResource doesn\'t throw an error if the rule is loaded from the current working directory but the rule name matches', (t) => {
+test.serial(`loadResource doesn't throw an error if the rule is loaded from the current working directory but the rule name matches`, async (t) => {
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
@@ -254,7 +258,7 @@ test('loadResource doesn\'t throw an error if the rule is loaded from the curren
         }
     });
 
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
     const processStub = sinon.stub(process, 'cwd');
 
@@ -265,14 +269,14 @@ test('loadResource doesn\'t throw an error if the rule is loaded from the curren
     processStub.returns('fakePath');
 
     t.notThrows(() => {
-        resourceLoader.loadResource('another-fake-resource', 'rule');
+        resourceLoader.loadResource('another-fake-resource', ResourceType.rule);
     });
 
     tryToLoadFromStub.restore();
     processStub.restore();
 });
 
-test('loadResources loads all the resources of a given config', (t) => {
+test('loadResources loads all the resources of a given config', async (t) => {
     cleanCache();
 
     const config: SonarwhalConfig = {
@@ -288,7 +292,7 @@ test('loadResources loads all the resources of a given config', (t) => {
         rules: { rule1: 'error' },
         rulesTimeout: 1000
     };
-    const resourceLoader = require('../../../src/lib/utils/resource-loader');
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const resources = resourceLoader.loadResources(config);
 
     t.true(resources.missing.length > 0, `Found all resources`);

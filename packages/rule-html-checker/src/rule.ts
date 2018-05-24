@@ -130,11 +130,6 @@ export default class HtmlCheckerRule implements IRule {
         };
 
         const requestRetry = async (options, retries: number = 3) => {
-            /*
-             * HACK: Need to do a require here in order to be capable
-             * of mocking when testing the rule and `import` doesn't
-             * work here.
-             */
             const { requestAsync, delay } = await import('sonarwhal/dist/src/lib/utils/misc');
 
             try {
