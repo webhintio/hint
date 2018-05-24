@@ -96,7 +96,7 @@ Cache-Control: no-cache, max-age=3600
 ...
 ```
 
-The page has a `max-age` value greater than 5 minutes
+The page has a `max-age` value greater than 3 minutes
 
 ```text
 HTTP/... 200 OK
