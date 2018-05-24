@@ -1,3 +1,14 @@
+# 3.1.0 (May 24, 2018)
+
+## Bug fixes / Improvements
+
+* [[`882b7307e6`](https://github.com/sonarwhal/sonarwhal/commit/882b7307e6474fc064522b880bd2f0c22983114d)] - Docs: For consistency, use same time limit in trigger example (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+## New features
+
+* [[`523e9a3482`](https://github.com/sonarwhal/sonarwhal/commit/523e9a348264cd44e4217d20252150c71b1cc34c)] - New: Support more filename revving patterns (by [`Tony Brix`](https://github.com/UziTech) / see also: [`#1080`](https://github.com/sonarwhal/sonarwhal/issues/1080)).
+
+
 # 3.0.3 (April 11, 2018)
 
 ## Bug fixes / Improvements
