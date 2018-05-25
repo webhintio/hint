@@ -1,3 +1,10 @@
+# 3.1.1 (May 25, 2018)
+
+## Bug fixes / Improvements
+
+* [[`99c01370c4`](https://github.com/sonarwhal/sonarwhal/commit/99c01370c40f3e7adb0372cbd4826c4a0ffda6fa)] - Docs: Update Regex101 example (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 3.1.0 (May 24, 2018)
 
 ## Bug fixes / Improvements
