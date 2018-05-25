@@ -28,7 +28,7 @@
     "nyc": "^11.8.0",
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
-    "sinon": "^5.0.3",
+    "sinon": "^5.0.10",
     "sonarwhal": "^1.9.1",
     "typescript": "^2.8.3",
     "typescript-eslint-parser": "^15.0.0"

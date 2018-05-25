@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "async": "^2.6.0"
+    "async": "^2.6.1"
   },
   "description": "Require scripts and styles to use Subresource Integrity",
   "devDependencies": {

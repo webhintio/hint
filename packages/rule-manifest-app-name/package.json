@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "punycode": "^2.1.0"
+    "punycode": "^2.1.1"
   },
   "description": "sonarwhal rule that checks for best practices related to the web app manifest's name and short_name members",
   "devDependencies": {
