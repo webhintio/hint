@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------------------
  */
 
-const { ucs2 } = require('punycode');
+import { ucs2 } from 'punycode';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';

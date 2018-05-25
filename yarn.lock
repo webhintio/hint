@@ -83,10 +83,6 @@
     edge-diagnostics-adapter "^0.6.0"
     node-windows "^0.1.14"
 
-"@types/bluebird@*":
-  version "3.5.20"
-  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.20.tgz#f6363172add6f4eabb8cada53ca9af2781e8d6a1"
-
 "@types/caseless@*":
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.1.tgz#9794c69c8385d0192acc471a540d1f8e0d16218a"
@@ -186,14 +182,7 @@
   version "9.6.13"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.13.tgz#ab0e691f166500b04075a2f01ca49235ea58e816"
 
-"@types/request-promise@^4.1.41":
-  version "4.1.41"
-  resolved "https://registry.yarnpkg.com/@types/request-promise/-/request-promise-4.1.41.tgz#1e254d51362d7edcb714b60cde303bcbe0ab1ee0"
-  dependencies:
-    "@types/bluebird" "*"
-    "@types/request" "*"
-
-"@types/request@*", "@types/request@^2.0.13":
+"@types/request@^2.0.13":
   version "2.47.0"
   resolved "https://registry.yarnpkg.com/@types/request/-/request-2.47.0.tgz#76a666cee4cb85dcffea6cd4645227926d9e114e"
   dependencies:
@@ -1167,7 +1156,7 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-bluebird@^3.0.0, bluebird@^3.5.0, bluebird@^3.5.1:
+bluebird@^3.0.0, bluebird@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
 
@@ -3348,13 +3337,6 @@ html-encoding-sniffer@^1.0.2:
   resolved "https://registry.yarnpkg.com/html-encoding-sniffer/-/html-encoding-sniffer-1.0.2.tgz#e70d84b94da53aa375e11fe3a351be6642ca46f8"
   dependencies:
     whatwg-encoding "^1.0.1"
-
-html-validator@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/html-validator/-/html-validator-3.0.3.tgz#5edb6a6531b7102cbe59f6b9fba855afb080f4df"
-  dependencies:
-    request "2.87.0"
-    valid-url "1.0.9"
 
 htmlparser2@^3.9.1:
   version "3.9.2"
@@ -5993,15 +5975,6 @@ request-promise-native@^1.0.5:
     stealthy-require "^1.1.0"
     tough-cookie ">=2.3.3"
 
-request-promise@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/request-promise/-/request-promise-4.2.2.tgz#d1ea46d654a6ee4f8ee6a4fea1018c22911904b4"
-  dependencies:
-    bluebird "^3.5.0"
-    request-promise-core "1.1.1"
-    stealthy-require "^1.1.0"
-    tough-cookie ">=2.3.3"
-
 request@2.81.0:
   version "2.81.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.81.0.tgz#c6928946a0e06c5f8d6f8a9333469ffda46298a0"
@@ -7230,10 +7203,6 @@ utils-merge@1.0.1:
 uuid@^3.0.0, uuid@^3.1.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
-
-valid-url@1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/valid-url/-/valid-url-1.0.9.tgz#1c14479b40f1397a75782f115e4086447433a200"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.3"
