@@ -25,12 +25,6 @@ proxyquire('../../../../src/lib/cli/wizards/new-rule', {
 
 import newRule from '../../../../src/lib/cli/wizards/new-rule';
 
-test.serial('If newRule is not an option, it should return false', async (t) => {
-    const result = await newRule();
-
-    t.false(result);
-});
-
 test.serial('It creates a rule if the option multiple rules is false', async (t) => {
     const results = {
         category: 'pwa',

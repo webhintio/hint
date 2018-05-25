@@ -50,13 +50,6 @@ test.afterEach.always((t) => {
     t.context.handlebars.compileTemplate.restore();
 });
 
-
-test.serial('If newParser is not an option, it should return false', async (t) => {
-    const result = await newParser();
-
-    t.false(result);
-});
-
 test.serial('It should create a new official parser.', async (t) => {
     const parserInfoResult = {
         description: 'description',
