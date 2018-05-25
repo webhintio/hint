@@ -92,7 +92,7 @@ export default class HttpCacheRule implements IRule {
             /*
              * E.g.: version/timestamp/hash
              *
-             * Live example: https://regex101.com/r/6VduJO/36/
+             * Live example: https://regex101.com/r/KDPUtH/
              */
 
             /*
