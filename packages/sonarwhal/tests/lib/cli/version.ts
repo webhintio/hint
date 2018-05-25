@@ -2,8 +2,6 @@ import test from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
-import { CLIOptions } from '../../../src/lib/types';
-
 const logger = {
     error() { },
     log() { }
