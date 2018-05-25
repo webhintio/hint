@@ -113,7 +113,7 @@ test.serial('If config is not defined, it should get the config file from the di
     sandbox.restore();
 });
 
-test.serial('If config path doesn\'t exist, it should ask the user to create a config file', async (t) => {
+test.serial('If config file does not exist, it should use `web-recommended` as default configuration', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -122,17 +122,41 @@ test.serial('If config path doesn\'t exist, it should ask the user to create a c
     });
     sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory')
         .onFirstCall()
-        .returns(null)
-        .onSecondCall()
-        .returns('/config/path');
+        .returns(null);
 
     sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
+    await t.notThrows(analyze(actions));
+
+    t.true(t.context.SonarwhalConfig.fromConfig.calledOnce);
+    t.deepEqual(t.context.SonarwhalConfig.fromConfig.args[0][0], { extends: ['web-recommended'] });
+
+    sandbox.restore();
+});
+
+test.serial('If config file is an invalid JSON, it should ask to use the default configuration', async (t) => {
+    const sandbox = sinon.createSandbox();
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        incompatible: [],
+        missing: []
+    });
+    sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory')
+        .onFirstCall()
+        .returns('config/path');
+
+    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
+    sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
+    sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
 
     await t.notThrows(analyze(actions));
 
+    t.true(t.context.SonarwhalConfig.fromConfig.calledOnce);
+    t.deepEqual(t.context.SonarwhalConfig.fromConfig.args[0][0], { extends: ['web-recommended'] });
     t.true(t.context.inquirer.prompt.calledOnce);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
     t.true(t.context.generator.initSonarwhalrc.notCalled);
@@ -140,10 +164,7 @@ test.serial('If config path doesn\'t exist, it should ask the user to create a c
     sandbox.restore();
 });
 
-
-test.serial('If config file does not exist, it should create a configuration file if user agrees', async (t) => {
-    const error = { message: `Couldn't find any valid configuration` };
-
+test.serial('If config file has an invalid configuration, it should ask to use the default configuration', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -151,25 +172,25 @@ test.serial('If config file does not exist, it should create a configuration fil
         missing: []
     });
     sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile')
-        .onFirstCall()
-        .throws(error)
+    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
+    sandbox.stub(t.context.SonarwhalConfig, 'fromConfig')
         .onSecondCall()
         .returns({});
-    sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
-    sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
+    sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
 
     await analyze(actions);
 
     t.true(t.context.inquirer.prompt.calledOnce);
-    t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
     t.true(t.context.generator.initSonarwhalrc.notCalled);
+    t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
+    t.true(t.context.SonarwhalConfig.fromConfig.calledOnce);
+    t.deepEqual(t.context.SonarwhalConfig.fromConfig.args[0][0], { extends: ['web-recommended'] });
 
     sandbox.restore();
 });
 
-test.serial('If config file does not exist and user refuses to create a configuration file, it should exit with code 1', async (t) => {
+test.serial('If config file is invalid and user refuses to use the default or to create a configuration file, it should exit with code 1', async (t) => {
     const error = { message: `Couldn't find any valid configuration` };
     const sandbox = sinon.createSandbox();
 
@@ -178,15 +199,15 @@ test.serial('If config file does not exist and user refuses to create a configur
         missing: []
     });
     sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile')
-        .onFirstCall()
-        .throws(error);
+    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').throws(error);
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
 
     const result = await analyze(actions);
 
-    t.true(t.context.inquirer.prompt.calledOnce);
+    t.true(t.context.inquirer.prompt.calledTwice);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
+    t.is(t.context.inquirer.prompt.args[1][0][0].name, 'confirm');
     t.false(t.context.generator.initSonarwhalrc.called);
     t.false(result);
 
