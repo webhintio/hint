@@ -6066,6 +6066,10 @@ require-precompiled@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/require-precompiled/-/require-precompiled-0.1.0.tgz#5a1b52eb70ebed43eb982e974c85ab59571e56fa"
 
+require-so-slow@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/require-so-slow/-/require-so-slow-1.0.1.tgz#af85685707f1fd86d62a6dbf20ff7efb538a0716"
+
 require-uncached@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/require-uncached/-/require-uncached-1.0.3.tgz#4e0d56d6c9662fd31e43011c4b95aa49955421d3"

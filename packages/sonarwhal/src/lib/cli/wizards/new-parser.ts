@@ -5,7 +5,6 @@ import * as fs from 'fs-extra';
 import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
-import { CLIOptions } from '../../types';
 import * as logger from '../../utils/logging';
 import { isOfficial, normalizeStringByDelimiter as normalize, writeFileAsync } from '../../utils/misc';
 import { escapeSafeString, compileTemplate, sonarwhalPackage } from '../../utils/handlebars';
@@ -265,10 +264,7 @@ const generateFiles = async (data: NewParser) => {
  * ------------------------------------------------------------------------------
  */
 /** Generate a new parser. */
-export const newParser = async (actions: CLIOptions): Promise<boolean> => {
-    if (!actions.newParser) {
-        return false;
-    }
+export default async (): Promise<boolean> => {
 
     const results: QuestionsType = (await inquirer.prompt(questions()) as QuestionsType);
     const eventsSelected: Array<EventType> = [];
