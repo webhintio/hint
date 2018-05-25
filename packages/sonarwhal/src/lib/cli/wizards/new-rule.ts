@@ -375,7 +375,7 @@ const generateRuleFiles = async (destination: string, data) => {
 };
 
 /** Add a new rule. */
-export const newRule = async (actions: CLIOptions): Promise<boolean> => {
+export default async (actions: CLIOptions): Promise<boolean> => {
     if (!actions.newRule) {
         return false;
     }

@@ -46,7 +46,7 @@ proxyquire('../../../../src/lib/cli/wizards/init', {
     util: stubUtilObject
 });
 
-import { initSonarwhalrc } from '../../../../src/lib/cli/wizards/init';
+import initSonarwhalrc from '../../../../src/lib/cli/wizards/init';
 
 test.beforeEach((t) => {
     sinon.stub(promisifyObject, 'promisify').resolves();

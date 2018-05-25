@@ -1,6 +1,7 @@
 *.log
 *.pid
 *.STALE
+*.trace
 .DS_Store
 .eslintcache
 .nyc_output

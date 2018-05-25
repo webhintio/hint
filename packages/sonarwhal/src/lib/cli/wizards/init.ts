@@ -163,8 +163,8 @@ const customConfig = async (): Promise<InitUserConfig> => {
  * * an existing published configuration package
  * * the installed resources
  */
-export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => {
-    if (!options.init) {
+export default async (actions: CLIOptions): Promise<boolean> => {
+    if (!actions.init) {
         return false;
     }
 

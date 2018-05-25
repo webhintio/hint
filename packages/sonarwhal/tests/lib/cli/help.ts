@@ -11,7 +11,7 @@ const logger = {
 
 proxyquire('../../../src/lib/cli/help', { '../utils/logging': logger });
 
-import { printHelp } from '../../../src/lib/cli/help';
+import printHelp from '../../../src/lib/cli/help';
 
 test.beforeEach((t) => {
     sinon.spy(logger, 'log');

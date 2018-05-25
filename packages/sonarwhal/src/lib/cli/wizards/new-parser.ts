@@ -265,7 +265,7 @@ const generateFiles = async (data: NewParser) => {
  * ------------------------------------------------------------------------------
  */
 /** Generate a new parser. */
-export const newParser = async (actions: CLIOptions): Promise<boolean> => {
+export default async (actions: CLIOptions): Promise<boolean> => {
     if (!actions.newParser) {
         return false;
     }
