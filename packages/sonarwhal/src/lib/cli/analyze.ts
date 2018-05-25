@@ -47,7 +47,7 @@ const askUserToCreateConfig = async (): Promise<boolean> => {
 
     const { default: initSonarwhalrc } = await import('./wizards/init');
 
-    await initSonarwhalrc({ init: true } as CLIOptions);
+    await initSonarwhalrc();
     logger.log(`Configuration file .sonarwhalrc was created.`);
 
     return true;
@@ -145,9 +145,6 @@ export let sonarwhal: Sonarwhal = null;
 
 /** Analyzes a website if indicated by `actions`. */
 export default async (actions: CLIOptions): Promise<boolean> => {
-    if (!actions._) {
-        return false;
-    }
 
     const targets: Array<URL> = getAsUris(actions._);
 

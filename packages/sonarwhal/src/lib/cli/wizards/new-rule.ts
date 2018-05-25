@@ -6,7 +6,6 @@ import * as fs from 'fs-extra';
 import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
-import { CLIOptions } from '../../types';
 import { Category } from '../../enums/category';
 import { RuleScope } from '../../enums/rulescope';
 import * as logger from '../../utils/logging';
@@ -375,11 +374,7 @@ const generateRuleFiles = async (destination: string, data) => {
 };
 
 /** Add a new rule. */
-export default async (actions: CLIOptions): Promise<boolean> => {
-    if (!actions.newRule) {
-        return false;
-    }
-
+export default async (): Promise<boolean> => {
     try {
         const results = await inquirer.prompt(questions(QuestionsType.main));
         const rules = [];

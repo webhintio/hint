@@ -4,7 +4,6 @@ import * as sinon from 'sinon';
 
 import { CLIOptions } from '../../../src/lib/types';
 
-const actions = ({ version: true } as CLIOptions);
 const logger = {
     error() { },
     log() { }
@@ -27,15 +26,9 @@ test.afterEach.always((t) => {
 });
 
 test.serial('If version option is defined, it should print the current version and return true', async (t) => {
-    const result = await printVersion(actions);
+    const result = await printVersion();
 
     t.true(result);
     t.true(t.context.logger.log.calledOnce);
     t.true(t.context.logger.log.args[0][0].startsWith('v'));
-});
-
-test.serial('If version is not an option, it should return false', async (t) => {
-    const result = await printVersion(({}) as CLIOptions);
-
-    t.false(result);
 });

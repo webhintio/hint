@@ -14,7 +14,7 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { CLIOptions, UserConfig } from '../../types';
+import { UserConfig } from '../../types';
 import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
 import { getInstalledResources, getCoreResources } from '../../utils/resource-loader';
@@ -163,10 +163,7 @@ const customConfig = async (): Promise<InitUserConfig> => {
  * * an existing published configuration package
  * * the installed resources
  */
-export default async (actions: CLIOptions): Promise<boolean> => {
-    if (!actions.init) {
-        return false;
-    }
+export default async (): Promise<boolean> => {
 
     debug('Starting --init');
 

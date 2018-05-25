@@ -3,9 +3,8 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { CLIOptions, NpmPackage } from '../../../../src/lib/types';
+import { NpmPackage } from '../../../../src/lib/types';
 
-const actions = ({ init: true } as CLIOptions);
 const inquirer = { prompt() { } };
 const stubBrowserslistObject = { generateBrowserslistConfig() { } };
 const resourceLoader = {
@@ -105,7 +104,7 @@ test.serial(`initSonarwhalrc should install the configuration package if user ch
         .onSecondCall()
         .resolves(configAnswer);
 
-    await initSonarwhalrc(actions);
+    await initSonarwhalrc();
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
@@ -139,7 +138,7 @@ test.serial(`initSonarwhalrc shouldn't install the configuration package if user
         .onSecondCall()
         .resolves(configAnswer);
 
-    await initSonarwhalrc(actions);
+    await initSonarwhalrc();
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
@@ -178,7 +177,7 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
         .onSecondCall()
         .resolves(answers);
 
-    await initSonarwhalrc(actions);
+    await initSonarwhalrc();
 
     const questions = (inquirer.prompt as sinon.SinonStub).args[1][0];
 
@@ -221,15 +220,9 @@ test.serial(`if instalation of a config package fails, "initSonarwhalrc" returns
         .onSecondCall()
         .resolves(configAnswer);
 
-    const result = await initSonarwhalrc(actions);
+    const result = await initSonarwhalrc();
 
     t.true(result, `initSonarwhalrc doesn't return true if installation of resources fails`);
 
     sandbox.restore();
-});
-
-test.serial('If init is not an option, it should return false', async (t) => {
-    const result = await initSonarwhalrc(({}) as CLIOptions);
-
-    t.false(result);
 });
