@@ -36,11 +36,14 @@ configuration file:
 
 ## What does the rule check?
 
-When targeting versions of IE less than 10, this rule checks if one of the following limit is exceeded:
+When targeting versions of IE less than 10, this rule checks if one of the following limits is exceeded:
 * 4095 rules
+* 31 stylesheets
+* 4 levels of imports
 
-When targeting modern browsers, this rule checks if one of the following limit in IE10+ is exceeded:
+When targeting modern browsers, this rule checks if one of the following limits in IE10+ is exceeded:
 * 65535 rules
+* 4095 stylesheets
 
 ### Examples that **trigger** the rule
 
@@ -65,7 +68,9 @@ In the [`.sonarwhalrc`][sonarwhalrc] file:
     "formatters": [...],
     "rules": {
         "stylesheet-limit": ["error", {
-            "max-css-rules": 1000
+            "maxRules": 1000,
+            "maxSheets": 10,
+            "maxImports": 2
         }],
         ...
     },
