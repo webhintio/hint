@@ -2,6 +2,7 @@
 
 This rule checks and report if any links in your page are broken.
 This includes anchor tag `href` value and image `src` attribute value.
+
 ## Why is this important?
 
 Broken links gives your user a bad user experience.
@@ -15,20 +16,20 @@ the url. If the response is `404`, the url will be flagged as a broken link
 ### Examples that **trigger** the rule
 
 #### Absolute URL
+
 `<a href="https://example.com/404">Register</a>`
 
 `<img src="https://example.com/image.png" alt="logo" /a>`
 
 #### Relative URL
+
 `<a href="/page-does-not-exist">Profile</a>`
 
 `<img src="/image_does_not_exist.png" alt="logo" /a>`
 
-
 ### Examples that **pass** the rule
 
 URLS which returns 200 OK will pass this rule.
-
 
 ## How to use this rule?
 
