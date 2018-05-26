@@ -1,0 +1,70 @@
+{
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "description": "Rule to find broken links",
+  "devDependencies": {
+    "@types/debug": "0.0.30",
+    "@types/node": "8.0.14",
+    "ava": "^0.25.0",
+    "cpx": "^1.5.0",
+    "eslint": "^4.19.1",
+    "eslint-plugin-markdown": "^1.0.0-beta.7",
+    "eslint-plugin-typescript": "^0.12.0",
+    "markdownlint-cli": "^0.9.0",
+    "npm-link-check": "^2.0.0",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^11.8.0",
+    "rimraf": "^2.6.2",
+    "sonarwhal": "^1.9.1",
+    "typescript": "^2.8.3",
+    "typescript-eslint-parser": "^15.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "dist/src",
+    "npm-shrinkwrap.json"
+  ],
+  "homepage": "https://sonarwhal.com/",
+  "keywords": [
+    "rule",
+    "sonarwhal",
+    "broken-links",
+    "broken-links-rule"
+  ],
+  "license": "Apache-2.0",
+  "main": "dist/src/rule.js",
+  "name": "@sonarwhal/rule-broken-links",
+  "nyc": {
+    "extends": "../../.nycrc"
+  },
+  "peerDependencies": {
+    "sonarwhal": "^1.9.1"
+  },
+  "private": true,
+  "repository": "sonarwhal/sonarwhal",
+  "scripts": {
+    "build": "npm run clean && npm-run-all build:*",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
+    "sonarwhal": "node node_modules/sonarwhal/dist/src/bin/sonarwhal.js",
+    "test": "npm run lint && npm run build && nyc ava",
+    "init": "npm install && npm run build",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:assets": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "1.0.0"
+}

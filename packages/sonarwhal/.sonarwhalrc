@@ -12,6 +12,7 @@
         "amp-validator": "off",
         "apple-touch-icons": "warning",
         "axe": "warning",
+        "broken-links": "warning",
         "content-type": "warning",
         "disown-opener": "warning",
         "highest-available-document-mode": "warning",
