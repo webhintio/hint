@@ -1,59 +1,40 @@
 # stylesheet-limits (`@sonarwhal/rule-stylesheet-limits`)
 
-Checks if CSS exceeds known stylesheet limits
+Checks if CSS exceeds known stylesheet limits.
 
 ## Why is this important?
 
-IE versions prior to IE 10 have limits on the number of CSS stylesheets, imports, and rules which are relatively small compared to modern browsers. Once these limits are exceeded, additional stylesheets, imports, and rules are ignored. Much larger limits exist in more recent versions, but can also cause styles to be ignored if exceeded. For more details see [Stylesheet limits in Internet Explorer][stylesheet limits].
-
-## How to use this rule?
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @sonarwhal/rule-stylesheet-limits
-```
-
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
-configuration file:
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": [...],
-    "rules": {
-        "stylesheet-limits": "error"
-    },
-    ...
-}
-```
+Internet Explorer versions prior to Internet Explorer 10 have limits on the
+number of CSS stylesheets, imports, and rules which are relatively small
+compared to modern browsers. Once these limits are exceeded, additional
+stylesheets, imports, and rules are ignored. Much larger limits exist in more
+recent versions, but can also cause styles to be ignored if exceeded. For more
+details see [Stylesheet limits in Internet Explorer][stylesheet limits].
 
 ## What does the rule check?
 
-When targeting versions of IE less than 10, this rule checks if one of the following limits is exceeded:
+When targeting versions of Internet Explorer less than 10, this rule checks if
+one of the following limits is exceeded:
+
 * 4095 rules
 * 31 stylesheets
 * 4 levels of imports
 
-When targeting modern browsers, this rule checks if one of the following limits in IE10+ is exceeded:
+When targeting modern browsers, this rule checks if one of the following
+limits in Internet Explorer 10+ is exceeded:
+
 * 65535 rules
 * 4095 stylesheets
 
 ### Examples that **trigger** the rule
 
-* A page targeting IE 9 containing 4096 or more CSS rules
-* A page targeting IE 10 containing 65535 or more CSS rules
+* A page targeting Internet Explorer 9 containing 4096 or more CSS rules
+* A page targeting Internet Explorer 10 containing 65535 or more CSS rules
 
 ### Examples that **pass** the rule
 
-* A page targeting IE 9 with fewer than 4096 CSS rules
-* A page targeting browsers newer than IE 9 with fewer than 65534 rules
+* A page targeting Internet Explorer 9 with fewer than 4096 CSS rules
+* A page targeting Internet Explorer 10 and up with fewer than 65534 rules
 
 ## Can the rule be configured?
 
@@ -78,7 +59,34 @@ In the [`.sonarwhalrc`][sonarwhalrc] file:
 }
 ```
 
-## Further Reading
+## How to use this rule?
+
+To use it you will have to install it via `npm`:
+
+```bash
+npm install @sonarwhal/rule-stylesheet-limits
+```
+
+Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
+parameter, or to install it globally, you can use the `-g` parameter. For
+other options see
+[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+
+And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "parsers": [...],
+    "rules": {
+        "stylesheet-limits": "error",
+        ...
+    },
+    ...
+}
+```
 
 <!-- Link labels: -->
 
