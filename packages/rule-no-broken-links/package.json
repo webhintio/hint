@@ -35,12 +35,12 @@
   "keywords": [
     "rule",
     "sonarwhal",
-    "broken-links",
-    "broken-links-rule"
+    "no-broken-links",
+    "no-broken-links-rule"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/rule.js",
-  "name": "@sonarwhal/rule-broken-links",
+  "name": "@sonarwhal/rule-no-broken-links",
   "nyc": {
     "extends": "../../.nycrc"
   },

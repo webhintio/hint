@@ -1,6 +1,6 @@
-# broken-links (`@sonarwhal/rule-broken-links`)
+# Check for broken links
 
-This rule checks and report if any links in your page are broken.
+This rule checks and reports if any links in your page are broken.
 This includes anchor tag `href` value and image `src` attribute value.
 
 ## Why is this important?
@@ -11,7 +11,7 @@ Broken links gives your user a bad user experience.
 
 This rule finds all the anchor tags and image tags in your page and checks
 the `href` or the `src` attribute value is valid by issuing a request to
-the url. If the response is `404`, the url will be flagged as a broken link
+the URL. If the response is `404` or `500`, the url will be flagged as a broken link
 
 ### Examples that **trigger** the rule
 
@@ -19,24 +19,24 @@ the url. If the response is `404`, the url will be flagged as a broken link
 
 `<a href="https://example.com/404">Register</a>`
 
-`<img src="https://example.com/image.png" alt="logo" /a>`
+`<img src="https://example.com/image.png" alt="logo" />`
 
 #### Relative URL
 
 `<a href="/page-does-not-exist">Profile</a>`
 
-`<img src="/image_does_not_exist.png" alt="logo" /a>`
+`<img src="/image_does_not_exist.png" alt="logo" />`
 
 ### Examples that **pass** the rule
 
-URLS which returns 200 OK will pass this rule.
+URLs which returns 200 OK will pass this rule.
 
 ## How to use this rule?
 
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @sonarwhal/rule-broken-links
+npm install @sonarwhal/rule-no-broken-links
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -53,7 +53,7 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "rules": {
-        "broken-links": "error"
+        "no-broken-links":"error"
     },
     ...
 }
