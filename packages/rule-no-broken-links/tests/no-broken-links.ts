@@ -17,10 +17,6 @@ const bodyWithBrokenLinks = `<div>
 <a href='https://example.com/404'>Example</a>
 </div>`;
 
-const bodyWith500StatusCodeLinks = `<div>
-<a href='https://example.com/500'>Example</a>
-</div>`;
-
 const bodyWithBrokenImageSource = `<div>
 <img src='https://example.com/404.png' />
 </div>`;
@@ -48,11 +44,6 @@ const tests: Array<RuleTest> = [
         name: `This test should fail`,
         reports: [{ message: `Broken link found (404 response)` }],
         serverConfig: generateHTMLPage(null, bodyWithBrokenImageSource)
-    },
-    {
-        name: `This test should fail`,
-        reports: [{ message: `Broken link found (500 response)` }],
-        serverConfig: generateHTMLPage(null, bodyWith500StatusCodeLinks)
     },
     {
         name: `This test should fail`,
