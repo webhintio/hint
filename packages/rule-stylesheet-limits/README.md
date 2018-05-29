@@ -4,11 +4,11 @@ Checks if CSS exceeds known stylesheet limits.
 
 ## Why is this important?
 
-Internet Explorer versions prior to Internet Explorer 10 have limits on the
+Internet Explorer prior to version 10 have limits on the
 number of CSS stylesheets, imports, and rules which are relatively small
 compared to modern browsers. Once these limits are exceeded, additional
 stylesheets, imports, and rules are ignored. Much larger limits exist in more
-recent versions, but can also cause styles to be ignored if exceeded. For more
+recent versions that can also cause styles to be ignored if exceeded. For more
 details see [Stylesheet limits in Internet Explorer][stylesheet limits].
 
 ## What does the rule check?

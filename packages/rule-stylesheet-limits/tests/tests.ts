@@ -61,6 +61,12 @@ const test = (label, limits: { maxRules: number, maxSheets: number, maxImports: 
     ], configs);
 
     if (maxImports) {
+        /*
+         * Exclude `jsdom` since it currently ignores `@import` rules.
+         * https://github.com/jsdom/jsdom/issues/2124
+         */
+        configs.ignoredConnectors = ['jsdom'];
+
         ruleRunner.testRule(ruleName, [
             {
                 name: `Page${label} contains less than ${maxImports} nested imports`,
@@ -71,12 +77,7 @@ const test = (label, limits: { maxRules: number, maxSheets: number, maxImports: 
                 reports: [{ message: `Maximum of ${maxImports} nested imports reached (${maxImports})` }],
                 serverConfig: generateImports(maxImports)
             }
-
-        /*
-         * Exclude `jsdom` since it currently ignores `@import` rules.
-         * https://github.com/jsdom/jsdom/issues/2124
-         */
-        ], { ...configs, ignoredConnectors: ['jsdom'] });
+        ], configs);
     }
 };
 

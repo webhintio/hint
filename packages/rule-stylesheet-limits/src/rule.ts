@@ -26,14 +26,20 @@ export default class StylesheetLimitsRule implements IRule {
         id: 'stylesheet-limits',
         schema: [{
             additionalProperties: false,
+            definitions: {
+                number: {
+                    minimum: 0,
+                    type: 'integer'
+                }
+            },
             properties: {
-                maxImports: { type: 'number' },
-                maxRules: { type: 'number' },
-                maxSheets: { type: 'number' }
+                maxImports: { $ref: '#/definitions/number' },
+                maxRules: { $ref: '#/definitions/number' },
+                maxSheets: { $ref: '#/definitions/number' }
             },
             type: ['object', 'null']
         }],
-        scope: RuleScope.any
+        scope: RuleScope.site
     }
 
     public constructor(context: RuleContext) {
@@ -47,7 +53,9 @@ export default class StylesheetLimitsRule implements IRule {
         // Allow limits to be overridden by rule options.
         const options = context.ruleOptions;
 
+        // Min the default/options values to ensure overrides can't "hide" browser limits
         if (options) {
+            // Always use the options value if no default is specified (maxImports === 0)
             if (options.maxImports && (maxImports === 0 || options.maxImports < maxImports)) {
                 maxImports = options.maxImports;
             }
@@ -55,7 +63,7 @@ export default class StylesheetLimitsRule implements IRule {
                 maxRules = options.maxRules;
             }
             if (options.maxSheets && options.maxSheets < maxSheets) {
-                maxSheets =options.maxSheets;
+                maxSheets = options.maxSheets;
             }
         }
 
@@ -135,6 +143,7 @@ export default class StylesheetLimitsRule implements IRule {
 
             // Report once we hit a limit to support flagging on platforms which will drop subsequent rules.
 
+            // Only check `maxImports` if a limit has been specified (is non-zero)
             if (maxImports && results.imports >= maxImports) {
                 context.report(null, null, `Maximum of ${maxImports} nested imports reached (${results.imports})`);
             }
