@@ -38,6 +38,8 @@ export default class NoBrokenLinksRule implements IRule {
         const requester = new Requester();
         const brokenStatusCodes = [404, 410, 500, 503];
 
+
+        // This method checks whether a url is broken and report if it is
         const reportBrokenLink = async (hrefUrl: string, resource: any, linkElement: IAsyncHTMLElement) => {
             const absoluteUrl = new URL(hrefUrl, resource).href;
 
@@ -64,6 +66,40 @@ export default class NoBrokenLinksRule implements IRule {
             );
         };
 
+        const checkImageElement = async(linkElement: IAsyncHTMLElement, resource: any) => {
+
+            const imageSrc = linkElement.getAttribute('src');
+
+            await reportBrokenLink(imageSrc, resource, linkElement);
+
+            // Check for srcset attribute value if that exist
+            const srcSet = linkElement.getAttribute('srcset');
+
+            if (srcSet!==null) {
+                const sources = srcSet.split(',').filter((x) => {
+                    return x!=='';
+                });
+
+                for (const source of sources) {
+                    const url = source.split(' ').filter((x) => {
+                        return x!=='';
+                    })[0];
+
+                    await reportBrokenLink(url, resource, linkElement);
+                }
+            }
+        };
+
+        const checkAnchorTag = async(linkElement: IAsyncHTMLElement, resource: any) => {
+
+            const hrefUrl = linkElement.getAttribute('href');
+
+            if (hrefUrl !== '/') {
+                await reportBrokenLink(hrefUrl, resource, linkElement);
+            }
+        };
+
+
         const validateElement = async (elementFound: ElementFound) => {
             const { resource } = elementFound;
 
@@ -74,40 +110,16 @@ export default class NoBrokenLinksRule implements IRule {
             );
 
             for (let i = 0; i < linkElements.length; i++) {
-
-                let hrefUrl = '';
                 const linkElement = linkElements[i];
 
                 if (linkElement.nodeName === 'IMG') {
-                    hrefUrl = linkElement.getAttribute('src');
-                    await reportBrokenLink(hrefUrl, resource, linkElement);
-
-                    // Check for srcset attribute value if that exist
-                    const srcSet = linkElement.getAttribute('srcset');
-
-                    if (srcSet!==null) {
-                        const sources = srcSet.split(',').filter((x) => {
-                            return x!=='';
-                        });
-
-                        for (const source of sources) {
-                            const url = source.split(' ').filter((x) => {
-                                return x!=='';
-                            })[0];
-
-                            await reportBrokenLink(url, resource, linkElement);
-                        }
-                    }
+                    await checkImageElement(linkElement, resource);
                 } else {
-                    hrefUrl = linkElement.getAttribute('href');
-                    if (hrefUrl === '/') {
-                        continue;
-                    }
-                    await reportBrokenLink(hrefUrl, resource, linkElement);
+                    await checkAnchorTag(linkElement, resource);
                 }
-
             }
         };
+
 
         context.on('element::body', validateElement);
     }
