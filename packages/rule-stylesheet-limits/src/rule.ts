@@ -44,20 +44,22 @@ export default class StylesheetLimitsRule implements IRule {
 
     public constructor(context: RuleContext) {
 
-        const includesIE9 = context.targetedBrowsers.includes('ie 9');
+        const includesOldIE = ['ie 6', 'ie 7', 'ie 8', 'ie 9'].some((e) => context.targetedBrowsers.includes(e));
 
-        let maxImports = includesIE9 ? 4 : 0;
-        let maxRules = includesIE9 ? 4095 : 65534;
-        let maxSheets = includesIE9 ? 31 : 4095;
+        let hasImportLimit = includesOldIE ? true : false;
+        let maxImports = includesOldIE ? 4 : 0;
+        let maxRules = includesOldIE ? 4095 : 65534;
+        let maxSheets = includesOldIE ? 31 : 4095;
 
         // Allow limits to be overridden by rule options.
         const options = context.ruleOptions;
 
         // Min the default/options values to ensure overrides can't "hide" browser limits
         if (options) {
-            // Always use the options value if no default is specified (maxImports === 0)
-            if (options.maxImports && (maxImports === 0 || options.maxImports < maxImports)) {
+            // Always use the options value if no default import limit is specified
+            if (options.maxImports && (!hasImportLimit || options.maxImports < maxImports)) {
                 maxImports = options.maxImports;
+                hasImportLimit = true;
             }
             if (options.maxRules && options.maxRules < maxRules) {
                 maxRules = options.maxRules;
@@ -143,8 +145,8 @@ export default class StylesheetLimitsRule implements IRule {
 
             // Report once we hit a limit to support flagging on platforms which will drop subsequent rules.
 
-            // Only check `maxImports` if a limit has been specified (is non-zero)
-            if (maxImports && results.imports >= maxImports) {
+            // Only check `maxImports` if a limit has been specified
+            if (hasImportLimit && results.imports >= maxImports) {
                 context.report(null, null, `Maximum of ${maxImports} nested imports reached (${results.imports})`);
             }
 

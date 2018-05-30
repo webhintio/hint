@@ -1,4 +1,4 @@
-# stylesheet-limits (`@sonarwhal/rule-stylesheet-limits`)
+# Avoid exceeding CSS stylesheet limits (`@sonarwhal/rule-stylesheet-limits`)
 
 Checks if CSS exceeds known stylesheet limits.
 
@@ -14,14 +14,14 @@ details see [Stylesheet limits in Internet Explorer][stylesheet limits].
 ## What does the rule check?
 
 When targeting versions of Internet Explorer less than 10, this rule checks if
-one of the following limits is exceeded:
+one of the following [limits][stylesheet limits] is exceeded:
 
 * 4095 rules
 * 31 stylesheets
 * 4 levels of imports
 
 When targeting modern browsers, this rule checks if one of the following
-limits in Internet Explorer 10+ is exceeded:
+[limits in Internet Explorer 10+][stylesheet limits] is exceeded:
 
 * 65535 rules
 * 4095 stylesheets
@@ -34,7 +34,7 @@ limits in Internet Explorer 10+ is exceeded:
 ### Examples that **pass** the rule
 
 * A page targeting Internet Explorer 9 with fewer than 4096 CSS rules
-* A page targeting Internet Explorer 10 and up with fewer than 65534 rules
+* A page targeting Internet Explorer 10 and up with fewer than 65535 rules
 
 ## Can the rule be configured?
 
