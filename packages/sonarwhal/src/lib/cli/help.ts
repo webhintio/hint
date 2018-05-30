@@ -3,7 +3,7 @@ import * as logger from '../utils/logging';
 import { CLIOptions } from '../types';
 
 /** Prints the help menu in the console. */
-export const printHelp = (actions: CLIOptions): Promise<boolean> => {
+export default (actions: CLIOptions): Promise<boolean> => {
     // We print the help
     const entries = Object.entries(actions);
     const showHelp = entries.reduce((result, [key, value]) => {

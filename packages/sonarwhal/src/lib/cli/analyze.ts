@@ -16,7 +16,6 @@ import * as logger from '../utils/logging';
 import { cutString } from '../utils/misc';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
-import { initSonarwhalrc } from './wizards/init';
 
 const each = promisify(async.each);
 const debug: debug.IDebugger = d(__filename);
@@ -46,7 +45,9 @@ const askUserToCreateConfig = async (): Promise<boolean> => {
         return false;
     }
 
-    await initSonarwhalrc({ init: true } as CLIOptions);
+    const { default: initSonarwhalrc } = await import('./wizards/init');
+
+    await initSonarwhalrc();
     logger.log(`Configuration file .sonarwhalrc was created.`);
 
     return true;
@@ -143,10 +144,7 @@ const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: ORA) => {
 export let sonarwhal: Sonarwhal = null;
 
 /** Analyzes a website if indicated by `actions`. */
-export const analyze = async (actions: CLIOptions): Promise<boolean> => {
-    if (!actions._) {
-        return false;
-    }
+export default async (actions: CLIOptions): Promise<boolean> => {
 
     const targets: Array<URL> = getAsUris(actions._);
 
