@@ -92,6 +92,10 @@ test.afterEach.always((t) => {
 test.serial('If config is not defined, it should get the config file from the directory process.cwd()', async (t) => {
     const sandbox = sinon.createSandbox();
 
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'executeOn').resolves([]);
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
         incompatible: [],
         missing: []
@@ -109,7 +113,7 @@ test.serial('If config is not defined, it should get the config file from the di
     sandbox.restore();
 });
 
-test.serial('If config path doesn\'t exist, it should create a configuration file if user agrees', async (t) => {
+test.serial('If config path doesn\'t exist, it should ask the user to create a config file', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -125,14 +129,13 @@ test.serial('If config path doesn\'t exist, it should create a configuration fil
     sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
-    sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
+    sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
 
     await t.notThrows(analyze(actions));
 
     t.true(t.context.inquirer.prompt.calledOnce);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
-    t.true(t.context.generator.initSonarwhalrc.calledOnce);
-    t.deepEqual(t.context.generator.initSonarwhalrc.firstCall.args[0], { init: true });
+    t.true(t.context.generator.initSonarwhalrc.notCalled);
 
     sandbox.restore();
 });
@@ -155,14 +158,13 @@ test.serial('If config file does not exist, it should create a configuration fil
         .returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
-    sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
+    sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
 
     await analyze(actions);
 
     t.true(t.context.inquirer.prompt.calledOnce);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
-    t.true(t.context.generator.initSonarwhalrc.calledOnce);
-    t.deepEqual(t.context.generator.initSonarwhalrc.firstCall.args[0], { init: true });
+    t.true(t.context.generator.initSonarwhalrc.notCalled);
 
     sandbox.restore();
 });
@@ -635,12 +637,6 @@ test.serial('Event scan::end should write a message in the spinner', async (t) =
 
 test.serial('If no sites are defined, it should return false', async (t) => {
     const result = await analyze({ _: [] } as CLIOptions);
-
-    t.false(result);
-});
-
-test.serial('If _ property is not defined in actions, it should return false', async (t) => {
-    const result = await analyze({} as CLIOptions);
 
     t.false(result);
 });
