@@ -1,6 +1,6 @@
 /**
  * @fileoverview This rule checks every link and image tag in the page and report if it is broken
- * Checks for 404, 410 and 500 status
+ * Checks for 404, 410, 500 or 503 status
  */
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
@@ -15,6 +15,7 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 import { Requester } from 'sonarwhal/dist/src/lib/connectors/utils/requester';
 import { URL } from 'url';
+import { NetworkData } from 'sonarwhal/dist/src/lib/types';
 const debug: debug.IDebugger = d(__filename);
 
 /*
@@ -38,36 +39,47 @@ export default class NoBrokenLinksRule implements IRule {
         const requester = new Requester();
         const brokenStatusCodes = [404, 410, 500, 503];
 
+        const handleRejection = async (error: any, absoluteUrl: string, linkElement: IAsyncHTMLElement) => {
+            debug(`Error accessing {$absoluteUrl}. ${JSON.stringify(error)}`);
+
+            await context.report(
+                absoluteUrl,
+                linkElement,
+                `Broken link found (404 response)`
+            );
+        };
+
+        const handleSuccess = async (networkData: NetworkData, absoluteUrl: string, linkElement: IAsyncHTMLElement) => {
+            const statusIndex = brokenStatusCodes.indexOf(
+                networkData.response.statusCode
+            );
+
+            if (statusIndex > -1) {
+                await context.report(
+                    absoluteUrl,
+                    linkElement,
+                    `Broken link found (${
+                        brokenStatusCodes[statusIndex]
+                    } response)`
+                );
+            }
+        };
 
         // This method checks whether a url is broken and report if it is
         const reportBrokenLink = async (hrefUrl: string, resource: any, linkElement: IAsyncHTMLElement) => {
             const absoluteUrl = new URL(hrefUrl, resource).href;
 
-            await requester.get(absoluteUrl).then(
-                async (value) => {
-                    const statusIndex = brokenStatusCodes.indexOf(value.response.statusCode);
-
-                    if (statusIndex>-1) {
-                        await context.report(
-                            absoluteUrl,
-                            linkElement,
-                            `Broken link found (${brokenStatusCodes[statusIndex]} response)`
-                        );
-                    }
-                },
-                async (reason) => {
-                    debug(`Error accessing {$absoluteUrl}. ${JSON.stringify(reason)}`);
-                    await context.report(
-                        absoluteUrl,
-                        linkElement,
-                        'Broken link found (404 response)'
-                    );
-                }
-            );
+            await requester
+                .get(absoluteUrl)
+                .then((value) => {
+                    handleSuccess(value, absoluteUrl, linkElement);
+                })
+                .catch((error) => {
+                    handleRejection(error, absoluteUrl, linkElement);
+                });
         };
 
-        const checkImageElement = async(linkElement: IAsyncHTMLElement, resource: any) => {
-
+        const checkImageElement = async (linkElement: IAsyncHTMLElement, resource: any) => {
             const imageSrc = linkElement.getAttribute('src');
 
             await reportBrokenLink(imageSrc, resource, linkElement);
@@ -75,14 +87,14 @@ export default class NoBrokenLinksRule implements IRule {
             // Check for srcset attribute value if that exist
             const srcSet = linkElement.getAttribute('srcset');
 
-            if (srcSet!==null) {
+            if (srcSet !== null) {
                 const sources = srcSet.split(',').filter((x) => {
-                    return x!=='';
+                    return x !== '';
                 });
 
                 for (const source of sources) {
                     const url = source.split(' ').filter((x) => {
-                        return x!=='';
+                        return x !== '';
                     })[0];
 
                     await reportBrokenLink(url, resource, linkElement);
@@ -90,15 +102,13 @@ export default class NoBrokenLinksRule implements IRule {
             }
         };
 
-        const checkAnchorTag = async(linkElement: IAsyncHTMLElement, resource: any) => {
-
+        const checkAnchorTag = async (linkElement: IAsyncHTMLElement, resource: any) => {
             const hrefUrl = linkElement.getAttribute('href');
 
             if (hrefUrl !== '/') {
                 await reportBrokenLink(hrefUrl, resource, linkElement);
             }
         };
-
 
         const validateElement = async (elementFound: ElementFound) => {
             const { resource } = elementFound;
@@ -119,7 +129,6 @@ export default class NoBrokenLinksRule implements IRule {
                 }
             }
         };
-
 
         context.on('element::body', validateElement);
     }
