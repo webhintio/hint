@@ -55,7 +55,6 @@
     "@types/fs-extra": "^5.0.2",
     "@types/globby": "^6.1.0",
     "@types/handlebars": "^4.0.37",
-    "@types/inquirer": "0.0.41",
     "@types/jsdom": "^11.0.4",
     "@types/lockfile": "^1.0.0",
     "@types/lodash": "^4.14.109",
