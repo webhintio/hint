@@ -12,14 +12,13 @@
 
 import { URL } from 'url';
 
-import { isSupported } from 'caniuse-api';
 import * as pluralize from 'pluralize';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { cutString, isRegularProtocol } from 'sonarwhal/dist/src/lib/utils/misc';
+import { cutString, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import { isSupported } from 'sonarwhal/dist/src/lib/utils/caniuse';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, ElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 

@@ -6916,8 +6916,8 @@ typescript-eslint-parser@^15.0.0:
     semver "5.5.0"
 
 typescript@^2.8.1, typescript@^2.8.3:
-  version "2.8.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.3.tgz#5d817f9b6f31bb871835f4edf0089f21abe6c170"
+  version "2.8.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.4.tgz#0b1db68e6bdfb0b767fa2ab642136a35b059b199"
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.5"
