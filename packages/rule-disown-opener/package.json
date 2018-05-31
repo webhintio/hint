@@ -7,7 +7,6 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "caniuse-api": "^2.0.0",
     "pluralize": "^7.0.0"
   },
   "description": "sonarwhal rule that checks if external links disown the opener",
