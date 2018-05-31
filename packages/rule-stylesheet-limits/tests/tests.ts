@@ -81,12 +81,6 @@ const test = (label, limits: { maxRules: number, maxSheets: number, maxImports: 
     }
 };
 
-test('', {
-    maxImports: 0,
-    maxRules: 65534,
-    maxSheets: 4095
-}, { serial: true }); // Keeps the tests from timing out due to the large numbers being checked.
-
 test(' targeting IE9', {
     maxImports: 4,
     maxRules: 4095,

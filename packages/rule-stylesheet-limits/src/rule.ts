@@ -44,28 +44,41 @@ export default class StylesheetLimitsRule implements IRule {
 
     public constructor(context: RuleContext) {
 
-        const includesOldIE = ['ie 6', 'ie 7', 'ie 8', 'ie 9'].some((e) => context.targetedBrowsers.includes(e));
-
-        let hasImportLimit = includesOldIE ? true : false;
-        let maxImports = includesOldIE ? 4 : 0;
-        let maxRules = includesOldIE ? 4095 : 65534;
-        let maxSheets = includesOldIE ? 31 : 4095;
-
         // Allow limits to be overridden by rule options.
         const options = context.ruleOptions;
 
-        // Min the default/options values to ensure overrides can't "hide" browser limits
+        // Check if browsers with default limits are included.
+        const includesOldIE = ['ie 6', 'ie 7', 'ie 8', 'ie 9'].some((e) => {
+            return context.targetedBrowsers.includes(e);
+        });
+
+        if (!options && !includesOldIE) {
+            // Exit if we don't have any limits to test.
+            return;
+        }
+
+        let hasImportLimit = includesOldIE;
+        let hasRuleLimit = includesOldIE;
+        let hasSheetLimit = includesOldIE;
+
+        let maxImports = includesOldIE ? 4 : 0;
+        let maxRules = includesOldIE ? 4095 : 0;
+        let maxSheets = includesOldIE ? 31 : 0;
+
+        // Min the default/options values to ensure overrides can't "hide" browser limits.
         if (options) {
-            // Always use the options value if no default import limit is specified
+            // Always use the options value if no default import limit is specified.
             if (options.maxImports && (!hasImportLimit || options.maxImports < maxImports)) {
                 maxImports = options.maxImports;
                 hasImportLimit = true;
             }
-            if (options.maxRules && options.maxRules < maxRules) {
+            if (options.maxRules && (!hasRuleLimit || options.maxRules < maxRules)) {
                 maxRules = options.maxRules;
+                hasRuleLimit = true;
             }
-            if (options.maxSheets && options.maxSheets < maxSheets) {
+            if (options.maxSheets && (!hasSheetLimit || options.maxSheets < maxSheets)) {
                 maxSheets = options.maxSheets;
+                hasSheetLimit = true;
             }
         }
 
@@ -150,11 +163,11 @@ export default class StylesheetLimitsRule implements IRule {
                 context.report(null, null, `Maximum of ${maxImports} nested imports reached (${results.imports})`);
             }
 
-            if (results.rules >= maxRules) {
+            if (hasRuleLimit && results.rules >= maxRules) {
                 context.report(null, null, `Maximum of ${maxRules} CSS rules reached (${results.rules})`);
             }
 
-            if (results.sheets >= maxSheets) {
+            if (hasSheetLimit && results.sheets >= maxSheets) {
                 context.report(null, null, `Maximum of ${maxSheets} stylesheets reached (${results.sheets})`);
             }
         };
