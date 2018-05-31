@@ -1,3 +1,14 @@
+# 1.10.0 (May 31, 2018)
+
+## Bug fixes / Improvements
+
+* [[`2ce78a45e7`](https://github.com/sonarwhal/sonarwhal/commit/2ce78a45e7d39a0e51d8bf1245483d826b25a40b)] - Fix: Lazy load modules depending on the user selected task (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1101`](https://github.com/sonarwhal/sonarwhal/issues/1101)).
+
+## New features
+
+* [[`29ee22011b`](https://github.com/sonarwhal/sonarwhal/commit/29ee22011b451ed4150e8c7c2cc78252755e45fc)] - New: Add `isSupported` util (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.9.1 (May 22, 2018)
 
 ## Bug fixes / Improvements
