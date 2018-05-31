@@ -1,3 +1,10 @@
+# 3.0.4 (May 31, 2018)
+
+## Bug fixes / Improvements
+
+* [[`ad0ba0223e`](https://github.com/sonarwhal/sonarwhal/commit/ad0ba0223ec03cab3a8b7f7bc69c8d63f72d7123)] - Fix: `BrowserslistError: Unknown version` issue (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1109`](https://github.com/sonarwhal/sonarwhal/issues/1109)).
+
+
 # 3.0.3 (April 10, 2018)
 
 ## Bug fixes / Improvements
