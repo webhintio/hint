@@ -1,7 +1,8 @@
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
+import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = 'stylesheet-limits';
+const ruleName = getRuleName(__dirname);
 
 const generateCSSRules = (count = 1) => {
     const rules = [];
@@ -24,7 +25,7 @@ const generateStyleSheets = (count = 1) => {
 };
 
 const generateImports = (count = 1) => {
-    const config = { '/': generateHTMLPage(`<style>@import url('i1.css');</style>`) };
+    const config: any = { '/': generateHTMLPage(`<style>@import url('i1.css');</style>`) };
 
     for (let i = 1; i <= count; i++) {
         config[`/i${i}.css`] = {
@@ -36,7 +37,7 @@ const generateImports = (count = 1) => {
     return config;
 };
 
-const test = (label, limits: { maxRules: number, maxSheets: number, maxImports: number }, configs: any) => {
+const test = (label: string, limits: { maxRules: number, maxSheets: number, maxImports: number }, configs: any) => {
     const { maxRules, maxSheets, maxImports } = limits;
 
     ruleRunner.testRule(ruleName, [

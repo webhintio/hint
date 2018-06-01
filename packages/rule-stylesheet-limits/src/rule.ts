@@ -4,7 +4,7 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IRule, RuleMetadata, ScanEnd } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -153,7 +153,7 @@ export default class StylesheetLimitsRule implements IRule {
             return combinedResults;
         };
 
-        const validateScanEnd = async () => {
+        const validateScanEnd = async (event: ScanEnd) => {
 
             const results = await context.evaluate(`(${injectedCode})()`);
 
@@ -161,15 +161,15 @@ export default class StylesheetLimitsRule implements IRule {
 
             // Only check `maxImports` if a limit has been specified
             if (hasImportLimit && results.imports >= maxImports) {
-                context.report(null, null, `Maximum of ${maxImports} nested imports reached (${results.imports})`);
+                await context.report(event.resource, null, `Maximum of ${maxImports} nested imports reached (${results.imports})`);
             }
 
             if (hasRuleLimit && results.rules >= maxRules) {
-                context.report(null, null, `Maximum of ${maxRules} CSS rules reached (${results.rules})`);
+                await context.report(event.resource, null, `Maximum of ${maxRules} CSS rules reached (${results.rules})`);
             }
 
             if (hasSheetLimit && results.sheets >= maxSheets) {
-                context.report(null, null, `Maximum of ${maxSheets} stylesheets reached (${results.sheets})`);
+                await context.report(event.resource, null, `Maximum of ${maxSheets} stylesheets reached (${results.sheets})`);
             }
         };
 
