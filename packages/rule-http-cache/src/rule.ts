@@ -381,7 +381,7 @@ export default class HttpCacheRule implements IRule {
 
             // We want long caches with "immutable" for static resources
             if (usedDirectives.has('no-cache') || !(longCache && immutable)) {
-                const message: string = `Static resources should have a long cache value (${maxAgeResource}) and use the immutable directive:\n${header}`;
+                const message: string = `Static resources should have a long cache value (${maxAgeResource}) and use the immutable directive:\n${header}\nExample: "cache-control: public,max-age=31536000,immutable"`;
 
                 await context.report(resource, element, message);
 
