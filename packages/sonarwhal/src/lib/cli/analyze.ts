@@ -237,7 +237,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    const resources = resourceLoader.loadResources(config);
+    let resources = resourceLoader.loadResources(config);
 
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {
         const missingPackages = resources.missing.map((name) => {
@@ -245,7 +245,8 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         });
 
         const incompatiblePackages = resources.incompatible.map((name) => {
-            return `@sonarwhal/${name}`;
+            // If the packages is incompatible, we need to force to install the latest version.
+            return `@sonarwhal/${name}@latest`;
         });
 
         if (!(await askUserToInstallDependencies(resources) &&
@@ -255,6 +256,9 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             // The user doesn't want to install the dependencies or something went wrong installing them
             return false;
         }
+
+        // After install all the packages, we need to load the resources again.
+        resources = resourceLoader.loadResources(config);
     }
 
     const invalidConfigRules = SonarwhalConfig.validateRulesConfig(config).invalid;

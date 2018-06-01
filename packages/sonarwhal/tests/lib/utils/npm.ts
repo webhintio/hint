@@ -16,26 +16,13 @@ const misc = {
     findPackageRoot() { },
     loadJSONFile() { }
 };
-const spinner = {
-    fail() { },
-    start() { },
-    succeed() { },
-    text: ''
-};
-
-const ora = () => {
-    return spinner;
-};
+const fs = { existsSync() { } };
 
 const devDependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dev-package.json`));
 const dependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dep-package.json`));
 
 const getEmitter = () => {
     const emitter = new EventEmitter();
-
-    (emitter as any).stderr = new EventEmitter();
-
-    (((emitter as any).stderr) as any).setEncoding = () => { };
 
     return emitter;
 };
@@ -44,19 +31,20 @@ proxyquire('../../../src/lib/utils/npm', {
     './logging': logger,
     './misc': misc,
     child_process: child, // eslint-disable-line camelcase
-    'npm-registry-fetch': npmRegistryFetch,
-    ora
+    fs,
+    'npm-registry-fetch': npmRegistryFetch
 });
 
 test.beforeEach((t) => {
     t.context.npmRegistryFetch = npmRegistryFetch;
 });
 
-test.serial('installPackages should run the right command if package.json exists in the current work directory, and has `sonarwhal` as a devDependency', async (t) => {
+test.serial('installPackages should run the right command `sonarwhal` is installed locally, and has `sonarwhal` as a devDependency', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
 
+    sandbox.stub(fs, 'existsSync').returns(true);
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
@@ -76,11 +64,12 @@ test.serial('installPackages should run the right command if package.json exists
     sandbox.restore();
 });
 
-test.serial('installPackages should run the right command if package.json exists in the current working directory, and has `sonarwhal` as a regular dependency', async (t) => {
+test.serial('installPackages should run the right command if `sonarwhal` is installed locally, and has `sonarwhal` as a regular dependency', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
 
+    sandbox.stub(fs, 'existsSync').returns(true);
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
@@ -100,13 +89,63 @@ test.serial('installPackages should run the right command if package.json exists
     sandbox.restore();
 });
 
-test.serial(`installPackages should run the right command if path to package.json doesn't exist`, async (t) => {
+test.serial('installPackages should run the right command if `sonarwhal` is installed locally but the project package.json doesn\'t exist', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
 
+    sandbox.stub(fs, 'existsSync').returns(true);
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').throws(new Error(`Path doesn't exist.`));
+
+    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+
+    await delay(500);
+
+    emitter.emit('exit', 0);
+
+    await promise;
+
+    t.context.child = child;
+
+    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1');
+
+    sandbox.restore();
+});
+
+test.serial('installPackages should run the right command if `sonarwhal` is installed locally but the project package.json is not valid', async (t) => {
+    const emitter = getEmitter();
+    const sandbox = sinon.createSandbox();
+    const npmUtils = await import('../../../src/lib/utils/npm');
+
+    sandbox.stub(fs, 'existsSync').returns(true);
+    sandbox.stub(child, 'spawn').returns(emitter);
+    sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
+    sandbox.stub(process, 'cwd').returns('/example/path');
+    sandbox.stub(misc, 'loadJSONFile').throws(new Error('Invalid JSON.'));
+
+    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+
+    await delay(500);
+
+    emitter.emit('exit', 0);
+
+    await promise;
+
+    t.context.child = child;
+    t.true(t.context.child.spawn.called);
+    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1');
+
+    sandbox.restore();
+});
+
+test.serial('installPackages should run the right command if `sonarwhal` is installed globally', async (t) => {
+    const emitter = getEmitter();
+    const sandbox = sinon.createSandbox();
+    const npmUtils = await import('../../../src/lib/utils/npm');
+
+    sandbox.stub(fs, 'existsSync').returns(false);
+    sandbox.stub(child, 'spawn').returns(emitter);
 
     const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
 
@@ -123,35 +162,12 @@ test.serial(`installPackages should run the right command if path to package.jso
     sandbox.restore();
 });
 
-test.serial(`installPackages should run the right command if package.json exists but is not valid`, async (t) => {
+test.serial('installPackages should show the command to run if the installation fail and `sonarwhal` is installed locally', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
 
-    sandbox.stub(child, 'spawn').returns(emitter);
-    sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
-    sandbox.stub(process, 'cwd').returns('/example/path');
-    sandbox.stub(misc, 'loadJSONFile').throws(new Error('Invalid JSON.'));
-
-    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
-
-    await delay(500);
-
-    emitter.emit('exit', 0);
-
-    await promise;
-
-    t.context.child = child;
-    t.false(t.context.child.spawn.called);
-
-    sandbox.restore();
-});
-
-test.serial('installPackages should show the command to run if the installation fail and package.json exists', async (t) => {
-    const emitter = getEmitter();
-    const sandbox = sinon.createSandbox();
-    const npmUtils = await import('../../../src/lib/utils/npm');
-
+    sandbox.stub(fs, 'existsSync').returns(true);
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
@@ -162,7 +178,6 @@ test.serial('installPackages should show the command to run if the installation 
 
     await delay(500);
 
-    (emitter as any).stderr.emit('data', 'Error installing packages');
     emitter.emit('exit', 1);
 
     await promise;
@@ -175,20 +190,19 @@ test.serial('installPackages should show the command to run if the installation 
     sandbox.restore();
 });
 
-test.serial(`installPackages should show the command to run if the installation fail and package.json doesn't exist`, async (t) => {
+test.serial('installPackages should show the command to run if the installation fail and `sonarwhal` is installed globally', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
 
+    sandbox.stub(fs, 'existsSync').returns(false);
     sandbox.stub(child, 'spawn').returns(emitter);
-    sandbox.stub(misc, 'findPackageRoot').throws(new Error(`Path doesn't exist.`));
     sandbox.spy(logger, 'log');
 
     const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
 
     await delay(500);
 
-    (emitter as any).stderr.emit('data', 'Error installing packages');
     emitter.emit('exit', 1);
 
     await promise;
