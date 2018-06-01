@@ -81,6 +81,10 @@ const tests: Array<RuleTest> = [
             meta.setAttribute('charset', 'utf-8');
             head.insertBefore(meta, title);
         </script>`)
+    },
+    {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     }
 
     /*

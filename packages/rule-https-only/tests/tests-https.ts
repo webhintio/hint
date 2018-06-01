@@ -81,6 +81,10 @@ const testsHTTPS: Array<RuleTest> = [
 </video>`)
             }
         }
+    },
+    {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     }
 ];
 

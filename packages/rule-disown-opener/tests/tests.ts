@@ -149,6 +149,13 @@ const testsForOldBrowsers: Array<RuleTest> = [
                         <area shape="rect" coords="0,0,100,100" href="https://example.com" target="_blank" rel="noreferrer noopener">
                     </map>`)
         }
+    },
+
+    // Resource is not an HTML document
+
+    {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     }
 ];
 
