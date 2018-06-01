@@ -82,6 +82,7 @@ export default class StylesheetLimitsRule implements IRule {
             }
         }
 
+        /* istanbul ignore next */
         // The following function will be evaluated in the context of the page.
         const injectedCode = function() {
 
