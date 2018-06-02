@@ -18,7 +18,7 @@
     "markdownlint-cli": "^0.10.0",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
-    "nyc": "^11.8.0",
+    "nyc": "^12.0.1",
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
     "sinon": "^5.0.10",
