@@ -47,34 +47,34 @@ const tests: Array<RuleTest> = [
     {
         name: `This test should pass as it has links with valid href value`,
         serverConfig: {
-            '/': {content: generateHTMLPage(null, bodyWithValidLinks)},
+            '/': {content: generateHTMLPage('', bodyWithValidLinks)},
             '/about': {content: 'My about page content'}
         }
     },
     {
         name: `This test should pass as it has an img with valid src value(absolute)`,
-        serverConfig: generateHTMLPage(null, bodyWithImageSource)
+        serverConfig: generateHTMLPage('', bodyWithImageSource)
     },
     {
         name: `This test should fail as it has a link with 404 href value(absolute)`,
         reports: [{ message: `Broken link found (404 response)` }],
-        serverConfig: generateHTMLPage(null, bodyWithBrokenLinks)
+        serverConfig: generateHTMLPage('', bodyWithBrokenLinks)
     },
     {
         name: `This test should fail as it has an img with 404 src value(absolute)`,
         reports: [{ message: `Broken link found (404 response)` }],
-        serverConfig: generateHTMLPage(null, bodyWithBrokenImageSource)
+        serverConfig: generateHTMLPage('', bodyWithBrokenImageSource)
     },
     {
         name: `This test should fail as it has a link with 404 href value(absolute)`,
         reports: [{ message: `Broken link found (404 response)` }],
-        serverConfig: generateHTMLPage(null, bodyWithValidLinksAndBrokenLinks)
+        serverConfig: generateHTMLPage('', bodyWithValidLinksAndBrokenLinks)
     },
     {
         name: `This test should fail as it has a link with 500 href value(relative)`,
         reports: [{ message: `Broken link found (500 response)` }],
         serverConfig: {
-            '/': {content: generateHTMLPage(null, bodyWithRelative500Links)},
+            '/': {content: generateHTMLPage('', bodyWithRelative500Links)},
             '/500': {status: 500}
         }
     },
@@ -82,7 +82,7 @@ const tests: Array<RuleTest> = [
         name: `This test should fail as it has a link with 410 href value(relative)`,
         reports: [{ message: `Broken link found (410 response)` }],
         serverConfig: {
-            '/': {content: generateHTMLPage(null, bodyWithRelative410Links)},
+            '/': {content: generateHTMLPage('', bodyWithRelative410Links)},
             '/410': {status: 410}
         }
     },
@@ -90,7 +90,7 @@ const tests: Array<RuleTest> = [
         name: `This test should fail as it has a link with 404 href value(relative)`,
         reports: [{ message: `Broken link found (404 response)` }],
         serverConfig: {
-            '/': {content: generateHTMLPage(null, bodyWithRelative404Links)},
+            '/': {content: generateHTMLPage('', bodyWithRelative404Links)},
             '/404': {status: 404}
         }
     },
@@ -98,7 +98,7 @@ const tests: Array<RuleTest> = [
         name: `This test should fail as it has a link with 503 href value(relative)`,
         reports: [{ message: `Broken link found (503 response)` }],
         serverConfig: {
-            '/': {content: generateHTMLPage(null, bodyWithRelative503Links)},
+            '/': {content: generateHTMLPage('', bodyWithRelative503Links)},
             '/503': {status: 503}
         }
     }

@@ -71,10 +71,10 @@ export default class NoBrokenLinksRule implements IRule {
 
             await requester
                 .get(absoluteUrl)
-                .then((value) => {
+                .then((value: NetworkData) => {
                     handleSuccess(value, absoluteUrl, linkElement);
                 })
-                .catch((error) => {
+                .catch((error: any) => {
                     handleRejection(error, absoluteUrl, linkElement);
                 });
         };
@@ -88,12 +88,12 @@ export default class NoBrokenLinksRule implements IRule {
             const srcSet = linkElement.getAttribute('srcset');
 
             if (srcSet !== null) {
-                const sources = srcSet.split(',').filter((x) => {
+                const sources = srcSet.split(',').filter((x: string) => {
                     return x !== '';
                 });
 
                 for (const source of sources) {
-                    const url = source.split(' ').filter((x) => {
+                    const url = source.split(' ').filter((x: string) => {
                         return x !== '';
                     })[0];
 
