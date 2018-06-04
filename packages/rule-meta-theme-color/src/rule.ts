@@ -26,6 +26,7 @@ import {
     isHTMLDocument,
     normalizeString
 } from 'sonarwhal/dist/src/lib/utils/misc';
+import { isSupported } from 'sonarwhal/dist/src/lib/utils/caniuse';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -49,6 +50,8 @@ export default class MetaThemeColorRule implements IRule {
 
     public constructor(context: RuleContext) {
 
+        const targetedBrowsers: string = context.targetedBrowsers.join();
+
         let bodyElementWasReached: boolean = false;
         let firstThemeColorMetaTag: IAsyncHTMLElement;
 
@@ -71,6 +74,35 @@ export default class MetaThemeColorRule implements IRule {
             }
         };
 
+        const isNotSupportedColorValue = (color, normalizedColorValue: string): boolean => {
+            const hexWithAlphaRegex = /^#([0-9a-fA-F]{4}){1,2}$/;
+
+            /*
+             * `theme-color` can accept any CSS `<color>`:
+             *
+             *   * https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color
+             *   * https://drafts.csswg.org/css-color/#typedef-color
+             *
+             *  However, `HWB` and `hex with alpha` values are not
+             *  supported everywhere `theme-color` is. Also, values
+             *  such as `currentcolor` don't make sense, but they
+             *  will be catched by the above check.
+             *
+             *  See also:
+             *
+             *   * https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#Browser_compatibility
+             *   * https://cs.chromium.org/chromium/src/third_party/WebKit/Source/platform/graphics/Color.cpp?rcl=6263bcf0ec9f112b5f0d84fc059c759302bd8c67
+             */
+
+            // `RGBA` support depends on the browser.
+            return (color.model === 'rgb' &&
+                hexWithAlphaRegex.test(normalizedColorValue) &&
+                !isSupported('css-rrggbbaa', targetedBrowsers)) ||
+
+                // `HWB` is not supported anywhere (?).
+                color.model === 'hwb';
+        };
+
         const checkContentAttributeValue = async (resource: string, element: IAsyncHTMLElement) => {
             const contentValue = element.getAttribute('content');
             const normalizedContentValue = normalizeString(contentValue, '');
@@ -82,38 +114,7 @@ export default class MetaThemeColorRule implements IRule {
                 return;
             }
 
-            /*
-             * `theme-color` can accept any CSS `<color>`:
-             *
-             *    * https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color
-             *    * https://drafts.csswg.org/css-color/#typedef-color
-             *
-             *  However:
-             *
-             *    * Values such as `hwb` and `hex with alpha` are not
-             *      supported everywhere `theme-color` is.
-             *
-             *    * `rgba` and `hsla` even if supported, browsers ignore
-             *      the alpha.
-             *
-             *    * Windows/Microsoft Store require the color value to
-             *      be specified either as `hex` or as a color name.
-             *
-             *  Also, some values such as `currentcolor` don't make
-             *  sense, but they will be catched by the previous check.
-             *
-             *  See also:
-             *
-             *    * https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#Browser_compatibility
-             *    * https://cs.chromium.org/chromium/src/third_party/WebKit/Source/platform/graphics/Color.cpp?rcl=6263bcf0ec9f112b5f0d84fc059c759302bd8c67
-             */
-
-            const hexWithoutAlphaRegex = /^#([0-9a-fA-F]{3}){1,2}$/;
-            const colorNameRegex = /^[a-zA-Z]+$/;
-
-            if (!hexWithoutAlphaRegex.test(normalizedContentValue) &&
-                !colorNameRegex.test(normalizedContentValue)
-            ) {
+            if (isNotSupportedColorValue(color, normalizedContentValue)) {
                 await context.report(resource, element, `'content' attribute value ('${contentValue}') is not supported everywhere`);
             }
         };

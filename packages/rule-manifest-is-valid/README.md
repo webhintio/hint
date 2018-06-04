@@ -86,7 +86,7 @@ The web app manifest file contains properties with invalid values:
 ```
 
 The web app manifest file contains a properties with values not
-supported everywhere:
+supported by all the [targeted browsers](targeted browsers).
 
 ```json
 {
@@ -139,7 +139,8 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "rules": {
-        "manifest-is-valid": "error"
+        "manifest-is-valid": "error",
+        ...
     },
     ...
 }
