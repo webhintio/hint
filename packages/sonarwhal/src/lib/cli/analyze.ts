@@ -61,7 +61,7 @@ const askUserToCreateConfig = async (): Promise<boolean> => {
 };
 
 const askUserToUseDefaultConfiguration = async (): Promise<boolean> => {
-    const question: string = `A valid configuration file can't be found. Do you want to use the default configuration?`;
+    const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration visit: https://sonarwhal.com/docs/user-guide/#default-configuration`;
     const confirmation: inquirer.Answers = await askForConfirm(question);
 
     return confirmation.confirm;
@@ -98,9 +98,9 @@ const askUserToInstallDependencies = async (resources: SonarwhalResources): Prom
 const showDefaultMessage = () => {
     const defaultMessage = `${chalk.default.yellow(`Couldn't find any valid configuration`)}
 
-Running sonarwhal with the default configuration
+Running sonarwhal with the default configuration.
 
-Learn more about how to create your own configuration visiting:
+Learn more about how to create your own configuration at:
 
 ${chalk.default.green('https://sonarwhal.com/docs/user-guide/')}`;
 
@@ -183,7 +183,7 @@ const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<SonarwhalC
             // Because the configuration was created using the wizard, the configuration file will be in process.cwd()
             userConfig = await getUserConfig();
         } else {
-            logger.error(`Unable to find a valid configuration file. Please add a .sonarwhalrc file by running 'sonarwhal --init'. `);
+            logger.error(`Unable to find a valid configuration file. Please create a valid .sonarwhalrc file using 'sonarwhal --init'. `);
 
             return null;
         }
@@ -245,7 +245,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         });
 
         const incompatiblePackages = resources.incompatible.map((name) => {
-            // If the packages is incompatible, we need to force to install the latest version.
+            // If the packages are incompatible, we need to force to install the latest version.
             return `@sonarwhal/${name}@latest`;
         });
 
@@ -257,7 +257,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             return false;
         }
 
-        // After install all the packages, we need to load the resources again.
+        // After installing all the packages, we need to load the resources again.
         resources = resourceLoader.loadResources(config);
     }
 
