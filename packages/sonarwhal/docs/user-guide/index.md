@@ -117,3 +117,4 @@ the error described above even if you install `sonarwhal` globally.
 [npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
 [nvm]: https://github.com/creationix/nvm
 [permission issue]: https://github.com/sonarwhal/sonarwhal/issues/308
+[web recommended]: https://github.com/sonarwhal/sonarwhal/blob/master/packages/configuration-web-recommended/package.json
