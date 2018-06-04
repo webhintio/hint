@@ -17,6 +17,7 @@ import {
     IRule,
     RuleMetadata
 } from 'sonarwhal/dist/src/lib/types';
+import { isSupported } from 'sonarwhal/dist/src/lib/utils/caniuse';
 import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import {
     Manifest,
@@ -47,14 +48,42 @@ export default class ManifestIsValidRule implements IRule {
 
     public constructor(context: RuleContext) {
 
+        const targetedBrowsers: string = context.targetedBrowsers.join();
+
+        const isNotSupportedColorValue = (color, normalizedColorValue: string): boolean => {
+            const hexWithAlphaRegex = /^#([0-9a-fA-F]{4}){1,2}$/;
+
+            /*
+             * `theme-color` can accept any CSS `<color>`:
+             *
+             *   * https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color
+             *   * https://drafts.csswg.org/css-color/#typedef-color
+             *
+             *  However, `HWB` and `hex with alpha` values are not
+             *  supported everywhere `theme-color` is. Also, values
+             *  such as `currentcolor` don't make sense, but they
+             *  will be catched by the above check.
+             *
+             *  See also:
+             *
+             *   * https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#Browser_compatibility
+             *   * https://cs.chromium.org/chromium/src/third_party/WebKit/Source/platform/graphics/Color.cpp?rcl=6263bcf0ec9f112b5f0d84fc059c759302bd8c67
+             */
+
+            // `RGBA` support depends on the browser.
+            return (color.model === 'rgb' &&
+                hexWithAlphaRegex.test(normalizedColorValue) &&
+                !isSupported('css-rrggbbaa', targetedBrowsers)) ||
+
+                // `HWB` is not supported anywhere (?).
+                color.model === 'hwb';
+        };
+
         const checkColors = async (resource: string, element: IAsyncHTMLElement, manifest: Manifest) => {
             const colorProperties = [
                 'background_color',
                 'theme_color'
             ];
-
-            const hexWithoutAlphaRegex = /^#([0-9a-fA-F]{3}){1,2}$/;
-            const colorNameRegex = /^[a-zA-Z]+$/;
 
             for (const property of colorProperties) {
                 const colorValue = manifest[property];
@@ -72,17 +101,7 @@ export default class ManifestIsValidRule implements IRule {
                     continue;
                 }
 
-                /*
-                 * Some of the manifest's properties can accept any
-                 * CSS `<color>`, however, not all forms of specifying
-                 * color are supported everywhere. Also, values such as
-                 * `currentcolor` don't make sense, but they will be
-                 * catched by the above check.
-                 */
-
-                if (!hexWithoutAlphaRegex.test(normalizedColorValue) &&
-                    !colorNameRegex.test(normalizedColorValue)
-                ) {
+                if (isNotSupportedColorValue(color, normalizedColorValue)) {
                     await context.report(resource, element, `'${property}' property value ('${colorValue}') is not supported everywhere`);
                 }
             }

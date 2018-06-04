@@ -32,12 +32,6 @@ Note that:
   * Browsers that suppoted `rgba`, `hsla`, or `hex with alpha` values
     will ignore the alpha value.
 
-  * Windows/Microsoft Store requires the color to be specified either
-    as `hex` or as a color name.
-
-  So, for interoperability, it's recommended to specify the theme color
-  either using `hex` or a color name.
-
 * Always specify the theme color using the meta tag. Even though
   it can also be declared in the [web app manifest file][manifest]:
 
@@ -50,9 +44,10 @@ Note that:
 
 ## What does the rule check?
 
-The rule checks if a single `theme-color` meta tag is specified in
-the `<head>` and the value of its `content` attribute is a [valid
-CSS color][css color] supported everywhere `theme-color` meta tag is.
+The rule checks if a single `theme-color` meta tag is specified
+in the `<head>` and the value of its `content` attribute is a
+[valid CSS color][css color] supported by all the [targeted
+browsers](targeted browsers).
 
 ### Examples that **trigger** the rule
 
@@ -86,7 +81,8 @@ The `theme-color` meta tag is specified with an invalid value:
 ```
 
 The `theme-color` meta tag is specified with value that is not
-supported everywhere:
+supported by all the [targeted browsers](targeted browsers) (e.g.:
+`Samsung Internet v5` is targeted).
 
 ```html
 <meta name="theme-color" content="#f00a">
@@ -94,22 +90,6 @@ supported everywhere:
 
 ```html
 <meta name="theme-color" content="#ff0000aa">
-```
-
-```html
-<meta name="theme-color" content="hsl(0, 50%, 50%)">
-```
-
-```html
-<meta name="theme-color" content="hsla(0, 50%, 50%, 1)">
-```
-
-```html
-<meta name="theme-color" content="rgb(255, 0, 0)">
-```
-
-```html
-<meta name="theme-color" content="rgba(255, 0, 0, 1)">
 ```
 
 The `theme-color` meta tag is not specified in the `<head>`:
@@ -147,19 +127,7 @@ Multiple `theme-color` meta tags are specified:
 
 A single `theme-color` meta tag is specified in the `<head>` and
 the value of its `content` attribute is a [valid CSS color][css
-color] supported everywhere:
-
-```html
-<!doctype html>
-<html lang="en">
-    <head>
-        <title>example</title>
-        <meta name="theme-color" content="red">
-        ...
-    </head>
-    <body>...</body>
-</html>
-```
+color] supported by all the [targeted browsers](targeted browsers).
 
 ```html
 <!doctype html>
@@ -172,6 +140,34 @@ color] supported everywhere:
     <body>...</body>
 </html>
 ```
+
+The `content` attribute value ca be specified as:
+
+* a color name
+
+  * `<meta name="theme-color" content="red">`
+
+* `hex` using 3 or 6 digits
+
+  * `<meta name="theme-color" content="#f00">`
+  * `<meta name="theme-color" content="#ff0000">`
+
+* `hsl` / `hsla`
+
+  * `<meta name="theme-color" content="hsl(0, 50%, 50%)">`
+  * `<meta name="theme-color" content="hsla(0, 50%, 50%, 1)">`
+
+* `rgb` / `rgba`
+
+  * `<meta name="theme-color" content="rgb(255, 0, 0)">`
+  * `<meta name="theme-color" content="rgba(255, 0, 0, 1)">`
+
+And, depending on the [targeted browsers](targeted browsers):
+
+* `hex` using 4 or 8 digits
+
+  * `<meta name="theme-color" content="#f000">`
+  * `<meta name="theme-color" content="#ff000000">`
 
 ## How to use this rule?
 
@@ -195,7 +191,8 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "rules": {
-        "meta-theme-color": "error"
+        "meta-theme-color": "error",
+        ...
     },
     ...
 }
@@ -208,8 +205,9 @@ configuration file:
 <!-- Link labels: -->
 
 [css color]: https://drafts.csswg.org/css-color/#typedef-color
-[hex with alpha support]: ]
+[hex with alpha support]: https://caniuse.com/#feat=css-rrggbbaa
 [manifest]: https://www.w3.org/TR/appmanifest/
 [pwas]: https://developer.mozilla.org/en-US/Apps/Progressive
 [sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[targeted browsers]: https://sonarwhal.com/docs/user-guide/further-configuration/browser-context/
 [theme-color spec]: https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color
