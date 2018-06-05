@@ -59,12 +59,12 @@ Any developer can create their own `rule`s, `connector`s, `parser`s
 and/or `formatter`s, and use them without having to do a pull request to
 the main project and distribute them as [`npm`][npm] packages.
 
-### CLI Diagram
+### CLI Flow
 
-You can learn more about how `sonarwhal` load the configuration and resources
+You can learn more about how `sonarwhal` loads the configuration and resources
 in this diagram:
 
-[![sonarwhal's cli diagram](images/cli-diagram.png)](images/cli-diagram.png)
+[![sonarwhal's flow diagram](images/cli-diagram.png)](images/cli-diagram.png)
 
 <!-- Link labels: -->
 
