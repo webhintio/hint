@@ -28,6 +28,7 @@ if (debug) {
  * Now we can safely include the other modules that use debug.
  */
 import * as cli from '../lib/cli';
+import { trackException } from '../lib/utils/appinsights';
 
 /*
  * ------------------------------------------------------------------------------
@@ -38,12 +39,14 @@ import * as cli from '../lib/cli';
 process.once('uncaughtException', (err) => {
     console.error(err.message);
     console.error(err.stack);
+    trackException(err);
     process.exit(1);
 });
 
 process.once('unhandledRejection', (reason) => {
     const source = reason.error ? reason.error : reason;
 
+    trackException(source);
     console.error(`Unhandled rejection promise:
     uri: ${source.uri}
     message: ${source.message}

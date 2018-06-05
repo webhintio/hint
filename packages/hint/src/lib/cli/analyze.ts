@@ -17,6 +17,7 @@ import askForConfirm from '../utils/misc/ask-question';
 import cutString from '../utils/misc/cut-string';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
+import { trackEvent } from '../utils/appinsights';
 
 const each = promisify(async.each);
 const debug: debug.IDebugger = d(__filename);
@@ -208,6 +209,10 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     }
 
     let resources = resourceLoader.loadResources(config);
+
+    // Question: Should we track this after all packages has been installed?
+    trackEvent('analyze', config);
+    // Question: Track missing resources?
 
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {
         const missingPackages = resources.missing.map((name) => {

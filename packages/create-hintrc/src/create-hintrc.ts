@@ -23,6 +23,7 @@ import { ResourceType } from 'hint/dist/src/lib/enums/resourcetype';
 import { generateBrowserslistConfig } from './browserslist';
 import { getOfficialPackages, installPackages } from 'hint/dist/src/lib/utils/npm';
 import { NpmPackage } from 'hint/dist/src/lib/types';
+import { trackEvent } from 'hint/dist/src/lib/utils/appinsights';
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
@@ -203,6 +204,8 @@ export default async (): Promise<boolean> => {
 
         await installPackages(result.packages);
     }
+
+    trackEvent('new-config', result.config);
 
     return true;
 };

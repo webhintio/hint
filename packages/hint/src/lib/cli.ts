@@ -16,15 +16,20 @@
  */
 import chalk from 'chalk';
 import * as updateNotifier from 'update-notifier';
+import * as inquirer from 'inquirer';
 
 import { CLIOptions } from './types';
 import * as logger from './utils/logging';
 import getHintPackage from './utils/packages/load-hint-package';
+import * as insights from './utils/appinsights';
+import { debug as d } from './utils/debug';
 
 import { options } from './cli/options';
 import { cliActions } from './cli/actions';
 
-/** Notify user if the current version of `hint` is not up to date. */
+const debug: debug.IDebugger = d(__filename);
+
+/** Notify user if the current version of sonarwhal is not up to date. */
 const notifyIfNeeded = () => {
     const pkg = getHintPackage();
     /*
@@ -56,6 +61,33 @@ const notifyIfNeeded = () => {
     notifier.notify({ message });
 };
 
+/** Ask user if he want to activate the telemetry or not. */
+const askForConfirmation = async () => {
+    // TODO: What message should we use here?
+    const message: string = `Help us to imporve sonarwhal.
+May we report some statistics about usage?`;
+
+    debug(`Asking statistics confirmation.`);
+
+    const question: Array<object> = [{
+        message,
+        name: 'confirm',
+        type: 'confirm'
+    }];
+
+    const answer: inquirer.Answers = await inquirer.prompt(question);
+
+    if (answer.confirm) {
+        insights.enable();
+
+        insights.trackEvent('FirstRun');
+
+        return;
+    }
+
+    insights.disable();
+};
+
 /*
  * ------------------------------------------------------------------------------
  * Public
@@ -77,6 +109,10 @@ export const execute = async (args: string | Array<string> | Object): Promise<nu
     let handled = false;
 
     notifyIfNeeded();
+
+    if (insights.isEnabled() === void 0) {
+        await askForConfirmation();
+    }
 
     while (cliActions.length > 0 && !handled) {
         const action = cliActions.shift();
