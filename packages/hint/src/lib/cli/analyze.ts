@@ -6,7 +6,9 @@ import * as async from 'async';
 import * as ora from 'ora';
 import * as boxen from 'boxen';
 import * as chalk from 'chalk';
+import * as isCI from 'is-ci';
 
+import * as configStore from '../utils/configstore';
 import { Configuration } from '../config';
 import { Engine } from '../engine';
 import { CLIOptions, ORA, Problem, Severity, UserConfig, HintResources } from '../types';
@@ -17,15 +19,99 @@ import askForConfirm from '../utils/misc/ask-question';
 import cutString from '../utils/misc/cut-string';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
+import * as insights from '../utils/appinsights';
 
 const each = promisify(async.each);
 const debug: debug.IDebugger = d(__filename);
+const configStoreKey: string = 'run';
 
 /*
  * ------------------------------------------------------------------------------
  * Private
  * ------------------------------------------------------------------------------
  */
+
+const printFrame = (message: string) => {
+    logger.log(boxen(message, {
+        align: 'center',
+        margin: 1,
+        padding: 1
+    }));
+};
+
+/**
+ * Prints a message asking user to accept send telemetry data.
+ */
+const showTelemetryMessage = () => {
+    const message: string = `Help us improve webhint
+by sending limited usage information
+(no personal information or URLs will be sent).
+
+To know more about what information will be sent please
+visit ${chalk.default.green('https://webhint.io/docs/user-guide/telemetry')}`;
+
+    printFrame(message);
+};
+
+/**
+ * Prints a message asking user to configure the telemetry.
+ */
+const showCITelemetryMessage = () => {
+    const message: string = `Help us improve webhint
+by sending limited usage information
+(no personal information or URLs will be sent).
+
+To know more about what information will be sent please
+visit ${chalk.default.green('https://webhint.io/docs/user-guide/telemetry')}
+
+Please configure it using
+the environment variable HINT_TRACKING to 'on' or 'off'
+or set the flag --tracking=on|off`;
+
+    printFrame(message);
+};
+
+/** Ask user if he wants to activate the telemetry or not. */
+const askForTelemetryConfirmation = async (config: Configuration) => {
+    if (insights.isConfigured()) {
+        return;
+    }
+
+    if (isCI) {
+        if (!insights.isConfigured()) {
+            showCITelemetryMessage();
+        }
+
+        return;
+    }
+
+    const alreadyRun: boolean = configStore.get(configStoreKey);
+
+    if (!alreadyRun) { /* This is the first time, don't ask anything. */
+        configStore.set(configStoreKey, true);
+
+        return;
+    }
+
+    showTelemetryMessage();
+
+    const message: string = `Do you want to opt-in?`;
+
+    debug(`Prompting telemetry permission.`);
+
+    const confirm: boolean = await askForConfirm(message);
+
+    if (confirm) {
+        insights.enable();
+
+        insights.trackEvent('SecondRun');
+        insights.trackEvent('analyze', config);
+
+        return;
+    }
+
+    insights.disable();
+};
 
 const askUserToUseDefaultConfiguration = async (): Promise<boolean> => {
     const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://webhint.io/docs/user-guide/#default-configuration`;
@@ -72,11 +158,7 @@ Learn more about how to create your own configuration at:
 
 ${chalk.default.green('https://webhint.io/docs/user-guide/')}`;
 
-    logger.log(boxen(defaultMessage, {
-        align: 'center',
-        margin: 1,
-        padding: 1
-    }));
+    printFrame(defaultMessage);
 };
 
 /**
@@ -209,7 +291,17 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     let resources = resourceLoader.loadResources(config);
 
+    insights.trackEvent('analyze', config);
+
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {
+        if (resources.missing.length > 0) {
+            insights.trackEvent('missing', resources.missing);
+        }
+
+        if (resources.incompatible.length > 0) {
+            insights.trackEvent('incompatible', resources.incompatible);
+        }
+
         const missingPackages = resources.missing.map((name) => {
             return `@hint/${name}`;
         });
@@ -263,12 +355,6 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     };
 
     const print = async (reports: Array<Problem>, target: string): Promise<void> => {
-        if (hasError(reports)) {
-            endSpinner('fail');
-        } else {
-            endSpinner('succeed');
-        }
-
         await each(engine.formatters, async (formatter) => {
             await formatter.format(reports, target);
         });
@@ -284,7 +370,11 @@ export default async (actions: CLIOptions): Promise<boolean> => {
                 exitCode = 1;
             }
 
+            endSpinner(exitCode ? 'fail' : 'succeed');
+
             await print(results, target.href);
+
+            await askForTelemetryConfirmation(config);
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');

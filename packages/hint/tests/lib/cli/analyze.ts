@@ -49,10 +49,18 @@ const ora = () => {
 
 const askQuestion = { default() { } };
 const validateHintsConfigResult = { invalid: [] };
+const appinsight = {
+    disable() { },
+    enable() { },
+    isConfigured() { },
+    isEnabled() { },
+    trackEvent() { }
+};
 
 proxyquire('../../../src/lib/cli/analyze', {
     '../config': config,
     '../engine': engineContainer,
+    '../utils/appinsights': appinsight,
     '../utils/logging': logger,
     '../utils/misc/ask-question': askQuestion,
     '../utils/resource-loader': resourceLoader,

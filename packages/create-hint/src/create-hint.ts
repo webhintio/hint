@@ -16,6 +16,7 @@ import readFile from 'hint/dist/src/lib/utils/fs/read-file';
 import toCamelCase from 'hint/dist/src/lib/utils/misc/to-camel-case';
 import toPascalCase from 'hint/dist/src/lib/utils/misc/to-pascal-case';
 import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
+import { trackEvent, trackException } from 'hint/dist/src/lib/utils/appinsights';
 
 /*
  * ------------------------------------------------------------------------------
@@ -437,11 +438,15 @@ New ${hintPackage.isMulti ? 'package' : 'hint'} ${hintPackage.name} created in $
 3. Run 'npm run hint -- https://YourUrl' to analyze you site.`);
         }
 
+        trackEvent('new-hint');
+
         return true;
     } catch (e) {
         /* istanbul ignore next */{ // eslint-disable-line no-lone-blocks
             logger.error('Error trying to create new hint');
             logger.error(e);
+
+            trackException(e);
 
             return false;
         }
