@@ -26,6 +26,8 @@ one of the following [limits][stylesheet limits] is exceeded:
 ### Examples that **pass** the rule
 
 * A page targeting Internet Explorer 9 with fewer than 4096 CSS rules
+* A page not targeting Internet Explorer 9 or below regardless of the number
+  of CSS rules
 
 ## Can the rule be configured?
 
