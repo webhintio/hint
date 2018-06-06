@@ -3,25 +3,30 @@ import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
+const ruleName = getRuleName(__dirname);
+
 const invalidColorValues = [
     'currentcolor',
     'invalid'
 ];
 
 const unsupportedColorValues = [
+    'hwb(60, 3%, 60%)'
+];
+
+const notAlwaysSupportedColorValues = [
     '#f00a',
-    '#ff0000aa',
-    'hsl(5, 5%, 5%)',
-    'hsla(5, 5%, 5%, 0.5)',
-    'hwb(60, 3%, 60%)',
-    'rgb(5, 5, 5)',
-    'rgba(5, 5, 5, 0.5)'
+    '#ff0000aa'
 ];
 
 const validColorValues = [
     '#f00',
     '#fF0000',
+    'hsl(5, 5%, 5%)',
+    'hsla(5, 5%, 5%, 0.5)',
     'red',
+    'rgb(5, 5, 5)',
+    'rgba(5, 5, 5, 0.5)',
     'transparent'
 ];
 
@@ -29,12 +34,12 @@ const generateThemeColorMetaTag = (contentValue: string = '#f00', nameValue: str
     return `<meta name="${nameValue}" content="${contentValue}">`;
 };
 
-const generateTest = (colorValues: Array<string>, valueType: string = 'valid') => {
-    const tests = [];
+const generateTest = (colorValues: Array<string>, valueType: string = 'valid', reason?: string) => {
+    const defaultTests = [];
 
     for (const colorValue of colorValues) {
         const test: RuleTest = {
-            name: `'theme-color' meta tag is specified with ${valueType} 'content' value of '${colorValue}'`,
+            name: `'theme-color' meta tag is specified with ${valueType} 'content' value of '${colorValue}'${typeof reason === 'undefined' ? '' : ` ${reason}`}`,
             serverConfig: generateHTMLPage(generateThemeColorMetaTag(colorValue))
         };
 
@@ -42,16 +47,16 @@ const generateTest = (colorValues: Array<string>, valueType: string = 'valid') =
             test.reports = [{ message: `'content' attribute value ('${colorValue}') is ${valueType === 'invalid' ? 'invalid' : 'not supported everywhere'}` }];
         }
 
-        tests.push(test);
+        defaultTests.push(test);
     }
 
-    return tests;
+    return defaultTests;
 };
 
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const tests: Array<RuleTest> = [
+const defaultTests: Array<RuleTest> = [
     {
         name: `'theme-color' meta tag is not specified`,
         reports: [{ message: `No 'theme-color' meta tag was specified` }],
@@ -62,7 +67,7 @@ const tests: Array<RuleTest> = [
         reports: [{ message: `'name' attribute needs to be 'theme-color' (not ' theme-color ')` }],
         serverConfig: generateHTMLPage(generateThemeColorMetaTag('#f00', ' theme-color '))
     },
-    ...generateTest(validColorValues),
+    ...generateTest([...validColorValues, ...notAlwaysSupportedColorValues]),
     ...generateTest(invalidColorValues, 'invalid'),
     ...generateTest(unsupportedColorValues, 'unsupported'),
     {
@@ -85,4 +90,12 @@ const tests: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(getRuleName(__dirname), tests);
+const testForNoSupportForHexWithAlpha: Array<RuleTest> = [...generateTest(notAlwaysSupportedColorValues, 'unsupported', 'because of the targeted browsers')];
+
+ruleRunner.testRule(ruleName, defaultTests, {
+    browserslist: [
+        'chrome 65',
+        'firefox 60'
+    ]
+});
+ruleRunner.testRule(ruleName, testForNoSupportForHexWithAlpha, { browserslist: ['chrome 50'] });
