@@ -4,11 +4,19 @@ Checks if CSS exceeds known stylesheet limits.
 
 ## Why is this important?
 
-Internet Explorer 9 and below has limits on the number of CSS stylesheets,
+Internet Explorer 9 and below have limits on the number of CSS stylesheets,
 imports, and rules which are relatively small compared to modern browsers.
 Once these limits are exceeded, additional stylesheets, imports, and rules
 are ignored. For more details see
-[Stylesheet limits in Internet Explorer][stylesheet limits].
+[_"Stylesheet limits in Internet Explorer"_][stylesheet limits].
+
+Similar behavior existed in older versions of other browsers, such as
+[Chrome][chrome limits]. Newer browsers have much higher limits such as
+65535 rules in [Internet Explorer 10+ and Edge][stylesheet limits].
+
+Even in modern browsers large numbers of CSS selectors can negatively impact
+performance. You [can customize](#can-the-rule-be-configured) this rule and
+set appropriate limits for your project or team.
 
 ## What does the rule check?
 
@@ -32,7 +40,8 @@ one of the following [limits][stylesheet limits] is exceeded:
 ## Can the rule be configured?
 
 You can overwrite the defaults by specifying custom values for the
-number of CSS rules to allow.
+number of CSS rules to allow. Note if the custom values are above
+the default values, the default values will still be used.
 
 In the [`.sonarwhalrc`][sonarwhalrc] file:
 
@@ -85,3 +94,4 @@ configuration file:
 
 [sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
 [stylesheet limits]: https://blogs.msdn.microsoft.com/ieinternals/2011/05/14/stylesheet-limits-in-internet-explorer/
+[chrome limits]: https://stackoverflow.com/questions/20828995/how-long-can-a-css-selector-be]
