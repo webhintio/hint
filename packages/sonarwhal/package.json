@@ -8,8 +8,10 @@
   },
   "bin": "./dist/src/bin/sonarwhal.js",
   "dependencies": {
+    "@sonarwhal/configuration-web-recommended": "^6.0.0",
     "ajv": "^6.5.0",
     "async": "^2.6.1",
+    "boxen": "^1.3.0",
     "browserslist": "^3.2.8",
     "caniuse-api": "^2.0.0",
     "canvas-prebuilt": "^1.6.5-prerelease.1",

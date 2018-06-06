@@ -153,7 +153,7 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
     const answers = {
         connector: 'jsdom',
         default: '',
-        formatter: 'json',
+        formatters: ['json'],
         rules: ['rule1', 'rule2']
     };
 
@@ -192,7 +192,7 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
         rule1: 'error',
         rule2: 'error'
     });
-    t.deepEqual(fileData.formatters, [answers.formatter]);
+    t.deepEqual(fileData.formatters, answers.formatters);
 
     sandbox.restore();
 });

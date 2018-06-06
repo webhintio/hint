@@ -105,8 +105,9 @@ const customConfig = async (): Promise<InitUserConfig> => {
             choices: formattersKeys,
             default: defaultFormatter,
             message: 'What formatter do you want to use?',
-            name: 'formatter',
-            type: 'list'
+            name: 'formatters',
+            pageSize: 15,
+            type: 'checkbox'
         },
         {
             choices: rulesKeys,
@@ -147,7 +148,7 @@ const customConfig = async (): Promise<InitUserConfig> => {
     };
 
     sonarwhalConfig.connector.name = results.connector;
-    sonarwhalConfig.formatters = [results.formatter];
+    sonarwhalConfig.formatters = results.formatters;
 
     results.rules.forEach((rule) => {
         sonarwhalConfig.rules[rule] = 'error';
