@@ -8,7 +8,7 @@
   },
   "bin": "./dist/src/bin/sonarwhal.js",
   "dependencies": {
-    "@sonarwhal/configuration-web-recommended": "^6.0.0",
+    "@sonarwhal/configuration-web-recommended": "^6.1.0",
     "ajv": "^6.5.0",
     "async": "^2.6.1",
     "boxen": "^1.3.0",
