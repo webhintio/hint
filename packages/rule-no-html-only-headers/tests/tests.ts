@@ -1,7 +1,5 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
-import * as pluralize from 'pluralize';
-
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
@@ -11,7 +9,7 @@ const ruleName = getRuleName(__dirname);
 const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
 
 const generateMessage = (values: Array<string>): string => {
-    return `'${values.join('\', \'')}' ${pluralize('header', values.length)} ${pluralize('is', values.length)} not needed`;
+    return `'${values.join('\', \'')}' ${values.length === 1 ? 'header is' : 'headers are'} not needed`;
 };
 
 const testsForDefaults: Array<RuleTest> = [

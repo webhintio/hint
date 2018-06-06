@@ -6,9 +6,6 @@
     ],
     "timeout": "1m"
   },
-  "dependencies": {
-    "pluralize": "^7.0.0"
-  },
   "description": "sonarwhal rule that checks if HTML document only response headers are sent for other resources",
   "devDependencies": {
     "ava": "^0.25.0",

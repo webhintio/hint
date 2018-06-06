@@ -14,7 +14,6 @@ import chalk from 'chalk';
 import * as forEach from 'lodash.foreach';
 import * as groupBy from 'lodash.groupby';
 import * as logSymbols from 'log-symbols';
-import * as pluralize from 'pluralize';
 import * as sortBy from 'lodash.sortby';
 import * as table from 'text-table';
 
@@ -103,12 +102,12 @@ export default class StylishFormatter implements IFormatter {
             totalErrors += errors;
             totalWarnings += warnings;
 
-            logger.log(color.bold(`${logSymbols.error} Found ${errors} ${pluralize('error', errors)} and ${warnings} ${pluralize('warning', warnings)}`));
+            logger.log(color.bold(`${logSymbols.error} Found ${errors} ${errors === 1 ? 'error' : 'errors'} and ${warnings} ${warnings === 1 ? 'warning' : 'warnings'}`));
             logger.log('');
         });
 
         const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
 
-        logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
+        logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? 'warning' : 'warnings'}`));
     }
 }

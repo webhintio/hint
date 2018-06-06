@@ -1,6 +1,4 @@
-/* eslint sort-keys: 0, no-undefined: 0 */
-
-import * as pluralize from 'pluralize';
+/* eslint no-undefined: 0 */
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
@@ -13,7 +11,7 @@ const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></
 const htmlPageWithManifest = generateHTMLPage('<link rel="manifest" href="test.webmanifest">');
 
 const generateMessage = (values: Array<string>): string => {
-    return `'${values.join('\', \'')}' ${pluralize('header', values.length)} ${pluralize('is', values.length)} disallowed`;
+    return `'${values.join('\', \'')}' ${values.length === 1 ? 'header is' : 'headers are'} disallowed`;
 };
 
 const testsForDefaults: Array<RuleTest> = [

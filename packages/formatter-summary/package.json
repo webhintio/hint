@@ -12,7 +12,6 @@
     "lodash.foreach": "^4.5.0",
     "lodash.groupby": "^4.6.0",
     "log-symbols": "^2.2.0",
-    "pluralize": "^7.0.0",
     "text-table": "^0.2.0"
   },
   "description": "",
