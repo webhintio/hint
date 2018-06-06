@@ -5,7 +5,7 @@
     "@sonarwhal/formatter-summary": "^2.0.3",
     "@sonarwhal/rule-axe": "^4.0.2",
     "@sonarwhal/rule-content-type": "^3.0.4",
-    "@sonarwhal/rule-disown-opener": "^3.0.4",
+    "@sonarwhal/rule-disown-opener": "^3.0.5",
     "@sonarwhal/rule-highest-available-document-mode": "^3.0.4",
     "@sonarwhal/rule-html-checker": "^4.0.0",
     "@sonarwhal/rule-http-cache": "^3.1.1",
