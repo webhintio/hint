@@ -86,7 +86,6 @@ about the different pieces:
 * [Formatters](./concepts/formatters/)
 * [Parsers](./concepts/parsers/)
 
-
 ### Permission issues during installation
 
 If you receive an `EACCES` error when installing `sonarwhal`, it is caused

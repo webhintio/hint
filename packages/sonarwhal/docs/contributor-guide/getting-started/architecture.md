@@ -59,7 +59,7 @@ Any developer can create their own `rule`s, `connector`s, `parser`s
 and/or `formatter`s, and use them without having to do a pull request to
 the main project and distribute them as [`npm`][npm] packages.
 
-### CLI Flow
+## CLI Flow
 
 You can learn more about how `sonarwhal` loads the configuration and resources
 in this diagram:
@@ -68,6 +68,7 @@ in this diagram:
 
 <!-- Link labels: -->
 
+[default configuration]: ../../user-guide/#default-configuration
 [events]: ./events.md
 [new connector]: ../how-to/connector.md
 [new formatter]:../how-to/formatter.md
@@ -75,4 +76,3 @@ in this diagram:
 [new rule]: ../how-to/rule.md
 [npm]: https://www.npmjs.com/
 [typescript]: https://www.typescriptlang.org/
-[default configuration]: ../../user-guide/#default-configuration
