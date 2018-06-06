@@ -12,7 +12,6 @@ import chalk from 'chalk';
 import * as forEach from 'lodash.foreach';
 import * as groupBy from 'lodash.groupby';
 import * as defaultTo from 'lodash.defaultto';
-import * as pluralize from 'pluralize';
 import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
 
@@ -43,7 +42,7 @@ export default class SummaryFormatter implements IFormatter {
         }
 
         const buildMessage = (count, type) => {
-            return `${count} ${pluralize(type, count)}`;
+            return `${count} ${type}${count === 1 ? '' : 's'}`;
         };
 
         const tableData: Array<Array<string>> = [];
@@ -79,6 +78,6 @@ export default class SummaryFormatter implements IFormatter {
 
         const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
 
-        logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
+        logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? 'warning' : 'warnings'}`));
     }
 }

@@ -6,7 +6,6 @@ import * as path from 'path';
 import { promisify } from 'util';
 
 import * as groupBy from 'lodash.groupby';
-import * as pluralize from 'pluralize';
 import * as semver from 'semver';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
@@ -155,7 +154,7 @@ export default class NoVulnerableJavascriptLibrariesRule implements IRule {
                 .join(', ');
 
             if (detail) {
-                await context.report(resource, null, `${library.name}@${library.version} has ${vulnerabilities.length} known ${pluralize('vulnerability', vulnerabilities)} (${detail}). See ${link} for more information.`);
+                await context.report(resource, null, `${library.name}@${library.version} has ${vulnerabilities.length} known ${vulnerabilities.length === 1 ? 'vulnerability' : 'vulnerabilities'} (${detail}). See ${link} for more information.`);
             }
         };
 

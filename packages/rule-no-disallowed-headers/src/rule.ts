@@ -8,8 +8,6 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as pluralize from 'pluralize';
-
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
@@ -164,7 +162,7 @@ export default class NoDisallowedHeadersRule implements IRule {
             }
 
             if (numberOfHeaders > 0) {
-                await context.report(resource, element, `'${headers.join('\', \'')}' ${pluralize('header', numberOfHeaders)} ${pluralize('is', numberOfHeaders)} disallowed`);
+                await context.report(resource, element, `'${headers.join('\', \'')}' ${numberOfHeaders === 1 ? 'header is' : 'headers are'} disallowed`);
             }
         };
 
