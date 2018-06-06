@@ -75,12 +75,6 @@ To run `sonarwhal` you need a `.sonarwhalrc` file. If you don't have one,
 `sonarwhal` will use the [`web-recommended` set of rules][web recommended].
 This configuration will be equivalent to the following `.sonarwhalrc`:
 
-```json
-{
-    "extends": ["web-recommended"]
-}
-```
-
 ### Further reading
 
 Now that you have `sonarwhal` up and running, it is time to learn a bit more
