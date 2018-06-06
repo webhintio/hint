@@ -61,7 +61,7 @@ const askUserToCreateConfig = async (): Promise<boolean> => {
 };
 
 const askUserToUseDefaultConfiguration = async (): Promise<boolean> => {
-    const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration visit: https://sonarwhal.com/docs/user-guide/#default-configuration`;
+    const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://sonarwhal.com/docs/user-guide/#default-configuration`;
     const confirmation: inquirer.Answers = await askForConfirm(question);
 
     return confirmation.confirm;

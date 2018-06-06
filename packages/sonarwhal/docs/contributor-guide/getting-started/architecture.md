@@ -64,7 +64,7 @@ the main project and distribute them as [`npm`][npm] packages.
 You can learn more about how `sonarwhal` loads the configuration and resources
 in this diagram:
 
-[![sonarwhal's flow diagram](images/cli-diagram.png)](images/cli-diagram.png)
+[![sonarwhal's flow diagram](images/cli.svg)](images/cli.svg)
 
 <!-- Link labels: -->
 

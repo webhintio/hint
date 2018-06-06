@@ -80,7 +80,7 @@ export const installPackages = async (packages: Array<string>): Promise<boolean>
          */
         logger.error(`
 There was a problem installing packages.
-Please, try executing:
+Please try executing:
     ${!isWindows && global ? 'sudo ' : ''}${command}
             manually to install all the packages.`);
 
