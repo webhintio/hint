@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@sonarwhal/formatter-summary": "^2.0.2",
+    "@sonarwhal/formatter-summary": "^2.0.3",
     "@sonarwhal/parser-manifest": "^1.0.2",
     "@sonarwhal/rule-apple-touch-icons": "^3.0.2",
     "@sonarwhal/rule-manifest-app-name": "^4.0.2",
