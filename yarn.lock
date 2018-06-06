@@ -213,7 +213,7 @@
   version "4.0.37"
   resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.37.tgz#a3bc3eba0c0f03f753cac00841a5b21e26a02c03"
 
-"@types/jsdom@^11.0.4":
+"@types/jsdom@11.0.4":
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-11.0.4.tgz#a645db4704cf7e4f811f583926ad12525c719400"
   dependencies:
@@ -3981,7 +3981,7 @@ jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
 
-jsdom@^11.6.2:
+jsdom@^11.11.0:
   version "11.11.0"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-11.11.0.tgz#df486efad41aee96c59ad7a190e2449c7eb1110e"
   dependencies:
@@ -5040,8 +5040,8 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
 nwsapi@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.0.1.tgz#a50d59a2dcb14b6931401171713ced2d0eb3468f"
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.0.2.tgz#33a0aab27c678d4dfdbba6a7f84b1c627fc4966f"
 
 nyc@^12.0.2:
   version "12.0.2"
