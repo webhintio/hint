@@ -1,3 +1,14 @@
+# 1.11.0 (June 6, 2018)
+
+## Bug fixes / Improvements
+
+* [[`4e5929c8e4`](https://github.com/sonarwhal/sonarwhal/commit/4e5929c8e4faab6431b63fe86045d4460fbaaf6d)] - Fix: Remove `pluralize` dependency (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1122`](https://github.com/sonarwhal/sonarwhal/issues/1122)).
+
+## New features
+
+* [[`b3aa3486a8`](https://github.com/sonarwhal/sonarwhal/commit/b3aa3486a8e467c53bd02697043c6572683f90ae)] - New: Use default configuration if config file doesn't exists (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1095`](https://github.com/sonarwhal/sonarwhal/issues/1095), and [`#1113`](https://github.com/sonarwhal/sonarwhal/issues/1113)).
+
+
 # 1.10.0 (May 31, 2018)
 
 ## Bug fixes / Improvements
