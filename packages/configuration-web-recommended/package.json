@@ -14,7 +14,7 @@
     "@sonarwhal/rule-meta-charset-utf-8": "^3.0.3",
     "@sonarwhal/rule-meta-viewport": "^3.0.2",
     "@sonarwhal/rule-no-bom": "^2.0.5",
-    "@sonarwhal/rule-no-disallowed-headers": "^3.0.3",
+    "@sonarwhal/rule-no-disallowed-headers": "^3.0.4",
     "@sonarwhal/rule-no-friendly-error-pages": "^3.0.2",
     "@sonarwhal/rule-no-html-only-headers": "^3.0.4",
     "@sonarwhal/rule-no-http-redirects": "^3.0.2",
