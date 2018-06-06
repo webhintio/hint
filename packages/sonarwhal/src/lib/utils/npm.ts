@@ -1,10 +1,10 @@
 import { spawn } from 'child_process';
 import * as path from 'path';
+import * as fs from 'fs';
 
 import * as npmRegistryFetch from 'npm-registry-fetch';
-import * as ora from 'ora';
 
-import { NpmPackage, ORA } from '../types';
+import { NpmPackage } from '../types';
 import { debug as d } from './debug';
 import * as logger from './logging';
 import { loadJSONFile, findPackageRoot } from './misc';
@@ -13,13 +13,7 @@ const debug: debug.IDebugger = d(__filename);
 
 const install = (command: string) => {
     return new Promise((resolve, reject) => {
-        const npmInstall = spawn(command, [], { shell: true });
-        let errors: string = '';
-
-        npmInstall.stderr.setEncoding('utf8');
-        npmInstall.stderr.on('data', (data) => {
-            errors += data;
-        });
+        const npmInstall = spawn(command, [], { shell: true, stdio: 'inherit' });
 
         npmInstall.on('error', (err) => {
             return reject(err);
@@ -27,7 +21,7 @@ const install = (command: string) => {
 
         npmInstall.on('exit', (code) => {
             if (code !== 0) {
-                return reject(errors);
+                return reject();
             }
 
             return resolve(true);
@@ -36,12 +30,8 @@ const install = (command: string) => {
 };
 
 export const installPackages = async (packages: Array<string>): Promise<boolean> => {
-    /** Whether or not the package should be installed globally. */
-    let global: boolean = false;
     /** Whether or not the package should be installed as devDependencies. */
     let isDev: boolean = false;
-    /** Path to `package.json`. */
-    let packagePath: string;
     /** Current working directory. */
     const currentWorkingDir = process.cwd();
     /** Wheter or not the process is running in windows */
@@ -54,56 +44,45 @@ export const installPackages = async (packages: Array<string>): Promise<boolean>
         return Promise.resolve(true);
     }
 
-    try {
-        packagePath = findPackageRoot(currentWorkingDir);
+    const sonarwhalLocalPath = path.join(currentWorkingDir, 'node_modules', 'sonarwhal', 'package.json');
 
-        global = packagePath !== currentWorkingDir;
-    } catch (error) {
-        // `package.json` is not found.
-        global = true;
-    }
+    // Check if sonarwhal is installed locally.
+    const global: boolean = !fs.existsSync(sonarwhalLocalPath); // eslint-disable-line no-sync
 
-    const spinner: ORA = ora({ spinner: 'line' });
-
-    try {
-        if (!global) {
+    if (!global) {
+        try {
+            const packagePath = findPackageRoot(currentWorkingDir);
             const jsonContent = loadJSONFile(path.join(packagePath, 'package.json'));
 
             // If `sonarwhal` is a devDependency, then set all packages as devDependencies.
             isDev = jsonContent.devDependencies && jsonContent.devDependencies.hasOwnProperty('sonarwhal');
-
+        } catch (err) {
+            // Even if sonarwhal is installed locally, package.json could not exist in the current working directory.
+            isDev = false;
         }
+    }
 
-        command += global ? ' -g' : '';
-        command += isDev ? ' --save-dev' : '';
+    command += global ? ' -g' : '';
+    command += isDev ? ' --save-dev' : '';
 
+    try {
         debug(`Running command ${command}`);
         logger.log('Installing packages...');
-        spinner.text = `Running command: ${command}`;
-
-        spinner.start();
 
         await install(command);
-
-        spinner.succeed();
 
         return true;
     } catch (err) {
         debug(err);
-        // One of the packages doesn't exists
-        spinner.text = `Error executing "${command}"`;
-        spinner.fail();
-        if ((err.message || err).includes('404')) {
-            logger.error(`One or more of the packages don't exist`);
-        } else {
-            /*
-             * There was an error installing packages.
-             * Show message to install packages manually (maybe permissions error?).
-             */
-            logger.error(`Try executing:
+        /*
+         * There was an error installing packages.
+         * Show message to install packages manually (maybe permissions error?).
+         */
+        logger.error(`
+There was a problem installing packages.
+Please try executing:
     ${!isWindows && global ? 'sudo ' : ''}${command}
             manually to install all the packages.`);
-        }
 
         return false;
     }

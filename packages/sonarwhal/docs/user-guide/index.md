@@ -6,10 +6,6 @@ If you want to have an idea of what `sonarwhal` does and you
 have an updated version of `npm` (v5.2.0) and [Node LTS (v8.9.2)
 or later][nodejs] you can use the following command:
 
-```bash
-npx sonarwhal https://example.com
-```
-
 Alternatively, you can install it locally with:
 
 ```bash
@@ -73,14 +69,23 @@ It might take a few minutes to get some of the results. Some of the
 rules (e.g.: [`SSL Labs`](./rules/rule-ssllabs.md)) can take a few minutes
 to report the results.
 
-Now that you have your first result, is time to learn a bit more about
-the different pieces:
+### Default configuration
+
+To run `sonarwhal` you need a `.sonarwhalrc` file. If you don't have one,
+`sonarwhal` will use the [`web-recommended` set of rules][web recommended].
+This configuration will be equivalent to the following `.sonarwhalrc`:
+
+### Further reading
+
+Now that you have `sonarwhal` up and running, it is time to learn a bit more
+about the different pieces:
 
 * [Rules](./concepts/rules/)
 * [Configurations](./concepts/configurations/)
 * [Connectors](./concepts/connectors/)
 * [Formatters](./concepts/formatters/)
 * [Parsers](./concepts/parsers/)
+
 
 ### Permission issues during installation
 
@@ -106,3 +111,4 @@ the error described above even if you install `sonarwhal` globally.
 [npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
 [nvm]: https://github.com/creationix/nvm
 [permission issue]: https://github.com/sonarwhal/sonarwhal/issues/308
+[web recommended]: https://github.com/sonarwhal/sonarwhal/tree/master/packages/configuration-web-recommended#readme
