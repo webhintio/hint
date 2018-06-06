@@ -6,9 +6,6 @@
     ],
     "timeout": "1m"
   },
-  "dependencies": {
-    "pluralize": "^7.0.0"
-  },
   "description": "sonarwhal rule that checks if disallowed response headers are sent",
   "devDependencies": {
     "ava": "^0.25.0",

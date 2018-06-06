@@ -1,7 +1,6 @@
 /**
  * @fileoverview Checks if your cache-control header and asset strategy follows best practices
  */
-import * as pluralize from 'pluralize';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
@@ -287,7 +286,7 @@ export default class HttpCacheRule implements IRule {
             const { resource } = fetchEnd;
 
             if (invalidDirectives.size > 0) {
-                const message: string = `The ${pluralize('directive', invalidDirectives.size)} ${Array.from(invalidDirectives.keys()).join(', ')} ${pluralize('is', invalidDirectives.size)} invalid`;
+                const message: string = `The ${invalidDirectives.size === 1 ? 'directive': 'directives'} ${Array.from(invalidDirectives.keys()).join(', ')} ${invalidDirectives.size === 1 ? 'is' : 'are'} invalid`;
 
                 await context.report(resource, fetchEnd.element, message);
 
@@ -295,7 +294,7 @@ export default class HttpCacheRule implements IRule {
             }
 
             if (invalidValues.size > 0) {
-                const message: string = `The following ${pluralize('directive', invalidValues.size)} ${pluralize('have', invalidValues.size)} an invalid value:\n${directivesToString(invalidValues)}`;
+                const message: string = `The following ${invalidValues.size === 1 ? 'directive has' : 'directives have'} an invalid value:\n${directivesToString(invalidValues)}`;
 
                 await context.report(resource, fetchEnd.element, message);
 

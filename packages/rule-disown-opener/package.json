@@ -6,9 +6,6 @@
     ],
     "timeout": "1m"
   },
-  "dependencies": {
-    "pluralize": "^7.0.0"
-  },
   "description": "sonarwhal rule that checks if external links disown the opener",
   "devDependencies": {
     "ava": "^0.25.0",

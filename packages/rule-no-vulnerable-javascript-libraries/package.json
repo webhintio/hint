@@ -9,7 +9,6 @@
   "dependencies": {
     "js-library-detector": "^5.0.0",
     "lodash.groupby": "^4.6.0",
-    "pluralize": "^7.0.0",
     "semver": "^5.5.0"
   },
   "description": "sonarwhal rule that checks using Snyk for vulnerable JavaScript libraries",

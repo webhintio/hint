@@ -23,12 +23,12 @@ const defaultTests: Array<RuleTest> = [
     },
     {
         name: `page with a vulnerable library (jquery 2.1.4) fails`,
-        reports: [{ message: 'jQuery@2.1.4 has 1 known vulnerabilities (1 medium). See https://snyk.io/vuln/npm:jquery for more information.' }],
+        reports: [{ message: 'jQuery@2.1.4 has 1 known vulnerability (1 medium). See https://snyk.io/vuln/npm:jquery for more information.' }],
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
     },
     {
         name: `page with a library with a tagged version and vulnerabilities (knockout 3.4.0-rc) fails`,
-        reports: [{ message: 'Knockout@3.4.0rc has 1 known vulnerabilities (1 medium). See https://snyk.io/vuln/npm:knockout for more information.' }],
+        reports: [{ message: 'Knockout@3.4.0rc has 1 known vulnerability (1 medium). See https://snyk.io/vuln/npm:knockout for more information.' }],
         serverConfig: generateHTMLPage(generateScriptTag(knockout))
     },
     {
@@ -52,7 +52,7 @@ const userHighConfigTests: Array<RuleTest> = [
 const userMediumConfigTests: Array<RuleTest> = [
     {
         name: `page with a library with vulnerabilities medium fails if configured severity is "medium"`,
-        reports: [{ message: 'jQuery@2.1.4 has 1 known vulnerabilities (1 medium). See https://snyk.io/vuln/npm:jquery for more information.' }],
+        reports: [{ message: 'jQuery@2.1.4 has 1 known vulnerability (1 medium). See https://snyk.io/vuln/npm:jquery for more information.' }],
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
     },
     {

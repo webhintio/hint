@@ -9,8 +9,6 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as pluralize from 'pluralize';
-
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
@@ -126,7 +124,7 @@ export default class NoHtmlOnlyHeadersRule implements IRule {
                 const numberOfHeaders: number = headers.length;
 
                 if (numberOfHeaders > 0) {
-                    await context.report(resource, element, `'${headers.join('\', \'')}' ${pluralize('header', numberOfHeaders)} ${pluralize('is', numberOfHeaders)} not needed`);
+                    await context.report(resource, element, `'${headers.join('\', \'')}' ${numberOfHeaders === 1 ? 'header is' : 'headers are'} not needed`);
                 }
             }
         };

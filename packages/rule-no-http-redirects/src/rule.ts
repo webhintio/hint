@@ -2,8 +2,6 @@
  * @fileoverview Checks if there are unnecesary redirects when accessign resources
  */
 
-import * as pluralize from 'pluralize';
-
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
@@ -60,7 +58,7 @@ export default class NoHttpRedirectRule implements IRule {
             const { request, response, element } = fetchEnd;
 
             if (response.hops.length > maxHops) {
-                await context.report(request.url, element, `${response.hops.length} ${pluralize('redirect', response.hops.length)} detected for ${cutString(request.url)} (max is ${maxHops}).`);
+                await context.report(request.url, element, `${response.hops.length} ${response.hops.length === 1 ? 'redirect' : 'redirects'} detected for ${cutString(request.url)} (max is ${maxHops}).`);
             }
         };
 
