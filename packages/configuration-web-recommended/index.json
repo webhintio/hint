@@ -28,6 +28,7 @@
         "sri": "error",
         "ssllabs": "error",
         "strict-transport-security": "error",
+        "stylesheet-limits": "error",
         "validate-set-cookie-header": "error",
         "x-content-type-options": "error"
     },
