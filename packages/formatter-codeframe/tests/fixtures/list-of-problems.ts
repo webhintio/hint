@@ -97,7 +97,7 @@ const codeframeproblems: Array<Problem> = [{
     message: 'This is a problem inside an element with a wrong tab in the problem',
     resource: 'http://myresource.com/',
     ruleId: 'random-rule',
-    severity: Severity.warning,
+    severity: Severity.error,
     sourceCode: `<html lang="en"><head>
 <meta charset="utf-8">
         <title></title>
