@@ -85,6 +85,27 @@ test('loadResource looks for resources in the right order (core > @sonarwhal > s
     tryToLoadFromStub.restore();
 });
 
+
+test('loadResource should load a resource if we send a path instead of an id', async (t) => {
+    cleanCache();
+
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
+    const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
+    const resourceName = path.join(__dirname, 'fixtures', 'connector1');
+    const resourceType: ResourceType = ResourceType.rule;
+
+    tryToLoadFromStub.returns(null);
+
+    t.throws(() => {
+        resourceLoader.loadResource(resourceName, resourceType);
+    });
+
+    t.true(tryToLoadFromStub.calledOnce);
+    t.is(tryToLoadFromStub.firstCall.args[0], path.join(__dirname, 'fixtures', 'connector1'));
+
+    tryToLoadFromStub.restore();
+});
+
 test('loadRule calls loadResource with the right parameters', (t) => {
     cleanCache();
 

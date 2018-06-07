@@ -1,12 +1,11 @@
 /* eslint sort-keys: 0 */
-import * as path from 'path';
 
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import { readFile } from 'sonarwhal/dist/src/lib/utils/misc';
-// import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = path.join(__dirname, '../..');
+const ruleName = getRuleName(__dirname);
 
 const validAMPHTML = readFile(`${__dirname}/fixtures/valid-amp.html`);
 const invalidAMPHTML = readFile(`${__dirname}/fixtures/invalid-amp.html`);
