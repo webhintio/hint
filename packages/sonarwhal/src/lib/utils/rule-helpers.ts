@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { findPackageRoot } from './misc';
 
 /** Lower cases all the items of `list`. */
