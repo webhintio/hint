@@ -12,11 +12,12 @@
  */
 
 import * as path from 'path';
+import * as fs from 'fs';
 
 import * as globby from 'globby';
 import * as semver from 'semver';
 
-import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, isNormalizedIncluded, readFile } from '../utils/misc';
+import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, isNormalizedIncluded, readFile, loadJSONFile } from '../utils/misc';
 import { debug as d } from '../utils/debug';
 import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
 import { SonarwhalConfig } from '../config';
@@ -230,32 +231,20 @@ const generateConfigPathsToResources = (configurations: Array<string>, name: str
     }, []);
 };
 
-/**
- * Looks for a sonarwhal resource with the given `name` and tries to load it.
- * If no valid resource is found, it throws an `Error`.
- *
- * By default, the priorities are:
- *
- * 1. core resource
- * 2. `@sonarwhal/` scoped package
- * 3. `sonarwhal-` prefixed package
- * 4. external rules
- *
- */
-export const loadResource = (name: string, type: ResourceType, configurations: Array<string> = [], verifyVersion = false) => {
-    debug(`Searching ${name}…`);
+type ResourceInfo = {
+    packageName: string;
+    resourceName: string;
+    key: string;
+    sources: Array<string>;
+};
 
+const getSourcesById = (name: string, type: ResourceType, configurations: Array<string>): ResourceInfo => {
     const nameSplitted = name.split('/');
 
     const packageName = nameSplitted[0];
     const resourceName = nameSplitted[1] || packageName;
 
     const key: string = `${type}-${name}`;
-
-    // When we check the version we ignore if there was a previous version loaded
-    if (resources.has(key) && !verifyVersion) {
-        return resources.get(key);
-    }
 
     const configPathsToResources = generateConfigPathsToResources(configurations, packageName, type);
     const currentProcessDir = process.cwd();
@@ -277,8 +266,66 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
         // path.normalize(`${path.resolve(SONARWHAL_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
     ].concat(configPathsToResources);
 
+    return {
+        key,
+        packageName,
+        resourceName,
+        sources
+    };
+};
+
+const getSourcesByPath = (resourcePath: string, type: ResourceType, ruleName?: string): ResourceInfo => {
+    const packageJson = loadJSONFile(path.join(resourcePath, 'package.json'));
+    const nameSplitted = packageJson.name.split('/');
+    const packageName = nameSplitted[1] ? nameSplitted[1].replace(`${type}-`, '') : nameSplitted[0].replace(`sonarwhal-${type}-`);
+    const resourceName = ruleName || packageName;
+
+    const name = ruleName ? `${packageName}/${resourceName}` : packageName;
+
+    const key: string = `${type}-${name}`;
+
+    return {
+        key,
+        packageName,
+        resourceName,
+        sources: [resourcePath]
+    };
+};
+
+const getSources = (name: string, type: ResourceType, configurations: Array<string>): ResourceInfo => {
+    const [pathOrId, ruleName] = name.split('#');
+    const resourcePath = path.resolve(process.cwd(), pathOrId);
+    const isId = !fs.existsSync(resourcePath); // eslint-disable-line no-sync
+
+    return isId ? getSourcesById(name, type, configurations) : getSourcesByPath(resourcePath, type, ruleName);
+};
+
+/**
+ * Looks for a sonarwhal resource with the given `name` and tries to load it.
+ * If no valid resource is found, it throws an `Error`.
+ *
+ * By default, the priorities are:
+ *
+ * 1. core resource
+ * 2. `@sonarwhal/` scoped package
+ * 3. `sonarwhal-` prefixed package
+ * 4. external rules
+ *
+ */
+export const loadResource = (name: string, type: ResourceType, configurations: Array<string> = [], verifyVersion = false) => {
+    debug(`Searching ${name}…`);
+
+    const resourceInfo: ResourceInfo = getSources(name, type, configurations);
+    const { key, packageName, resourceName, sources }: { key: string, packageName: string, resourceName: string, sources: Array<string> } = resourceInfo;
+
+    // When we check the version we ignore if there was a previous version loaded
+    if (resources.has(key) && !verifyVersion) {
+        return resources.get(key);
+    }
+
     let resource;
     let isValid: boolean = true;
+    const currentProcessDir = process.cwd();
 
     sources.some((source: string) => {
         const res = getResource(source, type, resourceName);
