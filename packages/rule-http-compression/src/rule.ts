@@ -8,7 +8,6 @@
  * ------------------------------------------------------------------------------
  */
 import * as decompressBrotli from 'brotli/decompress';
-import * as mimeDB from 'mime-db';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -573,30 +572,24 @@ export default class HttpCompressionRule implements IRule {
         };
 
         const isCompressibleAccordingToMediaType = (mediaType: string): boolean => {
-            const COMMON_MEDIA_TYPES_THAT_SHOULD_BE_COMPRESSED = [
-                'image/x-icon',
-                'image/bmp'
-            ];
-
-            const COMMON_MEDIA_TYPES_THAT_SHOULD_NOT_BE_COMPRESSED = [
-                'image/jpeg',
-                'image/png',
-                'image/gif',
-                'font/woff2',
-                'font/woff',
-                'font/otf',
-                'font/ttf'
-            ];
 
             if (!mediaType) {
                 return false;
             }
 
-            /*
-             * The reason for doing the following is because
-             * `mime-db` is quite big, so querying it for
-             * eveything is expensive.
-             */
+            const OTHER_COMMON_MEDIA_TYPES_THAT_SHOULD_BE_COMPRESSED = [
+                'application/rtf',
+                'application/wasm',
+                'font/collection',
+                'font/eot',
+                'font/otf',
+                'font/sfnt',
+                'font/ttf',
+                'image/bmp',
+                'image/x-icon',
+                'x-shader/x-fragment',
+                'x-shader/x-vertex'
+            ];
 
             /*
              * Check if the media type is one of the common
@@ -605,29 +598,11 @@ export default class HttpCompressionRule implements IRule {
              */
 
             if (isTextMediaType(mediaType) ||
-                COMMON_MEDIA_TYPES_THAT_SHOULD_BE_COMPRESSED.includes(mediaType)) {
+                OTHER_COMMON_MEDIA_TYPES_THAT_SHOULD_BE_COMPRESSED.includes(mediaType)) {
                 return true;
             }
 
-            /*
-             * Check if the media type is one of the common
-             * ones for which it is known the response should
-             * not be compressed.
-             */
-
-            if (COMMON_MEDIA_TYPES_THAT_SHOULD_NOT_BE_COMPRESSED.includes(mediaType)) {
-                return false;
-            }
-
-            /*
-             * If the media type is not included in any of the
-             * above, check `mime-db`.
-             */
-
-            const typeInfo = mimeDB[mediaType];
-
-            return typeInfo && typeInfo.compressible;
-
+            return false;
         };
 
         const isSpecialCase = async (resource: string, element: IAsyncHTMLElement, response: Response): Promise<boolean> => {
