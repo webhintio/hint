@@ -1,8 +1,9 @@
 /**
- * @fileoverview This rule checks every link and image tag in the page and report if it is broken
- * Checks for 404, 410, 500 or 503 status
+ * @fileoverview This rule verifies that all links and resources the page
+ * uses are available online. Checks for 404, 410, 500 or 503 status
  */
 
+import * as URL from 'url';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import {
@@ -14,7 +15,6 @@ import {
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 import { Requester } from 'sonarwhal/dist/src/lib/connectors/utils/requester';
-import { URL } from 'url';
 import { NetworkData } from 'sonarwhal/dist/src/lib/types';
 const debug: debug.IDebugger = d(__filename);
 
@@ -27,7 +27,7 @@ const debug: debug.IDebugger = d(__filename);
 export default class NoBrokenLinksRule implements IRule {
     public static readonly meta: RuleMetadata = {
         docs: {
-            category: Category.accessibility,
+            category: Category.other,
             description: `Rule to flag broken links in the page`
         },
         id: 'no-broken-links',
@@ -39,97 +39,140 @@ export default class NoBrokenLinksRule implements IRule {
         const requester = new Requester();
         const brokenStatusCodes = [404, 410, 500, 503];
 
-        const handleRejection = async (error: any, absoluteUrl: string, linkElement: IAsyncHTMLElement) => {
-            debug(`Error accessing {$absoluteUrl}. ${JSON.stringify(error)}`);
+        /** Stores the urls and it's response status codes */
+        const fetchedUrls: any[] = [];
 
-            await context.report(
-                absoluteUrl,
-                linkElement,
-                `Broken link found (404 response)`
-            );
+        /** Returns an array with all the URLs in the given `srcset` attribute or an empty string if none. */
+        const parseSrcSet = (srcset: string): Array<string> => {
+            if (!srcset) {
+                return [];
+            }
+
+            const urls = srcset
+                .split(',')
+                .map((entry) => {
+                    return entry.trim().split(' ')[0].trim();
+                });
+
+            return urls;
         };
 
-        const handleSuccess = async (networkData: NetworkData, absoluteUrl: string, linkElement: IAsyncHTMLElement) => {
+        /**
+         * The callback to handle rejection returned from the `head` method
+         * When DNS resolution fails, it will be handled here (ex : https://thissitedoesnotexist.com/ )
+         */
+        const handleRejection = (error: any, url: string, element: IAsyncHTMLElement) => {
+            debug(`Error accessing {$absoluteUrl}. ${JSON.stringify(error)}`);
+
+            return context.report(url, element, `Broken link found (404 response)`);
+        };
+
+        /**
+         * The callback to handle success handler returned from the `head` method
+         * We will check the response status againist the brokenStatusCodes list
+         * and report if it exist there. We will also add it to the fetchedUrls
+         * so that duplicate requests will not be made if 2 links has same href value
+         */
+        const handleSuccess = (networkData: NetworkData, url: string, element: IAsyncHTMLElement) => {
             const statusIndex = brokenStatusCodes.indexOf(
                 networkData.response.statusCode
             );
 
             if (statusIndex > -1) {
-                await context.report(
-                    absoluteUrl,
-                    linkElement,
-                    `Broken link found (${
-                        brokenStatusCodes[statusIndex]
-                    } response)`
-                );
+                return context.report(url, element, `Broken link found (${brokenStatusCodes[statusIndex]} response)`);
             }
+
+            fetchedUrls.push({ status: networkData.response.statusCode, url });
+
+            return Promise.resolve();
         };
 
-        // This method checks whether a url is broken and report if it is
-        const reportBrokenLink = async (hrefUrl: string, resource: any, linkElement: IAsyncHTMLElement) => {
-            const absoluteUrl = new URL(hrefUrl, resource).href;
+        /**
+         * Checks a url againist the fetchedUrls array and return the entry if it exist
+         * The entry has 2 properties, the `url` and the `statusCode`
+         */
+        const getFetchedUrl = (url: string) => {
 
-            await requester
-                .get(absoluteUrl)
-                .then((value: NetworkData) => {
-                    handleSuccess(value, absoluteUrl, linkElement);
-                })
-                .catch((error: any) => {
-                    handleRejection(error, absoluteUrl, linkElement);
-                });
+            const filteredItems = fetchedUrls.filter((value) => {
+                return value.url === url;
+            });
+
+            if (filteredItems.length) {
+                return filteredItems[0];
+            }
+
+            return null;
         };
 
-        const checkImageElement = async (linkElement: IAsyncHTMLElement, resource: any) => {
-            const imageSrc = linkElement.getAttribute('src');
+        /**
+         * The callback to handle when an element is visited
+         * We will get the url(href,src etc) and check if it is available online
+         * We do not need to check the items received from fetch::end::* event
+         */
+        const validateElementSrcs = async (traverseElement: ElementFound): Promise<void> => {
+            const { element, resource } = traverseElement;
+            const simpleAttributes: Array<string> = ['src', 'poster', 'data', 'href'];
 
-            await reportBrokenLink(imageSrc, resource, linkElement);
+            const urls: Array<string> = simpleAttributes.reduce((found: Array<string>, attribute: string) => {
+                const value: string = element.getAttribute(attribute);
 
-            // Check for srcset attribute value if that exist
-            const srcSet = linkElement.getAttribute('srcset');
-
-            if (srcSet !== null) {
-                const sources = srcSet.split(',').filter((x: string) => {
-                    return x !== '';
-                });
-
-                for (const source of sources) {
-                    const url = source.split(' ').filter((x: string) => {
-                        return x !== '';
-                    })[0];
-
-                    await reportBrokenLink(url, resource, linkElement);
+                if (value) {
+                    found.push(value);
                 }
+
+                return found;
+            }, []);
+
+            const srcset: Array<string> = parseSrcSet(element.getAttribute('srcset'));
+
+            if (srcset.length > 0) {
+                urls.push(...srcset);
             }
-        };
 
-        const checkAnchorTag = async (linkElement: IAsyncHTMLElement, resource: any) => {
-            const hrefUrl = linkElement.getAttribute('href');
+            const reports: Array<Promise<void>> = urls.map(async (url) => {
+                const fullUrl = URL.resolve(resource, url);
 
-            if (hrefUrl !== '/') {
-                await reportBrokenLink(hrefUrl, resource, linkElement);
-            }
-        };
+                const fetched = getFetchedUrl(fullUrl);
 
-        const validateElement = async (elementFound: ElementFound) => {
-            const { resource } = elementFound;
+                if (fetched) {
+                    const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
 
-            debug(`Validating rule no-broken-links`);
-
-            const linkElements = await elementFound.element.ownerDocument.querySelectorAll(
-                'a,img'
-            );
-
-            for (let i = 0; i < linkElements.length; i++) {
-                const linkElement = linkElements[i];
-
-                if (linkElement.nodeName === 'IMG') {
-                    await checkImageElement(linkElement, resource);
+                    if (statusIndex>-1){
+                        return context.report(fullUrl, null, `Broken link found (${brokenStatusCodes[statusIndex]} response)`);
+                    }
                 } else {
-                    await checkAnchorTag(linkElement, resource);
+                    // An element which was not present in the fetch end results
+                    return await requester
+                        .head(fullUrl)
+                        .then((value: NetworkData) => {
+                            return handleSuccess(value, fullUrl, element);
+                        })
+                        .catch((error: any) => {
+                            return handleRejection(error, fullUrl, element);
+                        });
                 }
-            }
+
+                return Promise.resolve();
+            });
+
+            await Promise.all(reports);
         };
 
-        context.on('element::body', validateElement);
+        /**
+         * Handler for fetch::end::* event.
+         * We will store the request url and response status code in fetchedUrls array
+         */
+        const validateFetchEnd = (fetchEnd: any) => {
+            fetchedUrls.push({ statusCode: fetchEnd.response.statusCode, url: fetchEnd.resource });
+        };
+
+        context.on('element::img', validateElementSrcs);
+        context.on('element::a', validateElementSrcs);
+        context.on('element::audio', validateElementSrcs);
+        context.on('element::video', validateElementSrcs);
+        context.on('element::source', validateElementSrcs);
+        context.on('element::track', validateElementSrcs);
+        context.on('element::object', validateElementSrcs);
+        context.on('fetch::end::*', validateFetchEnd);
     }
 }

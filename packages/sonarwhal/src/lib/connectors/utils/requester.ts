@@ -178,6 +178,72 @@ export class Requester {
     }
 
     /**
+     * Performs a `HEAD` request to the given `uri`
+     */
+    public head(uri: string): Promise<NetworkData> {
+        debug(`Requesting(HEAD) ${uri}`);
+
+        return new Promise((resolve: Function, reject: Function) => {
+            let rawBodyResponse: Buffer;
+
+            request.head({ uri }, async (err, response) => {
+                if (err) {
+                    debug(`Request(HEAD) for ${uri} failed\n${err}`);
+
+                    return reject({
+                        error: err,
+                        uri
+                    });
+                }
+                // We check if we need to redirect and call ourselves again with the new target
+                if (Requester.validRedirects.includes(response.statusCode)) {
+                    const newUri = url.resolve(uri, response.headers.location[0]);
+
+                    this._redirects.add(newUri, uri);
+
+                    const currentRedirectNumber = this._redirects.calculate(newUri).length;
+
+                    if (currentRedirectNumber > this._maxRedirects) {
+                        return reject(`The number of redirects(${currentRedirectNumber}) exceeds the limit(${this._maxRedirects}).`);
+                    }
+
+                    try {
+                        debug(`Redirect found for ${uri}`);
+                        const results = await this.get(newUri);
+
+                        return resolve(results);
+                    } catch (e) {
+                        return reject(e);
+                    }
+                }
+
+                const contentEncoding: string = getHeaderValueNormalized(response.headers, 'content-encoding');
+                const rawBody: Buffer = await this.decompressResponse(contentEncoding, rawBodyResponse);
+                const { charset, mediaType } = getContentTypeData(null, uri, response.headers, rawBody);
+                const hops: Array<string> = this._redirects.calculate(uri);
+
+                const networkData: NetworkData = {
+                    request: {
+                        headers: response.request.headers,
+                        url: hops[0] || uri
+                    },
+                    response: {
+                        body: null,
+                        charset,
+                        headers: response.headers,
+                        hops,
+                        mediaType,
+                        statusCode: response.statusCode,
+                        url: uri
+                    }
+                };
+
+                return resolve(networkData);
+            });
+        });
+    }
+
+    /**
      * Performs a `get` to the given `uri`.
      * If `Content-Type` is of type text and the charset is one of those supported by
      * [`iconv-lite`](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings)

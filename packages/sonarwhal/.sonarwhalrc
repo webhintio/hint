@@ -27,7 +27,6 @@
         "meta-viewport": "warning",
         "minified-js": "warning",
         "no-bom": "warning",
-        "no-broken-links": "warning",
         "no-disallowed-headers": "warning",
         "no-friendly-error-pages": "warning",
         "no-html-only-headers": "warning",
