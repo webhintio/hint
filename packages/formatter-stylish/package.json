@@ -29,7 +29,7 @@
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
     "sinon": "^5.1.0",
-    "sonarwhal": "^1.11.0",
+    "sonarwhal": "^1.11.1",
     "typescript": "^2.8.3",
     "typescript-eslint-parser": "^16.0.0"
   },
@@ -54,7 +54,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "sonarwhal": "^1.11.0"
+    "sonarwhal": "^1.11.1"
   },
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
