@@ -36,6 +36,7 @@
   "engines": {
     "node": ">=8.0.0"
   },
+  "name": "@sonarwhal/monorepo",
   "private": true,
   "scripts": {
     "ava": "ava",
