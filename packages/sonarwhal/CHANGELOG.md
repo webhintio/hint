@@ -1,3 +1,10 @@
+# 1.11.1 (June 12, 2018)
+
+## Bug fixes / Improvements
+
+* [[`2dd34eb7f5`](https://github.com/sonarwhal/sonarwhal/commit/2dd34eb7f573947a1027cb46e3b0c437b71b2deb)] - Fix: Issue creating official and not official rules (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1129`](https://github.com/sonarwhal/sonarwhal/issues/1129), and [`#1131`](https://github.com/sonarwhal/sonarwhal/issues/1131)).
+
+
 # 1.11.0 (June 6, 2018)
 
 ## Bug fixes / Improvements
