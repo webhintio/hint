@@ -118,6 +118,49 @@ export class Sonarwhal extends EventEmitter {
 
         this.rules = new Map();
 
+        /**
+         * Returns the configuration for a given rule ID. In the case of a rule
+         * pointing to a path, it will return the content of the first entry
+         * in the config that contains the ID. E.g.:
+         * * `../rule-x-content-type-options` is the key in the config
+         * * `x-content-type-options` is the ID of the rule
+         * * One of the keys in the config `includes` the rule ID so it's a match
+         *
+         * @param id The id of the rule
+         */
+        const getRuleConfig = (id: string): RuleConfig | Array<RuleConfig> => {
+            if (config.rules[id]) {
+                return config.rules[id];
+            }
+
+            const ruleEntries = Object.keys(config.rules);
+            const idParts = id.split('/');
+
+            /**
+             * At this point we are trying to find the configuration of a rule specified
+             * via a path.
+             * The id of a rule (define in `Rule.meta.id`) will be `packageName/rule-id`
+             * but most likely the code is not going to be on a path that ends like that
+             * and will be more similar to `packageName/dist/src/rule-id.js`
+             *
+             * To solve this, we iterate over all the keys of the `rules` object until
+             * we find the first entry that includes all the parts of the id
+             * (`packageName` and `rule-id` in the example).
+             *
+             * E.g.:
+             * * `../rule-packageName/dist/src/rule-id.js` --> Passes
+             * * `../rule-packageAnotherName/dist/src/rule-id.js` --> Fails because
+             *   `packageName` is not in that path
+             */
+            const ruleKey = ruleEntries.find((entry) => {
+                return idParts.every((idPart) => {
+                    return entry.includes(idPart);
+                });
+            });
+
+            return config.rules[ruleKey];
+        };
+
         resources.rules.forEach((Rule) => {
             debug('Loading rules');
             const id = Rule.meta.id;
@@ -130,7 +173,7 @@ export class Sonarwhal extends EventEmitter {
                     ignoredConnectors.includes(connectorId);
             };
 
-            const ruleOptions: RuleConfig | Array<RuleConfig> = config.rules[id];
+            const ruleOptions: RuleConfig | Array<RuleConfig> = getRuleConfig(id);
             const severity: Severity = getSeverity(ruleOptions);
 
             if (ignoreRule(Rule)) {
