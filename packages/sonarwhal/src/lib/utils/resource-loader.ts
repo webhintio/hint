@@ -12,6 +12,7 @@
  */
 
 import * as path from 'path';
+import * as fs from 'fs';
 
 import * as globby from 'globby';
 import * as semver from 'semver';
@@ -244,11 +245,13 @@ const generateConfigPathsToResources = (configurations: Array<string>, name: str
  */
 export const loadResource = (name: string, type: ResourceType, configurations: Array<string> = [], verifyVersion = false) => {
     debug(`Searching ${name}…`);
-
+    const isSource = fs.existsSync(name); // eslint-disable-line no-sync
     const nameSplitted = name.split('/');
 
     const packageName = nameSplitted[0];
-    const resourceName = nameSplitted[1] || packageName;
+    const resourceName = isSource ?
+        name :
+        nameSplitted[1] || packageName;
 
     const key: string = `${type}-${name}`;
 
@@ -269,13 +272,15 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
      * has to be `rule-typescript-config/is-valid`.
      * But we need to load the package `@sonarwhal/rule-typescript-config`.
      */
-    const sources: Array<string> = [
-        `@sonarwhal/${type}-${packageName}`, // Officially supported package
-        `sonarwhal-${type}-${packageName}`, // Third party package
-        path.normalize(`${SONARWHAL_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
-        path.normalize(currentProcessDir) // External rules.
-        // path.normalize(`${path.resolve(SONARWHAL_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
-    ].concat(configPathsToResources);
+    const sources: Array<string> = isSource ?
+        [path.resolve(currentProcessDir, name)] : // If the name is direct path to the source we should only check that
+        [
+            `@sonarwhal/${type}-${packageName}`, // Officially supported package
+            `sonarwhal-${type}-${packageName}`, // Third party package
+            path.normalize(`${SONARWHAL_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
+            path.normalize(currentProcessDir) // External rules.
+            // path.normalize(`${path.resolve(SONARWHAL_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
+        ].concat(configPathsToResources);
 
     let resource;
     let isValid: boolean = true;
@@ -283,7 +288,14 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     sources.some((source: string) => {
         const res = getResource(source, type, resourceName);
 
-        if (res) {
+        if (res && isSource) {
+            isValid = true;
+            resource = res;
+
+            return true;
+        }
+
+        if (res && !isSource) { // Paths to sources might not have packages and versioning doesn't apply
             debug(`${name} found in ${source}`);
 
             if (source === currentProcessDir) {
@@ -322,7 +334,12 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
         throw new ResourceError(`Resource ${name} not found`, ResourceErrorStatus.NotFound);
     }
 
-    resources.set(key, resource);
+    if (isSource) {
+        resources.set(name, resource);
+    } else {
+        resources.set(key, resource);
+    }
+
 
     return resource;
 };
