@@ -16,6 +16,7 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 import { Requester } from 'sonarwhal/dist/src/lib/connectors/utils/requester';
 import { NetworkData } from 'sonarwhal/dist/src/lib/types';
+import { CoreOptions } from 'request';
 const debug: debug.IDebugger = d(__filename);
 
 /*
@@ -36,7 +37,9 @@ export default class NoBrokenLinksRule implements IRule {
     };
 
     public constructor(context: RuleContext) {
-        const requester = new Requester();
+
+        const options: CoreOptions = { method: 'HEAD' };
+        const requester = new Requester(options);
         const brokenStatusCodes = [404, 410, 500, 503];
 
         /** Stores the urls and it's response status codes */
@@ -64,14 +67,14 @@ export default class NoBrokenLinksRule implements IRule {
         const handleRejection = (error: any, url: string, element: IAsyncHTMLElement) => {
             debug(`Error accessing {$absoluteUrl}. ${JSON.stringify(error)}`);
 
-            return context.report(url, element, `Broken link found (404 response)`);
+            return context.report(url, element, 'Broken link found (domain not found)');
         };
 
         /**
          * The callback to handle success handler returned from the `head` method
          * We will check the response status againist the brokenStatusCodes list
          * and report if it exist there. We will also add it to the fetchedUrls
-         * so that duplicate requests will not be made if 2 links has same href value
+         * so that duplicate requests will not be made if 2 links have the same href value
          */
         const handleSuccess = (networkData: NetworkData, url: string, element: IAsyncHTMLElement) => {
             const statusIndex = brokenStatusCodes.indexOf(
@@ -88,7 +91,7 @@ export default class NoBrokenLinksRule implements IRule {
         };
 
         /**
-         * Checks a url againist the fetchedUrls array and return the entry if it exist
+         * Checks a url against the fetchedUrls array and return the entry if it exist
          * The entry has 2 properties, the `url` and the `statusCode`
          */
         const getFetchedUrl = (url: string) => {
@@ -137,13 +140,13 @@ export default class NoBrokenLinksRule implements IRule {
                 if (fetched) {
                     const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
 
-                    if (statusIndex>-1){
+                    if (statusIndex > -1) {
                         return context.report(fullUrl, null, `Broken link found (${brokenStatusCodes[statusIndex]} response)`);
                     }
                 } else {
                     // An element which was not present in the fetch end results
                     return await requester
-                        .head(fullUrl)
+                        .get(fullUrl)
                         .then((value: NetworkData) => {
                             return handleSuccess(value, fullUrl, element);
                         })
