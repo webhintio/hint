@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "image-size": "^0.6.2"
+    "image-size": "^0.6.3"
   },
   "description": "sonarwhal rule that checks for best practices related to the apple-touch-icons",
   "devDependencies": {

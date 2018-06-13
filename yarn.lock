@@ -189,7 +189,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/fs-extra@^5.0.2":
+"@types/fs-extra@5.0.2":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-5.0.2.tgz#235a7e2b56452cc0a6a4809b53e1d1eaffff9c96"
   dependencies:
@@ -381,13 +381,13 @@ ajv@^5.1.0, ajv@^5.2.3, ajv@^5.3.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-ajv@^6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.0.tgz#4c8affdf80887d8f132c9c52ab8a2dc4d0b7b24c"
+ajv@^6.5.1:
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.1.tgz#88ebc1263c7133937d108b80c5572e64e1d9322d"
   dependencies:
     fast-deep-equal "^2.0.1"
     fast-json-stable-stringify "^2.0.0"
-    json-schema-traverse "^0.3.0"
+    json-schema-traverse "^0.4.1"
     uri-js "^4.2.1"
 
 align-text@^0.1.1, align-text@^0.1.3:
@@ -2512,9 +2512,9 @@ eventemitter2@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-5.0.1.tgz#6197a095d5fb6b57e8942f6fd7eaad63a09c9452"
 
-exceljs@^1.4.8:
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.4.10.tgz#d57e7bc2c1d5ef4da1c176504872028bdc0ef4e1"
+exceljs@^1.4.13:
+  version "1.4.13"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.4.13.tgz#e1780455728ede477352fcb85bf0663ca704d795"
   dependencies:
     archiver "^1.3.0"
     fast-csv "^2.4.0"
@@ -3431,9 +3431,9 @@ iltorb@^2.3.0:
     prebuild-install "^3.0.0"
     which-pm-runs "^1.0.0"
 
-image-size@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.6.2.tgz#8ee316d4298b028b965091b673d5f1537adee5b4"
+image-size@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.6.3.tgz#e7e5c65bb534bd7cdcedd6cb5166272a85f75fb2"
 
 immediate@~3.0.5:
   version "3.0.6"
@@ -4031,6 +4031,10 @@ json-parse-better-errors@^1.0.0, json-parse-better-errors@^1.0.1:
 json-schema-traverse@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-0.3.1.tgz#349a6d44c53a51de89b40805c5d5e59b417d3340"
+
+json-schema-traverse@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz#69f6a87d9513ab8bb8fe63bdb0979c448e684660"
 
 json-schema@0.2.3:
   version "0.2.3"
@@ -6293,9 +6297,9 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-sinon@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-5.1.0.tgz#65f463422978638fadf750c026719697feb0dca5"
+sinon@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-6.0.0.tgz#f26627e4830dc34279661474da2c9e784f166215"
   dependencies:
     "@sinonjs/formatio" "^2.0.0"
     diff "^3.5.0"
