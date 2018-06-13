@@ -111,6 +111,10 @@ const testsForDefaults: Array<RuleTest> = [
         }
     },
     {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
+    },
+    {
         name: 'Reports warnings/errors if the HTML checker returns messages',
         serverUrl: exampleUrl,
         reports: [{

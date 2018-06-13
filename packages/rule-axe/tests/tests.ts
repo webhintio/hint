@@ -34,6 +34,10 @@ const tests: Array<RuleTest> = [
         serverConfig: html.noProblems
     },
     {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
+    },
+    {
         name: `HTML is missing the lang attribute and fails`,
         reports: [{ message: '<html> element must have a lang attribute' }],
         serverConfig: html.missingLang

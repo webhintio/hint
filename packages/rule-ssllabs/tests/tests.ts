@@ -56,6 +56,10 @@ const testsForDefaults: Array<RuleTest> = [
         before() {
             ssllabsMock(results.nohttps);
         }
+    },
+    {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     }
 ];
 
