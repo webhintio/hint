@@ -12,7 +12,7 @@ Broken links gives your user a bad user experience.
 This rule finds all the anchor tags and image tags in your page and checks
 the `href` or the `src` attribute value is valid by issuing a request to
 the URL. If the response status is either `404` or `410` or `500` or `503`,
-the url will be flagged as a broken link
+the URL will be flagged as a broken link.
 
 ### Examples that **trigger** the rule
 
