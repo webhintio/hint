@@ -13,7 +13,7 @@ import * as cheerio from 'cheerio';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, FetchEnd, RuleMetadata, TraverseEnd } from 'sonarwhal/dist/src/lib/types';
-import { isHTMLDocument, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -66,12 +66,6 @@ export default class MetaCharsetUTF8Rule implements IRule {
 
         const validate = async (event: TraverseEnd) => {
             const { resource }: { resource: string } = event;
-
-            // The following checks don't make sense for non-HTML documents.
-
-            if (!isHTMLDocument(resource, context.pageHeaders)) {
-                return;
-            }
 
             /*
              * There are 2 versions of the charset meta tag:

@@ -17,6 +17,10 @@ const defaultTests: Array<RuleTest> = [
         serverConfig: validAMPHTML
     },
     {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
+    },
+    {
         name: 'Invalid AMP HTML fails',
         serverConfig: invalidAMPHTML,
         reports: [{ message: `The mandatory attribute '⚡' is missing in tag 'html ⚡ for top-level html'. (https://www.ampproject.org/docs/reference/spec#required-markup)` }]
