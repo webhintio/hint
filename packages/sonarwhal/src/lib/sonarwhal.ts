@@ -9,6 +9,8 @@
  * ------------------------------------------------------------------------------
  */
 
+import * as fs from 'fs';
+import * as path from 'path';
 import * as url from 'url';
 
 import * as browserslist from 'browserslist';
@@ -18,11 +20,13 @@ import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IRule, RuleConfig, Severity, IRuleConstructor, IConnectorConstructor, Parser, IFormatter, SonarwhalResources } from './types';
+import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IRule, RuleConfig, Severity, IRuleConstructor, IConnectorConstructor, Parser, IFormatter, SonarwhalResources, RulesConfigObject } from './types';
 import * as logger from './utils/logging';
 import { RuleContext } from './rule-context';
 import { RuleScope } from './enums/rulescope';
 import { SonarwhalConfig } from './config';
+import { loadResource } from './utils/resource-loader';
+import { ResourceType } from './enums/resourcetype';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -85,6 +89,33 @@ export class Sonarwhal extends EventEmitter {
         });
     }
 
+    private resolveRule(key: string): string {
+        const rulePath = path.resolve(process.cwd(), key);
+        const isId = !fs.existsSync(rulePath); // eslint-disable-line no-sync
+
+        if (isId) {
+            return key;
+        }
+
+        const resource = loadResource(key, ResourceType.rule);
+
+        return resource.meta.id;
+    }
+
+    private resolveRules(rules: RulesConfigObject): RulesConfigObject {
+        if (!rules) {
+            return rules;
+        }
+
+        const result: RulesConfigObject = {};
+
+        for (const [key, value] of Object.entries(rules)) {
+            result[this.resolveRule(key)] = value;
+        }
+
+        return result;
+    }
+
     public constructor(config: SonarwhalConfig, resources: SonarwhalResources) {
         super({
             delimiter: '::',
@@ -118,6 +149,8 @@ export class Sonarwhal extends EventEmitter {
 
         this.rules = new Map();
 
+        const resolvedRules = this.resolveRules(config.rules);
+
         resources.rules.forEach((Rule) => {
             debug('Loading rules');
             const id = Rule.meta.id;
@@ -130,7 +163,7 @@ export class Sonarwhal extends EventEmitter {
                     ignoredConnectors.includes(connectorId);
             };
 
-            const ruleOptions: RuleConfig | Array<RuleConfig> = config.rules[id];
+            const ruleOptions: RuleConfig | Array<RuleConfig> = resolvedRules[id];
             const severity: Severity = getSeverity(ruleOptions);
 
             if (ignoreRule(Rule)) {

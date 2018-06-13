@@ -1,4 +1,4 @@
-import * as path from 'path';
+import { findPackageRoot } from './misc';
 
 /** Lower cases all the items of `list`. */
 export const toLowerCase = (list: Array<string>): Array<string> => {
@@ -26,32 +26,12 @@ export const getIncludedHeaders = (headers: object, headerList: Array<string> = 
 };
 
 /**
- * Returns the name of the rule based in the folder structure.
+ * Returns the root path of the rule based where the package.json is.
  *
- * * `/something/another` --> ``
- * * `/something/rules/another/` --> `another`
- * * `/something/rules/another` --> `another`
- * * `/something/rules/rule-another` --> `another`
- * * `/something/rule-another/` --> `another`
- * * `/something/rule-another` --> `another`
+ * * `/rule-amp-validator/dist/test/ --> `/rule-am-validator/`
  */
-export const getRuleName = (dirname: string, packageName?: string): string => {
-    const parts = dirname.split(path.sep);
-    let ruleName = '';
-
-    const normalize = (name) => {
-        return name.replace('rule-', '');
-    };
-
-    for (let i = 0; i < parts.length; i++) {
-        if (parts[i].startsWith('rule-') || (parts[i - 1] && parts[i - 1].startsWith('rules'))) {
-            ruleName = normalize(parts[i]);
-
-            return packageName ? `${packageName}/${ruleName}` : ruleName;
-        }
-    }
-
-    return ruleName;
+export const getRuleName = (dirname: string) => {
+    return findPackageRoot(dirname);
 };
 
 /**
