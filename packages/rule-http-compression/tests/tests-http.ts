@@ -1,4 +1,4 @@
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 import {
@@ -14,7 +14,7 @@ import {
     testsForUserConfigs
 } from './_tests';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 /*
  * TODO: Remove `ignoredConnectors` part once headless
@@ -27,21 +27,21 @@ testConfigsSerial.serial = true;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-ruleRunner.testRule(ruleName, testsForDefaults(), testConfigs);
-ruleRunner.testRule(ruleName, testsForSpecialCases(), testConfigs);
-ruleRunner.testRule(ruleName, testsForDisallowedCompressionMethods(), testConfigs);
-ruleRunner.testRule(ruleName, testsForNoCompression(), testConfigsSerial);
-ruleRunner.testRule(ruleName, testsForGzipZopfli(), testConfigsSerial);
-ruleRunner.testRule(ruleName, testsForGzipZopfliCaching(), testConfigs);
-ruleRunner.testRule(ruleName, testsForGzipZopfliSmallSize(), testConfigs);
-ruleRunner.testRule(ruleName, testsForGzipZopfliUASniffing(), testConfigs);
-ruleRunner.testRule(ruleName, testsForBrotliOverHTTP, testConfigs);
+ruleRunner.testRule(rulePath, testsForDefaults(), testConfigs);
+ruleRunner.testRule(rulePath, testsForSpecialCases(), testConfigs);
+ruleRunner.testRule(rulePath, testsForDisallowedCompressionMethods(), testConfigs);
+ruleRunner.testRule(rulePath, testsForNoCompression(), testConfigsSerial);
+ruleRunner.testRule(rulePath, testsForGzipZopfli(), testConfigsSerial);
+ruleRunner.testRule(rulePath, testsForGzipZopfliCaching(), testConfigs);
+ruleRunner.testRule(rulePath, testsForGzipZopfliSmallSize(), testConfigs);
+ruleRunner.testRule(rulePath, testsForGzipZopfliUASniffing(), testConfigs);
+ruleRunner.testRule(rulePath, testsForBrotliOverHTTP, testConfigs);
 
 // Tests for the user options.
 [true, false].forEach((isTarget) => {
     ['gzip', 'zopfli', 'brotli'].forEach((encoding) => {
         ruleRunner.testRule(
-            ruleName,
+            rulePath,
             testsForUserConfigs(`${encoding}`, isTarget),
             Object.assign(
                 {},

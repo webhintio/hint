@@ -200,7 +200,7 @@ export default class ScriptSemiColonRule implements IRule {
 And when writing tests, you need to specify the parsers that you need:
 
 ```ts
-ruleRunner.testRule(ruleName, tests, {
+ruleRunner.testRule(rulePath, tests, {
     parsers: ['javascript']
 });
 ```

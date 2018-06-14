@@ -2,11 +2,11 @@
 
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const generateMissingMessage = (value: string, linkTypes: Array<string>): string => {
     return `'${cutString(value, 100)}' is missing 'rel' ${linkTypes.length === 1 ? 'value' : 'values'} '${linkTypes.join('\', \'')}'`;
@@ -203,6 +203,6 @@ const testsForIncludeSameOriginURLsConfig: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, testsWithFullSupportBrowsers, { browserslist: ['chrome 60', 'firefox 55'] });
-ruleRunner.testRule(ruleName, testsForOldBrowsers, { browserslist: ['ie 8'] });
-ruleRunner.testRule(ruleName, testsForIncludeSameOriginURLsConfig, { ruleOptions: { includeSameOriginURLs: true } });
+ruleRunner.testRule(rulePath, testsWithFullSupportBrowsers, { browserslist: ['chrome 60', 'firefox 55'] });
+ruleRunner.testRule(rulePath, testsForOldBrowsers, { browserslist: ['ie 8'] });
+ruleRunner.testRule(rulePath, testsForIncludeSameOriginURLsConfig, { ruleOptions: { includeSameOriginURLs: true } });

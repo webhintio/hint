@@ -237,7 +237,6 @@ export class SonarwhalConfig {
         return browserslist(config.browserslist);
     }
 
-
     /**
      * Loads a configuration file regardless of the source. Inspects the file path
      * to determine the correctly way to load the config file.
@@ -254,7 +253,6 @@ export class SonarwhalConfig {
                     config = loadJSONFile(filePath);
                 }
                 break;
-
             case '.js':
                 config = loadJSFile(filePath);
                 break;
@@ -300,7 +298,7 @@ export class SonarwhalConfig {
         }
 
         /**
-         * If `value` is a relative path (ie, it starts with `.`), it transforms it
+         * If `value` is a relative path (i.e. it starts with `.`), it transforms it
          * to an absolute path using the `configRoot` folder as the origin to `resolve`.
          */
         const resolve = (value: string): string => {
@@ -363,7 +361,6 @@ export class SonarwhalConfig {
             throw new Error(`Couldn't find any valid configuration`);
         }
 
-        // 3, 4
         const userConfig = composeConfig(config);
 
         if (typeof userConfig.connector === 'string') {

@@ -1,9 +1,9 @@
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const generateMegaViewport = (content: string = 'WiDTh = deVicE-Width, IniTial-Scale= 1.0') => {
     return `<mEtA   NaMe="ViEwPort" cOnTenT="${content}">`;
@@ -94,14 +94,14 @@ const testsForBrowsersWithoutOrientationChangeBug: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, testsForDefaults);
-ruleRunner.testRule(ruleName, testsForBrowsersWithOrientationChangeBug, {
+ruleRunner.testRule(rulePath, testsForDefaults);
+ruleRunner.testRule(rulePath, testsForBrowsersWithOrientationChangeBug, {
     browserslist: [
         'ios_saf 8', // Safari for iOS version that contains the orientation change bug.
         'ios_saf 9'
     ]
 });
-ruleRunner.testRule(ruleName, testsForBrowsersWithoutOrientationChangeBug, {
+ruleRunner.testRule(rulePath, testsForBrowsersWithoutOrientationChangeBug, {
     browserslist: [
         'edge 15',
         'ios_saf 9',

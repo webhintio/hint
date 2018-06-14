@@ -2,7 +2,7 @@ import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = '{{#if parentName}}{{parentName}}/{{/if}}{{normalizedName}}';
+const rulePath = '{{#if parentName}}{{parentName}}/{{/if}}{{normalizedName}}';
 
 /*
  * You should test for cases where the rule passes and doesn't.
@@ -22,4 +22,4 @@ const tests: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, tests);
+ruleRunner.testRule(rulePath, tests);

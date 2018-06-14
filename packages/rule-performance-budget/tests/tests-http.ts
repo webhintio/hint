@@ -1,11 +1,11 @@
 import { readFileSync } from 'fs';
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const image = readFileSync(`${__dirname}/fixtures/image.png`);
 
@@ -101,12 +101,12 @@ That's 45.7s more than the 5s target.`
     }
 ];
 
-ruleRunner.testRule(ruleName, tests, { https: false });
-ruleRunner.testRule(ruleName, loadTimeTests, {
+ruleRunner.testRule(rulePath, tests, { https: false });
+ruleRunner.testRule(rulePath, loadTimeTests, {
     https: false,
     ruleOptions: { loadTime: 1 }
 });
-ruleRunner.testRule(ruleName, connectionTypeTests, {
+ruleRunner.testRule(rulePath, connectionTypeTests, {
     https: false,
     ruleOptions: { connectionType: 'Dial' }
 });

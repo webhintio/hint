@@ -2,11 +2,12 @@ import * as path from 'path';
 
 import * as sinon from 'sinon';
 
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { RuleLocalTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as misc from 'sonarwhal/dist/src/lib/utils/misc';
 
-const ruleName = 'typescript-config/import-helpers';
+const rulePath = getRulePath(__filename, true);
 
 const tests: Array<RuleLocalTest> = [
     {
@@ -88,4 +89,4 @@ const tests: Array<RuleLocalTest> = [
     }
 ];
 
-ruleRunner.testLocalRule(ruleName, tests, { parsers: ['typescript-config'], serial: true });
+ruleRunner.testLocalRule(rulePath, tests, { parsers: ['typescript-config'], serial: true });

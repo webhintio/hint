@@ -1,9 +1,9 @@
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const defaultTests: Array<RuleTest> = [
     {
@@ -458,5 +458,5 @@ const customRegexTests: Array<RuleTest> = [
         }
     }];
 
-ruleRunner.testRule(ruleName, defaultTests);
-ruleRunner.testRule(ruleName, customRegexTests, { ruleOptions: { revvingPatterns: ['\\/\\d+\\/\\w+\\.\\w{1,3}'] } });
+ruleRunner.testRule(rulePath, defaultTests);
+ruleRunner.testRule(rulePath, customRegexTests, { ruleOptions: { revvingPatterns: ['\\/\\d+\\/\\w+\\.\\w{1,3}'] } });

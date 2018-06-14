@@ -1,9 +1,10 @@
 import * as path from 'path';
 
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { RuleLocalTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 
-const ruleName = 'babel-config/is-valid';
+const rulePath = getRulePath(__filename, true);
 
 const tests: Array<RuleLocalTest> = [
     {
@@ -59,4 +60,4 @@ const tests: Array<RuleLocalTest> = [
     }
 ];
 
-ruleRunner.testLocalRule(ruleName, tests, { parsers: ['babel-config'] });
+ruleRunner.testLocalRule(rulePath, tests, { parsers: ['babel-config'] });

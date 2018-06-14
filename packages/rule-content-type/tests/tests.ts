@@ -3,11 +3,11 @@
 import * as fs from 'fs';
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const pngFileContent = fs.readFileSync(`${__dirname}/fixtures/image.png`); // eslint-disable-line no-sync
 const svgFileContent = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M1,1"/></svg>';
@@ -313,8 +313,8 @@ const testsForConfigs: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, testsForDefaults);
-ruleRunner.testRule(ruleName, testsForConfigs, {
+ruleRunner.testRule(rulePath, testsForDefaults);
+ruleRunner.testRule(rulePath, testsForConfigs, {
     ruleOptions: {
         '.*\\.js': 'application/javascript',
         'test/test2\\.js': 'application/x-javascript; charset=utf-8',

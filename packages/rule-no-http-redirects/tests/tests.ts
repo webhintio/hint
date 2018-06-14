@@ -1,9 +1,9 @@
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const tests: Array<RuleTest> = [
     {
@@ -98,8 +98,8 @@ const testsWithCustomConfiguration: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, tests);
-ruleRunner.testRule(ruleName, testsWithCustomConfiguration, {
+ruleRunner.testRule(rulePath, tests);
+ruleRunner.testRule(rulePath, testsWithCustomConfiguration, {
     ruleOptions: {
         'max-html-redirects': 1,
         'max-resource-redirects': 1
