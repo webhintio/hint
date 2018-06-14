@@ -1,10 +1,10 @@
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { readFile } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const styles = readFile(`${__dirname}/fixtures/styles.css`);
 const scripts = readFile(`${__dirname}/fixtures/scripts.js`);
@@ -238,12 +238,12 @@ const configTestsLow: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, defaultTestsHttps, { https: true });
-ruleRunner.testRule(ruleName, configTestsHigh, {
+ruleRunner.testRule(rulePath, defaultTestsHttps, { https: true });
+ruleRunner.testRule(rulePath, configTestsHigh, {
     https: true,
     ruleOptions: { baseline: 'sha512' }
 });
-ruleRunner.testRule(ruleName, configTestsLow, {
+ruleRunner.testRule(rulePath, configTestsLow, {
     https: true,
     ruleOptions: { baseline: 'sha256' }
 });

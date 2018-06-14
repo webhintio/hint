@@ -1,11 +1,11 @@
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
 import * as common from './_common';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const defaultTests: Array<RuleTest> = [
     {
@@ -142,12 +142,12 @@ const configPreloadTets: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, defaultTests, { https: true });
-ruleRunner.testRule(ruleName, configMaxAgeTests, {
+ruleRunner.testRule(rulePath, defaultTests, { https: true });
+ruleRunner.testRule(rulePath, configMaxAgeTests, {
     https: true,
     ruleOptions: { minMaxAgeValue: common.OkayMaxAge + 1 }
 });
-ruleRunner.testRule(ruleName, configPreloadTets, {
+ruleRunner.testRule(rulePath, configPreloadTets, {
     https: true,
     ruleOptions: { checkPreload: true }
 });

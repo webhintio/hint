@@ -1,11 +1,11 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const metaTag = '<meta http-equiv="x-ua-compatible" content="ie=edge">';
 
@@ -108,9 +108,9 @@ const testsForRequireMetaTagConfig: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, testsForNonDocumentModeBrowsers, { browserslist: ['ie >= 11', 'chrome >= 50', 'edge >= 13', 'firefox >= 45'] });
-ruleRunner.testRule(ruleName, testsForRequireMetaTagConfig, {
+ruleRunner.testRule(rulePath, testsForNonDocumentModeBrowsers, { browserslist: ['ie >= 11', 'chrome >= 50', 'edge >= 13', 'firefox >= 45'] });
+ruleRunner.testRule(rulePath, testsForRequireMetaTagConfig, {
     browserslist: ['ie 8'],
     ruleOptions: { requireMetaTag: true }
 });
-ruleRunner.testRule(ruleName, testsForHeaders, { browserslist: ['ie 8'] });
+ruleRunner.testRule(rulePath, testsForHeaders, { browserslist: ['ie 8'] });

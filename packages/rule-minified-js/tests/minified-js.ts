@@ -1,13 +1,13 @@
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 const generateScriptTag = (script) => {
     return `<script>${script}</script>`;
 };
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const expectedMessageFromRule = 'JavaScript content could be minified';
 const unminifiedJs= `
@@ -55,11 +55,11 @@ const testsWithHighThreshold: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, tests, { parsers: ['javascript']});
+ruleRunner.testRule(rulePath, tests, { parsers: ['javascript']});
 
 /*
  * Verify the rule is respecting the threshold value passed via config
  * When the threshold is 100, rule will always pass as the improvemenIndex
  * we calculate will be always less than 100
  */
-ruleRunner.testRule(ruleName, testsWithHighThreshold, { parsers: ['javascript'], ruleOptions: { threshold: 100 }});
+ruleRunner.testRule(rulePath, testsWithHighThreshold, { parsers: ['javascript'], ruleOptions: { threshold: 100 }});

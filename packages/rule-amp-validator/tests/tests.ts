@@ -2,10 +2,10 @@
 
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import { readFile } from 'sonarwhal/dist/src/lib/utils/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const validAMPHTML = readFile(`${__dirname}/fixtures/valid-amp.html`);
 const invalidAMPHTML = readFile(`${__dirname}/fixtures/invalid-amp.html`);
@@ -44,5 +44,5 @@ const configuredTests: Array<RuleTest> = [{
     serverConfig: deprecateAMP
 }];
 
-ruleRunner.testRule(ruleName, defaultTests);
-ruleRunner.testRule(ruleName, configuredTests, { ruleOptions: { 'errors-only': true } });
+ruleRunner.testRule(rulePath, defaultTests);
+ruleRunner.testRule(rulePath, configuredTests, { ruleOptions: { 'errors-only': true } });

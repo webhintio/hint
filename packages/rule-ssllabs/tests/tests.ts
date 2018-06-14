@@ -4,9 +4,9 @@ import * as mock from 'mock-require';
 
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const ssllabsMock = (response) => {
     const mockedModule = {
@@ -136,9 +136,9 @@ There might be something wrong with SSL Labs servers.`
     }
 ];
 
-ruleRunner.testRule(ruleName, testsForDefaults, { serial: true });
-ruleRunner.testRule(ruleName, testsForConfigs, {
+ruleRunner.testRule(rulePath, testsForDefaults, { serial: true });
+ruleRunner.testRule(rulePath, testsForConfigs, {
     ruleOptions: { grade: 'A+' },
     serial: true
 });
-ruleRunner.testRule(ruleName, testsForErrors, { serial: true });
+ruleRunner.testRule(rulePath, testsForErrors, { serial: true });

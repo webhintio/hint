@@ -237,7 +237,6 @@ export class SonarwhalConfig {
         return browserslist(config.browserslist);
     }
 
-
     /**
      * Loads a configuration file regardless of the source. Inspects the file path
      * to determine the correctly way to load the config file.
@@ -254,7 +253,6 @@ export class SonarwhalConfig {
                     config = loadJSONFile(filePath);
                 }
                 break;
-
             case '.js':
                 config = loadJSFile(filePath);
                 break;
@@ -363,7 +361,6 @@ export class SonarwhalConfig {
             throw new Error(`Couldn't find any valid configuration`);
         }
 
-        // 3, 4
         const userConfig = composeConfig(config);
 
         if (typeof userConfig.connector === 'string') {

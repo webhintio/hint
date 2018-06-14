@@ -1,9 +1,9 @@
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const invalidColorValues = [
     'currentcolor',
@@ -92,10 +92,10 @@ const defaultTests: Array<RuleTest> = [
 
 const testForNoSupportForHexWithAlpha: Array<RuleTest> = [...generateTest(notAlwaysSupportedColorValues, 'unsupported', 'because of the targeted browsers')];
 
-ruleRunner.testRule(ruleName, defaultTests, {
+ruleRunner.testRule(rulePath, defaultTests, {
     browserslist: [
         'chrome 65',
         'firefox 60'
     ]
 });
-ruleRunner.testRule(ruleName, testForNoSupportForHexWithAlpha, { browserslist: ['chrome 50'] });
+ruleRunner.testRule(rulePath, testForNoSupportForHexWithAlpha, { browserslist: ['chrome 50'] });

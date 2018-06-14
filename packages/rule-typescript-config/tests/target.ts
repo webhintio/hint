@@ -1,9 +1,10 @@
 import * as path from 'path';
 
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { RuleLocalTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 
-const ruleName = 'typescript-config/target';
+const rulePath = getRulePath(__filename, true);
 
 type TestWithBrowserInfo = RuleLocalTest & {
     browserslist: Array<string>;
@@ -72,7 +73,7 @@ tests.forEach((info: TestWithBrowserInfo) => {
         reports: info.reports
     };
 
-    ruleRunner.testLocalRule(ruleName, [test], {
+    ruleRunner.testLocalRule(rulePath, [test], {
         browserslist: info.browserslist,
         parsers: ['typescript-config']
     });

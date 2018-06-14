@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as mock from 'mock-require';
 
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { RuleLocalTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 
@@ -10,7 +11,7 @@ const webpackDestPath = path.join(__dirname, 'fixtures', 'valid', 'package.json'
 const webpackConfig = misc.loadJSONFile(webpackDestPath);
 const originalGetPackage = misc.getPackage;
 
-const ruleName = 'webpack-config/no-devtool-in-prod';
+const rulePath = getRulePath(__filename, true);
 const tests: Array<RuleLocalTest> = [
     {
         after() {
@@ -57,7 +58,7 @@ const tests: Array<RuleLocalTest> = [
     }
 ];
 
-ruleRunner.testLocalRule(ruleName, tests, {
+ruleRunner.testLocalRule(rulePath, tests, {
     parsers: ['webpack-config'],
     serial: true
 });
