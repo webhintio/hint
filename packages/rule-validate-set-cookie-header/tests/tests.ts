@@ -2,9 +2,9 @@
 
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 // Headers.
 const setCookie = (fields) => {
@@ -196,7 +196,7 @@ const oldAndNewBrowsersTest = [
     }
 ];
 
-ruleRunner.testRule(ruleName, defaultTests, {
+ruleRunner.testRule(rulePath, defaultTests, {
     https: true,
     /*
      * Tests are skipped in `chrome` due to the absence of 'Set-Cookie' header.
@@ -206,7 +206,7 @@ ruleRunner.testRule(ruleName, defaultTests, {
     ignoredConnectors: ['chrome']
 });
 
-ruleRunner.testRule(ruleName, newBrowserOnlyTests, {
+ruleRunner.testRule(rulePath, newBrowserOnlyTests, {
     browserslist: [
         '> 1%',
         'last 2 versions'
@@ -215,7 +215,7 @@ ruleRunner.testRule(ruleName, newBrowserOnlyTests, {
     ignoredConnectors: ['chrome']
 });
 
-ruleRunner.testRule(ruleName, olderBrowserOnlyTests, {
+ruleRunner.testRule(rulePath, olderBrowserOnlyTests, {
     browserslist: [
         'ie 6', 'ie 7'
     ],
@@ -223,7 +223,7 @@ ruleRunner.testRule(ruleName, olderBrowserOnlyTests, {
     ignoredConnectors: ['chrome']
 });
 
-ruleRunner.testRule(ruleName, oldAndNewBrowsersTest, {
+ruleRunner.testRule(rulePath, oldAndNewBrowsersTest, {
     browserslist: [
         'ie >= 6',
         'last 2 versions'

@@ -277,7 +277,7 @@ const defaultTests: Array<RuleTest> = [
 ];
 
 // Tests that use the default target string.
-ruleRunner.testRule(ruleName, defaultTests);
+ruleRunner.testRule(rulePath, defaultTests);
 ```
 
 Run `npm run test` in the terminal, and sonarwhal will run them in all the

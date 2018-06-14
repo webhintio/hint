@@ -1,9 +1,10 @@
 import * as path from 'path';
 
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { RuleLocalTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 
-const ruleName = 'typescript-config/no-comments';
+const rulePath = getRulePath(__filename, true);
 
 const tests: Array<RuleLocalTest> = [
     {
@@ -13,8 +14,8 @@ const tests: Array<RuleLocalTest> = [
     {
         name: 'Configuration with "compilerOptions.removeComments = false" should fail',
         path: path.join(__dirname, 'fixtures', 'no-comments', 'invalid'),
-        reports: [{message: 'The compiler option "removeComments" should be enabled to reduce the output size.'}]
+        reports: [{ message: 'The compiler option "removeComments" should be enabled to reduce the output size.' }]
     }
 ];
 
-ruleRunner.testLocalRule(ruleName, tests, {parsers: ['typescript-config']});
+ruleRunner.testLocalRule(rulePath, tests, { parsers: ['typescript-config'] });

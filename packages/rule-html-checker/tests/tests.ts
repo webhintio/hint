@@ -4,10 +4,10 @@ import * as mock from 'mock-require';
 
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { delay } from 'sonarwhal/dist/src/lib/utils/misc';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 const exampleUrl = 'https://empty.sonarwhal.com/';
 const validatorError = 'error';
 const defaultValidator = 'https://validator.w3.org/nu/';
@@ -227,22 +227,22 @@ const testsForErrors: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, testsForDefaults, { serial: true });
-ruleRunner.testRule(ruleName, testsForIgnoreStringConfigs, {
+ruleRunner.testRule(rulePath, testsForDefaults, { serial: true });
+ruleRunner.testRule(rulePath, testsForIgnoreStringConfigs, {
     ruleOptions: { ignore: defaultCheckerMessages.messages[1].message },
     serial: true
 });
-ruleRunner.testRule(ruleName, testsForIgnoreArrayConfigs, {
+ruleRunner.testRule(rulePath, testsForIgnoreArrayConfigs, {
     ruleOptions: { ignore: [defaultCheckerMessages.messages[0].message, defaultCheckerMessages.messages[1].message] },
     serial: true
 });
-ruleRunner.testRule(ruleName, testsForValidatorConfig, {
+ruleRunner.testRule(rulePath, testsForValidatorConfig, {
     ruleOptions: { validator: configValidator },
     serial: true
 });
-ruleRunner.testRule(ruleName, testsForDetailsConfig, {
+ruleRunner.testRule(rulePath, testsForDetailsConfig, {
     ruleOptions: { details: true },
     serial: true
 });
 
-ruleRunner.testRule(ruleName, testsForErrors);
+ruleRunner.testRule(rulePath, testsForErrors);

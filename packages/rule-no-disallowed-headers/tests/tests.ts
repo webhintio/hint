@@ -1,11 +1,11 @@
 /* eslint no-undefined: 0 */
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></script>');
 const htmlPageWithManifest = generateHTMLPage('<link rel="manifest" href="test.webmanifest">');
@@ -168,11 +168,11 @@ const testsForConfigs: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, testsForDefaults);
-ruleRunner.testRule(ruleName, testsForDifferentServerHeaderValues);
-ruleRunner.testRule(ruleName, testsForIgnoreConfigs, { ruleOptions: { ignore: ['Server', 'X-Powered-By', 'X-Test-1'] } });
-ruleRunner.testRule(ruleName, testsForIncludeConfigs, { ruleOptions: { include: ['Server', 'X-Test-1', 'X-Test-2'] } });
-ruleRunner.testRule(ruleName, testsForConfigs, {
+ruleRunner.testRule(rulePath, testsForDefaults);
+ruleRunner.testRule(rulePath, testsForDifferentServerHeaderValues);
+ruleRunner.testRule(rulePath, testsForIgnoreConfigs, { ruleOptions: { ignore: ['Server', 'X-Powered-By', 'X-Test-1'] } });
+ruleRunner.testRule(rulePath, testsForIncludeConfigs, { ruleOptions: { include: ['Server', 'X-Test-1', 'X-Test-2'] } });
+ruleRunner.testRule(rulePath, testsForConfigs, {
     ruleOptions: {
         ignore: ['Server', 'X-Test-2', 'X-Test-3'],
         include: ['X-Powered-By', 'X-Test-1', 'X-Test-2']

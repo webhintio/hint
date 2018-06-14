@@ -3,11 +3,11 @@ import { readFileSync } from 'fs';
 import * as mock from 'mock-require';
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 const svg = readFileSync(`${__dirname}/fixtures/space-nellie.svg`);
 const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);
 const invalid = readFileSync(`${__dirname}/fixtures/invalid-image.js`);
@@ -139,19 +139,19 @@ const noConfigTest: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, testThresholds, {
+ruleRunner.testRule(rulePath, testThresholds, {
     ignoredConnectors: ['chrome'],
     ruleOptions: { apiKey: 'fakeApiName', apiSecret: 'fakeApiSecret', cloudName: 'fakeCloudName', threshold: 150 },
     serial: true
 });
 
-ruleRunner.testRule(ruleName, tests, {
+ruleRunner.testRule(rulePath, tests, {
     ignoredConnectors: ['chrome'],
     ruleOptions: { apiKey: 'fakeApiName', apiSecret: 'fakeApiSecret', cloudName: 'fakeCloudName' },
     serial: true
 });
 
-ruleRunner.testRule(ruleName, noConfigTest, {
+ruleRunner.testRule(rulePath, noConfigTest, {
     ignoredConnectors: ['chrome'],
     serial: true
 });

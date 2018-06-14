@@ -1,8 +1,8 @@
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const generateCSSRules = (count = 1) => {
     const rules = [];
@@ -40,7 +40,7 @@ const generateImports = (count = 1) => {
 const test = (label: string, limits: { maxRules: number, maxSheets: number, maxImports: number }, configs: any) => {
     const { maxRules, maxSheets, maxImports } = limits;
 
-    ruleRunner.testRule(ruleName, [
+    ruleRunner.testRule(rulePath, [
         {
             name: `Page${label} contains less than ${maxRules} CSS rules`,
             serverConfig: generateHTMLPage(`<style>${generateCSSRules(maxRules - 1)}</style>`)
@@ -68,7 +68,7 @@ const test = (label: string, limits: { maxRules: number, maxSheets: number, maxI
          */
         configs.ignoredConnectors = ['jsdom'];
 
-        ruleRunner.testRule(ruleName, [
+        ruleRunner.testRule(rulePath, [
             {
                 name: `Page${label} contains less than ${maxImports} nested imports`,
                 serverConfig: generateImports(maxImports - 1)

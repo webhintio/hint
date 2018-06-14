@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as mock from 'mock-require';
 
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { RuleLocalTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 
@@ -11,7 +12,7 @@ const webpackV1DestPath = path.join(__dirname, 'fixtures', 'version1', 'package.
 const webpackConfig = misc.loadJSONFile(webpackDestPath);
 const webpackV1Config = misc.loadJSONFile(webpackV1DestPath);
 const originalGetPackage = misc.getPackage;
-const ruleName = 'webpack-config/module-esnext-typescript';
+const rulePath = getRulePath(__filename, true);
 
 const tests: Array<RuleLocalTest> = [
     {
@@ -79,15 +80,15 @@ const generateTest = (message: string): Array<RuleLocalTest> => {
     ];
 };
 
-ruleRunner.testLocalRule(ruleName, tests, {
+ruleRunner.testLocalRule(rulePath, tests, {
     parsers: ['webpack-config', 'typescript-config'],
     serial: true
 });
-ruleRunner.testLocalRule(ruleName, generateTest('The parser webpack-config should be activated'), {
+ruleRunner.testLocalRule(rulePath, generateTest('The parser webpack-config should be activated'), {
     parsers: [],
     serial: true
 });
-ruleRunner.testLocalRule(ruleName, generateTest('The parser typescript-config should be activated'), {
+ruleRunner.testLocalRule(rulePath, generateTest('The parser typescript-config should be activated'), {
     parsers: ['webpack-config'],
     serial: true
 });

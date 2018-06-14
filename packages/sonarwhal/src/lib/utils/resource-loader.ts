@@ -17,7 +17,7 @@ import * as fs from 'fs';
 import * as globby from 'globby';
 import * as semver from 'semver';
 
-import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, isNormalizedIncluded, readFile } from '../utils/misc';
+import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, isNormalizedIncluded, readFile, loadJSONFile } from '../utils/misc';
 import { debug as d } from '../utils/debug';
 import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
 import { SonarwhalConfig } from '../config';
@@ -137,6 +137,19 @@ export const tryToLoadFrom = (resourcePath: string): any => {
     // This is exported so it's easier to stub during tests
     let builder: any = null;
 
+    /*
+     * We could be loading a config file that points to a path (thus a JSON).
+     * `require` will try to load `.js`, `.json`, `.node` so it will fail and
+     * we have to manually do this
+     */
+    try {
+        const resource = loadJSONFile(resourcePath);
+
+        return resource;
+    } catch (e) {
+        debug(`${resourcePath} is not a JSON file, trying to load it normally`);
+    }
+
     try {
         /*
          * The following link has more info on how `require` resolves modules:
@@ -253,7 +266,9 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
         name :
         nameSplitted[1] || packageName;
 
-    const key: string = `${type}-${name}`;
+    const key: string = isSource ?
+        name :
+        `${type}-${name}`;
 
     // When we check the version we ignore if there was a previous version loaded
     if (resources.has(key) && !verifyVersion) {
@@ -283,6 +298,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
         ].concat(configPathsToResources);
 
     let resource;
+    let loadedSource: string;
     let isValid: boolean = true;
 
     sources.some((source: string) => {
@@ -291,6 +307,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
         if (res && isSource) {
             isValid = true;
             resource = res;
+            loadedSource = source;
 
             return true;
         }
@@ -320,6 +337,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
 
             isValid = true;
             resource = res;
+            loadedSource = source;
         }
 
         return resource;
@@ -334,12 +352,11 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
         throw new ResourceError(`Resource ${name} not found`, ResourceErrorStatus.NotFound);
     }
 
-    if (isSource) {
-        resources.set(name, resource);
-    } else {
-        resources.set(key, resource);
+    if (type === ResourceType.configuration) {
+        resource = SonarwhalConfig.toAbsolutePaths(resource, require.resolve(loadedSource));
     }
 
+    resources.set(key, resource);
 
     return resource;
 };

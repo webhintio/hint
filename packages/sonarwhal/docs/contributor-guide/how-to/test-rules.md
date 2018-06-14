@@ -19,9 +19,9 @@ If not, you need to:
 ```ts
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type'; // eslint-disable-line no-unused-vars
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const tests: Array<RuleTest> = [
     {
@@ -35,7 +35,7 @@ const tests: Array<RuleTest> = [
     { ... }
 ];
 
-ruleRunner.testRule(ruleName, tests);
+ruleRunner.testRule(rulePath, tests);
 ```
 
 The high level overview of what's is happening in the code above is as follows:
@@ -53,9 +53,6 @@ The high level overview of what's is happening in the code above is as follows:
    `RuleTest.reports`. If they match, then everything is good.
 
 There's more information and detail in the following sections.
-
-**Note:** `getRuleName()` only works if you are creating a package with a
-single rule at the moment. You can [track this issue here][getRuleName].
 
 ## `RuleTest`
 
@@ -214,7 +211,7 @@ const tests: Array<RuleTest> = [
 `ruleRunner` is in charge of executing and validating the tests. The signature
 of `ruleRunner.testRule` is:
 
-* `ruleName`, the name of the rule being tested.
+* `rulePath`, the name of the rule being tested.
 * `tests`, an `Array<RuleTest>`.
 * `configuration` (optional), allows you to modify the defaults of how the
    tests are run.
@@ -254,5 +251,4 @@ once.
 
 <!-- link labels -->
 
-[getRuleName]: https://github.com/sonarwhal/sonarwhal/issues/1054
 [ssllabs tests]: https://github.com/sonarwhal/sonarwhal/blob/master/packages/rule-ssllabs/tests/tests.ts

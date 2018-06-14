@@ -3,7 +3,7 @@
 import * as fs from 'fs';
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
@@ -11,10 +11,13 @@ const generateScriptTag = (script) => {
     return `<script>${script}</script>`;
 };
 
+const rulePath = getRulePath(__filename);
+
 const angular = fs.readFileSync(require.resolve('angular/angular.min.js'), 'utf-8');
 const jquery = fs.readFileSync(require.resolve('jquery/dist/jquery.min.js'), 'utf-8');
 const knockout = fs.readFileSync(require.resolve('knockout/dist/knockout.js'), 'utf-8');
 const moment = fs.readFileSync(require.resolve('moment/moment.min.js'), 'utf-8');
+
 
 const defaultTests: Array<RuleTest> = [
     {
@@ -62,6 +65,6 @@ const userMediumConfigTests: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(getRuleName(__dirname), defaultTests);
-ruleRunner.testRule(getRuleName(__dirname), userHighConfigTests, { ruleOptions: { severity: 'high' } });
-ruleRunner.testRule(getRuleName(__dirname), userMediumConfigTests, { ruleOptions: { severity: 'medium' } });
+ruleRunner.testRule(rulePath, defaultTests);
+ruleRunner.testRule(rulePath, userHighConfigTests, { ruleOptions: { severity: 'high' } });
+ruleRunner.testRule(rulePath, userMediumConfigTests, { ruleOptions: { severity: 'medium' } });

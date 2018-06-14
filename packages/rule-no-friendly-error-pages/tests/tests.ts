@@ -1,11 +1,11 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 
 const htmlPageWithLessThan256bytes = generateHTMLPage(undefined,
     `&lt; 256 bytes
@@ -124,10 +124,10 @@ tests.push(
     }
 );
 
-ruleRunner.testRule(ruleName, tests, {
+ruleRunner.testRule(rulePath, tests, {
     browserslist: [
         'ie 6-11',
         'last 2 versions'
     ]
 });
-ruleRunner.testRule(ruleName, testsForWhenRuleDoesNotApply, { browserslist: ['Edge 15'] });
+ruleRunner.testRule(rulePath, testsForWhenRuleDoesNotApply, { browserslist: ['Edge 15'] });

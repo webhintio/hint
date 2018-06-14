@@ -2,7 +2,7 @@ import * as fs from 'fs';
 
 import * as mock from 'mock-require';
 
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
@@ -12,7 +12,7 @@ const asyncWrapper = require('sonarwhal/dist/src/lib/utils/async-wrapper');
 const originalAsyncTry = asyncWrapper.asyncTry;
 
 
-const ruleName = getRuleName(__dirname);
+const rulePath = getRulePath(__filename);
 const bom = fs.readFileSync(`${__dirname}/fixtures/bom.html`); // eslint-disable-line no-sync
 const noBom = fs.readFileSync(`${__dirname}/fixtures/no-bom.html`); // eslint-disable-line no-sync
 
@@ -62,4 +62,4 @@ const tests: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(ruleName, tests, { serial: true });
+ruleRunner.testRule(rulePath, tests, { serial: true });
