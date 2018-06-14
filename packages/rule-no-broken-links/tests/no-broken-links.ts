@@ -43,6 +43,14 @@ const bodyWithRelative503Links = `<div>
 <a href='/503'>Example</a>
 </div>`;
 
+const bodyWithBrokenScriptTag = `<div>
+<script href='/404'>Example</script>
+</div>`;
+
+const bodyWithBrokenLinkTag = `<div>
+<link rel="stylesheet" href='/404'>
+</div>`;
+
 const tests: Array<RuleTest> = [
     {
         name: `This test should pass as it has links with valid href value`,
@@ -100,6 +108,22 @@ const tests: Array<RuleTest> = [
         serverConfig: {
             '/': {content: generateHTMLPage('', bodyWithRelative503Links)},
             '/503': {status: 503}
+        }
+    },
+    {
+        name: `This test should fail as it has a link with 404 href value`,
+        reports: [{ message: `Broken link found (404 response)` }],
+        serverConfig: {
+            '/': {content: generateHTMLPage('', bodyWithBrokenScriptTag)},
+            '/404': {status: 404}
+        }
+    },
+    {
+        name: `This test should fail as it has a script with 404 src value`,
+        reports: [{ message: `Broken link found (404 response)` }],
+        serverConfig: {
+            '/': {content: generateHTMLPage('', bodyWithBrokenLinkTag)},
+            '/404': {status: 404}
         }
     }
 ];

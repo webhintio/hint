@@ -173,6 +173,8 @@ export default class NoBrokenLinksRule implements IRule {
         context.on('element::a', validateElementSrcs);
         context.on('element::audio', validateElementSrcs);
         context.on('element::video', validateElementSrcs);
+        context.on('element::link', validateElementSrcs);
+        context.on('element::script', validateElementSrcs);
         context.on('element::source', validateElementSrcs);
         context.on('element::track', validateElementSrcs);
         context.on('element::object', validateElementSrcs);
