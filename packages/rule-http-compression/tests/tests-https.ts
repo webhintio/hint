@@ -1,4 +1,4 @@
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
 import {
@@ -16,7 +16,7 @@ import {
     testsForUserConfigs
 } from './_tests';
 
-const ruleName = getRuleName(__dirname);
+const ruleName = getRulePath(__filename);
 
 /*
  * TODO: Remove `ignoredConnectors` part once headless

@@ -1,11 +1,6 @@
+import { normalize } from 'path';
+
 import test from 'ava';
-import * as proxyquire from 'proxyquire';
-
-import * as sinon from 'sinon';
-
-const path = { sep: '\\' };
-
-proxyquire('../../../src/lib/utils/rule-helpers', { path });
 
 import * as ruleHelpers from '../../../src/lib/utils/rule-helpers';
 
@@ -81,77 +76,21 @@ test('mergeIgnoreIncludeArrays - some included, some excluded', (t) => {
 
 /*
  * ------------------------------------------------------------------------------
- * getRuleName tests
+ * getRulePath tests
  * ------------------------------------------------------------------------------
  */
 
-test.serial('getRuleName - returns the right name of the rule for several combination of linux paths and rule names', (t) => {
-    const names = [
-        '/rules/something',
-        '/rules/something/',
-        '/rules/rule-something',
-        '/rules/rule-something/',
-        '/another/rules/something',
-        '/another/rules/rule-something'
-    ];
+test('getRulePath - performs a `require.resolve` of the top level of the given path', (t) => {
+    // We are looking for the main sonarwhal package
+    const expected = '@sonarwhal/sonarwhal/packages/sonarwhal/dist/src/lib/sonarwhal.js';
+    const ruleName = ruleHelpers.getRulePath(__filename);
 
-    const sandbox = sinon.createSandbox();
-
-    sandbox.stub(path, 'sep').get(() => {
-        return '/';
-    });
-
-    names.forEach((name) => {
-        const ruleName = ruleHelpers.getRuleName(name);
-
-        t.deepEqual(ruleName, 'something');
-    });
-
-    sandbox.restore();
+    t.true(ruleName.endsWith(normalize(expected)), `Rule name is not in the expected path`);
 });
 
-test.serial('getRuleName - returns the right name of the rule for several combination of windows paths and rule names', (t) => {
-    const names = [
-        'c:\\rules\\something',
-        'c:\\rules\\something\\',
-        'c:\\rules\\rule-something',
-        'c:\\rules\\rule-something\\',
-        'c:\\another\\rules\\something',
-        'c:\\another\\rules\\rule-something'
-    ];
+test.serial('getRulePath - constructs a path using "../src/{$currentFileName}" if the package is supposed to be multirule', (t) => {
+    const expected = '@sonarwhal/sonarwhal/packages/sonarwhal/dist/tests/lib/src/rule-helpers.js';
+    const ruleName = ruleHelpers.getRulePath(__filename, true);
 
-    const sandbox = sinon.createSandbox();
-
-    sandbox.stub(path, 'sep').get(() => {
-        return '\\';
-    });
-
-    names.forEach((name) => {
-        const ruleName = ruleHelpers.getRuleName(name);
-
-        t.deepEqual(ruleName, 'something');
-    });
-
-    sandbox.restore();
-});
-
-test.serial(`getRuleName - returns an empty string if it can't determine the rule name`, (t) => {
-    const filePath = '/another/something/';
-
-    const ruleName = ruleHelpers.getRuleName(filePath);
-
-    t.deepEqual(ruleName, '');
-});
-
-test.serial(`getRuleName - returns a combined string if a package name is passed`, (t) => {
-    const sandbox = sinon.createSandbox();
-
-    sandbox.stub(path, 'sep').get(() => {
-        return '/';
-    });
-
-    const filePath = '/another/rule-something';
-    const ruleName = ruleHelpers.getRuleName(filePath, 'package');
-
-    t.deepEqual(ruleName, 'package/something');
+    t.true(ruleName.endsWith(normalize(expected)), `Rule name is not in the expected path`);
 });

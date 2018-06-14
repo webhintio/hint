@@ -2,10 +2,10 @@
 
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 
-const ruleName = getRuleName(__dirname);
+const ruleName = getRulePath(__filename);
 
 const html = {
     noProblems: generateHTMLPage(undefined, '<div role="main"><h1>test</h1></div>'),

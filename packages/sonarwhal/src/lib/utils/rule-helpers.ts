@@ -1,4 +1,5 @@
-import * as path from 'path';
+import { basename, dirname, resolve } from 'path';
+import { findPackageRoot } from './misc';
 
 /** Lower cases all the items of `list`. */
 export const toLowerCase = (list: Array<string>): Array<string> => {
@@ -26,32 +27,23 @@ export const getIncludedHeaders = (headers: object, headerList: Array<string> = 
 };
 
 /**
- * Returns the name of the rule based in the folder structure.
- *
- * * `/something/another` --> ``
- * * `/something/rules/another/` --> `another`
- * * `/something/rules/another` --> `another`
- * * `/something/rules/rule-another` --> `another`
- * * `/something/rule-another/` --> `another`
- * * `/something/rule-another` --> `another`
+ * Returns the name of the rule based on:
+ * * if it is a single rule package --> Searches for the entry point in
+ *   package.json
+ * * if it is muti rule package --> Searches the path to the rule that
+ *   has the same name as the test file
  */
-export const getRuleName = (dirname: string, packageName?: string): string => {
-    const parts = dirname.split(path.sep);
-    let ruleName = '';
+export const getRulePath = (name: string, multirule?: boolean): string => {
+    const dir = dirname(name);
+    const root = findPackageRoot(dir);
 
-    const normalize = (name) => {
-        return name.replace('rule-', '');
-    };
+    if (multirule) {
+        const ruleName = basename(name);
 
-    for (let i = 0; i < parts.length; i++) {
-        if (parts[i].startsWith('rule-') || (parts[i - 1] && parts[i - 1].startsWith('rules'))) {
-            ruleName = normalize(parts[i]);
-
-            return packageName ? `${packageName}/${ruleName}` : ruleName;
-        }
+        return resolve(dir, `../src/${ruleName}`);
     }
 
-    return ruleName;
+    return require.resolve(root);
 };
 
 /**
