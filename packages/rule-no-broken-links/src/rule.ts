@@ -91,7 +91,7 @@ export default class NoBrokenLinksRule implements IRule {
         };
 
         /**
-         * Checks a url against the fetchedUrls array and return the entry if it exist
+         * Checks a URL against the fetchedUrls array and return the entry if it exist
          * The entry has 2 properties, the `url` and the `statusCode`
          */
         const getFetchedUrl = (url: string) => {
