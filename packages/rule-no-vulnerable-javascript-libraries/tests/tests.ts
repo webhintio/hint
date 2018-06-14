@@ -3,7 +3,7 @@
 import * as fs from 'fs';
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
@@ -62,6 +62,6 @@ const userMediumConfigTests: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(getRuleName(__dirname), defaultTests);
-ruleRunner.testRule(getRuleName(__dirname), userHighConfigTests, { ruleOptions: { severity: 'high' } });
-ruleRunner.testRule(getRuleName(__dirname), userMediumConfigTests, { ruleOptions: { severity: 'medium' } });
+ruleRunner.testRule(getRulePath(__filename), defaultTests);
+ruleRunner.testRule(getRulePath(__filename), userHighConfigTests, { ruleOptions: { severity: 'high' } });
+ruleRunner.testRule(getRulePath(__filename), userMediumConfigTests, { ruleOptions: { severity: 'medium' } });
