@@ -1,7 +1,5 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
-import * as pluralize from 'pluralize';
-
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
 import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
@@ -11,7 +9,7 @@ import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 const ruleName = getRuleName(__dirname);
 
 const generateMissingMessage = (value: string, linkTypes: Array<string>): string => {
-    return `'${cutString(value, 100)}' is missing 'rel' ${pluralize('value', linkTypes.length)} '${linkTypes.join('\', \'')}'`;
+    return `'${cutString(value, 100)}' is missing 'rel' ${linkTypes.length === 1 ? 'value' : 'values'} '${linkTypes.join('\', \'')}'`;
 };
 
 const testsForOldBrowsers: Array<RuleTest> = [

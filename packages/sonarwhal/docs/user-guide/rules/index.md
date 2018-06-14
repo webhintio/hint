@@ -20,6 +20,7 @@
 * [`no-bom`](../../../../rule-no-bom/README.md)
 * [`no-friendly-error-pages`](../../../../rule-no-friendly-error-pages/README.md)
 * [`no-p3p`](../../../../rule-no-p3p/README.md)
+* [`stylesheet-limits`](../../../../rule-stylesheet-limits/README.md)
 
 ## Performance
 

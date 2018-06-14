@@ -1,3 +1,32 @@
+# 1.11.1 (June 12, 2018)
+
+## Bug fixes / Improvements
+
+* [[`2dd34eb7f5`](https://github.com/sonarwhal/sonarwhal/commit/2dd34eb7f573947a1027cb46e3b0c437b71b2deb)] - Fix: Issue creating official and not official rules (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1129`](https://github.com/sonarwhal/sonarwhal/issues/1129), and [`#1131`](https://github.com/sonarwhal/sonarwhal/issues/1131)).
+
+
+# 1.11.0 (June 6, 2018)
+
+## Bug fixes / Improvements
+
+* [[`4e5929c8e4`](https://github.com/sonarwhal/sonarwhal/commit/4e5929c8e4faab6431b63fe86045d4460fbaaf6d)] - Fix: Remove `pluralize` dependency (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1122`](https://github.com/sonarwhal/sonarwhal/issues/1122)).
+
+## New features
+
+* [[`b3aa3486a8`](https://github.com/sonarwhal/sonarwhal/commit/b3aa3486a8e467c53bd02697043c6572683f90ae)] - New: Use default configuration if config file doesn't exists (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1095`](https://github.com/sonarwhal/sonarwhal/issues/1095), and [`#1113`](https://github.com/sonarwhal/sonarwhal/issues/1113)).
+
+
+# 1.10.0 (May 31, 2018)
+
+## Bug fixes / Improvements
+
+* [[`2ce78a45e7`](https://github.com/sonarwhal/sonarwhal/commit/2ce78a45e7d39a0e51d8bf1245483d826b25a40b)] - Fix: Lazy load modules depending on the user selected task (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1101`](https://github.com/sonarwhal/sonarwhal/issues/1101)).
+
+## New features
+
+* [[`29ee22011b`](https://github.com/sonarwhal/sonarwhal/commit/29ee22011b451ed4150e8c7c2cc78252755e45fc)] - New: Add `isSupported` util (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.9.1 (May 22, 2018)
 
 ## Bug fixes / Improvements

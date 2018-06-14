@@ -8,11 +8,11 @@ import { ConnectorConfig, CLIOptions, IRule, RuleMetadata, UserConfig } from '..
 import { RuleScope } from '../../src/lib/enums/rulescope';
 import { readFileAsync } from '../../src/lib/utils/misc';
 
-test.beforeEach((t) => {
+test.beforeEach(async (t) => {
     delete require.cache[require.resolve('os')];
     delete require.cache[require.resolve('../../src/lib/config')];
 
-    const os = require('os');
+    const os = await import('os');
     const resourceLoader = {
         loadConfiguration() { },
         loadRule() { }
@@ -23,7 +23,7 @@ test.beforeEach((t) => {
         os
     });
 
-    t.context.config = require('../../src/lib/config');
+    t.context.config = await import('../../src/lib/config');
     t.context.os = os;
     t.context.resourceLoader = resourceLoader;
     t.context.sandbox = sinon.createSandbox();
@@ -189,7 +189,7 @@ test(`if package.json contains the property "ignoredUrls", it shold return them`
     t.is(configuration.ignoredUrls.get('disallowed-headers').length, 1);
 });
 
-test(`if the configuration file contains an extends property, it should combine the configurations`, async (t) => {
+test.serial(`if the configuration file contains an extends property, it should combine the configurations`, async (t) => {
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedRule implements IRule {
@@ -234,7 +234,7 @@ test(`if the configuration file contains an invalid extends property, returns an
 
 });
 
-test(`if a Rule has an invalid configuration, it should tell which ones are invalid`, (t) => {
+test.serial(`if a Rule has an invalid configuration, it should tell which ones are invalid`, (t) => {
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedRule implements IRule {
@@ -342,7 +342,7 @@ test('If both rules and formatters options are specified as CLI arguments, fromC
         formatters: ['summary', 'excel'],
         rules: { 'apple-touch-icons': 'warning' }
     } as UserConfig;
-    const cliOptions = { _: ['https://example.com'], formatters: 'database', rules: 'html-checker'} as CLIOptions;
+    const cliOptions = { _: ['https://example.com'], formatters: 'database', rules: 'html-checker' } as CLIOptions;
 
     const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
 

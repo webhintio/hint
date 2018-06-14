@@ -32,7 +32,8 @@ this:
 
 1. The `CLI` creates a new `SonarwhalConfig` object based on the user's
    `.sonarwharc` file. This process validates that the rules are configured
-   correctly, etc.
+   correctly, etc. If the there is no `.sonarwhalrc` file, `sonarwhal` will
+   use a [default configuration][default configuration].
 1. The `CLI` then passes this `SonarwhalConfig` to the `resource-loader` that
    will return a `SonarwhalResources` object that contains the `Constructors`
    of the configured resources. `resource-loader` checks at the same time if
@@ -58,8 +59,16 @@ Any developer can create their own `rule`s, `connector`s, `parser`s
 and/or `formatter`s, and use them without having to do a pull request to
 the main project and distribute them as [`npm`][npm] packages.
 
+## CLI Flow
+
+You can learn more about how `sonarwhal` loads the configuration and resources
+in this diagram:
+
+[![sonarwhal's flow diagram](images/cli.svg)](images/cli.svg)
+
 <!-- Link labels: -->
 
+[default configuration]: ../../user-guide/#default-configuration
 [events]: ./events.md
 [new connector]: ../how-to/connector.md
 [new formatter]:../how-to/formatter.md

@@ -5,7 +5,8 @@ import * as path from 'path';
 import * as async from 'async';
 import * as inquirer from 'inquirer';
 import * as ora from 'ora';
-import * as pluralize from 'pluralize';
+import * as boxen from 'boxen';
+import * as chalk from 'chalk';
 
 import { SonarwhalConfig } from '../config';
 import { Sonarwhal } from '../sonarwhal';
@@ -16,7 +17,6 @@ import * as logger from '../utils/logging';
 import { cutString } from '../utils/misc';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
-import { initSonarwhalrc } from './wizards/init';
 
 const each = promisify(async.each);
 const debug: debug.IDebugger = d(__filename);
@@ -27,39 +27,54 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const confirmLaunchInit = (): inquirer.Answers => {
-    debug(`Initiating launch init confirm.`);
+const askForConfirm = (question: string): inquirer.Answers => {
+    debug(`Asking for confirmation`);
 
-    const question: Array<object> = [{
-        message: `A valid configuration file can't be found. Do you want to create a new one?`,
+    const questions: inquirer.Questions = [{
+        message: question,
         name: 'confirm',
         type: 'confirm'
     }];
 
-    return inquirer.prompt(question);
+    return inquirer.prompt(questions);
 };
 
 const askUserToCreateConfig = async (): Promise<boolean> => {
-    const launchInit: inquirer.Answers = await confirmLaunchInit();
+    const question: string = `Do you want to create a new configuration?`;
+    const launchInit: inquirer.Answers = await askForConfirm(question);
 
     if (!launchInit.confirm) {
         return false;
     }
 
-    await initSonarwhalrc({ init: true } as CLIOptions);
+    const { default: initSonarwhalrc } = await import('./wizards/init');
+
+    const sonarwhalrcCreated = await initSonarwhalrc();
+
+    if (!sonarwhalrcCreated) {
+        return false;
+    }
+
     logger.log(`Configuration file .sonarwhalrc was created.`);
 
     return true;
 };
 
+const askUserToUseDefaultConfiguration = async (): Promise<boolean> => {
+    const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://sonarwhal.com/docs/user-guide/#default-configuration`;
+    const confirmation: inquirer.Answers = await askForConfirm(question);
+
+    return confirmation.confirm;
+};
+
 const showMissingAndIncompatiblePackages = (resources: SonarwhalResources) => {
     if (resources.missing.length > 0) {
-        logger.log(`The following ${pluralize('package', resources.missing.length)} ${pluralize('is', resources.missing.length)} missing:
+        logger.log(`The following ${resources.missing.length === 1 ? 'package is' : 'packages are'} missing:
     ${resources.missing.join(', ')}`);
     }
 
     if (resources.incompatible.length > 0) {
-        logger.log(`The following ${pluralize('package', resources.incompatible.length)} ${pluralize('is', resources.incompatible.length)} incompatible:
+        logger.log(`The following ${resources.incompatible.length === 1 ? 'package is' : 'packages are'} incompatible:
     ${resources.incompatible.join(', ')}`);
     }
 };
@@ -70,7 +85,7 @@ const askUserToInstallDependencies = async (resources: SonarwhalResources): Prom
     const dependencies: Array<string> = resources.incompatible.concat(resources.missing);
 
     const question: Array<object> = [{
-        message: `There ${pluralize('is', dependencies.length)} ${dependencies.length} ${pluralize('package', dependencies.length)} from your .sonarwhalrc file not installed or with an incompatible version. Do you want us to try to install/update them?`,
+        message: `There ${dependencies.length === 1 ? 'is a package' : 'are packages'} from your .sonarwhalrc file not installed or with an incompatible version. Do you want us to try to install/update them?`,
         name: 'confirm',
         type: 'confirm'
     }];
@@ -80,25 +95,47 @@ const askUserToInstallDependencies = async (resources: SonarwhalResources): Prom
     return answer.confirm;
 };
 
-const getUserConfig = (actions: CLIOptions): UserConfig => {
-    let config: UserConfig;
-    const configPath: string = actions.config || SonarwhalConfig.getFilenameForDirectory(process.cwd());
+const showDefaultMessage = () => {
+    const defaultMessage = `${chalk.default.yellow(`Couldn't find any valid configuration`)}
+
+Running sonarwhal with the default configuration.
+
+Learn more about how to create your own configuration at:
+
+${chalk.default.green('https://sonarwhal.com/docs/user-guide/')}`;
+
+    logger.log(boxen(defaultMessage, {
+        align: 'center',
+        margin: 1,
+        padding: 1
+    }));
+};
+
+const getDefaultConfiguration = () => {
+    showDefaultMessage();
+
+    return { extends: ['web-recommended'] };
+};
+
+const getUserConfig = (actions?: CLIOptions): UserConfig => {
+    const configPath: string = (actions && actions.config) || SonarwhalConfig.getFilenameForDirectory(process.cwd());
 
     if (!configPath) {
-        return null;
+        return getDefaultConfiguration();
     }
 
     debug(`Loading configuration file from ${configPath}.`);
     try {
         const resolvedPath: string = path.resolve(process.cwd(), configPath);
 
-        config = SonarwhalConfig.loadConfigFile(resolvedPath);
+        const config: UserConfig = SonarwhalConfig.loadConfigFile(resolvedPath);
+
+        return config || getDefaultConfiguration();
     } catch (e) {
         logger.error(e);
-        config = null;
-    }
 
-    return config;
+        return null;
+    }
 };
 
 const messages = {
@@ -132,6 +169,47 @@ const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: ORA) => {
     });
 };
 
+const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<SonarwhalConfig> => {
+    const useDefault = await askUserToUseDefaultConfiguration();
+    let userConfig: UserConfig;
+
+    if (useDefault) {
+        showDefaultMessage();
+        userConfig = { extends: ['web-recommended'] };
+    } else {
+        const created = await askUserToCreateConfig();
+
+        if (created) {
+            // Because the configuration was created using the wizard, the configuration file will be in process.cwd()
+            userConfig = await getUserConfig();
+        } else {
+            logger.error(`Unable to find a valid configuration file. Please create a valid .sonarwhalrc file using 'sonarwhal --init'. `);
+
+            return null;
+        }
+    }
+
+    return SonarwhalConfig.fromConfig(userConfig, actions);
+};
+
+const getSonarwhalConfiguration = async (userConfig: UserConfig, actions: CLIOptions): Promise<SonarwhalConfig> => {
+    if (!userConfig) {
+        return getDefaultOrCreateConfig(actions);
+    }
+
+    let config: SonarwhalConfig;
+
+    try {
+        config = SonarwhalConfig.fromConfig(userConfig, actions);
+    } catch (err) {
+        logger.error(err.message);
+
+        config = await getDefaultOrCreateConfig(actions);
+    }
+
+    return config;
+};
+
 /*
  * ------------------------------------------------------------------------------
  * Public
@@ -143,10 +221,7 @@ const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: ORA) => {
 export let sonarwhal: Sonarwhal = null;
 
 /** Analyzes a website if indicated by `actions`. */
-export const analyze = async (actions: CLIOptions): Promise<boolean> => {
-    if (!actions._) {
-        return false;
-    }
+export default async (actions: CLIOptions): Promise<boolean> => {
 
     const targets: Array<URL> = getAsUris(actions._);
 
@@ -154,24 +229,15 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    let userConfig: UserConfig = await getUserConfig(actions);
+    // userConfig will be null if an error occurred loading the user configuration (error parsing a JSON)
+    const userConfig: UserConfig = await getUserConfig(actions);
+    const config: SonarwhalConfig = await getSonarwhalConfiguration(userConfig, actions);
 
-    if (!userConfig) {
-        logger.error(`Couldn't find a valid path to load the configuration file.`);
-
-        const created = await askUserToCreateConfig();
-
-        if (created) {
-            userConfig = await getUserConfig(actions);
-        } else {
-            logger.error(`Unable to find a valid configuration file. Please add a .sonarwhalrc file by running 'sonarwhal --init'. `);
-
-            return false;
-        }
+    if (!config) {
+        return false;
     }
 
-    const config = SonarwhalConfig.fromConfig(userConfig, actions);
-    const resources = resourceLoader.loadResources(config);
+    let resources = resourceLoader.loadResources(config);
 
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {
         const missingPackages = resources.missing.map((name) => {
@@ -179,7 +245,8 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
         });
 
         const incompatiblePackages = resources.incompatible.map((name) => {
-            return `@sonarwhal/${name}`;
+            // If the packages are incompatible, we need to force to install the latest version.
+            return `@sonarwhal/${name}@latest`;
         });
 
         if (!(await askUserToInstallDependencies(resources) &&
@@ -189,6 +256,9 @@ export const analyze = async (actions: CLIOptions): Promise<boolean> => {
             // The user doesn't want to install the dependencies or something went wrong installing them
             return false;
         }
+
+        // After installing all the packages, we need to load the resources again.
+        resources = resourceLoader.loadResources(config);
     }
 
     const invalidConfigRules = SonarwhalConfig.validateRulesConfig(config).invalid;

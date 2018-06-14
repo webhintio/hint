@@ -18,7 +18,7 @@
 > [validator.w3.org/nu][w3 validator].
 > It also provides a [web service interface][validator interface].
 
-This rule interacts with this service via [`html-validator`][html-validator],
+This rule interacts with this service via [`request`][request],
 and is able to test both remote websites and local server instances.
 
 ## What does the rule check?
@@ -156,7 +156,7 @@ configuration file:
 
 <!-- Link labels: -->
 
-[html-validator]: https://www.npmjs.com/package/html-validator
+[request]: https://www.npmjs.com/package/request
 [html5 validator]: https://html5.validator.nu
 [nu html checker docs]: https://validator.w3.org/nu/about.html
 [nu html checker]: https://validator.github.io/validator/

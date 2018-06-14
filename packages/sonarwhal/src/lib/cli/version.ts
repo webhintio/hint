@@ -1,12 +1,8 @@
-import { CLIOptions } from '../types';
 import * as logger from '../utils/logging';
 import { getSonarwhalPackage } from '../utils/misc';
 
 /** Prints the current sonarwhal version in the console. */
-export const printVersion = (actions: CLIOptions): Promise<boolean> => {
-    if (!actions.version) {
-        return Promise.resolve(false);
-    }
+export default (): Promise<boolean> => {
 
     const pkg = getSonarwhalPackage();
 

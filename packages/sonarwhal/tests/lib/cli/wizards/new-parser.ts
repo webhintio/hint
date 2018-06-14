@@ -4,10 +4,6 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { CLIOptions } from '../../../../src/lib/types';
-
-const actions = ({ newParser: true } as CLIOptions);
-
 const fsExtra = { copy() { } };
 const inquirer = { prompt() { } };
 const misc = {
@@ -32,7 +28,7 @@ proxyquire('../../../../src/lib/cli/wizards/new-parser', {
     mkdirp
 });
 
-import * as parser from '../../../../src/lib/cli/wizards/new-parser';
+import newParser from '../../../../src/lib/cli/wizards/new-parser';
 
 test.beforeEach((t) => {
     sinon.stub(fsExtra, 'copy').resolves();
@@ -52,13 +48,6 @@ test.afterEach.always((t) => {
     t.context.misc.normalizeStringByDelimiter.restore();
     t.context.misc.readFileAsync.restore();
     t.context.handlebars.compileTemplate.restore();
-});
-
-
-test.serial('If newParser is not an option, it should return false', async (t) => {
-    const result = await parser.newParser({} as CLIOptions);
-
-    t.false(result);
 });
 
 test.serial('It should create a new official parser.', async (t) => {
@@ -82,7 +71,7 @@ test.serial('It should create a new official parser.', async (t) => {
         .onSecondCall()
         .resolves(parserEventsResult);
 
-    const result = await parser.newParser(actions);
+    const result = await newParser();
 
     // 6 files (2 code + test + doc + tsconfig.json + package.json)
     t.is(t.context.handlebars.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
@@ -131,7 +120,7 @@ test.serial('It should create a new official parser with no duplicate events.', 
 
     t.context.inquirer = inquirer;
 
-    const result = await parser.newParser(actions);
+    const result = await newParser();
     const questions = t.context.inquirer.prompt.args[3][0];
     const eventQuestion = questions.find((question) => {
         return question.name === 'event';
@@ -179,7 +168,7 @@ test.serial('It should create a new non-official parser.', async (t) => {
         .onSecondCall()
         .resolves(parserEventsResult);
 
-    const result = await parser.newParser(actions);
+    const result = await newParser();
 
     // 7 files (2 code + test + doc + tsconfig.json + package.json + .sonarwhalrc)
     t.is(t.context.handlebars.compileTemplate.callCount, 7, `Handlebars doesn't complile the right number of files`);

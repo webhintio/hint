@@ -14,13 +14,13 @@ import * as uniqBy from 'lodash.uniqby';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { FetchEnd, IRule, ProblemLocation, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { IRule, ProblemLocation, Severity, RuleMetadata, TraverseStart } from 'sonarwhal/dist/src/lib/types';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
 type CheckerData = {
-    event: FetchEnd;
+    event: TraverseStart;
     failed: boolean;
     promise: Promise<any>;
 };
@@ -67,9 +67,14 @@ export default class HtmlCheckerRule implements IRule {
         let ignoredMessages;
         /** The options to pass to the HTML checker. */
         const scanOptions = {
-            data: '',
-            format: 'json',
-            validator: ''
+            body: '',
+            headers: {
+                'Content-Type': 'text/html; charset=utf-8',
+                'User-Agent': 'sonarwhal'
+            },
+            method: 'POST',
+            qs: { out: 'json' },
+            url: ''
         };
         /** If the result messages should be grouped. */
         let groupMessage: boolean;
@@ -88,13 +93,8 @@ export default class HtmlCheckerRule implements IRule {
             const validator = (context.ruleOptions && context.ruleOptions.validator) || 'https://validator.w3.org/nu/';
 
             groupMessage = !(context.ruleOptions && context.ruleOptions.details);
-            scanOptions.validator = validator;
+            scanOptions.url = validator;
 
-            /*
-             * Up to now, the `ignore` setting in `html-validator` only works if `format` is set to `text`
-             * So we implement `ignore` in our code rather than pass it to `scanOptions`
-             * TODO: Pass `ignore` once this issue (https://github.com/zrrrzzt/html-validator/issues/58) is solved.
-             */
             ignoredMessages = Array.isArray(ignore) ? ignore : [ignore];
         };
 
@@ -129,28 +129,34 @@ export default class HtmlCheckerRule implements IRule {
             await context.report(resource, null, `Couldn't get results from HTML checker for ${resource}. Error: ${error}`);
         };
 
-        const start = (data: FetchEnd) => {
-            const { response } = data;
+        const requestRetry = async (options, retries: number = 3) => {
+            const { requestAsync, delay } = await import('sonarwhal/dist/src/lib/utils/misc');
 
-            /*
-             * HACK: Need to do a require here in order to be capable
-             * of mocking when testing the rule and `import` doesn't
-             * work here.
-             */
-            const htmlChecker = require('html-validator');
+            try {
+                return await requestAsync(options);
+            } catch (e) {
+                if (retries === 0) {
+                    throw e;
+                }
 
-            scanOptions.data = response.body.content;
+                await delay(500);
 
-            const check: CheckerData = {
+                return await requestRetry(options, retries - 1);
+            }
+        };
+
+        const checkHTML = async (data: TraverseStart): Promise<CheckerData> => {
+            const options = Object.assign({}, scanOptions, { body: await context.pageContent });
+
+            return {
                 event: data,
                 failed: false,
-                promise: scanOptions.data ? htmlChecker(scanOptions) : Promise.resolve({ messages: [] })
+                promise: options.body ? requestRetry(options) : Promise.resolve({ messages: [] })
             };
+        };
 
-            check.promise.catch(async (error) => {
-                check.failed = true;
-                await notifyError(data.resource, error);
-            });
+        const start = async (data: TraverseStart) => {
+            const check: CheckerData = await checkHTML(data);
 
             htmlCheckerPromises.push(check);
         };
@@ -172,9 +178,9 @@ export default class HtmlCheckerRule implements IRule {
 
                 debug(`Waiting for HTML checker results for ${resource}`);
                 try {
-                    result = await check.promise;
+                    result = JSON.parse(await check.promise);
                 } catch (e) {
-                    notifyError(resource, e);
+                    await notifyError(resource, e);
 
                     return;
                 }
@@ -201,7 +207,7 @@ export default class HtmlCheckerRule implements IRule {
 
         loadRuleConfig();
 
-        context.on('fetch::end::html', start);
+        context.on('traverse::start', start);
         context.on('scan::end', end);
     }
 }

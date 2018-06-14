@@ -62,7 +62,7 @@ proxyquire('../../../src/lib/cli/analyze', {
     ora
 });
 
-import * as analyzer from '../../../src/lib/cli/analyze';
+import { default as analyze, sonarwhal } from '../../../src/lib/cli/analyze';
 
 test.beforeEach((t) => {
     sinon.spy(logger, 'log');
@@ -92,6 +92,10 @@ test.afterEach.always((t) => {
 test.serial('If config is not defined, it should get the config file from the directory process.cwd()', async (t) => {
     const sandbox = sinon.createSandbox();
 
+    const sonarwhalObj = new sonarwhalContainer.Sonarwhal();
+
+    sandbox.stub(sonarwhalObj, 'executeOn').resolves([]);
+    sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
         incompatible: [],
         missing: []
@@ -102,14 +106,14 @@ test.serial('If config is not defined, it should get the config file from the di
         .onFirstCall()
         .returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
-    await analyzer.analyze(actions);
+    await analyze(actions);
 
     t.true(t.context.SonarwhalConfig.getFilenameForDirectory.called);
 
     sandbox.restore();
 });
 
-test.serial('If config path doesn\'t exist, it should create a configuration file if user agrees', async (t) => {
+test.serial('If config file does not exist, it should use `web-recommended` as default configuration', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -118,56 +122,75 @@ test.serial('If config path doesn\'t exist, it should create a configuration fil
     });
     sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory')
         .onFirstCall()
-        .returns(null)
-        .onSecondCall()
-        .returns('/config/path');
+        .returns(null);
 
     sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
-    sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
 
-    await t.notThrows(analyzer.analyze(actions));
+    sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
+    await t.notThrows(analyze(actions));
 
-    t.true(t.context.inquirer.prompt.calledOnce);
-    t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
-    t.true(t.context.generator.initSonarwhalrc.calledOnce);
-    t.deepEqual(t.context.generator.initSonarwhalrc.firstCall.args[0], { init: true });
+    t.true(t.context.SonarwhalConfig.fromConfig.calledOnce);
+    t.deepEqual(t.context.SonarwhalConfig.fromConfig.args[0][0], { extends: ['web-recommended'] });
 
     sandbox.restore();
 });
 
-
-test.serial('If config file does not exist, it should create a configuration file if user agrees', async (t) => {
-    const error = { message: `Couldn't find any valid configuration` };
-
+test.serial('If config file is an invalid JSON, it should ask to use the default configuration', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
         incompatible: [],
         missing: []
     });
-    sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile')
+    sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory')
         .onFirstCall()
-        .throws(error)
-        .onSecondCall()
-        .returns({});
+        .returns('config/path');
+
+    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
 
-    await analyzer.analyze(actions);
+    await t.notThrows(analyze(actions));
 
+    t.true(t.context.SonarwhalConfig.fromConfig.calledOnce);
+    t.deepEqual(t.context.SonarwhalConfig.fromConfig.args[0][0], { extends: ['web-recommended'] });
     t.true(t.context.inquirer.prompt.calledOnce);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
-    t.true(t.context.generator.initSonarwhalrc.calledOnce);
-    t.deepEqual(t.context.generator.initSonarwhalrc.firstCall.args[0], { init: true });
+    t.true(t.context.generator.initSonarwhalrc.notCalled);
 
     sandbox.restore();
 });
 
-test.serial('If config file does not exist and user refuses to create a configuration file, it should exit with code 1', async (t) => {
+test.serial('If config file has an invalid configuration, it should ask to use the default configuration', async (t) => {
+    const sandbox = sinon.createSandbox();
+
+    sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        incompatible: [],
+        missing: []
+    });
+    sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
+    sandbox.stub(t.context.SonarwhalConfig, 'fromConfig')
+        .onSecondCall()
+        .returns({});
+    sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
+
+    await analyze(actions);
+
+    t.true(t.context.inquirer.prompt.calledOnce);
+    t.true(t.context.generator.initSonarwhalrc.notCalled);
+    t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
+    t.true(t.context.SonarwhalConfig.fromConfig.calledOnce);
+    t.deepEqual(t.context.SonarwhalConfig.fromConfig.args[0][0], { extends: ['web-recommended'] });
+
+    sandbox.restore();
+});
+
+test.serial('If config file is invalid and user refuses to use the default or to create a configuration file, it should exit with code 1', async (t) => {
     const error = { message: `Couldn't find any valid configuration` };
     const sandbox = sinon.createSandbox();
 
@@ -176,15 +199,15 @@ test.serial('If config file does not exist and user refuses to create a configur
         missing: []
     });
     sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile')
-        .onFirstCall()
-        .throws(error);
+    sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').throws(error);
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
 
-    const result = await analyzer.analyze(actions);
+    const result = await analyze(actions);
 
-    t.true(t.context.inquirer.prompt.calledOnce);
+    t.true(t.context.inquirer.prompt.calledTwice);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
+    t.is(t.context.inquirer.prompt.args[1][0][0].name, 'confirm');
     t.false(t.context.generator.initSonarwhalrc.called);
     t.false(result);
 
@@ -205,7 +228,7 @@ test.serial('If configuration file exists, it should use it', async (t) => {
 
     const customConfigOptions = ({ _: ['http://localhost'], config: 'configfile.cfg' } as CLIOptions);
 
-    await analyzer.analyze(customConfigOptions);
+    await analyze(customConfigOptions);
 
     t.false(t.context.SonarwhalConfig.getFilenameForDirectory.called);
     t.true(t.context.SonarwhalConfig.loadConfigFile.args[0][0].endsWith('configfile.cfg'));
@@ -246,7 +269,7 @@ test.serial('If executeOn returns an error, it should exit with code 1 and call 
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'loadConfigFile').returns({});
 
-    const exitCode = await analyzer.analyze(actions);
+    const exitCode = await analyze(actions);
 
     t.true(FakeFormatter.called);
     t.false(exitCode);
@@ -267,7 +290,7 @@ test.serial('If executeOn returns an error, it should call to spinner.fail()', a
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
     sandbox.stub(sonarwhalContainer.Sonarwhal.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
 
-    await analyzer.analyze(actions);
+    await analyze(actions);
 
     t.true(t.context.spinner.fail.calledOnce);
 
@@ -287,7 +310,7 @@ test.serial('If executeOn throws an exception, it should exit with code 1', asyn
     sandbox.stub(sonarwhalContainer.Sonarwhal.prototype, 'executeOn').throws(new Error());
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
 
-    const result = await analyzer.analyze(actions);
+    const result = await analyze(actions);
 
     t.false(result);
 
@@ -307,7 +330,7 @@ test.serial('If executeOn throws an exception, it should call to spinner.fail()'
     sandbox.stub(sonarwhalContainer.Sonarwhal.prototype, 'executeOn').throws(new Error());
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
 
-    await analyzer.analyze(actions);
+    await analyze(actions);
 
     t.true(t.context.spinner.fail.calledOnce);
 
@@ -346,7 +369,7 @@ test.serial('If executeOn returns no errors, it should exit with code 0 and call
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
 
-    const exitCode = await analyzer.analyze(actions);
+    const exitCode = await analyze(actions);
 
     t.true(FakeFormatter.called);
     t.true(exitCode);
@@ -386,7 +409,7 @@ test.serial('If executeOn returns no errors, it should call to spinner.succeed()
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
 
-    await analyzer.analyze(actions);
+    await analyze(actions);
 
     t.true(t.context.spinner.succeed.calledOnce);
 
@@ -418,7 +441,7 @@ test.serial('Event fetch::start should write a message in the spinner', async (t
         return [new FakeFormatter()];
     });
     sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
-        await analyzer.sonarwhal.emitAsync('fetch::start', { resource: 'http://localhost/' });
+        await sonarwhal.emitAsync('fetch::start', { resource: 'http://localhost/' });
     });
     sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
     sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
@@ -426,7 +449,7 @@ test.serial('Event fetch::start should write a message in the spinner', async (t
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
 
-    await analyzer.analyze(actions);
+    await analyze(actions);
 
     t.is(spinner.text, 'Downloading http://localhost/');
 
@@ -458,7 +481,7 @@ test.serial('Event fetch::end should write a message in the spinner', async (t) 
         return [new FakeFormatter()];
     });
     sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
-        await analyzer.sonarwhal.emitAsync('fetch::end', { resource: 'http://localhost/' });
+        await sonarwhal.emitAsync('fetch::end', { resource: 'http://localhost/' });
     });
     sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
     sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
@@ -466,7 +489,7 @@ test.serial('Event fetch::end should write a message in the spinner', async (t) 
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
 
-    await analyzer.analyze(actions);
+    await analyze(actions);
 
     t.is(spinner.text, 'http://localhost/ downloaded');
 
@@ -498,7 +521,7 @@ test.serial('Event fetch::end::html should write a message in the spinner', asyn
         return [new FakeFormatter()];
     });
     sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
-        await analyzer.sonarwhal.emitAsync('fetch::end::html', { resource: 'http://localhost/' });
+        await sonarwhal.emitAsync('fetch::end::html', { resource: 'http://localhost/' });
     });
     sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
     sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
@@ -506,7 +529,7 @@ test.serial('Event fetch::end::html should write a message in the spinner', asyn
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
 
-    await analyzer.analyze(actions);
+    await analyze(actions);
 
     t.is(spinner.text, 'http://localhost/ downloaded');
 
@@ -538,7 +561,7 @@ test.serial('Event traverse::up should write a message in the spinner', async (t
         return [new FakeFormatter()];
     });
     sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
-        await analyzer.sonarwhal.emitAsync('traverse::up', { resource: 'http://localhost/' });
+        await sonarwhal.emitAsync('traverse::up', { resource: 'http://localhost/' });
     });
     sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
     sandbox.stub(config.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
@@ -546,7 +569,7 @@ test.serial('Event traverse::up should write a message in the spinner', async (t
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
 
-    await analyzer.analyze(actions);
+    await analyze(actions);
 
     t.is(spinner.text, 'Traversing the DOM');
 
@@ -578,7 +601,7 @@ test.serial('Event traverse::end should write a message in the spinner', async (
         return [new FakeFormatter()];
     });
     sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
-        await analyzer.sonarwhal.emitAsync('traverse::end', { resource: 'http://localhost/' });
+        await sonarwhal.emitAsync('traverse::end', { resource: 'http://localhost/' });
     });
     sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
     sandbox.stub(t.context.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
@@ -586,7 +609,7 @@ test.serial('Event traverse::end should write a message in the spinner', async (
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
 
-    await analyzer.analyze(actions);
+    await analyze(actions);
 
     t.is(spinner.text, 'Traversing finished');
 
@@ -618,7 +641,7 @@ test.serial('Event scan::end should write a message in the spinner', async (t) =
         return [new FakeFormatter()];
     });
     sandbox.stub(sonarwhalObj, 'executeOn').callsFake(async () => {
-        await analyzer.sonarwhal.emitAsync('scan::end', { resource: 'http://localhost/' });
+        await sonarwhal.emitAsync('scan::end', { resource: 'http://localhost/' });
     });
     sandbox.stub(sonarwhalContainer, 'Sonarwhal').returns(sonarwhalObj);
     sandbox.stub(config.SonarwhalConfig, 'getFilenameForDirectory').returns('/config/path');
@@ -626,7 +649,7 @@ test.serial('Event scan::end should write a message in the spinner', async (t) =
     sandbox.stub(t.context.SonarwhalConfig, 'fromConfig').returns({});
     sandbox.stub(t.context.SonarwhalConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
 
-    await analyzer.analyze(actions);
+    await analyze(actions);
 
     t.is(spinner.text, 'Finishing...');
 
@@ -634,13 +657,7 @@ test.serial('Event scan::end should write a message in the spinner', async (t) =
 });
 
 test.serial('If no sites are defined, it should return false', async (t) => {
-    const result = await analyzer.analyze({ _: [] } as CLIOptions);
-
-    t.false(result);
-});
-
-test.serial('If _ property is not defined in actions, it should return false', async (t) => {
-    const result = await analyzer.analyze({} as CLIOptions);
+    const result = await analyze({ _: [] } as CLIOptions);
 
     t.false(result);
 });

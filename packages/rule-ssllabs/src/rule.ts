@@ -139,7 +139,7 @@ export default class SSLLabsRule implements IRule {
             await context.report(resource, null, `Couldn't get results from SSL Labs for ${resource}.`);
         };
 
-        const start = (data: FetchEnd) => {
+        const start = async (data: FetchEnd) => {
             const { resource }: { resource: string } = data;
 
             if (!resource.startsWith('https://')) {
@@ -151,12 +151,7 @@ export default class SSLLabsRule implements IRule {
                 return;
             }
 
-            /*
-             * HACK: Need to do a require here in order to be capable
-             * of mocking when testing the rule and `import` doesn't
-             * work here.
-             */
-            const ssl = require('node-ssllabs');
+            const ssl = await import('node-ssllabs');
             const ssllabs: Function = promisify(ssl.scan);
 
             debug(`Starting SSL Labs scan for ${resource}`);

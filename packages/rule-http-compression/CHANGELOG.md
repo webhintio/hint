@@ -1,3 +1,10 @@
+# 4.0.3 (June 8, 2018)
+
+## Bug fixes / Improvements
+
+* [[`24d88e78b7`](https://github.com/sonarwhal/sonarwhal/commit/24d88e78b77407a51f8b4e159523ef0f6c694d23)] - Fix: Drop `mime-db` dependency (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1108`](https://github.com/sonarwhal/sonarwhal/issues/1108)).
+
+
 # 4.0.2 (May 22, 2018)
 
 ## Bug fixes / Improvements

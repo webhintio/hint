@@ -14,7 +14,7 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { CLIOptions, UserConfig } from '../../types';
+import { UserConfig } from '../../types';
 import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
 import { getInstalledResources, getCoreResources } from '../../utils/resource-loader';
@@ -105,8 +105,9 @@ const customConfig = async (): Promise<InitUserConfig> => {
             choices: formattersKeys,
             default: defaultFormatter,
             message: 'What formatter do you want to use?',
-            name: 'formatter',
-            type: 'list'
+            name: 'formatters',
+            pageSize: 15,
+            type: 'checkbox'
         },
         {
             choices: rulesKeys,
@@ -147,7 +148,7 @@ const customConfig = async (): Promise<InitUserConfig> => {
     };
 
     sonarwhalConfig.connector.name = results.connector;
-    sonarwhalConfig.formatters = [results.formatter];
+    sonarwhalConfig.formatters = results.formatters;
 
     results.rules.forEach((rule) => {
         sonarwhalConfig.rules[rule] = 'error';
@@ -163,10 +164,7 @@ const customConfig = async (): Promise<InitUserConfig> => {
  * * an existing published configuration package
  * * the installed resources
  */
-export const initSonarwhalrc = async (options: CLIOptions): Promise<boolean> => {
-    if (!options.init) {
-        return false;
-    }
+export default async (): Promise<boolean> => {
 
     debug('Starting --init');
 

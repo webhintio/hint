@@ -3,10 +3,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { CLIOptions } from '../../../../src/lib/types';
 import * as handlebarsUtils from '../../../../src/lib/utils/handlebars';
-
-const actions = ({ newRule: true } as CLIOptions);
 
 const inquirer = { prompt() { } };
 const misc = {
@@ -26,13 +23,7 @@ proxyquire('../../../../src/lib/cli/wizards/new-rule', {
     mkdirp
 });
 
-import * as rule from '../../../../src/lib/cli/wizards/new-rule';
-
-test.serial('If newRule is not an option, it should return false', async (t) => {
-    const result = await rule.newRule({} as CLIOptions);
-
-    t.false(result);
-});
+import newRule from '../../../../src/lib/cli/wizards/new-rule';
 
 test.serial('It creates a rule if the option multiple rules is false', async (t) => {
     const results = {
@@ -53,7 +44,7 @@ test.serial('It creates a rule if the option multiple rules is false', async (t)
     sandbox.stub(process, 'cwd').returns(root);
     sandbox.stub(inquirer, 'prompt').resolves(results);
 
-    const result = await rule.newRule(actions);
+    const result = await newRule();
 
     t.true(fsExtraCopyStub.args[0][0].endsWith('files'), 'Unexpected path for official files');
     t.is(fsExtraCopyStub.args[0][1], path.join(root, 'rule-awesome-rule'), 'Copy path is not the expected one');
@@ -104,7 +95,7 @@ test.serial('It creates a package with multiple rules', async (t) => {
         .onThirdCall()
         .resolves(rule2Results);
 
-    const result = await rule.newRule(actions);
+    const result = await newRule();
 
     t.true(fsExtraCopyStub.args[0][0].endsWith('no-official-files'), 'Unexpected path for non official files');
     t.true(fsExtraCopyStub.args[1][0].endsWith('files'), 'Unexpected path for official files');

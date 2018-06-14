@@ -15,7 +15,6 @@ import chalk from 'chalk';
 import * as groupBy from 'lodash.groupby';
 import * as sortBy from 'lodash.sortby';
 import * as forEach from 'lodash.foreach';
-import * as pluralize from 'pluralize';
 import * as logSymbols from 'log-symbols';
 
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
@@ -160,6 +159,6 @@ export default class CodeframeFormatter implements IFormatter {
 
         const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
 
-        logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${pluralize('error', totalErrors)} and ${totalWarnings} ${pluralize('warning', totalWarnings)}`));
+        logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? 'warning' : 'warnings'}`));
     }
 }

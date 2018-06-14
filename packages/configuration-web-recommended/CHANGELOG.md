@@ -1,3 +1,10 @@
+# 6.1.0 (June 6, 2018)
+
+## New features
+
+* [[`34e06c4166`](https://github.com/sonarwhal/sonarwhal/commit/34e06c4166b115f9d108b4602b4f397fb7522d7c)] - New: Add `stylesheet-limits` rule (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 6.0.0 (April 24, 2018)
 
 ## Breaking Changes

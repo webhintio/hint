@@ -5,11 +5,11 @@ import { promisify } from 'util';
 
 import { parse as parseContentTypeHeader } from 'content-type';
 import * as shell from 'shelljs';
+import * as request from 'request';
 
-import stripBom = require('strip-bom');
+import * as stripBom from 'strip-bom';
 import * as requireUncached from 'require-uncached';
 import * as stripComments from 'strip-json-comments';
-import * as requestAsync from 'request-promise';
 
 import { IAsyncHTMLElement } from '../types';
 import { debug as d } from './debug';
@@ -209,8 +209,21 @@ const readFileAsync = async (filePath: string): Promise<string> => {
     return stripBom(content);
 };
 
+const requestAsync = (options: string | request.Options): Promise<any> => {
+    return new Promise((resolve, reject) => {
+        // `as any` because typescript complains about the type of options.
+        request(options as any, (error, res, body) => {
+            if (error) {
+                return reject(error);
+            }
+
+            return resolve(body);
+        });
+    });
+};
+
 /** Request response in the json format from an endpoint */
-const requestJSONAsync = (uri: string, options: object): requestAsync.RequestPromise => {
+const requestJSONAsync = (uri: string, options: object): Promise<any> => {
     const params = Object.assign({
         json: true,
         uri

@@ -1,3 +1,10 @@
+# 5.1.0 (June 6, 2018)
+
+## New features
+
+* [[`343fb47491`](https://github.com/sonarwhal/sonarwhal/commit/343fb4749126e0af7ea5aa2771bda1d48d7efdee)] - New: Allow all valid (and supported) CSS color values (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1119`](https://github.com/sonarwhal/sonarwhal/issues/1119)).
+
+
 # 5.0.1 (April 23, 2018)
 
 ## Bug fixes / Improvements

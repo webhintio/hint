@@ -1,3 +1,10 @@
+# 3.0.5 (June 6, 2018)
+
+## Bug fixes / Improvements
+
+* [[`4e5929c8e4`](https://github.com/sonarwhal/sonarwhal/commit/4e5929c8e4faab6431b63fe86045d4460fbaaf6d)] - Fix: Remove `pluralize` dependency (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1122`](https://github.com/sonarwhal/sonarwhal/issues/1122)).
+
+
 # 3.0.4 (May 15, 2018)
 
 ## Bug fixes / Improvements

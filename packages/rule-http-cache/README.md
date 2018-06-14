@@ -61,7 +61,7 @@ https://example.com/assets/9f61f.js
 https://example.com/assets/9f61f.min.js
 ```
 
-[Test your URLs](https://regex101.com/r/6VduJO/36/)
+[Test your URLs](https://regex101.com/r/KDPUtH/)
 
 ### Examples that **trigger** the rule
 

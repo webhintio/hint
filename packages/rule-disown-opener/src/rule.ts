@@ -12,14 +12,11 @@
 
 import { URL } from 'url';
 
-import { isSupported } from 'caniuse-api';
-import * as pluralize from 'pluralize';
-
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { cutString, isRegularProtocol } from 'sonarwhal/dist/src/lib/utils/misc';
+import { cutString, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import { isSupported } from 'sonarwhal/dist/src/lib/utils/caniuse';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, ElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
@@ -64,7 +61,7 @@ export default class DisownOpenerRule implements IRule {
             });
 
             if (requiredValues.length !== 0) {
-                await context.report(resource, element, `'${cutString(await element.outerHTML(), 100)}' is missing 'rel' ${pluralize('value', requiredValues.length)} '${requiredValues.join('\', \'')}'`, hrefValue);
+                await context.report(resource, element, `'${cutString(await element.outerHTML(), 100)}' is missing 'rel' ${requiredValues.length === 1 ? 'value' : 'values'} '${requiredValues.join('\', \'')}'`, hrefValue);
             }
         };
 

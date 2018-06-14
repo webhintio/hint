@@ -1,3 +1,17 @@
+# 3.1.2 (June 6, 2018)
+
+## Bug fixes / Improvements
+
+* [[`4e5929c8e4`](https://github.com/sonarwhal/sonarwhal/commit/4e5929c8e4faab6431b63fe86045d4460fbaaf6d)] - Fix: Remove `pluralize` dependency (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1122`](https://github.com/sonarwhal/sonarwhal/issues/1122)).
+
+
+# 3.1.1 (May 25, 2018)
+
+## Bug fixes / Improvements
+
+* [[`99c01370c4`](https://github.com/sonarwhal/sonarwhal/commit/99c01370c40f3e7adb0372cbd4826c4a0ffda6fa)] - Docs: Update Regex101 example (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 3.1.0 (May 24, 2018)
 
 ## Bug fixes / Improvements

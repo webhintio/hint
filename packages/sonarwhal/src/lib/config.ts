@@ -25,7 +25,7 @@ import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, RulesConfigObject 
 import { loadJSFile, loadJSONFile } from './utils/misc';
 import { validateConfig } from './config/config-validator';
 import normalizeRules from './config/normalize-rules';
-import { validate as validateRule } from './config/config-rules';
+import { validate as validateRule, getSeverity } from './config/config-rules';
 import * as resourceLoader from './utils/resource-loader';
 
 const debug: debug.IDebugger = d(__filename);
@@ -183,6 +183,19 @@ export class SonarwhalConfig {
     }
 
     /**
+     * Removes all the deactivated rules.
+     */
+    private static cleanRules(rules: RulesConfigObject): RulesConfigObject {
+        return Object.entries(rules).reduce((total, [key, value]) => {
+            if (getSeverity(value)) {
+                total[key] = value;
+            }
+
+            return total;
+        }, {});
+    }
+
+    /**
      * Generates the list of browsers to target using the `browserslist` property
      * of the `sonarwhal` configuration or `package.json` or uses the default one
      */
@@ -285,9 +298,9 @@ export class SonarwhalConfig {
 
         const browsers = browserslist(config.browserslist);
         const ignoredUrls = loadIgnoredUrls(userConfig);
-        const rules = normalizeRules(userConfig.rules);
+        const rules = SonarwhalConfig.cleanRules(normalizeRules(userConfig.rules));
 
-        return new SonarwhalConfig(userConfig, browsers, ignoredUrls, normalizeRules(rules));
+        return new SonarwhalConfig(userConfig, browsers, ignoredUrls, rules);
     }
 
     /**
