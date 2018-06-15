@@ -209,9 +209,9 @@
   dependencies:
     "@types/glob" "*"
 
-"@types/handlebars@^4.0.37":
-  version "4.0.37"
-  resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.37.tgz#a3bc3eba0c0f03f753cac00841a5b21e26a02c03"
+"@types/handlebars@^4.0.38":
+  version "4.0.38"
+  resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.38.tgz#d0ebec1934c0bba97f99a0cb703fe2ef8c4a662f"
 
 "@types/jsdom@11.0.4":
   version "11.0.4"
@@ -6945,9 +6945,13 @@ typescript-eslint-parser@^16.0.0:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript@^2.8.1, typescript@^2.8.3:
+typescript@^2.8.1:
   version "2.9.1"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.1.tgz#fdb19d2c67a15d11995fd15640e373e09ab09961"
+
+typescript@^2.9.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.5"
