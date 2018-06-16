@@ -1,7 +1,8 @@
 # Check for broken links (`@sonarwhal/rule-broken-links`)
 
 This rule checks and reports if any links in your page are broken.
-This includes anchor tag `href` value, image `src` value, script `src` value, video `src` value etc.
+This includes anchor tag `href` value, image `src` value,
+script `src` value, video `src` value etc.
 
 ## Why is this important?
 
@@ -21,8 +22,8 @@ This rule gets executed on all the below elements.
 8. `link` - checks for `src` attribute value
 9. `track` - checks for `src` attribute value
 
-If the response status of the resource link is either `404` or `410` or `500` or `503`,
-the URL will be flagged as a broken link.
+If the response status of the resource link is either `404` or `410`
+or `500` or `503`, the URL will be flagged as a broken link.
 
 ### Examples that **trigger** the rule
 
