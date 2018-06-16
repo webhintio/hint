@@ -35,6 +35,7 @@
         "no-protocol-relative-urls": "warning",
         "no-vulnerable-javascript-libraries": "warning",
         "performance-budget": "warning",
+        "stylesheet-limits": "warning",
         "sri": "warning",
         "ssllabs": "off",
         "strict-transport-security": "warning",

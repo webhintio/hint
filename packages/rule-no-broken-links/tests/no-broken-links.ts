@@ -51,6 +51,14 @@ const bodyWithBrokenLinkTag = `<div>
 <link rel="stylesheet" href='/404'>
 </div>`;
 
+const bodyWithBrokenImageSrcSets = `<div>
+<img alt="test" src="/1.jpg" srcset="2.jpg 640w,3.jpg 750w , 4.jpg 1080w">
+</div>`;
+
+const bodyWithBrokenVideo = `<div>
+<video controls src="/1.mp4" poster="/2.png">
+</div>`;
+
 const tests: Array<RuleTest> = [
     {
         name: `This test should pass as it has links with valid href value`,
@@ -124,6 +132,32 @@ const tests: Array<RuleTest> = [
         serverConfig: {
             '/': {content: generateHTMLPage('', bodyWithBrokenLinkTag)},
             '/404': {status: 404}
+        }
+    },
+    {
+        name: `This test should fail as it has an img with 404 src and srcset values`,
+        reports: [{ message: `Broken link found (404 response)`},
+            { message: `Broken link found (404 response)`},
+            { message: `Broken link found (404 response)`},
+            { message: `Broken link found (404 response)`}
+        ],
+        serverConfig: {
+            '/': {content: generateHTMLPage('', bodyWithBrokenImageSrcSets)},
+            '/1.jpg': {status: 404},
+            '/2.jpg': {status: 404},
+            '/3.jpg': {status: 404},
+            '/4.jpg': {status: 404}
+        }
+    },
+    {
+        name: `This test should fail as it has a video tag broken poster and src`,
+        reports: [{ message: `Broken link found (404 response)`},
+            { message: `Broken link found (404 response)`}
+        ],
+        serverConfig: {
+            '/': {content: generateHTMLPage('', bodyWithBrokenVideo)},
+            '/1.mp4': {status: 404},
+            '/2.png': {status: 404}
         }
     }
 ];

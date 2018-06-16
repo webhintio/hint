@@ -1,7 +1,7 @@
 # Check for broken links (`@sonarwhal/rule-broken-links`)
 
 This rule checks and reports if any links in your page are broken.
-This includes anchor tag `href` value and image `src` attribute value.
+This includes anchor tag `href` value, image `src` value, script `src` value, video `src` value etc.
 
 ## Why is this important?
 
@@ -9,9 +9,19 @@ Broken links gives your user a bad user experience.
 
 ## What does the rule check?
 
-This rule finds all the anchor tags and image tags in your page and checks
-the `href` or the `src` attribute value is valid by issuing a request to
-the URL. If the response status is either `404` or `410` or `500` or `503`,
+This rule gets executed on all the below elements.
+
+1. `img` - checks `src` and `srcset` attribute values
+2. `script`- checks for `src` attribute value
+3. `anchor` - checks for `href` attribute value
+4. `audio` - checks for `src` attribute value
+5. `video` - checks for `src` and `poster` attribute values
+6. `source` - checks for `src` attribute value
+7. `object` - checks for `data` value attribute value
+8. `link` - checks for `src` attribute value
+9. `track` - checks for `src` attribute value
+
+If the response status of the resource link is either `404` or `410` or `500` or `503`,
 the URL will be flagged as a broken link.
 
 ### Examples that **trigger** the rule
@@ -20,7 +30,7 @@ the URL will be flagged as a broken link.
 
 `<a href="https://example.com/404">Register</a>`
 
-`<img src="https://example.com/image.png" alt="logo"/>`
+`<img src="https://example.com/image.png" alt="logo">`
 
 #### Relative URL
 
@@ -54,7 +64,7 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "rules": {
-        "no-broken-links":"error"
+        "no-broken-links": "error"
     },
     ...
 }
