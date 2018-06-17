@@ -40,7 +40,7 @@ resources:
   Better savings can be achieved using [Zopfli][zopfli] which
   can reduce the size on average [3–8% more than gzip][zopfli
   blog post]. Since Zopfli output (for the gzip option) is valid
-  gzip content, Zopfli works eveywere gzip works. The only down
+  gzip content, Zopfli works everywhere gzip works. The only down
   side is that encoding takes more time than gzip, making Zopfli
   more suitable for static content (i.e. encoding resources as part
   of a build script, not on the fly).
