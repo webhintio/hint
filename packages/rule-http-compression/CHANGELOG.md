@@ -1,3 +1,10 @@
+# 4.0.4 (June 18, 2018)
+
+## Bug fixes / Improvements
+
+* [[`74766f0132`](https://github.com/sonarwhal/sonarwhal/commit/74766f013206912b789f0899d8ba139e0f3c86a6)] - Docs: Fix typo (by [`Wes Cook`](https://github.com/WesCook) / see also: [`#1136`](https://github.com/sonarwhal/sonarwhal/issues/1136)).
+
+
 # 4.0.3 (June 8, 2018)
 
 ## Bug fixes / Improvements
