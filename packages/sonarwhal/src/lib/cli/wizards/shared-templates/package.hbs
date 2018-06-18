@@ -23,7 +23,7 @@
     "npm-run-all": "{{dependencyVersion "npm-run-all" "^4.1.2"}}",
     "nyc": "{{dependencyVersion "nyc" "^11.8.0"}}",
     "rimraf": "{{dependencyVersion "rimraf" "^2.6.2"}}",
-    "sonarwhal": "^{{version}}",
+    "sonarwhal": "^1.0.0",
     "typescript": "{{dependencyVersion "typescript" "^2.6.2"}}",
     "typescript-eslint-parser": "{{dependencyVersion "typescript-eslint-parser" "^15.0.0"}}"
   },
@@ -64,7 +64,7 @@
     "statements": 85
   },{{/if}}
   "peerDependencies": {
-    "sonarwhal": "^{{version}}"
+    "sonarwhal": "^1.0.0"
   },
   "private": true,{{#if official}}
   "repository": "sonarwhal/sonarwhal",{{else}}
@@ -79,7 +79,7 @@
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",{{else}}
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",{{/if}}
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
-    "sonarwhal": "node node_modules/sonarwhal/dist/src/bin/sonarwhal.js",
+    "sonarwhal": "^1.0.0",
     "test": "npm run lint && npm run build && nyc ava",
     "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
