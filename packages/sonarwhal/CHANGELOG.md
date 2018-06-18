@@ -1,3 +1,10 @@
+# 1.11.2 (June 18, 2018)
+
+## Bug fixes / Improvements
+
+* [[`873060cdea`](https://github.com/sonarwhal/sonarwhal/commit/873060cdea067b11d7c28179b52e2ab060f2d716)] - Docs: Update rule list (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.11.1 (June 12, 2018)
 
 ## Bug fixes / Improvements
