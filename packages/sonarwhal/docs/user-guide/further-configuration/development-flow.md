@@ -56,7 +56,7 @@ and once it ends, kill the server started by `http-server`:
     "scripts": {
         ...
         "start": "http-server dist -s -g",
-        "sonarwhal": "sonarwhal http://localhost:8080",
+        "sonarwhal": "^1.0.0",
         "test": "npm build && npm-run-all -r -p http-server sonarwhal",
         ...
     }
