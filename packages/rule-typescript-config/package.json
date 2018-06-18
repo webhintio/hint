@@ -21,7 +21,7 @@
     "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
     "sinon": "^6.0.0",
-    "sonarwhal": "^1.11.1",
+    "sonarwhal": "^1.11.2",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.0"
   },
@@ -47,7 +47,7 @@
   },
   "peerDependencies": {
     "@sonarwhal/parser-typescript-config": "^3.0.0",
-    "sonarwhal": "^1.11.1"
+    "sonarwhal": "^1.11.2"
   },
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
