@@ -27,6 +27,7 @@
         "meta-viewport": "warning",
         "minified-js": "warning",
         "no-bom": "warning",
+        "no-broken-links": "warning",
         "no-disallowed-headers": "warning",
         "no-friendly-error-pages": "warning",
         "no-html-only-headers": "warning",
@@ -35,10 +36,10 @@
         "no-protocol-relative-urls": "warning",
         "no-vulnerable-javascript-libraries": "warning",
         "performance-budget": "warning",
-        "stylesheet-limits": "warning",
         "sri": "warning",
         "ssllabs": "off",
         "strict-transport-security": "warning",
+        "stylesheet-limits": "warning",
         "validate-set-cookie-header": "warning",
         "x-content-type-options": "warning"
     }

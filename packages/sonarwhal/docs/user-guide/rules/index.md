@@ -1,7 +1,9 @@
 # Rules categories
 
 * [Accessibility (a11y)](#accessibility)
+* [Development](#development)
 * [Interoperability](#interoperability)
+* [Other](#other)
 * [Performance](#performance)
 * [PWAs](#pwas)
 * [Security](#security)
@@ -9,6 +11,12 @@
 ## Accessibility
 
 * [`axe`](../../../../rule-axe/README.md)
+
+## Development
+
+* [`babel-config`](../../../../rule-babel-config/README.md)
+* [`typescript-config`](../../../../rule-typescript-config/README.md)
+* [`webpack-config`](../../../../rule-webpack-config/README.md)
 
 ## Interoperability
 
@@ -21,6 +29,10 @@
 * [`no-friendly-error-pages`](../../../../rule-no-friendly-error-pages/README.md)
 * [`no-p3p`](../../../../rule-no-p3p/README.md)
 * [`stylesheet-limits`](../../../../rule-stylesheet-limits/README.md)
+
+## Other
+
+* [`no-broken-links`](../../../../rule-no-broken-links)
 
 ## Performance
 
@@ -50,9 +62,3 @@
 * [`strict-transport-security`](../../../../rule-strict-transport-security/README.md)
 * [`validate-set-cookie-header`](../../../../rule-validate-set-cookie-header/README.md)
 * [`x-content-type-options`](../../../../rule-x-content-type-options/README.md)
-
-## Development
-
-* [`babel-config`](../../../../rule-babel-config/README.md)
-* [`typescript-config`](../../../../rule-typescript-config/README.md)
-* [`webpack-config`](../../../../rule-webpack-config/README.md)
