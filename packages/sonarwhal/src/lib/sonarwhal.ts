@@ -118,6 +118,41 @@ export class Sonarwhal extends EventEmitter {
 
         this.rules = new Map();
 
+        /**
+         * Returns the configuration for a given rule ID. In the case of a rule
+         * pointing to a path, it will return the content of the first entry
+         * in the config that contains the ID. E.g.:
+         * * `../rule-x-content-type-options` is the key in the config
+         * * `x-content-type-options` is the ID of the rule
+         * * One of the keys in the config `includes` the rule ID so it's a match
+         *
+         * @param id The id of the rule
+         */
+        const getRuleConfig = (id: string): RuleConfig | Array<RuleConfig> => {
+            if (config.rules[id]) {
+                return config.rules[id];
+            }
+
+            const ruleEntries = Object.keys(config.rules);
+            const idParts = id.split('/');
+
+            /**
+             * At this point we are trying to find the configuration of a rule specified
+             * via a path.
+             * Rules that are from a multipackage are like `packageName/rule-id`.
+             * But most likely the code is not going to be in that path and be more like
+             * `packageName/dist/src/rule-id`
+             * To solve this, we check that all the parts of the id are included
+             */
+            const ruleKey = ruleEntries.find((entry) => {
+                return idParts.every((idPart) => {
+                    return entry.includes(idPart);
+                });
+            });
+
+            return config.rules[ruleKey];
+        };
+
         resources.rules.forEach((Rule) => {
             debug('Loading rules');
             const id = Rule.meta.id;
@@ -130,7 +165,7 @@ export class Sonarwhal extends EventEmitter {
                     ignoredConnectors.includes(connectorId);
             };
 
-            const ruleOptions: RuleConfig | Array<RuleConfig> = config.rules[id];
+            const ruleOptions: RuleConfig | Array<RuleConfig> = getRuleConfig(id);
             const severity: Severity = getSeverity(ruleOptions);
 
             if (ignoreRule(Rule)) {

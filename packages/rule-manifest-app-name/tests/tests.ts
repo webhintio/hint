@@ -1,5 +1,5 @@
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
@@ -62,4 +62,4 @@ const tests: Array<RuleTest> = [
     }
 ];
 
-ruleRunner.testRule(getRuleName(__dirname), tests, { parsers: ['manifest'] });
+ruleRunner.testRule(getRulePath(__filename), tests, { parsers: ['manifest'] });

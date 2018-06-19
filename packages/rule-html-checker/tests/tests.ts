@@ -4,10 +4,10 @@ import * as mock from 'mock-require';
 
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { delay } from 'sonarwhal/dist/src/lib/utils/misc';
 
-const ruleName = getRuleName(__dirname);
+const ruleName = getRulePath(__filename);
 const exampleUrl = 'https://empty.sonarwhal.com/';
 const validatorError = 'error';
 const defaultValidator = 'https://validator.w3.org/nu/';
@@ -109,6 +109,10 @@ const testsForDefaults: Array<RuleTest> = [
         before() {
             htmlCheckerMock({ pass: true });
         }
+    },
+    {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     },
     {
         name: 'Reports warnings/errors if the HTML checker returns messages',

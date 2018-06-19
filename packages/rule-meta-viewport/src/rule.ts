@@ -6,7 +6,7 @@
 import { parseMetaViewPortContent } from 'metaviewport-parser';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { isHTMLDocument, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, TraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { IRule } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
@@ -156,15 +156,6 @@ export default class MetaViewportRule implements IRule {
         const validate = async (event: TraverseEnd) => {
 
             const { resource }: { resource: string } = event;
-
-            // The following checks don't make sense for non-HTML documents.
-
-            if (!isHTMLDocument(resource, context.pageHeaders)) {
-                return;
-            }
-
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
             const viewportMetaTags: Array<IAsyncHTMLElement> = getViewportMetaTags(await pageDOM.querySelectorAll('meta'));
 

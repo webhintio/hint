@@ -1,11 +1,11 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const ruleName = getRulePath(__filename);
 
 const metaTag = '<meta http-equiv="x-ua-compatible" content="ie=edge">';
 
@@ -23,6 +23,10 @@ const testsForNonDocumentModeBrowsers: Array<RuleTest> = [
         name: `'X-UA-Compatible' meta tag is not specified but the targeted browsers don't support document modes`,
         reports: [{ message: `Meta tag is not needed` }],
         serverConfig: { '/': { content: generateHTMLPageWithMetaTag() } }
+    },
+    {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     }
 ];
 

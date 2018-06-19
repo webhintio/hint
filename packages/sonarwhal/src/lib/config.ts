@@ -15,6 +15,7 @@
 
 import * as os from 'os';
 import * as path from 'path';
+import * as fs from 'fs';
 
 import * as browserslist from 'browserslist';
 import * as shell from 'shelljs';
@@ -236,7 +237,6 @@ export class SonarwhalConfig {
         return browserslist(config.browserslist);
     }
 
-
     /**
      * Loads a configuration file regardless of the source. Inspects the file path
      * to determine the correctly way to load the config file.
@@ -253,13 +253,85 @@ export class SonarwhalConfig {
                     config = loadJSONFile(filePath);
                 }
                 break;
-
             case '.js':
                 config = loadJSFile(filePath);
                 break;
 
             default:
                 config = null;
+        }
+
+        config = this.toAbsolutePaths(config, filePath);
+
+        return config;
+    }
+
+    /**
+     * Transforms any relative paths in the configuration to absolute using
+     * the value of `configPath`. `configPath` needs to be a folder.
+     * The values that can be changed are:
+     * * `connector`'s value: `{ "connector": "./myconnector" }`
+     * * `connector.name` value: `{ "connector": { "name": "./myconnector"} }`
+     * * `formatter`s and `parser`s  values: `{ "formatters": ["./myformatter"] }`
+     * * `rule`s keys: `{ "rules: { "./myrule": "warning" } }`
+     */
+    public static toAbsolutePaths(config: UserConfig, configRoot: string): UserConfig {
+        if (!config) {
+            return null;
+        }
+
+        const stat = fs.statSync(configRoot); //eslint-disable-line
+        const configPath = stat.isDirectory() ? configRoot : path.dirname(configRoot);
+
+        if (!configPath) {
+            return config;
+        }
+
+        const resolve = (value: string): string => {
+            if (!value.startsWith('.')) {
+                return value;
+            }
+
+            return path.resolve(configPath, value);
+        };
+
+        // Update the connector value
+        if (config.connector) {
+            if (typeof config.connector === 'string') {
+                config.connector = resolve(config.connector);
+            } else {
+                config.connector.name = resolve(config.connector.name);
+            }
+        }
+
+        // Update extends
+        if (config.extends) {
+            config.extends = config.extends.map(resolve);
+        }
+
+        // Update formatters
+        if (config.formatters) {
+            config.formatters = config.formatters.map(resolve);
+        }
+
+        // Update parsers
+        if (config.parsers) {
+            config.parsers = config.parsers.map(resolve);
+        }
+
+        // Update rules
+        if (config.rules) {
+            const rules = Object.keys(config.rules);
+
+            const transformedRules = rules.reduce((newRules, currentRule) => {
+                const newRule = resolve(currentRule);
+
+                newRules[newRule] = config.rules[currentRule];
+
+                return newRules;
+            }, {});
+
+            config.rules = transformedRules;
         }
 
         return config;
@@ -275,7 +347,6 @@ export class SonarwhalConfig {
             throw new Error(`Couldn't find any valid configuration`);
         }
 
-        // 3, 4
         const userConfig = composeConfig(config);
 
         if (typeof userConfig.connector === 'string') {

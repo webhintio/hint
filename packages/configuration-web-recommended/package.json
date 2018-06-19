@@ -1,31 +1,31 @@
 {
   "dependencies": {
-    "@sonarwhal/formatter-codeframe": "^2.0.4",
-    "@sonarwhal/formatter-stylish": "^2.0.4",
-    "@sonarwhal/formatter-summary": "^2.0.3",
-    "@sonarwhal/rule-axe": "^4.0.2",
-    "@sonarwhal/rule-content-type": "^3.0.4",
-    "@sonarwhal/rule-disown-opener": "^3.0.5",
-    "@sonarwhal/rule-highest-available-document-mode": "^3.0.4",
-    "@sonarwhal/rule-html-checker": "^4.0.0",
-    "@sonarwhal/rule-http-cache": "^3.1.2",
-    "@sonarwhal/rule-http-compression": "^4.0.4",
-    "@sonarwhal/rule-image-optimization-cloudinary": "^3.0.2",
-    "@sonarwhal/rule-meta-charset-utf-8": "^3.0.3",
-    "@sonarwhal/rule-meta-viewport": "^3.0.2",
-    "@sonarwhal/rule-no-bom": "^2.0.5",
-    "@sonarwhal/rule-no-disallowed-headers": "^3.0.4",
-    "@sonarwhal/rule-no-friendly-error-pages": "^3.0.2",
-    "@sonarwhal/rule-no-html-only-headers": "^3.0.5",
-    "@sonarwhal/rule-no-http-redirects": "^3.0.3",
-    "@sonarwhal/rule-no-protocol-relative-urls": "^3.0.2",
-    "@sonarwhal/rule-no-vulnerable-javascript-libraries": "^3.3.0",
-    "@sonarwhal/rule-sri": "^1.0.6",
-    "@sonarwhal/rule-ssllabs": "^3.0.3",
-    "@sonarwhal/rule-strict-transport-security": "^3.0.2",
+    "@sonarwhal/formatter-codeframe": "^1.0.0",
+    "@sonarwhal/formatter-stylish": "^1.0.0",
+    "@sonarwhal/formatter-summary": "^1.0.0",
+    "@sonarwhal/rule-axe": "^1.0.0",
+    "@sonarwhal/rule-content-type": "^1.0.0",
+    "@sonarwhal/rule-disown-opener": "^1.0.0",
+    "@sonarwhal/rule-highest-available-document-mode": "^1.0.0",
+    "@sonarwhal/rule-html-checker": "^1.0.0",
+    "@sonarwhal/rule-http-cache": "^1.0.0",
+    "@sonarwhal/rule-http-compression": "^1.0.0",
+    "@sonarwhal/rule-image-optimization-cloudinary": "^1.0.0",
+    "@sonarwhal/rule-meta-charset-utf-8": "^1.0.0",
+    "@sonarwhal/rule-meta-viewport": "^1.0.0",
+    "@sonarwhal/rule-no-bom": "^1.0.0",
+    "@sonarwhal/rule-no-disallowed-headers": "^1.0.0",
+    "@sonarwhal/rule-no-friendly-error-pages": "^1.0.0",
+    "@sonarwhal/rule-no-html-only-headers": "^1.0.0",
+    "@sonarwhal/rule-no-http-redirects": "^1.0.0",
+    "@sonarwhal/rule-no-protocol-relative-urls": "^1.0.0",
+    "@sonarwhal/rule-no-vulnerable-javascript-libraries": "^1.0.0",
+    "@sonarwhal/rule-sri": "^1.0.0",
+    "@sonarwhal/rule-ssllabs": "^1.0.0",
+    "@sonarwhal/rule-strict-transport-security": "^1.0.0",
     "@sonarwhal/rule-stylesheet-limits": "^1.0.0",
-    "@sonarwhal/rule-validate-set-cookie-header": "^3.0.2",
-    "@sonarwhal/rule-x-content-type-options": "^3.0.3"
+    "@sonarwhal/rule-validate-set-cookie-header": "^1.0.0",
+    "@sonarwhal/rule-x-content-type-options": "^1.0.0"
   },
   "description": "sonarwhal's recommended rules configuration for live websites",
   "engines": {
@@ -49,8 +49,9 @@
   "main": "index.json",
   "name": "@sonarwhal/configuration-web-recommended",
   "peerDependencies": {
-    "sonarwhal": "^1.11.2"
+    "sonarwhal": "^1.0.0"
   },
+  "private": true,
   "repository": "sonarwhal/sonarwhal",
-  "version": "6.1.0"
+  "version": "1.0.0"
 }

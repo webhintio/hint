@@ -2,11 +2,11 @@
 
 import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const ruleName = getRulePath(__filename);
 
 const generateMissingMessage = (value: string, linkTypes: Array<string>): string => {
     return `'${cutString(value, 100)}' is missing 'rel' ${linkTypes.length === 1 ? 'value' : 'values'} '${linkTypes.join('\', \'')}'`;
@@ -147,6 +147,13 @@ const testsForOldBrowsers: Array<RuleTest> = [
                         <area shape="rect" coords="0,0,100,100" href="https://example.com" target="_blank" rel="noreferrer noopener">
                     </map>`)
         }
+    },
+
+    // Resource is not an HTML document
+
+    {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     }
 ];
 

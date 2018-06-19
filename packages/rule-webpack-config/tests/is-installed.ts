@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as mock from 'mock-require';
 
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { RuleLocalTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 
@@ -10,7 +11,7 @@ const webpackDestPath = path.join(__dirname, 'fixtures', 'valid', 'package.json'
 const webpackConfig = misc.loadJSONFile(webpackDestPath);
 const originalGetPackage = misc.getPackage;
 
-const ruleName = 'webpack-config/is-installed';
+const ruleName = getRulePath(__filename, true);
 const tests: Array<RuleLocalTest> = [
     {
         after() {

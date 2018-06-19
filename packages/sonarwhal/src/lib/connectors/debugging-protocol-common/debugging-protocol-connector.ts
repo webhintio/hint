@@ -21,7 +21,7 @@ import { AsyncHTMLDocument, AsyncHTMLElement } from './async-html';
 import { getContentTypeData, getType } from '../../utils/content-type';
 import { debug as d } from '../../utils/debug';
 import * as logger from '../../utils/logging';
-import { cutString, delay, hasAttributeWithValue } from '../../utils/misc';
+import { cutString, delay, hasAttributeWithValue, isHTMLDocument } from '../../utils/misc';
 
 import {
     BrowserInfo, IConnector,
@@ -457,9 +457,10 @@ export class Connector implements IConnector {
         const originalUrl: string = hops[0] || resourceUrl;
 
         let element = null;
-        let eventName: string = this._href === originalUrl ? 'fetch::end::html' : 'fetch::end';
+        let eventName: string = 'fetch::end';
+        const isTarget: boolean = this._href === originalUrl;
 
-        if (eventName !== 'fetch::end::html') {
+        if (!isTarget) {
             // DOM is not ready so we queue up the event for later
             if (!this._dom) {
                 this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
@@ -488,14 +489,14 @@ export class Connector implements IConnector {
             response
         };
 
-        if (eventName === 'fetch::end::html') {
+        if (isTarget) {
             this._targetNetworkData = {
                 request,
                 response
             };
-        } else if (eventName === 'fetch::end') {
-            eventName = `${eventName}::${getType(response.mediaType)}`;
         }
+
+        eventName = `${eventName}::${getType(response.mediaType)}`;
 
         if (hasAttributeWithValue(data.element, 'link', 'rel', 'icon')) {
             this._faviconLoaded = true;
@@ -741,6 +742,16 @@ export class Connector implements IConnector {
 
                 if (this._errorWithPage) {
                     return callback(new Error('Problem loading the website'));
+                }
+
+                /*
+                 * If the target is not an HTML we don't need to
+                 * traverse it.
+                 */
+                if (!isHTMLDocument(this._finalHref, this.headers)) {
+                    await this._server.emitAsync('scan::end', event);
+
+                    return callback();
                 }
 
                 await this._server.emitAsync('traverse::start', event);

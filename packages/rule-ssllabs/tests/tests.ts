@@ -4,9 +4,9 @@ import * as mock from 'mock-require';
 
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 
-const ruleName = getRuleName(__dirname);
+const ruleName = getRulePath(__filename);
 
 const ssllabsMock = (response) => {
     const mockedModule = {
@@ -56,6 +56,10 @@ const testsForDefaults: Array<RuleTest> = [
         before() {
             ssllabsMock(results.nohttps);
         }
+    },
+    {
+        name: `Resource is not an HTML document`,
+        serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     }
 ];
 
