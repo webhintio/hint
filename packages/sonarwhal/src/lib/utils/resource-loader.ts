@@ -12,11 +12,12 @@
  */
 
 import * as path from 'path';
+import * as fs from 'fs';
 
 import * as globby from 'globby';
 import * as semver from 'semver';
 
-import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, isNormalizedIncluded, readFile } from '../utils/misc';
+import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, isNormalizedIncluded, readFile, loadJSONFile } from '../utils/misc';
 import { debug as d } from '../utils/debug';
 import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
 import { SonarwhalConfig } from '../config';
@@ -136,6 +137,19 @@ export const tryToLoadFrom = (resourcePath: string): any => {
     // This is exported so it's easier to stub during tests
     let builder: any = null;
 
+    /*
+     * We could be loading a config file that points to a path (thus a JSON).
+     * `require` will try to load `.js`, `.json`, `.node` so it will fail and
+     * we have to manually do this
+     */
+    try {
+        const resource = loadJSONFile(resourcePath);
+
+        return resource;
+    } catch (e) {
+        debug(`${resourcePath} is not a JSON file, trying to load it normally`);
+    }
+
     try {
         /*
          * The following link has more info on how `require` resolves modules:
@@ -244,13 +258,17 @@ const generateConfigPathsToResources = (configurations: Array<string>, name: str
  */
 export const loadResource = (name: string, type: ResourceType, configurations: Array<string> = [], verifyVersion = false) => {
     debug(`Searching ${name}…`);
-
+    const isSource = fs.existsSync(name); // eslint-disable-line no-sync
     const nameSplitted = name.split('/');
 
     const packageName = nameSplitted[0];
-    const resourceName = nameSplitted[1] || packageName;
+    const resourceName = isSource ?
+        name :
+        nameSplitted[1] || packageName;
 
-    const key: string = `${type}-${name}`;
+    const key: string = isSource ?
+        name :
+        `${type}-${name}`;
 
     // When we check the version we ignore if there was a previous version loaded
     if (resources.has(key) && !verifyVersion) {
@@ -269,21 +287,32 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
      * has to be `rule-typescript-config/is-valid`.
      * But we need to load the package `@sonarwhal/rule-typescript-config`.
      */
-    const sources: Array<string> = [
-        `@sonarwhal/${type}-${packageName}`, // Officially supported package
-        `sonarwhal-${type}-${packageName}`, // Third party package
-        path.normalize(`${SONARWHAL_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
-        path.normalize(currentProcessDir) // External rules.
-        // path.normalize(`${path.resolve(SONARWHAL_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
-    ].concat(configPathsToResources);
+    const sources: Array<string> = isSource ?
+        [path.resolve(currentProcessDir, name)] : // If the name is direct path to the source we should only check that
+        [
+            `@sonarwhal/${type}-${packageName}`, // Officially supported package
+            `sonarwhal-${type}-${packageName}`, // Third party package
+            path.normalize(`${SONARWHAL_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
+            path.normalize(currentProcessDir) // External rules.
+            // path.normalize(`${path.resolve(SONARWHAL_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
+        ].concat(configPathsToResources);
 
     let resource;
+    let loadedSource: string;
     let isValid: boolean = true;
 
     sources.some((source: string) => {
         const res = getResource(source, type, resourceName);
 
-        if (res) {
+        if (res && isSource) {
+            isValid = true;
+            resource = res;
+            loadedSource = source;
+
+            return true;
+        }
+
+        if (res && !isSource) { // Paths to sources might not have packages and versioning doesn't apply
             debug(`${name} found in ${source}`);
 
             if (source === currentProcessDir) {
@@ -308,6 +337,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
 
             isValid = true;
             resource = res;
+            loadedSource = source;
         }
 
         return resource;
@@ -320,6 +350,10 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     if (!resource) {
         debug(`Resource ${name} not found`);
         throw new ResourceError(`Resource ${name} not found`, ResourceErrorStatus.NotFound);
+    }
+
+    if (type === ResourceType.configuration) {
+        resource = SonarwhalConfig.toAbsolutePaths(resource, require.resolve(loadedSource));
     }
 
     resources.set(key, resource);

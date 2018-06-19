@@ -2,10 +2,10 @@
 
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import { readFile } from 'sonarwhal/dist/src/lib/utils/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const ruleName = getRulePath(__filename);
 
 const validAMPHTML = readFile(`${__dirname}/fixtures/valid-amp.html`);
 const invalidAMPHTML = readFile(`${__dirname}/fixtures/invalid-amp.html`);

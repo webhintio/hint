@@ -1,9 +1,10 @@
 import * as path from 'path';
 
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 import { RuleLocalTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 
-const ruleName = 'webpack-config/config-exists';
+const ruleName = getRulePath(__filename, true);
 
 const tests: Array<RuleLocalTest> = [
     {

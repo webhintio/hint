@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 
 import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
-import { getRuleName } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
 import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
 
-const ruleName = getRuleName(__dirname);
+const ruleName = getRulePath(__filename);
 
 const defaultImage = fs.readFileSync(`${__dirname}/fixtures/apple-touch-icon.png`); // eslint-disable-line no-sync
 const imageWithIncorrectDimensions = fs.readFileSync(`${__dirname}/fixtures/incorrect-dimensions.png`); // eslint-disable-line no-sync
