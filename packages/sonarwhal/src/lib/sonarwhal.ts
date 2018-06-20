@@ -236,7 +236,7 @@ export class Sonarwhal extends EventEmitter {
         await this.emitAsync('print', this.messages);
     }
 
-    /** Runs all the configured rules and plugins on a target */
+    /** Runs all the configured rules on a target */
     public async executeOn(target: url.URL): Promise<Array<Problem>> {
 
         const start: number = Date.now();
