@@ -1,8 +1,8 @@
 /**
- * @fileoverview Locates and requires resources (Connectors, plugins, rules, formatters)
+ * @fileoverview Locates and requires resources (connectors, parsers, rules, formatters)
  * for sonarwhal across different places in the tree.
  * By convention, these resources need to be under
- * {/, /node_modules/}lib/{connectors, formatters, plugins, rules}/*.js
+ * {/, /node_modules/}lib/{connectors, formatters, parsers, rules}/*.js
  */
 
 /*

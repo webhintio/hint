@@ -61,7 +61,6 @@ export type UserConfig = {
     rulesTimeout?: number;
     formatters?: Array<string>;
     ignoredUrls?: Array<IgnoredUrl>;
-    plugins?: any;
 };
 
 /** A resource required by sonarwhal: Connector, Formatter, Rule. */
