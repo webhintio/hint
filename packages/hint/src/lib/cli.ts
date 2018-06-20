@@ -61,13 +61,12 @@ const notifyIfNeeded = () => {
     notifier.notify({ message });
 };
 
-/** Ask user if he want to activate the telemetry or not. */
+/** Ask user if he wants to activate the telemetry or not. */
 const askForConfirmation = async () => {
     // TODO: What message should we use here?
-    const message: string = `Help us to imporve sonarwhal.
-May we report some statistics about usage?`;
+    const message: string = `Help us make sonarwhal by sending limited usage information (no URLs or code will be captured). To know more about what information will be sent please visit https://sonarwhal.com/docs/user-guide/telemetry`;
 
-    debug(`Asking statistics confirmation.`);
+    debug(`Prompting telemetry permission.`);
 
     const question: Array<object> = [{
         message,

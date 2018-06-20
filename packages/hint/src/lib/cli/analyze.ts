@@ -215,6 +215,14 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     // Question: Track missing resources?
 
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {
+        if (resources.missing.length > 0) {
+            trackEvent('missing', resources.missing);
+        }
+
+        if (resources.incompatible.length > 0) {
+            trackEvent('incompatible', resources.incompatible);
+        }
+
         const missingPackages = resources.missing.map((name) => {
             return `@hint/${name}`;
         });
