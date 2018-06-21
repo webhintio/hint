@@ -1,7 +1,7 @@
 /* eslint-disable no-undefined*/
 
 import * as mock from 'mock-require';
-import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
+import { generateHTMLPage } from 'sonarwhal/dist/src/lib/utils/misc';
 
 export const OkayMaxAge = 31536000; // a max-age value larger than the minimum
 export const smallMaxAge = 1; // a max-age value less than the minimum

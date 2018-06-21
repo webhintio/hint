@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "strict": true,
+        "strictNullChecks": false
+    },
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
+    "extends": "../../tsconfig.json",
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts"
+    ]
+}

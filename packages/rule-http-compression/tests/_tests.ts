@@ -2,7 +2,7 @@ import * as fs from 'fs';
 
 import * as mock from 'mock-require';
 
-import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
 
 // We need to use `require` to be able to overwrite the method `asyncTry`.
 const fnWrapper = require('sonarwhal/dist/src/lib/utils/async-wrapper');

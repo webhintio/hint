@@ -187,6 +187,21 @@ test('toLowerCaseKeys lowercases the properties of an object', (t) => {
     t.deepEqual(actual, expected, `Entries are not the same.`);
 });
 
+test('cutString should cut the string if necessary', (t) => {
+    const texts = {
+        'no need to cut': 'no need to cut',
+        'this text is going to be to long so it will need to be cut': 'this text is going to b … o it will need to be cut'
+    };
+
+    const associations = Object.entries(texts);
+
+    associations.forEach(([orig, cut]) => {
+        const cutString = misc.cutString(orig);
+
+        t.is(cutString, cut, `The cut value for ${orig} is ${cutString} instead of ${cut}`);
+    });
+});
+
 /** AVA macro for readFileAsync regular tests */
 const readFileAsyncMacro = async (t, context) => {
     const location = path.join(__dirname, `./fixtures/${context.file}`);

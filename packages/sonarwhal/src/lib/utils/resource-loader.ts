@@ -425,7 +425,7 @@ export const loadResources = (config: SonarwhalConfig): SonarwhalResources => {
     const incompatible = [].concat(incompatibleFormatters, incompatibleParsers, incompatibleRules);
 
     if (!connector) {
-        missing.push(config.connector);
+        missing.push(`${ResourceType.connector}-${config.connector.name || config.connector}`);
     }
 
     return {

@@ -3,7 +3,7 @@ import { IConnectorConstructor } from './types/connector';
 import { IParserConstructor } from './types/parser';
 import { IRuleConstructor } from './types/rules';
 
-export * from './types/asynchtml';
+export * from './types/async-html';
 export * from './types/connector';
 export * from './types/events';
 export * from './types/formatters';
