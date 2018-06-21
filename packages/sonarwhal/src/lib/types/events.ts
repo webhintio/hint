@@ -1,4 +1,4 @@
-import { IAsyncHTMLElement } from './asynchtml';
+import { IAsyncHTMLElement } from './async-html';
 import { Request, Response } from './network';
 
 export type Event = {

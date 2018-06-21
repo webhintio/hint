@@ -2,8 +2,8 @@ import * as path from 'path';
 import * as mock from 'mock-require';
 
 import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
-import { RuleLocalTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
+import { RuleLocalTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
 
 // We need to use `require` to be able to overwrite the method `getPackage`.
 const misc = require('sonarwhal/dist/src/lib/utils/misc');

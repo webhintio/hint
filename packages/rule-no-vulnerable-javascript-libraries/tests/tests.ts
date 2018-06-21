@@ -2,10 +2,10 @@
 
 import * as fs from 'fs';
 
-import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
+import { generateHTMLPage } from 'sonarwhal/dist/src/lib/utils/misc';
 import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
-import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
+import { RuleTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
+import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
 
 const generateScriptTag = (script) => {
     return `<script>${script}</script>`;

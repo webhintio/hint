@@ -61,6 +61,10 @@ browser or tab:
 }
 ```
 
+## Further Reading
+
+* [Connectors][connectors]
+
 ## Code of Conduct
 
 This project adheres to the [JS Foundation's code of
@@ -76,3 +80,4 @@ The code is available under the [Apache 2.0 license](LICENSE.txt).
 
 [eda]: https://github.com/Microsoft/edge-diagnostics-adapter
 [sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[connectors]: https://sonarwhal.com/docs/user-guide/concepts/connectors/

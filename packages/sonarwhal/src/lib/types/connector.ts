@@ -1,6 +1,6 @@
 import * as url from 'url';
 
-import { IAsyncHTMLElement } from './asynchtml';
+import { IAsyncHTMLElement } from './async-html';
 import { NetworkData } from './network';
 import { Sonarwhal } from '../sonarwhal';
 

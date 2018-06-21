@@ -14,7 +14,7 @@ import {
 } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { Requester } from 'sonarwhal/dist/src/lib/connectors/utils/requester';
+import { Requester } from '@sonarwhal/utils-connector-tools/dist/src/requester';
 import { NetworkData } from 'sonarwhal/dist/src/lib/types';
 import { CoreOptions } from 'request';
 const debug: debug.IDebugger = d(__filename);

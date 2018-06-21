@@ -11,6 +11,7 @@
             "esnext.asynciterable"
         ],
         "module": "commonjs",
+        "moduleResolution": "node",
         "newLine": "lf",
         "removeComments": false,
         "target": "esnext"
