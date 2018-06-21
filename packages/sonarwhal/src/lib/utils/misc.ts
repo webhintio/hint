@@ -382,12 +382,26 @@ const toLowerCaseKeys = (obj) => {
     }, {});
 };
 
+const generateHTMLPage = (head: string = '<title>test</title>', body: string = ''): string => {
+    return `<!doctype html>
+<html lang="en">
+    <head>
+        ${head}
+    </head>
+    <body>
+        ${body}
+    </body>
+</html>`;
+};
+
+
 export {
     cutString,
     delay,
     isNormalizedIncluded,
     findNodeModulesRoot,
     findPackageRoot,
+    generateHTMLPage,
     getFileExtension,
     getFileName,
     getHeaderValueNormalized,

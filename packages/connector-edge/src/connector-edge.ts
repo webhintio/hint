@@ -3,7 +3,7 @@
  * to load a site and do the traversing.
  */
 
-import { Connector } from 'sonarwhal/dist/src/lib/connectors/debugging-protocol-common/debugging-protocol-connector';
+import { Connector } from '@sonarwhal/utils-debugging-protocol-common/dist/src/debugging-protocol-connector';
 import { ILauncher } from 'sonarwhal/dist/src/lib/types';
 import { EdgeLauncher } from './connector-edge-launcher';
 

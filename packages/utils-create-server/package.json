@@ -1,0 +1,62 @@
+{
+  "dependencies": {
+    "express": "^4.16.3",
+    "fs-extra": "^6.0.1",
+    "lodash": "^4.17.10",
+    "on-headers": "^1.0.1",
+    "sonarwhal": "^1.0.0"
+  },
+  "description": "sonarwhal create server util",
+  "devDependencies": {
+    "@types/async-retry": "^1.2.1",
+    "@types/express": "^4.16.0",
+    "@types/fs-extra": "^5.0.3",
+    "@types/lodash": "^4.14.110",
+    "@types/on-headers": "^1.0.0",
+    "eslint": "^4.18.2",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-markdown": "^1.0.0-beta.7",
+    "eslint-plugin-typescript": "^0.12.0",
+    "markdownlint-cli": "^0.10.0",
+    "npm-run-all": "^4.1.2",
+    "rimraf": "^2.6.2",
+    "typescript": "^2.9.2",
+    "typescript-eslint-parser": "^15.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "dist",
+    "npm-shrinkwrap.json"
+  ],
+  "homepage": "https://sonarwhal.com/",
+  "keywords": [
+    "utils",
+    "create-server",
+    "sonarwhal",
+    "sonarwhal-utils-create-server"
+  ],
+  "license": "Apache-2.0",
+  "main": "dist/src/index.js",
+  "name": "@sonarwhal/utils-create-server",
+  "peerDependencies": {
+    "sonarwhal": "^1.0.0"
+  },
+  "private": true,
+  "repository": "sonarwhal/sonarwhal",
+  "scripts": {
+    "build": "npm run clean && npm-run-all build:*",
+    "build-release": "npm run clean && tsc --inlineSourceMap false --removeComments true",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
+    "test": "echo",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "1.0.0"
+}

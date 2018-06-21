@@ -1,9 +1,9 @@
 import { readFileSync } from 'fs';
 
-import { RuleTest } from 'sonarwhal/dist/tests/helpers/rule-test-type';
+import { RuleTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
 import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import * as ruleRunner from 'sonarwhal/dist/tests/helpers/rule-runner';
-import { generateHTMLPage } from 'sonarwhal/dist/tests/helpers/misc';
+import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
+import { generateHTMLPage } from 'sonarwhal/dist/src/lib/utils/misc';
 
 const rulePath = getRulePath(__filename);
 

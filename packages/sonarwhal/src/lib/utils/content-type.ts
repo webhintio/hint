@@ -150,6 +150,7 @@ const determineMediaTypeForScript = (element: IAsyncHTMLElement): string => {
     return null;
 };
 
+/* istanbul ignore next */
 const determineMediaTypeBasedOnElement = (element: IAsyncHTMLElement): string => {
     const nodeName = element && normalizeString(element.nodeName);
 
@@ -280,6 +281,7 @@ const determineMediaTypeBasedOnFileName = (resource: string, rawContent: Buffer)
     return 'text/json';
 };
 
+/* istanbul ignore next */
 const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string => {
     const detectedFileType = fileType(rawContent);
 
@@ -296,6 +298,7 @@ const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string => {
     return null;
 };
 
+/* istanbul ignore next */
 const getPreferedMediaType = (mediaType: string): string => {
 
     // Prefer certain media types over others.
@@ -315,6 +318,7 @@ const getPreferedMediaType = (mediaType: string): string => {
     }
 };
 
+/* istanbul ignore next */
 const parseContentTypeHeader = (headers): MediaType => {
     const contentTypeHeaderValue: string = normalizeString(headers ? headers['content-type'] : null);
 
@@ -358,7 +362,7 @@ const parseContentTypeHeader = (headers): MediaType => {
  * misconfigured) on things such as the file type, element type, and
  * file extension.
  */
-
+/* istanbul ignore next */
 const getContentTypeData = (element: IAsyncHTMLElement, resource: string, headers, rawContent: Buffer) => {
 
     let originalMediaType = null;
