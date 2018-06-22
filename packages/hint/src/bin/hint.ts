@@ -13,12 +13,17 @@
  */
 
 const debug = (process.argv.includes('--debug'));
+const analyticsDebug = process.argv.includes('--analytics-debug');
 
 import * as d from 'debug';
 
 // This initialization needs to be done *before* other requires in order to work.
 if (debug) {
     d.enable('hint:*');
+}
+
+if (analyticsDebug && !debug) {
+    d.enable('sonarwhal:utils:appinsights');
 }
 
 /*

@@ -37,6 +37,12 @@ export const options = optionator({
             type: 'Boolean'
         },
         {
+            default: false,
+            description: 'Output debugging information related with analytics',
+            option: 'analytics-debug',
+            type: 'Boolean'
+        },
+        {
             alias: 'h',
             description: 'Show help',
             option: 'help',

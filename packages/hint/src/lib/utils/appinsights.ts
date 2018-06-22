@@ -14,13 +14,19 @@ const insightsEnabled = config.get('insight');
 
 let appInsightsClient: appInsights.TelemetryClient = {
     flush(options) {
+        debug('Application Insights is not enabled.')
         options.callback();
     },
-    trackEvent() { },
-    trackException() { }
+    trackEvent() {
+        debug('Application Insights is not enabled.')
+    },
+    trackException() {
+        debug('Application Insights is not enabled.')
+    }
 } as any;
 
 export const enableInsight = () => {
+    debug('Enabling Application Insights');
     appInsights.setup('8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d')
         .setAutoDependencyCorrelation(true)
         .setAutoCollectRequests(true)
@@ -35,7 +41,6 @@ export const enableInsight = () => {
 };
 
 if (insightsEnabled) {
-    debug('Enabling Application Insights');
     enableInsight();
 } else {
     debug('Application Insight disabled');
@@ -52,6 +57,7 @@ export const isEnabled = () => {
  * Enable Application Insight.
  */
 export const enable = () => {
+    debug('User is enabling Application Insights');
     config.set('insight', true);
 
     enableInsight();
@@ -61,6 +67,7 @@ export const enable = () => {
  * Disable Application Insights for the future.
  */
 export const disable = () => {
+    debug('User is disabling Application Insights');
     config.set('insight', false);
 };
 
@@ -68,6 +75,8 @@ export const disable = () => {
  * Send pending data to Application Insights.
  */
 export const sendPendingData = (isAppCrashing = true) => {
+    debug('Sending pending data to Application Insights');
+
     return new Promise((resolve) => {
         appInsightsClient.flush({
             callback: () => {
@@ -82,6 +91,7 @@ export const sendPendingData = (isAppCrashing = true) => {
  * Track an exception in Application Insights.
  */
 export const trackException = (error: Error) => {
+    debug(`Sending exception to Application Insights: ${error.toString()}`);
     appInsightsClient.trackException({ exception: error });
 };
 
@@ -89,6 +99,7 @@ export const trackException = (error: Error) => {
  * Track an event in Application Insights.
  */
 export const trackEvent = (name, properties?: {}) => {
+    debug(`Sending event "${name}" to Application Insights with value ${JSON.stringify(properties)}`);
     appInsightsClient.trackEvent({ name, properties });
 };
 
@@ -96,5 +107,7 @@ export const trackEvent = (name, properties?: {}) => {
  * Return the Application Insights client.
  */
 export const getClient = () => {
+    debug('Getting Application Insights client');
+
     return appInsightsClient;
 };
