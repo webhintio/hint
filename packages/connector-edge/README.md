@@ -38,7 +38,7 @@ configuration file:
 {
     ...
     "connector": {
-        "name": "connector-edge"
+        "name": "edge"
     },
     ...
 }
@@ -51,7 +51,7 @@ browser or tab:
 {
     ...
     "connector": {
-        "name": "connector-edge",
+        "name": "edge",
         "options": {
             "useTabUrl": true,
             "tabUrl": "https://empty.sonarwhal.com/"
@@ -64,17 +64,6 @@ browser or tab:
 ## Further Reading
 
 * [Connectors][connectors]
-
-## Code of Conduct
-
-This project adheres to the [JS Foundation's code of
-conduct](https://js.foundation/community/code-of-conduct).
-
-By participating in this project you agree to abide by its terms.
-
-## License
-
-The code is available under the [Apache 2.0 license](LICENSE.txt).
 
 <!-- Link labels: -->
 
