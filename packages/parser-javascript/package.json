@@ -7,8 +7,8 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "eslint": "^4.18.2",
-    "espree": "^3.5.4"
+    "eslint": "^5.0.0",
+    "espree": "^4.0.0"
   },
   "description": "sonarwhal parser needed to analyze JavaScript files",
   "devDependencies": {

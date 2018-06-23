@@ -8,7 +8,7 @@
   },
   "description": "sonarwhal parser needed to analyze webpack config files",
   "devDependencies": {
-    "@types/webpack": "^4.4.0",
+    "@types/webpack": "^4.4.2",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint-plugin-import": "^2.12.0",
@@ -47,7 +47,6 @@
   "peerDependencies": {
     "sonarwhal": "^1.0.0"
   },
-  "private": true,
   "private": true,
   "repository": "sonarwhal/sonarwhal",
   "scripts": {
