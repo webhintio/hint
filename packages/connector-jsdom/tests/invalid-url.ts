@@ -3,7 +3,7 @@ import { URL } from 'url';
 import test from 'ava';
 
 import { IConnector } from 'sonarwhal/dist/src/lib/types';
-import JSDOMConnector from '../src/jsdom';
+import JSDOMConnector from '../src/connector';
 
 test.beforeEach((t) => {
     const sonarwhal = {

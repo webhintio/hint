@@ -16,7 +16,7 @@ import test from 'ava';
 
 import { createServer } from '@sonarwhal/utils-create-server';
 import { IConnector } from 'sonarwhal/dist/src/lib/types';
-import ChromeConnector from '../src/chrome';
+import ChromeConnector from '../src/connector';
 
 const sourceHtml = fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8');
 

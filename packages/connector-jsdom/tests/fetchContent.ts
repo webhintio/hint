@@ -8,7 +8,7 @@ import test from 'ava';
 
 import { createServer } from '@sonarwhal/utils-create-server';
 import { IConnector, NetworkData } from 'sonarwhal/dist/src/lib/types';
-import JSDOMConnector from '../src/jsdom';
+import JSDOMConnector from '../src/connector';
 
 test.beforeEach(async (t) => {
     const sonarwhal = {

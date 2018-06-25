@@ -21,7 +21,7 @@ const misc = {
 mock('sonarwhal/dist/src/lib/utils/misc', misc);
 mock('chokidar', chokidar);
 
-import LocalConnector from '../src/local';
+import LocalConnector from '../src/connector';
 
 
 test.beforeEach((t) => {

@@ -2,7 +2,7 @@ import { URL } from 'url';
 
 import test from 'ava';
 
-import ChromeConnector from '../src/chrome';
+import ChromeConnector from '../src/connector';
 import { IConnector } from 'sonarwhal/dist/src/lib/types';
 
 test.beforeEach((t) => {

@@ -10,7 +10,7 @@ import test, { GenericTestContext, Context } from 'ava';
 import { createServer, ServerConfiguration } from '@sonarwhal/utils-create-server';
 import { IConnector, IConnectorConstructor } from 'sonarwhal/dist/src/lib/types';
 import { generateHTMLPage } from 'sonarwhal/dist/src/lib/utils/misc';
-import ChromeConnector from '../src/chrome';
+import ChromeConnector from '../src/connector';
 
 test.beforeEach(async (t) => {
     const sonarwhal = {

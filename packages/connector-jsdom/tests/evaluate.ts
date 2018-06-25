@@ -5,7 +5,7 @@ import test from 'ava';
 import { createServer } from '@sonarwhal/utils-create-server';
 import { generateHTMLPage } from 'sonarwhal/dist/src/lib/utils/misc';
 import { IConnector } from 'sonarwhal/dist/src/lib/types';
-import JSDOMConnector from '../src/jsdom';
+import JSDOMConnector from '../src/connector';
 
 const scripts = [
     {

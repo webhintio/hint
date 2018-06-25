@@ -16,7 +16,7 @@ import test from 'ava';
 
 import { createServer, Server } from '@sonarwhal/utils-create-server';
 import { IConnector } from 'sonarwhal/dist/src/lib/types';
-import ChromeConnector from '../src/chrome';
+import ChromeConnector from '../src/connector';
 
 /* eslint-disable sort-keys */
 /** The minimum set of events the connectors need to implement. */
