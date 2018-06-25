@@ -119,7 +119,7 @@ HTTP/... 404 OK
 [p3p header]: https://www.w3.org/TR/P3P11/#syntax_ext
 [p3p link]: https://www.w3.org/TR/P3P11/#syntax_link
 [p3p spec]: https://www.w3.org/TR/P3P11/
-[p3p not supported]: https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/mt146424(v=vs.85)
+[p3p not supported]: https://msdn.microsoft.com/en-us/library/dn904497.aspx#Platform_for_Privacy_Preferences_1.0__P3P_1.0__removal
 [quick look]: https://blogs.msdn.microsoft.com/ieinternals/2013/09/17/a-quick-look-at-p3p/
 [research]: https://www.cylab.cmu.edu/_files/pdfs/tech_reports/CMUCyLab10014.pdf
 [support]: https://en.wikipedia.org/wiki/P3P#User_agent_support
