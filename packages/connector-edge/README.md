@@ -36,7 +36,6 @@ configuration file:
 
 ```json
 {
-    ...
     "connector": {
         "name": "edge"
     },
@@ -49,7 +48,6 @@ browser or tab:
 
 ```json
 {
-    ...
     "connector": {
         "name": "edge",
         "options": {

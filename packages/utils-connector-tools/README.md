@@ -10,7 +10,9 @@ To install the package, you need to run:
 npm install @sonarwhal/utils-connector-tools
 ```
 
-<!-- Link labels: -->
+## Tools
 
-[eda]: https://github.com/Microsoft/edge-diagnostics-adapter
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+* `normalize-headers`: Normalize headers setting the header name to lowercase.
+* `redirects`: Redirects manager to keep track of the redirects.
+* `requester`: Do request to a given url using the package request.
+* `resolver`: Resolve urls.

@@ -44,7 +44,7 @@
     "sonarwhal-connector-jsdom"
   ],
   "license": "Apache-2.0",
-  "main": "./dist/src/jsdom.js",
+  "main": "./dist/src/connector.js",
   "name": "@sonarwhal/connector-jsdom",
   "os": [
     "win32"

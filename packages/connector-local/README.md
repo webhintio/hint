@@ -27,7 +27,6 @@ configuration file:
 
 ```json
 {
-    ...
     "connector": {
         "name": "local"
     },

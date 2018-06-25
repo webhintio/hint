@@ -24,7 +24,6 @@ configuration file:
 
 ```json
 {
-    ...
     "connector": {
         "name": "chrome"
     },
@@ -34,14 +33,13 @@ configuration file:
 
 ## Options
 
-The set of settings supported by chrome connector are:
+The set of settings supported by Chrome connector are:
 
 * `defaultProfile (boolean)`: Indicates if the browser should use the
   default profile or create a new one. By default the value is `false`
   so a new one is created. You might want to set it to `true` if you
   want `sonarwhal` to have access to pages where the default profile is
-  already authenticated. This only applies for Google Chrome as
-  Microsoft Edge doesn’t create a new profile.
+  already authenticated.
 * `useTabUrl (boolean)`: Indicates if the browser should navigate first
   to a given page before going to the final target. `false` by default.
 * `tabUrl (string)`: The URL to visit before the final target in case
@@ -50,7 +48,6 @@ The set of settings supported by chrome connector are:
 
 ```json
 {
-    ...
     "connector": {
         "name": "chrome",
         "options": {

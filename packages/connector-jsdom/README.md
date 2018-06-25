@@ -30,7 +30,6 @@ configuration file:
 
 ```json
 {
-    ...
     "connector": {
         "name": "jsdom"
     },
