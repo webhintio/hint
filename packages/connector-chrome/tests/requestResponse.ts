@@ -18,6 +18,8 @@ import { createServer } from '@sonarwhal/utils-create-server';
 import { IConnector } from 'sonarwhal/dist/src/lib/types';
 import ChromeConnector from '../src/connector';
 
+const name: string = 'chrome';
+
 const sourceHtml = fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8');
 
 /**
@@ -94,8 +96,6 @@ const findEvent = (func: sinon.SinonSpy, eventName: string) => {
 
     return null;
 };
-
-const name: string = 'chrome';
 
 test(`[${name}] requestResponse`, async (t) => {
     const { sonarwhal } = t.context;

@@ -1,6 +1,6 @@
 # Chrome connector (`@sonarwhal/connector-chrome`)
 
-A connector to use Google Chrome via the [chrome debugging 
+A connector to use Google Chrome via the [chrome debugging
 protocol][cdp] in `sonarwhal`.
 
 ## Installation

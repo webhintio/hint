@@ -5,6 +5,8 @@ import test from 'ava';
 import { IConnector } from 'sonarwhal/dist/src/lib/types';
 import JSDOMConnector from '../src/connector';
 
+const name: string = 'jsdom';
+
 test.beforeEach((t) => {
     const sonarwhal = {
         emit() { },
@@ -17,8 +19,6 @@ test.beforeEach((t) => {
 test.afterEach.always(async (t) => {
     await t.context.connector.close();
 });
-
-const name: string = 'jsdom';
 
 test(`[${name}] Load an invalid url throws an error`, async (t) => {
     const { sonarwhal } = t.context;

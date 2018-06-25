@@ -10,6 +10,8 @@ import { createServer } from '@sonarwhal/utils-create-server';
 import { IConnector, NetworkData } from 'sonarwhal/dist/src/lib/types';
 import ChromeConnector from '../src/connector';
 
+const name: string = 'chrome';
+
 test.beforeEach(async (t) => {
     const sonarwhal = {
         emit() { },
@@ -30,8 +32,6 @@ test.afterEach.always(async (t) => {
     t.context.server.stop();
     await t.context.connector.close();
 });
-
-const name: string = 'chrome';
 
 test(`[${name}] Fetch Content`, async (t) => {
     const file = fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png'));

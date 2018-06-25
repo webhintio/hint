@@ -18,6 +18,8 @@ import { createServer, Server } from '@sonarwhal/utils-create-server';
 import { IConnector } from 'sonarwhal/dist/src/lib/types';
 import ChromeConnector from '../src/connector';
 
+const name: string = 'chrome';
+
 /* eslint-disable sort-keys */
 /** The minimum set of events the connectors need to implement. */
 const events = [
@@ -70,7 +72,7 @@ const events = [
         request: { url: 'http://localhost/script3.js' },
         response: {
             body: {
-                content: fs.readFileSync(path.join(__dirname, './fixtures/common/script.js'), 'utf8'),
+                content: '',
                 rawContent: null,
                 rawResponse: null
             },
@@ -97,7 +99,7 @@ const events = [
         request: { url: 'http://localhost/style.css' },
         response: {
             body: {
-                content: fs.readFileSync(path.join(__dirname, './fixtures/common/style.css'), 'utf8'),
+                content: '',
                 rawContent: null,
                 rawResponse: null
             },
@@ -248,8 +250,6 @@ const updateLocalhost = (content: any, port: any): any => {
     return transformed;
 };
 
-const name: string = 'chrome';
-
 test(`[${name}] Events`, async (t) => {
     const { sonarwhal } = t.context;
     const connector: IConnector = new ChromeConnector(sonarwhal, {});
@@ -260,7 +260,7 @@ test(`[${name}] Events`, async (t) => {
     server.configure({
         '/': updateLocalhost(fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'), server.port),
         '/nellie.png': { content: fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png')) },
-        '/script.js': fs.readFileSync(path.join(__dirname, './fixtures/common/script.js'), 'utf8'),
+        '/script.js': { content: '' },
         '/script2.js': {
             content: 'script.js',
             status: 302
@@ -274,7 +274,7 @@ test(`[${name}] Events`, async (t) => {
             status: 404
         },
         '/script5.js': null,
-        '/style.css': fs.readFileSync(path.join(__dirname, './fixtures/common/style.css'), 'utf8')
+        '/style.css': { content: '' }
     });
 
     const pendingEvents: Array<any> = events.map((event) => {

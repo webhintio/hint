@@ -5,7 +5,6 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import * as mock from 'mock-require';
 
-
 import { getAsPathString } from 'sonarwhal/dist/src/lib/utils/get-as-path-string';
 import { getAsUri } from 'sonarwhal/dist/src/lib/utils/get-as-uri';
 import * as originalMisc from 'sonarwhal/dist/src/lib/utils/misc';
@@ -22,7 +21,6 @@ mock('sonarwhal/dist/src/lib/utils/misc', misc);
 mock('chokidar', chokidar);
 
 import LocalConnector from '../src/connector';
-
 
 test.beforeEach((t) => {
     t.context.sonarwhal = {

@@ -7,6 +7,8 @@ import { generateHTMLPage } from 'sonarwhal/dist/src/lib/utils/misc';
 import { IConnector } from 'sonarwhal/dist/src/lib/types';
 import ChromeConnector from '../src/connector';
 
+const name: string = 'chrome';
+
 const scripts = [
     {
         code:
@@ -64,8 +66,6 @@ test.afterEach.always(async (t) => {
     t.context.server.stop();
     await t.context.connector.close();
 });
-
-const name: string = 'chrome';
 
 test(`[${name}] Evaluate JavaScript`, async (t) => {
     const { sonarwhal } = t.context;

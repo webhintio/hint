@@ -12,6 +12,8 @@ import { IConnector, IConnectorConstructor } from 'sonarwhal/dist/src/lib/types'
 import { generateHTMLPage } from 'sonarwhal/dist/src/lib/utils/misc';
 import ChromeConnector from '../src/connector';
 
+const name: string = 'chrome';
+
 test.beforeEach(async (t) => {
     const sonarwhal = {
         emit() { },
@@ -52,8 +54,6 @@ const runTest = async (t: GenericTestContext<Context<any>>, ConnectorConstructor
     await connector.collect(new URL(`http://localhost:${server.port}/`));
     await connector.close();
 };
-
-const name: string = 'chrome';
 
 test(`[${name}] Favicon is present in a 'link' element with 'rel' attribute set to 'icon' `, async (t) => {
     const faviconInLinkElementDir = `http://localhost:${t.context.server.port}/images/favicon-32x32.png`;
