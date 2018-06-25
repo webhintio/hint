@@ -50,9 +50,6 @@
   "license": "Apache-2.0",
   "main": "./dist/src/connector.js",
   "name": "@sonarwhal/connector-local",
-  "os": [
-    "win32"
-  ],
   "peerDependencies": {
     "sonarwhal": "^1.0.0"
   },
