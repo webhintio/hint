@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "outDir": "dist",
-        "strict": true,
-        "rootDir": "."
+        "rootDir": ".",
+        "strict": true
     },
     "exclude": [
         "dist",

@@ -1,4 +1,4 @@
-# Edge connector (`@sonarwhal/connector-edge`)
+# JSDOM connector (`@sonarwhal/connector-jsdom`)
 
 A connector to use [jsdom][jsdom] in `sonarwhal`.
 

@@ -1,6 +1,6 @@
 # Local connector (`@sonarwhal/connector-local`)
 
-A local connector to analyze the files in your project with `sonarwhal`.
+A local connector to analyze the local files in your project with `sonarwhal`.
 
 ## Installation
 
@@ -18,7 +18,7 @@ npm install @sonarwhal/connector-local
 
 ## Known issues
 
-* This connector can't traverse an html file.
+* This connector can't traverse an HTML file.
 
 ## Usage
 

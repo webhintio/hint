@@ -38,7 +38,7 @@
     "sonarwhal-utils-create-server"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/test-server.js",
+  "main": "dist/src/index.js",
   "name": "@sonarwhal/utils-create-server",
   "peerDependencies": {
     "sonarwhal": "^1.0.0"
