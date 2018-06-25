@@ -35,9 +35,6 @@
   ],
   "license": "Apache-2.0",
   "name": "@sonarwhal/utils-debugging-protocol-common",
-  "os": [
-    "win32"
-  ],
   "peerDependencies": {
     "sonarwhal": "^1.0.0"
   },

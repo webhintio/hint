@@ -40,9 +40,6 @@
   "license": "Apache-2.0",
   "main": "dist/src/test-server.js",
   "name": "@sonarwhal/utils-create-server",
-  "os": [
-    "win32"
-  ],
   "peerDependencies": {
     "sonarwhal": "^1.0.0"
   },

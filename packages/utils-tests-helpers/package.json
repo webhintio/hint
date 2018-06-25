@@ -36,9 +36,6 @@
   ],
   "license": "Apache-2.0",
   "name": "@sonarwhal/utils-tests-helpers",
-  "os": [
-    "win32"
-  ],
   "peerDependencies": {
     "sonarwhal": "^1.0.0"
   },

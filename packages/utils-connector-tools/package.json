@@ -46,9 +46,6 @@
   "license": "Apache-2.0",
   "main": "./dist/src/index.js",
   "name": "@sonarwhal/utils-connector-tools",
-  "os": [
-    "win32"
-  ],
   "peerDependencies": {
     "sonarwhal": "^1.0.0"
   },
