@@ -57,6 +57,10 @@ test('determineMediaTypeBasedOnFileName sets the mime type as `text/json` if the
 
         t.is(calculatedMediaType, null, `The calculated value for ${fileName} is ${calculatedMediaType} instead of null`);
     });
+
+    const calculatedMediaType = contentType.determineMediaTypeBasedOnFileName('', nonJsonRawContent);
+
+    t.is(calculatedMediaType, null, `The calculated value for '' is ${calculatedMediaType} instead of null`);
 });
 
 test('determineMediaTypeBasedOnFileExtension returns null if no extension in file', (t) => {
@@ -73,6 +77,7 @@ test('determineMediaTypeBasedOnFileExtension returns null if not recognized exte
 
 test('getType returns the right group for a variety of mediaTypes', (t) => {
     const mediaTypes = {
+        'application/json': 'json',
         'application/manifest+json': 'manifest',
         'application/vnd.ms-fontobject': 'font',
         'application/xhtml+xml': 'html',
@@ -83,7 +88,10 @@ test('getType returns the right group for a variety of mediaTypes', (t) => {
         'text/csv': 'unknown',
         'text/html': 'html',
         'text/javascript': 'script',
-        'text/xml': 'xml'
+        'text/json': 'json',
+        'text/plain': 'txt',
+        'text/xml': 'xml',
+        '': 'unknown'
     };
 
     const associations = Object.entries(mediaTypes);
@@ -92,5 +100,29 @@ test('getType returns the right group for a variety of mediaTypes', (t) => {
         const calculatedGroup = contentType.getType(mediaType);
 
         t.is(calculatedGroup, group, `The calculated value for .${mediaType} is ${calculatedGroup} instead of ${group}`);
+    });
+});
+
+test('isTextMediaType returns true or false if the media type is a text one or not', (t) => {
+    const mediaTypes = {
+        'application/manifest+json': true,
+        'application/vnd.ms-fontobject': false,
+        'application/xhtml+xml': true,
+        'font/woff': false,
+        'image/jpeg': false,
+        'image/png': false,
+        'text/css': true,
+        'text/csv': true,
+        'text/html': true,
+        'text/javascript': true,
+        'text/xml': true
+    };
+
+    const associations = Object.entries(mediaTypes);
+
+    associations.forEach(([mediaType, value]) => {
+        const calculatedValue = contentType.isTextMediaType(mediaType);
+
+        t.is(calculatedValue, value, `The calculated value for .${mediaType} is ${calculatedValue} instead of ${value}`);
     });
 });
