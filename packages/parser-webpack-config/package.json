@@ -8,7 +8,7 @@
   },
   "description": "sonarwhal parser needed to analyze webpack config files",
   "devDependencies": {
-    "@types/webpack": "^4.4.2",
+    "@types/webpack": "^4.4.3",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint-plugin-import": "^2.13.0",
@@ -20,7 +20,7 @@
     "nyc": "^12.0.2",
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
-    "sinon": "^6.0.0",
+    "sinon": "^6.0.1",
     "sonarwhal": "^1.0.0",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.0"
