@@ -10,7 +10,7 @@ import * as getImageData from 'image-size';
 
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { IRule, FetchEnd, ScanEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
+import cutString from 'sonarwhal/dist/src/lib/utils/misc/cut-string';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { cloudinaryResult } from './cloudinary-types';

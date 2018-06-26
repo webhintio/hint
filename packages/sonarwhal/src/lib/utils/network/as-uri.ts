@@ -4,9 +4,11 @@ import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 import * as _ from 'lodash';
 import * as fileUrl from 'file-url';
 
-import { debug as d } from './debug';
-import * as logger from './logging';
-import { isFile, isDirectory, pathExists } from './misc';
+import { debug as d } from '../debug';
+import * as logger from '../logging';
+import isFile from '../fs/is-file';
+import isDirectory from '../fs/is-directory';
+import pathExists from '../fs/path-exists';
 
 const debug: debug.IDebugger = d(__filename);
 

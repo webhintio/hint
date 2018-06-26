@@ -1,7 +1,7 @@
 import { RuleTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
 import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
-import { generateHTMLPage } from 'sonarwhal/dist/src/lib/utils/misc';
+import generateHTMLPage from 'sonarwhal/dist/src/lib/utils/misc/generate-html-page';
 
 const rulePath = getRulePath(__filename);
 

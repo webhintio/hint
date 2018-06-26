@@ -11,7 +11,8 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, TraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { isLocalFile, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
+import isLocalFile from 'sonarwhal/dist/src/lib/utils/network/is-local-file';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 

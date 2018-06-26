@@ -13,7 +13,8 @@ import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import { IAsyncHTMLElement, FetchEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { Response } from 'sonarwhal/dist/src/lib/types/network';
-import { getHeaderValueNormalized, isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
+import getHeaderValueNormalized from 'sonarwhal/dist/src/lib/utils/network/normalized-header-value';
+import isDataURI from 'sonarwhal/dist/src/lib/utils/network/is-data-uri';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 

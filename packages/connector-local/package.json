@@ -66,6 +66,7 @@
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
     "test": "npm run lint && npm run build && nyc ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
   "version": "1.0.0"

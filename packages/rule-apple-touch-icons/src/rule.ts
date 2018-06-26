@@ -8,7 +8,8 @@ import * as getImageData from 'image-size';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import isRegularProtocol from 'sonarwhal/dist/src/lib/utils/network/is-regular-protocol';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, TraverseEnd, NetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';

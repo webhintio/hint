@@ -4,12 +4,13 @@
 is enabled in your TypeScript configuration file (i.e `tsconfig.json`) and
 that the [`tslib` package][tslib package] is installed.
 
-### Why is this important?
+## Why is this important?
 
 By enabling the `importHelpers` compiler option of TypeScript the compiler will
 use the `tslib` package and reduce the size of the output. E.g.:
 
 <!-- eslint-disable -->
+
 ```js
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -24,18 +25,18 @@ exports.y = __assign({}, exports.x);
 ```
 
 <!-- eslint-disable -->
+
 ```js
 var tslib_1 = require("tslib");
 exports.x = {};
 exports.y = tslib_1.__assign({}, exports.x);
 ```
 
-
-### What does the rule check?
+## What does the rule check?
 
 This rule checks if the `compilerOptions` property `importHelpers` is enabled.
 
-#### Examples that **trigger** the rule
+### Examples that **trigger** the rule
 
 By default TypeScript doesn't enable `importHelpers`:
 
@@ -63,7 +64,7 @@ Also setting the value to `false` will fail:
 }
 ```
 
-#### Examples that **pass** the rule
+### Examples that **pass** the rule
 
 `importHelpers` value is `true`:
 

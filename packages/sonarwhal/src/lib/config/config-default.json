@@ -1,0 +1,4 @@
+{
+    "connector": "jsdom",
+    "formatter": "json"
+}

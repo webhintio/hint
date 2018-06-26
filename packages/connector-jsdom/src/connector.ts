@@ -42,7 +42,7 @@ import {
 } from 'sonarwhal/dist/src/lib/types';
 import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from 'sonarwhal/dist/src/lib/types/jsdom-async-html';
 import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
-import { isHTMLDocument } from 'sonarwhal/dist/src/lib/utils/misc';
+import isHTMLDocument from 'sonarwhal/dist/src/lib/utils/network/is-html-document';
 import { Requester } from '@sonarwhal/utils-connector-tools/dist/src/requester';
 
 /*

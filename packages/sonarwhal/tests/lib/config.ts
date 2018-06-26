@@ -6,7 +6,7 @@ import * as proxyquire from 'proxyquire';
 
 import { ConnectorConfig, CLIOptions, IRule, RuleMetadata, UserConfig } from '../../src/lib/types';
 import { RuleScope } from '../../src/lib/enums/rulescope';
-import { readFileAsync } from '../../src/lib/utils/misc';
+import readFileAsync from '../../src/lib/utils/fs/read-file-async';
 
 test.beforeEach(async (t) => {
     delete require.cache[require.resolve('os')];

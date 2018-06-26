@@ -9,12 +9,12 @@ import {
     NetworkData,
     Parser
 } from 'sonarwhal/dist/src/lib/types';
-import {
-    isHTTP,
-    isHTTPS,
-    loadJSONFile,
-    normalizeString
-} from 'sonarwhal/dist/src/lib/utils/misc';
+
+import isHTTP from 'sonarwhal/dist/src/lib/utils/network/is-http';
+import isHTTPS from 'sonarwhal/dist/src/lib/utils/network/is-https';
+import loadJSONFile from 'sonarwhal/dist/src/lib/utils/fs/load-json-file';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
+
 import {
     ManifestInvalidJSON,
     ManifestInvalidSchema,

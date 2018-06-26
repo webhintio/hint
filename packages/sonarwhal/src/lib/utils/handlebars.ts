@@ -1,14 +1,16 @@
 import * as path from 'path';
 
-import * as Handlebars from 'handlebars';
+import * as Handlebars from 'handlebars/dist/handlebars.min.js';
 
 import { debug as d } from './debug';
-import { readFileAsync } from './misc';
-import { findPackageRoot } from './misc';
+import readFileAsync from './fs/read-file-async';
+import findPackageRoot from './packages/find-package-root';
 
 const debug = d(__filename);
 
 export const sonarwhalPackage = require(path.join(findPackageRoot(), 'package.json'));
+
+export { Handlebars };
 
 /**
  * Searches the current version used for a package in `sonarwhal` and uses that version or the `defaultVersion`.
@@ -28,7 +30,7 @@ Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): st
  * description: `This is a \`important\` rule that has 'single' and "double" quotes.`
  * ```
  */
-export const escapeSafeString = (str: string): hbs.SafeString => {
+export const escapeSafeString = (str: string): Handlebars.SafeString => {
     const result = str.replace(/(`)/g, '\\$1');
 
     return new Handlebars.SafeString(result);

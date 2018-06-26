@@ -10,7 +10,7 @@ import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { IRule, RuleMetadata, ScanEnd } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import * as misc from 'sonarwhal/dist/src/lib/utils/misc';
+import loadPackage from 'sonarwhal/dist/src/lib/utils/packages/load-package';
 
 import { configChecker } from './helpers/config-checker';
 
@@ -44,7 +44,7 @@ export default class TypeScriptConfigImportHelpers implements IRule {
             debug(`Searching "tslib" in ${pathToTslib}`);
 
             try {
-                misc.getPackage(pathToTslib);
+                loadPackage(pathToTslib);
                 debug(`"tslib" found`);
             } catch (e) {
                 debug(e);

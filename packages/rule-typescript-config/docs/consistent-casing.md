@@ -3,18 +3,18 @@
 `typescript-config/consistent-casing` checks if the property `forceConsistentCasingInFileNames`
 is enabled in your TypeScript configuration file (i.e `tsconfig.json`).
 
-### Why is this important?
+## Why is this important?
 
 If you are working on a project where developers use different OSes (e.g.:
 Windows and Linux), enabling this property will prevent issues related to
 the file casing and how the files is referenced it on the code.
 
-### What does the rule check?
+## What does the rule check?
 
 This rule checks if the `compilerOptions` property `forceConsistentCasingInFileNames`
 is enabled.
 
-#### Examples that **trigger** the rule
+### Examples that **trigger** the rule
 
 By default TypeScript doesn't enforce this:
 
@@ -42,7 +42,7 @@ Also setting the value to `false` will fail:
 }
 ```
 
-#### Examples that **pass** the rule
+### Examples that **pass** the rule
 
 `forceConsistentCasingInFileNames` value is `true`:
 

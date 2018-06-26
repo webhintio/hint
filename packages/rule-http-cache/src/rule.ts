@@ -4,7 +4,8 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { getHeaderValueNormalized, isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
+import getHeaderValueNormalized from 'sonarwhal/dist/src/lib/utils/network/normalized-header-value';
+import isDataURI from 'sonarwhal/dist/src/lib/utils/network/is-data-uri';
 import { IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
@@ -286,7 +287,7 @@ export default class HttpCacheRule implements IRule {
             const { resource } = fetchEnd;
 
             if (invalidDirectives.size > 0) {
-                const message: string = `The ${invalidDirectives.size === 1 ? 'directive': 'directives'} ${Array.from(invalidDirectives.keys()).join(', ')} ${invalidDirectives.size === 1 ? 'is' : 'are'} invalid`;
+                const message: string = `The ${invalidDirectives.size === 1 ? 'directive' : 'directives'} ${Array.from(invalidDirectives.keys()).join(', ')} ${invalidDirectives.size === 1 ? 'is' : 'are'} invalid`;
 
                 await context.report(resource, fetchEnd.element, message);
 
