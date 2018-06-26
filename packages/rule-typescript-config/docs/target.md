@@ -4,13 +4,13 @@
 configuration and warns you if your `target` (`es3`, `es2015`, etc.) is
 appropriate.
 
-### Why is this important?
+## Why is this important?
 
 Not having the right `ES` target can increase the size of your bundle. At the same
 time, having a `ES` target that not all the browsers you care support can create
 issues with your users.
 
-### What does the rule check?
+## What does the rule check?
 
 This rule checks if the `compilerOptions` property `target` is the appropriate based
 on your `browserslist` configuration.
@@ -34,6 +34,8 @@ above should give you good support for the most common ones.
 
 The following sites were used to create this table:
 
+<!-- markdownlint-disable MD034-->
+
 * http://kangax.github.io/compat-table/es5/
 * http://kangax.github.io/compat-table/es6/
 * http://kangax.github.io/compat-table/es2016plus/
@@ -41,11 +43,14 @@ The following sites were used to create this table:
 * http://2ality.com/2011/02/es5-shim-use-ecmascript-5-in-older.html
 * https://www.chromestatus.com/features#ES6https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_2015_support_in_Mozilla
 
-#### Examples that **trigger** the rule
+<!-- markdownlint-enable MD034-->
+
+### Examples that **trigger** the rule
 
 Having a `target` not supported by all your targetted browsers:
 
 `tsconfig.json`:
+
 ```json
 {
     ...
@@ -58,6 +63,7 @@ Having a `target` not supported by all your targetted browsers:
 ```
 
 `.sonarwhalrc`:
+
 ```json
 {
     ...
@@ -69,6 +75,7 @@ Having a `target` not supported by all your targetted browsers:
 Having a `target` that is lower than what all your browsers support:
 
 `tsconfig.json`:
+
 ```json
 {
     ...
@@ -81,6 +88,7 @@ Having a `target` that is lower than what all your browsers support:
 ```
 
 `.sonarwhalrc`:
+
 ```json
 {
     ...
@@ -89,11 +97,12 @@ Having a `target` that is lower than what all your browsers support:
 }
 ```
 
-#### Examples that **pass** the rule
+### Examples that **pass** the rule
 
 The right `target` for the right browsers:
 
 `tsconfig.json`:
+
 ```json
 {
     ...
@@ -106,6 +115,7 @@ The right `target` for the right browsers:
 ```
 
 `.sonarwhalrc`:
+
 ```json
 {
     ...

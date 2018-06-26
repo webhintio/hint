@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
 import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
 import { RuleLocalTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
-import * as misc from 'sonarwhal/dist/src/lib/utils/misc';
+const loadPackage = require('sonarwhal/dist/src/lib/utils/packages/load-package');
 
 const rulePath = getRulePath(__filename, true);
 
@@ -17,7 +17,7 @@ const tests: Array<RuleLocalTest> = [
         before: (t) => {
             const sandbox = sinon.createSandbox();
 
-            sandbox.stub(misc, 'getPackage').returns({ exists: true });
+            sandbox.stub(loadPackage, 'default').returns({ exists: true });
 
             t.context.sandbox = sandbox;
         },
@@ -31,7 +31,7 @@ const tests: Array<RuleLocalTest> = [
         before: (t) => {
             const sandbox = sinon.createSandbox();
 
-            sandbox.stub(misc, 'getPackage').throws(new Error('Not found'));
+            sandbox.stub(loadPackage, 'default').throws(new Error('Not found'));
 
             t.context.sandbox = sandbox;
         },
@@ -46,7 +46,7 @@ const tests: Array<RuleLocalTest> = [
         before: (t) => {
             const sandbox = sinon.createSandbox();
 
-            sandbox.stub(misc, 'getPackage').returns({ exists: true });
+            sandbox.stub(loadPackage, 'default').returns({ exists: true });
 
             t.context.sandbox = sandbox;
         },
@@ -61,7 +61,7 @@ const tests: Array<RuleLocalTest> = [
         before: (t) => {
             const sandbox = sinon.createSandbox();
 
-            sandbox.stub(misc, 'getPackage').returns({ exists: true });
+            sandbox.stub(loadPackage, 'default').returns({ exists: true });
 
             t.context.sandbox = sandbox;
         },
@@ -76,7 +76,7 @@ const tests: Array<RuleLocalTest> = [
         before: (t) => {
             const sandbox = sinon.createSandbox();
 
-            sandbox.stub(misc, 'getPackage').throws(new Error('Not found'));
+            sandbox.stub(loadPackage, 'default').throws(new Error('Not found'));
 
             t.context.sandbox = sandbox;
         },

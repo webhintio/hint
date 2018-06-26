@@ -3,9 +3,9 @@ import * as webpack from 'webpack'; // This is used just to have types.
 
 import { FetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
-import { getAsUri } from 'sonarwhal/dist/src/lib/utils/get-as-uri';
-import { getAsPathString } from 'sonarwhal/dist/src/lib/utils/get-as-path-string';
-import { getPackage } from 'sonarwhal/dist/src/lib/utils/misc';
+import { getAsUri } from 'sonarwhal/dist/src/lib/utils/network/as-uri';
+import asPathString from 'sonarwhal/dist/src/lib/utils/network/as-path-string';
+import loadPackage from 'sonarwhal/dist/src/lib/utils/packages/load-package';
 
 import { WebpackConfigParse, WebpackConfigInvalidConfiguration } from './types';
 
@@ -29,7 +29,7 @@ export default class WebpackConfigParser extends Parser {
 
     private getLocallyInstalledWebpack() {
         try {
-            const packageJSON = getPackage(path.join(process.cwd(), 'node_modules', 'webpack'));
+            const packageJSON = loadPackage(path.join(process.cwd(), 'node_modules', 'webpack'));
 
             return packageJSON.version;
         } catch (err) {
@@ -52,7 +52,7 @@ export default class WebpackConfigParser extends Parser {
         this.configFound = true;
 
         try {
-            const config: webpack.Configuration = await import(getAsPathString(getAsUri(resource)));
+            const config: webpack.Configuration = await import(asPathString(getAsUri(resource)));
 
             const version = this.getLocallyInstalledWebpack();
 

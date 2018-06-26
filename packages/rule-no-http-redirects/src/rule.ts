@@ -6,7 +6,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
 import { IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { cutString } from 'sonarwhal/dist/src/lib/utils/misc';
+import cutString from 'sonarwhal/dist/src/lib/utils/misc/cut-string';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 /*

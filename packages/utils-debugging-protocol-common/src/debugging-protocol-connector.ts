@@ -21,7 +21,10 @@ import { CDPAsyncHTMLDocument, AsyncHTMLElement } from 'sonarwhal/dist/src/lib/t
 import { getContentTypeData, getType } from 'sonarwhal/dist/src/lib/utils/content-type';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
-import { cutString, delay, hasAttributeWithValue, isHTMLDocument } from 'sonarwhal/dist/src/lib/utils/misc';
+import cutString from 'sonarwhal/dist/src/lib/utils/misc/cut-string';
+import delay from 'sonarwhal/dist/src/lib/utils/misc/delay';
+import hasAttributeWithValue from 'sonarwhal/dist/src/lib/utils/network/has-attribute-with-value';
+import isHTMLDocument from 'sonarwhal/dist/src/lib/utils/network/is-html-document';
 
 import {
     BrowserInfo, IConnector,

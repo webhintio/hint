@@ -1,5 +1,5 @@
 import * as logger from '../utils/logging';
-import { getSonarwhalPackage } from '../utils/misc';
+import getSonarwhalPackage from '../utils/packages/load-sonarwhal-package';
 
 /** Prints the current sonarwhal version in the console. */
 export default (): Promise<boolean> => {

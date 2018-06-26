@@ -3,7 +3,7 @@ import { URL } from 'url';
 import test from 'ava';
 
 import { createServer } from '@sonarwhal/utils-create-server';
-import { generateHTMLPage } from 'sonarwhal/dist/src/lib/utils/misc';
+import generateHTMLPage from 'sonarwhal/dist/src/lib/utils/misc/generate-html-page';
 import { IConnector } from 'sonarwhal/dist/src/lib/types';
 import ChromeConnector from '../src/connector';
 

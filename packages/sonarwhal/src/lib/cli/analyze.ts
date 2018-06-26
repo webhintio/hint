@@ -12,9 +12,9 @@ import { SonarwhalConfig } from '../config';
 import { Sonarwhal } from '../sonarwhal';
 import { CLIOptions, ORA, Problem, Severity, UserConfig, SonarwhalResources } from '../types';
 import { debug as d } from '../utils/debug';
-import { getAsUris } from '../utils/get-as-uri';
+import { getAsUris } from '../utils/network/as-uri';
 import * as logger from '../utils/logging';
-import { cutString } from '../utils/misc';
+import cutString from '../utils/misc/cut-string';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
 

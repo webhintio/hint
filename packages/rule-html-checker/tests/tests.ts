@@ -5,7 +5,6 @@ import * as mock from 'mock-require';
 import { RuleTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
 import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
 import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { delay } from 'sonarwhal/dist/src/lib/utils/misc';
 
 const rulePath = getRulePath(__filename);
 const exampleUrl = 'https://empty.sonarwhal.com/';
@@ -78,9 +77,8 @@ const configCheckerMessages = {
 };
 
 const htmlCheckerMock = (response) => {
-    const mockedChecker = {
-        delay,
-        requestAsync(scanOptions) {
+    const requestAsync = {
+        default(scanOptions) {
             let responseMessages;
 
             if (response.pass) { // No errors/warnings are detected in the target html
@@ -99,7 +97,7 @@ const htmlCheckerMock = (response) => {
         }
     };
 
-    mock('sonarwhal/dist/src/lib/utils/misc', mockedChecker);
+    mock('sonarwhal/dist/src/lib/utils/network/request-async', requestAsync);
 };
 
 const testsForDefaults: Array<RuleTest> = [

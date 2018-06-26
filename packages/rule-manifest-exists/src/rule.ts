@@ -17,7 +17,7 @@ import {
     RuleMetadata,
     ScanEnd
 } from 'sonarwhal/dist/src/lib/types';
-import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 

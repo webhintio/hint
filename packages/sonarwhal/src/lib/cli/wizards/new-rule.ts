@@ -9,7 +9,13 @@ import * as mkdirp from 'mkdirp';
 import { Category } from '../../enums/category';
 import { RuleScope } from '../../enums/rulescope';
 import * as logger from '../../utils/logging';
-import { isOfficial, normalizeStringByDelimiter, readFile, writeFileAsync, toCamelCase, toPascalCase } from '../../utils/misc';
+import isOfficial from '../../utils/packages/is-official';
+import toCamelCase from '../../utils/misc/to-camel-case';
+import toPascalCase from '../../utils/misc/to-pascal-case';
+import normalizeStringByDelimiter from '../../utils/misc/normalize-string-by-delimeter';
+import writeFileAsync from '../../utils/fs/write-file-async';
+import readFile from '../../utils/fs/read-file';
+
 import { escapeSafeString, compileTemplate, sonarwhalPackage } from '../../utils/handlebars';
 
 /*

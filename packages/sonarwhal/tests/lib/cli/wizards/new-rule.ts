@@ -6,18 +6,18 @@ import test from 'ava';
 import * as handlebarsUtils from '../../../../src/lib/utils/handlebars';
 
 const inquirer = { prompt() { } };
-const misc = {
-    isOfficial() { },
-    writeFileAsync() { }
-};
+const isOfficial = { default() { } };
+const writeFileAsync = { default() { } };
+
 const fsExtra = { copy() { } };
 const mkdirp = (dir, callback) => {
     callback();
 };
 
 proxyquire('../../../../src/lib/cli/wizards/new-rule', {
+    '../../utils/fs/write-file-async': writeFileAsync,
     '../../utils/handlebars': handlebarsUtils,
-    '../../utils/misc': misc,
+    '../../utils/packages/is-official': isOfficial,
     'fs-extra': fsExtra,
     inquirer,
     mkdirp
@@ -37,10 +37,10 @@ test.serial('It creates a rule if the option multiple rules is false', async (t)
     const sandbox = sinon.createSandbox();
 
     const fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
-    const miscWriteFileAsyncStub = sandbox.stub(misc, 'writeFileAsync').resolves();
+    const writeFileAsyncStub = sandbox.stub(writeFileAsync, 'default').resolves();
     const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').returns('');
 
-    sandbox.stub(misc, 'isOfficial').resolves(true);
+    sandbox.stub(isOfficial, 'default').resolves(true);
     sandbox.stub(process, 'cwd').returns(root);
     sandbox.stub(inquirer, 'prompt').resolves(results);
 
@@ -51,7 +51,7 @@ test.serial('It creates a rule if the option multiple rules is false', async (t)
 
     // index.ts, package.json, readme.md, tsconfig.json, rule.ts, tests/rule.ts
     t.is(handlebarsCompileTemplateStub.callCount, 6, `Handlebars doesn't complile the right number of files`);
-    t.is(miscWriteFileAsyncStub.callCount, 6, 'Invalid number of files created');
+    t.is(writeFileAsyncStub.callCount, 6, 'Invalid number of files created');
 
     t.true(result);
 
@@ -82,10 +82,10 @@ test.serial('It creates a package with multiple rules', async (t) => {
     const sandbox = sinon.createSandbox();
 
     const fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
-    const miscWriteFileAsyncStub = sandbox.stub(misc, 'writeFileAsync').resolves();
+    const writeFileAsyncStub = sandbox.stub(writeFileAsync, 'default').resolves();
     const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').returns('');
 
-    sandbox.stub(misc, 'isOfficial').resolves(false);
+    sandbox.stub(isOfficial, 'default').resolves(false);
     sandbox.stub(process, 'cwd').returns(root);
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
@@ -104,7 +104,7 @@ test.serial('It creates a package with multiple rules', async (t) => {
 
     // index.ts, package.json, readme.md, tsconfig.json, .sonarwhalrc, rule.ts * 2, tests/rule.ts * 2, docs/rule.md * 2
     t.is(handlebarsCompileTemplateStub.callCount, 11, `Handlebars doesn't complile the right number of files`);
-    t.is(miscWriteFileAsyncStub.callCount, 11, 'Invalid number of files created');
+    t.is(writeFileAsyncStub.callCount, 11, 'Invalid number of files created');
 
     t.true(result);
 

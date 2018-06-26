@@ -3,7 +3,8 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
-import { delay, readFile } from '../../../src/lib/utils/misc';
+import delay from '../../../src/lib/utils/misc/delay';
+import readFile from '../../../src/lib/utils/fs/read-file';
 
 const npmRegistryFetch = { json() { } };
 
@@ -12,10 +13,10 @@ const logger = {
     error() { },
     log() { }
 };
-const misc = {
-    findPackageRoot() { },
-    loadJSONFile() { }
-};
+
+const findPackageRootModule = { default() { } };
+const loadJSONFileModule = { default() { } };
+
 const fs = { existsSync() { } };
 
 const devDependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dev-package.json`));
@@ -28,8 +29,9 @@ const getEmitter = () => {
 };
 
 proxyquire('../../../src/lib/utils/npm', {
+    './fs/load-json-file': loadJSONFileModule,
     './logging': logger,
-    './misc': misc,
+    './packages/find-package-root': findPackageRootModule,
     child_process: child, // eslint-disable-line camelcase
     fs,
     'npm-registry-fetch': npmRegistryFetch
@@ -46,9 +48,9 @@ test.serial('installPackages should run the right command `sonarwhal` is install
 
     sandbox.stub(fs, 'existsSync').returns(true);
     sandbox.stub(child, 'spawn').returns(emitter);
-    sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
+    sandbox.stub(findPackageRootModule, 'default').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
-    sandbox.stub(misc, 'loadJSONFile').returns(devDependencyJson);
+    sandbox.stub(loadJSONFileModule, 'default').returns(devDependencyJson);
     const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
 
     await delay(500);
@@ -71,9 +73,9 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
 
     sandbox.stub(fs, 'existsSync').returns(true);
     sandbox.stub(child, 'spawn').returns(emitter);
-    sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
+    sandbox.stub(findPackageRootModule, 'default').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
-    sandbox.stub(misc, 'loadJSONFile').returns(dependencyJson);
+    sandbox.stub(loadJSONFileModule, 'default').returns(dependencyJson);
     const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
 
     await delay(500);
@@ -96,7 +98,7 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
 
     sandbox.stub(fs, 'existsSync').returns(true);
     sandbox.stub(child, 'spawn').returns(emitter);
-    sandbox.stub(misc, 'findPackageRoot').throws(new Error(`Path doesn't exist.`));
+    sandbox.stub(findPackageRootModule, 'default').throws(new Error(`Path doesn't exist.`));
 
     const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
 
@@ -120,9 +122,9 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
 
     sandbox.stub(fs, 'existsSync').returns(true);
     sandbox.stub(child, 'spawn').returns(emitter);
-    sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
+    sandbox.stub(findPackageRootModule, 'default').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
-    sandbox.stub(misc, 'loadJSONFile').throws(new Error('Invalid JSON.'));
+    sandbox.stub(loadJSONFileModule, 'default').throws(new Error('Invalid JSON.'));
 
     const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
 
@@ -169,9 +171,9 @@ test.serial('installPackages should show the command to run if the installation 
 
     sandbox.stub(fs, 'existsSync').returns(true);
     sandbox.stub(child, 'spawn').returns(emitter);
-    sandbox.stub(misc, 'findPackageRoot').returns('/example/path');
+    sandbox.stub(findPackageRootModule, 'default').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
-    sandbox.stub(misc, 'loadJSONFile').returns(devDependencyJson);
+    sandbox.stub(loadJSONFileModule, 'default').returns(devDependencyJson);
     sandbox.spy(logger, 'log');
 
     const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);

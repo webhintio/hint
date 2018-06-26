@@ -5,7 +5,9 @@ import { parse, MediaType } from 'content-type';
 
 import { debug as d } from './debug';
 import { IAsyncHTMLElement } from '../types';
-import { getFileExtension, getFileName, normalizeString } from './misc';
+import getFileExtension from './fs/file-extension';
+import getFileName from './fs/filename';
+import normalizeString from './misc/normalize-string';
 
 const debug = d(__filename);
 

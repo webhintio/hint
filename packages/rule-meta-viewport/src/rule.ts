@@ -6,7 +6,7 @@
 import { parseMetaViewPortContent } from 'metaviewport-parser';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, TraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { IRule } from 'sonarwhal/dist/src/lib/types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';

@@ -3,9 +3,9 @@ import * as path from 'path';
 import { merge } from 'lodash';
 
 import { Sonarwhal } from '../sonarwhal';
-import { getAsUri } from '../utils/get-as-uri';
-import { getAsPathString } from '../utils/get-as-path-string';
-import { loadJSONFile } from '../utils/misc';
+import { getAsUri } from '../utils/network/as-uri';
+import getAsPathString from '../utils/network/as-path-string';
+import loadJSONFile from '../utils/fs/load-json-file';
 import { ErrorEvent } from './events'; // eslint-disable-line no-unused-vars
 
 export type ExtendableConfiguration = {

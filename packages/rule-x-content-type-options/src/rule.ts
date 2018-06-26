@@ -12,7 +12,8 @@
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, FetchEnd, Response, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { isDataURI, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
+import isDataURI from 'sonarwhal/dist/src/lib/utils/network/is-data-uri';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 

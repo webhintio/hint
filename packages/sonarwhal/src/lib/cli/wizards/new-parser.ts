@@ -6,7 +6,9 @@ import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
 import * as logger from '../../utils/logging';
-import { isOfficial, normalizeStringByDelimiter as normalize, writeFileAsync } from '../../utils/misc';
+import isOfficial from '../../utils/packages/is-official';
+import normalize from '../../utils/misc/normalize-string-by-delimeter';
+import writeFileAsync from '../../utils/fs/write-file-async';
 import { escapeSafeString, compileTemplate, sonarwhalPackage } from '../../utils/handlebars';
 
 /*

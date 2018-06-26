@@ -7,7 +7,8 @@ import * as npmRegistryFetch from 'npm-registry-fetch';
 import { NpmPackage } from '../types';
 import { debug as d } from './debug';
 import * as logger from './logging';
-import { loadJSONFile, findPackageRoot } from './misc';
+import loadJSONFile from './fs/load-json-file';
+import findPackageRoot from './packages/find-package-root';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -102,7 +103,7 @@ const getPackages = (result): Array<NpmPackage> => {
     });
 };
 
-/** Generate a seach query to search packages. */
+/** Generate a search query to search packages. */
 const generateSearchQuery = (searchTerm, from?, size = 100) => {
     return `/-/v1/search?text=${searchTerm}&size=${size}${from ? `&from=${from}` : ''}`;
 };
