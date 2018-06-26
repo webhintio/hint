@@ -3,8 +3,6 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import * as misc from '../../src/lib/utils/misc';
-
 const stubbedNotifier = {
     notify() { },
     update: {}
@@ -16,12 +14,14 @@ const updateNotifier = () => {
     return stubbedNotifier;
 };
 
+const loadSonarwhalPackage = { default() { } };
+
 const cliActions = [];
 
 proxyquire('../../src/lib/cli', {
     './cli/actions': cliActions,
     './utils/logging': stubbedLogger,
-    './utils/misc': misc,
+    './utils/packages/load-sonarwhal-package': loadSonarwhalPackage,
     'update-notifier': updateNotifier
 });
 
@@ -29,15 +29,15 @@ test.beforeEach((t) => {
     sinon.stub(stubbedNotifier, 'notify').resolves();
     sinon.spy(stubbedLogger, 'error');
     t.context.notifier = stubbedNotifier;
-    t.context.misc = misc;
+    t.context.getSonarwhalPackage = loadSonarwhalPackage;
     t.context.logger = stubbedLogger;
 });
 
 test.afterEach.always((t) => {
     t.context.notifier.notify.restore();
 
-    if (t.context.misc.loadJSONFile.restore) {
-        t.context.misc.loadJSONFile.restore();
+    if (t.context.getSonarwhalPackage.default.restore) {
+        t.context.getSonarwhalPackage.default.restore();
     }
 
     t.context.logger.error.restore();
@@ -55,6 +55,8 @@ test.serial('Users should be notified if there is a new version of sonarwhal', a
 See ${chalk.cyan('https://sonarwhal.com/about/changelog/')} for details`;
 
     t.context.notifier.update = newUpdate;
+    sinon.stub(t.context.getSonarwhalPackage, 'default').returns({ version: '0.2.0' });
+
     const cli = await import('../../src/lib/cli');
 
     await cli.execute('');
@@ -81,9 +83,7 @@ test.serial(`Users shouldn't be notified if they just updated to the latest vers
     };
 
     t.context.notifier.update = newUpdate;
-    sinon.stub(t.context.misc, 'loadJSONFile').callsFake(() => {
-        return { version: '0.3.0' };
-    });
+    sinon.stub(t.context.getSonarwhalPackage, 'default').returns({ version: '0.3.0' });
 
     const cli = await import('../../src/lib/cli');
 

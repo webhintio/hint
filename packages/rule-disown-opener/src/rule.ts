@@ -13,7 +13,9 @@
 import { URL } from 'url';
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { cutString, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import cutString from 'sonarwhal/dist/src/lib/utils/misc/cut-string';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
+import isRegularProtocol from 'sonarwhal/dist/src/lib/utils/network/is-regular-protocol';
 import { isSupported } from 'sonarwhal/dist/src/lib/utils/caniuse';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, ElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';

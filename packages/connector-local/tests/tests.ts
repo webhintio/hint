@@ -5,21 +5,17 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import * as mock from 'mock-require';
 
-import { getAsPathString } from 'sonarwhal/dist/src/lib/utils/get-as-path-string';
-import { getAsUri } from 'sonarwhal/dist/src/lib/utils/get-as-uri';
-import * as originalMisc from 'sonarwhal/dist/src/lib/utils/misc';
-
-const delay = originalMisc.delay;
+import delay from 'sonarwhal/dist/src/lib/utils/misc/delay';
+import asPathString from 'sonarwhal/dist/src/lib/utils/network/as-path-string';
+import { getAsUri } from 'sonarwhal/dist/src/lib/utils/network/as-uri';
 
 const chokidar = { watch() { } };
-const misc = {
-    isFile() { },
-    readFileAsync: originalMisc.readFileAsync
-};
+const isFile = { default() { } };
 
-mock('sonarwhal/dist/src/lib/utils/misc', misc);
+mock('sonarwhal/dist/src/lib/utils/fs/is-file', isFile);
 mock('chokidar', chokidar);
 
+// This needs to be after the mocks to work correctly
 import LocalConnector from '../src/connector';
 
 test.beforeEach((t) => {
@@ -29,7 +25,7 @@ test.beforeEach((t) => {
         emitAsync() { },
         notify() { }
     };
-    t.context.misc = misc;
+    t.context.isFile = isFile;
 });
 
 test.after(() => {
@@ -41,7 +37,7 @@ test.serial(`If target is a file, it should emit 'fetch::start::target' event`, 
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.misc, 'isFile').returns(true);
+    sandbox.stub(t.context.isFile, 'default').returns(true);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
     const connector = new LocalConnector(t.context.sonarwhal as any, {});
@@ -61,7 +57,7 @@ test.serial(`If target is a html file, it should emit 'fetch::end::html' event i
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.misc, 'isFile').returns(true);
+    sandbox.stub(t.context.isFile, 'default').returns(true);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
     const connector = new LocalConnector(t.context.sonarwhal as any, {});
@@ -81,7 +77,7 @@ test.serial(`If target is a file (text), 'content' is setted`, async (t) => {
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.misc, 'isFile').returns(true);
+    sandbox.stub(t.context.isFile, 'default').returns(true);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
     const connector = new LocalConnector(t.context.sonarwhal as any, {});
@@ -101,7 +97,7 @@ test.serial(`If target is a file (image), 'content' is empty`, async (t) => {
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.misc, 'isFile').returns(true);
+    sandbox.stub(t.context.isFile, 'default').returns(true);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
     const connector = new LocalConnector(t.context.sonarwhal as any, {});
@@ -121,7 +117,7 @@ test.serial(`If target is an image, 'content' is empty`, async (t) => {
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.misc, 'isFile').returns(true);
+    sandbox.stub(t.context.isFile, 'default').returns(true);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
     const connector = new LocalConnector(t.context.sonarwhal as any, {});
@@ -141,7 +137,7 @@ test.serial(`If target is a directory, shouldn't emit the event 'fetch::start::t
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.misc, 'isFile').returns(false);
+    sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
     const connector = new LocalConnector(t.context.sonarwhal as any, {});
@@ -165,14 +161,14 @@ test.serial(`If target is a directory, shouldn't emit the event 'fetch::start::t
 
 test.serial(`If watch is true, it should watch the right files`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = getAsPathString(directoryUri);
+    const directory = asPathString(directoryUri);
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.misc, 'isFile').returns(false);
+    sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -210,14 +206,14 @@ test.serial(`If watch is true, it should watch the right files`, async (t) => {
 
 test.serial(`If watch is true, it should use the .gitignore`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-ignore'));
-    const directory = getAsPathString(directoryUri);
+    const directory = asPathString(directoryUri);
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.misc, 'isFile').returns(false);
+    sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -247,14 +243,14 @@ test.serial(`If watch is true, it should use the .gitignore`, async (t) => {
 
 test.serial(`When the watcher is ready, it should emit the scan::end event`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = getAsPathString(directoryUri);
+    const directory = asPathString(directoryUri);
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.misc, 'isFile').returns(false);
+    sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -287,14 +283,14 @@ test.serial(`When the watcher is ready, it should emit the scan::end event`, asy
 
 test.serial(`When the watcher detects a new file, it should emit the fetch::end::{type} and the scan::end events`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = getAsPathString(directoryUri);
+    const directory = asPathString(directoryUri);
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.misc, 'isFile').returns(false);
+    sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -330,14 +326,14 @@ test.serial(`When the watcher detects a new file, it should emit the fetch::end:
 
 test.serial(`When the watcher detects a change in a file, it should emit the fetch::end::{type} and the scan::end events`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = getAsPathString(directoryUri);
+    const directory = asPathString(directoryUri);
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.misc, 'isFile').returns(false);
+    sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -373,14 +369,14 @@ test.serial(`When the watcher detects a change in a file, it should emit the fet
 
 test.serial(`When the watcher detects that a file was removed, it should emit the scan::end event`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = getAsPathString(directoryUri);
+    const directory = asPathString(directoryUri);
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.misc, 'isFile').returns(false);
+    sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -415,14 +411,14 @@ test.serial(`When the watcher detects that a file was removed, it should emit th
 
 test.serial(`When the watcher get an error, it should throw an error`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = getAsPathString(directoryUri);
+    const directory = asPathString(directoryUri);
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.misc, 'isFile').returns(false);
+    sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);

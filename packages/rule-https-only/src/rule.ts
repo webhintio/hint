@@ -10,7 +10,8 @@ import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { IRule, RuleMetadata, FetchEnd, Response, ElementFound } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { isHTTPS, isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
+import isHTTPS from 'sonarwhal/dist/src/lib/utils/network/is-https';
+import isDataURI from 'sonarwhal/dist/src/lib/utils/network/is-data-uri';
 
 const debug: debug.IDebugger = d(__filename);
 

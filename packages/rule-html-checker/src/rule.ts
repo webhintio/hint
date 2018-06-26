@@ -130,7 +130,8 @@ export default class HtmlCheckerRule implements IRule {
         };
 
         const requestRetry = async (options, retries: number = 3) => {
-            const { requestAsync, delay } = await import('sonarwhal/dist/src/lib/utils/misc');
+            const requestAsync = (await import('sonarwhal/dist/src/lib/utils/network/request-async')).default;
+            const delay = (await import('sonarwhal/dist/src/lib/utils/misc/delay')).default;
 
             try {
                 return await requestAsync(options);

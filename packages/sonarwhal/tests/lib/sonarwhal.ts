@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import test from 'ava';
 
-import { delay } from '../../src/lib/utils/misc';
+import delay from '../../src/lib/utils/misc/delay';
 import { RuleScope } from '../../src/lib/enums/rulescope';
 import { SonarwhalConfig } from '../../src/lib/config';
 

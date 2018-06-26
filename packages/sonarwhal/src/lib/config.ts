@@ -23,7 +23,8 @@ import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, RulesConfigObject } from './types';
-import { loadJSFile, loadJSONFile } from './utils/misc';
+import loadJSFile from './utils/fs/load-js-file';
+import loadJSONFile from './utils/fs/load-json-file';
 import { validateConfig } from './config/config-validator';
 import normalizeRules from './config/normalize-rules';
 import { validate as validateRule, getSeverity } from './config/config-rules';
@@ -361,6 +362,7 @@ export class SonarwhalConfig {
             throw new Error(`Couldn't find any valid configuration`);
         }
 
+        // 3, 4
         const userConfig = composeConfig(config);
 
         if (typeof userConfig.connector === 'string') {

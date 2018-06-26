@@ -5,7 +5,9 @@
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { FetchEnd, IAsyncHTMLElement, Response, IRule, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { isHTTPS, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import isHTTPS from 'sonarwhal/dist/src/lib/utils/network/is-https';
+import isRegularProtocol from 'sonarwhal/dist/src/lib/utils/network/is-regular-protocol';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
 import { ParsedSetCookieHeader } from './rule-types';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';

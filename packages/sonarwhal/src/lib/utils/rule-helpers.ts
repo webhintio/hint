@@ -1,5 +1,5 @@
 import { basename, dirname, resolve } from 'path';
-import { findPackageRoot } from './misc';
+import findPackageRoot from './packages/find-package-root';
 
 /** Lower cases all the items of `list`. */
 export const toLowerCase = (list: Array<string>): Array<string> => {

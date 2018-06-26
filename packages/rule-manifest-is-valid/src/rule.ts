@@ -18,7 +18,7 @@ import {
     RuleMetadata
 } from 'sonarwhal/dist/src/lib/types';
 import { isSupported } from 'sonarwhal/dist/src/lib/utils/caniuse';
-import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
 import {
     Manifest,
     ManifestInvalidJSON,

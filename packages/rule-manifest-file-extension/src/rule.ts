@@ -11,7 +11,8 @@
 
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { IAsyncHTMLElement, ElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { getFileExtension, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import getFileExtension from 'sonarwhal/dist/src/lib/utils/fs/file-extension';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 

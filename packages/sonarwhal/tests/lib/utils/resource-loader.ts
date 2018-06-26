@@ -170,11 +170,13 @@ test.serial('loadResource throws an error if the version is incompatible when us
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        '../utils/misc': {
-            getPackage() {
+        '../utils/packages/load-package': {
+            default() {
                 return { peerDependencies: { sonarwhal: '0.1.0' } };
-            },
-            getSonarwhalPackage() {
+            }
+        },
+        '../utils/packages/load-sonarwhal-package': {
+            default() {
                 return { version: '1.1.0' };
             }
         }
@@ -196,11 +198,13 @@ test.serial('loadResource returns the resource if versions are compatible', asyn
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        '../utils/misc': {
-            getPackage() {
+        '../utils/packages/load-package': {
+            default() {
                 return { peerDependencies: { sonarwhal: '0.1.0' } };
-            },
-            getSonarwhalPackage() {
+            }
+        },
+        '../utils/packages/load-sonarwhal-package': {
+            default() {
                 return { version: '0.1.0' };
             }
         }
@@ -220,8 +224,8 @@ test.serial('loadResource throws an error if the rule is loaded from the current
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        '../utils/misc': {
-            getPackage() {
+        '../utils/packages/load-package': {
+            default() {
                 return { name: 'fake-resource' };
             }
         }
@@ -251,8 +255,8 @@ test.serial(`loadResource doesn't throw an error if the rule is loaded from the 
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        '../utils/misc': {
-            getPackage() {
+        '../utils/packages/load-package': {
+            default() {
                 return { name: 'rule-another-fake-resource' };
             }
         }

@@ -17,7 +17,9 @@ import * as request from 'request';
 import * as iconv from 'iconv-lite';
 
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { getHeaderValueNormalized, toLowerCaseKeys } from 'sonarwhal/dist/src/lib/utils/misc';
+import getHeaderValueNormalized from 'sonarwhal/dist/src/lib/utils/network/normalized-header-value';
+import toLowerCaseKeys from 'sonarwhal/dist/src/lib/utils/misc/to-lowercase-keys';
+
 import { getContentTypeData } from 'sonarwhal/dist/src/lib/utils/content-type';
 import { NetworkData } from 'sonarwhal/dist/src/lib/types'; //eslint-disable-line
 import { RedirectManager } from './redirects';

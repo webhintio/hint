@@ -1,5 +1,5 @@
 import { debug as d } from './debug';
-import { AsyncHTMLAttribute, IAsyncHTMLElement, ProblemLocation } from './../types';
+import { AsyncHTMLAttribute, IAsyncHTMLElement, ProblemLocation } from '../types';
 
 const debug: debug.IDebugger = d(__filename);
 

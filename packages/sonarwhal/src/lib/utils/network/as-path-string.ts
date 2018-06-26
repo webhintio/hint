@@ -7,7 +7,7 @@ import * as url from 'url';
  * * `file:///c:/projects/` --> `c:/projects/`
  * * `file:///mnt/projects/` --> `/mnt/projects/`
  */
-export const getAsPathString = (uri: url.URL) => {
+export default (uri: url.URL) => {
 
     if (uri.protocol !== 'file:') {
         return uri.pathname;

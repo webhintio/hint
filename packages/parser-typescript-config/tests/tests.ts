@@ -5,8 +5,9 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-import * as misc from 'sonarwhal/dist/src/lib/utils/misc';
-import { getAsUri } from 'sonarwhal/dist/src/lib/utils/get-as-uri';
+import loadJSONFile from 'sonarwhal/dist/src/lib/utils/fs/load-json-file';
+import readFile from 'sonarwhal/dist/src/lib/utils/fs/read-file';
+import { getAsUri } from 'sonarwhal/dist/src/lib/utils/network/as-uri';
 
 import TypeScriptConfigParser from '../src/parser';
 
@@ -81,28 +82,28 @@ test('If we receive a valid json with a valid name, it should emit the event par
 
     new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
-    const validJSON = misc.loadJSONFile(path.join(__dirname, 'fixtures', 'tsconfig.valid.json'));
+    const validJSON = loadJSONFile(path.join(__dirname, 'fixtures', 'tsconfig.valid.json'));
 
     const parsedJSON = {
         compilerOptions:
-            {
-                alwaysStrict: true,
-                declaration: true,
-                inlineSourceMap: true,
-                jsxFactory: 'React.createElement',
-                lib: [
-                    'dom',
-                    'dom.iterable',
-                    'esnext',
-                    'esnext.asynciterable'
-                ],
-                maxNodeModuleJsDepth: 0,
-                module: 'commonjs',
-                moduleResolution: 'classic',
-                newLine: 'lf',
-                removeComments: false,
-                target: 'esnext'
-            }
+        {
+            alwaysStrict: true,
+            declaration: true,
+            inlineSourceMap: true,
+            jsxFactory: 'React.createElement',
+            lib: [
+                'dom',
+                'dom.iterable',
+                'esnext',
+                'esnext.asynciterable'
+            ],
+            maxNodeModuleJsDepth: 0,
+            module: 'commonjs',
+            moduleResolution: 'classic',
+            newLine: 'lf',
+            removeComments: false,
+            target: 'esnext'
+        }
     };
 
     await t.context.sonarwhal.emitAsync('fetch::end::json', {
@@ -126,28 +127,28 @@ test('If we receive a valid json with an extends, it should emit the event parse
 
     new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
-    const validJSON = misc.loadJSONFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends.json'));
+    const validJSON = loadJSONFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends.json'));
 
     const parsedJSON = {
         compilerOptions:
-            {
-                alwaysStrict: true,
-                declaration: true,
-                inlineSourceMap: true,
-                jsxFactory: 'React.createElement',
-                lib: [
-                    'dom',
-                    'dom.iterable',
-                    'esnext',
-                    'esnext.asynciterable'
-                ],
-                maxNodeModuleJsDepth: 0,
-                module: 'esnext',
-                moduleResolution: 'classic',
-                newLine: 'lf',
-                removeComments: false,
-                target: 'esnext'
-            }
+        {
+            alwaysStrict: true,
+            declaration: true,
+            inlineSourceMap: true,
+            jsxFactory: 'React.createElement',
+            lib: [
+                'dom',
+                'dom.iterable',
+                'esnext',
+                'esnext.asynciterable'
+            ],
+            maxNodeModuleJsDepth: 0,
+            module: 'esnext',
+            moduleResolution: 'classic',
+            newLine: 'lf',
+            removeComments: false,
+            target: 'esnext'
+        }
     };
 
     await t.context.sonarwhal.emitAsync('fetch::end::json', {
@@ -171,7 +172,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
 
     new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
-    const configuration = misc.readFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-loop.json'));
+    const configuration = readFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-loop.json'));
 
     await t.context.sonarwhal.emitAsync('fetch::end::json', {
         resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-loop.json'))),
@@ -192,7 +193,7 @@ test('If we receive a json with an extends with an invalid json, it should emit 
 
     new TypeScriptConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
-    const configuration = misc.readFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-invalid.json'));
+    const configuration = readFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-invalid.json'));
 
     await t.context.sonarwhal.emitAsync('fetch::end::json', {
         resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-invalid.json'))),

@@ -50,7 +50,9 @@ export default class StrictTransportSecurityRule implements IRule {
          * HACK: Need to do a require here in order to be capable of mocking
          * when testing the rule and `import` doesn't work here.
          */
-        const { isHTTPS, normalizeString, requestJSONAsync } = require('sonarwhal/dist/src/lib/utils/misc');
+        const isHTTPS = require('sonarwhal/dist/src/lib/utils/network/is-https').default;
+        const normalizeString = require('sonarwhal/dist/src/lib/utils/misc/normalize-string').default;
+        const requestJSONAsync = require('sonarwhal/dist/src/lib/utils/network/request-json-async').default;
 
         const loadRuleConfigs = () => {
             minMaxAgeValue = (context.ruleOptions && context.ruleOptions.minMaxAgeValue) || 10886400; // 18 weeks

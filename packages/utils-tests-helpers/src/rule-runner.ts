@@ -14,7 +14,7 @@ import * as resourceLoader from 'sonarwhal/dist/src/lib/utils/resource-loader';
 import { RuleTest, RuleLocalTest, Report } from './rule-test-type';
 import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
 import { SonarwhalConfig } from 'sonarwhal/dist/src/lib/config';
-import { getAsUri } from 'sonarwhal/dist/src/lib/utils/get-as-uri';
+import { getAsUri } from 'sonarwhal/dist/src/lib/utils/network/as-uri';
 
 // Regex to replace all scenarios: `http(s)://localhost/`, `http(s)://localhost:3000/`
 const localhostRegex = /(http|https):\/\/localhost[:]*[0-9]*\//g;
@@ -211,9 +211,6 @@ export const testLocalRule = (ruleId: string, ruleTests: Array<RuleLocalTest>, c
         return;
     }
 
-    const sonarwhalConfig = createConfig(ruleId, 'local', configs);
-
-    const resources = resourceLoader.loadResources(sonarwhalConfig);
 
     let runner: any;
 
@@ -239,6 +236,8 @@ export const testLocalRule = (ruleId: string, ruleTests: Array<RuleLocalTest>, c
                     await ruleTest.before(t);
                 }
 
+                const sonarwhalConfig = createConfig(ruleId, 'local', configs);
+                const resources = resourceLoader.loadResources(sonarwhalConfig);
                 const sonarwhal = new Sonarwhal(sonarwhalConfig, resources);
 
                 const results = await sonarwhal.executeOn(getAsUri(ruleTest.path));

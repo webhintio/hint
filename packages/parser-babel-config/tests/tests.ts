@@ -5,8 +5,9 @@ import * as sinon from 'sinon';
 import { EventEmitter2 } from 'eventemitter2';
 import test from 'ava';
 
-import * as misc from 'sonarwhal/dist/src/lib/utils/misc';
-import { getAsUri } from 'sonarwhal/dist/src/lib/utils/get-as-uri';
+import loadJSONFile from 'sonarwhal/dist/src/lib/utils/fs/load-json-file';
+import readFile from 'sonarwhal/dist/src/lib/utils/fs/read-file';
+import { getAsUri } from 'sonarwhal/dist/src/lib/utils/network/as-uri';
 
 import BabelConfigParser from '../src/parser';
 
@@ -141,7 +142,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
     const configPath = path.join(__dirname, 'fixtures', 'valid', '.babelrc');
-    const validJSON = misc.loadJSONFile(configPath);
+    const validJSON = loadJSONFile(configPath);
 
     const parsedJSON = {
         ast: true,
@@ -193,7 +194,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
     const configPath = path.join(__dirname, 'fixtures', 'valid-with-extends', '.babelrc');
-    const validJSON = misc.loadJSONFile(configPath);
+    const validJSON = loadJSONFile(configPath);
 
     await t.context.sonarwhal.emitAsync('fetch::end::json', {
         resource: url.format(getAsUri(configPath)),
@@ -217,7 +218,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
     const configPath = path.join(__dirname, 'fixtures', 'valid-with-extends-loop', '.babelrc');
-    const configuration = misc.readFile(configPath);
+    const configuration = readFile(configPath);
 
     await t.context.sonarwhal.emitAsync('fetch::end::json', {
         resource: url.format(getAsUri(configPath)),
@@ -239,7 +240,7 @@ test('If we receive a json with an extends with an invalid json, it should emit 
     new BabelConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
     const configPath = path.join(__dirname, 'fixtures', 'valid-with-extends-invalid', '.babelrc');
-    const configuration = misc.readFile(configPath);
+    const configuration = readFile(configPath);
 
     await t.context.sonarwhal.emitAsync('fetch::end::json', {
         resource: url.format(getAsUri(configPath)),

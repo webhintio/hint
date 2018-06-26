@@ -15,7 +15,10 @@ import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { FetchEnd, IAsyncHTMLElement, IRule, NetworkData, Response, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
 import { asyncTry } from 'sonarwhal/dist/src/lib/utils/async-wrapper';
 import { getFileExtension, isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
-import { getHeaderValueNormalized, isHTTP, isRegularProtocol, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import getHeaderValueNormalized from 'sonarwhal/dist/src/lib/utils/network/normalized-header-value';
+import isHTTP from 'sonarwhal/dist/src/lib/utils/network/is-http';
+import isRegularProtocol from 'sonarwhal/dist/src/lib/utils/network/is-regular-protocol';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
 import { CompressionCheckOptions } from './rule-types';
 
 const uaString = 'Mozilla/5.0 Gecko';

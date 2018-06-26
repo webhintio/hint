@@ -2,7 +2,7 @@
  * @fileoverview Loads the connections.ini and updates it if needed
  */
 
-import { readFile } from 'sonarwhal/dist/src/lib/utils/misc';
+import readFile from 'sonarwhal/dist/src/lib/utils/fs/read-file';
 import { NetworkConfig } from './types';
 
 
