@@ -1,16 +1,9 @@
-import * as path from 'path';
+import * as Handlebars from 'handlebars';
 
-import * as Handlebars from 'handlebars/dist/handlebars.min.js';
-
-import { debug as d } from './debug';
 import readFileAsync from './fs/read-file-async';
-import findPackageRoot from './packages/find-package-root';
+import loadSonarwhalPackage from './packages/load-sonarwhal-package';
 
-const debug = d(__filename);
-
-export const sonarwhalPackage = require(path.join(findPackageRoot(), 'package.json'));
-
-export { Handlebars };
+const pkg = loadSonarwhalPackage();
 
 /**
  * Searches the current version used for a package in `sonarwhal` and uses that version or the `defaultVersion`.
@@ -19,7 +12,13 @@ export { Handlebars };
  * of creation.
  */
 Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): string => {
-    return sonarwhalPackage.dependencies[packageName] || sonarwhalPackage.devDependencies[packageName] || defaultVersion;
+    const version = packageName === 'sonarwhal' ?
+        `^${pkg.version}` :
+        pkg.dependencies[packageName] ||
+        pkg.devDependencies[packageName] ||
+        defaultVersion;
+
+    return `"${packageName}": "${version}"`;
 });
 
 /**
@@ -30,19 +29,19 @@ Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): st
  * description: `This is a \`important\` rule that has 'single' and "double" quotes.`
  * ```
  */
-export const escapeSafeString = (str: string): Handlebars.SafeString => {
+export const escapeSafeString = (str: string): hbs.SafeString => {
     const result = str.replace(/(`)/g, '\\$1');
 
     return new Handlebars.SafeString(result);
 };
 
-export const compileTemplate = async (filePath: string, data): Promise<string> => {
+/** Reads a handlebars template from the file system and compiles it. */
+export const compileTemplate = async (filePath: string, data: any): Promise<string> => {
     let templateContent;
 
     try {
         templateContent = await readFileAsync(filePath);
     } catch (err) {
-        debug(`Error reading file: ${filePath}`);
         throw (err);
     }
 
@@ -50,3 +49,5 @@ export const compileTemplate = async (filePath: string, data): Promise<string> =
 
     return template(data);
 };
+
+export default Handlebars;
