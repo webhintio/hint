@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import test from 'ava';
 
-const handlebars = require('../../../src/lib/utils/handlebars');
+const handlebars = require('../../../src/lib/utils/handlebars-utils');
 
 test('escapeSafeString transforms the string and calls Handlebars.SafeString', (t) => {
     const source = '`something`';
@@ -13,7 +13,7 @@ test('escapeSafeString transforms the string and calls Handlebars.SafeString', (
 });
 
 test('compile template uses the `dependencyVersion` helper', async (t) => {
-    const expected = '1.0.0';
+    const expected = '"dummy-package": "1.0.0"';
     const output = await handlebars.compileTemplate(path.join(__dirname, 'fixtures', 'template.hbs'), {});
 
     t.is(output.trim(), expected, `${output} !== ${expected}`);

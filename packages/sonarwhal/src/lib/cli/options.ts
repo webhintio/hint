@@ -55,18 +55,6 @@ export const options = optionator({
             type: 'Boolean'
         },
         {
-            alias: 'n',
-            description: `Generate a new rule (in sonarwhal's main repo)`,
-            option: 'new-rule',
-            type: 'Boolean'
-        },
-        {
-            alias: 'p',
-            description: `Generate a new parser`,
-            option: 'new-parser',
-            type: 'Boolean'
-        },
-        {
             alias: 'w',
             description: 'Activate a watcher for the connector (if supported)',
             option: 'watch',
