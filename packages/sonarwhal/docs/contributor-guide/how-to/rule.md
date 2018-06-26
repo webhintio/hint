@@ -13,23 +13,10 @@ how to do it, please [open an issue][new issue].
 
 ## Using the `CLI` to create a rule
 
-The easiest wait to create a new rule is via the CLI parameter `--new-rule`.
-You have several options to run this command:
-
-* Using `sonarwhal` as a global package:
+The easiest wait to create a new rule is via the `create-rule` package:
 
 ```bash
-npm install -g --engine-strict sonarwhal
-sonarwhal --new-rule
-```
-
-* Using `npx` if you don’t want to install it globally:
-
-  **Windows users:** Currently [`npx` has an issue in this
-  platform][npx issue] and the command will not work.
-
-```bash
-npx sonarwhal --new-rule
+npm init rule
 ```
 
 This command will start a wizard that will ask you a series of questions

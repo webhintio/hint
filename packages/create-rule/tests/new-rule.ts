@@ -1,29 +1,32 @@
 import * as path from 'path';
+
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import * as handlebarsUtils from '../../../../src/lib/utils/handlebars';
+import * as handlebarsUtils from 'sonarwhal/dist/src/lib/utils/handlebars-utils';
 
 const inquirer = { prompt() { } };
-const isOfficial = { default() { } };
-const writeFileAsync = { default() { } };
+const writeFileAsyncModule = { default() { } };
+const isOfficialModule = { default() { } };
 
 const fsExtra = { copy() { } };
 const mkdirp = (dir, callback) => {
     callback();
 };
 
-proxyquire('../../../../src/lib/cli/wizards/new-rule', {
-    '../../utils/fs/write-file-async': writeFileAsync,
-    '../../utils/handlebars': handlebarsUtils,
-    '../../utils/packages/is-official': isOfficial,
+const dependencies = {
     'fs-extra': fsExtra,
     inquirer,
-    mkdirp
-});
+    mkdirp,
+    'sonarwhal/dist/src/lib/utils/fs/write-file-async': writeFileAsyncModule,
+    'sonarwhal/dist/src/lib/utils/handlebars-utils': handlebarsUtils,
+    'sonarwhal/dist/src/lib/utils/packages/is-official': isOfficialModule
+};
 
-import newRule from '../../../../src/lib/cli/wizards/new-rule';
+proxyquire('../src/new-rule', dependencies);
+
+import newRule from '../src/new-rule';
 
 test.serial('It creates a rule if the option multiple rules is false', async (t) => {
     const results = {
@@ -37,10 +40,10 @@ test.serial('It creates a rule if the option multiple rules is false', async (t)
     const sandbox = sinon.createSandbox();
 
     const fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
-    const writeFileAsyncStub = sandbox.stub(writeFileAsync, 'default').resolves();
+    const miscWriteFileAsyncStub = sandbox.stub(writeFileAsyncModule, 'default').resolves();
     const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').returns('');
 
-    sandbox.stub(isOfficial, 'default').resolves(true);
+    sandbox.stub(isOfficialModule, 'default').resolves(true);
     sandbox.stub(process, 'cwd').returns(root);
     sandbox.stub(inquirer, 'prompt').resolves(results);
 
@@ -51,7 +54,7 @@ test.serial('It creates a rule if the option multiple rules is false', async (t)
 
     // index.ts, package.json, readme.md, tsconfig.json, rule.ts, tests/rule.ts
     t.is(handlebarsCompileTemplateStub.callCount, 6, `Handlebars doesn't complile the right number of files`);
-    t.is(writeFileAsyncStub.callCount, 6, 'Invalid number of files created');
+    t.is(miscWriteFileAsyncStub.callCount, 6, 'Invalid number of files created');
 
     t.true(result);
 
@@ -82,10 +85,10 @@ test.serial('It creates a package with multiple rules', async (t) => {
     const sandbox = sinon.createSandbox();
 
     const fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
-    const writeFileAsyncStub = sandbox.stub(writeFileAsync, 'default').resolves();
+    const miscWriteFileAsyncStub = sandbox.stub(writeFileAsyncModule, 'default').resolves();
     const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').returns('');
 
-    sandbox.stub(isOfficial, 'default').resolves(false);
+    sandbox.stub(isOfficialModule, 'default').resolves(false);
     sandbox.stub(process, 'cwd').returns(root);
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
@@ -104,7 +107,7 @@ test.serial('It creates a package with multiple rules', async (t) => {
 
     // index.ts, package.json, readme.md, tsconfig.json, .sonarwhalrc, rule.ts * 2, tests/rule.ts * 2, docs/rule.md * 2
     t.is(handlebarsCompileTemplateStub.callCount, 11, `Handlebars doesn't complile the right number of files`);
-    t.is(writeFileAsyncStub.callCount, 11, 'Invalid number of files created');
+    t.is(miscWriteFileAsyncStub.callCount, 11, 'Invalid number of files created');
 
     t.true(result);
 
