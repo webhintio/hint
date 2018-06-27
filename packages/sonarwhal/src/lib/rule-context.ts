@@ -6,25 +6,25 @@
  */
 import { URL } from 'url';
 
-import { Sonarwhal } from './sonarwhal';
+import { Engine } from './engine';
 import { IAsyncHTMLElement, NetworkData, ProblemLocation, RuleMetadata, Severity } from './types';
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 
 
-/** Acts as an abstraction layer between rules and the main sonarwhal object. */
+/** Acts as an abstraction layer between rules and the main hint object. */
 export class RuleContext {
     private id: string
     private options: Array<any>
     private meta: RuleMetadata
     private severity: Severity
-    private sonarwhal: Sonarwhal
+    private engine: Engine
 
-    public constructor(ruleId: string, sonarwhal: Sonarwhal, severity: Severity, options, meta: RuleMetadata) {
+    public constructor(ruleId: string, engine: Engine, severity: Severity, options, meta: RuleMetadata) {
 
         this.id = ruleId;
         this.options = options;
         this.meta = meta;
-        this.sonarwhal = sonarwhal;
+        this.engine = engine;
         this.severity = severity;
 
         Object.freeze(this);
@@ -32,22 +32,22 @@ export class RuleContext {
 
     /** The DOM of the page. */
     public get pageDOM() {
-        return this.sonarwhal.pageDOM;
+        return this.engine.pageDOM;
     }
 
     /** The original HTML of the page. */
     public get pageContent() {
-        return this.sonarwhal.pageContent;
+        return this.engine.pageContent;
     }
 
     /** The headers of the response when retrieving the HTML. */
     public get pageHeaders() {
-        return this.sonarwhal.pageHeaders;
+        return this.engine.pageHeaders;
     }
 
-    /** List of browsers to target as specified by the sonarwhal configuration. */
+    /** List of browsers to target as specified by the hint configuration. */
     public get targetedBrowsers(): Array<string> {
-        return this.sonarwhal.targetedBrowsers;
+        return this.engine.targetedBrowsers;
     }
 
     /** Custom configuration (if any) for the given rule */
@@ -67,16 +67,16 @@ export class RuleContext {
 
     /** Injects JavaScript into the target. */
     public evaluate(source: string): Promise<any> {
-        return this.sonarwhal.evaluate(source);
+        return this.engine.evaluate(source);
     }
 
     /** A useful way of making requests. */
     public fetchContent(target: string | URL, headers?: object): Promise<NetworkData> {
-        return this.sonarwhal.fetchContent(target, headers);
+        return this.engine.fetchContent(target, headers);
     }
 
     public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
-        return this.sonarwhal.querySelectorAll(selector);
+        return this.engine.querySelectorAll(selector);
     }
 
     /** Finds the exact location of the given content in the HTML that represents the `element`. */
@@ -100,11 +100,11 @@ export class RuleContext {
         }
 
         /*
-         * If location is undefined or equal to null, `position` will be set as `{ column: -1, line: -1 }` later in `sonarwhal.report`.
+         * If location is undefined or equal to null, `position` will be set as `{ column: -1, line: -1 }` later in `hint.report`.
          * So pass the `location` on as it is.
          */
 
-        this.sonarwhal.report(
+        this.engine.report(
             this.id,
             severity || this.severity,
             codeSnippet || sourceCode,
@@ -114,8 +114,8 @@ export class RuleContext {
         );
     }
 
-    /** Subscribe an event in sonarwhal. */
+    /** Subscribe an event in hint. */
     public on(event, listener) {
-        this.sonarwhal.onRuleEvent(this.id, event, listener);
+        this.engine.onRuleEvent(this.id, event, listener);
     }
 }

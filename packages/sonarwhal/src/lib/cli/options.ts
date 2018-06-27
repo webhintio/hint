@@ -73,5 +73,5 @@ export const options = optionator({
             type: 'String'
         }
     ],
-    prepend: 'sonarwhal [options] https://url.com'
+    prepend: 'hint [options] https://url.com'
 });

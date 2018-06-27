@@ -45,20 +45,20 @@ export const installPackages = async (packages: Array<string>): Promise<boolean>
         return Promise.resolve(true);
     }
 
-    const sonarwhalLocalPath = path.join(currentWorkingDir, 'node_modules', 'sonarwhal', 'package.json');
+    const hintLocalPath = path.join(currentWorkingDir, 'node_modules', 'hint', 'package.json');
 
-    // Check if sonarwhal is installed locally.
-    const global: boolean = !fs.existsSync(sonarwhalLocalPath); // eslint-disable-line no-sync
+    // Check if hint is installed locally.
+    const global: boolean = !fs.existsSync(hintLocalPath); // eslint-disable-line no-sync
 
     if (!global) {
         try {
             const packagePath = findPackageRoot(currentWorkingDir);
             const jsonContent = loadJSONFile(path.join(packagePath, 'package.json'));
 
-            // If `sonarwhal` is a devDependency, then set all packages as devDependencies.
-            isDev = jsonContent.devDependencies && jsonContent.devDependencies.hasOwnProperty('sonarwhal');
+            // If `hint` is a devDependency, then set all packages as devDependencies.
+            isDev = jsonContent.devDependencies && jsonContent.devDependencies.hasOwnProperty('hint');
         } catch (err) {
-            // Even if sonarwhal is installed locally, package.json could not exist in the current working directory.
+            // Even if `hint` is installed locally, package.json could not exist in the current working directory.
             isDev = false;
         }
     }
@@ -128,22 +128,22 @@ export const search = async (searchTerm: string): Promise<Array<NpmPackage>> => 
 
 /** Get core packages from npm. */
 export const getOfficialPackages = async (type: string): Promise<Array<NpmPackage>> => {
-    const rules = await search(`@sonarwhal/${type}`);
+    const rules = await search(`@hint/${type}`);
 
     /*
      * We need to filter the results because the search can
-     * include other packages that doesn't start with `@sonarwhal/{type}`.
+     * include other packages that doesn't start with `@hint/{type}`.
      */
-    return filterPackages(rules, `@sonarwhal/${type}`);
+    return filterPackages(rules, `@hint/${type}`);
 };
 
 /** Get external packages from npm. */
 export const getUnnoficialPackages = async (type: string): Promise<Array<NpmPackage>> => {
-    const rules = await search(`sonarwhal-${type}`);
+    const rules = await search(`hint-${type}`);
 
     /*
      * We need to filter the results because the search can
-     * include other packages that doesn't start with `sonarwhal-{type}`.
+     * include other packages that doesn't start with `hint-{type}`.
      */
-    return filterPackages(rules, `sonarwhal-${type}`);
+    return filterPackages(rules, `hint-${type}`);
 };

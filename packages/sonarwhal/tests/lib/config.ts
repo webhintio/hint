@@ -43,7 +43,7 @@ test('if there is no configuration file anywhere, it should call os.homedir and 
         .onCall(4) // shell.test uses os.homedir each time, and we have 4 CONFIG_FILES before
         .returns(dir);
 
-    const result = config.SonarwhalConfig.getFilenameForDirectory(dir);
+    const result = config.HintConfig.getFilenameForDirectory(dir);
 
     t.is(result, null);
     t.is(stub.callCount, 5, `os.homedir() wasn't called to get the users homedir`);
@@ -51,24 +51,24 @@ test('if there is no configuration file anywhere, it should call os.homedir and 
 
 test('if there is configuration file, it should return the path to the file', (t) => {
     const { config } = t.context;
-    const result = config.SonarwhalConfig.getFilenameForDirectory(path.join(__dirname, './fixtures/getFilenameForDirectory'));
+    const result = config.HintConfig.getFilenameForDirectory(path.join(__dirname, './fixtures/getFilenameForDirectory'));
 
-    t.true(result.includes('.sonarwhalrc'));
+    t.true(result.includes('.hintrc'));
 });
 
-test('if SonarwhalConfig.fromFilePath is called with a non valid file extension, it should return an exception', (t) => {
+test('if.hintConfig.fromFilePath is called with a non valid file extension, it should return an exception', (t) => {
     const { config } = t.context;
     const error = t.throws(() => {
-        config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/notvalid/notvalid.css'), null);
+        config.HintConfig.fromFilePath(path.join(__dirname, './fixtures/notvalid/notvalid.css'), null);
     });
 
     t.is(error.message, `Couldn't find a configuration file`);
 });
 
-test(`if package.json doesn't have a sonarwhal configuration, it should return an exception`, (t) => {
+test(`if package.json doesn't have a hint configuration, it should return an exception`, (t) => {
     const { config } = t.context;
     const error = t.throws(() => {
-        config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/notvalid/package.json'), null);
+        config.HintConfig.fromFilePath(path.join(__dirname, './fixtures/notvalid/package.json'), null);
     });
 
     t.is(error.message, `Couldn't find a configuration file`);
@@ -77,7 +77,7 @@ test(`if package.json doesn't have a sonarwhal configuration, it should return a
 test(`if package.json is an invalid JSON, it should return an exception`, (t) => {
     const { config } = t.context;
     const error = t.throws(() => {
-        config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/exception/package.json'), null);
+        config.HintConfig.fromFilePath(path.join(__dirname, './fixtures/exception/package.json'), null);
     });
 
     t.true(error.message.startsWith('Cannot read config file: '));
@@ -103,7 +103,7 @@ test(`if the config file doesn't have an extension, it should be parsed as JSON 
 
     sandbox.stub(resourceLoader, 'loadRule').returns(FakeDisallowedRule);
 
-    const configuration = config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/sonarwhalrc'), { watch: false } as CLIOptions);
+    const configuration = config.HintConfig.fromFilePath(path.join(__dirname, './fixtures/valid/hintrc'), { watch: false } as CLIOptions);
 
     t.is((configuration.connector as ConnectorConfig).name, 'chrome');
     t.is(configuration.rules['disallowed-headers'], 'warning');
@@ -129,13 +129,13 @@ test(`if the config file is JavaScript, it should return the configuration part`
 
     sandbox.stub(resourceLoader, 'loadRule').returns(FakeDisallowedRule);
 
-    const configuration = config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/sonarwhalrc.js'), { watch: true } as CLIOptions);
+    const configuration = config.HintConfig.fromFilePath(path.join(__dirname, './fixtures/valid/hintrc.js'), { watch: true } as CLIOptions);
 
     t.is((configuration.connector as ConnectorConfig).name, 'chrome');
     t.is(configuration.rules['disallowed-headers'], 'warning');
 });
 
-test(`if package.json contains a valid sonarwhal configuration, it should return it`, (t) => {
+test(`if package.json contains a valid hint configuration, it should return it`, (t) => {
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedRule implements IRule {
@@ -155,7 +155,7 @@ test(`if package.json contains a valid sonarwhal configuration, it should return
 
     sandbox.stub(resourceLoader, 'loadRule').returns(FakeDisallowedRule);
 
-    const configuration = config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/package.json'), { watch: false } as CLIOptions);
+    const configuration = config.HintConfig.fromFilePath(path.join(__dirname, './fixtures/valid/package.json'), { watch: false } as CLIOptions);
 
     t.is((configuration.connector as ConnectorConfig).name, 'chrome');
     t.is(configuration.rules['disallowed-headers'][0], 'warning');
@@ -181,7 +181,7 @@ test(`if package.json contains the property "ignoredUrls", it shold return them`
 
     sandbox.stub(resourceLoader, 'loadRule').returns(FakeDisallowedRule);
 
-    const configuration = config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/package.json'), { watch: false } as CLIOptions);
+    const configuration = config.HintConfig.fromFilePath(path.join(__dirname, './fixtures/valid/package.json'), { watch: false } as CLIOptions);
 
     t.is((configuration.connector as ConnectorConfig).name, 'chrome');
     t.is(configuration.ignoredUrls.size, 2);
@@ -209,11 +209,11 @@ test.serial(`if the configuration file contains an extends property, it should c
 
     sandbox.stub(resourceLoader, 'loadRule').returns(FakeDisallowedRule);
 
-    const exts = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/valid/package.json'))).sonarwhalConfig;
+    const exts = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/valid/package.json'))).hintConfig;
 
     sandbox.stub(resourceLoader, 'loadConfiguration').returns(exts);
 
-    const configuration = config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/withextends.json'), { watch: false } as CLIOptions);
+    const configuration = config.HintConfig.fromFilePath(path.join(__dirname, './fixtures/valid/withextends.json'), { watch: false } as CLIOptions);
 
     t.is((configuration.connector as ConnectorConfig).name, 'chrome');
     t.is(configuration.rules['disallowed-headers'], 'error');
@@ -222,12 +222,12 @@ test.serial(`if the configuration file contains an extends property, it should c
 
 test(`if the configuration file contains an invalid extends property, returns an exception`, async (t) => {
     const { config, resourceLoader, sandbox } = t.context;
-    const exts = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/notvalid/package.json'))).sonarwhalConfig;
+    const exts = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/notvalid/package.json'))).hintConfig;
 
     sandbox.stub(resourceLoader, 'loadConfiguration').returns(exts);
 
     const err = t.throws(() => {
-        config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/withextends.json'), { watch: false } as CLIOptions);
+        config.HintConfig.fromFilePath(path.join(__dirname, './fixtures/valid/withextends.json'), { watch: false } as CLIOptions);
     });
 
     t.is(err.message, 'Configuration package "basics" is not valid');
@@ -265,13 +265,13 @@ test.serial(`if a Rule has an invalid configuration, it should tell which ones a
 
     sandbox.stub(resourceLoader, 'loadRule').returns(FakeDisallowedRule);
 
-    const configuration = config.SonarwhalConfig.fromFilePath(path.join(__dirname, './fixtures/valid/package.json'), { watch: false } as CLIOptions);
-    const { invalid } = config.SonarwhalConfig.validateRulesConfig(configuration);
+    const configuration = config.HintConfig.fromFilePath(path.join(__dirname, './fixtures/valid/package.json'), { watch: false } as CLIOptions);
+    const { invalid } = config.HintConfig.validateRulesConfig(configuration);
 
     t.is(invalid.length, 1);
 });
 
-test('If formatter is specified as CLI argument, fromConfig method will use that to build SonarwhalConfig', (t) => {
+test('If formatter is specified as CLI argument, fromConfig method will use that to build.hintConfig', (t) => {
     const { config } = t.context;
     const userConfig = {
         connector: { name: 'chrome' },
@@ -280,7 +280,7 @@ test('If formatter is specified as CLI argument, fromConfig method will use that
     } as UserConfig;
     const cliOptions = { _: ['https://example.com'], formatters: 'database' } as CLIOptions;
 
-    const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
+    const result = config.HintConfig.fromConfig(userConfig, cliOptions);
 
     t.is(result.formatters.length, 1);
     t.is(result.formatters[0], 'database');
@@ -288,7 +288,7 @@ test('If formatter is specified as CLI argument, fromConfig method will use that
     t.is(result.connector.name, 'chrome');
 });
 
-test('If formatter is not specified as CLI argument, fromConfig method will use the formatter specified in the userConfig object as it is to build SonarwhalConfig', (t) => {
+test('If formatter is not specified as CLI argument, fromConfig method will use the formatter specified in the userConfig object as it is to build.hintConfig', (t) => {
     const { config } = t.context;
     const userConfig = {
         connector: { name: 'chrome' },
@@ -297,14 +297,14 @@ test('If formatter is not specified as CLI argument, fromConfig method will use 
     } as UserConfig;
     const cliOptions = { _: ['https://example.com'] } as CLIOptions;
 
-    const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
+    const result = config.HintConfig.fromConfig(userConfig, cliOptions);
 
     t.is(result.formatters.length, 2);
     t.is(result.formatters[0], 'summary');
     t.is(result.formatters[1], 'excel');
 });
 
-test('If rules option is specified as CLI argument, fromConfig method will use that to build SonarwhalConfig', (t) => {
+test('If rules option is specified as CLI argument, fromConfig method will use that to build.hintConfig', (t) => {
     const { config } = t.context;
     const userConfig = {
         connector: { name: 'chrome' },
@@ -313,7 +313,7 @@ test('If rules option is specified as CLI argument, fromConfig method will use t
     } as UserConfig;
     const cliOptions = { _: ['https://example.com'], rules: 'html-checker,content-type' } as CLIOptions;
 
-    const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
+    const result = config.HintConfig.fromConfig(userConfig, cliOptions);
 
     t.is(result.rules.hasOwnProperty('html-checker'), true);
     t.is(result.rules.hasOwnProperty('content-type'), true);
@@ -321,7 +321,7 @@ test('If rules option is specified as CLI argument, fromConfig method will use t
     t.is(result.formatters[0], 'summary');
 });
 
-test('If rules option is not specified as CLI argument, fromConfig method will use the rules specified in the userConfig object as it is to build SonarwhalConfig', (t) => {
+test('If rules option is not specified as CLI argument, fromConfig method will use the rules specified in the userConfig object as it is to build.hintConfig', (t) => {
     const { config } = t.context;
     const userConfig = {
         connector: { name: 'chrome' },
@@ -330,12 +330,12 @@ test('If rules option is not specified as CLI argument, fromConfig method will u
     } as UserConfig;
     const cliOptions = { _: ['https://example.com'] } as CLIOptions;
 
-    const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
+    const result = config.HintConfig.fromConfig(userConfig, cliOptions);
 
     t.is(result.rules.hasOwnProperty('apple-touch-icons'), true);
 });
 
-test('If both rules and formatters options are specified as CLI arguments, fromConfig method will use that to build SonarwhalConfig', (t) => {
+test('If both rules and formatters options are specified as CLI arguments, fromConfig method will use that to build.hintConfig', (t) => {
     const { config } = t.context;
     const userConfig = {
         connector: { name: 'chrome' },
@@ -344,7 +344,7 @@ test('If both rules and formatters options are specified as CLI arguments, fromC
     } as UserConfig;
     const cliOptions = { _: ['https://example.com'], formatters: 'database', rules: 'html-checker' } as CLIOptions;
 
-    const result = config.SonarwhalConfig.fromConfig(userConfig, cliOptions);
+    const result = config.HintConfig.fromConfig(userConfig, cliOptions);
 
     // verify formatters
     t.is(result.formatters.length, 1);

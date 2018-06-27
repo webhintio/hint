@@ -1,10 +1,10 @@
 import * as logger from '../utils/logging';
-import getSonarwhalPackage from '../utils/packages/load-sonarwhal-package';
+import getHintPackage from '../utils/packages/load-hint-package';
 
-/** Prints the current sonarwhal version in the console. */
+/** Prints the current hint version in the console. */
 export default (): Promise<boolean> => {
 
-    const pkg = getSonarwhalPackage();
+    const pkg = getHintPackage();
 
     logger.log(`v${pkg.version}`);
 

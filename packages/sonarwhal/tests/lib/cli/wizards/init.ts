@@ -45,7 +45,7 @@ proxyquire('../../../../src/lib/cli/wizards/init', {
     util: stubUtilObject
 });
 
-import initSonarwhalrc from '../../../../src/lib/cli/wizards/init';
+import initHintrc from '../../../../src/lib/cli/wizards/init';
 
 test.beforeEach((t) => {
     sinon.stub(promisifyObject, 'promisify').resolves();
@@ -69,8 +69,8 @@ const formatters = [
 ];
 
 const installedRules = [
-    '@sonarwhal/rule-rule1',
-    '@sonarwhal/rule-rule2'
+    '@hint/rule-rule1',
+    '@hint/rule-rule2'
 ];
 
 const installedConnectors = [
@@ -80,17 +80,17 @@ const installedConnectors = [
 
 const installedParsers = [];
 
-test.serial(`initSonarwhalrc should install the configuration package if user chooses a recommended configuration and the configuration doesn't exists`, async (t) => {
+test.serial(`initHintrc should install the configuration package if user chooses a recommended configuration and the configuration doesn't exists`, async (t) => {
     const sandbox = sinon.createSandbox();
     const initAnswers = { configType: 'predefined' };
-    const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
+    const configAnswer = { configuration: '@hint/configuration-recommended' };
 
     sandbox.stub(npm, 'getOfficialPackages').resolves([{
         date: null,
         description: '',
         keywords: [],
         maintainers: [],
-        name: '@sonarwhal/configuration-recommended',
+        name: '@hint/configuration-recommended',
         version: '1.0.0'
     }] as Array<NpmPackage>);
 
@@ -104,7 +104,7 @@ test.serial(`initSonarwhalrc should install the configuration package if user ch
         .onSecondCall()
         .resolves(configAnswer);
 
-    await initSonarwhalrc();
+    await initHintrc();
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
@@ -114,17 +114,17 @@ test.serial(`initSonarwhalrc should install the configuration package if user ch
     sandbox.restore();
 });
 
-test.serial(`initSonarwhalrc shouldn't install the configuration package if user chooses a recommended configuration and the configuration already exists`, async (t) => {
+test.serial(`initHintrc shouldn't install the configuration package if user chooses a recommended configuration and the configuration already exists`, async (t) => {
     const sandbox = sinon.createSandbox();
     const initAnswers = { configType: 'predefined' };
-    const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
+    const configAnswer = { configuration: '@hint/configuration-recommended' };
 
     sandbox.stub(npm, 'getOfficialPackages').resolves([{
         date: null,
         description: '',
         keywords: [],
         maintainers: [],
-        name: '@sonarwhal/configuration-recommended',
+        name: '@hint/configuration-recommended',
         version: '1.0.0'
     }] as Array<NpmPackage>);
 
@@ -138,7 +138,7 @@ test.serial(`initSonarwhalrc shouldn't install the configuration package if user
         .onSecondCall()
         .resolves(configAnswer);
 
-    await initSonarwhalrc();
+    await initHintrc();
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
@@ -177,7 +177,7 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
         .onSecondCall()
         .resolves(answers);
 
-    await initSonarwhalrc();
+    await initHintrc();
 
     const questions = (inquirer.prompt as sinon.SinonStub).args[1][0];
 
@@ -197,17 +197,17 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
     sandbox.restore();
 });
 
-test.serial(`if instalation of a config package fails, "initSonarwhalrc" returns true`, async (t) => {
+test.serial(`if instalation of a config package fails, "initHintrc" returns true`, async (t) => {
     const sandbox = sinon.createSandbox();
     const initAnswers = { configType: 'predefined' };
-    const configAnswer = { configuration: '@sonarwhal/configuration-recommended' };
+    const configAnswer = { configuration: '@hint/configuration-recommended' };
 
     sandbox.stub(npm, 'getOfficialPackages').resolves([{
         date: null,
         description: '',
         keywords: [],
         maintainers: [],
-        name: '@sonarwhal/configuration-recommended',
+        name: '@hint/configuration-recommended',
         version: '1.0.0'
     }] as Array<NpmPackage>);
 
@@ -220,9 +220,9 @@ test.serial(`if instalation of a config package fails, "initSonarwhalrc" returns
         .onSecondCall()
         .resolves(configAnswer);
 
-    const result = await initSonarwhalrc();
+    const result = await initHintrc();
 
-    t.true(result, `initSonarwhalrc doesn't return true if installation of resources fails`);
+    t.true(result, `initHintrc doesn't return true if installation of resources fails`);
 
     sandbox.restore();
 });

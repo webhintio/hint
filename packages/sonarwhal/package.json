@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "bin": "./dist/src/bin/sonarwhal.js",
+  "bin": "./dist/src/bin/hint.js",
   "dependencies": {
     "@sonarwhal/configuration-web-recommended": "^1.0.0",
     "ajv": "^6.5.1",
@@ -75,13 +75,13 @@
     "node": ">=8.0.0"
   },
   "files": [
-    ".sonarwhalrc",
+    ".hintrc",
     "dist/src",
     "dist/tests/helpers",
     "docs",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "a11y",
     "accessibility",
@@ -92,8 +92,8 @@
     "security"
   ],
   "license": "Apache-2.0",
-  "main": "./dist/src/lib/sonarwhal.js",
-  "name": "sonarwhal",
+  "main": "./dist/src/lib/engine.js",
+  "name": "hint",
   "nyc": {
     "branches": 75,
     "extends": "../../.nycrc",
@@ -104,7 +104,7 @@
   "optionalDependencies": {
     "@sonarwhal/connector-edge": "^1.0.0"
   },
-  "repository": "https://github.com/sonarwhal/sonarwhal",
+  "repository": "https://github.com/webhintio/hint",
   "scripts": {
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
@@ -115,7 +115,7 @@
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "lint:md": "markdownlint docs README.md src/lib/rules/**/*.md",
-    "sonarwhal": "node dist/src/bin/sonarwhal",
+    "hint": "node dist/src/bin/hint",
     "test": "npm run lint && npm run build && nyc ava",
     "test-on-travis": "npm run lint && npm run commitmsg && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",

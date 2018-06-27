@@ -7,7 +7,7 @@ import test from 'ava';
 
 import delay from '../../src/lib/utils/misc/delay';
 import { RuleScope } from '../../src/lib/enums/rulescope';
-import { SonarwhalConfig } from '../../src/lib/config';
+import { HintConfig } from '../../src/lib/config';
 
 const eventEmitter = { EventEmitter2: function EventEmitter2() { } };
 
@@ -16,14 +16,14 @@ eventEmitter.EventEmitter2.prototype.emitAsync = () => {
     return Promise.resolve([]);
 };
 
-proxyquire('../../src/lib/sonarwhal', { eventemitter2: eventEmitter });
+proxyquire('../../src/lib/engine', { eventemitter2: eventEmitter });
 
-import { Sonarwhal } from '../../src/lib/sonarwhal';
-import { SonarwhalResources, IFormatter, IConnector, IRule, RuleMetadata, Problem } from '../../src/lib/types';
+import { Engine } from '../../src/lib/engine';
+import { HintResources, IFormatter, IConnector, IRule, RuleMetadata, Problem } from '../../src/lib/types';
 
 class FakeConnector implements IConnector {
     private config;
-    public constructor(server: Sonarwhal, config: object) {
+    public constructor(server: Engine, config: object) {
         this.config = config;
     }
 
@@ -43,24 +43,24 @@ test.beforeEach((t) => {
 test.serial(`If config is an empty object, we should throw an error`, (t) => {
     t.throws(() => {
         // <any>{} to avoid the type checking if not is not possible to use {}
-        new Sonarwhal({} as SonarwhalConfig, {} as SonarwhalResources);
+        new Engine({} as HintConfig, {} as HintResources);
     }, Error);
 });
 
 test.serial(`If the config object is invalid, we should throw an error`, (t) => {
     t.throws(() => {
-        new Sonarwhal({
+        new Engine({
             invalidProperty: 'invalid',
             randomProperty: 'random'
-        } as any, {} as SonarwhalResources);
+        } as any, {} as HintResources);
     }, Error);
 });
 
 test.serial(`If config.browserslist is an array of strings, we should initilize the property targetedBrowsers`, (t) => {
-    const sonarwhalObject = new Sonarwhal({
+    const engineObject = new Engine({
         browserslist: ['> 5%'],
         connector: { name: 'connector' }
-    } as SonarwhalConfig, {
+    } as HintConfig, {
         connector: FakeConnector,
         formatters: [],
         incompatible: [],
@@ -69,7 +69,7 @@ test.serial(`If config.browserslist is an array of strings, we should initilize 
         rules: []
     });
 
-    t.true(sonarwhalObject.targetedBrowsers.length > 0);
+    t.true(engineObject.targetedBrowsers.length > 0);
 });
 
 test.serial(`If config.rules has some rules "off", we shouldn't create those rules`, (t) => {
@@ -103,7 +103,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
         }
     }
 
-    new Sonarwhal({
+    new Engine({
         browserslist: null,
         connector: { name: 'connector' },
         extends: [],
@@ -115,7 +115,7 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
             'manifest-exists': 'off'
         },
         rulesTimeout: null
-    } as SonarwhalConfig, {
+    } as HintConfig, {
         connector: FakeConnector,
         formatters: [],
         incompatible: [],
@@ -165,7 +165,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
 
-    new Sonarwhal({
+    new Engine({
         browserslist: null,
         connector: { name: 'jsdom' },
         extends: [],
@@ -231,7 +231,7 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
         }
     }
 
-    new Sonarwhal({
+    new Engine({
         browserslist: null,
         connector: { name: 'chrome' },
         extends: [],
@@ -289,7 +289,7 @@ test.serial(`If the rule scope is 'local' and the connector isn't local the rule
         }
     }
 
-    new Sonarwhal({
+    new Engine({
         browserslist: null,
         connector: { name: 'chrome' },
         extends: [],
@@ -347,7 +347,7 @@ test.serial(`If the rule scope is 'site' and the connector is local the rule sho
         }
     }
 
-    new Sonarwhal({
+    new Engine({
         browserslist: null,
         connector: { name: 'local' },
         extends: [],
@@ -405,7 +405,7 @@ test.serial(`If the rule scope is 'any' and the connector is local the rule shou
         }
     }
 
-    new Sonarwhal({
+    new Engine({
         browserslist: null,
         connector: { name: 'local' },
         extends: [],
@@ -465,7 +465,7 @@ test.serial(`If the rule scope is 'any' and the connector isn't local the rule s
         }
     }
 
-    new Sonarwhal({
+    new Engine({
         browserslist: null,
         connector: { name: 'chrome' },
         extends: [],
@@ -493,7 +493,7 @@ test.serial(`If the rule scope is 'any' and the connector isn't local the rule s
 test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`, async (t) => {
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'emitAsync');
 
-    const sonarwhalObject = new Sonarwhal({
+    const engineObject = new Engine({
         browserslist: null,
         connector: { name: 'connector' },
         extends: [],
@@ -511,7 +511,7 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
         rules: []
     });
 
-    await sonarwhalObject.emitAsync('event', { resource: 'http://www.domain1.com/test' });
+    await engineObject.emitAsync('event', { resource: 'http://www.domain1.com/test' });
 
     t.false(t.context.eventemitter.prototype.emitAsync.called);
 
@@ -538,7 +538,7 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
 
-    new Sonarwhal({
+    new Engine({
         browserslist: null,
         connector: { name: 'connector' },
         extends: [],
@@ -588,7 +588,7 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
 
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
 
-    new Sonarwhal({
+    new Engine({
         browserslist: null,
         connector: { name: 'connector' },
         extends: [],
@@ -617,7 +617,7 @@ test.serial(`If there is no connector, it should throw an error`, (t) => {
     t.plan(1);
 
     try {
-        new Sonarwhal({ connector: { name: 'invalidConnector' } } as SonarwhalConfig, { connector: null } as SonarwhalResources);
+        new Engine({ connector: { name: 'invalidConnector' } } as HintConfig, { connector: null } as HintResources);
     } catch (err) {
         t.is(err.message, 'Connector "invalidConnector" not found');
     }
@@ -627,7 +627,7 @@ test.serial('If connector is in the resources, we should init the connector', (t
     class FakeConnectorInit implements IConnector {
         public static called: boolean = false;
         private config;
-        public constructor(server: Sonarwhal, config: object) {
+        public constructor(server: Engine, config: object) {
             FakeConnectorInit.called = true;
             this.config = config;
         }
@@ -641,7 +641,7 @@ test.serial('If connector is in the resources, we should init the connector', (t
         }
     }
 
-    new Sonarwhal({ connector: { name: 'myconnector' } } as SonarwhalConfig, {
+    new Engine({ connector: { name: 'myconnector' } } as HintConfig, {
         connector: FakeConnectorInit,
         formatters: [],
         incompatible: [],
@@ -657,7 +657,7 @@ test.serial('If connector is an object with valid data, we should init the conne
     class FakeConnectorInit implements IConnector {
         public static called: boolean = false;
         private config;
-        public constructor(server: Sonarwhal, config: object) {
+        public constructor(server: Engine, config: object) {
             FakeConnectorInit.called = true;
             this.config = config;
         }
@@ -671,12 +671,12 @@ test.serial('If connector is an object with valid data, we should init the conne
         }
     }
 
-    new Sonarwhal({
+    new Engine({
         connector: {
             name: 'myconnector',
             options: {}
         }
-    } as SonarwhalConfig, {
+    } as HintConfig, {
         connector: FakeConnectorInit,
         formatters: [],
         incompatible: [],
@@ -697,10 +697,10 @@ test.serial('formatter should return the formatter configured', (t) => {
         }
     }
 
-    const sonarwhalObject = new Sonarwhal({
+    const engineObject = new Engine({
         connector: { name: 'connector' },
         formatters: ['formatter']
-    } as SonarwhalConfig, {
+    } as HintConfig, {
         connector: FakeConnector,
         formatters: [FakeFormatter],
         incompatible: [],
@@ -709,7 +709,7 @@ test.serial('formatter should return the formatter configured', (t) => {
         rules: []
     });
 
-    t.true(sonarwhalObject.formatters[0] instanceof FakeFormatter);
+    t.true(engineObject.formatters[0] instanceof FakeFormatter);
 });
 
 test.serial('pageContent should return the HTML', async (t) => {
@@ -717,7 +717,7 @@ test.serial('pageContent should return the HTML', async (t) => {
 
     class FakeConnectorPageContent implements IConnector {
         private config;
-        public constructor(server: Sonarwhal, config: object) {
+        public constructor(server: Engine, config: object) {
             this.config = config;
         }
 
@@ -734,12 +734,12 @@ test.serial('pageContent should return the HTML', async (t) => {
         }
     }
 
-    const sonarwhalObject = new Sonarwhal({
+    const engineObject = new Engine({
         connector: {
             name: 'myconnector',
             options: {}
         }
-    } as SonarwhalConfig, {
+    } as HintConfig, {
         connector: FakeConnectorPageContent,
         formatters: [],
         incompatible: [],
@@ -748,7 +748,7 @@ test.serial('pageContent should return the HTML', async (t) => {
         rules: []
     });
 
-    t.is(await sonarwhalObject.pageContent, html);
+    t.is(await engineObject.pageContent, html);
 });
 
 test.serial(`pageHeaders should return the page's response headers`, (t) => {
@@ -756,7 +756,7 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
 
     class FakeConnectorPageContent implements IConnector {
         private config;
-        public constructor(server: Sonarwhal, config: object) {
+        public constructor(server: Engine, config: object) {
             this.config = config;
         }
 
@@ -773,12 +773,12 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
         }
     }
 
-    const sonarwhalObject = new Sonarwhal({
+    const engineObject = new Engine({
         connector: {
             name: 'myconnector',
             options: {}
         }
-    } as SonarwhalConfig, {
+    } as HintConfig, {
         connector: FakeConnectorPageContent,
         formatters: [],
         incompatible: [],
@@ -787,14 +787,14 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
         rules: []
     });
 
-    t.is(sonarwhalObject.pageHeaders, headers);
+    t.is(engineObject.pageHeaders, headers);
 });
 
 test.serial('If connector.collect fails, it should return an error', async (t) => {
     class FakeConnectorCollectFail implements IConnector {
         private error: boolean = true;
         private config;
-        public constructor(server: Sonarwhal, config: object) {
+        public constructor(server: Engine, config: object) {
             this.config = config;
         }
 
@@ -811,12 +811,12 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
         }
     }
 
-    const sonarwhalObject = new Sonarwhal({
+    const engineObject = new Engine({
         connector: {
             name: 'myconnector',
             options: {}
         }
-    } as SonarwhalConfig, {
+    } as HintConfig, {
         connector: FakeConnectorCollectFail,
         formatters: [],
         incompatible: [],
@@ -829,7 +829,7 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
 
     t.plan(1);
     try {
-        await sonarwhalObject.executeOn(localUrl);
+        await engineObject.executeOn(localUrl);
     } catch (err) {
         t.is(err.message, 'Error runing collect');
     }
@@ -838,7 +838,7 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
 test.serial('executeOn should return all messages', async (t) => {
     class FakeConnectorCollect implements IConnector {
         private config;
-        public constructor(server: Sonarwhal, config: object) {
+        public constructor(server: Engine, config: object) {
             this.config = config;
         }
 
@@ -851,12 +851,12 @@ test.serial('executeOn should return all messages', async (t) => {
         }
     }
 
-    const sonarwhalObject = new Sonarwhal({
+    const engineObject = new Engine({
         connector: {
             name: 'myconnector',
             options: {}
         }
-    } as SonarwhalConfig, {
+    } as HintConfig, {
         connector: FakeConnectorCollect,
         formatters: [],
         incompatible: [],
@@ -867,10 +867,10 @@ test.serial('executeOn should return all messages', async (t) => {
 
     const localUrl = new url.URL('http://localhost/');
 
-    sonarwhalObject.report('1', 1, 'node', { column: 1, line: 1 }, 'message', 'resource');
-    sonarwhalObject.report('2', 1, 'node', { column: 1, line: 2 }, 'message2', 'resource2');
+    engineObject.report('1', 1, 'node', { column: 1, line: 1 }, 'message', 'resource');
+    engineObject.report('2', 1, 'node', { column: 1, line: 2 }, 'message2', 'resource2');
 
-    const result = await sonarwhalObject.executeOn(localUrl);
+    const result = await engineObject.executeOn(localUrl);
 
     t.is(result.length, 2);
 });

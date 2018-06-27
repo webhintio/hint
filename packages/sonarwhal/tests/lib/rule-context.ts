@@ -4,7 +4,7 @@ import * as sinon from 'sinon';
 
 import { Severity } from '../../src/lib/types';
 
-const sonarwhal = {
+const engine = {
 
     evaluate() {
         return Promise.resolve(true);
@@ -41,15 +41,15 @@ const locationHelpers = {
     }
 };
 
-sinon.stub(sonarwhal);
+sinon.stub(engine);
 sinon.stub(locationHelpers);
 
 proxyquire('../../src/lib/rule-context', { './utils/location-helpers': locationHelpers });
 
 const RuleContext = require('../../src/lib/rule-context').RuleContext;
-const context = new RuleContext('test', sonarwhal, Severity.error, [null, 'rule-options'], null);
+const context = new RuleContext('test', engine, Severity.error, [null, 'rule-options'], null);
 
-test(`ruleContext should be a proxy for several sonarwhal's methods`, (t) => {
+test(`ruleContext should be a proxy for several engine's methods`, (t) => {
     const methods = [
         'evaluate',
         'fetchContent',
@@ -71,7 +71,7 @@ test(`ruleContext should be a proxy for several sonarwhal's methods`, (t) => {
 
     methods.forEach((method) => {
         try {
-            t.true(sonarwhal[method].calledOnce, `RuleContext.${method}() didn't call Sonarwhal.${method}()`);
+            t.true(engine[method].calledOnce, `RuleContext.${method}() didn't call Engine.${method}()`);
         } catch (e) {
             t.fail(`Error calling RuleContext.${method}()`);
         }

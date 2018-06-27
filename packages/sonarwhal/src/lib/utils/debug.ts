@@ -6,7 +6,7 @@ const debugEnabled: boolean = (process.argv.includes('--debug'));
 
 // must do this initialization *before* other requires in order to work
 if (debugEnabled) {
-    d.enable('sonarwhal:*');
+    d.enable('hint:*');
 }
 
 export const debug = (filePath: string): d.IDebugger => {
@@ -18,8 +18,8 @@ export const debug = (filePath: string): d.IDebugger => {
     /*
      * The debug message is generated from the file path, e.g.:
      *
-     *  * src/lib/connectors/chrome/chrome-launcher.ts => sonarwhal:connectors:chrome:chrome-launcher
-     *  * src/lib/connectors/chrome/chrome.ts => sonarwhal:connectors:chrome
+     *  * src/lib/connectors/chrome/chrome-launcher.ts => hint:connectors:chrome:chrome-launcher
+     *  * src/lib/connectors/chrome/chrome.ts => hint:connectors:chrome
      */
 
     while (currentDir && currentDir !== 'lib') {
@@ -37,11 +37,11 @@ export const debug = (filePath: string): d.IDebugger => {
         currentDir = path.basename(dirPath);
     }
 
-    // For `/src/lib/sonarwhal.ts`, use 'sonarwhal:engine' instead of 'sonarwhal:sonarwhal'.
-    if (output === 'sonarwhal') {
+    // For `/src/lib/engine.ts`, use 'hint:engine' instead of 'hint:hint'
+    if (output === 'hint') {
         output = 'engine';
     }
 
-    return d(`sonarwhal:${output}`);
+    return d(`hint:${output}`);
 
 };

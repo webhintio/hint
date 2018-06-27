@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import { merge } from 'lodash';
 
-import { Sonarwhal } from '../sonarwhal';
+import { Engine } from '../engine';
 import { getAsUri } from '../utils/network/as-uri';
 import getAsPathString from '../utils/network/as-path-string';
 import loadJSONFile from '../utils/fs/load-json-file';
@@ -13,12 +13,12 @@ export type ExtendableConfiguration = {
 };
 
 export interface IParserConstructor {
-    new(sonarwhal: Sonarwhal): Parser;
+    new(engine: Engine): Parser;
 }
 
 /** A `Parser` that understands a file content. */
 export abstract class Parser {
-    protected sonarwhal: Sonarwhal;
+    protected engine: Engine;
     protected name: string;
 
     protected async finalConfig<T extends ExtendableConfiguration, U extends ErrorEvent>(config: T, resource: string): Promise<T> {
@@ -52,7 +52,7 @@ export abstract class Parser {
                     resource
                 } as U;
 
-                await this.sonarwhal.emitAsync(`parse::${this.name}::error::circular`, errorEvent);
+                await this.engine.emitAsync(`parse::${this.name}::error::circular`, errorEvent);
 
                 return null;
             }
@@ -72,7 +72,7 @@ export abstract class Parser {
                     resource
                 };
 
-                await this.sonarwhal.emitAsync(`parse::${this.name}::error::extends`, error);
+                await this.engine.emitAsync(`parse::${this.name}::error::extends`, error);
 
                 return null;
             }
@@ -82,8 +82,8 @@ export abstract class Parser {
     }
 
     /* istanbul ignore next */
-    public constructor(sonarwhal: Sonarwhal, parseEventType: string) {
-        this.sonarwhal = sonarwhal;
+    public constructor(engine: Engine, parseEventType: string) {
+        this.engine = engine;
         this.name = parseEventType;
     }
 }

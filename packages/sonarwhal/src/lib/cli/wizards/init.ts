@@ -1,5 +1,5 @@
 /**
- * @fileoverview Generates a valid `.sonarwhalrc` file based on user responses.
+ * @fileoverview Generates a valid `.hintrc` file based on user responses.
  */
 
 /*
@@ -37,7 +37,7 @@ const anyResources = (resources: Array<any>, type: string) => {
         return true;
     }
 
-    logger.error(`Couldn't find any installed ${type}s. Visit https://www.npmjs.com/search?q=%40sonarwhal%2F${type}.`);
+    logger.error(`Couldn't find any installed ${type}s. Visit https://www.npmjs.com/search?q=%hint%2F${type}.`);
 
     return false;
 };
@@ -72,10 +72,10 @@ const extendConfig = async (): Promise<InitUserConfig> => {
     }];
 
     const answers: inquirer.Answers = await inquirer.prompt(questions);
-    const sonarwhalConfig = { extends: [getConfigurationName(answers.configuration)] };
+    const hintConfig = { extends: [getConfigurationName(answers.configuration)] };
 
     return {
-        config: sonarwhalConfig,
+        config: hintConfig,
         packages: [answers.configuration]
     };
 };
@@ -134,7 +134,7 @@ const customConfig = async (): Promise<InitUserConfig> => {
 
     const results: inquirer.Answers = await inquirer.prompt(customQuestions);
 
-    const sonarwhalConfig = {
+    const hintConfig = {
         browserslist: [],
         connector: {
             name: '',
@@ -147,20 +147,20 @@ const customConfig = async (): Promise<InitUserConfig> => {
         rulesTimeout: 120000
     };
 
-    sonarwhalConfig.connector.name = results.connector;
-    sonarwhalConfig.formatters = results.formatters;
+    hintConfig.connector.name = results.connector;
+    hintConfig.formatters = results.formatters;
 
     results.rules.forEach((rule) => {
-        sonarwhalConfig.rules[rule] = 'error';
+        hintConfig.rules[rule] = 'error';
     });
 
-    sonarwhalConfig.browserslist = await generateBrowserslistConfig();
+    hintConfig.browserslist = await generateBrowserslistConfig();
 
-    return { config: sonarwhalConfig };
+    return { config: hintConfig };
 };
 
 /**
- * Initiates a wizard to generate a valid `.sonarwhalrc` file based on:
+ * Initiates a wizard to generate a valid `.hintrc` file based on:
  * * an existing published configuration package
  * * the installed resources
  */
@@ -168,7 +168,7 @@ export default async (): Promise<boolean> => {
 
     debug('Starting --init');
 
-    logger.log('Welcome to sonarwhal configuration generator');
+    logger.log('Welcome to hint configuration generator');
 
     const initialQuestion: inquirer.Questions = [{
         choices: ['predefined', 'custom'],
@@ -188,7 +188,7 @@ export default async (): Promise<boolean> => {
         return false;
     }
 
-    const filePath: string = path.join(process.cwd(), '.sonarwhalrc');
+    const filePath: string = path.join(process.cwd(), '.hintrc');
 
     await promisify(fs.writeFile)(filePath, JSON.stringify(result.config, null, 4), 'utf8');
 

@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "devDependencies": {
   }

@@ -4,7 +4,7 @@ import test from 'ava';
 import * as sinon from 'sinon';
 import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
-import { SonarwhalConfig } from '../../../src/lib/config';
+import { HintConfig } from '../../../src/lib/config';
 import { ResourceType } from '../../../src/lib/enums/resourcetype';
 
 const cacheKey = path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js');
@@ -33,10 +33,10 @@ test.serial('tryToLoadFrom throws an error if a dependency is missing', async (t
     });
 
     const { message } = t.throws(() => {
-        resourceLoader.tryToLoadFrom('sonarwhal');
+        resourceLoader.tryToLoadFrom('hint');
     });
 
-    t.is(message, 'Module iltorb not found when loading sonarwhal');
+    t.is(message, 'Module iltorb not found when loading hint');
 
     sandbox.restore();
 });
@@ -50,10 +50,10 @@ test.serial('tryToLoadFrom does nothing if the package itself is missing', async
 
     sandbox.stub(Module.prototype, 'require').throws({
         code: 'MODULE_NOT_FOUND',
-        message: `Cannot load module 'sonarwhal'`
+        message: `Cannot load module 'hint'`
     });
 
-    const resource = resourceLoader.tryToLoadFrom('sonarwhal');
+    const resource = resourceLoader.tryToLoadFrom('hint');
 
     t.is(resource, null);
 
@@ -61,7 +61,7 @@ test.serial('tryToLoadFrom does nothing if the package itself is missing', async
 });
 
 // TODO: Add tests to verify the order of loading is the right one: core -> scoped -> prefixed. This only checks core resources
-test('loadResource looks for resources in the right order (core > @sonarwhal > sonarwhal- ', async (t) => {
+test('loadResource looks for resources in the right order (core > @hint > hint- ', async (t) => {
     cleanCache();
 
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');
@@ -78,8 +78,8 @@ test('loadResource looks for resources in the right order (core > @sonarwhal > s
         resourceLoader.loadResource(resourceName, resourceType);
     });
 
-    t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(`@sonarwhal/rule-${resourceName}`), 'Tries to load scoped package second');
-    t.true((tryToLoadFromStub.secondCall.args[0] as string).endsWith(`sonarwhal-rule-${resourceName}`), 'Tries to load prefixed package third');
+    t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(`@hint/rule-${resourceName}`), 'Tries to load scoped package second');
+    t.true((tryToLoadFromStub.secondCall.args[0] as string).endsWith(`hint-rule-${resourceName}`), 'Tries to load prefixed package third');
     t.true((tryToLoadFromStub.thirdCall.args[0] as string).endsWith(path.normalize(`/dist/src/lib/${resourceType}s/${resourceName}/${resourceName}.js`)), 'Tries to load core first');
 
     tryToLoadFromStub.restore();
@@ -170,14 +170,14 @@ test.serial('loadResource throws an error if the version is incompatible when us
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        '../utils/packages/load-package': {
-            default() {
-                return { peerDependencies: { sonarwhal: '0.1.0' } };
-            }
-        },
-        '../utils/packages/load-sonarwhal-package': {
+        '../utils/packages/load-hint-package': {
             default() {
                 return { version: '1.1.0' };
+            }
+        },
+        '../utils/packages/load-package': {
+            default() {
+                return { peerDependencies: { hint: '0.1.0' } };
             }
         }
     });
@@ -191,21 +191,21 @@ test.serial('loadResource throws an error if the version is incompatible when us
         resourceLoader.loadResource('another-fake-resource', ResourceType.formatter, [], true);
     });
 
-    t.is(message, `Resource another-fake-resource isn't compatible with current sonarwhal version`, 'Received a different exception');
+    t.is(message, `Resource another-fake-resource isn't compatible with current hint version`, 'Received a different exception');
 });
 
 test.serial('loadResource returns the resource if versions are compatible', async (t) => {
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        '../utils/packages/load-package': {
-            default() {
-                return { peerDependencies: { sonarwhal: '0.1.0' } };
-            }
-        },
-        '../utils/packages/load-sonarwhal-package': {
+        '../utils/packages/load-hint-package': {
             default() {
                 return { version: '0.1.0' };
+            }
+        },
+        '../utils/packages/load-package': {
+            default() {
+                return { peerDependencies: { hint: '0.1.0' } };
             }
         }
     });
@@ -283,7 +283,7 @@ test.serial(`loadResource doesn't throw an error if the rule is loaded from the 
 test('loadResources loads all the resources of a given config', async (t) => {
     cleanCache();
 
-    const config: SonarwhalConfig = {
+    const config: HintConfig = {
         browserslist: [],
         connector: {
             name: 'jsdom',
@@ -304,6 +304,6 @@ test('loadResources loads all the resources of a given config', async (t) => {
 /**
  * More tests:
  *
- * loadResources loads all the resources of a SonarwhalConfig object with missing and incompatible
+ * loadResources loads all the resources of a HintConfig object with missing and incompatible
  *
  */

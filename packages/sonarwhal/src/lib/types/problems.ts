@@ -17,7 +17,7 @@ export type ProblemLocation = {
     elementLine?: number;
 };
 
-/** A problem found by a Rule in sonarwhal */
+/** A problem found by a Rule in hint */
 export type Problem = {
     /** The location number where the Problem is */
     location: ProblemLocation;

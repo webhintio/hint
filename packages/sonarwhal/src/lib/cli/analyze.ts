@@ -8,9 +8,9 @@ import * as ora from 'ora';
 import * as boxen from 'boxen';
 import * as chalk from 'chalk';
 
-import { SonarwhalConfig } from '../config';
-import { Sonarwhal } from '../sonarwhal';
-import { CLIOptions, ORA, Problem, Severity, UserConfig, SonarwhalResources } from '../types';
+import { HintConfig } from '../config';
+import { Engine } from '../engine';
+import { CLIOptions, ORA, Problem, Severity, UserConfig, HintResources } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/network/as-uri';
 import * as logger from '../utils/logging';
@@ -47,27 +47,27 @@ const askUserToCreateConfig = async (): Promise<boolean> => {
         return false;
     }
 
-    const { default: initSonarwhalrc } = await import('./wizards/init');
+    const { default: initHintrc } = await import('./wizards/init');
 
-    const sonarwhalrcCreated = await initSonarwhalrc();
+    const hintrcCreated = await initHintrc();
 
-    if (!sonarwhalrcCreated) {
+    if (!hintrcCreated) {
         return false;
     }
 
-    logger.log(`Configuration file .sonarwhalrc was created.`);
+    logger.log(`Configuration file .hintrc was created.`);
 
     return true;
 };
 
 const askUserToUseDefaultConfiguration = async (): Promise<boolean> => {
-    const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://sonarwhal.com/docs/user-guide/#default-configuration`;
+    const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://webhint.io/docs/user-guide/#default-configuration`;
     const confirmation: inquirer.Answers = await askForConfirm(question);
 
     return confirmation.confirm;
 };
 
-const showMissingAndIncompatiblePackages = (resources: SonarwhalResources) => {
+const showMissingAndIncompatiblePackages = (resources: HintResources) => {
     if (resources.missing.length > 0) {
         logger.log(`The following ${resources.missing.length === 1 ? 'package is' : 'packages are'} missing:
     ${resources.missing.join(', ')}`);
@@ -79,13 +79,13 @@ const showMissingAndIncompatiblePackages = (resources: SonarwhalResources) => {
     }
 };
 
-const askUserToInstallDependencies = async (resources: SonarwhalResources): Promise<boolean> => {
+const askUserToInstallDependencies = async (resources: HintResources): Promise<boolean> => {
     showMissingAndIncompatiblePackages(resources);
 
     const dependencies: Array<string> = resources.incompatible.concat(resources.missing);
 
     const question: Array<object> = [{
-        message: `There ${dependencies.length === 1 ? 'is a package' : 'are packages'} from your .sonarwhalrc file not installed or with an incompatible version. Do you want us to try to install/update them?`,
+        message: `There ${dependencies.length === 1 ? 'is a package' : 'are packages'} from your .hintrc file not installed or with an incompatible version. Do you want us to try to install/update them?`,
         name: 'confirm',
         type: 'confirm'
     }];
@@ -98,11 +98,11 @@ const askUserToInstallDependencies = async (resources: SonarwhalResources): Prom
 const showDefaultMessage = () => {
     const defaultMessage = `${chalk.default.yellow(`Couldn't find any valid configuration`)}
 
-Running sonarwhal with the default configuration.
+Running hint with the default configuration.
 
 Learn more about how to create your own configuration at:
 
-${chalk.default.green('https://sonarwhal.com/docs/user-guide/')}`;
+${chalk.default.green('https://webhint.io/docs/user-guide/')}`;
 
     logger.log(boxen(defaultMessage, {
         align: 'center',
@@ -118,7 +118,7 @@ const getDefaultConfiguration = () => {
 };
 
 const getUserConfig = (actions?: CLIOptions): UserConfig => {
-    const configPath: string = (actions && actions.config) || SonarwhalConfig.getFilenameForDirectory(process.cwd());
+    const configPath: string = (actions && actions.config) || HintConfig.getFilenameForDirectory(process.cwd());
 
     if (!configPath) {
         return getDefaultConfiguration();
@@ -128,7 +128,7 @@ const getUserConfig = (actions?: CLIOptions): UserConfig => {
     try {
         const resolvedPath: string = path.resolve(process.cwd(), configPath);
 
-        const config: UserConfig = SonarwhalConfig.loadConfigFile(resolvedPath);
+        const config: UserConfig = HintConfig.loadConfigFile(resolvedPath);
 
         return config || getDefaultConfiguration();
     } catch (e) {
@@ -157,8 +157,8 @@ const getEvent = (event: string) => {
     return event;
 };
 
-const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: ORA) => {
-    sonarwhalInstance.prependAny((event: string, value: { resource: string }) => {
+const setUpUserFeedback = (engine: Engine, spinner: ORA) => {
+    engine.prependAny((event: string, value: { resource: string }) => {
         const message: string = messages[getEvent(event)];
 
         if (!message) {
@@ -169,7 +169,7 @@ const setUpUserFeedback = (sonarwhalInstance: Sonarwhal, spinner: ORA) => {
     });
 };
 
-const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<SonarwhalConfig> => {
+const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<HintConfig> => {
     const useDefault = await askUserToUseDefaultConfiguration();
     let userConfig: UserConfig;
 
@@ -183,24 +183,24 @@ const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<SonarwhalC
             // Because the configuration was created using the wizard, the configuration file will be in process.cwd()
             userConfig = await getUserConfig();
         } else {
-            logger.error(`Unable to find a valid configuration file. Please create a valid .sonarwhalrc file using 'sonarwhal --init'. `);
+            logger.error(`Unable to find a valid configuration file. Please create a valid .hintrc file using 'hint --init'. `);
 
             return null;
         }
     }
 
-    return SonarwhalConfig.fromConfig(userConfig, actions);
+    return HintConfig.fromConfig(userConfig, actions);
 };
 
-const getSonarwhalConfiguration = async (userConfig: UserConfig, actions: CLIOptions): Promise<SonarwhalConfig> => {
+const getHintConfiguration = async (userConfig: UserConfig, actions: CLIOptions): Promise<HintConfig> => {
     if (!userConfig) {
         return getDefaultOrCreateConfig(actions);
     }
 
-    let config: SonarwhalConfig;
+    let config: HintConfig;
 
     try {
-        config = SonarwhalConfig.fromConfig(userConfig, actions);
+        config = HintConfig.fromConfig(userConfig, actions);
     } catch (err) {
         logger.error(err.message);
 
@@ -218,7 +218,7 @@ const getSonarwhalConfiguration = async (userConfig: UserConfig, actions: CLIOpt
 
 // HACK: we need this to correctly test the messages in tests/lib/cli.ts.
 
-export let sonarwhal: Sonarwhal = null;
+export let engine: Engine = null;
 
 /** Analyzes a website if indicated by `actions`. */
 export default async (actions: CLIOptions): Promise<boolean> => {
@@ -231,7 +231,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     // userConfig will be null if an error occurred loading the user configuration (error parsing a JSON)
     const userConfig: UserConfig = await getUserConfig(actions);
-    const config: SonarwhalConfig = await getSonarwhalConfiguration(userConfig, actions);
+    const config: HintConfig = await getHintConfiguration(userConfig, actions);
 
     if (!config) {
         return false;
@@ -241,12 +241,12 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {
         const missingPackages = resources.missing.map((name) => {
-            return `@sonarwhal/${name}`;
+            return `@hint/${name}`;
         });
 
         const incompatiblePackages = resources.incompatible.map((name) => {
             // If the packages are incompatible, we need to force to install the latest version.
-            return `@sonarwhal/${name}@latest`;
+            return `@hint/${name}@latest`;
         });
 
         if (!(await askUserToInstallDependencies(resources) &&
@@ -261,15 +261,15 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         resources = resourceLoader.loadResources(config);
     }
 
-    const invalidConfigRules = SonarwhalConfig.validateRulesConfig(config).invalid;
+    const invalidConfigRules = HintConfig.validateRulesConfig(config).invalid;
 
     if (invalidConfigRules.length > 0) {
-        logger.error(`Invalid rule configuration in .sonarwhalrc: ${invalidConfigRules.join(', ')}.`);
+        logger.error(`Invalid rule configuration in .hintrc: ${invalidConfigRules.join(', ')}.`);
 
         return false;
     }
 
-    sonarwhal = new Sonarwhal(config, resources);
+    engine = new Engine(config, resources);
 
     const start: number = Date.now();
     const spinner: ORA = ora({ spinner: 'line' });
@@ -277,7 +277,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     if (!actions.debug) {
         spinner.start();
-        setUpUserFeedback(sonarwhal, spinner);
+        setUpUserFeedback(engine, spinner);
     }
 
     const endSpinner = (method: string) => {
@@ -299,16 +299,16 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             endSpinner('succeed');
         }
 
-        await each(sonarwhal.formatters, async (formatter) => {
+        await each(engine.formatters, async (formatter) => {
             await formatter.format(reports, target);
         });
     };
 
-    sonarwhal.on('print', print);
+    engine.on('print', print);
 
     for (const target of targets) {
         try {
-            const results: Array<Problem> = await sonarwhal.executeOn(target);
+            const results: Array<Problem> = await engine.executeOn(target);
 
             if (hasError(results)) {
                 exitCode = 1;
@@ -323,7 +323,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         }
     }
 
-    await sonarwhal.close();
+    await engine.close();
 
     debug(`Total runtime: ${Date.now() - start}ms`);
 

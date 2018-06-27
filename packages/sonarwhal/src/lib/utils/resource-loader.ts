@@ -1,6 +1,6 @@
 /**
  * @fileoverview Locates and requires resources (connectors, parsers, rules, formatters)
- * for sonarwhal across different places in the tree.
+ * for hint across different places in the tree.
  * By convention, these resources need to be under
  * {/, /node_modules/}lib/{connectors, formatters, parsers, rules}/*.js
  */
@@ -19,20 +19,20 @@ import * as semver from 'semver';
 
 import loadJSONFile from './fs/load-json-file';
 import getPackage from './packages/load-package';
-import getSonarwhalPackage from './packages/load-sonarwhal-package';
+import getHintPackage from './packages/load-hint-package';
 import findNodeModulesRoot from './packages/find-node-modules-root';
 import findPackageRoot from './packages/find-package-root';
 import isNormalizedIncluded from './misc/normalize-includes';
 import readFile from './fs/read-file';
 import { debug as d } from './debug';
-import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
-import { SonarwhalConfig } from '../config';
+import { Resource, IRuleConstructor, HintResources } from '../types';
+import { HintConfig } from '../config';
 import { ResourceType } from '../enums/resourcetype';
 import { ResourceErrorStatus } from '../enums/errorstatus';
 import { ResourceError } from '../types/resourceerror';
 
 const debug: debug.IDebugger = d(__filename);
-const SONARWHAL_ROOT: string = findPackageRoot();
+const HINT_ROOT: string = findPackageRoot();
 const NODE_MODULES_ROOT: string = findNodeModulesRoot();
 const moduleNameRegex: RegExp = /[^']*'([^']*)'/g;
 
@@ -43,15 +43,15 @@ const resources: Map<string, Resource> = new Map<string, Resource>();
 const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>();
 
 /**
- * Validates if a given package can be used with the current `sonarwhal` version
+ * Validates if a given package can be used with the current `hint` version
  * by looking at its `peerDependencies`
  */
 const isVersionValid = (resourcePath: string): boolean => {
     try {
         const pkg = getPackage(resourcePath);
-        const sonarwhalPkg = getSonarwhalPackage();
+        const hintPkg = getHintPackage();
 
-        return semver.satisfies(sonarwhalPkg.version, pkg.peerDependencies.sonarwhal);
+        return semver.satisfies(hintPkg.version, pkg.peerDependencies.hint);
     } catch (e) {
         // We failed to load the package.json so it's a core resource
         debug(e);
@@ -72,7 +72,7 @@ export const getCoreResources = (type: string): Array<string> => {
         return resourceIds.get(type);
     }
 
-    const resourcesFiles: Array<string> = globby.sync(`dist/src/lib/${type}s/**/*.js`, { cwd: SONARWHAL_ROOT });
+    const resourcesFiles: Array<string> = globby.sync(`dist/src/lib/${type}s/**/*.js`, { cwd: HINT_ROOT });
     const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
         const resourceName: string = path.basename(resourceFile, '.js');
 
@@ -109,7 +109,7 @@ export const getInstalledResources = (type: ResourceType): Array<string> => {
         return resourceIds.get(installedType);
     }
 
-    const resourcesFiles: Array<string> = globby.sync(`${NODE_MODULES_ROOT}/@sonarwhal/${type}-*/package.json`);
+    const resourcesFiles: Array<string> = globby.sync(`${NODE_MODULES_ROOT}/@hint/${type}-*/package.json`);
 
     const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
         const resource = require(path.dirname(resourceFile));
@@ -226,7 +226,7 @@ const getResource = (source: string, type: ResourceType, name: string) => {
  */
 const generateConfigPathsToResources = (configurations: Array<string>, name: string, type: ResourceType) => {
     return configurations.reduce((total: Array<string>, configuration: string) => {
-        const basePackagePaths = ['@sonarwhal/configuration-', 'sonarwhal-configuration-'];
+        const basePackagePaths = ['@hint/configuration-', 'hint-configuration-'];
 
         let result = total;
 
@@ -236,7 +236,7 @@ const generateConfigPathsToResources = (configurations: Array<string>, name: str
             try {
                 const packagePath = path.dirname(require.resolve(packageName));
 
-                const resourcePackages = globby.sync(`node_modules/{@sonarwhal/,sonarwhal-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
+                const resourcePackages = globby.sync(`node_modules/{@hint/,hint-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
                     return path.dirname(pkg);
                 });
 
@@ -251,14 +251,14 @@ const generateConfigPathsToResources = (configurations: Array<string>, name: str
 };
 
 /**
- * Looks for a sonarwhal resource with the given `name` and tries to load it.
+ * Looks for a hint resource with the given `name` and tries to load it.
  * If no valid resource is found, it throws an `Error`.
  *
  * By default, the priorities are:
  *
  * 1. core resource
- * 2. `@sonarwhal/` scoped package
- * 3. `sonarwhal-` prefixed package
+ * 2. `@hint/` scoped package
+ * 3. `hint-` prefixed package
  * 4. external rules
  *
  */
@@ -291,16 +291,16 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
      * i.e.
      * if we want to load the rule `rule-typescript-config/is-valid` the key for the cache
      * has to be `rule-typescript-config/is-valid`.
-     * But we need to load the package `@sonarwhal/rule-typescript-config`.
+     * But we need to load the package `@hint/rule-typescript-config`.
      */
     const sources: Array<string> = isSource ?
         [path.resolve(currentProcessDir, name)] : // If the name is direct path to the source we should only check that
         [
-            `@sonarwhal/${type}-${packageName}`, // Officially supported package
-            `sonarwhal-${type}-${packageName}`, // Third party package
-            path.normalize(`${SONARWHAL_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
+            `@hint/${type}-${packageName}`, // Officially supported package
+            `hint-${type}-${packageName}`, // Third party package
+            path.normalize(`${HINT_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
             path.normalize(currentProcessDir) // External rules.
-            // path.normalize(`${path.resolve(SONARWHAL_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
+            // path.normalize(`${path.resolve(HINT_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
         ].concat(configPathsToResources);
 
     let resource;
@@ -334,7 +334,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
             }
 
             if (verifyVersion && !isVersionValid(source)) {
-                debug(`Resource ${name} isn't compatible with current sonarwhal version`);
+                debug(`Resource ${name} isn't compatible with current hint version`);
 
                 isValid = false;
 
@@ -350,7 +350,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     });
 
     if (!isValid) {
-        throw new ResourceError(`Resource ${name} isn't compatible with current sonarwhal version`, ResourceErrorStatus.NotCompatible);
+        throw new ResourceError(`Resource ${name} isn't compatible with current hint version`, ResourceErrorStatus.NotCompatible);
     }
 
     if (!resource) {
@@ -359,7 +359,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     }
 
     if (type === ResourceType.configuration) {
-        resource = SonarwhalConfig.toAbsolutePaths(resource, require.resolve(loadedSource));
+        resource = HintConfig.toAbsolutePaths(resource, require.resolve(loadedSource));
     }
 
     resources.set(key, resource);
@@ -409,8 +409,8 @@ export const loadConfiguration = (configurationId: string) => {
     return loadResource(configurationId, ResourceType.configuration);
 };
 
-/** Returns all the resources from a `SonarwhalConfig` */
-export const loadResources = (config: SonarwhalConfig): SonarwhalResources => {
+/** Returns all the resources from a `HintConfig` */
+export const loadResources = (config: HintConfig): HintResources => {
     // TODO: validate connector version is OK once all are extracted
     let connector = null;
 

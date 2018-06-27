@@ -41,7 +41,7 @@ test.beforeEach((t) => {
     t.context.npmRegistryFetch = npmRegistryFetch;
 });
 
-test.serial('installPackages should run the right command `sonarwhal` is installed locally, and has `sonarwhal` as a devDependency', async (t) => {
+test.serial('installPackages should run the right command `hint` is installed locally, and has `hint` as a devDependency', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
@@ -51,7 +51,7 @@ test.serial('installPackages should run the right command `sonarwhal` is install
     sandbox.stub(findPackageRootModule, 'default').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(loadJSONFileModule, 'default').returns(devDependencyJson);
-    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@hint/rule-rule1', '@hint/formatter-formatter1']);
 
     await delay(500);
 
@@ -61,12 +61,12 @@ test.serial('installPackages should run the right command `sonarwhal` is install
 
     t.context.child = child;
 
-    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 --save-dev');
+    t.is(t.context.child.spawn.args[0][0], 'npm install @hint/rule-rule1 @hint/formatter-formatter1 --save-dev');
 
     sandbox.restore();
 });
 
-test.serial('installPackages should run the right command if `sonarwhal` is installed locally, and has `sonarwhal` as a regular dependency', async (t) => {
+test.serial('installPackages should run the right command if `hint` is installed locally, and has `hint` as a regular dependency', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
@@ -76,7 +76,7 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
     sandbox.stub(findPackageRootModule, 'default').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(loadJSONFileModule, 'default').returns(dependencyJson);
-    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@hint/rule-rule1', '@hint/formatter-formatter1']);
 
     await delay(500);
 
@@ -86,12 +86,12 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
 
     t.context.child = child;
 
-    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1');
+    t.is(t.context.child.spawn.args[0][0], 'npm install @hint/rule-rule1 @hint/formatter-formatter1');
 
     sandbox.restore();
 });
 
-test.serial('installPackages should run the right command if `sonarwhal` is installed locally but the project package.json doesn\'t exist', async (t) => {
+test.serial('installPackages should run the right command if `hint` is installed locally but the project package.json doesn\'t exist', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
@@ -100,7 +100,7 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.stub(findPackageRootModule, 'default').throws(new Error(`Path doesn't exist.`));
 
-    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@hint/rule-rule1', '@hint/formatter-formatter1']);
 
     await delay(500);
 
@@ -110,12 +110,12 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
 
     t.context.child = child;
 
-    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1');
+    t.is(t.context.child.spawn.args[0][0], 'npm install @hint/rule-rule1 @hint/formatter-formatter1');
 
     sandbox.restore();
 });
 
-test.serial('installPackages should run the right command if `sonarwhal` is installed locally but the project package.json is not valid', async (t) => {
+test.serial('installPackages should run the right command if `hint` is installed locally but the project package.json is not valid', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
@@ -126,7 +126,7 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(loadJSONFileModule, 'default').throws(new Error('Invalid JSON.'));
 
-    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@hint/rule-rule1', '@hint/formatter-formatter1']);
 
     await delay(500);
 
@@ -136,12 +136,12 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
 
     t.context.child = child;
     t.true(t.context.child.spawn.called);
-    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1');
+    t.is(t.context.child.spawn.args[0][0], 'npm install @hint/rule-rule1 @hint/formatter-formatter1');
 
     sandbox.restore();
 });
 
-test.serial('installPackages should run the right command if `sonarwhal` is installed globally', async (t) => {
+test.serial('installPackages should run the right command if `hint` is installed globally', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
@@ -149,7 +149,7 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
     sandbox.stub(fs, 'existsSync').returns(false);
     sandbox.stub(child, 'spawn').returns(emitter);
 
-    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@hint/rule-rule1', '@hint/formatter-formatter1']);
 
     await delay(500);
 
@@ -159,12 +159,12 @@ test.serial('installPackages should run the right command if `sonarwhal` is inst
 
     t.context.child = child;
 
-    t.is(t.context.child.spawn.args[0][0], 'npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g');
+    t.is(t.context.child.spawn.args[0][0], 'npm install @hint/rule-rule1 @hint/formatter-formatter1 -g');
 
     sandbox.restore();
 });
 
-test.serial('installPackages should show the command to run if the installation fail and `sonarwhal` is installed locally', async (t) => {
+test.serial('installPackages should show the command to run if the installation fail and `hint` is installed locally', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
@@ -176,7 +176,7 @@ test.serial('installPackages should show the command to run if the installation 
     sandbox.stub(loadJSONFileModule, 'default').returns(devDependencyJson);
     sandbox.spy(logger, 'log');
 
-    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@hint/rule-rule1', '@hint/formatter-formatter1']);
 
     await delay(500);
 
@@ -186,13 +186,13 @@ test.serial('installPackages should show the command to run if the installation 
 
     t.context.child = child;
 
-    t.true(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 --save-dev'));
-    t.false(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g'));
+    t.true(t.context.child.spawn.args[0][0].includes('npm install @hint/rule-rule1 @hint/formatter-formatter1 --save-dev'));
+    t.false(t.context.child.spawn.args[0][0].includes('npm install @hint/rule-rule1 @hint/formatter-formatter1 -g'));
 
     sandbox.restore();
 });
 
-test.serial('installPackages should show the command to run if the installation fail and `sonarwhal` is installed globally', async (t) => {
+test.serial('installPackages should show the command to run if the installation fail and `hint` is installed globally', async (t) => {
     const emitter = getEmitter();
     const sandbox = sinon.createSandbox();
     const npmUtils = await import('../../../src/lib/utils/npm');
@@ -201,7 +201,7 @@ test.serial('installPackages should show the command to run if the installation 
     sandbox.stub(child, 'spawn').returns(emitter);
     sandbox.spy(logger, 'log');
 
-    const promise = npmUtils.installPackages(['@sonarwhal/rule-rule1', '@sonarwhal/formatter-formatter1']);
+    const promise = npmUtils.installPackages(['@hint/rule-rule1', '@hint/formatter-formatter1']);
 
     await delay(500);
 
@@ -211,7 +211,7 @@ test.serial('installPackages should show the command to run if the installation 
 
     t.context.child = child;
 
-    t.true(t.context.child.spawn.args[0][0].includes('npm install @sonarwhal/rule-rule1 @sonarwhal/formatter-formatter1 -g'));
+    t.true(t.context.child.spawn.args[0][0].includes('npm install @hint/rule-rule1 @hint/formatter-formatter1 -g'));
 
     sandbox.restore();
 });
@@ -226,10 +226,10 @@ test.serial('search should search the right query', async (t) => {
 
     const npmUtils = await import('../../../src/lib/utils/npm');
 
-    await npmUtils.search('sonarwhal-rule');
+    await npmUtils.search('hint-rule');
 
     t.true(t.context.npmRegistryFetch.json.calledOnce);
-    t.is(t.context.npmRegistryFetch.json.args[0][0], '/-/v1/search?text=sonarwhal-rule&size=100');
+    t.is(t.context.npmRegistryFetch.json.args[0][0], '/-/v1/search?text=hint-rule&size=100');
 
     sandbox.restore();
 });
@@ -257,17 +257,17 @@ test.serial('search should get all the results', async (t) => {
 
     const npmUtils = await import('../../../src/lib/utils/npm');
 
-    await npmUtils.search('sonarwhal-rule');
+    await npmUtils.search('hint-rule');
 
     t.is(t.context.npmRegistryFetch.json.callCount, 3);
 
     const args = t.context.npmRegistryFetch.json.args;
 
-    t.true(args[0][0].includes('text=sonarwhal-rule'));
+    t.true(args[0][0].includes('text=hint-rule'));
     t.false(args[0][0].includes('&from='));
-    t.true(args[1][0].includes('text=sonarwhal-rule'));
+    t.true(args[1][0].includes('text=hint-rule'));
     t.true(args[1][0].includes('&from=5'));
-    t.true(args[2][0].includes('text=sonarwhal-rule'));
+    t.true(args[2][0].includes('text=hint-rule'));
     t.true(args[2][0].includes('&from=10'));
 
     sandbox.restore();

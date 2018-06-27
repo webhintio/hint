@@ -10,7 +10,7 @@ export default (resource: string): string => {
     try {
         /*
          * The url needs to be parsed first
-         * otherwise the result from path.extname could be incorrect, e.g.: https://sonarwhal.com => '.com'
+         * otherwise the result from path.extname could be incorrect, e.g.: https://webhint.io => '.com'
          */
         url = new URL(resource);
     } catch (err) {

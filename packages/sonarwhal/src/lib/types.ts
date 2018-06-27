@@ -63,7 +63,7 @@ export type UserConfig = {
     ignoredUrls?: Array<IgnoredUrl>;
 };
 
-/** A resource required by sonarwhal: Connector, Formatter, Rule. */
+/** A resource required by hint: Connector, Formatter, Rule. */
 export type Resource = IConnectorConstructor | IFormatterConstructor | IRuleConstructor;
 
 export type CLIOptions = {
@@ -120,7 +120,7 @@ export type NpmPackage = {
     version: string;
 };
 
-export type SonarwhalResources = {
+export type HintResources = {
     connector: IConnectorConstructor;
     formatters: Array<IFormatterConstructor>;
     incompatible: Array<string>;

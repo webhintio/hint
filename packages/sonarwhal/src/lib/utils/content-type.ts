@@ -36,7 +36,7 @@ const determineCharset = (originalCharset: string, mediaType: string): string =>
      * From: https://www.w3.org/TR/WD-html40-970708/html40.txt
      *
      * However, `ISO-8859-1` is not supported by node directly.
-     * https://github.com/sonarwhal/sonarwhal/issues/89
+     * https://github.com/webhintio/hint/issues/89
      */
 
     const charsetAliases: Map<string, string> = new Map([

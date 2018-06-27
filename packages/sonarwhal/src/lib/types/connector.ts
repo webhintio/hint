@@ -2,13 +2,13 @@ import * as url from 'url';
 
 import { IAsyncHTMLElement } from './async-html';
 import { NetworkData } from './network';
-import { Sonarwhal } from '../sonarwhal';
+import { Engine } from '../engine';
 
 export interface IConnectorConstructor {
-    new(server: Sonarwhal, config: object, launcher?: ILauncher): IConnector;
+    new(server: Engine, config: object, launcher?: ILauncher): IConnector;
 }
 
-/** A connector to be used by sonarwhal */
+/** A connector to be used by hint */
 export interface IConnector {
     /** The original DOM of the resource collected. */
     dom?: object;

@@ -1,18 +1,18 @@
 import * as Handlebars from 'handlebars';
 
 import readFileAsync from './fs/read-file-async';
-import loadSonarwhalPackage from './packages/load-sonarwhal-package';
+import loadHintPackage from './packages/load-hint-package';
 
-const pkg = loadSonarwhalPackage();
+const pkg = loadHintPackage();
 
 /**
- * Searches the current version used for a package in `sonarwhal` and uses that version or the `defaultVersion`.
+ * Searches the current version used for a package in `hint` and uses that version or the `defaultVersion`.
  *
  * This is used when creating a new rule via the CLI to make sure the dependencies are up-to-date in the moment
  * of creation.
  */
 Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): string => {
-    const version = packageName === 'sonarwhal' ?
+    const version = packageName === 'hint' ?
         `^${pkg.version}` :
         pkg.dependencies[packageName] ||
         pkg.devDependencies[packageName] ||

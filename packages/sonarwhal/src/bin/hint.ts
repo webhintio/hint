@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @fileoverview Main CLI that is run via the sonarwhal command. Based on ESLint.
+ * @fileoverview Main CLI that is run via the hint command. Based on ESLint.
  */
 
 /* eslint no-console:off, no-process-exit:off */
@@ -18,7 +18,7 @@ import * as d from 'debug';
 
 // This initialization needs to be done *before* other requires in order to work.
 if (debug) {
-    d.enable('sonarwhal:*');
+    d.enable('hint:*');
 }
 
 /*

@@ -39,9 +39,9 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 const CONFIG_FILES = [
-    '.sonarwhalrc',
-    '.sonarwhalrc.js',
-    '.sonarwhalrc.json',
+    '.hintrc',
+    '.hintrc.js',
+    '.hintrc.json',
     'package.json'
 ];
 
@@ -51,7 +51,7 @@ const loadPackageJSONConfigFile = (filePath: string): UserConfig => {
     debug(`Loading package.json config file: ${filePath}`);
 
     try {
-        return loadJSONFile(filePath).sonarwhalConfig || null;
+        return loadJSONFile(filePath).hintConfig || null;
     } catch (e) {
         debug(`Error reading package.json file: ${filePath}`);
         e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
@@ -154,7 +154,7 @@ const updateConfigWithCommandLineValues = (config: UserConfig, actions: CLIOptio
     }
 };
 
-export class SonarwhalConfig {
+export class HintConfig {
     public readonly browserslist: Array<string>;
     public readonly connector: ConnectorConfig;
     public readonly formatters: Array<string>;
@@ -199,7 +199,7 @@ export class SonarwhalConfig {
 
     /**
      * Generates the list of browsers to target using the `browserslist` property
-     * of the `sonarwhal` configuration or `package.json` or uses the default one
+     * of the `hint` configuration or `package.json` or uses the default one
      */
     public static loadBrowsersList(config: UserConfig) {
         const directory: string = process.cwd();
@@ -216,7 +216,7 @@ export class SonarwhalConfig {
         if (!config.browserslist) {
             for (let i = 0; i < files.length; i++) {
                 const file: string = files[i];
-                const tmpConfig: UserConfig = SonarwhalConfig.loadConfigFile(file);
+                const tmpConfig: UserConfig = HintConfig.loadConfigFile(file);
 
                 if (tmpConfig && tmpConfig.browserslist) {
                     config.browserslist = tmpConfig.browserslist;
@@ -352,7 +352,7 @@ export class SonarwhalConfig {
         return config;
     }
 
-    public static fromConfig(config: UserConfig, actions?: CLIOptions): SonarwhalConfig {
+    public static fromConfig(config: UserConfig, actions?: CLIOptions): HintConfig {
 
         if (!config) {
             throw new Error(`Couldn't find a configuration file`);
@@ -372,7 +372,7 @@ export class SonarwhalConfig {
             };
         }
 
-        // In case the user uses the --watch flag when running sonarwhal
+        // In case the user uses the --watch flag when running hint
         if (actions && actions.watch) {
             userConfig.connector.options.watch = actions.watch;
         }
@@ -385,16 +385,16 @@ export class SonarwhalConfig {
 
         const browsers = browserslist(config.browserslist);
         const ignoredUrls = loadIgnoredUrls(userConfig);
-        const rules = SonarwhalConfig.cleanRules(normalizeRules(userConfig.rules));
+        const rules = HintConfig.cleanRules(normalizeRules(userConfig.rules));
 
-        return new SonarwhalConfig(userConfig, browsers, ignoredUrls, rules);
+        return new HintConfig(userConfig, browsers, ignoredUrls, rules);
     }
 
     /**
      * Separate rules based on if the rule configs are valid.
      * @param config
      */
-    public static validateRulesConfig(config: SonarwhalConfig) {
+    public static validateRulesConfig(config: HintConfig) {
         const rules = Object.keys(config.rules);
         const validateResult = rules.reduce((result, rule) => {
             const Rule = resourceLoader.loadRule(rule, config.extends);
@@ -416,7 +416,7 @@ export class SonarwhalConfig {
      * Loads a configuration file regardless of the source. Inspects the file path
      * to determine the correctly way to load the config file.
      */
-    public static fromFilePath(filePath: string, actions: CLIOptions): SonarwhalConfig {
+    public static fromFilePath(filePath: string, actions: CLIOptions): HintConfig {
         /**
          * 1. Load the file from the HD
          * 2. Validate it's OK
@@ -427,10 +427,10 @@ export class SonarwhalConfig {
 
         // 1
         const resolvedPath: string = path.resolve(process.cwd(), filePath);
-        const userConfig = SonarwhalConfig.loadConfigFile(resolvedPath);
+        const userConfig = HintConfig.loadConfigFile(resolvedPath);
         const config = this.fromConfig(userConfig, actions);
 
-        userConfig.browserslist = userConfig.browserslist || SonarwhalConfig.loadBrowsersList(userConfig);
+        userConfig.browserslist = userConfig.browserslist || HintConfig.loadBrowsersList(userConfig);
 
         return config;
     }
@@ -457,6 +457,6 @@ export class SonarwhalConfig {
             return null;
         }
 
-        return SonarwhalConfig.getFilenameForDirectory(homedir);
+        return HintConfig.getFilenameForDirectory(homedir);
     };
 }

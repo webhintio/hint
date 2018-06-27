@@ -81,8 +81,8 @@ test('mergeIgnoreIncludeArrays - some included, some excluded', (t) => {
  */
 
 test('getRulePath - performs a `require.resolve` of the top level of the given path', (t) => {
-    // We are looking for the main sonarwhal package
-    const expected = normalize('sonarwhal/packages/sonarwhal/dist/src/lib/sonarwhal.js');
+    // We are looking for the main hint package
+    const expected = normalize('dist/src/lib/engine.js');
     const rulePath = ruleHelpers.getRulePath(__filename);
 
     t.true(rulePath.endsWith(expected), `rulePath doesn't end with expected path:
@@ -91,7 +91,7 @@ ${expected}`);
 });
 
 test.serial('getRulePath - constructs a path using "../src/{$currentFileName}" if the package is supposed to be multirule', (t) => {
-    const expected = normalize('sonarwhal/packages/sonarwhal/dist/tests/lib/src/rule-helpers.js');
+    const expected = normalize('dist/tests/lib/src/rule-helpers.js');
     const rulePath = ruleHelpers.getRulePath(__filename, true);
 
     t.true(rulePath.endsWith(expected), `rulePath doesn't end with expected path:

@@ -14,14 +14,14 @@ const updateNotifier = () => {
     return stubbedNotifier;
 };
 
-const loadSonarwhalPackage = { default() { } };
+const loadHintPackage = { default() { } };
 
 const cliActions = [];
 
 proxyquire('../../src/lib/cli', {
     './cli/actions': cliActions,
     './utils/logging': stubbedLogger,
-    './utils/packages/load-sonarwhal-package': loadSonarwhalPackage,
+    './utils/packages/load-hint-package': loadHintPackage,
     'update-notifier': updateNotifier
 });
 
@@ -29,33 +29,33 @@ test.beforeEach((t) => {
     sinon.stub(stubbedNotifier, 'notify').resolves();
     sinon.spy(stubbedLogger, 'error');
     t.context.notifier = stubbedNotifier;
-    t.context.getSonarwhalPackage = loadSonarwhalPackage;
+    t.context.loadHintPackage = loadHintPackage;
     t.context.logger = stubbedLogger;
 });
 
 test.afterEach.always((t) => {
     t.context.notifier.notify.restore();
 
-    if (t.context.getSonarwhalPackage.default.restore) {
-        t.context.getSonarwhalPackage.default.restore();
+    if (t.context.loadHintPackage.default.restore) {
+        t.context.loadHintPackage.default.restore();
     }
 
     t.context.logger.error.restore();
 });
 
-test.serial('Users should be notified if there is a new version of sonarwhal', async (t) => {
+test.serial('Users should be notified if there is a new version of hint', async (t) => {
     const newUpdate = {
         current: '0.2.0',
         latest: '0.3.0',
-        name: 'sonarwhal',
+        name: 'hint',
         type: 'minor'
     };
 
     const expectedMessage = `Update available ${chalk.red(newUpdate.current)}${chalk.reset(' → ')}${chalk.green(newUpdate.latest)}
-See ${chalk.cyan('https://sonarwhal.com/about/changelog/')} for details`;
+See ${chalk.cyan('https://webhint.io/about/changelog/')} for details`;
 
     t.context.notifier.update = newUpdate;
-    sinon.stub(t.context.getSonarwhalPackage, 'default').returns({ version: '0.2.0' });
+    sinon.stub(t.context.loadHintPackage, 'default').returns({ version: '0.2.0' });
 
     const cli = await import('../../src/lib/cli');
 
@@ -78,12 +78,12 @@ test.serial(`Users shouldn't be notified if they just updated to the latest vers
     const newUpdate = {
         current: '0.2.0',
         latest: '0.3.0',
-        name: 'sonarwhal',
+        name: 'hint',
         type: 'minor'
     };
 
     t.context.notifier.update = newUpdate;
-    sinon.stub(t.context.getSonarwhalPackage, 'default').returns({ version: '0.3.0' });
+    sinon.stub(t.context.loadHintPackage, 'default').returns({ version: '0.3.0' });
 
     const cli = await import('../../src/lib/cli');
 

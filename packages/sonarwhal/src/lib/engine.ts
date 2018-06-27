@@ -1,5 +1,5 @@
 /**
- * @fileoverview Main sonarwhal object, gets the configuration and loads
+ * @fileoverview hint engine object, gets the configuration and loads
  * the connectors, rules and analyzes.
  */
 
@@ -11,18 +11,17 @@
 
 import * as url from 'url';
 
-import * as browserslist from 'browserslist';
 import chalk from 'chalk';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IRule, RuleConfig, Severity, IRuleConstructor, IConnectorConstructor, Parser, IFormatter, SonarwhalResources } from './types';
+import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IRule, RuleConfig, Severity, IRuleConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
 import * as logger from './utils/logging';
 import { RuleContext } from './rule-context';
 import { RuleScope } from './enums/rulescope';
-import { SonarwhalConfig } from './config';
+import { HintConfig } from './config';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -32,7 +31,7 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-export class Sonarwhal extends EventEmitter {
+export class Engine extends EventEmitter {
     // TODO: review which ones need to be private or not
     private parsers: Array<Parser>
     private rules: Map<string, IRule>
@@ -85,14 +84,14 @@ export class Sonarwhal extends EventEmitter {
         });
     }
 
-    public constructor(config: SonarwhalConfig, resources: SonarwhalResources) {
+    public constructor(config: HintConfig, resources: HintResources) {
         super({
             delimiter: '::',
             maxListeners: 0,
             wildcard: true
         });
 
-        debug('Initializing sonarwhal engine');
+        debug('Initializing hint engine');
         this._timeout = config.rulesTimeout;
         this.messages = [];
         this.browserslist = config.browserslist;
