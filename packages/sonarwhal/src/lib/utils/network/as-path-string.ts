@@ -1,5 +1,5 @@
-import * as os from 'os';
-import * as url from 'url';
+import { platform } from 'os';
+import { URL } from 'url';
 
 /**
  * Returns the pathname of a URL, normalizing depending on the platform. E.g.:
@@ -7,13 +7,15 @@ import * as url from 'url';
  * * `file:///c:/projects/` --> `c:/projects/`
  * * `file:///mnt/projects/` --> `/mnt/projects/`
  */
-export default (uri: url.URL) => {
+export default (uri: URL) => {
 
     if (uri.protocol !== 'file:') {
         return uri.pathname;
     }
 
-    const pathname = os.platform() === 'win32' ? uri.pathname.substr(1) : uri.pathname;
+    const pathname = platform() === 'win32' ?
+        uri.pathname.substr(1) :
+        uri.pathname;
 
     return pathname;
 };
