@@ -1,0 +1,9 @@
+{
+    "MD013": {
+        "code_blocks": false
+    },
+    "MD026": {
+        "punctuation": ".,;:!"
+    },
+    "MD029": false
+}

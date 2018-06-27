@@ -15,7 +15,7 @@ import * as path from 'path';
 import { promisify } from 'util';
 
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { delay } from 'sonarwhal/dist/src/lib/utils/misc';
+import delay from 'sonarwhal/dist/src/lib/utils/misc/delay';
 import { Launcher } from '@sonarwhal/utils-debugging-protocol-common/dist/src/launcher';
 import * as logging from 'sonarwhal/dist/src/lib/utils/logging';
 import { BrowserInfo, LauncherOptions } from 'sonarwhal/dist/src/lib/types';

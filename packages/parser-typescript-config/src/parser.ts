@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as cloneDeep from 'lodash.clonedeep';
 import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
 import { FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib/types';
-import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
+import loadJSONFile from 'sonarwhal/dist/src/lib/utils/fs/load-json-file';
 import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
 
 import { TypeScriptConfig, TypeScriptConfigInvalidJSON, TypeScriptConfigInvalidSchema, TypeScriptConfigParse, TypeScriptConfigParseStart } from './types';

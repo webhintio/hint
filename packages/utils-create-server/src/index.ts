@@ -12,7 +12,8 @@ import * as express from 'express';
 // to work with option 'strict', we can't use import.
 const onHeaders = require('on-headers');
 
-import { getHeaderValueNormalized, normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import getHeaderValueNormalized from 'sonarwhal/dist/src/lib/utils/network/normalized-header-value';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
 
 export type ServerConfiguration = string | object; //eslint-disable-line
 

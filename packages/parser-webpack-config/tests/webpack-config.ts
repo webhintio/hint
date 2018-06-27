@@ -4,9 +4,9 @@ import { EventEmitter2 } from 'eventemitter2';
 import * as path from 'path';
 import * as proxyquire from 'proxyquire';
 
-const misc = { getPackage() { } };
+const loadPackage = { default() { } };
 
-proxyquire('../src/parser', { 'sonarwhal/dist/src/lib/utils/misc': misc });
+proxyquire('../src/parser', { 'sonarwhal/dist/src/lib/utils/packages/load-package': loadPackage });
 
 import WebpackConfigParser from '../src/parser';
 
@@ -71,7 +71,7 @@ test.serial('If the configuration is valid and webpack is installed locally, it 
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
-    sandbox.stub(misc, 'getPackage').returns({ version: '4.0.0' });
+    sandbox.stub(loadPackage, 'default').returns({ version: '4.0.0' });
 
     new WebpackConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 
@@ -94,7 +94,7 @@ test.serial(`If the configuration is valid but webpack isn't installed locally, 
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
-    sandbox.stub(misc, 'getPackage').throws(new Error('error'));
+    sandbox.stub(loadPackage, 'default').throws(new Error('error'));
 
     new WebpackConfigParser(t.context.sonarwhal); // eslint-disable-line no-new
 

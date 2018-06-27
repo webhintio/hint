@@ -19,10 +19,12 @@ import * as globby from 'globby';
 import * as fs from 'fs-extra';
 
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { getAsUri } from 'sonarwhal/dist/src/lib/utils/get-as-uri';
-import { getAsPathString } from 'sonarwhal/dist/src/lib/utils/get-as-path-string';
+import { getAsUri } from 'sonarwhal/dist/src/lib/utils/network/as-uri';
+import asPathString from 'sonarwhal/dist/src/lib/utils/network/as-path-string';
 import { getContentTypeData, isTextMediaType, getType } from 'sonarwhal/dist/src/lib/utils/content-type';
-import { isFile, readFileAsync } from 'sonarwhal/dist/src/lib/utils/misc';
+
+import isFile from 'sonarwhal/dist/src/lib/utils/fs/is-file';
+import readFileAsync from 'sonarwhal/dist/src/lib/utils/fs/read-file-async';
 import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
 
 import {
@@ -92,7 +94,7 @@ export default class LocalConnector implements IConnector {
          * and then get the path string.
          */
         const uri: url.URL = getAsUri(target);
-        const filePath: string = getAsPathString(uri);
+        const filePath: string = asPathString(uri);
         const content: NetworkData = await this.fetchContent(filePath);
         const event: FetchEnd = {
             element: null,
@@ -282,7 +284,7 @@ export default class LocalConnector implements IConnector {
 
         this.sonarwhal.emitAsync('scan::start', initialEvent);
 
-        const pathString = getAsPathString(target);
+        const pathString = asPathString(target);
         let files;
 
         if (isFile(pathString)) {

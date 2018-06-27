@@ -5,7 +5,7 @@ import { promisify } from 'util';
 import test from 'ava';
 import * as jsdom from 'jsdom/lib/old-api';
 
-import { readFileAsync } from '../../../src/lib/utils/misc';
+import readFileAsync from '../../../src/lib/utils/fs/read-file-async';
 const getPage = promisify(jsdom.env);
 
 import { IAsyncHTMLElement } from '../../../src/lib/types';

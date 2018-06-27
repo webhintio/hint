@@ -5,18 +5,18 @@ import { EventEmitter2 } from 'eventemitter2';
 
 import { Sonarwhal } from '../../../src/lib/sonarwhal';
 
-const getAsPathStringUtil = { getAsPathString() { } };
-const getAsUriUtil = { getAsUri() { } };
+const asPathString = { default() { } };
+const asUri = { getAsUri() { } };
 const path = {
     dirname() { },
     resolve() { }
 };
-const misc = { loadJSONFile() { } };
+const loadJSONFileModule = { default() { } };
 
 proxyquire('../../../src/lib/types/parser', {
-    '../utils/get-as-path-string': getAsPathStringUtil,
-    '../utils/get-as-uri': getAsUriUtil,
-    '../utils/misc': misc,
+    '../utils/fs/load-json-file': loadJSONFileModule,
+    '../utils/network/as-path-string': asPathString,
+    '../utils/network/as-uri': asUri,
     path
 });
 
@@ -55,7 +55,7 @@ test.serial('If there is a circular reference, it should throw an exception', as
 
     const config = { extends: 'circularReference' };
 
-    sandbox.stub(getAsPathStringUtil, 'getAsPathString').returns('circularReference');
+    sandbox.stub(asPathString, 'default').returns('circularReference');
     sandbox.stub(path, 'resolve').returns('circularReference');
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
@@ -76,9 +76,9 @@ test.serial('If one of the extended files is no a valid JSON, it should throw an
 
     const config = { extends: 'invalid-extends' };
 
-    sandbox.stub(getAsPathStringUtil, 'getAsPathString').returns('valid-with-invalid-extends');
+    sandbox.stub(asPathString, 'default').returns('valid-with-invalid-extends');
     sandbox.stub(path, 'resolve').returns('invalid-extends');
-    sandbox.stub(misc, 'loadJSONFile').throws(new Error('InvalidJSON'));
+    sandbox.stub(loadJSONFileModule, 'default').throws(new Error('InvalidJSON'));
     sandbox.spy(t.context.sonarwhal, 'emitAsync');
 
     const testParser = new TestParser(t.context.sonarwhal);
@@ -99,14 +99,14 @@ test.serial('If everything is ok, it should merge all the extended configuration
         name: 'valid'
     };
 
-    sandbox.stub(getAsPathStringUtil, 'getAsPathString').returns('valid-with-extends');
+    sandbox.stub(asPathString, 'default').returns('valid-with-extends');
     sandbox.stub(path, 'resolve')
         .onFirstCall()
         .returns('valid-extends')
         .onSecondCall()
         .returns('valid-extends-2');
 
-    const miscStub = sandbox.stub(misc, 'loadJSONFile')
+    const miscStub = sandbox.stub(loadJSONFileModule, 'default')
         .onFirstCall()
         .returns({
             extends: 'valid-extends-2',

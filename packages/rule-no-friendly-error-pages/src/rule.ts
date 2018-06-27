@@ -15,7 +15,7 @@ import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { FetchEnd, NetworkData, Response, TraverseEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { isDataURI } from 'sonarwhal/dist/src/lib/utils/misc';
+import isDataURI from 'sonarwhal/dist/src/lib/utils/network/is-data-uri';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 

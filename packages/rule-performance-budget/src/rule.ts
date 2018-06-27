@@ -7,7 +7,7 @@ import { URL } from 'url';
 import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
 import { IRule, FetchEnd, ScanEnd, Response, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { isHTTPS } from 'sonarwhal/dist/src/lib/utils/misc';
+import isHTTPS from 'sonarwhal/dist/src/lib/utils/network/is-https';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 
 import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';

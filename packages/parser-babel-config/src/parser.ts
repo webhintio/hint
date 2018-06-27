@@ -4,7 +4,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib/types';
 import { Sonarwhal } from 'sonarwhal';
-import { loadJSONFile } from 'sonarwhal/dist/src/lib/utils/misc';
+import loadJSONFile from 'sonarwhal/dist/src/lib/utils/fs/load-json-file';
 import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
 
 import { BabelConfig, BabelConfigInvalidJSON, BabelConfigParsed, BabelConfigInvalidSchema, BabelConfigParseStart } from './types';

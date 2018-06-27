@@ -11,14 +11,20 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as path from 'path';
 import * as fs from 'fs';
+import * as path from 'path';
 
 import * as globby from 'globby';
 import * as semver from 'semver';
 
-import { getPackage, getSonarwhalPackage, findNodeModulesRoot, findPackageRoot, isNormalizedIncluded, readFile, loadJSONFile } from '../utils/misc';
-import { debug as d } from '../utils/debug';
+import loadJSONFile from './fs/load-json-file';
+import getPackage from './packages/load-package';
+import getSonarwhalPackage from './packages/load-sonarwhal-package';
+import findNodeModulesRoot from './packages/find-node-modules-root';
+import findPackageRoot from './packages/find-package-root';
+import isNormalizedIncluded from './misc/normalize-includes';
+import readFile from './fs/read-file';
+import { debug as d } from './debug';
 import { Resource, IRuleConstructor, SonarwhalResources } from '../types';
 import { SonarwhalConfig } from '../config';
 import { ResourceType } from '../enums/resourcetype';

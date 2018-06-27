@@ -12,7 +12,7 @@ import { Category } from 'sonarwhal/dist/src/lib/enums/category';
 import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
 import { IRule, RuleMetadata, FetchEnd } from 'sonarwhal/dist/src/lib/types';
 import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { normalizeString } from 'sonarwhal/dist/src/lib/utils/misc';
+import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
 import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
