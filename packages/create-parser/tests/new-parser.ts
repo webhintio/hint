@@ -5,6 +5,8 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
+import * as handlebarsUtils from 'sonarwhal/dist/src/lib/utils/handlebars-utils';
+
 const fsExtra = { copy() { } };
 const inquirer = { prompt() { } };
 const isOfficial = { default() { } };
@@ -12,33 +14,29 @@ const normalizeStringByDelimiter = { default() { } };
 const readFileAsync = { default() { } };
 const writeFileAsync = { default() { } };
 
-const handlebars = {
-    compileTemplate() { },
-    escapeSafeString() { }
-};
 const mkdirp = (dir, callback) => {
     callback();
 };
 
-proxyquire('../../../../src/lib/cli/wizards/new-parser', {
-    '../../utils/handlebars': handlebars,
-    '../../utils/packages/is-official': isOfficial,
-    '../../utils/misc/normalize-string-by-delimeter': normalizeStringByDelimiter,
-    '../../utils/fs/read-file-async': readFileAsync,
-    '../../utils/fs/write-file-async': writeFileAsync,
+proxyquire('../src/new-parser', {
+    'sonarwhal/dist/src/lib/utils/handlebars-utils': handlebarsUtils,
+    'sonarwhal/dist/src/lib/utils/fs/read-file-async': readFileAsync,
+    'sonarwhal/dist/src/lib/utils/fs/write-file-async': writeFileAsync,
+    'sonarwhal/dist/src/lib/utils/misc/normalize-string-by-delimeter': normalizeStringByDelimiter,
+    'sonarwhal/dist/src/lib/utils/packages/is-official': isOfficial,
     'fs-extra': fsExtra,
     inquirer,
     mkdirp
 });
 
-import newParser from '../../../../src/lib/cli/wizards/new-parser';
+import newParser from '../src/new-parser';
 
 test.beforeEach((t) => {
     sinon.stub(fsExtra, 'copy').resolves();
     sinon.stub(writeFileAsync, 'default').resolves();
     sinon.stub(normalizeStringByDelimiter, 'default').returns('');
     sinon.stub(readFileAsync, 'default').resolves('');
-    sinon.stub(handlebars, 'compileTemplate').returns('');
+    sinon.stub(handlebarsUtils, 'compileTemplate').returns('');
 
     t.context.fs = fsExtra;
     t.context.misc = {
@@ -46,7 +44,7 @@ test.beforeEach((t) => {
         readFileAsync,
         writeFileAsync
     };
-    t.context.handlebars = handlebars;
+    t.context.handlebars = handlebarsUtils;
 });
 
 test.afterEach.always((t) => {
@@ -68,10 +66,7 @@ test.serial('It should create a new official parser.', async (t) => {
     };
     const sandbox = sinon.createSandbox();
 
-    const packageRoot = path.join(__dirname, '../../../../../');
-
     sandbox.stub(isOfficial, 'default').resolves(true);
-    sandbox.stub(process, 'cwd').returns(packageRoot);
     sandbox.stub(inquirer, 'prompt')
         .onFirstCall()
         .resolves(parserInfoResult)
@@ -111,10 +106,8 @@ test.serial('It should create a new official parser with no duplicate events.', 
         event: 'element::'
     };
     const sandbox = sinon.createSandbox();
-    const packageRoot = path.join(__dirname, '../../../../../');
 
     sandbox.stub(isOfficial, 'default').resolves(true);
-    sandbox.stub(process, 'cwd').returns(packageRoot);
     sandbox.stub(inquirer, 'prompt')
         .onCall(0)
         .resolves(parserInfoResult)

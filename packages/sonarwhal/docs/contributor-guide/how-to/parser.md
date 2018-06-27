@@ -3,8 +3,16 @@
 A `parser` understands more deeply a resource and exposes that
 information to other parts of `sonarwhal`.
 
-To create one, you will need to create a new `Class` that extends from
-`Parser`.
+The fastest way to create a new one is to run the following:
+
+```bash
+npm init parser
+```
+
+This will start a new wizard and generate all the needed files in a new
+folder.
+
+Alternative, you can create a new `Class` that extends from `Parser`.
 
 ```ts
 import { Parser, IFetchEnd } from '../../types';

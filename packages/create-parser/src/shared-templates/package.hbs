@@ -8,24 +8,24 @@
   },
   "description": "{{description}}",
   "devDependencies": {
-    "@types/debug": "{{dependencyVersion "@types/debug" "0.0.30"}}",
-    "@types/node": "{{dependencyVersion "@types/node" "8.0.14"}}",
-    "ava": "{{dependencyVersion "ava" "^0.25.0"}}",
-    "cpx": "{{dependencyVersion "cpx" "^1.5.0"}}",
-    "eslint": "{{dependencyVersion "eslint" "^4.17.0"}}",
-    "eslint-plugin-markdown": "{{dependencyVersion "eslint-plugin-markdown" "^1.0.0-beta.7"}}",
-    "eslint-plugin-typescript": "{{dependencyVersion "eslint-plugin-typescript" "^0.12.0"}}",{{#if isParser}}
-    "eventemitter2": "{{dependencyVersion "eventemitter2" "^5.0.0"}}",
-    "proxyquire": "{{dependencyVersion "proxyquire" "2.0.0"}}",
-    "sinon": "{{dependencyVersion "sinon" "^4.1.3"}}",{{/if}}
-    "markdownlint-cli": "{{dependencyVersion "markdownlint-cli" "^0.8.2"}}",
-    "npm-link-check": "{{dependencyVersion "npm-link-check" "^2.0.0"}}",
-    "npm-run-all": "{{dependencyVersion "npm-run-all" "^4.1.2"}}",
-    "nyc": "{{dependencyVersion "nyc" "^11.8.0"}}",
-    "rimraf": "{{dependencyVersion "rimraf" "^2.6.2"}}",
-    "sonarwhal": "^1.0.0",
-    "typescript": "{{dependencyVersion "typescript" "^2.6.2"}}",
-    "typescript-eslint-parser": "{{dependencyVersion "typescript-eslint-parser" "^15.0.0"}}"
+    {{{dependencyVersion "@types/debug" "0.0.30"}},
+    "@types/node": "8.0.14",
+    {{{dependencyVersion "ava" "^0.25.0"}}},
+    {{{dependencyVersion "cpx" "^1.5.0"}}},
+    {{{dependencyVersion "eslint" "^5.0.1"}}},
+    {{{dependencyVersion "eslint-plugin-markdown" "^1.0.0-beta.7"}}},
+    {{{dependencyVersion "eslint-plugin-typescript" "^0.12.0"}}},
+    {{{dependencyVersion "eventemitter2" "^5.0.1"}}},
+    {{{dependencyVersion "proxyquire" "2.0.0"}}},
+    {{{dependencyVersion "sinon" "^6.0.1"}}},
+    {{{dependencyVersion "markdownlint-cli" "^0.10.0"}}},
+    {{{dependencyVersion "npm-link-check" "^2.0.0"}}},
+    {{{dependencyVersion "npm-run-all" "^4.1.2"}}},
+    {{{dependencyVersion "nyc" "^12.0.2"}}},
+    {{{dependencyVersion "rimraf" "^2.6.2"}}},
+    {{{dependencyVersion "sonarwhal"}}},
+    {{{dependencyVersion "typescript" "^2.9.2"}}},
+    {{{dependencyVersion "typescript-eslint-parser" "^16.0.1"}}}
   },
   "engines": {
     "node": ">=8.0.0"
@@ -39,9 +39,8 @@
   "keywords": [
     "rule",
     "sonarwhal",
-    "{{normalizedName}}",{{#if isParser}}
-    "{{normalizedName}}-parser"{{else}}
-    "{{normalizedName}}-rule"{{/if}}
+    "{{normalizedName}}",
+    "{{normalizedName}}-parser"
   ],
   "license": "Apache-2.0",
   "main": "{{packageMain}}",
@@ -64,7 +63,7 @@
     "statements": 85
   },{{/if}}
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    {{{dependencyVersion "sonarwhal"}}}
   },
   "private": true,{{#if official}}
   "repository": "sonarwhal/sonarwhal",{{else}}
@@ -79,7 +78,6 @@
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",{{else}}
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",{{/if}}
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
-    "sonarwhal": "^1.0.0",
     "test": "npm run lint && npm run build && nyc ava",
     "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
