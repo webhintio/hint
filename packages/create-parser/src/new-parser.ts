@@ -5,11 +5,11 @@ import * as fs from 'fs-extra';
 import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
-import * as logger from '../../utils/logging';
-import isOfficial from '../../utils/packages/is-official';
-import normalize from '../../utils/misc/normalize-string-by-delimeter';
-import writeFileAsync from '../../utils/fs/write-file-async';
-import { escapeSafeString, compileTemplate, sonarwhalPackage } from '../../utils/handlebars';
+import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
+import isOfficial from 'sonarwhal/dist/src/lib/utils/packages/is-official';
+import normalize from 'sonarwhal/dist/src/lib/utils/misc/normalize-string-by-delimeter';
+import writeFileAsync from 'sonarwhal/dist/src/lib/utils/fs/write-file-async';
+import { escapeSafeString, compileTemplate } from 'sonarwhal/dist/src/lib/utils/handlebars-utils';
 
 /*
  * ------------------------------------------------------------------------------
@@ -93,7 +93,6 @@ class NewParser {
     public destination: string;
     public packageMain: string;
     public packageName: string;
-    public version: string;
     public official: boolean;
     public isParser: boolean = true;
 
@@ -127,7 +126,6 @@ class NewParser {
 
         const prefix = this.official ? '@sonarwhal/' : 'sonarwhal-';
 
-        this.version = sonarwhalPackage.version;
         this.packageMain = `dist/src/index.js`; // package.json#main
         this.packageName = `${prefix}parser-${this.normalizedName}`; // package.json#name
         this.destination = path.join(process.cwd(), `parser-${this.normalizedName}`);
