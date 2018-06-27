@@ -10,14 +10,14 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Connector } from '@sonarwhal/utils-debugging-protocol-common/dist/src/debugging-protocol-connector';
-import { ILauncher } from 'sonarwhal/dist/src/lib/types';
+import { Connector } from '@hint/utils-debugging-protocol-common/dist/src/debugging-protocol-connector';
+import { ILauncher } from 'hint/dist/src/lib/types';
 import { CDPLauncher } from './chrome-launcher';
 
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
+import { Engine } from 'hint/dist/src/lib/engine';
 
 export default class ChromeConnector extends Connector {
-    public constructor(server: Sonarwhal, config: object) {
+    public constructor(server: Engine, config: object) {
         const launcher: ILauncher = new CDPLauncher(config);
 
         super(server, config, launcher);

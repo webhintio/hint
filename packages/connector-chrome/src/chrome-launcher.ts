@@ -8,13 +8,13 @@ import * as chromeLauncher from 'chrome-launcher';
 import * as isCI from 'is-ci';
 import * as lockfile from 'lockfile';
 
-import { Launcher } from '@sonarwhal/utils-debugging-protocol-common/dist/src/launcher';
-import { BrowserInfo, LauncherOptions } from 'sonarwhal/dist/src/lib/types';
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import delay from 'sonarwhal/dist/src/lib/utils/misc/delay';
-import readFileAsync from 'sonarwhal/dist/src/lib/utils/fs/read-file-async';
-import writeFileAsync from 'sonarwhal/dist/src/lib/utils/fs/write-file-async';
+import { Launcher } from '@hint/utils-debugging-protocol-common/dist/src/launcher';
+import { BrowserInfo, LauncherOptions } from 'hint/dist/src/lib/types';
+import * as logger from 'hint/dist/src/lib/utils/logging';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import delay from 'hint/dist/src/lib/utils/misc/delay';
+import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
+import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 
 const debug: debug.IDebugger = d(__filename);
 const lock: (path: string, options: lockfile.Options) => Promise<void> = promisify(lockfile.lock);

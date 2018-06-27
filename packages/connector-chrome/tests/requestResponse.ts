@@ -14,8 +14,8 @@ import { map, reduce } from 'lodash';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { createServer } from '@sonarwhal/utils-create-server';
-import { IConnector } from 'sonarwhal/dist/src/lib/types';
+import { createServer } from '@hint/utils-create-server';
+import { IConnector } from 'hint/dist/src/lib/types';
 import ChromeConnector from '../src/connector';
 
 const name: string = 'chrome';
@@ -55,13 +55,13 @@ const updateLocalhost = (content: any, port: any): any => {
 
 
 test.beforeEach(async (t) => {
-    const sonarwhal = {
+    const engine = {
         emit() { },
         emitAsync() { }
     };
 
-    sinon.spy(sonarwhal, 'emitAsync');
-    sinon.spy(sonarwhal, 'emit');
+    sinon.spy(engine, 'emitAsync');
+    sinon.spy(engine, 'emit');
 
     const server = createServer();
 
@@ -71,16 +71,16 @@ test.beforeEach(async (t) => {
     const gzipHtml = zlib.gzipSync(Buffer.from(html));
 
     t.context = {
+        engine,
         gzipHtml,
         html,
-        server,
-        sonarwhal
+        server
     };
 });
 
 test.afterEach.always(async (t) => {
-    t.context.sonarwhal.emitAsync.restore();
-    t.context.sonarwhal.emit.restore();
+    t.context.engine.emitAsync.restore();
+    t.context.engine.emit.restore();
     t.context.server.stop();
     await t.context.connector.close();
 });

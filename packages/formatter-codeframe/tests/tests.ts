@@ -5,7 +5,7 @@ import * as proxyquire from 'proxyquire';
 
 const logging = { log() { } };
 
-proxyquire('../src/formatter', { 'sonarwhal/dist/src/lib/utils/logging': logging });
+proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': logging });
 
 import CodeframeFormatter from '../src/formatter';
 import * as problems from './fixtures/list-of-problems';

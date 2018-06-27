@@ -1,5 +1,5 @@
 /**
- * @fileoverview Simple HTTP server used in sonarwhal's tests to mimick certain scenarios.
+ * @fileoverview Simple HTTP server used in hint's tests to mimick certain scenarios.
  */
 import * as http from 'http';
 import * as https from 'https';
@@ -12,14 +12,14 @@ import * as express from 'express';
 // to work with option 'strict', we can't use import.
 const onHeaders = require('on-headers');
 
-import getHeaderValueNormalized from 'sonarwhal/dist/src/lib/utils/network/normalized-header-value';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
+import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 
 export type ServerConfiguration = string | object; //eslint-disable-line
 
 const maxPort = 65535;
 
-/** A testing server for sonarwhal's rules */
+/** A testing server for hint's rules */
 export class Server {
     private _app: express.Application;
     private _server: https.Server | http.Server = {} as http.Server;

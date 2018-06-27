@@ -11,11 +11,11 @@
     "iconv-lite": "^0.4.23",
     "iltorb": "^2.3.2",
     "request": "^2.87.0",
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
-  "description": "sonarwhal tools for connectors",
+  "description": "hint tools for connectors",
   "devDependencies": {
-    "@sonarwhal/utils-create-server": "^1.0.0",
+    "@hint/utils-create-server": "^1.0.0",
     "ava": "^0.25.0",
     "eslint": "^5.0.1",
     "eslint-plugin-import": "^2.13.0",
@@ -35,18 +35,19 @@
     "dist/src",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "connector",
     "utils",
     "tools",
-    "sonarwhal",
-    "sonarwhal-utils-connector-tools"
+    "hint",
+    "hint-utils-connector-tools",
+    "webhint"
   ],
   "license": "Apache-2.0",
-  "name": "@sonarwhal/utils-connector-tools",
+  "name": "@hint/utils-connector-tools",
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

@@ -5,7 +5,7 @@
 
 import * as path from 'path';
 
-import { BrowserInfo, ILauncher, LauncherOptions } from 'sonarwhal/dist/src/lib/types';
+import { BrowserInfo, ILauncher, LauncherOptions } from 'hint/dist/src/lib/types';
 
 /*
  * ------------------------------------------------------------------------------

@@ -198,6 +198,16 @@
     edge-diagnostics-adapter "^0.6.0"
     node-windows "^0.1.14"
 
+"@sonarwhal/formatter-codeframe@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@sonarwhal/formatter-codeframe/-/formatter-codeframe-1.0.1.tgz#85f311b05cb32fd7f5e5b268f100ad1e83528020"
+  dependencies:
+    chalk "^2.3.2"
+    lodash.foreach "^4.5.0"
+    lodash.groupby "^4.6.0"
+    lodash.sortby "^4.7.0"
+    pluralize "^7.0.0"
+
 "@sonarwhal/formatter-codeframe@^2.0.3":
   version "2.0.4"
   resolved "https://registry.npmjs.org/@sonarwhal/formatter-codeframe/-/formatter-codeframe-2.0.4.tgz#c7ff2f7e65e32b949e336fc53ffb3e8a3bfa751f"
@@ -1926,7 +1936,7 @@ chalk@^1.0.0, chalk@^1.1.1, chalk@^1.1.3:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
-chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.3.1, chalk@^2.4.1:
+chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.3.1, chalk@^2.3.2, chalk@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.1.tgz#18c49ab16a037b6eb0152cc83e3471338215b66e"
   dependencies:
@@ -7361,7 +7371,7 @@ socks@~2.2.0:
     ip "^1.1.5"
     smart-buffer "^4.0.1"
 
-sonarwhal@^1.11.2:
+sonarwhal@^1.0.0, sonarwhal@^1.11.2:
   version "1.11.2"
   resolved "https://registry.npmjs.org/sonarwhal/-/sonarwhal-1.11.2.tgz#bc93138238e5fcbc97f6ed1d9c62d365b05bdf51"
   dependencies:

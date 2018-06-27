@@ -17,10 +17,10 @@ import * as sortBy from 'lodash.sortby';
 import * as forEach from 'lodash.foreach';
 import * as logSymbols from 'log-symbols';
 
-import cutString from 'sonarwhal/dist/src/lib/utils/misc/cut-string';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFormatter, Problem, ProblemLocation, Severity } from 'sonarwhal/dist/src/lib/types';
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
+import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { IFormatter, Problem, ProblemLocation, Severity } from 'hint/dist/src/lib/types';
+import * as logger from 'hint/dist/src/lib/utils/logging';
 
 const _ = {
     forEach,

@@ -1,11 +1,11 @@
 {
   "dependencies": {
-    "@sonarwhal/utils-connector-tools": "^1.0.0",
+    "@hint/utils-connector-tools": "^1.0.0",
     "chrome-remote-interface": "^0.25.6",
     "lodash": "^4.17.10",
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
-  "description": "sonarwhal debugging protocol common functionality",
+  "description": "hint debugging protocol common functionality",
   "devDependencies": {
     "@types/lodash": "^4.14.110",
     "eslint": "^5.0.1",
@@ -25,18 +25,19 @@
     "dist",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "connector",
     "utils",
     "debugging protocol",
-    "sonarwhal",
-    "sonarwhal-utils-debugging-protocol-common"
+    "hint",
+    "hint-utils-debugging-protocol-common",
+    "webhint"
   ],
   "license": "Apache-2.0",
-  "name": "@sonarwhal/utils-debugging-protocol-common",
+  "name": "@hint/utils-debugging-protocol-common",
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

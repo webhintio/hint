@@ -6,23 +6,23 @@ import { URL } from 'url';
 
 import { test, GenericTestContext, Context } from 'ava';
 import * as retry from 'async-retry';
-import { createServer } from '@sonarwhal/utils-create-server';
+import { createServer } from '@hint/utils-create-server';
 
 import { ids as connectors } from './connectors';
-import { IRuleConstructor, RulesConfigObject, Problem } from 'sonarwhal/dist/src/lib/types';
-import * as resourceLoader from 'sonarwhal/dist/src/lib/utils/resource-loader';
+import { IRuleConstructor, RulesConfigObject, Problem } from 'hint/dist/src/lib/types';
+import * as resourceLoader from 'hint/dist/src/lib/utils/resource-loader';
 import { RuleTest, RuleLocalTest, Report } from './rule-test-type';
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
-import { SonarwhalConfig } from 'sonarwhal/dist/src/lib/config';
-import { getAsUri } from 'sonarwhal/dist/src/lib/utils/network/as-uri';
+import { Engine } from 'hint/dist/src/lib/engine';
+import { HintConfig } from 'hint/dist/src/lib/config';
+import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 
 // Regex to replace all scenarios: `http(s)://localhost/`, `http(s)://localhost:3000/`
 const localhostRegex = /(http|https):\/\/localhost[:]*[0-9]*\//g;
 
 /**
- * Creates a valid sonarwhal configuration.
+ * Creates a valid hint configuration.
  */
-const createConfig = (id: string, connector: string, opts?: any): SonarwhalConfig => {
+const createConfig = (id: string, connector: string, opts?: any): HintConfig => {
     const rules: RulesConfigObject = {};
 
     if (opts && opts.ruleOptions) {
@@ -57,7 +57,7 @@ const createConfig = (id: string, connector: string, opts?: any): SonarwhalConfi
         config.connector.options = { overrideInvalidCert: true };
     }
 
-    return SonarwhalConfig.fromConfig(config);
+    return HintConfig.fromConfig(config);
 };
 
 /** Validates that the results from the execution match the expected ones. */
@@ -93,7 +93,7 @@ const validateResults = (t: GenericTestContext<Context<any>>, results: Array<Pro
 export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { [key: string]: any } = {}) => {
     /**
      * Because tests are executed asynchronously in ava, we need
-     * a different server and sonarwhal object for each one
+     * a different server and hint object for each one
      */
     test.beforeEach(async (t) => {
         // When running serial tests, the server is shared
@@ -112,7 +112,7 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
      * Creates a new connector with only the rule to be tested and
      * executing any required `before` task as indicated by `ruleTest`.
      */
-    const createConnector = async (t: GenericTestContext<Context<any>>, ruleTest: RuleTest, connector: string, attemp: number): Promise<Sonarwhal> => {
+    const createConnector = async (t: GenericTestContext<Context<any>>, ruleTest: RuleTest, connector: string, attemp: number): Promise<Engine> => {
         const { server } = t.context;
         const { serverConfig } = ruleTest;
 
@@ -122,21 +122,21 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
 
         const config = createConfig(ruleId, connector, configs);
         const resources = resourceLoader.loadResources(config);
-        const sonarwhal: Sonarwhal = new Sonarwhal(config, resources);
+        const engine: Engine = new Engine(config, resources);
 
         // We only configure the server the first time
         if (attemp === 1 && serverConfig) {
             server.configure(serverConfig);
         }
 
-        return sonarwhal;
+        return engine;
     };
 
     /**
      * Stops a connector executing any required `after` task as indicated by
      * `ruleTest`.
      */
-    const stopConnector = async (ruleTest: RuleTest, connector: Sonarwhal): Promise<void> => {
+    const stopConnector = async (ruleTest: RuleTest, connector: Engine): Promise<void> => {
         if (ruleTest.after) {
             await ruleTest.after();
         }
@@ -156,10 +156,10 @@ export const testRule = (ruleId: string, ruleTests: Array<RuleTest>, configs: { 
                 const { serverUrl, reports } = ruleTest;
                 const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
 
-                const sonarwhal = await createConnector(t, ruleTest, connector, attemp);
-                const results = await sonarwhal.executeOn(new URL(target));
+                const engine = await createConnector(t, ruleTest, connector, attemp);
+                const results = await engine.executeOn(new URL(target));
 
-                await stopConnector(ruleTest, sonarwhal);
+                await stopConnector(ruleTest, engine);
 
                 return validateResults(t, results, reports);
             } catch (e) {
@@ -236,13 +236,13 @@ export const testLocalRule = (ruleId: string, ruleTests: Array<RuleLocalTest>, c
                     await ruleTest.before(t);
                 }
 
-                const sonarwhalConfig = createConfig(ruleId, 'local', configs);
-                const resources = resourceLoader.loadResources(sonarwhalConfig);
-                const sonarwhal = new Sonarwhal(sonarwhalConfig, resources);
+                const hintConfig = createConfig(ruleId, 'local', configs);
+                const resources = resourceLoader.loadResources(hintConfig);
+                const engine = new Engine(hintConfig, resources);
 
-                const results = await sonarwhal.executeOn(getAsUri(ruleTest.path));
+                const results = await engine.executeOn(getAsUri(ruleTest.path));
 
-                await sonarwhal.close();
+                await engine.close();
 
                 if (ruleTest.after) {
                     await ruleTest.after(t);
