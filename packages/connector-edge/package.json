@@ -14,7 +14,7 @@
     "rimraf": "^2.6.2",
     "sonarwhal": "^1.0.0",
     "typescript": "^2.9.2",
-    "typescript-eslint-parser": "^16.0.0"
+    "typescript-eslint-parser": "^16.0.1"
   },
   "engines": {
     "node": ">=8.0.0"
