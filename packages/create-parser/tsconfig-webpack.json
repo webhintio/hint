@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "declaration": false,
+        "inlineSourceMap": false,
+        "removeComments": true,
+        "target": "esnext",
+        "outDir": "dist"
+    },
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
+    "extends": "../../tsconfig.json"
+}
