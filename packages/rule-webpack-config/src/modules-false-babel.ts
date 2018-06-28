@@ -1,14 +1,14 @@
 /**
  * @fileoverview `webpack-config/modules-false-babel` warns against not having set the propety `modules` to `false` in presets in babel configuration file.
  */
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { IRule, RuleMetadata } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-import { WebpackConfigParse } from '@sonarwhal/parser-webpack-config/dist/src/types';
-import { BabelConfigParsed } from '@sonarwhal/parser-babel-config/dist/src/types';
+import { WebpackConfigParse } from '@hint/parser-webpack-config/dist/src/types';
+import { BabelConfigParsed } from '@hint/parser-babel-config/dist/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 

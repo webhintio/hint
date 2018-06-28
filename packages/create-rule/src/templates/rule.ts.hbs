@@ -2,12 +2,12 @@
  * @fileoverview {{description}}
  */
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, {{events}}, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { IRule, {{events}}, RuleMetadata } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -29,7 +29,7 @@ export default class {{className}} implements IRule {
             /*
              * If you want to allow the user to configure your rule
              * you should use a valid JSON schema. More info in:
-             * https://sonarwhal.com/docs/contributor-guide/rules/#themetaproperty
+             * https://webhint.io/docs/contributor-guide/rules/#themetaproperty
              */
         ],
         scope: RuleScope.{{scope}}

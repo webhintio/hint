@@ -5,12 +5,12 @@
  * a reasonable threshold to determine whether a script is minified or not
  */
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { ScriptParse } from '@sonarwhal/parser-javascript/dist/src/types';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { IRule, RuleMetadata } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
+import { ScriptParse } from '@hint/parser-javascript/dist/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 

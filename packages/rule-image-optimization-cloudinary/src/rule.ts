@@ -8,13 +8,13 @@ import { tmpdir } from 'os';
 import * as fs from 'fs-extra';
 import * as getImageData from 'image-size';
 
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, FetchEnd, ScanEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import cutString from 'sonarwhal/dist/src/lib/utils/misc/cut-string';
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { IRule, FetchEnd, ScanEnd, RuleMetadata } from 'hint/dist/src/lib/types';
+import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
+import * as logger from 'hint/dist/src/lib/utils/logging';
+import { Category } from 'hint/dist/src/lib/enums/category';
 import { cloudinaryResult } from './cloudinary-types';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 /*
  * ------------------------------------------------------------------------------

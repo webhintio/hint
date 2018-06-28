@@ -11,22 +11,22 @@
 import { parse as bcp47 } from 'bcp47';
 import { get as parseColor } from 'color-string';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
+import { Category } from 'hint/dist/src/lib/enums/category';
 import {
     IAsyncHTMLElement,
     IRule,
     RuleMetadata
-} from 'sonarwhal/dist/src/lib/types';
-import { isSupported } from 'sonarwhal/dist/src/lib/utils/caniuse';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
+} from 'hint/dist/src/lib/types';
+import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import {
     Manifest,
     ManifestInvalidJSON,
     ManifestInvalidSchema,
     ManifestParsed
-} from '@sonarwhal/parser-manifest/dist/src/types';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+} from '@hint/parser-manifest/dist/src/types';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 /*
  * ---------------------------------------------------------------------

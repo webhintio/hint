@@ -1,13 +1,13 @@
 /**
  * @fileoverview `webpack-config/is-valid` warns against providing an invalid webpack configuration file `webpack.config.js`.
  */
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { IRule, RuleMetadata } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-import { WebpackConfigInvalidConfiguration } from '@sonarwhal/parser-webpack-config/dist/src/types';
+import { WebpackConfigInvalidConfiguration } from '@hint/parser-webpack-config/dist/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 

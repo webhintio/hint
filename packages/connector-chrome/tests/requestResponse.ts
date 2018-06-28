@@ -98,9 +98,9 @@ const findEvent = (func: sinon.SinonSpy, eventName: string) => {
 };
 
 test(`[${name}] requestResponse`, async (t) => {
-    const { sonarwhal } = t.context;
-    const { emit, emitAsync } = sonarwhal;
-    const connector: IConnector = new ChromeConnector(sonarwhal, {});
+    const { engine } = t.context;
+    const { emit, emitAsync } = engine;
+    const connector: IConnector = new ChromeConnector(engine, {});
     const server = t.context.server;
 
     t.context.connector = connector;

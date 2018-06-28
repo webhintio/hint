@@ -2,10 +2,10 @@ import * as path from 'path';
 
 import * as sinon from 'sinon';
 
-import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
-import { RuleLocalTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
-const loadPackage = require('sonarwhal/dist/src/lib/utils/packages/load-package');
+import { getRulePath } from 'hint/dist/src/lib/utils/rule-helpers';
+import * as ruleRunner from '@hint/utils-tests-helpers/dist/src/rule-runner';
+import { RuleLocalTest } from '@hint/utils-tests-helpers/dist/src/rule-test-type';
+const loadPackage = require('hint/dist/src/lib/utils/packages/load-package');
 
 const rulePath = getRulePath(__filename, true);
 

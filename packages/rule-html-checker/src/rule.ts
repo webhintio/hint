@@ -11,11 +11,11 @@
 
 import * as uniqBy from 'lodash.uniqby';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, ProblemLocation, Severity, RuleMetadata, TraverseStart } from 'sonarwhal/dist/src/lib/types';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { IRule, ProblemLocation, Severity, RuleMetadata, TraverseStart } from 'hint/dist/src/lib/types';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -130,8 +130,8 @@ export default class HtmlCheckerRule implements IRule {
         };
 
         const requestRetry = async (options, retries: number = 3) => {
-            const requestAsync = (await import('sonarwhal/dist/src/lib/utils/network/request-async')).default;
-            const delay = (await import('sonarwhal/dist/src/lib/utils/misc/delay')).default;
+            const requestAsync = (await import('hint/dist/src/lib/utils/network/request-async')).default;
+            const delay = (await import('hint/dist/src/lib/utils/misc/delay')).default;
 
             try {
                 return await requestAsync(options);

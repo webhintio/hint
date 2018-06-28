@@ -5,17 +5,17 @@ import { copy } from 'fs-extra';
 import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
-import isOfficial from 'sonarwhal/dist/src/lib/utils/packages/is-official';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
+import * as logger from 'hint/dist/src/lib/utils/logging';
+import isOfficial from 'hint/dist/src/lib/utils/packages/is-official';
 
-import Handlebars, { compileTemplate, escapeSafeString } from 'sonarwhal/dist/src/lib/utils/handlebars-utils';
-import normalizeStringByDelimiter from 'sonarwhal/dist/src/lib/utils/misc/normalize-string-by-delimeter';
-import readFile from 'sonarwhal/dist/src/lib/utils/fs/read-file';
-import toCamelCase from 'sonarwhal/dist/src/lib/utils/misc/to-camel-case';
-import toPascalCase from 'sonarwhal/dist/src/lib/utils/misc/to-pascal-case';
-import writeFileAsync from 'sonarwhal/dist/src/lib/utils/fs/write-file-async';
+import Handlebars, { compileTemplate, escapeSafeString } from 'hint/dist/src/lib/utils/handlebars-utils';
+import normalizeStringByDelimiter from 'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter';
+import readFile from 'hint/dist/src/lib/utils/fs/read-file';
+import toCamelCase from 'hint/dist/src/lib/utils/misc/to-camel-case';
+import toPascalCase from 'hint/dist/src/lib/utils/misc/to-pascal-case';
+import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 
 /*
  * ------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ class RulePackage {
         this.official = data.official;
         this.packageMain = `dist/src/index.js`; // package.json#main
 
-        const prefix = this.official ? '@sonarwhal/' : 'sonarwhal-'; // package.json#name
+        const prefix = this.official ? '@hint/' : 'hint-'; // package.json#name
 
         this.packageName = `${prefix}rule-${this.normalizedName}`;
         this.rules = [];
@@ -333,7 +333,7 @@ const generateRuleFiles = async (destination: string, data: any) => {
 
     if (!data.official) {
         commonFiles.push({
-            destination: join(destination, '.sonarwhalrc'),
+            destination: join(destination, '.hintrc'),
             path: join(__dirname, SHARED_TEMPLATE_PATH, 'config.hbs')
         });
     }
@@ -428,13 +428,13 @@ New ${rulePackage.isMulti ? 'package' : 'rule'} ${rulePackage.name} created in $
             logger.log(`1. Run 'yarn' to install the dependencies.
 2. Go to the folder 'packages/rule-${rulePackage.normalizedName}'.
 3. Run 'yarn build' to build the project.
-4. Go to the folder 'packages/sonarwhal'.
-5. Add your rule to '.sonarwhalrc'.
-6. Run 'yarn sonarwhal https://YourUrl' to analyze your site.`);
+4. Go to the folder 'packages/hint'.
+5. Add your rule to '.hintrc'.
+6. Run 'yarn hint https://YourUrl' to analyze your site.`);
         } else {
             logger.log(`1. Go to the folder 'rule-${rulePackage.normalizedName}'.
 2. Run 'npm run init' to install all the dependencies and build the project.
-3. Run 'npm run sonarwhal -- https://YourUrl' to analyze you site.`);
+3. Run 'npm run hint -- https://YourUrl' to analyze you site.`);
         }
 
         return true;

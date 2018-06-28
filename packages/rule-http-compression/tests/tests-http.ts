@@ -1,5 +1,5 @@
-import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
+import { getRulePath } from 'hint/dist/src/lib/utils/rule-helpers';
+import * as ruleRunner from '@hint/utils-tests-helpers/dist/src/rule-runner';
 
 import {
     testsForBrotliOverHTTP,

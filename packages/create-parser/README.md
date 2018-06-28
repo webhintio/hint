@@ -1,6 +1,6 @@
 # Create parser (`create-parser`)
 
-A package initialization template for [`sonarwhal`][sonarwhal]
+A package initialization template for [`hint`][hint]
 [parsers][parsers].
 
 To use it run:
@@ -11,5 +11,5 @@ npm init parser
 
 <!-- Link labels: -->
 
-[parsers]: https://sonarwhal.com/docs/user-guide/concepts/parsers/
-[sonarwhal]: https://sonarwhal.com/
+[parsers]: https://webhint.io/docs/user-guide/concepts/parsers/
+[hint]: https://webhint.io/

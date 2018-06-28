@@ -11,7 +11,7 @@
 
 import { get as parseColor } from 'color-string';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
+import { Category } from 'hint/dist/src/lib/enums/category';
 /* eslint-disable no-unused-vars */
 import {
     ElementFound,
@@ -20,12 +20,12 @@ import {
     IRule,
     RuleMetadata,
     TraverseEnd
-} from 'sonarwhal/dist/src/lib/types';
+} from 'hint/dist/src/lib/types';
 /* eslint-enable no-unused-vars */
-import { isSupported } from 'sonarwhal/dist/src/lib/utils/caniuse';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 /*
  * ------------------------------------------------------------------------------

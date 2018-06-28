@@ -11,14 +11,14 @@
 
 import { ucs2 } from 'punycode';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { IRule, RuleMetadata } from 'hint/dist/src/lib/types';
 import {
     Manifest,
     ManifestParsed
-} from '@sonarwhal/parser-manifest/dist/src/types';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+} from '@hint/parser-manifest/dist/src/types';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 /*
  * ------------------------------------------------------------------------------

@@ -21,7 +21,7 @@
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
     "sinon": "^6.0.1",
-    "sonarwhal": "^1.0.0",
+    "hint": "^1.0.0",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.1"
   },
@@ -32,7 +32,7 @@
     "dist/src",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "sonarwhal",
     "sonarwhal-parser",
@@ -40,12 +40,12 @@
   ],
   "license": "Apache-2.0",
   "main": "dist/src/parser.js",
-  "name": "@sonarwhal/parser-webpack-config",
+  "name": "@hint/parser-webpack-config",
   "nyc": {
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

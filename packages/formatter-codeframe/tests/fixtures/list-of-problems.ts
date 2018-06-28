@@ -1,4 +1,4 @@
-import { Problem, Severity } from 'sonarwhal/dist/src/lib/types';
+import { Problem, Severity } from 'hint/dist/src/lib/types';
 
 const codeframeproblems: Array<Problem> = [{
     location: {
@@ -24,7 +24,7 @@ const codeframeproblems: Array<Problem> = [{
     sourceCode: `<html lang="en"><head>
         <meta charset="utf-8">
         <title></title>
-        <meta name="description" content="sonarwhal website">
+        <meta name="description" content="webhint website">
         <meta name="viewport" content="width=device-width">
 
         <meta name="theme-color" content="#4046dd">

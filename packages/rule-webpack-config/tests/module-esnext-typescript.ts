@@ -1,11 +1,11 @@
 import * as path from 'path';
 import * as mock from 'mock-require';
 
-import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
-import { RuleLocalTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
+import { getRulePath } from 'hint/dist/src/lib/utils/rule-helpers';
+import * as ruleRunner from '@hint/utils-tests-helpers/dist/src/rule-runner';
+import { RuleLocalTest } from '@hint/utils-tests-helpers/dist/src/rule-test-type';
 
-import loadJSONFile from 'sonarwhal/dist/src/lib/utils/fs/load-json-file';
+import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 
 const webpackDestPath = path.join(__dirname, 'fixtures', 'valid', 'package.json');
 const webpackV1DestPath = path.join(__dirname, 'fixtures', 'version1', 'package.json');
@@ -25,7 +25,7 @@ const tests: Array<RuleLocalTest> = [
                 return webpackConfig;
             };
 
-            mock('sonarwhal/dist/src/lib/utils/packages/load-package', loadPackage);
+            mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
         },
         name: 'If TS configuration is valid and webpack version >=2 should pass',
         path: path.join(__dirname, 'fixtures', 'tsvalid')
@@ -36,7 +36,7 @@ const tests: Array<RuleLocalTest> = [
                 return webpackConfig;
             };
 
-            mock('sonarwhal/dist/src/lib/utils/packages/load-package', loadPackage);
+            mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
         },
         name: `If TS configuration is not valid, is should fail`,
         path: path.join(__dirname, 'fixtures', 'tsinvalid'),
@@ -48,7 +48,7 @@ const tests: Array<RuleLocalTest> = [
                 return webpackV1Config;
             };
 
-            mock('sonarwhal/dist/src/lib/utils/packages/load-package', loadPackage);
+            mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
         },
         name: 'If TS configuration is invalid, but webpack version is < 2, it should pass',
         path: path.join(__dirname, 'fixtures', 'tsinvalid')
@@ -63,7 +63,7 @@ const generateTest = (message: string): Array<RuleLocalTest> => {
                     return webpackConfig;
                 };
 
-                mock('sonarwhal/dist/src/lib/utils/packages/load-package', loadPackage);
+                mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
             },
             name: 'Even if TS configuration is valid and webpack version >=2 it should fail',
             path: path.join(__dirname, 'fixtures', 'tsvalid'),

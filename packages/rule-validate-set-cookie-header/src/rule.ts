@@ -2,15 +2,15 @@
  * @fileoverview This rule validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.
  */
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { FetchEnd, IAsyncHTMLElement, Response, IRule, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import isHTTPS from 'sonarwhal/dist/src/lib/utils/network/is-https';
-import isRegularProtocol from 'sonarwhal/dist/src/lib/utils/network/is-regular-protocol';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { FetchEnd, IAsyncHTMLElement, Response, IRule, Severity, RuleMetadata } from 'hint/dist/src/lib/types';
+import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
+import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { ParsedSetCookieHeader } from './rule-types';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 

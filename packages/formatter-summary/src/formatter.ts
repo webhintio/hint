@@ -15,9 +15,9 @@ import * as defaultTo from 'lodash.defaultto';
 import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
 
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFormatter, Problem, Severity } from 'sonarwhal/dist/src/lib/types';
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { IFormatter, Problem, Severity } from 'hint/dist/src/lib/types';
+import * as logger from 'hint/dist/src/lib/utils/logging';
 
 const _ = {
     defaultTo,

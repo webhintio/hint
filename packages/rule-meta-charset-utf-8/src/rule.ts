@@ -11,11 +11,11 @@
 
 import * as cheerio from 'cheerio';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, FetchEnd, RuleMetadata, TraverseEnd } from 'sonarwhal/dist/src/lib/types';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, FetchEnd, RuleMetadata, TraverseEnd } from 'hint/dist/src/lib/types';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 /*
  * ------------------------------------------------------------------------------

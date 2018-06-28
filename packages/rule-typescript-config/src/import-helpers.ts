@@ -5,12 +5,12 @@
  */
 import * as path from 'path';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, RuleMetadata, ScanEnd } from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import loadPackage from 'sonarwhal/dist/src/lib/utils/packages/load-package';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { IRule, RuleMetadata, ScanEnd } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import loadPackage from 'hint/dist/src/lib/utils/packages/load-package';
 
 import { configChecker } from './helpers/config-checker';
 

@@ -2,11 +2,11 @@
  * @fileoverview Checks if CSS exceeds known stylesheet limits.
  */
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, RuleMetadata, ScanEnd } from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { IRule, RuleMetadata, ScanEnd } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 

@@ -4,14 +4,14 @@
 
 import * as URL from 'url';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
 
-import { IRule, RuleMetadata, FetchEnd, Response, ElementFound } from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import isHTTPS from 'sonarwhal/dist/src/lib/utils/network/is-https';
-import isDataURI from 'sonarwhal/dist/src/lib/utils/network/is-data-uri';
+import { IRule, RuleMetadata, FetchEnd, Response, ElementFound } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
+import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
+import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 
 const debug: debug.IDebugger = d(__filename);
 

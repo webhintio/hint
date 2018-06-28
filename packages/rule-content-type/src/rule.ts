@@ -11,15 +11,15 @@
 
 import { MediaType, parse } from 'content-type';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, Response, IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import getHeaderValueNormalized from 'sonarwhal/dist/src/lib/utils/network/normalized-header-value';
-import isDataURI from 'sonarwhal/dist/src/lib/utils/network/is-data-uri';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
-import { isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { IAsyncHTMLElement, Response, IRule, FetchEnd, RuleMetadata } from 'hint/dist/src/lib/types';
+import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
+import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 

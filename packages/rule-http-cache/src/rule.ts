@@ -2,13 +2,13 @@
  * @fileoverview Checks if your cache-control header and asset strategy follows best practices
  */
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import getHeaderValueNormalized from 'sonarwhal/dist/src/lib/utils/network/normalized-header-value';
-import isDataURI from 'sonarwhal/dist/src/lib/utils/network/is-data-uri';
-import { IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
+import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
+import { IRule, FetchEnd, RuleMetadata } from 'hint/dist/src/lib/types';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 

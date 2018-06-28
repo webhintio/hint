@@ -8,12 +8,12 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, ElementFound, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import cutString from 'sonarwhal/dist/src/lib/utils/misc/cut-string';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { IAsyncHTMLElement, ElementFound, IRule, RuleMetadata } from 'hint/dist/src/lib/types';
+import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 

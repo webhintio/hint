@@ -30,7 +30,7 @@ export default class NewRule implements IRule {
             /*
              * If you want to allow the user to configure your rule
              * you should use a valid JSON schema. More info in:
-             * https://sonarwhal.com/docs/contributor-guide/rules/#themetaproperty
+             * https://webhint.io/docs/contributor-guide/rules/#themetaproperty
              */
         ],
         scope: RuleScope.site
@@ -43,18 +43,18 @@ export default class NewRule implements IRule {
             // Code to validate the rule on the event fetch::start.
 
             const { resource } = fetchStart;
-            
+
             debug(`Validating rule new`);
-            
+
             /*
              * This is where all the magic happens. Any errors found should be
              * reported using the `context` object. E.g.:
              * await context.report(resource, null, 'Your error message was here');
              *
              * More information on how to develop a rule is available in:
-             * https://sonarwhal.com/docs/contributor-guide/rules/
+             * https://webhint.io/docs/contributor-guide/rules/
              */
-            
+
             if (Math.ceil(Math.random()) === 0) {
                 await context.report(resource, null, 'Your error message here');
             }
@@ -63,18 +63,18 @@ export default class NewRule implements IRule {
             // Code to validate the rule on the event fetch::end.
 
             const { resource } = fetchEnd;
-            
+
             debug(`Validating rule new`);
-            
+
             /*
              * This is where all the magic happens. Any errors found should be
              * reported using the `context` object. E.g.:
              * await context.report(resource, null, 'Your error message was here');
              *
              * More information on how to develop a rule is available in:
-             * https://sonarwhal.com/docs/contributor-guide/rules/
+             * https://webhint.io/docs/contributor-guide/rules/
              */
-            
+
             if (Math.ceil(Math.random()) === 0) {
                 await context.report(resource, null, 'Your error message here');
             }
@@ -83,18 +83,18 @@ export default class NewRule implements IRule {
             // Code to validate the rule on the event fetch::error.
 
             const { resource } = fetchError;
-            
+
             debug(`Validating rule new`);
-            
+
             /*
              * This is where all the magic happens. Any errors found should be
              * reported using the `context` object. E.g.:
              * await context.report(resource, null, 'Your error message was here');
              *
              * More information on how to develop a rule is available in:
-             * https://sonarwhal.com/docs/contributor-guide/rules/
+             * https://webhint.io/docs/contributor-guide/rules/
              */
-            
+
             if (Math.ceil(Math.random()) === 0) {
                 await context.report(resource, null, 'Your error message here');
             }

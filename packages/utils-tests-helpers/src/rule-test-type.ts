@@ -1,6 +1,6 @@
 import { AnyContext } from 'ava';
 
-import { ProblemLocation } from 'sonarwhal/dist/src/lib/types';
+import { ProblemLocation } from 'hint/dist/src/lib/types';
 
 export type Report = {
     /** The message to validate */

@@ -1,9 +1,9 @@
 /* eslint sort-keys: 0 */
 
-import { RuleTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
-import readFile from 'sonarwhal/dist/src/lib/utils/fs/read-file';
-import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
+import { RuleTest } from '@hint/utils-tests-helpers/dist/src/rule-test-type';
+import readFile from 'hint/dist/src/lib/utils/fs/read-file';
+import { getRulePath } from 'hint/dist/src/lib/utils/rule-helpers';
+import * as ruleRunner from '@hint/utils-tests-helpers/dist/src/rule-runner';
 
 const rulePath = getRulePath(__filename);
 

@@ -4,13 +4,13 @@
 
 import { URL } from 'url';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IAsyncHTMLElement, ElementFound, FetchEnd, Response, IRule, RuleMetadata, ScanStart } from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { getIncludedHeaders } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { IAsyncHTMLElement, ElementFound, FetchEnd, Response, IRule, RuleMetadata, ScanStart } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
+import { getIncludedHeaders } from 'hint/dist/src/lib/utils/rule-helpers';
 
 const debug: debug.IDebugger = d(__filename);
 

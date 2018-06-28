@@ -1,7 +1,7 @@
 /* eslint-disable no-undefined*/
 
 import * as mock from 'mock-require';
-import generateHTMLPage from 'sonarwhal/dist/src/lib/utils/misc/generate-html-page';
+import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 
 export const OkayMaxAge = 31536000; // a max-age value larger than the minimum
 export const smallMaxAge = 1; // a max-age value less than the minimum
@@ -100,9 +100,9 @@ export const requestJSONAsyncMock = (responseObject) => {
         }
     };
 
-    mock('sonarwhal/dist/src/lib/utils/network/is-data-uri', isDataURI);
-    mock('sonarwhal/dist/src/lib/utils/network/is-https', isHTTPS);
-    mock('sonarwhal/dist/src/lib/utils/network/is-regular-protocol', isRegularProtocol);
-    mock('sonarwhal/dist/src/lib/utils/misc/normalize-string', normalizeString);
-    mock('sonarwhal/dist/src/lib/utils/network/request-json-async', requestJSONAsync);
+    mock('hint/dist/src/lib/utils/network/is-data-uri', isDataURI);
+    mock('hint/dist/src/lib/utils/network/is-https', isHTTPS);
+    mock('hint/dist/src/lib/utils/network/is-regular-protocol', isRegularProtocol);
+    mock('hint/dist/src/lib/utils/misc/normalize-string', normalizeString);
+    mock('hint/dist/src/lib/utils/network/request-json-async', requestJSONAsync);
 };

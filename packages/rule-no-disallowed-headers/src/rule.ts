@@ -8,15 +8,15 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { IAsyncHTMLElement, FetchEnd, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { Response } from 'sonarwhal/dist/src/lib/types/network';
-import getHeaderValueNormalized from 'sonarwhal/dist/src/lib/utils/network/normalized-header-value';
-import isDataURI from 'sonarwhal/dist/src/lib/utils/network/is-data-uri';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'hint/dist/src/lib/utils/rule-helpers';
+import { IAsyncHTMLElement, FetchEnd, IRule, RuleMetadata } from 'hint/dist/src/lib/types';
+import { Response } from 'hint/dist/src/lib/types/network';
+import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
+import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 

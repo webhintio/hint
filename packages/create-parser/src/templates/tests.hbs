@@ -10,7 +10,7 @@ proxyquire('../src/{{normalizedName}}', {
 import * as {{capitalizedName}} from '../src/{{normalizedName}}';
 
 test.beforeEach((t) => {
-    t.context.sonarwhal = new EventEmitter2({
+    t.context.engine = new EventEmitter2({
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
@@ -23,10 +23,10 @@ test.afterEach.always((t) => {
 
 {{#each events}}
 test.serial('Test for event {{event}}', async (t) => {
-    const parser = new {{../capitalizedName}}.default(t.context.sonarwhal); // eslint-disable-line new-cap,no-unused-vars
+    const parser = new {{../capitalizedName}}.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
     // Code to prepare your test.
 
-    await t.context.sonarwhal.emitAsync('{{event}}', { /* testing data */ });
+    await t.context.engine.emitAsync('{{event}}', { /* testing data */ });
 
     // Code to check if everything is ok.
 });

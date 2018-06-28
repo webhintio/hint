@@ -1,10 +1,10 @@
 import * as eslint from 'eslint';
 import * as espree from 'espree';
 
-import { determineMediaTypeForScript } from 'sonarwhal/dist/src/lib/utils/content-type';
-import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
+import { determineMediaTypeForScript } from 'hint/dist/src/lib/utils/content-type';
+import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
 import { ScriptParse } from './types';
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
+import { Engine } from 'hint/dist/src/lib/engine';
 
 const scriptContentRegex: RegExp = /^<script[^>]*>([\s\S]*)<\/script>$/;
 // This is the default configuration in eslint for espree.
@@ -17,11 +17,11 @@ const defaultParserOptions = {
 };
 
 export default class JavascriptParser extends Parser {
-    public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal, 'javascript');
+    public constructor(engine: Engine) {
+        super(engine, 'javascript');
 
-        sonarwhal.on('fetch::end::script', this.parseJavascript.bind(this));
-        sonarwhal.on('element::script', this.parseJavascriptTag.bind(this));
+        engine.on('fetch::end::script', this.parseJavascript.bind(this));
+        engine.on('element::script', this.parseJavascriptTag.bind(this));
     }
 
     private async emitScript(code: string, resource: string) {
@@ -34,7 +34,7 @@ export default class JavascriptParser extends Parser {
                 sourceCode: new eslint.SourceCode(code, ast)
             };
 
-            await this.sonarwhal.emitAsync(`parse::${this.name}::end`, scriptData);
+            await this.engine.emitAsync(`parse::${this.name}::end`, scriptData);
         } catch (err) {
             console.log(`Error parsing code: ${code}`);
         }

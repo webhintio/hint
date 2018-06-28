@@ -23,7 +23,7 @@
     {{{dependencyVersion "npm-run-all" "^4.1.2"}}},
     {{{dependencyVersion "nyc" "^12.0.2"}}},
     {{{dependencyVersion "rimraf" "^2.6.2"}}},
-    {{{dependencyVersion "sonarwhal"}}},
+    {{{dependencyVersion "hint"}}},
     {{{dependencyVersion "typescript" "^2.9.2"}}},
     {{{dependencyVersion "typescript-eslint-parser" "^16.0.1"}}}
   },
@@ -34,11 +34,11 @@
     "dist/src",
     "npm-shrinkwrap.json"
   ],{{#if official}}
-  "homepage": "https://sonarwhal.com/",{{else}}
+  "homepage": "https://webhint.io/",{{else}}
   "homepage": "",{{/if}}
   "keywords": [
     "rule",
-    "sonarwhal",
+    "hint",
     "{{normalizedName}}",
     "{{normalizedName}}-parser"
   ],
@@ -63,7 +63,7 @@
     "statements": 85
   },{{/if}}
   "peerDependencies": {
-    {{{dependencyVersion "sonarwhal"}}}
+    {{{dependencyVersion "hint"}}}
   },
   "private": true,{{#if official}}
   "repository": "sonarwhal/sonarwhal",{{else}}

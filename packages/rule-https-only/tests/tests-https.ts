@@ -1,9 +1,9 @@
 import { readFileSync } from 'fs';
 
-import { RuleTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
-import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
-import generateHTMLPage from 'sonarwhal/dist/src/lib/utils/misc/generate-html-page';
+import { RuleTest } from '@hint/utils-tests-helpers/dist/src/rule-test-type';
+import { getRulePath } from 'hint/dist/src/lib/utils/rule-helpers';
+import * as ruleRunner from '@hint/utils-tests-helpers/dist/src/rule-runner';
+import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 
 const rulePath = getRulePath(__filename);
 
@@ -44,7 +44,7 @@ const testsHTTPS: Array<RuleTest> = [
         name: 'Redirect in resource fails',
         reports: [{ message: `Shouldn't be redirected from HTTP` }],
         // If this test fails, check the image src.
-        serverConfig: { '/': { content: generateHTMLPage('', '<img src="http://sonarwhal.com/static/images/home-hello-nellie-87201a8cb4.svg">') } }
+        serverConfig: { '/': { content: generateHTMLPage('', '<img src="http://webhint.io/static/images/home-hello-nellie-87201a8cb4.svg">') } }
     },
     {
         name: 'Redirect in resource fails',
@@ -53,7 +53,7 @@ const testsHTTPS: Array<RuleTest> = [
             '/': generateHTMLPage('', '<img src="/image.png">'),
             '/image.png': {
                 // If this test fails, check the image src.
-                content: 'http://sonarwhal.com/static/images/home-hello-nellie-87201a8cb4.svg',
+                content: 'http://webhint.io/static/images/home-hello-nellie-87201a8cb4.svg',
                 status: 302
             }
         }

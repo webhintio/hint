@@ -4,11 +4,11 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, Response, FetchEnd, IRule, NetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { IAsyncHTMLElement, Response, FetchEnd, IRule, NetworkData, RuleMetadata } from 'hint/dist/src/lib/types';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 
@@ -50,9 +50,9 @@ export default class StrictTransportSecurityRule implements IRule {
          * HACK: Need to do a require here in order to be capable of mocking
          * when testing the rule and `import` doesn't work here.
          */
-        const isHTTPS = require('sonarwhal/dist/src/lib/utils/network/is-https').default;
-        const normalizeString = require('sonarwhal/dist/src/lib/utils/misc/normalize-string').default;
-        const requestJSONAsync = require('sonarwhal/dist/src/lib/utils/network/request-json-async').default;
+        const isHTTPS = require('hint/dist/src/lib/utils/network/is-https').default;
+        const normalizeString = require('hint/dist/src/lib/utils/misc/normalize-string').default;
+        const requestJSONAsync = require('hint/dist/src/lib/utils/network/request-json-async').default;
 
         const loadRuleConfigs = () => {
             minMaxAgeValue = (context.ruleOptions && context.ruleOptions.minMaxAgeValue) || 10886400; // 18 weeks

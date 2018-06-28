@@ -11,7 +11,7 @@
   },
   "description": "sonarwhal rule that checks for best practices related to the web app manifest's name and short_name members",
   "devDependencies": {
-    "@sonarwhal/parser-manifest": "^1.0.0",
+    "@hint/parser-manifest": "^1.0.0",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.0.1",
@@ -23,7 +23,7 @@
     "npm-run-all": "^4.1.2",
     "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
-    "sonarwhal": "^1.0.0",
+    "hint": "^1.0.0",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.1"
   },
@@ -34,7 +34,7 @@
     "dist/src",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "sonarwhal",
     "sonarwhal-rule",
@@ -44,13 +44,13 @@
   ],
   "license": "Apache-2.0",
   "main": "dist/src/rule.js",
-  "name": "@sonarwhal/rule-manifest-app-name",
+  "name": "@hint/rule-manifest-app-name",
   "nyc": {
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@sonarwhal/parser-manifest": "^1.0.0",
-    "sonarwhal": "^1.0.0"
+    "@hint/parser-manifest": "^1.0.0",
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

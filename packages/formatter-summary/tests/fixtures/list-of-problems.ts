@@ -1,4 +1,4 @@
-import { Problem, Severity } from 'sonarwhal/dist/src/lib/types';
+import { Problem, Severity } from 'hint/dist/src/lib/types';
 
 const summaryProblems: Array<Problem> = [{
     location: {

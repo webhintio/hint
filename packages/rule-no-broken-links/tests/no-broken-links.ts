@@ -1,7 +1,7 @@
-import generateHTMLPage from 'sonarwhal/dist/src/lib/utils/misc/generate-html-page';
-import { RuleTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
-import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
-import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
+import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
+import { RuleTest } from '@hint/utils-tests-helpers/dist/src/rule-test-type';
+import * as ruleRunner from '@hint/utils-tests-helpers/dist/src/rule-runner';
+import { getRulePath } from 'hint/dist/src/lib/utils/rule-helpers';
 
 const rulePath = getRulePath(__filename);
 
@@ -11,7 +11,7 @@ const bodyWithValidLinks = `<div>
 </div>`;
 
 const bodyWithImageSource = `<div>
-<img src='https://sonarwhal.com/static/images/next-arrow-c558ba3f13.svg'/>
+<img src='https://webhint.io/static/images/next-arrow-c558ba3f13.svg'/>
 </div>`;
 
 const bodyWithBrokenLinks = `<div>

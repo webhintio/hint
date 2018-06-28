@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "@sonarwhal/formatter-summary": "^1.0.0",
-    "@sonarwhal/parser-manifest": "^1.0.0",
-    "@sonarwhal/rule-apple-touch-icons": "^1.0.0",
-    "@sonarwhal/rule-manifest-app-name": "^1.0.0",
-    "@sonarwhal/rule-manifest-exists": "^1.0.0",
-    "@sonarwhal/rule-manifest-file-extension": "^1.0.0",
-    "@sonarwhal/rule-manifest-is-valid": "^1.0.0"
+    "@hint/formatter-summary": "^1.0.0",
+    "@hint/parser-manifest": "^1.0.0",
+    "@hint/rule-apple-touch-icons": "^1.0.0",
+    "@hint/rule-manifest-app-name": "^1.0.0",
+    "@hint/rule-manifest-exists": "^1.0.0",
+    "@hint/rule-manifest-file-extension": "^1.0.0",
+    "@hint/rule-manifest-is-valid": "^1.0.0"
   },
   "description": "sonarwhal's recommended rules configuration for progressive web apps (PWAs)",
   "engines": {
@@ -24,9 +24,9 @@
   ],
   "license": "Apache-2.0",
   "main": "index.json",
-  "name": "@sonarwhal/configuration-progressive-web-apps",
+  "name": "@hint/configuration-progressive-web-apps",
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

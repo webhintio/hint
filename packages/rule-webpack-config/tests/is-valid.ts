@@ -1,8 +1,8 @@
 import * as path from 'path';
 
-import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
-import { RuleLocalTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
+import { getRulePath } from 'hint/dist/src/lib/utils/rule-helpers';
+import * as ruleRunner from '@hint/utils-tests-helpers/dist/src/rule-runner';
+import { RuleLocalTest } from '@hint/utils-tests-helpers/dist/src/rule-test-type';
 
 const rulePath = getRulePath(__filename, true);
 

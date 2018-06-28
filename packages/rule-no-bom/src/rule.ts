@@ -1,13 +1,13 @@
 /**
  * @fileoverview Warns against having the BOM character at the beginning of a text file
  */
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { FetchEnd, IRule, NetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { asyncTry } from 'sonarwhal/dist/src/lib/utils/async-wrapper';
-import { isTextMediaType } from 'sonarwhal/dist/src/lib/utils/content-type';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { FetchEnd, IRule, NetworkData, RuleMetadata } from 'hint/dist/src/lib/types';
+import { asyncTry } from 'hint/dist/src/lib/utils/async-wrapper';
+import { isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 const debug: debug.IDebugger = d(__filename);
 

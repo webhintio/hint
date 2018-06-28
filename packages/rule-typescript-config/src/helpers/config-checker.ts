@@ -1,5 +1,5 @@
-import { TypeScriptConfigParse } from '@sonarwhal/parser-typescript-config/dist/src/types';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { TypeScriptConfigParse } from '@hint/parser-typescript-config/dist/src/types';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
 
 /** Helper method to check if a property matches the desired value and report an issue if not. */
 const configChecker = (property: string, desiredValue: boolean, message: string, context: RuleContext) => {

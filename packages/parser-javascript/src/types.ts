@@ -1,4 +1,4 @@
-import { Event } from 'sonarwhal/dist/src/lib/types/events';
+import { Event } from 'hint/dist/src/lib/types/events';
 
 /** The object emitted by the `javascript` parser */
 export type ScriptParse = Event & {

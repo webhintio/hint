@@ -3,13 +3,13 @@
  * in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined
  * `browserslist` values.
  */
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { IRule, RuleMetadata } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-import { TypeScriptConfigParse, TypeScriptConfig } from '@sonarwhal/parser-typescript-config/dist/src/types';
+import { TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript-config/dist/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 

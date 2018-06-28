@@ -58,7 +58,7 @@ const createNetworkDataObject = (manifestContent: string = '', statusCode: numbe
 const createMissingTest = async (t, relAttribute: string = 'manifest', hrefAttribute: string = '') => {
     const elementLinkEventValue = getElementLinkEventValue(relAttribute, hrefAttribute);
     const sandbox = sinon.createSandbox();
-    const sonarwhal = t.context.sonarwhal;
+    const sonarwhal = t.context.engine;
 
     sandbox.spy(sonarwhal, 'emitAsync');
 
@@ -78,12 +78,12 @@ const createMissingTest = async (t, relAttribute: string = 'manifest', hrefAttri
 const createParseTest = async (t, manifestContent: string, expectedEventName: string, verifyResult) => {
     const elementEventValue = getElementLinkEventValue();
     const sandbox = sinon.createSandbox();
-    const sonarwhal = t.context.sonarwhal;
+    const sonarwhal = t.context.engine;
 
     sandbox.spy(sonarwhal, 'emitAsync');
     sandbox.stub(sonarwhal, 'fetchContent');
 
-    t.context.sonarwhal.fetchContent.onCall(0)
+    t.context.engine.fetchContent.onCall(0)
         .returns(createNetworkDataObject(manifestContent));
 
     new Parser(sonarwhal); // eslint-disable-line no-new
@@ -104,17 +104,17 @@ const createParseTest = async (t, manifestContent: string, expectedEventName: st
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 test.beforeEach((t) => {
-    t.context.sonarwhal = new EventEmitter2({
+    t.context.engine = new EventEmitter2({
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
     });
-    t.context.sonarwhal.fetchContent = () => {};
+    t.context.engine.fetchContent = () => {};
 });
 
 test(`No event is emitted when no web app manifest file is specified`, async (t) => {
     const sandbox = sinon.createSandbox();
-    const sonarwhal = t.context.sonarwhal;
+    const sonarwhal = t.context.engine;
 
     sandbox.spy(sonarwhal, 'emitAsync');
 
@@ -140,7 +140,7 @@ test(`No event is emitted when only a '<link rel="stylesheet"...>' is specified`
 test(`'${fetchErrorEventName}' event is emitted when the manifest cannot be fetched`, async (t) => {
     const elementEventValue = getElementLinkEventValue();
     const sandbox = sinon.createSandbox();
-    const sonarwhal = t.context.sonarwhal;
+    const sonarwhal = t.context.engine;
 
     sandbox.spy(sonarwhal, 'emitAsync');
     sandbox.stub(sonarwhal, 'fetchContent');
@@ -166,12 +166,12 @@ test(`'${fetchErrorEventName}' event is emitted when the response for the web ap
     const elementEventValue = getElementLinkEventValue();
     const manifestContent = '500 Internal Server Error';
     const sandbox = sinon.createSandbox();
-    const sonarwhal = t.context.sonarwhal;
+    const sonarwhal = t.context.engine;
 
     sandbox.spy(sonarwhal, 'emitAsync');
     sandbox.stub(sonarwhal, 'fetchContent');
 
-    t.context.sonarwhal.fetchContent.onCall(0)
+    t.context.engine.fetchContent.onCall(0)
         .returns(createNetworkDataObject(manifestContent, 500));
 
     new Parser(sonarwhal); // eslint-disable-line no-new

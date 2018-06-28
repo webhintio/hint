@@ -5,12 +5,12 @@
 
 import { parseMetaViewPortContent } from 'metaviewport-parser';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, TraverseEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { IRule } from 'sonarwhal/dist/src/lib/types';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, TraverseEnd, RuleMetadata } from 'hint/dist/src/lib/types';
+import { IRule } from 'hint/dist/src/lib/types';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 /*
  * ------------------------------------------------------------------------------

@@ -9,13 +9,13 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, FetchEnd, Response, IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
-import isDataURI from 'sonarwhal/dist/src/lib/utils/network/is-data-uri';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { IAsyncHTMLElement, FetchEnd, Response, IRule, RuleMetadata } from 'hint/dist/src/lib/types';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 

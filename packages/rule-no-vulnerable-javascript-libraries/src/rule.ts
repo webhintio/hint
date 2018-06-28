@@ -8,19 +8,19 @@ import { promisify } from 'util';
 import * as groupBy from 'lodash.groupby';
 import * as semver from 'semver';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, ScanEnd, Severity, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import * as logger from 'hint/dist/src/lib/utils/logging';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { IRule, ScanEnd, Severity, RuleMetadata } from 'hint/dist/src/lib/types';
 import { Library, Vulnerability } from './rule-types';
 
-import loadJSONFile from 'sonarwhal/dist/src/lib/utils/fs/load-json-file';
-import readFileAsync from 'sonarwhal/dist/src/lib/utils/fs/read-file-async';
-import writeFileAsync from 'sonarwhal/dist/src/lib/utils/fs/write-file-async';
-import requestAsync from 'sonarwhal/dist/src/lib/utils/network/request-async';
+import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
+import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
+import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
+import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
 
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug = d(__filename);
 

@@ -13,9 +13,9 @@ import * as forEach from 'lodash.foreach';
 import * as groupBy from 'lodash.groupby';
 import * as sortBy from 'lodash.sortby';
 
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFormatter, Problem } from 'sonarwhal/dist/src/lib/types';
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { IFormatter, Problem } from 'hint/dist/src/lib/types';
+import * as logger from 'hint/dist/src/lib/utils/logging';
 
 const _ = {
     forEach,

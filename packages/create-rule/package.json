@@ -14,9 +14,9 @@
     "handlebars": "^4.0.11",
     "inquirer": "^6.0.0",
     "mkdirp": "^0.5.1",
-    "sonarwhal": "^1.11.2"
+    "hint": "^1.0.0"
   },
-  "description": "sonarwhal's rule initializer package",
+  "description": "hint's rule initializer package",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
@@ -44,12 +44,12 @@
     "dist/src",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "create",
     "rule",
-    "sonarwhal",
-    "sonarwhal-rule"
+    "hint",
+    "webhint"
   ],
   "license": "Apache-2.0",
   "name": "create-rule",

@@ -2,12 +2,12 @@
  * @fileoverview Checks if there are unnecesary redirects when accessign resources
  */
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
 // The list of types depends on the events you want to capture.
-import { IRule, FetchEnd, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import cutString from 'sonarwhal/dist/src/lib/utils/misc/cut-string';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { IRule, FetchEnd, RuleMetadata } from 'hint/dist/src/lib/types';
+import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 /*
  * ------------------------------------------------------------------------------

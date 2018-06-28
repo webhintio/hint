@@ -1,12 +1,12 @@
-import { Event, {{#each eventTypes}}{{this}}, {{/each}}Parser } from 'sonarwhal/dist/src/lib/types';
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
+import { Event, {{#each eventTypes}}{{this}}, {{/each}}Parser } from 'hint/dist/src/lib/types';
+import { Engine } from 'hint/dist/src/lib/engine';
 
 export default class {{capitalizedName}} extends Parser {
-    public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal);
+    public constructor(engine: Engine) {
+        super(engine);
 
         {{#each events}}
-        sonarwhal.on('{{event}}', this.{{handler}}.bind(this));
+        engine.on('{{event}}', this.{{handler}}.bind(this));
         {{/each}}
     }
     {{#each events}}
@@ -22,7 +22,7 @@ export default class {{capitalizedName}} extends Parser {
          */
         const eventData: Event = {{varName}};
 
-        await this.sonarwhal.emitAsync('parse::{{../normalizedName}}', eventData);
+        await this.engine.emitAsync('parse::{{../normalizedName}}', eventData);
     }
     {{/each}}
 }

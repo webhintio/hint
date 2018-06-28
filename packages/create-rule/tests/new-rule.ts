@@ -4,7 +4,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import * as handlebarsUtils from 'sonarwhal/dist/src/lib/utils/handlebars-utils';
+import * as handlebarsUtils from 'hint/dist/src/lib/utils/handlebars-utils';
 
 const inquirer = { prompt() { } };
 const writeFileAsyncModule = { default() { } };
@@ -17,11 +17,11 @@ const mkdirp = (dir, callback) => {
 
 const dependencies = {
     'fs-extra': fsExtra,
+    'hint/dist/src/lib/utils/fs/write-file-async': writeFileAsyncModule,
+    'hint/dist/src/lib/utils/handlebars-utils': handlebarsUtils,
+    'hint/dist/src/lib/utils/packages/is-official': isOfficialModule,
     inquirer,
-    mkdirp,
-    'sonarwhal/dist/src/lib/utils/fs/write-file-async': writeFileAsyncModule,
-    'sonarwhal/dist/src/lib/utils/handlebars-utils': handlebarsUtils,
-    'sonarwhal/dist/src/lib/utils/packages/is-official': isOfficialModule
+    mkdirp
 };
 
 proxyquire('../src/new-rule', dependencies);
@@ -105,7 +105,7 @@ test.serial('It creates a package with multiple rules', async (t) => {
     t.is(fsExtraCopyStub.args[0][1], path.join(root, 'rule-awesome-package'), 'Copy path is not the expected one');
     t.is(fsExtraCopyStub.args[1][1], path.join(root, 'rule-awesome-package'), 'Copy path is not the expected one');
 
-    // index.ts, package.json, readme.md, tsconfig.json, .sonarwhalrc, rule.ts * 2, tests/rule.ts * 2, docs/rule.md * 2
+    // index.ts, package.json, readme.md, tsconfig.json, .hintrc, rule.ts * 2, tests/rule.ts * 2, docs/rule.md * 2
     t.is(handlebarsCompileTemplateStub.callCount, 11, `Handlebars doesn't complile the right number of files`);
     t.is(miscWriteFileAsyncStub.callCount, 11, 'Invalid number of files created');
 

@@ -1,9 +1,9 @@
 /* eslint sort-keys: 0, no-undefined: 0 */
 
-import generateHTMLPage from 'sonarwhal/dist/src/lib/utils/misc/generate-html-page';
-import { getRulePath } from 'sonarwhal/dist/src/lib/utils/rule-helpers';
-import { RuleTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
-import * as ruleRunner from '@sonarwhal/utils-tests-helpers/dist/src/rule-runner';
+import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
+import { getRulePath } from 'hint/dist/src/lib/utils/rule-helpers';
+import { RuleTest } from '@hint/utils-tests-helpers/dist/src/rule-test-type';
+import * as ruleRunner from '@hint/utils-tests-helpers/dist/src/rule-runner';
 
 const metaCharset = '<mEtA CHaRseT="UtF-8">';
 const metaHttpEquiv = '<MeTa HTTP-EquiV="ConTent-Type" Content="TexT/HTML; CharSet=UtF-8">';

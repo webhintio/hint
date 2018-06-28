@@ -6,13 +6,13 @@ import { URL } from 'url';
 
 import * as getImageData from 'image-size';
 
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import isRegularProtocol from 'sonarwhal/dist/src/lib/utils/network/is-regular-protocol';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, TraverseEnd, NetworkData, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IRule, TraverseEnd, NetworkData, RuleMetadata } from 'hint/dist/src/lib/types';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
 const debug: debug.IDebugger = d(__filename);
 

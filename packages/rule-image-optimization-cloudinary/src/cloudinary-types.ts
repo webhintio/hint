@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { IAsyncHTMLElement } from 'sonarwhal/dist/src/lib/types';
+import { IAsyncHTMLElement } from 'hint/dist/src/lib/types';
 
 export type cloudinaryResult = {
     bytes: number;

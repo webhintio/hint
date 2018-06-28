@@ -4,18 +4,18 @@
  */
 
 import * as URL from 'url';
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
 import {
     IRule,
     ElementFound,
     RuleMetadata,
     IAsyncHTMLElement
-} from 'sonarwhal/dist/src/lib/types';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
-import { Requester } from '@sonarwhal/utils-connector-tools/dist/src/requester';
-import { NetworkData } from 'sonarwhal/dist/src/lib/types';
+} from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
+import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
+import { NetworkData } from 'hint/dist/src/lib/types';
 import { CoreOptions } from 'request';
 const debug: debug.IDebugger = d(__filename);
 

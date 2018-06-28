@@ -1,13 +1,13 @@
 /**
  * @fileoverview `babel-config/is-valid` warns against providing an invalid babel configuration file.
  */
-import { Category } from 'sonarwhal/dist/src/lib/enums/category';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IRule, RuleMetadata } from 'sonarwhal/dist/src/lib/types';
-import { RuleContext } from 'sonarwhal/dist/src/lib/rule-context';
-import { RuleScope } from 'sonarwhal/dist/src/lib/enums/rulescope';
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { IRule, RuleMetadata } from 'hint/dist/src/lib/types';
+import { RuleContext } from 'hint/dist/src/lib/rule-context';
+import { RuleScope } from 'hint/dist/src/lib/enums/rulescope';
 
-import { BabelConfigInvalidJSON, BabelConfigInvalidSchema } from '@sonarwhal/parser-babel-config/dist/src/types';
+import { BabelConfigInvalidJSON, BabelConfigInvalidSchema } from '@hint/parser-babel-config/dist/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 

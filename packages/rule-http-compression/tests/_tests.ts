@@ -2,10 +2,10 @@ import * as fs from 'fs';
 
 import * as mock from 'mock-require';
 
-import { RuleTest } from '@sonarwhal/utils-tests-helpers/dist/src/rule-test-type';
+import { RuleTest } from '@hint/utils-tests-helpers/dist/src/rule-test-type';
 
 // We need to use `require` to be able to overwrite the method `asyncTry`.
-const fnWrapper = require('sonarwhal/dist/src/lib/utils/async-wrapper');
+const fnWrapper = require('hint/dist/src/lib/utils/async-wrapper');
 const originalAsyncTry = fnWrapper.asyncTry;
 
 const uaString = 'Mozilla/5.0 Gecko';
@@ -258,7 +258,7 @@ const testsForBrotli: Array<RuleTest> = [
                 };
             };
 
-            mock('sonarwhal/dist/src/lib/utils/async-wrapper', fnWrapper);
+            mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
         },
         name: `If a request throws an exception, if should be managed and report an error`,
         reports: [{ message: `Could not be fetched when requested compressed with Brotli` }],
@@ -495,7 +495,7 @@ const testsForGzipZopfli = (https: boolean = false): Array<RuleTest> => {
                     };
                 };
 
-                mock('sonarwhal/dist/src/lib/utils/async-wrapper', fnWrapper);
+                mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
             },
             name: `If a request throws an exception, if should be managed and report an error`,
             reports: [{ message: 'Could not be fetched when requested compressed with gzip' }],
@@ -708,7 +708,7 @@ const testsForNoCompression = (https: boolean = false): Array<RuleTest> => {
                     };
                 };
 
-                mock('sonarwhal/dist/src/lib/utils/async-wrapper', fnWrapper);
+                mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
             },
             name: `If a request throws an exception, if should be managed and report an error`,
             reports: [{ message: 'Could not be fetched when requested uncompressed' }],
