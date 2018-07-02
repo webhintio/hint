@@ -67,7 +67,7 @@ export class CDPLauncher extends Launcher {
              * https://nodejs.org/api/process.html#process_process_kill_pid_signal
              */
             /*
-             * When running rule tests serially (because we mock a dependency),
+             * When running hit tests serially (because we mock a dependency),
              * sometimes the connector tries to connect to a browser that
              * is being closed and the connection fails. We wait a few
              * milliseconds to make sure this doesn't happen. The number

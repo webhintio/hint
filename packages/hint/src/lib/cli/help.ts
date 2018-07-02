@@ -11,7 +11,7 @@ export default (actions: CLIOptions): Promise<boolean> => {
             return true;
         }
 
-        // We validate there isn't any other option selected like --new-rule, etc.
+        // We validate there isn't any other option selected
         if (typeof value === 'boolean' && value) {
             return false;
         }

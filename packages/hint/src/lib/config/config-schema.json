@@ -55,15 +55,15 @@
             },
             "uniqueItems": true
         },
-        "rulesTimeout": {
-            "description": "Time in milliseconds that a rule has to finish",
+        "hintsTimeout": {
+            "description": "Time in milliseconds that a hint has to finish",
             "type": "number"
         },
-        "rules": {
-            "description": "The rules to validate",
+        "hints": {
+            "description": "The hints to validate",
             "anyOf": [
                 {
-                    "$ref": "#/definitions/ruleobject"
+                    "$ref": "#/definitions/hintobject"
                 },
                 {
                     "type": "array",
@@ -109,7 +109,7 @@
             ]
         },
         "ignoredUrls": {
-            "description": "The urls to ignore by the rules",
+            "description": "The urls to ignore by the hints",
             "type": "array",
             "items": {
                 "type": "object",
@@ -118,7 +118,7 @@
                         "type": "string",
                         "description": "Regex for the domain to ignore"
                     },
-                    "rules": {
+                    "hints": {
                         "type": "array",
                         "items": {
                             "type": "string",
@@ -134,7 +134,7 @@
         {
             "required": [
                 "connector",
-                "rules"
+                "hints"
             ]
         },
         {
@@ -161,7 +161,7 @@
                 2
             ]
         },
-        "ruleconfig": {
+        "hintconfig": {
             "type": "array",
             "items": [
                 {
@@ -182,7 +182,7 @@
             "minItems": 1,
             "uniqueItems": true
         },
-        "ruleobject": {
+        "hintobject": {
             "type": "object",
             "patternProperties": {
                 "^.+$": {
@@ -194,7 +194,7 @@
                             "$ref": "#/definitions/errorlevelnumber"
                         },
                         {
-                            "$ref": "#/definitions/ruleconfig"
+                            "$ref": "#/definitions/hintconfig"
                         }
                     ]
                 }

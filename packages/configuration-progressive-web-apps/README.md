@@ -1,6 +1,6 @@
-# sonarwhal's recommended progressive web apps configuration (`@sonarwhal/configuration-progressive-web-apps`)
+# webhint's recommended progressive web apps configuration (`@hint/configuration-progressive-web-apps`)
 
-This packages is a `sonarwhal`'s configuration package to use for
+This packages is a `webhint`'s configuration package to use for
 checking progressive web apps (PWAs).
 
 This package will automatically install all the missing dependencies.
@@ -8,7 +8,7 @@ This package will automatically install all the missing dependencies.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @sonarwhal/configuration-progressive-web-apps
+npm install @hint/configuration-progressive-web-apps
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the
@@ -16,7 +16,7 @@ Note: You can make `npm` install it as a `devDependency` using the
 `-g` parameter. For other options see [`npm`'s
 documentation](https://docs.npmjs.com/cli/install).
 
-The minimum required [`.sonarwhalrc`][sonarwhalrc] file to use it is
+The minimum required [`.hintrc`][hintrc] file to use it is
 the following:
 
 ```json
@@ -41,18 +41,18 @@ and it will be as if you had this:
     "parsers": [
         "manifest"
     ],
-    "rules": {
+    "hints": {
         "apple-touch-icons": "error",
         "manifest-app-name": "error",
         "manifest-exists": "error",
         "manifest-file-extension": "error",
         "manifest-is-valid": "error"
     },
-    "rulesTimeout": 120000
+    "hintsTimeout": 120000
 }
 ```
 
-If you prefer to use another formatter (or any other rule/connector,
+If you prefer to use another formatter (or any other hint/connector,
 etc.) you can do something like:
 
 ```json
@@ -64,4 +64,4 @@ etc.) you can do something like:
 
 <!-- Link labels: -->
 
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/

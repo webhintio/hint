@@ -19,7 +19,7 @@ export type ServerConfiguration = string | object; //eslint-disable-line
 
 const maxPort = 65535;
 
-/** A testing server for hint's rules */
+/** A testing server for webhint's hints */
 export class Server {
     private _app: express.Application;
     private _server: https.Server | http.Server = {} as http.Server;

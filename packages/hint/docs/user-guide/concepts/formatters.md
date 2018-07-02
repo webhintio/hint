@@ -1,6 +1,6 @@
 # Formatters
 
-A `formatter` takes the results of executing the configured rules and
+A `formatter` takes the results of executing the configured hints and
 transforms them to be consumed by the user. A `formatter` can output
 the results via the `console` in different formats, a `JSON` file,
 `XML`, etc.
@@ -30,27 +30,27 @@ or
 
 The officially supported `formatter`s that can be installed via `npm` are:
 
-* [`@sonarwhal/formatter-json`][formatter-json] does a `JSON.stringify()` of
+* [`@hint/formatter-json`][formatter-json] does a `JSON.stringify()` of
   the results. Output is not user friendly:
 
 ![Example output for the json formatter](images/json-output.png)
 
-* [`@sonarwhal/formatter-stylish`][formatter-stylish] prints the results in
+* [`@hint/formatter-stylish`][formatter-stylish] prints the results in
   table format indicating the resource, line, and column:
 
 ![Example output for the stylish formatter](images/stylish-output.png)
 
-* [`@sonarwhal/formatter-codeframe`][formatter-codeframe] shows also the code
+* [`@hint/formatter-codeframe`][formatter-codeframe] shows also the code
   where the error was found if applicable:
 
 ![Example output for the codeframe formatter](images/codeframe.png)
 
-* [`@sonarwhal/formatter-summary`][formatter-summary] shows a summary
+* [`@hint/formatter-summary`][formatter-summary] shows a summary
   of all the warnings and errors found for all the resources:
 
 ![Example output for the summary formatter](images/summary-output.png)
 
-* [`@sonarwhal/formatter-excel`][formatter-excel] creates an Excel spreadsheet
+* [`@hint/formatter-excel`][formatter-excel] creates an Excel spreadsheet
   with a sheet with the results per resource:
 
 ![Example output for the summary sheet of the excel formatter](images/excel-summary.png)
@@ -63,8 +63,8 @@ guide][contributor guide]
 <!-- Link labels: -->
 
 [contributor guide]: ../../../contributor-guide/formatters/
-[formatter-json]: https://npmjs.com/package/@sonarwhal/formatter-json
-[formatter-stylish]: https://npmjs.com/package/@sonarwhal/formatter-stylish
-[formatter-codeframe]: https://npmjs.com/package/@sonarwhal/formatter-codeframe
-[formatter-summary]: https://npmjs.com/package/@sonarwhal/formatter-summary
-[formatter-excel]: https://npmjs.com/package/@sonarwhal/formatter-excel
+[formatter-json]: https://npmjs.com/package/@hint/formatter-json
+[formatter-stylish]: https://npmjs.com/package/@hint/formatter-stylish
+[formatter-codeframe]: https://npmjs.com/package/@hint/formatter-codeframe
+[formatter-summary]: https://npmjs.com/package/@hint/formatter-summary
+[formatter-excel]: https://npmjs.com/package/@hint/formatter-excel

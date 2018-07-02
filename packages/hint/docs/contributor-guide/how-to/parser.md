@@ -1,7 +1,7 @@
 # Develop a parser
 
 A `parser` understands more deeply a resource and exposes that
-information to other parts of `sonarwhal`.
+information to other parts of `webhint`.
 
 The fastest way to create a new one is to run the following:
 
@@ -16,16 +16,16 @@ Alternative, you can create a new `Class` that extends from `Parser`.
 
 ```ts
 import { Parser, IFetchEnd } from '../../types';
-import { Sonarwhal } from '../../sonarwhal';
+import { Engine } from '../../engine';
 
 export default class CustomParser extends Parser {
 
-    public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal, '<parser_name>');
+    public constructor(engine: Engine) {
+        super(engine, '<parser_name>');
 
         // Replace 'resource' with the tipe you need (html, script,
         // css, image, etc.)
-        this.sonarwhal.on('fetch::end::resource', this.onFetchEnd);
+        this.engine.on('fetch::end::resource', this.onFetchEnd);
     }
 
     public async onFetchEnd(data: FetchEnd) {
@@ -34,7 +34,7 @@ export default class CustomParser extends Parser {
         // and maybe leter use a schema if a configuration file or something else
 
         // If there's something to share, do it via an event
-        await this.sonarwhal.emitAsync('parse::<parser_name>::<end | error>', data);
+        await this.engine.emitAsync('parse::<parser_name>::<end | error>', data);
     }
 }
 ```
@@ -48,10 +48,10 @@ Once you have analyzed the resource, the way to share information is via
 events (custom or not):
 
 ```ts
-await this.sonarwhal.emitAsync('parse::<parser_name>::<end | error>', data);
+await this.engine.emitAsync('parse::<parser_name>::<end | error>', data);
 ```
 
-Make sure to document which ones you are sending so `rule`s can use
+Make sure to document which ones you are sending so `hint`s can use
 them and know what to expect.
 
 You can always check the code of any of the official `parser`s for

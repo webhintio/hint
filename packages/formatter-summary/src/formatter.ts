@@ -1,5 +1,5 @@
 /**
- * @fileoverview The summary formatter, it outputs the aggregation of all the rule results in a table format.
+ * @fileoverview The summary formatter, it outputs the aggregation of all the hint results in a table format.
  */
 
 /*
@@ -48,8 +48,8 @@ export default class SummaryFormatter implements IFormatter {
         const tableData: Array<Array<string>> = [];
         let totalErrors: number = 0;
         let totalWarnings: number = 0;
-        const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'ruleId');
-        const sortedResources = Object.entries(resources).sort(([ruleA, problemsA], [ruleB, problemsB]) => {
+        const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'hintId');
+        const sortedResources = Object.entries(resources).sort(([hintA, problemsA], [hintB, problemsB]) => {
             if (problemsA.length < problemsB.length) {
                 return -1;
             }
@@ -58,17 +58,17 @@ export default class SummaryFormatter implements IFormatter {
                 return 1;
             }
 
-            return ruleA.localeCompare(ruleB);
+            return hintA.localeCompare(hintB);
         });
 
-        _.forEach(sortedResources, ([ruleId, problems]) => {
+        _.forEach(sortedResources, ([hintId, problems]) => {
             const msgsBySeverity = _.groupBy(problems, 'severity');
             const errors = msgsBySeverity[Severity.error] ? msgsBySeverity[Severity.error].length : 0;
             const warnings = msgsBySeverity[Severity.warning] ? msgsBySeverity[Severity.warning].length : 0;
             const color: typeof chalk = errors > 0 ? chalk.red : chalk.yellow;
             const message = errors ? buildMessage(errors, 'error') : buildMessage(warnings, 'warning');
 
-            tableData.push([chalk.cyan(ruleId), color(message)]);
+            tableData.push([chalk.cyan(hintId), color(message)]);
 
             totalErrors += errors;
             totalWarnings += warnings;

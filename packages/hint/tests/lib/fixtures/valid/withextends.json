@@ -11,7 +11,7 @@
     "formatters": [
         "json"
     ],
-    "rules": {
+    "hints": {
         "disallowed-headers": "error"
     }
 }

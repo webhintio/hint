@@ -1,7 +1,7 @@
 # Develop a connector
 
-A connector is the way `sonarwhal` gets information and exposes it to the
-rules. Connectors are usually built on top of browsers but that isn’t
+A connector is the way `webhint` gets information and exposes it to the
+hints. Connectors are usually built on top of browsers but that isn’t
 a strong requirement. For example, one of the official connectors uses
 [`jsdom`][jsdom].
 
@@ -126,7 +126,7 @@ following tests:
    redirects, right results, etc.
 1. `/tests/lib/connectors/evaluate.ts` makes sure the connector can execute
    external JavaScript.
-1. `/tests/lib/rules/**/*` all rules tests should pass.
+1. `/tests/lib/hints/**/*` all hints tests should pass.
 
 <!-- Link labels: -->
 

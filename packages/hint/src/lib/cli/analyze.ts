@@ -8,7 +8,7 @@ import * as ora from 'ora';
 import * as boxen from 'boxen';
 import * as chalk from 'chalk';
 
-import { HintConfig } from '../config';
+import { Configuration } from '../config';
 import { Engine } from '../engine';
 import { CLIOptions, ORA, Problem, Severity, UserConfig, HintResources } from '../types';
 import { debug as d } from '../utils/debug';
@@ -118,7 +118,7 @@ const getDefaultConfiguration = () => {
 };
 
 const getUserConfig = (actions?: CLIOptions): UserConfig => {
-    const configPath: string = (actions && actions.config) || HintConfig.getFilenameForDirectory(process.cwd());
+    const configPath: string = (actions && actions.config) || Configuration.getFilenameForDirectory(process.cwd());
 
     if (!configPath) {
         return getDefaultConfiguration();
@@ -128,7 +128,7 @@ const getUserConfig = (actions?: CLIOptions): UserConfig => {
     try {
         const resolvedPath: string = path.resolve(process.cwd(), configPath);
 
-        const config: UserConfig = HintConfig.loadConfigFile(resolvedPath);
+        const config: UserConfig = Configuration.loadConfigFile(resolvedPath);
 
         return config || getDefaultConfiguration();
     } catch (e) {
@@ -169,7 +169,7 @@ const setUpUserFeedback = (engine: Engine, spinner: ORA) => {
     });
 };
 
-const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<HintConfig> => {
+const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<Configuration> => {
     const useDefault = await askUserToUseDefaultConfiguration();
     let userConfig: UserConfig;
 
@@ -189,18 +189,18 @@ const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<HintConfig
         }
     }
 
-    return HintConfig.fromConfig(userConfig, actions);
+    return Configuration.fromConfig(userConfig, actions);
 };
 
-const getHintConfiguration = async (userConfig: UserConfig, actions: CLIOptions): Promise<HintConfig> => {
+const getHintConfiguration = async (userConfig: UserConfig, actions: CLIOptions): Promise<Configuration> => {
     if (!userConfig) {
         return getDefaultOrCreateConfig(actions);
     }
 
-    let config: HintConfig;
+    let config: Configuration;
 
     try {
-        config = HintConfig.fromConfig(userConfig, actions);
+        config = Configuration.fromConfig(userConfig, actions);
     } catch (err) {
         logger.error(err.message);
 
@@ -231,7 +231,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     // userConfig will be null if an error occurred loading the user configuration (error parsing a JSON)
     const userConfig: UserConfig = await getUserConfig(actions);
-    const config: HintConfig = await getHintConfiguration(userConfig, actions);
+    const config: Configuration = await getHintConfiguration(userConfig, actions);
 
     if (!config) {
         return false;
@@ -261,10 +261,10 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         resources = resourceLoader.loadResources(config);
     }
 
-    const invalidConfigRules = HintConfig.validateRulesConfig(config).invalid;
+    const invalidConfigHints = Configuration.validateHintsConfig(config).invalid;
 
-    if (invalidConfigRules.length > 0) {
-        logger.error(`Invalid rule configuration in .hintrc: ${invalidConfigRules.join(', ')}.`);
+    if (invalidConfigHints.length > 0) {
+        logger.error(`Invalid hint configuration in .hintrc: ${invalidConfigHints.join(', ')}.`);
 
         return false;
     }

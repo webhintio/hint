@@ -10,7 +10,7 @@
     "formatters": [
       "json"
     ],
-    "rules": {
+    "hints": {
       "disallowed-headers": ["warning", {}],
       "manifest-exists": "warning",
       "manifest-file-extension": "warning",
@@ -23,19 +23,19 @@
     "ignoredUrls": [
       {
         "domain": "^https?://.*\\.domain1\\.com/.*",
-        "rules": [
+        "hints": [
           "*"
         ]
       },
       {
         "domain": "^https?://.*\\.domain2\\.com/.*",
-        "rules": [
+        "hints": [
           "disallowed-headers"
         ]
       },
       {
         "domain": "^https?://.*\\.domain3\\.com/.*",
-        "rules": [
+        "hints": [
           "*"
         ]
       }

@@ -85,11 +85,11 @@ const customConfig = async (): Promise<InitUserConfig> => {
     const connectorKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
     const formattersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
     const parsersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
-    const rulesKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.rule).concat(getCoreResources(ResourceType.rule));
+    const hintsKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.hint).concat(getCoreResources(ResourceType.hint));
 
     if (!anyResources(connectorKeys, ResourceType.connector) ||
         !anyResources(formattersKeys, ResourceType.formatter) ||
-        !anyResources(rulesKeys, ResourceType.rule)) {
+        !anyResources(hintsKeys, ResourceType.hint)) {
 
         return null;
     }
@@ -110,9 +110,9 @@ const customConfig = async (): Promise<InitUserConfig> => {
             type: 'checkbox'
         },
         {
-            choices: rulesKeys,
-            message: 'Choose the rules you want to add to your configuration',
-            name: 'rules',
+            choices: hintsKeys,
+            message: 'Choose the hints you want to add to your configuration',
+            name: 'hints',
             pageSize: 15,
             type: 'checkbox',
             when: (answers) => {
@@ -142,16 +142,16 @@ const customConfig = async (): Promise<InitUserConfig> => {
         },
         extends: [],
         formatters: [defaultFormatter],
-        ignoredUrls: [],
-        rules: {},
-        rulesTimeout: 120000
+        hints: {},
+        hintsTimeout: 120000,
+        ignoredUrls: []
     };
 
     hintConfig.connector.name = results.connector;
     hintConfig.formatters = results.formatters;
 
-    results.rules.forEach((rule) => {
-        hintConfig.rules[rule] = 'error';
+    results.hints.forEach((hint) => {
+        hintConfig.hints[hint] = 'error';
     });
 
     hintConfig.browserslist = await generateBrowserslistConfig();

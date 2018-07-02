@@ -205,7 +205,7 @@ const copyFiles = async (data: NewParser) => {
     const files = path.join(__dirname, 'files');
     const noOfficialFiles = path.join(__dirname, 'no-official-files');
 
-    logger.log(`Creating new rule in ${data.destination}`);
+    logger.log(`Creating new hint in ${data.destination}`);
     if (!data.official) {
         await fs.copy(noOfficialFiles, data.destination);
     }

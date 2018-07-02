@@ -68,9 +68,9 @@ const formatters = [
     'formatter2'
 ];
 
-const installedRules = [
-    '@hint/rule-rule1',
-    '@hint/rule-rule2'
+const installedHints = [
+    'hint1',
+    'hint2'
 ];
 
 const installedConnectors = [
@@ -154,7 +154,7 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
         connector: 'jsdom',
         default: '',
         formatters: ['json'],
-        rules: ['rule1', 'rule2']
+        hints: ['hint1', 'hint2']
     };
 
     sandbox.stub(resourceLoader, 'getInstalledResources')
@@ -165,7 +165,7 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
         .onThirdCall()
         .returns(installedParsers)
         .onCall(3)
-        .returns(installedRules);
+        .returns(installedHints);
 
     sandbox.stub(resourceLoader, 'getCoreResources').returns([]);
 
@@ -183,14 +183,14 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
 
     t.is(questions[0].choices.length, installedConnectors.length);
     t.is(questions[1].choices.length, formatters.length);
-    t.is(questions[2].choices.length, installedRules.length);
+    t.is(questions[2].choices.length, installedHints.length);
 
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
     t.is(fileData.connector.name, answers.connector);
-    t.deepEqual(fileData.rules, {
-        rule1: 'error',
-        rule2: 'error'
+    t.deepEqual(fileData.hints, {
+        hint1: 'error',
+        hint2: 'error'
     });
     t.deepEqual(fileData.formatters, answers.formatters);
 

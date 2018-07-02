@@ -4,5 +4,5 @@ export enum ResourceType {
     connector = 'connector',
     formatter = 'formatter',
     parser = 'parser',
-    rule = 'rule'
+    hint = 'hint'
 }

@@ -26,7 +26,7 @@ export const debug = (filePath: string): d.IDebugger => {
 
         /*
          * If the file is in a directory with the same name, do not add
-         * its parent directory (this is the case for connectors & rules).
+         * its parent directory (this is the case for connectors & hints).
          */
 
         if (currentDir !== output) {

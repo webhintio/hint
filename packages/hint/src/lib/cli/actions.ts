@@ -19,7 +19,6 @@ const action = (pkg: string, condition?: string): (actions: CLIOptions) => Promi
 /** All the action handlers for the CLI. */
 export const cliActions: Array<(action: CLIOptions) => Promise<boolean>> =
     [
-        action('./wizards/new-parser', 'newParser'),
         action('./wizards/init', 'init'),
         action('./version', 'version'),
         action('./analyze', '_'),

@@ -12,7 +12,7 @@ const { ucs2 } = require('punycode');
 
 const COMMIT_MESSAGE_FILE = '.git/COMMIT_EDITMSG';
 
-const CONTRIBUTION_GUIDELINES_URL = 'https://sonarwhal.com/docs/contributor-guide/contributing/pull-requests/#commitmessages';
+const CONTRIBUTION_GUIDELINES_URL = 'https://webhint.io/docs/contributor-guide/contributing/pull-requests/#commitmessages';
 
 const PKG = require('./../package.json');
 
@@ -174,8 +174,8 @@ const isExcludedCommit = (commit) => {
      * special cases, so they don't need to be checked.
      */
 
-    if ((/^🚀 (sonarwhal|(configuration|connector|formatter|parser|rule)(-[0-9a-z]+)+) - v\d+\.\d+\.\d+/i).test(commit.message) ||
-        (/^(Chore|Breaking): Update `(sonarwhal|(configuration|connector|formatter|parser|rule)(-[0-9a-z]+)+)` to `v\d+\.\d+\.\d+`/i).test(commit.message)) {
+    if ((/^🚀 (webhint|(configuration|connector|formatter|parser|rule)(-[0-9a-z]+)+) - v\d+\.\d+\.\d+/i).test(commit.message) ||
+        (/^(Chore|Breaking): Update `(webhint|(configuration|connector|formatter|parser|rule)(-[0-9a-z]+)+)` to `v\d+\.\d+\.\d+`/i).test(commit.message)) {
         return true;
     }
 

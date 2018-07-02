@@ -6,7 +6,7 @@
         }
     },
     "formatters": ["json"],
-    "rules": {
+    "hints": {
         "disallowed-headers": "warning",
         "manifest-exists": "warning",
         "manifest-file-extension": "warning",

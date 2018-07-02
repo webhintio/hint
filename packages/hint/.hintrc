@@ -7,8 +7,8 @@
     },
     "formatters": ["summary"],
     "parsers": ["javascript"],
-    "rulesTimeout": 120000,
-    "rules": {
+    "hintsTimeout": 120000,
+    "hints": {
         "amp-validator": "off",
         "apple-touch-icons": "warning",
         "axe": "warning",

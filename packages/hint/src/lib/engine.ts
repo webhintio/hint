@@ -1,6 +1,6 @@
 /**
  * @fileoverview hint engine object, gets the configuration and loads
- * the connectors, rules and analyzes.
+ * the connectors, hints and analyzes.
  */
 
 /*
@@ -16,12 +16,12 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
-import { getSeverity } from './config/config-rules';
-import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IRule, RuleConfig, Severity, IRuleConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
+import { getSeverity } from './config/config-hints';
+import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IHint, HintConfig, Severity, IHintConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
 import * as logger from './utils/logging';
-import { RuleContext } from './rule-context';
-import { RuleScope } from './enums/rulescope';
-import { HintConfig } from './config';
+import { HintContext } from './hint-context';
+import { HintScope } from './enums/hintscope';
+import { Configuration } from './config';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -34,7 +34,7 @@ const debug: debug.IDebugger = d(__filename);
 export class Engine extends EventEmitter {
     // TODO: review which ones need to be private or not
     private parsers: Array<Parser>
-    private rules: Map<string, IRule>
+    private hints: Map<string, IHint>
     private connector: IConnector
     private connectorConfig: object
     private messages: Array<Problem>
@@ -84,7 +84,7 @@ export class Engine extends EventEmitter {
         });
     }
 
-    public constructor(config: HintConfig, resources: HintResources) {
+    public constructor(config: Configuration, resources: HintResources) {
         super({
             delimiter: '::',
             maxListeners: 0,
@@ -92,7 +92,7 @@ export class Engine extends EventEmitter {
         });
 
         debug('Initializing hint engine');
-        this._timeout = config.rulesTimeout;
+        this._timeout = config.hintsTimeout;
         this.messages = [];
         this.browserslist = config.browserslist;
         this.ignoredUrls = config.ignoredUrls;
@@ -115,95 +115,95 @@ export class Engine extends EventEmitter {
             return new ParserConstructor(this);
         });
 
-        this.rules = new Map();
+        this.hints = new Map();
 
         /**
-         * Returns the configuration for a given rule ID. In the case of a rule
+         * Returns the configuration for a given hint ID. In the case of a hint
          * pointing to a path, it will return the content of the first entry
          * in the config that contains the ID. E.g.:
-         * * `../rule-x-content-type-options` is the key in the config
-         * * `x-content-type-options` is the ID of the rule
-         * * One of the keys in the config `includes` the rule ID so it's a match
+         * * `../hint-x-content-type-options` is the key in the config
+         * * `x-content-type-options` is the ID of the hint
+         * * One of the keys in the config `includes` the hint ID so it's a match
          *
-         * @param id The id of the rule
+         * @param id The id of the hint
          */
-        const getRuleConfig = (id: string): RuleConfig | Array<RuleConfig> => {
-            if (config.rules[id]) {
-                return config.rules[id];
+        const getHintConfig = (id: string): HintConfig | Array<HintConfig> => {
+            if (config.hints[id]) {
+                return config.hints[id];
             }
 
-            const ruleEntries = Object.keys(config.rules);
+            const hintEntries = Object.keys(config.hints);
             const idParts = id.split('/');
 
             /**
-             * At this point we are trying to find the configuration of a rule specified
+             * At this point we are trying to find the configuration of a hint specified
              * via a path.
-             * The id of a rule (define in `Rule.meta.id`) will be `packageName/rule-id`
+             * The id of a hint (define in `Hint.meta.id`) will be `packageName/hint-id`
              * but most likely the code is not going to be on a path that ends like that
-             * and will be more similar to `packageName/dist/src/rule-id.js`
+             * and will be more similar to `packageName/dist/src/hint-id.js`
              *
-             * To solve this, we iterate over all the keys of the `rules` object until
+             * To solve this, we iterate over all the keys of the `hints` object until
              * we find the first entry that includes all the parts of the id
-             * (`packageName` and `rule-id` in the example).
+             * (`packageName` and `hint-id` in the example).
              *
              * E.g.:
-             * * `../rule-packageName/dist/src/rule-id.js` --> Passes
-             * * `../rule-packageAnotherName/dist/src/rule-id.js` --> Fails because
+             * * `../hint-packageName/dist/src/hint-id.js` --> Passes
+             * * `../hint-packageAnotherName/dist/src/hint-id.js` --> Fails because
              *   `packageName` is not in that path
              */
-            const ruleKey = ruleEntries.find((entry) => {
+            const hintKey = hintEntries.find((entry) => {
                 return idParts.every((idPart) => {
                     return entry.includes(idPart);
                 });
             });
 
-            return config.rules[ruleKey];
+            return config.hints[hintKey];
         };
 
-        resources.rules.forEach((Rule) => {
-            debug('Loading rules');
-            const id = Rule.meta.id;
+        resources.hints.forEach((Hint) => {
+            debug('Loading hints');
+            const id = Hint.meta.id;
 
-            const ignoreRule = (RuleCtor: IRuleConstructor): boolean => {
-                const ignoredConnectors: Array<string> = RuleCtor.meta.ignoredConnectors || [];
+            const ignoreHint = (HintCtor: IHintConstructor): boolean => {
+                const ignoredConnectors: Array<string> = HintCtor.meta.ignoredConnectors || [];
 
-                return (connectorId === 'local' && RuleCtor.meta.scope === RuleScope.site) ||
-                    (connectorId !== 'local' && RuleCtor.meta.scope === RuleScope.local) ||
+                return (connectorId === 'local' && HintCtor.meta.scope === HintScope.site) ||
+                    (connectorId !== 'local' && HintCtor.meta.scope === HintScope.local) ||
                     ignoredConnectors.includes(connectorId);
             };
 
-            const ruleOptions: RuleConfig | Array<RuleConfig> = getRuleConfig(id);
-            const severity: Severity = getSeverity(ruleOptions);
+            const hintOptions: HintConfig | Array<HintConfig> = getHintConfig(id);
+            const severity: Severity = getSeverity(hintOptions);
 
-            if (ignoreRule(Rule)) {
-                debug(`Rule "${id}" is disabled for the connector "${connectorId}"`);
+            if (ignoreHint(Hint)) {
+                debug(`Hint "${id}" is disabled for the connector "${connectorId}"`);
                 // TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
-                logger.log(chalk.yellow(`Warning: The rule "${id}" will be ignored for the connector "${connectorId}"`));
+                logger.log(chalk.yellow(`Warning: The hint "${id}" will be ignored for the connector "${connectorId}"`));
             } else if (severity) {
-                const context: RuleContext = new RuleContext(id, this, severity, ruleOptions, Rule.meta);
-                const rule: IRule = new Rule(context);
+                const context: HintContext = new HintContext(id, this, severity, hintOptions, Hint.meta);
+                const hint: IHint = new Hint(context);
 
-                this.rules.set(id, rule);
+                this.hints.set(id, hint);
             } else {
-                debug(`Rule "${id}" is disabled`);
+                debug(`Hint "${id}" is disabled`);
             }
         });
     }
 
-    public onRuleEvent(id: string, eventName: string, listener: Function) {
+    public onHintEvent(id: string, eventName: string, listener: Function) {
         const that = this;
 
-        const createEventHandler = (handler: Function, ruleId: string) => {
+        const createEventHandler = (handler: Function, hintId: string) => {
             return function (event: Event): Promise<any> {
                 const urlsIgnoredForAll = that.ignoredUrls.get('all') ? that.ignoredUrls.get('all') : [];
-                const urlsIgnoredForRule = that.ignoredUrls.get(ruleId) ? that.ignoredUrls.get(ruleId) : [];
-                const urlsIgnored = urlsIgnoredForRule.concat(urlsIgnoredForAll);
+                const urlsIgnoredForHint = that.ignoredUrls.get(hintId) ? that.ignoredUrls.get(hintId) : [];
+                const urlsIgnored = urlsIgnoredForHint.concat(urlsIgnoredForAll);
 
                 if (that.isIgnored(urlsIgnored, event.resource)) {
                     return null;
                 }
 
-                // If a rule is spending a lot of time to finish we should ignore it.
+                // If a hint is spending a lot of time to finish we should ignore it.
 
                 return new Promise((resolve) => {
                     let immediateId: any;
@@ -214,7 +214,7 @@ export class Engine extends EventEmitter {
                             immediateId = null;
                         }
 
-                        debug(`Rule ${ruleId} timeout`);
+                        debug(`Hint ${hintId} timeout`);
 
                         resolve(null);
                     }, that._timeout);
@@ -248,13 +248,13 @@ export class Engine extends EventEmitter {
         await this.connector.close();
     }
 
-    /** Reports a message from one of the rules. */
-    public report(ruleId: string, severity: Severity, sourceCode: string, location: ProblemLocation, message: string, resource: string) {
+    /** Reports a message from one of the hints. */
+    public report(hintId: string, severity: Severity, sourceCode: string, location: ProblemLocation, message: string, resource: string) {
         const problem: Problem = {
+            hintId,
             location: location || { column: -1, line: -1 },
             message,
             resource,
-            ruleId,
             severity,
             sourceCode
         };
@@ -278,7 +278,7 @@ export class Engine extends EventEmitter {
         await this.emitAsync('print', this.messages);
     }
 
-    /** Runs all the configured rules on a target */
+    /** Runs all the configured hints on a target */
     public async executeOn(target: url.URL): Promise<Array<Problem>> {
 
         const start: number = Date.now();

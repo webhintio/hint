@@ -1,6 +1,6 @@
 # Using relative resources
 
-You can use relative resources in your `.sonarwhalrc` file:
+You can use relative resources in your `.hintrc` file:
 
 ```json
 {
@@ -8,10 +8,10 @@ You can use relative resources in your `.sonarwhalrc` file:
         "name": "../my-connector/connector.js"
     },
     "formatters": ["../../formatters/my-formatter.js"],
-    "rules": {
-        "../my-rule/rule.js": "error"
+    "hints": {
+        "../my-hint/hint.js": "error"
     },
-    "rulesTimeout": 120000
+    "hintsTimeout": 120000
 }
 ```
 

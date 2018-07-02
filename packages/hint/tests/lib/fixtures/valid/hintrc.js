@@ -4,7 +4,7 @@ module.exports = {
         options: { waitFor: 1000 }
     },
     formatters: ['json'],
-    rules: {
+    hints: {
         'disallowed-headers': 'warning',
         'manifest-exists': 'warning',
         'manifest-file-extension': 'warning',

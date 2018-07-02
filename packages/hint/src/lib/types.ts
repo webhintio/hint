@@ -1,7 +1,7 @@
 import { IFormatterConstructor } from './types/formatters';
 import { IConnectorConstructor } from './types/connector';
 import { IParserConstructor } from './types/parser';
-import { IRuleConstructor } from './types/rules';
+import { IHintConstructor } from './types/hints';
 
 export * from './types/async-html';
 export * from './types/connector';
@@ -9,11 +9,11 @@ export * from './types/events';
 export * from './types/formatters';
 export * from './types/network';
 export * from './types/problems';
-export * from './types/rules';
+export * from './types/hints';
 export * from './types/parser';
 export * from './types/schema-validation-result';
 /**
- * The configuration of a rule. This could be:
+ * The configuration of a hint. This could be:
  *
  * * A number to set the severity: `0`, `1`, `2`
  * * A string with the serverity: `off`, `warning`, `error`
@@ -21,20 +21,20 @@ export * from './types/schema-validation-result';
  *   first item is the severity (`number | string`)
  *
  */
-export type RuleConfig = number | string | [number | string, any];
+export type HintConfig = number | string | [number | string, any];
 
 /**
- * A rules configuration object:
+ * A hints configuration object:
  *
  * ```json
  * {
- *   "rule1": "error",
- *   "rule2": "warning"
+ *   "hint1": "error",
+ *   "hint2": "warning"
  * }
  * ```
  */
-export type RulesConfigObject = {
-    [key: string]: RuleConfig | Array<RuleConfig>;
+export type HintsConfigObject = {
+    [key: string]: HintConfig | Array<HintConfig>;
 };
 
 export type ConnectorOptionsConfig = {
@@ -49,22 +49,22 @@ export type ConnectorConfig = {
 
 export type IgnoredUrl = {
     domain: string;
-    rules: Array<string>;
+    hints: Array<string>;
 };
 
 export type UserConfig = {
     connector?: ConnectorConfig | string;
     extends?: Array<string>;
     parsers?: Array<string>;
-    rules?: RulesConfigObject | Array<[string, RuleConfig]>;
+    hints?: HintsConfigObject | Array<[string, HintConfig]>;
     browserslist?: string | Array<string>;
-    rulesTimeout?: number;
+    hintsTimeout?: number;
     formatters?: Array<string>;
     ignoredUrls?: Array<IgnoredUrl>;
 };
 
-/** A resource required by hint: Connector, Formatter, Rule. */
-export type Resource = IConnectorConstructor | IFormatterConstructor | IRuleConstructor;
+/** A resource required by hint: Connector, Formatter, Hint. */
+export type Resource = IConnectorConstructor | IFormatterConstructor | IHintConstructor;
 
 export type CLIOptions = {
     _: Array<string>;
@@ -73,9 +73,6 @@ export type CLIOptions = {
     format: string;
     help: boolean;
     init: boolean;
-    newParser: boolean;
-    newRule: boolean;
-    removeRule: boolean;
     ['output-file']: string;
     version: boolean;
     watch: boolean;
@@ -87,10 +84,10 @@ export type CLIOptions = {
     formatters: string;
 
     /**
-     * rule name(s) to be used. If provided this will override the config file setting value
-     * For more than one rule, use comma separated, with no spaces values. E.g.: "content-type,axe"
+     * hint name(s) to be used. If provided this will override the config file setting value
+     * For more than one hint, use comma separated, with no spaces values. E.g.: "content-type,axe"
      */
-    rules: string;
+    hints: string;
 };
 
 export type ORA = {
@@ -126,5 +123,5 @@ export type HintResources = {
     incompatible: Array<string>;
     missing: Array<string>;
     parsers: Array<IParserConstructor>;
-    rules: Array<IRuleConstructor>;
+    hints: Array<IHintConstructor>;
 };

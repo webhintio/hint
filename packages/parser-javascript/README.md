@@ -1,12 +1,12 @@
-# Parser javascript (`@sonarwhal/parser-javascript`)
+# Parser javascript (`@hint/parser-javascript`)
 
-The `javascript` parser is built on top of `ESLint` so rules can analyze
+The `javascript` parser is built on top of `ESLint` so hints can analyze
 `JavaScript` files.
 
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @sonarwhal/parser-javascript
+npm install @hint/parser-javascript
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -14,7 +14,7 @@ parameter, or to install it globally, you can use the `-g` parameter. For
 other options see
 [`npm`'s documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+And then activate it via the [`.hintrc`][hintrc]
 configuration file:
 
 ```json
@@ -22,7 +22,7 @@ configuration file:
     "connector": {...},
     "formatters": [...],
     "parsers": ["javascript"],
-    "rules": {
+    "hints": {
         ...
     },
     ...
@@ -40,4 +40,4 @@ which has the following information:
 
 <!-- Link labels: -->
 
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/

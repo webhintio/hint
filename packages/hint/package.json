@@ -109,7 +109,7 @@
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
-    "lint:md": "markdownlint docs README.md src/lib/rules/**/*.md",
+    "lint:md": "markdownlint docs README.md",
     "hint": "node dist/src/bin/hint",
     "test": "npm run lint && npm run build && nyc ava",
     "test-on-travis": "npm run lint && npm run commitmsg && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",

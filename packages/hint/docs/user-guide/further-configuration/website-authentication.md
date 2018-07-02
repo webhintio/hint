@@ -1,8 +1,8 @@
 # Website authentication
 
 To access an authenticated website you can use the `chrome` or `edge`
-connectors. `sonarwhal` uses the browsers installed in your computer,
-so if you are already authenticated `sonarwhal` can take advantage of
+connectors. `webhint` uses the browsers installed in your computer,
+so if you are already authenticated `webhint` can take advantage of
 that and analyze that site.
 
 There are a couple things to take into account:
@@ -12,7 +12,7 @@ There are a couple things to take into account:
   in the `connector`’s options. You have more information in
   [the chrome configuration][chrome configuration].
 * `edge` does not create a new profile, so there is no need to add any
-  extra configuration. Nevertheless, `edge` works best with `sonarwhal`
+  extra configuration. Nevertheless, `edge` works best with `webhint`
   when it is the only open tab so if you can only be authenticated
   during the length of a session you might have some problems.
 

@@ -22,12 +22,12 @@ import * as shell from 'shelljs';
 import * as _ from 'lodash';
 
 import { debug as d } from './utils/debug';
-import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, RulesConfigObject } from './types';
+import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject } from './types';
 import loadJSFile from './utils/fs/load-js-file';
 import loadJSONFile from './utils/fs/load-json-file';
 import { validateConfig } from './config/config-validator';
-import normalizeRules from './config/normalize-rules';
-import { validate as validateRule, getSeverity } from './config/config-rules';
+import normalizeHints from './config/normalize-hints';
+import { validate as validateHint, getSeverity } from './config/config-hints';
 import * as resourceLoader from './utils/resource-loader';
 
 const debug: debug.IDebugger = d(__filename);
@@ -100,18 +100,18 @@ const loadIgnoredUrls = (userConfig: UserConfig): Map<string, RegExp[]> => {
 
     if (userConfig.ignoredUrls) {
         userConfig.ignoredUrls.forEach((ignoredUrl: IgnoredUrl) => {
-            const { domain: urlRegexString, rules } = ignoredUrl;
+            const { domain: urlRegexString, hints } = ignoredUrl;
 
-            rules.forEach((rule: string) => {
-                const ruleName = rule === '*' ? 'all' : rule;
+            hints.forEach((hint: string) => {
+                const hintName = hint === '*' ? 'all' : hint;
 
-                const urlsInRule: Array<RegExp> = ignoredUrls.get(ruleName);
+                const urlsInHint: Array<RegExp> = ignoredUrls.get(hintName);
                 const urlRegex: RegExp = new RegExp(urlRegexString, 'i');
 
-                if (!urlsInRule) {
-                    ignoredUrls.set(ruleName, [urlRegex]);
+                if (!urlsInHint) {
+                    ignoredUrls.set(hintName, [urlRegex]);
                 } else {
-                    urlsInRule.push(urlRegex);
+                    urlsInHint.push(urlRegex);
                 }
             });
         });
@@ -121,16 +121,16 @@ const loadIgnoredUrls = (userConfig: UserConfig): Map<string, RegExp[]> => {
 };
 
 /**
- * Build and return a rules config object where the key is the rule name and the value is the severity
+ * Build and return a hints config object where the key is the hint name and the value is the severity
  */
-const buildRulesConfigFromRuleNames = (ruleNames: string[], severity: string): RulesConfigObject => {
-    const ruleConfig: RulesConfigObject = {};
+const buildHintsConfigFromHintNames = (hintNames: string[], severity: string): HintsConfigObject => {
+    const hintConfig: HintsConfigObject = {};
 
-    for (const ruleName of ruleNames) {
-        ruleConfig[ruleName] = severity;
+    for (const hintName of hintNames) {
+        hintConfig[hintName] = severity;
     }
 
-    return ruleConfig;
+    return hintConfig;
 };
 
 /**
@@ -145,34 +145,34 @@ const updateConfigWithCommandLineValues = (config: UserConfig, actions: CLIOptio
         debug(`Using formatters option provided from command line: ${actions.formatters}`);
     }
 
-    // If rules are provided, use them
-    if (actions && actions.rules) {
-        const ruleNames = actions.rules.split(',');
+    // If hints are provided, use them
+    if (actions && actions.hints) {
+        const hintNames = actions.hints.split(',');
 
-        config.rules = buildRulesConfigFromRuleNames(ruleNames, 'error');
-        debug(`Using rules option provided from command line: ${actions.rules}`);
+        config.hints = buildHintsConfigFromHintNames(hintNames, 'error');
+        debug(`Using hints option provided from command line: ${actions.hints}`);
     }
 };
 
-export class HintConfig {
+export class Configuration {
     public readonly browserslist: Array<string>;
     public readonly connector: ConnectorConfig;
     public readonly formatters: Array<string>;
     public readonly ignoredUrls;
     public readonly parsers: Array<string>;
-    public readonly rules: RulesConfigObject;
-    public readonly rulesTimeout: number;
+    public readonly hints: HintsConfigObject;
+    public readonly hintsTimeout: number;
     public readonly extends: Array<string>;
 
-    private constructor(userConfig: UserConfig, browsers: Array<string>, ignoredUrls, rules: RulesConfigObject) {
+    private constructor(userConfig: UserConfig, browsers: Array<string>, ignoredUrls, hints: HintsConfigObject) {
         this.browserslist = browsers;
         this.formatters = userConfig.formatters;
         this.ignoredUrls = ignoredUrls;
         this.parsers = userConfig.parsers;
-        this.rules = rules;
+        this.hints = hints;
         this.extends = userConfig.extends;
 
-        this.rulesTimeout = userConfig.rulesTimeout || 60000;
+        this.hintsTimeout = userConfig.hintsTimeout || 60000;
 
         if (typeof userConfig.connector === 'string') {
             this.connector = {
@@ -185,10 +185,10 @@ export class HintConfig {
     }
 
     /**
-     * Removes all the deactivated rules.
+     * Removes all the deactivated hints.
      */
-    private static cleanRules(rules: RulesConfigObject): RulesConfigObject {
-        return Object.entries(rules).reduce((total, [key, value]) => {
+    private static cleanHints(hints: HintsConfigObject): HintsConfigObject {
+        return Object.entries(hints).reduce((total, [key, value]) => {
             if (getSeverity(value)) {
                 total[key] = value;
             }
@@ -216,7 +216,7 @@ export class HintConfig {
         if (!config.browserslist) {
             for (let i = 0; i < files.length; i++) {
                 const file: string = files[i];
-                const tmpConfig: UserConfig = HintConfig.loadConfigFile(file);
+                const tmpConfig: UserConfig = Configuration.loadConfigFile(file);
 
                 if (tmpConfig && tmpConfig.browserslist) {
                     config.browserslist = tmpConfig.browserslist;
@@ -274,7 +274,7 @@ export class HintConfig {
      * * `connector`'s value: `{ "connector": "./myconnector" }`
      * * `connector.name` value: `{ "connector": { "name": "./myconnector"} }`
      * * `formatter`s and `parser`s  values: `{ "formatters": ["./myformatter"] }`
-     * * `rule`s keys: `{ "rules: { "./myrule": "warning" } }`
+     * * `hint`s keys: `{ "hints: { "./myhint": "warning" } }`
      */
     public static toAbsolutePaths(config: UserConfig, configRoot: string): UserConfig {
         if (!config) {
@@ -334,25 +334,25 @@ export class HintConfig {
             config.parsers = config.parsers.map(resolve);
         }
 
-        // Update rules
-        if (config.rules) {
-            const rules = Object.keys(config.rules);
+        // Update hints
+        if (config.hints) {
+            const hints = Object.keys(config.hints);
 
-            const transformedRules = rules.reduce((newRules, currentRule) => {
-                const newRule = resolve(currentRule);
+            const transformedHints = hints.reduce((newHints, currentHint) => {
+                const newHint = resolve(currentHint);
 
-                newRules[newRule] = config.rules[currentRule];
+                newHints[newHint] = config.hints[currentHint];
 
-                return newRules;
+                return newHints;
             }, {});
 
-            config.rules = transformedRules;
+            config.hints = transformedHints;
         }
 
         return config;
     }
 
-    public static fromConfig(config: UserConfig, actions?: CLIOptions): HintConfig {
+    public static fromConfig(config: UserConfig, actions?: CLIOptions): Configuration {
 
         if (!config) {
             throw new Error(`Couldn't find a configuration file`);
@@ -385,25 +385,25 @@ export class HintConfig {
 
         const browsers = browserslist(config.browserslist);
         const ignoredUrls = loadIgnoredUrls(userConfig);
-        const rules = HintConfig.cleanRules(normalizeRules(userConfig.rules));
+        const hints = Configuration.cleanHints(normalizeHints(userConfig.hints));
 
-        return new HintConfig(userConfig, browsers, ignoredUrls, rules);
+        return new Configuration(userConfig, browsers, ignoredUrls, hints);
     }
 
     /**
-     * Separate rules based on if the rule configs are valid.
+     * Separate hints based on if the hint configs are valid.
      * @param config
      */
-    public static validateRulesConfig(config: HintConfig) {
-        const rules = Object.keys(config.rules);
-        const validateResult = rules.reduce((result, rule) => {
-            const Rule = resourceLoader.loadRule(rule, config.extends);
-            const valid: boolean = validateRule(Rule.meta, config.rules[rule], rule);
+    public static validateHintsConfig(config: Configuration) {
+        const hints = Object.keys(config.hints);
+        const validateResult = hints.reduce((result, hint) => {
+            const Hint = resourceLoader.loadHint(hint, config.extends);
+            const valid: boolean = validateHint(Hint.meta, config.hints[hint], hint);
 
             if (!valid) {
-                result.invalid.push(rule);
+                result.invalid.push(hint);
             } else {
-                result.valid.push(rule);
+                result.valid.push(hint);
             }
 
             return result;
@@ -416,7 +416,7 @@ export class HintConfig {
      * Loads a configuration file regardless of the source. Inspects the file path
      * to determine the correctly way to load the config file.
      */
-    public static fromFilePath(filePath: string, actions: CLIOptions): HintConfig {
+    public static fromFilePath(filePath: string, actions: CLIOptions): Configuration {
         /**
          * 1. Load the file from the HD
          * 2. Validate it's OK
@@ -427,10 +427,10 @@ export class HintConfig {
 
         // 1
         const resolvedPath: string = path.resolve(process.cwd(), filePath);
-        const userConfig = HintConfig.loadConfigFile(resolvedPath);
+        const userConfig = Configuration.loadConfigFile(resolvedPath);
         const config = this.fromConfig(userConfig, actions);
 
-        userConfig.browserslist = userConfig.browserslist || HintConfig.loadBrowsersList(userConfig);
+        userConfig.browserslist = userConfig.browserslist || Configuration.loadBrowsersList(userConfig);
 
         return config;
     }
@@ -457,6 +457,6 @@ export class HintConfig {
             return null;
         }
 
-        return HintConfig.getFilenameForDirectory(homedir);
+        return Configuration.getFilenameForDirectory(homedir);
     };
 }

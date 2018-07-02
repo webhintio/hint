@@ -1,8 +1,8 @@
 /**
- * @fileoverview Locates and requires resources (connectors, parsers, rules, formatters)
+ * @fileoverview Locates and requires resources (connectors, parsers, hints, formatters)
  * for hint across different places in the tree.
  * By convention, these resources need to be under
- * {/, /node_modules/}lib/{connectors, formatters, parsers, rules}/*.js
+ * {/, /node_modules/}lib/{connectors, formatters, parsers, hints}/*.js
  */
 
 /*
@@ -25,8 +25,8 @@ import findPackageRoot from './packages/find-package-root';
 import isNormalizedIncluded from './misc/normalize-includes';
 import readFile from './fs/read-file';
 import { debug as d } from './debug';
-import { Resource, IRuleConstructor, HintResources } from '../types';
-import { HintConfig } from '../config';
+import { Resource, IHintConstructor, HintResources } from '../types';
+import { Configuration } from '../config';
 import { ResourceType } from '../enums/resourcetype';
 import { ResourceErrorStatus } from '../enums/errorstatus';
 import { ResourceError } from '../types/resourceerror';
@@ -93,10 +93,10 @@ export const getCoreResources = (type: string): Array<string> => {
  */
 const hasMultipleResources = (resource, type: ResourceType) => {
     switch (type) {
-        case ResourceType.rule:
-            // In a simple rule, the property meta should exist.
+        case ResourceType.hint:
+            // In a simple hint, the property meta should exist.
             return !resource.meta;
-        // Only case with multiple resources is rules
+        // Only case with multiple resources is hints
         default:
             return false;
     }
@@ -119,12 +119,12 @@ export const getInstalledResources = (type: ResourceType): Array<string> => {
         if (!hasMultipleResources(resource, type)) {
             list.push(resourceName);
         } else {
-            const rules = Object.entries(resource);
+            const hints = Object.entries(resource);
 
-            if (rules.length === 1 && resource[resourceName]) {
+            if (hints.length === 1 && resource[resourceName]) {
                 list.push(resourceName);
             } else {
-                for (const [key] of rules) {
+                for (const [key] of hints) {
                     list.push(`${resourceName}/${key}`);
                 }
             }
@@ -259,7 +259,7 @@ const generateConfigPathsToResources = (configurations: Array<string>, name: str
  * 1. core resource
  * 2. `@hint/` scoped package
  * 3. `hint-` prefixed package
- * 4. external rules
+ * 4. external hints
  *
  */
 export const loadResource = (name: string, type: ResourceType, configurations: Array<string> = [], verifyVersion = false) => {
@@ -286,12 +286,12 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
 
     /*
      * We can't use the key for the Official packages neither for the Third party ones because
-     * in case that we have a multi-rules packages, the key for the cache has to contain
-     * the key for the specific rule, but we need to load the package that contains the rule.
+     * in case that we have a multi-hints packages, the key for the cache has to contain
+     * the key for the specific hint, but we need to load the package that contains the hint.
      * i.e.
-     * if we want to load the rule `rule-typescript-config/is-valid` the key for the cache
-     * has to be `rule-typescript-config/is-valid`.
-     * But we need to load the package `@hint/rule-typescript-config`.
+     * if we want to load the hint `hint-typescript-config/is-valid` the key for the cache
+     * has to be `hint-typescript-config/is-valid`.
+     * But we need to load the package `typescript-config`.
      */
     const sources: Array<string> = isSource ?
         [path.resolve(currentProcessDir, name)] : // If the name is direct path to the source we should only check that
@@ -299,8 +299,8 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
             `@hint/${type}-${packageName}`, // Officially supported package
             `hint-${type}-${packageName}`, // Third party package
             path.normalize(`${HINT_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
-            path.normalize(currentProcessDir) // External rules.
-            // path.normalize(`${path.resolve(HINT_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/rule-http-cache`
+            path.normalize(currentProcessDir) // External hints.
+            // path.normalize(`${path.resolve(HINT_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/hint-http-cache`
         ].concat(configPathsToResources);
 
     let resource;
@@ -359,7 +359,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     }
 
     if (type === ResourceType.configuration) {
-        resource = HintConfig.toAbsolutePaths(resource, require.resolve(loadedSource));
+        resource = Configuration.toAbsolutePaths(resource, require.resolve(loadedSource));
     }
 
     resources.set(key, resource);
@@ -371,7 +371,7 @@ const loadListOfResources = (list: Array<string> | Object = [], type: ResourceTy
     const missing: Array<string> = [];
     const incompatible: Array<string> = [];
 
-    // In the case of rules, we get an object with rulename/priority, not an array
+    // In the case of hints, we get an object with hintname/priority, not an array
     const items = Array.isArray(list) ?
         list :
         Object.keys(list);
@@ -401,8 +401,8 @@ const loadListOfResources = (list: Array<string> | Object = [], type: ResourceTy
     };
 };
 
-export const loadRule = (ruleId: string, configurations: Array<string>): IRuleConstructor => {
-    return loadResource(ruleId, ResourceType.rule, configurations);
+export const loadHint = (hintId: string, configurations: Array<string>): IHintConstructor => {
+    return loadResource(hintId, ResourceType.hint, configurations);
 };
 
 export const loadConfiguration = (configurationId: string) => {
@@ -410,7 +410,7 @@ export const loadConfiguration = (configurationId: string) => {
 };
 
 /** Returns all the resources from a `HintConfig` */
-export const loadResources = (config: HintConfig): HintResources => {
+export const loadResources = (config: Configuration): HintResources => {
     // TODO: validate connector version is OK once all are extracted
     let connector = null;
 
@@ -424,11 +424,11 @@ export const loadResources = (config: HintConfig): HintResources => {
         }
     }
 
-    const { incompatible: incompatibleRules, resources: rules, missing: missingRules } = loadListOfResources(config.rules, ResourceType.rule, config.extends);
+    const { incompatible: incompatibleHints, resources: hints, missing: missingHints } = loadListOfResources(config.hints, ResourceType.hint, config.extends);
     const { incompatible: incompatibleParsers, resources: parsers, missing: missingParsers } = loadListOfResources(config.parsers, ResourceType.parser, config.extends);
     const { incompatible: incompatibleFormatters, resources: formatters, missing: missingFormatters } = loadListOfResources(config.formatters, ResourceType.formatter, config.extends);
-    const missing = [].concat(missingRules, missingParsers, missingFormatters);
-    const incompatible = [].concat(incompatibleFormatters, incompatibleParsers, incompatibleRules);
+    const missing = [].concat(missingHints, missingParsers, missingFormatters);
+    const incompatible = [].concat(incompatibleFormatters, incompatibleParsers, incompatibleHints);
 
     if (!connector) {
         missing.push(`${ResourceType.connector}-${config.connector.name || config.connector}`);
@@ -437,9 +437,9 @@ export const loadResources = (config: HintConfig): HintResources => {
     return {
         connector,
         formatters,
+        hints,
         incompatible,
         missing,
-        parsers,
-        rules
+        parsers
     };
 };

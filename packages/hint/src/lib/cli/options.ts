@@ -68,8 +68,8 @@ export const options = optionator({
         },
         {
             alias: 'r',
-            description: 'Explicitly specify the rules to be used',
-            option: 'rules',
+            description: 'Explicitly specify the hints to be used',
+            option: 'hints',
             type: 'String'
         }
     ],

@@ -1,7 +1,7 @@
 # Events
 
 Information is shared internally via `event`s. `connector`s and `parser`s can
-create them, while `parser`s and `rule`s consume them.
+create them, while `parser`s and `hint`s consume them.
 The following is a list of all the events common to all `connector`s, with
 their signature, and the `interface` they implement.
 
@@ -135,7 +135,7 @@ type ScanStart {
 a `Promise` because it will not wait for it to be resolved. If you
 need to perform an `async` operation you should combine it with
 `scan::end`. You can find more information in [how to interact with
-other services](../rules/index.md#interact-with-other-services).
+other services](../hints/index.md#interact-with-other-services).
 
 ## `traverse::down`
 

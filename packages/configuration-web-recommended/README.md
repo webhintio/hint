@@ -1,6 +1,6 @@
-# sonarwhal's recommended web configuration (`@sonarwhal/configuration-web-recommended`)
+# webhint's recommended web configuration (`@hint/configuration-web-recommended`)
 
-This packages is a `sonarwhal`'s configuration package to use in
+This packages is a `webhint`'s configuration package to use in
 production websites.
 
 This package will automatically install all the missing dependencies.
@@ -8,7 +8,7 @@ This package will automatically install all the missing dependencies.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @sonarwhal/configuration-web-recommended
+npm install @hint/configuration-web-recommended
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -16,7 +16,7 @@ parameter, or to install it globally, you can use the `-g` parameter. For
 other options see
 [`npm`'s documentation](https://docs.npmjs.com/cli/install).
 
-The minimum required [`.sonarwhalrc`][sonarwhalrc] file to use it is
+The minimum required [`.hintrc`][hintrc] file to use it is
 the following:
 
 ```json
@@ -38,7 +38,7 @@ and it will be as if you had this:
     "formatters": [
         "summary"
     ],
-    "rules": {
+    "hints": {
         "axe": "error",
         "content-type": "error",
         "disown-opener": "error",
@@ -48,11 +48,11 @@ and it will be as if you had this:
         "http-compression": "error",
         ...
     },
-    "rulesTimeout": 120000
+    "hintsTimeout": 120000
 }
 ```
 
-If you prefer to use another formatter (or any other rule/connector,
+If you prefer to use another formatter (or any other hint/connector,
 etc.) you can do something like:
 
 ```json
@@ -64,4 +64,4 @@ etc.) you can do something like:
 
 <!-- Link labels: -->
 
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/

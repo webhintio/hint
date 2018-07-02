@@ -43,8 +43,8 @@
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "sonarwhal",
-    "sonarwhal-formatter",
+    "webhint",
+    "webhint-formatter",
     "summary"
   ],
   "license": "Apache-2.0",

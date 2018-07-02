@@ -9,7 +9,7 @@ const summaryProblems: Array<Problem> = [{
     },
     message: 'This is a problem in line 1 column 10',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: '<a href="//link.com">link</a>'
 },
@@ -20,7 +20,7 @@ const summaryProblems: Array<Problem> = [{
     },
     message: 'This is a problem without line in myresource',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 },
@@ -31,7 +31,7 @@ const summaryProblems: Array<Problem> = [{
     },
     message: 'This is a problem without line',
     resource: 'http://myresource2.com/this/resource/is/really/really/long/resources/image/imagewithalongname.jpg',
-    ruleId: 'random-rule2',
+    hintId: 'random-hint2',
     severity: Severity.error,
     sourceCode: ''
 },
@@ -42,7 +42,7 @@ const summaryProblems: Array<Problem> = [{
     },
     message: 'This is another problem without line',
     resource: 'http://myresource2.com/this/resource/is/really/really/long/resources/image/imagewithalongname.jpg',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 },
@@ -55,7 +55,7 @@ const summaryProblems: Array<Problem> = [{
     },
     message: 'This is a problem in line 2 column 10',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: `<a href="//link.com">
         <img src="//image.jpg"/>
@@ -71,7 +71,7 @@ const summarySameNumberOfErrors: Array<Problem> = [{
     },
     message: 'This is a problem in line 1 column 10',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule2',
+    hintId: 'random-hint2',
     severity: Severity.error,
     sourceCode: '<a href="//link.com">link</a>'
 },
@@ -82,7 +82,7 @@ const summarySameNumberOfErrors: Array<Problem> = [{
     },
     message: 'This is a problem without line in myresource',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.error,
     sourceCode: ''
 }];
@@ -97,7 +97,7 @@ const summaryWarnings: Array<Problem> = [{
     },
     message: 'This is a problem in line 1 column 10',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: '<a href="//link.com">link</a>'
 },
@@ -108,7 +108,7 @@ const summaryWarnings: Array<Problem> = [{
     },
     message: 'This is a problem without line in myresource',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 }];

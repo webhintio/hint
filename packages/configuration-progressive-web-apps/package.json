@@ -2,13 +2,13 @@
   "dependencies": {
     "@hint/formatter-summary": "^1.0.0",
     "@hint/parser-manifest": "^1.0.0",
-    "@hint/rule-apple-touch-icons": "^1.0.0",
-    "@hint/rule-manifest-app-name": "^1.0.0",
-    "@hint/rule-manifest-exists": "^1.0.0",
-    "@hint/rule-manifest-file-extension": "^1.0.0",
-    "@hint/rule-manifest-is-valid": "^1.0.0"
+    "@hint/hint-apple-touch-icons": "^1.0.0",
+    "@hint/hint-manifest-app-name": "^1.0.0",
+    "@hint/hint-manifest-exists": "^1.0.0",
+    "@hint/hint-manifest-file-extension": "^1.0.0",
+    "@hint/hint-manifest-is-valid": "^1.0.0"
   },
-  "description": "sonarwhal's recommended rules configuration for progressive web apps (PWAs)",
+  "description": "webhint's recommended hints configuration for progressive web apps (PWAs)",
   "engines": {
     "node": ">=8.0.0"
   },
@@ -19,8 +19,8 @@
     "pwa",
     "pwas",
     "progressive-web-apps",
-    "sonarwhal",
-    "sonarwhal-configuration"
+    "webhint",
+    "webhint-configuration"
   ],
   "license": "Apache-2.0",
   "main": "index.json",

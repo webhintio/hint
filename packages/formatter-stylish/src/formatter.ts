@@ -82,7 +82,7 @@ export default class StylishFormatter implements IFormatter {
                     hasPosition = true;
                 }
 
-                tableData.push([line, column, severity, msg.message, msg.ruleId]);
+                tableData.push([line, column, severity, msg.message, msg.hintId]);
             });
 
             /*

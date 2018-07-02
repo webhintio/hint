@@ -84,7 +84,7 @@ const determineCharset = (originalCharset: string, mediaType: string): string =>
      * Notes:
      *
      *  * Not going with the specified charset when there is one
-     *    might make some of our rule not detect some problems.
+     *    might make some of our hints not detect some problems.
      *
      *  * The `content-type` role is responsable for suggesting
      *    the correct/best charset.

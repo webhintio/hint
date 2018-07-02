@@ -1,6 +1,6 @@
 # Pull requests
 
-Contributing code to `sonarwhal` is done using pull requests. This is
+Contributing code to `webhint` is done using pull requests. This is
 the fastest way for us to evaluate your code and to merge it into
 the code base.
 
@@ -48,7 +48,7 @@ and generally follows the same pattern each time:
 ### Step 1: Create a new branch
 
 The first step to sending a pull request is to create a new branch
-in your `sonarwhal` fork. Give the branch a descriptive name that best
+in your `webhint` fork. Give the branch a descriptive name that best
 illustrates what it is you’re fixing, such as:
 
 ```bash
@@ -117,7 +117,7 @@ Docs: Fix broken links in `pull-requests.md`
 ```
 
 ```text
-New: Add rule to check life-work balance
+New: Add hint to check life-work balance
 ```
 
 ```text
@@ -188,7 +188,7 @@ git push -f origin fix-1234
 
 ### Step 7: Send the pull request
 
-Now you’re ready to send the pull request. Go to your `sonarwhal` fork
+Now you’re ready to send the pull request. Go to your `webhint` fork
 and then follow the [GitHub documentation][github pr docs] on how to
 send a pull request.
 

@@ -2,7 +2,7 @@
 
 ## Getting started
 
-This section contains the basics to start hacking `sonarwhal`:
+This section contains the basics to start hacking `webhint`:
 
 * [Architecture](./getting-started/architecture.md): The internals of the
   project and how things communicate with each other (spoiler: using `event`s).
@@ -14,14 +14,14 @@ This section contains the basics to start hacking `sonarwhal`:
 
 ## How to
 
-The ins and outs of the different parts that make `sonarwhal` plus some common scenarios:
+The ins and outs of the different parts that make `webhint` plus some common scenarios:
 
 * [Develop a connector](./how-to/connector.md)
 * [Develop a formatter](./how-to/formatter.md)
 * [Develop a parser](./how-to/parser.md)
-* [Develop a rule](./how-to/parser.md)
-* [Implement common rule scenarios](./how-to/common-rule-scenarios.md)
+* [Develop a hint](./how-to/hint.md)
+* [Implement common hint scenarios](./how-to/common-hint-scenarios.md)
 
 ## Guides
 
-* [Create a custom rule step by step](./guides/create-custom-rule.md)
+* [Create a custom hint step by step](./guides/create-custom-hint.md)

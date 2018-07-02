@@ -147,7 +147,7 @@ export default class CodeframeFormatter implements IFormatter {
                     totalWarnings++;
                 }
 
-                logger.log(`${severity}: ${msg.message} (${msg.ruleId}) at ${resourceString}${msg.sourceCode ? `:${location.line}:${location.column}` : ''}`);
+                logger.log(`${severity}: ${msg.message} (${msg.hintId}) at ${resourceString}${msg.sourceCode ? `:${location.line}:${location.column}` : ''}`);
 
                 if (msg.sourceCode) {
                     codeFrame(msg.sourceCode, location);

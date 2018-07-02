@@ -4,7 +4,7 @@ import findPackageRoot from './find-package-root';
 import readFile from '../fs/read-file-async';
 
 /**
- * Returns if the rule that is going to be created is an official.
+ * Returns if the hint that is going to be created is an official.
  *
  * To do this we search the first `package.json` starting in `porcess.cwd()`
  * and go up the tree. If the name is `hint` then it's an official one.

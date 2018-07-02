@@ -4,7 +4,7 @@ import test from 'ava';
 import * as sinon from 'sinon';
 import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
-import { HintConfig } from '../../../src/lib/config';
+import { Configuration } from '../../../src/lib/config';
 import { ResourceType } from '../../../src/lib/enums/resourcetype';
 
 const cacheKey = path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js');
@@ -15,7 +15,7 @@ const installedConnectors = [
 ];
 
 const fakeResource = {};
-const fakeRule = { meta: {} };
+const fakeHint = { meta: {} };
 const cleanCache = () => {
     delete require.cache[cacheKey];
 };
@@ -66,8 +66,8 @@ test('loadResource looks for resources in the right order (core > @hint > hint- 
 
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
-    const resourceName = 'missing-rule';
-    const resourceType: ResourceType = ResourceType.rule;
+    const resourceName = 'missing-hint';
+    const resourceType: ResourceType = ResourceType.hint;
 
     tryToLoadFromStub.onFirstCall().returns(null);
     tryToLoadFromStub.onSecondCall().returns(null);
@@ -78,29 +78,29 @@ test('loadResource looks for resources in the right order (core > @hint > hint- 
         resourceLoader.loadResource(resourceName, resourceType);
     });
 
-    t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(`@hint/rule-${resourceName}`), 'Tries to load scoped package second');
-    t.true((tryToLoadFromStub.secondCall.args[0] as string).endsWith(`hint-rule-${resourceName}`), 'Tries to load prefixed package third');
+    t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(`${resourceName}`), 'Tries to load scoped package second');
+    t.true((tryToLoadFromStub.secondCall.args[0] as string).endsWith(`hint-${resourceName}`), 'Tries to load prefixed package third');
     t.true((tryToLoadFromStub.thirdCall.args[0] as string).endsWith(path.normalize(`/dist/src/lib/${resourceType}s/${resourceName}/${resourceName}.js`)), 'Tries to load core first');
 
     tryToLoadFromStub.restore();
 });
 
-test('loadRule calls loadResource with the right parameters', (t) => {
+test('loadHint calls loadResource with the right parameters', (t) => {
     cleanCache();
 
-    // Using require to allow call loadRule with just 1 parameter.
+    // Using require to allow call loadHint with just 1 parameter.
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
     const loadResourceStub = sinon.stub(resourceLoader, 'loadResource');
 
     loadResourceStub.throws({});
 
     t.throws(() => {
-        resourceLoader.loadRule('fake-rule');
+        resourceLoader.loadHint('fake-hint');
     });
 
-    t.is(loadResourceStub.firstCall.args[0], 'fake-rule', `The name of the rule isn't correctly passed`);
-    t.is(loadResourceStub.firstCall.args[1], 'rule', `The type "rule" isn't used`);
-    t.is(typeof loadResourceStub.firstCall.args[2], 'undefined', `loadRule should ignore the version`);
+    t.is(loadResourceStub.firstCall.args[0], 'fake-hint', `The name of the hint isn't correctly passed`);
+    t.is(loadResourceStub.firstCall.args[1], 'hint', `The type "hint" isn't used`);
+    t.is(typeof loadResourceStub.firstCall.args[2], 'undefined', `loadHint should ignore the version`);
 
     loadResourceStub.restore();
 });
@@ -220,7 +220,7 @@ test.serial('loadResource returns the resource if versions are compatible', asyn
     t.is(resource, fakeResource, `Resources aren't the same`);
 });
 
-test.serial('loadResource throws an error if the rule is loaded from the current working directory but the rule name doesn\'t match', async (t) => {
+test.serial('loadResource throws an error if the hint is loaded from the current working directory but the hint name doesn\'t match', async (t) => {
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
@@ -242,7 +242,7 @@ test.serial('loadResource throws an error if the rule is loaded from the current
     processStub.returns('fakePath');
 
     const { message } = t.throws(() => {
-        resourceLoader.loadResource('another-fake-resource', ResourceType.rule);
+        resourceLoader.loadResource('another-fake-resource', ResourceType.hint);
     });
 
     t.is(message, 'Resource another-fake-resource not found', 'Received a different exception');
@@ -251,13 +251,13 @@ test.serial('loadResource throws an error if the rule is loaded from the current
     processStub.restore();
 });
 
-test.serial(`loadResource doesn't throw an error if the rule is loaded from the current working directory but the rule name matches`, async (t) => {
+test.serial(`loadResource doesn't throw an error if the hint is loaded from the current working directory but the hint name matches`, async (t) => {
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
         '../utils/packages/load-package': {
             default() {
-                return { name: 'rule-another-fake-resource' };
+                return { name: 'hint-another-fake-resource' };
             }
         }
     });
@@ -269,11 +269,11 @@ test.serial(`loadResource doesn't throw an error if the rule is loaded from the 
     tryToLoadFromStub.onFirstCall().returns(null);
     tryToLoadFromStub.onSecondCall().returns(null);
     tryToLoadFromStub.onThirdCall().returns(null);
-    tryToLoadFromStub.returns(fakeRule);
+    tryToLoadFromStub.returns(fakeHint);
     processStub.returns('fakePath');
 
     t.notThrows(() => {
-        resourceLoader.loadResource('another-fake-resource', ResourceType.rule);
+        resourceLoader.loadResource('another-fake-resource', ResourceType.hint);
     });
 
     tryToLoadFromStub.restore();
@@ -283,7 +283,7 @@ test.serial(`loadResource doesn't throw an error if the rule is loaded from the 
 test('loadResources loads all the resources of a given config', async (t) => {
     cleanCache();
 
-    const config: HintConfig = {
+    const config: Configuration = {
         browserslist: [],
         connector: {
             name: 'jsdom',
@@ -291,10 +291,10 @@ test('loadResources loads all the resources of a given config', async (t) => {
         },
         extends: [],
         formatters: ['json'],
+        hints: { hint1: 'error' },
+        hintsTimeout: 1000,
         ignoredUrls: [],
-        parsers: [],
-        rules: { rule1: 'error' },
-        rulesTimeout: 1000
+        parsers: []
     };
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const resources = resourceLoader.loadResources(config);

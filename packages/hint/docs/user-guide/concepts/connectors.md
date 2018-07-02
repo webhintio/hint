@@ -1,10 +1,10 @@
 # Connectors
 
-A `connector` is the interface between the `rule`s and the website
+A `connector` is the interface between the `hint`s and the website
 you are testing. It is responsible for loading the website and exposing
-all the information to `sonarwhal` such as resources, network data, etc.
+all the information to `webhint` such as resources, network data, etc.
 
-To configure a connector you need to update your `.sonarwhalrc` file to
+To configure a connector you need to update your `.hintrc` file to
 make it look like the following:
 
 ```json
@@ -21,8 +21,8 @@ Where `connectorName` is the name of the connector.
 
 All the built-in `connector`s run in any of the supported platforms:
 Linux, macOS, and Windows. The only caveat is that, for the `connector`
-that you specify in the`.sonarwhalrc` file, you will need to have the
-browser the `connector` is for installed as `sonarwhal` will not
+that you specify in the`.hintrc` file, you will need to have the
+browser the `connector` is for installed as `webhint` will not
 install it for you.
 
 The current supported connectors are:
@@ -37,7 +37,7 @@ The current supported connectors are:
   please check the [Edge issues](#edge-issues) section below.
 
 **Note:** If you are running Windows 10 [build 14951][wsl-interop] (or
-later) and Windows Subsystem for Linux (WSL), `sonarwhal` will be capable
+later) and Windows Subsystem for Linux (WSL), `webhint` will be capable
 of running the browsers installed directly on Windows. If you are a
 user of the stable release of Window, you will need to use at least the
 *Fall Creators Update*.
@@ -96,7 +96,7 @@ The set of settings specific for them are:
 * `defaultProfile (boolean)`: Indicates if the browser should use the
   default profile or create a new one. By default the value is `false`
   so a new one is created. You might want to set it to `true` if you
-  want `sonarwhal` to have access to pages where the default profile is
+  want `webhint` to have access to pages where the default profile is
   already authenticated. This only applies for Google Chrome as
   Microsoft Edge doesn’t create a new profile.
 * `useTabUrl (boolean)`: Indicates if the browser should navigate first
@@ -127,7 +127,7 @@ connectors.
 
 <!-- markdownlint-enable MD033 -->
 
-* You need administrator privileges to run `sonarwhal` on Edge. You
+* You need administrator privileges to run `webhint` on Edge. You
   should be automatically prompted when running it.
 * It’s best to close all instances of Edge before to avoid any issues.
 * The current implementation can have some problems when scanning multiple

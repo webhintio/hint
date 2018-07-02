@@ -1,7 +1,7 @@
 # Browser configuration
 
-`sonarwhal` allows you to define what browsers are relevant to your
-scenario by adding the property `browserslist` to your `.sonarwhalrc`
+`webhint` allows you to define what browsers are relevant to your
+scenario by adding the property `browserslist` to your `.hintrc`
 file, or in the `package.json` file. This property follows the same
 convention as [`browserslist`][browserslist]:
 
@@ -14,10 +14,10 @@ convention as [`browserslist`][browserslist]:
 }
 ```
 
-By specifying this property, you are giving more context to the rules
-allowing them to adapt their behavior. An example of a rule taking
-advantage of this property is [`highest-available-document-mode`](../rules/highest-available-document-mode.md).
-This rule will advice you to use `edge` mode if you need to support
+By specifying this property, you are giving more context to the hints
+allowing them to adapt their behavior. An example of a hint taking
+advantage of this property is [`highest-available-document-mode`](../hints/highest-available-document-mode.md).
+This hint will advice you to use `edge` mode if you need to support
 versions of IE prior IE10, or tell you to remove that tag or header
 it you only need IE11+ because document modes were removed at that
 version.

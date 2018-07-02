@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "sonarwhal formatter that prints the JSON object of the results",
+  "description": "webhint formatter that prints the JSON object of the results",
   "dependencies": {
     "lodash.foreach": "^4.5.0",
     "lodash.groupby": "^4.6.0",
@@ -40,8 +40,8 @@
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "sonarwhal",
-    "sonarwhal-formatter",
+    "webhint",
+    "webhint-formatter",
     "json"
   ],
   "license": "Apache-2.0",

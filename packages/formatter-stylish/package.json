@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "sonarwhal formatter that prints the results using the stylish style",
+  "description": "webhint formatter that prints the results using the stylish style",
   "dependencies": {
     "chalk": "^2.4.1",
     "lodash.foreach": "^4.5.0",
@@ -43,8 +43,8 @@
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "sonarwhal",
-    "sonarwhal-formatter",
+    "webhint",
+    "webhint-formatter",
     "stylish"
   ],
   "license": "Apache-2.0",

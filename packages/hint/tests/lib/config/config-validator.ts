@@ -9,7 +9,7 @@ const validConfig = {
         options: { waitFor: 1000 }
     },
     formatters: 'json',
-    rules: {
+    hints: {
         'disallowed-headers': ['warning', {}],
         'manifest-exists': 1,
         'manifest-file-extension': ['warning'],
@@ -21,13 +21,13 @@ const validConfig = {
     }
 };
 const invalidConfig = { formatter: 'json' };
-const validRulesConfig = {
+const validHintsConfig = {
     connector: {
         name: 'chrome',
         options: { waitFor: 1000 }
     },
     formatters: 'json',
-    rules: [
+    hints: [
         'disallowed-headers:warning',
         '?manifest-exists',
         '-manifest-file-extension',
@@ -39,29 +39,29 @@ const validRulesConfig = {
         'no-html-only-headers:error'
     ]
 };
-const invalidRulesConfigObjectFormArrayInverted = {
+const invalidHintsConfigObjectFormArrayInverted = {
     connector: {
         name: 'chrome',
         options: { waitFor: 1000 }
     },
     formatters: 'json',
-    rules: { 'disallowed-headers': [{}, 'warning'] }
+    hints: { 'disallowed-headers': [{}, 'warning'] }
 };
-const invalidRulesConfigArrayFormNumber = {
+const invalidHintsConfigArrayFormNumber = {
     connector: {
         name: 'chrome',
         options: { waitFor: 1000 }
     },
     formatters: 'json',
-    rules: [3]
+    hints: [3]
 };
-const invalidRulesConfigArrayFormArrayInverted = {
+const invalidHintsConfigArrayFormArrayInverted = {
     connector: {
         name: 'chrome',
         options: { waitFor: 1000 }
     },
     formatters: 'json',
-    rules: [[{}, 'no-html-only-headers:error']]
+    hints: [[{}, 'no-html-only-headers:error']]
 };
 
 
@@ -71,28 +71,28 @@ test('If config has an invalid schema, it should return false', (t) => {
     t.false(valid);
 });
 
-test('If rules config with object has array property in a bad order, validation should fail', (t) => {
-    const valid = configValidator.validateConfig(invalidRulesConfigObjectFormArrayInverted as any);
+test('If hints config with object has array property in a bad order, validation should fail', (t) => {
+    const valid = configValidator.validateConfig(invalidHintsConfigObjectFormArrayInverted as any);
 
     t.false(valid);
 });
 
-test('If rules config with array has a number, validation should fail', (t) => {
-    const valid = configValidator.validateConfig(invalidRulesConfigArrayFormNumber as any);
+test('If hints config with array has a number, validation should fail', (t) => {
+    const valid = configValidator.validateConfig(invalidHintsConfigArrayFormNumber as any);
 
     t.false(valid);
 });
 
-test('If rules config with array has an array item with the items inverted, validation should fail', (t) => {
-    const valid = configValidator.validateConfig(invalidRulesConfigArrayFormArrayInverted as any);
+test('If hints config with array has an array item with the items inverted, validation should fail', (t) => {
+    const valid = configValidator.validateConfig(invalidHintsConfigArrayFormArrayInverted as any);
 
     t.false(valid);
 });
 
-test(`If rule severity isn't valid, it should return false`, (t) => {
+test(`If hint severity isn't valid, it should return false`, (t) => {
     const config = _.cloneDeep(validConfig);
 
-    config.rules['disallowed-headers'] = ['no-valid-severity', {}];
+    config.hints['disallowed-headers'] = ['no-valid-severity', {}];
 
     const valid = configValidator.validateConfig(config as any);
 
@@ -113,7 +113,7 @@ test('config with 2 formatters is valid', (t) => {
 });
 
 test('If the configuration uses shorthands, it should validate', (t) => {
-    const valid = configValidator.validateConfig(validRulesConfig as any);
+    const valid = configValidator.validateConfig(validHintsConfig as any);
 
     t.true(valid);
 });

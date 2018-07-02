@@ -10,7 +10,7 @@
     "eslint": "^5.0.1",
     "espree": "^4.0.0"
   },
-  "description": "sonarwhal parser needed to analyze JavaScript files",
+  "description": "webhint parser needed to analyze JavaScript files",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
@@ -37,8 +37,8 @@
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "sonarwhal",
-    "sonarwhal-parser",
+    "webhint",
+    "webhint-parser",
     "javascript"
   ],
   "license": "Apache-2.0",

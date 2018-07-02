@@ -16,7 +16,7 @@
     "mkdirp": "^0.5.1",
     "hint": "^1.0.0"
   },
-  "description": "hint's parser initializer package",
+  "description": "webhint's parser initializer package",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
@@ -56,7 +56,7 @@
   "name": "create-parser",
   "nyc": {
     "extends": "../../.nycrc",
-    "include": "dist/src/new-rule.js"
+    "include": "dist/src/new-parser.js"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

@@ -6,8 +6,8 @@ import * as proxyquire from 'proxyquire';
 import test from 'ava';
 
 import delay from '../../src/lib/utils/misc/delay';
-import { RuleScope } from '../../src/lib/enums/rulescope';
-import { HintConfig } from '../../src/lib/config';
+import { HintScope } from '../../src/lib/enums/hintscope';
+import { Configuration } from '../../src/lib/config';
 
 const eventEmitter = { EventEmitter2: function EventEmitter2() { } };
 
@@ -19,7 +19,7 @@ eventEmitter.EventEmitter2.prototype.emitAsync = () => {
 proxyquire('../../src/lib/engine', { eventemitter2: eventEmitter });
 
 import { Engine } from '../../src/lib/engine';
-import { HintResources, IFormatter, IConnector, IRule, RuleMetadata, Problem } from '../../src/lib/types';
+import { HintResources, IFormatter, IConnector, IHint, HintMetadata, Problem } from '../../src/lib/types';
 
 class FakeConnector implements IConnector {
     private config;
@@ -43,7 +43,7 @@ test.beforeEach((t) => {
 test.serial(`If config is an empty object, we should throw an error`, (t) => {
     t.throws(() => {
         // <any>{} to avoid the type checking if not is not possible to use {}
-        new Engine({} as HintConfig, {} as HintResources);
+        new Engine({} as Configuration, {} as HintResources);
     }, Error);
 });
 
@@ -60,46 +60,46 @@ test.serial(`If config.browserslist is an array of strings, we should initilize 
     const engineObject = new Engine({
         browserslist: ['> 5%'],
         connector: { name: 'connector' }
-    } as HintConfig, {
+    } as Configuration, {
         connector: FakeConnector,
         formatters: [],
+        hints: [],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: []
+        parsers: []
     });
 
     t.true(engineObject.targetedBrowsers.length > 0);
 });
 
-test.serial(`If config.rules has some rules "off", we shouldn't create those rules`, (t) => {
-    class FakeDisallowedRule implements IRule {
+test.serial(`If config.hints has some hints "off", we shouldn't create those hints`, (t) => {
+    class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeDisallowedRule.called = true;
+            FakeDisallowedHint.called = true;
             this.context = context;
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'disallowed-headers',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
-    class FakeManifestRule implements IRule {
+    class FakeManifestHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeManifestRule.called = true;
+            FakeManifestHint.called = true;
             this.context = context;
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'manifest-exists',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
@@ -108,58 +108,58 @@ test.serial(`If config.rules has some rules "off", we shouldn't create those rul
         connector: { name: 'connector' },
         extends: [],
         formatters: [],
-        ignoredUrls: [],
-        parsers: [],
-        rules: {
+        hints: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'off'
         },
-        rulesTimeout: null
-    } as HintConfig, {
+        hintsTimeout: null,
+        ignoredUrls: [],
+        parsers: []
+    } as Configuration, {
         connector: FakeConnector,
         formatters: [],
+        hints: [FakeDisallowedHint, FakeManifestHint],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: [FakeDisallowedRule, FakeManifestRule]
+        parsers: []
     });
 
-    t.true(FakeDisallowedRule.called);
-    t.false(FakeManifestRule.called);
+    t.true(FakeDisallowedHint.called);
+    t.false(FakeManifestHint.called);
 });
 
-test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't ignore those rules if the connector isn't in that property`, (t) => {
-    class FakeDisallowedRule implements IRule {
+test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't ignore those hints if the connector isn't in that property`, (t) => {
+    class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeDisallowedRule.called = true;
+            FakeDisallowedHint.called = true;
             this.context = context;
 
             context.on('fetch::end', () => { });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'disallowed-headers',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
-    class FakeManifestRule implements IRule {
+    class FakeManifestHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeManifestRule.called = true;
+            FakeManifestHint.called = true;
             this.context = context;
 
             context.on('fetch::error', () => { });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'manifest-exists',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
@@ -170,24 +170,24 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
         connector: { name: 'jsdom' },
         extends: [],
         formatters: [],
-        ignoredUrls: [],
-        parsers: [],
-        rules: {
+        hints: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        rulesTimeout: null
+        hintsTimeout: null,
+        ignoredUrls: [],
+        parsers: []
     }, {
         connector: FakeConnector,
         formatters: [],
+        hints: [FakeDisallowedHint, FakeManifestHint],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: [FakeDisallowedRule, FakeManifestRule]
+        parsers: []
     });
 
-    t.true(FakeDisallowedRule.called);
-    t.true(FakeManifestRule.called);
+    t.true(FakeDisallowedHint.called);
+    t.true(FakeManifestHint.called);
     t.true(t.context.eventemitter.prototype.on.calledTwice);
     t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
     t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
@@ -195,39 +195,39 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we shouldn't
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ignore those rules if the connector is in that property`, (t) => {
-    class FakeDisallowedRule implements IRule {
+test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ignore those hints if the connector is in that property`, (t) => {
+    class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeDisallowedRule.called = true;
+            FakeDisallowedHint.called = true;
             this.context = context;
 
             context.on('fetch::end', () => { });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'disallowed-headers',
             ignoredConnectors: ['chrome'],
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
-    class FakeManifestRule implements IRule {
+    class FakeManifestHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeManifestRule.called = true;
+            FakeManifestHint.called = true;
             this.context = context;
 
             context.on('fetch::error', () => { });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'manifest-exists',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
@@ -236,56 +236,56 @@ test.serial(`If a rule has the metadata "ignoredConnectors" set up, we should ig
         connector: { name: 'chrome' },
         extends: [],
         formatters: [],
-        ignoredUrls: [],
-        parsers: [],
-        rules: {
+        hints: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        rulesTimeout: null
+        hintsTimeout: null,
+        ignoredUrls: [],
+        parsers: []
     }, {
         connector: FakeConnector,
         formatters: [],
+        hints: [FakeDisallowedHint, FakeManifestHint],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: [FakeDisallowedRule, FakeManifestRule]
+        parsers: []
     });
 
-    t.false(FakeDisallowedRule.called);
-    t.true(FakeManifestRule.called);
+    t.false(FakeDisallowedHint.called);
+    t.true(FakeManifestHint.called);
 });
 
-test.serial(`If the rule scope is 'local' and the connector isn't local the rule should be ignored`, (t) => {
-    class FakeDisallowedRule implements IRule {
+test.serial(`If the hint scope is 'local' and the connector isn't local the hint should be ignored`, (t) => {
+    class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeDisallowedRule.called = true;
+            FakeDisallowedHint.called = true;
             this.context = context;
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'disallowed-headers',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
-    class FakeManifestRule implements IRule {
+    class FakeManifestHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeManifestRule.called = true;
+            FakeManifestHint.called = true;
             this.context = context;
 
             context.on('fetch::error', () => { });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'manifest-exists',
             schema: [],
-            scope: RuleScope.local
+            scope: HintScope.local
         }
     }
 
@@ -294,56 +294,56 @@ test.serial(`If the rule scope is 'local' and the connector isn't local the rule
         connector: { name: 'chrome' },
         extends: [],
         formatters: [],
-        ignoredUrls: [],
-        parsers: [],
-        rules: {
+        hints: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        rulesTimeout: null
+        hintsTimeout: null,
+        ignoredUrls: [],
+        parsers: []
     }, {
         connector: FakeConnector,
         formatters: [],
+        hints: [FakeDisallowedHint, FakeManifestHint],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: [FakeDisallowedRule, FakeManifestRule]
+        parsers: []
     });
 
-    t.true(FakeDisallowedRule.called);
-    t.false(FakeManifestRule.called);
+    t.true(FakeDisallowedHint.called);
+    t.false(FakeManifestHint.called);
 });
 
-test.serial(`If the rule scope is 'site' and the connector is local the rule should be ignored`, (t) => {
-    class FakeDisallowedRule implements IRule {
+test.serial(`If the hint scope is 'site' and the connector is local the hint should be ignored`, (t) => {
+    class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeDisallowedRule.called = true;
+            FakeDisallowedHint.called = true;
             this.context = context;
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'disallowed-headers',
             schema: [],
-            scope: RuleScope.site
+            scope: HintScope.site
         }
     }
 
-    class FakeManifestRule implements IRule {
+    class FakeManifestHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeManifestRule.called = true;
+            FakeManifestHint.called = true;
             this.context = context;
 
             context.on('fetch::error', () => { });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'manifest-exists',
             schema: [],
-            scope: RuleScope.local
+            scope: HintScope.local
         }
     }
 
@@ -352,56 +352,56 @@ test.serial(`If the rule scope is 'site' and the connector is local the rule sho
         connector: { name: 'local' },
         extends: [],
         formatters: [],
-        ignoredUrls: [],
-        parsers: [],
-        rules: {
+        hints: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        rulesTimeout: null
+        hintsTimeout: null,
+        ignoredUrls: [],
+        parsers: []
     }, {
         connector: FakeConnector,
         formatters: [],
+        hints: [FakeDisallowedHint, FakeManifestHint],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: [FakeDisallowedRule, FakeManifestRule]
+        parsers: []
     });
 
-    t.false(FakeDisallowedRule.called);
-    t.true(FakeManifestRule.called);
+    t.false(FakeDisallowedHint.called);
+    t.true(FakeManifestHint.called);
 });
 
-test.serial(`If the rule scope is 'any' and the connector is local the rule should be used`, (t) => {
-    class FakeDisallowedRule implements IRule {
+test.serial(`If the hint scope is 'any' and the connector is local the hint should be used`, (t) => {
+    class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeDisallowedRule.called = true;
+            FakeDisallowedHint.called = true;
             this.context = context;
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'disallowed-headers',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
-    class FakeManifestRule implements IRule {
+    class FakeManifestHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeManifestRule.called = true;
+            FakeManifestHint.called = true;
             this.context = context;
 
             context.on('fetch::error', () => { });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'manifest-exists',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
@@ -410,58 +410,58 @@ test.serial(`If the rule scope is 'any' and the connector is local the rule shou
         connector: { name: 'local' },
         extends: [],
         formatters: [],
-        ignoredUrls: [],
-        parsers: [],
-        rules: {
+        hints: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        rulesTimeout: null
+        hintsTimeout: null,
+        ignoredUrls: [],
+        parsers: []
     }, {
         connector: FakeConnector,
         formatters: [],
+        hints: [FakeDisallowedHint, FakeManifestHint],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: [FakeDisallowedRule, FakeManifestRule]
+        parsers: []
     });
 
-    t.true(FakeDisallowedRule.called);
-    t.true(FakeManifestRule.called);
+    t.true(FakeDisallowedHint.called);
+    t.true(FakeManifestHint.called);
 });
 
-test.serial(`If the rule scope is 'any' and the connector isn't local the rule should be used`, (t) => {
-    class FakeDisallowedRule implements IRule {
+test.serial(`If the hint scope is 'any' and the connector isn't local the hint should be used`, (t) => {
+    class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeDisallowedRule.called = true;
+            FakeDisallowedHint.called = true;
             this.context = context;
 
             context.on('fetch::end::html', () => { });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'disallowed-headers',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
-    class FakeManifestRule implements IRule {
+    class FakeManifestHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeManifestRule.called = true;
+            FakeManifestHint.called = true;
             this.context = context;
 
             context.on('fetch::error', () => { });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'manifest-exists',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
@@ -470,24 +470,24 @@ test.serial(`If the rule scope is 'any' and the connector isn't local the rule s
         connector: { name: 'chrome' },
         extends: [],
         formatters: [],
-        ignoredUrls: [],
-        parsers: [],
-        rules: {
+        hints: {
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        rulesTimeout: null
+        hintsTimeout: null,
+        ignoredUrls: [],
+        parsers: []
     }, {
         connector: FakeConnector,
         formatters: [],
+        hints: [FakeDisallowedHint, FakeManifestHint],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: [FakeDisallowedRule, FakeManifestRule]
+        parsers: []
     });
 
-    t.true(FakeDisallowedRule.called);
-    t.true(FakeManifestRule.called);
+    t.true(FakeDisallowedHint.called);
+    t.true(FakeManifestHint.called);
 });
 
 test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`, async (t) => {
@@ -498,17 +498,17 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
         connector: { name: 'connector' },
         extends: [],
         formatters: [],
+        hints: { 'disallowed-headers': 'warning' },
+        hintsTimeout: null,
         ignoredUrls: new Map([['all', [/.*\.domain1\.com\/.*/i]]]),
-        parsers: [],
-        rules: { 'disallowed-headers': 'warning' },
-        rulesTimeout: null
+        parsers: []
     }, {
         connector: FakeConnector,
         formatters: [],
+        hints: [],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: []
+        parsers: []
     });
 
     await engineObject.emitAsync('event', { resource: 'http://www.domain1.com/test' });
@@ -518,21 +518,21 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
     t.context.eventemitter.prototype.emitAsync.restore();
 });
 
-test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) => {
-    class FakeDisallowedRule implements IRule {
+test.serial(`If a hint is ignoring some url, it shouldn't run the event`, (t) => {
+    class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeDisallowedRule.called = true;
+            FakeDisallowedHint.called = true;
             this.context = context;
 
             context.on('fetch::end::html', () => { });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'disallowed-headers',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
@@ -543,18 +543,17 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
         connector: { name: 'connector' },
         extends: [],
         formatters: [],
+        hints: { 'disallowed-headers': 'warning' },
+        hintsTimeout: null,
         ignoredUrls: new Map([['all', [/.*\.domain1\.com\/.*/i]], ['disallowed-headers', [/.*\.domain2\.com\/.*/i]]]),
-        parsers: [],
-        rules: { 'disallowed-headers': 'warning' },
-        rulesTimeout: null
-
+        parsers: []
     }, {
         connector: FakeConnector,
         formatters: [],
+        hints: [FakeDisallowedHint],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: [FakeDisallowedRule]
+        parsers: []
     });
 
     const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
@@ -564,12 +563,12 @@ test.serial(`If a rule is ignoring some url, it shouldn't run the event`, (t) =>
     t.context.eventemitter.prototype.on.restore();
 });
 
-test.serial(`If a rule is taking too much time, it should be ignored after the configured timeout`, async (t) => {
-    class FakeDisallowedRule implements IRule {
+test.serial(`If a hint is taking too much time, it should be ignored after the configured timeout`, async (t) => {
+    class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         private context;
         public constructor(context) {
-            FakeDisallowedRule.called = true;
+            FakeDisallowedHint.called = true;
             this.context = context;
 
             context.on('fetch::end::html', async () => {
@@ -579,10 +578,10 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
             });
         }
 
-        public static readonly meta: RuleMetadata = {
+        public static readonly meta: HintMetadata = {
             id: 'disallowed-headers',
             schema: [],
-            scope: RuleScope.any
+            scope: HintScope.any
         }
     }
 
@@ -593,17 +592,17 @@ test.serial(`If a rule is taking too much time, it should be ignored after the c
         connector: { name: 'connector' },
         extends: [],
         formatters: [],
+        hints: { 'disallowed-headers': 'warning' },
+        hintsTimeout: 1000,
         ignoredUrls: new Map(),
-        parsers: [],
-        rules: { 'disallowed-headers': 'warning' },
-        rulesTimeout: 1000
+        parsers: []
     }, {
         connector: FakeConnector,
         formatters: [],
+        hints: [FakeDisallowedHint],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: [FakeDisallowedRule]
+        parsers: []
     });
 
     const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
@@ -617,7 +616,7 @@ test.serial(`If there is no connector, it should throw an error`, (t) => {
     t.plan(1);
 
     try {
-        new Engine({ connector: { name: 'invalidConnector' } } as HintConfig, { connector: null } as HintResources);
+        new Engine({ connector: { name: 'invalidConnector' } } as Configuration, { connector: null } as HintResources);
     } catch (err) {
         t.is(err.message, 'Connector "invalidConnector" not found');
     }
@@ -641,13 +640,13 @@ test.serial('If connector is in the resources, we should init the connector', (t
         }
     }
 
-    new Engine({ connector: { name: 'myconnector' } } as HintConfig, {
+    new Engine({ connector: { name: 'myconnector' } } as Configuration, {
         connector: FakeConnectorInit,
         formatters: [],
+        hints: [],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: []
+        parsers: []
     });
 
     t.true(FakeConnectorInit.called);
@@ -676,13 +675,13 @@ test.serial('If connector is an object with valid data, we should init the conne
             name: 'myconnector',
             options: {}
         }
-    } as HintConfig, {
+    } as Configuration, {
         connector: FakeConnectorInit,
         formatters: [],
+        hints: [],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: []
+        parsers: []
     });
 
     t.true(FakeConnectorInit.called);
@@ -700,13 +699,13 @@ test.serial('formatter should return the formatter configured', (t) => {
     const engineObject = new Engine({
         connector: { name: 'connector' },
         formatters: ['formatter']
-    } as HintConfig, {
+    } as Configuration, {
         connector: FakeConnector,
         formatters: [FakeFormatter],
+        hints: [],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: []
+        parsers: []
     });
 
     t.true(engineObject.formatters[0] instanceof FakeFormatter);
@@ -739,13 +738,13 @@ test.serial('pageContent should return the HTML', async (t) => {
             name: 'myconnector',
             options: {}
         }
-    } as HintConfig, {
+    } as Configuration, {
         connector: FakeConnectorPageContent,
         formatters: [],
+        hints: [],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: []
+        parsers: []
     });
 
     t.is(await engineObject.pageContent, html);
@@ -778,13 +777,13 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
             name: 'myconnector',
             options: {}
         }
-    } as HintConfig, {
+    } as Configuration, {
         connector: FakeConnectorPageContent,
         formatters: [],
+        hints: [],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: []
+        parsers: []
     });
 
     t.is(engineObject.pageHeaders, headers);
@@ -816,13 +815,13 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
             name: 'myconnector',
             options: {}
         }
-    } as HintConfig, {
+    } as Configuration, {
         connector: FakeConnectorCollectFail,
         formatters: [],
+        hints: [],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: []
+        parsers: []
     });
 
     const localUrl = new url.URL('http://localhost/');
@@ -856,13 +855,13 @@ test.serial('executeOn should return all messages', async (t) => {
             name: 'myconnector',
             options: {}
         }
-    } as HintConfig, {
+    } as Configuration, {
         connector: FakeConnectorCollect,
         formatters: [],
+        hints: [],
         incompatible: [],
         missing: [],
-        parsers: [],
-        rules: []
+        parsers: []
     });
 
     const localUrl = new url.URL('http://localhost/');

@@ -1,15 +1,15 @@
-# sonarwhal
+# webhint (`hint`)
 
 <!-- markdownlint-disable MD013 MD033 -->
 
-<p align="center"><img src="https://user-images.githubusercontent.com/1223565/34734522-e0dd1226-f520-11e7-8277-ec0e0a7199c1.png" alt="sonarwhal logo"></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/1223565/34734522-e0dd1226-f520-11e7-8277-ec0e0a7199c1.png" alt="webhint logo"></p>
 
 <!-- markdownlint-enable -->
 
 ## Quick start user guide
 
 Once you have [`Node.js`](https://nodejs.org/en/download/current/)
-v8.x on your machine, you can use `npx` or install `sonarwhal` globally
+v8.x on your machine, you can use `npx` or install `webhint` globally
 to use it.
 
 ### Using `npx`
@@ -17,45 +17,45 @@ to use it.
 Run the following command:
 
 ```bash
-npx sonarwhal https://example.com
+npx hint https://example.com
 ```
 
-This will start the wizard to create a `.sonarwhalrc` file, and then
+This will start the wizard to create a `.hintrc` file, and then
 analyze `https://example.com`.
 
 **Windows users**: Currently [`npx` has an issue in this
 platform](https://github.com/npm/npm/issues/17869).
 
-### Installing `sonarwhal` globally
+### Installing `webhint` globally
 
 ```bash
-npm install -g --engine-strict sonarwhal
+npm install -g --engine-strict hint
 ```
 
-Create a `.sonarwhalrc` file by running this command and following the
+Create a `.hintrc` file by running this command and following the
 instructions:
 
 ```bash
-sonarwhal --init
+hint --init
 ```
 
 Scan a website:
 
 ```bash
-sonarwhal https://example.com
+hint https://example.com
 ```
 
 For more in depth information on how to get started, configurations,
-and more, see the online [user guide](https://sonarwhal.com/docs/user-guide/),
+and more, see the online [user guide](https://webhint.io/docs/user-guide/),
 or the [local version](./docs/user-guide/index.md)
 for the most recent (and unstable) content.
 
-## Contributing to sonarwhal
+## Contributing to hint
 
-To know more about the internals of `sonarwhal`, the structure of the
-project, how to create new rules, collectors, formatters, etc, take a
+To know more about the internals of `webhint`, the structure of the
+project, how to create new hints, collectors, formatters, etc, take a
 look at the online [contributor
-guide](https://sonarwhal.com/docs/contributor-guide/) (or the [local
+guide](https://webhint.io/docs/contributor-guide/) (or the [local
 version](./docs/contributor-guide/index.md)).
 
 ## Code of Conduct

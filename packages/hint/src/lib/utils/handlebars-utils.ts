@@ -8,7 +8,7 @@ const pkg = loadHintPackage();
 /**
  * Searches the current version used for a package in `hint` and uses that version or the `defaultVersion`.
  *
- * This is used when creating a new rule via the CLI to make sure the dependencies are up-to-date in the moment
+ * This is used when creating a new hint via the CLI to make sure the dependencies are up-to-date in the moment
  * of creation.
  */
 Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): string => {
@@ -26,7 +26,7 @@ Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): st
  * to escape the backticks (`) in the user's input.
  * Example:
  * ```
- * description: `This is a \`important\` rule that has 'single' and "double" quotes.`
+ * description: `This is a \`important\` hint that has 'single' and "double" quotes.`
  * ```
  */
 export const escapeSafeString = (str: string): hbs.SafeString => {

@@ -2,4 +2,4 @@ coverage
 dist
 node_modules
 fixtures
-packages/rule-webpack-config/docs/is-valid.md
+packages/hint-webpack-config/docs/is-valid.md

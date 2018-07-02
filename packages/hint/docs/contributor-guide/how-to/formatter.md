@@ -1,6 +1,6 @@
 # Develop a formatter
 
-A `formatter` formats the results of `sonarwhal`: from crafting `JSON` to
+A `formatter` formats the results of `webhint`: from crafting `JSON` to
 connecting to a database and storing the results in it.
 
 To create one, you will need a class that implements the interface

@@ -1,0 +1,103 @@
+/**
+ * @fileoverview {{description}}
+ */
+
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { HintContext } from 'hint/dist/src/lib/hint-context';
+// The list of types depends on the events you want to capture.
+import { IHint, {{events}}, HintMetadata } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+const debug: debug.IDebugger = d(__filename);
+
+/*
+ * ------------------------------------------------------------------------------
+ * Public
+ * ------------------------------------------------------------------------------
+ */
+
+export default class {{className}} implements IHint {
+
+    public static readonly meta: HintMetadata = {
+        docs: {
+            category: Category.{{category}},
+            description: `{{description}}`
+        },
+        id: '{{#if parentName}}{{parentName}}/{{/if}}{{normalizedName}}',
+        schema: [
+            /*
+             * If you want to allow the user to configure your hint
+             * you should use a valid JSON schema. More info in:
+             * https://webhint.io/docs/contributor-guide/hints/#themetaproperty
+             */
+        ],
+        scope: HintScope.{{scope}}
+    }
+
+    public constructor(context: HintContext) {
+
+        // Your code here.
+        {{#useCase.dom}}
+        const validateElement = async (elementFound: ElementFound) => {
+            // Code to validate the hint on the event when an element is visited.
+
+            {{>event-code event="elementFound"}}
+        };
+        {{/useCase.dom}}
+        {{#useCase.request}}
+        const validateFetchStart = async (fetchStart: FetchStart) => {
+            // Code to validate the hint on the event fetch::start.
+
+            {{>event-code event="fetchStart"}}
+        };
+        const validateFetchEnd = async (fetchEnd: FetchEnd) => {
+            // Code to validate the hint on the event fetch::end::*.
+
+            {{>event-code event="fetchEnd"}}
+        };
+        const validateFetchError = async (fetchError: FetchError) => {
+            // Code to validate the hint on the event fetch::error.
+
+            {{>event-code event="fetchError"}}
+        };
+        {{/useCase.request}}
+        {{#useCase.thirdPartyService}}
+        const validateFetchStart = async (fetchStart: FetchStart) => {
+            // Code to validate the hint on the event fetch::start.
+
+            {{>event-code event="fetchStart"}}
+        };
+        const validateFetchEnd = async (fetchEnd: FetchEnd) => {
+            // Code to validate the hint on the event fetch::end::*.
+
+            {{>event-code event="fetchEnd"}}
+        };
+        {{/useCase.thirdPartyService}}
+        {{#useCase.jsInjection}}
+        const validateScanEnd = async (scanEnd: ScanEnd) => {
+            const jsCode = 'var a = 1 + 1;';
+            const result = await context.evaluate(jsCode);
+
+            return;
+        };
+        {{/useCase.jsInjection}}
+
+        {{#useCase.dom}}
+        context.on('element::{{elementType}}', validateElement);
+        {{/useCase.dom}}
+        {{#useCase.request}}
+        context.on('fetch::end::*', validateFetchEnd);
+        context.on('fetch::error', validateFetchError);
+        context.on('fetch::start', validateFetchStart);
+        {{/useCase.request}}
+        {{#useCase.thirdPartyService}}
+        context.on('fetch::end::*', validateFetchEnd);
+        context.on('fetch::start', validateFetchStart);
+        {{/useCase.thirdPartyService}}
+        {{#useCase.jsInjection}}
+        context.on('scan::end', validateScanEnd);
+        {{/useCase.jsInjection}}
+        // As many events as you need
+    }
+}

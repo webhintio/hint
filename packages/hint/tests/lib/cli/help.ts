@@ -42,7 +42,7 @@ test.serial(`Help should if there isn't any other option and return true`, async
 });
 
 test.serial(`Help shouldn't print if there is another option and return false`, async (t) => {
-    const result = await printHelp({ newRule: true } as CLIOptions);
+    const result = await printHelp({ version: true } as CLIOptions);
 
     t.false(result);
 });

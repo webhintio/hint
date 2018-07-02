@@ -1,5 +1,5 @@
 /**
- * @fileoverview A sonarwhal formatter that outputs the issues in an Excel file
+ * @fileoverview A hint formatter that outputs the issues in an Excel file
  * (xlsx).
  */
 
@@ -88,7 +88,7 @@ export default class ExcelFormatter implements IFormatter {
 
         /** Creates a new sheet with the report for the given resource. */
         const processResource = (msgs: Array<Problem>, resource: string) => {
-            const sortedMessages: Array<Problem> = _.sortBy(msgs, 'ruleId');
+            const sortedMessages: Array<Problem> = _.sortBy(msgs, 'hintId');
             const name = getName(resource);
             const sheet = workbook.addWorksheet(name);
             let counter = startRow;
@@ -105,7 +105,7 @@ export default class ExcelFormatter implements IFormatter {
 
             applyToCell(
                 sheet.getCell(`E${counter}`),
-                { value: 'Rule id' },
+                { value: 'Hint id' },
                 tableHeader);
             applyToCell(
                 sheet.getCell(`F${counter}`),
@@ -118,8 +118,8 @@ export default class ExcelFormatter implements IFormatter {
                     sheet.getCell(`E${counter}`),
                     {
                         value: {
-                            hyperlink: `https://webhint.io/docs/user-guide/rules/rule-${problem.ruleId}/`,
-                            text: problem.ruleId
+                            hyperlink: `https://webhint.io/docs/user-guide/hints/hint-${problem.hintId}/`,
+                            text: problem.hintId
                         }
                     },
                     border);

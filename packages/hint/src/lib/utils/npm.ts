@@ -128,22 +128,22 @@ export const search = async (searchTerm: string): Promise<Array<NpmPackage>> => 
 
 /** Get core packages from npm. */
 export const getOfficialPackages = async (type: string): Promise<Array<NpmPackage>> => {
-    const rules = await search(`@hint/${type}`);
+    const hints = await search(`@hint/${type}`);
 
     /*
      * We need to filter the results because the search can
      * include other packages that doesn't start with `@hint/{type}`.
      */
-    return filterPackages(rules, `@hint/${type}`);
+    return filterPackages(hints, `@hint/${type}`);
 };
 
 /** Get external packages from npm. */
 export const getUnnoficialPackages = async (type: string): Promise<Array<NpmPackage>> => {
-    const rules = await search(`hint-${type}`);
+    const hints = await search(`hint-${type}`);
 
     /*
      * We need to filter the results because the search can
      * include other packages that doesn't start with `hint-{type}`.
      */
-    return filterPackages(rules, `hint-${type}`);
+    return filterPackages(hints, `hint-${type}`);
 };

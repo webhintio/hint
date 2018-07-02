@@ -28,11 +28,11 @@ const logger = {
 };
 
 const config = {
-    HintConfig: {
+    Configuration: {
         fromConfig() { },
         getFilenameForDirectory() { },
         loadConfigFile() { },
-        validateRulesConfig() { }
+        validateHintsConfig() { }
     }
 };
 
@@ -50,7 +50,7 @@ const ora = () => {
 };
 
 const inquirer = { prompt() { } };
-const validateRulesConfigResult = { invalid: [] };
+const validateHintsConfigResult = { invalid: [] };
 
 proxyquire('../../../src/lib/cli/analyze', {
     '../config': config,
@@ -72,7 +72,7 @@ test.beforeEach((t) => {
     sinon.spy(spinner, 'fail');
     sinon.spy(spinner, 'succeed');
 
-    t.context.HintConfig = config.HintConfig;
+    t.context.Configuration = config.Configuration;
     t.context.generator = generator;
     t.context.logger = logger;
     t.context.spinner = spinner;
@@ -100,15 +100,15 @@ test.serial('If config is not defined, it should get the config file from the di
         incompatible: [],
         missing: []
     });
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile')
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'loadConfigFile')
         .onFirstCall()
         .returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
     await analyze(actions);
 
-    t.true(t.context.HintConfig.getFilenameForDirectory.called);
+    t.true(t.context.Configuration.getFilenameForDirectory.called);
 
     sandbox.restore();
 });
@@ -120,19 +120,19 @@ test.serial('If config file does not exist, it should use `web-recommended` as d
         incompatible: [],
         missing: []
     });
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory')
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory')
         .onFirstCall()
         .returns(null);
 
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
     await t.notThrows(analyze(actions));
 
-    t.true(t.context.HintConfig.fromConfig.calledOnce);
-    t.deepEqual(t.context.HintConfig.fromConfig.args[0][0], { extends: ['web-recommended'] });
+    t.true(t.context.Configuration.fromConfig.calledOnce);
+    t.deepEqual(t.context.Configuration.fromConfig.args[0][0], { extends: ['web-recommended'] });
 
     sandbox.restore();
 });
@@ -144,19 +144,19 @@ test.serial('If config file is an invalid JSON, it should ask to use the default
         incompatible: [],
         missing: []
     });
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory')
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory')
         .onFirstCall()
         .returns('config/path');
 
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
 
     await t.notThrows(analyze(actions));
 
-    t.true(t.context.HintConfig.fromConfig.calledOnce);
-    t.deepEqual(t.context.HintConfig.fromConfig.args[0][0], { extends: ['web-recommended'] });
+    t.true(t.context.Configuration.fromConfig.calledOnce);
+    t.deepEqual(t.context.Configuration.fromConfig.args[0][0], { extends: ['web-recommended'] });
     t.true(t.context.inquirer.prompt.calledOnce);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
     t.true(t.context.generator.initHintrc.notCalled);
@@ -171,12 +171,12 @@ test.serial('If config file has an invalid configuration, it should ask to use t
         incompatible: [],
         missing: []
     });
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
-    sandbox.stub(t.context.HintConfig, 'fromConfig')
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
+    sandbox.stub(t.context.Configuration, 'fromConfig')
         .onSecondCall()
         .returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
 
     await analyze(actions);
@@ -184,8 +184,8 @@ test.serial('If config file has an invalid configuration, it should ask to use t
     t.true(t.context.inquirer.prompt.calledOnce);
     t.true(t.context.generator.initHintrc.notCalled);
     t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
-    t.true(t.context.HintConfig.fromConfig.calledOnce);
-    t.deepEqual(t.context.HintConfig.fromConfig.args[0][0], { extends: ['web-recommended'] });
+    t.true(t.context.Configuration.fromConfig.calledOnce);
+    t.deepEqual(t.context.Configuration.fromConfig.args[0][0], { extends: ['web-recommended'] });
 
     sandbox.restore();
 });
@@ -198,9 +198,9 @@ test.serial('If config file is invalid and user refuses to use the default or to
         incompatible: [],
         missing: []
     });
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').throws(error);
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').throws(error);
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
 
     const result = await analyze(actions);
@@ -221,17 +221,17 @@ test.serial('If configuration file exists, it should use it', async (t) => {
         incompatible: [],
         missing: []
     });
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     const customConfigOptions = ({ _: ['http://localhost'], config: 'configfile.cfg' } as CLIOptions);
 
     await analyze(customConfigOptions);
 
-    t.false(t.context.HintConfig.getFilenameForDirectory.called);
-    t.true(t.context.HintConfig.loadConfigFile.args[0][0].endsWith('configfile.cfg'));
+    t.false(t.context.Configuration.getFilenameForDirectory.called);
+    t.true(t.context.Configuration.loadConfigFile.args[0][0].endsWith('configfile.cfg'));
 
     sandbox.restore();
 });
@@ -255,7 +255,7 @@ test.serial('If executeOn returns an error, it should exit with code 1 and call 
         missing: []
     });
 
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     const engineObj = new engineContainer.Engine();
 
@@ -265,9 +265,9 @@ test.serial('If executeOn returns an error, it should exit with code 1 and call 
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: Severity.error }]);
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
     sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
 
     const exitCode = await analyze(actions);
 
@@ -284,10 +284,10 @@ test.serial('If executeOn returns an error, it should call to spinner.fail()', a
         incompatible: [],
         missing: []
     });
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
     sandbox.stub(engineContainer.Engine.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
 
     await analyze(actions);
@@ -304,11 +304,11 @@ test.serial('If executeOn throws an exception, it should exit with code 1', asyn
         incompatible: [],
         missing: []
     });
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
     sandbox.stub(engineContainer.Engine.prototype, 'executeOn').throws(new Error());
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     const result = await analyze(actions);
 
@@ -324,11 +324,11 @@ test.serial('If executeOn throws an exception, it should call to spinner.fail()'
         incompatible: [],
         missing: []
     });
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
     sandbox.stub(engineContainer.Engine.prototype, 'executeOn').throws(new Error());
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     await analyze(actions);
 
@@ -364,10 +364,10 @@ test.serial('If executeOn returns no errors, it should exit with code 0 and call
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: 0 }]);
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
 
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     const exitCode = await analyze(actions);
 
@@ -404,10 +404,10 @@ test.serial('If executeOn returns no errors, it should call to spinner.succeed()
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: 0 }]);
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
 
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     await analyze(actions);
 
@@ -444,10 +444,10 @@ test.serial('Event fetch::start should write a message in the spinner', async (t
         await engine.emitAsync('fetch::start', { resource: 'http://localhost/' });
     });
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     await analyze(actions);
 
@@ -484,10 +484,10 @@ test.serial('Event fetch::end should write a message in the spinner', async (t) 
         await engine.emitAsync('fetch::end', { resource: 'http://localhost/' });
     });
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     await analyze(actions);
 
@@ -524,10 +524,10 @@ test.serial('Event fetch::end::html should write a message in the spinner', asyn
         await engine.emitAsync('fetch::end::html', { resource: 'http://localhost/' });
     });
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     await analyze(actions);
 
@@ -564,10 +564,10 @@ test.serial('Event traverse::up should write a message in the spinner', async (t
         await engine.emitAsync('traverse::up', { resource: 'http://localhost/' });
     });
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(config.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     await analyze(actions);
 
@@ -604,10 +604,10 @@ test.serial('Event traverse::end should write a message in the spinner', async (
         await engine.emitAsync('traverse::end', { resource: 'http://localhost/' });
     });
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(t.context.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     await analyze(actions);
 
@@ -644,10 +644,10 @@ test.serial('Event scan::end should write a message in the spinner', async (t) =
         await engine.emitAsync('scan::end', { resource: 'http://localhost/' });
     });
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(config.HintConfig, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(t.context.HintConfig, 'loadConfigFile').returns({});
-    sandbox.stub(t.context.HintConfig, 'fromConfig').returns({});
-    sandbox.stub(t.context.HintConfig, 'validateRulesConfig').returns(validateRulesConfigResult);
+    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     await analyze(actions);
 
