@@ -2,9 +2,9 @@ import { URL } from 'url';
 
 import test from 'ava';
 
-import { createServer } from '@sonarwhal/utils-create-server';
-import generateHTMLPage from 'sonarwhal/dist/src/lib/utils/misc/generate-html-page';
-import { IConnector } from 'sonarwhal/dist/src/lib/types';
+import { createServer } from '@hint/utils-create-server';
+import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
+import { IConnector } from 'hint/dist/src/lib/types';
 import JSDOMConnector from '../src/connector';
 
 const name: string = 'jsdom';
@@ -46,7 +46,7 @@ const scripts = [
 ];
 
 test.beforeEach(async (t) => {
-    const sonarwhal = {
+    const engine = {
         emit() { },
         emitAsync() { },
         timeout: 10000
@@ -57,8 +57,8 @@ test.beforeEach(async (t) => {
     await server.start();
 
     t.context = {
-        server,
-        sonarwhal
+        engine,
+        server
     };
 });
 
@@ -68,8 +68,8 @@ test.afterEach.always(async (t) => {
 });
 
 test(`[${name}] Evaluate JavaScript`, async (t) => {
-    const { sonarwhal } = t.context;
-    const connector: IConnector = new JSDOMConnector(sonarwhal, {});
+    const { engine } = t.context;
+    const connector: IConnector = new JSDOMConnector(engine, {});
     const server = t.context.server;
 
     t.plan(scripts.length);

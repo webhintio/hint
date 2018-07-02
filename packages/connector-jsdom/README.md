@@ -1,19 +1,19 @@
-# JSDOM connector (`@sonarwhal/connector-jsdom`)
+# JSDOM connector (`@hint/connector-jsdom`)
 
-A connector to use [jsdom][jsdom] in `sonarwhal`.
+A connector to use [jsdom][jsdom] in `webhint`.
 
 ## Installation
 
-First, you need to install [`sonarwhal`](https://sonarwhal.com/):
+First, you need to install [`webhint`](https://webhint.io/):
 
 ```bash
-npm install sonarwhal
+npm install hint
 ```
 
 Then, install the new connector:
 
 ```bash
-npm install @sonarwhal/connector-jsdom
+npm install @hint/connector-jsdom
 ```
 
 ## Known issues
@@ -25,7 +25,7 @@ npm install @sonarwhal/connector-jsdom
 
 ## Usage
 
-Configure the connector name in your [`.sonarwhalrc`][sonarwhalrc]
+Configure the connector name in your [`.hintrc`][hintrc]
 configuration file:
 
 ```json
@@ -60,5 +60,5 @@ configuration file:
 <!-- Link labels: -->
 
 [jsdom]: https://github.com/jsdom/jsdom
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
-[connectors]: https://sonarwhal.com/docs/user-guide/concepts/connectors/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[connectors]: https://webhint.io/docs/user-guide/concepts/connectors/

@@ -1,9 +1,9 @@
-# sonarwhal
+# webhint
 
 <!-- markdownlint-disable MD013 MD033 -->
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/1223565/34734522-e0dd1226-f520-11e7-8277-ec0e0a7199c1.png" alt="sonarwhal logo">
+    <img src="https://user-images.githubusercontent.com/1223565/34734522-e0dd1226-f520-11e7-8277-ec0e0a7199c1.png" alt="webhint logo">
     <a href="https://travis-ci.org/sonarwhal/sonarwhal"><img src="https://travis-ci.org/sonarwhal/sonarwhal.svg?branch=master" alt="Travis CI Build Status"></a> <a href="https://ci.appveyor.com/project/NellieTheNarwhal/sonarwhal"><img src="https://ci.appveyor.com/api/projects/status/r2via8w2s1ras3ui?svg=true" alt="AppVeyor Build Status"></a> <a href="https://gitter.im/sonarwhal/Lobby"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"></a>
 </p>
 
@@ -12,7 +12,7 @@
 ## Quick start user guide
 
 Once you have [`Node.js`](https://nodejs.org/en/download/current/)
-v8.x on your machine, you can use `npx` or install `sonarwhal` globally
+v8.x on your machine, you can use `npx` or install `webhint` globally
 to use it.
 
 ### Using `npx`
@@ -20,65 +20,65 @@ to use it.
 Run the following command:
 
 ```bash
-npx sonarwhal https://example.com
+npx hint https://example.com
 ```
 
-This will start the wizard to create a `.sonarwhalrc` file, and then
+This will start the wizard to create a `.hintrc` file, and then
 analyze `https://example.com`.
 
 **Windows users**: Currently [`npx` has an issue in this
 platform](https://github.com/npm/npm/issues/17869).
 
-### Installing `sonarwhal` globally
+### Installing `webhint` globally
 
 ```bash
-npm install -g --engine-strict sonarwhal
+npm install -g --engine-strict hint
 ```
 
-Create a `.sonarwhalrc` file by running this command and following the
+Create a `.hintrc` file by running this command and following the
 instructions:
 
 ```bash
-sonarwhal --init
+hint --init
 ```
 
 Scan a website:
 
 ```bash
-sonarwhal https://example.com
+hint https://example.com
 ```
 
-To use a different formatter than the one specified in your `.sonarwhalrc` file
+To use a different formatter than the one specified in your `.hintrc` file
  you can do the following:
 
 ```bash
-sonarwhal https://example.com --formatters excel
+hint https://example.com --formatters excel
 ```
 
-To use a different rule than the one specified in your `.sonarwhalrc` file:
+To use a different hint than the one specified in your `.hintrc` file:
 
 ```bash
-sonarwhal https://example.com --rules html-checker
+hint https://example.com --hints html-checker
 ```
 
-Multiple rules can be specified as a comma sepreated string:
+Multiple hints can be specified as a comma sepreated string:
 
 ```bash
-sonarwhal https://example.com --rules axe,html-checker
+hint https://example.com --hints axe,html-checker
 ```
 
 For more in depth information on how to get started, configurations,
-and more, see the online [user guide](https://sonarwhal.com/docs/user-guide/),
-or the [local version](./packages/sonarwhal/docs/user-guide/index.md)
+and more, see the online [user guide](https://webhint.io/docs/user-guide/),
+or the [local version](./packages/hint/docs/user-guide/index.md)
 for the most recent (and unstable) content.
 
-## Contributing to sonarwhal
+## Contributing to webhint
 
-To know more about the internals of `sonarwhal`, the structure of the
-project, how to create new rules, collectors, formatters, etc, take a
+To know more about the internals of `webhint`, the structure of the
+project, how to create new hints, collectors, formatters, etc, take a
 look at the online [contributor
-guide](https://sonarwhal.com/docs/contributor-guide/) (or the [local
-version](./packages/sonarwhal/docs/contributor-guide/index.md)).
+guide](https://webhint.io/docs/contributor-guide/) (or the [local
+version](./packages/hint/docs/contributor-guide/index.md)).
 
 ## Code of Conduct
 

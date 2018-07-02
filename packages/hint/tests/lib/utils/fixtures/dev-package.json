@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+  },
+  "devDependencies": {
+    "hint": "^1.0.0"
+  }
+}

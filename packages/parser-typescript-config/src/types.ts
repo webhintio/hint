@@ -1,6 +1,6 @@
 import * as ajv from 'ajv';
 
-import { Event, ErrorEvent } from 'sonarwhal/dist/src/lib/types/events';
+import { Event, ErrorEvent } from 'hint/dist/src/lib/types/events';
 
 /** Valid values for the `JSX` compiler option. */
 export enum TypeScriptJSXEnum {

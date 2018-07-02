@@ -1,5 +1,5 @@
 import * as ajv from 'ajv';
-import { FetchEnd } from 'sonarwhal/dist/src/lib/types';
+import { FetchEnd } from 'hint/dist/src/lib/types';
 
 /* eslint-disable camelcase */
 

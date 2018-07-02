@@ -18,20 +18,20 @@ import * as chokidar from 'chokidar';
 import * as globby from 'globby';
 import * as fs from 'fs-extra';
 
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { getAsUri } from 'sonarwhal/dist/src/lib/utils/network/as-uri';
-import asPathString from 'sonarwhal/dist/src/lib/utils/network/as-path-string';
-import { getContentTypeData, isTextMediaType, getType } from 'sonarwhal/dist/src/lib/utils/content-type';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
+import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
+import { getContentTypeData, isTextMediaType, getType } from 'hint/dist/src/lib/utils/content-type';
 
-import isFile from 'sonarwhal/dist/src/lib/utils/fs/is-file';
-import readFileAsync from 'sonarwhal/dist/src/lib/utils/fs/read-file-async';
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
+import isFile from 'hint/dist/src/lib/utils/fs/is-file';
+import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
+import * as logger from 'hint/dist/src/lib/utils/logging';
 
 import {
     IConnector,
     Event, FetchEnd, ScanEnd, NetworkData
-} from 'sonarwhal/dist/src/lib/types';
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
+} from 'hint/dist/src/lib/types';
+import { Engine } from 'hint/dist/src/lib/engine';
 
 /*
  * ------------------------------------------------------------------------------
@@ -45,15 +45,15 @@ const defaultOptions = {};
 
 export default class LocalConnector implements IConnector {
     private _options: any;
-    private sonarwhal: Sonarwhal;
+    private engine: Engine;
     private _href: string = '';
     private filesPattern: Array<string>;
     private watcher: chokidar.FSWatcher = null;
 
-    public constructor(sonarwhal: Sonarwhal, config: object) {
+    public constructor(engine: Engine, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
         this.filesPattern = this.getFilesPattern();
-        this.sonarwhal = sonarwhal;
+        this.engine = engine;
     }
 
     /*
@@ -104,7 +104,7 @@ export default class LocalConnector implements IConnector {
         };
         const type = getType(event.response.mediaType);
 
-        await this.sonarwhal.emitAsync(`fetch::end::${type}`, event);
+        await this.engine.emitAsync(`fetch::end::${type}`, event);
     }
 
     private getGitIgnore = async () => {
@@ -142,8 +142,8 @@ export default class LocalConnector implements IConnector {
         const href: string = this._href;
         const scanEndEvent: ScanEnd = { resource: href };
 
-        await this.sonarwhal.emitAsync('scan::end', scanEndEvent);
-        await this.sonarwhal.notify();
+        await this.engine.emitAsync('scan::end', scanEndEvent);
+        await this.engine.notify();
 
         logger.log('Watching for file changes.');
     }
@@ -198,7 +198,7 @@ export default class LocalConnector implements IConnector {
 
                 logger.log(`File ${file} changeg`);
                 // TODO: Manipulate the report if the file already have messages in the report.
-                this.sonarwhal.clean(fileUrl);
+                this.engine.clean(fileUrl);
                 await this.fetch(file);
                 await this.notify();
             };
@@ -207,7 +207,7 @@ export default class LocalConnector implements IConnector {
                 const file: string = getFile(filePath);
                 const fileUrl = getAsUri(file);
 
-                this.sonarwhal.clean(fileUrl);
+                this.engine.clean(fileUrl);
                 // TODO: Do anything when a file is removed? Maybe check the current report and remove messages related to that file.
                 logger.log('onUnlink');
 
@@ -234,7 +234,7 @@ export default class LocalConnector implements IConnector {
             // Close the watcher after press Ctrl + C
             process.once('SIGINT', () => {
                 this.watcher.close();
-                this.sonarwhal.clear();
+                this.engine.clear();
                 resolve();
             });
         });
@@ -282,13 +282,13 @@ export default class LocalConnector implements IConnector {
         const href: string = this._href = target.href;
         const initialEvent: Event = { resource: href };
 
-        this.sonarwhal.emitAsync('scan::start', initialEvent);
+        this.engine.emitAsync('scan::start', initialEvent);
 
         const pathString = asPathString(target);
         let files;
 
         if (isFile(pathString)) {
-            await this.sonarwhal.emitAsync('fetch::start::target', initialEvent);
+            await this.engine.emitAsync('fetch::start::target', initialEvent);
             files = [pathString];
         } else {
             // TODO: the current @types/globby doesn't support gitignore. Remove "as any" when possible
@@ -305,7 +305,7 @@ export default class LocalConnector implements IConnector {
         if (this._options.watch) {
             await this.watch(pathString);
         } else {
-            await this.sonarwhal.emitAsync('scan::end', initialEvent);
+            await this.engine.emitAsync('scan::end', initialEvent);
         }
     }
 

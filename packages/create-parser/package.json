@@ -14,9 +14,9 @@
     "handlebars": "^4.0.11",
     "inquirer": "^6.0.0",
     "mkdirp": "^0.5.1",
-    "sonarwhal": "^1.11.2"
+    "hint": "^1.0.0"
   },
-  "description": "sonarwhal's parser initializer package",
+  "description": "webhint's parser initializer package",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
@@ -44,18 +44,19 @@
     "dist/src",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "create",
     "parser",
-    "sonarwhal",
-    "sonarwhal-parser"
+    "hint",
+    "hint-parser",
+    "webhint"
   ],
   "license": "Apache-2.0",
   "name": "create-parser",
   "nyc": {
     "extends": "../../.nycrc",
-    "include": "dist/src/new-rule.js"
+    "include": "dist/src/new-parser.js"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

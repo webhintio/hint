@@ -5,9 +5,9 @@ import * as iconv from 'iconv-lite';
 import * as brotli from 'iltorb';
 import test from 'ava';
 
-import { createServer } from '@sonarwhal/utils-create-server';
+import { createServer } from '@hint/utils-create-server';
 import { Requester } from '../src/requester';
-import { NetworkData } from 'sonarwhal/dist/src/lib/types';
+import { NetworkData } from 'hint/dist/src/lib/types';
 
 const compressGzip: Function = promisify(zlib.gzip) as any;
 const compressBrotli: Function = promisify(brotli.compress) as any;

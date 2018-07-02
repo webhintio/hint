@@ -1,4 +1,4 @@
-import { Problem, Severity } from 'sonarwhal/dist/src/lib/types';
+import { Problem, Severity } from 'hint/dist/src/lib/types';
 
 const multipleproblems: Array<Problem> = [{
     location: {
@@ -7,7 +7,7 @@ const multipleproblems: Array<Problem> = [{
     },
     message: 'This is a problem in line 1 column 10',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 },
@@ -18,7 +18,7 @@ const multipleproblems: Array<Problem> = [{
     },
     message: 'This is a problem in line 10',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 },
@@ -29,7 +29,7 @@ const multipleproblems: Array<Problem> = [{
     },
     message: 'This is a problem in line 5',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 },
@@ -40,7 +40,7 @@ const multipleproblems: Array<Problem> = [{
     },
     message: 'This is a problem in line 1 column 1',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 }];

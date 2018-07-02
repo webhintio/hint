@@ -1,5 +1,5 @@
 /**
- * @fileoverview Edge Diagnostics Adapter connector for sonarwhal.
+ * @fileoverview Edge Diagnostics Adapter connector for hint.
  */
 
 import * as eda from './connector-edge';

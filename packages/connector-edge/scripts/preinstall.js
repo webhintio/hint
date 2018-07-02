@@ -2,7 +2,7 @@ const os = require('os');
 const minVersion = 15063;
 
 const printError = (message) => {
-    console.error(`${message} @sonarwhal/connector-edge will not be installed.`);
+    console.error(`${message} @hint/connector-edge will not be installed.`);
 };
 
 if (os.platform() !== 'win32') {

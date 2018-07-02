@@ -3,17 +3,17 @@ import { URL } from 'url';
 import test from 'ava';
 
 import ChromeConnector from '../src/connector';
-import { IConnector } from 'sonarwhal/dist/src/lib/types';
+import { IConnector } from 'hint/dist/src/lib/types';
 
 const name: string = 'chrome';
 
 test.beforeEach((t) => {
-    const sonarwhal = {
+    const engine = {
         emit() { },
         emitAsync() { }
     };
 
-    t.context = { sonarwhal };
+    t.context = { engine };
 });
 
 test.afterEach.always(async (t) => {
@@ -21,8 +21,8 @@ test.afterEach.always(async (t) => {
 });
 
 test(`[${name}] Load an invalid url throws an error`, async (t) => {
-    const { sonarwhal } = t.context;
-    const connector: IConnector = new ChromeConnector(sonarwhal, {});
+    const { engine } = t.context;
+    const connector: IConnector = new ChromeConnector(engine, {});
 
     t.context.connector = connector;
 

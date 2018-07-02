@@ -1,0 +1,13 @@
+/**
+ * @fileoverview {{description}}
+ */
+
+{{#each hints}}
+import * as {{toCamelCase normalizedName}} from './{{normalizedName}}';
+{{/each}}
+
+module.exports = {
+    {{#each hints}}
+    '{{normalizedName}}': {{toCamelCase normalizedName}}{{#unless @last}},{{/unless}}
+    {{/each}}
+};
