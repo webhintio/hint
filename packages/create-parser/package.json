@@ -7,14 +7,7 @@
     "timeout": "1m"
   },
   "bin": {
-    "create-parser": "dist/src/new-parser.js"
-  },
-  "dependencies": {
-    "fs-extra": "^6.0.1",
-    "handlebars": "^4.0.11",
-    "inquirer": "^6.0.0",
-    "mkdirp": "^0.5.1",
-    "hint": "^1.0.0"
+    "create-parser": "./dist/src/new-parser.js"
   },
   "description": "webhint's parser initializer package",
   "devDependencies": {
@@ -25,7 +18,12 @@
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
     "fork-ts-checker-webpack-plugin": "^0.4.2",
+    "fs-extra": "^6.0.1",
+    "handlebars": "^4.0.11",
+    "inquirer": "^6.0.0",
+    "hint": "^1.0.0",
     "markdownlint-cli": "^0.10.0",
+    "mkdirp": "^0.5.1",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
     "nyc": "^12.0.2",
