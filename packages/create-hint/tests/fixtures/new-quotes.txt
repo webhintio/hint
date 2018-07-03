@@ -30,7 +30,7 @@ export default class NewHint implements IHint {
             /*
              * If you want to allow the user to configure your hint
              * you should use a valid JSON schema. More info in:
-             * https://webhint.io/docs/contributor-guide/hints/#themetaproperty
+             * https://webhint.io/docs/contributor-guide/how-to/hints/#the-meta-property
              */
         ],
         scope: HintScope.site
