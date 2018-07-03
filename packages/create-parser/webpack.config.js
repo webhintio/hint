@@ -25,7 +25,8 @@ module.exports = () => {
         output: { filename: 'src/[name].js' },
         plugins: [
             new webpack.ProgressPlugin(),
-            new ForkTsCheckerWebpackPlugin()
+            new ForkTsCheckerWebpackPlugin(),
+            new webpack.BannerPlugin({ banner: '#!/usr/bin/env node', raw: true })
         ],
         resolve: {
             alias: { handlebars: 'handlebars/dist/handlebars.min.js' },
