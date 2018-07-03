@@ -24,9 +24,11 @@ module.exports = () => {
         },
         output: { filename: 'src/[name].js' },
         plugins: [
-            new webpack.ProgressPlugin(),
             new ForkTsCheckerWebpackPlugin(),
-            new webpack.BannerPlugin({ banner: '#!/usr/bin/env node', raw: true })
+            new webpack.BannerPlugin({ banner: '#!/usr/bin/env node', raw: true }),
+            // We set process.env.webpack becase there are different code paths if we are bundling around loading resources
+            new webpack.DefinePlugin({ 'process.env.webpack': JSON.stringify(true) }),
+            new webpack.ProgressPlugin()
         ],
         resolve: {
             alias: { handlebars: 'handlebars/dist/handlebars.min.js' },
