@@ -35,46 +35,46 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
 
     const sortedMessages = [
         {
+            hintId: 'random-hint',
             location: {
                 column: 1,
                 line: 1
             },
             message: 'This is a problem in line 1 column 1',
             resource: 'http://myresource.com/',
-            hintId: 'random-hint',
             severity: Severity.warning,
             sourceCode: ''
         },
         {
+            hintId: 'random-hint',
             location: {
                 column: 10,
                 line: 1
             },
             message: 'This is a problem in line 1 column 10',
             resource: 'http://myresource.com/',
-            hintId: 'random-hint',
             severity: Severity.warning,
             sourceCode: ''
         },
         {
+            hintId: 'random-hint',
             location: {
                 column: 1,
                 line: 5
             },
             message: 'This is a problem in line 5',
             resource: 'http://myresource.com/',
-            hintId: 'random-hint',
             severity: Severity.warning,
             sourceCode: ''
         },
         {
+            hintId: 'random-hint',
             location: {
                 column: 1,
                 line: 10
             },
             message: 'This is a problem in line 10',
             resource: 'http://myresource.com/',
-            hintId: 'random-hint',
             severity: Severity.warning,
             sourceCode: ''
         }
@@ -83,7 +83,6 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
     const log = t.context.logger.log;
     const firstCall = log.firstCall;
     const secondCall = log.secondCall;
-
 
     t.is(log.callCount, 2);
     t.is(firstCall.args[0], 'http://myresource.com/: 4 issues');
