@@ -118,7 +118,7 @@ const createGitHubToken = async (showInitialMessage = true) => {
             user: answers.username
         },
         body: {
-            note: `sonarwhal release script (${new Date()})`,
+            note: `webhint release script (${new Date()})`,
             scopes: ['repo']
         },
         headers: {
@@ -633,14 +633,14 @@ const updateChangelog = (ctx) => {
 const updateConnectivityIni = async () => {
     await downloadFile(
         'https://raw.githubusercontent.com/WPO-Foundation/webpagetest/master/www/settings/connectivity.ini.sample',
-        path.normalize('packages/rule-performance-budget/src/connections.ini')
+        path.normalize('packages/hint-performance-budget/src/connections.ini')
     );
 };
 
 const updateSnykSnapshot = async () => {
     await downloadFile(
         'https://snyk.io/partners/api/v2/vulndb/clientside.json',
-        path.normalize('packages/rule-no-vulnerable-javascript-libraries/src/snyk-snapshot.json')
+        path.normalize('packages/hint-no-vulnerable-javascript-libraries/src/snyk-snapshot.json')
     );
 };
 
@@ -671,7 +671,7 @@ const updatePackageVersionNumberInOtherPackages = (ctx) => {
 
         const packageJSONFilePath = `${pkg}/package.json`;
         const packageJSONFileContent = require(`../../${packageJSONFilePath}`);
-        const dependencyName = ctx.packageName === 'sonarwhal' ? ctx.packageName : `@sonarwhal/${ctx.packageName}`;
+        const dependencyName = ctx.packageName === 'hint' ? ctx.packageName : `@hint/${ctx.packageName}`;
 
         let packageJSONFileHasBeenUpdated = false;
 
@@ -712,11 +712,11 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent) => {
 
     // Update package related files.
 
-    if (packageName === 'rule-no-vulnerable-javascript-libraries') {
+    if (packageName === '@hint/hint-no-vulnerable-javascript-libraries') {
         tasks.push(newTask('Update `snyk-snapshot.json`', updateSnykSnapshot));
     }
 
-    if (packageName === 'rule-performance-budget') {
+    if (packageName === '@hint/hint-performance-budget') {
         tasks.push(newTask('Update `connections.ini`', updateConnectivityIni));
     }
 
@@ -884,7 +884,7 @@ const main = async () => {
 
     const exceptions = [
         'packages/parser-webpack-config',
-        'packages/rule-webpack-config'
+        'packages/hint-webpack-config'
     ];
 
     if (process.platform !== 'win32') {
@@ -892,11 +892,11 @@ const main = async () => {
     }
 
     const packages = [
-        'packages/sonarwhal',
+        'packages/hint',
         ...shell.ls('-d', 'packages/formatter-*'),
         ...shell.ls('-d', 'packages/connector-*'),
         ...shell.ls('-d', 'packages/parser-*'),
-        ...shell.ls('-d', 'packages/rule-*'),
+        ...shell.ls('-d', 'packages/hint-*'),
         ...shell.ls('-d', 'packages/configuration-*')
     ].filter((name) => {
         return !exceptions.includes(name);

@@ -5,7 +5,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import * as handlebarsUtils from 'sonarwhal/dist/src/lib/utils/handlebars-utils';
+import * as handlebarsUtils from 'hint/dist/src/lib/utils/handlebars-utils';
 
 const fsExtra = { copy() { } };
 const inquirer = { prompt() { } };
@@ -19,11 +19,11 @@ const mkdirp = (dir, callback) => {
 };
 
 proxyquire('../src/new-parser', {
-    'sonarwhal/dist/src/lib/utils/handlebars-utils': handlebarsUtils,
-    'sonarwhal/dist/src/lib/utils/fs/read-file-async': readFileAsync,
-    'sonarwhal/dist/src/lib/utils/fs/write-file-async': writeFileAsync,
-    'sonarwhal/dist/src/lib/utils/misc/normalize-string-by-delimeter': normalizeStringByDelimiter,
-    'sonarwhal/dist/src/lib/utils/packages/is-official': isOfficial,
+    'hint/dist/src/lib/utils/handlebars-utils': handlebarsUtils,
+    'hint/dist/src/lib/utils/fs/read-file-async': readFileAsync,
+    'hint/dist/src/lib/utils/fs/write-file-async': writeFileAsync,
+    'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter': normalizeStringByDelimiter,
+    'hint/dist/src/lib/utils/packages/is-official': isOfficial,
     'fs-extra': fsExtra,
     inquirer,
     mkdirp
@@ -170,9 +170,9 @@ test.serial('It should create a new non-official parser.', async (t) => {
 
     const result = await newParser();
 
-    // 7 files (2 code + test + doc + tsconfig.json + package.json + .sonarwhalrc)
+    // 7 files (2 code + test + doc + tsconfig.json + package.json + .hintrc)
     t.is(t.context.handlebars.compileTemplate.callCount, 7, `Handlebars doesn't complile the right number of files`);
-    // 7 files (2 code + test + doc + tsconfig.json + package.json + .sonarwhalrc)
+    // 7 files (2 code + test + doc + tsconfig.json + package.json + .hintrc)
     t.is(t.context.misc.writeFileAsync.default.callCount, 7, 'Invalid number of files created');
 
     t.true(result);

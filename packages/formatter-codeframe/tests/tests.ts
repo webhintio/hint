@@ -5,7 +5,7 @@ import * as proxyquire from 'proxyquire';
 
 const logging = { log() { } };
 
-proxyquire('../src/formatter', { 'sonarwhal/dist/src/lib/utils/logging': logging });
+proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': logging });
 
 import CodeframeFormatter from '../src/formatter';
 import * as problems from './fixtures/list-of-problems';
@@ -36,12 +36,12 @@ test(`Codeframe formatter prints a table and a summary for each resource`, (t) =
     const log = t.context.logger.log;
     let problem = problems.codeframeproblems[0];
 
-    t.is(log.args[0][0], `${chalk.yellow('Warning')}: ${problem.message} (${problem.ruleId}) at ${chalk.cyan(problem.resource)}`);
+    t.is(log.args[0][0], `${chalk.yellow('Warning')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}`);
 
     problem = problems.codeframeproblems[1];
     let sourceCode = problem.sourceCode.split('\n');
 
-    t.is(log.args[2][0], `${chalk.yellow('Warning')}: ${problem.message} (${problem.ruleId}) at ${chalk.cyan(problem.resource)}:${problem.location.line}:${problem.location.column}`);
+    t.is(log.args[2][0], `${chalk.yellow('Warning')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}:${problem.location.line}:${problem.location.column}`);
     t.is(log.args[4][0], sourceCode[0]);
     t.is(log.args[5][0], '^');
     t.is(log.args[8][0], '…');

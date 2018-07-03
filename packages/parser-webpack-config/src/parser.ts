@@ -1,11 +1,11 @@
 import * as path from 'path';
 import * as webpack from 'webpack'; // This is used just to have types.
 
-import { FetchEnd, Parser } from 'sonarwhal/dist/src/lib/types';
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
-import { getAsUri } from 'sonarwhal/dist/src/lib/utils/network/as-uri';
-import asPathString from 'sonarwhal/dist/src/lib/utils/network/as-path-string';
-import loadPackage from 'sonarwhal/dist/src/lib/utils/packages/load-package';
+import { FetchEnd, Parser } from 'hint/dist/src/lib/types';
+import { Engine } from 'hint/dist/src/lib/engine';
+import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
+import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
+import loadPackage from 'hint/dist/src/lib/utils/packages/load-package';
 
 import { WebpackConfigParse, WebpackConfigInvalidConfiguration } from './types';
 
@@ -14,16 +14,16 @@ export default class WebpackConfigParser extends Parser {
     private schema: any;
     private newKeyword;
 
-    public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal, 'webpack-config');
+    public constructor(engine: Engine) {
+        super(engine, 'webpack-config');
 
-        sonarwhal.on('fetch::end::script', this.parseWebpack.bind(this));
-        sonarwhal.on('scan::end', this.parseEnd.bind(this));
+        engine.on('fetch::end::script', this.parseWebpack.bind(this));
+        engine.on('scan::end', this.parseEnd.bind(this));
     }
 
     private async parseEnd() {
         if (!this.configFound) {
-            await this.sonarwhal.emitAsync(`parse::${this.name}::error::not-found`, {});
+            await this.engine.emitAsync(`parse::${this.name}::error::not-found`, {});
         }
     }
 
@@ -57,7 +57,7 @@ export default class WebpackConfigParser extends Parser {
             const version = this.getLocallyInstalledWebpack();
 
             if (!version) {
-                await this.sonarwhal.emitAsync(`parse::${this.name}::error::not-install`, {});
+                await this.engine.emitAsync(`parse::${this.name}::error::not-install`, {});
 
                 return;
             }
@@ -68,14 +68,14 @@ export default class WebpackConfigParser extends Parser {
                 version
             };
 
-            await this.sonarwhal.emitAsync(`parse::${this.name}::end`, event);
+            await this.engine.emitAsync(`parse::${this.name}::end`, event);
         } catch (err) {
             const errorEvent: WebpackConfigInvalidConfiguration = {
                 error: err,
                 resource
             };
 
-            await this.sonarwhal.emitAsync(`parse::${this.name}::error::configuration`, errorEvent);
+            await this.engine.emitAsync(`parse::${this.name}::error::configuration`, errorEvent);
         }
     }
 }

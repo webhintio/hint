@@ -11,12 +11,12 @@
     "parsers": [
         "manifest"
     ],
-    "rules": {
+    "hints": {
         "apple-touch-icons": "error",
         "manifest-app-name": "error",
         "manifest-exists": "error",
         "manifest-file-extension": "error",
         "manifest-is-valid": "error"
     },
-    "rulesTimeout": 120000
+    "hintsTimeout": 120000
 }

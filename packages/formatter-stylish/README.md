@@ -1,4 +1,4 @@
-# Formatter stylish (`@sonarwhal/formatter-stylish`)
+# Formatter stylish (`@hint/formatter-stylish`)
 
 The `stylish` formatter prints the results in table format indicating the
 resource, line, and column:
@@ -8,7 +8,7 @@ resource, line, and column:
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @sonarwhal/formatter-stylish
+npm install @hint/formatter-stylish
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -16,14 +16,14 @@ parameter, or to install it globally, you can use the `-g` parameter. For
 other options see
 [`npm`'s documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+And then activate it via the [`.hintrc`][hintrc]
 configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": "stylish",
-    "rules": {
+    "hints": {
         ...
     },
     ...
@@ -32,4 +32,4 @@ configuration file:
 
 <!-- Link labels: -->
 
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/

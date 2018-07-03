@@ -1,0 +1,25 @@
+import { generateHTMLPage } from 'hint/dist/tests/helpers/misc';
+import { HintTest } from 'hint/dist/tests/helpers/hint-test-type';
+import * as hintRunner from 'hint/dist/tests/helpers/hint-runner';
+
+const hintName = '{{#if parentName}}{{parentName}}/{{/if}}{{normalizedName}}';
+
+/*
+ * You should test for cases where the hint passes and doesn't.
+ * More information about how `hintRunner` can be configured is
+ * available in:
+ * https://webhint.io/docs/contributor-guide/hints/#howtotestahint
+ */
+const tests: Array<HintTest> = [
+    {
+        name: 'This test should pass',
+        serverConfig: generateHTMLPage()
+    },
+    {
+        name: `This test should fail`,
+        reports: [{ message: `This should be your error message` }],
+        serverConfig: generateHTMLPage()
+    }
+];
+
+hintRunner.testHint(hintName, tests);

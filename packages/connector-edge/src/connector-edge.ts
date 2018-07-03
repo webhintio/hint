@@ -3,14 +3,14 @@
  * to load a site and do the traversing.
  */
 
-import { Connector } from '@sonarwhal/utils-debugging-protocol-common/dist/src/debugging-protocol-connector';
-import { ILauncher } from 'sonarwhal/dist/src/lib/types';
+import { Connector } from '@hint/utils-debugging-protocol-common/dist/src/debugging-protocol-connector';
+import { ILauncher } from 'hint/dist/src/lib/types';
 import { EdgeLauncher } from './connector-edge-launcher';
 
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
+import { Engine } from 'hint/dist/src/lib/engine';
 
 export default class EdgeConnector extends Connector {
-    public constructor(server: Sonarwhal, config: object) {
+    public constructor(server: Engine, config: object) {
         const edgeRequiredConfig = {
             tabUrl: 'https://empty.sonarwhal.com/',
             useTabUrl: true

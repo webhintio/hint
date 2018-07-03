@@ -58,19 +58,19 @@ const createNetworkDataObject = (manifestContent: string = '', statusCode: numbe
 const createMissingTest = async (t, relAttribute: string = 'manifest', hrefAttribute: string = '') => {
     const elementLinkEventValue = getElementLinkEventValue(relAttribute, hrefAttribute);
     const sandbox = sinon.createSandbox();
-    const sonarwhal = t.context.sonarwhal;
+    const engine = t.context.engine;
 
-    sandbox.spy(sonarwhal, 'emitAsync');
+    sandbox.spy(engine, 'emitAsync');
 
-    new Parser(sonarwhal); // eslint-disable-line no-new
+    new Parser(engine); // eslint-disable-line no-new
 
-    await sonarwhal.emitAsync(elementLinkEventName, elementLinkEventValue);
-    await sonarwhal.emitAsync(scanEndEventName, scanEndEventValue);
+    await engine.emitAsync(elementLinkEventName, elementLinkEventValue);
+    await engine.emitAsync(scanEndEventName, scanEndEventValue);
 
-    t.is(sonarwhal.emitAsync.callCount, 2);
-    t.is(sonarwhal.emitAsync.args[0][0], elementLinkEventName);
-    t.is(sonarwhal.emitAsync.args[1][0], scanEndEventName);
-    t.is(sonarwhal.emitAsync.args[1][1], scanEndEventValue);
+    t.is(engine.emitAsync.callCount, 2);
+    t.is(engine.emitAsync.args[0][0], elementLinkEventName);
+    t.is(engine.emitAsync.args[1][0], scanEndEventName);
+    t.is(engine.emitAsync.args[1][1], scanEndEventValue);
 
     sandbox.restore();
 };
@@ -78,25 +78,25 @@ const createMissingTest = async (t, relAttribute: string = 'manifest', hrefAttri
 const createParseTest = async (t, manifestContent: string, expectedEventName: string, verifyResult) => {
     const elementEventValue = getElementLinkEventValue();
     const sandbox = sinon.createSandbox();
-    const sonarwhal = t.context.sonarwhal;
+    const engine = t.context.engine;
 
-    sandbox.spy(sonarwhal, 'emitAsync');
-    sandbox.stub(sonarwhal, 'fetchContent');
+    sandbox.spy(engine, 'emitAsync');
+    sandbox.stub(engine, 'fetchContent');
 
-    t.context.sonarwhal.fetchContent.onCall(0)
+    t.context.engine.fetchContent.onCall(0)
         .returns(createNetworkDataObject(manifestContent));
 
-    new Parser(sonarwhal); // eslint-disable-line no-new
+    new Parser(engine); // eslint-disable-line no-new
 
-    await sonarwhal.emitAsync(elementLinkEventName, elementEventValue);
+    await engine.emitAsync(elementLinkEventName, elementEventValue);
 
-    t.is(sonarwhal.emitAsync.callCount, 4);
-    t.is(sonarwhal.emitAsync.args[0][0], elementLinkEventName);
-    t.is(sonarwhal.emitAsync.args[1][0], fetchStartEventName);
-    t.is(sonarwhal.emitAsync.args[2][0], fetchEndEventName);
-    t.is(sonarwhal.emitAsync.args[3][0], expectedEventName);
+    t.is(engine.emitAsync.callCount, 4);
+    t.is(engine.emitAsync.args[0][0], elementLinkEventName);
+    t.is(engine.emitAsync.args[1][0], fetchStartEventName);
+    t.is(engine.emitAsync.args[2][0], fetchEndEventName);
+    t.is(engine.emitAsync.args[3][0], expectedEventName);
 
-    verifyResult(t, sonarwhal.emitAsync.args[3][1]);
+    verifyResult(t, engine.emitAsync.args[3][1]);
 
     sandbox.restore();
 };
@@ -104,27 +104,27 @@ const createParseTest = async (t, manifestContent: string, expectedEventName: st
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 test.beforeEach((t) => {
-    t.context.sonarwhal = new EventEmitter2({
+    t.context.engine = new EventEmitter2({
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
     });
-    t.context.sonarwhal.fetchContent = () => {};
+    t.context.engine.fetchContent = () => {};
 });
 
 test(`No event is emitted when no web app manifest file is specified`, async (t) => {
     const sandbox = sinon.createSandbox();
-    const sonarwhal = t.context.sonarwhal;
+    const engine = t.context.engine;
 
-    sandbox.spy(sonarwhal, 'emitAsync');
+    sandbox.spy(engine, 'emitAsync');
 
-    new Parser(sonarwhal); // eslint-disable-line no-new
+    new Parser(engine); // eslint-disable-line no-new
 
-    await sonarwhal.emitAsync(scanEndEventName, scanEndEventValue);
+    await engine.emitAsync(scanEndEventName, scanEndEventValue);
 
-    t.is(sonarwhal.emitAsync.callCount, 1);
-    t.is(sonarwhal.emitAsync.args[0][0], scanEndEventName);
-    t.is(sonarwhal.emitAsync.args[0][1], scanEndEventValue);
+    t.is(engine.emitAsync.callCount, 1);
+    t.is(engine.emitAsync.args[0][0], scanEndEventName);
+    t.is(engine.emitAsync.args[0][1], scanEndEventValue);
 
     sandbox.restore();
 });
@@ -140,24 +140,24 @@ test(`No event is emitted when only a '<link rel="stylesheet"...>' is specified`
 test(`'${fetchErrorEventName}' event is emitted when the manifest cannot be fetched`, async (t) => {
     const elementEventValue = getElementLinkEventValue();
     const sandbox = sinon.createSandbox();
-    const sonarwhal = t.context.sonarwhal;
+    const engine = t.context.engine;
 
-    sandbox.spy(sonarwhal, 'emitAsync');
-    sandbox.stub(sonarwhal, 'fetchContent');
+    sandbox.spy(engine, 'emitAsync');
+    sandbox.stub(engine, 'fetchContent');
 
-    sonarwhal.fetchContent.onCall(0).throws(createNetworkDataObject());
+    engine.fetchContent.onCall(0).throws(createNetworkDataObject());
 
-    new Parser(sonarwhal); // eslint-disable-line no-new
+    new Parser(engine); // eslint-disable-line no-new
 
-    await sonarwhal.emitAsync(elementLinkEventName, elementEventValue);
-    await sonarwhal.emitAsync(scanEndEventName, scanEndEventValue);
+    await engine.emitAsync(elementLinkEventName, elementEventValue);
+    await engine.emitAsync(scanEndEventName, scanEndEventValue);
 
-    t.is(sonarwhal.emitAsync.callCount, 4);
-    t.is(sonarwhal.emitAsync.args[0][0], elementLinkEventName);
-    t.is(sonarwhal.emitAsync.args[1][0], fetchStartEventName);
-    t.is(sonarwhal.emitAsync.args[2][0], fetchErrorEventName);
-    t.not(typeof sonarwhal.emitAsync.args[2][1].error, 'undefined');
-    t.is(sonarwhal.emitAsync.args[3][0], scanEndEventName);
+    t.is(engine.emitAsync.callCount, 4);
+    t.is(engine.emitAsync.args[0][0], elementLinkEventName);
+    t.is(engine.emitAsync.args[1][0], fetchStartEventName);
+    t.is(engine.emitAsync.args[2][0], fetchErrorEventName);
+    t.not(typeof engine.emitAsync.args[2][1].error, 'undefined');
+    t.is(engine.emitAsync.args[3][0], scanEndEventName);
 
     sandbox.restore();
 });
@@ -166,25 +166,25 @@ test(`'${fetchErrorEventName}' event is emitted when the response for the web ap
     const elementEventValue = getElementLinkEventValue();
     const manifestContent = '500 Internal Server Error';
     const sandbox = sinon.createSandbox();
-    const sonarwhal = t.context.sonarwhal;
+    const engine = t.context.engine;
 
-    sandbox.spy(sonarwhal, 'emitAsync');
-    sandbox.stub(sonarwhal, 'fetchContent');
+    sandbox.spy(engine, 'emitAsync');
+    sandbox.stub(engine, 'fetchContent');
 
-    t.context.sonarwhal.fetchContent.onCall(0)
+    t.context.engine.fetchContent.onCall(0)
         .returns(createNetworkDataObject(manifestContent, 500));
 
-    new Parser(sonarwhal); // eslint-disable-line no-new
+    new Parser(engine); // eslint-disable-line no-new
 
-    await sonarwhal.emitAsync(elementLinkEventName, elementEventValue);
-    await sonarwhal.emitAsync(scanEndEventName, scanEndEventValue);
+    await engine.emitAsync(elementLinkEventName, elementEventValue);
+    await engine.emitAsync(scanEndEventName, scanEndEventValue);
 
-    t.is(sonarwhal.emitAsync.callCount, 4);
-    t.is(sonarwhal.emitAsync.args[0][0], elementLinkEventName);
-    t.is(sonarwhal.emitAsync.args[1][0], fetchStartEventName);
-    t.is(sonarwhal.emitAsync.args[2][0], fetchErrorEventName);
-    t.not(typeof sonarwhal.emitAsync.args[2][1].error, 'undefined');
-    t.is(sonarwhal.emitAsync.args[3][0], scanEndEventName);
+    t.is(engine.emitAsync.callCount, 4);
+    t.is(engine.emitAsync.args[0][0], elementLinkEventName);
+    t.is(engine.emitAsync.args[1][0], fetchStartEventName);
+    t.is(engine.emitAsync.args[2][0], fetchErrorEventName);
+    t.not(typeof engine.emitAsync.args[2][1].error, 'undefined');
+    t.is(engine.emitAsync.args[3][0], scanEndEventName);
 
     sandbox.restore();
 });

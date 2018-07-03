@@ -7,15 +7,15 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@sonarwhal/utils-debugging-protocol-common": "^1.0.0",
+    "@hint/utils-debugging-protocol-common": "^1.0.0",
     "chrome-launcher": "^0.10.2",
     "is-ci": "^1.1.0",
     "lockfile": "^1.0.4",
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
-  "description": "sonarwhal connector for Google Chrome",
+  "description": "hint connector for Google Chrome",
   "devDependencies": {
-    "@sonarwhal/utils-create-server": "^1.0.0",
+    "@hint/utils-create-server": "^1.0.0",
     "@types/is-ci": "^1.1.0",
     "@types/lodash": "^4.14.110",
     "ava": "^0.25.0",
@@ -39,19 +39,20 @@
     "dist/src",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "connector",
     "chrome",
     "google chrome",
-    "sonarwhal",
-    "sonarwhal-connector-chrome"
+    "hint",
+    "hint-connector-chrome",
+    "webhint"
   ],
   "license": "Apache-2.0",
   "main": "./dist/src/connector.js",
-  "name": "@sonarwhal/connector-chrome",
+  "name": "@hint/connector-chrome",
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

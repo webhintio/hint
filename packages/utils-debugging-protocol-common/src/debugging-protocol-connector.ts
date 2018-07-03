@@ -17,26 +17,26 @@ import { promisify } from 'util';
 import * as cdp from 'chrome-remote-interface';
 import { compact, filter } from 'lodash';
 
-import { CDPAsyncHTMLDocument, AsyncHTMLElement } from 'sonarwhal/dist/src/lib/types/cdp-async-html';
-import { getContentTypeData, getType } from 'sonarwhal/dist/src/lib/utils/content-type';
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
-import cutString from 'sonarwhal/dist/src/lib/utils/misc/cut-string';
-import delay from 'sonarwhal/dist/src/lib/utils/misc/delay';
-import hasAttributeWithValue from 'sonarwhal/dist/src/lib/utils/network/has-attribute-with-value';
-import isHTMLDocument from 'sonarwhal/dist/src/lib/utils/network/is-html-document';
+import { CDPAsyncHTMLDocument, AsyncHTMLElement } from 'hint/dist/src/lib/types/cdp-async-html';
+import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import * as logger from 'hint/dist/src/lib/utils/logging';
+import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
+import delay from 'hint/dist/src/lib/utils/misc/delay';
+import hasAttributeWithValue from 'hint/dist/src/lib/utils/network/has-attribute-with-value';
+import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
 
 import {
     BrowserInfo, IConnector,
     IAsyncHTMLElement, ElementFound, Event, FetchEnd, FetchError, ILauncher, TraverseUp, TraverseDown,
     Response, Request, NetworkData
-} from 'sonarwhal/dist/src/lib/types';
+} from 'hint/dist/src/lib/types';
 
-import { normalizeHeaders } from '@sonarwhal/utils-connector-tools/dist/src/normalize-headers';
-import { RedirectManager } from '@sonarwhal/utils-connector-tools/dist/src/redirects';
-import { Requester } from '@sonarwhal/utils-connector-tools/dist/src/requester';
+import { normalizeHeaders } from '@hint/utils-connector-tools/dist/src/normalize-headers';
+import { RedirectManager } from '@hint/utils-connector-tools/dist/src/redirects';
+import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
+import { Engine } from 'hint/dist/src/lib/engine';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -49,8 +49,8 @@ export class Connector implements IConnector {
     private _href: string;
     /** The final URL after redirects (if they exist) */
     private _finalHref: string;
-    /** The instance of sonarwhal that is using this connector. */
-    private _server: Sonarwhal;
+    /** The instance of hint that is using this connector. */
+    private _server: Engine;
     /** The client to talk to the browser. */
     private _client;
     /** A set of requests done by the connector to retrieve initial information more easily. */
@@ -75,7 +75,7 @@ export class Connector implements IConnector {
     private _targetNetworkData: NetworkData;
     private launcher: ILauncher;
 
-    public constructor(server: Sonarwhal, config: object, launcher: ILauncher) {
+    public constructor(server: Engine, config: object, launcher: ILauncher) {
         const defaultOptions = {
             /*
              * tabUrl is a empty html site used to avoid edge diagnostics adapter to receive unexpeted onLoadEventFired

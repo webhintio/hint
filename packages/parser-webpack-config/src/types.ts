@@ -1,6 +1,6 @@
 import * as webpack from 'webpack';
 
-import { Event } from 'sonarwhal/dist/src/lib/types/events';
+import { Event } from 'hint/dist/src/lib/types/events';
 
 /** Data type sent for Invalid configuation event */
 export type WebpackConfigInvalidConfiguration = Event & {

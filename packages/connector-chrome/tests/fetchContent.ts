@@ -6,14 +6,14 @@ import { URL } from 'url';
 
 import test from 'ava';
 
-import { createServer } from '@sonarwhal/utils-create-server';
-import { IConnector, NetworkData } from 'sonarwhal/dist/src/lib/types';
+import { createServer } from '@hint/utils-create-server';
+import { IConnector, NetworkData } from 'hint/dist/src/lib/types';
 import ChromeConnector from '../src/connector';
 
 const name: string = 'chrome';
 
 test.beforeEach(async (t) => {
-    const sonarwhal = {
+    const engine = {
         emit() { },
         emitAsync() { }
     };
@@ -23,8 +23,8 @@ test.beforeEach(async (t) => {
     await server.start();
 
     t.context = {
-        server,
-        sonarwhal
+        engine,
+        server
     };
 });
 
@@ -35,8 +35,8 @@ test.afterEach.always(async (t) => {
 
 test(`[${name}] Fetch Content`, async (t) => {
     const file = fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png'));
-    const { sonarwhal } = t.context;
-    const connector: IConnector = new ChromeConnector(sonarwhal, {});
+    const { engine } = t.context;
+    const connector: IConnector = new ChromeConnector(engine, {});
     const server = t.context.server;
 
     t.context.connector = connector;

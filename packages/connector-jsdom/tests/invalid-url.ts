@@ -2,18 +2,18 @@ import { URL } from 'url';
 
 import test from 'ava';
 
-import { IConnector } from 'sonarwhal/dist/src/lib/types';
+import { IConnector } from 'hint/dist/src/lib/types';
 import JSDOMConnector from '../src/connector';
 
 const name: string = 'jsdom';
 
 test.beforeEach((t) => {
-    const sonarwhal = {
+    const engine = {
         emit() { },
         emitAsync() { }
     };
 
-    t.context = { sonarwhal };
+    t.context = { engine };
 });
 
 test.afterEach.always(async (t) => {
@@ -21,8 +21,8 @@ test.afterEach.always(async (t) => {
 });
 
 test(`[${name}] Load an invalid url throws an error`, async (t) => {
-    const { sonarwhal } = t.context;
-    const connector: IConnector = new JSDOMConnector(sonarwhal, {});
+    const { engine } = t.context;
+    const connector: IConnector = new JSDOMConnector(engine, {});
 
     t.context.connector = connector;
 

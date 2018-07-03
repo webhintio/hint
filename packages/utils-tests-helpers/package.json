@@ -1,13 +1,13 @@
 {
   "dependencies": {
-    "@sonarwhal/connector-chrome": "^1.0.0",
-    "@sonarwhal/connector-jsdom": "^1.0.0",
-    "@sonarwhal/utils-create-server": "^1.0.0",
+    "@hint/connector-chrome": "^1.0.0",
+    "@hint/connector-jsdom": "^1.0.0",
+    "@hint/utils-create-server": "^1.0.0",
     "async-retry": "^1.2.1",
     "ava": "^0.25.0",
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
-  "description": "sonarwhal tests helpers",
+  "description": "hint tests helpers",
   "devDependencies": {
     "@types/async-retry": "^1.2.1",
     "eslint": "^5.0.1",
@@ -27,17 +27,18 @@
     "dist",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "utils",
     "tests",
-    "sonarwhal",
-    "sonarwhal-utils-tests-helpers"
+    "hint",
+    "hint-utils-tests-helpers",
+    "webhint"
   ],
   "license": "Apache-2.0",
-  "name": "@sonarwhal/utils-tests-helpers",
+  "name": "@hint/utils-tests-helpers",
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

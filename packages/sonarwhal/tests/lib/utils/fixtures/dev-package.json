@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-  },
-  "devDependencies": {
-    "sonarwhal": "^1.0.0"
-  }
-}

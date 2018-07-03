@@ -4,11 +4,11 @@ import * as proxyquire from 'proxyquire';
 
 const logging = { log() { } };
 
-proxyquire('../src/formatter', { 'sonarwhal/dist/src/lib/utils/logging': logging });
+proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': logging });
 
 import JsonFormatter from '../src/formatter';
 import * as problems from './fixtures/list-of-problems';
-import { Severity } from 'sonarwhal/dist/src/lib/types';
+import { Severity } from 'hint/dist/src/lib/types';
 
 test.beforeEach((t) => {
     sinon.spy(logging, 'log');
@@ -41,7 +41,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             },
             message: 'This is a problem in line 1 column 1',
             resource: 'http://myresource.com/',
-            ruleId: 'random-rule',
+            hintId: 'random-hint',
             severity: Severity.warning,
             sourceCode: ''
         },
@@ -52,7 +52,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             },
             message: 'This is a problem in line 1 column 10',
             resource: 'http://myresource.com/',
-            ruleId: 'random-rule',
+            hintId: 'random-hint',
             severity: Severity.warning,
             sourceCode: ''
         },
@@ -63,7 +63,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             },
             message: 'This is a problem in line 5',
             resource: 'http://myresource.com/',
-            ruleId: 'random-rule',
+            hintId: 'random-hint',
             severity: Severity.warning,
             sourceCode: ''
         },
@@ -74,7 +74,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             },
             message: 'This is a problem in line 10',
             resource: 'http://myresource.com/',
-            ruleId: 'random-rule',
+            hintId: 'random-hint',
             severity: Severity.warning,
             sourceCode: ''
         }

@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "sonarwhal parser for web app manifest files",
+  "description": "webhint parser for web app manifest files",
   "devDependencies": {
     "ajv": "^6.5.1",
     "ava": "^0.25.0",
@@ -22,7 +22,7 @@
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
     "sinon": "^6.0.1",
-    "sonarwhal": "^1.0.0",
+    "hint": "^1.0.0",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.1"
   },
@@ -33,21 +33,21 @@
     "dist/src",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
-    "sonarwhal",
-    "sonarwhal-parser",
+    "webhint",
+    "webhint-parser",
     "manifest",
     "manifest-parser"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/parser.js",
-  "name": "@sonarwhal/parser-manifest",
+  "name": "@hint/parser-manifest",
   "nyc": {
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

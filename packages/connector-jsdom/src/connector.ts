@@ -33,17 +33,17 @@ import { fork, ChildProcess } from 'child_process';
 
 import * as jsdom from 'jsdom/lib/old-api';
 
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { getContentTypeData, getType } from 'sonarwhal/dist/src/lib/utils/content-type';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
 import {
     IConnector,
     ElementFound, Event, FetchEnd, FetchError, TraverseDown, TraverseUp,
     NetworkData
-} from 'sonarwhal/dist/src/lib/types';
-import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from 'sonarwhal/dist/src/lib/types/jsdom-async-html';
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
-import isHTMLDocument from 'sonarwhal/dist/src/lib/utils/network/is-html-document';
-import { Requester } from '@sonarwhal/utils-connector-tools/dist/src/requester';
+} from 'hint/dist/src/lib/types';
+import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from 'hint/dist/src/lib/types/jsdom-async-html';
+import { Engine } from 'hint/dist/src/lib/engine';
+import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
+import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 
 /*
  * ------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ export default class JSDOMConnector implements IConnector {
     private _options;
     private _headers;
     private _request: Requester;
-    private _server: Sonarwhal;
+    private _server: Engine;
     private _href: string;
     private _finalHref: string;
     private _targetNetworkData: NetworkData;
@@ -68,7 +68,7 @@ export default class JSDOMConnector implements IConnector {
     private _fetchedHrefs: Set<string>;
     private _timeout: number;
 
-    public constructor(server: Sonarwhal, config: object) {
+    public constructor(server: Engine, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
         this._headers = this._options.headers;
         this._request = new Requester(this._options);

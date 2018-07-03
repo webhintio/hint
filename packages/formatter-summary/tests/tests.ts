@@ -7,7 +7,7 @@ import * as table from 'text-table';
 
 const logging = { log() { } };
 
-proxyquire('../src/formatter', { 'sonarwhal/dist/src/lib/utils/logging': logging });
+proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': logging });
 
 import SummaryFormatter from '../src/formatter';
 import * as problems from './fixtures/list-of-problems';
@@ -38,7 +38,7 @@ test(`Summary formatter prints in yellow if only warnings found`, (t) => {
 
     formatter.format(problems.summaryWarnings);
 
-    tableData.push([chalk.cyan('random-rule'), chalk.yellow(`2 warnings`)]);
+    tableData.push([chalk.cyan('random-hint'), chalk.yellow(`2 warnings`)]);
 
     const tableString = table(tableData);
 
@@ -54,8 +54,8 @@ test(`Summary formatter prints a table and a summary for all resources combined`
 
     formatter.format(problems.summaryProblems);
 
-    tableData.push([chalk.cyan('random-rule2'), chalk.red(`1 error`)]);
-    tableData.push([chalk.cyan('random-rule'), chalk.yellow(`4 warnings`)]);
+    tableData.push([chalk.cyan('random-hint2'), chalk.red(`1 error`)]);
+    tableData.push([chalk.cyan('random-hint'), chalk.yellow(`4 warnings`)]);
 
     const tableString = table(tableData);
 
@@ -71,8 +71,8 @@ test(`Summary formatter sorts by name if same number of errors`, (t) => {
 
     formatter.format(problems.summarySameNumberOfErrors);
 
-    tableData.push([chalk.cyan('random-rule'), chalk.red(`1 error`)]);
-    tableData.push([chalk.cyan('random-rule2'), chalk.red(`1 error`)]);
+    tableData.push([chalk.cyan('random-hint'), chalk.red(`1 error`)]);
+    tableData.push([chalk.cyan('random-hint2'), chalk.red(`1 error`)]);
 
     const tableString = table(tableData);
 

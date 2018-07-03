@@ -8,21 +8,21 @@ import {
     FetchStart,
     NetworkData,
     Parser
-} from 'sonarwhal/dist/src/lib/types';
+} from 'hint/dist/src/lib/types';
 
-import isHTTP from 'sonarwhal/dist/src/lib/utils/network/is-http';
-import isHTTPS from 'sonarwhal/dist/src/lib/utils/network/is-https';
-import loadJSONFile from 'sonarwhal/dist/src/lib/utils/fs/load-json-file';
-import normalizeString from 'sonarwhal/dist/src/lib/utils/misc/normalize-string';
+import isHTTP from 'hint/dist/src/lib/utils/network/is-http';
+import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
+import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 
 import {
     ManifestInvalidJSON,
     ManifestInvalidSchema,
     ManifestParsed
 } from './types';
-import { SchemaValidationResult } from 'sonarwhal/dist/src/lib/types/schema-validation-result';
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
-import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
+import { SchemaValidationResult } from 'hint/dist/src/lib/types/schema-validation-result';
+import { Engine } from 'hint/dist/src/lib/engine';
+import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -47,13 +47,13 @@ export default class ManifestParser extends Parser {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal, 'manifest');
+    public constructor(engine: Engine) {
+        super(engine, 'manifest');
 
         this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
-        sonarwhal.on('element::link', this.fetchManifest.bind(this));
-        sonarwhal.on('fetch::end::manifest', this.validateManifest.bind(this));
+        engine.on('element::link', this.fetchManifest.bind(this));
+        engine.on('fetch::end::manifest', this.validateManifest.bind(this));
     }
 
     private async fetchManifest (elementFound: ElementFound) {
@@ -91,13 +91,13 @@ export default class ManifestParser extends Parser {
         const manifestURL: string = (new URL(hrefValue, resource)).href;
         const fetchStartEvent: FetchStart = { resource };
 
-        await this.sonarwhal.emitAsync(this.fetchStartEventName, fetchStartEvent);
+        await this.engine.emitAsync(this.fetchStartEventName, fetchStartEvent);
 
         let manifestNetworkData: NetworkData;
         let error: Error;
 
         try {
-            manifestNetworkData = await this.sonarwhal.fetchContent(manifestURL, null);
+            manifestNetworkData = await this.engine.fetchContent(manifestURL, null);
         } catch (e) {
             error = e;
 
@@ -122,7 +122,7 @@ export default class ManifestParser extends Parser {
                 resource
             };
 
-            await this.sonarwhal.emitAsync(this.fetchErrorEventName, fetchErrorEvent);
+            await this.engine.emitAsync(this.fetchErrorEventName, fetchErrorEvent);
 
             return;
         }
@@ -136,7 +136,7 @@ export default class ManifestParser extends Parser {
             response: manifestNetworkData.response
         };
 
-        await this.sonarwhal.emitAsync(this.fetchEndEventName, fetchEndEvent);
+        await this.engine.emitAsync(this.fetchEndEventName, fetchEndEvent);
     }
 
     private async validateManifest (fetchEnd: FetchEnd) {
@@ -160,7 +160,7 @@ export default class ManifestParser extends Parser {
                 response
             };
 
-            await this.sonarwhal.emitAsync(this.parseJSONErrorEventName, manifestInvalidJSONEvent);
+            await this.engine.emitAsync(this.parseJSONErrorEventName, manifestInvalidJSONEvent);
 
             return;
         }
@@ -182,7 +182,7 @@ export default class ManifestParser extends Parser {
                 response
             };
 
-            await this.sonarwhal.emitAsync(this.parseErrorSchemaEventName, manifestInvalidSchemaEvent);
+            await this.engine.emitAsync(this.parseErrorSchemaEventName, manifestInvalidSchemaEvent);
 
             return;
         }
@@ -200,6 +200,6 @@ export default class ManifestParser extends Parser {
             response
         };
 
-        await this.sonarwhal.emitAsync(this.parseEndEventName, manifestParserEvent);
+        await this.engine.emitAsync(this.parseEndEventName, manifestParserEvent);
     }
 }
