@@ -21,27 +21,27 @@ need to be sure that your configuration is the best for your needs.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install typescript-config
+npm install @hint/hint-typescript-config
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
         "typescript-config/is-valid": "error",
         "typescript-config/no-comment": "error",
-        "typescript-config/target": "error"
+        "typescript-config/target": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

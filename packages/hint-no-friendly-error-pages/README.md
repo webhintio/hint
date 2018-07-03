@@ -132,25 +132,25 @@ HTTP/... 500 Internal Server Error
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install no-friendly-error-pages
+npm install @hint/hint-no-friendly-error-pages
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "no-friendly-error-pages": "error"
+        "no-friendly-error-pages": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

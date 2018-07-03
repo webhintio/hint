@@ -369,25 +369,25 @@ the HTTP response header.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install highest-available-document-mode
+npm install @hint/hint-highest-available-document-mode
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "highest-available-document-mode": "error"
+        "highest-available-document-mode": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

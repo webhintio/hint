@@ -22,10 +22,10 @@ configuration file:
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": ["manifest"],
     "hints": {
         ...
     },
+    "parsers": ["manifest"],
     ...
 }
 ```

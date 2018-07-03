@@ -22,22 +22,20 @@ need to be sure that your configuration is the best for your needs.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install webpack-config
+npm install @hint/hint-webpack-config
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": ["webpack-config", "typescript-config"],
     "hints": {
         "webpack-config/config-exists": "error",
         "webpack-config/is-installed": "error",
@@ -46,6 +44,7 @@ configuration file:
         "webpack-config/no-devtool-in-prod": "error",
         ...
     },
+    "parsers": ["webpack-config", "typescript-config"],
     ...
 }
 ```

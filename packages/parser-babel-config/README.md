@@ -1,7 +1,7 @@
-# Parser babel-config (`@hint/parser-babel-config`)
+# Babel config parser (`@hint/parser-babel-config`)
 
-The `babel-config` parser allows the user to analyze the
-Babel configuration in their projects.
+The `babel-config` parser allows the user to analyze the Babel
+configuration in their projects.
 
 To use it you will have to install it via `npm`:
 
@@ -9,29 +9,28 @@ To use it you will have to install it via `npm`:
 npm install @hint/parser-babel-config
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": ["babel-config"],
     "hints": {
         ...
     },
+    "parsers": ["babel-config"],
     ...
 }
 ```
 
-This parser detects if a `.babelrc` configuration file is present, or if the
-Babel configuration is specified in `package.json`, and validates the Babel
-configuration against the schema.
+This parser detects if a `.babelrc` configuration file is present, or
+if the Babel configuration is specified in `package.json`, and validates
+the Babel configuration against the schema.
 
 ## Events emitted
 

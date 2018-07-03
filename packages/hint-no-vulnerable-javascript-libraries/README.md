@@ -53,25 +53,25 @@ If you configure this hint to `high`, and `webhint` only finds
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install no-vulnerable-javascript-libraries
+npm install @hint/hint-no-vulnerable-javascript-libraries
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "no-vulnerable-javascript-libraries": "error"
+        "no-vulnerable-javascript-libraries": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

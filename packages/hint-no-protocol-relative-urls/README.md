@@ -80,25 +80,25 @@ does.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install no-protocol-relative-urls
+npm install @hint/hint-no-protocol-relative-urls
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "no-protocol-relative-urls": "error"
+        "no-protocol-relative-urls": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

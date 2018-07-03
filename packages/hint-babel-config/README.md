@@ -1,7 +1,7 @@
-# Babel configuration hints set (`babel-config`)
+# Babel configuration hint set (`babel-config`)
 
-`babel-config` contains hints to check if your Babel configuration has
-the most recommended configuration.
+`babel-config` contains hints to check if your Babel configuration
+has the most recommended configuration.
 
 ## Why is this important?
 
@@ -16,25 +16,25 @@ Babel needs to be properly configured to reflect user's preference.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install babel-config
+npm install @hint/hint-babel-config
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "babel-config/is-valid": "error"
+        "babel-config/is-valid": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```
