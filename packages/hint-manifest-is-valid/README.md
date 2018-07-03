@@ -122,7 +122,7 @@ according to the specification, and the property values work in
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install manifest-is-valid
+npm install @hint/hint-manifest-is-valid
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the
@@ -130,18 +130,17 @@ Note: You can make `npm` install it as a `devDependency` using the
 `-g` parameter. For other options see [`npm`'s
 documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
         "manifest-is-valid": "error",
         ...
     },
+    "parsers": [...],
     ...
 }
 ```

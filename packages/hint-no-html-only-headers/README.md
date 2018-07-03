@@ -233,25 +233,25 @@ file will make the hint allow non-HTML resources to be served with the
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install no-html-only-headers
+npm install @hint/hint-no-html-only-headers
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "no-html-only-headers": "error"
+        "no-html-only-headers": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

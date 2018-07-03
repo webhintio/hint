@@ -72,25 +72,25 @@ file will allow 3 redirects for resources and 1 for the main URL:
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install no-http-redirects
+npm install @hint/hint-no-http-redirects
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "no-http-redirects": "error"
+        "no-http-redirects": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

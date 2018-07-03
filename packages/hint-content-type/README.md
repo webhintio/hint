@@ -12,8 +12,9 @@ spec], it’s indicated to always send the appropriate media type and
 charset for the response as, among other:
 
 * [resources served with the wrong media type may be blocked][blocked
-  resources] (see also: [`X-Content-Type-Options` hint](../hint-x-content-type-options)),
-  or the official [media type may be required][required media type]
+  resources] (see also: [`X-Content-Type-Options`
+  hint](../hint-x-content-type-options)), or the official [media type
+  may be required][required media type]
 
 * not sending the appropriate `charset`, where appropriate, may
   [prevent things from being rendered correctly][incorrect rendering]
@@ -421,25 +422,25 @@ property from the `.hintrc` file to exclude domains you don’t control
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install content-type
+npm install @hint/hint-content-type
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "content-type": "error"
+        "content-type": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

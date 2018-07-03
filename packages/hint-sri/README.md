@@ -139,25 +139,25 @@ The above will validate that the `integrity` of all scripts and styles use
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install sri
+npm install @hint/hint-sri
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "sri": "error"
+        "sri": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

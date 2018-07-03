@@ -1,7 +1,7 @@
-# Parser typescript-config (`@hint/parser-typescript-config`)
+# TypeScript config parser (`@hint/parser-typescript-config`)
 
-The `typescript-config` parser allows the user to analyze the
-TypeScript configuration in their projects.
+The `typescript-config` parser allows the user to analyze the TypeScript
+configuration in their projects.
 
 To use it you will have to install it via `npm`:
 
@@ -9,22 +9,21 @@ To use it you will have to install it via `npm`:
 npm install @hint/parser-typescript-config
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": ["typescript-config"],
     "hints": {
         ...
     },
+    "parsers": ["typescript-config"],
     ...
 }
 ```

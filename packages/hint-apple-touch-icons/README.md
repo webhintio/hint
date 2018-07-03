@@ -210,13 +210,13 @@ apple-touch-icon.png: PNG image data, 180 x 180, ...
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install apple-touch-icons
+npm install @hint/hint-apple-touch-icons
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
 And then activate it via the [`.hintrc`][hintrc]
 configuration file:
@@ -225,10 +225,11 @@ configuration file:
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "apple-touch-icons": "error"
+        "apple-touch-icons": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

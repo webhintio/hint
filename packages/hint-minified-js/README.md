@@ -60,25 +60,25 @@ that with a custom value in your [`.hintrc`][hintrc] config:
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install minified-js
+npm install @hint/hint-minified-js
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation][NPM documentation].
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation][NPM documentation].
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": ["javascript"],
     "hints": {
-        "minified-js": "error"
+        "minified-js": "error",
+        ...
     },
+    "parsers": ["javascript"],
     ...
 }
 ```

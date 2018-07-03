@@ -122,25 +122,25 @@ More than one web app manifest file is specified:
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install manifest-exists
+npm install @hint/hint-manifest-exists
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "manifest-exists": "error"
+        "manifest-exists": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

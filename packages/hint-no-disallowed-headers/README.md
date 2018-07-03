@@ -249,25 +249,25 @@ HTTP header, but not with `Custom-Header`.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install no-disallowed-headers
+npm install @hint/hint-no-disallowed-headers
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "no-disallowed-headers": "error"
+        "no-disallowed-headers": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```

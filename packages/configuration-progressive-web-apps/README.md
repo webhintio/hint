@@ -38,17 +38,19 @@ and it will be as if you had this:
     "formatters": [
         "summary"
     ],
-    "parsers": [
-        "manifest"
-    ],
     "hints": {
         "apple-touch-icons": "error",
         "manifest-app-name": "error",
         "manifest-exists": "error",
         "manifest-file-extension": "error",
-        "manifest-is-valid": "error"
+        "manifest-is-valid": "error",
+        ...
     },
-    "hintsTimeout": 120000
+    "hintsTimeout": 120000,
+    "parsers": [
+        "manifest"
+    ],
+    ...
 }
 ```
 
