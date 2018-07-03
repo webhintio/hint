@@ -100,7 +100,7 @@ export default class SRIRule implements IRule {
     }
 
     /**
-     * Verifies if the response is elegible for integrity validation. I.E.:
+     * Verifies if the response is eligible for integrity validation. I.E.:
      *
      * * `same-origin`
      * * `cross-origin` on a CORS-enabled request
@@ -121,7 +121,7 @@ export default class SRIRule implements IRule {
         const crossorigin = normalizeString(element.getAttribute('crossorigin'));
 
         if (!crossorigin) {
-            await this.context.report(resource, element, `Cross-origin scripts need a "crossorigin" attribute to be elegible for integrity validation`);
+            await this.context.report(resource, element, `Cross-origin scripts need a "crossorigin" attribute to be eligible for integrity validation`);
 
             return false;
         }

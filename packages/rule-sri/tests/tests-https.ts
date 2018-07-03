@@ -97,7 +97,7 @@ Actual:   sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaAS
     },
     {
         name: `Page with cross-origin script with SRI and not "crossorigin" fails`,
-        reports: [{ message: 'Cross-origin scripts need a "crossorigin" attribute to be elegible for integrity validation' }],
+        reports: [{ message: 'Cross-origin scripts need a "crossorigin" attribute to be eligible for integrity validation' }],
         serverConfig: {
             '/': generateHTMLPage(`<link rel="stylesheet" href="/styles.css" integrity="sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4">
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>`),
