@@ -13,8 +13,8 @@ import { map, reduce, groupBy, every } from 'lodash';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { createServer, Server } from '@sonarwhal/utils-create-server';
-import { IConnector } from 'sonarwhal/dist/src/lib/types';
+import { createServer, Server } from '@hint/utils-create-server';
+import { IConnector } from 'hint/dist/src/lib/types';
 import JSDOMConnector from '../src/connector';
 
 const name: string = 'jsdom';
@@ -193,27 +193,27 @@ const validEvent = (eventsToSearch: Array<any>, expectedEvent: any) => {
 
 
 test.beforeEach(async (t) => {
-    const sonarwhal = {
+    const engine = {
         emit() { },
         emitAsync() { }
     };
 
-    sinon.spy(sonarwhal, 'emitAsync');
-    sinon.spy(sonarwhal, 'emit');
+    sinon.spy(engine, 'emitAsync');
+    sinon.spy(engine, 'emit');
 
     const server: Server = createServer();
 
     await server.start();
 
     t.context = {
-        server,
-        sonarwhal
+        engine,
+        server
     };
 });
 
 test.afterEach.always(async (t) => {
-    t.context.sonarwhal.emitAsync.restore();
-    t.context.sonarwhal.emit.restore();
+    t.context.engine.emitAsync.restore();
+    t.context.engine.emit.restore();
     t.context.server.stop();
     await t.context.connector.close();
 });
@@ -250,8 +250,8 @@ const updateLocalhost = (content: any, port: any): any => {
 };
 
 test(`[${name}] Events`, async (t) => {
-    const { sonarwhal } = t.context;
-    const connector: IConnector = new JSDOMConnector(sonarwhal, {});
+    const { engine } = t.context;
+    const connector: IConnector = new JSDOMConnector(engine, {});
     const server = t.context.server;
 
     t.context.connector = connector;
@@ -282,7 +282,7 @@ test(`[${name}] Events`, async (t) => {
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
 
-    const { emit, emitAsync } = t.context.sonarwhal;
+    const { emit, emitAsync } = t.context.engine;
     const invokes: Array<any> = [];
 
     for (let i = 0; i < emitAsync.callCount; i++) {

@@ -1,22 +1,22 @@
 import * as path from 'path';
 
 import * as cloneDeep from 'lodash.clonedeep';
-import { Sonarwhal } from 'sonarwhal/dist/src/lib/sonarwhal';
-import { FetchEnd, Parser, SchemaValidationResult } from 'sonarwhal/dist/src/lib/types';
-import loadJSONFile from 'sonarwhal/dist/src/lib/utils/fs/load-json-file';
-import { validate } from 'sonarwhal/dist/src/lib/utils/schema-validator';
+import { Engine } from 'hint/dist/src/lib/engine';
+import { FetchEnd, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
+import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
+import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 import { TypeScriptConfig, TypeScriptConfigInvalidJSON, TypeScriptConfigInvalidSchema, TypeScriptConfigParse, TypeScriptConfigParseStart } from './types';
 
 export default class TypeScriptConfigParser extends Parser {
     private schema: any;
 
-    public constructor(sonarwhal: Sonarwhal) {
-        super(sonarwhal, 'typescript-config');
+    public constructor(engine: Engine) {
+        super(engine, 'typescript-config');
 
         this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
-        sonarwhal.on('fetch::end::*', this.parseTypeScript.bind(this));
+        engine.on('fetch::end::*', this.parseTypeScript.bind(this));
     }
 
     private async validateSchema(config: TypeScriptConfig, resource: string): Promise<SchemaValidationResult> {
@@ -31,7 +31,7 @@ export default class TypeScriptConfigParser extends Parser {
                 resource
             };
 
-            await this.sonarwhal.emitAsync(`parse::${this.name}::error::schema`, event);
+            await this.engine.emitAsync(`parse::${this.name}::error::schema`, event);
         }
 
         return validationResult;
@@ -57,7 +57,7 @@ export default class TypeScriptConfigParser extends Parser {
 
         const parseStart: TypeScriptConfigParseStart = { resource };
 
-        await this.sonarwhal.emitAsync(`parse::${this.name}::start`, parseStart);
+        await this.engine.emitAsync(`parse::${this.name}::start`, parseStart);
 
         let config: TypeScriptConfig;
 
@@ -85,14 +85,14 @@ export default class TypeScriptConfigParser extends Parser {
                 resource
             };
 
-            await this.sonarwhal.emitAsync(`parse::${this.name}::end`, event);
+            await this.engine.emitAsync(`parse::${this.name}::end`, event);
         } catch (err) {
             const errorEvent: TypeScriptConfigInvalidJSON = {
                 error: err,
                 resource
             };
 
-            await this.sonarwhal.emitAsync(`parse::${this.name}::error::json`, errorEvent);
+            await this.engine.emitAsync(`parse::${this.name}::error::json`, errorEvent);
         }
     }
 }

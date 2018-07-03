@@ -7,13 +7,15 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@sonarwhal/utils-connector-tools": "^1.0.0",
+    "@hint/utils-connector-tools": "^1.0.0",
+    "canvas-prebuilt": "^1.6.5-prerelease.1",
+    "hint": "^1.0.0",
     "jsdom": "^11.11.0",
-    "sonarwhal": "^1.0.0"
+    "node-pre-gyp": "^0.10.2"
   },
-  "description": "sonarwhal connector for JSDOM",
+  "description": "hint connector for JSDOM",
   "devDependencies": {
-    "@sonarwhal/utils-create-server": "^1.0.0",
+    "@hint/utils-create-server": "^1.0.0",
     "@types/lodash": "^4.14.110",
     "ava": "^0.25.0",
     "eslint": "^5.0.1",
@@ -36,18 +38,19 @@
     "dist/src",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "connector",
     "jsdom",
-    "sonarwhal",
-    "sonarwhal-connector-jsdom"
+    "hint",
+    "hint-connector-jsdom",
+    "webhint"
   ],
   "license": "Apache-2.0",
   "main": "./dist/src/connector.js",
-  "name": "@sonarwhal/connector-jsdom",
+  "name": "@hint/connector-jsdom",
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

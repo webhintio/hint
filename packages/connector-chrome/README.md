@@ -1,25 +1,25 @@
-# Chrome connector (`@sonarwhal/connector-chrome`)
+# Chrome connector (`@hint/connector-chrome`)
 
 A connector to use Google Chrome via the [chrome debugging
-protocol][cdp] in `sonarwhal`.
+protocol][cdp] in `webhint`.
 
 ## Installation
 
-First, you need to install [`sonarwhal`](https://sonarwhal.com/):
+First, you need to install [`webhint`](https://webhint.io/):
 
 ```bash
-npm install sonarwhal
+npm install hint
 ```
 
 Then, install the new connector:
 
 ```bash
-npm install @sonarwhal/connector-chrome
+npm install @hint/connector-chrome
 ```
 
 ## Usage
 
-Configure the connector name in your [`.sonarwhalrc`][sonarwhalrc]
+Configure the connector name in your [`.hintrc`][hintrc]
 configuration file:
 
 ```json
@@ -38,7 +38,7 @@ The set of settings supported by Chrome connector are:
 * `defaultProfile (boolean)`: Indicates if the browser should use the
   default profile or create a new one. By default the value is `false`
   so a new one is created. You might want to set it to `true` if you
-  want `sonarwhal` to have access to pages where the default profile is
+  want `webhint` to have access to pages where the default profile is
   already authenticated.
 * `useTabUrl (boolean)`: Indicates if the browser should navigate first
   to a given page before going to the final target. `false` by default.
@@ -67,5 +67,5 @@ The set of settings supported by Chrome connector are:
 <!-- Link labels: -->
 
 [cdp]: https://chromedevtools.github.io/devtools-protocol/
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
-[connectors]: https://sonarwhal.com/docs/user-guide/concepts/connectors/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[connectors]: https://webhint.io/docs/user-guide/concepts/connectors/

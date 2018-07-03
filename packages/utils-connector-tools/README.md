@@ -1,4 +1,4 @@
-# Connector utils (`@sonarwhal/utils-connector-tools`)
+# Connector utils (`@hint/utils-connector-tools`)
 
 Set of tools for connectors
 
@@ -7,7 +7,7 @@ Set of tools for connectors
 To install the package, you need to run:
 
 ```bash
-npm install @sonarwhal/utils-connector-tools
+npm install @hint/utils-connector-tools
 ```
 
 ## Tools

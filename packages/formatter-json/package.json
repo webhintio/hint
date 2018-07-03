@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "sonarwhal formatter that prints the JSON object of the results",
+  "description": "webhint formatter that prints the JSON object of the results",
   "dependencies": {
     "lodash.foreach": "^4.5.0",
     "lodash.groupby": "^4.6.0",
@@ -26,7 +26,7 @@
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
     "sinon": "^6.0.1",
-    "sonarwhal": "^1.0.0",
+    "hint": "^1.0.0",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.1"
   },
@@ -38,20 +38,20 @@
     "images",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
-    "sonarwhal",
-    "sonarwhal-formatter",
+    "webhint",
+    "webhint-formatter",
     "json"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/formatter.js",
-  "name": "@sonarwhal/formatter-json",
+  "name": "@hint/formatter-json",
   "nyc": {
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

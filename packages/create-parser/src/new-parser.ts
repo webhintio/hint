@@ -5,11 +5,11 @@ import * as fs from 'fs-extra';
 import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
-import isOfficial from 'sonarwhal/dist/src/lib/utils/packages/is-official';
-import normalize from 'sonarwhal/dist/src/lib/utils/misc/normalize-string-by-delimeter';
-import writeFileAsync from 'sonarwhal/dist/src/lib/utils/fs/write-file-async';
-import { escapeSafeString, compileTemplate } from 'sonarwhal/dist/src/lib/utils/handlebars-utils';
+import * as logger from 'hint/dist/src/lib/utils/logging';
+import isOfficial from 'hint/dist/src/lib/utils/packages/is-official';
+import normalize from 'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter';
+import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
+import { escapeSafeString, compileTemplate } from 'hint/dist/src/lib/utils/handlebars-utils';
 
 /*
  * ------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ class NewParser {
 
         this.official = parserData.isOfficial;
 
-        const prefix = this.official ? '@sonarwhal/' : 'sonarwhal-';
+        const prefix = this.official ? '@hint/' : 'hint-';
 
         this.packageMain = `dist/src/index.js`; // package.json#main
         this.packageName = `${prefix}parser-${this.normalizedName}`; // package.json#name
@@ -205,7 +205,7 @@ const copyFiles = async (data: NewParser) => {
     const files = path.join(__dirname, 'files');
     const noOfficialFiles = path.join(__dirname, 'no-official-files');
 
-    logger.log(`Creating new rule in ${data.destination}`);
+    logger.log(`Creating new hint in ${data.destination}`);
     if (!data.official) {
         await fs.copy(noOfficialFiles, data.destination);
     }
@@ -243,7 +243,7 @@ const generateFiles = async (data: NewParser) => {
 
     if (!data.official) {
         files.push({
-            destination: path.join(data.destination, '.sonarwhalrc'),
+            destination: path.join(data.destination, '.hintrc'),
             path: path.join(__dirname, SHARED_TEMPLATE_PATH, 'config.hbs')
         });
     }
@@ -318,13 +318,13 @@ New parser created in ${parserData.destination}
         logger.log(`1. Run 'yarn' to install the dependencies.
 2. Go to the folder '${parserData.destination}'.
 3. Run 'yarn build' to build the project.
-4. Go to the folder 'packages/sonarwhal'.
-5. Add your parser to '.sonarwhalrc'.
-6. Run 'yarn sonarwhal https://YourUrl' to analyze your site.`);
+4. Go to the folder 'packages/hint'.
+5. Add your parser to '.hintrc'.
+6. Run 'yarn hint https://YourUrl' to analyze your site.`);
     } else {
         logger.log(`1. Go to the folder '${parserData.destination}'.
 2. Run 'npm run init' to install all the dependencies and build the project.
-3. Run 'npm run sonarwhal -- https://YourUrl' to analyze you site.`);
+3. Run 'npm run hint -- https://YourUrl' to analyze you site.`);
     }
 
     return true;

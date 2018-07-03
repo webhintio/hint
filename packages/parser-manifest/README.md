@@ -1,4 +1,4 @@
-# Manifest parser (`@sonarwhal/parser-manifest`)
+# Manifest parser (`@hint/parser-manifest`)
 
 `parser-manifest` detects if a [web app manifest file][manifest] was
 specified, and if so, it will try to fetch it, parse and check if its
@@ -9,13 +9,13 @@ content is valid.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @sonarwhal/parser-manifest
+npm install @hint/parser-manifest
 ```
 
 If you want to install it globally, add the parameter `-g`. If you want
 to install it as a dev dependency, add the parameter `--save-dev`.
 
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+And then activate it via the [`.hintrc`][hintrc]
 configuration file:
 
 ```json
@@ -23,7 +23,7 @@ configuration file:
     "connector": {...},
     "formatters": [...],
     "parsers": ["manifest"],
-    "rules": {
+    "hints": {
         ...
     },
     ...
@@ -36,19 +36,19 @@ The following events are emitted by the `parser`:
 
 ### `fetch::start::manifest`
 
-Event is of type [`FetchStart`](https://sonarwhal.com/docs/contributor-guide/getting-started/events/#fetchstart)
+Event is of type [`FetchStart`](https://webhint.io/docs/contributor-guide/getting-started/events/#fetchstart)
 and is emitted when the parser starts downloading the web app
 manifest file.
 
 ### `fetch::end::manifest`
 
-Event is of type [`FetchEnd`](https://sonarwhal.com/docs/contributor-guide/getting-started/events/#fetchend)
+Event is of type [`FetchEnd`](https://webhint.io/docs/contributor-guide/getting-started/events/#fetchend)
 and is emitted when the parser successfully downloaded the web app
 manifest file.
 
 ### `fetch::error::manifest`
 
-Event is of type [`FetchError`](https://sonarwhal.com/docs/contributor-guide/getting-started/events/#fetcherror)
+Event is of type [`FetchError`](https://webhint.io/docs/contributor-guide/getting-started/events/#fetcherror)
 and is emitted when the parser encounters a problem trying to fetch
 the web app manifest file.
 
@@ -104,10 +104,10 @@ If you need to import any type or enum defined in this parser, you just
 need to import them as follows:
 
 ```ts
-import { TypeOrEnumYouWantToUse } from '@sonarwhal/parser-manifest/dist/src/types';
+import { TypeOrEnumYouWantToUse } from '@hint/parser-manifest/dist/src/types';
 ```
 
 <!-- Link labels: -->
 
 [manifest]: https://www.w3.org/TR/appmanifest/
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/

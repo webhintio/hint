@@ -3,16 +3,16 @@
     "edge-diagnostics-adapter": "^0.6.0",
     "node-windows": "^0.1.14"
   },
-  "description": "sonarwhal connector for Microsoft Edge",
+  "description": "hint connector for Microsoft Edge",
   "devDependencies": {
-    "eslint": "^4.18.2",
+    "eslint": "^5.0.1",
     "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-markdown": "^1.0.0-beta.7",
+    "eslint-plugin-markdown": "^1.0.0-beta.6",
     "eslint-plugin-typescript": "^0.12.0",
+    "hint": "^2.0.0",
     "markdownlint-cli": "^0.10.0",
-    "npm-run-all": "^4.1.2",
+    "npm-run-all": "^4.1.3",
     "rimraf": "^2.6.2",
-    "sonarwhal": "^1.0.0",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.1"
   },
@@ -24,22 +24,23 @@
     "npm-shrinkwrap.json",
     "scripts"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "connector",
     "edge",
     "microsoft edge",
-    "sonarwhal",
-    "sonarwhal-connector-edge"
+    "hint",
+    "hint-connector-edge",
+    "webhint"
   ],
   "license": "Apache-2.0",
   "main": "./dist/src/index.js",
-  "name": "@sonarwhal/connector-edge",
+  "name": "@hint/connector-edge",
   "os": [
     "win32"
   ],
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

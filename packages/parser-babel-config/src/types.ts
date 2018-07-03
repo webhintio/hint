@@ -1,5 +1,5 @@
 import * as ajv from 'ajv';
-import { Event, ErrorEvent } from 'sonarwhal/dist/src/lib/types/events';
+import { Event, ErrorEvent } from 'hint/dist/src/lib/types/events';
 
 export type BabelConfig = {
     ast: boolean;

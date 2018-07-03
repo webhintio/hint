@@ -1,7 +1,7 @@
 <!--
 
 Read our pull request guide:
-https://sonarwhal.com/docs/contributor-guide/getting-started/pull-requests/
+https://webhint.io/docs/contributor-guide/getting-started/pull-requests/
 
 For the following items put an "x" between the square brackets
 (i.e. [x]) if you completed the associated item.
@@ -13,7 +13,7 @@ For the following items put an "x" between the square brackets
 Make sure you:
 
 - [ ] Signed the [Contributor License Agreement](https://cla.js.foundation/sonarwhal/sonarwhal)
-- [ ] Followed the [commit message guidelines](https://sonarwhal.com/docs/contributor-guide/getting-started/pull-requests/#commit-messages)
+- [ ] Followed the [commit message guidelines](https://webhint.io/docs/contributor-guide/getting-started/pull-requests/#commit-messages)
 
 For non-trivial changes, please make sure you also:
 

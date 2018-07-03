@@ -5,21 +5,21 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import * as mock from 'mock-require';
 
-import delay from 'sonarwhal/dist/src/lib/utils/misc/delay';
-import asPathString from 'sonarwhal/dist/src/lib/utils/network/as-path-string';
-import { getAsUri } from 'sonarwhal/dist/src/lib/utils/network/as-uri';
+import delay from 'hint/dist/src/lib/utils/misc/delay';
+import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
+import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 
 const chokidar = { watch() { } };
 const isFile = { default() { } };
 
-mock('sonarwhal/dist/src/lib/utils/fs/is-file', isFile);
+mock('hint/dist/src/lib/utils/fs/is-file', isFile);
 mock('chokidar', chokidar);
 
 // This needs to be after the mocks to work correctly
 import LocalConnector from '../src/connector';
 
 test.beforeEach((t) => {
-    t.context.sonarwhal = {
+    t.context.engine = {
         clean() { },
         clear() { },
         emitAsync() { },
@@ -38,16 +38,16 @@ test.serial(`If target is a file, it should emit 'fetch::start::target' event`, 
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.isFile, 'default').returns(true);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, {});
+    const connector = new LocalConnector(t.context.engine as any, {});
 
     await connector.collect(fileUri);
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 4);
-    t.is(t.context.sonarwhal.emitAsync.args[0][0], 'scan::start');
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'fetch::start::target');
-    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'fetch::end::script');
+    t.is(t.context.engine.emitAsync.callCount, 4);
+    t.is(t.context.engine.emitAsync.args[0][0], 'scan::start');
+    t.is(t.context.engine.emitAsync.args[1][0], 'fetch::start::target');
+    t.is(t.context.engine.emitAsync.args[2][0], 'fetch::end::script');
 
     sandbox.restore();
 });
@@ -58,16 +58,16 @@ test.serial(`If target is a html file, it should emit 'fetch::end::html' event i
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.isFile, 'default').returns(true);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, {});
+    const connector = new LocalConnector(t.context.engine as any, {});
 
     await connector.collect(fileUri);
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 4);
-    t.is(t.context.sonarwhal.emitAsync.args[0][0], 'scan::start');
-    t.is(t.context.sonarwhal.emitAsync.args[1][0], 'fetch::start::target');
-    t.is(t.context.sonarwhal.emitAsync.args[2][0], 'fetch::end::html');
+    t.is(t.context.engine.emitAsync.callCount, 4);
+    t.is(t.context.engine.emitAsync.args[0][0], 'scan::start');
+    t.is(t.context.engine.emitAsync.args[1][0], 'fetch::start::target');
+    t.is(t.context.engine.emitAsync.args[2][0], 'fetch::end::html');
 
     sandbox.restore();
 });
@@ -78,13 +78,13 @@ test.serial(`If target is a file (text), 'content' is setted`, async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.isFile, 'default').returns(true);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, {});
+    const connector = new LocalConnector(t.context.engine as any, {});
 
     await connector.collect(fileUri);
 
-    const event = t.context.sonarwhal.emitAsync.args[2][1];
+    const event = t.context.engine.emitAsync.args[2][1];
 
     t.is(typeof event.response.body.content, 'string');
     t.not(event.response.body.content, '');
@@ -98,13 +98,13 @@ test.serial(`If target is a file (image), 'content' is empty`, async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.isFile, 'default').returns(true);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, {});
+    const connector = new LocalConnector(t.context.engine as any, {});
 
     await connector.collect(fileUri);
 
-    const event = t.context.sonarwhal.emitAsync.args[2][1];
+    const event = t.context.engine.emitAsync.args[2][1];
 
     t.is(typeof event.response.body.content, 'string');
     t.is(event.response.body.content, '');
@@ -118,13 +118,13 @@ test.serial(`If target is an image, 'content' is empty`, async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.isFile, 'default').returns(true);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, {});
+    const connector = new LocalConnector(t.context.engine as any, {});
 
     await connector.collect(fileUri);
 
-    const event = t.context.sonarwhal.emitAsync.args[2][1];
+    const event = t.context.engine.emitAsync.args[2][1];
 
     t.is(typeof event.response.body.content, 'string');
     t.is(event.response.body.content, '');
@@ -138,15 +138,15 @@ test.serial(`If target is a directory, shouldn't emit the event 'fetch::start::t
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.isFile, 'default').returns(false);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, {});
+    const connector = new LocalConnector(t.context.engine as any, {});
 
     await connector.collect(directoryUri);
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 5);
+    t.is(t.context.engine.emitAsync.callCount, 5);
 
-    const events: Array<string> = t.context.sonarwhal.emitAsync.args.map((arg: Array<any>) => {
+    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
         return arg[0];
     }).sort();
 
@@ -170,11 +170,11 @@ test.serial(`If watch is true, it should watch the right files`, async (t) => {
 
     sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
     t.context.chokidar = chokidar;
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, { watch: true });
+    const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
     const promise = connector.collect(directoryUri);
 
@@ -184,9 +184,9 @@ test.serial(`If watch is true, it should watch the right files`, async (t) => {
 
     await promise;
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 2);
+    t.is(t.context.engine.emitAsync.callCount, 2);
 
-    const events: Array<string> = t.context.sonarwhal.emitAsync.args.map((arg: Array<any>) => {
+    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
         return arg[0];
     }).sort();
 
@@ -215,11 +215,11 @@ test.serial(`If watch is true, it should use the .gitignore`, async (t) => {
 
     sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
     t.context.chokidar = chokidar;
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, { watch: true });
+    const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
     const promise = connector.collect(directoryUri);
 
@@ -252,11 +252,11 @@ test.serial(`When the watcher is ready, it should emit the scan::end event`, asy
 
     sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
     t.context.chokidar = chokidar;
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, { watch: true });
+    const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
     const promise = connector.collect(directoryUri);
 
@@ -268,9 +268,9 @@ test.serial(`When the watcher is ready, it should emit the scan::end event`, asy
 
     await promise;
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.engine.emitAsync.callCount, 3);
 
-    const events: Array<string> = t.context.sonarwhal.emitAsync.args.map((arg: Array<any>) => {
+    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
         return arg[0];
     }).sort();
 
@@ -292,11 +292,11 @@ test.serial(`When the watcher detects a new file, it should emit the fetch::end:
 
     sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
     t.context.chokidar = chokidar;
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, { watch: true });
+    const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
     const promise = connector.collect(directoryUri);
 
@@ -310,9 +310,9 @@ test.serial(`When the watcher detects a new file, it should emit the fetch::end:
 
     await promise;
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 4);
+    t.is(t.context.engine.emitAsync.callCount, 4);
 
-    const events: Array<string> = t.context.sonarwhal.emitAsync.args.map((arg: Array<any>) => {
+    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
         return arg[0];
     }).sort();
 
@@ -335,11 +335,11 @@ test.serial(`When the watcher detects a change in a file, it should emit the fet
 
     sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
     t.context.chokidar = chokidar;
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, { watch: true });
+    const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
     const promise = connector.collect(directoryUri);
 
@@ -353,9 +353,9 @@ test.serial(`When the watcher detects a change in a file, it should emit the fet
 
     await promise;
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 4);
+    t.is(t.context.engine.emitAsync.callCount, 4);
 
-    const events: Array<string> = t.context.sonarwhal.emitAsync.args.map((arg: Array<any>) => {
+    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
         return arg[0];
     }).sort();
 
@@ -378,11 +378,11 @@ test.serial(`When the watcher detects that a file was removed, it should emit th
 
     sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
     t.context.chokidar = chokidar;
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, { watch: true });
+    const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
     const promise = connector.collect(directoryUri);
 
@@ -396,9 +396,9 @@ test.serial(`When the watcher detects that a file was removed, it should emit th
 
     await promise;
 
-    t.is(t.context.sonarwhal.emitAsync.callCount, 3);
+    t.is(t.context.engine.emitAsync.callCount, 3);
 
-    const events: Array<string> = t.context.sonarwhal.emitAsync.args.map((arg: Array<any>) => {
+    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
         return arg[0];
     }).sort();
 
@@ -420,11 +420,11 @@ test.serial(`When the watcher get an error, it should throw an error`, async (t)
 
     sandbox.stub(t.context.isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
-    sandbox.spy(t.context.sonarwhal, 'emitAsync');
+    sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
     t.context.chokidar = chokidar;
 
-    const connector = new LocalConnector(t.context.sonarwhal as any, { watch: true });
+    const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
     const promise = connector.collect(directoryUri);
 

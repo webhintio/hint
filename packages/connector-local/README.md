@@ -1,19 +1,19 @@
-# Local connector (`@sonarwhal/connector-local`)
+# Local connector (`@hint/connector-local`)
 
-A local connector to analyze the local files in your project with `sonarwhal`.
+A local connector to analyze the local files in your project with `webhint`.
 
 ## Installation
 
-First, you need to install [`sonarwhal`](https://sonarwhal.com/):
+First, you need to install [`webhint`](https://webhint.io/):
 
 ```bash
-npm install sonarwhal
+npm install hint
 ```
 
 Then, install the new connector:
 
 ```bash
-npm install @sonarwhal/connector-local
+npm install @hint/connector-local
 ```
 
 ## Known issues
@@ -22,7 +22,7 @@ npm install @sonarwhal/connector-local
 
 ## Usage
 
-Configure the connector name in your [`.sonarwhalrc`][sonarwhalrc]
+Configure the connector name in your [`.hintrc`][hintrc]
 configuration file:
 
 ```json
@@ -40,5 +40,5 @@ configuration file:
 
 <!-- Link labels: -->
 
-[connectors]: https://sonarwhal.com/docs/user-guide/concepts/connectors/
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[connectors]: https://webhint.io/docs/user-guide/concepts/connectors/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/

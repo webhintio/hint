@@ -1,11 +1,11 @@
-# Tests helpers (`@sonarwhal/utils-tests-helpers`)
+# Tests helpers (`@hint/utils-tests-helpers`)
 
-Set of helpers to run tests in sonarwhal
+Set of helpers to run tests in webhint
 
 ## Installation
 
 To install the package, you need to run:
 
 ```bash
-npm install @sonarwhal/utils-tests-helpers
+npm install @hint/utils-tests-helpers
 ```

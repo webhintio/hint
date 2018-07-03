@@ -1,0 +1,18 @@
+{
+    "connector": {
+        "name": "jsdom",
+        "options": {
+            "waitFor": 1000
+        }
+    },
+    "formatters": "summary",
+    "hintsTimeout": 120000,
+    "parsers": [{{#if isParser}}"{{normalizedName}}"{{/if}}],
+    "hints": {
+    {{#if isRule}}
+        {{#each hints}}
+        "{{#if ../isMulti}}{{../normalizedName}}/{{/if}}{{normalizedName}}": "warning"{{#unless @last}},{{/unless}}
+        {{/each}}
+    {{/if}}
+    }
+}

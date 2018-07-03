@@ -1,20 +1,20 @@
-# Edge connector (`@sonarwhal/connector-edge`)
+# Edge connector (`@hint/connector-edge`)
 
 A connector to use Microsoft Edge via the [edge diagnostics
-adapter][eda] in `sonarwhal`.
+adapter][eda] in `webhint`.
 
 ## Installation
 
-First, you need to install [`sonarwhal`](https://sonarwhal.com/):
+First, you need to install [`webhint`](https://webhint.io/):
 
 ```bash
-npm install sonarwhal
+npm install hint
 ```
 
 Then, install the new connector:
 
 ```bash
-npm install @sonarwhal/connector-edge
+npm install @hint/connector-edge
 ```
 
 ## Known issues
@@ -31,7 +31,7 @@ npm install @sonarwhal/connector-edge
 
 ## Usage
 
-Configure the connector name in your [`.sonarwhalrc`][sonarwhalrc]
+Configure the connector name in your [`.hintrc`][hintrc]
 configuration file:
 
 ```json
@@ -66,5 +66,5 @@ browser or tab:
 <!-- Link labels: -->
 
 [eda]: https://github.com/Microsoft/edge-diagnostics-adapter
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
-[connectors]: https://sonarwhal.com/docs/user-guide/concepts/connectors/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[connectors]: https://webhint.io/docs/user-guide/concepts/connectors/

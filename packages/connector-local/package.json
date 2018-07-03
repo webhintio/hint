@@ -10,9 +10,9 @@
     "chokidar": "^2.0.4",
     "fs-extra": "^6.0.1",
     "globby": "^8.0.1",
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
-  "description": "sonarwhal local connector",
+  "description": "hint local connector",
   "devDependencies": {
     "@types/chokidar": "^1.7.5",
     "@types/is-ci": "^1.1.0",
@@ -40,18 +40,19 @@
     "dist/src",
     "npm-shrinkwrap.json"
   ],
-  "homepage": "https://sonarwhal.com/",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "connector",
     "local",
-    "sonarwhal",
-    "sonarwhal-connector-local"
+    "hint",
+    "hint-connector-local",
+    "webhint"
   ],
   "license": "Apache-2.0",
   "main": "./dist/src/connector.js",
-  "name": "@sonarwhal/connector-local",
+  "name": "@hint/connector-local",
   "peerDependencies": {
-    "sonarwhal": "^1.0.0"
+    "hint": "^1.0.0"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

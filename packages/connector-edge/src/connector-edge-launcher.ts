@@ -14,11 +14,11 @@ import * as os from 'os';
 import * as path from 'path';
 import { promisify } from 'util';
 
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import delay from 'sonarwhal/dist/src/lib/utils/misc/delay';
-import { Launcher } from '@sonarwhal/utils-debugging-protocol-common/dist/src/launcher';
-import * as logging from 'sonarwhal/dist/src/lib/utils/logging';
-import { BrowserInfo, LauncherOptions } from 'sonarwhal/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import delay from 'hint/dist/src/lib/utils/misc/delay';
+import { Launcher } from '@hint/utils-debugging-protocol-common/dist/src/launcher';
+import * as logging from 'hint/dist/src/lib/utils/logging';
+import { BrowserInfo, LauncherOptions } from 'hint/dist/src/lib/types';
 import * as nodeWindows from 'node-windows';
 
 const diagnosticsPath = require.resolve('edge-diagnostics-adapter');
@@ -92,7 +92,7 @@ export class EdgeLauncher extends Launcher {
     }
 
     /**
-     * Test if we are running sonarwhal in a Windows 10 machine
+     * Test if we are running hint in a Windows 10 machine
      */
     private isWin10() {
         return {

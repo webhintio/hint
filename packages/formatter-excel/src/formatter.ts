@@ -1,5 +1,5 @@
 /**
- * @fileoverview A sonarwhal formatter that outputs the issues in an Excel file
+ * @fileoverview A hint formatter that outputs the issues in an Excel file
  * (xlsx).
  */
 
@@ -13,9 +13,9 @@ import * as forEach from 'lodash.foreach';
 import * as groupBy from 'lodash.groupby';
 import * as sortBy from 'lodash.sortby';
 
-import { debug as d } from 'sonarwhal/dist/src/lib/utils/debug';
-import { IFormatter, Problem } from 'sonarwhal/dist/src/lib/types';
-import * as logger from 'sonarwhal/dist/src/lib/utils/logging';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { IFormatter, Problem } from 'hint/dist/src/lib/types';
+import * as logger from 'hint/dist/src/lib/utils/logging';
 
 const _ = {
     forEach,
@@ -88,7 +88,7 @@ export default class ExcelFormatter implements IFormatter {
 
         /** Creates a new sheet with the report for the given resource. */
         const processResource = (msgs: Array<Problem>, resource: string) => {
-            const sortedMessages: Array<Problem> = _.sortBy(msgs, 'ruleId');
+            const sortedMessages: Array<Problem> = _.sortBy(msgs, 'hintId');
             const name = getName(resource);
             const sheet = workbook.addWorksheet(name);
             let counter = startRow;
@@ -105,7 +105,7 @@ export default class ExcelFormatter implements IFormatter {
 
             applyToCell(
                 sheet.getCell(`E${counter}`),
-                { value: 'Rule id' },
+                { value: 'Hint id' },
                 tableHeader);
             applyToCell(
                 sheet.getCell(`F${counter}`),
@@ -118,8 +118,8 @@ export default class ExcelFormatter implements IFormatter {
                     sheet.getCell(`E${counter}`),
                     {
                         value: {
-                            hyperlink: `https://sonarwhal.com/docs/user-guide/rules/rule-${problem.ruleId}/`,
-                            text: problem.ruleId
+                            hyperlink: `https://webhint.io/docs/user-guide/hints/hint-${problem.hintId}/`,
+                            text: problem.hintId
                         }
                     },
                     border);

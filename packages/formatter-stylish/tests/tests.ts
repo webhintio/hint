@@ -7,7 +7,7 @@ import * as table from 'text-table';
 
 const logging = { log() { } };
 
-proxyquire('../src/formatter', { 'sonarwhal/dist/src/lib/utils/logging': logging });
+proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': logging });
 
 import StylishFormatter from '../src/formatter';
 import * as problems from './fixtures/list-of-problems';
@@ -39,11 +39,11 @@ test(`Stylish formatter prints a table and a summary for each resource`, (t) => 
     let problem = problems.multipleproblemsandresources[1];
     let tableData = [];
 
-    tableData.push(['', '', chalk.yellow('Warning'), problem.message, problem.ruleId]);
+    tableData.push(['', '', chalk.yellow('Warning'), problem.message, problem.hintId]);
     problem = problems.multipleproblemsandresources[0];
-    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.ruleId]);
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.hintId]);
     problem = problems.multipleproblemsandresources[4];
-    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.ruleId]);
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.hintId]);
 
     let tableString = table(tableData);
 
@@ -55,9 +55,9 @@ test(`Stylish formatter prints a table and a summary for each resource`, (t) => 
 
     tableData = [];
     problem = problems.multipleproblemsandresources[2];
-    tableData.push([chalk.red('Error'), problem.message, problem.ruleId]);
+    tableData.push([chalk.red('Error'), problem.message, problem.hintId]);
     problem = problems.multipleproblemsandresources[3];
-    tableData.push([chalk.yellow('Warning'), problem.message, problem.ruleId]);
+    tableData.push([chalk.yellow('Warning'), problem.message, problem.hintId]);
     tableString = table(tableData);
 
     t.is(log.args[5][0], tableString);

@@ -1,4 +1,4 @@
-import { Problem, Severity } from 'sonarwhal/dist/src/lib/types';
+import { Problem, Severity } from 'hint/dist/src/lib/types';
 
 const codeframeproblems: Array<Problem> = [{
     location: {
@@ -7,7 +7,7 @@ const codeframeproblems: Array<Problem> = [{
     },
     message: 'This is a problem without line in myresource',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 }, {
@@ -19,12 +19,12 @@ const codeframeproblems: Array<Problem> = [{
     },
     message: 'This is a problem with a location',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: `<html lang="en"><head>
         <meta charset="utf-8">
         <title></title>
-        <meta name="description" content="sonarwhal website">
+        <meta name="description" content="webhint website">
         <meta name="viewport" content="width=device-width">
 
         <meta name="theme-color" content="#4046dd">
@@ -63,7 +63,7 @@ const codeframeproblems: Array<Problem> = [{
     },
     message: `This is a problem in an element with wrong tabs`,
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: `<html lang="en"><head>
 <meta charset="utf-8">
@@ -82,7 +82,7 @@ const codeframeproblems: Array<Problem> = [{
     },
     message: 'This is a problem inside an element',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: `<a href="//link.com">
             <img src="//image.jpg"/>
@@ -96,7 +96,7 @@ const codeframeproblems: Array<Problem> = [{
     },
     message: 'This is a problem inside an element with a wrong tab in the problem',
     resource: 'http://myresource.com/',
-    ruleId: 'random-rule',
+    hintId: 'random-hint',
     severity: Severity.error,
     sourceCode: `<html lang="en"><head>
 <meta charset="utf-8">

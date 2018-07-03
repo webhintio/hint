@@ -1,4 +1,4 @@
-# Parser typescript-config (`@sonarwhal/parser-typescript-config`)
+# Parser typescript-config (`@hint/parser-typescript-config`)
 
 The `typescript-config` parser allows the user to analyze the
 TypeScript configuration in their projects.
@@ -6,7 +6,7 @@ TypeScript configuration in their projects.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @sonarwhal/parser-typescript-config
+npm install @hint/parser-typescript-config
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -14,7 +14,7 @@ parameter, or to install it globally, you can use the `-g` parameter. For
 other options see
 [`npm`'s documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+And then activate it via the [`.hintrc`][hintrc]
 configuration file:
 
 ```json
@@ -22,7 +22,7 @@ configuration file:
     "connector": {...},
     "formatters": [...],
     "parsers": ["typescript-config"],
-    "rules": {
+    "hints": {
         ...
     },
     ...
@@ -79,9 +79,9 @@ If you need to import any type or enum defined in this parser, you
 need to import them as follows:
 
 ```ts
-import { TypeOrEnumYouWantToUse } from '@sonarwhal/parser-typescript-config/dist/src/types';
+import { TypeOrEnumYouWantToUse } from '@hint/parser-typescript-config/dist/src/types';
 ```
 
 <!-- Link labels: -->
 
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/

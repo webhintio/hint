@@ -1,4 +1,4 @@
-# webpack config parser (`@sonarwhal/parser-webpack-config`)
+# webpack config parser (`@hint/parser-webpack-config`)
 
 The `webpack-config` parser allows the user to analyze the
 webpack configuration in their projects.
@@ -6,7 +6,7 @@ webpack configuration in their projects.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @sonarwhal/parser-webpack-config
+npm install @hint/parser-webpack-config
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -14,7 +14,7 @@ parameter, or to install it globally, you can use the `-g` parameter. For
 other options see
 [`npm`'s documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.sonarwhalrc`][sonarwhalrc]
+And then activate it via the [`.hintrc`][hintrc]
 configuration file:
 
 ```json
@@ -22,7 +22,7 @@ configuration file:
     "connector": {...},
     "formatters": [...],
     "parsers": ["webpack-config"],
-    "rules": {
+    "hints": {
         ...
     },
     ...
@@ -63,9 +63,9 @@ If you need to import any type defined in this parser, you need to import
 them as follows:
 
 ```ts
-import { TypeYouWantToUse } from '@sonarwhal/parser-webpack-config/dist/src/types';
+import { TypeYouWantToUse } from '@hint/parser-webpack-config/dist/src/types';
 ```
 
 <!-- Link labels: -->
 
-[sonarwhalrc]: https://sonarwhal.com/docs/user-guide/further-configuration/sonarwhalrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
