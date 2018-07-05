@@ -81,7 +81,7 @@ export class Connector implements IConnector {
              * tabUrl is a empty html site used to avoid edge diagnostics adapter to receive unexpeted onLoadEventFired
              * and onRequestWillBeSent events from the default url opened when you create a new tab in Edge.
              */
-            tabUrl: 'https://empty.sonarwhal.com/',
+            tabUrl: 'https://empty.webhint.io/',
             useTabUrl: false,
             waitFor: 1000
         };

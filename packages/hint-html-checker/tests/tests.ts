@@ -7,7 +7,7 @@ import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 
 const hintPath = getHintPath(__filename);
-const exampleUrl = 'https://empty.sonarwhal.com/';
+const exampleUrl = 'https://empty.webhint.io/';
 const validatorError = 'error';
 const defaultValidator = 'https://validator.w3.org/nu/';
 const configValidator = 'https://html5.validator.nu';

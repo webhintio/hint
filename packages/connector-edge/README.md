@@ -27,7 +27,7 @@ npm install @hint/connector-edge
   you should enable the property `useTabUrl` to `true`
   and then set the property `tabUrl` with an url to an empty
   html in the connector options. You can use the url
-  `https://empty.sonarwhal.com/`.
+  `https://empty.webhint.io/`.
 
 ## Usage
 
@@ -52,7 +52,7 @@ browser or tab:
         "name": "edge",
         "options": {
             "useTabUrl": true,
-            "tabUrl": "https://empty.sonarwhal.com/"
+            "tabUrl": "https://empty.webhint.io/"
         }
     },
     ...

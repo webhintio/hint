@@ -12,7 +12,7 @@ import { Engine } from 'hint/dist/src/lib/engine';
 export default class EdgeConnector extends Connector {
     public constructor(server: Engine, config: object) {
         const edgeRequiredConfig = {
-            tabUrl: 'https://empty.sonarwhal.com/',
+            tabUrl: 'https://empty.webhint.io/',
             useTabUrl: true
         };
         const edgeConfig = Object.assign({}, edgeRequiredConfig, config);
