@@ -102,13 +102,13 @@ The set of settings specific for them are:
 * `useTabUrl (boolean)`: Indicates if the browser should navigate first
   to a given page before going to the final target. `false` by default.
 * `tabUrl (string)`: The URL to visit before the final target in case
-  `useTabUrl` is `true`. `https://empty.sonarwhal.com/` is the
+  `useTabUrl` is `true`. `https://empty.webhint.io/` is the
   default value.
 
 ```json
 {
     "defaultProfile": true,
-    "tabUrl": "https://empty.sonarwhal.com/",
+    "tabUrl": "https://empty.webhint.io/",
     "useTabUrl": false
 }
 ```
