@@ -13,7 +13,6 @@
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
-    "hint": "^1.0.0",
     "eslint": "^5.0.1",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
@@ -21,6 +20,7 @@
     "fork-ts-checker-webpack-plugin": "^0.4.2",
     "fs-extra": "^6.0.1",
     "handlebars": "^4.0.11",
+    "hint": "^1.0.0",
     "inquirer": "^6.0.0",
     "markdownlint-cli": "^0.10.0",
     "mkdirp": "^0.5.1",
@@ -32,7 +32,7 @@
     "ts-loader": "^4.4.1",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.0",
-    "webpack": "^4.12.2",
+    "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8"
   },
   "engines": {

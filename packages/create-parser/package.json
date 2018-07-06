@@ -20,8 +20,8 @@
     "fork-ts-checker-webpack-plugin": "^0.4.2",
     "fs-extra": "^6.0.1",
     "handlebars": "^4.0.11",
-    "inquirer": "^6.0.0",
     "hint": "^1.0.0",
+    "inquirer": "^6.0.0",
     "markdownlint-cli": "^0.10.0",
     "mkdirp": "^0.5.1",
     "npm-link-check": "^2.0.0",
@@ -32,7 +32,7 @@
     "ts-loader": "^4.4.1",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.0",
-    "webpack": "^4.12.2",
+    "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8"
   },
   "engines": {

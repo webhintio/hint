@@ -8,12 +8,13 @@
   },
   "description": "webhint parser needed to analyze webpack config files",
   "devDependencies": {
-    "@types/webpack": "^4.4.3",
+    "@types/webpack": "^4.4.5",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
+    "hint": "^1.0.0",
     "markdownlint-cli": "^0.10.0",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
@@ -21,7 +22,6 @@
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
     "sinon": "^6.1.0",
-    "hint": "^1.0.0",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.1"
   },

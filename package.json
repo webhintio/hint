@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@alrra/travis-scripts": "^3.0.1",
-    "@types/node": "^10.3.4",
+    "@types/node": "^10.5.2",
     "ava": "^0.25.0",
     "chalk": "^2.4.1",
     "cpx": "^1.5.0",

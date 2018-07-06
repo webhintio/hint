@@ -42,7 +42,7 @@
   "description": "The linting tool for the web",
   "devDependencies": {
     "@types/debug": "0.0.30",
-    "@types/fs-extra": "5.0.2",
+    "@types/fs-extra": "5.0.3",
     "@types/globby": "^6.1.0",
     "@types/handlebars": "^4.0.38",
     "@types/lodash": "^4.14.109",
