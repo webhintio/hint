@@ -10,7 +10,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import isOfficial from 'hint/dist/src/lib/utils/packages/is-official';
 
-import Handlebars, { compileTemplate, escapeSafeString } from 'hint/dist/src/lib/utils/handlebars-utils';
+import Handlebars, { compileTemplate, escapeSafeString } from './handlebars-utils';
 import normalizeStringByDelimiter from 'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter';
 import readFile from 'hint/dist/src/lib/utils/fs/read-file';
 import toCamelCase from 'hint/dist/src/lib/utils/misc/to-camel-case';

@@ -5,7 +5,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import * as handlebarsUtils from 'hint/dist/src/lib/utils/handlebars-utils';
+import * as handlebarsUtils from '../src/handlebars-utils';
 
 const fsExtra = { copy() { } };
 const inquirer = { prompt() { } };
@@ -19,7 +19,7 @@ const mkdirp = (dir, callback) => {
 };
 
 proxyquire('../src/new-parser', {
-    'hint/dist/src/lib/utils/handlebars-utils': handlebarsUtils,
+    '../src/handlebars-utils': handlebarsUtils,
     'hint/dist/src/lib/utils/fs/read-file-async': readFileAsync,
     'hint/dist/src/lib/utils/fs/write-file-async': writeFileAsync,
     'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter': normalizeStringByDelimiter,

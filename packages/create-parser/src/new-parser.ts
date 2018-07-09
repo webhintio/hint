@@ -9,7 +9,7 @@ import * as logger from 'hint/dist/src/lib/utils/logging';
 import isOfficial from 'hint/dist/src/lib/utils/packages/is-official';
 import normalize from 'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter';
 import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
-import { escapeSafeString, compileTemplate } from 'hint/dist/src/lib/utils/handlebars-utils';
+import { escapeSafeString, compileTemplate } from './handlebars-utils';
 
 /*
  * ------------------------------------------------------------------------------
@@ -71,6 +71,7 @@ const capitalize = (str: string): string => {
     const splittedText: Array<string> = normalize(str, ' ').split(' ');
 
     const result = splittedText.reduce((total, text) => {
+        /* istanbul ignore else */
         if (!text) {
             return total;
         }
@@ -145,6 +146,7 @@ const eventList: Array<string> = Object.keys(events);
 const TEMPLATE_PATH: string = './templates/new-parser';
 const SHARED_TEMPLATE_PATH = './shared-templates';
 
+/* istanbul ignore next */
 /** Configure questions depending on what we need. */
 const questions = (repeat: boolean = false) => {
     return [
