@@ -12,10 +12,10 @@ test.beforeEach(async (t) => {
     delete require.cache[require.resolve('lodash')];
     delete require.cache[path.resolve(__dirname, '../src/formatter.js')];
 
-    const groupBy = await import('lodash.groupby');
+    const { groupBy } = await import('lodash');
     const spy = sinon.spy(groupBy);
 
-    proxyquire('../src/formatter', { 'lodash.groupby': spy });
+    proxyquire('../src/formatter', { 'lodash': spy });
 
     const ExcelFormatter = (await import('../src/formatter')).default;
 

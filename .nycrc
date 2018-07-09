@@ -12,6 +12,7 @@
         "lcov",
         "text"
     ],
+    "require": ["esm"],
     "sourceMap": true,
     "statements": 80
 }

@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { isEqual } from 'lodash';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
@@ -109,7 +109,7 @@ test.serial(`initHintrc should install the configuration package if user chooses
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
     t.true(stub.called, `npm hasn't tried to install any package`);
-    t.true(_.isEqual(fileData, { extends: ['recommended'] }));
+    t.true(isEqual(fileData, { extends: ['recommended'] }));
 
     sandbox.restore();
 });
@@ -143,7 +143,7 @@ test.serial(`initHintrc shouldn't install the configuration package if user choo
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
     t.false(stub.called, `npm has tried to install any package`);
-    t.true(_.isEqual(fileData, { extends: ['recommended'] }));
+    t.true(isEqual(fileData, { extends: ['recommended'] }));
 
     sandbox.restore();
 });

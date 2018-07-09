@@ -81,5 +81,8 @@
   },
   "workspaces": [
     "packages/!(connector-edge)"
-  ]
+  ],
+  "dependencies": {
+    "esm": "^3.0.65"
+  }
 }

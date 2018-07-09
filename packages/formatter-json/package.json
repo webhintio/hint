@@ -8,9 +8,7 @@
   },
   "description": "webhint formatter that prints the JSON object of the results",
   "dependencies": {
-    "lodash.foreach": "^4.5.0",
-    "lodash.groupby": "^4.6.0",
-    "lodash.sortby": "^4.7.0"
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "ava": "^0.25.0",

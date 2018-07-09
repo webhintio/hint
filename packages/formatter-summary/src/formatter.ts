@@ -9,12 +9,13 @@
  */
 
 import chalk from 'chalk';
-import * as forEach from 'lodash.foreach';
-import * as groupBy from 'lodash.groupby';
-import * as defaultTo from 'lodash.defaultto';
+import {
+    defaultTo,
+    forEach,
+    groupBy
+} from 'lodash';
 import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
-
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { IFormatter, Problem, Severity } from 'hint/dist/src/lib/types';
 import * as logger from 'hint/dist/src/lib/utils/logging';

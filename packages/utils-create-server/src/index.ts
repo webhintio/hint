@@ -1,12 +1,16 @@
 /**
  * @fileoverview Simple HTTP server used in hint's tests to mimick certain scenarios.
  */
+import * as fs from 'fs';
+import { promisify } from 'util';
+
+const readFile = promisify(fs.readFile);
+
 import * as http from 'http';
 import * as https from 'https';
 import * as path from 'path';
 
-import * as fs from 'fs-extra';
-import * as _ from 'lodash';
+import { forEach, random } from 'lodash';
 import * as express from 'express';
 
 // to work with option 'strict', we can't use import.
@@ -23,7 +27,7 @@ const maxPort = 65535;
 export class Server {
     private _app: express.Application;
     private _server: https.Server | http.Server = {} as http.Server;
-    private _port: number = _.random(3000, 65000);
+    private _port: number = random(3000, 65000);
     private _isHTTPS: boolean | undefined;
 
     public constructor(isHTTPS?: boolean) {
@@ -237,7 +241,7 @@ export class Server {
         const conditionalConfig = this.isConditionalConfig(configuration);
         const config = conditionalConfig ? this.normalizeConfig(configuration) : configuration;
 
-        _.forEach(config, (val, key) => {
+        forEach(config, (val, key) => {
             customFavicon = customFavicon || key === '/favicon.ico';
 
             this._app.get(key, (req, res) => {
@@ -296,8 +300,8 @@ export class Server {
 
             if (this._isHTTPS) {
                 options = {
-                    cert: await fs.readFile(path.join(__dirname, 'fixture/server.crt'), 'utf8'),
-                    key: await fs.readFile(path.join(__dirname, 'fixture/server.key'), 'utf8')
+                    cert: await readFile(path.join(__dirname, 'fixture/server.crt'), 'utf8'),
+                    key: await readFile(path.join(__dirname, 'fixture/server.key'), 'utf8')
                 };
 
                 this._server = https.createServer(options, this._app);
@@ -313,7 +317,7 @@ export class Server {
                     setImmediate(() => {
                         this._port++;
                         if (this._port > maxPort) {
-                            this._port = _.random(3000, 65000);
+                            this._port = random(3000, 65000);
                         }
                         this._server.close();
                         this._server.listen(this._port);
