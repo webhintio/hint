@@ -14,14 +14,15 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { UserConfig } from '../../types';
-import { debug as d } from '../../utils/debug';
-import * as logger from '../../utils/logging';
-import { getInstalledResources, getCoreResources } from '../../utils/resource-loader';
-import { ResourceType } from '../../enums/resourcetype';
-import { generateBrowserslistConfig } from '../browserslist';
-import { getOfficialPackages, installPackages } from '../../utils/npm';
-import { NpmPackage } from '../../types';
+import { UserConfig } from 'hint/dist/src/lib/types';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import * as logger from 'hint/dist/src/lib/utils/logging';
+
+import { getInstalledResources, getCoreResources } from 'hint/dist/src/lib/utils/resource-loader';
+import { ResourceType } from 'hint/dist/src/lib/enums/resourcetype';
+import { generateBrowserslistConfig } from './browserslist';
+import { getOfficialPackages, installPackages } from 'hint/dist/src/lib/utils/npm';
+import { NpmPackage } from 'hint/dist/src/lib/types';
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
@@ -33,6 +34,7 @@ type InitUserConfig = {
 
 /** Validates if the given array is not empty and if so, prints an error message. */
 const anyResources = (resources: Array<any>, type: string) => {
+    /* istanbul ignore else */
     if (resources.length > 0) {
         return true;
     }
