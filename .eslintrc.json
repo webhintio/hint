@@ -81,7 +81,7 @@
         "no-buffer-constructor": "error",
         "no-caller": "error",
         "no-case-declarations": "error",
-        "no-catch-shadow": "error",
+        "no-shadow": "error",
         "no-cond-assign": "error",
         "no-confusing-arrow": "error",
         "no-console": "off",
