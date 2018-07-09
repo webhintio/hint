@@ -10,8 +10,8 @@
 
 import * as inquirer from 'inquirer';
 import * as browserslist from 'browserslist';
-import * as logger from '../utils/logging';
-import { debug as d } from '../utils/debug';
+import * as logger from 'hint/dist/src/lib/utils/logging';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 const debug: debug.IDebugger = d(__filename);
 
