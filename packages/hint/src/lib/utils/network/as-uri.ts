@@ -1,7 +1,7 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import * as _ from 'lodash';
+import { compact } from 'lodash';
 import * as fileUrl from 'file-url';
 
 import { debug as d } from '../debug';
@@ -90,5 +90,5 @@ export const getAsUris = (source: Array<string>): Array<URL> => {
         return uris;
     }, []);
 
-    return _.compact(targets);
+    return compact(targets);
 };

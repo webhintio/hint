@@ -36,8 +36,6 @@ const config = {
     }
 };
 
-const generator = { initHintrc() { } };
-
 const spinner = {
     fail() { },
     start() { },
@@ -58,7 +56,6 @@ proxyquire('../../../src/lib/cli/analyze', {
     '../utils/logging': logger,
     '../utils/misc/ask-question': askQuestion,
     '../utils/resource-loader': resourceLoader,
-    './wizards/init': generator,
     ora
 });
 
@@ -67,13 +64,11 @@ import { default as analyze, engine } from '../../../src/lib/cli/analyze';
 test.beforeEach((t) => {
     sinon.spy(logger, 'log');
     sinon.spy(logger, 'error');
-    sinon.stub(generator, 'initHintrc').resolves();
     sinon.spy(spinner, 'start');
     sinon.spy(spinner, 'fail');
     sinon.spy(spinner, 'succeed');
 
     t.context.Configuration = config.Configuration;
-    t.context.generator = generator;
     t.context.logger = logger;
     t.context.spinner = spinner;
     t.context.askQuestion = askQuestion;
@@ -83,7 +78,6 @@ test.beforeEach((t) => {
 test.afterEach.always((t) => {
     t.context.logger.log.restore();
     t.context.logger.error.restore();
-    t.context.generator.initHintrc.restore();
     t.context.spinner.start.restore();
     t.context.spinner.fail.restore();
     t.context.spinner.succeed.restore();
@@ -158,7 +152,6 @@ test.serial('If config file is an invalid JSON, it should ask to use the default
     t.true(t.context.Configuration.fromConfig.calledOnce);
     t.deepEqual(t.context.Configuration.fromConfig.args[0][0], { extends: ['web-recommended'] });
     t.true(t.context.askQuestion.default.calledOnce);
-    t.true(t.context.generator.initHintrc.notCalled);
 
     sandbox.restore();
 });
@@ -181,7 +174,6 @@ test.serial('If config file has an invalid configuration, it should ask to use t
     await analyze(actions);
 
     t.true(t.context.askQuestion.default.calledOnce);
-    t.true(t.context.generator.initHintrc.notCalled);
     t.true(t.context.Configuration.fromConfig.calledOnce);
     t.deepEqual(t.context.Configuration.fromConfig.args[0][0], { extends: ['web-recommended'] });
 
@@ -204,7 +196,6 @@ test.serial('If config file is invalid and user refuses to use the default or to
     const result = await analyze(actions);
 
     t.true(t.context.askQuestion.default.calledOnce);
-    t.true(t.context.generator.initHintrc.notCalled);
     t.false(result);
 
     sandbox.restore();

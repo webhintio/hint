@@ -1,5 +1,10 @@
 import * as ajv from 'ajv';
-import * as _ from 'lodash';
+import {
+    cloneDeep,
+    groupBy,
+    reduce,
+    without
+} from 'lodash';
 
 import { SchemaValidationResult } from '../types';
 
@@ -75,9 +80,9 @@ const generateTypeError = generateError(ErrorKeyword.type, (error: ajv.ErrorObje
  * Returns a readable error for 'anyOf' errors.
  */
 const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorObject, property: string, errors?: Array<ajv.ErrorObject>): string => {
-    const otherErrors = _.without(errors, error);
+    const otherErrors = without(errors, error);
 
-    const results = _.map(otherErrors, (otherError) => {
+    const results = otherErrors.map((otherError) => {
         // eslint-disable-next-line typescript/no-use-before-define, no-use-before-define
         return generate(otherError);
     });
@@ -91,7 +96,7 @@ const errorGenerators: Array<((error: ajv.ErrorObject, errors?: Array<ajv.ErrorO
  * Returns a readable error message.
  */
 const generate = (error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>): string => {
-    return _.reduce(errorGenerators, (message, generator) => {
+    return errorGenerators.reduce((message, generator) => {
         const newErrorMessage: string = generator(error, errors);
 
         if (newErrorMessage) {
@@ -104,10 +109,10 @@ const generate = (error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>): stri
 
 
 const prettify = (errors: Array<ajv.ErrorObject>) => {
-    const grouped: _.Dictionary<Array<ajv.ErrorObject>> = _.groupBy(errors, 'dataPath');
+    const grouped = groupBy(errors, 'dataPath');
 
-    const result = _.reduce(grouped, (allMessages, groupErrors: Array<ajv.ErrorObject>) => {
-        _.forEach(groupErrors, (error) => {
+    const result = reduce(grouped, (allMessages, groupErrors: Array<ajv.ErrorObject>) => {
+        groupErrors.forEach((error) => {
             allMessages.push(generate(error, groupErrors));
         });
 
@@ -119,7 +124,7 @@ const prettify = (errors: Array<ajv.ErrorObject>) => {
 
 export const validate = (schema, json): SchemaValidationResult => {
     // We clone the incoming data because the validator can modify it.
-    const data = _.cloneDeep(json);
+    const data = cloneDeep(json);
     const validateFunction: ajv.ValidateFunction = validator.compile(schema);
 
     const valid: boolean = validateFunction(data) as boolean;

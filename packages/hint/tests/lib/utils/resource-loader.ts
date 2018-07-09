@@ -155,7 +155,7 @@ test.serial('loadResource ignores the version by default and returns the resourc
     tryToLoadFromStub.restore();
 });
 
-test('loadResource throws an error if the resources is not found', async (t) => {
+test('loadResource throws an error if the resource is not found', async (t) => {
     cleanCache();
 
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');

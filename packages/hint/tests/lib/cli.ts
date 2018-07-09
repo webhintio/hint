@@ -100,5 +100,5 @@ test.serial(`The process should exit if non-existing arguments are passed in to 
     await t.notThrows(cli.execute(['', '', '--inti']));
 
     t.true(t.context.logger.error.calledOnce);
-    t.is(t.context.logger.error.args[0][0], `Invalid option '--inti' - perhaps you meant '--init'?`);
+    t.is(t.context.logger.error.args[0][0], `Invalid option '--inti' - perhaps you meant '--hints'?`);
 });

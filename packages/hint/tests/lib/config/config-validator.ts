@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { cloneDeep } from 'lodash';
 import test from 'ava';
 
 import * as configValidator from '../../../src/lib/config/config-validator';
@@ -90,7 +90,7 @@ test('If hints config with array has an array item with the items inverted, vali
 });
 
 test(`If hint severity isn't valid, it should return false`, (t) => {
-    const config = _.cloneDeep(validConfig);
+    const config = cloneDeep(validConfig);
 
     config.hints['disallowed-headers'] = ['no-valid-severity', {}];
 

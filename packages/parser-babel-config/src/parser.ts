@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import { cloneDeep } from 'lodash';
 
 import { FetchEnd, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint';

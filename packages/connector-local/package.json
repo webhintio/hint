@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "chokidar": "^2.0.4",
-    "fs-extra": "^6.0.1",
     "globby": "^8.0.1",
     "hint": "^1.0.0"
   },
