@@ -49,16 +49,16 @@ const ora = () => {
     return spinner;
 };
 
-const inquirer = { prompt() { } };
+const askQuestion = { default() { } };
 const validateHintsConfigResult = { invalid: [] };
 
 proxyquire('../../../src/lib/cli/analyze', {
     '../config': config,
     '../engine': engineContainer,
     '../utils/logging': logger,
+    '../utils/misc/ask-question': askQuestion,
     '../utils/resource-loader': resourceLoader,
     './wizards/init': generator,
-    inquirer,
     ora
 });
 
@@ -76,7 +76,7 @@ test.beforeEach((t) => {
     t.context.generator = generator;
     t.context.logger = logger;
     t.context.spinner = spinner;
-    t.context.inquirer = inquirer;
+    t.context.askQuestion = askQuestion;
     t.context.resourceLoader = resourceLoader;
 });
 
@@ -128,7 +128,7 @@ test.serial('If config file does not exist, it should use `web-recommended` as d
     sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
     sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
-    sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
+    sandbox.stub(askQuestion, 'default').resolves(false);
     await t.notThrows(analyze(actions));
 
     t.true(t.context.Configuration.fromConfig.calledOnce);
@@ -151,14 +151,13 @@ test.serial('If config file is an invalid JSON, it should ask to use the default
     sandbox.stub(t.context.Configuration, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
     sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
     sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
-    sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
+    sandbox.stub(askQuestion, 'default').resolves(true);
 
     await t.notThrows(analyze(actions));
 
     t.true(t.context.Configuration.fromConfig.calledOnce);
     t.deepEqual(t.context.Configuration.fromConfig.args[0][0], { extends: ['web-recommended'] });
-    t.true(t.context.inquirer.prompt.calledOnce);
-    t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
+    t.true(t.context.askQuestion.default.calledOnce);
     t.true(t.context.generator.initHintrc.notCalled);
 
     sandbox.restore();
@@ -177,13 +176,12 @@ test.serial('If config file has an invalid configuration, it should ask to use t
         .onSecondCall()
         .returns({});
     sandbox.stub(t.context.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
-    sandbox.stub(inquirer, 'prompt').resolves({ confirm: true });
+    sandbox.stub(askQuestion, 'default').resolves(true);
 
     await analyze(actions);
 
-    t.true(t.context.inquirer.prompt.calledOnce);
+    t.true(t.context.askQuestion.default.calledOnce);
     t.true(t.context.generator.initHintrc.notCalled);
-    t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
     t.true(t.context.Configuration.fromConfig.calledOnce);
     t.deepEqual(t.context.Configuration.fromConfig.args[0][0], { extends: ['web-recommended'] });
 
@@ -201,14 +199,12 @@ test.serial('If config file is invalid and user refuses to use the default or to
     sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
     sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});
     sandbox.stub(t.context.Configuration, 'fromConfig').throws(error);
-    sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
+    sandbox.stub(askQuestion, 'default').resolves(false);
 
     const result = await analyze(actions);
 
-    t.true(t.context.inquirer.prompt.calledTwice);
-    t.is(t.context.inquirer.prompt.args[0][0][0].name, 'confirm');
-    t.is(t.context.inquirer.prompt.args[1][0][0].name, 'confirm');
-    t.false(t.context.generator.initHintrc.called);
+    t.true(t.context.askQuestion.default.calledOnce);
+    t.true(t.context.generator.initHintrc.notCalled);
     t.false(result);
 
     sandbox.restore();
@@ -230,7 +226,7 @@ test.serial('If configuration file exists, it should use it', async (t) => {
 
     await analyze(customConfigOptions);
 
-    t.false(t.context.Configuration.getFilenameForDirectory.called);
+    t.true(t.context.Configuration.getFilenameForDirectory.notCalled);
     t.true(t.context.Configuration.loadConfigFile.args[0][0].endsWith('configfile.cfg'));
 
     sandbox.restore();
@@ -264,7 +260,7 @@ test.serial('If executeOn returns an error, it should exit with code 1 and call 
     });
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: Severity.error }]);
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(inquirer, 'prompt').resolves({ confirm: false });
+    sandbox.stub(askQuestion, 'default').resolves(false);
     sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
     sandbox.stub(t.context.Configuration, 'fromConfig').returns({});
     sandbox.stub(t.context.Configuration, 'loadConfigFile').returns({});

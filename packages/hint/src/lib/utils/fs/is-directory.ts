@@ -1,6 +1,12 @@
-import { test } from 'shelljs';
+import { statSync } from 'fs';
 
 /** Check if a path is a directory and exists*/
 export default (directoryPath: string): boolean => {
-    return test('-d', directoryPath);
+    try {
+        const stat = statSync(directoryPath);
+
+        return stat.isDirectory();
+    } catch (e) {
+        return false;
+    }
 };

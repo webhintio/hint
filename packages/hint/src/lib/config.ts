@@ -18,11 +18,11 @@ import * as os from 'os';
 import * as path from 'path';
 
 import * as browserslist from 'browserslist';
-import * as shell from 'shelljs';
 import * as _ from 'lodash';
 
-import { debug as d } from './utils/debug';
 import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject } from './types';
+import { debug as d } from './utils/debug';
+import isFile from './utils/fs/is-file';
 import loadJSFile from './utils/fs/load-js-file';
 import loadJSONFile from './utils/fs/load-json-file';
 import { validateConfig } from './config/config-validator';
@@ -206,7 +206,7 @@ export class Configuration {
         const files: Array<string> = CONFIG_FILES.reduce((total, configFile) => {
             const filename: string = path.join(directory, configFile);
 
-            if (shell.test('-f', filename)) {
+            if (isFile(filename)) {
                 total.push(filename);
             }
 
@@ -445,7 +445,7 @@ export class Configuration {
         for (let i = 0, len = CONFIG_FILES.length; i < len; i++) {
             const filename: string = path.join(directory, CONFIG_FILES[i]);
 
-            if (shell.test('-f', filename)) {
+            if (isFile(filename)) {
                 return filename;
             }
         }

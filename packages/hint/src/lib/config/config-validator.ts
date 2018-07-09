@@ -9,17 +9,13 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as path from 'path';
-
-import { readJSONSync } from 'fs-extra';
-
 import { validate } from '../utils/schema-validator';
 import { debug as d } from '../utils/debug';
 import { UserConfig } from '../types';
 import * as logger from '../utils/logging';
 
 const debug = d(__filename);
-const schema = readJSONSync(path.join(__dirname, 'config-schema.json'));
+const schema = require('./config-schema.json');
 
 /*
  * ------------------------------------------------------------------------------
