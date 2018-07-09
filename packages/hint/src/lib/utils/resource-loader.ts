@@ -48,6 +48,7 @@ const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>()
 const loadPackage = (modulePath: string): any => {
     let pkg;
 
+    /* istanbul ignore if */
     if (process.env.webpack) {
         pkg = eval(`require("${modulePath}")`);
     } else {
@@ -60,6 +61,7 @@ const loadPackage = (modulePath: string): any => {
 const resolvePackage = (modulePath: string): string => {
     let pkgPath;
 
+    /* istanbul ignore if */
     if (process.env.webpack) {
         pkgPath = eval(`require.resolve("${modulePath}")`);
     } else {

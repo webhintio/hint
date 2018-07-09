@@ -26,11 +26,15 @@ export const getAsUri = (source: string): URL => {
     try {
         target = new URL(entry);
     } catch (err) {
-        target = null;
+        /* istanbul ignore next */
+        { // eslint-disable-line no-lone-blocks
+            target = null;
+        }
     }
 
     const protocol: string = target ? target.protocol : null;
 
+    /* istanbul ignore else */
     /*
      * If it's a URI.
      * Check if the protocol is HTTP or HTTPS.
