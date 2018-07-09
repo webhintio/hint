@@ -1,3 +1,4 @@
+/* eslint-disable no-eval, no-process-env */
 /**
  * @fileoverview Locates and requires resources (connectors, parsers, hints, formatters)
  * for hint across different places in the tree.
@@ -41,6 +42,32 @@ const resources: Map<string, Resource> = new Map<string, Resource>();
 
 /** Cache of resources ids. */
 const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>();
+
+// If we are using bundling with webpack we need to "hide" all the requires
+
+const loadPackage = (modulePath: string): any => {
+    let pkg;
+
+    if (process.env.webpack) {
+        pkg = eval(`require("${modulePath}")`);
+    } else {
+        pkg = require(modulePath);
+    }
+
+    return pkg;
+};
+
+const resolvePackage = (modulePath: string): string => {
+    let pkgPath;
+
+    if (process.env.webpack) {
+        pkgPath = eval(`require.resolve("${modulePath}")`);
+    } else {
+        pkgPath = require.resolve(modulePath);
+    }
+
+    return pkgPath;
+};
 
 /**
  * Validates if a given package can be used with the current `hint` version
@@ -112,7 +139,7 @@ export const getInstalledResources = (type: ResourceType): Array<string> => {
     const resourcesFiles: Array<string> = globby.sync(`${NODE_MODULES_ROOT}/@hint/${type}-*/package.json`);
 
     const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
-        const resource = require(path.dirname(resourceFile));
+        const resource = loadPackage(path.dirname(resourceFile));
         const packageName = JSON.parse(readFile(resourceFile)).name;
         const resourceName = packageName.substr(packageName.lastIndexOf('/') + 1).replace(`${type}-`, '');
 
@@ -162,7 +189,7 @@ export const tryToLoadFrom = (resourcePath: string): any => {
          * http://nodejs.org/dist/latest-v8.x/docs/api/modules.html#modules_all_together
          */
 
-        const resource = require(resourcePath);
+        const resource = loadPackage(resourcePath);
 
         builder = resource.default || resource;
     } catch (e) {
@@ -234,7 +261,7 @@ const generateConfigPathsToResources = (configurations: Array<string>, name: str
             const packageName = `${basePackagePath}${configuration}`;
 
             try {
-                const packagePath = path.dirname(require.resolve(packageName));
+                const packagePath = path.dirname(resolvePackage(packageName));
 
                 const resourcePackages = globby.sync(`node_modules/{@hint/,hint-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
                     return path.dirname(pkg);
@@ -359,7 +386,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     }
 
     if (type === ResourceType.configuration) {
-        resource = Configuration.toAbsolutePaths(resource, require.resolve(loadedSource));
+        resource = Configuration.toAbsolutePaths(resource, resolvePackage(loadedSource));
     }
 
     resources.set(key, resource);

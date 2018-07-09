@@ -3,7 +3,6 @@ import { URL } from 'url';
 import * as path from 'path';
 
 import * as async from 'async';
-import * as inquirer from 'inquirer';
 import * as ora from 'ora';
 import * as boxen from 'boxen';
 import * as chalk from 'chalk';
@@ -14,6 +13,7 @@ import { CLIOptions, ORA, Problem, Severity, UserConfig, HintResources } from '.
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/network/as-uri';
 import * as logger from '../utils/logging';
+import askForConfirm from '../utils/misc/ask-question';
 import cutString from '../utils/misc/cut-string';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
@@ -27,46 +27,14 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const askForConfirm = (question: string): inquirer.Answers => {
-    debug(`Asking for confirmation`);
-
-    const questions: inquirer.Questions = [{
-        message: question,
-        name: 'confirm',
-        type: 'confirm'
-    }];
-
-    return inquirer.prompt(questions);
-};
-
-const askUserToCreateConfig = async (): Promise<boolean> => {
-    const question: string = `Do you want to create a new configuration?`;
-    const launchInit: inquirer.Answers = await askForConfirm(question);
-
-    if (!launchInit.confirm) {
-        return false;
-    }
-
-    const { default: initHintrc } = await import('./wizards/init');
-
-    const hintrcCreated = await initHintrc();
-
-    if (!hintrcCreated) {
-        return false;
-    }
-
-    logger.log(`Configuration file .hintrc was created.`);
-
-    return true;
-};
-
 const askUserToUseDefaultConfiguration = async (): Promise<boolean> => {
     const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://webhint.io/docs/user-guide/#default-configuration`;
-    const confirmation: inquirer.Answers = await askForConfirm(question);
+    const confirmation: boolean = await askForConfirm(question);
 
-    return confirmation.confirm;
+    return confirmation;
 };
 
+/** Prints the list of missing and incompatible resources found. */
 const showMissingAndIncompatiblePackages = (resources: HintResources) => {
     if (resources.missing.length > 0) {
         logger.log(`The following ${resources.missing.length === 1 ? 'package is' : 'packages are'} missing:
@@ -84,17 +52,17 @@ const askUserToInstallDependencies = async (resources: HintResources): Promise<b
 
     const dependencies: Array<string> = resources.incompatible.concat(resources.missing);
 
-    const question: Array<object> = [{
-        message: `There ${dependencies.length === 1 ? 'is a package' : 'are packages'} from your .hintrc file not installed or with an incompatible version. Do you want us to try to install/update them?`,
-        name: 'confirm',
-        type: 'confirm'
-    }];
+    const question: string = `There ${dependencies.length === 1 ? 'is a package' : 'are packages'} from your .hintrc file not installed or with an incompatible version. Do you want us to try to install/update them?`;
 
-    const answer: inquirer.Answers = await inquirer.prompt(question);
+    const answer: boolean = await askForConfirm(question);
 
-    return answer.confirm;
+    return answer;
 };
 
+/**
+ * Prints a message telling the user a valid configuration couldn't be found and the
+ * defaults will be used.
+ */
 const showDefaultMessage = () => {
     const defaultMessage = `${chalk.default.yellow(`Couldn't find any valid configuration`)}
 
@@ -111,6 +79,10 @@ ${chalk.default.green('https://webhint.io/docs/user-guide/')}`;
     }));
 };
 
+/**
+ * Prints a message to the screen alerting the user the defautl configuration
+ * will be used and returns the default configuration.
+ */
 const getDefaultConfiguration = () => {
     showDefaultMessage();
 
@@ -169,29 +141,27 @@ const setUpUserFeedback = (engine: Engine, spinner: ORA) => {
     });
 };
 
+/** Asks the users if they want to create a new configuration file or use the default one. */
 const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<Configuration> => {
     const useDefault = await askUserToUseDefaultConfiguration();
     let userConfig: UserConfig;
 
     if (useDefault) {
-        showDefaultMessage();
-        userConfig = { extends: ['web-recommended'] };
+        userConfig = getDefaultConfiguration();
     } else {
-        const created = await askUserToCreateConfig();
+        logger.error(`Unable to find a valid configuration file. Please create a valid .hintrc file using 'npm init hintrc'.`);
 
-        if (created) {
-            // Because the configuration was created using the wizard, the configuration file will be in process.cwd()
-            userConfig = await getUserConfig();
-        } else {
-            logger.error(`Unable to find a valid configuration file. Please create a valid .hintrc file using 'hint --init'. `);
-
-            return null;
-        }
+        return null;
     }
 
     return Configuration.fromConfig(userConfig, actions);
 };
 
+/**
+ * Returns the configuration to use for the current execution.
+ * Depending on the user, the configuration could be read from a file,
+ * could be a new created one, or use the defaults.
+ */
 const getHintConfiguration = async (userConfig: UserConfig, actions: CLIOptions): Promise<Configuration> => {
     if (!userConfig) {
         return getDefaultOrCreateConfig(actions);
