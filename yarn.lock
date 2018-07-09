@@ -2882,10 +2882,6 @@ eslint@^5.0.1, eslint@^5.1.0:
     table "^4.0.3"
     text-table "^0.2.0"
 
-esm@^3.0.65:
-  version "3.0.66"
-  resolved "https://registry.npmjs.org/esm/-/esm-3.0.66.tgz#be1c12acbab8a14692f715b8bb363fbf438caf09"
-
 espower-location-detector@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/espower-location-detector/-/espower-location-detector-1.0.0.tgz#a17b7ecc59d30e179e2bef73fb4137704cb331b5"
