@@ -4,7 +4,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import * as handlebarsUtils from 'hint/dist/src/lib/utils/handlebars-utils';
+import * as handlebarsUtils from '../src/handlebars-utils';
 
 const inquirer = { prompt() { } };
 const writeFileAsyncModule = { default() { } };
@@ -16,17 +16,17 @@ const mkdirp = (dir, callback) => {
 };
 
 const dependencies = {
+    '../src/handlebars-utils': handlebarsUtils,
     'fs-extra': fsExtra,
     'hint/dist/src/lib/utils/fs/write-file-async': writeFileAsyncModule,
-    'hint/dist/src/lib/utils/handlebars-utils': handlebarsUtils,
     'hint/dist/src/lib/utils/packages/is-official': isOfficialModule,
     inquirer,
     mkdirp
 };
 
-proxyquire('../src/new-hint', dependencies);
+proxyquire('../src/create-hint', dependencies);
 
-import newHint from '../src/new-hint';
+import newHint from '../src/create-hint';
 
 test.serial('It creates a hint if the option multiple hints is false', async (t) => {
     const results = {

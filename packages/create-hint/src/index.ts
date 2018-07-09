@@ -1,3 +1,3 @@
-import newHint from './new-hint';
+import createHint from './create-hint';
 
-newHint();
+createHint();
