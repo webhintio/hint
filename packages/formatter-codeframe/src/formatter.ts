@@ -12,9 +12,11 @@
  */
 
 import chalk from 'chalk';
-import * as groupBy from 'lodash.groupby';
-import * as sortBy from 'lodash.sortby';
-import * as forEach from 'lodash.foreach';
+import {
+    forEach,
+    groupBy,
+    sortBy
+} from 'lodash';
 import * as logSymbols from 'log-symbols';
 
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';

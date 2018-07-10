@@ -8,7 +8,7 @@
   },
   "description": "webhint parser to analyze babel config",
   "dependencies": {
-    "lodash.clonedeep": "^4.5.0"
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "ava": "^0.25.0",

@@ -53,8 +53,7 @@
   "license": "Apache-2.0",
   "name": "create-parser",
   "nyc": {
-    "extends": "../../.nycrc",
-    "include": "dist/src/new-parser.js"
+    "extends": "../../.nycrc"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

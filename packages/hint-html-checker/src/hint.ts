@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as uniqBy from 'lodash.uniqby';
+import { uniqBy } from 'lodash';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
@@ -99,7 +99,7 @@ export default class HtmlCheckerHint implements IHint {
         };
 
         // Filter out ignored and redundant messages.
-        const filter = (messages): Array<HtmlError> => {
+        const filter = (messages: Array<HtmlError>): Array<HtmlError> => {
             const noIgnoredMesssages = messages.filter((message) => {
                 return !ignoredMessages.includes(message.message);
             });

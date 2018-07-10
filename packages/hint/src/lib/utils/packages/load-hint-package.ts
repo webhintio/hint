@@ -3,6 +3,7 @@ import findPackageRoot from './find-package-root';
 /** Returns an object that represents the `package.json` version of `hint` */
 export default () => {
     // webpack will embed the package.json
+    /* istanbul ignore if */
     if (process.env.webpack) { // eslint-disable-line no-process-env
         return require('../../../../../package.json');
     }

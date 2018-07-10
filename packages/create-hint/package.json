@@ -52,8 +52,7 @@
   "license": "Apache-2.0",
   "name": "create-hint",
   "nyc": {
-    "extends": "../../.nycrc",
-    "include": "dist/src/new-hint.js"
+    "extends": "../../.nycrc"
   },
   "private": true,
   "repository": "sonarwhal/sonarwhal",

@@ -1,9 +1,9 @@
-import * as _ from 'lodash';
+import { isEqual } from 'lodash';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { NpmPackage } from '../../../../src/lib/types';
+import { NpmPackage } from 'hint/dist/src/lib/types';
 
 const inquirer = { prompt() { } };
 const stubBrowserslistObject = { generateBrowserslistConfig() { } };
@@ -34,18 +34,18 @@ const stubUtilObject = {
     }
 };
 
-proxyquire('../../../../src/lib/cli/wizards/init', {
-    '../../utils/logging': logger,
-    '../../utils/npm': npm,
-    '../../utils/resource-loader': resourceLoader,
-    '../browserslist': stubBrowserslistObject,
+proxyquire('../src/create-hintrc', {
+    './browserslist': stubBrowserslistObject,
     child_process: child, // eslint-disable-line camelcase
     fs,
+    'hint/dist/src/lib/utils/logging': logger,
+    'hint/dist/src/lib/utils/npm': npm,
+    'hint/dist/src/lib/utils/resource-loader': resourceLoader,
     inquirer,
     util: stubUtilObject
 });
 
-import initHintrc from '../../../../src/lib/cli/wizards/init';
+import initHintrc from '../src/create-hintrc';
 
 test.beforeEach((t) => {
     sinon.stub(promisifyObject, 'promisify').resolves();
@@ -109,7 +109,7 @@ test.serial(`initHintrc should install the configuration package if user chooses
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
     t.true(stub.called, `npm hasn't tried to install any package`);
-    t.true(_.isEqual(fileData, { extends: ['recommended'] }));
+    t.true(isEqual(fileData, { extends: ['recommended'] }));
 
     sandbox.restore();
 });
@@ -143,7 +143,7 @@ test.serial(`initHintrc shouldn't install the configuration package if user choo
     const fileData = JSON.parse(t.context.promisify.args[0][1]);
 
     t.false(stub.called, `npm has tried to install any package`);
-    t.true(_.isEqual(fileData, { extends: ['recommended'] }));
+    t.true(isEqual(fileData, { extends: ['recommended'] }));
 
     sandbox.restore();
 });
@@ -175,7 +175,9 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
         .onFirstCall()
         .resolves(initAnswers)
         .onSecondCall()
-        .resolves(answers);
+        .resolves(answers)
+        .onThirdCall()
+        .resolves([]);
 
     await initHintrc();
 

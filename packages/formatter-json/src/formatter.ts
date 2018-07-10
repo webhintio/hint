@@ -9,9 +9,11 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as forEach from 'lodash.foreach';
-import * as groupBy from 'lodash.groupby';
-import * as sortBy from 'lodash.sortby';
+import {
+    forEach,
+    groupBy,
+    sortBy
+} from 'lodash';
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { IFormatter, Problem } from 'hint/dist/src/lib/types';

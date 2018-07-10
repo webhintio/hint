@@ -40,13 +40,12 @@ test('if there is no configuration file anywhere, it should call os.homedir and 
     // We return the same dir so it doesn't look in the users homedir
     const stub = (sandbox as sinon.SinonSandbox)
         .stub(os, 'homedir')
-        .onCall(4) // shell.test uses os.homedir each time, and we have 4 CONFIG_FILES before
         .returns(dir);
 
     const result = config.Configuration.getFilenameForDirectory(dir);
 
     t.is(result, null);
-    t.is(stub.callCount, 5, `os.homedir() wasn't called to get the users homedir`);
+    t.is(stub.callCount, 1, `os.homedir() wasn't called to get the users homedir`);
 });
 
 test('if there is configuration file, it should return the path to the file', (t) => {

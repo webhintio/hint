@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 
-import * as groupBy from 'lodash.groupby';
+import { groupBy } from 'lodash';
 import * as semver from 'semver';
 
 import { Category } from 'hint/dist/src/lib/enums/category';

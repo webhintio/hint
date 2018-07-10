@@ -13,10 +13,12 @@
 
 import * as url from 'url';
 import * as path from 'path';
+import { readFile } from 'fs';
+import { promisify } from 'util';
+const readFileAsBuffer = promisify(readFile);
 
 import * as chokidar from 'chokidar';
 import * as globby from 'globby';
-import * as fs from 'fs-extra';
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
@@ -247,7 +249,7 @@ export default class LocalConnector implements IConnector {
      */
 
     public async fetchContent(filePath: string): Promise<NetworkData> {
-        const rawContent = await fs.readFile(filePath);
+        const rawContent: Buffer = await readFileAsBuffer(filePath);
         const contentType = getContentTypeData(null, filePath, null, rawContent);
         let content = '';
 

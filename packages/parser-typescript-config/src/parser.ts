@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import { cloneDeep } from 'lodash';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { FetchEnd, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';

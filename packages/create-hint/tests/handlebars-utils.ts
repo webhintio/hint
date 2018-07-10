@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import test from 'ava';
 
-const handlebars = require('../../../src/lib/utils/handlebars-utils');
+const handlebars = require('../src/handlebars-utils');
 
 test('escapeSafeString transforms the string and calls Handlebars.SafeString', (t) => {
     const source = '`something`';
