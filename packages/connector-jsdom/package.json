@@ -16,7 +16,7 @@
   "description": "hint connector for JSDOM",
   "devDependencies": {
     "@hint/utils-create-server": "^1.0.0",
-    "@types/lodash": "^4.14.110",
+    "@types/lodash": "^4.14.111",
     "ava": "^0.25.0",
     "eslint": "^5.1.0",
     "eslint-plugin-import": "^2.13.0",
