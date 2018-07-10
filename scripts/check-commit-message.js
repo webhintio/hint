@@ -185,7 +185,7 @@ const isExcludedCommit = (commit) => {
      *     Merge <sha> into <sha>
      */
 
-    if (/^Merge\s[a-zA-Z0-9]{40}\sinto\s[a-zA-Z0-9]{40}/i.test(commit.message)) {
+    if ((/^Merge\s[a-zA-Z0-9]{40}\sinto\s[a-zA-Z0-9]{40}/i).test(commit.message)) {
         return true;
     }
 

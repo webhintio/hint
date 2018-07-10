@@ -49,7 +49,7 @@ try {
      * so it's not a case such as an amend.
      */
 
-    if (/^\s+# Please enter the commit message for your changes.*/gi.test(DEFAULT_GIT_COMMIT_MESSAGE)) {
+    if ((/^\s+# Please enter the commit message for your changes.*/gi).test(DEFAULT_GIT_COMMIT_MESSAGE)) {
         shell.ShellString(`${NEW_GIT_COMMIT_MESSAGE} ${DEFAULT_GIT_COMMIT_MESSAGE}`).to(GIT_COMMIT_MESSAGE_FILE); // eslint-disable-line new-cap
     }
 
