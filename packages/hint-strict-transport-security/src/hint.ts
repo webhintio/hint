@@ -216,9 +216,9 @@ export default class StrictTransportSecurityHint implements IHint {
                 const { errors } = await verifyPreload(resource);
 
                 if (errors) {
-                    errors.forEach((error) => {
-                        context.report(resource, element, error.message);
-                    });
+                    for (const error of errors) {
+                        await context.report(resource, element, error.message);
+                    }
 
                     return;
                 }
