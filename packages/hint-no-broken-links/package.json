@@ -48,7 +48,7 @@
   "peerDependencies": {
     "hint": "^1.0.0"
   },
-  "repository": "sonarwhal/sonarwhal",
+  "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
     "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",

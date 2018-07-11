@@ -93,12 +93,12 @@ telling us what you think can be improved.
 
 [axe]: https://axe-core.org/
 [connector docs]: /docs/contributor-guide/connectors/index.md
-[issues]: https://github.com/sonarwhal/sonarwhal/issues
+[issues]: https://github.com/webhintio/hint/issues
 [jsdom]: https://github.com/tmpvar/jsdom
 [narwhal echolocation]: http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162069
 [narwhal song]: https://www.youtube.com/watch?v=ykwqXuMPsoc
-[new issue]: https://github.com/sonarwhal/sonarwhal/issues/new
+[new issue]: https://github.com/webhintio/hint/issues/new
 [scanner]: https://webhint.io/scanner/
-[scanner-issues]: https://github.com/sonarwhal/sonarwhal.com/issues/new
-[webhint-issues]: https://github.com/sonarwhal/sonarwhal/issues/new
+[scanner-issues]: https://github.com/webhintio/hint.com/issues/new
+[webhint-issues]: https://github.com/webhintio/hint/issues/new
 [ssllabs]: https://www.ssllabs.com/ssltest/

@@ -1,4 +1,4 @@
-# Rules categories
+# Hints categories
 
 * [Accessibility (a11y)](#accessibility)
 * [Development](#development)

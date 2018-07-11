@@ -71,4 +71,4 @@ and once it ends, kill the server started by `http-server`:
 [local-server]: #test-a-local-server
 [npm scripts]: https://docs.npmjs.com/misc/scripts
 [npm-run-all]: https://www.npmjs.com/package/npm-run-all
-[webhint github]: https://github.com/sonarwhal/sonarwhal/issues/new
+[webhint github]: https://github.com/webhintio/hint/issues/new
