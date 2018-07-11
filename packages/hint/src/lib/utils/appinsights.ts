@@ -14,14 +14,14 @@ const insightsEnabled = config.get('insight');
 
 let appInsightsClient: appInsights.TelemetryClient = {
     flush(options) {
-        debug('Application Insights is not enabled.')
+        debug('Application Insights is not enabled.');
         options.callback();
     },
     trackEvent() {
-        debug('Application Insights is not enabled.')
+        debug('Application Insights is not enabled.');
     },
     trackException() {
-        debug('Application Insights is not enabled.')
+        debug('Application Insights is not enabled.');
     }
 } as any;
 
