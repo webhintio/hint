@@ -131,7 +131,7 @@ following tests:
 <!-- Link labels: -->
 
 [depth-first search]: https://en.wikipedia.org/wiki/Depth-first_search
-[iconnector interface]: https://github.com/sonarwhal/sonarwhal/blob/master/packages/sonarwhal/src/lib/types/connector.ts
+[iconnector interface]: https://github.com/webhintio/hint/blob/master/packages/hint/src/lib/types/connector.ts
 [jsdom]: https://github.com/tmpvar/jsdom
 [events]: ../getting-started/events.md
 [events scanstart]: ../getting-started/events.md#scanstart

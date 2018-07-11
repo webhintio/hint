@@ -251,4 +251,4 @@ once.
 
 <!-- link labels -->
 
-[ssllabs tests]: https://github.com/sonarwhal/sonarwhal/blob/master/packages/hint-ssllabs/tests/tests.ts
+[ssllabs tests]: https://github.com/webhintio/hint/blob/master/packages/hint-ssllabs/tests/tests.ts

@@ -20,13 +20,13 @@ the same GitHub repo.
 
 ## Step 2: Fork and checkout your own webhint repository
 
-Go to <https://github.com/sonarwhal/sonarwhal> and click the `Fork` button.
+Go to <https://github.com/webhintio/hint> and click the `Fork` button.
 Follow the [GitHub documentation][github fork docs] for forking and cloning.
 
 Once you’ve cloned the repository:
 
 ```bash
-git clone https://github.com/sonarwhal/sonarwhal.git
+git clone https://github.com/webhintio/hint.git
 ```
 
 go into the project’s directory:
@@ -55,7 +55,7 @@ To add the upstream source for `webhint`, run the following in your
 repository:
 
 ```bash
-git remote add upstream git@github.com:sonarwhal/sonarwhal.git
+git remote add upstream git@github.com:webhintio/hint.git
 ```
 
 Now, the remote `upstream` points to the upstream source.

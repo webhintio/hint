@@ -29,6 +29,6 @@
     "hint": "^1.0.0"
   },
   "private": true,
-  "repository": "sonarwhal/sonarwhal",
+  "repository": "webhintio/hint",
   "version": "1.0.0"
 }

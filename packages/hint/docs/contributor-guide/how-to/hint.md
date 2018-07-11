@@ -138,5 +138,5 @@ The hint can access the custom configuration via `context.hintOptions`.
 
 [custom hint]: ../guides/create-custom-hint.md
 [json schema]: http://json-schema.org/
-[new issue]: https://github.com/sonarwhal/sonarwhal/issues/new
+[new issue]: https://github.com/webhintio/hint/issues/new
 [npx issue]: https://github.com/npm/npm/issues/17869

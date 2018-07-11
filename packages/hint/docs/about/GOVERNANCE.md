@@ -91,7 +91,7 @@ the project.
 
 The TSC has final authority over this project including:
 
-* Technical direction of the project as well as rule guidance.
+* Technical direction of the project as well as hint guidance.
 * Project governance and process (including this policy).
 * Contribution policy.
 * GitHub repository hosting.
@@ -160,7 +160,7 @@ or release process.
 The intention of the agenda is not to approve or review all patches.
 That should happen continuously on GitHub and be handled by the
 larger group of Committers. The exception to this is when defining
-what a rule should do (or when proposing an update), there is not
+what a hint should do (or when proposing an update), there is not
 an initial agreement in the GitHub discussion, and action needs to
 be taken.
 
@@ -193,7 +193,7 @@ either a closing vote or a vote to table the issue to the next meeting.
 The call for a vote must be approved by a majority of the TSC or else
 the discussion will continue. Simple majority wins.
 
-When discussing details on how a rule should work, the same consensus
+When discussing details on how a hint should work, the same consensus
 principle applies, with the difference that it is seeked in the related
 GitHub issue.
 
