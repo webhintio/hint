@@ -77,11 +77,14 @@ export class CDPLauncher extends Launcher {
 
             process.kill(result.pid, 0);
         } catch (e) {
-            debug(`Process with ${result.pid} doesn't seem to be running`);
-            result = {
-                pid: -1,
-                port: this.port
-            };
+            /* istanbul ignore next */
+            { // eslint-disable-line
+                debug(`Process with ${result.pid} doesn't seem to be running`);
+                result = {
+                    pid: -1,
+                    port: this.port
+                };
+            }
         }
 
         return result;
@@ -127,7 +130,7 @@ export class CDPLauncher extends Launcher {
 
             chromeFlags.push('--no-default-browser-check');
 
-            /* istanbul ignore if */
+            /* istanbul ignore next */
             if (isCI) {
                 chromeFlags.push('--headless', '--disable-gpu');
             }

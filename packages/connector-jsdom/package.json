@@ -49,6 +49,9 @@
   "license": "Apache-2.0",
   "main": "./dist/src/connector.js",
   "name": "@hint/connector-jsdom",
+  "nyc": {
+    "extends": "../../.nycrc"
+  },
   "peerDependencies": {
     "hint": "^1.0.0"
   },
