@@ -1,19 +1,8 @@
 {
-  "ava": {
-    "babel": {
-      "presets": []
-    },
-    "failFast": false,
-    "files": [
-      "packages/*/dist/tests/{,**/}*.js"
-    ],
-    "timeout": "1m"
-  },
   "devDependencies": {
     "@alrra/travis-scripts": "^3.0.1",
     "@types/fs-extra": "5.0.2",
     "@types/node": "8.0.14",
-    "ava": "^0.25.0",
     "chalk": "^2.4.1",
     "cpx": "^1.5.0",
     "eslint": "^5.1.0",
@@ -23,16 +12,13 @@
     "husky": "^0.14.3",
     "listr": "^0.14.1",
     "listr-input": "^0.1.2",
-    "loop": "^3.0.6",
     "markdownlint-cli": "^0.11.0",
-    "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
-    "nyc": "^12.0.2",
-    "punycode": "^2.1.0",
     "rimraf": "^2.6.2",
-    "shelljs": "^0.8.1",
+    "shelljs": "^0.8.2",
     "typescript": "^2.9.2",
-    "typescript-eslint-parser": "^16.0.1"
+    "typescript-eslint-parser": "^16.0.1",
+    "yargs": "^12.0.1"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -40,44 +26,24 @@
   "name": "@hint/monorepo",
   "private": true,
   "scripts": {
-    "ava": "ava",
-    "build": "yarn clean && yarn build:hint && yarn build:utils && yarn build:connectors && yarn build:utils-test && yarn build:parsers && loop \"yarn build\" --cwd packages/ --exclude configuration-progressive-web-apps,configuration-web-recommended,connector-edge,hint,utils-debugging-protocol-common,utils-connector-tools,utils-tests-helpers,connector-chrome,connector-jsdom",
-    "build:connectors": "yarn build:connector-edge && yarn build:connector-chrome && yarn build:connector-jsdom",
-    "build:connector-chrome": "cd packages/connector-chrome && yarn build",
-    "build:connector-edge": "node -e \"process.platform !== 'win32' && process.exit(1);\" && (cd packages/connector-edge && yarn build) || echo \"\"",
-    "build:connector-jsdom": "cd packages/connector-jsdom && yarn build",
-    "build:parsers": "yarn build:parser:babel && yarn build:parser:javascript && yarn build:parser:manifest && yarn build:parser:typescript-config && yarn build:parser:webpack-config",
-    "build:parser:babel": "cd packages/parser-babel-config && yarn build",
-    "build:parser:javascript": "cd packages/parser-javascript && yarn build",
-    "build:parser:manifest": "cd packages/parser-manifest && yarn build",
-    "build:parser:typescript-config": "cd packages/parser-typescript-config && yarn build",
-    "build:parser:webpack-config": "cd packages/parser-webpack-config && yarn build",
-    "build:scripts": "yarn clean && npm-run-all --parallel build:scripts:*",
+    "build:scripts": "npm run clean:root && npm run lint:scripts && npm-run-all --parallel build:scripts:*",
     "build:scripts:non-ts": "cpx \"./scripts/{!(*.ts),.!(ts)}\" dist/scripts",
     "build:scripts:ts": "tsc --outDir dist/scripts",
-    "build:hint": "cd packages/hint && yarn build",
-    "build:utils": "yarn build:utils-server && yarn build:utils-connector && yarn build:utils-cdp",
-    "build:utils-cdp": "cd packages/utils-debugging-protocol-common && yarn build",
-    "build:utils-connector": "cd packages/utils-connector-tools && yarn build",
-    "build:utils-test": "cd packages/utils-tests-helpers && yarn build",
-    "build:utils-server": "cd packages/utils-create-server && yarn build",
     "clean": "npm-run-all clean:*",
     "clean:packages": "rimraf packages/*/{dist,node_modules,npm-shrinkwrap.json,package-lock.json,yarn.lock}",
-    "clean:global": "rimraf dist package-lock.json",
+    "clean:root": "rimraf dist",
     "commitmsg": "node scripts/check-commit-message.js",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",
-    "lint:md": "markdownlint --ignore **/CHANGELOG.md packages/**/*.md README.md",
-    "new:hint": "cd packages && node create-hint/dist/src/new-hint.js",
-    "new:parser": "cd packages && node create-parser/dist/src/new-parser.js",
+    "lint:md": "markdownlint *.md",
+    "lint:scripts": "eslint scripts --cache --ext js --ext ts --report-unused-disable-directives",
+    "pre-release": "npm run clean:packages && npm run build:scripts && npm run release -- --prerelease",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
-    "release": "node dist/scripts/release.js",
-    "pre-release": "npm run release -- --prerelease",
-    "test": "yarn build && nyc ava",
-    "test-on-travis": "yarn lint && yarn build && nyc ava --concurrency=2 --timeout=2m",
-    "watch:scripts": "yarn clean && npm-run-all --continue-on-error --parallel watch:scripts:*",
-    "watch:scripts:non-ts": "yarn build:scripts:non-ts && yarn build:scripts:non-ts --watch --no-initial",
-    "watch:scripts:ts": "yarn build:scripts:ts --watch"
+    "release": "npm run clean:packages && npm run build:scripts && node dist/scripts/release.js",
+    "test": "npm run clean && node scripts/test.js",
+    "test-root": "npm run clean && npm run lint && npm-run-all --parallel build:scripts:*",
+    "watch:scripts": "npm run clean && npm-run-all --continue-on-error --parallel watch:scripts:*",
+    "watch:scripts:non-ts": "npm run build:scripts:non-ts && npm run build:scripts:non-ts --watch --no-initial",
+    "watch:scripts:ts": "npm run build:scripts:ts --watch"
   },
   "workspaces": [
     "packages/!(connector-edge)"

@@ -17,7 +17,67 @@ env:
     # TRAVIS_API_TOKEN
     - secure: "IaW1CfeF12i16seRoO3tPQXw0IrF3ve/umcRpwCkmVgaxM0z/q5mJ+VCV25R67idqaGiSfVkdR5qb1q3q8eVKcMBhg/o6s4/7j3GGdm/5ixU5r8TOOfNUadsX2/e/pt4s5YE6+9NgSWshkwk81j9VBmmfQ1ClE0N0xS9uvjzn4YsZ7YSacrM02lEd5riPkVe0slxN0j0eGm50aum75MsPShM1WTGq9WdJyxd/Xpaia+2eBuiRCHu822dASLnoeVL6kyBmE4x86Ss17eR2VseaOS3XKRmFkdIDiPVO85B2EBaeqiyr4fHOqXTQm/WmWGCMSuzpQMRdksSNOCVrN/csmgajnhdye9f2kUdxTduu17TBcYzvkkoP2MRLglINcSCDHspDbI5177oIIBlE6nB9iawUWIIaiRATAmCBpllIGSA/zmvuztQM8YedjHA9E9o0yBXgyaFCHqz9N5fiZldKLU7do2OblPhwQoKzbUhs7+egpuVTnYp76NiqqipRV8gyCDjXCNWtXR/yba3UT5/3PIozL29mxxM41WIuhVhSXgVKhOzDSTYO5z8kB4S8L5dhVY9gLgXi0qnFU4d+Gsiy69lbZ9zXeK0occjMi/b0rkSOwovGmAZU2ArwUh7XRPbFZuCwxwaF/HBqaInsodRveuuOw7RbZh978kQKDf5J9g="
 
+    # Other
+    - PACKAGE_BATCH_SIZE=5
+
+  matrix:
+
+    - PACKAGE_BATCH_NUMBER=1
+    - PACKAGE_BATCH_NUMBER=2
+    - PACKAGE_BATCH_NUMBER=3
+    - PACKAGE_BATCH_NUMBER=4
+    - PACKAGE_BATCH_NUMBER=5
+
 group: travis_latest
+
+before_install:
+  - |
+
+      # Only install the bare minimum of dependencies in order
+      # to run the test script.
+
+      npm i && \
+
+      # Run the test script without actually running the tests.
+      #
+      # This will make the test script create a special file
+      # that will be used to optimize other steps to (e.g.:
+      # install, scripts) to not do anything if no tests need
+      # to be run.
+      #
+      # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      #
+      # This workaround is used because Travis evaluates things
+      # too late and there is no way to use a function to conditionally
+      # prevent Travis from starting a job.
+      #
+      # From https://docs.travis-ci.com/user/conditions-v1#Integration:
+      #
+      #  "Also, environment variables from your build configuration
+      #   (.travis.yml) and repository settings are available, and
+      #   can be matched using env(FOO), see below.
+      #
+      #   Note that this means conditions do not have access to the
+      #   build environment, and they are not evaluated in Bash.
+      #   Bash variables or subprocesses can not be evaluated. "
+
+        npm run test -- --batch-size $PACKAGE_BATCH_SIZE \
+                        --batch-number $PACKAGE_BATCH_NUMBER \
+                        --run-tests false
+
+install:
+  - |
+
+      # Only install the dependencies if the test script created
+      # the special file. Otherwise, don't start the normal (time
+      # consuming) install process as the job will not have to run
+      # any actual tests.
+      #
+      # (For more information see: `before_install` step)
+
+      if [ -f '.ci-run-tests' ]; then
+        rm -rf node_modules && yarn
+      fi
 
 jobs:
 
@@ -84,6 +144,21 @@ os:
   - osx
 
 osx_image: xcode9.4
+
+script:
+  - |
+
+      # Only run the tests if the test script created the
+      # special file. Otherwise, don't start the normal
+      # (time consuming) test process as the job will not
+      # have to run any actual tests.
+      #
+      # (For more information see: `before_install` step)
+
+      if [ -f '.ci-run-tests' ]; then
+        yarn test --batch-size $PACKAGE_BATCH_SIZE \
+                  --batch-number $PACKAGE_BATCH_NUMBER
+      fi
 
 stages:
   - check-links

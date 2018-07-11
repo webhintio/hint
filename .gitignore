@@ -2,6 +2,7 @@
 *.pid
 *.STALE
 *.trace
+.ci-run-tests
 .DS_Store
 .eslintcache
 .nyc_output
