@@ -107,31 +107,29 @@ export default class SSLLabsHint implements IHint {
             scanOptions = Object.assign(scanOptions, userSslOptions);
         };
 
-        const verifyEndpoint = (resource: string) => {
-            return (endpoint: SSLLabsEndpoint) => {
-                const { grade, serverName = resource, details }: { grade: string, serverName: string, details: SSLLabsEndpointDetail } = endpoint;
+        const verifyEndpoint = async (resource: string, endpoint: SSLLabsEndpoint) => {
+            const { grade, serverName = resource, details }: { grade: string, serverName: string, details: SSLLabsEndpointDetail } = endpoint;
 
-                if (!grade && details.protocols.length === 0) {
-                    const message = `${resource} doesn't support HTTPS.`;
+            if (!grade && details.protocols.length === 0) {
+                const message = `${resource} doesn't support HTTPS.`;
 
-                    debug(message);
-                    context.report(resource, null, message);
+                debug(message);
+                await context.report(resource, null, message);
 
-                    return;
-                }
+                return;
+            }
 
-                const calculatedGrade: Grades = Grades[grade];
-                const calculatedMiniumGrade: Grades = Grades[minimumGrade];
+            const calculatedGrade: Grades = Grades[grade];
+            const calculatedMiniumGrade: Grades = Grades[minimumGrade];
 
-                if (calculatedGrade > calculatedMiniumGrade) {
-                    const message: string = `${serverName}'s grade ${grade} doesn't meet the minimum ${minimumGrade} required.`;
+            if (calculatedGrade > calculatedMiniumGrade) {
+                const message: string = `${serverName}'s grade ${grade} doesn't meet the minimum ${minimumGrade} required.`;
 
-                    debug(message);
-                    context.report(resource, null, message);
-                } else {
-                    debug(`Grade ${grade} for ${resource} is ok.`);
-                }
-            };
+                debug(message);
+                await context.report(resource, null, message);
+            } else {
+                debug(`Grade ${grade} for ${resource} is ok.`);
+            }
         };
 
         const notifyError = async (resource: string, error: any) => {
@@ -146,7 +144,7 @@ export default class SSLLabsHint implements IHint {
                 const message: string = `${resource} doesn't support HTTPS.`;
 
                 debug(message);
-                context.report(resource, null, message);
+                await context.report(resource, null, message);
 
                 return;
             }
@@ -194,7 +192,9 @@ There might be something wrong with SSL Labs servers.`;
                 return;
             }
 
-            host.endpoints.forEach(verifyEndpoint(resource));
+            for (const endpoint of host.endpoints) {
+                await verifyEndpoint(resource, endpoint);
+            }
         };
 
         loadHintConfig();
