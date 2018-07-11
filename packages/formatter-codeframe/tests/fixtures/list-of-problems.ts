@@ -1,16 +1,17 @@
 import { Problem, Severity } from 'hint/dist/src/lib/types';
 
 const codeframeproblems: Array<Problem> = [{
+    hintId: 'random-hint',
     location: {
         column: -1,
         line: -1
     },
     message: 'This is a problem without line in myresource',
     resource: 'http://myresource.com/',
-    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 }, {
+    hintId: 'random-hint',
     location: {
         column: 16,
         elementColumn: 0,
@@ -19,7 +20,6 @@ const codeframeproblems: Array<Problem> = [{
     },
     message: 'This is a problem with a location',
     resource: 'http://myresource.com/',
-    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: `<html lang="en"><head>
         <meta charset="utf-8">
@@ -55,6 +55,7 @@ const codeframeproblems: Array<Problem> = [{
     <body>
 </body></html>`
 }, {
+    hintId: 'random-hint',
     location: {
         column: 16,
         elementColumn: 0,
@@ -63,7 +64,6 @@ const codeframeproblems: Array<Problem> = [{
     },
     message: `This is a problem in an element with wrong tabs`,
     resource: 'http://myresource.com/',
-    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: `<html lang="en"><head>
 <meta charset="utf-8">
@@ -74,6 +74,7 @@ const codeframeproblems: Array<Problem> = [{
 </body></html>`
 },
 {
+    hintId: 'random-hint',
     location: {
         column: 4,
         elementColumn: 19,
@@ -82,12 +83,12 @@ const codeframeproblems: Array<Problem> = [{
     },
     message: 'This is a problem inside an element',
     resource: 'http://myresource.com/',
-    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: `<a href="//link.com">
             <img src="//image.jpg"/>
         </a>`
 }, {
+    hintId: 'random-hint',
     location: {
         column: 16,
         elementColumn: 7,
@@ -96,7 +97,6 @@ const codeframeproblems: Array<Problem> = [{
     },
     message: 'This is a problem inside an element with a wrong tab in the problem',
     resource: 'http://myresource.com/',
-    hintId: 'random-hint',
     severity: Severity.error,
     sourceCode: `<html lang="en"><head>
 <meta charset="utf-8">

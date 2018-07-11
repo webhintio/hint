@@ -1,6 +1,7 @@
 import { Problem, Severity } from 'hint/dist/src/lib/types';
 
 const multipleproblemsandresources: Array<Problem> = [{
+    hintId: 'random-hint',
     location: {
         column: 10,
         elementColumn: 10,
@@ -9,44 +10,44 @@ const multipleproblemsandresources: Array<Problem> = [{
     },
     message: 'This is a problem in line 1 column 10',
     resource: 'http://myresource.com/',
-    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: '<a href="//link.com">link</a>'
 },
 {
+    hintId: 'random-hint',
     location: {
         column: -1,
         line: -1
     },
     message: 'This is a problem without line in myresource',
     resource: 'http://myresource.com/',
-    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 },
 {
+    hintId: 'random-hint',
     location: {
         column: -1,
         line: -1
     },
     message: 'This is a problem without line',
     resource: 'http://myresource2.com/this/resource/is/really/really/long/resources/image/imagewithalongname.jpg',
-    hintId: 'random-hint',
     severity: Severity.error,
     sourceCode: ''
 },
 {
+    hintId: 'random-hint',
     location: {
         column: -1,
         line: -1
     },
     message: 'This is another problem without line',
     resource: 'http://myresource2.com/this/resource/is/really/really/long/resources/image/imagewithalongname.jpg',
-    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: ''
 },
 {
+    hintId: 'random-hint',
     location: {
         column: 4,
         elementColumn: 19,
@@ -55,7 +56,6 @@ const multipleproblemsandresources: Array<Problem> = [{
     },
     message: 'This is a problem in line 2 column 10',
     resource: 'http://myresource.com/',
-    hintId: 'random-hint',
     severity: Severity.warning,
     sourceCode: `<a href="//link.com">
         <img src="//image.jpg"/>
