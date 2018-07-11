@@ -15,7 +15,7 @@ test.beforeEach(async (t) => {
     const { groupBy } = await import('lodash');
     const spy = sinon.spy(groupBy);
 
-    proxyquire('../src/formatter', { 'lodash': spy });
+    proxyquire('../src/formatter', { lodash: spy });
 
     const ExcelFormatter = (await import('../src/formatter')).default;
 
