@@ -18,7 +18,7 @@ const createIssue = (report) => {
             'Authorization': `token ${process.env.GITHUB_API_TOKEN}`,
             'User-Agent': 'Nellie The Narwhal'
         },
-        url: ' https://api.github.com/repos/sonarwhal/sonarwhal/issues',
+        url: ' https://api.github.com/repos/webhintio/hint/issues',
     }, (err, httpResponse, body) => {
 
         if (err || (![200, 201].includes(httpResponse.statusCode))) {
@@ -46,7 +46,7 @@ const generateMarkdownReport = () => {
     });
 
     if (result) {
-        result += `\n----\nSee also: https://travis-ci.org/sonarwhal/sonarwhal/jobs/${process.env.TRAVIS_JOB_ID}`;
+        result += `\n----\nSee also: https://travis-ci.org/webhintio/hint/jobs/${process.env.TRAVIS_JOB_ID}`;
     }
 
     return result;

@@ -89,7 +89,7 @@ export default class ManifestAppNameHint implements IHint {
              *  the text may still be truncated even if it's under
              *  12 characters.
              *
-             *  https://github.com/sonarwhal/sonarwhal/issues/136
+             *  https://github.com/webhintio/hint/issues/136
              *
              *  Note: This is also consistent with what the Chrome team
              *  used to, and still recommends.

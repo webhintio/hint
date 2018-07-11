@@ -208,6 +208,6 @@ hintRunner.testHint(hintPath, tests, {
 <!-- Link labels: -->
 
 [browserconfiguration]: ../../user-guide/index.md#browserconfiguration
-[new issue]: https://github.com/sonarwhal/sonarwhal/issues/new
+[new issue]: https://github.com/webhintio/hint/issues/new
 [parsers]: ../../user-guide/concepts/parser.md
-[ssllabs code]: https://github.com/sonarwhal/sonarwhal/blob/master/packages/hint-ssllabs/src/hint.ts
+[ssllabs code]: https://github.com/webhintio/hint/blob/master/packages/hint-ssllabs/src/hint.ts

@@ -50,7 +50,7 @@
     "hint": "^1.0.0"
   },
   "private": true,
-  "repository": "sonarwhal/sonarwhal",
+  "repository": "webhintio/hint",
   "scripts": {
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
