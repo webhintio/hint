@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@hint/utils-connector-tools": "^1.0.0",
-    "chrome-remote-interface": "^0.25.7",
+    "chrome-remote-interface": "^0.26.0",
     "hint": "^1.0.0",
     "lodash": "^4.17.10"
   },
