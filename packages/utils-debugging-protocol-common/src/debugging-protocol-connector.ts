@@ -71,9 +71,12 @@ export class Connector implements IConnector {
     private _timeout: number;
     /** Browser PID */
     private pid: number;
-
     private _targetNetworkData: NetworkData;
     private launcher: ILauncher;
+    /** Promise that gets resolved when the taget is downloaded. */
+    private _waitForTarget: Promise<null>;
+    /** Function to call when the target is downloaded. */
+    private targetReceived: Function;
 
     public constructor(server: Engine, config: object, launcher: ILauncher) {
         const defaultOptions = {
@@ -98,6 +101,10 @@ export class Connector implements IConnector {
         this._pendingResponseReceived = [];
 
         this.launcher = launcher;
+
+        this._waitForTarget = new Promise((resolve) => {
+            this.targetReceived = resolve;
+        });
     }
 
     /*
@@ -493,6 +500,8 @@ export class Connector implements IConnector {
                 request,
                 response
             };
+
+            this.targetReceived();
         }
 
         eventName = `${eventName}::${getType(response.mediaType)}`;
@@ -729,19 +738,23 @@ export class Connector implements IConnector {
     /** Handler fired when page is loaded. */
     private onLoadEventFired(callback: Function): Function {
         return async () => {
-            await delay(this._options.waitFor);
-            const { DOM } = this._client;
-            const event: Event = { resource: this._finalHref };
-
             try {
+                if (this._errorWithPage) {
+                    return callback(new Error('Problem loading the website'));
+                }
+
+                // Sometimes we receive the `onLoadEvent` before the response of the target. See: https://github.com/webhintio/hint/issues/1158
+                await this._waitForTarget;
+
+                await delay(this._options.waitFor);
+                const { DOM } = this._client;
+                const event: Event = { resource: this._finalHref };
+
                 this._dom = new CDPAsyncHTMLDocument(DOM);
                 await this._dom.load();
 
                 await this.processPendingResponses();
 
-                if (this._errorWithPage) {
-                    return callback(new Error('Problem loading the website'));
-                }
 
                 /*
                  * If the target is not an HTML we don't need to
@@ -1031,7 +1044,8 @@ export class Connector implements IConnector {
     }
 
     public get headers() {
-        return this._targetNetworkData.response.headers;
+        return this._targetNetworkData.response && this._targetNetworkData.response.headers ||
+            null;
     }
 
     public get html(): Promise<string> {
