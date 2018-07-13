@@ -474,14 +474,14 @@ const getPackagesData = async () => {
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-        const isNotRootPackage = !pkg.startsWith('packages/');
-        const packageData = !isNotRootPackage ?
+        const isRegularPackage = pkg.startsWith('packages/');
+        const packageData = isRegularPackage ?
             await getPackageData(pkg, packageJSONFileContent, filesChanged) :
             await getRootData(filesChanged, packageJSONFileContent);
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-        if (!isNotRootPackage && !packageData) {
+        if (!packageData) {
             excludedPackages.push(pkg);
 
             continue;
