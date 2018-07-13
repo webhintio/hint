@@ -11,5 +11,5 @@ request that you read over our code of conduct before contributing.
 
 ## Contributing Code
 
-Please sign our [Contributor License Agreement](https://cla.js.foundation/sonarwhal/sonarwhal)
+Please sign our [Contributor License Agreement](https://cla.js.foundation/webhintio/hint)
 and read the [Pull Request Guidelines](https://webhint.io/docs/contributor-guide/getting-started/pull-requests/).

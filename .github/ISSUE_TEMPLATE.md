@@ -10,7 +10,7 @@ see below:
    some examples of the expected behaviour.
 
 2. If you have any questions, please stop by our chatroom:
-   https://gitter.im/sonarwhal/Lobby
+   https://gitter.im/webhintio/Lobby
 
 [!] Notes:
 

@@ -269,7 +269,7 @@ git push -f origin fix-1234
 
 <!-- Link labels: -->
 
-[cla]: https://cla.js.foundation/sonarwhal/sonarwhal
+[cla]: https://cla.js.foundation/webhintio/hint
 [github pr docs]: https://help.github.com/articles/creating-a-pull-request
 [github resolve conflicts docs]: https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/
 [travis pr status]: https://travis-ci.org/webhintio/hint/pull_requests
