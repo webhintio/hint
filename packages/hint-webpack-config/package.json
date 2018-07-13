@@ -8,6 +8,8 @@
   },
   "description": "hint thats to check the webpack configuration.",
   "devDependencies": {
+    "@hint/parser-babel-config": "^1.0.0",
+    "@hint/parser-typescript-config": "^1.0.0",
     "@hint/parser-webpack-config": "^1.0.0",
     "@hint/utils-tests-helpers": "^1.0.0",
     "ava": "^0.25.0",
@@ -46,6 +48,8 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
+    "@hint/parser-babel-config": "^1.0.0",
+    "@hint/parser-typescript-config": "^1.0.0",
     "@hint/parser-webpack-config": "^1.0.0",
     "hint": "^1.0.0"
   },

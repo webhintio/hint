@@ -2,6 +2,7 @@
   "dependencies": {
     "@hint/connector-chrome": "^1.0.0",
     "@hint/connector-jsdom": "^1.0.0",
+    "@hint/connector-local": "^1.0.0",
     "@hint/utils-create-server": "^1.0.0",
     "async-retry": "^1.2.1",
     "ava": "^0.25.0",
