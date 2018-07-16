@@ -99,6 +99,6 @@ telling us what you think can be improved.
 [narwhal song]: https://www.youtube.com/watch?v=ykwqXuMPsoc
 [new issue]: https://github.com/webhintio/hint/issues/new
 [scanner]: https://webhint.io/scanner/
-[scanner-issues]: https://github.com/webhintio/hint.com/issues/new
+[scanner-issues]: https://github.com/webhintio/webhint.io/issues/new
 [webhint-issues]: https://github.com/webhintio/hint/issues/new
 [ssllabs]: https://www.ssllabs.com/ssltest/
