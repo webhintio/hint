@@ -95,6 +95,7 @@
   "optionalDependencies": {
     "@hint/configuration-web-recommended": "^0.0.1"
   },
+  "private": true,
   "repository": "https://github.com/webhintio/hint",
   "scripts": {
     "ava": "ava",
