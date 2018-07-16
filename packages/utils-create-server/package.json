@@ -9,7 +9,7 @@
   "devDependencies": {
     "@types/async-retry": "^1.2.1",
     "@types/express": "^4.16.0",
-    "@types/lodash": "^4.14.111",
+    "@types/lodash": "^4.14.112",
     "@types/on-headers": "^1.0.0",
     "eslint": "^5.1.0",
     "eslint-plugin-import": "^2.13.0",
