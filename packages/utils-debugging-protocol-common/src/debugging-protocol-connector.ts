@@ -78,7 +78,7 @@ export class Connector implements IConnector {
     /** Function to call when the target is downloaded. */
     private targetReceived: Function;
 
-    public constructor(server: Engine, config: object, launcher: ILauncher) {
+    public constructor(engine: Engine, config: object, launcher: ILauncher) {
         const defaultOptions = {
             /*
              * tabUrl is a empty html site used to avoid edge diagnostics adapter to receive unexpeted onLoadEventFired
@@ -89,8 +89,8 @@ export class Connector implements IConnector {
             waitFor: 1000
         };
 
-        this._server = server;
-        this._timeout = server.timeout;
+        this._server = engine;
+        this._timeout = engine.timeout;
 
         this._options = Object.assign({}, defaultOptions, config);
         this._headers = this._options.headers;
@@ -194,6 +194,8 @@ export class Connector implements IConnector {
     private async onRequestWillBeSent(params) {
         const requestUrl: string = params.request.url;
 
+        debug(`About to start fetching ${cutString(requestUrl)} (${params.requestId})`);
+
         this._requests.set(params.requestId, params);
 
         if (!this._headers) {
@@ -232,8 +234,6 @@ export class Connector implements IConnector {
 
         const eventName: string = this._href === requestUrl ? 'fetch::start::target' : 'fetch::start';
 
-        debug(`About to start fetching ${cutString(requestUrl)}`);
-
         /*
          * `getFavicon` will make attempts to download favicon later.
          * Ignore `cdp` requests to download favicon from the root
@@ -246,7 +246,7 @@ export class Connector implements IConnector {
 
     /** Event handler fired when HTTP request fails for some reason. */
     private async onLoadingFailed(params) {
-        const request = this._requests.get(params.requestId);
+        const requestInfo = this._requests.get(params.requestId);
 
         /*
          * If `requestId` is not in `this._requests` it means that we
@@ -255,16 +255,18 @@ export class Connector implements IConnector {
          * Usually `onLoadingFailed` should be fired before but we've
          * had problems with this before.
          */
-        if (!request) {
-            debug(`requestId doesn't exist, skipping this error`);
+        if (!requestInfo) {
+            debug(`requestId ${params.requestId} doesn't exist, skipping this error`);
 
             return;
         }
 
-        const requestUrl = request.request.url;
+        const { request: { url: resource } } = requestInfo;
+
+        debug(`Error found loading ${resource}:\n%O`, params);
 
         /* There is a problem loading the website and we should abort any further processing. */
-        if (requestUrl === this._href || requestUrl === this._finalHref) {
+        if (resource === this._href || resource === this._finalHref) {
             this._errorWithPage = true;
 
             return;
@@ -277,19 +279,8 @@ export class Connector implements IConnector {
             return;
         }
 
-        debug(`Error found:\n${JSON.stringify(params)}`);
         const element: AsyncHTMLElement = await this.getElementFromRequest(params.requestId);
-        const requestInfo = this._requests.get(params.requestId);
-
-        if (!requestInfo) {
-            debug(`Request ${params.requestId} failed but wasn't in the list`);
-
-            return;
-        }
-
-        const { request: { url: resource } } = requestInfo;
         const eventName: string = 'fetch::error';
-
         const hops: Array<string> = this._redirects.calculate(resource);
 
         const event: FetchError = {
@@ -547,7 +538,6 @@ export class Connector implements IConnector {
 
         const wrappedElement: AsyncHTMLElement = new AsyncHTMLElement(element, this._dom, this._client.DOM);
 
-        debug(`emitting ${eventName}`);
         const event: ElementFound = {
             element: wrappedElement,
             resource: this._finalHref
@@ -558,7 +548,6 @@ export class Connector implements IConnector {
         const elementChildren = wrappedElement.children;
 
         for (const child of elementChildren) {
-            debug('next children');
             const traverseDown: TraverseDown = {
                 element,
                 resource: this._finalHref
@@ -612,7 +601,7 @@ export class Connector implements IConnector {
          * to create it ourselves.
          */
         if (launcher.isNew) {
-            // Chrome Launcher return also some extensions tabs but we don't need them.
+            // Chrome Launcher could return extensions tabs if installed them but we don't need them.
             const tabs = filter(await cdp.List({ port: launcher.port }), (tab: any) => { // eslint-disable-line new-cap
                 return !tab.url.startsWith('chrome-extension');
             });
@@ -740,7 +729,7 @@ export class Connector implements IConnector {
         return async () => {
             try {
                 if (this._errorWithPage) {
-                    return callback(new Error('Problem loading the website'));
+                    return callback(new Error(`Problem loading the website ${this._href}`));
                 }
 
                 // Sometimes we receive the `onLoadEvent` before the response of the target. See: https://github.com/webhintio/hint/issues/1158
@@ -816,8 +805,7 @@ export class Connector implements IConnector {
             try {
                 client = await this.initiateComms();
             } catch (e) {
-                debug('Error connecting to browser');
-                debug(e);
+                debug('Error connecting to browser\n%O', e);
 
                 callback(e, null);
 
@@ -902,7 +890,7 @@ export class Connector implements IConnector {
     }
 
     public async close() {
-        debug('Closing browsers used by CDP');
+        debug(`Pending tabs: ${this._tabs.length}`);
 
         while (this._tabs.length > 0) {
             const tab = this._tabs.pop();
@@ -919,10 +907,10 @@ export class Connector implements IConnector {
             this._client.close();
 
             /*
-             * We need to wait until the browser is close because
+             * We need to wait until the browser is closed because
              * in tests if we close the client and at the same time
              * the next test tries to open a new tab, an error is
-             * * thrown.
+             * thrown.
              */
             await this.isClosed();
         } catch (e) {
@@ -1045,7 +1033,9 @@ export class Connector implements IConnector {
     }
 
     public get headers() {
-        return this._targetNetworkData.response && this._targetNetworkData.response.headers ||
+        return this._targetNetworkData &&
+            this._targetNetworkData.response &&
+            this._targetNetworkData.response.headers ||
             null;
     }
 

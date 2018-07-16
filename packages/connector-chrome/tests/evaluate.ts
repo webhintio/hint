@@ -108,7 +108,7 @@ test(`[${name}] Evaluate JavaScript`, async (t) => {
                  * }
                  */
             } else {
-                t.fail('Unexpected exception thrown');
+                t.fail(`Unexpected exception thrown\n${error}`);
             }
         }
     }

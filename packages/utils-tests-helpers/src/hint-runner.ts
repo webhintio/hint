@@ -5,7 +5,6 @@
 import { URL } from 'url';
 
 import { test, GenericTestContext, Context } from 'ava';
-import * as retry from 'async-retry';
 import { createServer } from '@hint/utils-create-server';
 
 import { ids as connectors } from './connectors';
@@ -112,7 +111,7 @@ export const testHint = (hintId: string, hintTests: Array<HintTest>, configs: { 
      * Creates a new connector with only the hint to be tested and
      * executing any required `before` task as indicated by `hintTest`.
      */
-    const createConnector = async (t: GenericTestContext<Context<any>>, hintTest: HintTest, connector: string, attemp: number): Promise<Engine> => {
+    const createConnector = async (t: GenericTestContext<Context<any>>, hintTest: HintTest, connector: string): Promise<Engine> => {
         const { server } = t.context;
         const { serverConfig } = hintTest;
 
@@ -124,10 +123,7 @@ export const testHint = (hintId: string, hintTests: Array<HintTest>, configs: { 
         const resources = resourceLoader.loadResources(config);
         const engine: Engine = new Engine(config, resources);
 
-        // We only configure the server the first time
-        if (attemp === 1 && serverConfig) {
-            server.configure(serverConfig);
-        }
+        server.configure(serverConfig);
 
         return engine;
     };
@@ -136,42 +132,32 @@ export const testHint = (hintId: string, hintTests: Array<HintTest>, configs: { 
      * Stops a connector executing any required `after` task as indicated by
      * `hintTest`.
      */
-    const stopConnector = async (hintTest: HintTest, connector: Engine): Promise<void> => {
+    const stopConnector = async (hintTest: HintTest, engine: Engine): Promise<void> => {
         if (hintTest.after) {
             await hintTest.after();
         }
 
-        await connector.close();
+        await engine.close();
     };
 
     /** Runs a test for the hint being tested */
-    const runHint = (t: GenericTestContext<Context<any>>, hintTest: HintTest, connector: string) => {
-        return retry(async (bail, attemp) => {
-            if (attemp > 1) {
-                console.log(`[${connector}] ${hintTest.name} - try ${attemp}`);
-            }
+    const runHint = async (t: GenericTestContext<Context<any>>, hintTest: HintTest, connector: string) => {
+        try {
 
-            try {
-                const { server } = t.context;
-                const { serverUrl, reports } = hintTest;
-                const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
+            const { server } = t.context;
+            const { serverUrl, reports } = hintTest;
+            const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
+            const engine = await createConnector(t, hintTest, connector);
+            const results = await engine.executeOn(new URL(target));
 
-                const engine = await createConnector(t, hintTest, connector, attemp);
-                const results = await engine.executeOn(new URL(target));
+            await stopConnector(hintTest, engine);
 
-                await stopConnector(hintTest, engine);
+            return validateResults(t, results, reports);
+        } catch (e) {
+            console.error(e);
 
-                return validateResults(t, results, reports);
-            } catch (e) {
-                console.error(e);
-
-                return false;
-            }
-        },
-        {
-            minTimeout: 10000,
-            retries: 3
-        });
+            return t.fail(`${hintTest.name} throwed an exception:\n${e.message}\n${e.stack}`);
+        }
     };
 
     const Hint: IHintConstructor = resourceLoader.loadHint(hintId, []);
@@ -225,40 +211,31 @@ export const testLocalHint = (hintId: string, hintTests: Array<HintLocalTest>, c
     }
 
     /** Runs a test for the hint being tested */
-    const runHint = (t: GenericTestContext<Context<any>>, hintTest: HintLocalTest, connector: string) => {
-        return retry(async (bail, attemp) => {
-            if (attemp > 1) {
-                console.log(`[${connector}] ${hintTest.name} - try ${attemp}`);
+    const runHint = async (t: GenericTestContext<Context<any>>, hintTest: HintLocalTest) => {
+
+        try {
+            if (hintTest.before) {
+                await hintTest.before(t);
             }
 
-            try {
-                if (hintTest.before) {
-                    await hintTest.before(t);
-                }
+            const hintConfig = createConfig(hintId, 'local', configs);
+            const resources = resourceLoader.loadResources(hintConfig);
+            const engine = new Engine(hintConfig, resources);
 
-                const hintConfig = createConfig(hintId, 'local', configs);
-                const resources = resourceLoader.loadResources(hintConfig);
-                const engine = new Engine(hintConfig, resources);
+            const results = await engine.executeOn(getAsUri(hintTest.path));
 
-                const results = await engine.executeOn(getAsUri(hintTest.path));
+            await engine.close();
 
-                await engine.close();
-
-                if (hintTest.after) {
-                    await hintTest.after(t);
-                }
-
-                return validateResults(t, results, hintTest.reports);
-            } catch (e) {
-                console.error(e);
-
-                return false;
+            if (hintTest.after) {
+                await hintTest.after(t);
             }
-        },
-        {
-            minTimeout: 10000,
-            retries: 3
-        });
+
+            return validateResults(t, results, hintTest.reports);
+        } catch (e) {
+            console.error(e);
+
+            return t.fail(`${hintTest.name} throwed an exception:\n${e.message}\n${e.stack}`);
+        }
     };
 
     hintTests.forEach((hintTest) => {

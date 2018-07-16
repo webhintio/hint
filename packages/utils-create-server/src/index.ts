@@ -20,16 +20,36 @@ import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 
 export type ServerConfiguration = string | object; //eslint-disable-line
 
-const maxPort = 65535;
+/**
+ * List of ports in our range that are unsafe for Chrome.
+ * See: https://src.chromium.org/viewvc/chrome/trunk/src/net/base/net_util.cc?view=markup
+ */
+const unsafePorts = [3659, 4045, 6000, 6665, 6666, 6667, 6668, 6669];
 
 /** A testing server for webhint's hints */
 export class Server {
+    private static usedPorts = new Set(unsafePorts);
+    private static maxPort: number = 65535;
+    private static minPort: number = 3000;
+
     private _app: express.Application;
     private _server: https.Server | http.Server = {} as http.Server;
-    private _port: number = random(3000, 65000);
+
+    private _port: number;
     private _isHTTPS: boolean | undefined;
 
+    private getNewValidPort(): number {
+        let port = random(Server.minPort, Server.maxPort);
+
+        while (Server.usedPorts.has(port)) {
+            port = random(Server.minPort, Server.maxPort);
+        }
+
+        return port;
+    }
+
     public constructor(isHTTPS?: boolean) {
+        this._port = this.getNewValidPort();
         this._app = express();
         this._app.disable('x-powered-by');
         this._app.use((req, res, next) => {
@@ -293,7 +313,7 @@ export class Server {
     }
 
     /** Starts listening on the given port. */
-    public start() {
+    public start(): Promise<null> {
         return new Promise(async (resolve, reject) => {
             let options;
 
@@ -314,10 +334,7 @@ export class Server {
 
                 if (err.code === 'EADDRINUSE' || err.code === 'EACCES') {
                     setImmediate(() => {
-                        this._port++;
-                        if (this._port > maxPort) {
-                            this._port = random(3000, 65000);
-                        }
+                        this._port = this.getNewValidPort();
                         this._server.close();
                         this._server.listen(this._port);
                     });
