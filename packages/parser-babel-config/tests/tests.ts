@@ -89,7 +89,7 @@ test(`If 'package.json' contains an invalid 'babel' property, it should emit the
             "bar/**/*.js"
           ]
         },
-        "version": "1.0.0"
+        "version": "0.0.1"
       }`;
 
     new BabelConfigParser(t.context.engine); // eslint-disable-line no-new

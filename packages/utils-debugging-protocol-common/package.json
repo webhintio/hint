@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "@hint/utils-connector-tools": "^1.0.0",
+    "@hint/utils-connector-tools": "^0.0.1",
     "chrome-remote-interface": "^0.26.0",
-    "hint": "^1.0.0",
+    "hint": "^2.0.0",
     "lodash": "^4.17.10"
   },
   "description": "hint debugging protocol common functionality",
@@ -37,7 +37,7 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-debugging-protocol-common",
   "peerDependencies": {
-    "hint": "^1.0.0"
+    "hint": "^2.0.0"
   },
   "private": true,
   "repository": "webhintio/hint",
@@ -54,5 +54,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "0.0.1"
 }

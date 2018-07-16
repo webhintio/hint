@@ -7,15 +7,15 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debugging-protocol-common": "^1.0.0",
+    "@hint/utils-debugging-protocol-common": "^0.0.1",
     "chrome-launcher": "^0.10.2",
     "is-ci": "^1.1.0",
     "lockfile": "^1.0.4",
-    "hint": "^1.0.0"
+    "hint": "^2.0.0"
   },
   "description": "hint connector for Google Chrome",
   "devDependencies": {
-    "@hint/utils-create-server": "^1.0.0",
+    "@hint/utils-create-server": "^0.0.1",
     "@types/is-ci": "^1.1.0",
     "@types/lodash": "^4.14.112",
     "ava": "^0.25.0",
@@ -55,7 +55,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^1.0.0"
+    "hint": "^2.0.0"
   },
   "private": true,
   "repository": "webhintio/hint",
@@ -73,5 +73,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "0.0.1"
 }

@@ -9,7 +9,7 @@
   "dependencies": {
     "chokidar": "^2.0.4",
     "globby": "^8.0.1",
-    "hint": "^1.0.0"
+    "hint": "^2.0.0"
   },
   "description": "hint local connector",
   "devDependencies": {
@@ -51,7 +51,7 @@
   "main": "./dist/src/connector.js",
   "name": "@hint/connector-local",
   "peerDependencies": {
-    "hint": "^1.0.0"
+    "hint": "^2.0.0"
   },
   "private": true,
   "repository": "webhintio/hint",
@@ -69,5 +69,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "0.0.1"
 }

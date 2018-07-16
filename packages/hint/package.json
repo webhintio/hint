@@ -8,7 +8,7 @@
   },
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
-    "@hint/configuration-web-recommended": "^1.0.0",
+    "@hint/configuration-web-recommended": "^0.0.1",
     "ajv": "^6.5.1",
     "async": "^2.6.1",
     "boxen": "^1.3.0",
@@ -114,5 +114,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "2.0.0"
 }

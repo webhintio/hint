@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "@hint/connector-chrome": "^1.0.0",
-    "@hint/connector-jsdom": "^1.0.0",
-    "@hint/connector-local": "^1.0.0",
-    "@hint/utils-create-server": "^1.0.0",
+    "@hint/connector-chrome": "^0.0.1",
+    "@hint/connector-jsdom": "^0.0.1",
+    "@hint/connector-local": "^0.0.1",
+    "@hint/utils-create-server": "^0.0.1",
     "async-retry": "^1.2.1",
     "ava": "^0.25.0",
-    "hint": "^1.0.0"
+    "hint": "^2.0.0"
   },
   "description": "hint tests helpers",
   "devDependencies": {
@@ -39,7 +39,7 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-tests-helpers",
   "peerDependencies": {
-    "hint": "^1.0.0"
+    "hint": "^2.0.0"
   },
   "private": true,
   "repository": "webhintio/hint",
@@ -57,5 +57,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "0.0.1"
 }

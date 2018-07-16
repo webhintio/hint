@@ -24,7 +24,7 @@
     "fork-ts-checker-webpack-plugin": "^0.4.3",
     "fs-extra": "^6.0.1",
     "handlebars": "^4.0.11",
-    "hint": "^1.0.0",
+    "hint": "^2.0.0",
     "inquirer": "^6.0.0",
     "markdownlint-cli": "^0.11.0",
     "mkdirp": "^0.5.1",
@@ -78,5 +78,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "1.0.0"
+  "version": "0.0.1"
 }

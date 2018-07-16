@@ -11,11 +11,11 @@
     "iconv-lite": "^0.4.23",
     "iltorb": "^2.3.2",
     "request": "^2.87.0",
-    "hint": "^1.0.0"
+    "hint": "^2.0.0"
   },
   "description": "hint tools for connectors",
   "devDependencies": {
-    "@hint/utils-create-server": "^1.0.0",
+    "@hint/utils-create-server": "^0.0.1",
     "ava": "^0.25.0",
     "eslint": "^5.1.0",
     "eslint-plugin-import": "^2.13.0",
@@ -47,7 +47,7 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-connector-tools",
   "peerDependencies": {
-    "hint": "^1.0.0"
+    "hint": "^2.0.0"
   },
   "private": true,
   "repository": "webhintio/hint",
@@ -65,5 +65,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "0.0.1"
 }
