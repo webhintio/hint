@@ -6,7 +6,7 @@
     "@hint/utils-create-server": "^1.0.0-beta.1",
     "async-retry": "^1.2.1",
     "ava": "^0.25.0",
-    "hint": "^3.0.0-beta.0"
+    "hint": "^3.0.0-beta.1"
   },
   "description": "hint tests helpers",
   "devDependencies": {
@@ -40,7 +40,7 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-tests-helpers",
   "peerDependencies": {
-    "hint": "^3.0.0-beta.0"
+    "hint": "^3.0.0-beta.1"
   },
   "repository": "webhintio/hint",
   "scripts": {
