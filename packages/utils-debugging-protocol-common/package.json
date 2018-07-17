@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "@hint/utils-connector-tools": "^0.0.1",
+    "@hint/utils-connector-tools": "^1.0.0-beta.1",
     "chrome-remote-interface": "^0.26.0",
-    "hint": "^2.0.0",
+    "hint": "^3.0.0-beta.0",
     "lodash": "^4.17.10"
   },
   "description": "hint debugging protocol common functionality",
@@ -37,9 +37,8 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-debugging-protocol-common",
   "peerDependencies": {
-    "hint": "^2.0.0"
+    "hint": "^3.0.0-beta.0"
   },
-  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -49,10 +48,10 @@
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
-    "test": "echo",
-    "test-only": "echo",
+    "test": "npm run test-only",
+    "test-only": "npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "0.0.1"
+  "version": "1.0.0-beta.2"
 }

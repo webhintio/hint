@@ -7,18 +7,19 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debugging-protocol-common": "^0.0.1",
+    "@hint/utils-debugging-protocol-common": "^1.0.0-beta.2",
     "chrome-launcher": "^0.10.2",
     "is-ci": "^1.1.0",
     "lockfile": "^1.0.4",
-    "hint": "^2.0.0"
+    "hint": "^3.0.0-beta.0"
   },
   "description": "hint connector for Google Chrome",
   "devDependencies": {
-    "@hint/utils-create-server": "^0.0.1",
+    "@hint/utils-create-server": "^1.0.0-beta.1",
     "@types/is-ci": "^1.1.0",
     "@types/lodash": "^4.14.112",
     "ava": "^0.25.0",
+    "cpx": "^1.5.0",
     "eslint": "^5.1.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
@@ -52,12 +53,18 @@
   "main": "./dist/src/connector.js",
   "name": "@hint/connector-chrome",
   "nyc": {
-    "extends": "../../.nycrc"
+    "branches": 30,
+    "extends": "../../.nycrc",
+    "functions": 70,
+    "include": [
+      "dist/src/**/*.js"
+    ],
+    "lines": 70,
+    "statements": 70
   },
   "peerDependencies": {
-    "hint": "^2.0.0"
+    "hint": "^3.0.0-beta.0"
   },
-  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -73,5 +80,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "0.0.1"
+  "version": "1.0.0-beta.1"
 }

@@ -93,9 +93,8 @@
     ]
   },
   "optionalDependencies": {
-    "@hint/configuration-web-recommended": "^0.0.1"
+    "@hint/configuration-web-recommended": "^1.0.0-beta.0"
   },
-  "private": true,
   "repository": "https://github.com/webhintio/hint",
   "scripts": {
     "ava": "ava",
@@ -117,5 +116,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.0.0"
+  "version": "3.0.0-beta.0"
 }

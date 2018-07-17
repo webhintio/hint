@@ -8,8 +8,8 @@
   },
   "description": "hint that that checks if the JavaScript used by the web page is minified",
   "devDependencies": {
-    "@hint/parser-javascript": "^0.0.1",
-    "@hint/utils-tests-helpers": "^0.0.1",
+    "@hint/parser-javascript": "^1.0.0-beta.0",
+    "@hint/utils-tests-helpers": "^1.0.0-beta.1",
     "@types/debug": "0.0.30",
     "@types/node": "8.0.14",
     "ava": "^0.25.0",
@@ -22,7 +22,7 @@
     "npm-run-all": "^4.1.2",
     "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
-    "hint": "^2.0.0",
+    "hint": "^3.0.0-beta.0",
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.1"
   },
@@ -47,10 +47,9 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-javascript": "^0.0.1",
-    "hint": "^2.0.0"
+    "@hint/parser-javascript": "^1.0.0-beta.0",
+    "hint": "^3.0.0-beta.0"
   },
-  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -69,5 +68,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "0.0.1"
+  "version": "1.0.0-beta.0"
 }
