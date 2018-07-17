@@ -44,7 +44,6 @@
     "@types/node": "8.0.14",
     "@types/request": "^2.0.13",
     "@types/semver": "^5.4.0",
-    "@types/shelljs": "^0.8.0",
     "@types/sinon": "^5.0.1",
     "@types/update-notifier": "^2.2.0",
     "ava": "^0.25.0",
