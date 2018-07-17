@@ -1,11 +1,5 @@
 # webhint (`hint`)
 
-<!-- markdownlint-disable MD013 MD033 -->
-
-<p align="center"><img src="https://user-images.githubusercontent.com/1223565/34734522-e0dd1226-f520-11e7-8277-ec0e0a7199c1.png" alt="webhint logo"></p>
-
-<!-- markdownlint-enable -->
-
 ## Quick start user guide
 
 Once you have [`Node.js`](https://nodejs.org/en/download/current/)
