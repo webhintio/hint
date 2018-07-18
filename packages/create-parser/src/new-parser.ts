@@ -143,7 +143,7 @@ class NewParser {
  */
 const mkdirpAsync = promisify(mkdirp);
 const eventList: Array<string> = Object.keys(events);
-const TEMPLATE_PATH: string = './templates/new-parser';
+const TEMPLATE_PATH: string = './templates';
 const SHARED_TEMPLATE_PATH = './shared-templates';
 
 /* istanbul ignore next */
@@ -219,7 +219,7 @@ const generateFiles = async (data: NewParser) => {
     const files = [
         {
             destination: path.join(data.destination, 'src', `${data.normalizedName}.ts`),
-            path: path.join(__dirname, TEMPLATE_PATH, 'script.hbs')
+            path: path.join(__dirname, TEMPLATE_PATH, 'parser.hbs')
         },
         {
             destination: path.join(data.destination, 'tests', `${data.normalizedName}.ts`),

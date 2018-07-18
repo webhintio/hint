@@ -7,7 +7,7 @@ import * as {{toCamelCase normalizedName}} from './{{normalizedName}}';
 {{/each}}
 
 module.exports = {
-    {{#each hints}}
+{{#each hints}}
     '{{normalizedName}}': {{toCamelCase normalizedName}}{{#unless @last}},{{/unless}}
-    {{/each}}
+{{/each}}
 };
