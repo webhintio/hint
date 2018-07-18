@@ -1,8 +1,9 @@
-import { generateHTMLPage } from 'hint/dist/tests/helpers/misc';
-import { HintTest } from 'hint/dist/tests/helpers/hint-test-type';
-import * as hintRunner from 'hint/dist/tests/helpers/hint-runner';
+import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
+import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
+import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
+import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
-const hintName = '{{#if parentName}}{{parentName}}/{{/if}}{{normalizedName}}';
+const hintPath = getHintPath(__filename{{#if parentName}}, true{{/if}});
 
 /*
  * You should test for cases where the hint passes and doesn't.
@@ -22,4 +23,4 @@ const tests: Array<HintTest> = [
     }
 ];
 
-hintRunner.testHint(hintName, tests);
+hintRunner.testHint(hintPath, tests);
