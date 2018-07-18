@@ -11,6 +11,7 @@
   },
   "description": "webhint's hint initializer package",
   "devDependencies": {
+    "@types/node": "8.0.2",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.1.0",
@@ -46,7 +47,6 @@
   "keywords": [
     "create",
     "hint",
-    "hint",
     "webhint"
   ],
   "license": "Apache-2.0",
@@ -54,7 +54,6 @@
   "nyc": {
     "extends": "../../.nycrc"
   },
-  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -73,5 +72,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "0.0.1"
+  "version": "1.0.0-beta.0"
 }
