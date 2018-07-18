@@ -907,7 +907,7 @@ export class Connector implements IConnector {
             const tab = this._tabs.pop();
 
             try {
-                await cdp.closeTab({ id: tab.id, port: this._client.port });
+                await cdp.Close({ id: tab.id, port: this._client.port }); // eslint-disable-line new-cap
             } catch (e) {
                 debug(`Couldn't close tab ${tab.id}`);
             }
