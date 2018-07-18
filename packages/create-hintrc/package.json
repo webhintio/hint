@@ -37,7 +37,7 @@
     "typescript": "^2.9.2",
     "typescript-eslint-parser": "^16.0.0",
     "webpack": "^4.16.0",
-    "webpack-cli": "^3.0.8"
+    "webpack-cli": "^3.1.0"
   },
   "engines": {
     "node": ">=8.0.0"
