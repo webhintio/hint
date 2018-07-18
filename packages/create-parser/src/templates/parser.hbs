@@ -5,12 +5,12 @@ export default class {{capitalizedName}} extends Parser {
     public constructor(engine: Engine) {
         super(engine);
 
-        {{#each events}}
+{{#each events}}
         engine.on('{{event}}', this.{{handler}}.bind(this));
-        {{/each}}
+{{/each}}
     }
-    {{#each events}}
 
+{{#each events}}
     private async {{handler}}({{varName}}: {{type}}) {
         /*
          * You can extend Event to add the information
@@ -24,5 +24,5 @@ export default class {{capitalizedName}} extends Parser {
 
         await this.engine.emitAsync('parse::{{../normalizedName}}', eventData);
     }
-    {{/each}}
+{{/each}}
 }
