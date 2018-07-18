@@ -9,7 +9,7 @@
   "dependencies": {
     "chokidar": "^2.0.4",
     "globby": "^8.0.1",
-    "hint": "^3.0.0-beta.1"
+    "hint": "^3.0.0-beta.4"
   },
   "description": "hint local connector",
   "devDependencies": {
@@ -52,7 +52,7 @@
   "main": "./dist/src/connector.js",
   "name": "@hint/connector-local",
   "peerDependencies": {
-    "hint": "^3.0.0-beta.1"
+    "hint": "^3.0.0-beta.4"
   },
   "repository": "webhintio/hint",
   "scripts": {

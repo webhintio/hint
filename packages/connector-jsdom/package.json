@@ -9,7 +9,7 @@
   "dependencies": {
     "@hint/utils-connector-tools": "^1.0.0-beta.1",
     "canvas-prebuilt": "^1.6.5-prerelease.1",
-    "hint": "^3.0.0-beta.1",
+    "hint": "^3.0.0-beta.4",
     "jsdom": "^11.11.0",
     "node-pre-gyp": "^0.10.3"
   },
@@ -54,7 +54,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^3.0.0-beta.1"
+    "hint": "^3.0.0-beta.4"
   },
   "repository": "webhintio/hint",
   "scripts": {
