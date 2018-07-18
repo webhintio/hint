@@ -6,8 +6,6 @@
 addons:
   chrome: stable
 
-conditions: v1
-
 env:
   global:
 
