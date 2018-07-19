@@ -11,7 +11,7 @@ import * as semver from 'semver';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IHint, ScanEnd, Severity, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, CanEvaluateScript, Severity, HintMetadata } from 'hint/dist/src/lib/types';
 import { Library, Vulnerability } from './types';
 
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
@@ -202,9 +202,9 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
         };
 
         /** Checks if the JS libraries used by a website have known vulnerabilities. */
-        const validateLibraries = async (scanEnd: ScanEnd) => {
+        const validateLibraries = async (canEvaluateScript: CanEvaluateScript) => {
             const script = await createScript();
-            const resource = scanEnd.resource;
+            const resource = canEvaluateScript.resource;
             let detectedLibraries;
 
             try {
@@ -221,13 +221,13 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 return;
             }
 
-            await detectAndReportVulnerableLibraries(detectedLibraries, scanEnd.resource);
+            await detectAndReportVulnerableLibraries(detectedLibraries, canEvaluateScript.resource);
 
             return;
         };
 
         minimumSeverity = (context.hintOptions && context.hintOptions.severity) || 'low';
 
-        context.on('scan::end', validateLibraries);
+        context.on('can-evaluate::script', validateLibraries);
     }
 }

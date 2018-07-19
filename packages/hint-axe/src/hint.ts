@@ -13,7 +13,7 @@ import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'ax
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IHint, Severity, TraverseEnd, HintMetadata } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLElement, IHint, Severity, CanEvaluateScript, HintMetadata } from 'hint/dist/src/lib/types';
 import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
@@ -103,8 +103,8 @@ export default class AxeHint implements IHint {
             return elements[0];
         };
 
-        const validate = async (traverseEnd: TraverseEnd) => {
-            const { resource } = traverseEnd;
+        const validate = async (canEvaluateScript: CanEvaluateScript) => {
+            const { resource } = canEvaluateScript;
             const axeCore: string = await readFileAsync(require.resolve('axe-core'));
             const script: string = `(function () {
     ${axeCore};
@@ -155,6 +155,6 @@ export default class AxeHint implements IHint {
 
         loadHintConfig();
 
-        context.on('traverse::end', validate);
+        context.on('can-evaluate::script', validate);
     }
 }
