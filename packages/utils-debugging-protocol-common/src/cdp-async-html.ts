@@ -1,5 +1,5 @@
-import { IAsyncHTMLDocument, IAsyncHTMLElement } from './async-html'; //eslint-disable-line
-import { debug as d } from '../utils/debug';
+import { IAsyncHTMLDocument, IAsyncHTMLElement } from 'hint/dist/src/lib/types/async-html'; //eslint-disable-line
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 const debug: debug.IDebugger = d(__filename);
 
