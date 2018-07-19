@@ -4,7 +4,7 @@ import test from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
-const misc = { findPackageRoot() { } };
+const misc = { getHintPackage() { } };
 
 const applicationinsightsClient = {
     trackEvent() { },
@@ -47,14 +47,14 @@ const applicationinsights = {
     }
 };
 
-proxyquire('../../../src/lib/utils/rule-helpers', { path });
+proxyquire('../../../src/lib/utils/hint-helpers', { path });
 
 test.before(() => {
-    sinon.stub(misc, 'findPackageRoot').returns(path.join(__dirname, 'fixtures'));
+    sinon.stub(misc, 'getHintPackage').returns(path.join(__dirname, 'fixtures'));
 });
 
 test.after.always(() => {
-    (misc.findPackageRoot as sinon.SinonStub).restore();
+    (misc.getHintPackage as sinon.SinonStub).restore();
 });
 
 test.beforeEach((t) => {
@@ -76,7 +76,7 @@ test.serial('If insight is not enabled it should use the dummy client', (t) => {
     sandbox.spy(applicationinsightsClient, 'trackException');
 
     proxyquire('../../../src/lib/utils/appinsights', {
-        './misc': misc,
+        './packages/load-hint-package': misc,
         applicationinsights,
         configstore: Configstore
     });
@@ -102,7 +102,7 @@ test.serial('If insight is enabled it should use the real client', (t) => {
     sandbox.spy(applicationinsightsClient, 'trackException');
 
     proxyquire('../../../src/lib/utils/appinsights', {
-        './misc': misc,
+        './packages/load-hint-package': misc,
         applicationinsights,
         configstore: Configstore
     });
@@ -131,7 +131,7 @@ test.serial('Enable should set the insight configuration to true and enable appl
     sandbox.spy(applicationinsightsClient, 'trackException');
 
     proxyquire('../../../src/lib/utils/appinsights', {
-        './misc': misc,
+        './packages/load-hint-package': misc,
         applicationinsights,
         configstore: Configstore
     });
@@ -170,7 +170,7 @@ test.serial('Disable should set the insight configuration to false', (t) => {
     sandbox.spy(applicationinsightsClient, 'trackException');
 
     proxyquire('../../../src/lib/utils/appinsights', {
-        './misc': misc,
+        './packages/load-hint-package': misc,
         applicationinsights,
         configstore: Configstore
     });
