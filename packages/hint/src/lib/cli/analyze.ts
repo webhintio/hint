@@ -210,9 +210,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     let resources = resourceLoader.loadResources(config);
 
-    // Question: Should we track this after all packages has been installed?
     trackEvent('analyze', config);
-    // Question: Track missing resources?
 
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {
         if (resources.missing.length > 0) {

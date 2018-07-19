@@ -10,7 +10,7 @@ const pkg = getHintPackage();
 
 const config = new Configstore(pkg.name);
 
-const insightsEnabled = config.get('insight');
+let insightsEnabled = config.get('insight');
 
 let appInsightsClient: appInsights.TelemetryClient = {
     flush(options) {
@@ -59,6 +59,7 @@ export const isEnabled = () => {
 export const enable = () => {
     debug('User is enabling Application Insights');
     config.set('insight', true);
+    insightsEnabled = true;
 
     enableInsight();
 };
@@ -69,6 +70,7 @@ export const enable = () => {
 export const disable = () => {
     debug('User is disabling Application Insights');
     config.set('insight', false);
+    insightsEnabled = false;
 };
 
 /**

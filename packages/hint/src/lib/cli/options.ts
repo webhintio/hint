@@ -71,6 +71,13 @@ export const options = optionator({
             description: 'Explicitly specify the hints to be used',
             option: 'hints',
             type: 'String'
+        },
+        {
+            alias: 't',
+            description: 'Explicitly specify if enable tracking or not',
+            enum: ['on', 'off'],
+            option: 'tracking',
+            type: 'String'
         }
     ],
     prepend: 'hint [options] https://url.com'

@@ -102,6 +102,32 @@ the trouble of messing with the directories and have the correct
 permissions set up right out of the box. As a result, you won’t experience
 the error described above even if you install `webhint` globally.
 
+### What are we tracking
+
+The first time you run `webhint` we will ask you if you want to send us
+`limited usage information` to help us to build a better product.
+
+If you answer is `yes` every time you run sonarwhal, you will send us
+this information (if apply):
+
+* The configuration used in your analysis.
+* Packages missed or incompatible.
+* A new hint was created using the wizard.
+* Error creating a new hint using the wizard.
+* The configuration you have created using the wizard.
+* A new parser was created using the wizard.
+* Unhandled/Uncaught exceptions happens runing webhint.
+
+If you want to set up the tracking information without using a prompt,
+you have two options:
+
+* Run `webhint` with the parameter `--tracking on|off`.
+* Configure an environment variable `HINT_TRACKING` with the
+  value `on` or `off`.
+
+In case you are using both of them, `--tracking on|off` will have
+more priority.
+
 <!-- Link labels: -->
 
 [homebrew]: https://brew.sh/

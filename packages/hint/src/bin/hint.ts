@@ -13,13 +13,39 @@
  */
 
 const debug = (process.argv.includes('--debug'));
+const tracking = (/--tracking[=\s]+([^\s]*)/i).exec(process.argv.join(' '));
 const analyticsDebug = process.argv.includes('--analytics-debug');
 
 import * as d from 'debug';
 
+import * as insights from '../lib/utils/appinsights';
+
 // This initialization needs to be done *before* other requires in order to work.
 if (debug) {
     d.enable('hint:*');
+}
+
+const trackingEnv = process.env.HINT_TRACKING; // eslint-disable-line no-process-env
+let enableTracking = void 0;
+
+if (tracking) {
+    enableTracking = tracking[1] === 'on';
+} else if (trackingEnv) {
+    enableTracking = trackingEnv === 'on';
+}
+
+if (enableTracking !== void 0) {
+    if (enableTracking) {
+        const isFirstTime = insights.isEnabled() === void 0;
+
+        insights.enable();
+
+        if (isFirstTime) {
+            insights.trackEvent('FirstRun');
+        }
+    } else {
+        insights.disable();
+    }
 }
 
 if (analyticsDebug && !debug) {
