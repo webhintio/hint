@@ -205,7 +205,7 @@ export default async (): Promise<boolean> => {
         await installPackages(result.packages);
     }
 
-    trackEvent('new-config', result.config);
+    trackEvent('new-hintrc', result.config);
 
     return true;
 };

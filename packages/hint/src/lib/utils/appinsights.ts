@@ -1,12 +1,12 @@
 import * as Configstore from 'configstore';
 import * as appInsights from 'applicationinsights';
 
-import { getSonarwhalPackage } from './misc';
+import getHintPackage from './packages/load-hint-package';
 import { debug as d } from './debug';
 
 const debug: debug.IDebugger = d(__filename);
 
-const pkg = getSonarwhalPackage();
+const pkg = getHintPackage();
 
 const config = new Configstore(pkg.name);
 
