@@ -54,7 +54,7 @@
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
     "preinstall": "node scripts/preinstall.js",
     "test": "npm run test-only",
-    "test-only": "npm run test",
+    "test-only": "npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
