@@ -15,6 +15,7 @@ their signature, and the `interface` they implement.
 * [`traverse::end`](#traverseend)
 * [`traverse::start`](#traversestart)
 * [`traverse::up`](#traverseup)
+* [`can-evaluate`](#canevaluate)
 
 ## `element::<element-type>`
 
@@ -194,6 +195,18 @@ node that was traversed.
 type TraverseUp {
     /** The parent element that was traversed. */
     element: IAsyncHTMLElement;
+    /** The URL of the target. */
+    resource: string;
+}
+```
+
+## `can-evaluate`
+
+Event is emitted **when** the `connector` is ready to evaluate
+scripts.
+
+```ts
+type CanEvaluate {
     /** The URL of the target. */
     resource: string;
 }

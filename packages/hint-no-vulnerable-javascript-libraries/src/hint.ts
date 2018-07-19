@@ -11,7 +11,7 @@ import * as semver from 'semver';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IHint, Event, Severity, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, CanEvaluate, Severity, HintMetadata } from 'hint/dist/src/lib/types';
 import { Library, Vulnerability } from './types';
 
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
@@ -202,7 +202,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
         };
 
         /** Checks if the JS libraries used by a website have known vulnerabilities. */
-        const validateLibraries = async (canEvaluate: Event) => {
+        const validateLibraries = async (canEvaluate: CanEvaluate) => {
             const script = await createScript();
             const resource = canEvaluate.resource;
             let detectedLibraries;
@@ -228,6 +228,6 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
 
         minimumSeverity = (context.hintOptions && context.hintOptions.severity) || 'low';
 
-        context.on('canevaluate', validateLibraries);
+        context.on('can-evaluate', validateLibraries);
     }
 }

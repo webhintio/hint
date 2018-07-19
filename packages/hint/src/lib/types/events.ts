@@ -63,3 +63,6 @@ export type ElementFound = Event & {
     /** The visited element. */
     element: IAsyncHTMLElement;
 };
+
+/** The object emitted by a connector on `can-evaluate` */
+export type CanEvaluate = Event;
