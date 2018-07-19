@@ -17,7 +17,7 @@ import { promisify } from 'util';
 import * as cdp from 'chrome-remote-interface';
 import { compact, filter } from 'lodash';
 
-import { CDPAsyncHTMLDocument, AsyncHTMLElement } from 'hint/dist/src/lib/types/cdp-async-html';
+import { CDPAsyncHTMLDocument, AsyncHTMLElement } from './cdp-async-html';
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import * as logger from 'hint/dist/src/lib/utils/logging';
