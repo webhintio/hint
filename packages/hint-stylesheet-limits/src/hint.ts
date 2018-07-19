@@ -4,7 +4,7 @@
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, ScanEnd } from 'hint/dist/src/lib/types';
+import { IHint, HintMetadata, CanEvaluate } from 'hint/dist/src/lib/types';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 /*
@@ -150,7 +150,7 @@ export default class StylesheetLimitsHint implements IHint {
             return combinedResults;
         };
 
-        const validateScanEnd = async (event: ScanEnd) => {
+        const validateScanEnd = async (event: CanEvaluate) => {
 
             const results = await context.evaluate(`(${injectedCode})()`);
 
@@ -170,6 +170,6 @@ export default class StylesheetLimitsHint implements IHint {
             }
         };
 
-        context.on('scan::end', validateScanEnd);
+        context.on('can-evaluate', validateScanEnd);
     }
 }

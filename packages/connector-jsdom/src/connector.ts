@@ -324,6 +324,10 @@ export default class JSDOMConnector implements IConnector {
                     this._window = window;
                     this._document = new JSDOMAsyncHTMLDocument(window.document);
 
+                    const evaluateEvent: Event = { resource: this._finalHref };
+
+                    await this._server.emitAsync('can-evaluate', evaluateEvent);
+
                     /*
                      * Even though `done()` is called after `window.onload`
                      * (so all resoruces and scripts executed), we might want

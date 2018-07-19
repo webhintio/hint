@@ -769,6 +769,7 @@ export class Connector implements IConnector {
                 await this._server.emitAsync('traverse::start', event);
                 await this.traverseAndNotify(this._dom.root);
                 await this._server.emitAsync('traverse::end', event);
+                await this._server.emitAsync('can-evaluate', event);
 
                 if (!this._faviconLoaded) {
                     const faviconElement = (await this._dom.querySelectorAll('link[rel~="icon"]'))[0];
