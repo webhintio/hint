@@ -46,16 +46,12 @@ if (insightsEnabled) {
     debug('Application Insight disabled');
 }
 
-/**
- * Return if Application insights is enabled or not.
- */
+/** Check if Application Insights is enabled or not. */
 export const isEnabled = () => {
     return insightsEnabled;
 };
 
-/**
- * Enable Application Insight.
- */
+/** Enable Application Insight. */
 export const enable = () => {
     debug('User is enabling Application Insights');
     config.set('insight', true);
@@ -64,18 +60,14 @@ export const enable = () => {
     enableInsight();
 };
 
-/**
- * Disable Application Insights for the future.
- */
+/** Disable Application Insights for the future. */
 export const disable = () => {
     debug('User is disabling Application Insights');
     config.set('insight', false);
     insightsEnabled = false;
 };
 
-/**
- * Send pending data to Application Insights.
- */
+/** Send pending data to Application Insights. */
 export const sendPendingData = (isAppCrashing = true) => {
     debug('Sending pending data to Application Insights');
 
@@ -89,25 +81,19 @@ export const sendPendingData = (isAppCrashing = true) => {
     });
 };
 
-/**
- * Track an exception in Application Insights.
- */
+/** Track an exception in Application Insights. */
 export const trackException = (error: Error) => {
     debug(`Sending exception to Application Insights: ${error.toString()}`);
     appInsightsClient.trackException({ exception: error });
 };
 
-/**
- * Track an event in Application Insights.
- */
+/** Track an event in Application Insights. */
 export const trackEvent = (name, properties?: {}) => {
     debug(`Sending event "${name}" to Application Insights with value ${JSON.stringify(properties)}`);
     appInsightsClient.trackEvent({ name, properties });
 };
 
-/**
- * Return the Application Insights client.
- */
+/** Return the Application Insights client. */
 export const getClient = () => {
     debug('Getting Application Insights client');
 

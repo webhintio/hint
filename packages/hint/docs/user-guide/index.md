@@ -107,26 +107,27 @@ the error described above even if you install `webhint` globally.
 The first time you run `webhint` we will ask you if you want to send us
 `limited usage information` to help us to build a better product.
 
-If you answer is `yes` every time you run sonarwhal, you will send us
-this information (if apply):
+If you answer `yes`, you will grant permission to `webhint` to send the
+following information:
 
-* The configuration used in your analysis.
-* Packages missed or incompatible.
-* A new hint was created using the wizard.
-* Error creating a new hint using the wizard.
-* The configuration you have created using the wizard.
-* A new parser was created using the wizard.
-* Unhandled/Uncaught exceptions happens runing webhint.
+* The configuration used.
+* Missed or incompatible packages.
+* When a new hint is created using `npm create hint`.
+* When there is an error creating a hint using `npm create hint`.
+* The configuration created using `npm create hintrc`.
+* When a parser is created using `npm create parser`.
+* Unhandled/Uncaught exceptions when runing `webhint`.
 
-If you want to set up the tracking information without using a prompt,
-you have two options:
+If you want to set up the tracking information from the command line you have
+two options:
 
-* Run `webhint` with the parameter `--tracking on|off`.
+* Run `webhint` with the parameter `--tracking=on|off`.
+  > E.g.: hint http://example.com --tracking=on
 * Configure an environment variable `HINT_TRACKING` with the
   value `on` or `off`.
 
 In case you are using both of them, `--tracking on|off` will have
-more priority.
+higher priority.
 
 <!-- Link labels: -->
 

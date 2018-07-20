@@ -49,7 +49,7 @@ if (enableTracking !== void 0) {
 }
 
 if (analyticsDebug && !debug) {
-    d.enable('sonarwhal:utils:appinsights');
+    d.enable('hint:utils:appinsights');
 }
 
 /*

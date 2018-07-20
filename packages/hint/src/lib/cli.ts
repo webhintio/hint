@@ -16,8 +16,8 @@
  */
 import chalk from 'chalk';
 import * as updateNotifier from 'update-notifier';
-import * as inquirer from 'inquirer';
 
+import askForConfirm from './utils/misc/ask-question';
 import { CLIOptions } from './types';
 import * as logger from './utils/logging';
 import getHintPackage from './utils/packages/load-hint-package';
@@ -29,7 +29,7 @@ import { cliActions } from './cli/actions';
 
 const debug: debug.IDebugger = d(__filename);
 
-/** Notify user if the current version of sonarwhal is not up to date. */
+/** Notify user if the current version of webhint is not up to date. */
 const notifyIfNeeded = () => {
     const pkg = getHintPackage();
     /*
@@ -64,19 +64,13 @@ const notifyIfNeeded = () => {
 /** Ask user if he wants to activate the telemetry or not. */
 const askForConfirmation = async () => {
     // TODO: What message should we use here?
-    const message: string = `Help us make sonarwhal by sending limited usage information (no URLs or code will be captured). To know more about what information will be sent please visit https://sonarwhal.com/docs/user-guide/telemetry`;
+    const message: string = `Help us improve webhint by sending limited usage information (no URLs or code will be captured). To know more about what information will be sent please visit https://webhint.io/docs/user-guide/telemetry`;
 
     debug(`Prompting telemetry permission.`);
 
-    const question: Array<object> = [{
-        message,
-        name: 'confirm',
-        type: 'confirm'
-    }];
+    const confirm: boolean = await askForConfirm(message);
 
-    const answer: inquirer.Answers = await inquirer.prompt(question);
-
-    if (answer.confirm) {
+    if (confirm) {
         insights.enable();
 
         insights.trackEvent('FirstRun');
