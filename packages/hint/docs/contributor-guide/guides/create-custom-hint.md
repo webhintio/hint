@@ -272,6 +272,6 @@ available connectors.
 
 See the complete code example in [this repository][webhint-external-rule-demo-repo].
 
-[validate-footer.ts]: https://github.com/qzhou1607/webhint-external-rule-demo/blob/9e350afa23e4bd3245745afddc3a0cef4795f60b/src/rules/validate-footer/validate-footer.ts
+[validate-footer.ts]: https://github.com/qzhou1607/sonarwhal-external-rule-demo/blob/9e350afa23e4bd3245745afddc3a0cef4795f60b/src/rules/validate-footer/validate-footer.ts
 [demo-repo-url]: https://github.com/qzhou1607/sonarwhal-external-rule-demo
 [webhint-external-rule-demo-repo]: https://github.com/qzhou1607/sonarwhal-external-rule-demo
