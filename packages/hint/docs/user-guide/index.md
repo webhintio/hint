@@ -129,6 +129,11 @@ two options:
 In case you are using both of them, `--tracking on|off` will have
 higher priority.
 
+If you want to see a log in your console about what information `webhint` is
+tracking, you can use the parameter `--analytics-debug`.
+
+>E.g.: hint http://example.com --analytics-debug
+
 <!-- Link labels: -->
 
 [homebrew]: https://brew.sh/
