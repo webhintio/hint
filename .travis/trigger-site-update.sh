@@ -11,11 +11,12 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.." \
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # If something that that should be added to the site changed in the
-# last 3 commits, trigger an update in the repository of the website.
+# last 5 commits, trigger an update in the repository of the website.
 
-if ! git diff --quiet @~3..@ \
-        docs \
-        CHANGELOG.md \
+if ! git diff --quiet @~5..@ \
+        packages/hint/docs \
+        packages/hint/CHANGELOG.md \
+        packages/**/README.md \
     ; then
 
     # Triggering Travis CI builds
