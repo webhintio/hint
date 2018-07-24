@@ -26,7 +26,7 @@ if (debug) {
 }
 
 const trackingEnv = process.env.HINT_TRACKING; // eslint-disable-line no-process-env
-let enableTracking = void 0;
+let enableTracking;
 
 if (tracking) {
     enableTracking = tracking[1] === 'on';

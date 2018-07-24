@@ -63,7 +63,6 @@ const notifyIfNeeded = () => {
 
 /** Ask user if he wants to activate the telemetry or not. */
 const askForConfirmation = async () => {
-    // TODO: What message should we use here?
     const message: string = `Help us improve webhint by sending limited usage information (no URLs or code will be captured). To know more about what information will be sent please visit https://webhint.io/docs/user-guide/telemetry`;
 
     debug(`Prompting telemetry permission.`);
