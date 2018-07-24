@@ -273,7 +273,6 @@ const getFilesChanged = async () => {
      */
 
     const shaLastTag = await getGitOutput('git rev-list --tags --max-count=1');
-    const numberOfCommitsToGoBack = 10;
 
     let tagCommitNumber = -1;
 
@@ -283,7 +282,12 @@ const getFilesChanged = async () => {
         tagCommitNumber = parseInt(await getGitOutput(`git rev-list --count HEAD...${shaLastTag}`));
     }
 
-    // If there is no last tag, or it was more than 10 commits ago.
+    /*
+     * If there is no last tag, or it was more than a certain number
+     * of commits ago.
+     */
+
+    const numberOfCommitsToGoBack = 5;
 
     if (!shaLastTag || tagCommitNumber > numberOfCommitsToGoBack) {
         // Get files changed since some number of commits ago.
