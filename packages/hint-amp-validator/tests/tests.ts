@@ -29,7 +29,6 @@ const defaultTests: Array<HintTest> = [
         name: 'Deprecated AMP attribute fails',
         serverConfig: deprecateAMP,
         reports: [
-            { message: `The tag 'head > style[amp-boilerplate] - old variant' is deprecated - use 'head > style[amp-boilerplate]' instead. (https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md)` },
             { message: `The tag 'noscript > style[amp-boilerplate] - old variant' is deprecated - use 'noscript > style[amp-boilerplate]' instead. (https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md)` }
         ]
     },
