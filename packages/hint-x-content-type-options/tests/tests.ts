@@ -17,6 +17,7 @@ const generateInvalidValueMessage = (value: string = '') => {
 
 const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></script>');
 const htmlPageWithStylesheet = generateHTMLPage('<link rel="stylesheet" href="test.css">');
+const htmlPageWithAlternateStylesheet = generateHTMLPage('<link rel="  alternate stylesheet " href="test.css">');
 
 // Tests.
 
@@ -38,6 +39,14 @@ const tests: Array<HintTest> = [
         reports: [{ message: noHeaderMessage }],
         serverConfig: {
             '/': htmlPageWithStylesheet,
+            '/test.css': ''
+        }
+    },
+    {
+        name: `Alternative stylesheet is served without 'X-Content-Type-Options' header`,
+        reports: [{ message: noHeaderMessage }],
+        serverConfig: {
+            '/': htmlPageWithAlternateStylesheet,
             '/test.css': ''
         }
     },
