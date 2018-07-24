@@ -39,6 +39,34 @@ export default class XContentTypeOptionsHint implements IHint {
 
     public constructor(context: HintContext) {
 
+        const isHeaderRequired = (element: IAsyncHTMLElement): boolean => {
+            if (!element) {
+                return false;
+            }
+
+            const nodeName = normalizeString(element.nodeName);
+
+            /*
+             * See:
+             *
+             *  * https://github.com/whatwg/fetch/issues/395
+             *  * https://fetch.spec.whatwg.org/#x-content-type-options-header
+             */
+
+            if (nodeName === 'script') {
+                return true;
+
+            }
+
+            if (nodeName === 'link') {
+                const relValues = (normalizeString(element.getAttribute('rel'), '')).split(' ');
+
+                return relValues.includes('stylesheet');
+            }
+
+            return false;
+        };
+
         const validate = async (fetchEnd: FetchEnd) => {
             const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
 
@@ -50,24 +78,9 @@ export default class XContentTypeOptionsHint implements IHint {
                 return;
             }
 
-            let headerIsRequired = false;
-
             const headerValue: string = normalizeString(response.headers && response.headers['x-content-type-options']);
-            const nodeName = element && normalizeString(element.nodeName);
 
-            /*
-             * See:
-             *
-             *  * https://github.com/whatwg/fetch/issues/395
-             *  * https://fetch.spec.whatwg.org/#x-content-type-options-header
-             */
-
-            if (nodeName === 'script' ||
-                (nodeName === 'link' && normalizeString(element.getAttribute('rel')) === 'stylesheet')) {
-                headerIsRequired = true;
-            }
-
-            if (headerIsRequired) {
+            if (isHeaderRequired(element)) {
                 if (headerValue === null) {
                     await context.report(resource, element, `'x-content-type-options' header is not specified`);
 
