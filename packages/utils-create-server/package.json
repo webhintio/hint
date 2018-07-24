@@ -9,7 +9,7 @@
   "devDependencies": {
     "@types/async-retry": "^1.2.1",
     "@types/express": "^4.16.0",
-    "@types/lodash": "^4.14.112",
+    "@types/lodash": "^4.14.113",
     "@types/on-headers": "^1.0.0",
     "cpx": "^1.5.0",
     "eslint": "^5.2.0",

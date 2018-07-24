@@ -246,17 +246,17 @@
   dependencies:
     "@types/glob" "*"
 
-"@types/handlebars@^4.0.38":
-  version "4.0.38"
-  resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.38.tgz#d0ebec1934c0bba97f99a0cb703fe2ef8c4a662f"
+"@types/handlebars@^4.0.39":
+  version "4.0.39"
+  resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.39.tgz#961fb54db68030890942e6aeffe9f93a957807bd"
 
 "@types/is-ci@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@types/is-ci/-/is-ci-1.1.0.tgz#583c5fbfcc461be9971106b9558930d67df49227"
 
-"@types/lodash@^4.14.112":
-  version "4.14.112"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.112.tgz#4a8d8e5716b97a1ac01fe1931ad1e4cba719de5a"
+"@types/lodash@^4.14.113":
+  version "4.14.113"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.113.tgz#1d1cb063f17fec4cc46f1a90d978ebf441113061"
 
 "@types/mime-db@^1.27.0":
   version "1.27.0"
@@ -358,9 +358,9 @@
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@types/update-notifier/-/update-notifier-2.2.0.tgz#a61bd58270247606f77ec388586e53026803c7d9"
 
-"@types/webpack@^4.4.6":
-  version "4.4.7"
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.4.7.tgz#f56602ec814eff8cf0c7ced071350c9c7dfefc44"
+"@types/webpack@^4.4.8":
+  version "4.4.8"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.4.8.tgz#3af86780489a355e05f3de26b553537afc026acb"
   dependencies:
     "@types/node" "*"
     "@types/tapable" "*"
