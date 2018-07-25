@@ -1,12 +1,12 @@
-# JavaScript parser (`@hint/parser-javascript`)
+# CSS parser (`@hint/parser-css`)
 
-The `javascript` parser is built on top of `ESLint` so hints can
-analyze `JavaScript` files.
+The `css` parser is built on top of [PostCSS][postcss] so hints can
+analyze `CSS` files.
 
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @hint/parser-javascript
+npm install @hint/parser-css
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the
@@ -23,20 +23,22 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
     "hints": {
         ...
     },
-    "parsers": ["javascript"],
+    "parsers": ["css"],
     ...
 }
 ```
 
 ## Events emitted
 
-This `parser` emits the event `parse::javascript`, of type `IScriptParse`
+This `parser` emits the event `parse::css`, of type `StyleParse`
 which has the following information:
 
-* `resource`: the parsed resource. If the JavaScript is in a `script tag`
-  and not a file, the value will be `Internal javascript`.
-* `sourceCode`: a `eslint` `SourceCode` object.
+* `ast`: a PostCSS `Root` object containing the AST.
+* `code`: a string containing the raw stylesheet source code.
+* `resource`: the parsed resource. If the CSS is in a `style tag`
+  and not a file, the value will be `Inline CSS`.
 
 <!-- Link labels: -->
 
 [hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[postcss]: https://postcss.org/
