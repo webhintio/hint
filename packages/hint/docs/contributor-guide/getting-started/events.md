@@ -9,6 +9,8 @@ their signature, and the `interface` they implement.
 * [`fetch::end::<resource-type>`](#fetchendresource-type)
 * [`fetch::error`](#fetcherrorresource-type)
 * [`fetch::start`](#fetchstartresource-type)
+* [`parse::css`](#parsecss)
+* [`parse::javascript`](#parsejavascript)
 * [`scan::end`](#scanend)
 * [`scan::start`](#scanstart)
 * [`traverse::down`](#traversedown)
@@ -84,6 +86,24 @@ to start
 ```ts
 type FetchStart {
     /** The URL to download */
+    resource: string;
+}
+```
+
+## `parse::css`
+
+Event is emitted **when** the `CSS parser` has finished parsing a
+CSS resource (a file or a `<style>` tag).
+
+**Format:**
+
+```ts
+type StyleParse {
+    /** The root of a PostCSS AST generated from the stylesheet. */
+    ast: Root;
+    /** The raw stylesheet code. */
+    code: string;
+    /** The URL of the resource. */
     resource: string;
 }
 ```
