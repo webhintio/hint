@@ -93,7 +93,8 @@ type FetchStart {
 ## `parse::css`
 
 Event is emitted **when** the `CSS parser` has finished parsing a
-CSS resource (a file or a `<style>` tag).
+CSS resource (a file or a `<style>` tag). Includes a [PostCSS][postcss] AST.
+See the [PostCSS `walk*` APIs][postcss-walk] for help navigating the AST.
 
 **Format:**
 
@@ -235,3 +236,5 @@ type CanEvaluateScript {
 <!-- Link labels: -->
 
 [nodeName docs]: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeName
+[postcss]: https://postcss.org/
+[postcss-walk]: http://api.postcss.org/Container.html#walk
