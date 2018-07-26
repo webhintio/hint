@@ -27,7 +27,7 @@
     "rimraf": "^2.6.2",
     "hint": "^3.0.0-beta.4",
     "typescript": "^2.9.2",
-    "typescript-eslint-parser": "^16.0.1"
+    "typescript-eslint-parser": "^17.0.0"
   },
   "engines": {
     "node": ">=8.0.0"

@@ -32,7 +32,7 @@
     "sinon": "^6.1.4",
     "ts-loader": "^4.4.1",
     "typescript": "^2.9.2",
-    "typescript-eslint-parser": "^16.0.0",
+    "typescript-eslint-parser": "^17.0.0",
     "webpack": "^4.16.2",
     "webpack-cli": "^3.1.0"
   },
