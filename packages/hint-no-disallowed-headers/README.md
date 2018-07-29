@@ -8,9 +8,9 @@ headers.
 There are certain HTTP headers that should not be sent:
 
 1) Headers that are often set by servers, frameworks, and server-side
-languages (e.g.: ASP.NET, PHP), that by default have values that
-contain information about the technology that set them: its name,
-version number, etc.
+   languages (e.g.: ASP.NET, PHP), that by default have values that
+   contain information about the technology that set them: its name,
+   version number, etc.
 
 Sending these types of HTTP headers:
 
@@ -20,8 +20,8 @@ Sending these types of HTTP headers:
   the technology stack being used
 
 2) Uncommon or esoteric headers that have limited support, require
-a lot of knowledge to use correctly, and can create more problems then
-they solve.
+   a lot of knowledge to use correctly, and can create more problems then
+   they solve.
 
    One example here is the `Public-Key-Pins` header. It has [limited
 support and usage, it’s being deprecated (along with the related
