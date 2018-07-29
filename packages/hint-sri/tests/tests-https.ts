@@ -40,7 +40,21 @@ const defaultTestsHttps: Array<HintTest> = [
     {
         name: `Page with a same-origin and SRI sha512 passes`,
         serverConfig: {
-            '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css" integrity="sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaASFg1VeCzTKs1QIMkWaL1ewsA==">'),
+            '/': generateHTMLPage('<link rel="  stylesheet " href="/styles.css" integrity="sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaASFg1VeCzTKs1QIMkWaL1ewsA==">'),
+            '/styles.css': styles
+        }
+    },
+    {
+        name: `Page with a same-origin alternate stylesheet and SRI sha512 passes`,
+        serverConfig: {
+            '/': generateHTMLPage('<link rel=" stylesheet alternate " href="/styles.css" integrity="sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaASFg1VeCzTKs1QIMkWaL1ewsA==">'),
+            '/styles.css': styles
+        }
+    },
+    {
+        name: `Page with invalid 'rel' and no SRI passes`,
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="x-stylesheet alternate" href="/styles.css">'),
             '/styles.css': styles
         }
     },

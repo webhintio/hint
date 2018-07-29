@@ -72,31 +72,45 @@ export default class SRIHint implements IHint {
     }
 
     /**
-     * Checks if the element that originated the request/response is a script or a stylesheet.
-     * There could be other downloads from a `link` element that are not stylesheets and should
-     * be ignored.
+     * Checks if the element that originated the request/response is a
+     * `script` or a `stylesheet`. There could be other downloads from
+     * a `link` element that are not stylesheets and should be ignored.
      */
+
     private isScriptOrLink(evt: FetchEnd): Promise<boolean> {
         debug('Is <script> or <link>?');
         const { element } = evt;
 
         /*
-         * We subscribe to `fetch::end::script|css`, so element should always exist.
-         * "that should never happen" is the fastest way to make it happen so better be safe
+         * We subscribe to `fetch::end::script|css`, so element should
+         * always exist. "that should never happen" is the fastest way
+         * to make it happen so better be safe.
          */
+
         /* istanbul ignore if */
         if (!element) {
             return Promise.resolve(false);
         }
 
-        /*
-         * The element is not one that we care about (could be an img, video, etc.)
-         * No need to report anything, but we can stop processing things right away.
-         */
-        const isScript: boolean = element.nodeName === 'SCRIPT' && !!element.getAttribute('src');
-        const isStyle: boolean = element.nodeName === 'LINK' && normalizeString(element.getAttribute('rel')) === 'stylesheet';
+        const nodeName = normalizeString(element.nodeName);
 
-        return Promise.resolve(isScript || isStyle);
+        /*
+         * The element is not one that we care about (could be an img,
+         * video, etc.). No need to report anything, but we can stop
+         * processing things right away.
+         */
+
+        if (nodeName === 'script') {
+            return Promise.resolve(!!element.getAttribute('src'));
+        }
+
+        if (nodeName === 'link') {
+            const relValues = (normalizeString(element.getAttribute('rel'), '')).split(' ');
+
+            return Promise.resolve(relValues.includes('stylesheet'));
+        }
+
+        return Promise.resolve(false);
     }
 
     /**
