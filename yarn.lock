@@ -254,9 +254,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@types/is-ci/-/is-ci-1.1.0.tgz#583c5fbfcc461be9971106b9558930d67df49227"
 
-"@types/lodash@^4.14.114":
-  version "4.14.114"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.114.tgz#e6f251af5994dd0d7ce141f9241439b4f40270f6"
+"@types/lodash@^4.14.115":
+  version "4.14.115"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.115.tgz#54d171b2ce12c058742443b5f6754760f701b8f9"
 
 "@types/mime-db@^1.27.0":
   version "1.27.0"
@@ -4968,9 +4968,9 @@ markdown-escapes@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/markdown-escapes/-/markdown-escapes-1.0.2.tgz#e639cbde7b99c841c0bacc8a07982873b46d2122"
 
-markdown-it@8.4.1:
-  version "8.4.1"
-  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-8.4.1.tgz#206fe59b0e4e1b78a7c73250af9b34a4ad0aaf44"
+markdown-it@8.4.2:
+  version "8.4.2"
+  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-8.4.2.tgz#386f98998dc15a37722aa7722084f4020bdd9b54"
   dependencies:
     argparse "^1.0.7"
     entities "~1.1.1"
@@ -4978,9 +4978,9 @@ markdown-it@8.4.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-markdownlint-cli@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/markdownlint-cli/-/markdownlint-cli-0.11.0.tgz#ba9ee55b7067e6c1c25f7e31cd171d03bc4830f5"
+markdownlint-cli@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/markdownlint-cli/-/markdownlint-cli-0.12.0.tgz#14db32e28be098a0963c91e547f8adb58efdb158"
   dependencies:
     commander "~2.9.0"
     deep-extend "~0.5.1"
@@ -4989,14 +4989,14 @@ markdownlint-cli@^0.11.0:
     js-yaml "~3.11.0"
     lodash.differencewith "~4.5.0"
     lodash.flatten "~4.4.0"
-    markdownlint "~0.10.0"
+    markdownlint "~0.11.0"
     rc "~1.2.7"
 
-markdownlint@~0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.10.0.tgz#ee941ee943f78ff6adbc1ff0fad49365e600b664"
+markdownlint@~0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.11.0.tgz#3858bbdbc1ab78abf0c098d841c72b63dd3206a0"
   dependencies:
-    markdown-it "8.4.1"
+    markdown-it "8.4.2"
 
 match-stream@~0.0.2:
   version "0.0.2"
