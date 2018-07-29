@@ -12,7 +12,7 @@
     "husky": "^0.14.3",
     "listr": "^0.14.1",
     "listr-input": "^0.1.2",
-    "markdownlint-cli": "^0.11.0",
+    "markdownlint-cli": "^0.12.0",
     "npm-run-all": "^4.1.2",
     "rimraf": "^2.6.2",
     "shelljs": "^0.8.2",
