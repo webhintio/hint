@@ -56,6 +56,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
 
         let unneededHeaders: Array<string> = [
             'content-security-policy',
+            'feature-policy',
             'x-content-security-policy',
             'x-frame-options',
             'x-ua-compatible',

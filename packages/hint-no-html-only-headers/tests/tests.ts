@@ -51,7 +51,19 @@ const testsForDefaults: Array<HintTest> = [
     },
     {
         name: `Non HTML resource is served with multiple unneeded headers`,
-        reports: [{ message: generateMessage(['content-security-policy', 'x-content-security-policy', 'x-frame-options', 'x-ua-compatible', 'x-webkit-csp', 'x-xss-protection']) }],
+        reports: [
+            {
+                message: generateMessage([
+                    'content-security-policy',
+                    'feature-policy',
+                    'x-content-security-policy',
+                    'x-frame-options',
+                    'x-ua-compatible',
+                    'x-webkit-csp',
+                    'x-xss-protection'
+                ])
+            }
+        ],
         serverConfig: {
             '/': {
                 content: htmlPage,
@@ -68,6 +80,7 @@ const testsForDefaults: Array<HintTest> = [
                 headers: {
                     'Content-Type': 'application/javascript; charset=utf-8',
                     'Content-Security-Policy': 'default-src "none"',
+                    'Feature-Policy': `geolocation 'self'`,
                     'X-Content-Security-Policy': 'default-src "none"',
                     'X-Frame-Options': 'DENY',
                     'X-UA-Compatible': 'IE=Edge',
@@ -125,8 +138,9 @@ const testsForIgnoreConfigs: Array<HintTest> = [
             '/': {
                 content: htmlPage,
                 headers: {
-                    'X-Frame-Options': 'SAMEORIGIN',
                     'Content-Type': 'text/html; charset=utf-8',
+                    'Feature-Policy': `geolocation 'self'`,
+                    'X-Frame-Options': 'SAMEORIGIN',
                     'X-UA-Compatible': 'IE=Edge'
                 }
             },
@@ -144,7 +158,15 @@ const testsForIgnoreConfigs: Array<HintTest> = [
 const testsForIncludeConfigs: Array<HintTest> = [
     {
         name: `Non HTML resource is served with unneeded headers because of configs`,
-        reports: [{ message: generateMessage(['content-security-policy', 'x-test-1', 'x-ua-compatible']) }],
+        reports: [
+            {
+                message: generateMessage([
+                    'content-security-policy',
+                    'x-test-1',
+                    'x-ua-compatible'
+                ])
+            }
+        ],
         serverConfig: {
             '/': {
                 content: htmlPage,
@@ -170,7 +192,15 @@ const testsForIncludeConfigs: Array<HintTest> = [
 const testsForConfigs: Array<HintTest> = [
     {
         name: `Non HTML resource is served with unneeded headers that are both ignored and enforced because of configs`,
-        reports: [{ message: generateMessage(['content-security-policy', 'x-test-1', 'x-ua-compatible']) }],
+        reports: [
+            {
+                message: generateMessage([
+                    'content-security-policy',
+                    'x-test-1',
+                    'x-ua-compatible'
+                ])
+            }
+        ],
         serverConfig: {
             '/': {
                 content: htmlPage,
