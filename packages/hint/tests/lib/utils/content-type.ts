@@ -126,3 +126,28 @@ test('isTextMediaType returns true or false if the media type is a text one or n
         t.is(calculatedValue, value, `The calculated value for .${mediaType} is ${calculatedValue} instead of ${value}`);
     });
 });
+
+test(`'getContentTypeData' returns correct media type`, (t) => {
+    const files = [
+        {
+            mediaType: 'image/svg+xml',
+            rawContent: fs.readFileSync(`${__dirname}/fixtures/fixture.svg`), // eslint-disable-line no-sync
+            type: 'SVG'
+        },
+        {
+            mediaType: 'text/xml',
+            rawContent: fs.readFileSync(`${__dirname}/fixtures/fixture.xml`), // eslint-disable-line no-sync
+            type: 'XML'
+        }
+    ];
+
+    for (const file of files) {
+        const contentTypeData = contentType.getContentTypeData(null, null, null, file.rawContent);
+
+        t.is(typeof contentTypeData, 'object', `The media type could not be determined`);
+
+        if (contentTypeData.mediaType) {
+            t.is(contentTypeData.mediaType, file.mediaType, `The media type for a ${file.type} file is '${contentTypeData.mediaType}' instead of '${file.mediaType}'`);
+        }
+    }
+});

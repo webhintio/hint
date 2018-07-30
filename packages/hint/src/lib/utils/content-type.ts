@@ -285,16 +285,28 @@ const determineMediaTypeBasedOnFileName = (resource: string, rawContent: Buffer)
 
 /* istanbul ignore next */
 const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string => {
+
+    if (!rawContent) {
+        return null;
+    }
+
     const detectedFileType = fileType(rawContent);
 
     if (detectedFileType) {
+
+        /*
+         * If the file is XML, check if it's a specific
+         * type of XML such as a SVG.
+         */
+
+        if (detectedFileType.mime === 'application/xml' &&
+            isSvg(rawContent)) {
+            // See: https://www.w3.org/TR/SVG/mimereg.html.
+            return 'image/svg+xml';
+        }
+
         // Use the media types from `mime-db`, not `file-type`.
         return getMediaTypeBasedOnFileExtension(detectedFileType.ext);
-    }
-
-    if (rawContent && isSvg(rawContent)) {
-        // See: https://www.w3.org/TR/SVG/mimereg.html.
-        return 'image/svg+xml';
     }
 
     return null;
