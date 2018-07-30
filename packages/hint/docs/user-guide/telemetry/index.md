@@ -20,9 +20,11 @@ If you want to set up the tracking information from the command line you have
 two options:
 
 * Run `webhint` with the parameter `--tracking=on|off`.
-  > E.g.: hint http://example.com --tracking=on
+  > E.g.: `hint http://example.com --tracking=on`
 * Configure an environment variable `HINT_TRACKING` with the
   value `on` or `off`.
+
+This is especially recommended for CI environments.
 
 In case you are using both of them, `--tracking on|off` will have
 higher priority.
@@ -30,4 +32,23 @@ higher priority.
 If you want to see a log in your console about what information `webhint` is
 tracking, you can use the parameter `--analytics-debug`.
 
->E.g.: hint http://example.com --analytics-debug
+>E.g.: `hint http://example.com --analytics-debug`
+
+## FAQ
+
+### Where is the data sent to?
+
+To our Application Insights account.
+
+### Is it sent over HTTP
+
+Yes.
+
+### Is it anonymous?
+
+Yes. We don't store any information related to the user (we don't have users)
+or url analyzed.
+
+### Who has access to it?
+
+The webhint Core team.

@@ -17,7 +17,7 @@ import askForConfirm from '../utils/misc/ask-question';
 import cutString from '../utils/misc/cut-string';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
-import { trackEvent } from '../utils/appinsights';
+import * as insights from '../utils/appinsights';
 
 const each = promisify(async.each);
 const debug: debug.IDebugger = d(__filename);
@@ -27,6 +27,26 @@ const debug: debug.IDebugger = d(__filename);
  * Private
  * ------------------------------------------------------------------------------
  */
+
+/** Ask user if he wants to activate the telemetry or not. */
+const askForConfirmation = async (config: Configuration) => {
+    const message: string = `Help us improve webhint by sending limited usage information (no URLs or code will be captured). To know more about what information will be sent please visit https://webhint.io/docs/user-guide/telemetry`;
+
+    debug(`Prompting telemetry permission.`);
+
+    const confirm: boolean = await askForConfirm(message);
+
+    if (confirm) {
+        insights.enable();
+
+        insights.trackEvent('FirstRun');
+        insights.trackEvent('analyze', config);
+
+        return;
+    }
+
+    insights.disable();
+};
 
 const askUserToUseDefaultConfiguration = async (): Promise<boolean> => {
     const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://webhint.io/docs/user-guide/#default-configuration`;
@@ -210,15 +230,15 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     let resources = resourceLoader.loadResources(config);
 
-    trackEvent('analyze', config);
+    insights.trackEvent('analyze', config);
 
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {
         if (resources.missing.length > 0) {
-            trackEvent('missing', resources.missing);
+            insights.trackEvent('missing', resources.missing);
         }
 
         if (resources.incompatible.length > 0) {
-            trackEvent('incompatible', resources.incompatible);
+            insights.trackEvent('incompatible', resources.incompatible);
         }
 
         const missingPackages = resources.missing.map((name) => {
@@ -296,6 +316,10 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             }
 
             await print(results, target.href);
+
+            if (insights.isEnabled() === void 0) {
+                await askForConfirmation(config);
+            }
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');

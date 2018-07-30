@@ -17,11 +17,10 @@
 import chalk from 'chalk';
 import * as updateNotifier from 'update-notifier';
 
-import askForConfirm from './utils/misc/ask-question';
 import { CLIOptions } from './types';
 import * as logger from './utils/logging';
 import getHintPackage from './utils/packages/load-hint-package';
-import * as insights from './utils/appinsights';
+
 import { debug as d } from './utils/debug';
 
 import { options } from './cli/options';
@@ -61,25 +60,6 @@ const notifyIfNeeded = () => {
     notifier.notify({ message });
 };
 
-/** Ask user if he wants to activate the telemetry or not. */
-const askForConfirmation = async () => {
-    const message: string = `Help us improve webhint by sending limited usage information (no URLs or code will be captured). To know more about what information will be sent please visit https://webhint.io/docs/user-guide/telemetry`;
-
-    debug(`Prompting telemetry permission.`);
-
-    const confirm: boolean = await askForConfirm(message);
-
-    if (confirm) {
-        insights.enable();
-
-        insights.trackEvent('FirstRun');
-
-        return;
-    }
-
-    insights.disable();
-};
-
 /*
  * ------------------------------------------------------------------------------
  * Public
@@ -101,10 +81,6 @@ export const execute = async (args: string | Array<string> | Object): Promise<nu
     let handled = false;
 
     notifyIfNeeded();
-
-    if (insights.isEnabled() === void 0) {
-        await askForConfirmation();
-    }
 
     while (cliActions.length > 0 && !handled) {
         const action = cliActions.shift();
