@@ -2,8 +2,10 @@
 
 ## What are we tracking
 
-The first time you run `webhint` we will ask you if you want to send us
-`limited usage information` to help us to build a better product.
+At the end of the second time you run `webhint` we will ask you if you want to
+send us `limited usage information` to help us to build a better product.
+
+![Example output for the telemetry question](images/telemetryquestion.jpg)
 
 If you answer `yes`, you will grant permission to `webhint` to send the
 following information:
@@ -24,7 +26,10 @@ two options:
 * Configure an environment variable `HINT_TRACKING` with the
   value `on` or `off`.
 
-This is especially recommended for CI environments.
+In a CI environment you need to use one of these two options. If not, you will
+see this message:
+
+![Example output for the telemetry message](images/telemetrycimessage.jpg)
 
 In case you are using both of them, `--tracking on|off` will have
 higher priority.
@@ -36,19 +41,19 @@ tracking, you can use the parameter `--analytics-debug`.
 
 ## FAQ
 
-### Where is the data sent to?
+* Where is the data sent to?
 
-To our Application Insights account.
+  To our Application Insights account.
 
-### Is it sent over HTTP
+* Is it sent over HTTP
 
-Yes.
+  Yes.
 
-### Is it anonymous?
+* Is it anonymous?
 
-Yes. We don't store any information related to the user (we don't have users)
-or url analyzed.
+  Yes. We don't store any information related to the user (we don't have users)
+or analyzed URLs.
 
-### Who has access to it?
+* Who has access to it?
 
-The webhint Core team.
+  The [webhint Core team](https://github.com/orgs/webhintio/teams/core).

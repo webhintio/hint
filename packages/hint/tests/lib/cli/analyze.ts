@@ -52,6 +52,7 @@ const validateHintsConfigResult = { invalid: [] };
 const appinsight = {
     disable() { },
     enable() { },
+    isConfigured() { },
     isEnabled() { },
     trackEvent() { }
 };

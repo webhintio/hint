@@ -11,10 +11,10 @@ const applicationinsightsClient = {
     trackException() { }
 };
 
-const Configstore = function () { };
-
-Configstore.prototype.get = () => { };
-Configstore.prototype.set = () => { };
+const configStore = {
+    get() { },
+    set() { }
+};
 
 const applicationinsights = {
     defaultClient: applicationinsightsClient,
@@ -47,7 +47,10 @@ const applicationinsights = {
     }
 };
 
-proxyquire('../../../src/lib/utils/hint-helpers', { path });
+proxyquire('../../../src/lib/utils/hint-helpers', {
+    './configstore': configStore,
+    path
+});
 
 test.before(() => {
     sinon.stub(misc, 'getHintPackage').returns(path.join(__dirname, 'fixtures'));
@@ -59,8 +62,8 @@ test.after.always(() => {
 
 test.beforeEach((t) => {
     delete require.cache[require.resolve('applicationinsights')];
-    delete require.cache[require.resolve('configstore')];
     delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/appinsights.js')];
+    delete require.cache[path.resolve(__dirname, '../../../src/lib/utils/configstore.js')];
 
     t.context.applicationinsights = applicationinsights;
     t.context.applicationinsightsClient = applicationinsightsClient;
@@ -69,16 +72,16 @@ test.beforeEach((t) => {
 test.serial('If insight is not enabled it should use the dummy client', (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(Configstore.prototype, 'get').returns(false);
+    sandbox.stub(configStore, 'get').returns(false);
     sandbox.spy(applicationinsights, 'setup');
     sandbox.stub(applicationinsights, 'start').returns(applicationinsightsClient);
     sandbox.spy(applicationinsightsClient, 'trackEvent');
     sandbox.spy(applicationinsightsClient, 'trackException');
 
     proxyquire('../../../src/lib/utils/appinsights', {
+        './configstore': configStore,
         './packages/load-hint-package': misc,
-        applicationinsights,
-        configstore: Configstore
+        applicationinsights
     });
 
     const insights = require('../../../src/lib/utils/appinsights');
@@ -96,15 +99,15 @@ test.serial('If insight is not enabled it should use the dummy client', (t) => {
 test.serial('If insight is enabled it should use the real client', (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(Configstore.prototype, 'get').returns(true);
+    sandbox.stub(configStore, 'get').returns(true);
     sandbox.spy(applicationinsights, 'setup');
     sandbox.spy(applicationinsightsClient, 'trackEvent');
     sandbox.spy(applicationinsightsClient, 'trackException');
 
     proxyquire('../../../src/lib/utils/appinsights', {
+        './configstore': configStore,
         './packages/load-hint-package': misc,
-        applicationinsights,
-        configstore: Configstore
+        applicationinsights
     });
 
     const insights = require('../../../src/lib/utils/appinsights');
@@ -122,18 +125,18 @@ test.serial('If insight is enabled it should use the real client', (t) => {
 test.serial('Enable should set the insight configuration to true and enable application insights', (t) => {
     const sandbox = sinon.createSandbox();
 
-    t.context.Configstore = Configstore;
+    t.context.configStore = configStore;
 
-    sandbox.stub(Configstore.prototype, 'get').returns(false);
-    sandbox.spy(Configstore.prototype, 'set');
+    sandbox.stub(configStore, 'get').returns(false);
+    sandbox.spy(configStore, 'set');
     sandbox.spy(applicationinsights, 'setup');
     sandbox.spy(applicationinsightsClient, 'trackEvent');
     sandbox.spy(applicationinsightsClient, 'trackException');
 
     proxyquire('../../../src/lib/utils/appinsights', {
+        './configstore': configStore,
         './packages/load-hint-package': misc,
-        applicationinsights,
-        configstore: Configstore
+        applicationinsights
     });
 
     const insights = require('../../../src/lib/utils/appinsights');
@@ -152,8 +155,8 @@ test.serial('Enable should set the insight configuration to true and enable appl
     t.true(t.context.applicationinsights.setup.calledOnce);
     t.true(t.context.applicationinsightsClient.trackEvent.calledOnce);
     t.true(t.context.applicationinsightsClient.trackException.calledOnce);
-    t.is(t.context.Configstore.prototype.set.args[0][0], 'insight');
-    t.is(t.context.Configstore.prototype.set.args[0][1], true);
+    t.is(t.context.configStore.set.args[0][0], 'insight');
+    t.is(t.context.configStore.set.args[0][1], true);
 
     sandbox.restore();
 });
@@ -161,18 +164,18 @@ test.serial('Enable should set the insight configuration to true and enable appl
 test.serial('Disable should set the insight configuration to false', (t) => {
     const sandbox = sinon.createSandbox();
 
-    t.context.Configstore = Configstore;
+    t.context.configStore = configStore;
 
-    sandbox.stub(Configstore.prototype, 'get').returns(false);
-    sandbox.spy(Configstore.prototype, 'set');
+    sandbox.stub(configStore, 'get').returns(false);
+    sandbox.spy(configStore, 'set');
     sandbox.spy(applicationinsights, 'setup');
     sandbox.spy(applicationinsightsClient, 'trackEvent');
     sandbox.spy(applicationinsightsClient, 'trackException');
 
     proxyquire('../../../src/lib/utils/appinsights', {
+        './configstore': configStore,
         './packages/load-hint-package': misc,
-        applicationinsights,
-        configstore: Configstore
+        applicationinsights
     });
 
     const insights = require('../../../src/lib/utils/appinsights');
@@ -184,8 +187,8 @@ test.serial('Disable should set the insight configuration to false', (t) => {
     t.true(t.context.applicationinsights.setup.notCalled);
     t.true(t.context.applicationinsightsClient.trackEvent.notCalled);
     t.true(t.context.applicationinsightsClient.trackException.notCalled);
-    t.is(t.context.Configstore.prototype.set.args[0][0], 'insight');
-    t.is(t.context.Configstore.prototype.set.args[0][1], false);
+    t.is(t.context.configStore.set.args[0][0], 'insight');
+    t.is(t.context.configStore.set.args[0][1], false);
 
     sandbox.restore();
 });

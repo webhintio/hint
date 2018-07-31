@@ -36,7 +36,7 @@ if (tracking) {
 
 if (typeof enableTracking !== 'undefined') {
     if (enableTracking) {
-        const isFirstTime = typeof insights.isEnabled() === 'undefined';
+        const isFirstTime = !insights.isConfigured();
 
         insights.enable();
 

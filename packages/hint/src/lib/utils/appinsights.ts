@@ -1,16 +1,12 @@
-import * as Configstore from 'configstore';
 import * as appInsights from 'applicationinsights';
 
-import getHintPackage from './packages/load-hint-package';
+import * as configStore from './configstore';
 import { debug as d } from './debug';
 
 const debug: debug.IDebugger = d(__filename);
+const configStoreKey: string = 'insight';
 
-const pkg = getHintPackage();
-
-const config = new Configstore(pkg.name);
-
-let insightsEnabled = config.get('insight');
+let insightsEnabled = configStore.get(configStoreKey);
 
 let appInsightsClient: appInsights.TelemetryClient = {
     flush(options) {
@@ -54,7 +50,7 @@ export const isEnabled = () => {
 /** Enable Application Insight. */
 export const enable = () => {
     debug('User is enabling Application Insights');
-    config.set('insight', true);
+    configStore.set(configStoreKey, true);
     insightsEnabled = true;
 
     enableInsight();
@@ -63,7 +59,7 @@ export const enable = () => {
 /** Disable Application Insights for the future. */
 export const disable = () => {
     debug('User is disabling Application Insights');
-    config.set('insight', false);
+    configStore.set(configStoreKey, false);
     insightsEnabled = false;
 };
 
@@ -98,4 +94,8 @@ export const getClient = () => {
     debug('Getting Application Insights client');
 
     return appInsightsClient;
+};
+
+export const isConfigured = (): boolean => {
+    return typeof configStore.get(configStoreKey) !== 'undefined';
 };
