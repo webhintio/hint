@@ -317,7 +317,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
             await print(results, target.href);
 
-            if (insights.isEnabled() === void 0) {
+            if (typeof insights.isEnabled() === 'undefined') {
                 await askForConfirmation(config);
             }
         } catch (e) {

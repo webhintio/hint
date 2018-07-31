@@ -34,9 +34,9 @@ if (tracking) {
     enableTracking = trackingEnv === 'on';
 }
 
-if (enableTracking !== void 0) {
+if (typeof enableTracking !== 'undefined') {
     if (enableTracking) {
-        const isFirstTime = insights.isEnabled() === void 0;
+        const isFirstTime = typeof insights.isEnabled() === 'undefined';
 
         insights.enable();
 
