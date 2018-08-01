@@ -75,18 +75,6 @@ install:
       fi
 
 jobs:
-
-  # In the last period Travis CI's macOS jobs usually take
-  # a long time to start because of the long queues, so treat
-  # them as optional.
-
-  allow_failures:
-    - os: osx
-
-  fast_finish: true
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   include:
 
     # Stage used for checking for broken links.
