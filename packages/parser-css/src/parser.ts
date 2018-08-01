@@ -1,5 +1,6 @@
 import * as postcss from 'postcss';
 
+import * as logger from 'hint/dist/src/lib/utils/logging';
 import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
 import { StyleParse } from './types';
 import { Engine } from 'hint/dist/src/lib/engine';
@@ -28,7 +29,7 @@ export default class CSSParser extends Parser {
             await this.engine.emitAsync(`parse::${this.name}::end`, styleData);
 
         } catch (err) {
-            console.log(`Error parsing code: ${code} - ${err}`);
+            logger.error(`Error parsing code: ${code} - ${err}`);
         }
     }
 
