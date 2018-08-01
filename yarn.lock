@@ -6055,6 +6055,14 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
 
+postcss@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.1.tgz#db20ca4fc90aa56809674eea75864148c66b67fa"
+  dependencies:
+    chalk "^2.4.1"
+    source-map "^0.6.1"
+    supports-color "^5.4.0"
+
 prebuild-install@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-3.0.0.tgz#0fd5b2c48ffcf4ceefa64d04a4c5a328d79ad66c"
