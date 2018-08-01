@@ -39,7 +39,6 @@ export default class CSSParser extends Parser {
         await this.emitCSS(code, resource);
     }
 
-
     private isCSSType(element: IAsyncHTMLElement) {
         const type = element.getAttribute('type');
 
