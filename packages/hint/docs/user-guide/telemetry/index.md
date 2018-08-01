@@ -45,14 +45,14 @@ tracking, you can use the parameter `--analytics-debug`.
 
   To our Application Insights account.
 
-* Is it sent over HTTP
+* Is it sent over HTTPS?
 
   Yes.
 
 * Is it anonymous?
 
-  Yes. We don't store any information related to the user (we don't have users)
-or analyzed URLs.
+  Yes, we don't store any information related to the user (we don't have that
+  concept, and we don't generate any unique identifier at any time) or analyzed URLs.
 
 * Who has access to it?
 
