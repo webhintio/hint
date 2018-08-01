@@ -19,6 +19,7 @@ const analyticsDebug = process.argv.includes('--analytics-debug');
 import * as d from 'debug';
 
 import * as insights from '../lib/utils/appinsights';
+import * as configStore from '../lib/utils/configstore';
 
 // This initialization needs to be done *before* other requires in order to work.
 if (debug) {
@@ -36,12 +37,17 @@ if (tracking) {
 
 if (typeof enableTracking !== 'undefined') {
     if (enableTracking) {
-        const isFirstTime = !insights.isConfigured();
+        const alreadyRun: boolean = configStore.get('run');
+        const configured = insights.isConfigured();
 
         insights.enable();
 
-        if (isFirstTime) {
-            insights.trackEvent('FirstRun');
+        if (!configured) {
+            if (!alreadyRun) {
+                insights.trackEvent('FirstRun');
+            } else {
+                insights.trackEvent('SecondRun');
+            }
         }
     } else {
         insights.disable();

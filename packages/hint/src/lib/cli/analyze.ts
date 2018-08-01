@@ -104,7 +104,7 @@ const askForTelemetryConfirmation = async (config: Configuration) => {
     if (confirm) {
         insights.enable();
 
-        insights.trackEvent('FirstRun');
+        insights.trackEvent('SecondRun');
         insights.trackEvent('analyze', config);
 
         return;
