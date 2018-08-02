@@ -37,6 +37,12 @@ export const options = optionator({
             type: 'Boolean'
         },
         {
+            default: false,
+            description: 'Output debugging information related with analytics',
+            option: 'analytics-debug',
+            type: 'Boolean'
+        },
+        {
             alias: 'h',
             description: 'Show help',
             option: 'help',
@@ -64,6 +70,13 @@ export const options = optionator({
             alias: 'r',
             description: 'Explicitly specify the hints to be used',
             option: 'hints',
+            type: 'String'
+        },
+        {
+            alias: 't',
+            description: 'Explicitly specify if enable tracking or not',
+            enum: ['on', 'off'],
+            option: 'tracking',
             type: 'String'
         }
     ],

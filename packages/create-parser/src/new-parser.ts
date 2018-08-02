@@ -10,6 +10,7 @@ import isOfficial from 'hint/dist/src/lib/utils/packages/is-official';
 import normalize from 'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter';
 import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 import { escapeSafeString, compileTemplate } from './handlebars-utils';
+import { trackEvent } from 'hint/dist/src/lib/utils/appinsights';
 
 /*
  * ------------------------------------------------------------------------------
@@ -328,6 +329,8 @@ New parser created in ${parserData.destination}
 2. Run 'npm run init' to install all the dependencies and build the project.
 3. Run 'npm run hint -- https://YourUrl' to analyze you site.`);
     }
+
+    trackEvent('new-parser');
 
     return true;
 };

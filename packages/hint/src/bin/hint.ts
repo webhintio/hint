@@ -13,12 +13,49 @@
  */
 
 const debug = (process.argv.includes('--debug'));
+const tracking = (/--tracking[=\s]+([^\s]*)/i).exec(process.argv.join(' '));
+const analyticsDebug = process.argv.includes('--analytics-debug');
 
 import * as d from 'debug';
+
+import * as insights from '../lib/utils/appinsights';
+import * as configStore from '../lib/utils/configstore';
 
 // This initialization needs to be done *before* other requires in order to work.
 if (debug) {
     d.enable('hint:*');
+}
+
+const trackingEnv = process.env.HINT_TRACKING; // eslint-disable-line no-process-env
+let enableTracking;
+
+if (tracking) {
+    enableTracking = tracking[1] === 'on';
+} else if (trackingEnv) {
+    enableTracking = trackingEnv === 'on';
+}
+
+if (typeof enableTracking !== 'undefined') {
+    if (enableTracking) {
+        const alreadyRun: boolean = configStore.get('run');
+        const configured = insights.isConfigured();
+
+        insights.enable();
+
+        if (!configured) {
+            if (!alreadyRun) {
+                insights.trackEvent('FirstRun');
+            } else {
+                insights.trackEvent('SecondRun');
+            }
+        }
+    } else {
+        insights.disable();
+    }
+}
+
+if (analyticsDebug && !debug) {
+    d.enable('hint:utils:appinsights');
 }
 
 /*
@@ -28,6 +65,7 @@ if (debug) {
  * Now we can safely include the other modules that use debug.
  */
 import * as cli from '../lib/cli';
+import { trackException, sendPendingData } from '../lib/utils/appinsights';
 
 /*
  * ------------------------------------------------------------------------------
@@ -35,15 +73,19 @@ import * as cli from '../lib/cli';
  * ------------------------------------------------------------------------------
  */
 
-process.once('uncaughtException', (err) => {
+process.once('uncaughtException', async (err) => {
     console.error(err.message);
     console.error(err.stack);
+    trackException(err);
+    await sendPendingData();
     process.exit(1);
 });
 
-process.once('unhandledRejection', (reason) => {
+process.once('unhandledRejection', async (reason) => {
     const source = reason.error ? reason.error : reason;
 
+    trackException(source);
+    await sendPendingData();
     console.error(`Unhandled rejection promise:
     uri: ${source.uri}
     message: ${source.message}
