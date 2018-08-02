@@ -237,4 +237,4 @@ type CanEvaluateScript {
 
 [nodeName docs]: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeName
 [postcss]: https://postcss.org/
-[postcss-walk]: http://api.postcss.org/Container.html#walk
+[postcss-walk]: https://api.postcss.org/Container.html#walk

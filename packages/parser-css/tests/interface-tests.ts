@@ -70,7 +70,6 @@ test.serial('If a style tag is inline CSS, then we should parse the stylesheet a
     sandbox.restore();
 });
 
-
 test.serial('If fetch::end::css is received, then we should parse the stylesheet and emit a parse::css::end event', async (t) => {
     const sandbox = sinon.createSandbox();
     const parser = new CSSParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars

@@ -1,6 +1,6 @@
 # CSS parser (`@hint/parser-css`)
 
-The `css` parser is built on top of [PostCSS][postcss] so hints can
+The `CSS` parser is built on top of [PostCSS][postcss] so hints can
 analyze `CSS` files.
 
 To use it you will have to install it via `npm`:
@@ -30,7 +30,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ## Events emitted
 
-This `parser` emits the event `parse::css`, of type `StyleParse`
+This `parser` emits the event `parse::css` of type `StyleParse`
 which has the following information:
 
 * `ast`: a PostCSS `Root` object containing the AST.
@@ -43,4 +43,4 @@ which has the following information:
 
 [hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
 [postcss]: https://postcss.org/
-[postcss-walk]: http://api.postcss.org/Container.html#walk
+[postcss-walk]: https://api.postcss.org/Container.html#walk

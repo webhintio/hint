@@ -1,11 +1,12 @@
 import * as postcss from 'postcss';
 
 import * as logger from 'hint/dist/src/lib/utils/logging';
+import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
 import { StyleParse } from './types';
 import { Engine } from 'hint/dist/src/lib/engine';
 
-const styleContentRegex: RegExp = /^<style[^>]*>([\s\S]*)<\/style>$/;
+const styleContentRegex: RegExp = /^<style[^>]*>([\s\S]*)<\/style\s*>$/;
 
 export default class CSSParser extends Parser {
     public constructor(engine: Engine) {
@@ -41,8 +42,15 @@ export default class CSSParser extends Parser {
     }
 
     private isCSSType(element: IAsyncHTMLElement) {
-        const type = element.getAttribute('type');
+        const type = normalizeString(element.getAttribute('type'));
 
+        /*
+         * From: https://html.spec.whatwg.org/multipage/semantics.html#update-a-style-block
+         *
+         * If element's type attribute is present and its value is neither
+         * the empty string nor an ASCII case-insensitive match for
+         * "text/css", then return.
+         */
         return !type || type === 'text/css';
     }
 
