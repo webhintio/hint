@@ -16,13 +16,13 @@
     "eslint": "^5.2.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
+    "hint": "^3.0.0-beta.4",
     "markdownlint-cli": "^0.12.0",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
     "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
-    "hint": "^3.0.0-beta.4",
-    "typescript": "^2.8.3",
+    "typescript": "^3.0.1",
     "typescript-eslint-parser": "^17.0.1"
   },
   "engines": {
