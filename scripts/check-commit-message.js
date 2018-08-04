@@ -146,11 +146,11 @@ const getCommitData = () => {
             sha: null
         });
 
-    /*
-     * Otherwise, it means this script is execute as part of the tests,
-     * and since there is no easy way to know how many new commits were
-     * added, check all commits since the last release.
-     */
+        /*
+         * Otherwise, it means this script is execute as part of the tests,
+         * and since there is no easy way to know how many new commits were
+         * added, check all commits since the last release.
+         */
 
     } else {
         const commitSHAsSinceLastRelease = shell.exec(`git rev-list HEAD...${PKG.version}`).stdout.split('\n');

@@ -445,34 +445,34 @@ export default class HttpCompressionHint implements IHint {
             return isCompressedWithGzip(rawResponse) ||
                 isCompressedWithBrotli(rawResponse) ||
 
-                /*
-                 * Other compression methods may be used, but there
-                 * is no way to check for all possible cases. So, if
-                 * this point is reached, consider 'content-encoding'
-                 * header as a possible indication of the response
-                 * being compressed.
-                 */
+            /*
+             * Other compression methods may be used, but there
+             * is no way to check for all possible cases. So, if
+             * this point is reached, consider 'content-encoding'
+             * header as a possible indication of the response
+             * being compressed.
+             */
 
                 (contentEncodingHeaderValue &&
 
-                    /*
-                     * Although `identity` should not be sent as a value
-                     * for `content-encoding`, if sent, for the scope of
-                     * this function, ignore it and consider no encoding
-                     * was specified.
-                     *
-                     *  From (now kinda obsolete)
-                     *  https://tools.ietf.org/html/rfc2616#page-24:
-                     *
-                     *  " identity
-                     *
-                     *    The default (identity) encoding; the use of no
-                     *    transformation whatsoever. This content-coding
-                     *    is used only in the Accept-Encoding header, and
-                     *    SHOULD NOT be used in the Content-Encoding header. "
-                     *
-                     *  See also: http://httpwg.org/specs/rfc7231.html#content.coding.registration
-                     */
+                /*
+                 * Although `identity` should not be sent as a value
+                 * for `content-encoding`, if sent, for the scope of
+                 * this function, ignore it and consider no encoding
+                 * was specified.
+                 *
+                 *  From (now kinda obsolete)
+                 *  https://tools.ietf.org/html/rfc2616#page-24:
+                 *
+                 *  " identity
+                 *
+                 *    The default (identity) encoding; the use of no
+                 *    transformation whatsoever. This content-coding
+                 *    is used only in the Accept-Encoding header, and
+                 *    SHOULD NOT be used in the Content-Encoding header. "
+                 *
+                 *  See also: http://httpwg.org/specs/rfc7231.html#content.coding.registration
+                 */
 
                     (contentEncodingHeaderValue !== 'identity'));
         };

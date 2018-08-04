@@ -60,7 +60,7 @@
     "build:ts": "tsc",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives --fix",
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
     "test": "npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",

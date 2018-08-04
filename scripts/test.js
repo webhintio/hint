@@ -151,12 +151,12 @@ const getLocalFilesChanged = async () => {
 
     return output
 
-        /*
-         * Split by line.
-         *
-         * (Because the output comes from Git,
-         *  `\n` is used regardless of the OS type)
-         */
+    /*
+     * Split by line.
+     *
+     * (Because the output comes from Git,
+     *  `\n` is used regardless of the OS type)
+     */
 
         .split('\n').map((change) => {
 
@@ -394,10 +394,10 @@ const getPackageData = async (pkg, packageJSONFileContent, filesChanged) => {
     const testScript = await determineTestScript(filesChangedInPackage, pkg, scripts);
 
     if (
-        /*
-         * * doesn't have any of the script
-         *   that this script will run
-         */
+    /*
+     * * doesn't have any of the script
+     *   that this script will run
+     */
 
         [
             TEST_SCRIPT_NAMES.lintMarkdown,
@@ -407,10 +407,10 @@ const getPackageData = async (pkg, packageJSONFileContent, filesChanged) => {
             return !scripts.includes(scriptValue);
         }) ||
 
-            /*
-             * * doesn't have scripts that may
-             *   be run by this script
-             */
+        /*
+         * * doesn't have scripts that may
+         *   be run by this script
+         */
 
             (!scripts.includes(TEST_SCRIPT_NAMES.test) && testScript !== TEST_SCRIPT_NAMES.lintMarkdown)) {
 
