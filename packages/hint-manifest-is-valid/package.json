@@ -12,15 +12,15 @@
   },
   "description": "hint that that checks if the web app manifest file is valid",
   "devDependencies": {
-    "@hint/parser-manifest": "^1.0.0-beta.0",
-    "@hint/utils-tests-helpers": "^1.0.0-beta.1",
+    "@hint/parser-manifest": "^1.0.0",
+    "@hint/utils-tests-helpers": "^1.0.0",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.2.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.0.0-beta.4",
+    "hint": "^3.0.0",
     "markdownlint-cli": "^0.12.0",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
@@ -51,9 +51,10 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-manifest": "^1.0.0-beta.0",
-    "hint": "^3.0.0-beta.4"
+    "@hint/parser-manifest": "^1.0.0",
+    "hint": "^3.0.0"
   },
+  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -71,5 +72,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0-beta.0"
+  "version": "1.0.0"
 }

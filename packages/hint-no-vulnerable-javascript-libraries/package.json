@@ -13,7 +13,7 @@
   },
   "description": "hint that that checks using Snyk for vulnerable JavaScript libraries",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^1.0.0-beta.1",
+    "@hint/utils-tests-helpers": "^1.0.0",
     "angular": "1.4.9",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
@@ -29,7 +29,7 @@
     "npm-run-all": "^4.1.2",
     "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
-    "hint": "^3.0.0-beta.4",
+    "hint": "^3.0.0",
     "typescript": "^3.0.1",
     "typescript-eslint-parser": "^17.0.1"
   },
@@ -55,8 +55,9 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^3.0.0-beta.4"
+    "hint": "^3.0.0"
   },
+  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -74,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0-beta.0"
+  "version": "1.0.0"
 }

@@ -7,15 +7,15 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-connector-tools": "^1.0.0-beta.1",
+    "@hint/utils-connector-tools": "^1.0.0",
     "canvas-prebuilt": "^1.6.5-prerelease.1",
-    "hint": "^3.0.0-beta.4",
+    "hint": "^3.0.0",
     "jsdom": "^11.12.0",
     "node-pre-gyp": "^0.10.3"
   },
   "description": "hint connector for JSDOM",
   "devDependencies": {
-    "@hint/utils-create-server": "^1.0.0-beta.1",
+    "@hint/utils-create-server": "^1.0.0",
     "@types/lodash": "^4.14.115",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
@@ -54,8 +54,9 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^3.0.0-beta.4"
+    "hint": "^3.0.0"
   },
+  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -71,5 +72,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0-beta.1"
+  "version": "1.0.0"
 }

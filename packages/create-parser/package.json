@@ -18,10 +18,10 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "fork-ts-checker-webpack-plugin": "^0.4.3",
+    "fork-ts-checker-webpack-plugin": "^0.4.4",
     "fs-extra": "^7.0.0",
     "handlebars": "^4.0.11",
-    "hint": "^3.0.0-beta.4",
+    "hint": "^3.0.0",
     "inquirer": "^6.0.0",
     "markdownlint-cli": "^0.12.0",
     "mkdirp": "^0.5.1",
@@ -56,6 +56,7 @@
   "nyc": {
     "extends": "../../.nycrc"
   },
+  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -74,5 +75,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "1.0.0-beta.0"
+  "version": "1.0.0"
 }

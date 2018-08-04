@@ -27,7 +27,7 @@
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
     "sinon": "^6.1.4",
-    "hint": "^3.0.0-beta.4",
+    "hint": "^3.0.0",
     "typescript": "^3.0.1",
     "typescript-eslint-parser": "^17.0.1"
   },
@@ -52,8 +52,9 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^3.0.0-beta.4"
+    "hint": "^3.0.0"
   },
+  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -71,5 +72,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0-beta.0"
+  "version": "1.0.0"
 }

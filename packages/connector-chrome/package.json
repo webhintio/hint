@@ -7,15 +7,15 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debugging-protocol-common": "^1.0.0-beta.2",
+    "@hint/utils-debugging-protocol-common": "^1.0.0",
     "chrome-launcher": "^0.10.2",
     "is-ci": "^1.1.0",
     "lockfile": "^1.0.4",
-    "hint": "^3.0.0-beta.4"
+    "hint": "^3.0.0"
   },
   "description": "hint connector for Google Chrome",
   "devDependencies": {
-    "@hint/utils-create-server": "^1.0.0-beta.1",
+    "@hint/utils-create-server": "^1.0.0",
     "@types/is-ci": "^1.1.0",
     "@types/lodash": "^4.14.115",
     "ava": "^0.25.0",
@@ -63,8 +63,9 @@
     "statements": 70
   },
   "peerDependencies": {
-    "hint": "^3.0.0-beta.4"
+    "hint": "^3.0.0"
   },
+  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -80,5 +81,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0-beta.1"
+  "version": "1.0.0"
 }
