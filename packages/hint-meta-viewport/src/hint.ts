@@ -1,5 +1,5 @@
 /**
- * @fileoverview Check if the viewport meta tag is specified in the
+ * @fileoverview Check if the viewport meta element is specified in the
  * `<head>` with the proper value.
  */
 
@@ -23,7 +23,7 @@ export default class MetaViewportHint implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
             category: Category.interoperability,
-            description: 'Require viewport meta tag'
+            description: 'Require viewport meta element'
         },
         id: 'meta-viewport',
         schema: [],
@@ -39,7 +39,7 @@ export default class MetaViewportHint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getViewportMetaTags = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
+        const getViewportMetaElements = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
             return elements.filter((element) => {
                 return (element.getAttribute('name') !== null && normalizeString(element.getAttribute('name')) === 'viewport');
             });
@@ -73,10 +73,10 @@ export default class MetaViewportHint implements IHint {
             });
         };
 
-        const checkContentValue = async (contentValue: string | null, resource: string, viewportMetaTag: IAsyncHTMLElement) => {
+        const checkContentValue = async (contentValue: string | null, resource: string, viewportMetaElement: IAsyncHTMLElement) => {
 
             if (!contentValue) {
-                await context.report(resource, viewportMetaTag, `Meta tag should have non-empty 'content' attribute`);
+                await context.report(resource, viewportMetaElement, `'viewport' meta element should have non-empty 'content' attribute.`);
 
                 return;
             }
@@ -86,11 +86,11 @@ export default class MetaViewportHint implements IHint {
             // Check for unknown properties and invalid values.
 
             for (const key of Object.keys(content.unknownProperties)) {
-                await context.report(resource, viewportMetaTag, `Meta tag has unknown property: '${key}'`);
+                await context.report(resource, viewportMetaElement, `'viewport' meta element 'content' attribute value should not contain unknown property '${key}'.`);
             }
 
             for (const key of Object.keys(content.invalidValues)) {
-                await context.report(resource, viewportMetaTag, `Meta tag has invalid value '${content.invalidValues[key]}' for property '${key}'`);
+                await context.report(resource, viewportMetaElement, `'viewport' meta element 'content' attribute value should not contain invalid value '${content.invalidValues[key]}' for property '${key}'.`);
             }
 
             // Disallow certain properties.
@@ -108,8 +108,12 @@ export default class MetaViewportHint implements IHint {
                  * https://webkit.org/blog/7367/new-interaction-behaviors-in-ios-10/
                  */
 
-                if (['maximum-scale', 'minimum-scale', 'user-scalable'].includes(key)) {
-                    await context.report(resource, viewportMetaTag, `Meta tag has disallowed property: '${key}'`);
+                if ([
+                    'maximum-scale',
+                    'minimum-scale',
+                    'user-scalable'
+                ].includes(key)) {
+                    await context.report(resource, viewportMetaElement, `'viewport' meta element 'content' attribute value should not contain disallowed property '${key}'.`);
                 }
             }
 
@@ -121,7 +125,7 @@ export default class MetaViewportHint implements IHint {
              */
 
             if (content.validProperties.width !== 'device-width') {
-                await context.report(resource, viewportMetaTag, `Meta tag should have 'width=device-width'`);
+                await context.report(resource, viewportMetaElement, `'viewport' meta element 'content' attribute value should contain 'width=device-width'.`);
             }
 
             const initialScaleValue = content.validProperties['initial-scale'];
@@ -149,7 +153,7 @@ export default class MetaViewportHint implements IHint {
 
             if ((initialScaleValue !== 1 && typeof initialScaleValue !== 'undefined') ||
                 (typeof initialScaleValue === 'undefined' && listIncludesBrowsersWithOrientationChangeBug(context.targetedBrowsers))) {
-                await context.report(resource, viewportMetaTag, `Meta tag should have 'initial-scale=1'`);
+                await context.report(resource, viewportMetaElement, `'viewport' meta element 'content' attribute value should contain 'initial-scale=1'.`);
             }
         };
 
@@ -157,47 +161,49 @@ export default class MetaViewportHint implements IHint {
 
             const { resource }: { resource: string } = event;
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const viewportMetaTags: Array<IAsyncHTMLElement> = getViewportMetaTags(await pageDOM.querySelectorAll('meta'));
+            const viewportMetaElements: Array<IAsyncHTMLElement> = getViewportMetaElements(await pageDOM.querySelectorAll('meta'));
 
-            if (viewportMetaTags.length === 0) {
-                await context.report(resource, null, 'No viewport meta tag was specified');
+            if (viewportMetaElements.length === 0) {
+                await context.report(resource, null, `'viewport' meta element was not specified.`);
 
                 return;
             }
 
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
             /*
-             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-             * Treat the first viewport meta tag as the one
-             * the user intended to use, and check if it's
-             * specified in the `<body>`.
+             * Treat the first viewport meta element as the one the user
+             * intended to use, and check if it's specified in the `<body>`.
              */
 
-            const viewportMetaTag: IAsyncHTMLElement = viewportMetaTags[0];
-            const bodyMetaTags: Array<IAsyncHTMLElement> = getViewportMetaTags(await pageDOM.querySelectorAll('body meta'));
+            const viewportMetaElement: IAsyncHTMLElement = viewportMetaElements[0];
+            const bodyMetaElements: Array<IAsyncHTMLElement> = getViewportMetaElements(await pageDOM.querySelectorAll('body meta'));
 
-            if ((bodyMetaTags.length > 0) && bodyMetaTags[0].isSame(viewportMetaTag)) {
-                await context.report(resource, viewportMetaTag, `Meta tag should not be specified in the '<body>'`);
+            if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(viewportMetaElement)) {
+                await context.report(resource, viewportMetaElement, `'viewport' meta element should be specified in the '<head>', not '<body>'.`);
             }
 
-            /*
-             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-             * Check if the meta tag was specified with the proper value.
-             */
-
-            const contentValue = normalizeString(viewportMetaTag.getAttribute('content'));
-
-            await checkContentValue(contentValue, resource, viewportMetaTag);
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
             /*
-             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-             * All other viewport meta tags should not be included.
+             * Check if the meta element was specified with the proper value.
              */
 
-            if (viewportMetaTags.length > 1) {
-                const metaTags = viewportMetaTags.slice(1);
+            const contentValue = normalizeString(viewportMetaElement.getAttribute('content'));
 
-                for (const metaTag of metaTags) {
-                    await context.report(resource, metaTag, 'A viewport meta tag was already specified');
+            await checkContentValue(contentValue, resource, viewportMetaElement);
+
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+            /*
+             * All other viewport meta elements should not be included.
+             */
+
+            if (viewportMetaElements.length > 1) {
+                const metaElements = viewportMetaElements.slice(1);
+
+                for (const metaElement of metaElements) {
+                    await context.report(resource, metaElement, `'viewport' meta element is not needed as one was already specified.`);
                 }
             }
 

@@ -12,10 +12,11 @@
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from 'hint/dist/src/lib/utils/hint-helpers';
-import { IAsyncHTMLElement, FetchEnd, Response, IHint, HintMetadata } from 'hint/dist/src/lib/types';
-import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { IAsyncHTMLElement, FetchEnd, Response, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
+import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
 const debug = d(__filename);
 
@@ -80,7 +81,10 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
              * following media types as HTML documents.
              */
 
-            if (['text/html', 'application/xhtml+xml'].includes(mediaType)) {
+            if ([
+                'text/html',
+                'application/xhtml+xml'
+            ].includes(mediaType)) {
                 return true;
             }
 
@@ -125,7 +129,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
                 const numberOfHeaders: number = headers.length;
 
                 if (numberOfHeaders > 0) {
-                    await context.report(resource, element, `'${headers.join('\', \'')}' ${numberOfHeaders === 1 ? 'header is' : 'headers are'} not needed`);
+                    await context.report(resource, element, `Response should not include unneeded ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`);
                 }
             }
         };

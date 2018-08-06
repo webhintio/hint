@@ -12,13 +12,13 @@ const tests: Array<HintTest> = [
     },
     {
         name: `Web app manifest file has incorrect file extension`,
-        reports: [{ message: `The file extension should be 'webmanifest' (not 'json')` }],
+        reports: [{ message: `Web app manifest should have the filename extension 'webmanifest', not 'json'.` }],
         serverConfig: generateHTMLPage(`<link rel="manifest" href="site.json">
         <link rel="stylesheet" href="style.css">`)
     },
     {
         name: `Web app manifest file is specified only as '.webmanifest'`,
-        reports: [{ message: `The file extension should be 'webmanifest'` }],
+        reports: [{ message: `Web app manifest should have the filename extension 'webmanifest'.` }],
         serverConfig: generateHTMLPage(`<link rel="manifest" href=".webmanifest">
         <link rel="stylesheet" href="style.css">`)
     },

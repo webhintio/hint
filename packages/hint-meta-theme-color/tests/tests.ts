@@ -5,18 +5,23 @@ import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
 const hintPath = getHintPath(__filename);
 
+const metaElementIsNotInHeadErrorMessage = `'theme-color' meta element should be specified in the '<head>', not '<body>'.`;
+const metaElementIsNotNeededErrorMessage = `'theme-color' meta element is not needed as one was already specified.`;
+const metaElementIsNotSpecifiedErrorMessage = `'theme-color' meta element was not specified.`;
+const metaElementHasIncorrectNameAttributeErrorMessage = `'theme-color' meta element 'name' attribute value should be 'theme-color', not ' thEme-color '.`;
+
 const invalidColorValues = [
     'currentcolor',
     'invalid'
 ];
 
-const unsupportedColorValues = [
-    'hwb(60, 3%, 60%)'
-];
-
 const notAlwaysSupportedColorValues = [
     '#f00a',
     '#ff0000aa'
+];
+
+const unsupportedColorValues = [
+    'hwb(60, 3%, 60%)'
 ];
 
 const validColorValues = [
@@ -30,7 +35,7 @@ const validColorValues = [
     'transparent'
 ];
 
-const generateThemeColorMetaTag = (contentValue: string = '#f00', nameValue: string = 'theme-color') => {
+const generateThemeColorMetaElement = (contentValue: string = '#f00', nameValue: string = 'theme-color') => {
     return `<meta name="${nameValue}" content="${contentValue}">`;
 };
 
@@ -39,12 +44,12 @@ const generateTest = (colorValues: Array<string>, valueType: string = 'valid', r
 
     for (const colorValue of colorValues) {
         const test: HintTest = {
-            name: `'theme-color' meta tag is specified with ${valueType} 'content' value of '${colorValue}'${typeof reason === 'undefined' ? '' : ` ${reason}`}`,
-            serverConfig: generateHTMLPage(generateThemeColorMetaTag(colorValue))
+            name: `'theme-color' meta element is specified with ${valueType} 'content' value of '${colorValue}'${typeof reason === 'undefined' ? '' : ` ${reason}`}`,
+            serverConfig: generateHTMLPage(generateThemeColorMetaElement(colorValue))
         };
 
         if (valueType !== 'valid') {
-            test.reports = [{ message: `'content' attribute value ('${colorValue}') is ${valueType === 'invalid' ? 'invalid' : 'not supported everywhere'}` }];
+            test.reports = [{ message: `'theme-color' meta element 'content' attribute should not have ${valueType} value of '${colorValue}'.` }];
         }
 
         defaultTests.push(test);
@@ -58,27 +63,27 @@ const generateTest = (colorValues: Array<string>, valueType: string = 'valid', r
 
 const defaultTests: Array<HintTest> = [
     {
-        name: `'theme-color' meta tag is not specified`,
-        reports: [{ message: `No 'theme-color' meta tag was specified` }],
+        name: `'theme-color' meta element is not specified`,
+        reports: [{ message: metaElementIsNotSpecifiedErrorMessage }],
         serverConfig: generateHTMLPage('<meta name="viewport" content="width=device-width">')
     },
     {
-        name: `'theme-color' meta tag is specified with invalid 'name' value`,
-        reports: [{ message: `'name' attribute needs to be 'theme-color' (not ' theme-color ')` }],
-        serverConfig: generateHTMLPage(generateThemeColorMetaTag('#f00', ' theme-color '))
+        name: `'theme-color' meta element is specified with invalid 'name' value`,
+        reports: [{ message: metaElementHasIncorrectNameAttributeErrorMessage }],
+        serverConfig: generateHTMLPage(generateThemeColorMetaElement('#f00', ' thEme-color '))
     },
     ...generateTest([...validColorValues, ...notAlwaysSupportedColorValues]),
     ...generateTest(invalidColorValues, 'invalid'),
     ...generateTest(unsupportedColorValues, 'unsupported'),
     {
-        name: `'theme-color' meta tag is specified in the '<body>'`,
-        reports: [{ message: `Should not be specified in the '<body>'`}],
-        serverConfig: generateHTMLPage(null, generateThemeColorMetaTag())
+        name: `'theme-color' meta element is specified in the '<body>'`,
+        reports: [{ message: metaElementIsNotInHeadErrorMessage }],
+        serverConfig: generateHTMLPage(null, generateThemeColorMetaElement())
     },
     {
-        name: `Multiple meta 'theme-color' tags are specified`,
-        reports: [{ message: `A 'theme-color' meta tag was already specified` }],
-        serverConfig: generateHTMLPage(`${generateThemeColorMetaTag()}${generateThemeColorMetaTag()}`)
+        name: `Multiple meta 'theme-color' elements are specified`,
+        reports: [{ message: metaElementIsNotNeededErrorMessage }],
+        serverConfig: generateHTMLPage(`${generateThemeColorMetaElement()}${generateThemeColorMetaElement()}`)
     },
     {
         name: `Target is not served with a valid media type`,

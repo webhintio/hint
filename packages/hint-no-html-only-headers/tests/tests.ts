@@ -4,12 +4,13 @@ import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
 const hintPath = getHintPath(__filename);
 const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
 
 const generateMessage = (values: Array<string>): string => {
-    return `'${values.join('\', \'')}' ${values.length === 1 ? 'header is' : 'headers are'} not needed`;
+    return `Response should not include unneeded ${prettyPrintArray(values)} ${values.length === 1 ? 'header' : 'headers'}.`;
 };
 
 const testsForDefaults: Array<HintTest> = [

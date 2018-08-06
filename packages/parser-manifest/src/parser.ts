@@ -107,7 +107,7 @@ export default class ManifestParser extends Parser {
              * message wouldn't be very user friendly.
              */
 
-            error.message = `File could not be fetched`;
+            error.message = `'${hrefValue}' could not be fetched (request failed).`;
         }
 
         // TODO: Add check if manifest cannot be fetch because of CSP.
@@ -117,7 +117,7 @@ export default class ManifestParser extends Parser {
         if (error || statusCode !== 200) {
             const fetchErrorEvent: FetchError = {
                 element,
-                error: error || new Error(`File could not be fetched (status code: ${statusCode})`),
+                error: error || new Error(`'${hrefValue}' could not be fetched (status code: ${statusCode}).`),
                 hops: (manifestNetworkData && manifestNetworkData.response.hops) || [manifestURL],
                 resource
             };

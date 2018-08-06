@@ -45,7 +45,7 @@ export default class ManifestExistsHint implements IHint {
 
         const checkIfManifestWasSpecified = async (scanEndEvent: ScanEnd) => {
             if (!manifestIsSpecified) {
-                await context.report(scanEndEvent.resource, null, 'Web app manifest not specified');
+                await context.report(scanEndEvent.resource, null, `'manifest' link element was not specified.`);
             }
         };
 
@@ -62,7 +62,7 @@ export default class ManifestExistsHint implements IHint {
              */
 
             if (manifestIsSpecified) {
-                await context.report(resource, element, 'A web app manifest file was already specified');
+                await context.report(resource, element, `'manifest' link element is not needed as one was already specified.`);
 
                 return;
             }
@@ -72,7 +72,7 @@ export default class ManifestExistsHint implements IHint {
             const href = normalizeString(element.getAttribute('href'));
 
             if (!href) {
-                await context.report(resource, element, `Should have non-empty 'href'`);
+                await context.report(resource, element, `'manifest' link element should have non-empty 'href' attribute.`);
             }
         };
 

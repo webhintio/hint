@@ -47,7 +47,7 @@ export default class implements IHint {
             const request = await safeFetch(resource);
 
             if (!request) {
-                await context.report(resource, element, 'Error fetching the content');
+                await context.report(resource, element, 'Content could not be fetched.');
 
                 debug(`Error requesting the resource: ${resource}`);
 
@@ -56,8 +56,11 @@ export default class implements IHint {
 
             const content = request.response.body.rawContent;
 
-            if (content[0] === 0xEF && content[1] === 0xBB && content[2] === 0xBF) {
-                await context.report(resource, element, `Text based resources shouldn't start with the BOM character to force UTF-8 encoding`);
+            if (content[0] === 0xEF &&
+                content[1] === 0xBB &&
+                content[2] === 0xBF
+            ) {
+                await context.report(resource, element, `Text-based resource should not start with BOM character.`);
             }
 
         };

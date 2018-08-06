@@ -218,7 +218,7 @@ const testsForErrors: Array<HintTest> = [
     {
         name: 'Reports error when not able to get result from the HTML Checker',
         serverUrl: exampleUrl,
-        reports: [{ message: `Couldn't get results from HTML checker for ${exampleUrl}. Error: ${validatorError}` }],
+        reports: [{ message: `Could not get results from HTML checker for '${exampleUrl}'. Error: '${validatorError}'.` }],
         before() {
             htmlCheckerMock({ reject: true });
         }
