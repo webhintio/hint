@@ -30,11 +30,15 @@ const htmlPageWithMoreThan512bytes = generateHTMLPage(undefined,
 const statusCodesWith256Threshold = [403, 405, 410];
 const statusCodesWith512Threshold = [400, 404, 406, 408, 409, 500, 501, 505];
 
+const generateErrorMessage = (statusCode: number, threshold: number) => {
+    return `Response with status code ${statusCode} should have more than ${threshold} bytes.`;
+};
+
 const addTests = (t, statusCodes, threshold) => {
     statusCodes.forEach((statusCode) => {
         t.push({
             name: `Response has status code ${statusCode} and less than ${threshold} bytes`,
-            reports: [{ message: `Response with status code ${statusCode} had less than ${threshold} bytes` }],
+            reports: [{ message: generateErrorMessage(statusCode, threshold) }],
             serverConfig: {
                 '/': {
                     content: (threshold === 512 ? htmlPageWithLessThan512bytes : htmlPageWithLessThan256bytes),
@@ -76,7 +80,7 @@ addTests(tests, statusCodesWith512Threshold, 512);
 tests.push(
     {
         name: `Response has status code 200 and 404 page was generated and has less than 512 bytes`,
-        reports: [{ message: `Response with status code 404 had less than 512 bytes` }],
+        reports: [{ message: generateErrorMessage(404, 512) }],
         serverConfig: {
             '/': '',
             '*': {

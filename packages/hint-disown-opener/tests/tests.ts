@@ -5,11 +5,12 @@ import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
 const hintPath = getHintPath(__filename);
 
 const generateMissingMessage = (value: string, linkTypes: Array<string>): string => {
-    return `'${cutString(value, 100)}' is missing 'rel' ${linkTypes.length === 1 ? 'value' : 'values'} '${linkTypes.join('\', \'')}'`;
+    return `'${cutString(value, 100)}' should have 'rel' attribute value include ${prettyPrintArray(linkTypes)} ${linkTypes.length === 1 ? 'keyword' : 'keywords'}.`;
 };
 
 const testsForOldBrowsers: Array<HintTest> = [

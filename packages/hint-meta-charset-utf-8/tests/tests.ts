@@ -8,47 +8,54 @@ import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 const metaCharset = '<mEtA CHaRseT="UtF-8">';
 const metaHttpEquiv = '<MeTa HTTP-EquiV="ConTent-Type" Content="TexT/HTML; CharSet=UtF-8">';
 
+const metaElementCanBeShorterErrorMessage = `'charset' meta element should be specified using shorter '<meta charset="utf-8">' form.`;
+const metaElementHasIncorrectValueErrorMessage = `'charset' meta element value should be 'utf-8', not 'utf8'.`;
+const metaElementIsNotFirstInHeadErrorMessage = `'charset' meta element should be the first thing in '<head>'.`;
+const metaElementIsNotInHeadErrorMessage = `'charset' meta element should be specified in the '<head>', not '<body>'.`;
+const metaElementIsNotNeededErrorMessage = `'charset' meta element is not needed as one was already specified.`;
+const metaElementNotSpecifiedErrorMessage = `'charset' meta element was not specified.`;
+
 const tests: Array<HintTest> = [
     {
-        name: `'charset' meta tag is not specified`,
-        reports: [{ message: `No charset meta tag was specified` }],
+        name: `'charset' meta element is not specified`,
+        reports: [{ message: metaElementNotSpecifiedErrorMessage }],
         serverConfig: generateHTMLPage()
     },
     {
-        name: `'http-equiv' meta tag is specified`,
-        reports: [{ message: `Use shorter '<meta charset="utf-8">'` }],
+        name: `'http-equiv' meta element is specified`,
+        reports: [{ message: metaElementCanBeShorterErrorMessage }],
         serverConfig: generateHTMLPage(metaHttpEquiv)
     },
     {
-        name: `'charset' meta tag is specified with a value different then 'utf-8'`,
-        reports: [{ message: `The value of 'charset' is not 'utf-8'` }],
+        name: `'charset' meta element is specified with a value different then 'utf-8'`,
+        reports: [{ message: metaElementHasIncorrectValueErrorMessage }],
         serverConfig: generateHTMLPage('<meta charset="utf8">')
     },
     {
-        name: `'charset' meta tag is specified with the value of 'utf-8'`,
+        name: `'charset' meta element is specified with the value of 'utf-8'`,
         serverConfig: generateHTMLPage(metaCharset)
     },
     {
-        name: `'charset' meta tag is specified in the '<body>'`,
+        name: `'charset' meta element is specified in the '<body>'`,
         reports: [
-            { message: `Charset meta tag should be the first thing in '<head>'`},
-            { message: `Meta tag should not be specified in the '<body>'`}
+            { message: metaElementIsNotFirstInHeadErrorMessage },
+            { message: metaElementIsNotInHeadErrorMessage }
         ],
         serverConfig: generateHTMLPage(null, metaCharset)
     },
     {
-        name: `'charset' meta tag is specified in '<head>' after another tag`,
-        reports: [{ message: `Charset meta tag should be the first thing in '<head>'` }],
+        name: `'charset' meta element is specified in '<head>' after another element`,
+        reports: [{ message: metaElementIsNotFirstInHeadErrorMessage }],
         serverConfig: generateHTMLPage('<title>test</title><meta charset="utf-8">')
     },
     {
-        name: `'charset' meta tag is specified in '<head>' after an HTML comment`,
-        reports: [{ message: `Charset meta tag should be the first thing in '<head>'` }],
+        name: `'charset' meta element is specified in '<head>' after an HTML comment`,
+        reports: [{ message: metaElementIsNotFirstInHeadErrorMessage }],
         serverConfig: generateHTMLPage('<!-- test --><meta charset="utf-8">')
     },
     {
-        name: `Multiple meta 'charset' tags are specified`,
-        reports: [{ message: 'A charset meta tag was already specified' }],
+        name: `Multiple meta 'charset' elements are specified`,
+        reports: [{ message: metaElementIsNotNeededErrorMessage }],
         serverConfig: generateHTMLPage(`${metaCharset}${metaHttpEquiv}`)
     },
     {
@@ -72,7 +79,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `Meta 'charset' is injected after load, should fail`,
-        reports: [{ message: `Charset meta tag should be the first thing in '<head>'` }],
+        reports: [{ message: metaElementIsNotFirstInHeadErrorMessage }],
         serverConfig: generateHTMLPage(`<title>No charset</title>
         <script>
             var head = document.querySelector('head');
@@ -92,8 +99,8 @@ const tests: Array<HintTest> = [
      *     {
      *         name: `The XML charset declaration is used'`,
      *             reports: [
-     *                 { message: 'No charset meta tag was specified' },
-     *                 { message: `Unneeded XML declaration: '<?xml version="1.0" encoding="ISO-8859-1"?>'` }
+     *                 { message: metaElementNotSpecifiedErrorMessage },
+     *                 { message: `Unneeded XML declaration: '<?xml version="1.0" encoding="ISO-8859-1"?>'.` }
      *             ],
      *             serverConfig:
      * `<?xml version="1.0" encoding="ISO-8859-1"?>

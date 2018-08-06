@@ -80,7 +80,7 @@ export default class ContentTypeHint implements IHint {
             // Check if the `Content-Type` header was sent.
 
             if (contentTypeHeaderValue === null) {
-                await context.report(resource, element, `'content-type' header was not specified`);
+                await context.report(resource, element, `Response should include 'content-type' header.`);
 
                 return;
             }
@@ -94,7 +94,7 @@ export default class ContentTypeHint implements IHint {
 
             if (userDefinedMediaType) {
                 if (normalizeString(userDefinedMediaType) !== contentTypeHeaderValue) {
-                    await context.report(resource, element, `'content-type' header should have the value '${userDefinedMediaType}'`);
+                    await context.report(resource, element, `'content-type' header value should be '${userDefinedMediaType}'.`);
                 }
 
                 return;
@@ -111,7 +111,7 @@ export default class ContentTypeHint implements IHint {
 
                 contentType = parse(contentTypeHeaderValue);
             } catch (e) {
-                await context.report(resource, element, `'content-type' header value is invalid (${e.message})`);
+                await context.report(resource, element, `'content-type' header value should be valid (${e.message}).`);
 
                 return;
             }
@@ -140,17 +140,21 @@ export default class ContentTypeHint implements IHint {
             // * media type
 
             if (mediaType && (mediaType !== originalMediaType)) {
-                await context.report(resource, element, `'content-type' header should have media type '${mediaType}' (not '${originalMediaType}')`);
+                await context.report(resource, element, `'content-type' header media type value should be '${mediaType}', not '${originalMediaType}'.`);
             }
 
             // * charset value
 
             if (charset) {
                 if (!originalCharset || (charset !== originalCharset)) {
-                    await context.report(resource, element, `'content-type' header should have 'charset=${charset}'${originalCharset ? ` (not '${originalCharset}')` : ''}`);
+                    await context.report(resource, element, `'content-type' header charset value should be '${charset}'${originalCharset ? `, not '${originalCharset}'` : ''}.`);
                 }
-            } else if (originalCharset && !['text/html', 'application/xhtml+xml'].includes(originalMediaType)) {
-                await context.report(resource, element, `'content-type' header should not have 'charset=${originalCharset}'`);
+            } else if (originalCharset &&
+                ![
+                    'text/html',
+                    'application/xhtml+xml'
+                ].includes(originalMediaType)) {
+                await context.report(resource, element, `'content-type' header value should not contain 'charset=${originalCharset}'.`);
             }
         };
 

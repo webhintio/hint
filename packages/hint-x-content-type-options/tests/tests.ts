@@ -5,19 +5,24 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
-// Error messages.
-
-const noHeaderMessage = `'x-content-type-options' header is not specified`;
-const unneededHeaderMessage = `'x-content-type-options' header is not needed`;
-const generateInvalidValueMessage = (value: string = '') => {
-    return `'x-content-type-options' header value (${value}) is invalid`;
-};
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // Page data.
 
-const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></script>');
-const htmlPageWithStylesheet = generateHTMLPage('<link rel="stylesheet" href="test.css">');
-const htmlPageWithAlternateStylesheet = generateHTMLPage('<link rel="  alternate stylesheet " href="test.css">');
+const pageWithAlternateStylesheet = generateHTMLPage('<link rel="  alternate stylesheet " href="test.css">');
+const pageWithScript = generateHTMLPage(undefined, '<script src="test.js"></script>');
+const pageWithStylesheet = generateHTMLPage('<link rel="stylesheet" href="test.css">');
+
+// Error messages.
+
+const noHeaderErrorMessage = `Response should include 'x-content-type-options' header.`;
+const unneededHeaderErrorMessage = `Response should not include unneeded 'x-content-type-options' header.`;
+
+const generateInvalidValueMessage = (value: string = '') => {
+    return `'x-content-type-options' header value should be 'nosniff', not '${value}'.`;
+};
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // Tests.
 
@@ -28,25 +33,25 @@ const tests: Array<HintTest> = [
     },
     {
         name: `Script is served without 'X-Content-Type-Options' header`,
-        reports: [{ message: noHeaderMessage }],
+        reports: [{ message: noHeaderErrorMessage }],
         serverConfig: {
-            '/': htmlPageWithScript,
+            '/': pageWithScript,
             '/test.js': ''
         }
     },
     {
         name: `Stylesheet is served without 'X-Content-Type-Options' header`,
-        reports: [{ message: noHeaderMessage }],
+        reports: [{ message: noHeaderErrorMessage }],
         serverConfig: {
-            '/': htmlPageWithStylesheet,
+            '/': pageWithStylesheet,
             '/test.css': ''
         }
     },
     {
-        name: `Alternative stylesheet is served without 'X-Content-Type-Options' header`,
-        reports: [{ message: noHeaderMessage }],
+        name: `Alternate stylesheet is served without 'X-Content-Type-Options' header`,
+        reports: [{ message: noHeaderErrorMessage }],
         serverConfig: {
-            '/': htmlPageWithAlternateStylesheet,
+            '/': pageWithAlternateStylesheet,
             '/test.css': ''
         }
     },
@@ -56,14 +61,14 @@ const tests: Array<HintTest> = [
     },
     {
         name: `HTML page is served with the 'X-Content-Type-Options' header`,
-        reports: [{ message: unneededHeaderMessage }],
+        reports: [{ message: unneededHeaderErrorMessage }],
         serverConfig: { '/': { headers: { 'X-Content-Type-Options': 'nosniff' } } }
     },
     {
         name: `Script is served with 'X-Content-Type-Options' header with invalid value`,
         reports: [{ message: generateInvalidValueMessage('invalid') }],
         serverConfig: {
-            '/': htmlPageWithScript,
+            '/': pageWithScript,
             '/test.js': { headers: { 'X-Content-Type-Options': 'invalid' } }
         }
     }

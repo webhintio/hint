@@ -44,7 +44,7 @@ export default class HttpsOnlyHint implements IHint {
             if (!isHTTPS(resource)) {
                 debug('HTTPS no detected');
 
-                await context.report(resource, null, 'The site should be HTTPS');
+                await context.report(resource, null, 'Site should be served over HTTPS.');
 
                 return;
             }
@@ -65,7 +65,7 @@ export default class HttpsOnlyHint implements IHint {
                 if (fails) {
                     reportedUrls.add(hop);
 
-                    return context.report(hop, null, `Shouldn't be redirected from HTTP`);
+                    return context.report(hop, null, `Should not be redirected from HTTPS.`);
                 }
 
                 return Promise.resolve();
@@ -93,7 +93,7 @@ export default class HttpsOnlyHint implements IHint {
             if (!reportedUrls.has(resource) && !isHTTPS(resource) && !isDataURI(resource)) {
                 reportedUrls.add(resource);
 
-                await context.report(resource, null, 'Should be served over HTTPS');
+                await context.report(resource, null, 'Should be served over HTTPS.');
             }
         };
 
@@ -147,7 +147,11 @@ export default class HttpsOnlyHint implements IHint {
              *   https://developer.mozilla.org/en-US/docs/Web/HTML/Element/object
              */
 
-            const simpleAttributes: Array<string> = ['src', 'poster', 'data'];
+            const simpleAttributes: Array<string> = [
+                'src',
+                'poster',
+                'data'
+            ];
 
             const urls: Array<string> = simpleAttributes.reduce((found: Array<string>, attribute: string) => {
                 const value: string = element.getAttribute(attribute);
@@ -171,7 +175,7 @@ export default class HttpsOnlyHint implements IHint {
                 if (!isHTTPS(fullUrl) && !isDataURI(fullUrl) && !reportedUrls.has(fullUrl)) {
                     reportedUrls.add(fullUrl);
 
-                    return context.report(fullUrl, null, 'Should be served over HTTPS');
+                    return context.report(fullUrl, null, 'Should be served over HTTPS.');
                 }
 
                 return Promise.resolve();

@@ -21,6 +21,7 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, ElementFound, IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
 const debug = d(__filename);
 
@@ -63,7 +64,7 @@ export default class DisownOpenerHint implements IHint {
             });
 
             if (requiredValues.length !== 0) {
-                await context.report(resource, element, `'${cutString(await element.outerHTML(), 100)}' is missing 'rel' ${requiredValues.length === 1 ? 'value' : 'values'} '${requiredValues.join('\', \'')}'`, hrefValue);
+                await context.report(resource, element, `'${cutString(await element.outerHTML(), 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`, hrefValue);
             }
         };
 

@@ -67,7 +67,7 @@ export default class NoBrokenLinksHint implements IHint {
         const handleRejection = (error: any, url: string, element: IAsyncHTMLElement) => {
             debug(`Error accessing {$absoluteUrl}. ${JSON.stringify(error)}`);
 
-            return context.report(url, element, 'Broken link found (domain not found)');
+            return context.report(url, element, 'Broken link found (domain not found).');
         };
 
         /**
@@ -82,7 +82,7 @@ export default class NoBrokenLinksHint implements IHint {
             );
 
             if (statusIndex > -1) {
-                return context.report(url, element, `Broken link found (${brokenStatusCodes[statusIndex]} response)`);
+                return context.report(url, element, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
             }
 
             fetchedUrls.push({ status: networkData.response.statusCode, url });
@@ -141,7 +141,7 @@ export default class NoBrokenLinksHint implements IHint {
                     const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
 
                     if (statusIndex > -1) {
-                        return context.report(fullUrl, null, `Broken link found (${brokenStatusCodes[statusIndex]} response)`);
+                        return context.report(fullUrl, null, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
                     }
                 } else {
                     // An element which was not present in the fetch end results

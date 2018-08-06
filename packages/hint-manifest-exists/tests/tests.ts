@@ -7,15 +7,23 @@ import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
 const htmlWithManifestSpecified = generateHTMLPage(`<link rel="manifest" href="site.webmanifest">`);
 
+// Error messages.
+
+const linkElementIsNotSpecifiedErrorMessage = `'manifest' link element was not specified.`;
+const linkElementIsAlreadySpecifiedErrorMessage = `'manifest' link element is not needed as one was already specified.`;
+const linkElementHasEmptyHrefAttributeErrorMessage= `'manifest' link element should have non-empty 'href' attribute.`;
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 const tests: Array<HintTest> = [
     {
         name: `Manifest is not specified`,
-        reports: [{ message: 'Web app manifest not specified' }],
+        reports: [{ message: linkElementIsNotSpecifiedErrorMessage }],
         serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')
     },
     {
         name: `Manifest is specified multiple times`,
-        reports: [{ message: 'A web app manifest file was already specified' }],
+        reports: [{ message: linkElementIsAlreadySpecifiedErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage(`<link rel="manifest" href="site1.webmanifest"><link rel="manifest" href="site2.webmanifest">`),
             '/site1.webmanifest': '',
@@ -24,12 +32,12 @@ const tests: Array<HintTest> = [
     },
     {
         name: `Manifest is specified with no 'href'`,
-        reports: [{ message: `Should have non-empty 'href'` }],
+        reports: [{ message: linkElementHasEmptyHrefAttributeErrorMessage }],
         serverConfig: generateHTMLPage('<link rel="manifest">')
     },
     {
         name: `Manifest is specified with empty 'href'`,
-        reports: [{ message: `Should have non-empty 'href'` }],
+        reports: [{ message: linkElementHasEmptyHrefAttributeErrorMessage }],
         serverConfig: generateHTMLPage('<link rel="manifest" href="">')
     },
     {
@@ -55,7 +63,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `Manifest is specified and request for file fails`,
-        reports: [{ message: 'File could not be fetched' }],
+        reports: [{ message: `'site.webmanifest' could not be fetched (request failed).` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': null
@@ -63,7 +71,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `Manifest is specified and request for file fails with status code 404`,
-        reports: [{ message: `File could not be fetched (status code: 404)` }],
+        reports: [{ message: `'site.webmanifest' could not be fetched (status code: 404).` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { status: 404 }
@@ -71,7 +79,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `Manifest is specified and request for file fails with status code 500`,
-        reports: [{ message: `File could not be fetched (status code: 500)` }],
+        reports: [{ message: `'site.webmanifest' could not be fetched (status code: 500).` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { status: 500 }

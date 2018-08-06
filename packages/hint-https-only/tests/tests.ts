@@ -8,7 +8,7 @@ const hintPath = getHintPath(__filename);
 const testsNoHTTPS: Array<HintTest> = [
     {
         name: `HTML page serverd using HTTP`,
-        reports: [{ message: 'The site should be HTTPS' }],
+        reports: [{ message: 'Site should be served over HTTPS.' }],
         serverConfig: generateHTMLPage()
     }
 ];

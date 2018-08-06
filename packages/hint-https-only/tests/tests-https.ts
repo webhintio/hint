@@ -9,6 +9,9 @@ const hintPath = getHintPath(__filename);
 
 const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);
 
+const noInsecureRedirectMessage = 'Should not be redirected from HTTPS.';
+const serveOverHTTPSMessage = 'Should be served over HTTPS.';
+
 const generateResponse = (content: Buffer, type: string): Object => {
     return {
         content,
@@ -37,18 +40,18 @@ const testsHTTPS: Array<HintTest> = [
     },
     {
         name: `HTTPS page with HTTP resources should fail`,
-        reports: [{ message: 'Should be served over HTTPS' }],
+        reports: [{ message: serveOverHTTPSMessage }],
         serverConfig: { '/': { content: generateHTMLPage('', '<img src="http://example.com/image.png">') } }
     },
     {
         name: 'Redirect in resource fails',
-        reports: [{ message: `Shouldn't be redirected from HTTP` }],
+        reports: [{ message: noInsecureRedirectMessage }],
         // If this test fails, check the image src.
         serverConfig: { '/': { content: generateHTMLPage('', '<img src="http://webhint.io/static/images/home-hello-nellie-87201a8cb4.svg">') } }
     },
     {
         name: 'Redirect in resource fails',
-        reports: [{ message: `Shouldn't be redirected from HTTP` }],
+        reports: [{ message: noInsecureRedirectMessage }],
         serverConfig: {
             '/': generateHTMLPage('', '<img src="/image.png">'),
             '/image.png': {
@@ -60,17 +63,20 @@ const testsHTTPS: Array<HintTest> = [
     },
     {
         name: `HTTPS page with HTTP img srcset and should fail`,
-        reports: [{ message: 'Should be served over HTTPS' }],
+        reports: [{ message: serveOverHTTPSMessage }],
         serverConfig: { '/': { content: generateHTMLPage('', '<img src="https://example.com/image.png" srcset="http://example.com/image.png 1x, https://example.com/image.png 2x">') } }
     },
     {
         name: `HTTPS page with HTTP object data should fail`,
-        reports: [{ message: 'Should be served over HTTPS' }],
+        reports: [{ message: serveOverHTTPSMessage }],
         serverConfig: { '/': { content: generateHTMLPage('', '<object data="http://example.com/image.png"><object>') } }
     },
     {
         name: `HTTPS page with HTTP video source and poster should fail`,
-        reports: [{ message: 'Should be served over HTTPS' }, { message: 'Should be served over HTTPS' }],
+        reports: [
+            { message: serveOverHTTPSMessage },
+            { message: serveOverHTTPSMessage }
+        ],
         serverConfig: {
             '/': {
                 content: generateHTMLPage('', `<video width="480" controls poster="http://ia800502.us.archive.org/10/items/WebmVp8Vorbis/webmvp8.gif" >

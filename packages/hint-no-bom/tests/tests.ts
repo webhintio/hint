@@ -27,7 +27,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `HTML with BOM should fail`,
-        reports: [{ message: `Text based resources shouldn't start with the BOM character to force UTF-8 encoding` }],
+        reports: [{ message: `Text-based resource should not start with BOM character.` }],
         serverConfig: {
             '/': {
                 content: bom,
@@ -53,7 +53,7 @@ const tests: Array<HintTest> = [
             mock('hint/dist/src/lib/utils/async-wrapper', asyncWrapper);
         },
         name: `If a request throws and exception, it should be managed and report an error`,
-        reports: [{ message: 'Error fetching the content' }],
+        reports: [{ message: 'Content could not be fetched.' }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css">'),
             '/styles.css': { content: '' }

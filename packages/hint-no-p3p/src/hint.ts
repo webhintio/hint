@@ -34,8 +34,7 @@ export default class NoP3pHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        const errorMessage = 'P3P is deprecated and should not be used';
-
+        const errorMessage = 'P3P should not be used as it is deprecated.';
         /**
          * Verifies the server doesn't respond with any content to the well-known location
          * (/w3c/p3p.xml) defined in the spec https://www.w3.org/TR/P3P11/#Well_Known_Location

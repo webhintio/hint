@@ -32,7 +32,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
         id: 'highest-available-document-mode',
         schema: [{
             additionalProperties: false,
-            properties: { requireMetaTag: { type: 'boolean' } },
+            properties: { requireMetaElement: { type: 'boolean' } },
             type: ['object', 'null']
         }],
         scope: HintScope.any
@@ -40,7 +40,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        let requireMetaTag: boolean = false;
+        let requireMetaElement: boolean = false;
         let suggestRemoval: boolean = false;
 
         /*
@@ -50,7 +50,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getXUACompatibleMetaTags = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
+        const getXUACompatibleMetaElements = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
             return elements.filter((element: IAsyncHTMLElement) => {
                 return (element.getAttribute('http-equiv') !== null &&
                     normalizeString(element.getAttribute('http-equiv')) === 'x-ua-compatible');
@@ -58,20 +58,21 @@ export default class HighestAvailableDocumentModeHint implements IHint {
         };
 
         const checkHeader = async (resource: string, responseHeaders: object) => {
-            const headerValue = normalizeString(responseHeaders['x-ua-compatible']);
+            const originalHeaderValue = responseHeaders['x-ua-compatible'];
+            const headerValue = normalizeString(originalHeaderValue);
 
             if (headerValue === null) {
 
                 /*
                  * There is no need to require the HTTP header if:
                  *
-                 *  * the user required the meta tag to be specified.
+                 *  * the user required the meta element to be specified.
                  *  * the targeted browsers don't include the ones that
                  *    support document modes
                  */
 
-                if (!requireMetaTag && !suggestRemoval) {
-                    await context.report(resource, null, `'x-ua-compatible' header was not specified`);
+                if (!requireMetaElement && !suggestRemoval) {
+                    await context.report(resource, null, `Response should include 'x-ua-compatible' header.`);
                 }
 
                 return;
@@ -84,13 +85,13 @@ export default class HighestAvailableDocumentModeHint implements IHint {
              */
 
             if (suggestRemoval) {
-                await context.report(resource, null, `'x-ua-compatible' header is not needed`);
+                await context.report(resource, null, `Response should not include unneeded 'x-ua-compatible' header.`);
 
                 return;
             }
 
             if (headerValue !== 'ie=edge') {
-                await context.report(resource, null, `'x-ua-compatible' header value should be 'ie=edge'`);
+                await context.report(resource, null, `'x-ua-compatible' header value should be 'ie=edge', not '${!originalHeaderValue ? '' : originalHeaderValue}'.`);
             }
 
             /*
@@ -101,106 +102,114 @@ export default class HighestAvailableDocumentModeHint implements IHint {
 
         };
 
-        const checkMetaTag = async (resource: string) => {
+        const checkMetaElement = async (resource: string) => {
 
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const XUACompatibleMetaTags: Array<IAsyncHTMLElement> = getXUACompatibleMetaTags(await pageDOM.querySelectorAll('meta'));
+            const XUACompatibleMetaElements: Array<IAsyncHTMLElement> = getXUACompatibleMetaElements(await pageDOM.querySelectorAll('meta'));
 
             /*
-             * By default, if the user did not request the meta tag to
-             * be specified, prefer the HTTP response header over using
-             * the meta tag, as the meta tag will not always work.
+             * By default, if the user did not request the meta
+             * element to be specified, prefer the HTTP response
+             * header over using the meta element, as the meta
+             * element will not always work.
              */
 
-            if (!requireMetaTag || suggestRemoval) {
-                if (XUACompatibleMetaTags.length !== 0) {
+            if (!requireMetaElement || suggestRemoval) {
+                if (XUACompatibleMetaElements.length !== 0) {
 
-                    const errorMessage = suggestRemoval ? 'Meta tag is not needed' : 'Meta tag usage is discouraged, use equivalent HTTP header';
+                    const errorMessage = suggestRemoval ?
+                        `'x-ua-compatible' meta element should not be specified as it is not needed.`:
+                        `'x-ua-compatible' meta element should not be specified, and instead, equivalent HTTP header should be used.`;
 
-                    for (const metaTag of XUACompatibleMetaTags) {
-                        await context.report(resource, metaTag, errorMessage);
+                    for (const metaElement of XUACompatibleMetaElements) {
+                        await context.report(resource, metaElement, errorMessage);
                     }
                 }
 
                 return;
             }
 
-            // If the user requested the meta tag to be specified.
+            // If the user requested the meta element to be specified.
 
-            if (XUACompatibleMetaTags.length === 0) {
-                await context.report(resource, null, `No 'x-ua-compatible' meta tag was specified`);
+            if (XUACompatibleMetaElements.length === 0) {
+                await context.report(resource, null, `'x-ua-compatible' meta element should be specified.`);
 
                 return;
             }
 
             /*
-             * Treat the first X-UA-Compatible meta tag as the one
-             * the user intended to use, and check if:
+             * Treat the first X-UA-Compatible meta element as
+             * the one the user intended to use, and check if:
              */
 
-            const XUACompatibleMetaTag: IAsyncHTMLElement = XUACompatibleMetaTags[0];
-            const contentValue: string = normalizeString(XUACompatibleMetaTag.getAttribute('content'));
+            const XUACompatibleMetaElement: IAsyncHTMLElement = XUACompatibleMetaElements[0];
+            const contentValue: string = XUACompatibleMetaElement.getAttribute('content');
 
             // * it has the value `ie=edge`.
 
-            if (contentValue !== 'ie=edge') {
-                await context.report(resource, XUACompatibleMetaTag, `The value of 'content' should be 'ie=edge'`);
+            if (normalizeString(contentValue) !== 'ie=edge') {
+                await context.report(resource, XUACompatibleMetaElement, `'x-ua-compatible' meta element 'content' attribute value should be 'ie=edge', not '${!contentValue ? '' : contentValue}'.`);
             }
 
             /*
-             * * it's specified in the `<head>` before all other
-             *   tags except for the `<title>` and other `<meta>` tags.
+             * * it's specified in the `<head>` before all
+             *   other elements except for the `<title>` and
+             *   other `<meta>` elements.
              *
              *   https://msdn.microsoft.com/en-us/library/jj676915.aspx
              */
 
             const headElements: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('head *');
-            let metaTagIsBeforeRequiredElements: boolean = true;
+            let metaElementIsBeforeRequiredElements: boolean = true;
 
             for (const headElement of headElements) {
-                if (headElement.isSame(XUACompatibleMetaTag)) {
-                    if (!metaTagIsBeforeRequiredElements) {
-                        await context.report(resource, XUACompatibleMetaTag, `Meta tag needs to be included before all other tags except for the '<title>' and the other '<meta>' tags`);
+                if (headElement.isSame(XUACompatibleMetaElement)) {
+                    if (!metaElementIsBeforeRequiredElements) {
+                        await context.report(resource, XUACompatibleMetaElement, `'x-ua-compatible' meta element should be specified before all other elements except for '<title>' and other '<meta>' elements.`);
                     }
 
                     break;
                 }
 
                 if (!['title', 'meta'].includes(headElement.nodeName.toLowerCase())) {
-                    metaTagIsBeforeRequiredElements = false;
+                    metaElementIsBeforeRequiredElements = false;
                 }
             }
 
             // * it's specified in the `<body>`.
 
-            const bodyMetaTags: Array<IAsyncHTMLElement> = getXUACompatibleMetaTags(await pageDOM.querySelectorAll('body meta'));
+            const bodyMetaElements: Array<IAsyncHTMLElement> = getXUACompatibleMetaElements(await pageDOM.querySelectorAll('body meta'));
 
-            if ((bodyMetaTags.length > 0) && bodyMetaTags[0].isSame(XUACompatibleMetaTag)) {
-                await context.report(resource, XUACompatibleMetaTag, `Meta tag should not be specified in the '<body>'`);
+            if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(XUACompatibleMetaElement)) {
+                await context.report(resource, XUACompatibleMetaElement, `'x-ua-compatible' meta element should be specified in the '<head>', not '<body>'.`);
 
                 return;
             }
 
-            // All other meta tags should not be included.
+            // All other meta elements should not be included.
 
-            if (XUACompatibleMetaTags.length > 1) {
-                const metaTags = XUACompatibleMetaTags.slice(1);
+            if (XUACompatibleMetaElements.length > 1) {
+                const metaElements = XUACompatibleMetaElements.slice(1);
 
-                for (const metaTag of metaTags) {
-                    await context.report(resource, metaTag, `A 'x-ua-compatible' meta tag was already specified`);
+                for (const metaElement of metaElements) {
+                    await context.report(resource, metaElement, `'x-ua-compatible' meta element is not needed as one was already specified.`);
                 }
             }
         };
 
         const loadHintConfigs = () => {
-            requireMetaTag = (context.hintOptions && context.hintOptions.requireMetaTag) || false;
+            requireMetaElement = (context.hintOptions && context.hintOptions.requireMetaElement) || false;
 
             /*
              * Document modes are only supported by Internet Explorer 8/9/10.
              * https://msdn.microsoft.com/en-us/library/jj676915.aspx
              */
 
-            suggestRemoval = ['ie 8', 'ie 9', 'ie 10'].every((e) => {
+            suggestRemoval = [
+                'ie 8',
+                'ie 9',
+                'ie 10'
+            ].every((e) => {
                 return !context.targetedBrowsers.includes(e);
             });
         };
@@ -214,7 +223,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                 checkHeader(resource, context.pageHeaders);
             }
 
-            await checkMetaTag(resource);
+            await checkMetaElement(resource);
         };
 
         loadHintConfigs();

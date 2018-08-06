@@ -117,7 +117,7 @@ export default class AxeHint implements IHint {
             try {
                 result = await context.evaluate(script);
             } catch (e) {
-                await context.report(resource, null, `Error executing script: "${e.message}". Please try with another connector`, null, null, Severity.warning);
+                await context.report(resource, null, `Error executing script: '${e.message}'. Please try with another connector.`, null, null, Severity.warning);
                 debug('Error executing script %O', e);
 
                 return;

@@ -55,18 +55,12 @@ const tests: Array<HintTest> = [
     },
     {
         name: `Page with 3 images and redirects doesn't load under 5s on 3GFast`,
-        reports: [{
-            message: `To load all the resources on a 3GFast network, it will take about 7.1s in optimal conditions.
-That's 2.1s more than the 5s target.`
-        }],
+        reports: [{ message: `To load all the resources on a 3GFast network, it will take about 7.1s in optimal conditions (that is 2.1s more than the 5s target).` }],
         serverConfig: generateServerConfig(3, true)
     },
     {
         name: `Page with 10 images doesn't load under 5s on 3GFast`,
-        reports: [{
-            message: `To load all the resources on a 3GFast network, it will take about 22.4s in optimal conditions.
-That's 17.4s more than the 5s target.`
-        }],
+        reports: [{ message: `To load all the resources on a 3GFast network, it will take about 22.4s in optimal conditions (that is 17.4s more than the 5s target).` }],
         serverConfig: generateServerConfig(10, true)
     }
 ];
@@ -78,10 +72,7 @@ const loadTimeTests: Array<HintTest> = [
     },
     {
         name: `Page with 1 image doesn't load under 1s on 3GFast`,
-        reports: [{
-            message: `To load all the resources on a 3GFast network, it will take about 2.5s in optimal conditions.
-That's 1.5s more than the 1s target.`
-        }],
+        reports: [{ message: `To load all the resources on a 3GFast network, it will take about 2.5s in optimal conditions (that is 1.5s more than the 1s target).` }],
         serverConfig: generateServerConfig(1)
     }
 ];
@@ -93,10 +84,7 @@ const connectionTypeTests: Array<HintTest> = [
     },
     {
         name: `Page with 1 image doesn't load fast enough on Dial`,
-        reports: [{
-            message: `To load all the resources on a Dial network, it will take about 50.7s in optimal conditions.
-That's 45.7s more than the 5s target.`
-        }],
+        reports: [{ message: `To load all the resources on a Dial network, it will take about 50.7s in optimal conditions (that is 45.7s more than the 5s target).` }],
         serverConfig: generateServerConfig(1)
     }
 ];

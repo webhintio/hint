@@ -58,7 +58,7 @@ export default class NoHttpRedirectHint implements IHint {
             const { request, response, element } = fetchEnd;
 
             if (response.hops.length > maxHops) {
-                await context.report(request.url, element, `${response.hops.length} ${response.hops.length === 1 ? 'redirect' : 'redirects'} detected for ${cutString(request.url)} (max is ${maxHops}).`);
+                await context.report(request.url, element, `${response.hops.length} ${response.hops.length === 1 ? 'redirect' : 'redirects'} detected for '${cutString(request.url)}' (max is ${maxHops}).`);
             }
         };
 

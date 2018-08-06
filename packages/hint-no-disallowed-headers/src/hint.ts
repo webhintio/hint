@@ -8,15 +8,16 @@
  * ------------------------------------------------------------------------------
  */
 
+import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'hint/dist/src/lib/utils/hint-helpers';
-import { IAsyncHTMLElement, FetchEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
-import { Response } from 'hint/dist/src/lib/types/network';
-import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
-import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { IAsyncHTMLElement, FetchEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
+import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
+import { Response } from 'hint/dist/src/lib/types/network';
 
 const debug = d(__filename);
 
@@ -158,12 +159,13 @@ export default class NoDisallowedHeadersHint implements IHint {
             if (!disallowedHeaders.includes('server') &&
                 !toLowerCase(ignoreHeaders).includes('server') &&
                 serverHeaderValue &&
-                serverHeaderContainsTooMuchInformation(serverHeaderValue)) {
-                await context.report(resource, element, `'Server' header value contains more than the server name`);
+                serverHeaderContainsTooMuchInformation(serverHeaderValue)
+            ) {
+                await context.report(resource, element, `'server' header value should only contain the server name, not '${(response.headers as any).server}'.`);
             }
 
             if (numberOfHeaders > 0) {
-                await context.report(resource, element, `'${headers.join('\', \'')}' ${numberOfHeaders === 1 ? 'header is' : 'headers are'} disallowed`);
+                await context.report(resource, element, `Response should not include disallowed ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`);
             }
         };
 
