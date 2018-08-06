@@ -12,7 +12,7 @@ future requests to identify the user session, track and analyze
 user behavior or inform the server of the user preferences.
 As a result, it contains sensitive data in a lot of the cases.
 To create a cookie, the `Set-Cookie` header is sent from a
-server in reponse to requests.
+server in response to requests.
 
 In the `Set-Cookie` header, a cookie is defined by a name associated
 with a value. A web server can configure the `domain` and `path`
@@ -26,7 +26,7 @@ are particularly relevant to the security of cookies:
 * Setting `Secure` directive forbids a cookie to be transmitted via simple HTTP.
 * Setting the `HttpOnly` directive prevents access to cookie value through javascript.
 
-Applying both of these directives makes it difficult to exploit
+Applying both directives makes it difficult to exploit
 cross-site scripting ([XSS][xss]) vulnerabilities and hijack the
 authenticated user sessions. The [wiki][http cookie wiki] page
 of `HTTP cookies` offers detailed examples of [cookie theft][cookie theft]
@@ -34,7 +34,7 @@ and [proxy request][proxy request] when cookies are not well protected.
 According to the RFC [HTTP State Management Mechanism][HTTP State Management Mechanism],
 "When using cookies over a secure channel, servers SHOULD set the Secure attribute
 for every cookie". As a result, this hint checks if `Secure` and `HttpOnly` directives
-are properly used, and also offers to validate the `Set-Cookie` header syntax.
+are properly used, and offers to validate the `Set-Cookie` header syntax.
 
 Note: More information about `Set-cookie` header is available in
 the [MDN web docs][set-cookie web doc].
