@@ -19,6 +19,7 @@
         "meta-charset-utf-8": "error",
         "meta-viewport": "error",
         "no-bom": "error",
+        "no-broken-links": "error",
         "no-disallowed-headers": "error",
         "no-friendly-error-pages": "error",
         "no-html-only-headers": "error",
