@@ -28,7 +28,7 @@ const debug: debug.IDebugger = d(__filename);
 export default class NoBrokenLinksHint implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
-            category: Category.other,
+            category: Category.performance,
             description: `Hint to flag broken links in the page`
         },
         id: 'no-broken-links',
