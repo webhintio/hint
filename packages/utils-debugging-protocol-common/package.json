@@ -39,7 +39,6 @@
   "peerDependencies": {
     "hint": "^3.0.0"
   },
-  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
