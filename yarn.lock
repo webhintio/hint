@@ -6889,8 +6889,8 @@ sax@^1.2.2, sax@^1.2.4:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
 schema-utils@^0.4.4, schema-utils@^0.4.5:
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.4.5.tgz#21836f0608aac17b78f9e3e24daff14a5ca13a3e"
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.4.6.tgz#dab4516a656310a964ca772bd3771819ba2b5cec"
   dependencies:
     ajv "^6.1.0"
     ajv-keywords "^3.1.0"
@@ -7768,9 +7768,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript-eslint-parser@^17.0.1:
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/typescript-eslint-parser/-/typescript-eslint-parser-17.0.1.tgz#ddc681a3afa51a9baa6746a001eb5f29fb1365d3"
+typescript-eslint-parser@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/typescript-eslint-parser/-/typescript-eslint-parser-18.0.0.tgz#3e5055a44980d69e4154350fc5d8b1ab4e2332a8"
   dependencies:
     lodash.unescape "4.0.1"
     semver "5.5.0"
@@ -8120,9 +8120,9 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.16.3:
-  version "4.16.4"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.16.4.tgz#6b020f76483bc66339164c296d89978aa100d37a"
+webpack@^4.16.5:
+  version "4.16.5"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.16.5.tgz#29fb39462823d7eb8aefcab8b45f7f241db0d092"
   dependencies:
     "@webassemblyjs/ast" "1.5.13"
     "@webassemblyjs/helper-module-context" "1.5.13"
