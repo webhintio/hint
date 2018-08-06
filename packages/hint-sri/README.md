@@ -23,15 +23,15 @@ and executes.
 
 ## What does the hint check?
 
-This hint checks that a website uses correctly SRI, more especifically:
+This hint checks that a website correctly uses SRI, more specifically:
 
 * All the downloaded resources by an `<script>` or `<link rel="stylesheet">`
   have an `integrity` attribute.
 * [The `integrity` attribute has to be valid][sri format]. I.e.: it should
   contain something in the form of `sha(256|384|512)-HASH`, where `HASH` is
-  the hashed value of the downlaoded body's response using the previously
+  the hashed value of the downloaded body's response using the previously
   specified algorithm (`sha256`, `sha384`, or `sha512`).
-* The minium cryptographic hash function used is [`sha384`][collisions].
+* The minimum cryptographic hash function used is [`sha384`][collisions].
   If multiple ones are provided, the highest one will be used to determine if
   the baseline is met.
 * When using a cross-origin resource (e.g.: using a script hosted in a third
