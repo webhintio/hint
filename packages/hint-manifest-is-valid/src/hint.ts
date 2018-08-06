@@ -96,13 +96,13 @@ export default class ManifestIsValidHint implements IHint {
                 const color = parseColor(normalizedColorValue);
 
                 if (color === null) {
-                    await context.report(resource, element, `'${property}' property value ('${colorValue}') is invalid`);
+                    await context.report(resource, element, `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`);
 
                     continue;
                 }
 
                 if (isNotSupportedColorValue(color, normalizedColorValue)) {
-                    await context.report(resource, element, `'${property}' property value ('${colorValue}') is not supported everywhere`);
+                    await context.report(resource, element, `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`);
                 }
             }
         };
@@ -111,14 +111,14 @@ export default class ManifestIsValidHint implements IHint {
             const lang = manifest.lang;
 
             if (lang && !bcp47(lang)) {
-                await context.report(resource, element, `'lang' property value ('${manifest.lang}') is not a valid language tag`);
+                await context.report(resource, element, `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`);
             }
         };
 
         const handleInvalidJSON = async (manifestInvalidJSON: ManifestInvalidJSON) => {
             const { resource, element } = manifestInvalidJSON;
 
-            await context.report(resource, element, `Should contain valid JSON`);
+            await context.report(resource, element, `Web app manifest should contain valid JSON.`);
         };
 
         const handleInvalidSchema = async (manifestInvalidSchemaEvent: ManifestInvalidSchema) => {

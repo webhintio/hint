@@ -5,7 +5,7 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 
 const hintPath = getHintPath(__filename);
 
-const message = 'P3P is deprecated and should not be used';
+const message = 'P3P should not be used as it is deprecated.';
 
 const testsForDefaults: Array<HintTest> = [
     {

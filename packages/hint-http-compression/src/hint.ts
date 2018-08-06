@@ -94,24 +94,24 @@ export default class HttpCompressionHint implements IHint {
 
             if (!cacheControlValues.includes('private') &&
                 !varyHeaderValues.includes('accept-encoding')) {
-                await context.report(resource, element, `Should be served with the 'Vary' header containing 'Accept-Encoding' value.`);
+                await context.report(resource, element, `Response should include 'vary' header containing 'accept-encoding' value.`);
             }
         };
 
         const generateDisallowedCompressionMessage = (encoding: string) => {
-            return `Disallowed compression method: '${encoding}'.`;
+            return `Response should not be compressed with disallowed '${encoding}' compression method.`;
         };
 
         const generateContentEncodingMessage = (encoding: string, notRequired?: boolean, suffix?: string) => {
-            return `Should${notRequired ? ' not' : ''} be served with the 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
+            return `Response should${notRequired ? ' not' : ''} include 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
         };
 
         const generateCompressionMessage = (encoding: string, notRequired?: boolean, suffix?: string) => {
-            return `Should${notRequired ? ' not' : ''} be served compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
+            return `Response should${notRequired ? ' not' : ''} be compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
         };
 
         const generateSizeMessage = async (resource: string, element: IAsyncHTMLElement, encoding: string, sizeDifference) => {
-            await context.report(resource, element, `Should not be served compressed with ${encoding} as the compressed size is ${sizeDifference > 0 ? 'bigger than' : 'the same size as'} the uncompressed one.`);
+            await context.report(resource, element, `Response should not be served compressed with ${encoding} as the compressed size is ${sizeDifference > 0 ? 'bigger than' : 'the same size as'} the uncompressed one.`);
         };
 
         const getNetworkData = async (resource: string, requestHeaders) => {
@@ -344,7 +344,7 @@ export default class HttpCompressionHint implements IHint {
             });
 
             if (!networkData) {
-                await context.report(resource, element, `Could not be fetched when requested compressed with Brotli`);
+                await context.report(resource, element, `Could not be fetched when requested compressed with Brotli.`);
 
                 return;
             }
@@ -419,7 +419,7 @@ export default class HttpCompressionHint implements IHint {
             });
 
             if (!networkData) {
-                await context.report(resource, element, `Could not be fetched when requested compressed with gzip`);
+                await context.report(resource, element, `Could not be fetched when requested compressed with gzip.`);
 
                 return;
             }
@@ -566,11 +566,11 @@ export default class HttpCompressionHint implements IHint {
             const { contentEncodingHeaderValue, rawResponse } = networkData;
 
             if (responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {
-                await context.report(resource, element, generateCompressionMessage('', true, `for requests made with 'Accept-Encoding: identity'`));
+                await context.report(resource, element, generateCompressionMessage('', true, `for requests made with 'accept-encoding: identity'`));
             }
 
             if (contentEncodingHeaderValue) {
-                await context.report(resource, element, generateContentEncodingMessage('', true, `for requests made with 'Accept-Encoding: identity'`));
+                await context.report(resource, element, generateContentEncodingMessage('', true, `for requests made with 'accept-encoding: identity'`));
             }
         };
 
@@ -697,7 +697,7 @@ export default class HttpCompressionHint implements IHint {
 
                 // * Check if resource is sent with the `Content-Encoding` header.
                 if (contentEncodingHeaderValue) {
-                    await context.report(resource, element, `Should not be served with the 'content-encoding' header.`);
+                    await context.report(resource, element, `Response should not include 'content-encoding' header.`);
                 }
 
                 return;

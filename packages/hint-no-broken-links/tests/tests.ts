@@ -73,22 +73,22 @@ const tests: Array<HintTest> = [
     },
     {
         name: `This test should fail as it has a link with 404 href value(absolute)`,
-        reports: [{ message: `Broken link found (404 response)` }],
+        reports: [{ message: `Broken link found (404 response).` }],
         serverConfig: generateHTMLPage('', bodyWithBrokenLinks)
     },
     {
         name: `This test should fail as it has an img with 404 src value(absolute)`,
-        reports: [{ message: `Broken link found (404 response)` }],
+        reports: [{ message: `Broken link found (404 response).` }],
         serverConfig: generateHTMLPage('', bodyWithBrokenImageSource)
     },
     {
         name: `This test should fail as it has a link with 404 href value(absolute)`,
-        reports: [{ message: `Broken link found (404 response)` }],
+        reports: [{ message: `Broken link found (404 response).` }],
         serverConfig: generateHTMLPage('', bodyWithValidLinksAndBrokenLinks)
     },
     {
         name: `This test should fail as it has a link with 500 href value(relative)`,
-        reports: [{ message: `Broken link found (500 response)` }],
+        reports: [{ message: `Broken link found (500 response).` }],
         serverConfig: {
             '/': {content: generateHTMLPage('', bodyWithRelative500Links)},
             '/500': {status: 500}
@@ -96,7 +96,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `This test should fail as it has a link with 410 href value(relative)`,
-        reports: [{ message: `Broken link found (410 response)` }],
+        reports: [{ message: `Broken link found (410 response).` }],
         serverConfig: {
             '/': {content: generateHTMLPage('', bodyWithRelative410Links)},
             '/410': {status: 410}
@@ -104,7 +104,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `This test should fail as it has a link with 404 href value(relative)`,
-        reports: [{ message: `Broken link found (404 response)` }],
+        reports: [{ message: `Broken link found (404 response).` }],
         serverConfig: {
             '/': {content: generateHTMLPage('', bodyWithRelative404Links)},
             '/404': {status: 404}
@@ -112,7 +112,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `This test should fail as it has a link with 503 href value(relative)`,
-        reports: [{ message: `Broken link found (503 response)` }],
+        reports: [{ message: `Broken link found (503 response).` }],
         serverConfig: {
             '/': {content: generateHTMLPage('', bodyWithRelative503Links)},
             '/503': {status: 503}
@@ -120,7 +120,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `This test should fail as it has a link with 404 href value`,
-        reports: [{ message: `Broken link found (404 response)` }],
+        reports: [{ message: `Broken link found (404 response).` }],
         serverConfig: {
             '/': {content: generateHTMLPage('', bodyWithBrokenScriptTag)},
             '/404': {status: 404}
@@ -128,7 +128,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `This test should fail as it has a script with 404 src value`,
-        reports: [{ message: `Broken link found (404 response)` }],
+        reports: [{ message: `Broken link found (404 response).` }],
         serverConfig: {
             '/': {content: generateHTMLPage('', bodyWithBrokenLinkTag)},
             '/404': {status: 404}
@@ -136,9 +136,10 @@ const tests: Array<HintTest> = [
     },
     {
         name: `This test should fail as it has an img with 404 src and srcset values`,
-        reports: [{ message: `Broken link found (404 response)`},
-            { message: `Broken link found (404 response)`},
-            { message: `Broken link found (404 response)`}
+        reports: [
+            { message: `Broken link found (404 response).`},
+            { message: `Broken link found (404 response).`},
+            { message: `Broken link found (404 response).`}
         ],
         serverConfig: {
             '/': {content: generateHTMLPage('', bodyWithBrokenImageSrcSets)},
@@ -150,8 +151,9 @@ const tests: Array<HintTest> = [
     },
     {
         name: `This test should fail as it has a video tag broken poster and src`,
-        reports: [{ message: `Broken link found (404 response)`},
-            { message: `Broken link found (404 response)`}
+        reports: [
+            { message: `Broken link found (404 response).`},
+            { message: `Broken link found (404 response).`}
         ],
         serverConfig: {
             '/': {content: generateHTMLPage('', bodyWithBrokenVideo)},

@@ -4,15 +4,20 @@ import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 const hintPath = getHintPath(__filename);
 
 const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></script>');
 const htmlPageWithManifest = generateHTMLPage('<link rel="manifest" href="test.webmanifest">');
 
-const generateMessage = (values: Array<string>): string => {
-    return `'${values.join('\', \'')}' ${values.length === 1 ? 'header is' : 'headers are'} disallowed`;
+const generateErrorMessage = (values: Array<string>): string => {
+    return `Response should not include disallowed ${prettyPrintArray(values)} ${values.length === 1 ? 'header' : 'headers'}.`;
 };
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 const testsForDefaults: Array<HintTest> = [
     {
@@ -39,12 +44,12 @@ const testsForDefaults: Array<HintTest> = [
     },
     {
         name: `HTML page is served with one disallowed header`,
-        reports: [{ message: generateMessage(['x-powered-by']) }],
+        reports: [{ message: generateErrorMessage(['x-powered-by']) }],
         serverConfig: { '/': { headers: { 'X-Powered-By': 'test' } } }
     },
     {
         name: `HTML page is served with multiple disallowed headers`,
-        reports: [{ message: generateMessage(['x-aspnetmvc-version', 'x-powered-by']) }],
+        reports: [{ message: generateErrorMessage(['x-aspnetmvc-version', 'x-powered-by']) }],
         serverConfig: {
             '/': {
                 headers: {
@@ -112,7 +117,7 @@ const testsForDifferentServerHeaderValues: Array<HintTest> = (() => {
     disallowedServerHeaderValues.forEach((value) => {
         tests.push({
             name: `HTML page is served with disallowed 'Server: ${value}'`,
-            reports: [{ message: `'Server' header value contains more than the server name` }],
+            reports: [{ message: `'server' header value should only contain the server name, not '${value}'.` }],
             serverConfig: { '/': { headers: { Server: value } } }
         });
     });
@@ -138,7 +143,7 @@ const testsForIgnoreConfigs: Array<HintTest> = [
 const testsForIncludeConfigs: Array<HintTest> = [
     {
         name: `HTML page is served with disallowed headers that are enforced because of configs`,
-        reports: [{ message: generateMessage(['server', 'x-test-2']) }],
+        reports: [{ message: generateErrorMessage(['server', 'x-test-2']) }],
         serverConfig: {
             '/': htmlPageWithScript,
             '/test.js': {
@@ -154,7 +159,7 @@ const testsForIncludeConfigs: Array<HintTest> = [
 const testsForConfigs: Array<HintTest> = [
     {
         name: `HTML page is served with disallowed headers that are both ignored and enforced because of configs`,
-        reports: [{ message: generateMessage(['x-powered-by', 'x-test-1']) }],
+        reports: [{ message: generateErrorMessage(['x-powered-by', 'x-test-1']) }],
         serverConfig: {
             '/': {
                 headers: {

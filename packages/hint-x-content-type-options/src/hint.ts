@@ -82,13 +82,13 @@ export default class XContentTypeOptionsHint implements IHint {
 
             if (isHeaderRequired(element)) {
                 if (headerValue === null) {
-                    await context.report(resource, element, `'x-content-type-options' header is not specified`);
+                    await context.report(resource, element, `Response should include 'x-content-type-options' header.`);
 
                     return;
                 }
 
                 if (headerValue !== 'nosniff') {
-                    await context.report(resource, element, `'x-content-type-options' header value (${headerValue}) is invalid`);
+                    await context.report(resource, element, `'x-content-type-options' header value should be 'nosniff', not '${headerValue}'.`);
 
                     return;
                 }
@@ -97,7 +97,7 @@ export default class XContentTypeOptionsHint implements IHint {
             }
 
             if (headerValue) {
-                await context.report(resource, element, `'x-content-type-options' header is not needed`);
+                await context.report(resource, element, `Response should not include unneeded 'x-content-type-options' header.`);
             }
         };
 

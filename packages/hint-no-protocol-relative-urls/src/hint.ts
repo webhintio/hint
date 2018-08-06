@@ -54,7 +54,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
             if (url.startsWith('//')) {
                 debug('Protocol relative URL found');
 
-                await context.report(resource, element, `Protocol relative URL found: ${url}`, url);
+                await context.report(resource, element, `'${url}' should not be specified as a protocol-relative URL.`, url);
             }
         };
 

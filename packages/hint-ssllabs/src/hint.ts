@@ -111,7 +111,7 @@ export default class SSLLabsHint implements IHint {
             const { grade, serverName = resource, details }: { grade: string, serverName: string, details: SSLLabsEndpointDetail } = endpoint;
 
             if (!grade && details.protocols.length === 0) {
-                const message = `${resource} doesn't support HTTPS.`;
+                const message = `'${resource}' does not support HTTPS.`;
 
                 debug(message);
                 await context.report(resource, null, message);
@@ -123,7 +123,7 @@ export default class SSLLabsHint implements IHint {
             const calculatedMiniumGrade: Grades = Grades[minimumGrade];
 
             if (calculatedGrade > calculatedMiniumGrade) {
-                const message: string = `${serverName}'s grade ${grade} doesn't meet the minimum ${minimumGrade} required.`;
+                const message: string = `${serverName}'s grade ${grade} does not meet the minimum ${minimumGrade} required.`;
 
                 debug(message);
                 await context.report(resource, null, message);
@@ -134,14 +134,14 @@ export default class SSLLabsHint implements IHint {
 
         const notifyError = async (resource: string, error: any) => {
             debug(`Error getting data for ${resource} %O`, error);
-            await context.report(resource, null, `Couldn't get results from SSL Labs for ${resource}.`);
+            await context.report(resource, null, `Could not get results from SSL Labs for '${resource}'.`);
         };
 
         const start = async (data: FetchEnd) => {
             const { resource }: { resource: string } = data;
 
             if (!resource.startsWith('https://')) {
-                const message: string = `${resource} doesn't support HTTPS.`;
+                const message: string = `'${resource}' does not support HTTPS.`;
 
                 debug(message);
                 await context.report(resource, null, message);

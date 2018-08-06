@@ -15,26 +15,26 @@ const uaString = 'Mozilla/5.0 Gecko';
 // Error messages.
 
 const generateCompressionMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => {
-    return `Should${notRequired ? ' not' : ''} be served compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
+    return `Response should${notRequired ? ' not' : ''} be compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
 };
 
 const generateContentEncodingMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => {
-    return `Should${notRequired ? ' not' : ''} be served with the 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
+    return `Response should${notRequired ? ' not' : ''} include 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
 };
 
 const generateDisallowedCompressionMessage = (encoding: string) => {
-    return `Disallowed compression method: '${encoding}'.`;
+    return `Response should not be compressed with disallowed '${encoding}' compression method.`;
 };
 
 const generateSizeMessage = (encoding: string, differentSize: boolean) => {
-    return `Should not be served compressed with ${encoding} as the compressed size is ${differentSize ? 'bigger than' : 'the same size as'} the uncompressed one.`;
+    return `Response should not be served compressed with ${encoding} as the compressed size is ${differentSize ? 'bigger than' : 'the same size as'} the uncompressed one.`;
 };
 
 const generateUnneededContentEncodingMessage = (encoding?: string) => {
-    return `Should not be served with the 'content-encoding' header${encoding ? ` for requests made with 'Accept-Encoding: ${encoding}'` : ''}.`;
+    return `Response should not include 'content-encoding' header${encoding ? ` for requests made with 'accept-encoding: ${encoding}'` : ''}.`;
 };
 
-const varyMessage = `Should be served with the 'Vary' header containing 'Accept-Encoding' value.`;
+const varyMessage = `Response should include 'vary' header containing 'accept-encoding' value.`;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -272,7 +272,7 @@ const testsForBrotli: Array<HintTest> = [
 const testsForBrotliOverHTTP: Array<HintTest> = [
     {
         name: `Resource is served compressed with Brotli over HTTP`,
-        reports: [{ message: 'Should not be served compressed with Brotli over HTTP.' }],
+        reports: [{ message: 'Response should not be compressed with Brotli over HTTP.' }],
         serverConfig: createGzipZopfliServerConfig(
             Object.assign(
                 { request: { headers: { 'Accept-Encoding': 'br' } } },
@@ -647,8 +647,8 @@ const testsForNoCompression = (https: boolean = false): Array<HintTest> => {
         {
             name: `Resource is served compressed when requested uncompressed`,
             reports: [
-                { message: `Should not be served compressed for requests made with 'Accept-Encoding: identity'.` },
-                { message: `Should not be served with the 'content-encoding' header for requests made with 'Accept-Encoding: identity'.` }
+                { message: `Response should not be compressed for requests made with 'accept-encoding: identity'.` },
+                { message: `Response should not include 'content-encoding' header for requests made with 'accept-encoding: identity'.` }
             ],
             serverConfig: createGzipZopfliServerConfig(
                 {

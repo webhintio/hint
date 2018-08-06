@@ -38,7 +38,7 @@ export default class MetaThemeColorHint implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
             category: Category.pwa,
-            description: `Require a 'theme-color' meta tag`
+            description: `Require a 'theme-color' meta element`
         },
         id: 'meta-theme-color',
         schema: [],
@@ -50,13 +50,13 @@ export default class MetaThemeColorHint implements IHint {
         const targetedBrowsers: string = context.targetedBrowsers.join();
 
         let bodyElementWasReached: boolean = false;
-        let firstThemeColorMetaTag: IAsyncHTMLElement;
+        let firstThemeColorMetaElement: IAsyncHTMLElement;
 
-        const checkIfThemeColorMetaTagWasSpecified = async (event: TraverseEnd) => {
+        const checkIfThemeColorMetaElementWasSpecified = async (event: TraverseEnd) => {
             const { resource } = event;
 
-            if (!firstThemeColorMetaTag) {
-                await context.report(resource, null, `No 'theme-color' meta tag was specified`);
+            if (!firstThemeColorMetaElement) {
+                await context.report(resource, null, `'theme-color' meta element was not specified.`);
             }
         };
 
@@ -95,13 +95,13 @@ export default class MetaThemeColorHint implements IHint {
             const color = parseColor(normalizedContentValue);
 
             if (color === null) {
-                await context.report(resource, element, `'content' attribute value ('${contentValue}') is invalid`);
+                await context.report(resource, element, `'theme-color' meta element 'content' attribute should not have invalid value of '${contentValue}'.`);
 
                 return;
             }
 
             if (isNotSupportedColorValue(color, normalizedContentValue)) {
-                await context.report(resource, element, `'content' attribute value ('${contentValue}') is not supported everywhere`);
+                await context.report(resource, element, `'theme-color' meta element 'content' attribute should not have unsupported value of '${contentValue}'.`);
             }
         };
 
@@ -119,21 +119,21 @@ export default class MetaThemeColorHint implements IHint {
             const nameAttributeValue = element.getAttribute('name');
 
             if (nameAttributeValue && nameAttributeValue !== nameAttributeValue.trim()) {
-                await context.report(resource, element, `'name' attribute needs to be 'theme-color' (not '${nameAttributeValue}')`);
+                await context.report(resource, element, `'theme-color' meta element 'name' attribute value should be 'theme-color', not '${nameAttributeValue}'.`);
             }
         };
 
         const validate = async (event: ElementFound) => {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = event;
 
-            // Check if it's a `theme-color` meta tag.
+            // Check if it's a `theme-color` meta element.
 
             if (normalizeString(element.getAttribute('name')) !== 'theme-color') {
                 return;
             }
 
             /*
-             * Check if a `theme-color` meta tag was already specified.
+             * Check if a `theme-color` meta element was already specified.
              *
              * From  https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color
              *
@@ -142,20 +142,20 @@ export default class MetaThemeColorHint implements IHint {
              *    match for theme-color per document. "
              */
 
-            if (firstThemeColorMetaTag) {
-                await context.report(resource, element, `A 'theme-color' meta tag was already specified`);
+            if (firstThemeColorMetaElement) {
+                await context.report(resource, element, `'theme-color' meta element is not needed as one was already specified.`);
 
                 return;
             }
 
-            firstThemeColorMetaTag = element;
+            firstThemeColorMetaElement = element;
 
-            // Check if the `theme-color` meta tag:
+            // Check if the `theme-color` meta element:
 
             //  * was specified in the `<body>`
 
             if (bodyElementWasReached) {
-                await context.report(resource, element, `Should not be specified in the '<body>'`);
+                await context.report(resource, element, `'theme-color' meta element should be specified in the '<head>', not '<body>'.`);
 
                 return;
             }
@@ -173,6 +173,6 @@ export default class MetaThemeColorHint implements IHint {
         context.on('element::body', () => {
             bodyElementWasReached = true;
         });
-        context.on('traverse::end', checkIfThemeColorMetaTagWasSpecified);
+        context.on('traverse::end', checkIfThemeColorMetaElementWasSpecified);
     }
 }

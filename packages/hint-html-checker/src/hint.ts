@@ -126,7 +126,7 @@ export default class HtmlCheckerHint implements IHint {
 
         const notifyError = async (resource: string, error: any) => {
             debug(`Error getting HTML checker result for ${resource}.`, error);
-            await context.report(resource, null, `Couldn't get results from HTML checker for ${resource}. Error: ${error}`);
+            await context.report(resource, null, `Could not get results from HTML checker for '${resource}'. Error: '${error}'.`);
         };
 
         const requestRetry = async (options, retries: number = 3) => {

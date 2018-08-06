@@ -287,8 +287,7 @@ export default class PerformanceBudgetHint implements IHint {
             debug(`Ideal load time: ${loadTime}s`);
 
             if (loadTime > config.load) {
-                await context.report(resource, null, `To load all the resources on a ${config.id} network, it will take about ${loadTime.toFixed(1)}s in optimal conditions.
-That's ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s target.`);
+                await context.report(resource, null, `To load all the resources on a ${config.id} network, it will take about ${loadTime.toFixed(1)}s in optimal conditions (that is ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s target).`);
             }
         };
 

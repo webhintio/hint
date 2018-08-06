@@ -44,7 +44,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getCharsetMetaTags = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
+        const getCharsetMetaElements = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
             return elements.filter((element) => {
                 return (element.getAttribute('charset') !== null) ||
                     (element.getAttribute('http-equiv') !== null && normalizeString(element.getAttribute('http-equiv')) === 'content-type');
@@ -68,7 +68,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
             const { resource }: { resource: string } = event;
 
             /*
-             * There are 2 versions of the charset meta tag:
+             * There are 2 versions of the charset meta element:
              *
              *  * <meta charset="charset">
              *  * <meta http-equiv="content-type" content="text/html; charset=<charset>">
@@ -81,37 +81,37 @@ export default class MetaCharsetUTF8Hint implements IHint {
              */
 
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const charsetMetaTags: Array<IAsyncHTMLElement> = getCharsetMetaTags(await pageDOM.querySelectorAll('meta'));
+            const charsetMetaElements: Array<IAsyncHTMLElement> = getCharsetMetaElements(await pageDOM.querySelectorAll('meta'));
 
-            if (charsetMetaTags.length === 0) {
-                await context.report(resource, null, 'No charset meta tag was specified');
+            if (charsetMetaElements.length === 0) {
+                await context.report(resource, null, `'charset' meta element was not specified.`);
 
                 return;
             }
 
             /*
-             * Treat the first charset meta tag as the one
+             * Treat the first charset meta element as the one
              * the user intended to use, and check if it's:
              */
 
-            const charsetMetaTag: IAsyncHTMLElement = charsetMetaTags[0];
+            const charsetMetaElement: IAsyncHTMLElement = charsetMetaElements[0];
 
             // * `<meta charset="utf-8">`
 
-            if (charsetMetaTag.getAttribute('http-equiv') !== null) {
-                await context.report(resource, charsetMetaTag, `Use shorter '<meta charset="utf-8">'`);
-            } else if (normalizeString(charsetMetaTag.getAttribute('charset')) !== 'utf-8') {
-                await context.report(resource, charsetMetaTag, `The value of 'charset' is not 'utf-8'`);
+            if (charsetMetaElement.getAttribute('http-equiv') !== null) {
+                await context.report(resource, charsetMetaElement, `'charset' meta element should be specified using shorter '<meta charset="utf-8">' form.`);
+            } else if (normalizeString(charsetMetaElement.getAttribute('charset')) !== 'utf-8') {
+                await context.report(resource, charsetMetaElement, `'charset' meta element value should be 'utf-8', not '${charsetMetaElement.getAttribute('charset')}'.`);
             }
 
             /*
              * * specified as the first thing in `<head>`
              *
-             * Note: The Charset meta tag should be included completely
+             * Note: The Charset meta element should be included completely
              *       within the first 1024 bytes of the document, but
              *       that check will be done by the html/markup validator.
              */
-            const charsetMetaTagHTML = await charsetMetaTag.outerHTML();
+            const charsetMetaElementsHTML = await charsetMetaElement.outerHTML();
             const firstHeadElement = receivedDOM('head :first-child')[0];
             const receivedMetas = receivedDOM('meta');
             const firstMeta = receivedMetas.length > 0 ? receivedMetas[0] : '';
@@ -121,29 +121,29 @@ export default class MetaCharsetUTF8Hint implements IHint {
             if (!firstHeadElement ||
                 firstHeadElement !== receivedMetas[0] ||
                 !firstMetaHTML ||
-                charsetMetaTagHTML !== firstMetaHTML ||
+                charsetMetaElementsHTML !== firstMetaHTML ||
                 !(/^<head[^>]*>\s*<meta/).test(headElementContent)) {
 
-                await context.report(resource, charsetMetaTag, `Charset meta tag should be the first thing in '<head>'`);
+                await context.report(resource, charsetMetaElement, `'charset' meta element should be the first thing in '<head>'.`);
             }
 
             // * specified in the `<body>`.
 
-            const bodyMetaTags: Array<IAsyncHTMLElement> = getCharsetMetaTags(await pageDOM.querySelectorAll('body meta'));
+            const bodyMetaElements: Array<IAsyncHTMLElement> = getCharsetMetaElements(await pageDOM.querySelectorAll('body meta'));
 
-            if ((bodyMetaTags.length > 0) && bodyMetaTags[0].isSame(charsetMetaTag)) {
-                await context.report(resource, charsetMetaTag, `Meta tag should not be specified in the '<body>'`);
+            if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(charsetMetaElement)) {
+                await context.report(resource, charsetMetaElement, `'charset' meta element should be specified in the '<head>', not '<body>'.`);
 
                 return;
             }
 
-            // All other charset meta tags should not be included.
+            // All other charset meta elements should not be included.
 
-            if (charsetMetaTags.length > 1) {
-                const metaTags = charsetMetaTags.slice(1);
+            if (charsetMetaElements.length > 1) {
+                const metaElements = charsetMetaElements.slice(1);
 
-                for (const metaTag of metaTags) {
-                    await context.report(resource, metaTag, 'A charset meta tag was already specified');
+                for (const metaElement of metaElements) {
+                    await context.report(resource, metaElement, `'charset' meta element is not needed as one was already specified.`);
                 }
             }
 
@@ -153,7 +153,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
              * const xmlDeclaration = context.pageContent.match(/^\s*(<\?xml\s[^>]*encoding=.*\?>)/i);
              *
              * if (xmlDeclaration) {
-             *     await context.report(resource, null, `Unneeded XML declaration: '${xmlDeclaration[1]}'`);
+             *     await context.report(resource, null, `Unneeded XML declaration: '${xmlDeclaration[1]}'.`);
              * }
              */
         };

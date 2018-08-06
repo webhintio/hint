@@ -5,6 +5,10 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
+const generateErrorMessage = (url: string): string => {
+    return `'${url}' should not be specified as a protocol-relative URL.`;
+};
+
 const tests: Array<HintTest> = [
     {
         name: `'link' with no initial slashes passes the hint`,
@@ -21,7 +25,7 @@ const tests: Array<HintTest> = [
     {
         name: `'link' with initial // fails the hint`,
         reports: [{
-            message: 'Protocol relative URL found: //site.webmanifest',
+            message: generateErrorMessage('//site.webmanifest'),
             position: { column: 37, line: 2 }
         }],
         serverConfig: generateHTMLPage('<link rel="manifest" href="//site.webmanifest">')
@@ -41,7 +45,7 @@ const tests: Array<HintTest> = [
     {
         name: `'script' with initial // fails the hint`,
         reports: [{
-            message: 'Protocol relative URL found: //script.js',
+            message: generateErrorMessage('//script.js'),
             position: { column: 23, line: 5 }
         }],
         serverConfig: generateHTMLPage(undefined, '<script src="//script.js"></script>')
@@ -61,7 +65,7 @@ const tests: Array<HintTest> = [
     {
         name: `'a' with initial // fails the hint`,
         reports: [{
-            message: 'Protocol relative URL found: //home',
+            message: generateErrorMessage('//home'),
             position: { column: 19, line: 5 }
         }],
         serverConfig: generateHTMLPage(undefined, '<a href="//home">home</a>')

@@ -5,14 +5,31 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 const hintPath = getHintPath(__filename);
 
-const defaultImage = fs.readFileSync(`${__dirname}/fixtures/apple-touch-icon.png`); // eslint-disable-line no-sync
-const imageWithIncorrectDimensions = fs.readFileSync(`${__dirname}/fixtures/incorrect-dimensions.png`); // eslint-disable-line no-sync
-const imageThatIsNotSquare = fs.readFileSync(`${__dirname}/fixtures/not-square.png`); // eslint-disable-line no-sync
-const imageWithIncorrectFileFormat = fs.readFileSync(`${__dirname}/fixtures/incorrect-file-format.png`); // eslint-disable-line no-sync
-// const imageWithTransparentBackground = fs.readFileSync(`${__dirname}/fixtures/transparent-background.png`); // eslint-disable-line no-sync
+// Images
+
 const appleTouchIconLinkTag = '<link rel="apple-touch-icon" href="/apple-touch-icon.png">';
+const defaultImage = fs.readFileSync(`${__dirname}/fixtures/apple-touch-icon.png`); // eslint-disable-line no-sync
+const imageThatIsNotSquare = fs.readFileSync(`${__dirname}/fixtures/not-square.png`); // eslint-disable-line no-sync
+const imageWithIncorrectDimensions = fs.readFileSync(`${__dirname}/fixtures/incorrect-dimensions.png`); // eslint-disable-line no-sync
+const imageWithIncorrectFileFormat = fs.readFileSync(`${__dirname}/fixtures/incorrect-file-format.png`); // eslint-disable-line no-sync
+
+// Error messages
+
+const elementAlreadySpecifiedErrorMessage = `'apple-touch-icon' link element is not needed as one was already specified.`;
+const elementHasEmptyHrefAttributeErrorMessage = `'apple-touch-icon' link element should have non-empty 'href' attribute.`;
+const elementHasIncorrectRelAttributeErrorMessage = `'apple-touch-icon' link element should have 'rel="apple-touch-icon".`;
+const elementHasUnneededSizesAttributeErrorMessage = `'apple-touch-icon' link element should not have 'sizes' attribute.`;
+const elementNotSpecifiedErrorMessage = `'apple-touch-icon' link element was not specified.`;
+const elementNotSpecifiedInHeadErrorMessage = `'apple-touch-icon' link element should be specified in the '<head>'.`;
+const fileCouldNotBeFetchedErrorMessage = `'/apple-touch-icon.png' could not be fetched (status code: 404).`;
+const fileHasIncorrectSizeErrorMessage =`'/apple-touch-icon.png' should be 180x180px.`;
+const fileIsInvalidPNGErrorMessage = `'/apple-touch-icon.png' should be a valid PNG image.`;
+const fileIsNotPNGErrorMessage = `'/apple-touch-icon.png' should be a PNG image.`;
+const fileRequestFailedErrorMessage = `'/apple-touch-icon.png' could not be fetched (request failed).`;
 
 const generateImageData = (content: Buffer = defaultImage): Object => {
     return {
@@ -21,6 +38,8 @@ const generateImageData = (content: Buffer = defaultImage): Object => {
     };
 };
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 const tests: Array<HintTest> = [
     {
         name: `Resource is not an HTML document`,
@@ -28,12 +47,12 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' is not specified`,
-        reports: [{ message: `No 'apple-touch-icon' was specified` }],
+        reports: [{ message: elementNotSpecifiedErrorMessage }],
         serverConfig: generateHTMLPage('<link>')
     },
     {
         name: `'apple-touch-icon' has 'rel="apple-touch-icon-precomposed"`,
-        reports: [{ message: `'rel' attribute value should be 'apple-touch-icon'` }],
+        reports: [{ message: elementHasIncorrectRelAttributeErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">'),
             '/apple-touch-icon-precomposed.png': generateImageData()
@@ -41,7 +60,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' has 'rel="apple-touch-icon-precomposed apple-touch-icon"`,
-        reports: [{ message: `'rel' attribute value should be 'apple-touch-icon'` }],
+        reports: [{ message: elementHasIncorrectRelAttributeErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="apple-touch-icon-precomposed apple-touch-icon" href="/apple-touch-icon-precomposed.png">'),
             '/apple-touch-icon-precomposed.png': generateImageData()
@@ -49,17 +68,17 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' has no 'href' attribute`,
-        reports: [{ message: `'apple-touch-icon' should have non-empty 'href' attribute` }],
+        reports: [{ message: elementHasEmptyHrefAttributeErrorMessage }],
         serverConfig: generateHTMLPage('<link rel="apple-touch-icon">')
     },
     {
         name: `'apple-touch-icon' has 'href' attribute with no value`,
-        reports: [{ message: `'apple-touch-icon' should have non-empty 'href' attribute` }],
+        reports: [{ message: elementHasEmptyHrefAttributeErrorMessage }],
         serverConfig: generateHTMLPage('<link rel="apple-touch-icon" href>')
     },
     {
         name: `'apple-touch-icon' has 'href' attribute with the value of empty string`,
-        reports: [{ message: `'apple-touch-icon' should have non-empty 'href' attribute` }],
+        reports: [{ message: elementHasEmptyHrefAttributeErrorMessage }],
         serverConfig: generateHTMLPage('<link rel="apple-touch-icon" href="">')
     },
     {
@@ -71,7 +90,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' has 'sizes' attribute`,
-        reports: [{ message: `'sizes' attribute is not needed` }],
+        reports: [{ message: elementHasUnneededSizesAttributeErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="  apple-touch-icon " Sizes="57x57" href="/apple-touch-icon.png">'),
             '/apple-touch-icon.png': generateImageData()
@@ -79,7 +98,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' is not PNG`,
-        reports: [{ message: `'/apple-touch-icon.png' is not a PNG` }],
+        reports: [{ message: fileIsNotPNGErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage(appleTouchIconLinkTag),
             '/apple-touch-icon.png': generateImageData(imageWithIncorrectFileFormat)
@@ -87,7 +106,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' is not an image`,
-        reports: [{ message: `'/apple-touch-icon.png' is not a valid PNG` }],
+        reports: [{ message: fileIsInvalidPNGErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage(appleTouchIconLinkTag),
             '/apple-touch-icon.png': generateHTMLPage()
@@ -95,7 +114,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' is not 180x180px`,
-        reports: [{ message: `'/apple-touch-icon.png' is not 180x180px` }],
+        reports: [{ message: fileHasIncorrectSizeErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage(appleTouchIconLinkTag),
             '/apple-touch-icon.png': generateImageData(imageWithIncorrectDimensions)
@@ -103,7 +122,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' is not 180x180px and it's also not square`,
-        reports: [{ message: `'/apple-touch-icon.png' is not 180x180px` }],
+        reports: [{ message: fileHasIncorrectSizeErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage(appleTouchIconLinkTag),
             '/apple-touch-icon.png': generateImageData(imageThatIsNotSquare)
@@ -111,7 +130,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' could not be fetched`,
-        reports: [{ message: `'/apple-touch-icon.png' could not be fetched (status code: 404)` }],
+        reports: [{ message: fileCouldNotBeFetchedErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage(appleTouchIconLinkTag),
             '/apple-touch-icon.png': { status: 404 }
@@ -119,7 +138,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' file request failed`,
-        reports: [{ message: `'/apple-touch-icon.png' file request failed` }],
+        reports: [{ message: fileRequestFailedErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage(appleTouchIconLinkTag),
             '/apple-touch-icon.png': null
@@ -127,7 +146,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `'apple-touch-icon' is specified in the '<body>'`,
-        reports: [{ message: `'apple-touch-icon' should be specified in the '<head>'` }],
+        reports: [{ message: elementNotSpecifiedInHeadErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage(null, appleTouchIconLinkTag),
             '/apple-touch-icon.png': generateImageData()
@@ -136,9 +155,9 @@ const tests: Array<HintTest> = [
     {
         name: `Multiple 'apple-touch-icon's are specified`,
         reports: [
-            { message: `'sizes' attribute is not needed` },
-            { message: `A 'apple-touch-icon' was already specified` },
-            { message: `A 'apple-touch-icon' was already specified` }
+            { message: elementHasUnneededSizesAttributeErrorMessage },
+            { message: elementAlreadySpecifiedErrorMessage },
+            { message: elementAlreadySpecifiedErrorMessage }
         ],
         serverConfig: {
             '/': generateHTMLPage(`
@@ -151,7 +170,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: `Multiple 'apple-touch-icon's are specified (different usage)`,
-        reports: [{ message: `A 'apple-touch-icon' was already specified` }],
+        reports: [{ message: elementAlreadySpecifiedErrorMessage }],
         serverConfig: {
             '/': generateHTMLPage(`
                 <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">

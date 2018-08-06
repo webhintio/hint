@@ -51,7 +51,7 @@ const testsForDefaults: Array<HintTest> = [
     },
     {
         name: `Domain without HTTPS fails`,
-        reports: [{ message: `http://example.com/ doesn't support HTTPS.` }],
+        reports: [{ message: `'http://example.com/' does not support HTTPS.` }],
         serverUrl: 'http://example.com',
         before() {
             ssllabsMock(results.nohttps);
@@ -74,8 +74,8 @@ const testsForConfigs: Array<HintTest> = [
     {
         name: `Site with A grade doesn't pass with A+ minimum`,
         reports: [
-            { message: `https://example.com/'s grade A doesn't meet the minimum A+ required.` },
-            { message: `a-site.net's grade A doesn't meet the minimum A+ required.` }
+            { message: `https://example.com/'s grade A does not meet the minimum A+ required.` },
+            { message: `a-site.net's grade A does not meet the minimum A+ required.` }
         ],
         serverUrl: 'https://example.com',
         before() {
@@ -84,7 +84,7 @@ const testsForConfigs: Array<HintTest> = [
     },
     {
         name: `Domain without HTTPS fails`,
-        reports: [{ message: `http://example.com/ doesn't support HTTPS.` }],
+        reports: [{ message: `'http://example.com/' does not support HTTPS.` }],
         serverUrl: 'http://example.com',
         before() {
             ssllabsMock(results.nohttps);
@@ -95,7 +95,7 @@ const testsForConfigs: Array<HintTest> = [
 const testsForErrors: Array<HintTest> = [
     {
         name: 'Issue gettings results from SSL Labs reports error',
-        reports: [{ message: `Couldn't get results from SSL Labs for https://example.com/.` }],
+        reports: [{ message: `Could not get results from SSL Labs for 'https://example.com/'.` }],
         serverUrl: 'https://example.com',
         before() {
             ssllabsMock(null);

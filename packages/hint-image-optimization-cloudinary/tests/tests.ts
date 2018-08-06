@@ -72,7 +72,7 @@ const tests: Array<HintTest> = [
             mockCloudinary(savings50);
         },
         name: 'unoptimized PNG',
-        reports: [{ message: `File http://localhost/nellie-studying.png could be around 143.62kB (50%) smaller.` }],
+        reports: [{ message: `'http://localhost/nellie-studying.png' could be around 143.62kB (50%) smaller.` }],
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png">`),
             '/nellie-studying.png': generateResponse(png, 'image/png')
@@ -106,7 +106,7 @@ const testThresholds: Array<HintTest> = [
             mockCloudinary([savings33, savings33]);
         },
         name: 'unoptimized PNGs with threshold',
-        reports: [{ message: `The total size savings optimizing the images in http://localhost/ could be of around 195kB.` }],
+        reports: [{ message: `Total size savings optimizing the images on 'http://localhost/' could be of around 195kB.` }],
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png"><img src="nellie-focused.png">`),
             '/nellie-focused.png': generateResponse(png, 'image/png'),
@@ -131,7 +131,7 @@ const noConfigTest: Array<HintTest> = [
             mockCloudinary(savings50);
         },
         name: 'No cloudinary Config',
-        reports: [{ message: `No valid configuration for Cloudinary found. Hint coudn't run.` }],
+        reports: [{ message: `No valid configuration for Cloudinary found. Hint could not run.` }],
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png">`),
             '/nellie-studying.png': generateResponse(png, 'image/png')

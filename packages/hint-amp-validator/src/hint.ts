@@ -45,7 +45,10 @@ export default class AmpValidatorHint implements IHint {
                 return;
             }
 
-            // events has to be an array in order to work with the local connector.
+            /*
+             * `events` has to be an array in order
+             * to work with the local connector.
+             */
             events.push(fetchEnd);
             validPromise = amphtmlValidator.getInstance();
         };
@@ -70,7 +73,10 @@ export default class AmpValidatorHint implements IHint {
                         message += ` (${error.specUrl})`;
                     }
 
-                    // We ignore errors that are not 'ERROR' if user has configured the hint like that
+                    /*
+                     * We ignore errors that are not 'ERROR'
+                     * if user has configured the hint like that.
+                     */
                     if (errorsOnly && error.severity !== 'ERROR') {
                         debug(`AMP error doesn't meet threshold for reporting`);
                     } else {

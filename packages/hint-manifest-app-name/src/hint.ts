@@ -42,19 +42,19 @@ export default class ManifestAppNameHint implements IHint {
 
         const checkIfPropertyExists = async (resource: string, content: string, propertyName: string) => {
             if (typeof content === 'undefined') {
-                await context.report(resource, null, `Should contain the '${propertyName}' property`);
+                await context.report(resource, null, `Web app manifest should have '${propertyName}' property.`);
             }
         };
 
         const checkIfPropertyValueIsNotEmpty = async (resource: string, content: string, propertyName: string) => {
             if (content && (content.trim() === '')) {
-                await context.report(resource, null, `Should have non-empty '${propertyName}' property value`);
+                await context.report(resource, null, `Web app manifest should have non-empty '${propertyName}' property value.`);
             }
         };
 
         const checkIfPropertyValueIsUnderLimit = async (resource: string, content: string, propertyName: string, shortNameLengthLimit: number) => {
             if (content && (ucs2.decode(content).length > shortNameLengthLimit)) {
-                await context.report(resource, null, `Should have the '${propertyName}' property value under ${shortNameLengthLimit} characters`);
+                await context.report(resource, null, `Web app manifest should have '${propertyName}' property value under ${shortNameLengthLimit} characters.`);
 
                 return false;
             }

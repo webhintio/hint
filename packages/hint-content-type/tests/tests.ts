@@ -7,25 +7,26 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 const hintPath = getHintPath(__filename);
 
-const pngFileContent = fs.readFileSync(`${__dirname}/fixtures/image.png`); // eslint-disable-line no-sync
-const svgFileContent = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M1,1"/></svg>';
-// const woff2FileContent = fs.readFileSync(`${__dirname}/fixtures/test.woff2`);
+const pngImage = fs.readFileSync(`${__dirname}/fixtures/image.png`); // eslint-disable-line no-sync
+const svgImage = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M1,1"/></svg>';
 
-const incorrectCharsetMessage = `'content-type' header should have 'charset=utf-8' (not 'iso-8859-1')`;
-const invalidMediaTypeMessage = `'content-type' header value is invalid (invalid media type)`;
-const invalidParameterFormatMessage = `'content-type' header value is invalid (invalid parameter format)`;
-const noCharsetMessage = `'content-type' header should have 'charset=utf-8'`;
-const noHeaderMessage = `'content-type' header was not specified`;
-const unneededCharsetMessage = `'content-type' header should not have 'charset=utf-8'`;
+const incorrectCharsetErrorMessage = `'content-type' header charset value should be 'utf-8', not 'iso-8859-1'.`;
+const invalidMediaTypeErrorMessage = `'content-type' header value should be valid (invalid media type).`;
+const invalidParameterFormatErrorMessage = `'content-type' header value should be valid (invalid parameter format).`;
+const noCharsetErrorMessage = `'content-type' header charset value should be 'utf-8'.`;
+const noHeaderErrorMessage = `Response should include 'content-type' header.`;
+const unneededCharsetErrorMessage = `'content-type' header value should not contain 'charset=utf-8'.`;
 
-const generateIncorrectMediaTypeMessage = (expectedType: string, actualType: string) => {
-    return `'content-type' header should have media type '${expectedType}' (not '${actualType}')`;
+const generateIncorrectMediaTypeErrorMessage = (expectedType: string, actualType: string) => {
+    return `'content-type' header media type value should be '${expectedType}', not '${actualType}'.`;
 };
 
-const generateRequireValueMessage = (expectedValue: string) => {
-    return `'content-type' header should have the value '${expectedValue}'`;
+const generateRequireValueErrorMessage = (expectedValue: string) => {
+    return `'content-type' header value should be '${expectedValue}'.`;
 };
 
 const generateHTMLPageData = (content: string) => {
@@ -35,18 +36,20 @@ const generateHTMLPageData = (content: string) => {
     };
 };
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 const testsForDefaults: Array<HintTest> = [
 
     // No `Content-Type` header.
 
     {
         name: `HTML page is served without 'Content-Type' header`,
-        reports: [{ message: noHeaderMessage }],
+        reports: [{ message: noHeaderErrorMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': null } } }
     },
     {
         name: `Resource is served without 'Content-Type' header`,
-        reports: [{ message: noHeaderMessage }],
+        reports: [{ message: noHeaderErrorMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage('<link rel="stylesheet" href="test.css">')),
             '/test.css': { headers: { 'Content-Type': null } }
@@ -61,12 +64,12 @@ const testsForDefaults: Array<HintTest> = [
 
     {
         name: `HTML page is served with 'Content-Type' header with invalid media type`,
-        reports: [{ message: invalidMediaTypeMessage }],
+        reports: [{ message: invalidMediaTypeErrorMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': 'invalid' } } }
     },
     {
         name: `Resource is served with 'Content-Type' header with invalid media type (empty media type)`,
-        reports: [{ message: invalidMediaTypeMessage }],
+        reports: [{ message: invalidMediaTypeErrorMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
             '/test.png': { headers: { 'Content-Type': '' } }
@@ -77,12 +80,12 @@ const testsForDefaults: Array<HintTest> = [
 
     {
         name: `HTML page is served with 'Content-Type' header with an invalid parameter format`,
-        reports: [{ message: invalidParameterFormatMessage }],
+        reports: [{ message: invalidParameterFormatErrorMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': 'text/html; invalid' } } }
     },
     {
         name: `Resource is served with 'Content-Type' header with an invalid parameter format`,
-        reports: [{ message: invalidParameterFormatMessage }],
+        reports: [{ message: invalidParameterFormatErrorMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
             '/test.js': { headers: { 'Content-Type': 'text/javascript; charset=inva/id' } }
@@ -93,7 +96,7 @@ const testsForDefaults: Array<HintTest> = [
 
     {
         name: `HTML page is served with 'Content-Type' header without 'charset' parameter`,
-        reports: [{ message: noCharsetMessage }],
+        reports: [{ message: noCharsetErrorMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': 'text/html' } } }
     },
     {
@@ -105,7 +108,7 @@ const testsForDefaults: Array<HintTest> = [
     },
     {
         name: `Script is served with 'Content-Type' header without 'charset' parameter`,
-        reports: [{ message: noCharsetMessage }],
+        reports: [{ message: noCharsetErrorMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
             '/test.js': { headers: { 'Content-Type': 'text/javascript' } }
@@ -116,12 +119,12 @@ const testsForDefaults: Array<HintTest> = [
 
     {
         name: `HTML page is served with 'Content-Type' header with wrong 'charset'`,
-        reports: [{ message: incorrectCharsetMessage }],
+        reports: [{ message: incorrectCharsetErrorMessage }],
         serverConfig: { '/': { headers: { 'Content-Type': 'text/html; charset=iso-8859-1' } } }
     },
     {
         name: `Image is served with 'Content-Type' header with unneeded 'charset' parameter`,
-        reports: [{ message: unneededCharsetMessage }],
+        reports: [{ message: unneededCharsetErrorMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
             '/test.png': { headers: { 'Content-Type': 'image/png; charset=utf-8' } }
@@ -129,7 +132,7 @@ const testsForDefaults: Array<HintTest> = [
     },
     {
         name: `Script is served with 'Content-Type' header with wrong 'charset'`,
-        reports: [{ message: incorrectCharsetMessage }],
+        reports: [{ message: incorrectCharsetErrorMessage }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
             '/test.js': { headers: { 'Content-Type': 'text/javascript;charset=iso-8859-1' } }
@@ -141,7 +144,7 @@ const testsForDefaults: Array<HintTest> = [
      * TODO: Enable if `jsdom` supports downloading fonts, or #250 is implemented.
      * {
      *     name: `WOFF2 font is served with 'Content-Type' header with the wrong media type`,
-     *     reports: [{ message: generateIncorrectMediaTypeMessage('font/woff2', 'application/font-woff2') }],
+     *     reports: [{ message: generateIncorrectMediaTypeErrorMessage('font/woff2', 'application/font-woff2') }],
      *     serverConfig: {
      *         '/': generateHTMLPageData(generateHTMLPage(`
      *             <style>
@@ -165,18 +168,18 @@ const testsForDefaults: Array<HintTest> = [
      */
     {
         name: `Image is served with 'Content-Type' header with the wrong media type`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('image/png', 'font/woff') }],
+        reports: [{ message: generateIncorrectMediaTypeErrorMessage('image/png', 'font/woff') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.png">')),
             '/test.png': {
-                content: pngFileContent,
+                content: pngImage,
                 headers: { 'Content-Type': 'font/woff' }
             }
         }
     },
     {
         name: `Script is served with 'Content-Type' header with the wrong media type`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'application/javascript') }],
+        reports: [{ message: generateIncorrectMediaTypeErrorMessage('text/javascript', 'application/javascript') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
             '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }
@@ -184,7 +187,7 @@ const testsForDefaults: Array<HintTest> = [
     },
     {
         name: `Script is served with 'Content-Type' header with the wrong media type (has wrong file extension)`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/css') }],
+        reports: [{ message: generateIncorrectMediaTypeErrorMessage('text/javascript', 'text/css') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.css"></script>')),
             '/test.css': { headers: { 'Content-Type': 'text/css; charset=utf-8' } }
@@ -192,7 +195,7 @@ const testsForDefaults: Array<HintTest> = [
     },
     {
         name: `Script is served with 'Content-Type' header with the wrong media type (has empty 'type' attribute)`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
+        reports: [{ message: generateIncorrectMediaTypeErrorMessage('text/javascript', 'text/plain') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type src="test"></script>')),
             '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
@@ -200,7 +203,7 @@ const testsForDefaults: Array<HintTest> = [
     },
     {
         name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/javascript')`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
+        reports: [{ message: generateIncorrectMediaTypeErrorMessage('text/javascript', 'text/plain') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/javascript" src="test"></script>')),
             '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
@@ -210,7 +213,7 @@ const testsForDefaults: Array<HintTest> = [
      * TODO: Enable once Chrome has support for modules without a flag (https://www.chromestatus.com/feature/5365692190687232)
      * {
      *     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=module')`,
-     *     reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
+     *     reports: [{ message: generateIncorrectMediaTypeErrorMessage('text/javascript', 'text/plain') }],
      *     serverConfig: {
      *         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="module" src="test"></script>')),
      *         '/test': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
@@ -219,7 +222,7 @@ const testsForDefaults: Array<HintTest> = [
      * TODO: Chrome will not download if it doesn't like the type: https://github.com/webhintio/hint/pull/245#discussion_r120083650, #250
      * {
      *     name: `Script is served with 'Content-Type' header with the wrong media type (has 'type=text/plain' and 'js' file extension)`,
-     *     reports: [{ message: generateIncorrectMediaTypeMessage('text/javascript', 'text/plain') }],
+     *     reports: [{ message: generateIncorrectMediaTypeErrorMessage('text/javascript', 'text/plain') }],
      *     serverConfig: {
      *         '/': generateHTMLPageData(generateHTMLPage(undefined, '<script type="text/plain" src="test.js"></script>')),
      *         '/test.js': { headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
@@ -244,7 +247,7 @@ const testsForDefaults: Array<HintTest> = [
      */
     {
         name: `Stylesheet is served with 'Content-Type' header with the wrong media type`,
-        reports: [{ message: generateIncorrectMediaTypeMessage('text/css', 'font/woff') }],
+        reports: [{ message: generateIncorrectMediaTypeErrorMessage('text/css', 'font/woff') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage('<link rel="stylesheet" href="test.css">')),
             '/test.css': { headers: { 'Content-Type': 'font/woff; charset=utf-8' } }
@@ -253,13 +256,13 @@ const testsForDefaults: Array<HintTest> = [
     {
         name: `SVG is served with 'Content-Type' header with the wrong media type`,
         reports: [
-            { message: generateIncorrectMediaTypeMessage('image/svg+xml', 'font/woff') },
-            { message: noCharsetMessage }
+            { message: generateIncorrectMediaTypeErrorMessage('image/svg+xml', 'font/woff') },
+            { message: noCharsetErrorMessage }
         ],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.svg">')),
             '/test.svg': {
-                content: svgFileContent,
+                content: svgImage,
                 headers: { 'Content-Type': 'font/woff' }
             }
         }
@@ -290,7 +293,7 @@ const testsForDefaults: Array<HintTest> = [
 const testsForConfigs: Array<HintTest> = [
     {
         name: `Script is served with 'Content-Type' header with the correct media type but wrong because of the custom config`,
-        reports: [{ message: generateRequireValueMessage('application/javascript') }],
+        reports: [{ message: generateRequireValueErrorMessage('application/javascript') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test.js"></script>`)),
             '/test.js': { headers: { 'Content-Type': 'text/javascript; charset=utf-8' } }
@@ -298,7 +301,7 @@ const testsForConfigs: Array<HintTest> = [
     },
     {
         name: `Script is served with 'Content-Type' header with the correct media type but fails because of the custom config overwrites`,
-        reports: [{ message: generateRequireValueMessage('application/x-javascript; charset=utf-8') }],
+        reports: [{ message: generateRequireValueErrorMessage('application/x-javascript; charset=utf-8') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, `<script src="test/test2.js"></script>`)),
             '/test/test2.js': { headers: { 'Content-Type': 'application/javascript' } }
