@@ -5,7 +5,7 @@
 
 ## Why is this important?
 
-Consider the following simplified desription of what happens when a
+Consider the following simplified description of what happens when a
 user requests a URL within a browser:
 
 1. DNS Lookup: Translate the server domain to an IP. If the browser
@@ -15,7 +15,7 @@ user requests a URL within a browser:
    IP address requesting the URL.
 1. The server responds to that request by sending some content over
    the TCP connection.
-   If the resource uses SSL, then [TLS negotation(s)][wikipedia-tls-handshake]
+   If the resource uses SSL, then [TLS negotiation(s)][wikipedia-tls-handshake]
    happens as well.
 
 When a redirect occurs, `3.` contains the new URL the browser needs to
@@ -103,7 +103,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 * [Domain Names - Implementation and Specification][rfc1035]
 * [How DNS Works][how-dns-works]
 * [Redirections in HTTP][MDN-Redirections]
-* [Transmision Control Protocol][wikipedia-tcp]
+* [Transmission Control Protocol][wikipedia-tcp]
 
 <!-- Link labels: -->
 
