@@ -128,6 +128,10 @@
   dependencies:
     arrify "^1.0.1"
 
+"@hint/hint-no-broken-links@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@hint/hint-no-broken-links/-/hint-no-broken-links-1.0.1.tgz#1d525167e6b84f0ea16f9222265dfeb28ac762a9"
+
 "@ladjs/time-require@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@ladjs/time-require/-/time-require-0.1.4.tgz#5c615d75fd647ddd5de9cf6922649558856b21a1"
