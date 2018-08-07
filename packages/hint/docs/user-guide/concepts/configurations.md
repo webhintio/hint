@@ -11,7 +11,7 @@ as well.
 To use a `configuration`, you have to:
 
 1. After installing `webhint`, install a configuration package. When running
-   `--init`, the wizard will list you the official configuration packages but
+   `npm create hintrc`, the wizard will list you the official configuration packages but
    you can search on `npm`. Any package `@hint/configuration-` or
    `webhint-configuration-` should be a valid candidate.
 2. Once installed, update your `.hintrc` to use it (this step is not needed
