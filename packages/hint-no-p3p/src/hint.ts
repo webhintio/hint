@@ -24,7 +24,7 @@ export default class NoP3pHint implements IHint {
 
     public static readonly meta: HintMetadata = {
         docs: {
-            category: Category.development,
+            category: Category.interoperability,
             description: `Don't use P3P related headers or meta tags`
         },
         id: 'no-p3p',
