@@ -16,7 +16,7 @@ Microsoft did.
 
 On top of the lack of support, if the header is sent and it's not kept in sync
 with normal human-readable privacy policies, it may be a cause of legal
-confusion, which might open up legal risks. Please check with a local lawyer to
+confusion, which might present legal risks. Please check with a local lawyer to
 see if that's the case in your country.
 
 Additionally, [studies][research] have detected that about 33% of sites using
