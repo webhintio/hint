@@ -11,7 +11,7 @@
     "chrome-launcher": "^0.10.2",
     "is-ci": "^1.1.0",
     "lockfile": "^1.0.4",
-    "hint": "^3.0.0"
+    "hint": "^3.0.1"
   },
   "description": "hint connector for Google Chrome",
   "devDependencies": {
@@ -63,7 +63,7 @@
     "statements": 70
   },
   "peerDependencies": {
-    "hint": "^3.0.0"
+    "hint": "^3.0.1"
   },
   "repository": "webhintio/hint",
   "scripts": {

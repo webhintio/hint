@@ -27,7 +27,7 @@
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
     "sinon": "^6.1.4",
-    "hint": "^3.0.0",
+    "hint": "^3.0.1",
     "typescript": "^3.0.1",
     "typescript-eslint-parser": "^18.0.0"
   },
@@ -52,7 +52,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^3.0.0"
+    "hint": "^3.0.1"
   },
   "repository": "webhintio/hint",
   "scripts": {
