@@ -20,11 +20,7 @@ Run the following command:
 npx hint https://example.com
 ```
 
-This will start the wizard to create a `.hintrc` file, and then
-analyze `https://example.com`.
-
-**Windows users**: Currently [`npx` has an issue in this
-platform](https://github.com/npm/npm/issues/17869).
+This will analyze `https://example.com` using the default configuration.
 
 ### Installing `webhint` globally
 
@@ -36,7 +32,7 @@ Create a `.hintrc` file by running this command and following the
 instructions:
 
 ```bash
-hint --init
+npm create hintrc
 ```
 
 Scan a website:
