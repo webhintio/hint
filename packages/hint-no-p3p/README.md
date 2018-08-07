@@ -20,8 +20,8 @@ confusion, which might open up legal risks. Please check with a local lawyer to
 see if that's the case in your country.
 
 Additionally, [studies][research] have detected that about 33% of sites using
-P3P don't have a valid configuration. In some cases the value was used to
-circunvent IE cookie blocking (and thus rendering P3P inefective). Others it
+P3P don't have a valid configuration. In some cases, the value was used to
+circumvent IE cookie blocking (and thus rendering P3P ineffective). Others it
 was typos and errors in the tokens (but still invalid policies).
 
 Because of all the above reasons it's recommended to not use `P3P` anymore.
