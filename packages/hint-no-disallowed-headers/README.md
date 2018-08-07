@@ -20,12 +20,12 @@ Sending these types of HTTP headers:
   the technology stack being used
 
 2) Uncommon or esoteric headers that have limited support, require
-   a lot of knowledge to use correctly, and can create more problems then
+   a lot of knowledge to use correctly, and can create more problems than
    they solve.
 
    One example here is the `Public-Key-Pins` header. It has [limited
 support and usage, it’s being deprecated (along with the related
-`Public-Key-Pins-Report-Only` header), and can easily create a lot
+`Public-Key-Pins-Report-Only` header) and can easily create a lot
 of problems if not done correctly][hpkp deprecation].
 
 ## What does the hint check?
@@ -41,7 +41,7 @@ HTTP headers:
 * `X-Runtime`
 * `X-Version`
 
-or the `Server` header with a value that provides a lot of information,
+or the `Server` header with a value that provides a lot of information
 and is not limited to the server name.
 
 ### Examples that **trigger** the hint
@@ -127,9 +127,9 @@ ServerTokens Prod
 
 Note that:
 
-* The above snippets works with Apache `v2.2.0+`, but you need to have
+* The above snippets work with Apache `v2.2.0+`, but you need to have
   [`mod_headers`][mod_headers] [enabled][how to enable apache modules]
-  in order for them to take effect.
+  for them to take effect.
 
 * If you have access to the [main Apache configuration file][main
   apache conf file] (usually called `httpd.conf`), you should add
