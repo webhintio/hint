@@ -127,9 +127,9 @@ ServerTokens Prod
 
 Note that:
 
-* The above snippets works with Apache `v2.2.0+`, but you need to have
+* The above snippets work with Apache `v2.2.0+`, but you need to have
   [`mod_headers`][mod_headers] [enabled][how to enable apache modules]
-  in order for them to take effect.
+  for them to take effect.
 
 * If you have access to the [main Apache configuration file][main
   apache conf file] (usually called `httpd.conf`), you should add
