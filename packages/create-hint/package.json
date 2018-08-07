@@ -22,7 +22,7 @@
     "fs-extra": "^7.0.0",
     "handlebars": "^4.0.11",
     "hint": "^3.0.1",
-    "inquirer": "^6.0.0",
+    "inquirer": "^6.1.0",
     "markdownlint-cli": "^0.12.0",
     "mkdirp": "^0.5.1",
     "npm-link-check": "^2.0.0",
