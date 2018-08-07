@@ -6,7 +6,7 @@ byte size under a certain threshold.
 ## Why is this important?
 
 [`Internet Explorer 5-11` will show its custom error pages][friendly
-error pages] instead of the site provided ones in order to avoid terse
+error pages] instead of the site provided ones to avoid terse
 server error messages such as `Error - 400` being shown to users.
 
 The custom error pages are displayed whenever the response body’s byte
