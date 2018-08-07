@@ -7,6 +7,9 @@
     "timeout": "1m"
   },
   "description": "Verify that all links and resources the page uses are available online.",
+  "dependencies": {
+    "@hint/utils-connector-tools": "^1.0.0"
+  },
   "devDependencies": {
     "@hint/utils-tests-helpers": "^1.0.0",
     "@types/debug": "0.0.30",
