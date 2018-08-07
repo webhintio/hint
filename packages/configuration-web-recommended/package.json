@@ -16,7 +16,6 @@
     "@hint/hint-meta-charset-utf-8": "^1.0.0",
     "@hint/hint-meta-viewport": "^1.0.0",
     "@hint/hint-no-bom": "^1.0.0",
-    "@hint/hint-no-broken-links": "^1.0.2",
     "@hint/hint-no-disallowed-headers": "^1.0.0",
     "@hint/hint-no-friendly-error-pages": "^1.0.0",
     "@hint/hint-no-html-only-headers": "^1.0.0",
