@@ -1,4 +1,4 @@
-# Check if the TypeScript target is appropiated (`target`)
+# Check if the TypeScript target is appropriate (`target`)
 
 `typescript-config/target` considers your `webhint`'s `browserslist`
 configuration and warns you if your `target` (`es3`, `es2015`, etc.) is
