@@ -1,3 +1,10 @@
+# 1.0.2 (August 7, 2018)
+
+## Bug fixes / Improvements
+
+* [[`bacd9286f7`](https://github.com/webhintio/hint/commit/bacd9286f76588bffa79402fe26024f519727b1c)] - Fix: Add missing `@hint/utils-connector-tools` dependency (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.0.1 (August 6, 2018)
 
 ## Bug fixes / Improvements
