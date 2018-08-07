@@ -6,6 +6,10 @@ If you want to have an idea of what `webhint` does and you
 have an updated version of `npm` (v5.2.0) and [Node LTS (v8.9.2)
 or later][nodejs] you can use the following command:
 
+```bash
+npm hint https://example.com
+```
+
 Alternatively, you can install it locally with:
 
 ```bash
@@ -13,16 +17,16 @@ npm install -g --engine-strict hint
 ```
 
 You can also install it as a `devDependency` if you prefer not to
-have it globally.
+have it globally (which is the team's preferred option).
 
 The next thing that `webhint` needs is a `.hintrc` file. By
 default, `webhint` will look for this file first in the current
 folder and then in the user's home directory.
 
-The fastest and easiest way to create one is by using the flag `--init`:
+The fastest and easiest way to create one is by running:
 
 ```bash
-hint --init
+npm create hintrc
 ```
 
 This command will start a wizard that will ask you a series of
