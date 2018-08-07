@@ -2,7 +2,8 @@
 
 ## Why is this important?
 
-To avoid problems in your project, the webpack configuration has to be valid.
+To avoid problems in your project, the webpack configuration needs to
+be valid.
 
 ## What does the hint check?
 

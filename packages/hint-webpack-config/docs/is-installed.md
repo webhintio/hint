@@ -2,7 +2,7 @@
 
 ## Why is this important?
 
-In order to work with `webpack`, it needs to be installed in your project.
+To work with `webpack`, it needs to be installed in your project.
 
 ## What does the hint check?
 
