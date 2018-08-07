@@ -24,14 +24,14 @@ Web impacts the lives of people with disabilities, the overlap with
 digital divide issues, and Web accessibility as an aspect of corporate
 social responsibility.
 >
-> Another important consideration for organizations is that web i
+> Another important consideration for organizations is that web
 accessibility is required by laws and policies in some cases.
 
 ***From [WAI’s Introduction to Web Accessibility][wai].***
 
 ## What does the hint check?
 
-By default this hint runs all the [WCAG 2.0][wcag 2.0] Level A and
+By default, this hint runs all the [WCAG 2.0][wcag 2.0] Level A and
 Level AA rules included in [axe-core][axe core] with `document` as
 the target. Visit the [full list of default enabled rules][axe rules]
 for more information of what they do.
@@ -133,7 +133,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ## Further Reading
 
-* [Deque Univeristy](https://dequeuniversity.com/)
+* [Deque University](https://dequeuniversity.com/)
 * [aXe core GitHub page][axe core]
 * [Web Accessibility Initiative (WAI)](https://www.w3.org/WAI/)
 
