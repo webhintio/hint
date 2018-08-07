@@ -9,7 +9,7 @@ user interfaces. This hint performs the default accessibility tests
 > The Web is an increasingly important resource in many aspects
 of life: education, employment, government, commerce, health care,
 recreation, and more. It is essential that the Web be accessible
-in order to provide **equal access** and **equal opportunity** to
+to provide **equal access** and **equal opportunity** to
 people with disabilities. An accessible Web can also help people
 with disabilities more actively participate in society.
 >
@@ -133,7 +133,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ## Further Reading
 
-* [Deque Univeristy](https://dequeuniversity.com/)
+* [Deque University](https://dequeuniversity.com/)
 * [aXe core GitHub page][axe core]
 * [Web Accessibility Initiative (WAI)](https://www.w3.org/WAI/)
 
