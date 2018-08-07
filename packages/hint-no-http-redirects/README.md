@@ -47,7 +47,7 @@ and alerts if at least one is found.
 
 ## Can the hint be configured?
 
-By default no redirects are allowed but you can change this behavior.
+By default, no redirects are allowed but you can change this behavior.
 
 The following hint configuration used in the [`.hintrc`][hintrc]
 file will allow 3 redirects for resources and 1 for the main URL:
