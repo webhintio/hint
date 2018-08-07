@@ -22,8 +22,8 @@ HTML of your page.
 
 Yes, you can decide if you want to receive errors only, or also
 warnings found by [`amphtml-validator`][amphtml-validator].
-By default all warnings and errors are reported. If you prefer to
-see only the errors you can use the following hint configuration
+By default, all warnings and errors are reported. If you prefer to
+see only the errors, you can use the following hint configuration
 in your [`.hintrc`][hintrc] file:
 
 ```json
