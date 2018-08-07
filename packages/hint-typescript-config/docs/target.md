@@ -1,6 +1,6 @@
 # Check if the TypeScript target is appropiated (`target`)
 
-`typescript-config/target` takes into account your `webhint`'s `browserslist`
+`typescript-config/target` considers your `webhint`'s `browserslist`
 configuration and warns you if your `target` (`es3`, `es2015`, etc.) is
 appropriate.
 
@@ -47,7 +47,7 @@ The following sites were used to create this table:
 
 ### Examples that **trigger** the hint
 
-Having a `target` not supported by all your targetted browsers:
+Having a `target` not supported by all your targeted browsers:
 
 `tsconfig.json`:
 
