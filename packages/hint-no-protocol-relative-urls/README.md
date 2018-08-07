@@ -40,7 +40,7 @@ when using protocol relative URLs include:
   and the first request is not made over HTTP, there is a high risk
   of man-in-the-middle attacks.
 
-  Of course if the web site/app is served over HTTP it is already
+  Of course, if the web site/app is served over HTTP it is already
   exposed to those types of attacks, but in general CDNs constitute
   a high-value target, and therefore, are much more likely to be
   attacked than most of the individual sites that use them.
