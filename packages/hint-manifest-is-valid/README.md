@@ -1,7 +1,7 @@
 # Require valid manifest (`manifest-is-valid`)
 
 `manifest-is-valid` checks if the content of the web app manifest file
-is valid JSON, valid acording to the specification, and the property
+is valid JSON, valid according to the specification, and the property
 values work in all [targeted browsers][targeted browsers].
 
 ## Why is this important?
@@ -19,7 +19,7 @@ a fallback, can lead to interoperability issues.
 `manifest-is-valid` checks if:
 
 * The content of the web app manifest file is valid JSON, and valid
-  acording to the specification, namely:
+  according to the specification, namely:
 
   * No additional properties are specified.
   * All property values are of the type specified by the specification.
@@ -86,7 +86,7 @@ The web app manifest file contains properties with invalid values:
 ```
 
 The web app manifest file contains a properties with values not
-supported by all the [targeted browsers](targeted browsers).
+supported by all the [targeted browsers][targeted browsers].
 
 ```json
 {
