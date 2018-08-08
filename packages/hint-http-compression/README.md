@@ -963,6 +963,8 @@ Note that:
 * The above snippet works with IIS 7+.
 * You should use the above snippet in the `web.config` of your
   application.
+* For the complete set of configurations, not just for this rule, see
+  [this IIS server configuration related docs][IIS config].
 
 </details>
 
@@ -1062,6 +1064,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [gzip is not enough]: https://www.youtube.com/watch?v=whGwm0Lky2s
 [gzip ratio]: https://www.youtube.com/watch?v=Mjab_aZsdxw&t=24s
 [hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[IIS config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [unship sdch]: https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/nQl0ORHy7sw
 [wdmsc]: https://whatdoesmysitecost.com/
 [zopfli blog post]: https://developers.googleblog.com/2013/02/compress-data-more-densely-with-zopfli.html
