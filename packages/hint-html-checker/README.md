@@ -11,14 +11,14 @@
 > Adhering to the W3C’s standards has a lot to offer to both the
 > developers and the web users: It provides better browser compatibility,
 > helps to avoid potential problems with accessibility/usability,
-> and makes it easier for future maintainance.
+> and makes it easier for future maintenance.
 >
 > The Nu Html Checker(v.Nu) serves as the backend of
 > [html5.validator.nu][html5 validator], and
 > [validator.w3.org/nu][w3 validator].
 > It also provides a [web service interface][validator interface].
 
-This hint interacts with this service via [`request`][request],
+This hint interacts with this service via [`request`][request]
 and is able to test both remote websites and local server instances.
 
 ## What does the hint check?
@@ -36,14 +36,14 @@ the positive cases contain two sections:
   behavior—so that, say, you’d end up with some unintuitive, unexpected
   result in the DOM.
 
-For explanation behind those requirements, please checkout:
+For explanation behind those requirements, please check out:
 
 * [rationale for syntax-level errors](https://www.w3.org/TR/html/introduction.html#syntax-errors)
 * [rationale for restrictions on content models and on attribute values](https://www.w3.org/TR/html/introduction.html#restrictions-on-content-models-and-on-attribute-values)
 
 ## Can the hint be configured?
 
-By default only the first occurance of each error/warning is reported
+By default, only the first occurrence of each error/warning is reported
 when validating the markup. However, you can configure the hint to view
 the complete list.
 
