@@ -9,7 +9,7 @@ user interfaces. This hint performs the default accessibility tests
 > The Web is an increasingly important resource in many aspects
 of life: education, employment, government, commerce, health care,
 recreation, and more. It is essential that the Web be accessible
-to provide **equal access** and **equal opportunity** to
+in order to provide **equal access** and **equal opportunity** to
 people with disabilities. An accessible Web can also help people
 with disabilities more actively participate in society.
 >
