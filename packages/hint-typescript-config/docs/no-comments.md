@@ -15,7 +15,7 @@ This hint checks the `compilerOptions` property `removeComments` is enabled.
 
 ### Examples that **trigger** the hint
 
-By default TypeScript doesn't strip the comments:
+By default, TypeScript doesn't strip the comments:
 
 ```json
 {
