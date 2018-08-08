@@ -10,13 +10,13 @@ Web security should be a critical concern for web developers.
 Unlike [cross-site scripting (XSS)][xss] and [SQL injection][sql
 injection], the exploit of insufficient protection over the transport
 layer can be harder to picture in practice. If a website accepts
-a connection through HTTP and then redirects to HTTPS, it opens up
-opportunites for a "man-in-the-middle" attack, when the redirect could
+a connection through HTTP and then redirects to HTTPS, it opens
+opportunities for a "man-in-the-middle" attack, when the redirect could
 be exploited and lead the user to a malicious site.
 
 By specifying the `Strict-Transport-Security` header along with a
 `max-age` value in the response, a website can declare that
-only secure connections within the specified time period will be
+only secure connections within the specified period will be
 accepted. For future requests to the same domain via insecure
 connections, the browser knows that it should never load the site using
 HTTP and automatically convert all requests to HTTPS instead.
@@ -28,7 +28,7 @@ You can submit your domain name in the [online form][preload form]
 to be included in the list. After being included, all insecure
 connection requests will be disallowed. Use with great caution:
 Before you decide to have your own domain included, make sure that
-you are able to support HTTPS for all the subdomains and that you'll
+you can support HTTPS for all the subdomains and that you'll
 never again need the insecure scheme.
 
 More information about HTTP Strict Transport (HSTS), please see:
@@ -178,7 +178,7 @@ Note that:
 ## Can the hint be configured?
 
 Yes, you can configure the value that `max-age` is checked against
-with in the [`.hintrc`][hintrc] file. By default, this limit
+in the [`.hintrc`][hintrc] file. By default, this limit
 is set as 18 weeks (10886400s);
 
 E.g. The following configuration will change the `max-age` value
