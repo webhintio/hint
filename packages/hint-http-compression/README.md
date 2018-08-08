@@ -8,7 +8,7 @@ or using an inappropriate encoding.
 One of the fastest and easiest ways one can improve web site/app
 performance is to reduce the amount of data sent to the client
 by using HTTP compression. This not only [reduces the data used by
-the user][wdmsc], but can also significallty cut down on the server
+the user][wdmsc], but can also significantly cut down on the server
 costs.
 
 Here are a few rules to follow to get the most out of compressing
@@ -18,7 +18,7 @@ resources:
   will be smaller than original size.
 
   In general text-based resources (HTML, CSS, JavaScript, SVGs, etc.)
-  compresss very well especially if the file is not very small.
+  compress very well especially if the file is not very small.
   The same goes for some other file formats (e.g.: ICO files, web fonts
   such as EOT, OTF, and TTF, etc.)
 
@@ -34,7 +34,7 @@ resources:
 
   gzip is the most used encoding method currently as it strikes a good
   balance between compression ratio (as [high as 70%][gzip ratio]
-  especially for larger files) and encoding time, and is supported
+  especially for larger files) and encoding time and is supported
   pretty much everywhere.
 
   Better savings can be achieved using [Zopfli][zopfli] which
@@ -45,18 +45,18 @@ resources:
   more suitable for static content (i.e. encoding resources as part
   of a build script, not on the fly).
 
-  Things can be improved even futher using [Brotli][brotli].
+  Things can be improved even further using [Brotli][brotli].
   This encoding can achieve [20–26% higher compression ratios][brotli
   blog post] over Zopfli. However, this encoding is not compatible
   with gzip, limiting the support to modern browsers and its usage to
-  [only over HTTPS (as proxies misinterpreting unknown encodings)][brotli
+  [only over HTTPS (as proxies misinterpret unknown encodings)][brotli
   over https].
 
   As a rule, for best performance and interoperability, resources should
   be served compressed with Zopfli over insecure HTTP, and Brotli when
   sending over HTTPS with a fallback to Zopfli if HTTPS is not supported.
 
-* Avoid using deprecated or not widly supported compression formats,
+* Avoid using deprecated or not widely supported compression formats,
   and `Content-Type` values.
 
   Avoid using deprecated `Content-Type` values such as `x-gzip`. Some
@@ -77,7 +77,7 @@ resources:
 
   This needs to be done to avoid problems such as an intermediate proxy
   caching the compressed version of the resource and then sending it
-  to all user agents, whether they support that particular encoding
+  to all user agents, whether they support that encoding
   or even requested the compressed version.
 
 * Resources should be served compressed only when requested as such,
@@ -91,7 +91,7 @@ resources:
 
   One such special case is `SVGZ` files that are `SVG` files
   compressed with gzip. Since they are already compressed, they
-  shouldn't be compressed again. However sending them without the
+  shouldn't be compressed again. However, sending them without the
   `Content-Encoding: gzip` header will create problems as user agents
   will not know they need to decompress before trying to display them.
 
@@ -169,7 +169,7 @@ e.g.: For `http://example.com/example.js` containing only `const x = 5;`,
 using the defaults, the sizes may be as follows.
 
 ```text
-origina size: 13 bytes
+original size: 13 bytes
 
 gzip size:    38 bytes
 zopfli size:  33 bytes
@@ -316,7 +316,7 @@ Vary: Accept-Encoding
 ```
 
 Resource that is served compressed doesn't account for caching
-(e.g: is not served with the `Vary` header with the `Accept-Encoding`
+(e.g.: is not served with the `Vary` header with the `Accept-Encoding`
 value included, or something such as `Cache-Control: private`).
 
 e.g.: When the request for `https://example.com/example.js` contains
@@ -382,7 +382,7 @@ Content-Type: text/javascript
 <file content>
 ```
 
-however when requested with
+however, when requested with
 
 ```text
 ...
