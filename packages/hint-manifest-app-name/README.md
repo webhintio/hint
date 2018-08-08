@@ -18,7 +18,7 @@ metadata]. This can lead to a bad user experience, as the app name may
 be truncated or wrong.
 
 So, in order to reduce the risk of having the app name truncated, it's
-recommended to define the `name` property and keep it's value under 30
+recommended to define the `name` property and keep its value under 30
 characters, and if it’s over 12 characters, include a `short_name`
 property that is at most 12 characters.
 
@@ -28,13 +28,13 @@ Notes:
   no need to provide the `short_name` property as browsers can use
   the value of `name`.
 
-* The 12 character limit is used to ensure that for most cases the
-  value won’t be truncated. However depending on [other
+* The 12-character limit is used to ensure that for most cases the
+  value won’t be truncated. However, depending on [other
   things][webhint issue], such as:
 
   * what font the user is using
   * what characters the web site/app name includes (e.g. `i` occupies
-    less space then `W`)
+    less space than `W`)
 
   the text may still be truncated even if it’s under 12 characters.
 
@@ -51,7 +51,7 @@ Notes:
 
 ## What does the hint check?
 
-The hint checks if a non-empty `name` member was specified and it’s
+The hint checks if a non-empty `name` member was specified and its
 value is under 30 characters.
 
 If the `name` member is over 12 characters, or `short_name` is
@@ -111,7 +111,7 @@ and a `short_name` shorter than 12 characters:
 }
 ```
 
-Note: [Not specifying a manifest file](manifest-exists.md), or having
+Note: [Not specifying a manifest file](manifest-exists.md) or having
 an invalid one are covered by other hints, so those cases won’t make
 this hint fail.
 
