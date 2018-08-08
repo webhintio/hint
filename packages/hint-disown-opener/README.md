@@ -43,7 +43,7 @@ Links that have `target="_blank"`, such as
 Notes:
 
 * Not all browsers [support][noopener support] `rel="noopener"`,
-  so in order to ensure that things work as expected in as many
+  so to ensure that things work as expected in as many
   browsers as possible, by default, the hint requires both the
   `noopener` and `noreferrer` values to be specified. However,
   if all the [targeted browsers](../index.md#browser-configuration)
@@ -54,7 +54,7 @@ Notes:
 
   * Security isn’t really a problem here.
   * When it comes to performance, making same origin links open in
-    their own process actually works against optimizations that some
+    their own process works against optimizations that some
     browsers do in order to keep multiple same origin tabs within
     the same process (e.g. share the same event loop).
 
@@ -66,7 +66,7 @@ Notes:
   elements][html5sec].
 
 * In the future there may be a [CSP valueless property][csp valueless
-  property] property that will prevent the `window.opener` reference
+  property] that will prevent the `window.opener` reference
   from being set.
 
 ## What does the hint check?
