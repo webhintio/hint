@@ -70,7 +70,7 @@ Notes:
 
   * `initial-scale=1`
 
-    * This is mostlly needed to [work around the orientation change bug
+    * This is mostly needed to [work around the orientation change bug
       from Safari for iOS > 9][ios orientation change scaling].
 
     * Using values different then `1` (or `1.0`) are
