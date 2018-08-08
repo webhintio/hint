@@ -30,9 +30,9 @@ validate that the page and resources have a good caching strategy:
 * static resources such as JavaScript, CSS, images, etc.:
   * have a long expiry value (>= 1 year)
   * use the `immutable` directive
-  * follow some kind of filename/path based revving, and not
+  * follow some kind of filename/path-based revving, and not
     one based on query string parameters (see: [problems with
-    proxys][revving files])
+    proxies][revving files])
 
 The built-in regular expressions for file revving are:
 
@@ -153,7 +153,7 @@ Cache-Control: max-age=31536000, immutable
 ...
 ```
 
-A page with `no-cache` :
+A page with `no-cache`:
 
 ```text
 HTTP/... 200 OK
@@ -346,7 +346,7 @@ Yes, you can configure:
 
 ### `max-age`
 
-By default the recommended value for the page is `Cache-Control: no-cache`
+By default, the recommended value for the page is `Cache-Control: no-cache`
 or a `max-age` equal or less to 3 minutes. For the resources `max-age` should
 be greater or equal to 1 year. You can change this as follows:
 
@@ -363,7 +363,7 @@ If none on the built-in regular expressions work for your use case, you
 can provide your own via the `revvingPatterns` property. This property
 accepts an `Array` of escaped `RegExp`:
 
-in then [`.hintrc`][hintrc] file:
+in the [`.hintrc`][hintrc] file:
 
 ```json
 
@@ -381,7 +381,7 @@ in then [`.hintrc`][hintrc] file:
 ```
 
 Also pay attention to the escaping. The example above will validate
-that static resources follow a convention similar to the following
+that static resources follow a convention like the following
 one:
 
 ```text
