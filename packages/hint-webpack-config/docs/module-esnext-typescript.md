@@ -1,4 +1,4 @@
-# Validate `module` property in TypeScript has the appropiate value for webpack (`module-esnext-typescript`)
+# Validate `module` property in TypeScript has the appropriate value for webpack (`module-esnext-typescript`)
 
 ## Why is this important?
 
@@ -28,7 +28,7 @@ using webpack 2+.
 }
 ```
 
-`typescript-config` configured but `complierOptions.module` has
+`typescript-config` configured but `compilerOptions.module` has
 a value different to `esnext`
 
 ```json
@@ -41,7 +41,7 @@ a value different to `esnext`
 
 ### Examples that **pass** the hint
 
-`typescript-config` configured and `complierOptions.module` has
+`typescript-config` configured and `compilerOptions.module` has
 the value `esnext`
 
 ```json
