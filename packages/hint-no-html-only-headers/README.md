@@ -195,6 +195,8 @@ Note that:
 * The above snippet works with IIS 7+.
 * You should use the above snippet in the `web.config` of your
   application.
+* For the complete set of configurations, not just for this rule, see
+  [this IIS server configuration related docs][IIS config].
 
 </details>
 
@@ -259,11 +261,12 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 <!-- Apache links -->
 
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
 [how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
+[IIS config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
 
 <!-- IIS links -->
 

@@ -170,6 +170,8 @@ Note that:
 * The above snippet works with IIS 7+.
 * You should use the above snippet in the `web.config` of your
   application.
+* For the complete set of configurations, not just for this rule, see
+  [this IIS server configuration related docs][IIS config].
 
 </details>
 
@@ -257,6 +259,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [hsts cheat sheat]: https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
 [hsts wiki]: https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
+[IIS config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [pineapple]: https://www.troyhunt.com/the-beginners-guide-to-breaking-website/
 [preload form]:https://hstspreload.org/
 [preload list]:https://cs.chromium.org/codesearch/f/chromium/src/net/http/transport_security_state_static.json
