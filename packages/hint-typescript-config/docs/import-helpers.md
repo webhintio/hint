@@ -6,7 +6,7 @@ that the [`tslib` package][tslib package] is installed.
 
 ## Why is this important?
 
-By enabling the `importHelpers` compiler option of TypeScript the compiler will
+By enabling the `importHelpers` compiler option of TypeScript, the compiler will
 use the `tslib` package and reduce the size of the output. E.g.:
 
 <!-- eslint-disable -->
