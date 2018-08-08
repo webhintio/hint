@@ -38,7 +38,7 @@ This hint checks if the `compilerOptions` property `importHelpers` is enabled.
 
 ### Examples that **trigger** the hint
 
-By default TypeScript doesn't enable `importHelpers`:
+By default, TypeScript doesn't enable `importHelpers`:
 
 ```json
 {
