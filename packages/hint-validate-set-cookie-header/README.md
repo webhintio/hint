@@ -34,7 +34,7 @@ and [proxy request][proxy request] when cookies are not well protected.
 According to the RFC [HTTP State Management Mechanism][HTTP State Management Mechanism],
 "When using cookies over a secure channel, servers SHOULD set the Secure attribute
 for every cookie". As a result, this hint checks if `Secure` and `HttpOnly` directives
-are properly used, and offers to validate the `Set-Cookie` header syntax.
+are properly used and offers to validate the `Set-Cookie` header syntax.
 
 Note: More information about `Set-cookie` header is available in
 the [MDN web docs][set-cookie web doc].
