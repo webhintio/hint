@@ -33,12 +33,12 @@ Notes:
 
 ## Can the hint be configured?
 
-By default the minimum grade is `A-` but you can configure it to
+By default, the minimum grade is `A-` but you can configure it to
 any valid [grade reported by SSL Labs][ssllabs server rating guide]
 by setting the `grade` option for the `ssllabs` hint in the
 [`.hintrc`][hintrc] file.
 
-E.g. The following configuration will change the minium grade to `A+`:
+E.g. The following configuration will change the minimum grade to `A+`:
 
 ```json
 {
@@ -54,7 +54,7 @@ E.g. The following configuration will change the minium grade to `A+`:
 }
 ```
 
-SSL Labs’ scanner also allows some configuration. By default the one
+SSL Labs’ scanner also allows some configuration. By default, the one
 used is:
 
 ```json
