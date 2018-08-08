@@ -19,7 +19,7 @@
 > It also provides a [web service interface][validator interface].
 
 This hint interacts with this service via [`request`][request]
-and is able to test both remote websites and local server instances.
+and can test both remote websites and local server instances.
 
 ## What does the hint check?
 
@@ -87,7 +87,7 @@ the message of `Invalid attribute`:
 ```
 
 Alternative, you can pass in an array if you have more than one type
-of messages to ignore:
+of message to ignore:
 
 ```json
 {
