@@ -14,7 +14,7 @@ This hint checks if the `compilerOptions` property `strict` is enabled.
 
 ### Examples that **trigger** the hint
 
-By default TypeScript doesn't enable the strict mode:
+By default, TypeScript doesn't enable the strict mode:
 
 ```json
 {
