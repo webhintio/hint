@@ -6,7 +6,7 @@ are not needed for non-HTML resources.
 ## Why is this important?
 
 Some HTTP headers do not make sense to be sent for non-HTML
-resources, as sending them does not provide any value to users,
+resources, as sending them does not provide any value to users
 and contributes to header bloat.
 
 ## What does the hint check?
