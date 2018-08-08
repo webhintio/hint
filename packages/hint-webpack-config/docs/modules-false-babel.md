@@ -1,4 +1,4 @@
-# Validate `modules` property in Babel has the appropiate value for webpack (`modules-false-babel`)
+# Validate `modules` property in Babel has the appropriate value for webpack (`modules-false-babel`)
 
 ## Why is this important?
 
