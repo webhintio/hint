@@ -18,7 +18,7 @@ usually a good idea to also add the charset meta tag because:
 * The page might be saved locally, in which case the HTTP header will
   not be present when viewing the page.
 
-One should [always choose `utf-8` as the encoding, and convert any
+One should [always choose `utf-8` as the encoding and convert any
 content in legacy encodings to `utf-8`][why use utf-8].
 
 As for the charset meta tag, always use `<meta charset="utf-8">` as:
@@ -27,8 +27,8 @@ As for the charset meta tag, always use `<meta charset="utf-8">` as:
   character encoding], so it should always be used over the old
   `<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">`.
 
-* The `charset` value should be `utf-8` not other values such as
-  `utf8`. Using `utf8` for example, is a common mistake, and even
+* The `charset` value should be `utf-8`, not any other values such as
+  `utf8`. Using `utf8`, for example, is a common mistake, and even
   though it is valid nowadays as the [specifications][spec aliases]
   and browsers now alias `utf8` to `utf-8`, that wasn’t the case in
   the past, so things might break in [some older browsers][utf8
