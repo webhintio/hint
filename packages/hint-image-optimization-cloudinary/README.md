@@ -11,7 +11,7 @@ the hint’s configuration. You can create a [free account here][signup].
 
 ## Why is this important?
 
-As of September 15th 2017, and based on [HTTP Archive][httparchive-report],
+As of September 15th, 2017, and based on [HTTP Archive][httparchive-report],
 images account for a bit over 53% of the size of a website in average,
 or 1,810kB.
 
