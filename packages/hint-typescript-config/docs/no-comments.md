@@ -11,7 +11,7 @@ possible.
 
 ## What does the hint check?
 
-This hint checks the `compilerOptions` property `removeComments` is enabled.
+This hint checks if the `compilerOptions` property `removeComments` is enabled.
 
 ### Examples that **trigger** the hint
 
