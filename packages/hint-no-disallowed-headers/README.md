@@ -41,7 +41,7 @@ HTTP headers:
 * `X-Runtime`
 * `X-Version`
 
-or the `Server` header with a value that provides a lot of information,
+or the `Server` header with a value that provides a lot of information
 and is not limited to the server name.
 
 ### Examples that **trigger** the hint
