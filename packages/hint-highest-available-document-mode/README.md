@@ -416,4 +416,5 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html
 
 <!-- IIS Links -->
+
 [url rewrite]: https://docs.microsoft.com/en-us/iis/extensions/url-rewrite-module/using-the-url-rewrite-module
