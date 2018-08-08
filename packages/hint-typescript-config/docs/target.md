@@ -7,7 +7,7 @@ appropriate.
 ## Why is this important?
 
 Not having the right `ES` target can increase the size of your bundle. At the same
-time, having a `ES` target that not all the browsers you care support can create
+time, having an `ES` target that not all the browsers you care support can create
 issues with your users.
 
 ## What does the hint check?
@@ -127,7 +127,7 @@ The right `target` for the right browsers:
 ## Further Reading
 
 * [TypeScript Documentation][typescript docs]
-* [Browserlists][browserslist]
+* [Browserslist][browserslist]
 
 [typescript docs]: https://www.typescriptlang.org/docs/home.html
 [browserslist]: https://github.com/ai/browserslist
