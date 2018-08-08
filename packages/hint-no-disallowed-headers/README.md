@@ -20,12 +20,12 @@ Sending these types of HTTP headers:
   the technology stack being used
 
 2) Uncommon or esoteric headers that have limited support, require
-   a lot of knowledge to use correctly, and can create more problems then
+   a lot of knowledge to use correctly, and can create more problems than
    they solve.
 
    One example here is the `Public-Key-Pins` header. It has [limited
 support and usage, it’s being deprecated (along with the related
-`Public-Key-Pins-Report-Only` header), and can easily create a lot
+`Public-Key-Pins-Report-Only` header) and can easily create a lot
 of problems if not done correctly][hpkp deprecation].
 
 ## What does the hint check?
