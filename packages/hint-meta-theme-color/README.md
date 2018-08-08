@@ -9,7 +9,7 @@ agents.
 The [`theme-color` meta tag][theme-color spec] provides a way to
 suggest a color that browsers should use to customize the display
 of the page or of the surrounding user interface. For example,
-browsers might use the color for the page's title bar, or use it
+browsers might use the color for the page's title bar or use it
 as a color highlight in a tab bar or task switcher.
 
 In the context of [progressive web apps][pwas], for a more app-like
@@ -29,14 +29,14 @@ Note that:
   * Values such as [`hex with alpha` are not supported][hex with alpha
     support] everywhere `theme-color` is.
 
-  * Browsers that suppoted `rgba`, `hsla`, or `hex with alpha` values
+  * Browsers that supported `rgba`, `hsla`, or `hex with alpha` values
     will ignore the alpha value.
 
 * Always specify the theme color using the meta tag. Even though
   it can also be declared in the [web app manifest file][manifest]:
 
   * Browsers only acknowledge the value from the web app manifest
-    file once the user has added the page to their homescreen.
+    file once the user has added the page to their home screen.
 
   * The `theme-color` meta tag overwrites the value specified in the
     web app manifest file so it allows for better individual page level
@@ -47,7 +47,7 @@ Note that:
 The hint checks if a single `theme-color` meta tag is specified
 in the `<head>` and the value of its `content` attribute is a
 [valid CSS color][css color] supported by all the [targeted
-browsers](targeted browsers).
+browsers][targeted browsers].
 
 ### Examples that **trigger** the hint
 
@@ -81,7 +81,7 @@ The `theme-color` meta tag is specified with an invalid value:
 ```
 
 The `theme-color` meta tag is specified with value that is not
-supported by all the [targeted browsers](targeted browsers) (e.g.:
+supported by all the [targeted browsers][targeted browsers] (e.g.:
 `Samsung Internet v5` is targeted).
 
 ```html
@@ -127,7 +127,7 @@ Multiple `theme-color` meta tags are specified:
 
 A single `theme-color` meta tag is specified in the `<head>` and
 the value of its `content` attribute is a [valid CSS color][css
-color] supported by all the [targeted browsers](targeted browsers).
+color] supported by all the [targeted browsers][targeted browsers].
 
 ```html
 <!doctype html>
@@ -141,7 +141,7 @@ color] supported by all the [targeted browsers](targeted browsers).
 </html>
 ```
 
-The `content` attribute value ca be specified as:
+The `content` attribute value can be specified as:
 
 * a color name
 
@@ -162,7 +162,7 @@ The `content` attribute value ca be specified as:
   * `<meta name="theme-color" content="rgb(255, 0, 0)">`
   * `<meta name="theme-color" content="rgba(255, 0, 0, 1)">`
 
-And, depending on the [targeted browsers](targeted browsers):
+And, depending on the [targeted browsers][targeted browsers]:
 
 * `hex` using 4 or 8 digits
 
