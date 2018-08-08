@@ -34,7 +34,7 @@ enough guidance to know if something needs more attention.
 
 The reason for using predefined conditions and assumptions are:
 
-* Guarantee consistent results accross runs. If a website serves the same
+* Guarantee consistent results across runs. If a website serves the same
   assets, the results should be the same.
 * Show the impact in load time of each transmitted byte with the goal of
   reducing the number and size of resources downloaded (first and third party).
@@ -50,7 +50,7 @@ Time = (total number of requests * RTT) +
        (total size of resources / bandwidth)
 ```
 
-This is the list of things taken into account:
+This is the list of things considered:
 
 * Everything is a first load, no values are cached, and no connections are
   opened.
@@ -119,8 +119,8 @@ The possible values and the associated speeds for `connectionType` are:
 | Edge   | 240 Kbps | 200 Kbps | 840ms |
 | Dial   |  49 Kbps |  30 Kbps | 120ms |
 
-`loadTime` has to be a number greater than `1` and indicates the time in
-seconds to load all the resources.
+`loadTime` needs to be a number greater than `1` and indicates the time
+in seconds to load all the resources.
 
 The default values are:
 
