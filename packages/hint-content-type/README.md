@@ -24,7 +24,7 @@ charset for the response as, among other:
 ## What does the hint check?
 
 The hint checks if responses include the `Content-Type` HTTP response
-header and its value contains the appropiate media type and charset
+header and its value contains the appropriate media type and charset
 for the response.
 
 ### Examples that **trigger** the hint
