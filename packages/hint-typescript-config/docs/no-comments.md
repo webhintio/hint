@@ -1,12 +1,12 @@
 # Enable remove comments in TypeScript configuration (`no-comments`)
 
 `typescript-config/no-comments` checks that the property `removeComments`
-is enabled in your TypeScript configuration file (i.e `tsconfig.json`).
+is enabled in your TypeScript configuration file (i.e. `tsconfig.json`).
 
 ## Why is this important?
 
 Removing the comments will make your final JavaScript files smaller. If you
-are delivering this files over the Internet, you want them to be a small as
+are delivering these files over the Internet, you want them to be a small as
 possible.
 
 ## What does the hint check?
