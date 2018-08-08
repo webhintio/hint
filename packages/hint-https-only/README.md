@@ -85,6 +85,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 * [W3C Mixed Content spec][spec]
 
 [crypto miner]: https://scotthelme.co.uk/protect-site-from-cryptojacking-csp-sri/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats
 [mixed content]: https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
 [needs https]: https://doesmysiteneedhttps.com/
 [certain features]: https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts/features_restricted_to_secure_contexts
