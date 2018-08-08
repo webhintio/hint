@@ -8,9 +8,9 @@ mixed content.
 HTTPS is important to guarantee content integrity. Even when your site
 doesn't have sensitive information, an attacker can change the content
 or inject malicious scripts (like a [crypto miner][crypto miner] to
-use your users CPU power).
+use your user's CPU power).
 
-Also [certain browser features][certain features] are only available if the
+Also, [certain browser features][certain features] are only available if the
 site is on HTTPS.
 
 ## What does the hint check?
