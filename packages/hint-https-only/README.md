@@ -8,9 +8,9 @@ mixed content.
 HTTPS is important to guarantee content integrity. Even when your site
 doesn't have sensitive information, an attacker can change the content
 or inject malicious scripts (like a [crypto miner][crypto miner] to
-use your users CPU power).
+use your user's CPU power).
 
-Also [certain browser features][certain features] are only available if the
+Also, [certain browser features][certain features] are only available if the
 site is on HTTPS.
 
 ## What does the hint check?
@@ -85,6 +85,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 * [W3C Mixed Content spec][spec]
 
 [crypto miner]: https://scotthelme.co.uk/protect-site-from-cryptojacking-csp-sri/
+[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats
 [mixed content]: https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
 [needs https]: https://doesmysiteneedhttps.com/
 [certain features]: https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts/features_restricted_to_secure_contexts
