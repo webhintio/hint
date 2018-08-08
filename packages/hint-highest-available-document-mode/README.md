@@ -46,7 +46,7 @@ Notes:
 
 ## What does the hint check?
 
-By default the hint checks if the `X-UA-Compatible` response header is
+By default, the hint checks if the `X-UA-Compatible` response header is
 sent with the value of `IE=edge`, and that the `meta` tag isn’t used.
 
 ### Examples that **trigger** the hint for defaults
