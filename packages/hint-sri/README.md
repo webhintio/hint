@@ -27,7 +27,7 @@ This hint checks that a website correctly uses SRI, more specifically:
 
 * All the downloaded resources by an `<script>` or `<link rel="stylesheet">`
   have an `integrity` attribute.
-* [The `integrity` attribute has to be valid][sri format]. I.e.: it should
+* [The `integrity` attribute must be valid][sri format]. I.e.: it should
   contain something in the form of `sha(256|384|512)-HASH`, where `HASH` is
   the hashed value of the downloaded body's response using the previously
   specified algorithm (`sha256`, `sha384`, or `sha512`).
