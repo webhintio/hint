@@ -30,7 +30,7 @@ validate that the page and resources have a good caching strategy:
 * static resources such as JavaScript, CSS, images, etc.:
   * have a long expiry value (>= 1 year)
   * use the `immutable` directive
-  * follow some kind of filename/path-based revving, and not
+  * follow filename/path-based revving, and not
     one based on query string parameters (see: [problems with
     proxies][revving files])
 
