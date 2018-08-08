@@ -30,7 +30,7 @@ validate that the page and resources have a good caching strategy:
 * static resources such as JavaScript, CSS, images, etc.:
   * have a long expiry value (>= 1 year)
   * use the `immutable` directive
-  * follow some kind of filename/path-based revving, and not
+  * follow filename/path-based revving, and not
     one based on query string parameters (see: [problems with
     proxies][revving files])
 
@@ -219,7 +219,7 @@ Important notes:
         #     of a `.htaccess` file where only the `<Files>` directive
         #     can be used, reason why the best that can be done is match
         #     all files named `favicon.ico` (but that should work fine
-        #     if filename/path based revving is used)
+        #     if filename/path-based revving is used)
         #
         # See also: https://httpd.apache.org/docs/current/sections.html#file-and-web.
 
@@ -276,7 +276,7 @@ Also note that:
 * The above snippet works with Apache `v2.2.0+`, but you need to
   have [`mod_expires`][mod_expires] and [`mod_headers`][mod_headers]
   [enabled][how to enable apache modules]
-  in order for it to take effect.
+  for it to take effect.
 
 * If you have access to the [main Apache configuration file][main
   apache conf file] (usually called `httpd.conf`), you should add
@@ -321,8 +321,8 @@ with `cache-control: max-age=31536000, immutable`:
 </configuration>
 ```
 
-In the example above you want to have your JavaScript, CSS, images, etc.
-under the `static` folder, and your HTML elesewhere. If your static
+In the example above, you want to have your JavaScript, CSS, images, etc.
+under the `static` folder, and your HTML elsewhere. If your static
 content is in another folder change the path of `<location path="static">`
 to the right one.
 
@@ -359,7 +359,7 @@ be greater or equal to 1 year. You can change this as follows:
 
 ### Custom regular expressions for revving files
 
-If none on the built-in regular expressions work for your use case, you
+If none of the built-in regular expressions work for your use case, you
 can provide your own via the `revvingPatterns` property. This property
 accepts an `Array` of escaped `RegExp`:
 
