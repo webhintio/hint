@@ -16,7 +16,7 @@ is enabled.
 
 ### Examples that **trigger** the hint
 
-By default TypeScript doesn't enforce this:
+By default, TypeScript doesn't enforce this:
 
 ```json
 {
