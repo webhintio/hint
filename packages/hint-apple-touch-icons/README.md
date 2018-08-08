@@ -7,12 +7,12 @@
 
 Since `iOS 1.1.3` Safari for iOS has supported a way for developers
 to specify an image that will be used to represent the web site/app
-on the homescreen. The image is known as the [touch icon][touch icons].
+on the home screen. The image is known as the [touch icon][touch icons].
 
 Note: As of `iOS 11.1.0` Safari for iOS [supports the web app manifest
 file][safari 11.1] which provides a standard, cross-browser way of
 defining, among other, the icons browsers can use in various contexts
-(homescreen, application menu, etc.). However, Safari ignores the icons
+(home screen, application menu, etc.). However, Safari ignores the icons
 defined in the web app manifest and still uses the non-standard
 `apple-touch-icon`.
 
@@ -40,11 +40,11 @@ sizes is not recommended as:
 
 * It will increase the size of the pages with very little to no
   real benefit (most users will probably not add the site to their
-  homescreens).
+  home screens).
 
 * Most sizes will probably never be used as iOS devices get upgraded
   pretty quickly, so [most iOS users will be on the latest 2 versions
-  of iOS][app store stats], and using newer devices.
+  of iOS][app store stats] and using newer devices.
 
 * The `180×180px` image, if needed, [will be automatically down scaled
   by Safari, and the result of the scaling is generally ok][icon
@@ -57,7 +57,7 @@ as users upgrade their devices and their iOS version.
 
 Other notes:
 
-* Not declaring the touch icon in the page, and having it in the
+* Not declaring the touch icon in the page and having it in the
   root of the site is not recommended as [Apple usually changes
   what is requested by default][h5bp issue 1622].
 
