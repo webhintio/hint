@@ -5,7 +5,7 @@ is enabled in your TypeScript configuration file (i.e. `tsconfig.json`).
 
 ## Why is this important?
 
-By enabling the `strict` compiler option of TypeScript the compiler will
+By enabling the `strict` compiler option of TypeScript, the compiler will
 run in the strictest of the modes catching more typing issues before runtime.
 
 ## What does the hint check?
