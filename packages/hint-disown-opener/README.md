@@ -13,7 +13,7 @@ Links that have `target="_blank"`, such as
 
 * [a security problem][security problem]
 
-  When using `target="_blank"` the page that was linked to gains
+  When using `target="_blank"`, the page that was linked to gains
   access to the original page’s [`window.opener`][window.opener].
   This allows it to redirect the original page to whatever it wants,
   a technique frequently used for malicious attacks on the user.
@@ -27,9 +27,9 @@ Links that have `target="_blank"`, such as
 
 * [a performance problem][performance problem]
 
-  Most modern browsers are multi-process. However, due to the
-  synchronous cross-window access the DOM allows via `window.opener`,
-  in most browsers pages launched via `target="_blank"` end up in
+  Most modern browsers are multi-process. However, in most browsers,
+  due to the synchronous cross-window access the DOM allows via
+  `window.opener`, pages launched via `target="_blank"` end up in
   the same process as the origin page, and that can lead to the pages
   experiencing jank.
 
@@ -55,7 +55,7 @@ Notes:
   * Security isn’t really a problem here.
   * When it comes to performance, making same origin links open in
     their own process works against optimizations that some
-    browsers do in order to keep multiple same origin tabs within
+    browsers do to keep multiple same origin tabs within
     the same process (e.g. share the same event loop).
 
   Check [`Can the hint be configured?`](#can-the-hint-be-configured)
