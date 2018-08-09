@@ -1,8 +1,8 @@
 # Check if the TypeScript target is appropriate (`target`)
 
-`typescript-config/target` takes into account your `webhint`'s
-`browserslist` configuration and warns you if your `target`
-(`es3`, `es2015`, etc.) is appropriate.
+`typescript-config/target` considers your `webhint`'s `browserslist`
+configuration and warns you if your `target` (`es3`, `es2015`, etc.) is
+appropriate.
 
 ## Why is this important?
 
