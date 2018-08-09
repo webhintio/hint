@@ -80,7 +80,7 @@ The `theme-color` meta tag is specified with an invalid value:
 <meta name="theme-color" content="currentcolor">
 ```
 
-The `theme-color` meta tag is specified with value that is not
+The `theme-color` meta tag is specified with a value that is not
 supported by all the [targeted browsers][targeted browsers] (e.g.:
 `Samsung Internet v5` is targeted).
 
