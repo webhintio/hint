@@ -19,7 +19,7 @@ By specifying the `Strict-Transport-Security` header along with a
 only secure connections within the specified period will be
 accepted. For future requests to the same domain via insecure
 connections, the browser knows that it should never load the site using
-HTTP and automatically convert all requests to HTTPS instead.
+HTTP and automatically converts all requests to HTTPS instead.
 
 Notably, to prevent the `Strict-Transport-Security` header from being
 stripped by the attacker on the user’s first visit, major browsers
@@ -45,7 +45,7 @@ For a site served over HTTPS, this hint checks the following:
 * If the `max-age` directive has a value that is longer than
   18 weeks (10886400s).
 * If `Strict-Transport-Security` header has repetitive directives.
-* When a `Strict-Transport-Security` header contains `preload`
+* When a `Strict-Transport-Security` header contains the `preload`
   directive, this hint will first check the domain name against the
   [HTTP Strict Transport Security (HSTS) preload list][preload list]
   for the preload status, and then check whether this domain has errors
@@ -198,7 +198,7 @@ limit to `123456`.
 }
 ```
 
-Also, you can configure the hint so that if `preload` directive is
+Also, you can configure the hint so that if the `preload` directive is
 included in the header, it will check whether this domain has errors
 that would prevent preloading by calling the hstspreload api endpoint.
 This validation is disabled by default.
