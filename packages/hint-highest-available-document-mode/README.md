@@ -333,6 +333,8 @@ Note that:
 * The above snippet works with IIS 7+.
 * You should use the above snippet in the `web.config` of your
   application.
+* For the complete set of configurations, not just for this rule, see
+  [this IIS server configuration related docs][IIS config].
 
 </details>
 
@@ -401,8 +403,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [chrome frame]: https://blog.chromium.org/2013/06/retiring-chrome-frame.html
 [doc modes]: https://msdn.microsoft.com/en-us/library/cc288325.aspx
-[ie complications]: https://hsivonen.fi/doctype/#ie8
 [hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[ie complications]: https://hsivonen.fi/doctype/#ie8
+[IIS config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [targeted browsers]: https://webhint.io/docs/user-guide/further-configuration/browser-context/
 
 <!-- Apache links -->
