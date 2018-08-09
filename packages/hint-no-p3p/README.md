@@ -21,8 +21,8 @@ see if that's the case in your country.
 
 Additionally, [studies][research] have detected that about 33% of sites using
 P3P don't have a valid configuration. In some cases, the value was used to
-circumvent IE cookie blocking (and thus rendering P3P ineffective). Others it
-was typos and errors in the tokens (but still invalid policies).
+circumvent IE cookie blocking (and thus rendering P3P ineffective). Others had
+typos and errors in the tokens.
 
 Because of all the above reasons it's recommended to not use `P3P` anymore.
 
