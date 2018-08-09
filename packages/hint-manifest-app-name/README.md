@@ -17,7 +17,7 @@ from other sources such as the value of the [`application-name` meta tag,
 metadata]. This can lead to a bad user experience, as the app name may
 be truncated or wrong.
 
-So, in order to reduce the risk of having the app name truncated, it's
+So, to reduce the risk of having the app name truncated, it's
 recommended to define the `name` property and keep its value under 30
 characters, and if it’s over 12 characters, include a `short_name`
 property that is at most 12 characters.

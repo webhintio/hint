@@ -19,7 +19,7 @@ the Internet 2017_][state of the internet]), _"no bit is faster than one that is
 not sent"_ (quote by [Ilya Grigorik][faster bit]). Web developers need to be
 mindful not only about the size of their sites, but also the number of
 requests, different domains, third party scripts, etc. The time required by a
-browser to download a 200kB file is not the same than 20 files of 10kB.
+browser to download a 200kB file is not the same as 20 files of 10kB.
 
 ## What does the hint check?
 
@@ -61,7 +61,7 @@ This is the list of things considered:
   imposing latency on the request and blocking the request while the lookup is
   in progress.
 * [`TCP handshake`][three-way handshake]: Each request requires a new TCP
-  connection. TCP connections require 1 RTT before start sending information to
+  connection. TCP connections require 1 RTT before starting to send information to
   the server. There's no connection reuse and the maximum number of connections
   to a domain (usually 6) is ignored.
 * [`TCP slow-start phase`][slow-start phase]: The values used to calculate the

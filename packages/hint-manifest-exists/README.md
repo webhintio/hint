@@ -8,14 +8,14 @@ file is not provided.
 The web app manifest file constitutes a standard centralized place
 to put metadata about your web application, and providing it:
 
-* informs browsers (and possible [others][windows] where to look
+* informs browsers (and possible [others][windows]) where to look
   for information about your web app, information that they may need
   in different contexts (e.g. what icon and name should be used if
   your web app is added to the home screen)
 
 * is an essential piece in the context of progressive web apps,
   being one of the signals used by some browsers (e.g. [Chrome][chrome],
-  [opera][opera], [samsung internet][samsung internet]) in deciding if
+  [Opera][opera], [Samsung Internet][samsung internet]) in deciding if
   they will show the add to home screen prompt to users
 
 ## What does the hint check?

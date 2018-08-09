@@ -5,11 +5,11 @@
 
 ## Why is this important?
 
-Since `iOS 1.1.3` Safari for iOS has supported a way for developers
+Since `iOS 1.1.3`, Safari for iOS has supported a way for developers
 to specify an image that will be used to represent the web site/app
 on the home screen. The image is known as the [touch icon][touch icons].
 
-Note: As of `iOS 11.1.0` Safari for iOS [supports the web app manifest
+Note: As of `iOS 11.1.0`, Safari for iOS [supports the web app manifest
 file][safari 11.1] which provides a standard, cross-browser way of
 defining, among other, the icons browsers can use in various contexts
 (home screen, application menu, etc.). However, Safari ignores the icons
@@ -43,10 +43,10 @@ sizes is not recommended as:
   home screens).
 
 * Most sizes will probably never be used as iOS devices get upgraded
-  pretty quickly, so [most iOS users will be on the latest 2 versions
+  quickly, so [most iOS users will be on the latest 2 versions
   of iOS][app store stats] and using newer devices.
 
-* The `180×180px` image, if needed, [will be automatically down scaled
+* The `180×180px` image, if needed, [will be automatically downscaled
   by Safari, and the result of the scaling is generally ok][icon
   scaling].
 
@@ -61,7 +61,7 @@ Other notes:
   root of the site is not recommended as [Apple usually changes
   what is requested by default][h5bp issue 1622].
 
-* In older versions of Safari for iOS the [`precomposed` keyword][icon
+* In older versions of Safari for iOS, the [`precomposed` keyword][icon
   effects] could be used to prevent iOS from adding different visual
   effects to the touch icon (i.e. rounded corners, drop shadow,
   reflective shine). Starting with iOS 7 no special effects are applied
@@ -75,12 +75,12 @@ Other notes:
 ## What does the hint check?
 
 The hint checks if a single `apple-touch-icon` declaration exists in
-the `<head>`, and it:
+the `<head>`, and:
 
-* has `rel="apple-touch-icon"`
+* it has `rel="apple-touch-icon"`
 * the declared image is accessible (e.g.: doesn’t result in a `404`),
   a `PNG`, and its size is `180×180px`
-* does not include the `sizes` attribute
+* it does not include the `sizes` attribute
 
 ### Examples that **trigger** the hint
 

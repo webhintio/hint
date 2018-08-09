@@ -85,7 +85,7 @@ The web app manifest file contains properties with invalid values:
 }
 ```
 
-The web app manifest file contains a properties with values not
+The web app manifest file contains properties with values not
 supported by all the [targeted browsers][targeted browsers].
 
 ```json
