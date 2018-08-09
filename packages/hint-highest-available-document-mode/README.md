@@ -363,7 +363,7 @@ In the [`.hintrc`][hintrc] file:
 
 Also, note that this hint takes into consideration the [targeted
 browsers][targeted browsers], and if Internet Explorer 8/9/10 aren’t
-among them, it will suggest removing the `meta` tag or/and not sending
+among them, it will suggest removing the `meta` tag and/or not sending
 the HTTP response header.
 
 ## How to use this hint?
