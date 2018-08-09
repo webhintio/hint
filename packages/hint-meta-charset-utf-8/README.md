@@ -23,7 +23,7 @@ content in legacy encodings to `utf-8`][why use utf-8].
 
 As for the charset meta tag, always use `<meta charset="utf-8">` as:
 
-* [Is backwards compatible and works in all known browsers][html5
+* [It's backwards compatible and works in all known browsers][html5
   character encoding], so it should always be used over the old
   `<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">`.
 
@@ -35,13 +35,13 @@ As for the charset meta tag, always use `<meta charset="utf-8">` as:
   example]. The same may be true for other agents (non-browsers) that
   may scan/get the content and may not have the alias.
 
-* Must be inside the `<head>` element and [within the first 1024
-  bytes of the HTML][whatwg charset], as some browsers only look at
-  those bytes before choosing an encoding.
+* It needs to be inside the `<head>` element and [within the first
+  1024 bytes of the HTML][whatwg charset], as some browsers only
+  look at those bytes before choosing an encoding.
 
   Moreover, it is recommended that the meta tag be the first thing
   in the `<head>`. This ensures it is before any content that could
-  be controlled by an attacker, such as a `<title>` element, thus,
+  be controlled by an attacker, such as a `<title>` element, thus
   avoiding potential encoding-related security issues ([such as the
   one in old IE][ie issue]).
 
