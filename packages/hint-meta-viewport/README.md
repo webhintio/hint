@@ -218,10 +218,10 @@ If versions of Safari for iOS 9+ are targeted:
 
 ## Can the hint be configured?
 
-That this hint takes into consideration the [targeted
+This hint takes into consideration the [targeted
 browsers](../index.md#browser-configuration), and if no
-versions of Safari for iOS < 9 are included, it will
-not require `initial-scale=1`.
+versions of Safari for iOS < 9 are included, it will not
+require `initial-scale=1`.
 
 ## How to use this hint?
 
