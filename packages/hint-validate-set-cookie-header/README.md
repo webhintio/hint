@@ -59,7 +59,7 @@ the [MDN web docs][set-cookie web doc].
   * Validate `Expires` value date format.
 
 * Browser compatibility of `Max-Age` directive:
-  * Some browsers (ie6, ie7, and ie8) doesn’t support `Max-Age`.
+  * Some browsers (ie6, ie7, and ie8) don’t support `Max-Age`.
 
 ### Examples that **trigger** the hint
 
