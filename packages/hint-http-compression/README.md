@@ -97,7 +97,7 @@ resources:
 
 ## What does the hint check?
 
-The hint checks for the use cases previously specified, namely, it
+The hint checks for the use cases previously specified. Namely, it
 checks that:
 
 * Only resources for which the result of the compression is smaller
