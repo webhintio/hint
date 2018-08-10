@@ -25,21 +25,6 @@ img {
     border: 0;
 }
 
-/* Needed for browsers that do not support the details element */
-details {
-    display: block;
-}
-
-details + details {
-    margin-top: 1.6rem;
-}
-
-h2 + details,
-h3 + details,
-p + details {
-    margin-top: 2.4rem;
-}
-
 /* Style focusable elements that need focus ring. Others reset and receive border styles in controls/color.css */
 a:focus,
 li:focus,
@@ -65,42 +50,4 @@ Sets a margin on select block level elements that have a previous sibling.
 * + blockquote,
 * + img {
     margin-top: 2.4rem;
-}
-
-/* The following should probably be in another file */
-
-.documentation-search {
-    flex: 1;
-    max-width: 64rem;
-    width: 100%;
-    margin-bottom: 2.4rem;
-}
-
-.documentation-search__input {
-    position: relative;
-    margin-top: 2.4rem;
-}
-
-/* GDPR banner styles */
-
-.disclaimer {
-    background-color: #f2f2f2;
-    color: #000;
-    left: 0;
-    padding: 1rem 4.8rem 1rem 2rem;
-    position: fixed;
-    text-align: center;
-    bottom: 0;
-    width: 100%;
-    z-index: 15;
-}
-
-.disclaimer .close {
-    color: #000;
-    background-color: inherit;
-    line-height: 12px;
-    min-width:23px;
-    position: absolute;
-    right: 15px;
-    padding: 5px;
 }

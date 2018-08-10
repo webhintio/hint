@@ -106,7 +106,7 @@ export default class HTMLFormatter implements IFormatter {
                     await fs.outputFile(path.join(configDir, result.id), JSON.stringify(options.config));
                 }
 
-                await fs.outputFile(path.join(destDir, 'hint-report.html'), html);
+                await fs.outputFile(path.join(destDir, 'index.html'), html);
             }
 
             return result;

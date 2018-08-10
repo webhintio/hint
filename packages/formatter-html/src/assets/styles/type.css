@@ -19,15 +19,6 @@ body {
 /*	Headings and Captions */
 
 /* only elements get top margin. Semantic classes only get the font/text styles */
-* + h1,
-* + h2,
-* + h3,
-* + h4,
-* + h5,
-* + h6 {
-    margin-top: 4rem;
-}
-
 h1,
 h2,
 h3,
@@ -105,24 +96,6 @@ h4,
     font-weight: 300;
 }
 
-h5,
-h6,
-.caption,
-.subcaption,
-.subcaption,
-thead th {
-    font-weight: 400;
-}
-
-.headline {
-    font-size: 4.6rem;
-}
-
-h1,
-.heading {
-    font-size: 3.4rem;
-}
-
 h2,
 .subheading {
     font-size: 2.6rem;
@@ -140,34 +113,7 @@ caption,
     font-size: 1.8rem;
 }
 
-.subtitle--alt {
-    font-size: 1.6rem;
-}
-
-h5,
-.caption {
-    font-size: 1.2rem;
-}
-
-thead th {
-    font-size: 1.1rem;
-}
-
-h6,
-.subcaption {
-    font-size: 1rem;
-}
-
 @media (min-width: 48em) {
-
-    .headline {
-        font-size: 6.2rem;
-    }
-
-    h1,
-    .heading {
-        font-size: 4.6rem;
-    }
 
     h2,
     .subheading {
@@ -185,27 +131,6 @@ h6,
         font-size: 2rem;
     }
 
-    .subtitle--alt {
-        font-size: 1.8rem;
-    }
-
-    h5,
-    .caption {
-        font-size: 1.3rem;
-    }
-
-    h6,
-    .subcaption {
-        font-size: 1.1rem;
-    }
-
-}
-
-blockquote {
-    border-left: 5px solid #4046dd;
-    padding-left: 2.4rem;
-    color: #6c6c6c;
-    font-size: 1.6rem;
 }
 
 /* Maximum line lengths */
@@ -213,38 +138,4 @@ details,
 p,
 li {
     max-width: 64rem;
-}
-
-/* Override line lengths */
-.header p,
-.header li,
-.footer p,
-.footer li {
-    max-width: none;
-}
-
-/* Override style in subpage generated with markdown */
-
-.module--primary h1::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: -.5rem;
-    height: .5rem;
-    width: 5rem;
-    border-top: 4px solid #4046dd;
-}
-
-.module--primary h1 {
-    font-size: 3.4rem;
-    color: #000;
-    display: none;
-}
-
-.module--primary h2::before {
-    border: none;
-}
-
-.module--primary h2:nth-child(2) {
-    margin-top: 1.6rem;
 }

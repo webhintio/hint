@@ -8,24 +8,6 @@ body {
     overflow-x: hidden;
 }
 
-main {
-    display: block;
-    position: relative;
-    margin: 0 auto 4.8rem;
-}
-
-/* Dividers */
-hr {
-    display: block;
-    height: 1px;
-
-    margin-right: 1rem;
-    margin-left: 1rem;
-    border: 0;
-
-    background: hsla(0, 0%, 0%, .2);
-}
-
 /* Limit widths */
 hr,
 .container {
@@ -38,33 +20,12 @@ hr {
     margin-top: 4.8rem;
 }
 
-.content > header + .section,
-.section__header + .section__body,
-    * + .subsection,
-    .subsection__body {
-        margin-top: 2.4rem;
-    }
 
-    /* Top of page content */
-    main > .section:first-child,
-    .content > header:first-child {
-        margin-top: 1.2rem;
-    }
 
-    .subsection__header {
-        display: block;
-    }
-
-    /* Alt sectioning header styles */
-    [class$="header--alt"] {
-        border-bottom: 1px solid hsla(0, 0%, 0%, .2);
-        padding-bottom: 1rem;
-    }
-
-    /*
-    Containing element goes INSIDE sections,
-    as some sections are full-bleed on the page.
-     */
+/*
+Containing element goes INSIDE sections,
+as some sections are full-bleed on the page.
+ */
 
 .container {
     width: 100%;
@@ -77,16 +38,7 @@ hr {
     width: auto;
 }
 
-.container hr {
-    margin-right: 0;
-    margin-left: 0;
-}
-
 @media (min-width: 48em) {
-
-    main {
-        margin-bottom: 6rem;
-    }
 
     .content > header,
     .section,
@@ -94,35 +46,18 @@ hr {
         margin-top: 6rem;
     }
 
-    .content > header + .section,
-    .section__header + .section__body,
-    * + .subsection,
-    .subsection__body {
-        margin-top: 3.2rem;
-    }
-
 }
 
 /* @TODO: Revert to 56.2em when extensions is removed from header */
 @media (min-width: 58em) {
 
-    main > .section:first-child,
-    .content > header:first-child {
-        margin-top: 6.4rem;
+    hr,
+    .container {
+        width: 90%;
+        margin-right: auto;
+        margin-left: auto;
+        padding-right: 0;
+        padding-left: 0;
     }
 
-    .content > header + .section,
-        * + .subsection {
-            margin-top: 4.8rem;
-        }
-
-        hr,
-        .container {
-            width: 90%;
-            margin-right: auto;
-            margin-left: auto;
-            padding-right: 0;
-            padding-left: 0;
-        }
-
-    }
+}

@@ -17,11 +17,6 @@
     margin-left: 0;
 }
 
-ul.layout,
-ol.layout {
-    list-style: none;
-}
-
 .module {
     margin-top: 2.4rem;
     width: 100%;
@@ -29,10 +24,6 @@ ol.layout {
 
 .module:first-child {
     margin-top: 0;
-}
-
-.layout--equal .module:nth-last-child(1):first-child {
-    margin-top: 2.4rem;
 }
 
 @media (min-width: 33.75em) {
@@ -74,41 +65,6 @@ ol.layout {
         width: 50%;
         margin-top: 0;
     }
-
-    .layout--basic .module--primary,
-    .layout--basic--offset .module--primary {
-        float: right;
-    }
-
-    .layout--basic--alt .module--secondary,
-    .layout--basic--offset--alt .module--secondary {
-        float: right;
-    }
-
-}
-
-@media (min-width: 60em) {
-
-    .layout--basic .module--primary,
-    .layout--basic--alt .module--primary {
-        width: 62.5%;
-    }
-
-    .layout--basic .module--secondary,
-    .layout--basic--alt .module--secondary {
-        width: 33.333%;
-    }
-
-    .layout--basic--offset .module--primary,
-    .layout--basic--offset--alt .module--primary {
-        width: 58.333%;
-    }
-
-    .layout--basic--offset .module--secondary,
-    .layout--basic--offset--alt .module--secondary {
-        width: 37.5%;
-    }
-
 }
 
 /* Fixed sidebar width */
@@ -119,176 +75,19 @@ ol.layout {
         margin-top: 0;
     }
 
-    [class*="layout--sidebar"] > .module--secondary {
-        width: 22rem;
-    }
-
     [class*="layout--sidebar"] > .module--primary {
         width: calc(100% - 26rem);
-    }
-
-    .layout--sidebar > .module--primary {
-        float: right;
     }
 
     .layout--sidebar--alt > .module--primary {
         float: left;
     }
-
-    .layout--sidebar--alt > .module--secondary {
-        float: right;
-    }
-
 }
 
 @media (min-width: 64em) {
 
-    [class*="layout--sidebar"] > .module--secondary {
-        width: 30rem;
-    }
-
     [class*="layout--sidebar"] > .module--primary {
         width: calc(100% - 36rem);
-    }
-
-}
-
-/*
-Equal, variable layouts
-This strategy measures an exact number of elements: 2, 3, 4.
- */
-
-@media (min-width: 33.75em) {
-
-    /* Variable - 2 modules */
-    .layout--equal .module:nth-last-child(2):first-child,
-    .layout--equal .module:nth-last-child(2):first-child ~ .module {
-        width: 50%;
-        margin-top: 0;
-    }
-
-}
-
-@media (min-width: 60em) {
-
-    /* Variable - 3 modules */
-    .layout--equal .module:nth-last-child(3):first-child,
-    .layout--equal .module:nth-last-child(3):first-child ~ .module {
-        width: 33.333%;
-        margin-top: 0;
-    }
-
-    /* Variable - 4 modules */
-
-    .layout--equal .module:nth-last-child(4):first-child,
-    .layout--equal .module:nth-last-child(4):first-child ~ .module {
-        width: 25%;
-        margin-top: 0;
-    }
-
-}
-
-@media (min-width: 33.75em) and (max-width: 60em) {
-
-    /* Variable - 3 modules */
-    .layout--equal .module:nth-last-child(3):first-child ~ .module {
-        margin-top: 3.2rem;
-    }
-
-    /* Variable - 4 modules */
-    .layout--equal .module:nth-last-child(4):first-child,
-    .layout--equal .module:nth-last-child(4):first-child ~ .module {
-        width: 50%;
-        margin-top: 3.2rem;
-    }
-
-    .layout--equal .module:nth-last-child(4):first-child ~ .module:nth-child(3) {
-        clear: left;
-    }
-
-    /* Reset top margins for first row of 3 and 4 modules */
-    .layout--equal .module:nth-last-child(3):first-child,
-    .layout--equal .module:nth-last-child(4):first-child,
-    .layout--equal .module:nth-last-child(4):first-child ~ .module:nth-child(2) {
-        margin-top: 0;
-    }
-
-}
-
-/*
-Equal, forced widths
-This strategy forces widths on modules, regardless of number of modules.
- */
-
-@media (min-width: 33.75em) {
-
-    .layout--halves .module,
-    .layout--thirds .module {
-        width: 50%;
-        margin-top: 3.2rem;
-    }
-
-    .layout--halves .module:nth-child(-n+2),
-    .layout--thirds .module:nth-child(-n+2) {
-        margin-top: 0;
-    }
-
-    .layout--halves .module:nth-child(odd),
-    .layout--thirds .module:nth-child(odd) {
-        clear: left;
-    }
-
-}
-
-@media (min-width: 60em) {
-
-    /* A lone module */
-    .layout--equal .module:nth-last-child(1):first-child {
-        width: 50%;
-    }
-
-    .layout--thirds .module {
-        width: 33.333%;
-    }
-
-    .layout--quarters .module {
-        width: 25%;
-    }
-
-    .layout--thirds .module:nth-child(-n+3),
-    .layout--quarters .module:nth-child(-n+4) {
-        margin-top: 0;
-    }
-
-    .layout--thirds .module:nth-child(odd) {
-        clear: none;
-    }
-
-    .layout--thirds .module:nth-child(3n+1),
-    .layout--quarters .module:nth-child(4n+1) {
-        clear: left;
-    }
-
-}
-
-@media (min-width: 33.75em) and (max-width: 60em) {
-
-    .layout--thirds .module {
-        margin-top: 3.2rem;
-    }
-
-    .layout--quarters .module {
-        width: 50%;
-        margin-top: 3.2rem;
-    }
-
-    .layout--thirds .module:nth-child(-n+2)
-    .layout--quarters .module:nth-child(-n+2) {
-        margin-top: 0;
-    }
-
-    .layout--quarters .module:nth-child(odd) {
-        clear: left;
     }
 
 }

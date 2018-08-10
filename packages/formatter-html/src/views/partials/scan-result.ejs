@@ -63,7 +63,7 @@
         <% }) %>
     </div>
     <% if (result.status === 'error') { %>
-        <%- include('scan-error-message') %>
+        <%- include('scan-error-message', { result }) %>
     <% } %>
     <section id="results-container" class="section container" role="main" aria-labelledby="errors-warnings" aria-live="polite">
         <h2 id="errors-warnings">Errors &amp; Warnings</h2>
@@ -99,6 +99,6 @@
     <section class="section container">
         <p class="subtitle">Have an issue or problem with the scanner?</p>
         <p>File an issue on
-            <a rel="noopener noreferrer" target="_blank" href="https://github.com/webhintio/hint/issues/new">GitHub</a> and let us know or try and <% if(result.isScanner) { %><a rel="noopener noreferrer" href="https://webhint.io/scanner/">perform another scan</a><% } else { %>run webhint again<% } %>.</p>
+            <a rel="noopener noreferrer" target="_blank" href="https://github.com/webhintio/hint/issues/new">GitHub</a> and let us know or try and <% if(result.isScanner) { %><a href="scanner/">perform another scan</a><% } else { %>run webhint again<% } %>.</p>
     </section>
 </div>
