@@ -10,6 +10,7 @@
   "dependencies": {
     "ejs": "^2.6.1",
     "fs-extra": "^7.0.0",
+    "lodash": "^4.17.10",
     "moment": "^2.22.2"
   },
   "devDependencies": {

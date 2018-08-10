@@ -88,6 +88,47 @@ test(`HTML formatter return the right number of erros and warnings`, async (t) =
     t.is(result.warnings, 3);
 });
 
+test(`HTML formatter return the right value for isFinish`, async (t) => {
+    const formatter = new HTMLFormatter();
+
+    const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com', { status: 'error' });
+
+    t.is(result.isFinish, true);
+});
+
+test(`HTML formatter return the right scan time`, async (t) => {
+    const formatter = new HTMLFormatter();
+
+    const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com', { scanTime: 4500000 });
+
+    t.is(result.scanTime, '01:15:00');
+});
+
+test(`HTML formatter return the right third party logo url`, async (t) => {
+    const formatter = new HTMLFormatter();
+
+    const result1: Result = await formatter.format(problems.multipleproblems, 'http://example.com', {});
+    const result2: Result = await formatter.format(problems.multipleproblems, 'http://example.com', { isScanner: true });
+
+    const category1 = result1.getCategoryByName(Category.development);
+    const category2 = result2.getCategoryByName(Category.development);
+
+    t.plan(2);
+
+    if (category1 && category2) {
+        const axe1 = category1.getHintByName('axe');
+        const axe2 = category2.getHintByName('axe');
+
+        if (axe1) {
+            t.is(axe1.thirdPartyInfo.logo.url, 'images/scan/axe.png');
+        }
+
+        if (axe2) {
+            t.is(axe2.thirdPartyInfo.logo.url, '/images/scan/axe.png');
+        }
+    }
+});
+
 test.serial(`HTML formatter create copy and generate the right files`, async (t) => {
     const sandbox = sinon.createSandbox();
 
