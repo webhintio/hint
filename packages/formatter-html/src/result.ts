@@ -236,4 +236,21 @@ export default class AnalysisResult {
 
         this.categories.push(category);
     }
+
+    public removeCategory(categoryName: string): void {
+        const name = categoryName.toLowerCase();
+
+        const category = this.getCategoryByName(name);
+
+        if (category) {
+            this.errors -= category.errors;
+            this.warnings -= category.warnings;
+
+            const index = this.categories.indexOf(category);
+
+            this.categories.splice(index, 1);
+
+            this.cache.delete(name);
+        }
+    }
 }

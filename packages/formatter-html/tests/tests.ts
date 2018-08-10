@@ -45,7 +45,7 @@ test(`HTML formatter return the right number of erros and warnings`, async (t) =
 
     const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com');
 
-    t.plan(14);
+    t.plan(17);
 
     t.is(result.categories.length, 7);
     t.is(result.errors, 2);
@@ -80,6 +80,12 @@ test(`HTML formatter return the right number of erros and warnings`, async (t) =
             t.is(hint.thirdPartyInfo.link, 'https://github.com/dequelabs/axe-core');
         }
     }
+
+    result.removeCategory(Category.development);
+
+    t.is(result.categories.length, 6);
+    t.is(result.errors, 1);
+    t.is(result.warnings, 3);
 });
 
 test.serial(`HTML formatter create copy and generate the right files`, async (t) => {
