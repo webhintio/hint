@@ -1,6 +1,8 @@
 import { Problem, Severity } from 'hint/dist/src/lib/types';
+import { Category } from 'hint/dist/src/lib/enums/category';
 
 const multipleproblems: Array<Problem> = [{
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 10,
@@ -12,6 +14,7 @@ const multipleproblems: Array<Problem> = [{
     sourceCode: ''
 },
 {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 1,
@@ -23,6 +26,7 @@ const multipleproblems: Array<Problem> = [{
     sourceCode: ''
 },
 {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 1,
@@ -34,6 +38,7 @@ const multipleproblems: Array<Problem> = [{
     sourceCode: ''
 },
 {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 1,
