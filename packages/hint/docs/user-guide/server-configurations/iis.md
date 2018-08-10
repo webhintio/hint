@@ -1,7 +1,8 @@
 # Basic `web.config` for IIS
 
-The following `web.config` should be a good starting point to pass most of
-`webhint`'s checks that require modifying the server configuration.
+The following `web.config` should be a good starting point to
+pass most of `webhint`'s checks that require adding to or modifying
+the server configuration.
 
 There are some assumptions though:
 

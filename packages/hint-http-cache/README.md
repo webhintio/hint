@@ -288,6 +288,9 @@ Also note that:
   common with hosting services), add the snippets in a `.htaccess`
   file in the root of the web site/app.
 
+For the complete set of configurations, not just for this rule, see
+the [Apache server configuration related documentation][apache config].
+
 </details>
 <details><summary>How to configure IIS</summary>
 
@@ -333,8 +336,9 @@ Important notes:
 * The above snippet works with IIS 7+.
 * You should use the above snippet in the `web.config` of your
   application.
-* For the complete set of configurations, not just for this rule, see
-  [this IIS server configuration related docs][IIS config].
+
+For the complete set of configurations, not just for this rule,
+see the [IIS server configuration related documentation][iis config].
 
 </details>
 
@@ -435,13 +439,13 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [google http caching]: https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
 [hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
 [how well you know the web]: https://youtu.be/vAgKZoGIvqs?t=12m20s
-[IIS config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [maxage0]: http://httparchive.org/about.php#maxage0
 [maxage0 image]: https://chart.googleapis.com/chart?chd=t:-1%7C49,51,100,100,51,51,51,51,51,51,100,50,50,50,50,50,50,50,51,51,51,50,50,50&chxl=0:%7C+%7C12%2F16%7C+%7C1%2F17%7C+%7C2%2F17%7C+%7C3%2F17%7C+%7C4%2F17%7C+%7C5%2F17%7C+%7C6%2F17%7C+%7C7%2F17%7C+%7C8%2F17%7C+%7C9%2F17%7C+%7C10%2F17%7C+%7C11%2F17&chxt=x&chs=600x300&cht=lxy&chco=184852&chxs=0,676767,11.5,0,lt,676767&chxtc=0,8&chm=N**+%,184852,0,1::2,12,,h::8&chds=0,100,0,100&chts=184852,24&chtt=Cacheable+Resources&chls=2&chma=5,5,5,25
 [revving files]: https://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/
 
 <!-- Apache links -->
 
+[apache config]: https://webhint.io/docs/user-guide/server-configurations/apache/
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
 [expiresactive]: https://httpd.apache.org/docs/current/mod/mod_expires.html#expiresactive
 [expiresbytype]: https://httpd.apache.org/docs/current/mod/mod_expires.html#expiresbytype
@@ -456,3 +460,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 <!-- IIS links -->
 
 [clientcache iis]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/staticcontent/clientcache
+[iis config]: https://webhint.io/docs/user-guide/server-configurations/iis/

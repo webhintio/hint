@@ -790,6 +790,9 @@ Also note that:
   common with hosting services), add the snippets in a `.htaccess`
   file in the root of the web site/app.
 
+For the complete set of configurations, not just for this rule, see
+the [Apache server configuration related documentation][apache config].
+
 </details>
 <details><summary>How to configure IIS</summary>
 
@@ -964,8 +967,9 @@ Note that:
 * The above snippet works with IIS 7+.
 * You should use the above snippet in the `web.config` of your
   application.
-* For the complete set of configurations, not just for this rule, see
-  [this IIS server configuration related docs][IIS config].
+
+For the complete set of configurations, not just for this rule,
+see the [IIS server configuration related documentation][iis config].
 
 </details>
 
@@ -1065,7 +1069,6 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [gzip is not enough]: https://www.youtube.com/watch?v=whGwm0Lky2s
 [gzip ratio]: https://www.youtube.com/watch?v=Mjab_aZsdxw&t=24s
 [hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
-[IIS config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [unship sdch]: https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/nQl0ORHy7sw
 [wdmsc]: https://whatdoesmysitecost.com/
 [zopfli blog post]: https://developers.googleblog.com/2013/02/compress-data-more-densely-with-zopfli.html
@@ -1074,8 +1077,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 <!-- Apache links -->
 
 [addoutputfilterbytype]: https://httpd.apache.org/docs/2.4/mod/mod_filter.html#addoutputfilterbytype
+[apache config]: https://webhint.io/docs/user-guide/server-configurations/apache/
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
-[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
+[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/tree/7eb30da6a06ec4fc24daf33c75b7bd86f9ad1f68#enable-apache-httpd-modules
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_brotli]:  https://httpd.apache.org/docs/trunk/mod/mod_brotli.html
@@ -1086,4 +1090,5 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 <!-- IIS links -->
 
+[iis config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [urlcompression]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/urlcompression

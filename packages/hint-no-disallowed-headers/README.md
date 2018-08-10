@@ -282,7 +282,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
 [apache issue 40026]: https://bz.apache.org/bugzilla/show_bug.cgi?id=40026
-[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
+[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/tree/7eb30da6a06ec4fc24daf33c75b7bd86f9ad1f68#enable-apache-httpd-modules
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html

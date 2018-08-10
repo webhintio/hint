@@ -6,8 +6,10 @@ technologies, they only contain the relevant portions.
 The following are examples of basic server configurations to help you
 get started:
 
-* [IIS][IIS config]
+* [Apache][apache config]
+* [IIS][iis config]
 
 <!-- Link labels: -->
 
-[IIS config]: ./iis.md
+[apache config]: ./apache.md
+[iis config]: ./iis.md
