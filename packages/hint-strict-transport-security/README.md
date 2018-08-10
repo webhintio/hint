@@ -146,6 +146,9 @@ Note that:
   common with hosting services), add the snippets in a `.htaccess`
   file in the root of the web site/app.
 
+For the complete set of configurations, not just for this rule, see
+the [Apache server configuration related documentation][apache config].
+
 </details>
 <details><summary>How to configure IIS</summary>
 
@@ -170,8 +173,9 @@ Note that:
 * The above snippet works with IIS 7+.
 * You should use the above snippet in the `web.config` of your
   application.
-* For the complete set of configurations, not just for this rule, see
-  [this IIS server configuration related docs][IIS config].
+
+For the complete set of configurations, not just for this rule,
+see the [IIS server configuration related documentation][iis config].
 
 </details>
 
@@ -259,7 +263,6 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [hsts cheat sheat]: https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
 [hsts wiki]: https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
-[IIS config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [pineapple]: https://www.troyhunt.com/the-beginners-guide-to-breaking-website/
 [preload form]:https://hstspreload.org/
 [preload list]:https://cs.chromium.org/codesearch/f/chromium/src/net/http/transport_security_state_static.json
@@ -270,9 +273,10 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 <!-- Apache links -->
 
+[apache config]: https://webhint.io/docs/user-guide/server-configurations/apache/
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
 [header directive]: https://httpd.apache.org/docs/current/mod/mod_headers.html#header
-[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
+[how to enable apache modules]: https://github.com/h5bp/server-configs-apache/tree/7eb30da6a06ec4fc24daf33c75b7bd86f9ad1f68#enable-apache-httpd-modules
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
@@ -281,3 +285,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 <!-- IIS links -->
 
 [customHeader]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/httpprotocol/customheaders/
+[iis config]: https://webhint.io/docs/user-guide/server-configurations/iis/
