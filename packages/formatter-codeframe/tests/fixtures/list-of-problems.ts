@@ -1,6 +1,8 @@
 import { Problem, Severity } from 'hint/dist/src/lib/types';
+import { Category } from 'hint/dist/src/lib/enums/category';
 
 const codeframeproblems: Array<Problem> = [{
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: -1,
@@ -11,6 +13,7 @@ const codeframeproblems: Array<Problem> = [{
     severity: Severity.warning,
     sourceCode: ''
 }, {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 16,
@@ -55,6 +58,7 @@ const codeframeproblems: Array<Problem> = [{
     <body>
 </body></html>`
 }, {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 16,
@@ -74,6 +78,7 @@ const codeframeproblems: Array<Problem> = [{
 </body></html>`
 },
 {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 4,
@@ -88,6 +93,7 @@ const codeframeproblems: Array<Problem> = [{
             <img src="//image.jpg"/>
         </a>`
 }, {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 16,

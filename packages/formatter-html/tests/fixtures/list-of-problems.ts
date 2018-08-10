@@ -46,7 +46,19 @@ const multipleproblems: Array<Problem> = [{
     },
     message: 'This is a problem in line 1 column 1',
     resource: 'http://myresource.com/',
-    severity: Severity.warning,
+    severity: Severity.error,
+    sourceCode: ''
+},
+{
+    category: Category.development,
+    hintId: 'axe',
+    location: {
+        column: 1,
+        line: 1
+    },
+    message: 'This is a problem in line 1 column 1',
+    resource: 'http://myresource.com/',
+    severity: Severity.error,
     sourceCode: ''
 }];
 

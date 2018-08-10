@@ -1,0 +1,626 @@
+/*
+ * CONTROLS
+ * =============================================
+ * @Dependencies: base.css, color.css, ../images/select-arrow.svg
+ */
+
+fieldset {
+    border: 0;
+}
+
+
+/*
+ * LABELS
+ * ---------------------------------------------
+ */
+
+label {
+    display: block;
+}
+
+/* @Browser: Safari. Forces margins to be recognized */
+legend ~ label {
+    -webkit-margin-top-collapse: separate;
+}
+
+
+/*
+ * TEXT FIELDS
+ * ---------------------------------------------
+ * Note:
+ *
+ *  Styles general `input` to avoid high specificity.
+ *  Declarations that cause issues for other types are separated in own rulesets
+ */
+
+input,
+textarea,
+select {
+    width: 100%;
+    max-width: 64rem;
+    height: 5rem;
+
+    border: 1px solid hsla(0, 0%, 0%, .6);
+
+    padding: .7rem 1rem;
+
+    background-color: hsla(0, 0%, 100%, 1);
+}
+
+/* Should be able to change textarea height using rows attribute */
+textarea {
+    height: auto;
+    min-height: 3.6rem;
+    font: inherit;
+    resize: vertical;
+}
+
+/* add margin only if not radio/check so don‘t need to re-apply default `* + * { margin-top }` */
+label + input:not([type="radio"]):not([type="checkbox"]),
+textarea,
+select {
+    margin-top: .7rem;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+    border-color: hsla(0, 0%, 0%, .8);
+    background-color: hsla(0, 0%, 100%, .6);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #4046dd;
+    background-color: #fff;
+
+    /* Safe to remove focus, as very visable border on focus */
+    outline: 0;
+}
+
+input:disabled,
+input[readonly],
+textarea:disabled,
+textarea[readonly] {
+    border-color: transparent;
+    background-color: hsla(0, 0%, 0%, .2);
+    color: hsla(0, 0%, 0%, .2);
+}
+
+/* Undo the disabled input background applying to non-text field style controls */
+input[type="checkbox"]:disabled,
+input[type="radio"]:disabled,
+input[type="range"]:disabled,
+.button--search:disabled {
+    background: 0;
+}
+
+input[aria-invalid=true],
+textarea[aria-invalid=true] {
+    border-color: #e81123;
+}
+
+/* Make space for icon at the right of fields */
+select,
+[type="search"] {
+    padding-right: 3.4rem;
+}
+
+/* WebKit/Blink overrides for search input */
+[type="search"],
+[type="search"]::-webkit-search-decoration,
+[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+.nav-bar__input {
+    position: relative;
+    height: 4rem;
+    width: 30rem;
+}
+
+.nav-bar__input input[type="search"] {
+    background-color: hsla(0, 0%, 0%, .2);
+    border: 1px solid hsla(0, 0%, 100%, .2);
+    color: #fff;
+
+    height: 4rem;
+
+    /* need to define here due to inline CSS from algolia */
+    width: 30rem;
+
+    margin-right: 0;
+    padding: 1rem 1rem 1rem 1.2rem;
+
+    cursor: text;
+}
+
+.nav-bar__input input[type=search]:focus {
+    border: 1px solid #fff;
+    cursor: text;
+}
+
+input[type=search]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: hsla(0, 0%, 40%, .9);
+}
+
+input[type=search]::-moz-placeholder { /* Firefox 19+ */
+    color: hsla(0, 0%, 40%, .9);
+}
+
+input[type=search]::-ms-input-placeholder { /* IE 10+ */
+    color: hsla(0, 0%, 40%, .9);
+}
+
+input[type=search]::-moz-placeholder { /* Firefox 18- */
+    color: hsla(0, 0%, 40%, .9);
+}
+
+/* header styles */
+.nav-bar__input input[type=search]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: hsla(0, 0%, 100%, .9);
+}
+
+.nav-bar__input input[type=search]::-moz-placeholder { /* Firefox 19+ */
+    color: hsla(0, 0%, 100%, .9);
+}
+
+.nav-bar__input input[type=search]::-ms-input-placeholder { /* IE 10+ */
+    color: hsla(0, 0%, 100%, .9);
+}
+
+.nav-bar__input input[type=search]::-moz-placeholder { /* Firefox 18- */
+    color: hsla(0, 0%, 100%, .9);
+}
+
+.input-fix input {
+    margin-top: .8rem;
+}
+
+.input-fix button {
+    width: 100%;
+    margin-top: .8rem;
+    max-width: 74rem;
+}
+
+@media (min-width: 34.1em) {
+
+    /* Keeps input and button on same line */
+    .input-fix {
+        display: flex;
+        margin-top: .8rem;
+        align-items: center;
+    }
+
+    .input-fix input {
+        flex: 1;
+        width: 100%;
+        margin-right: 1rem;
+    }
+
+    .input-fix button {
+        flex: 0;
+        white-space: nowrap;
+    }
+
+}
+
+@media (max-width: 47.94em) {
+
+    .nav-bar__input {
+        top: 3rem;
+
+        width: 100%;
+        max-width: 74rem;
+
+        padding: 0 0 0 1.5rem;
+    }
+
+    .nav-bar__input input[type=search] {
+        width: 100%;
+        max-width: 74rem;
+        margin-left: 0;
+    }
+
+    .algolia-autocomplete {
+        width: 100%;
+    }
+
+}
+
+@media (min-width: 48em) and (max-width: 52em) {
+
+    .nav-bar__input {
+        width: 23rem;
+    }
+
+    .nav-bar__input input[type="search"] {
+        width: 23rem;
+    }
+
+}
+
+/*
+ * BUTTONS
+ * ---------------------------------------------
+ */
+
+button,
+a.button {
+    min-width: 16rem;
+    max-width: 100%;
+    border: 1px solid transparent;
+
+    /* needed to override Chrome styles */
+    border-radius: 0;
+    padding: 1.2rem 1.6rem;
+
+    color: #fff;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    /* needed for .button as doesn’t always get default control behaviours */
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+
+.button--red {
+    background-color: #d43e2b;
+}
+
+.button--purple {
+    background-color: #4046dd;
+}
+
+.button-search {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 0;
+    background-color: hsla(0, 0%, 100%, 0);
+    border: 1px solid transparent;
+    padding: 1.1rem 1.15rem;
+    line-height: 1;
+}
+
+.button-search::after {
+    display: inline-block;
+    content: url("/images/search-icon.svg");
+    background: hsla(0, 0%, 100%, 0);
+    width: 1.5rem;
+    vertical-align: top;
+}
+
+button:hover,
+button:focus,
+.button:hover,
+.button:focus {
+    border-color: hsla(0, 0%, 0%, .4);
+}
+
+.button-search:hover {
+    border-color: hsla(0, 0%, 100%, .2);;
+}
+
+button:active,
+.button:active {
+    border-color: transparent;
+    background-color: hsla(0, 0%, 0%, .4);
+}
+
+/* DISABLED state styles */
+button:disabled,
+select:disabled {
+    background-color: hsla(0, 0%, 0%, .2);
+    color: hsla(0, 0%, 0%, .2);
+
+    cursor: not-allowed;
+    pointer-events: none;
+    outline: 0;
+}
+
+/* Actions */
+* + .actions {
+    margin-top: .8rem;
+}
+
+/* top margin for .actions and button adds up to standard 2.4. Needs to be on button for wrapping */
+* + .actions button,
+    * + .actions a.button {
+        display: inline-block;
+        margin-top: 1.6rem;
+    }
+
+    /* reset for text only and icon only buttons */
+    .button--search,
+    .button--text,
+    .button--text:hover,
+    .button--text:active,
+    .button--text[disabled] {
+        padding: 0;
+        border: 0;
+        background: transparent;
+    }
+
+    .button--search {
+        min-width: 0;
+    }
+
+    /* text buttons */
+    .button--text {
+        text-align: inherit;
+    }
+
+    .button--text + .button--text {
+        margin-left: 1.2rem;
+    }
+
+    .button--text:hover {
+        text-decoration: underline;
+    }
+
+    .button--text:active {
+        text-decoration: none;
+    }
+
+    /* Search button (used with input[type="search"]) */
+    [role="search"] {
+        position: relative;
+    }
+
+    .button--search {
+        position: absolute;
+        padding: 1rem 1.2rem;
+
+        width: 4.4rem;
+        height: 100%;
+
+        top: 0;
+        right: 0;
+
+        background-color: #d43e2b;
+    }
+
+    .button--search::before {
+        content: url("/images/search-icon.svg");
+        position: absolute;
+        display: inline-block;
+        width: 2rem;
+        top: 0;
+        left: 0;
+        padding: 1.4rem 1.2rem;
+    }
+
+/*
+ * SELECTS
+ * ---------------------------------------------
+ */
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border-radius: 0;
+    background: url("../images/select-arrow.svg") no-repeat right 1rem center / 1.4rem .8rem;
+
+    /* @Browser: Firefox. Extra styles needed to hide default arrow */
+    text-indent: .01px;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* @Browser: IE. Doesn't support `-webkit-appearance`, but `:-ms-expand` supported in IE 10 + 11 */
+select::-ms-expand {
+    display: none;
+}
+
+select option:focus,
+select option:checked {
+    background-color: #3a96dd;
+    color: #fff;
+}
+
+/*
+@bug #71
+Firefox needs option bg to be set to white or checked style leaks
+ */
+select:active,
+select option {
+    background-color: #fff;
+    color: #000;
+}
+
+select option:active {
+    background-color: #767676;
+    color: #000;
+}
+
+select:disabled {
+    border-color: hsla(0, 0%, 0%, .2);
+    color: hsla(0, 0%, 0%, .6);
+}
+
+/*
+ * COMBOBOX
+ * ---------------------------------------------
+ */
+
+/* @Browser Chrome. Style arrow with out custom arrow. Also applies to calendars */
+::-webkit-calendar-picker-indicator {
+    color: transparent;
+    background: url("../images/select-arrow.svg") no-repeat right center / 1.3rem .8rem;
+}
+
+
+/*
+ * RADIOS AND CHECKBOXES
+ * ---------------------------------------------
+ */
+
+input[type="radio"],
+input[type="checkbox"] {
+    position: absolute;
+    width: 2rem;
+    height: 2.6rem;
+    line-height: 2rem;
+}
+
+input::-ms-check {
+    border: 1px solid hsla(0, 0%, 0%, .8);
+    background: 0;
+}
+
+input:checked::-ms-check {
+    border-color: #4046dd;
+}
+
+/* Needs to go after checked so that doesn’t get overridden when checked */
+input:hover::-ms-check {
+    border-color: #000;
+}
+
+input[type="checkbox"]:checked::-ms-check {
+    background-color: #4046dd;
+    color: #fff;
+}
+
+input[type="checkbox"]:active::-ms-check {
+    border-color: transparent;
+    background-color: hsla(0, 0%, 0%, .6);
+}
+
+input[type="radio"]:active::-ms-check,
+input[type="radio"]:active:checked::-ms-check {
+    border-color: currentColor;
+    color: hsla(0, 0%, 0%, .6);
+}
+
+/* [disabled] needed to override checkbox active style */
+input[disabled]:disabled::-ms-check {
+    border-color: currentColor;
+    background: 0;
+    color: hsla(0, 0%, 0%, .2);
+}
+
+/* radio active are even more specific so override again */
+input[type="radio"]:disabled:checked::-ms-check {
+    color: hsla(0, 0%, 0%, .2);
+}
+
+/* Radio/checks need special label handling as label goes after control */
+input[type="radio"] + label,
+input[type="checkbox"] + label {
+    display: table;
+    padding-left: 3.2rem;
+}
+
+input[type="radio"] + label::after,
+input[type="checkbox"] + label::after {
+    content: "";
+    display: block;
+}
+
+/* Sets of radios/checks need tighter margins, special font-weight */
+.checkable-set input[type="radio"],
+.checkable-set input[type="checkbox"],
+.checkable-set input[type="radio"] + label,
+.checkable-set input[type="checkbox"] + label {
+    margin-top: 1.2rem;
+}
+
+.checkable-set input[type="radio"] + label,
+.checkable-set input[type="checkbox"] + label {
+    font-weight: 400;
+}
+
+
+/*
+ * FILE UPLOAD
+ * ---------------------------------------------
+ */
+
+input[type="file"] {
+
+    /* reset styles added by generic input selector */
+    height: auto;
+    border: 0;
+
+    outline: 0; /* added back on file upload button */
+
+    /* Prevent alignment issues. No shorthand = deeper browser support */
+    padding-right: 0;
+    padding-left: 0;
+
+}
+
+/* styles the part where the file name is displayed. Only possible in IE/MSEdge */
+input[type="file"]::-ms-value {
+    height: 3.2rem;
+    border: 1px solid hsla(0, 0%, 0%, .6);
+    background-color: hsla(0, 0%, 100%, .4);
+}
+
+input[type="file"]:hover::-ms-value {
+    border-color: hsla(0, 0%, 0%, .8);
+}
+
+input[type="file"]:focus::-ms-value {
+    border-color: #4046dd;
+    background-color: #fff;
+}
+
+/* styles the button part of the control. Only IE/MSEdge and WebKit */
+input[type="file"]::-webkit-file-upload-button {
+    height: 3.2rem; /* can’t style text part so add height here for WebKit */
+
+    border: 1px solid transparent;
+    padding: .4rem 1.2rem;
+
+    background-color: #4046dd;
+    color: #fff;
+}
+
+input[type="file"]::-ms-browse {
+    margin-left: .8rem;
+    border: 1px solid transparent;
+    padding: .4rem 1.2rem;
+    background-color: #4046dd;
+    color: #fff;
+}
+
+/* first selector needed for keyboard tab focus, second for activating button */
+input[type="file"]:focus::-webkit-file-upload-button,
+input[type="file"]::-webkit-file-upload-button:focus {
+    outline: 1px dashed;
+}
+
+input[type="file"]::-ms-browse:focus {
+    outline: 1px dashed;
+}
+
+input[type="file"]:hover::-webkit-file-upload-button,
+input[type="file"]:focus::-webkit-file-upload-button {
+    background-color: #262696;
+}
+
+input[type="file"]:hover::-ms-browse,
+input[type="file"]:focus::-ms-browse {
+    background-color: #262696;
+}
+
+input[type="file"]:active::-webkit-file-upload-button,
+input[type="file"]::-webkit-file-upload-button:active {
+    background-color: #262696;
+}
+
+input[type="file"]::-ms-browse:active {
+    background-color: #262696;
+}

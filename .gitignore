@@ -10,6 +10,7 @@
 cdp.lock
 coverage
 dist
+hint-report
 node_modules
 npm-debug.log
 npm-shrinkwrap.json
