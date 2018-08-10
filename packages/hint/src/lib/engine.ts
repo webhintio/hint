@@ -22,6 +22,7 @@ import * as logger from './utils/logging';
 import { HintContext } from './hint-context';
 import { HintScope } from './enums/hintscope';
 import { Configuration } from './config';
+import { Category } from './enums/category';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -249,8 +250,9 @@ export class Engine extends EventEmitter {
     }
 
     /** Reports a message from one of the hints. */
-    public report(hintId: string, severity: Severity, sourceCode: string, location: ProblemLocation, message: string, resource: string) {
+    public report(hintId: string, category: Category, severity: Severity, sourceCode: string, location: ProblemLocation, message: string, resource: string) {
         const problem: Problem = {
+            category,
             hintId,
             location: location || { column: -1, line: -1 },
             message,
