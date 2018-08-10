@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "express": "^4.16.3",
-    "hint": "^3.0.1",
+    "hint": "^3.1.0",
     "lodash": "^4.17.10",
     "on-headers": "^1.0.1"
   },
@@ -41,7 +41,7 @@
   "main": "dist/src/index.js",
   "name": "@hint/utils-create-server",
   "peerDependencies": {
-    "hint": "^3.0.1"
+    "hint": "^3.1.0"
   },
   "repository": "webhintio/hint",
   "scripts": {

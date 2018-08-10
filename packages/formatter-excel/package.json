@@ -18,7 +18,7 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.0.1",
+    "hint": "^3.1.0",
     "markdownlint-cli": "^0.12.0",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
@@ -52,7 +52,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^3.0.1"
+    "hint": "^3.1.0"
   },
   "repository": "webhintio/hint",
   "scripts": {
