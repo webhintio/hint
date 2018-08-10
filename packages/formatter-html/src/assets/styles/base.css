@@ -1,0 +1,53 @@
+/*
+ *	BASE
+ * =============================================
+ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+img {
+    border: 0;
+}
+
+/* Style focusable elements that need focus ring. Others reset and receive border styles in controls/color.css */
+a:focus,
+li:focus,
+ul:focus,
+button:focus,
+summary:focus,
+[tabindex="0"]:focus {
+    outline: 1px dashed;
+}
+
+/*
+Vertical rhythm
+Sets a margin on select block level elements that have a previous sibling.
+ */
+
+* + p,
+* + ol,
+* + ul,
+* + dl,
+* + fieldset,
+* + label,
+* + pre,
+* + blockquote,
+* + img {
+    margin-top: 2.4rem;
+}

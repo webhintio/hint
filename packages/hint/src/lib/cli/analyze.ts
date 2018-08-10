@@ -20,6 +20,8 @@ import cutString from '../utils/misc/cut-string';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
 import * as insights from '../utils/appinsights';
+import { FormatterOptions } from '../types/formatters';
+import loadHintPackage from '../utils/packages/load-hint-package';
 
 const each = promisify(async.each);
 const debug: debug.IDebugger = d(__filename);
@@ -354,9 +356,15 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         });
     };
 
-    const print = async (reports: Array<Problem>, target: string): Promise<void> => {
+    const print = async (reports: Array<Problem>, target: string, scanTime: number): Promise<void> => {
+        const formatterOptions: FormatterOptions = {
+            config: userConfig,
+            scanTime,
+            version: loadHintPackage().version
+        };
+
         await each(engine.formatters, async (formatter) => {
-            await formatter.format(reports, target);
+            await formatter.format(reports, target, formatterOptions);
         });
     };
 
@@ -364,7 +372,9 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     for (const target of targets) {
         try {
+            const scanStart = Date.now();
             const results: Array<Problem> = await engine.executeOn(target);
+            const scanEnd = Date.now();
 
             if (hasError(results)) {
                 exitCode = 1;
@@ -372,9 +382,8 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
             endSpinner(exitCode ? 'fail' : 'succeed');
 
-            await print(results, target.href);
-
             await askForTelemetryConfirmation(config);
+            await print(results, target.href, scanEnd - scanStart);
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');

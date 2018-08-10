@@ -1,15 +1,13 @@
-# JSON formatter (`@hint/formatter-json`)
+# HTML formatter (`@hint/formatter-html`)
 
-The `json` formatter does a `JSON.stringify()` of the results. Output is not
-very user friendly, but it can be useful when using it as input for
-other tools:
+The `html` formatter outputs the result in a HTML file.
 
-![Example output for the json formatter](images/json-output.png)
+![Example output for the html formatter](images/html-output.png)
 
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @hint/formatter-json
+npm install @hint/formatter-html
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the
@@ -22,7 +20,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 ```json
 {
     "connector": {...},
-    "formatters": "json",
+    "formatters": "html",
     "hints": {
         ...
     },

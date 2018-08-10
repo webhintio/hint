@@ -1,0 +1,6 @@
+<div id="scan-error" class="scan-error">
+    <p>
+        There was an error and we were only able to partially complete the scan. View the results below or
+        <% if(result.isScanner) { %><a href="scanner/">perform another scan</a><% } else { %>run webhint again<% } %>.
+    <p>
+</div>

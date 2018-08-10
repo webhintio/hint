@@ -1,3 +1,5 @@
+import { Category } from '../enums/category';
+
 /** The severity configuration of a hint */
 export enum Severity {
     off = 0,
@@ -29,6 +31,8 @@ export type Problem = {
     resource: string;
     /** The name of the triggered hint */
     hintId: string;
+    /** The category of the triggered hint */
+    category: Category;
     /** The severity of the hint based on the actual configuration */
     severity: Severity;
 };

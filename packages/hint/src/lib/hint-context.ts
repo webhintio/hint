@@ -9,6 +9,7 @@ import { URL } from 'url';
 import { Engine } from './engine';
 import { IAsyncHTMLElement, NetworkData, ProblemLocation, HintMetadata, Severity } from './types';
 import { findInElement, findProblemLocation } from './utils/location-helpers';
+import { Category } from './enums/category';
 
 
 /** Acts as an abstraction layer between hints and the main hint object. */
@@ -106,6 +107,7 @@ export class HintContext {
 
         this.engine.report(
             this.id,
+            (this.meta && this.meta.docs) ? this.meta.docs.category : Category.other,
             severity || this.severity,
             codeSnippet || sourceCode,
             position,

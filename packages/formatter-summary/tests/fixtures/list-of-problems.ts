@@ -1,6 +1,8 @@
 import { Problem, Severity } from 'hint/dist/src/lib/types';
+import { Category } from 'hint/dist/src/lib/enums/category';
 
 const summaryProblems: Array<Problem> = [{
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 10,
@@ -14,6 +16,7 @@ const summaryProblems: Array<Problem> = [{
     sourceCode: '<a href="//link.com">link</a>'
 },
 {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: -1,
@@ -25,6 +28,7 @@ const summaryProblems: Array<Problem> = [{
     sourceCode: ''
 },
 {
+    category: Category.other,
     hintId: 'random-hint2',
     location: {
         column: -1,
@@ -36,6 +40,7 @@ const summaryProblems: Array<Problem> = [{
     sourceCode: ''
 },
 {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: -1,
@@ -47,6 +52,7 @@ const summaryProblems: Array<Problem> = [{
     sourceCode: ''
 },
 {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 4,
@@ -63,6 +69,7 @@ const summaryProblems: Array<Problem> = [{
 }];
 
 const summarySameNumberOfErrors: Array<Problem> = [{
+    category: Category.other,
     hintId: 'random-hint2',
     location: {
         column: 10,
@@ -76,6 +83,7 @@ const summarySameNumberOfErrors: Array<Problem> = [{
     sourceCode: '<a href="//link.com">link</a>'
 },
 {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: -1,
@@ -89,6 +97,7 @@ const summarySameNumberOfErrors: Array<Problem> = [{
 
 
 const summaryWarnings: Array<Problem> = [{
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: 10,
@@ -102,6 +111,7 @@ const summaryWarnings: Array<Problem> = [{
     sourceCode: '<a href="//link.com">link</a>'
 },
 {
+    category: Category.other,
     hintId: 'random-hint',
     location: {
         column: -1,
