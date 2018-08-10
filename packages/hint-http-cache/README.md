@@ -1,7 +1,7 @@
 # HTTP Cache (`http-cache`)
 
-`http-cache` verifies that the page and all its resources follow a good,
-sustainable caching strategy.
+`http-cache` verifies that the page and all its resources follow a
+good, sustainable caching strategy.
 
 ## Why is this important?
 
@@ -291,17 +291,18 @@ Also note that:
 </details>
 <details><summary>How to configure IIS</summary>
 
-You can enable the `Cache-Control` and/or `Expire` headers on IIS using
-the [`<clientCache> element under <staticContent>`][clientcache iis].
+You can enable the `Cache-Control` and/or `Expire` headers on IIS
+using the [`<clientCache> element under <staticContent>`][clientcache
+iis].
 
-`<clientCache>` will set the cache for all the configured static content
-so you might want to use it in combination with the `<location>` element
-and set different values depending on where the resources are in the file
-system.
+`<clientCache>` will set the cache for all the configured static
+content so you might want to use it in combination with the
+`<location>` element and set different values depending on where
+the resources are in the file system.
 
-The following is an example that sets `cache-control: no-cache` for all
-static resources and then overrides it for the files under the `static` folder
-with `cache-control: max-age=31536000, immutable`:
+The following is an example that sets `cache-control: no-cache`
+for all static resources and then overrides it for the files under
+the `static` folder with `cache-control: max-age=31536000, immutable`:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -321,8 +322,8 @@ with `cache-control: max-age=31536000, immutable`:
 </configuration>
 ```
 
-In the example above, you want to have your JavaScript, CSS, images, etc.
-under the `static` folder, and your HTML elsewhere. If your static
+In the example above, you want to have your JavaScript, CSS, images,
+etc. under the `static` folder, and your HTML elsewhere. If your static
 content is in another folder change the path of `<location path="static">`
 to the right one.
 
@@ -348,9 +349,10 @@ Yes, you can configure:
 
 ### `max-age`
 
-By default, the recommended value for the page is `Cache-Control: no-cache`
-or a `max-age` equal or less to 3 minutes. For the resources `max-age` should
-be greater or equal to 1 year. You can change this as follows:
+By default, the recommended value for the page is
+`Cache-Control: no-cache` or a `max-age` equal or less to 3 minutes.
+For the resources `max-age` should be greater or equal to 1 year.
+You can change this as follows:
 
 ```json
 "http-cache": ["error", {
@@ -361,9 +363,9 @@ be greater or equal to 1 year. You can change this as follows:
 
 ### Custom regular expressions for revving files
 
-If none of the built-in regular expressions work for your use case, you
-can provide your own via the `revvingPatterns` property. This property
-accepts an `Array` of escaped `RegExp`:
+If none of the built-in regular expressions work for your use case,
+you can provide your own via the `revvingPatterns` property. This
+property accepts an `Array` of escaped `RegExp`:
 
 in the [`.hintrc`][hintrc] file:
 

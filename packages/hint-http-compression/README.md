@@ -32,8 +32,8 @@ resources:
 
 * Use the most efficient compression method.
 
-  gzip is the most used encoding method currently as it strikes a good
-  balance between compression ratio (as [high as 70%][gzip ratio]
+  gzip is the most used encoding method currently as it strikes a
+  good balance between compression ratio (as [high as 70%][gzip ratio]
   especially for larger files) and encoding time and is supported
   pretty much everywhere.
 
@@ -52,9 +52,10 @@ resources:
   [only over HTTPS (as proxies misinterpret unknown encodings)][brotli
   over https].
 
-  As a rule, for best performance and interoperability, resources should
-  be served compressed with Zopfli over insecure HTTP, and Brotli when
-  sending over HTTPS with a fallback to Zopfli if HTTPS is not supported.
+  As a rule, for best performance and interoperability, resources
+  should be served compressed with Zopfli over insecure HTTP, and
+  Brotli when sending over HTTPS with a fallback to Zopfli if HTTPS
+  is not supported.
 
 * Avoid using deprecated or not widely supported compression formats,
   and `Content-Type` values.
@@ -792,14 +793,14 @@ Also note that:
 </details>
 <details><summary>How to configure IIS</summary>
 
-IIS 7+ can be configured to compress responses (static or dynamic) via
-the [`<urlCompression> element`][urlcompression].
+IIS 7+ can be configured to compress responses (static or dynamic)
+via the [`<urlCompression> element`][urlcompression].
 
 For Zopfli, there isn't a core IIS module to do it. However, since
 compressing things using Zopfli takes more time, it's usually indicated
-to do it as part of your build step. Once that is done, IIS needs to be
-configured to server those pre-compressed files when gzip compression is
-requested by the user agent.
+to do it as part of your build step. Once that is done, IIS needs to
+be configured to server those pre-compressed files when gzip compression
+is requested by the user agent.
 
 Brotli, like Zopfli, takes more time. It's indicated to compress
 resources at build time, and configure IIS to serve those pre-compressed

@@ -30,11 +30,12 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ## Events emitted
 
-This `parser` emits the event `parse::javascript`, of type `IScriptParse`
-which has the following information:
+This `parser` emits the event `parse::javascript`, of type
+`IScriptParse` which has the following information:
 
-* `resource`: the parsed resource. If the JavaScript is in a `script tag`
-  and not a file, the value will be `Internal javascript`.
+* `resource`: the parsed resource. If the JavaScript is in
+  a `script tag` and not a file, the value will be `Internal
+  javascript`.
 * `sourceCode`: a `eslint` `SourceCode` object.
 
 <!-- Link labels: -->

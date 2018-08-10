@@ -1,7 +1,7 @@
 # TypeScript configuration hints set (`typescript-config`)
 
-`typescript-config` contains hints to check if your TypeScript configuration
-has the most recommended configuration.
+`typescript-config` contains hints to check if your TypeScript
+configuration has the most recommended configuration.
 
 ## Why is this important?
 

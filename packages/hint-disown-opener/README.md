@@ -34,9 +34,9 @@ Links that have `target="_blank"`, such as
   experiencing jank.
 
   In Chromium based browsers, using `ref="noopener"` (or
-  [`rel="noreferrer"`][noreferrer chromium] for older versions), and
-  thus, preventing the `window.opener` reference from being set, allows
-  new pages to be opened in their own process.
+  [`rel="noreferrer"`][noreferrer chromium] for older versions),
+  and thus, preventing the `window.opener` reference from being set,
+  allows new pages to be opened in their own process.
 
   Edge is not affected by this.
 
@@ -76,7 +76,8 @@ both the `noopener` and `noreferrer` values on `a` and `area` elements
 that have `target="_blank"` and link to other origins.
 
 If the [targeted browsers are specified](#can-the-hint-be-configured),
-based on their support, the hint might only require the `noopener` value.
+based on their support, the hint might only require the `noopener`
+value.
 
 Let’s presume the original page is `https://example1.com`.
 

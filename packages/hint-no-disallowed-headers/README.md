@@ -20,13 +20,13 @@ Sending these types of HTTP headers:
   the technology stack being used
 
 2) Uncommon or esoteric headers that have limited support, require
-   a lot of knowledge to use correctly, and can create more problems than
-   they solve.
+   a lot of knowledge to use correctly, and can create more problems
+   than they solve.
 
    One example here is the `Public-Key-Pins` header. It has [limited
-support and usage, it’s being deprecated (along with the related
-`Public-Key-Pins-Report-Only` header) and can easily create a lot
-of problems if not done correctly][hpkp deprecation].
+   support and usage, it’s being deprecated (along with the related
+   `Public-Key-Pins-Report-Only` header) and can easily create a lot
+   of problems if not done correctly][hpkp deprecation].
 
 ## What does the hint check?
 
@@ -107,10 +107,10 @@ the following:
 ```
 
 When it comes to the `Server` header, by default, [Apache does not
-allow removing it](https://bz.apache.org/bugzilla/show_bug.cgi?id=40026)
-(the only way to do that is by using an external module). However,
-Apache can be configured using the [`ServerTokens` directive][servertokens]
-to provide less information thought the `Server` header.
+allow removing it][apache issue 40026] (the only way to do that is
+by using an external module). However, Apache can be configured using
+the [`ServerTokens` directive][servertokens] to provide less
+information thought the `Server` header.
 
 Note: The following snippet will only work in the main Apache
 configuration file, so don't try to include it in a `.htaccess` file!
@@ -170,8 +170,8 @@ The following snippet will remove the headers from all responses:
 </configuration>
 ```
 
-To remove the header `X-AspNetMvc-version`, open your `Global.asax` file
-and add the following to your `Application_Start` event:
+To remove the header `X-AspNetMvc-version`, open your `Global.asax`
+file and add the following to your `Application_Start` event:
 
 ```c#
 MvcHandler.DisableMvcResponseHeader = true;
@@ -180,7 +180,8 @@ MvcHandler.DisableMvcResponseHeader = true;
 Removing the `Server` header is a bit more complicated and changes
 depending on the version.
 
-In IIS 10.0 you can remove it using the [`removeServerHeader` attribute of `requestFiltering`][requestfiltering]:
+In IIS 10.0 you can remove it using the [`removeServerHeader` attribute
+of `requestFiltering`][requestfiltering]:
 
 ```xml
 <configuration>
@@ -209,8 +210,8 @@ For previous versions of IIS (7.0-8.5) you can use the following:
 </configuration>
 ```
 
-The above snippet will use a [`URL rewrite`][url rewrite] rule to remove
-the `Server` header from any request that contains it.
+The above snippet will use a [`URL rewrite`][url rewrite] rule to
+remove the `Server` header from any request that contains it.
 
 </details>
 
@@ -280,6 +281,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 <!-- Apache links -->
 
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
+[apache issue 40026]: https://bz.apache.org/bugzilla/show_bug.cgi?id=40026
 [how to enable apache modules]: https://github.com/h5bp/server-configs-apache/wiki/How-to-enable-Apache-modules
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main

@@ -75,17 +75,17 @@ total possible savings.
 * Having a `threshold` configured and an image whose savings is equal
   or greater than the configured value.
 * Having a `threshold` configured and several images whose individual
-  savings is less than `threshold` but when combined it’s greater. For
-  example, if you configure a `threshold` of 10, and you have one image
-  that could be 6kB smaller, and another one that could be 5kB smaller,
-  this hint will report an issue because the combined savings is greater
-  than 10.
+  savings is less than `threshold` but when combined it’s greater.
+  For example, if you configure a `threshold` of 10, and you have one
+  image that could be 6kB smaller, and another one that could be 5kB
+  smaller, this hint will report an issue because the combined savings
+  is greater than 10.
 
 ### Examples that **pass** the hint
 
 * Having all your images optimized.
-* Having a `threshold` configured and the combined savings of all images
-  smaller to that value.
+* Having a `threshold` configured and the combined savings of all
+  images smaller to that value.
 
 ## How to use this hint?
 

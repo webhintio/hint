@@ -34,7 +34,8 @@ This `parser` emits the event `parse::css` of type `StyleParse`
 which has the following information:
 
 * `ast`: a PostCSS `Root` object containing the AST.
-  See the [PostCSS `walk*` APIs][postcss-walk] for help navigating the AST.
+  See the [PostCSS `walk*` APIs][postcss-walk] for help navigating
+  the AST.
 * `code`: a string containing the raw stylesheet source code.
 * `resource`: the parsed resource. If the CSS is in a `style tag`
   and not a file, the value will be `Inline CSS`.

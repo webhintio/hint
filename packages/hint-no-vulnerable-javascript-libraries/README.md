@@ -9,9 +9,10 @@ vulnerabilities.
 
 ## Why is this important?
 
-Making sure your website dependencies are free of known vulnerabilities
-is important in preventing malicious attacks such as [cross-site scripting][XSS]
-attacks that can be used to compromise web site information.
+Making sure your website dependencies are free of known
+vulnerabilities is important in preventing malicious attacks such as
+[cross-site scripting][XSS] attacks that can be used to compromise web
+site information.
 
 ## What does the hint check?
 

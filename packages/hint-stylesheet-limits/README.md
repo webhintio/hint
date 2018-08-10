@@ -4,15 +4,16 @@
 
 ## Why is this important?
 
-Internet Explorer 9 and below have limits on the number of CSS stylesheets,
-imports, and rules which are relatively small compared to modern browsers.
-Once these limits are exceeded, additional stylesheets, imports, and rules
-are ignored. For more details see [_"Stylesheet limits in Internet
-Explorer"_][stylesheet limits].
+Internet Explorer 9 and below have limits on the number of CSS
+stylesheets, imports, and rules which are relatively small compared
+to modern browsers. Once these limits are exceeded, additional
+stylesheets, imports, and rules are ignored. For more details see
+[_"Stylesheet limits in Internet Explorer"_][stylesheet limits].
 
-Similar behavior existed in older versions of other browsers, such as
-[Chrome][chrome limits]. Newer browsers have much higher limits such as
-65535 rules in [Internet Explorer 10+ and Edge][stylesheet limits].
+Similar behavior existed in older versions of other browsers, such
+as [Chrome][chrome limits]. Newer browsers have much higher limits
+such as 65535 rules in [Internet Explorer 10+ and Edge][stylesheet
+limits].
 
 Even in modern browsers large numbers of CSS selectors can negatively
 impact performance. You [can customize](#can-the-hint-be-configured)
@@ -29,7 +30,8 @@ checks if one of the following [limits][stylesheet limits] is exceeded:
 
 ### Examples that **trigger** the hint
 
-* A page targeting Internet Explorer 9 containing 4096 or more CSS rules.
+* A page targeting Internet Explorer 9 containing 4096 or more CSS
+  rules.
 
 ### Examples that **pass** the hint
 

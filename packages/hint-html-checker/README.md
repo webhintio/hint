@@ -105,7 +105,8 @@ of message to ignore:
 
 You can also override the default validator by passing in the endpoint
 of an alternative validator. However, you need to make sure that this
-alternative validator exposes the same REST interface as the default one.
+alternative validator exposes the same REST interface as the default
+one.
 
 ```json
 {

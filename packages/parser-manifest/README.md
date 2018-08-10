@@ -12,8 +12,8 @@ To use it you will have to install it via `npm`:
 npm install @hint/parser-manifest
 ```
 
-If you want to install it globally, add the parameter `-g`. If you want
-to install it as a dev dependency, add the parameter `--save-dev`.
+If you want to install it globally, add the parameter `-g`. If you
+want to install it as a dev dependency, add the parameter `--save-dev`.
 
 And then activate it via the [`.hintrc`][hintrc]
 configuration file:
@@ -36,21 +36,18 @@ The following events are emitted by the `parser`:
 
 ### `fetch::start::manifest`
 
-Event is of type [`FetchStart`](https://webhint.io/docs/contributor-guide/getting-started/events/#fetchstart)
-and is emitted when the parser starts downloading the web app
-manifest file.
+Event is of type [`FetchStart`][fetchstart] and is emitted when the
+parser starts downloading the web app manifest file.
 
 ### `fetch::end::manifest`
 
-Event is of type [`FetchEnd`](https://webhint.io/docs/contributor-guide/getting-started/events/#fetchend)
-and is emitted when the parser successfully downloaded the web app
-manifest file.
+Event is of type [`FetchEnd`][fetchend] and is emitted when the parser
+successfully downloaded the web app manifest file.
 
 ### `fetch::error::manifest`
 
-Event is of type [`FetchError`](https://webhint.io/docs/contributor-guide/getting-started/events/#fetcherror)
-and is emitted when the parser encounters a problem trying to fetch
-the web app manifest file.
+Event is of type [`FetchError`][fetcherror] and is emitted when the
+parser encounters a problem trying to fetch the web app manifest file.
 
 ### `parse::manifest::end`
 
@@ -109,5 +106,8 @@ import { TypeOrEnumYouWantToUse } from '@hint/parser-manifest/dist/src/types';
 
 <!-- Link labels: -->
 
-[manifest]: https://www.w3.org/TR/appmanifest/
+[fetchend]: https://webhint.io/docs/contributor-guide/getting-started/events/#fetchend
+[fetcherror]: https://webhint.io/docs/contributor-guide/getting-started/events/#fetcherror
+[fetchstart]: https://webhint.io/docs/contributor-guide/getting-started/events/#fetchstart
 [hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[manifest]: https://www.w3.org/TR/appmanifest/

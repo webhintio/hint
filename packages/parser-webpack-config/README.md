@@ -48,18 +48,18 @@ This `parser` emits the following events:
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `parse::webpack-config::error::not-install`. This event is sent if the
-  package `webpack` is not installed locally.
-  This event doesn't containt anything else.
+* `parse::webpack-config::error::not-install`. This event is sent if
+  the package `webpack` is not installed locally. This event doesn't
+  containt anything else.
 
-* `parse::webpack-config::error::not-found`. This event is sent if the
-  parser doesn't find any configuration file at the end of the scan.
-  This event doesn't containt anything else.
+* `parse::webpack-config::error::not-found`. This event is sent if
+  the parser doesn't find any configuration file at the end of the
+  scan. This event doesn't containt anything else.
 
 ## Types
 
-If you need to import any type defined in this parser, you need to import
-them as follows:
+If you need to import any type defined in this parser, you need to
+import them as follows:
 
 ```ts
 import { TypeYouWantToUse } from '@hint/parser-webpack-config/dist/src/types';

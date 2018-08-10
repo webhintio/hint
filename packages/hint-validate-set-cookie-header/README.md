@@ -1,56 +1,61 @@
 # Validate `Set-Cookie` Header (`validate-set-cookie-header`)
 
-This hint validates the `set-cookie` header and confirms that the
-`Secure` and `HttpOnly` directives are defined when sent from a
-secure origin (HTTPS).
+This hint validates the `set-cookie` header and confirms that
+the `Secure` and `HttpOnly` directives are defined when sent from
+a secure origin (HTTPS).
 
 ## Why is this important?
 
-A cookie is a small piece of information sent from a server to a
-user agent. The user agent might save it and send it along with
+A cookie is a small piece of information sent from a server to
+a user agent. The user agent might save it and send it along with
 future requests to identify the user session, track and analyze
-user behavior or inform the server of the user preferences.
-As a result, it contains sensitive data in a lot of the cases.
-To create a cookie, the `Set-Cookie` header is sent from a
-server in response to requests.
+user behavior or inform the server of the user preferences. As a
+result, it contains sensitive data in a lot of the cases. To create
+a cookie, the `Set-Cookie` header is sent from a server in response
+to requests.
 
 In the `Set-Cookie` header, a cookie is defined by a name associated
 with a value. A web server can configure the `domain` and `path`
 directives to restrain the scope of cookies. While session cookies
-are deleted when a browser shuts down, the permanent cookies
-expire at the time defined by `Expires` or `Max-Age`.
+are deleted when a browser shuts down, the permanent cookies expire
+at the time defined by `Expires` or `Max-Age`.
 
-Among the directives, the `Secure` and `HttpOnly` attributes
-are particularly relevant to the security of cookies:
+Among the directives, the `Secure` and `HttpOnly` attributes are
+particularly relevant to the security of cookies:
 
-* Setting `Secure` directive forbids a cookie to be transmitted via simple HTTP.
-* Setting the `HttpOnly` directive prevents access to cookie value through javascript.
+* Setting `Secure` directive forbids a cookie to be transmitted
+  via simple HTTP.
+* Setting the `HttpOnly` directive prevents access to cookie value
+  through javascript.
 
-Applying both directives makes it difficult to exploit
-cross-site scripting ([XSS][xss]) vulnerabilities and hijack the
-authenticated user sessions. The [wiki][http cookie wiki] page
-of `HTTP cookies` offers detailed examples of [cookie theft][cookie theft]
-and [proxy request][proxy request] when cookies are not well protected.
-According to the RFC [HTTP State Management Mechanism][HTTP State Management Mechanism],
-"When using cookies over a secure channel, servers SHOULD set the Secure attribute
-for every cookie". As a result, this hint checks if `Secure` and `HttpOnly` directives
-are properly used and offers to validate the `Set-Cookie` header syntax.
+Applying both directives makes it difficult to exploit cross-site
+scripting ([XSS][xss]) vulnerabilities and hijack the authenticated
+user sessions. The [wiki][http cookie wiki] page of `HTTP cookies`
+offers detailed examples of [cookie theft][cookie theft] and [proxy
+request][proxy request] when cookies are not well protected. According
+to the RFC [HTTP State Management Mechanism][HTTP State Management
+Mechanism], "When using cookies over a secure channel, servers SHOULD
+set the Secure attribute for every cookie". As a result, this hint
+checks if `Secure` and `HttpOnly` directives are properly used and
+offers to validate the `Set-Cookie` header syntax.
 
-Note: More information about `Set-cookie` header is available in
-the [MDN web docs][set-cookie web doc].
+Note: More information about `Set-cookie` header is available in the
+[MDN web docs][set-cookie web doc].
 
 ## What does the hint check?
 
 * `Secure` and `HttpOnly` cookies:
 
-  * `Secure` and `HttpOnly` directives **should** be present if sites are secure.
+  * `Secure` and `HttpOnly` directives **should** be present if sites
+    are secure.
   * `Secure` directive **should not** be present if sites are insecure.
 
 * Cookie prefixes:
 
-  * `__Secure-` and `__Host-` prefixes **can** be used only if sites are secure.
+  * `__Secure-` and `__Host-` prefixes **can** be used only if sites
+    are secure.
   * Cookies with the `__Host-` prefix **should** have a `path` of "/"
-  (the entire host) and **should not** have a `domain` attribute.
+    (the entire host) and **should not** have a `domain` attribute.
 
     Read more: [cookie prefixes][cookie prefixes].
 
@@ -106,8 +111,8 @@ HTTP/... 200 OK
 Set-Cookie: cookieName=cookie value; Secure; HttpOnly
 ```
 
-`Set-Cookie` header that has prefixes in the cookie name but is sent from pages
-using `http` protocol:
+`Set-Cookie` header that has prefixes in the cookie name but is sent
+from pages using `http` protocol:
 
 From an insecure origin (HTTP):
 
@@ -118,8 +123,8 @@ HTTP/... 200 OK
 Set-Cookie: __Secure-ID=123; Secure; Domain=example.com
 ```
 
-`Set-Cookie` header that has `__Host-` prefix in the cookie name but has `Path`
-absent or `Domain` defined:
+`Set-Cookie` header that has `__Host-` prefix in the cookie name but
+has `Path` absent or `Domain` defined:
 
 ```text
 HTTP/... 200 OK

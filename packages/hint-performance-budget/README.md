@@ -1,10 +1,10 @@
 # Performance budget (`performance-budget`)
 
-> A web performance budget is a group of limits to certain values that affect
-> site performance that should not be exceeded in the design and development of
-> any web project. This could be the total size of a page, size of images you
-> are uploading, or even the number of HTTP requests that your webpage
-> generates.
+> A web performance budget is a group of limits to certain values
+> that affect site performance that should not be exceeded in the
+> design and development of any web project. This could be the total
+> size of a page, size of images you are uploading, or even the number
+> of HTTP requests that your webpage generates.
 
 [keycdn - web performance budget][keycdn-wpb]
 
@@ -14,30 +14,33 @@ As of January 2018, the average size of a website is 3,545kB:
 
 ![image][average site size]
 
-Although the global average connection is 7.2Mb/s (check [_Akamai's state of
-the Internet 2017_][state of the internet]), _"no bit is faster than one that is
-not sent"_ (quote by [Ilya Grigorik][faster bit]). Web developers need to be
-mindful not only about the size of their sites, but also the number of
-requests, different domains, third party scripts, etc. The time required by a
-browser to download a 200kB file is not the same as 20 files of 10kB.
+Although the global average connection is 7.2Mb/s (check [_Akamai's
+state of the Internet 2017_][state of the internet]), _"no bit is
+faster than one that is not sent"_ (quote by [Ilya Grigorik][faster
+bit]). Web developers need to be mindful not only about the size of
+their sites, but also the number of requests, different domains,
+third party scripts, etc. The time required by a browser to download
+a 200kB file is not the same as 20 files of 10kB.
 
 ## What does the hint check?
 
-This hint calculates how long it will take to download all the resources loaded
-initially by the website under a `3G Fast` network (but that can be changed,
-see ["Can the hint be configured?"][can be configured] section). If the load
-time is **greater than 5 seconds**, the hint will fail.
+This hint calculates how long it will take to download all the
+resources loaded initially by the website under a `3G Fast` network
+(but that can be changed, see ["Can the hint be configured?"][can be
+configured] section). If the load time is **greater than 5 seconds**,
+the hint will fail.
 
-To calculate the final load time, some assumptions and simplifications are
-done. While the real numbers might be different, the results should provide
-enough guidance to know if something needs more attention.
+To calculate the final load time, some assumptions and simplifications
+are done. While the real numbers might be different, the results should
+provide enough guidance to know if something needs more attention.
 
 The reason for using predefined conditions and assumptions are:
 
-* Guarantee consistent results across runs. If a website serves the same
-  assets, the results should be the same.
-* Show the impact in load time of each transmitted byte with the goal of
-  reducing the number and size of resources downloaded (first and third party).
+* Guarantee consistent results across runs. If a website serves the
+  same assets, the results should be the same.
+* Show the impact in load time of each transmitted byte with the goal
+  of reducing the number and size of resources downloaded (first and
+  third party).
 
 The simplified formula to calculate the time is:
 
@@ -52,34 +55,34 @@ Time = (total number of requests * RTT) +
 
 This is the list of things considered:
 
-* Everything is a first load, no values are cached, and no connections are
-  opened.
-* [`RTT` (Round-Trip Time)][rtt] is fixed and changes depending on the
-  configured network. It assumes all servers respond instantly and in the same
-  amount of time.
-* [`DNS lookup`][dns lookup]: Every hostname resolution requires 1 RTT,
-  imposing latency on the request and blocking the request while the lookup is
-  in progress.
-* [`TCP handshake`][three-way handshake]: Each request requires a new TCP
-  connection. TCP connections require 1 RTT before starting to send information to
-  the server. There's no connection reuse and the maximum number of connections
-  to a domain (usually 6) is ignored.
-* [`TCP slow-start phase`][slow-start phase]: The values used to calculate the
-  duration are:
+* Everything is a first load, no values are cached, and no connections
+  are opened.
+* [`RTT` (Round-Trip Time)][rtt] is fixed and changes depending on
+  the configured network. It assumes all servers respond instantly
+  and in the same amount of time.
+* [`DNS lookup`][dns lookup]: Every hostname resolution requires 1
+  RTT, imposing latency on the request and blocking the request while
+  the lookup is in progress.
+* [`TCP handshake`][three-way handshake]: Each request requires a new
+  TCP connection. TCP connections require 1 RTT before starting to send
+  information to the server. There's no connection reuse and the maximum
+  number of connections to a domain (usually 6) is ignored.
+* [`TCP slow-start phase`][slow-start phase]: The values used to
+  calculate the duration are:
   * `cwnd`: 10 network segments
   * `rwnd`: 65,535 bytes (no `TCP window scaling`)
   * `segment size`: 1460 bytes
-  After this phase, the full bandwidth of the connection is used to download
-  the remaining.
-* [`TLS handshake`][tls handshake]: New TLS connections usually require two
-  roundtrips for a "full handshake". However, there are ways of requiring only
-  1 RTT like [`TLS False Start`][tls false start] and [`TLS Session
-  Resumption`][tls session resumption]. This hint assumes the optimistic
-  scenario.
-* Redirects: We simplify the redirects and assume the connection is reused and
-  to the same server. If the redirect is to another domain, the penalty will be
-  even greater.
-* The server doesn't use [`HTTP2`][http2].
+  After this phase, the full bandwidth of the connection is used to
+  download the remaining.
+* [`TLS handshake`][tls handshake]: New TLS connections usually require
+  two roundtrips for a "full handshake". However, there are ways of
+  requiring only 1 RTT like [`TLS False Start`][tls false start] and
+  [`TLS Session Resumption`][tls session resumption]. This hint assumes
+  the optimistic scenario.
+* Redirects: We simplify the redirects and assume the connection is
+  reused and to the same server. If the redirect is to another domain,
+  the penalty will be even greater.
+* The server doesn't use [`HTTP/2`][http2].
 
 ## Can the hint be configured?
 
@@ -132,15 +135,15 @@ This means that if the user changes the `connectionType` but not the
 
 ### Examples that **trigger** the hint
 
-* Any combination of sizes, redirects, requests to different domains, etc. that
-  make the site load after 5s on a `3GFast` network using the established
-  formula.
+* Any combination of sizes, redirects, requests to different domains,
+  etc. that make the site load after 5s on a `3GFast` network using the
+  established formula.
 
 ### Examples that **pass** the hint
 
-* Any combination of sizes, redirects, requests to different domains, etc. that
-  make the site load in or under 5s on a `3GFast` network using the established
-  formula.
+* Any combination of sizes, redirects, requests to different domains,
+  etc. that make the site load in or under 5s on a `3GFast` network
+  using the established formula.
 
 ## How to use this hint?
 

@@ -1,12 +1,13 @@
 # webpack configuration hints set (`webpack-config`)
 
-`webpack-config` contains set of hints to check if your webpack configuration
-file (`webpack.config.js`) has the most recommended configuration.
+`webpack-config` contains set of hints to check if your webpack
+configuration file (`webpack.config.js`) has the most recommended
+configuration.
 
 ## Why is this important?
 
-If you are building an app or a website using webpack, you
-need to be sure that your configuration is the best for your needs.
+If you are building an app or a website using webpack, you need to
+be sure that your configuration is the best for your needs.
 
 ## Hints
 

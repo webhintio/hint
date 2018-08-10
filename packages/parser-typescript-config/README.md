@@ -1,7 +1,7 @@
 # TypeScript config parser (`@hint/parser-typescript-config`)
 
-The `typescript-config` parser allows the user to analyze the TypeScript
-configuration in their projects.
+The `typescript-config` parser allows the user to analyze the
+TypeScript configuration in their projects.
 
 To use it you will have to install it via `npm`:
 
@@ -28,10 +28,10 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 }
 ```
 
-This parser detect if a TypeScript configuration file is present in your
-project, checking the name of the file (i.e. `tsconfig.json`,
-`tsconfig.developement.json`). This parser detects if a config file has a
-valid content.
+This parser detect if a TypeScript configuration file is present in
+your project, checking the name of the file (i.e. `tsconfig.json`,
+`tsconfig.developement.json`). This parser detects if a config file
+has a valid content.
 
 ## Events emitted
 

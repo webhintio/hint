@@ -1,6 +1,7 @@
 # Local connector (`@hint/connector-local`)
 
-A local connector to analyze the local files in your project with `webhint`.
+A local connector to analyze the local files in your project
+with `webhint`.
 
 ## Installation
 

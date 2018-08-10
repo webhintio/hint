@@ -8,18 +8,18 @@ header directives and their corresponding values.
 
 Web security should be a critical concern for web developers.
 Unlike [cross-site scripting (XSS)][xss] and [SQL injection][sql
-injection], the exploit of insufficient protection over the transport
-layer can be harder to picture in practice. If a website accepts
-a connection through HTTP and then redirects to HTTPS, it opens
-opportunities for a "man-in-the-middle" attack, when the redirect could
-be exploited and lead the user to a malicious site.
+injection], the exploit of insufficient protection over the
+transport layer can be harder to picture in practice. If a website
+accepts a connection through HTTP and then redirects to HTTPS, it
+opens opportunities for a "man-in-the-middle" attack, when the
+redirect could be exploited and lead the user to a malicious site.
 
-By specifying the `Strict-Transport-Security` header along with a
-`max-age` value in the response, a website can declare that
-only secure connections within the specified period will be
-accepted. For future requests to the same domain via insecure
-connections, the browser knows that it should never load the site using
-HTTP and automatically converts all requests to HTTPS instead.
+By specifying the `Strict-Transport-Security` header along with
+a `max-age` value in the response, a website can declare that only
+secure connections within the specified period will be accepted.
+For future requests to the same domain via insecure connections,
+the browser knows that it should never load the site using HTTP
+and automatically converts all requests to HTTPS instead.
 
 Notably, to prevent the `Strict-Transport-Security` header from being
 stripped by the attacker on the user’s first visit, major browsers
@@ -28,8 +28,8 @@ You can submit your domain name in the [online form][preload form]
 to be included in the list. After being included, all insecure
 connection requests will be disallowed. Use with great caution:
 Before you decide to have your own domain included, make sure that
-you can support HTTPS for all the subdomains and that you'll
-never again need the insecure scheme.
+you can support HTTPS for all the subdomains and that you'll never
+again need the insecure scheme.
 
 More information about HTTP Strict Transport (HSTS), please see:
 
@@ -48,9 +48,9 @@ For a site served over HTTPS, this hint checks the following:
 * When a `Strict-Transport-Security` header contains the `preload`
   directive, this hint will first check the domain name against the
   [HTTP Strict Transport Security (HSTS) preload list][preload list]
-  for the preload status, and then check whether this domain has errors
-  that would prevent preloading by calling the hstspreload api
-  endpoint. This check is disabled by default.
+  for the preload status, and then check whether this domain has
+  errors that would prevent preloading by calling the HSTS Preload
+  API endpoint. This check is disabled by default.
 
 ### Examples that **trigger** the hint
 

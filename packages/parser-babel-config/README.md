@@ -28,9 +28,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 }
 ```
 
-This parser detects if a `.babelrc` configuration file is present, or
-if the Babel configuration is specified in `package.json`, and validates
-the Babel configuration against the schema.
+This parser detects if a `.babelrc` configuration file is present,
+or if the Babel configuration is specified in `package.json`, and
+validates the Babel configuration against the schema.
 
 ## Events emitted
 

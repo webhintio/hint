@@ -31,14 +31,15 @@ when using protocol relative URLs include:
       by browsers over HTTPS.
 
   * [Internet Explorer 7 and 8 will download a stylesheet twice if
-    protocol-relative URLs are used for `<link>`s or `@import`s][ie issue].
+    protocol-relative URLs are used for `<link>`s or `@import`s][ie
+    issue].
 
 * Security
 
   If protocol-relative URLs are used for CDN links, their
-  domain is not in the browser’s [HSTS preload list][hsts preload list],
-  and the first request is not made over HTTP, there is a high risk
-  of man-in-the-middle attacks.
+  domain is not in the browser’s [HSTS preload list][hsts preload
+  list], and the first request is not made over HTTP, there is a
+  high risk of man-in-the-middle attacks.
 
   Of course, if the web site/app is served over HTTP it is already
   exposed to those types of attacks, but in general CDNs constitute

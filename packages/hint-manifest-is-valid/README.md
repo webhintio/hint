@@ -1,8 +1,8 @@
 # Require valid manifest (`manifest-is-valid`)
 
-`manifest-is-valid` checks if the content of the web app manifest file
-is valid JSON, valid according to the specification, and the property
-values work in all [targeted browsers][targeted browsers].
+`manifest-is-valid` checks if the content of the web app manifest
+file is valid JSON, valid according to the specification, and the
+property values work in all [targeted browsers][targeted browsers].
 
 ## Why is this important?
 
@@ -11,8 +11,8 @@ user agents. The same goes for invalid property values or non-standard
 properties.
 
 Also, providing property values that are only supported by certain
-user agents for which the [specification][manifest spec] does not define
-a fallback, can lead to interoperability issues.
+user agents for which the [specification][manifest spec] does not
+define a fallback, can lead to interoperability issues.
 
 ## What does the hint check?
 

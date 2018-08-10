@@ -6,10 +6,10 @@ HTTP response header.
 
 ## Why is this important?
 
-Sometimes the metadata browsers need to know how to interpret
-the content of a resource is either incorrect, not reliable, or absent.
-In those cases, browsers use contextual clues that inspect the bytes of
-the response to detect the file format. This is known as [MIME
+Sometimes the metadata browsers need to know how to interpret the
+content of a resource is either incorrect, not reliable, or absent.
+In those cases, browsers use contextual clues that inspect the bytes
+of the response to detect the file format. This is known as [MIME
 sniffing][mime sniffing spec] and it is done regardless of the specified
 `Content-Type` HTTP header sent by servers.
 

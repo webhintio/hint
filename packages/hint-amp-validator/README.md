@@ -10,8 +10,8 @@ AMP page will load (quickly) in any modern browser.
 
 ## Why is this important?
 
-If you are building an AMP page, you need to make sure the HTML is valid.
-Only valid AMP content can be added to an [AMP Cache][amp-cache].
+If you are building an AMP page, you need to make sure the HTML is
+valid. Only valid AMP content can be added to an [AMP Cache][amp-cache].
 
 ## What does the hint check?
 

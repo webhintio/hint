@@ -46,8 +46,9 @@ Notes:
 
 ## What does the hint check?
 
-By default, the hint checks if the `X-UA-Compatible` response header is
-sent with the value of `IE=edge`, and that the `meta` tag isn’t used.
+By default, the hint checks if the `X-UA-Compatible` response header
+is sent with the value of `IE=edge`, and that the `meta` tag isn’t
+used.
 
 ### Examples that **trigger** the hint for defaults
 
@@ -109,8 +110,8 @@ X-UA-Compatible: ie=edge
 ```
 
 The hint [can be configured](#can-the-hint-be-configured) to require
-the `X-UA-Compatible` meta tag. This option is indicated mainly for the
-case when the HTTP response header cannot be set.
+the `X-UA-Compatible` meta tag. This option is indicated mainly for
+the case when the HTTP response header cannot be set.
 
 ### Examples that **trigger** the hint
 
@@ -284,8 +285,9 @@ Note that:
 
 ### Adding the `X-UA-Compatible` header on IIS
 
-To add the `X-UA-Compatible` header you can use a [`URL rewrite` rule][url rewrite]
-rule that matches the `text/html` `content-type` header of a response and adds it:
+To add the `X-UA-Compatible` header you can use a [`URL rewrite`
+rule][url rewrite] rule that matches the `text/html` `content-type`
+header of a response and adds it:
 
 ```xml
 <configuration>
@@ -306,13 +308,13 @@ rule that matches the `text/html` `content-type` header of a response and adds i
 ```
 
 Note that if your site uses a mime type different than `text/html`
-(e.g.: `application/xhtml+xml`) to serve HTML content, you'll have to
-update the value of `pattern`.
+(e.g.: `application/xhtml+xml`) to serve HTML content, you'll have
+to update the value of `pattern`.
 
 ## Removing the `X-UA-Compatible` header on IIS
 
-If the header is set by IIS using the above technique, removing the code
-should be enough to stop sending it.
+If the header is set by IIS using the above technique, removing the
+code should be enough to stop sending it.
 
 If the header is set at the application level you can use the following:
 

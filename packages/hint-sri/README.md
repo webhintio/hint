@@ -1,7 +1,7 @@
 # Require scripts and styles to use subresource integrity (`sri`)
 
-`sri` warns about requesting scripts or stylesheets without using subresource
-integrity.
+`sri` warns about requesting scripts or stylesheets without using
+subresource integrity.
 
 ## Why is this important?
 
@@ -9,38 +9,41 @@ A common practice in modern web development is to use third party
 resources from CDNs or different services (analytics, ads, etc.).
 However, doing so can increase the attack surface of your web site/app.
 
-While there are techniques to verify the agent is talking with the right server
-(TLS, HSTS, etc.), an attacker (or administrator) with access to the server can
-manipulate the content with impunity.
+While there are techniques to verify the agent is talking with the
+right server (TLS, HSTS, etc.), an attacker (or administrator) with
+access to the server can manipulate the content with impunity.
 
-> If you want to load a crypto miner on 1,000+ websites you don't attack 1,000+
-websites, you attack the 1 website that they all load content from.
+> If you want to load a crypto miner on 1,000+ websites you don't
+attack 1,000+ websites, you attack the 1 website that they all load
+content from.
 ([Scott Helme][weak link])
 
-Subresource integrity [is a standard][sri spec] that mitigates this by ensuring
-that an exact representation of a resource, and only that representation, loads
-and executes.
+Subresource integrity [is a standard][sri spec] that mitigates this
+by ensuring that an exact representation of a resource, and only that
+representation, loads and executes.
 
 ## What does the hint check?
 
 This hint checks that a website correctly uses SRI, more specifically:
 
-* All the downloaded resources by an `<script>` or `<link rel="stylesheet">`
-  have an `integrity` attribute.
-* [The `integrity` attribute needs to be valid][sri format]. I.e.: it should
-  contain something in the form of `sha(256|384|512)-HASH`, where `HASH` is
-  the hashed value of the downloaded body's response using the previously
-  specified algorithm (`sha256`, `sha384`, or `sha512`).
+* All the downloaded resources by an `<script>` or
+  `<link rel="stylesheet">` have an `integrity` attribute.
+* [The `integrity` attribute needs to be valid][sri format]. I.e.:
+  it should contain something in the form of `sha(256|384|512)-HASH`,
+  where `HASH` is the hashed value of the downloaded body's response
+  using the previously specified algorithm (`sha256`, `sha384`, or
+  `sha512`).
 * The minimum cryptographic hash function used is [`sha384`][collisions].
-  If multiple ones are provided, the highest one will be used to determine if
-  the baseline is met.
-* When using a cross-origin resource (e.g.: using a script hosted in a third
-  party CDN), the `<script>` or `<link>` tag needs to have a valid
-  [`crossorigin` attribute][crossorigin].
-* The resource is served on a [secure context][secure context] (i.e.: HTTPS) to
-  guarantee the HTML and resource haven't been tampered during the delivery.
-* The hash from the `integrity` attribute needs to be the same as the one
-  calculated using the response's body.
+  If multiple ones are provided, the highest one will be used to
+  determine if the baseline is met.
+* When using a cross-origin resource (e.g.: using a script hosted in
+  a third party CDN), the `<script>` or `<link>` tag needs to have a
+  valid [`crossorigin` attribute][crossorigin].
+* The resource is served on a [secure context][secure context]
+  (i.e.: HTTPS) to guarantee the HTML and resource haven't been
+  tampered during the delivery.
+* The hash from the `integrity` attribute needs to be the same as
+  the one calculated using the response's body.
 * If multiple hashes are provided, at least one needs to be valid.
 
 ### Examples that **trigger** the hint
@@ -131,8 +134,8 @@ change it to `sha256`, or `sha512` by specifying that in the
 }
 ```
 
-The above will validate that the `integrity` of all scripts and styles use
-`sha512`.
+The above will validate that the `integrity` of all scripts and
+styles use `sha512`.
 
 ## How to use this hint?
 

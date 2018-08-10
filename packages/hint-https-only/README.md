@@ -1,7 +1,7 @@
 # Require https for you site and assets (`https-only`)
 
-`https-only` checks if your site is using HTTPS and warns against having
-mixed content.
+`https-only` checks if your site is using HTTPS and warns against
+having mixed content.
 
 ## Why is this important?
 
@@ -10,17 +10,18 @@ doesn't have sensitive information, an attacker can change the content
 or inject malicious scripts (like a [crypto miner][crypto miner] to
 use your user's CPU power).
 
-Also, [certain browser features][certain features] are only available if the
-site is on HTTPS.
+Also, [certain browser features][certain features] are only available
+if the site is on HTTPS.
 
 ## What does the hint check?
 
 This hint checks two things:
 
 * The main target is served using HTTPS
-* If the main target is an HTML file, all its resources should be on HTTPS too
-* If there are any redirects accessing the resources, it will validate all of
-  them are done over HTTPS
+* If the main target is an HTML file, all its resources should be on
+  HTTPS too
+* If there are any redirects accessing the resources, it will validate
+  all of them are done over HTTPS
 
 ### Examples that **trigger** the hint
 
