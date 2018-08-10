@@ -1,6 +1,7 @@
 import * as path from 'path';
 
 import * as moment from 'moment';
+import { cloneDeep } from 'lodash';
 
 import { Severity, FormatterOptions } from 'hint/dist/src/lib/types';
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
@@ -36,7 +37,7 @@ export class HintResult {
         this.status = status;
         this.count = 0;
 
-        this.thirdPartyInfo = thirdPartyServices[name];
+        this.thirdPartyInfo = thirdPartyServices[name] ? cloneDeep(thirdPartyServices[name]) : null;
 
         if (this.thirdPartyInfo) {
             this.thirdPartyInfo.link.replace(/%URL%/, url);
@@ -54,7 +55,7 @@ export class HintResult {
     }
 }
 
-export class Category {
+export class CategoryResult {
     public errors: number;
     public warnings: number;
     public hints: Array<HintResult>;
@@ -144,13 +145,13 @@ export default class AnalysisResult {
     public scanTime: string;
     public version?: string;
     public permalink: string;
-    public categories: Array<Category>;
+    public categories: Array<CategoryResult>;
     public url: string;
     public isFinish: boolean;
     public status: string;
     public id: string;
     public isScanner: boolean;
-    private cache: Map<string, Category> = new Map();
+    private cache: Map<string, CategoryResult> = new Map();
 
     public constructor(target: string, options: FormatterOptions) {
         this.url = target;
@@ -188,12 +189,12 @@ export default class AnalysisResult {
         return time;
     }
 
-    public getCategoryByName(name: string): Category | undefined {
+    public getCategoryByName(name: string): CategoryResult | undefined {
         const lowerCaseName = name.toLowerCase();
         let category = this.cache.get(lowerCaseName);
 
         if (!category) {
-            category = this.categories.find((cat: Category) => {
+            category = this.categories.find((cat: CategoryResult) => {
                 return cat.name.toLowerCase() === lowerCaseName;
             });
 
@@ -208,10 +209,10 @@ export default class AnalysisResult {
     public addProblem(problem: Problem): void {
         const categoryName: string = problem.category;
 
-        let category: Category | undefined = this.getCategoryByName(categoryName);
+        let category: CategoryResult | undefined = this.getCategoryByName(categoryName);
 
         if (!category) {
-            category = new Category(categoryName, this.url, this.isScanner);
+            category = new CategoryResult(categoryName, this.url, this.isScanner);
 
             this.categories.push(category);
         }
@@ -232,7 +233,7 @@ export default class AnalysisResult {
             return;
         }
 
-        category = new Category(categoryName, this.url, this.isScanner);
+        category = new CategoryResult(categoryName, this.url, this.isScanner);
 
         this.categories.push(category);
     }
