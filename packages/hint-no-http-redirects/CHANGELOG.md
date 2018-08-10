@@ -1,3 +1,10 @@
+# 1.0.2 (August 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c14bf77ee4`](https://github.com/webhintio/hint/commit/c14bf77ee461c62a5a072b3befefe26a1b95e8fb)] - Docs: Add missing comma (by [`Bruno Vinicius Figueiredo dos Santos`](https://github.com/IAmHopp)).
+
+
 # 1.0.1 (August 7, 2018)
 
 ## Bug fixes / Improvements
