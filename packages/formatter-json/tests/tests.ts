@@ -35,6 +35,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
 
     const sortedMessages = [
         {
+            category: 'other',
             hintId: 'random-hint',
             location: {
                 column: 1,
@@ -46,6 +47,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             sourceCode: ''
         },
         {
+            category: 'other',
             hintId: 'random-hint',
             location: {
                 column: 10,
@@ -57,6 +59,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             sourceCode: ''
         },
         {
+            category: 'other',
             hintId: 'random-hint',
             location: {
                 column: 1,
@@ -68,6 +71,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
             sourceCode: ''
         },
         {
+            category: 'other',
             hintId: 'random-hint',
             location: {
                 column: 1,
