@@ -20,6 +20,7 @@ proxyquire('../../src/lib/engine', { eventemitter2: eventEmitter });
 
 import { Engine } from '../../src/lib/engine';
 import { HintResources, IFormatter, IConnector, IHint, HintMetadata, Problem } from '../../src/lib/types';
+import { Category } from '../../src/lib/enums/category';
 
 class FakeConnector implements IConnector {
     private config;
@@ -866,8 +867,8 @@ test.serial('executeOn should return all messages', async (t) => {
 
     const localUrl = new url.URL('http://localhost/');
 
-    engineObject.report('1', 1, 'node', { column: 1, line: 1 }, 'message', 'resource');
-    engineObject.report('2', 1, 'node', { column: 1, line: 2 }, 'message2', 'resource2');
+    engineObject.report('1', Category.other, 1, 'node', { column: 1, line: 1 }, 'message', 'resource');
+    engineObject.report('2', Category.other, 1, 'node', { column: 1, line: 2 }, 'message2', 'resource2');
 
     const result = await engineObject.executeOn(localUrl);
 
