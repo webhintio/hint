@@ -7,7 +7,7 @@ have an updated version of `npm` (v5.2.0) and [Node LTS (v8.9.2)
 or later][nodejs] you can use the following command:
 
 ```bash
-npm hint https://example.com
+npx hint https://example.com
 ```
 
 Alternatively, you can install it locally with:
