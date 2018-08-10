@@ -1,0 +1,146 @@
+/*
+ * LAYOUTS
+ * =============================================
+ * @Dependencies: base.css, structure.css
+ */
+
+.container::after,
+.layout::after,
+.module::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+.layout {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.module {
+    margin-top: 2.4rem;
+    width: 100%;
+}
+
+.module:first-child {
+    margin-top: 0;
+}
+
+@media (min-width: 33.75em) {
+
+    .layout {
+        margin-right: -1.2rem;
+        margin-left: -1.2rem;
+    }
+
+    .module {
+        float: left;
+        padding-right: 1.2rem;
+        padding-left: 1.2rem;
+    }
+
+}
+
+@media (min-width: 48em) {
+
+    .layout {
+        margin-left: -1.6rem;
+        margin-right: -1.6rem;
+    }
+
+    .module {
+        padding-right: 1.6rem;
+        padding-left: 1.6rem;
+    }
+
+}
+
+/* Primary + Secondary */
+
+@media (min-width: 48em) {
+
+    .module--primary,
+    .module--secondary {
+        float: left;
+        width: 50%;
+        margin-top: 0;
+    }
+}
+
+/* Fixed sidebar width */
+
+@media (min-width: 48em) {
+
+    [class*="layout--sidebar"] > .module {
+        margin-top: 0;
+    }
+
+    [class*="layout--sidebar"] > .module--primary {
+        width: calc(100% - 26rem);
+    }
+
+    .layout--sidebar--alt > .module--primary {
+        float: left;
+    }
+}
+
+@media (min-width: 64em) {
+
+    [class*="layout--sidebar"] > .module--primary {
+        width: calc(100% - 36rem);
+    }
+
+}
+
+/*
+ *	FIFTHS LAYOUT
+ *	---------------------------------------------
+ */
+
+@media (min-width: 33.75em) and (max-width: 48em) {
+
+ 	.layout--fifths .module {
+		width: 50%;
+ 	}
+
+ 	.layout--fifths .module:nth-child(-n+2) {
+	    margin-top: 0;
+	}
+
+	.layout--fifths .module:nth-child(2n+1) {
+	    clear: left;
+	}
+
+}
+
+@media (min-width: 48em) and (max-width: 64em) {
+
+	.layout--fifths .module {
+		width: 33%;
+	}
+
+	.layout--fifths .module:nth-child(-n+3) {
+		margin-top: 0;
+	}
+
+	.layout--fifths .module:nth-child(3n+1) {
+		clear: left;
+	}
+
+}
+
+@media (min-width: 64em) {
+
+	.layout--fifths .module {
+		width: 20%;
+	}
+
+	.layout--fifths .module:nth-child(-n+5) {
+		margin-top: 0;
+	}
+
+	.layout--fifths .module:nth-child(5n+1) {
+		clear: left;
+	}
+
+}

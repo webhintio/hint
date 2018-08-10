@@ -1,0 +1,36 @@
+{
+  "axe": {
+    "logo": {
+      "name": "axe",
+      "url": "/images/scan/axe.png",
+      "alt": "aXe"
+    },
+    "link": "https://github.com/dequelabs/axe-core"
+  },
+  "ssllabs": {
+    "logo": {
+      "name": "ssllabs",
+      "url": "/images/scan/qualys-ssl-labs-logo.png",
+      "alt": "Qualys SSL Labs"
+    },
+    "details": true,
+    "link": "https://www.ssllabs.com/ssltest/analyze.html?d=%URL%"
+  },
+  "no-vulnerable-javascript-libraries": {
+    "logo": {
+      "name": "snyk",
+      "url": "/images/scan/snyk.svg",
+      "alt": "snyk"
+    },
+    "link": "https://snyk.io/vuln/"
+  },
+  "image-optimization-cloudinary": {
+    "logo": {
+      "name": "cloudinary",
+      "url": "/images/scan/cloudinary_logo_for_white_bg.svg",
+      "alt": "Cloudinary"
+    },
+    "details": true,
+    "link": "https://webspeedtest.cloudinary.com"
+  }
+}

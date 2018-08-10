@@ -1,0 +1,63 @@
+/*
+ * BASIC STRUCTURE
+ * =============================================
+ * @Dependencies: base.css
+ */
+
+body {
+    overflow-x: hidden;
+}
+
+/* Limit widths */
+hr,
+.container {
+    max-width: 144rem;
+}
+
+/* Standard sections and subsections */
+.section,
+hr {
+    margin-top: 4.8rem;
+}
+
+
+
+/*
+Containing element goes INSIDE sections,
+as some sections are full-bleed on the page.
+ */
+
+.container {
+    width: 100%;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+.container .container,
+.container hr {
+    width: auto;
+}
+
+@media (min-width: 48em) {
+
+    .content > header,
+    .section,
+    hr {
+        margin-top: 6rem;
+    }
+
+}
+
+/* @TODO: Revert to 56.2em when extensions is removed from header */
+@media (min-width: 58em) {
+
+    hr,
+    .container {
+        width: 90%;
+        margin-right: auto;
+        margin-left: auto;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+}

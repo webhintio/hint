@@ -1,0 +1,9 @@
+{
+    "accessibility": "/images/scan/accessibility.svg",
+    "interoperability": "/images/scan/interoperability.svg",
+    "performance": "/images/scan/performance.svg",
+    "pwa": "/images/scan/pwa.svg",
+    "security": "/images/scan/security.svg",
+    "development": "/images/scan/dev-icon.svg",
+    "other": "/images/scan/other-icon.svg"
+}

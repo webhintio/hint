@@ -1,0 +1,104 @@
+<div class="section container">
+    <div class="scan-overview" data-id="<%= result.id %>">
+        <div class="scan-overview__header">
+            <p>SCANNED URL:
+                <a href="<%= result.url %>"><%= result.url %></a>
+            </p>
+            <p class="scan-overview__status<% if (!result.isFinish) { %> analyzing<% } %>">
+            <% if (!result.isFinish) { %>Analyzing<% } else { %><%= result.status %><% } %>
+            </p>
+        </div>
+        <div class="scan-overview--details">
+            <div class="scan-overview--warnings">
+                <p class="scan-overview__subheader">warnings</p>
+                <p class="scan-overview__body--red" id="total-warnings"><%= result.warnings %></p>
+            </div>
+            <div class="scan-overview--errors">
+                <p class="scan-overview__subheader">errors</p>
+                <p class="scan-overview__body--red" id="total-errors"><%= result.errors %></p>
+            </div>
+            <div class="scan-overview--time">
+                <p class="scan-overview__subheader">scan time</p>
+                <p class="scan-overview__body--purple"><%= result.scanTime %></p>
+            </div>
+            <div class="scan-overview--version">
+                <p class="scan-overview__subheader">version</p>
+                <p class="scan-overview__body--purple"><%= result.version %></p>
+            </div>
+            <div class="scan-overview--config">
+                <p class="scan-overview__subheader">Scan Configuration</p>
+                <a class="scan-overview__body__link" href="config/<%= result.id %>">View JSON file</a>
+            </div>
+            <% if (result.permalink) { %>
+                <div class="scan-overview--permalink">
+                    <p class="scan-overview__subheader">permalink</p>
+                    <p class="scan-overview__body__permalink">
+                        <%= result.permalink %>
+                        <button class="permalink-copy">
+                            <img src="/images/scan/permalink-icon.svg" />
+                        </button>
+                    </p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    <div class="layout layout--fifths">
+        <% result.categories.forEach((category) => { -%>
+        <div class="module">
+            <div class="rule-tile <% if (category.errors !== 0 || category.warnings !== 0) { %>rule-tile--failed<% } else if (utils.noPending(category)) { %>rule-tile--passed<% } %>">
+                <p class="rule-tile__category uppercase-text">
+                    <a href="#<%= category.name %>"><%= category.name %></a>
+                </p>
+                <img src="<%= category.image %>" class="rule-icon" alt="" role="presentation" />
+                <div class="rule-list">
+                    <p class="<% if (category.errors !== 0) { %>rule-list--failed<% } else if (utils.noPending(category)) { %>rule-list--passed<% } %> <%= category.name %> errors">
+                        <%= category.errors %> Error<% if(category.errors > 1) { %>s<% } %>
+                    </p>
+                    <p class="<% if (category.warnings !== 0) { %>rule-list--failed<% } else if (utils.noPending(category)) { %>rule-list--passed<% } %> <%= category.name %> warnings">
+                        <%= category.warnings %> Warning<% if(category.warnings > 1) { %>s<% } %>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+    <% if (result.status === 'error') { %>
+        <%- include('scan-error-message', { result }) %>
+    <% } %>
+    <section id="results-container" class="section container" role="main" aria-labelledby="errors-warnings" aria-live="polite">
+        <h2 id="errors-warnings">Errors &amp; Warnings</h2>
+        <div class="layout layout--sidebar--alt">
+            <div class="module module--primary results">
+            <% result.categories.forEach((category) => { %>
+                <section class="rule-result" id="<%= category.name %>">
+                    <div class="rule-result--category">
+                        <h3><%= category.name %></h3>
+                        <% if ((result.status === 'error' || result.status === 'finished') && !utils.noIssues(category)) { %>
+                        <button title="expand" class="button-expand-all closed">+ expand all</button>
+                        <% } %>
+                    </div>
+                    <% if (result.status !== 'error' && result.status !== 'finished') { %>
+                    <div class="rule-result--details compiling__loader">
+                        <div class="rule-result__message--compiling">
+                            <div class="rule-result__message--compiling__loader"></div>
+                            <p>Gathering results</p>
+                        </div>
+                    </div>
+                    <% } else if (utils.noIssues(category)) { %>
+                    <%- include('category-pass-message'); %>
+                    <% } else { %>
+                        <% utils.filterErrorsAndWarnings(category).forEach((hint) => { %>
+                            <%- include('scan-result-item', { hint, utils, isScanner: result.isScanner }); %>
+                        <% }) %>
+                    <% } %>
+                </section>
+            <% }) %>
+            </div>
+        </div>
+    </section>
+    <section class="section container">
+        <p class="subtitle">Have an issue or problem with the scanner?</p>
+        <p>File an issue on
+            <a rel="noopener noreferrer" target="_blank" href="https://github.com/webhintio/hint/issues/new">GitHub</a> and let us know or try and <% if(result.isScanner) { %><a href="scanner/">perform another scan</a><% } else { %>run webhint again<% } %>.</p>
+    </section>
+</div>

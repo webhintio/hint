@@ -1,0 +1,41 @@
+/*
+ * BUTTONS
+ * ---------------------------------------------
+ */
+
+button,
+a.button {
+    min-width: 16rem;
+    max-width: 100%;
+    border: 1px solid transparent;
+
+    /* needed to override Chrome styles */
+    border-radius: 0;
+    padding: 1.2rem 1.6rem;
+
+    color: #fff;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    /* needed for .button as doesn’t always get default control behaviours */
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+
+button:hover,
+button:focus,
+.button:hover,
+.button:focus {
+    border-color: hsla(0, 0%, 0%, .4);
+}
+
+button:active,
+.button:active {
+    border-color: transparent;
+    background-color: hsla(0, 0%, 0%, .4);
+}

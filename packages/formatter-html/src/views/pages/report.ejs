@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" >
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/base.css" >
+    <link rel="stylesheet" href="styles/controls.css" >
+    <link rel="stylesheet" href="styles/type.css" >
+    <link rel="stylesheet" href="styles/layouts.css" >
+    <link rel="stylesheet" href="styles/structure.css" >
+    <link rel="stylesheet" href="styles/scan/scan-results.css" >
+
+    <link rel="stylesheet" href="styles/highlight/default.min.css">
+</head>
+<body>
+    <%- include('../partials/scan-result', { result, utils }); %>
+
+    <script src="js/highlight/highlight.min.js"></script>
+    <script src="js/highlight/languages/xml.min.js"></script>
+
+    <script src="js/scan/scanner-common.js"></script>
+</body>
+</html>
