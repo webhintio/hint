@@ -16,7 +16,7 @@ const hintPath = getHintPath(__filename);
 const angular = fs.readFileSync(require.resolve('angular/angular.min.js'), 'utf-8');
 const jquery = fs.readFileSync(require.resolve('jquery/dist/jquery.min.js'), 'utf-8');
 const knockout = fs.readFileSync(require.resolve('knockout/dist/knockout.js'), 'utf-8');
-const moment = fs.readFileSync(require.resolve('moment/moment.min.js'), 'utf-8');
+const moment = fs.readFileSync(require.resolve('moment/moment.js'), 'utf-8');
 
 
 const defaultTests: Array<HintTest> = [
@@ -35,7 +35,7 @@ const defaultTests: Array<HintTest> = [
         serverConfig: generateHTMLPage(generateScriptTag(knockout))
     },
     {
-        name: `page with non vulnerable library (moment 1.0.0) passes`,
+        name: `page with non vulnerable library (moment 2.22.2) passes`,
         serverConfig: generateHTMLPage(generateScriptTag(moment))
     }
 ];
