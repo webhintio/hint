@@ -405,7 +405,7 @@ const getDate = (): string => {
         'September',
         'October',
         'November',
-        'Decembe'
+        'December'
     ];
 
     return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
