@@ -181,7 +181,7 @@ Removing the `Server` header is a bit more complicated and changes
 depending on the version.
 
 In IIS 10.0 you can remove it using the [`removeServerHeader` attribute
-of `requestFiltering`][requestfiltering]:
+of `requestFiltering`][request filtering]:
 
 ```xml
 <configuration>

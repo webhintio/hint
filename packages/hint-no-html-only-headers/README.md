@@ -265,6 +265,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [apache config]: https://webhint.io/docs/user-guide/server-configurations/apache/
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
+[header directive]: https://httpd.apache.org/docs/current/mod/mod_headers.html#header
 [hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
 [how to enable apache modules]: https://github.com/h5bp/server-configs-apache/tree/7eb30da6a06ec4fc24daf33c75b7bd86f9ad1f68#enable-apache-httpd-modules
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
