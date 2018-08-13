@@ -16,14 +16,13 @@ convention as [`browserslist`][browserslist]:
 
 By specifying this property, you are giving more context to the hints
 allowing them to adapt their behavior. An example of a hint taking
-advantage of this property is [`highest-available-document-mode`](../hints/highest-available-document-mode.md).
-This hint will advice you to use `edge` mode if you need to support
-versions of IE prior IE10, or tell you to remove that tag or header
-it you only need IE11+ because document modes were removed at that
-version.
+advantage of this property is [`highest-available-document-mode`][doc
+modes]. This hint will advice to use `edge` mode if Internet Explorer
+8, 9, or 10 need to be supported, but tell you to remove that tag or
+header otherwise, as document modes are not needed for other browsers.
 
-If no value is defined, [`browserslist`’s defaults][browserslist defaults] will
-be used:
+If no value is defined, [`browserslist`’s defaults][browserslist
+defaults] will be used:
 
 ```js
 browserslist.defaults = [
@@ -37,3 +36,4 @@ browserslist.defaults = [
 
 [browserslist]: https://github.com/ai/browserslist#readme
 [browserslist defaults]: https://github.com/ai/browserslist#queries
+[doc modes]: ../hints/highest-available-document-mode.md

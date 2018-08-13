@@ -11,9 +11,10 @@ check privacy policies.
 
 Microsoft Internet Explorer was the most popular browser that
 implemented `P3P`. With Windows 10, `P3P`'s support was removed
-entirely from IE 11 and has [minimal servicing for other versions
-of Windows][p3p not supported]. Other popular browsers never
-implemented or removed this feature before Microsoft did.
+entirely from Internet Explorer 11 and has [minimal servicing
+for other versions of Windows][p3p not supported]. Other popular
+browsers never implemented or removed this feature before Microsoft
+did.
 
 On top of the lack of support, if the header is sent and it's not
 kept in sync with normal human-readable privacy policies, it may be
@@ -21,23 +22,25 @@ a cause of legal confusion, which might present legal risks. Please
 check with a local lawyer to see if that's the case in your country.
 
 Additionally, [studies][research] have detected that about 33% of
-sites using P3P don't have a valid configuration. In some cases, the
-value was used to circumvent IE cookie blocking (and thus rendering
-P3P ineffective). Others had typos and errors in the tokens.
+sites using P3P don't have a valid configuration. In some cases,
+the value was used to circumvent Internet Explorer cookie blocking
+(and thus rendering P3P ineffective). Others had typos and errors
+in the tokens.
 
 Because of all the above reasons it's recommended to not use `P3P`
 anymore.
 
-One thing to keep in mind if you need to support old versions of IE
-is that:
+One thing to keep in mind if you need to support old versions of
+Internet Explorer is that:
 
-> By default, IE will reject cookies coming from 3rd-party contexts.
-A 3rd-party context is one where the domain on the content is different
-than the domain of the page that pulls in that content. Possible
-third-party contexts include pretty much any element that accepts a
-URL: `<script>`, `<img>`, `<link>`, `<frame>`, `<iframe>`, `<audio>`,
-`<video>`, et cetera. It also includes cross-domain `XMLHttpRequest`
-which attempt to send cookies when the `withCredentials` flag is set.
+> By default, Internet Explorer will reject cookies coming from
+3rd-party contexts. A 3rd-party context is one where the domain
+on the content is different than the domain of the page that pulls
+in that content. Possible third-party contexts include pretty much
+any element that accepts a URL: `<script>`, `<img>`, `<link>`,
+`<frame>`, `<iframe>`, `<audio>`, `<video>`, et cetera. It also
+includes cross-domain `XMLHttpRequest` which attempt to send
+cookies when the `withCredentials` flag is set.
 
 *[A Quick Look at P3P (Eric Lawrence)][quick look]*
 

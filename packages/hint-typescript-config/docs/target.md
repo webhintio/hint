@@ -17,7 +17,7 @@ on your `browserslist` configuration.
 
 The matrix is as follows:
 
-| Target | Chrome | Edge | Firefox | IE | Safari |
+| Target | Chrome | Edge | Firefox | Internet<br>Explorer | Safari |
 | ------ | ------ | ---- | ------- | -- | ------ |
 |  ES3   |   ✔    |  ✔  |    ✔    | ✔ |    ✔   |
 |  ES5   |   5    |  ✔  |   4     | 9 |    5    |
