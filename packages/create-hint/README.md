@@ -11,5 +11,5 @@ npm init hint
 
 <!-- Link labels: -->
 
-[hints]: https://webhint.io/docs/user-guide/concepts/hint/
+[hints]: https://webhint.io/docs/user-guide/concepts/hints/
 [webhint]: https://webhint.io/
