@@ -11,7 +11,7 @@
   "devDependencies": {
     "cpx": "^1.5.0",
     "eslint": "^5.2.0",
-    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
     "markdownlint-cli": "^0.12.0",
