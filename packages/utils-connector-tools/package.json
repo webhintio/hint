@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "async": "^2.6.1",
-    "hint": "^3.1.0",
+    "hint": "^3.1.1",
     "iconv-lite": "^0.4.23",
     "iltorb": "^2.3.2",
     "request": "^2.88.0"
@@ -47,7 +47,7 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-connector-tools",
   "peerDependencies": {
-    "hint": "^3.1.0"
+    "hint": "^3.1.1"
   },
   "repository": "webhintio/hint",
   "scripts": {
