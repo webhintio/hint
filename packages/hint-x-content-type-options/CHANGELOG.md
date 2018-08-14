@@ -1,3 +1,10 @@
+# 1.0.2 (August 14, 2018)
+
+## Bug fixes / Improvements
+
+* [[`830badad76`](https://github.com/webhintio/hint/commit/830badad76b4117d32cc2f69bc166d47c9b3d6c4)] - Docs: Add full Apache configuration example (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1100`](https://github.com/webhintio/hint/issues/1100)).
+
+
 # 1.0.1 (August 10, 2018)
 
 ## Bug fixes / Improvements
