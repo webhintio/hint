@@ -1,3 +1,10 @@
+# 3.2.0 (August 14, 2018)
+
+## New features
+
+* [[`a3a53154c5`](https://github.com/webhintio/hint/commit/a3a53154c5098ed1e811c081e2198813972079b9)] - New: Update `configuration-web-recommended` to `v1.1.0` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 3.1.1 (August 14, 2018)
 
 ## Bug fixes / Improvements
