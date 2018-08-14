@@ -86,7 +86,7 @@ export const trackException = (error: Error) => {
 /** Track an event in Application Insights. */
 export const trackEvent = (name, properties?: {}) => {
     debug(`Sending event "${name}" to Application Insights with value ${JSON.stringify(properties)}`);
-    appInsightsClient.trackEvent({ name, properties });
+    appInsightsClient.trackEvent({ name, properties: { config: JSON.stringify(properties, null, 2) }});
 };
 
 /** Return the Application Insights client. */
