@@ -1,3 +1,11 @@
+# 3.1.1 (August 14, 2018)
+
+## Bug fixes / Improvements
+
+* [[`8d1caf359a`](https://github.com/webhintio/hint/commit/8d1caf359ade37604059a0330c746b14efa5fff6)] - Fix: Format of event in AppInsights (by [`Antón Molleda`](https://github.com/molant)).
+* [[`830badad76`](https://github.com/webhintio/hint/commit/830badad76b4117d32cc2f69bc166d47c9b3d6c4)] - Docs: Add full Apache configuration example (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1100`](https://github.com/webhintio/hint/issues/1100)).
+
+
 # 3.1.0 (August 10, 2018)
 
 ## Bug fixes / Improvements
