@@ -6,10 +6,8 @@
         }
     },
     "formatters": [
+        "html",
         "summary"
-    ],
-    "parsers": [
-        "manifest"
     ],
     "hints": {
         "apple-touch-icons": "error",
@@ -18,5 +16,8 @@
         "manifest-file-extension": "error",
         "manifest-is-valid": "error"
     },
-    "hintsTimeout": 120000
+    "hintsTimeout": 120000,
+    "parsers": [
+        "manifest"
+    ]
 }

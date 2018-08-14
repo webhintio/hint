@@ -6,6 +6,7 @@
         }
     },
     "formatters": [
+        "html",
         "summary"
     ],
     "hints": {
