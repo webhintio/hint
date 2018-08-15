@@ -30,7 +30,7 @@ not work because `npm start` will start the server, it will not stop
 While there are some solutions like using just `&` or `|`, these don't
 work in all platforms (nor is recommended to pipe the output). To solve
 this issue, you will need to use a package that can start multiple `npm`
-tasks simulatenously and coordinate them. [`npm-run-all`][npm-run-all] is
+tasks simultaneously and coordinate them. [`npm-run-all`][npm-run-all] is
 one of those.
 
 As an example, the following [`npm script`][npm scripts] will build the
