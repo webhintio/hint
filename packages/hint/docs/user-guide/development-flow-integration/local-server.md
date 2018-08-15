@@ -1,16 +1,4 @@
-# Development flow integration
-
-`webhint` can be used at different steps of the development flow. The
-following is a guide that ilustrates some of this scenarios and how can
-they be achieved. If you have another scenario that is not in here, please
-open an issue [on webhint's GitHub repo][webhint github] so we can
-investigate how to support it.
-
-The recommended way to install `webhint` for these scenarios is as a
-`devDependency` (`npm install hint --save-dev`) and that's what it's
-assumed here.
-
-## Test a local server
+# Test a local server
 
 In this scenario you want to run `webhint` against a local server that
 is running the code you want to test. Usually the tasks to perform can be
@@ -56,7 +44,7 @@ and once it ends, kill the server started by `http-server`:
     "scripts": {
         ...
         "start": "http-server dist -s -g",
-        "webhint": "^1.0.0",
+        "hint": "^3.0.0",
         "test": "npm build && npm-run-all -r -p http-server hint",
         ...
     }
@@ -72,3 +60,7 @@ and once it ends, kill the server started by `http-server`:
 [npm scripts]: https://docs.npmjs.com/misc/scripts
 [npm-run-all]: https://www.npmjs.com/package/npm-run-all
 [webhint github]: https://github.com/webhintio/hint/issues/new
+[webhint repo]: https://github.com/webhintio/hint/
+[webhintio repo]: https://github.com/webhintio/webhint.io/
+
+[webhint.io]: https://webhint.io
