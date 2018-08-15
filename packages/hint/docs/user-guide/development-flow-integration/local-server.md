@@ -11,7 +11,7 @@ A solution to automate this is via `npm scripts` and the `test` task.
 The biggest concern is how to start both tasks and kill the other when
 one ends in a multiplatform environment. For example, the following will
 not work because `npm start` will start the server, it will not stop
-(it's waiting for incoming requests), and thus never executing
+(it'll be waiting for incoming requests), and thus never executing
 `hint http://localhost:8080`:
 
 ```json
@@ -29,8 +29,8 @@ not work because `npm start` will start the server, it will not stop
 
 While there are some solutions like using just `&` or `|`, these don't
 work in all platforms (nor is recommended to pipe the output). To solve
-this issue you will need to use a package that can start multiple `npm`
-tasks simulatenous and coordinate them. [`npm-run-all`][npm-run-all] is
+this issue, you will need to use a package that can start multiple `npm`
+tasks simulatenously and coordinate them. [`npm-run-all`][npm-run-all] is
 one of those.
 
 As an example, the following [`npm script`][npm scripts] will build the

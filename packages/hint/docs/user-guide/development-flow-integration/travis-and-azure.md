@@ -24,9 +24,9 @@ using Travis CI.
 It assumes the user has a Travis CI and an Azure account, this last one
 with an Azure Web App already created.
 
-## Create and configure an staging slot in your Azure Web App
+## Create and configure a staging slot in your Azure Web App
 
-To create an slot in your website you have to:
+To create a slot in your website you have to:
 
 1. Select "Deployment slots" in the blade of your Azure Web App:
 
@@ -62,7 +62,7 @@ principal with only access to the bare minimum. That way you do not have
 to put your credentials anywhere (even if they are encrypted), and if
 something happens you can easily revoke access to it.
 
-1. To achieve this you first need to [install the Azure CLI][azure cli].
+1. To achieve this, you first need to [install the Azure CLI][azure cli].
    Then log in into your account using:
 
    ```bash
@@ -72,7 +72,7 @@ something happens you can easily revoke access to it.
    A browser should open and give you access in the command line.
 
    **Note**: If your account has access to multiple Azure subscriptions,
-make sure to chose the right one via
+make sure to choose the right one via
 `az account set --subscription "My Subscription"`.
 
 1. Then create a service principal:
@@ -81,7 +81,7 @@ make sure to chose the right one via
    az ad sp create-for-rbac --name NAME --password PASSWORD --subscription "My Subscription"
    ```
 
-   You should get an output similar to:
+   You should get an output like:
 
    ```json
    {
@@ -91,7 +91,7 @@ make sure to chose the right one via
       "password": "PASSWORD",
       "tenant": "22cfb846-dedd-4bc1-b664-83c738e456e0"
    }
-    ```
+   ```
 
    You should write down this information, but the fields we will use later
 are:
@@ -119,69 +119,60 @@ are:
 First thing you have to do is add `webhint` to your project:
 
 ```bash
-
 npm install --save-dev webhint
-
 ```
 
 Then you need a valid `.hintrc` file. For a starter file, use the
 following command and answer the questions:
 
 ```bash
-
 npm create hintrc
-
 ```
 
 You can use the generated file as a starter point for your needs, ignoring
-urls you do not have control, tweaking the configuration of some of the
+URLs you do not have control over, tweaking the configuration of some of the
 hints, etc.
 
 Finally, add a task to your `package.json` that will test the staging
 environment:
 
-
 ```json
-
 {
     ...
     "scripts": {
         "test:staging": "hint https://yoursite-staging.azurewebsites.net --tracking=on"
     }
 }
-
 ```
 
 ## Configure Travis CI
 
 The last remaining piece is Travis CI. As stated earlier, Travis CI is in
-charge of the deployment, running the tests, and changing the code from
-staging to production. And all of this from the `.travis.yml` of your
-project!
+charge of deploying, running the tests, and changing the code from staging
+to production. And all of this from the `.travis.yml` of your project!
 
 Travis has several steps and you can configure what scripts or actions
 execute in each one. E.g.: `before_install`, `before_deploy`, `deploy`,
 etc. To know more about the different steps, visit
 [Travis CI's Build Lifecycle][travis lifecycle].
 
-One thing to take into account, is that not all the scripts can break
-the build on Travis. If you want to stop the process if `webhint` fails
-you will have to combine a few steps into one. There are more details
-further on but you can learn more in
-[Travis CI's Breaking the Build][travis breaking build].
+One thing to consider is that not all the scripts can break the build on
+Travis. If you want to stop the process if `webhint` fails, you will have
+to combine a few steps into one. There are more details further on, but you
+can learn more in [Travis CI's Breaking the Build][travis breaking build].
 
 ### Deploy the code into staging
 
-The staging slot should have a local git repository. Every time there is
+The staging slot should have a local Git repository. Every time there is
 push event in this repository, Azure will trigger the installation process
 (basically download the code and then execute `npm install`).
 
-There are 2 ways to get the code into staging in travis:
+There are 2 ways to get the code into staging in Travis CI:
 
-#### Travis Azure deploy
+#### Travis CI Azure deploy
 
-Travis has [built-in support to deploy to Azure][travis azure]. To enable it you have to
-configure the following environment variables:
+Travis CI has [built-in support to deploy to Azure][travis azure]. To enable it
+you have to configure the following environment variables:
 
 * `AZURE_WA_USERNAME`: User name to use for the deployment
 * `AZURE_WA_PASSWORD`: Password to use for the deployment
@@ -195,109 +186,91 @@ It is recommended to encrypt these environment variables for security reasons.
 
 **How to encrypt environment variables**:
 
-1. Install `apt-get ruby ruby-dev` (Windows users can use WSL, Mac users do not
-   need to do this).
-1. Install the travis gem: `gem install travis`
-1. Log into travis: `travis login`
+1. Install `apt-get ruby ruby-dev` (Windows users can use WSL; macOS users do
+   not need to do this).
+1. Install the Travis CI gem: `gem install travis`
+1. Log into Travis CI: `travis login`
 1. Encrypt the variables:
 
    ```bash
-
    travis encrypt -r "<username>/<repository>" \
      AZURE_WA_USERNAME="<username>" \
      AZURE_WA_PASSWORD="<password>" \
      AZURE_WA_SITE="<site>" \
      AZURE_WA_SLOT="<slot>"
-
    ```
 
     This should output something in the form of:
 
     ```yml
-
     secure: "Bx6tfqQJYjlSofs3wEr2iqWx75HuR+Qtybomc97ueGxlkHjCXKF2A7one9ykwm+EVdJGVPLKM4bvS2ebqeNSPFSNyZbajXLV24lXgXsA3UVsXI3kBDkKG/bouyuQWvCeYAKF1XSbQM3513XbYSDWCdO72IkB5E961nvKCkLcsvJ+WGeE+3YtigK8ThHlzcM9Twt22y7ZQa4Y429uR6I1tAYzYkp4XHG/SO0tb9SAdGDg"
-
     ```
 
     Add it to your `.travis.yml` near the top under:
 
     ```yml
-
     env:
-    global:
+      global:
         - secure: "Bx6tfqQJYjlSofs3wEr2iqWx75HuR+Qtybomc97ueGxlkHjCXKF2A7one9ykwm+EVdJGVPLKM4bvS2ebqeNSPFSNyZbajXLV24lXgXsA3UVsXI3kBDkKG/bouyuQWvCeYAKF1XSbQM3513XbYSDWCdO72IkB5E961nvKCkLcsvJ+WGeE+3YtigK8ThHlzcM9Twt22y7ZQa4Y429uR6I1tAYzYkp4XHG/SO0tb9SAdGDg"
-
     ...
-
     ```
 
 Now that you have added the credentials to deploy to Azure you can deploy
 to it:
 
-<!-- markdownlint-disable MD032  -->
 ```yml
-
 ...
 
 deploy:
   - provider: azure_web_apps
 
 ...
-
 ```
-<!-- markdownlint-enable MD032 -->
 
 One thing to keep in mind, is that `.gitignore` will be respected at this
 moment. If you have artifacts from a build step that need to be published
-and your `.gitignore` ignores, you will have to update it before this
+and your `.gitignore` ignores them, you will have to update it before this
 stage.
 
 An easy way to do this is to have a "production" `.gitignore` and replace
 one with the other in the `before_deploy`:
 
-<!-- markdownlint-disable MD032  -->
 ```yml
-
 ...
 
-before_deploy: mv .gitignore.prod .gitignore
+before_deploy:
+  - mv .gitignore.prod .gitignore
 
 deploy:
   - provider: azure_web_apps
 ...
-
 ```
-<!-- markdownlint-enable MD032 -->
 
-Another thing to take into account is that [**Travis CI resets the working
-directory**][travis skip cleanup] before deploying. If your deploy relies
+Another thing to consider is that [**Travis CI resets the working
+directory**][travis skip cleanup] before deploying. If your deployment relies
 on a build step, you probably want to change that:
 
-<!-- markdownlint-disable MD032 -->
 ```yml
-
 ...
 
-before_deploy: mv .gitignore.prod .gitignore
+before_deploy:
+  - mv .gitignore.prod .gitignore
 
 deploy:
   - provider: azure_web_apps
     skip_clean: true
 
 ...
-
 ```
-<!-- markdownlint-enable MD032 -->
 
 The next step is to test using `webhint`. You should have `test:staging` in
 your `package.json`. Use it in the `after_deploy` stage:
 
-<!-- markdownlint-disable MD032 -->
 ```yml
-
 ...
 
-before_deploy: mv .gitignore.prod .gitignore
+before_deploy:
+  - mv .gitignore.prod .gitignore
 
 deploy:
   - provider: azure_web_apps
@@ -306,9 +279,7 @@ deploy:
 after_deploy: npm run test:staging
 
 ...
-
 ```
-<!-- markdownlint-enable MD032 -->
 
 **NOTE:** As mentioned previously, non-zero exit codes for stages after
 `script` do not change the status of the build.
@@ -321,12 +292,10 @@ There are a few limitations when running the `(before_|after_)deploy` stages:
 * Modifying the `.gitignore` file during the build can be cumbersome and
   errors here can be difficult to catch.
 
-To solve this issues, you should collapse the different stage scripts into the
-`script` stage. In the case of webhint.io it looks as follows:
+To solve these issues, you should collapse the different stage scripts into the
+`script` stage. In the case of webhint.io, it looks as follows:
 
-<!-- markdownlint-disable MD032 -->
 ```yml
-
 ...
 
 script:
@@ -336,9 +305,7 @@ script:
   - npm run swap
 
 ...
-
 ```
-<!-- markdownlint-enable MD032 -->
 
 The steps are:
 
@@ -364,56 +331,52 @@ task in your `package.json`. Now it is time to use it:
 Update your `.travis.yml` to run it after the deploy:
 
 ```yml
-
 after_deploy: npm run test:staging
-
 ```
 
-You want to also swap if everything goes right. To do this, the first
+You also want to swap if everything goes right. To do this, the first
 step is to [install the Azure CLI][azure cli] in Travis CI. The
-following snippet of `.travis.yml` assumes the machine is a Linux one:
+following snippet of `.travis.yml` assumes the machine runs Linux:
 
-<!-- markdownlint-disable MD013 MD032 -->
+<!-- markdownlint-disable MD013 -->
+
 ```yml
-
 # Install Azure CLI
 before_install:
   - AZ_REPO=$(lsb_release -cs) && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
   - curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
   - sudo apt-get install apt-transport-https
   - sudo apt-get update && sudo apt-get install azure-cli
-
 ```
-<!-- markdownlint-enable MD013 MD032 -->
+
+<!-- markdownlint-enable MD013 -->
 
 Then you need to log into Azure using the Service Principal credentials
 from before and do the swap. It's probably easier to have a script file
 that does everything and call it from the `after_script` stage or any
 other you might be using:
 
-<!-- markdownlint-disable MD013 MD018 -->
-```bash
+<!-- markdownlint-disable MD013 -->
 
+```bash
 #!/bin/bash
 
 az login --service-principal -u $AZURE_SERVICE_PRINCIPAL -p $AZURE_SERVICE_PRINCIPAL_PASSWORD --tenant $AZURE_TENANT
 
 az webapp deployment slot swap -g RESOURCEGROUP -n SITE --slot SLOTNAME
-
 ```
-<!-- markdownlint-enable MD013 MD018 -->
+
+<!-- markdownlint-enable MD013 -->
 
 **NOTE:** You have to replace the values `RESOURCEGROUP`, `SITE` and
 `SLOTENAME` with yours. Also, you will have to create the encrypted
 environment variables for them similarly to what was described before:
 
 ```bash
-
 travis encrypt -r "<username>/<repository>" \
     AZURE_SERVICE_PRINCIPAL="<service principal>" \
     AZURE_SERVICE_PRINCIPAL_PASSWORD="<service principal password>" \
     AZURE_TENANT="<tenant>"
-
 ```
 
 Please refer to the [Azure CLI documentation][azure cli signin] for
@@ -423,17 +386,15 @@ If the above is under `.travis/swap.sh`, then your `.travis.yml` should
 have something similar to:
 
 ```yml
-
 ...
 
 after_script: .travis/swap.sh
 
 ...
-
 ```
 
 **NOTE:** Remember that all stages after `script` will not change the
-build status, nor will interrupt the execution, so you might want to
+build status, nor will they interrupt the execution, so you might want to
 move the actions to another stage depending on your needs.
 
 ## Full example
@@ -452,11 +413,12 @@ The following is a functional `.travis.yml` that does the following:
 
 **NOTE**: This will not change the status of your build if `webhint`
 fails in staging. To achieve that you will have to combine all the
-stages after `script` into `script` ([webhint.io's `.travis.yml`][webhintio travis] does that).
+stages after `script` into `script`
+([webhint.io's `.travis.yml`][webhintiotravis] does that).
 
-<!-- markdownlint-disable MD013 MD032 -->
+<!-- markdownlint-disable MD013 -->
+
 ```yml
-
 # For more information about the configurations used
 # in this file, please see the Travis CI documentation.
 #
@@ -493,7 +455,7 @@ deploy:
     skip_cleanup: true
 
 after_deploy:
-3  - npm run test-staging
+  - npm run test-staging
 
 after_script:
   - npm run swap
@@ -506,9 +468,9 @@ notifications:
   email:
     on_failure: always
     on_success: never
-
 ```
-<!-- markdownlint-enable MD013 MD032 -->
+
+<!-- markdownlint-enable MD013 -->
 
 <!-- Link labels -->
 
