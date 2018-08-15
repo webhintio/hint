@@ -9,7 +9,8 @@
   "description": "hint formatter that prints the results using the codeframe style",
   "dependencies": {
     "chalk": "^2.4.1",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "log-symbols": "^2.2.0"
   },
   "devDependencies": {
     "ava": "^0.25.0",
