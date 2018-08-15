@@ -44,7 +44,7 @@ and once it ends, kill the server started by `http-server`:
     "scripts": {
         ...
         "start": "http-server dist -s -g",
-        "hint": "^3.0.0",
+        "hint": "hint http://localhost:8080",
         "test": "npm build && npm-run-all -r -p http-server hint",
         ...
     }
