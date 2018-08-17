@@ -15,7 +15,7 @@ import {
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
-import { NetworkData } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLDocument, NetworkData, TraverseEnd } from 'hint/dist/src/lib/types';
 import { CoreOptions } from 'request';
 const debug: debug.IDebugger = d(__filename);
 
@@ -41,6 +41,9 @@ export default class NoBrokenLinksHint implements IHint {
         const options: CoreOptions = { method: 'HEAD' };
         const requester = new Requester(options);
         const brokenStatusCodes = [404, 410, 500, 503];
+
+        /** Stores the elements with their urls which have been collected while traversing the page. */
+        const cachedElementsWithUrls: [ IAsyncHTMLElement, string[] ][] = [];
 
         /** Stores the urls and it's response status codes */
         const fetchedUrls: any[] = [];
@@ -112,8 +115,8 @@ export default class NoBrokenLinksHint implements IHint {
          * We will get the url(href,src etc) and check if it is available online
          * We do not need to check the items received from fetch::end::* event
          */
-        const validateElementSrcs = async (traverseElement: ElementFound): Promise<void> => {
-            const { element, resource } = traverseElement;
+        const validateElementSrcs = (traverseElement: ElementFound): void => {
+            const { element } = traverseElement;
             const simpleAttributes: Array<string> = ['src', 'poster', 'data', 'href'];
 
             const urls: Array<string> = simpleAttributes.reduce((found: Array<string>, attribute: string) => {
@@ -132,33 +135,7 @@ export default class NoBrokenLinksHint implements IHint {
                 urls.push(...srcset);
             }
 
-            const reports: Array<Promise<void>> = urls.map(async (url) => {
-                const fullUrl = URL.resolve(resource, url);
-
-                const fetched = getFetchedUrl(fullUrl);
-
-                if (fetched) {
-                    const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
-
-                    if (statusIndex > -1) {
-                        return context.report(fullUrl, null, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
-                    }
-                } else {
-                    // An element which was not present in the fetch end results
-                    return await requester
-                        .get(fullUrl)
-                        .then((value: NetworkData) => {
-                            return handleSuccess(value, fullUrl, element);
-                        })
-                        .catch((error: any) => {
-                            return handleRejection(error, fullUrl, element);
-                        });
-                }
-
-                return Promise.resolve();
-            });
-
-            await Promise.all(reports);
+            cachedElementsWithUrls.push([element, urls]);
         };
 
         /**
@@ -167,6 +144,46 @@ export default class NoBrokenLinksHint implements IHint {
          */
         const validateFetchEnd = (fetchEnd: any) => {
             fetchedUrls.push({ statusCode: fetchEnd.response.statusCode, url: fetchEnd.resource });
+        };
+
+        const searchForBaseTag = async (event: TraverseEnd) => {
+            const { resource } = event;
+            const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
+            const baseTags: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('base');
+            const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
+
+            const reports: Array<Promise<void>> = cachedElementsWithUrls.reduce<Promise<void>[]>((reports, [element, urls]) => {
+                return [...reports, ...urls.map(async (url) => {
+                    const isRelativeUrl = (!url.startsWith('/') && URL.parse(url).hostname === null);
+                    const fullUrl = (isRelativeUrl && hrefAttribute !== null) ?
+                        URL.resolve(resource, hrefAttribute + url) :
+                        URL.resolve(resource, url);
+
+                    const fetched = getFetchedUrl(fullUrl);
+
+                    if (fetched) {
+                        const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
+
+                        if (statusIndex > -1) {
+                            return context.report(fullUrl, null, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                        }
+                    } else {
+                        // An element which was not present in the fetch end results
+                        return await requester
+                            .get(fullUrl)
+                            .then((value: NetworkData) => {
+                                return handleSuccess(value, fullUrl, element);
+                            })
+                            .catch((error: any) => {
+                                return handleRejection(error, fullUrl, element);
+                            });
+                    }
+
+                    return Promise.resolve();
+                })];
+            }, []);
+
+            await Promise.all(reports);
         };
 
         context.on('element::img', validateElementSrcs);
@@ -179,5 +196,6 @@ export default class NoBrokenLinksHint implements IHint {
         context.on('element::track', validateElementSrcs);
         context.on('element::object', validateElementSrcs);
         context.on('fetch::end::*', validateFetchEnd);
+        context.on('traverse::end', searchForBaseTag);
     }
 }
