@@ -905,6 +905,7 @@ const main = async () => {
 
     const packages = [
         'packages/hint',
+        ...shell.ls('-d', 'packages/create-*'),
         ...shell.ls('-d', 'packages/utils-create-server'),
         ...shell.ls('-d', 'packages/utils-connector-tools'),
         ...shell.ls('-d', 'packages/utils-debugging-protocol-common'),
