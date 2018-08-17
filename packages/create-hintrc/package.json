@@ -59,7 +59,6 @@
   "nyc": {
     "extends": "../../.nycrc"
   },
-  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
