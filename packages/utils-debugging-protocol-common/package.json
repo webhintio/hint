@@ -2,7 +2,7 @@
   "dependencies": {
     "@hint/utils-connector-tools": "^1.0.0",
     "chrome-remote-interface": "^0.26.1",
-    "hint": "^3.2.0",
+    "hint": "^3.2.1",
     "lodash": "^4.17.10"
   },
   "description": "hint debugging protocol common functionality",
@@ -37,7 +37,7 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-debugging-protocol-common",
   "peerDependencies": {
-    "hint": "^3.2.0"
+    "hint": "^3.2.1"
   },
   "repository": "webhintio/hint",
   "scripts": {

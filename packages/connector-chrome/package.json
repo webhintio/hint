@@ -9,7 +9,7 @@
   "dependencies": {
     "@hint/utils-debugging-protocol-common": "^1.0.0",
     "chrome-launcher": "^0.10.2",
-    "hint": "^3.2.0",
+    "hint": "^3.2.1",
     "is-ci": "^1.2.0",
     "lockfile": "^1.0.4"
   },
@@ -63,7 +63,7 @@
     "statements": 70
   },
   "peerDependencies": {
-    "hint": "^3.2.0"
+    "hint": "^3.2.1"
   },
   "repository": "webhintio/hint",
   "scripts": {
