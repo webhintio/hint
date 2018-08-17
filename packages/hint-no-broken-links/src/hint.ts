@@ -43,7 +43,7 @@ export default class NoBrokenLinksHint implements IHint {
         const brokenStatusCodes = [404, 410, 500, 503];
 
         /** Stores the elements with their urls which have been collected while traversing the page. */
-        const cachedElementsWithUrls: [ IAsyncHTMLElement, string[] ][] = [];
+        const collectedElementsWithUrls: [ IAsyncHTMLElement, string[] ][] = [];
 
         /** Stores the urls and it's response status codes */
         const fetchedUrls: any[] = [];
@@ -115,7 +115,7 @@ export default class NoBrokenLinksHint implements IHint {
          * We will get the url(href,src etc) and check if it is available online
          * We do not need to check the items received from fetch::end::* event
          */
-        const validateElementSrcs = (traverseElement: ElementFound): void => {
+        const collectElementSrcs = (traverseElement: ElementFound): void => {
             const { element } = traverseElement;
             const simpleAttributes: Array<string> = ['src', 'poster', 'data', 'href'];
 
@@ -135,7 +135,7 @@ export default class NoBrokenLinksHint implements IHint {
                 urls.push(...srcset);
             }
 
-            cachedElementsWithUrls.push([element, urls]);
+            collectedElementsWithUrls.push([element, urls]);
         };
 
         /**
@@ -146,14 +146,14 @@ export default class NoBrokenLinksHint implements IHint {
             fetchedUrls.push({ statusCode: fetchEnd.response.statusCode, url: fetchEnd.resource });
         };
 
-        const searchForBaseTag = async (event: TraverseEnd) => {
+        const validateCollectedUrls = async (event: TraverseEnd) => {
             const { resource } = event;
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
             const baseTags: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('base');
             const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
 
-            const reports: Array<Promise<void>> = cachedElementsWithUrls.reduce<Promise<void>[]>((reports, [element, urls]) => {
-                return [...reports, ...urls.map(async (url) => {
+            const reports: Array<Promise<void>> = collectedElementsWithUrls.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
+                return [...accumulatedReports, ...urls.map(async (url) => {
                     const isRelativeUrl = (!url.startsWith('/') && URL.parse(url).hostname === null);
                     const fullUrl = (isRelativeUrl && hrefAttribute !== null) ?
                         URL.resolve(resource, hrefAttribute + url) :
@@ -186,16 +186,16 @@ export default class NoBrokenLinksHint implements IHint {
             await Promise.all(reports);
         };
 
-        context.on('element::img', validateElementSrcs);
-        context.on('element::a', validateElementSrcs);
-        context.on('element::audio', validateElementSrcs);
-        context.on('element::video', validateElementSrcs);
-        context.on('element::link', validateElementSrcs);
-        context.on('element::script', validateElementSrcs);
-        context.on('element::source', validateElementSrcs);
-        context.on('element::track', validateElementSrcs);
-        context.on('element::object', validateElementSrcs);
+        context.on('element::img', collectElementSrcs);
+        context.on('element::a', collectElementSrcs);
+        context.on('element::audio', collectElementSrcs);
+        context.on('element::video', collectElementSrcs);
+        context.on('element::link', collectElementSrcs);
+        context.on('element::script', collectElementSrcs);
+        context.on('element::source', collectElementSrcs);
+        context.on('element::track', collectElementSrcs);
+        context.on('element::object', collectElementSrcs);
         context.on('fetch::end::*', validateFetchEnd);
-        context.on('traverse::end', searchForBaseTag);
+        context.on('traverse::end', validateCollectedUrls);
     }
 }
