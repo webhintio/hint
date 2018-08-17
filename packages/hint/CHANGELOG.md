@@ -1,3 +1,10 @@
+# 3.2.1 (August 17, 2018)
+
+## Bug fixes / Improvements
+
+* [[`47f0829b05`](https://github.com/webhintio/hint/commit/47f0829b0582943b0df996bd8da24f218a3ed812)] - Docs: Add Travis CI + Azure Web App integration information (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1238`](https://github.com/webhintio/hint/issues/1238)).
+
+
 # 3.2.0 (August 14, 2018)
 
 ## New features
