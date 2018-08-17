@@ -565,12 +565,24 @@ const npmInstall = async (ctx) => {
     await exec(`cd ${ctx.packagePath} && npm install`);
 };
 
-const npmPublish = async (ctx) => {
-    if (!ctx.isPrerelease) {
-        await exec(`cd ${ctx.packagePath} && npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''}`);
-    } else {
-        await exec(`cd ${ctx.packagePath} && npm publish --tag next`);
-    }
+const npmPublish = (ctx) => {
+    return listrInput('Enter OTP: ', {
+        done: async (otp) => {
+            if (!ctx.isPrerelease) {
+                await exec(`cd ${ctx.packagePath} && npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''} --otp=${otp}`);
+            } else {
+                await exec(`cd ${ctx.packagePath} && npm publish --otp=${otp} --tag next`);
+            }
+        }
+    }).catch((err) => {
+        if (err.stderr.indexOf('you already provided a one-time password then it is likely that you either typoed') !== -1) {
+            return npmPublish(ctx);
+        }
+
+        ctx.npmPublishError = err;
+
+        throw new Error(JSON.stringify(err));
+    });
 };
 
 const npmRemoveDevDependencies = async (ctx) => {
