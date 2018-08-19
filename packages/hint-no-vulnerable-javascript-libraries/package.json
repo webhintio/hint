@@ -9,7 +9,7 @@
   "dependencies": {
     "js-library-detector": "^5.0.0",
     "lodash": "^4.17.10",
-    "semver": "^5.5.0"
+    "semver": "^5.5.1"
   },
   "description": "hint that that checks using Snyk for vulnerable JavaScript libraries",
   "devDependencies": {
@@ -17,7 +17,7 @@
     "angular": "1.4.9",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.2.0",
+    "eslint": "^5.4.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",

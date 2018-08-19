@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "eslint": "^5.2.0",
+    "eslint": "^5.4.0",
     "espree": "^4.0.0"
   },
   "description": "webhint parser needed to analyze JavaScript files",
