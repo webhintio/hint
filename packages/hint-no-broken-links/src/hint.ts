@@ -146,6 +146,37 @@ export default class NoBrokenLinksHint implements IHint {
             fetchedUrls.push({ statusCode: fetchEnd.response.statusCode, url: fetchEnd.resource });
         };
 
+        const createReports = (element: IAsyncHTMLElement, urls: Array<string>, resource: string, hrefAttribute: null | string): Array<Promise<void>> => {
+            return urls.map((url) => {
+                const isRelativeUrl = (!url.startsWith('/') && URL.parse(url).hostname === null);
+                const fullUrl = (isRelativeUrl && hrefAttribute !== null) ?
+                    URL.resolve(resource, hrefAttribute + url) :
+                    URL.resolve(resource, url);
+
+                const fetched = getFetchedUrl(fullUrl);
+
+                if (fetched) {
+                    const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
+
+                    if (statusIndex > -1) {
+                        return context.report(fullUrl, null, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                    }
+                } else {
+                    // An element which was not present in the fetch end results
+                    return requester
+                        .get(fullUrl)
+                        .then((value: NetworkData) => {
+                            return handleSuccess(value, fullUrl, element);
+                        })
+                        .catch((error: any) => {
+                            return handleRejection(error, fullUrl, element);
+                        });
+                }
+
+                return Promise.resolve();
+            });
+        };
+
         const validateCollectedUrls = async (event: TraverseEnd) => {
             const { resource } = event;
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
@@ -153,34 +184,7 @@ export default class NoBrokenLinksHint implements IHint {
             const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
 
             const reports: Array<Promise<void>> = collectedElementsWithUrls.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
-                return [...accumulatedReports, ...urls.map((url) => {
-                    const isRelativeUrl = (!url.startsWith('/') && URL.parse(url).hostname === null);
-                    const fullUrl = (isRelativeUrl && hrefAttribute !== null) ?
-                        URL.resolve(resource, hrefAttribute + url) :
-                        URL.resolve(resource, url);
-
-                    const fetched = getFetchedUrl(fullUrl);
-
-                    if (fetched) {
-                        const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
-
-                        if (statusIndex > -1) {
-                            return context.report(fullUrl, null, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
-                        }
-                    } else {
-                        // An element which was not present in the fetch end results
-                        return requester
-                            .get(fullUrl)
-                            .then((value: NetworkData) => {
-                                return handleSuccess(value, fullUrl, element);
-                            })
-                            .catch((error: any) => {
-                                return handleRejection(error, fullUrl, element);
-                            });
-                    }
-
-                    return Promise.resolve();
-                })];
+                return [...accumulatedReports, ...createReports(element, urls, resource, hrefAttribute)];
             }, []);
 
             await Promise.all(reports);
