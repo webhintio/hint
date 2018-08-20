@@ -57,6 +57,12 @@ The officially supported `formatter`s that can be installed via `npm` are:
 
 ![Example output for one of the details sheet of the excel formatter](images/excel-details.png)
 
+* [`@hint/formatter-html`][formatter-html] creates an HTML page in the folder
+`hint-report/<url_analyzed>` with the result:
+
+![Example out for the HTML result of the html formatter](images/html-output.png)
+
+
 If you want to implement your own `formatter`, visit the [contributor
 guide][contributor guide]
 
@@ -68,3 +74,4 @@ guide][contributor guide]
 [formatter-codeframe]: https://npmjs.com/package/@hint/formatter-codeframe
 [formatter-summary]: https://npmjs.com/package/@hint/formatter-summary
 [formatter-excel]: https://npmjs.com/package/@hint/formatter-excel
+[formatter-html]: https://npmjs.com/package/@hint/formatter-html
