@@ -724,11 +724,11 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent) => {
 
     // Update package related files.
 
-    if (packageName === '@hint/hint-no-vulnerable-javascript-libraries') {
+    if (packageName === 'hint-no-vulnerable-javascript-libraries') {
         tasks.push(newTask('Update `snyk-snapshot.json`', updateSnykSnapshot));
     }
 
-    if (packageName === '@hint/hint-performance-budget') {
+    if (packageName === 'hint-performance-budget') {
         tasks.push(newTask('Update `connections.ini`', updateConnectivityIni));
     }
 
