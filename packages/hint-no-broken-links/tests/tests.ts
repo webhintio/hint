@@ -83,7 +83,7 @@ const tests: Array<HintTest> = [
         }
     },
     {
-        name: `This test should pass as it has a link a valid link (when resolved with the base tag)`,
+        name: `This test should pass as it has a valid link (when resolved with the base tag)`,
         serverConfig: {
             '/': {content: generateHTMLPage('<base href="nested/">', bodyWithValidRelativeLink)},
             '/nested/about': {content: 'My about page content'}
