@@ -176,6 +176,28 @@ const hopsServerConfig = {
     }
 };
 
+const loopServerConfig = {
+    '/hop301': {
+        content: 'hop301',
+        status: 301
+    }
+};
+
+const loopServerMultiSteps = {
+    '/hop301': {
+        content: 'hop302',
+        status: 301
+    },
+    '/hop302': {
+        content: 'hop303',
+        status: 302
+    },
+    '/hop303': {
+        content: 'hop301',
+        status: 303
+    }
+};
+
 test(`Requester follows all hops, reports the right number and returns the final string content`, async (t) => {
     const { requester, server } = t.context;
 
@@ -209,4 +231,32 @@ test(`Aborts the request if it exceeds the time limit to get response`, async (t
 
     t.is(error.code, 'ESOCKETTIMEDOUT');
     t.is(uri, `http://localhost:${server.port}/timeout`);
+});
+
+test(`Requester returns and exception if a loop is detected`, async (t) => {
+    const { requester, server } = t.context;
+
+    server.configure(loopServerConfig);
+
+    t.plan(1);
+
+    try {
+        await requester.get(`http://localhost:${server.port}/hop301`) as NetworkData; // eslint-disable-line no-unused-expressions
+    } catch (e) {
+        t.is(e, `Loop detected in url "http://localhost:${server.port}/hop301" using method GET`);
+    }
+});
+
+test(`Requester returns and exception if a loop is detected after few redirects`, async (t) => {
+    const { requester, server } = t.context;
+
+    server.configure(loopServerMultiSteps);
+
+    t.plan(1);
+
+    try {
+        await requester.get(`http://localhost:${server.port}/hop301`) as NetworkData; // eslint-disable-line no-unused-expressions
+    } catch (e) {
+        t.is(e, `Loop detected in url "http://localhost:${server.port}/hop303" using method GET`);
+    }
 });
