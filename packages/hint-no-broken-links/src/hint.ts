@@ -33,7 +33,12 @@ export default class NoBrokenLinksHint implements IHint {
         },
         id: 'no-broken-links',
         schema: [{
-            properties: { method: { type: 'string' } },
+            properties: {
+                method: {
+                    pattern: '^([hH][eE][aA][dD])|([gG][eE][tT])$',
+                    type: 'string'
+                }
+            },
             type: 'object'
         }],
         scope: HintScope.site
