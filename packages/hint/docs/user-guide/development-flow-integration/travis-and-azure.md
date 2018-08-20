@@ -140,7 +140,7 @@ environment:
 {
     ...
     "scripts": {
-        "test:staging": "hint https://yoursite-staging.azurewebsites.net --tracking=on",
+        "test:staging": "hint https://example-staging.azurewebsites.net --tracking=on",
         ...
     }
 }
