@@ -43,10 +43,10 @@ export default class NoBrokenLinksHint implements IHint {
         const brokenStatusCodes = [404, 410, 500, 503];
 
         /** Stores the elements with their URLs which have been collected while traversing the page. */
-        const collectedElementsWithUrls: [ IAsyncHTMLElement, string[] ][] = [];
+        const collectedElementsWithURLs: [ IAsyncHTMLElement, string[] ][] = [];
 
         /** Stores the URLs and it's response status codes */
-        const fetchedUrls: any[] = [];
+        const fetchedURLs: any[] = [];
 
         /** Returns an array with all the URLs in the given `srcset` attribute or an empty string if none. */
         const parseSrcSet = (srcset: string): Array<string> => {
@@ -68,7 +68,7 @@ export default class NoBrokenLinksHint implements IHint {
          * When DNS resolution fails, it will be handled here (ex : https://thissitedoesnotexist.com/ )
          */
         const handleRejection = (error: any, url: string, element: IAsyncHTMLElement) => {
-            debug(`Error accessing {$absoluteUrl}. ${JSON.stringify(error)}`);
+            debug(`Error accessing {$absoluteURL}. ${JSON.stringify(error)}`);
 
             return context.report(url, element, 'Broken link found (domain not found).');
         };
@@ -76,7 +76,7 @@ export default class NoBrokenLinksHint implements IHint {
         /**
          * The callback to handle success handler returned from the `head` method
          * We will check the response status againist the brokenStatusCodes list
-         * and report if it exist there. We will also add it to the fetchedUrls
+         * and report if it exist there. We will also add it to the fetchedURLs
          * so that duplicate requests will not be made if 2 links have the same href value
          */
         const handleSuccess = (networkData: NetworkData, url: string, element: IAsyncHTMLElement) => {
@@ -88,18 +88,18 @@ export default class NoBrokenLinksHint implements IHint {
                 return context.report(url, element, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
             }
 
-            fetchedUrls.push({ status: networkData.response.statusCode, url });
+            fetchedURLs.push({ status: networkData.response.statusCode, url });
 
             return Promise.resolve();
         };
 
         /**
-         * Checks a URL against the fetchedUrls array and return the entry if it exist
+         * Checks a URL against the fetchedURLs array and return the entry if it exist
          * The entry has 2 properties, the `url` and the `statusCode`
          */
-        const getFetchedUrl = (url: string) => {
+        const getFetchedURL = (url: string) => {
 
-            const filteredItems = fetchedUrls.filter((value) => {
+            const filteredItems = fetchedURLs.filter((value) => {
                 return value.url === url;
             });
 
@@ -135,18 +135,18 @@ export default class NoBrokenLinksHint implements IHint {
                 urls.push(...srcset);
             }
 
-            collectedElementsWithUrls.push([element, urls]);
+            collectedElementsWithURLs.push([element, urls]);
         };
 
         /**
          * Handler for fetch::end::* event.
-         * We will store the request url and response status code in fetchedUrls array
+         * We will store the request url and response status code in fetchedURLs array
          */
         const validateFetchEnd = (fetchEnd: any) => {
-            fetchedUrls.push({ statusCode: fetchEnd.response.statusCode, url: fetchEnd.resource });
+            fetchedURLs.push({ statusCode: fetchEnd.response.statusCode, url: fetchEnd.resource });
         };
 
-        const createResourceUrl = async (resource: string) => {
+        const createResourceURL = async (resource: string) => {
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
             const baseTags: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('base');
             const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
@@ -154,26 +154,26 @@ export default class NoBrokenLinksHint implements IHint {
             return (hrefAttribute === null) ? new URL(resource) : new URL(hrefAttribute, new URL(resource));
         };
 
-        const createReports = (element: IAsyncHTMLElement, urls: Array<string>, resourceUrl: URL): Array<Promise<void>> => {
+        const createReports = (element: IAsyncHTMLElement, urls: Array<string>, resourceURL: URL): Array<Promise<void>> => {
             return urls.map((url) => {
-                const fullUrl = (new URL(url, resourceUrl)).toString();
-                const fetched = getFetchedUrl(fullUrl);
+                const fullURL = (new URL(url, resourceURL)).toString();
+                const fetched = getFetchedURL(fullURL);
 
                 if (fetched) {
                     const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
 
                     if (statusIndex > -1) {
-                        return context.report(fullUrl, null, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                        return context.report(fullURL, null, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
                     }
                 } else {
                     // An element which was not present in the fetch end results
                     return requester
-                        .get(fullUrl)
+                        .get(fullURL)
                         .then((value: NetworkData) => {
-                            return handleSuccess(value, fullUrl, element);
+                            return handleSuccess(value, fullURL, element);
                         })
                         .catch((error: any) => {
-                            return handleRejection(error, fullUrl, element);
+                            return handleRejection(error, fullURL, element);
                         });
                 }
 
@@ -181,11 +181,11 @@ export default class NoBrokenLinksHint implements IHint {
             });
         };
 
-        const validateCollectedUrls = async (event: TraverseEnd) => {
-            const resourceUrl = await createResourceUrl(event.resource);
+        const validateCollectedURLs = async (event: TraverseEnd) => {
+            const resourceURL = await createResourceURL(event.resource);
 
-            const reports: Array<Promise<void>> = collectedElementsWithUrls.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
-                return [...accumulatedReports, ...createReports(element, urls, resourceUrl)];
+            const reports: Array<Promise<void>> = collectedElementsWithURLs.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
+                return [...accumulatedReports, ...createReports(element, urls, resourceURL)];
             }, []);
 
             await Promise.all(reports);
@@ -201,6 +201,6 @@ export default class NoBrokenLinksHint implements IHint {
         context.on('element::track', collectElementSrcs);
         context.on('element::object', collectElementSrcs);
         context.on('fetch::end::*', validateFetchEnd);
-        context.on('traverse::end', validateCollectedUrls);
+        context.on('traverse::end', validateCollectedURLs);
     }
 }
