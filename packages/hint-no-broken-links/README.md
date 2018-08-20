@@ -25,6 +25,29 @@ This hint gets executed on all the below elements.
 If the response status of the resource link is either `404` or `410`
 or `500` or `503`, the URL will be flagged as a broken link.
 
+## Can the hint be configured?
+
+You can change the HTTP method to make the requests (`HEAD`, `GET`,
+etc.). To do so, you need to configure the property `method` in your
+configuration [`.hintrc`][hintrc] file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "hints": {
+        "no-broken-links": ["error", {
+            "method": "GET|HEAD"
+        }],
+        ...
+    },
+    ...
+}
+```
+
+By default, this hint will use the HTTP `GET` method to request
+the URLs.
+
 ### Examples that **trigger** the hint
 
 #### Absolute URL
