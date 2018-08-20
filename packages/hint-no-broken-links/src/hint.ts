@@ -42,10 +42,10 @@ export default class NoBrokenLinksHint implements IHint {
         const requester = new Requester(options);
         const brokenStatusCodes = [404, 410, 500, 503];
 
-        /** Stores the elements with their urls which have been collected while traversing the page. */
+        /** Stores the elements with their URLs which have been collected while traversing the page. */
         const collectedElementsWithUrls: [ IAsyncHTMLElement, string[] ][] = [];
 
-        /** Stores the urls and it's response status codes */
+        /** Stores the URLs and it's response status codes */
         const fetchedUrls: any[] = [];
 
         /** Returns an array with all the URLs in the given `srcset` attribute or an empty string if none. */
