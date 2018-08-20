@@ -3,7 +3,7 @@
  * uses are available online. Checks for 404, 410, 500 or 503 status
  */
 
-import * as URL from 'url';
+import { URL } from 'url';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import {
@@ -146,13 +146,17 @@ export default class NoBrokenLinksHint implements IHint {
             fetchedUrls.push({ statusCode: fetchEnd.response.statusCode, url: fetchEnd.resource });
         };
 
-        const createReports = (element: IAsyncHTMLElement, urls: Array<string>, resource: string, hrefAttribute: null | string): Array<Promise<void>> => {
-            return urls.map((url) => {
-                const isRelativeUrl = (!url.startsWith('/') && URL.parse(url).hostname === null);
-                const fullUrl = (isRelativeUrl && hrefAttribute !== null) ?
-                    URL.resolve(resource, hrefAttribute + url) :
-                    URL.resolve(resource, url);
+        const createResourceUrl = async (resource: string) => {
+            const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
+            const baseTags: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('base');
+            const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
 
+            return (hrefAttribute === null) ? new URL(resource) : new URL(hrefAttribute, new URL(resource));
+        };
+
+        const createReports = (element: IAsyncHTMLElement, urls: Array<string>, resourceUrl: URL): Array<Promise<void>> => {
+            return urls.map((url) => {
+                const fullUrl = (new URL(url, resourceUrl)).toString();
                 const fetched = getFetchedUrl(fullUrl);
 
                 if (fetched) {
@@ -178,13 +182,10 @@ export default class NoBrokenLinksHint implements IHint {
         };
 
         const validateCollectedUrls = async (event: TraverseEnd) => {
-            const { resource } = event;
-            const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const baseTags: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('base');
-            const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
+            const resourceUrl = await createResourceUrl(event.resource);
 
             const reports: Array<Promise<void>> = collectedElementsWithUrls.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
-                return [...accumulatedReports, ...createReports(element, urls, resource, hrefAttribute)];
+                return [...accumulatedReports, ...createReports(element, urls, resourceUrl)];
             }, []);
 
             await Promise.all(reports);
