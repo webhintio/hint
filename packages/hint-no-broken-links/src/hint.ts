@@ -153,7 +153,7 @@ export default class NoBrokenLinksHint implements IHint {
             const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
 
             const reports: Array<Promise<void>> = collectedElementsWithUrls.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
-                return [...accumulatedReports, ...urls.map(async (url) => {
+                return [...accumulatedReports, ...urls.map((url) => {
                     const isRelativeUrl = (!url.startsWith('/') && URL.parse(url).hostname === null);
                     const fullUrl = (isRelativeUrl && hrefAttribute !== null) ?
                         URL.resolve(resource, hrefAttribute + url) :
@@ -169,7 +169,7 @@ export default class NoBrokenLinksHint implements IHint {
                         }
                     } else {
                         // An element which was not present in the fetch end results
-                        return await requester
+                        return requester
                             .get(fullUrl)
                             .then((value: NetworkData) => {
                                 return handleSuccess(value, fullUrl, element);
