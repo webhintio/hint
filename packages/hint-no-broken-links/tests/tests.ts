@@ -178,6 +178,16 @@ const tests: Array<HintTest> = [
             '/1.mp4': {status: 404},
             '/2.png': {status: 404}
         }
+    },
+    {
+        name: `This test should fail as it has a link with 404 href value(absolute with base tag)`,
+        reports: [
+            { message: `Broken link found (404 response).`}
+        ],
+        serverConfig: {
+            '/': {content: generateHTMLPage('<base href="nested/">', bodyWithValidRelativeLink)},
+            '/nested/about': {status: 404}
+        }
     }
 ];
 
