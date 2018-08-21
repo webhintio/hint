@@ -27,7 +27,7 @@ or `500` or `503`, the URL will be flagged as a broken link.
 
 ## Can the hint be configured?
 
-Yes. You can change the http method to make the
+Yes. You can change the HTTP method to make the
 requests (`HEAD`, `GET`, etc.).
 To do so, you need to configure the property `method` in your configuration
 [`.hintrc`][hintrc] file:
@@ -46,8 +46,8 @@ To do so, you need to configure the property `method` in your configuration
 }
 ```
 
-By default, this hint will use the http method `GET` to request
-the urls.
+By default, this hint will use the HTTP `GET` method to request
+the URLs.
 
 ### Examples that **trigger** the hint
 
