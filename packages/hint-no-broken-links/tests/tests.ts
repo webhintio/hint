@@ -14,6 +14,10 @@ const bodyWithImageSource = `<div>
 <img src='https://webhint.io/static/images/next-arrow-c558ba3f13.svg'/>
 </div>`;
 
+const bodyWithValidRelativeLink = `<div>
+<a href='about'>About</a>
+</div>`;
+
 const bodyWithBrokenLinks = `<div>
 <a href='https://example.com/404'>Example</a>
 </div>`;
@@ -70,6 +74,20 @@ const tests: Array<HintTest> = [
     {
         name: `This test should pass as it has an img with valid src value(absolute)`,
         serverConfig: generateHTMLPage('', bodyWithImageSource)
+    },
+    {
+        name: `This test should pass as it has links with valid href values and a base tag which gets not used`,
+        serverConfig: {
+            '/': {content: generateHTMLPage('<base href="nested/">', bodyWithValidLinks)},
+            '/about': {content: 'My about page content'}
+        }
+    },
+    {
+        name: `This test should pass as it has a valid link (when resolved with the base tag)`,
+        serverConfig: {
+            '/': {content: generateHTMLPage('<base href="nested/">', bodyWithValidRelativeLink)},
+            '/nested/about': {content: 'My about page content'}
+        }
     },
     {
         name: `This test should fail as it has a link with 404 href value(absolute)`,
@@ -159,6 +177,16 @@ const tests: Array<HintTest> = [
             '/': {content: generateHTMLPage('', bodyWithBrokenVideo)},
             '/1.mp4': {status: 404},
             '/2.png': {status: 404}
+        }
+    },
+    {
+        name: `This test should fail as it has a link with 404 href value(absolute with base tag)`,
+        reports: [
+            { message: `Broken link found (404 response).`}
+        ],
+        serverConfig: {
+            '/': {content: generateHTMLPage('<base href="nested/">', bodyWithValidRelativeLink)},
+            '/nested/about': {status: 404}
         }
     }
 ];
