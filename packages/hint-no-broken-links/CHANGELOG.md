@@ -1,3 +1,10 @@
+# 1.0.3 (August 21, 2018)
+
+## Bug fixes / Improvements
+
+* [[`4817bc884d`](https://github.com/webhintio/hint/commit/4817bc884ddd958cfbaa886ddc3ac6103e3d8040)] - Fix: Take into account `base` element's `href` value (by [`Christoph Guttandin`](https://github.com/chrisguttandin)).
+
+
 # 1.0.2 (August 7, 2018)
 
 ## Bug fixes / Improvements
