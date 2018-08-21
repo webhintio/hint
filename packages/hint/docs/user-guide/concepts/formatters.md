@@ -57,11 +57,10 @@ The officially supported `formatter`s that can be installed via `npm` are:
 
 ![Example output for one of the details sheet of the excel formatter](images/excel-details.png)
 
-* [`@hint/formatter-html`][formatter-html] creates an HTML page in the folder
-`hint-report/<url_analyzed>` with the result:
+* [`@hint/formatter-html`][formatter-html] creates an HTML page in
+  the folder `hint-report/<url_analyzed>` with the result:
 
 ![Example out for the HTML result of the html formatter](images/html-output.png)
-
 
 If you want to implement your own `formatter`, visit the [contributor
 guide][contributor guide]
