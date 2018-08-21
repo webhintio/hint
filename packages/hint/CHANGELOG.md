@@ -1,3 +1,11 @@
+# 3.2.2 (August 21, 2018)
+
+## Bug fixes / Improvements
+
+* [[`5aae7afb7a`](https://github.com/webhintio/hint/commit/5aae7afb7a12b36cf72fe7882acddbfeb184b9ce)] - Fix: Update `User-Agent` string (by [`Cătălin Mariș`](https://github.com/alrra)).
+* [[`95013b787e`](https://github.com/webhintio/hint/commit/95013b787ec4e7045238c7e2ace82a04b483377d)] - Docs: Add information about the `formatter-html` (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1242`](https://github.com/webhintio/hint/issues/1242)).
+
+
 # 3.2.1 (August 17, 2018)
 
 ## Bug fixes / Improvements
