@@ -21,7 +21,7 @@
     "fork-ts-checker-webpack-plugin": "^0.4.9",
     "fs-extra": "^7.0.0",
     "handlebars": "^4.0.11",
-    "hint": "^3.2.1",
+    "hint": "^3.2.2",
     "inquirer": "^6.1.0",
     "markdownlint-cli": "^0.13.0",
     "mkdirp": "^0.5.1",
