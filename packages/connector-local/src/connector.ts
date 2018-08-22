@@ -31,6 +31,7 @@ import * as logger from 'hint/dist/src/lib/utils/logging';
 
 import {
     IConnector,
+    IFetchOptions,
     Event, FetchEnd, ScanEnd, NetworkData
 } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
@@ -84,7 +85,7 @@ export default class LocalConnector implements IConnector {
         return [pattern];
     }
 
-    private async fetch(target: string) {
+    private async fetch(target: string, options?: IFetchOptions) {
         /*
          * target can have one of these forms:
          *   - /path/to/file
@@ -97,7 +98,7 @@ export default class LocalConnector implements IConnector {
          */
         const uri: url.URL = getAsUri(target);
         const filePath: string = asPathString(uri);
-        const content: NetworkData = await this.fetchContent(filePath);
+        const content: NetworkData = await this.fetchContent(filePath, null, options);
         const event: FetchEnd = {
             element: null,
             request: content.request,
@@ -248,8 +249,8 @@ export default class LocalConnector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    public async fetchContent(filePath: string): Promise<NetworkData> {
-        const rawContent: Buffer = await readFileAsBuffer(filePath);
+    public async fetchContent(filePath: string, headers?: object, options?: IFetchOptions): Promise<NetworkData> {
+        const rawContent: Buffer = options && options.content ? Buffer.from(options.content) : await readFileAsBuffer(filePath);
         const contentType = getContentTypeData(null, filePath, null, rawContent);
         let content = '';
 
@@ -279,7 +280,7 @@ export default class LocalConnector implements IConnector {
         };
     }
 
-    public async collect(target: url.URL) {
+    public async collect(target: url.URL, options?: IFetchOptions) {
         /** The target in string format */
         const href: string = this._href = target.href;
         const initialEvent: Event = { resource: href };
@@ -287,7 +288,7 @@ export default class LocalConnector implements IConnector {
         this.engine.emitAsync('scan::start', initialEvent);
 
         const pathString = asPathString(target);
-        let files;
+        let files: string[];
 
         if (isFile(pathString)) {
             await this.engine.emitAsync('fetch::start::target', initialEvent);
@@ -300,9 +301,16 @@ export default class LocalConnector implements IConnector {
                 dot: true,
                 gitignore: true
             } as any));
+
+            // Ignore options.content when matching multiple files
+            if (options && options.content) {
+                options.content = null;
+            }
         }
 
-        await Promise.all(files.map(this.fetch.bind(this)));
+        await Promise.all(files.map((file) => {
+            return this.fetch(file, options);
+        }));
 
         if (this._options.watch) {
             await this.watch(pathString);

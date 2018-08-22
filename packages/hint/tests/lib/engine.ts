@@ -19,7 +19,7 @@ eventEmitter.EventEmitter2.prototype.emitAsync = () => {
 proxyquire('../../src/lib/engine', { eventemitter2: eventEmitter });
 
 import { Engine } from '../../src/lib/engine';
-import { HintResources, IFormatter, IConnector, IHint, HintMetadata, Problem } from '../../src/lib/types';
+import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata, Problem } from '../../src/lib/types';
 import { Category } from '../../src/lib/enums/category';
 
 class FakeConnector implements IConnector {
@@ -835,7 +835,7 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
     }
 });
 
-test.serial('executeOn should return all messages', async (t) => {
+test.serial(`'executeOn' should return all messages`, async (t) => {
     class FakeConnectorCollect implements IConnector {
         private config;
         public constructor(server: Engine, config: object) {
@@ -873,4 +873,47 @@ test.serial('executeOn should return all messages', async (t) => {
     const result = await engineObject.executeOn(localUrl);
 
     t.is(result.length, 2);
+});
+
+test.serial('executeOn should forward content if provided', async (t) => {
+    class FakeConnectorCollect implements IConnector {
+        private config;
+        private server: Engine;
+        public constructor(server: Engine, config: object) {
+            this.config = config;
+            this.server = server;
+        }
+
+        public collect(target: url.URL, options?: IFetchOptions) {
+            this.server.report('1', Category.other, 1, 'node', { column: 1, line: 1 }, options && options.content, target.href);
+
+            return Promise.resolve(target);
+        }
+
+        public close() {
+            return Promise.resolve();
+        }
+    }
+
+    const testContent = 'Test Content';
+
+    const engineObject = new Engine({
+        connector: {
+            name: 'myconnector',
+            options: {}
+        }
+    } as Configuration, {
+        connector: FakeConnectorCollect,
+        formatters: [],
+        hints: [],
+        incompatible: [],
+        missing: [],
+        parsers: []
+    });
+
+    const localUrl = new url.URL('http://localhost/');
+
+    const result = await engineObject.executeOn(localUrl, { content: testContent });
+
+    t.is(result[0].message, testContent);
 });
