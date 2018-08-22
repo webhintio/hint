@@ -17,7 +17,7 @@ export interface IConnector {
     /** The headers from the response if applicable. */
     headers?: object;
     /** Collects all the information for the given target. */
-    collect(target: url.URL): Promise<any>;
+    collect(target: url.URL, content?: string): Promise<any>;
     /** Releases any used resource and/or browser. */
     close(): Promise<void>;
     /** Download an external resource using ` customHeaders` if needed. */

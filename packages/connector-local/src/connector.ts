@@ -84,7 +84,7 @@ export default class LocalConnector implements IConnector {
         return [pattern];
     }
 
-    private async fetch(target: string) {
+    private async fetch(target: string, source?: string) {
         /*
          * target can have one of these forms:
          *   - /path/to/file
@@ -97,7 +97,7 @@ export default class LocalConnector implements IConnector {
          */
         const uri: url.URL = getAsUri(target);
         const filePath: string = asPathString(uri);
-        const content: NetworkData = await this.fetchContent(filePath);
+        const content: NetworkData = await this.fetchContentIfNeeded(filePath, source);
         const event: FetchEnd = {
             element: null,
             request: content.request,
@@ -242,14 +242,8 @@ export default class LocalConnector implements IConnector {
         });
     }
 
-    /*
-     * ------------------------------------------------------------------------------
-     * Public methods
-     * ------------------------------------------------------------------------------
-     */
-
-    public async fetchContent(filePath: string): Promise<NetworkData> {
-        const rawContent: Buffer = await readFileAsBuffer(filePath);
+    private async fetchContentIfNeeded(filePath: string, fileContent?: string): Promise<NetworkData> {
+        const rawContent: Buffer = fileContent ? Buffer.from(fileContent) : await readFileAsBuffer(filePath);
         const contentType = getContentTypeData(null, filePath, null, rawContent);
         let content = '';
 
@@ -279,7 +273,17 @@ export default class LocalConnector implements IConnector {
         };
     }
 
-    public async collect(target: url.URL) {
+    /*
+     * ------------------------------------------------------------------------------
+     * Public methods
+     * ------------------------------------------------------------------------------
+     */
+
+    public async fetchContent(filePath: string): Promise<NetworkData> {
+        return await this.fetchContentIfNeeded(filePath);
+    }
+
+    public async collect(target: url.URL, content?: string) {
         /** The target in string format */
         const href: string = this._href = target.href;
         const initialEvent: Event = { resource: href };
@@ -287,9 +291,13 @@ export default class LocalConnector implements IConnector {
         this.engine.emitAsync('scan::start', initialEvent);
 
         const pathString = asPathString(target);
-        let files;
+        let files: string[];
 
-        if (isFile(pathString)) {
+        if (content) {
+            await this.engine.emitAsync('fetch::start::target', initialEvent);
+            this.fetch(pathString, content);
+            files = [];
+        } else if (isFile(pathString)) {
             await this.engine.emitAsync('fetch::start::target', initialEvent);
             files = [pathString];
         } else {

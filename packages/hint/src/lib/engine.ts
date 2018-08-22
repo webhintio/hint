@@ -281,13 +281,13 @@ export class Engine extends EventEmitter {
     }
 
     /** Runs all the configured hints on a target */
-    public async executeOn(target: url.URL): Promise<Array<Problem>> {
+    public async executeOn(target: url.URL, content?: string): Promise<Array<Problem>> {
 
         const start: number = Date.now();
 
         debug(`Starting the analysis on ${target.href}`);
 
-        await this.connector.collect(target);
+        await this.connector.collect(target, content);
 
         debug(`Total runtime ${Date.now() - start}`);
 
