@@ -13,6 +13,7 @@
         "packages/create-hint/package.json",
         "packages/create-hintrc/package.json",
         "packages/create-parser/package.json",
+        "packages/extension-vscode/package.json",
         "packages/formatter-codeframe/package.json",
         "packages/formatter-excel/package.json",
         "packages/formatter-html/package.json",

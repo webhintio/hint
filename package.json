@@ -54,7 +54,7 @@
     "build:utils-server": "cd packages/utils-create-server && yarn build",
     "build:utils-test": "cd packages/utils-tests-helpers && yarn build",
     "clean": "npm-run-all clean:*",
-    "clean:packages": "rimraf packages/*/{dist,node_modules,npm-shrinkwrap.json,package-lock.json,yarn.lock}",
+    "clean:packages": "rimraf \"packages/!(extension-vscode)/{dist,node_modules,npm-shrinkwrap.json,package-lock.json,yarn.lock}\"",
     "clean:root": "rimraf dist",
     "commitmsg": "node scripts/check-commit-message.js",
     "lint": "npm-run-all lint:*",
@@ -69,7 +69,14 @@
     "watch:scripts:non-ts": "npm run build:scripts:non-ts && npm run build:scripts:non-ts --watch --no-initial",
     "watch:scripts:ts": "npm run build:scripts:ts --watch"
   },
-  "workspaces": [
-    "packages/!(connector-edge)"
-  ]
+  "workspaces": {
+    "nohoist": [
+      "**/vscode",
+      "**/vscode-languageclient",
+      "**/vscode-languageserver"
+    ],
+    "packages": [
+      "packages/!(connector-edge)"
+    ]
+  }
 }
