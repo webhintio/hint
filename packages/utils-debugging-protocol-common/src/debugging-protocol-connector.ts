@@ -329,10 +329,13 @@ export class Connector implements IConnector {
                 rawContent,
                 rawResponse(): Promise<Buffer> {
                     const self = (this as any);
-                    const cached = self._rawResponse;
 
-                    if (cached) {
-                        return Promise.resolve(cached);
+                    if (self) {
+                        const cached = self._rawResponse;
+
+                        if (cached) {
+                            return Promise.resolve(cached);
+                        }
                     }
 
                     if (rawContent.length.toString() === cdpResponse.response.headers['Content-Length']) {
@@ -381,7 +384,9 @@ export class Connector implements IConnector {
                             return rr();
                         })
                         .then((value) => {
-                            self._rawResponse = value;
+                            if (self) {
+                                self._rawResponse = value;
+                            }
 
                             return value;
                         });

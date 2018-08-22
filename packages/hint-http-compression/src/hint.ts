@@ -122,7 +122,7 @@ export default class HttpCompressionHint implements IHint {
                 return null;
             }
 
-            const safeRawResponse = asyncTry<Buffer>(networkData.response.body.rawResponse);
+            const safeRawResponse = asyncTry<Buffer>(networkData.response.body.rawResponse.bind(networkData.response.body));
             const rawResponse: Buffer = await safeRawResponse();
 
             if (!rawResponse) {
@@ -500,7 +500,7 @@ export default class HttpCompressionHint implements IHint {
                      * not being served with `content-encoding: gzip`.
                      */
 
-                    const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse);
+                    const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse.bind(response.body));
 
                     const rawResponse: Buffer = await safeRawResponse();
 
@@ -621,7 +621,7 @@ export default class HttpCompressionHint implements IHint {
              *    correctly.
              */
 
-            const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse);
+            const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse.bind(response.body));
 
             const rawResponse: Buffer = await safeRawResponse();
 
@@ -678,7 +678,7 @@ export default class HttpCompressionHint implements IHint {
 
             // If the resource should not be compressed:
             if (!isCompressibleAccordingToMediaType(response.mediaType)) {
-                const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse);
+                const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse.bind(response.body));
 
                 const rawResponse: Buffer = await safeRawResponse();
 
