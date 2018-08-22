@@ -1,3 +1,10 @@
+# 3.2.3 (August 22, 2018)
+
+## Bug fixes / Improvements
+
+* [[`1acc771321`](https://github.com/webhintio/hint/commit/1acc771321a2a83fc525e6743109982c85e40c0f)] - Fix: Revert back to using `mime-db` v1.35.0 (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1250`](https://github.com/webhintio/hint/issues/1250)).
+
+
 # 3.2.2 (August 21, 2018)
 
 ## Bug fixes / Improvements
