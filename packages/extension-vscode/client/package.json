@@ -1,0 +1,19 @@
+{
+    "name": "@hint/extension-vscode-client",
+    "description": "Client for webhint extension for Visual Studio Code.",
+    "license": "Apache-2.0",
+    "version": "1.0.0",
+    "homepage": "https://webhint.io/",
+    "repository": "webhintio/hint",
+    "engines": {
+        "vscode": "^1.23.0"
+    },
+    "scripts": {
+        "update-vscode": "node ./node_modules/vscode/bin/install",
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "dependencies": {
+        "vscode": "^1.1.18",
+        "vscode-languageclient": "^4.1.4"
+    }
+}
