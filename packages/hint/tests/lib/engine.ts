@@ -874,3 +874,46 @@ test.serial('executeOn should return all messages', async (t) => {
 
     t.is(result.length, 2);
 });
+
+test.serial('executeOn should forward content if provided', async (t) => {
+    class FakeConnectorCollect implements IConnector {
+        private config;
+        private server: Engine;
+        public constructor(server: Engine, config: object) {
+            this.config = config;
+            this.server = server;
+        }
+
+        public collect(target: url.URL, content?: string) {
+            this.server.report('1', Category.other, 1, 'node', { column: 1, line: 1 }, content, target.href);
+
+            return Promise.resolve(target);
+        }
+
+        public close() {
+            return Promise.resolve();
+        }
+    }
+
+    const testContent = 'Test Content';
+
+    const engineObject = new Engine({
+        connector: {
+            name: 'myconnector',
+            options: {}
+        }
+    } as Configuration, {
+        connector: FakeConnectorCollect,
+        formatters: [],
+        hints: [],
+        incompatible: [],
+        missing: [],
+        parsers: []
+    });
+
+    const localUrl = new url.URL('http://localhost/');
+
+    const result = await engineObject.executeOn(localUrl, testContent);
+
+    t.is(result[0].message, testContent);
+});

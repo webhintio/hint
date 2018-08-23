@@ -92,6 +92,28 @@ test.serial(`If target is a file (text), 'content' is setted`, async (t) => {
     sandbox.restore();
 });
 
+test.serial(`If content is passed, it is used instead of the file`, async (t) => {
+    const testContent = '"Test Content";';
+
+    const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'script.js'));
+
+    const sandbox = sinon.createSandbox();
+
+    sandbox.stub(t.context.isFile, 'default').returns(true);
+    sandbox.spy(t.context.engine, 'emitAsync');
+
+    const connector = new LocalConnector(t.context.engine as any, {});
+
+    await connector.collect(fileUri, testContent);
+
+    const event = t.context.engine.emitAsync.args[2][1];
+
+    t.is(typeof event.response.body.content, 'string');
+    t.not(event.response.body.content, testContent);
+
+    sandbox.restore();
+});
+
 test.serial(`If target is a file (image), 'content' is empty`, async (t) => {
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'stylish-output.png'));
 
