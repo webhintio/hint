@@ -2,7 +2,7 @@
   "devDependencies": {
     "@alrra/travis-scripts": "^3.0.1",
     "@types/fs-extra": "5.0.4",
-    "@types/node": "8.0.14",
+    "@types/node": "10.9.0",
     "chalk": "^2.4.1",
     "cpx": "^1.5.0",
     "eslint": "^5.4.0",
