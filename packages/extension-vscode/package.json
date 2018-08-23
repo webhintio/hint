@@ -1,13 +1,4 @@
 {
-    "name": "@hint/extension-vscode",
-    "description": "Run webhint in Visual Studio Code.",
-    "license": "Apache-2.0",
-    "version": "1.0.0",
-    "homepage": "https://webhint.io/",
-    "repository": "webhintio/hint",
-    "engines": {
-        "vscode": "^1.23.0"
-    },
     "activationEvents": [
         "onLanguage:css",
         "onLanguage:html",
@@ -15,19 +6,29 @@
         "onLanguage:json",
         "onLanguage:jsonc"
     ],
-    "main": "./client/dist/extension",
-    "publisher": "webhint",
-    "scripts": {
-        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run build",
-        "build:client": "tsc -p ./client/tsconfig.json",
-        "build:server": "tsc -p ./server/tsconfig.json",
-        "watch:client": "tsc -w -p ./client/tsconfig.json",
-        "watch:server": "tsc -w -p ./server/tsconfig.json",
-        "build": "npm run build:client && npm run build:server",
-        "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
-    },
+    "description": "Run webhint in Visual Studio Code.",
     "devDependencies": {
         "@types/node": "^8.0.0",
         "typescript": "2.8.3"
-    }
+    },
+    "engines": {
+        "vscode": "^1.23.0"
+    },
+    "homepage": "https://webhint.io/",
+    "license": "Apache-2.0",
+    "main": "./client/dist/extension",
+    "name": "@hint/extension-vscode",
+    "private": true,
+    "publisher": "webhint",
+    "repository": "webhintio/hint",
+    "scripts": {
+        "build": "npm run build:client && npm run build:server",
+        "build:client": "tsc -p ./client/tsconfig.json",
+        "build:server": "tsc -p ./server/tsconfig.json",
+        "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run build",
+        "watch:client": "tsc -w -p ./client/tsconfig.json",
+        "watch:server": "tsc -w -p ./server/tsconfig.json"
+    },
+    "version": "1.0.0"
 }
