@@ -74,7 +74,8 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
     // TODO: Enhance webhint to allow passing content directly: `executeOn(url, textDocument.getText())`.
     const problems = await engine.executeOn(url);
 
-    // TODO: Fix webhint to clear problems between calls to `executeOn`.
+    // Clear problems to avoid duplicates since vscode remembers them for us.
+    engine.clear();
 
     // Send the computed diagnostics to VSCode.
     connection.sendDiagnostics({
