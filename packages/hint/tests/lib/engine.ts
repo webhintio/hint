@@ -19,7 +19,7 @@ eventEmitter.EventEmitter2.prototype.emitAsync = () => {
 proxyquire('../../src/lib/engine', { eventemitter2: eventEmitter });
 
 import { Engine } from '../../src/lib/engine';
-import { HintResources, IFormatter, IConnector, IHint, HintMetadata, Problem } from '../../src/lib/types';
+import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata, Problem } from '../../src/lib/types';
 import { Category } from '../../src/lib/enums/category';
 
 class FakeConnector implements IConnector {
@@ -884,8 +884,8 @@ test.serial('executeOn should forward content if provided', async (t) => {
             this.server = server;
         }
 
-        public collect(target: url.URL, content?: string) {
-            this.server.report('1', Category.other, 1, 'node', { column: 1, line: 1 }, content, target.href);
+        public collect(target: url.URL, options?: IFetchOptions) {
+            this.server.report('1', Category.other, 1, 'node', { column: 1, line: 1 }, options && options.content, target.href);
 
             return Promise.resolve(target);
         }
@@ -913,7 +913,7 @@ test.serial('executeOn should forward content if provided', async (t) => {
 
     const localUrl = new url.URL('http://localhost/');
 
-    const result = await engineObject.executeOn(localUrl, testContent);
+    const result = await engineObject.executeOn(localUrl, { content: testContent });
 
     t.is(result[0].message, testContent);
 });
