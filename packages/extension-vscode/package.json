@@ -12,7 +12,7 @@
         "typescript": "2.8.3"
     },
     "engines": {
-        "vscode": "^1.23.0"
+        "vscode": "^1.26.0"
     },
     "homepage": "https://webhint.io/",
     "license": "Apache-2.0",

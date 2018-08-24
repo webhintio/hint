@@ -1,11 +1,11 @@
 {
     "dependencies": {
-        "vscode": "^1.1.18",
-        "vscode-languageclient": "^4.1.4"
+        "vscode": "^1.1.21",
+        "vscode-languageclient": "^5.0.1"
     },
     "description": "Client for webhint extension for Visual Studio Code.",
     "engines": {
-        "vscode": "^1.23.0"
+        "vscode": "^1.26.0"
     },
     "homepage": "https://webhint.io/",
     "license": "Apache-2.0",
