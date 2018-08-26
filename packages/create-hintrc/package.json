@@ -10,7 +10,7 @@
     "create-hintrc": "./dist/src/create-hintrc.js"
   },
   "dependencies": {
-    "browserslist": "^4.0.2",
+    "browserslist": "^4.1.0",
     "encoding": "^0.1.12"
   },
   "description": "webhint's configuration file initializer package",
@@ -25,7 +25,7 @@
     "fs-extra": "^7.0.0",
     "handlebars": "^4.0.11",
     "hint": "^3.2.3",
-    "inquirer": "^6.1.0",
+    "inquirer": "^6.2.0",
     "markdownlint-cli": "^0.13.0",
     "mkdirp": "^0.5.1",
     "npm-link-check": "^2.0.0",
