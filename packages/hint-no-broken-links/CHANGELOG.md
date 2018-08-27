@@ -1,3 +1,10 @@
+# 1.0.4 (August 27, 2018)
+
+## Bug fixes / Improvements
+
+* [[`d6fbf70a86`](https://github.com/webhintio/hint/commit/d6fbf70a86c7d34a2aed80da30e497ff524e6a1d)] - Fix: Guard against redirect loops (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1146`](https://github.com/webhintio/hint/issues/1146)).
+
+
 # 1.0.3 (August 21, 2018)
 
 ## Bug fixes / Improvements
