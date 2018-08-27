@@ -46,6 +46,11 @@ export default class HTMLParser extends Parser {
 
         const event = { resource } as Event;
 
+        /* istanbul ignore if */
+        if (!documentElement) {
+            return;
+        }
+
         await this.engine.emitAsync('traverse::start', event);
         await this.traverseAndNotify(documentElement, dom);
         await this.engine.emitAsync('traverse::end', event);

@@ -112,7 +112,8 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
 }
 
 export class JSDOMAsyncWindow implements IAsyncWindow {
-    private _window: DOMWindow;
+    // TODO: Add type `DOMWindow` once @types/jsdom supports v12
+    private _window: any;
     private _document: JSDOMAsyncHTMLDocument;
     private _dom: JSDOM;
 
