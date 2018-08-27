@@ -32,13 +32,21 @@ export default class NoBrokenLinksHint implements IHint {
             description: `Hint to flag broken links in the page`
         },
         id: 'no-broken-links',
-        schema: [],
+        schema: [{
+            properties: {
+                method: {
+                    pattern: '^([hH][eE][aA][dD])|([gG][eE][tT])$',
+                    type: 'string'
+                }
+            },
+            type: 'object'
+        }],
         scope: HintScope.site
     };
 
     public constructor(context: HintContext) {
 
-        const options: CoreOptions = { method: 'HEAD' };
+        const options: CoreOptions = { method: context.hintOptions && context.hintOptions.method ? context.hintOptions.method : 'GET' };
         const requester = new Requester(options);
         const brokenStatusCodes = [404, 410, 500, 503];
 
@@ -69,6 +77,10 @@ export default class NoBrokenLinksHint implements IHint {
          */
         const handleRejection = (error: any, url: string, element: IAsyncHTMLElement) => {
             debug(`Error accessing {$absoluteURL}. ${JSON.stringify(error)}`);
+
+            if (typeof error === 'string' && error.toLowerCase().includes('loop')) {
+                return context.report(url, element, error);
+            }
 
             return context.report(url, element, 'Broken link found (domain not found).');
         };

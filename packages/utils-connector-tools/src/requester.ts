@@ -75,6 +75,8 @@ export class Requester {
     private _redirects: RedirectManager = new RedirectManager();
     /** Maximum number of redirects */
     private _maxRedirects: number = 10;
+    /** Internal options for request */
+    private _options: request.CoreOptions;
 
     /** Tries to decompress the given `Buffer` `content` using the given `decompressor` */
     private async tryToDecompress(decompressor, content): Promise<Buffer> {
@@ -173,6 +175,8 @@ export class Requester {
 
         const options: request.CoreOptions = Object.assign({}, defaults, customOptions);
 
+        this._options = options;
+
         this._request = request.defaults(options);
     }
 
@@ -190,88 +194,100 @@ export class Requester {
     public get(uri: string): Promise<NetworkData> {
         debug(`Requesting ${uri}`);
 
-        return new Promise((resolve: Function, reject: Function) => {
-            const byteChunks: Array<Buffer> = [];
-            let rawBodyResponse: Buffer;
+        const requestedUrls: Set<string> = new Set();
 
-            this._request({ uri }, async (err, response) => {
-                if (err) {
-                    debug(`Request for ${uri} failed\n${err}`);
+        const getUri = (uriString: string): Promise<NetworkData> => {
+            requestedUrls.add(uriString);
 
-                    return reject({
-                        error: err,
-                        uri
-                    });
-                }
+            return new Promise((resolve: Function, reject: Function) => {
+                const byteChunks: Array<Buffer> = [];
+                let rawBodyResponse: Buffer;
 
-                // We check if we need to redirect and call ourselves again with the new target
-                if (Requester.validRedirects.includes(response.statusCode)) {
-                    const newUri = url.resolve(uri, response.headers.location);
+                this._request({ uri: uriString }, async (err, response) => {
+                    if (err) {
+                        debug(`Request for ${uriString} failed\n${err}`);
 
-                    this._redirects.add(newUri, uri);
-
-                    const currentRedirectNumber = this._redirects.calculate(newUri).length;
-
-                    if (currentRedirectNumber > this._maxRedirects) {
-                        return reject(`The number of redirects(${currentRedirectNumber}) exceeds the limit(${this._maxRedirects}).`);
-                    }
-
-                    try {
-                        debug(`Redirect found for ${uri}`);
-                        const results = await this.get(newUri);
-
-                        return resolve(results);
-                    } catch (e) {
-                        return reject(e);
-                    }
-                }
-
-                const contentEncoding: string = getHeaderValueNormalized(response.headers, 'content-encoding');
-                const rawBody: Buffer = await this.decompressResponse(contentEncoding, rawBodyResponse);
-                const { charset, mediaType } = getContentTypeData(null, uri, response.headers, rawBody);
-                const hops: Array<string> = this._redirects.calculate(uri);
-                const body: string = iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
-
-                const networkData: NetworkData = {
-                    request: {
-                        headers: response.request.headers,
-                        url: hops[0] || uri
-                    },
-                    response: {
-                        body: {
-                            content: body,
-                            rawContent: rawBody,
-                            rawResponse: () => {
-                                return Promise.resolve(rawBodyResponse);
-                            }
-                        },
-                        charset,
-                        headers: response.headers,
-                        hops,
-                        mediaType,
-                        statusCode: response.statusCode,
-                        url: uri
-                    }
-                };
-
-                return resolve(networkData);
-            })
-                /*
-                 * Somehow the Buffer body from `callback(err, resp, body)` is different than the one we get
-                 * if we do this method. Even though both output the same result after decompressing,
-                 * the real bytes sent over the wire for the content are these ones.
-                 *
-                 * See: https://github.com/request/request/tree/6f286c81586a90e6a9d97055f131fdc68e523120#examples.
-                 */
-                .on('response', (response) => {
-                    response
-                        .on('data', (data: Buffer) => {
-                            byteChunks.push(data);
-                        })
-                        .on('end', () => {
-                            rawBodyResponse = Buffer.concat(byteChunks);
+                        return reject({
+                            error: err,
+                            uri: uriString
                         });
-                });
-        });
+                    }
+
+                    // We check if we need to redirect and call ourselves again with the new target
+                    if (Requester.validRedirects.includes(response.statusCode)) {
+                        const newUri = url.resolve(uriString, response.headers.location);
+
+                        if (requestedUrls.has(newUri)) {
+                            return reject(`'${uriString}' could not be fetched using ${this._options.method || 'GET'} method (redirect loop detected).`);
+                        }
+
+                        this._redirects.add(newUri, uriString);
+
+                        const currentRedirectNumber = this._redirects.calculate(newUri).length;
+
+                        if (currentRedirectNumber > this._maxRedirects) {
+                            return reject(`The number of redirects(${currentRedirectNumber}) exceeds the limit(${this._maxRedirects}).`);
+                        }
+
+                        try {
+                            debug(`Redirect found for ${uriString}`);
+                            const results = await getUri(newUri);
+
+                            return resolve(results);
+                        } catch (e) {
+                            return reject(e);
+                        }
+                    }
+
+                    const contentEncoding: string = getHeaderValueNormalized(response.headers, 'content-encoding');
+                    const rawBody: Buffer = await this.decompressResponse(contentEncoding, rawBodyResponse);
+                    const { charset, mediaType } = getContentTypeData(null, uri, response.headers, rawBody);
+                    const hops: Array<string> = this._redirects.calculate(uriString);
+                    const body: string = iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
+
+                    const networkData: NetworkData = {
+                        request: {
+                            headers: response.request.headers,
+                            url: hops[0] || uriString
+                        },
+                        response: {
+                            body: {
+                                content: body,
+                                rawContent: rawBody,
+                                rawResponse: () => {
+                                    return Promise.resolve(rawBodyResponse);
+                                }
+                            },
+                            charset,
+                            headers: response.headers,
+                            hops,
+                            mediaType,
+                            statusCode: response.statusCode,
+                            url: uriString
+                        }
+                    };
+
+                    return resolve(networkData);
+                })
+                    /*
+                     * Somehow the Buffer body from `callback(err, resp, body)` is different than the one we get
+                     * if we do this method. Even though both output the same result after decompressing,
+                     * the real bytes sent over the wire for the content are these ones.
+                     *
+                     * See: https://github.com/request/request/tree/6f286c81586a90e6a9d97055f131fdc68e523120#examples.
+                     */
+                    .on('response', (response) => {
+                        response
+                            .on('data', (data: Buffer) => {
+                                byteChunks.push(data);
+                            })
+                            .on('end', () => {
+                                rawBodyResponse = Buffer.concat(byteChunks);
+                            });
+                    });
+            });
+        };
+
+        return getUri(uri);
     }
 }

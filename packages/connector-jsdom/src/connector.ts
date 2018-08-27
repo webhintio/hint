@@ -157,6 +157,7 @@ export default class JSDOMConnector implements IConnector {
         }
 
         // Ignore if the resource has already been fetched.
+        /* istanbul ignore if */
         if (this._fetchedHrefs.has(resourceUrl)) {
             return callback(null, '');
         }
@@ -262,6 +263,7 @@ export default class JSDOMConnector implements IConnector {
                 const hops: Array<string> = this._request.getRedirects(err.uri);
                 const fetchError: FetchError = {
                     element: null,
+                    /* istanbul ignore next */
                     error: err.error ? err.error : err,
                     hops,
                     resource: href
@@ -403,6 +405,7 @@ export default class JSDOMConnector implements IConnector {
              * TODO: We should be using `resource.element.ownerDocument.location`
              * to get the right protocol but it doesn't seem return the right value.
              */
+            /* istanbul ignore next */
             parsedTarget = parsedTarget.indexOf('//') === 0 ? `http:${parsedTarget}` : parsedTarget;
             parsedTarget = new URL(parsedTarget);
 
@@ -423,6 +426,7 @@ export default class JSDOMConnector implements IConnector {
 
     public evaluate(source: string): Promise<any> {
         return new Promise((resolve, reject) => {
+            /* istanbul ignore next */
             const runner: ChildProcess = fork(path.join(__dirname, 'evaluate-runner'), [this._finalHref || this._href, this._options.waitFor], { execArgv: [] });
             let timeoutId;
 
