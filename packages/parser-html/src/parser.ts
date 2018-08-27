@@ -8,6 +8,8 @@ import { Event, ElementFound, FetchEnd, Parser, TraverseDown, TraverseUp } from 
 import { Engine } from 'hint/dist/src/lib/engine';
 import { HTMLParse } from './types';
 
+export { HTMLParse } from './types';
+
 export default class HTMLParser extends Parser {
 
     private _url = '';

@@ -24,6 +24,7 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
 import { getContentTypeData, isTextMediaType, getType } from 'hint/dist/src/lib/utils/content-type';
+import { IAsyncHTMLDocument } from 'hint/dist/src/lib/types/async-html';
 
 import isFile from 'hint/dist/src/lib/utils/fs/is-file';
 import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
@@ -35,6 +36,7 @@ import {
     Event, FetchEnd, ScanEnd, NetworkData
 } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
+import { HTMLParse } from '@hint/parser-html';
 
 /*
  * ------------------------------------------------------------------------------
@@ -47,6 +49,7 @@ const debug: debug.IDebugger = d(__filename);
 const defaultOptions = {};
 
 export default class LocalConnector implements IConnector {
+    private _document: IAsyncHTMLDocument = null;
     private _options: any;
     private engine: Engine;
     private _href: string = '';
@@ -243,6 +246,17 @@ export default class LocalConnector implements IConnector {
         });
     }
 
+    private watchForHTMLDocument() {
+        this._document = null;
+
+        const setDocument = (event: HTMLParse) => {
+            this._document = event.document;
+            this.engine.off('parse::html::end', setDocument);
+        };
+
+        this.engine.on('parse::html::end', setDocument);
+    }
+
     /*
      * ------------------------------------------------------------------------------
      * Public methods
@@ -285,6 +299,8 @@ export default class LocalConnector implements IConnector {
         const href: string = this._href = target.href;
         const initialEvent: Event = { resource: href };
 
+        this.watchForHTMLDocument();
+
         this.engine.emitAsync('scan::start', initialEvent);
 
         const pathString = asPathString(target);
@@ -322,5 +338,15 @@ export default class LocalConnector implements IConnector {
     /* istanbul ignore next */
     public close() {
         return Promise.resolve();
+    }
+
+    /* istanbul ignore next */
+    public get dom(): IAsyncHTMLDocument {
+        return this._document;
+    }
+
+    /* istanbul ignore next */
+    public get html(): Promise<string> {
+        return this._document ? this._document.pageHTML() : Promise.resolve('');
     }
 }
