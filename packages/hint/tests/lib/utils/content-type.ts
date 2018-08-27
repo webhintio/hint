@@ -138,6 +138,11 @@ test(`'getContentTypeData' returns correct media type`, (t) => {
             mediaType: 'text/xml',
             rawContent: fs.readFileSync(`${__dirname}/fixtures/fixture.xml`), // eslint-disable-line no-sync
             type: 'XML'
+        },
+        {
+            mediaType: 'image/x-icon',
+            rawContent: fs.readFileSync(`${__dirname}/fixtures/fixture.ico`), // eslint-disable-line no-sync
+            type: 'ico'
         }
     ];
 
