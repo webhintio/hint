@@ -1,3 +1,10 @@
+# 1.0.5 (August 28, 2018)
+
+## Bug fixes / Improvements
+
+* [[`e3bd336ed5`](https://github.com/webhintio/hint/commit/e3bd336ed503efe6f896da60b0e268529ff48d3d)] - Fix: Ignore non `HTTP(S)` URLs (see also: [`#1253`](https://github.com/webhintio/hint/issues/1253)).
+
+
 # 1.0.4 (August 27, 2018)
 
 ## Bug fixes / Improvements
