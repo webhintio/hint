@@ -109,7 +109,7 @@ test.serial(`If content is passed, it is used instead of the file`, async (t) =>
     const event = t.context.engine.emitAsync.args[2][1];
 
     t.is(typeof event.response.body.content, 'string');
-    t.not(event.response.body.content, testContent);
+    t.is(event.response.body.content, testContent);
 
     sandbox.restore();
 });

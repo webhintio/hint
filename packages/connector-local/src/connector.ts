@@ -98,7 +98,7 @@ export default class LocalConnector implements IConnector {
          */
         const uri: url.URL = getAsUri(target);
         const filePath: string = asPathString(uri);
-        const content: NetworkData = await this.fetchContent(filePath, options);
+        const content: NetworkData = await this.fetchContent(filePath, null, options);
         const event: FetchEnd = {
             element: null,
             request: content.request,
@@ -304,7 +304,7 @@ export default class LocalConnector implements IConnector {
 
             // Ignore options.content when matching multiple files
             if (options && options.content) {
-                delete options.content;
+                options.content = null;
             }
         }
 
