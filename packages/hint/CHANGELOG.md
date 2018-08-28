@@ -1,3 +1,10 @@
+# 3.2.4 (August 28, 2018)
+
+## Bug fixes / Improvements
+
+* [[`ea3ae22f24`](https://github.com/webhintio/hint/commit/ea3ae22f24d06693f0429232f7b35c1d199e763f)] - Fix: Remove duplicate values when extending config (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1273`](https://github.com/webhintio/hint/issues/1273)).
+
+
 # 3.2.3 (August 22, 2018)
 
 ## Bug fixes / Improvements
