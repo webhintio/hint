@@ -1,4 +1,4 @@
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow } from './async-html'; //eslint-disable-line
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow } from './async-html';
 import { DOMWindow } from 'jsdom';
 
 /** An implementation of AsyncHTMLDocument on top of JSDDOM */

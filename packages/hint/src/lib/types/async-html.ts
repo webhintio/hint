@@ -33,6 +33,8 @@ export interface IAsyncHTMLDocument {
 }
 
 export interface IAsyncWindow {
+    /** Returns the document associated with this window */
+    readonly document: IAsyncHTMLDocument;
     /** Run the provided JavaScript in the context of this window */
     evaluate(source: string): Promise<any>;
 }
