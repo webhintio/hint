@@ -92,6 +92,28 @@ test.serial(`If target is a file (text), 'content' is setted`, async (t) => {
     sandbox.restore();
 });
 
+test.serial(`If content is passed, it is used instead of the file`, async (t) => {
+    const testContent = '"Test Content";';
+
+    const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'script.js'));
+
+    const sandbox = sinon.createSandbox();
+
+    sandbox.stub(t.context.isFile, 'default').returns(true);
+    sandbox.spy(t.context.engine, 'emitAsync');
+
+    const connector = new LocalConnector(t.context.engine as any, {});
+
+    await connector.collect(fileUri, { content: testContent });
+
+    const event = t.context.engine.emitAsync.args[2][1];
+
+    t.is(typeof event.response.body.content, 'string');
+    t.is(event.response.body.content, testContent);
+
+    sandbox.restore();
+});
+
 test.serial(`If target is a file (image), 'content' is empty`, async (t) => {
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'stylish-output.png'));
 
@@ -155,6 +177,38 @@ test.serial(`If target is a directory, shouldn't emit the event 'fetch::start::t
     t.is(events[2], 'fetch::end::script');
     t.is(events[3], 'scan::end');
     t.is(events[4], 'scan::start');
+
+    sandbox.restore();
+});
+
+test.serial(`If target is a directory, passed content should be ignored`, async (t) => {
+    const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch'));
+
+    const testContent = 'Test Content';
+
+    const sandbox = sinon.createSandbox();
+
+    sandbox.stub(t.context.isFile, 'default').returns(false);
+    sandbox.spy(t.context.engine, 'emitAsync');
+
+    const connector = new LocalConnector(t.context.engine as any, {});
+
+    await connector.collect(directoryUri, { content: testContent });
+
+    t.is(t.context.engine.emitAsync.callCount, 5);
+
+    const events: Array<Array<any>> = t.context.engine.emitAsync.args.map((args: Array<any>) => {
+        return args;
+    }).sort();
+
+    t.is(events[0][0], 'fetch::end::html');
+    t.not(events[0][1].response.body.content, testContent);
+    t.is(events[1][0], 'fetch::end::image');
+    t.not(events[1][1].response.body.content, testContent);
+    t.is(events[2][0], 'fetch::end::script');
+    t.not(events[2][1].response.body.content, testContent);
+    t.is(events[3][0], 'scan::end');
+    t.is(events[4][0], 'scan::start');
 
     sandbox.restore();
 });

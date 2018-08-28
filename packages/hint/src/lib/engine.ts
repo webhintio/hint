@@ -17,7 +17,7 @@ import { remove } from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-hints';
-import { IAsyncHTMLElement, IConnector, NetworkData, UserConfig, Event, Problem, ProblemLocation, IHint, HintConfig, Severity, IHintConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
+import { IAsyncHTMLElement, IConnector, IFetchOptions, NetworkData, UserConfig, Event, Problem, ProblemLocation, IHint, HintConfig, Severity, IHintConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
 import * as logger from './utils/logging';
 import { HintContext } from './hint-context';
 import { HintScope } from './enums/hintscope';
@@ -281,13 +281,13 @@ export class Engine extends EventEmitter {
     }
 
     /** Runs all the configured hints on a target */
-    public async executeOn(target: url.URL): Promise<Array<Problem>> {
+    public async executeOn(target: url.URL, options?: IFetchOptions): Promise<Array<Problem>> {
 
         const start: number = Date.now();
 
         debug(`Starting the analysis on ${target.href}`);
 
-        await this.connector.collect(target);
+        await this.connector.collect(target, options);
 
         debug(`Total runtime ${Date.now() - start}`);
 
