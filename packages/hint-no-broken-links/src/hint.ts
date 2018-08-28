@@ -13,6 +13,7 @@ import {
     IAsyncHTMLElement
 } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 import { IAsyncHTMLDocument, NetworkData, TraverseEnd } from 'hint/dist/src/lib/types';
@@ -51,7 +52,7 @@ export default class NoBrokenLinksHint implements IHint {
         const brokenStatusCodes = [404, 410, 500, 503];
 
         /** Stores the elements with their URLs which have been collected while traversing the page. */
-        const collectedElementsWithURLs: [ IAsyncHTMLElement, string[] ][] = [];
+        const collectedElementsWithURLs: [IAsyncHTMLElement, string[]][] = [];
 
         /** Stores the URLs and it's response status codes */
         const fetchedURLs: any[] = [];
@@ -169,6 +170,15 @@ export default class NoBrokenLinksHint implements IHint {
         const createReports = (element: IAsyncHTMLElement, urls: Array<string>, resourceURL: URL): Array<Promise<void>> => {
             return urls.map((url) => {
                 const fullURL = (new URL(url, resourceURL)).toString();
+
+                /*
+                 * If the URL is not HTTP or HTTPS (e.g. `mailto:`),
+                 * there is no need to validate.
+                 */
+                if (!isRegularProtocol(fullURL)) {
+                    return Promise.resolve();
+                }
+
                 const fetched = getFetchedURL(fullURL);
 
                 if (fetched) {
