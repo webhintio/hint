@@ -63,6 +63,11 @@ const bodyWithBrokenVideo = `<div>
 <video controls src="/1.mp4" poster="/2.png">
 </div>`;
 
+const bodyWithMailTo = `<div>
+<a href='/about'>About</a>
+<a href='mailto:someone@example.com'>Mail</a>
+</div>`;
+
 const tests: Array<HintTest> = [
     {
         name: `This test should pass as it has links with valid href value`,
@@ -177,6 +182,13 @@ const tests: Array<HintTest> = [
             '/': { content: generateHTMLPage('', bodyWithBrokenVideo) },
             '/1.mp4': { status: 404 },
             '/2.png': { status: 404 }
+        }
+    },
+    {
+        name: `This test should pass as it has a link with valid href value and a mailto`,
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithMailTo) },
+            '/about': { content: 'My about page content' }
         }
     }
 ];
