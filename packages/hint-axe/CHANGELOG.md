@@ -1,3 +1,10 @@
+# 1.0.3 (August 28, 2018)
+
+## Bug fixes / Improvements
+
+* [[`4e653a321b`](https://github.com/webhintio/hint/commit/4e653a321bbe613ed8435a2acf049a1fc99a8907)] - Fix: Update `axe-core` to `v3.1.1` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.0.2 (August 27, 2018)
 
 ## Bug fixes / Improvements
