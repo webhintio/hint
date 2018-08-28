@@ -212,10 +212,11 @@ test.serial(`if the configuration file contains an extends property, it should c
 
     sandbox.stub(resourceLoader, 'loadConfiguration').returns(exts);
 
-    const configuration = config.Configuration.fromFilePath(path.join(__dirname, './fixtures/valid/withextends.json'), { watch: false } as CLIOptions);
+    const configuration: UserConfig = config.Configuration.fromFilePath(path.join(__dirname, './fixtures/valid/withextends.json'), { watch: false } as CLIOptions);
 
     t.is((configuration.connector as ConnectorConfig).name, 'chrome');
     t.is(configuration.hints['disallowed-headers'], 'error');
+    t.is(configuration.formatters.length, 1);
 });
 
 

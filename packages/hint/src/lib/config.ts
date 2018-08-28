@@ -88,7 +88,16 @@ const composeConfig = (userConfig: UserConfig) => {
         return composeConfig(loadedConfiguration);
     });
 
-    const finalConfig = merge({}, ...configurations, userConfig);
+    const finalConfig: UserConfig = merge({}, ...configurations, userConfig);
+
+    // Otherwise the output could be double or we could trigger double events
+    if (finalConfig.formatters) {
+        finalConfig.formatters = Array.from(new Set(finalConfig.formatters));
+    }
+
+    if (finalConfig.parsers) {
+        finalConfig.parsers = Array.from(new Set(finalConfig.parsers));
+    }
 
     return finalConfig;
 };
