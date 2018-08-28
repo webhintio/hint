@@ -29,22 +29,27 @@ test.serial('If fetch::end::html is received, then we should parse the code and 
     });
 
     const args = t.context.engine.emitAsync.args;
-    const document = args[1][1].document;
+    const document = args[1][1].window.document;
     const div = (await document.querySelectorAll('div'))[0];
     const div2 = (await document.querySelectorAll('body > div'))[0];
-    const id = div.attributes.filter((attr) => {
-        return attr.name === 'id';
-    })[0];
+
+    let id = null;
+
+    for (let i = 0; i < div.attributes.length; i++) {
+        if (div.attributes[i].name === 'id') {
+            id = div.attributes[i];
+            break;
+        }
+    }
 
     t.is(args[1][0], 'parse::html::end');
     t.is(args[1][1].resource, 'test.html');
     t.is(args[1][1].html, code);
-    t.is(await document.pageHTML(), '<!DOCTYPE html><html><head></head><body><div id="test">Test</div></body></html>');
+    t.is(await document.pageHTML(), '<html><head></head><body><div id="test">Test</div></body></html>');
     t.is(await div.outerHTML(), '<div id="test">Test</div>');
-    t.is(div.nodeName, 'div');
+    t.is(div.nodeName.toLowerCase(), 'div');
     t.is(div.getAttribute('id'), 'test');
     t.is(id.value, 'test');
-    t.is(div.ownerDocument, document);
     t.true(div.isSame(div2));
 
     console.log(JSON.stringify(args.map((a) => {
@@ -65,6 +70,48 @@ test.serial('If fetch::end::html is received, then we should parse the code and 
     t.is(args[13][0], 'traverse::up');
     t.is(args[14][0], 'traverse::up');
     t.is(args[15][0], 'traverse::end');
+
+    sandbox.restore();
+});
+
+test.serial('If fetch::end::html is received, we can evaluate script against the returned window', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const parser = new HTMLParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
+    const code = '<!DOCTYPE html><div id="test">Test</div>';
+
+    sandbox.spy(t.context.engine, 'emitAsync');
+
+    await t.context.engine.emitAsync('fetch::end::html', {
+        resource: 'test.html',
+        response: {
+            body: { content: code },
+            mediaType: 'text/html',
+            url: 'test.html'
+        }
+    });
+
+    const args = t.context.engine.emitAsync.args;
+
+    const window = args[1][1].window;
+
+    const result1 = await window.evaluate(`
+        (function(){
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(document.body.firstElementChild.id);
+                }, 1000);
+            });
+        }());
+    `);
+
+    const result2 = await window.evaluate(`
+        (function(){
+            return document.getElementsByTagName('div')[0].textContent;
+        }());
+    `);
+
+    t.is(result1, 'test');
+    t.is(result2, 'Test');
 
     sandbox.restore();
 });

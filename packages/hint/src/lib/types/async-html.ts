@@ -31,3 +31,8 @@ export interface IAsyncHTMLDocument {
     /** The HTML of the page as returned by document.children[0].outerHTML or similar */
     pageHTML(): Promise<string>;
 }
+
+export interface IAsyncWindow {
+    /** Run the provided JavaScript in the context of this window */
+    evaluate(source: string): Promise<any>;
+}

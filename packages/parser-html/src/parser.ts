@@ -2,8 +2,8 @@
  * @fileoverview webhint parser needed to analyze HTML files
  */
 
-import * as cheerio from 'cheerio';
-import { CheerioAsyncHTMLDocument, CheerioAsyncHTMLElement } from './cheerio-async-html';
+import { JSDOM } from 'jsdom';
+import { JSDOMAsyncHTMLElement, JSDOMAsyncWindow } from 'hint/dist/src/lib/types/jsdom-async-html';
 import { Event, ElementFound, FetchEnd, Parser, TraverseDown, TraverseUp } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { HTMLParse } from './types';
@@ -24,34 +24,29 @@ export default class HTMLParser extends Parser {
         const resource = this._url = fetchEnd.response.url;
 
         const html = fetchEnd.response.body.content;
-        const $ = cheerio.load(html);
-        const document = new CheerioAsyncHTMLDocument($);
-        const documentElement = $.root()[0].children.filter((c) => {
-            return c.type === 'tag';
-        })[0];
+        const dom = new JSDOM(html, { runScripts: 'outside-only' });
+        const window = new JSDOMAsyncWindow(dom.window);
+        const documentElement = dom.window.document.documentElement;
 
-        await this.engine.emitAsync(`parse::${this.name}::end`, { document, html, resource } as HTMLParse);
+        await this.engine.emitAsync(`parse::${this.name}::end`, { html, resource, window } as HTMLParse);
 
         const event = { resource } as Event;
 
         await this.engine.emitAsync('traverse::start', event);
-        await this.traverseAndNotify(documentElement, document);
+        await this.traverseAndNotify(documentElement);
         await this.engine.emitAsync('traverse::end', event);
     }
 
     /** Traverses the DOM while sending `element::typeofelement` events. */
-    private async traverseAndNotify(element: CheerioElement, root: CheerioAsyncHTMLDocument): Promise<void> {
-        if (element.type !== 'tag') {
-            return Promise.resolve(); // Only traverse elements.
-        }
+    private async traverseAndNotify(element: HTMLElement): Promise<void> {
 
         await this.engine.emitAsync(`element::${element.tagName.toLowerCase()}`, {
-            element: new CheerioAsyncHTMLElement(element, root),
+            element: new JSDOMAsyncHTMLElement(element),
             resource: this._url
         } as ElementFound);
 
         const traverseEvent = {
-            element: new CheerioAsyncHTMLElement(element, root),
+            element: new JSDOMAsyncHTMLElement(element),
             resource: this._url
         } as TraverseDown | TraverseUp;
 
@@ -59,7 +54,7 @@ export default class HTMLParser extends Parser {
 
         // Recursively traverse child elements.
         for (let i = 0; i < element.children.length; i++) {
-            await this.traverseAndNotify(element.children[i], root);
+            await this.traverseAndNotify(element.children[i] as HTMLElement);
         }
 
         await this.engine.emitAsync(`traverse::up`, traverseEvent);

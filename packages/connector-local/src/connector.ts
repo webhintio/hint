@@ -24,7 +24,7 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
 import { getContentTypeData, isTextMediaType, getType } from 'hint/dist/src/lib/utils/content-type';
-import { IAsyncHTMLDocument } from 'hint/dist/src/lib/types/async-html';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow } from 'hint/dist/src/lib/types/async-html';
 
 import isFile from 'hint/dist/src/lib/utils/fs/is-file';
 import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
@@ -49,7 +49,7 @@ const debug: debug.IDebugger = d(__filename);
 const defaultOptions = {};
 
 export default class LocalConnector implements IConnector {
-    private _document: IAsyncHTMLDocument = null;
+    private _window: IAsyncWindow = null;
     private _options: any;
     private engine: Engine;
     private _href: string = '';
@@ -246,15 +246,15 @@ export default class LocalConnector implements IConnector {
         });
     }
 
-    private watchForHTMLDocument() {
-        this._document = null;
+    private watchForWindow() {
+        this._window = null;
 
-        const setDocument = (event: HTMLParse) => {
-            this._document = event.document;
-            this.engine.off('parse::html::end', setDocument);
+        const setWindow = (event: HTMLParse) => {
+            this._window = event.window;
+            this.engine.off('parse::html::end', setWindow);
         };
 
-        this.engine.on('parse::html::end', setDocument);
+        this.engine.on('parse::html::end', setWindow);
     }
 
     /*
@@ -299,7 +299,7 @@ export default class LocalConnector implements IConnector {
         const href: string = this._href = target.href;
         const initialEvent: Event = { resource: href };
 
-        this.watchForHTMLDocument();
+        this.watchForWindow();
 
         this.engine.emitAsync('scan::start', initialEvent);
 
@@ -335,6 +335,15 @@ export default class LocalConnector implements IConnector {
         }
     }
 
+    public evaluate(source: string): Promise<any> {
+        return Promise.resolve(this._window.evaluate(source));
+    }
+
+    /* istanbul ignore next */
+    public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
+        return this._window ? this._window.document.querySelectorAll(selector) : Promise.resolve([]);
+    }
+
     /* istanbul ignore next */
     public close() {
         return Promise.resolve();
@@ -342,11 +351,11 @@ export default class LocalConnector implements IConnector {
 
     /* istanbul ignore next */
     public get dom(): IAsyncHTMLDocument {
-        return this._document;
+        return this._window && this._window.document;
     }
 
     /* istanbul ignore next */
     public get html(): Promise<string> {
-        return this._document ? this._document.pageHTML() : Promise.resolve('');
+        return this._window ? this._window.document.pageHTML() : Promise.resolve('');
     }
 }

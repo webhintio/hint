@@ -7,12 +7,13 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2"
+    "jsdom": "^12.0.0"
   },
   "description": "webhint parser needed to analyze HTML files",
   "devDependencies": {
     "@types/cheerio": "^0.22.9",
     "@types/debug": "0.0.30",
+    "@types/jsdom": "^11.0.6",
     "@types/node": "8.0.14",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
