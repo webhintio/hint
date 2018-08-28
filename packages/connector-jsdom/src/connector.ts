@@ -373,6 +373,7 @@ export default class JSDOMConnector implements IConnector {
 
     public evaluate(source: string): Promise<any> {
         return new Promise((resolve, reject) => {
+            /* istanbul ignore next */
             const runner: ChildProcess = fork(path.join(__dirname, 'evaluate-runner'), [this.finalHref || this._href, this._options.waitFor], { execArgv: [] });
             let timeoutId;
 

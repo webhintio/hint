@@ -20,6 +20,7 @@ export default class CustomResourceLoader extends ResourceLoader {
     }
 
     public fetch(url: string, options: { element: HTMLElement }) {
+        /* istanbul ignore if */
         if (!url) {
             const promise = Promise.resolve(null);
 
@@ -99,6 +100,7 @@ export default class CustomResourceLoader extends ResourceLoader {
          * When jsdom is close (because of an exception) it will try to close
          * all the pending connections calling to `abort`.
          */
+        /* istanbul ignore next */
         (promise as any).abort = () => {
             const error = new Error('request canceled by user');
 

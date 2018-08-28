@@ -12,7 +12,7 @@ import readFile from 'hint/dist/src/lib/utils/fs/read-file';
 
 export const beforeParse = (finalHref) => {
     return (window) => {
-        const mutationObserverPolyfill = readFile(path.resolve('node_modules', 'mutationobserver-shim', 'dist', 'mutationobserver.min.js'));
+        const mutationObserverPolyfill = readFile(require.resolve('mutationobserver-shim'));
         const customElementsPolyfill = readFile(path.join(__dirname, 'polyfills', 'custom-elements.min.js'));
 
         const mutationScript: vm.Script = new vm.Script(mutationObserverPolyfill);
@@ -22,6 +22,8 @@ export const beforeParse = (finalHref) => {
         customElementsScript.runInContext(jsdomutils.implForWrapper(window.document)._global);
 
         window.document.domain = new URL(finalHref).host;
+
+        /* istanbul ignore next */
         window.matchMedia = () => {
             return {};
         };
