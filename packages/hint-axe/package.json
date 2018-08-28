@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "axe-core": "3.0.2"
+    "axe-core": "^3.1.1"
   },
   "description": "hint that that checks using aXe for accessibility related best practices",
   "devDependencies": {
