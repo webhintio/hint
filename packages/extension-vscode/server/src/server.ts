@@ -71,8 +71,9 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
     // In VSCode on Windows, the `:` is escaped after the drive letter in `textDocument.uri`.
     const url = new URL(unescape(textDocument.uri));
 
-    // TODO: Enhance webhint to allow passing content directly: `executeOn(url, textDocument.getText())`.
-    const problems = await engine.executeOn(url);
+    // Pass content directly to validate unsaved changes.
+    const content = textDocument.getText();
+    const problems = await engine.executeOn(url, { content });
 
     // Clear problems to avoid duplicates since vscode remembers them for us.
     engine.clear();
