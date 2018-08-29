@@ -21,7 +21,7 @@ Links that have `target="_blank"`, such as
   designed to look like the expected page and then asking for login
   credentials (see also: [tab nabbing][tab nabbing]).
 
-  By adding `ref="noopener"` (and `noreferrer` for older browsers)
+  By adding `rel="noopener"` (and `noreferrer` for older browsers)
   the `window.opener` reference won’t be set, removing the ability
   for the page that was linked to from redirecting the original one.
 
@@ -33,7 +33,7 @@ Links that have `target="_blank"`, such as
   the same process as the origin page, and that can lead to the pages
   experiencing jank.
 
-  In Chromium based browsers, using `ref="noopener"` (or
+  In Chromium based browsers, using `rel="noopener"` (or
   [`rel="noreferrer"`][noreferrer chromium] for older versions),
   and thus, preventing the `window.opener` reference from being set,
   allows new pages to be opened in their own process.
