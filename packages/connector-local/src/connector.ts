@@ -33,7 +33,7 @@ import * as logger from 'hint/dist/src/lib/utils/logging';
 import {
     IConnector,
     IFetchOptions,
-    Event, FetchEnd, ScanEnd, NetworkData
+    Event, FetchEnd, ScanEnd, NetworkData, CanEvaluateScript
 } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { HTMLParse } from '@hint/parser-html';
@@ -60,6 +60,8 @@ export default class LocalConnector implements IConnector {
         this._options = Object.assign({}, defaultOptions, config);
         this.filesPattern = this.getFilesPattern();
         this.engine = engine;
+
+        this.engine.on('parse::html::end', this.onParseHTML.bind(this));
     }
 
     /*
@@ -88,7 +90,19 @@ export default class LocalConnector implements IConnector {
         return [pattern];
     }
 
+    private async notifyFetch(event: FetchEnd) {
+        const type = getType(event.response.mediaType);
+
+        await this.engine.emitAsync(`fetch::end::${type}`, event);
+    }
+
     private async fetch(target: string, options?: IFetchOptions) {
+        const event = await this.fetchData(target, options);
+
+        return this.notifyFetch(event);
+    }
+
+    private async fetchData(target: string, options?: IFetchOptions): Promise<FetchEnd> {
         /*
          * target can have one of these forms:
          *   - /path/to/file
@@ -102,15 +116,13 @@ export default class LocalConnector implements IConnector {
         const uri: url.URL = getAsUri(target);
         const filePath: string = asPathString(uri);
         const content: NetworkData = await this.fetchContent(filePath, null, options);
-        const event: FetchEnd = {
+
+        return {
             element: null,
             request: content.request,
             resource: url.format(getAsUri(filePath)),
             response: content.response
         };
-        const type = getType(event.response.mediaType);
-
-        await this.engine.emitAsync(`fetch::end::${type}`, event);
     }
 
     private getGitIgnore = async () => {
@@ -246,15 +258,9 @@ export default class LocalConnector implements IConnector {
         });
     }
 
-    private watchForWindow() {
-        this._window = null;
-
-        const setWindow = (event: HTMLParse) => {
-            this._window = event.window;
-            this.engine.off('parse::html::end', setWindow);
-        };
-
-        this.engine.on('parse::html::end', setWindow);
+    private async onParseHTML(event: HTMLParse) {
+        this._window = event.window;
+        await this.engine.emitAsync('can-evaluate::script', { resource: this._href } as CanEvaluateScript);
     }
 
     /*
@@ -299,8 +305,6 @@ export default class LocalConnector implements IConnector {
         const href: string = this._href = target.href;
         const initialEvent: Event = { resource: href };
 
-        this.watchForWindow();
-
         this.engine.emitAsync('scan::start', initialEvent);
 
         const pathString = asPathString(target);
@@ -324,9 +328,13 @@ export default class LocalConnector implements IConnector {
             }
         }
 
-        await Promise.all(files.map((file) => {
-            return this.fetch(file, options);
+        const events = await Promise.all<FetchEnd>(files.map((file) => {
+            return this.fetchData(file, options);
         }));
+
+        for (let i = 0; i < events.length; i++) {
+            await this.notifyFetch(events[i]);
+        }
 
         if (this._options.watch) {
             await this.watch(pathString);
