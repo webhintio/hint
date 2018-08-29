@@ -1,7 +1,7 @@
 <div class="section container">
     <div class="scan-overview" data-id="<%= result.id %>">
         <div class="scan-overview__header">
-            <p>SCANNED URL:
+            <p>URL:
                 <a href="<%= result.url %>"><%= result.url %></a>
             </p>
             <p class="scan-overview__status<% if (!result.isFinish) { %> analyzing<% } %>">
