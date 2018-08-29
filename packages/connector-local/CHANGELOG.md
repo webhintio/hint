@@ -1,3 +1,10 @@
+# 1.0.2 (August 28, 2018)
+
+## Bug fixes / Improvements
+
+* [[`5d85d15e45`](https://github.com/webhintio/hint/commit/5d85d15e45c3df365cc8582e8d86df32ae8527d4)] - Fix: Allow to pass content directly to things such as local connector (by [`Tony Ross`](https://github.com/antross) / see also: [`#1268`](https://github.com/webhintio/hint/issues/1268)).
+
+
 # 1.0.1 (August 27, 2018)
 
 ## Bug fixes / Improvements
