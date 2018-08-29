@@ -8,8 +8,7 @@
     ],
     "description": "Run webhint in Visual Studio Code.",
     "devDependencies": {
-        "@types/node": "^8.0.0",
-        "typescript": "2.8.3"
+        "typescript": "^3.0.1"
     },
     "engines": {
         "vscode": "^1.26.0"

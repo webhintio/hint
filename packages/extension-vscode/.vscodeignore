@@ -2,11 +2,8 @@
 **/*.map
 **/tsconfig.json
 **/tsconfig.base.json
-.gitignore
-.travis.yml
 .vscode/**
 client/node_modules/**
-contributing.md
 !client/node_modules/vscode-jsonrpc/**
 !client/node_modules/vscode-languageclient/**
 !client/node_modules/vscode-languageserver-protocol/**
