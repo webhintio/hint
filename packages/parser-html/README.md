@@ -3,8 +3,8 @@
 The `HTML` parser is built on top of `[jsdom][jsdom]` so hints can
 analyze `HTML` files.
 
-Note: This parser is not needed if using a [connector][connectors]
-which connects to a browser as the browser's DOM will be used to
+Note: This parser is currently only needed if using the local
+[connector][connectors]. Other connectors provide their own DOM to
 generate events instead.
 
 To use it you will have to install it via `npm`:

@@ -24,7 +24,21 @@ export default class HTMLParser extends Parser {
         const resource = this._url = fetchEnd.response.url;
 
         const html = fetchEnd.response.body.content;
-        const dom = new JSDOM(html, { runScripts: 'outside-only' });
+
+        const dom = new JSDOM(html, {
+
+            /** Needed to provide line/column positions for elements. */
+            includeNodeLocations: true,
+
+            /**
+             * Needed to let hints run script against the DOM.
+             * However the page itself is kept static because `connector-local`
+             * validates files individually without loading resources.
+             */
+            runScripts: 'outside-only'
+
+        });
+
         const window = new JSDOMAsyncWindow(dom.window);
         const documentElement = dom.window.document.documentElement;
 
@@ -58,7 +72,5 @@ export default class HTMLParser extends Parser {
         }
 
         await this.engine.emitAsync(`traverse::up`, traverseEvent);
-
-        return Promise.resolve();
     }
 }
