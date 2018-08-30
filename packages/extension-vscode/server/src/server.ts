@@ -1,3 +1,6 @@
+import * as path from 'path';
+import { URL } from 'url';
+
 import {
     createConnection,
     TextDocuments,
@@ -11,19 +14,33 @@ import {
 import { Engine } from 'hint';
 import { Configuration } from 'hint/dist/src/lib/config';
 import { loadResources } from 'hint/dist/src/lib/utils/resource-loader';
-import { Problem, Severity } from 'hint/dist/src/lib/types';
-import { URL } from 'url';
+import { Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 
-// TODO: Load the configuration from the workspace (if present)
-const config = Configuration.fromConfig({
-    connector: { name: 'local' },
-    extends: ['web-recommended', 'progressive-web-apps']
-});
+// Load a user configuration, falling back to 'web-recommended' if none exists.
+const loadUserConfig = (): UserConfig => {
+    const defaultConfig: UserConfig = { extends: ['web-recommended'] };
 
-// TODO: Load and use the workspace copies of `hint` and resources (if present)
+    try {
+        const configPath = Configuration.getFilenameForDirectory(process.cwd());
+        const resolvedPath = path.resolve(process.cwd(), configPath);
+
+        return Configuration.loadConfigFile(resolvedPath) || defaultConfig;
+    } catch (e) {
+        return defaultConfig;
+    }
+};
+
+const userConfig = loadUserConfig();
+
+// The vscode extension only works with the local connector
+userConfig.connector = { name: 'local' };
+
+// Create the webhint engine
+const config = Configuration.fromConfig(userConfig);
 const resources = loadResources(config);
 const engine = new Engine(config, resources);
 
+// Connect to the language client
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments();
 
