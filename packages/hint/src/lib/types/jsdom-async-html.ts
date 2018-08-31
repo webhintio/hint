@@ -1,12 +1,15 @@
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow } from './async-html';
-import { DOMWindow } from 'jsdom';
+import { DOMWindow, JSDOM } from 'jsdom';
+import { ProblemLocation } from './problems';
 
 /** An implementation of AsyncHTMLDocument on top of JSDDOM */
 export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
-    private _document: HTMLDocument
+    private _document: HTMLDocument;
+    private _dom: JSDOM;
 
-    public constructor(document: HTMLDocument) {
+    public constructor(document: HTMLDocument, dom?: JSDOM) {
         this._document = document;
+        this._dom = dom;
     }
 
     /*
@@ -20,7 +23,7 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
         try {
             const elements = Array.prototype.slice.call(this._document.querySelectorAll(selector))
                 .map((element) => {
-                    return new JSDOMAsyncHTMLElement(element); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
+                    return new JSDOMAsyncHTMLElement(element, this._dom); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
                 });
 
             return Promise.resolve(elements);
@@ -37,12 +40,14 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
 
 /** An implementation of AsyncHTMLElement on top of JSDOM */
 export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
+    private _dom: JSDOM;
     protected _htmlelement: HTMLElement;
     private _ownerDocument: IAsyncHTMLDocument;
 
-    public constructor(htmlelement: HTMLElement) {
+    public constructor(htmlelement: HTMLElement, dom?: JSDOM) {
+        this._dom = dom;
         this._htmlelement = htmlelement;
-        this._ownerDocument = new JSDOMAsyncHTMLDocument(htmlelement.ownerDocument);
+        this._ownerDocument = new JSDOMAsyncHTMLDocument(htmlelement.ownerDocument, this._dom);
     }
 
     /*
@@ -53,6 +58,20 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
 
     public getAttribute(name: string): string {
         return this._htmlelement.getAttribute(name);
+    }
+
+    public getLocation(): ProblemLocation {
+        try {
+            const location: any = this._dom && this._dom.nodeLocation(this._htmlelement);
+
+            return location && {
+                column: location.startCol,
+                line: location.startLine - 1
+            } || null;
+        } catch (e) {
+            // JSDOM throws an exception of `includeNodeLocations` wasn't set.
+            return null;
+        }
     }
 
     /* istanbul ignore next */
@@ -89,10 +108,12 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
 export class JSDOMAsyncWindow implements IAsyncWindow {
     private _window: DOMWindow;
     private _document: JSDOMAsyncHTMLDocument;
+    private _dom: JSDOM;
 
-    public constructor(window: DOMWindow) {
+    public constructor(window: DOMWindow, dom?: JSDOM) {
+        this._dom = dom;
         this._window = window;
-        this._document = new JSDOMAsyncHTMLDocument(window.document);
+        this._document = new JSDOMAsyncHTMLDocument(window.document, this._dom);
     }
 
     public get document(): IAsyncHTMLDocument {

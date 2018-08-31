@@ -39,7 +39,7 @@ export default class HTMLParser extends Parser {
 
         });
 
-        const window = new JSDOMAsyncWindow(dom.window);
+        const window = new JSDOMAsyncWindow(dom.window, dom);
         const documentElement = dom.window.document.documentElement;
 
         await this.engine.emitAsync(`parse::${this.name}::end`, { html, resource, window } as HTMLParse);
@@ -47,20 +47,20 @@ export default class HTMLParser extends Parser {
         const event = { resource } as Event;
 
         await this.engine.emitAsync('traverse::start', event);
-        await this.traverseAndNotify(documentElement);
+        await this.traverseAndNotify(documentElement, dom);
         await this.engine.emitAsync('traverse::end', event);
     }
 
     /** Traverses the DOM while sending `element::typeofelement` events. */
-    private async traverseAndNotify(element: HTMLElement): Promise<void> {
+    private async traverseAndNotify(element: HTMLElement, dom: JSDOM): Promise<void> {
 
         await this.engine.emitAsync(`element::${element.tagName.toLowerCase()}`, {
-            element: new JSDOMAsyncHTMLElement(element),
+            element: new JSDOMAsyncHTMLElement(element, dom),
             resource: this._url
         } as ElementFound);
 
         const traverseEvent = {
-            element: new JSDOMAsyncHTMLElement(element),
+            element: new JSDOMAsyncHTMLElement(element, dom),
             resource: this._url
         } as TraverseDown | TraverseUp;
 
@@ -68,7 +68,7 @@ export default class HTMLParser extends Parser {
 
         // Recursively traverse child elements.
         for (let i = 0; i < element.children.length; i++) {
-            await this.traverseAndNotify(element.children[i] as HTMLElement);
+            await this.traverseAndNotify(element.children[i] as HTMLElement, dom);
         }
 
         await this.engine.emitAsync(`traverse::up`, traverseEvent);
