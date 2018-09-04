@@ -12,7 +12,7 @@ test.beforeEach((t) => {
     });
 });
 
-test.serial('If fetch::end::html is received, then we should parse the code and emit a parse::html::end event', async (t) => {
+test.serial('If `fetch::end::html` is received, then the code should be parsed and the `parse::html::end` event emitted', async (t) => {
     const sandbox = sinon.createSandbox();
     const parser = new HTMLParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
     const code = '<!DOCTYPE html><div id="test">Test</div>';
@@ -74,7 +74,7 @@ test.serial('If fetch::end::html is received, then we should parse the code and 
     sandbox.restore();
 });
 
-test.serial('If fetch::end::html is received, we can evaluate script against the returned window', async (t) => {
+test.serial('The `parse::html::end` event should include a window with support for evaluating script', async (t) => {
     const sandbox = sinon.createSandbox();
     const parser = new HTMLParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
     const code = '<!DOCTYPE html><div id="test">Test</div>';

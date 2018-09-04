@@ -1,6 +1,6 @@
 # HTML parser (`@hint/parser-html`)
 
-The `HTML` parser is built on top of `[jsdom][jsdom]` so hints can
+The `HTML` parser is built on top of [`jsdom`][jsdom] so hints can
 analyze `HTML` files.
 
 Note: This parser is currently only needed if using the local
