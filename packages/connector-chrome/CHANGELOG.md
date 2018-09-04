@@ -1,3 +1,10 @@
+# 1.0.2 (September 4, 2018)
+
+## Bug fixes / Improvements
+
+* [[`b980f2b4f7`](https://github.com/webhintio/hint/commit/b980f2b4f776eedc547a71d42dac8100e188dbe0)] - Fix: Allow to pass Chrome flags (by [`Sean Larkin`](https://github.com/TheLarkInn) / see also: [`#1283`](https://github.com/webhintio/hint/issues/1283)).
+
+
 # 1.0.1 (August 27, 2018)
 
 ## Bug fixes / Improvements
