@@ -23,10 +23,12 @@ const unlock = promisify(lockfile.unlock);
 export class CDPLauncher extends Launcher {
     /** Indicates if the default profile should be used by Chrome or not */
     private userDataDir: string | boolean;
+    private chromeFlags: Array<string>;
 
     public constructor(options: LauncherOptions) {
         super(options);
 
+        this.chromeFlags = options.flags || ['--no-default-browser-check'];
         // `userDataDir` is a property in `chrome-launcher`: https://github.com/GoogleChrome/chrome-launcher#launch-options
         /* istanbul ignore next */
         this.userDataDir = typeof options.defaultProfile === 'boolean' && options.defaultProfile ? false : '';
@@ -126,17 +128,13 @@ export class CDPLauncher extends Launcher {
         }
 
         try {
-            const chromeFlags: Array<string> = [];
-
-            chromeFlags.push('--no-default-browser-check');
-
             /* istanbul ignore next */
             if (isCI) {
-                chromeFlags.push('--headless', '--disable-gpu');
+                this.chromeFlags.push('--headless', '--disable-gpu');
             }
 
             const chrome: chromeLauncher.LaunchedChrome = await chromeLauncher.launch({
-                chromeFlags,
+                chromeFlags: this.chromeFlags,
                 connectionPollInterval: 1000,
                 /* istanbul ignore next */
                 logLevel: debug.enabled ? 'verbose' : 'silent',
