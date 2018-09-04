@@ -45,6 +45,7 @@ The set of settings supported by Chrome connector are:
 * `tabUrl (string)`: The URL to visit before the final target in case
   `useTabUrl` is `true`. `https://empty.webhint.io/` is the
   default value.
+* `flags? (Array<string>)`: Allows you to pass in additional chrome command line API flags. Useful if you would like to start your session in headless mode or with gpu disabled. Here's the full list of [available command line flags](https://github.com/GoogleChrome/chrome-launcher/blob/master/docs/chrome-flags-for-tools.md). `['--no-default-browser-check']` is the default value.
 
 ```json
 {
@@ -53,7 +54,8 @@ The set of settings supported by Chrome connector are:
         "options": {
             "defaultProfile": true,
             "useTabUrl": false,
-            "tabUrl": "https://empty.webhint.io/"
+            "tabUrl": "https://empty.webhint.io/",
+            "flags": ["--headless", "--disable-gpu"]
         }
     },
     ...
