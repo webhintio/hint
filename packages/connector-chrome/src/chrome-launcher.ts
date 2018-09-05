@@ -32,6 +32,7 @@ export class CDPLauncher extends Launcher {
         // `userDataDir` is a property in `chrome-launcher`: https://github.com/GoogleChrome/chrome-launcher#launch-options
         /* istanbul ignore next */
         this.userDataDir = typeof options.defaultProfile === 'boolean' && options.defaultProfile ? false : '';
+        this.port = options.port;
     }
 
     /** If a browser is already running, it returns its pid. Otherwise return value is -1.  */
@@ -65,11 +66,11 @@ export class CDPLauncher extends Launcher {
 
         try {
             /*
-             * We test if the process is still running or is a leftover:
+             * We test if the process is still running or if it is a leftover:
              * https://nodejs.org/api/process.html#process_process_kill_pid_signal
              */
             /*
-             * When running hit tests serially (because we mock a dependency),
+             * When running tests serially (because we mock a dependency),
              * sometimes the connector tries to connect to a browser that
              * is being closed and the connection fails. We wait a few
              * milliseconds to make sure this doesn't happen. The number
@@ -138,6 +139,7 @@ export class CDPLauncher extends Launcher {
                 connectionPollInterval: 1000,
                 /* istanbul ignore next */
                 logLevel: debug.enabled ? 'verbose' : 'silent',
+                port: currentInfo.port,
                 startingUrl: url,
                 userDataDir: this.userDataDir
             });
@@ -148,9 +150,9 @@ export class CDPLauncher extends Launcher {
                 port: chrome.port
             };
 
-            /* istanbul ignore next */
-            browserInfo.port = browserInfo.port || this.port;
-            this.port = browserInfo.port;
+            // `chrome` has the final `port` value, regardless if it was via an `option` or random.
+            this.port = chrome.port;
+
             await this.writePid(browserInfo);
 
             debug('Browser launched correctly');
