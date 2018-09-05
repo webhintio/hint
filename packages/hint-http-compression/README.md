@@ -65,7 +65,7 @@ resources:
   (e.g.: alias `x-gzip` to gzip), but that is not always true.
 
   Also avoid using encodings that are not widely supported (e.g.:
-  `compress`, `bzip2`, [`SDCH`][unship sdch], etc.), and/or may not
+  `compress`, `bzip2`, [`sdch`][unship sdch], etc.), and/or may not
   be as efficient, or can create problems (e.g.: [`deflate`][deflate
   issues]).
 
