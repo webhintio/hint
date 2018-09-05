@@ -10,6 +10,9 @@
     "formatters": [
       "json"
     ],
+    "parsers": [
+      "javascript"
+    ],
     "hints": {
       "disallowed-headers": ["warning", {}],
       "manifest-exists": "warning",

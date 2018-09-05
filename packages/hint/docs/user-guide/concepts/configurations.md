@@ -45,3 +45,13 @@ the `summary` formatter:
     "formatters": ["summary"]
 }
 ```
+
+Notes:
+
+* If you define the property `formatters` when extending
+  a configuration, the formatters in the configuration will be
+  replaced with the value you have defined.
+
+* If you define the property `parsers` when extending a
+  configuration, the parsers in the configuration will be appended
+  to the values you have defined.
