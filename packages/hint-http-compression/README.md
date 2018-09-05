@@ -971,6 +971,11 @@ Note that:
 For the complete set of configurations, not just for this rule,
 see the [IIS server configuration related documentation][iis config].
 
+If you prefer to let IIS compress your assets using Brotli, you can
+use the [`IIS compression scheme providers`][iss compression]. However,
+make sure to read [how to enable multiple compression schemes][multiple
+compression schemes] and the priority limitations in some versions.
+
 </details>
 
 <!-- markdownlint-enable MD033 -->
@@ -1090,5 +1095,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 <!-- IIS links -->
 
+[iis compression]: https://docs.microsoft.com/en-us/iis/extensions/iis-compression/iis-compression-overview
 [iis config]: https://webhint.io/docs/user-guide/server-configurations/iis/
+[multiple compression schemes]: https://docs.microsoft.com/en-us/iis/extensions/iis-compression/using-iis-compression#enabling-multiple-compression-schemes
 [urlcompression]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/urlcompression
