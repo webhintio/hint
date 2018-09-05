@@ -1,3 +1,10 @@
+# 1.0.5 (September 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`08ada11c44`](https://github.com/webhintio/hint/commit/08ada11c44db681ba1513974576871f6fa75dc06)] - Docs: Add more information about `IIS compression` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1034`](https://github.com/webhintio/hint/issues/1034)).
+
+
 # 1.0.4 (September 5, 2018)
 
 ## Bug fixes / Improvements
