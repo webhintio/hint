@@ -23,7 +23,8 @@ test.beforeEach((t) => {
         clean() { },
         clear() { },
         emitAsync() { },
-        notify() { }
+        notify() { },
+        on() { }
     };
     t.context.isFile = isFile;
 });

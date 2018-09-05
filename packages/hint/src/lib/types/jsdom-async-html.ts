@@ -1,4 +1,5 @@
-import { IAsyncHTMLDocument, IAsyncHTMLElement } from './async-html'; //eslint-disable-line
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow } from './async-html';
+import { DOMWindow } from 'jsdom';
 
 /** An implementation of AsyncHTMLDocument on top of JSDDOM */
 export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
@@ -82,5 +83,23 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
     /* istanbul ignore next */
     public get ownerDocument(): IAsyncHTMLDocument {
         return this._ownerDocument;
+    }
+}
+
+export class JSDOMAsyncWindow implements IAsyncWindow {
+    private _window: DOMWindow;
+    private _document: JSDOMAsyncHTMLDocument;
+
+    public constructor(window: DOMWindow) {
+        this._window = window;
+        this._document = new JSDOMAsyncHTMLDocument(window.document);
+    }
+
+    public get document(): IAsyncHTMLDocument {
+        return this._document;
+    }
+
+    public evaluate(source: string): Promise<any> {
+        return this._window.eval(source) as any;
     }
 }
