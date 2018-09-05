@@ -1,3 +1,14 @@
+# 3.3.0 (September 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`43a06a9c1f`](https://github.com/webhintio/hint/commit/43a06a9c1f8dee62f6261e085217c941fa3d853c)] - Fix: Issue with `summary` formatter always being used (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1273`](https://github.com/webhintio/hint/issues/1273)).
+
+## New features
+
+* [[`a7ca732234`](https://github.com/webhintio/hint/commit/a7ca73223489b8705250db0fe6ad33e5c7b344a9)] - New: Add standalone `parser-html` (by [`Tony Ross`](https://github.com/antross) / see also: [`#1277`](https://github.com/webhintio/hint/issues/1277)).
+
+
 # 3.2.5 (August 28, 2018)
 
 ## Bug fixes / Improvements
