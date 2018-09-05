@@ -22,6 +22,7 @@ import {
 } from './types';
 import { SchemaValidationResult } from 'hint/dist/src/lib/types/schema-validation-result';
 import { Engine } from 'hint/dist/src/lib/engine';
+import { parseJSON, IJSONResult } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -142,7 +143,7 @@ export default class ManifestParser extends Parser {
     private async validateManifest (fetchEnd: FetchEnd) {
         const { element, resource, response, request } = fetchEnd;
 
-        let jsonContent: string = '';
+        let result: IJSONResult;
 
         /*
          * Try to see if the content of the web app manifest file
@@ -150,7 +151,7 @@ export default class ManifestParser extends Parser {
          */
 
         try {
-            jsonContent = JSON.parse(response.body.content);
+            result = parseJSON(response.body.content);
         } catch (e) {
             const manifestInvalidJSONEvent: ManifestInvalidJSON = {
                 element,
@@ -170,7 +171,7 @@ export default class ManifestParser extends Parser {
          * is a valid acording to the schema.
          */
 
-        const validationResult: SchemaValidationResult = validate(this.schema, jsonContent);
+        const validationResult: SchemaValidationResult = validate(this.schema, result.data);
 
         if (!validationResult.valid) {
             const manifestInvalidSchemaEvent: ManifestInvalidSchema = {
@@ -179,7 +180,8 @@ export default class ManifestParser extends Parser {
                 prettifiedErrors: validationResult.prettifiedErrors,
                 request,
                 resource,
-                response
+                response,
+                result
             };
 
             await this.engine.emitAsync(this.parseErrorSchemaEventName, manifestInvalidSchemaEvent);
@@ -197,7 +199,8 @@ export default class ManifestParser extends Parser {
             parsedContent: validationResult.data,
             request,
             resource,
-            response
+            response,
+            result
         };
 
         await this.engine.emitAsync(this.parseEndEventName, manifestParserEvent);

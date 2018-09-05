@@ -122,8 +122,22 @@ export default class ManifestIsValidHint implements IHint {
         };
 
         const handleInvalidSchema = async (manifestInvalidSchemaEvent: ManifestInvalidSchema) => {
-            for (const error of manifestInvalidSchemaEvent.prettifiedErrors) {
-                await context.report(manifestInvalidSchemaEvent.resource, manifestInvalidSchemaEvent.element, error);
+            for (let i = 0; i < manifestInvalidSchemaEvent.prettifiedErrors.length; i++) {
+                const prettifiedError = manifestInvalidSchemaEvent.prettifiedErrors[i];
+                const error = manifestInvalidSchemaEvent.errors[i];
+
+                // TODO: Make a helper for resolving the location from schema errors (will need this elsewhere)
+                let path = error.dataPath;
+
+                const additionalProperty = error.params && (error.params as any).additionalProperty;
+
+                if (additionalProperty) {
+                    path = path ? `${path}.${additionalProperty}` : additionalProperty;
+                }
+
+                const location = manifestInvalidSchemaEvent.result.getLocation(path);
+
+                await context.report(manifestInvalidSchemaEvent.resource, manifestInvalidSchemaEvent.element, prettifiedError, null, location);
             }
         };
 

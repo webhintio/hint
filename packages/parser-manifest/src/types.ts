@@ -1,5 +1,6 @@
 import * as ajv from 'ajv';
 import { FetchEnd } from 'hint/dist/src/lib/types';
+import { IJSONResult } from 'hint/dist/src/lib/utils/json-parser';
 
 /* eslint-disable camelcase */
 
@@ -143,19 +144,24 @@ export type Manifest = {
     [other: string]: any;
 };
 
+export type JSONParsed = FetchEnd & {
+    /** The result of parsing a JSON string. */
+    result: IJSONResult;
+};
+
 export type ManifestInvalidJSON = FetchEnd & {
     /** The parse JSON error. */
     error: Error;
 };
 
-export type ManifestInvalidSchema = FetchEnd & {
+export type ManifestInvalidSchema = JSONParsed & {
     /** The parse errors as returned by ajv. */
     errors: Array<ajv.ErrorObject>;
     /** The errors in a more human readable format. */
     prettifiedErrors: Array<string>;
 };
 
-export type ManifestParsed = FetchEnd & {
+export type ManifestParsed = JSONParsed & {
     /** The content of manifest parsed */
     parsedContent: Manifest;
 };

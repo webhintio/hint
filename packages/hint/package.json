@@ -24,6 +24,7 @@
     "handlebars": "^4.0.11",
     "is-ci": "^1.2.0",
     "is-svg": "^3.0.0",
+    "jsonc-parser": "^2.0.2",
     "lodash": "^4.17.10",
     "mime-db": "1.35.0",
     "npm-registry-fetch": "^3.8.0",
