@@ -1,3 +1,10 @@
+# 1.0.2 (September 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`79b037415b`](https://github.com/webhintio/hint/commit/79b037415b58a4f1fc1b4356775b50f41995ebb5)] - Fix: Use `URL` instead of `SCANNED URL` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.0.1 (August 10, 2018)
 
 ## Bug fixes / Improvements
