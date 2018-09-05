@@ -1,5 +1,4 @@
-import * as ajv from 'ajv';
-import { FetchEnd } from 'hint/dist/src/lib/types';
+import { FetchEnd, ISchemaValidationError, IJSONLocationFunction } from 'hint/dist/src/lib/types';
 
 /* eslint-disable camelcase */
 
@@ -150,12 +149,14 @@ export type ManifestInvalidJSON = FetchEnd & {
 
 export type ManifestInvalidSchema = FetchEnd & {
     /** The parse errors as returned by ajv. */
-    errors: Array<ajv.ErrorObject>;
+    errors: Array<ISchemaValidationError>;
     /** The errors in a more human readable format. */
     prettifiedErrors: Array<string>;
 };
 
 export type ManifestParsed = FetchEnd & {
+    /** Find the location of a path within the original JSON source */
+    getLocation: IJSONLocationFunction;
     /** The content of manifest parsed */
     parsedContent: Manifest;
 };

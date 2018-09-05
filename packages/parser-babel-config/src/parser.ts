@@ -2,9 +2,10 @@ import * as path from 'path';
 
 import { cloneDeep } from 'lodash';
 
-import { FetchEnd, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
+import { FetchEnd, IJSONResult, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint';
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
+import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 import { BabelConfig, BabelConfigInvalidJSON, BabelConfigParsed, BabelConfigInvalidSchema, BabelConfigParseStart } from './types';
@@ -22,8 +23,8 @@ export default class BabelConfigParser extends Parser {
         engine.on('fetch::end::json', this.parseBabelConfig.bind(this));
     }
 
-    private async validateSchema(config: BabelConfig, resource: string): Promise<SchemaValidationResult> {
-        const validationResult = validate(this.schema, config);
+    private async validateSchema(config: BabelConfig, resource: string, result: IJSONResult): Promise<SchemaValidationResult> {
+        const validationResult = validate(this.schema, config, result.getLocation);
 
         const valid = validationResult.valid;
 
@@ -55,9 +56,9 @@ export default class BabelConfigParser extends Parser {
         try {
             const response = fetchEnd.response;
             // When using local connector to read local files, 'content' is empty.
-            const content = JSON.parse(response.body.content);
+            let result = parseJSON(response.body.content);
 
-            if (isPackageJson && !content.babel) {
+            if (isPackageJson && !result.data.babel) {
                 return;
             }
 
@@ -65,7 +66,8 @@ export default class BabelConfigParser extends Parser {
 
             await this.engine.emitAsync(`parse::${this.name}::start`, parseStart);
 
-            config = isPackageJson ? content.babel : content;
+            result = isPackageJson ? result.scope('babel') : result;
+            config = result.data;
 
             const originalConfig: BabelConfig = cloneDeep(config);
 
@@ -75,7 +77,7 @@ export default class BabelConfigParser extends Parser {
                 return;
             }
 
-            const validationResult: SchemaValidationResult = await this.validateSchema(config, resource);
+            const validationResult: SchemaValidationResult = await this.validateSchema(config, resource, result);
 
             if (!validationResult.valid) {
                 return;
@@ -83,6 +85,7 @@ export default class BabelConfigParser extends Parser {
 
             const event: BabelConfigParsed = {
                 config: validationResult.data,
+                getLocation: result.getLocation,
                 originalConfig,
                 resource
             };

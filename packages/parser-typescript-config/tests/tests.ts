@@ -43,14 +43,14 @@ test('If the file contains an invalid json, it should fail', async (t) => {
 
     await t.context.engine.emitAsync('fetch::end::json', {
         resource: 'tsconfig.improved.json',
-        response: { body: { content: '{"invalidJson}' } }
+        response: { body: { content: 'invalidJson' } }
     });
 
     // 3 times, the previous call, the start and the expected call.
     t.is(t.context.engine.emitAsync.callCount, 3);
     t.is(t.context.engine.emitAsync.args[1][0], 'parse::typescript-config::start');
     t.is(t.context.engine.emitAsync.args[2][0], 'parse::typescript-config::error::json');
-    t.is(t.context.engine.emitAsync.args[2][1].error.message, 'Unexpected end of JSON input');
+    t.is(t.context.engine.emitAsync.args[2][1].error.message, 'Unexpected token i in JSON at position 0');
 
     sandbox.restore();
 });

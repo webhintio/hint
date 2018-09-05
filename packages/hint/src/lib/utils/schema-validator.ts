@@ -6,7 +6,7 @@ import {
     without
 } from 'lodash';
 
-import { SchemaValidationResult } from '../types';
+import { ProblemLocation, IJSONLocationFunction, ISchemaValidationError, SchemaValidationResult } from '../types';
 
 /*
  * If we want to use the ajv types in TypeScript, we need to import
@@ -122,17 +122,40 @@ const prettify = (errors: Array<ajv.ErrorObject>) => {
     return result;
 };
 
-export const validate = (schema, json): SchemaValidationResult => {
+/**
+ * Add location information to the provided schema error object.
+ */
+const errorWithLocation = (error: ajv.ErrorObject, getLocation: IJSONLocationFunction): ISchemaValidationError => {
+
+    let path = error.dataPath;
+    const additionalProperty = error.params && (error.params as ajv.AdditionalPropertiesParams).additionalProperty;
+
+    if (additionalProperty) {
+        path = path ? `${path}.${additionalProperty}` : additionalProperty;
+    }
+
+    return { ...error, location: getLocation(path) };
+};
+
+export const validate = (schema, json, getLocation?: IJSONLocationFunction): SchemaValidationResult => {
     // We clone the incoming data because the validator can modify it.
     const data = cloneDeep(json);
     const validateFunction: ajv.ValidateFunction = validator.compile(schema);
 
     const valid: boolean = validateFunction(data) as boolean;
 
+    let errors: ISchemaValidationError[] = validateFunction.errors;
+
+    if (errors && getLocation) {
+        errors = errors.map((e) => {
+            return errorWithLocation(e, getLocation);
+        });
+    }
+
     return {
         data,
-        errors: validateFunction.errors,
-        prettifiedErrors: prettify(validateFunction.errors),
+        errors,
+        prettifiedErrors: prettify(errors),
         valid
     };
 };

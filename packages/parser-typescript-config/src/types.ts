@@ -1,6 +1,5 @@
-import * as ajv from 'ajv';
-
 import { Event, ErrorEvent } from 'hint/dist/src/lib/types/events';
+import { IJSONLocationFunction, ISchemaValidationError } from 'hint/dist/src/lib/types';
 
 /** Valid values for the `JSX` compiler option. */
 export enum TypeScriptJSXEnum {
@@ -201,7 +200,7 @@ export type TypeScriptConfigInvalidJSON = ErrorEvent;
 
 /** Data type sent for JSON doesn't validate Schema event */
 export type TypeScriptConfigInvalidSchema = Event & {
-    errors: Array<ajv.ErrorObject>;
+    errors: Array<ISchemaValidationError>;
     prettifiedErrors: Array<string>;
 };
 
@@ -212,6 +211,8 @@ export type TypeScriptConfigParseStart = Event;
 export type TypeScriptConfigParse = Event & {
     /** The TypeScript config parsed */
     config: TypeScriptConfig;
+    /** Find the location of a path within the original JSON source */
+    getLocation: IJSONLocationFunction;
     /** The original TypeScript config */
     originalConfig: TypeScriptConfig;
 };
