@@ -1,3 +1,10 @@
+# 3.3.1 (September 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`0bd677b2b3`](https://github.com/webhintio/hint/commit/0bd677b2b3f708184a6ba47f794f84f9a2a0f773)] - Docs: Use `hint` instead of `webhint` in install instructions (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 3.3.0 (September 5, 2018)
 
 ## Bug fixes / Improvements
