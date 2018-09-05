@@ -60,7 +60,7 @@ const userMediumConfigTests: Array<HintTest> = [
     },
     {
         name: `page with a library with vulnerabilities high fails if configured severity is "medium"`,
-        reports: [{ message: `'AngularJS@1.4.9' has 10 known vulnerabilities (3 high, 7 medium). See 'https://snyk.io/vuln/npm:angular' for more information.` }],
+        reports: [{ message: `'AngularJS@1.4.9' has 10 known vulnerabilities (7 medium, 3 high). See 'https://snyk.io/vuln/npm:angular' for more information.` }],
         serverConfig: generateHTMLPage(generateScriptTag(angular))
     }
 ];
