@@ -909,10 +909,11 @@ const main = async () => {
         ...shell.ls('-d', 'packages/utils-create-server'),
         ...shell.ls('-d', 'packages/utils-connector-tools'),
         ...shell.ls('-d', 'packages/utils-debugging-protocol-common'),
+        ...shell.ls('-d', 'packages/parser-html'),
         ...shell.ls('-d', 'packages/connector-*'),
         ...shell.ls('-d', 'packages/utils-tests-helpers'),
         ...shell.ls('-d', 'packages/formatter-*'),
-        ...shell.ls('-d', 'packages/parser-*'),
+        ...shell.ls('-d', 'packages/parser-!(html)'),
         ...shell.ls('-d', 'packages/hint-*'),
         ...shell.ls('-d', 'packages/configuration-*')
     ].filter((name) => {
