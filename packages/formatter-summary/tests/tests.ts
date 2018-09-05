@@ -79,3 +79,19 @@ test(`Summary formatter sorts by name if same number of errors`, (t) => {
     t.is(log.args[0][0], tableString);
     t.is(log.args[1][0], chalk.red.bold(`${logSymbols.error.trim()} Found a total of 2 errors and 0 warnings`));
 });
+
+test(`Summary formatter prints errors and warnings for a hint that reports both`, (t) => {
+    const log = t.context.logger.log;
+    const tableData = [];
+
+    const formatter = new SummaryFormatter();
+
+    formatter.format(problems.summaryErrorWarnings);
+
+    tableData.push([chalk.cyan('random-hint'), chalk.red(`1 error`), chalk.yellow(`1 warning`)]);
+
+    const tableString = table(tableData);
+
+    t.is(log.args[0][0], tableString);
+    t.is(log.args[1][0], chalk.red.bold(`${logSymbols.error.trim()} Found a total of 1 error and 1 warning`));
+});
