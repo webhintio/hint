@@ -1,3 +1,10 @@
+# 1.0.2 (September 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`e5d70a61e2`](https://github.com/webhintio/hint/commit/e5d70a61e2570463772944085e8afa7f3354acdf)] - Docs: Fix typo (by [`Jamie R. Rytlewski`](https://github.com/jamierytlewski) / see also: [`#1279`](https://github.com/webhintio/hint/issues/1279)).
+
+
 # 1.0.1 (August 10, 2018)
 
 ## Bug fixes / Improvements
