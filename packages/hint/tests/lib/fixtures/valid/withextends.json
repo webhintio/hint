@@ -11,6 +11,9 @@
     "formatters": [
         "json"
     ],
+    "parsers": [
+        "typescript"
+    ],
     "hints": {
         "disallowed-headers": "error"
     }

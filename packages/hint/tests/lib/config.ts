@@ -217,6 +217,7 @@ test.serial(`if the configuration file contains an extends property, it should c
     t.is((configuration.connector as ConnectorConfig).name, 'chrome');
     t.is(configuration.hints['disallowed-headers'], 'error');
     t.is(configuration.formatters.length, 1);
+    t.is(configuration.parsers.length, 2);
 });
 
 

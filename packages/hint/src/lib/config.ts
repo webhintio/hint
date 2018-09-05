@@ -18,7 +18,7 @@ import * as os from 'os';
 import * as path from 'path';
 
 import * as browserslist from 'browserslist';
-import { merge } from 'lodash';
+import { mergeWith } from 'lodash';
 
 import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject } from './types';
 import { debug as d } from './utils/debug';
@@ -88,13 +88,19 @@ const composeConfig = (userConfig: UserConfig) => {
         return composeConfig(loadedConfiguration);
     });
 
-    const finalConfig: UserConfig = merge({}, ...configurations, userConfig);
+    const finalConfig: UserConfig = mergeWith({}, ...configurations, userConfig, (objValue, srcValue) => {
+        // Arrays need to be concatented, not merged.
+        if (Array.isArray(objValue) && Array.isArray(srcValue)) {
+            return objValue.concat(srcValue);
+        }
+
+        return void 0;
+    });
+
+    // The formatters defined by the user has to overwritte the one in the extends.
+    finalConfig.formatters = userConfig.formatters ? userConfig.formatters : finalConfig.formatters;
 
     // Otherwise the output could be double or we could trigger double events
-    if (finalConfig.formatters) {
-        finalConfig.formatters = Array.from(new Set(finalConfig.formatters));
-    }
-
     if (finalConfig.parsers) {
         finalConfig.parsers = Array.from(new Set(finalConfig.parsers));
     }
