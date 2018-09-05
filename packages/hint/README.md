@@ -3,7 +3,7 @@
 ## Quick start user guide
 
 Once you have [`Node.js`](https://nodejs.org/en/download/current/)
-v8.x on your machine, you can use `npx` or install `webhint` globally
+v8.x on your machine, you can use `npx` or install `hint` globally
 to use it.
 
 ### Using `npx`
