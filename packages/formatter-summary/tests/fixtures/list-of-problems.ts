@@ -123,10 +123,38 @@ const summaryWarnings: Array<Problem> = [{
     sourceCode: ''
 }];
 
+const summaryErrorWarnings: Array<Problem> = [{
+    category: Category.other,
+    hintId: 'random-hint',
+    location: {
+        column: 10,
+        elementColumn: 10,
+        elementLine: 1,
+        line: 1
+    },
+    message: 'This is a problem in line 1 column 10',
+    resource: 'http://myresource.com/',
+    severity: Severity.error,
+    sourceCode: '<a href="//link.com">link</a>'
+},
+{
+    category: Category.other,
+    hintId: 'random-hint',
+    location: {
+        column: -1,
+        line: -1
+    },
+    message: 'This is a problem without line in myresource',
+    resource: 'http://myresource.com/',
+    severity: Severity.warning,
+    sourceCode: ''
+}];
+
 const noproblems: Array<Problem> = [];
 
 export {
     noproblems,
+    summaryErrorWarnings,
     summarySameNumberOfErrors,
     summaryProblems,
     summaryWarnings
