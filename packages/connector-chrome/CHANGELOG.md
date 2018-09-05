@@ -1,3 +1,10 @@
+# 1.0.3 (September 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`5cbcb70206`](https://github.com/webhintio/hint/commit/5cbcb702066672f96537b73bbcf0a85c1c1beb6a)] - Fix: Set `Chrome` port via connector `options` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1285`](https://github.com/webhintio/hint/issues/1285)).
+
+
 # 1.0.2 (September 4, 2018)
 
 ## Bug fixes / Improvements
