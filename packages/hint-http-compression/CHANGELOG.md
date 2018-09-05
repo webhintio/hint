@@ -1,3 +1,10 @@
+# 1.0.4 (September 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`53cf24a818`](https://github.com/webhintio/hint/commit/53cf24a818b44578e86138b7f6399f7435efd465)] - Docs: Fix typo (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.0.3 (August 27, 2018)
 
 ## Bug fixes / Improvements
