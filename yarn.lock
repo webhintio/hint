@@ -1530,12 +1530,20 @@ browserify-zlib@^0.2.0:
   dependencies:
     pako "~1.0.5"
 
-browserslist@^4.0.0, browserslist@^4.1.0:
+browserslist@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.1.0.tgz#81cbb8e52dfa09918f93c6e051d779cb7360785d"
   dependencies:
     caniuse-lite "^1.0.30000878"
     electron-to-chromium "^1.3.61"
+    node-releases "^1.0.0-alpha.11"
+
+browserslist@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.1.1.tgz#328eb4ff1215b12df6589e9ab82f8adaa4fc8cd6"
+  dependencies:
+    caniuse-lite "^1.0.30000884"
+    electron-to-chromium "^1.3.62"
     node-releases "^1.0.0-alpha.11"
 
 buf-compare@^1.0.0:
@@ -1727,7 +1735,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000878:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000878, caniuse-lite@^1.0.30000884:
   version "1.0.30000884"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000884.tgz#eb82a959698745033b26a4dcd34d89dba7cc6eb3"
 
@@ -2684,7 +2692,7 @@ ejs@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
 
-electron-to-chromium@^1.3.61:
+electron-to-chromium@^1.3.61, electron-to-chromium@^1.3.62:
   version "1.3.62"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.62.tgz#2e8e2dc070c800ec8ce23ff9dfcceb585d6f9ed8"
 
@@ -3004,9 +3012,9 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
-exceljs@^1.6.0:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.6.1.tgz#e3abd19a11ab962aa83ce4898e24a0837b0507cd"
+exceljs@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.6.2.tgz#5abc4f02a967307cd146d3357912766972f4934e"
   dependencies:
     archiver "^1.3.0"
     fast-csv "^2.4.0"

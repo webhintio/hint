@@ -8,7 +8,7 @@
   },
   "description": "webhint formatter that outputs the result in an Excel file (xlsx)",
   "dependencies": {
-    "exceljs": "^1.6.0",
+    "exceljs": "^1.6.2",
     "lodash": "^4.17.10"
   },
   "devDependencies": {
