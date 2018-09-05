@@ -78,7 +78,8 @@
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",{{else}}
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",{{/if}}
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
-    "test": "npm run lint && npm run build && nyc ava",
+    "test": "npm run lint && npm run build && nyc ava",{{#if official}}
+    "test-only": "nyc ava",{{/if}}
     "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",
