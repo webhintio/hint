@@ -42,7 +42,11 @@ export default class SummaryFormatter implements IFormatter {
             return;
         }
 
-        const buildMessage = (count, type) => {
+        const buildMessage = (count, type): string => {
+            if (count === 0) {
+                return '';
+            }
+
             return `${count} ${type}${count === 1 ? '' : 's'}`;
         };
 
@@ -66,10 +70,18 @@ export default class SummaryFormatter implements IFormatter {
             const msgsBySeverity = _.groupBy(problems, 'severity');
             const errors = msgsBySeverity[Severity.error] ? msgsBySeverity[Severity.error].length : 0;
             const warnings = msgsBySeverity[Severity.warning] ? msgsBySeverity[Severity.warning].length : 0;
-            const color: typeof chalk = errors > 0 ? chalk.red : chalk.yellow;
-            const message = errors ? buildMessage(errors, 'error') : buildMessage(warnings, 'warning');
+            const red: typeof chalk = chalk.red;
+            const yellow: typeof chalk = chalk.yellow;
+            const line: Array<string> = [chalk.cyan(hintId)];
 
-            tableData.push([chalk.cyan(hintId), color(message)]);
+            if (errors > 0) {
+                line.push(red(buildMessage(errors, 'error')));
+            }
+            if (warnings > 0) {
+                line.push(yellow(buildMessage(warnings, 'warning')));
+            }
+
+            tableData.push(line);
 
             totalErrors += errors;
             totalWarnings += warnings;
