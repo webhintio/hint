@@ -8,7 +8,7 @@
   },
   "description": "hint that that checks if the JavaScript used by the web page is minified",
   "devDependencies": {
-    "@hint/parser-javascript": "^1.0.0",
+    "@hint/parser-javascript": "^1.0.1",
     "@hint/utils-tests-helpers": "^1.0.1",
     "@types/debug": "0.0.30",
     "@types/node": "8.0.14",
@@ -46,7 +46,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-javascript": "^1.0.0",
+    "@hint/parser-javascript": "^1.0.1",
     "hint": "^3.3.2"
   },
   "repository": "webhintio/hint",
