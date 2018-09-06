@@ -70,8 +70,7 @@
     ".hintrc",
     "dist/src",
     "dist/tests/helpers",
-    "docs",
-    "npm-shrinkwrap.json"
+    "docs"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [

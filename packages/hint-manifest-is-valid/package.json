@@ -33,16 +33,15 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist/src",
-    "npm-shrinkwrap.json"
+    "dist/src"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
     "manifest-is-valid",
     "manifest-is-valid-hint",
     "webhint",
-    "webhint-recommended",
-    "webhint-hint"
+    "webhint-hint",
+    "webhint-recommended"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/hint.js",

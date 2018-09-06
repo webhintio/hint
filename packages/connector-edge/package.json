@@ -21,7 +21,6 @@
   },
   "files": [
     "dist/src",
-    "npm-shrinkwrap.json",
     "scripts"
   ],
   "homepage": "https://webhint.io/",

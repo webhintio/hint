@@ -29,14 +29,13 @@
   },
   "files": [
     "dist",
-    "npm-shrinkwrap.json"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "webhint",
-    "webhint-hint",
     "performance-budget",
     "performance-budget-hint",
+    "webhint",
+    "webhint-hint",
     "webhint-recommended"
   ],
   "license": "Apache-2.0",

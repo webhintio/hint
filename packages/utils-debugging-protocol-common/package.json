@@ -22,16 +22,15 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist",
-    "npm-shrinkwrap.json"
+    "dist"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
     "connector",
-    "utils",
     "debugging protocol",
     "hint",
     "hint-utils-debugging-protocol-common",
+    "utils",
     "webhint"
   ],
   "license": "Apache-2.0",

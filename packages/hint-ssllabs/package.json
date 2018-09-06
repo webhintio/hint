@@ -32,15 +32,14 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist",
-    "npm-shrinkwrap.json"
+    "dist"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "webhint",
-    "webhint-hint",
     "ssllabs",
-    "ssllabs-hint"
+    "ssllabs-hint",
+    "webhint",
+    "webhint-hint"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/hint.js",

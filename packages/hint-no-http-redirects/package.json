@@ -28,15 +28,14 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist/src",
-    "npm-shrinkwrap.json"
+    "dist/src"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "webhint",
-    "webhint-hint",
     "no-http-redirects",
     "no-http-redirects-hint",
+    "webhint",
+    "webhint-hint",
     "webhint-recommended"
   ],
   "license": "Apache-2.0",
