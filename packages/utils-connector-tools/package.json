@@ -14,7 +14,7 @@
   },
   "description": "hint tools for connectors",
   "devDependencies": {
-    "@hint/utils-create-server": "^1.0.2",
+    "@hint/utils-create-server": "^1.0.3",
     "ava": "^0.25.0",
     "eslint": "^5.5.0",
     "eslint-plugin-import": "^2.14.0",
