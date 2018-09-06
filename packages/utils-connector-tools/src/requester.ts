@@ -15,6 +15,7 @@ import * as async from 'async';
 import * as brotli from 'iltorb';
 import * as request from 'request';
 import * as iconv from 'iconv-lite';
+import * as parseDataURL from 'data-urls';
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
@@ -185,6 +186,34 @@ export class Requester {
         return this._redirects.calculate(uri);
     }
 
+    private getResourceNetworkDataFromDataUri(uri: string): NetworkData {
+        const parsedDataURL = parseDataURL(uri);
+
+        const networkData: NetworkData = {
+            request: {
+                headers: [],
+                url: uri
+            },
+            response: {
+                body: {
+                    content: parsedDataURL.body,
+                    rawContent: parsedDataURL.body,
+                    rawResponse: () => {
+                        return Promise.resolve(parsedDataURL.body);
+                    }
+                },
+                charset: parsedDataURL.mimeType.parameters.get('charset'),
+                headers: [],
+                hops: [],
+                mediaType: parsedDataURL.mimeType.toString(),
+                statusCode: 200,
+                url: uri
+            }
+        };
+
+        return networkData;
+    }
+
     /**
      * Performs a `get` to the given `uri`.
      * If `Content-Type` is of type text and the charset is one of those supported by
@@ -193,6 +222,10 @@ export class Requester {
      */
     public get(uri: string): Promise<NetworkData> {
         debug(`Requesting ${uri}`);
+
+        if (uri.startsWith('data:')) {
+            return Promise.resolve(this.getResourceNetworkDataFromDataUri(uri));
+        }
 
         const requestedUrls: Set<string> = new Set();
 

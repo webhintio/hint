@@ -9,6 +9,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { IAsyncHTMLElement, Response, FetchEnd, IHint, NetworkData, HintMetadata } from 'hint/dist/src/lib/types';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 
 const debug = d(__filename);
 
@@ -160,6 +161,12 @@ export default class StrictTransportSecurityHint implements IHint {
 
         const validate = async (fetchEnd: FetchEnd) => {
             const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
+
+            if (isDataURI(resource)) {
+                debug(`Check does not apply for data URIs`);
+
+                return;
+            }
 
             const headerValue: string = normalizeString(response.headers && response.headers['strict-transport-security']);
             let parsedHeader;
