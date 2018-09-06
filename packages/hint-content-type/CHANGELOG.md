@@ -1,3 +1,11 @@
+# 1.0.3 (September 6, 2018)
+
+## Bug fixes / Improvements
+
+* [[`7cde2e145d`](https://github.com/webhintio/hint/commit/7cde2e145d247ea2dd0a42cbf2aa3a601b223a88)] - Fix: Make `npm` package not include `npm-shrinkwrap.json` file (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1294`](https://github.com/webhintio/hint/issues/1294)).
+* [[`e963377640`](https://github.com/webhintio/hint/commit/e963377640983b799f5f8446dd38b68c796ad546)] - Fix: Ignore responses with status codes different than 200 (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1255`](https://github.com/webhintio/hint/issues/1255)).
+
+
 # 1.0.2 (August 14, 2018)
 
 ## Bug fixes / Improvements
