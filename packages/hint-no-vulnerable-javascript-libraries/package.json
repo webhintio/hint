@@ -13,7 +13,7 @@
   },
   "description": "hint that that checks using Snyk for vulnerable JavaScript libraries",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^1.0.0",
+    "@hint/utils-tests-helpers": "^1.0.1",
     "angular": "1.4.9",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",

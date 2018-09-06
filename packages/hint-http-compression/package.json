@@ -11,7 +11,7 @@
   },
   "description": "hint for HTTP compression related best practices",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^1.0.0",
+    "@hint/utils-tests-helpers": "^1.0.1",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.5.0",

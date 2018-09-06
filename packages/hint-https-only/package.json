@@ -8,7 +8,7 @@
   },
   "description": "hint that that checks if your site is using HTTPS and if it has mixed content.",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^1.0.0",
+    "@hint/utils-tests-helpers": "^1.0.1",
     "@types/debug": "0.0.30",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
