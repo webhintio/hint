@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debugging-protocol-common": "^1.0.2",
+    "@hint/utils-debugging-protocol-common": "^1.0.3",
     "chrome-launcher": "^0.10.2",
     "is-ci": "^1.2.0",
     "lockfile": "^1.0.4"
