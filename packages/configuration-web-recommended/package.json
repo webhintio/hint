@@ -6,7 +6,7 @@
     "@hint/formatter-stylish": "^1.0.1",
     "@hint/formatter-summary": "^1.0.2",
     "@hint/hint-axe": "^1.0.4",
-    "@hint/hint-content-type": "^1.0.2",
+    "@hint/hint-content-type": "^1.0.3",
     "@hint/hint-disown-opener": "^1.0.2",
     "@hint/hint-highest-available-document-mode": "^1.0.2",
     "@hint/hint-html-checker": "^1.0.1",
