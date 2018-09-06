@@ -24,15 +24,14 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist",
-    "npm-shrinkwrap.json"
+    "dist"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "utils",
-    "tests",
     "hint",
     "hint-utils-tests-helpers",
+    "tests",
+    "utils",
     "webhint"
   ],
   "license": "Apache-2.0",

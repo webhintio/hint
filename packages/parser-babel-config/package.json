@@ -32,14 +32,13 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist/src",
-    "npm-shrinkwrap.json"
+    "dist/src"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
+    "babel-config",
     "webhint",
-    "webhint-parser",
-    "babel-config"
+    "webhint-parser"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/parser.js",

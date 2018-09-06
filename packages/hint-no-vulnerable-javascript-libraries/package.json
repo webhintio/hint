@@ -37,15 +37,14 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist",
-    "npm-shrinkwrap.json"
+    "dist"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "webhint",
-    "webhint-hint",
     "no-vulnerable-javascript-libraries",
     "no-vulnerable-javascript-libraries-hint",
+    "webhint",
+    "webhint-hint",
     "webhint-recommended"
   ],
   "license": "Apache-2.0",

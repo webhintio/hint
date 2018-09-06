@@ -30,15 +30,14 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist",
-    "npm-shrinkwrap.json"
+    "dist"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "webhint",
-    "webhint-hint",
     "typescript-config-is-valid",
-    "typescript-config-is-valid-hint"
+    "typescript-config-is-valid-hint",
+    "webhint",
+    "webhint-hint"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",

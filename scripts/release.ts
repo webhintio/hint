@@ -585,14 +585,6 @@ const npmPublish = (ctx) => {
     });
 };
 
-const npmRemoveDevDependencies = async (ctx) => {
-    /*
-     * Remove devDependencies, this will update `package-lock.json`.
-     * Need to do so they aren't published on the `npm` package.
-     */
-    await exec(`cd ${ctx.packagePath} && npm prune --production`);
-};
-
 const npmRemovePrivateField = (ctx) => {
     delete ctx.packageJSONFileContent.private;
     updateFile(ctx.packageJSONFilePath, `${JSON.stringify(ctx.packageJSONFileContent, null, 2)}\n`);
@@ -604,14 +596,6 @@ const npmRunBuildForRelease = async (ctx) => {
 
 const npmRunTests = async (ctx) => {
     await exec(`cd ${ctx.packagePath} && npm run test`);
-};
-
-const npmShrinkwrap = async (ctx) => {
-    /*
-     * (This is done because `npm` doesn't
-     *  publish the `package-lock` file)
-     */
-    await exec(`cd ${ctx.packagePath} && npm shrinkwrap`);
 };
 
 const npmUpdateVersion = async (ctx) => {
@@ -775,8 +759,6 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent) => {
     tasks.push(
         newTask('Commit changes.', gitCommitBuildChanges),
         newTask('Tag new version.', gitTagNewVersion),
-        newTask('Remove `devDependencies`.', npmRemoveDevDependencies),
-        newTask('Create `npm-shrinkwrap.json` file.', npmShrinkwrap),
         newTask(`Publish on npm.`, npmPublish),
         newTask(`Push changes upstream.`, gitPush),
         newTask(`Create release.`, gitCreateRelease),
@@ -816,8 +798,6 @@ const getTaksForPrerelease = (packageName: string) => {
     }
 
     tasks.push(
-        newTask('Remove `devDependencies`.', npmRemoveDevDependencies),
-        newTask('Create `npm-shrinkwrap.json` file.', npmShrinkwrap),
         newTask(`Publish on npm.`, npmPublish),
         newTask(`Update \`${packageName}\` version number in other packages.`, updatePackageVersionNumberInOtherPackages)
     );
@@ -846,7 +826,6 @@ const getTasks = (packagePath: string) => {
             ctx.changelogFilePath = `${ctx.packagePath}/CHANGELOG.md`;
             ctx.packageJSONFilePath = `${ctx.packagePath}/package.json`;
             ctx.packageLockJSONFilePath = `${ctx.packagePath}/package-lock.json`;
-            ctx.shrinkwrapFilePath = `${ctx.packagePath}/npm-shrinkwrap.json`;
 
             ctx.packageJSONFileContent = packageJSONFileContent;
 

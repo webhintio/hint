@@ -33,14 +33,13 @@
   },
   "files": [
     "dist/src",
-    "images",
-    "npm-shrinkwrap.json"
+    "images"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
+    "json",
     "webhint",
-    "webhint-formatter",
-    "json"
+    "webhint-formatter"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/formatter.js",

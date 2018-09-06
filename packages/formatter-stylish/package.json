@@ -36,8 +36,7 @@
   },
   "files": [
     "dist/src",
-    "images",
-    "npm-shrinkwrap.json"
+    "images"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [

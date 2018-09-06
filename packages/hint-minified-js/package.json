@@ -30,15 +30,14 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist/src",
-    "npm-shrinkwrap.json"
+    "dist/src"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
     "hint",
-    "webhint",
     "minified-js",
-    "minified-js-hint"
+    "minified-js-hint",
+    "webhint"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/hint.js",
