@@ -10,7 +10,7 @@
             "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
             "stopOnEntry": false,
             "sourceMaps": true,
-            "outFiles": ["${workspaceRoot}/client/dist/**/*.js"]
+            "outFiles": ["${workspaceRoot}/dist/**/*.js"]
         },
         {
             "type": "node",
@@ -23,7 +23,7 @@
                 "<node_internals>/**/*.js"
             ],
             "sourceMaps": true,
-            "outFiles": ["${workspaceRoot}/server/dist/**/*.js"]
+            "outFiles": ["${workspaceRoot}/dist/**/*.js"]
         }
     ],
     "compounds": [

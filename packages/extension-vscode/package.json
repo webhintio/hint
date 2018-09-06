@@ -6,28 +6,37 @@
         "onLanguage:json",
         "onLanguage:jsonc"
     ],
+    "dependencies": {
+        "vscode": "^1.1.21",
+        "vscode-languageclient": "^5.0.1",
+        "vscode-languageserver": "^5.0.3"
+    },
     "description": "Run webhint in Visual Studio Code.",
     "devDependencies": {
+        "@hint/configuration-progressive-web-apps": "^1.1.0",
+        "@hint/connector-local": "^1.1.0",
+        "@hint/hint-axe": "^1.0.3",
+        "@hint/parser-html": "^1.0.0",
+        "hint": "^3.3.1",
         "typescript": "^3.0.1"
     },
     "engines": {
+        "node": ">=8.0.0",
         "vscode": "^1.26.0"
     },
     "homepage": "https://webhint.io/",
     "license": "Apache-2.0",
-    "main": "./client/dist/extension",
+    "main": "./dist/extension",
     "name": "@hint/extension-vscode",
     "private": true,
     "publisher": "webhint",
     "repository": "webhintio/hint",
     "scripts": {
-        "build": "npm run build:client && npm run build:server",
-        "build:client": "tsc -p ./client/tsconfig.json",
-        "build:server": "tsc -p ./server/tsconfig.json",
-        "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run build",
-        "watch:client": "tsc -w -p ./client/tsconfig.json",
-        "watch:server": "tsc -w -p ./server/tsconfig.json"
+        "build": "tsc -p ./tsconfig.json",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "update-vscode": "node ./node_modules/vscode/bin/install",
+        "vscode:prepublish": "npm run update-vscode && npm run build",
+        "watch": "tsc -w -p ./tsconfig.json"
     },
     "version": "1.0.0"
 }
