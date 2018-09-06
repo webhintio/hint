@@ -1,3 +1,14 @@
+# 1.4.0 (September 6, 2018)
+
+## Bug fixes / Improvements
+
+* [[`7cde2e145d`](https://github.com/webhintio/hint/commit/7cde2e145d247ea2dd0a42cbf2aa3a601b223a88)] - Fix: Make `npm` package not include `npm-shrinkwrap.json` file (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1294`](https://github.com/webhintio/hint/issues/1294)).
+
+## New features
+
+* [[`ad75eca015`](https://github.com/webhintio/hint/commit/ad75eca0153fff17c29b2088521a37e7f4283659)] - Update: `snyk-snapshot.json` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.3.0 (September 5, 2018)
 
 ## New features
