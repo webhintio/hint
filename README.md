@@ -8,9 +8,8 @@
 
 ## Quick start user guide
 
-Once you have [`Node.js`](https://nodejs.org/en/download/current/)
-v8.x on your machine, you can use `npx` or install `webhint` globally
-to use it.
+Once you have [`Node.js`][node] v8.x on your machine, you can use
+[`npx`][npx] or install `hint` globally to use it.
 
 ### Using `npx`
 
@@ -41,8 +40,8 @@ Scan a website:
 hint https://example.com
 ```
 
-To use a different formatter than the one specified in your `.hintrc` file
- you can do the following:
+To use a different formatter than the one specified in your `.hintrc`
+file you can do the following:
 
 ```bash
 hint https://example.com --formatters excel
@@ -61,24 +60,32 @@ hint https://example.com --hints axe,html-checker
 ```
 
 For more in depth information on how to get started, configurations,
-and more, see the online [user guide](https://webhint.io/docs/user-guide/),
-or the [local version](./packages/hint/docs/user-guide/index.md)
-for the most recent (and unstable) content.
+and more, see the online [user guide][user guide], or the [local
+version][local user guide] for the most recent (and unstable) content.
 
 ## Contributing to webhint
 
 To know more about the internals of `webhint`, the structure of the
-project, how to create new hints, collectors, formatters, etc, take a
-look at the online [contributor
-guide](https://webhint.io/docs/contributor-guide/) (or the [local
-version](./packages/hint/docs/contributor-guide/index.md)).
+project, how to create new hints, collectors, formatters, etc, take
+a look at the online [contributor guide][contributor guide] (or the
+[local version][local contributor guide]).
 
 ## Code of Conduct
 
-This project adheres to the JS Foundation’s [code of
-conduct](https://js.foundation/community/code-of-conduct).
+This project adheres to the JS Foundation’s [code of conduct][coc].
 By participating in this project you agree to abide by its terms.
 
 ## License
 
-The code is available under the [Apache 2.0 license](LICENSE.txt).
+The code is available under the [Apache 2.0 license][license].
+
+<!-- Link labels: -->
+
+[coc]: https://js.foundation/community/code-of-conduct
+[contributor guide]: https://webhint.io/docs/contributor-guide/
+[local contributor guide]: ./packages/hint/docs/contributor-guide/index.md
+[local user guide]: ./packages/hint/docs/user-guide/index.md
+[node]: https://nodejs.org/en/download/current/
+[npx]: https://github.com/zkat/npx
+[user guide]: https://webhint.io/docs/user-guide/
+[license]: LICENSE.txt
