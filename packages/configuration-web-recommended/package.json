@@ -14,7 +14,7 @@
     "@hint/hint-http-compression": "^1.0.5",
     "@hint/hint-image-optimization-cloudinary": "^1.0.3",
     "@hint/hint-meta-charset-utf-8": "^1.0.2",
-    "@hint/hint-meta-viewport": "^1.0.1",
+    "@hint/hint-meta-viewport": "^1.0.2",
     "@hint/hint-no-bom": "^1.0.1",
     "@hint/hint-no-disallowed-headers": "^1.0.2",
     "@hint/hint-no-friendly-error-pages": "^1.0.1",
