@@ -2,7 +2,7 @@
   "dependencies": {
     "@hint/connector-chrome": "^1.0.4",
     "@hint/connector-jsdom": "^1.0.4",
-    "@hint/connector-local": "^1.1.0",
+    "@hint/connector-local": "^1.1.1",
     "@hint/utils-create-server": "^1.0.3",
     "ava": "^0.25.0",
     "hint": "^3.3.2"
