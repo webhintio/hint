@@ -31,15 +31,14 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist/src",
-    "npm-shrinkwrap.json"
+    "dist/src"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "webhint",
-    "webhint-hint",
     "apple-touch-icons",
     "apple-touch-icons-hint",
+    "webhint",
+    "webhint-hint",
     "webhint-recommended"
   ],
   "license": "Apache-2.0",

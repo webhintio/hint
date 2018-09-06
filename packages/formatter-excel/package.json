@@ -34,16 +34,15 @@
   },
   "files": [
     "dist/src",
-    "images",
-    "npm-shrinkwrap.json"
+    "images"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "webhint",
+    "excel",
     "formatter",
-    "webhint-formatter",
+    "webhint",
     "webhint-excel",
-    "excel"
+    "webhint-formatter"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/formatter.js",

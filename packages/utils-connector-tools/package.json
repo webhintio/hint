@@ -32,16 +32,15 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist/src",
-    "npm-shrinkwrap.json"
+    "dist/src"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
     "connector",
-    "utils",
-    "tools",
     "hint",
     "hint-utils-connector-tools",
+    "tools",
+    "utils",
     "webhint"
   ],
   "license": "Apache-2.0",

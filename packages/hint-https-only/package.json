@@ -28,16 +28,15 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist/src",
-    "npm-shrinkwrap.json"
+    "dist/src"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
     "hint",
-    "webhint",
     "https-only",
-    "https-only-hint"
-  ],
+    "https-only-hint",
+    "webhint"
+  ]
   "license": "Apache-2.0",
   "main": "dist/src/hint.js",
   "name": "@hint/hint-https-only",

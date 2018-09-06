@@ -31,8 +31,7 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist",
-    "npm-shrinkwrap.json"
+    "dist"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
