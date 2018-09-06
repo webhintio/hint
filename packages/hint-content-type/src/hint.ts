@@ -67,8 +67,13 @@ export default class ContentTypeHint implements IHint {
         const validate = async (fetchEnd: FetchEnd) => {
             const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
 
-            // This check does not make sense for data URIs.
+            if (response.statusCode !== 200) {
+                debug(`Check does not apply to status code !== 200`);
 
+                return;
+            }
+
+            // This check does not make sense for data URIs.
             if (isDataURI(resource)) {
                 debug(`Check does not apply for data URIs`);
 

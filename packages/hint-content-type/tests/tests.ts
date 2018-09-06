@@ -287,6 +287,16 @@ const testsForDefaults: Array<HintTest> = [
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
             '/test.js': { headers: { 'content-type': '   Text/JavaScript;   Charset=UTF-8' } }
         }
+    },
+    {
+        name: `Resources returning a status code different than 200 should be ignored`,
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
+            '/test.js': {
+                headers: { 'content-type': 'text/html;   Charset=UTF-8' },
+                status: 404
+            }
+        }
     }
 ];
 
