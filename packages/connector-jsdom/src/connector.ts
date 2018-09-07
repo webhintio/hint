@@ -160,11 +160,10 @@ export default class JSDOMConnector implements IConnector {
         /* istanbul ignore if */
         if (this._fetchedHrefs.has(resourceUrl)) {
             /*
-             * setImmediate allow to jsdom to queue the request before
-             * try to remove it from that queue, avoiding an error at the end of
-             * the analysis.
+             * Queue callback at the end of the current event queue
+             * to avoid errors at the end of the analysis under certain
+             * circumstances.
              */
-
             return setImmediate(() => {
                 callback(null, '');
             });

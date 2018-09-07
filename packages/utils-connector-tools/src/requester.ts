@@ -186,7 +186,7 @@ export class Requester {
         return this._redirects.calculate(uri);
     }
 
-    private getResourceNetworkDataFromDataUri(uri: string) {
+    private getResourceNetworkDataFromDataUri(uri: string): NetworkData {
         const parsedDataURL = parseDataURL(uri);
 
         const networkData: NetworkData = {
