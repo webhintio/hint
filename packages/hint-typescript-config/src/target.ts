@@ -219,7 +219,7 @@ export default class TypeScriptConfigTarget implements IHint {
         };
 
         const validate = async (evt: TypeScriptConfigParse) => {
-            const { config, resource } = evt;
+            const { config, getLocation, resource } = evt;
             const { targetedBrowsers } = context;
             const target = getConfiguredTarget(config);
             const minimumBrowsers = toMiniumBrowser(targetedBrowsers);
@@ -227,7 +227,7 @@ export default class TypeScriptConfigTarget implements IHint {
             const maxESVersion = getMaxVersion(minimumBrowsers);
 
             if (maxESVersion !== target) {
-                await context.report(resource, null, `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`);
+                await context.report(resource, null, `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`, null, getLocation('compilerOptions.target'));
             }
         };
 
