@@ -7,6 +7,7 @@ export * from './types/async-html';
 export * from './types/connector';
 export * from './types/events';
 export * from './types/formatters';
+export * from './types/json-parser';
 export * from './types/network';
 export * from './types/problems';
 export * from './types/hints';

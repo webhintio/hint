@@ -15,6 +15,7 @@ import { Category } from 'hint/dist/src/lib/enums/category';
 import {
     IAsyncHTMLElement,
     IHint,
+    IJSONLocationFunction,
     HintMetadata
 } from 'hint/dist/src/lib/types';
 import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
@@ -79,7 +80,7 @@ export default class ManifestIsValidHint implements IHint {
                 color.model === 'hwb';
         };
 
-        const checkColors = async (resource: string, element: IAsyncHTMLElement, manifest: Manifest) => {
+        const checkColors = async (resource: string, element: IAsyncHTMLElement, manifest: Manifest, getLocation: IJSONLocationFunction) => {
             const colorProperties = [
                 'background_color',
                 'theme_color'
@@ -96,22 +97,22 @@ export default class ManifestIsValidHint implements IHint {
                 const color = parseColor(normalizedColorValue);
 
                 if (color === null) {
-                    await context.report(resource, element, `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`);
+                    await context.report(resource, element, `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`, null, getLocation(property));
 
                     continue;
                 }
 
                 if (isNotSupportedColorValue(color, normalizedColorValue)) {
-                    await context.report(resource, element, `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`);
+                    await context.report(resource, element, `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`, null, getLocation(property));
                 }
             }
         };
 
-        const checkLang = async (resource: string, element: IAsyncHTMLElement, manifest: Manifest) => {
+        const checkLang = async (resource: string, element: IAsyncHTMLElement, manifest: Manifest, getLocation: IJSONLocationFunction) => {
             const lang = manifest.lang;
 
             if (lang && !bcp47(lang)) {
-                await context.report(resource, element, `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`);
+                await context.report(resource, element, `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`, null, getLocation('lang'));
             }
         };
 
@@ -123,34 +124,24 @@ export default class ManifestIsValidHint implements IHint {
 
         const handleInvalidSchema = async (manifestInvalidSchemaEvent: ManifestInvalidSchema) => {
             for (let i = 0; i < manifestInvalidSchemaEvent.prettifiedErrors.length; i++) {
-                const prettifiedError = manifestInvalidSchemaEvent.prettifiedErrors[i];
-                const error = manifestInvalidSchemaEvent.errors[i];
+                const error = manifestInvalidSchemaEvent.prettifiedErrors[i];
+                const location = manifestInvalidSchemaEvent.errors[i].location;
 
-                // TODO: Make a helper for resolving the location from schema errors (will need this elsewhere)
-                let path = error.dataPath;
-
-                const additionalProperty = error.params && (error.params as any).additionalProperty;
-
-                if (additionalProperty) {
-                    path = path ? `${path}.${additionalProperty}` : additionalProperty;
-                }
-
-                const location = manifestInvalidSchemaEvent.result.getLocation(path);
-
-                await context.report(manifestInvalidSchemaEvent.resource, manifestInvalidSchemaEvent.element, prettifiedError, null, location);
+                await context.report(manifestInvalidSchemaEvent.resource, manifestInvalidSchemaEvent.element, error, null, location);
             }
         };
 
         const validateOtherProperties = async (manifestParsed: ManifestParsed) => {
             const {
                 element,
+                getLocation,
                 parsedContent: manifest,
                 resource
-            }: { element: IAsyncHTMLElement, parsedContent: Manifest, resource: string } = manifestParsed;
+            } = manifestParsed;
 
             // Additional checks not covered by the schema.
-            await checkLang(resource, element, manifest);
-            await checkColors(resource, element, manifest);
+            await checkLang(resource, element, manifest, getLocation);
+            await checkColors(resource, element, manifest, getLocation);
         };
 
         context.on('parse::manifest::end', validateOtherProperties);

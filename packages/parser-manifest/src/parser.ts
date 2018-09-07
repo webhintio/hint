@@ -6,6 +6,7 @@ import {
     FetchEnd,
     FetchError,
     FetchStart,
+    IJSONResult,
     NetworkData,
     Parser
 } from 'hint/dist/src/lib/types';
@@ -20,9 +21,8 @@ import {
     ManifestInvalidSchema,
     ManifestParsed
 } from './types';
-import { SchemaValidationResult } from 'hint/dist/src/lib/types/schema-validation-result';
 import { Engine } from 'hint/dist/src/lib/engine';
-import { parseJSON, IJSONResult } from 'hint/dist/src/lib/utils/json-parser';
+import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -171,7 +171,7 @@ export default class ManifestParser extends Parser {
          * is a valid acording to the schema.
          */
 
-        const validationResult: SchemaValidationResult = validate(this.schema, result.data);
+        const validationResult = validate(this.schema, result.data, result.getLocation);
 
         if (!validationResult.valid) {
             const manifestInvalidSchemaEvent: ManifestInvalidSchema = {
@@ -180,8 +180,7 @@ export default class ManifestParser extends Parser {
                 prettifiedErrors: validationResult.prettifiedErrors,
                 request,
                 resource,
-                response,
-                result
+                response
             };
 
             await this.engine.emitAsync(this.parseErrorSchemaEventName, manifestInvalidSchemaEvent);
@@ -196,11 +195,11 @@ export default class ManifestParser extends Parser {
 
         const manifestParserEvent: ManifestParsed = {
             element,
+            getLocation: result.getLocation,
             parsedContent: validationResult.data,
             request,
             resource,
-            response,
-            result
+            response
         };
 
         await this.engine.emitAsync(this.parseEndEventName, manifestParserEvent);

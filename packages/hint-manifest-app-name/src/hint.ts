@@ -12,11 +12,10 @@
 import { ucs2 } from 'punycode';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, HintMetadata, IJSONLocationFunction } from 'hint/dist/src/lib/types';
 import { ManifestParsed } from '@hint/parser-manifest/dist/src/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
-import { IJSONResult } from 'hint/dist/src/lib/utils/json-parser';
 
 /*
  * ------------------------------------------------------------------------------
@@ -44,15 +43,15 @@ export default class ManifestAppNameHint implements IHint {
             }
         };
 
-        const checkIfPropertyValueIsNotEmpty = async (resource: string, content: string, propertyName: string, result: IJSONResult) => {
+        const checkIfPropertyValueIsNotEmpty = async (resource: string, content: string, propertyName: string, getLocation: IJSONLocationFunction) => {
             if (content && (content.trim() === '')) {
-                await context.report(resource, null, `Web app manifest should have non-empty '${propertyName}' property value.`, null, result.getLocation(propertyName));
+                await context.report(resource, null, `Web app manifest should have non-empty '${propertyName}' property value.`, null, getLocation(propertyName));
             }
         };
 
-        const checkIfPropertyValueIsUnderLimit = async (resource: string, content: string, propertyName: string, shortNameLengthLimit: number, result: IJSONResult) => {
+        const checkIfPropertyValueIsUnderLimit = async (resource: string, content: string, propertyName: string, shortNameLengthLimit: number, getLocation: IJSONLocationFunction) => {
             if (content && (ucs2.decode(content).length > shortNameLengthLimit)) {
-                await context.report(resource, null, `Web app manifest should have '${propertyName}' property value under ${shortNameLengthLimit} characters.`, null, result.getLocation(propertyName));
+                await context.report(resource, null, `Web app manifest should have '${propertyName}' property value under ${shortNameLengthLimit} characters.`, null, getLocation(propertyName));
 
                 return false;
             }
@@ -61,7 +60,7 @@ export default class ManifestAppNameHint implements IHint {
         };
 
         const validate = async (manifestParsed: ManifestParsed) => {
-            const { parsedContent: manifest, resource, result } = manifestParsed;
+            const { getLocation, parsedContent: manifest, resource } = manifestParsed;
 
             const name = manifest.name;
 
@@ -98,8 +97,8 @@ export default class ManifestAppNameHint implements IHint {
             const shortNameLengthLimit: number = 12;
 
             await checkIfPropertyExists(resource, name, 'name');
-            await checkIfPropertyValueIsNotEmpty(resource, name, 'name', result);
-            await checkIfPropertyValueIsUnderLimit(resource, name, 'name', nameLengthLimit, result);
+            await checkIfPropertyValueIsNotEmpty(resource, name, 'name', getLocation);
+            await checkIfPropertyValueIsUnderLimit(resource, name, 'name', nameLengthLimit, getLocation);
 
             const shortName: string = manifest.short_name;
             const shortNameIsRequired: boolean = name && (name.trim() !== '') && (ucs2.decode(name).length > shortNameLengthLimit);
@@ -116,8 +115,8 @@ export default class ManifestAppNameHint implements IHint {
             }
 
             await checkIfPropertyExists(resource, shortName, 'short_name');
-            await checkIfPropertyValueIsNotEmpty(resource, shortName, 'short_name', result);
-            await checkIfPropertyValueIsUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit, result);
+            await checkIfPropertyValueIsNotEmpty(resource, shortName, 'short_name', getLocation);
+            await checkIfPropertyValueIsUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit, getLocation);
         };
 
         context.on('parse::manifest::end', validate);

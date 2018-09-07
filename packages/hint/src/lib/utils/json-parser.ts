@@ -1,30 +1,7 @@
 import { findNodeAtLocation, Node, parse, parseTree, Segment } from 'jsonc-parser';
-import { ProblemLocation } from '../types';
+import { IJSONLocationOptions, IJSONResult, ProblemLocation } from '../types';
 
 const rxIsNumber = /^[0-9]+$/;
-
-/**
- * Access parsed JSON with location information and scoping options.
- */
-export interface IJSONResult {
-
-    /**
-     * The raw parsed data (as would be returned by `JSON.parse`).
-     */
-    data: any;
-
-    /**
-     * Resolve the source location of an object path.
-     * @param path The path to the target property (e.g. `foo.items[1].bar`)
-     */
-    getLocation(path: string): ProblemLocation;
-
-    /**
-     * Get a `JSONResult` scoped to the specified path as its root.
-     * @param path The path to the new root (e.g. `foo.bar`)
-     */
-    scope(path: string): IJSONResult;
-}
 
 class JSONResult implements IJSONResult {
 
@@ -36,15 +13,23 @@ class JSONResult implements IJSONResult {
         this._data = data;
         this._lines = lines;
         this._root = root;
+
+        // Ensure `getLocation` can be passed around without losing context
+        this.getLocation = this.getLocation.bind(this);
     }
 
     public get data(): any {
         return this._data;
     }
 
-    public getLocation(path: string): ProblemLocation {
+    public getLocation(path: string, options?: IJSONLocationOptions): ProblemLocation {
         const segments = this.pathToSegments(path);
-        const node = findNodeAtLocation(this._root, segments);
+        let node = findNodeAtLocation(this._root, segments);
+
+        // The location returned by jsonc-parser is at the value node by default.
+        if ((!options || options.at !== 'value') && node && node.parent) {
+            node = node.parent; // Walk up to the parent node to get the name.
+        }
 
         return this.offsetToLocation(node ? node.offset : this._root.offset);
     }
