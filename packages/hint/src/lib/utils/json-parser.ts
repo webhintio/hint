@@ -24,14 +24,16 @@ class JSONResult implements IJSONResult {
 
     public getLocation(path: string, options?: IJSONLocationOptions): ProblemLocation {
         const segments = this.pathToSegments(path);
-        let node = findNodeAtLocation(this._root, segments);
+        const node = findNodeAtLocation(this._root, segments);
+        let offset = node ? node.offset : this._root.offset;
 
         // The location returned by jsonc-parser is at the value node by default.
         if ((!options || options.at !== 'value') && node && node.parent) {
-            node = node.parent; // Walk up to the parent node to get the name.
+            // Walk up to the parent node to get the name.
+            offset = node.parent.offset + 1; // +1 to get past the quote (")
         }
 
-        return this.offsetToLocation(node ? node.offset : this._root.offset);
+        return this.offsetToLocation(offset);
     }
 
     public scope(path: string): IJSONResult {
@@ -71,7 +73,8 @@ class JSONResult implements IJSONResult {
                 };
             }
 
-            n += lineLength;
+            // Move to the next line (+1 to account for the newline)
+            n += lineLength + 1;
         }
 
         return null;
@@ -85,13 +88,16 @@ class JSONResult implements IJSONResult {
     private pathToSegments(path: string): Segment[] {
         return path
 
-            // ignore trailing `]` from `foo[1]`
+            // Strip leading dot (.) if present (ajv bug?)
+            .replace(/^\./, '')
+
+            // Ignore trailing `]` from `foo[1]`
             .replace(']', '')
 
-            // break items on `.` or `[`
+            // Break items on `.` or `[`
             .split(/[[.]/)
 
-            // ensure numbers are not returned as strings
+            // Ensure numbers are not returned as strings
             .map((k) => {
                 return rxIsNumber.test(k) ? parseInt(k) : k;
             });
