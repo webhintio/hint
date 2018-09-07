@@ -19,6 +19,9 @@
             "address": "localhost",
             "protocol": "inspector",
             "port": 6009,
+            "skipFiles": [
+                "<node_internals>/**/*.js"
+            ],
             "sourceMaps": true,
             "outFiles": ["${workspaceRoot}/server/dist/**/*.js"]
         }
