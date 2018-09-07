@@ -25,15 +25,8 @@ class JSONResult implements IJSONResult {
     public getLocation(path: string, options?: IJSONLocationOptions): ProblemLocation {
         const segments = this.pathToSegments(path);
         const node = findNodeAtLocation(this._root, segments);
-        let offset = node ? node.offset : this._root.offset;
 
-        // The location returned by jsonc-parser is at the value node by default.
-        if ((!options || options.at !== 'value') && node && node.parent) {
-            // Walk up to the parent node to get the name.
-            offset = node.parent.offset + 1; // +1 to get past the quote (")
-        }
-
-        return this.offsetToLocation(offset);
+        return this.offsetToLocation(this.getAdjustedOffset(node, path, options));
     }
 
     public scope(path: string): IJSONResult {
@@ -42,6 +35,35 @@ class JSONResult implements IJSONResult {
         const value = this.findValueAtLocation(segments);
 
         return node && new JSONResult(value, node, this._lines);
+    }
+
+    /**
+     * Determine the best offset to point to given the provided context.
+     */
+    private getAdjustedOffset(node: Node, path: string, options?: IJSONLocationOptions): number {
+
+        // Point to the root if nothing better is available
+        if (!node) {
+            return this._root.offset;
+        }
+
+        // Point to the value if requested (default location returned by jsonc-parser)
+        if (options && options.at === 'value') {
+            return node.offset;
+        }
+
+        // Point to the value for array items
+        if (path.endsWith(']')) {
+            return node.offset;
+        }
+
+        // Point to the value if there's no parent
+        if (!node.parent) {
+            return node.offset;
+        }
+
+        // Otherwise point to the name
+        return node.parent.offset + 1; // +1 to get past the quote (")
     }
 
     /**
