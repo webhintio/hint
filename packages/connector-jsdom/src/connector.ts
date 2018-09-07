@@ -264,6 +264,7 @@ export default class JSDOMConnector implements IConnector {
 
             const jsdom = new JSDOM(this._targetNetworkData.response.body.content, {
                 beforeParse: beforeParse(this.finalHref),
+                includeNodeLocations: true,
                 pretendToBeVisual: true,
                 resources: this._resourceLoader,
                 runScripts: 'dangerously',

@@ -25,7 +25,7 @@ export const beforeParse = (finalHref) => {
 
         /* istanbul ignore next */
         window.matchMedia = () => {
-            return {};
+            return { addListener() { } };
         };
         window.fetch = require('whatwg-fetch').fetch;
 

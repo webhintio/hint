@@ -1,5 +1,4 @@
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow } from './async-html';
-import { DOMWindow } from 'jsdom';
 
 /** An implementation of AsyncHTMLDocument on top of JSDDOM */
 export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
@@ -87,10 +86,12 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
 }
 
 export class JSDOMAsyncWindow implements IAsyncWindow {
-    private _window: DOMWindow;
+    // TODO: Add type `DOMWindow` once @types/jsdom supports v12
+    private _window: any;
     private _document: JSDOMAsyncHTMLDocument;
 
-    public constructor(window: DOMWindow) {
+    // TODO: Replace `any` for `DOMWindow` once @types/jsdom supports v12
+    public constructor(window: any) {
         this._window = window;
         this._document = new JSDOMAsyncHTMLDocument(window.document);
     }

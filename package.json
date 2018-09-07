@@ -27,8 +27,9 @@
   "name": "@hint/monorepo",
   "private": true,
   "scripts": {
-    "build": "yarn clean && yarn build:hint && yarn build:utils && yarn build:connectors && npm-run-all --parallel build::parser:* && yarn build:utils-test && loop \"yarn build\" --cwd packages/ --exclude configuration-progressive-web-apps,configuration-web-recommended,connector-edge,hint,utils-debugging-protocol-common,utils-connector-tools,utils-tests-helpers,connector-chrome,connector-jsdom,parser-babel-config,parser-javascript,parser-manifest,parser-typescript-config,parser-webpack-config",
+    "build": "yarn clean && yarn build:hint && yarn build:utils && yarn build:connectors && npm-run-all --parallel build::parser:* && yarn build:utils-test && loop \"yarn build\" --cwd packages/ --exclude configuration-progressive-web-apps,configuration-web-recommended,connector-edge,hint,utils-debugging-protocol-common,utils-connector-tools,utils-tests-helpers,connector-chrome,connector-jsdom,parser-babel-config,parser-javascript,parser-manifest,parser-typescript-config,parser-webpack-config,parser-html",
     "build:parser:babel": "cd packages/parser-babel-config && yarn build",
+    "build:parser:html": "cd packages/parser-html && yarn build",
     "build:parser:js": "cd packages/parser-javascript && yarn build",
     "build:parser:manifest": "cd packages/parser-manifest && yarn build",
     "build:parser:ts": "cd packages/parser-typescript-config && yarn build",
