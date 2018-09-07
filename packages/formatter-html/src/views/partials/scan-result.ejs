@@ -11,11 +11,11 @@
         <div class="scan-overview--details">
             <div class="scan-overview--warnings">
                 <p class="scan-overview__subheader">warnings</p>
-                <p class="scan-overview__body--red" id="total-warnings"><%= result.warnings %></p>
+                <p class="scan-overview__body--red" id="total-warnings"><%= result.status !== 'error' ? result.warnings : '-'; %></p>
             </div>
             <div class="scan-overview--errors">
                 <p class="scan-overview__subheader">errors</p>
-                <p class="scan-overview__body--red" id="total-errors"><%= result.errors %></p>
+                <p class="scan-overview__body--red" id="total-errors"><%= result.status !== 'error' ? result.errors : '-'; %></p>
             </div>
             <div class="scan-overview--time">
                 <p class="scan-overview__subheader">scan time</p>
@@ -42,7 +42,8 @@
             <% } %>
         </div>
     </div>
-    <div class="layout layout--fifths">
+    <% if(result.status !== 'error') { %>
+    <div class="layout layout--fifths" id="categories-summary">
         <% result.categories.forEach((category) => { -%>
         <div class="module">
             <div class="rule-tile <% if (category.errors !== 0 || category.warnings !== 0) { %>rule-tile--failed<% } else if (utils.noPending(category)) { %>rule-tile--passed<% } %>">
@@ -62,9 +63,10 @@
         </div>
         <% }) %>
     </div>
+    <% } %>
     <% if (result.status === 'error') { %>
         <%- include('scan-error-message', { result }) %>
-    <% } %>
+    <% } else { %>
     <section id="results-container" class="section container" role="main" aria-labelledby="errors-warnings" aria-live="polite">
         <h2 id="errors-warnings">Errors &amp; Warnings</h2>
         <div class="layout layout--sidebar--alt">
@@ -96,6 +98,7 @@
             </div>
         </div>
     </section>
+    <% } %>
     <section class="section container">
         <p class="subtitle">Have an issue or problem with the scanner?</p>
         <p>File an issue on
