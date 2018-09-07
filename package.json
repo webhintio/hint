@@ -69,7 +69,14 @@
     "watch:scripts:non-ts": "npm run build:scripts:non-ts && npm run build:scripts:non-ts --watch --no-initial",
     "watch:scripts:ts": "npm run build:scripts:ts --watch"
   },
-  "workspaces": [
-    "packages/!(connector-edge)"
-  ]
+  "workspaces": {
+    "nohoist": [
+      "**/vscode",
+      "**/vscode-languageclient",
+      "**/vscode-languageserver"
+    ],
+    "packages": [
+      "packages/!(connector-edge)"
+    ]
+  }
 }
