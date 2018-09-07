@@ -159,7 +159,14 @@ export default class JSDOMConnector implements IConnector {
         // Ignore if the resource has already been fetched.
         /* istanbul ignore if */
         if (this._fetchedHrefs.has(resourceUrl)) {
-            return callback(null, '');
+            /*
+             * Queue callback at the end of the current event queue
+             * to avoid errors at the end of the analysis under certain
+             * circumstances.
+             */
+            return setImmediate(() => {
+                callback(null, '');
+            });
         }
 
         this._fetchedHrefs.add(resourceUrl);
