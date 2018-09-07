@@ -1,5 +1,5 @@
-import * as ajv from 'ajv';
 import { Event, ErrorEvent } from 'hint/dist/src/lib/types/events';
+import { IJSONLocationFunction, ISchemaValidationError } from 'hint/dist/src/lib/types';
 
 export type BabelConfig = {
     ast: boolean;
@@ -38,11 +38,13 @@ export type BabelConfigParseStart = Event;
 export type BabelConfigParsed = Event & {
     /** The babel config parsed */
     config: BabelConfig;
+    /** Find the location of a path within the original JSON source */
+    getLocation: IJSONLocationFunction;
     /** The original babel config */
     originalConfig: BabelConfig;
 };
 
 export type BabelConfigInvalidSchema = Event & {
-    errors: Array<ajv.ErrorObject>;
+    errors: Array<ISchemaValidationError>;
     prettifiedErrors: Array<string>;
 };

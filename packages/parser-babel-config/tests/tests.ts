@@ -40,7 +40,7 @@ test('If the file contains an invalid json, it should fail', async (t) => {
 
     await t.context.engine.emitAsync('fetch::end::json', {
         resource: '.babelrc',
-        response: { body: { content: '{"invalidJson}' } }
+        response: { body: { content: 'invalidJson' } }
     });
 
     // 2 times, the previous call and the error
