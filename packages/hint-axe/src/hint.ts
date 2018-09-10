@@ -65,9 +65,8 @@ export default class AxeHint implements IHint {
         }],
         /*
          * axe can not analize a file itself, it needs a connector.
-         * TODO: Change to any once the local connector has jsdom.
          */
-        scope: HintScope.site
+        scope: HintScope.any
     }
 
     public constructor(context: HintContext) {
