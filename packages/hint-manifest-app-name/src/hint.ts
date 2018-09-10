@@ -13,7 +13,7 @@ import { ucs2 } from 'punycode';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { IHint, HintMetadata, IJSONLocationFunction } from 'hint/dist/src/lib/types';
-import { ManifestParsed } from '@hint/parser-manifest/dist/src/types';
+import { Manifest, ManifestParsed } from '@hint/parser-manifest/dist/src/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
@@ -60,7 +60,7 @@ export default class ManifestAppNameHint implements IHint {
         };
 
         const validate = async (manifestParsed: ManifestParsed) => {
-            const { getLocation, parsedContent: manifest, resource } = manifestParsed;
+            const { getLocation, parsedContent: manifest, resource }: { getLocation: IJSONLocationFunction, parsedContent: Manifest, resource: string } = manifestParsed;
 
             const name = manifest.name;
 

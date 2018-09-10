@@ -8,7 +8,8 @@ import {
     FetchStart,
     IJSONResult,
     NetworkData,
-    Parser
+    Parser,
+    SchemaValidationResult
 } from 'hint/dist/src/lib/types';
 
 import isHTTP from 'hint/dist/src/lib/utils/network/is-http';
@@ -171,7 +172,7 @@ export default class ManifestParser extends Parser {
          * is a valid acording to the schema.
          */
 
-        const validationResult = validate(this.schema, result.data, result.getLocation);
+        const validationResult: SchemaValidationResult = validate(this.schema, result.data, result.getLocation);
 
         if (!validationResult.valid) {
             const manifestInvalidSchemaEvent: ManifestInvalidSchema = {
