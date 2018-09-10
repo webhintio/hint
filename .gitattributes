@@ -1,7 +1,7 @@
 # Automatically normalize line endings for all text-based files.
 # https://git-scm.com/docs/gitattributes#_end_of_line_conversion
 
-* text=auto
+* text=auto eol=lf
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
