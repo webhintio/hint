@@ -11,8 +11,7 @@
     "canvas-prebuilt": "^1.6.11",
     "jsdom": "git://github.com/sarvaje/jsdom.git#v12-fixes",
     "mutationobserver-shim": "^0.3.2",
-    "node-pre-gyp": "^0.11.0",
-    "whatwg-fetch": "^2.0.4"
+    "node-pre-gyp": "^0.11.0"
   },
   "description": "hint connector for JSDOM",
   "devDependencies": {

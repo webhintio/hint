@@ -27,7 +27,6 @@ export const beforeParse = (finalHref) => {
         window.matchMedia = () => {
             return { addListener() { } };
         };
-        window.fetch = require('whatwg-fetch').fetch;
 
         Object.defineProperty(window.HTMLHtmlElement.prototype, 'clientWidth', { value: 1024 });
         Object.defineProperty(window.HTMLHtmlElement.prototype, 'clientHeight', { value: 768 });
