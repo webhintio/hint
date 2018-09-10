@@ -1,12 +1,10 @@
 /* eslint sort-keys: 0 */
 import * as path from 'path';
-import { promisify } from 'util';
 
 import test from 'ava';
-import * as jsdom from 'jsdom/lib/old-api';
+import { JSDOM } from 'jsdom';
 
 import readFileAsync from '../../../src/lib/utils/fs/read-file-async';
-const getPage = promisify(jsdom.env);
 
 import { IAsyncHTMLElement } from '../../../src/lib/types';
 import { findInElement, findProblemLocation, findElementLocation } from '../../../src/lib/utils/location-helpers';
@@ -87,7 +85,7 @@ findInElementEntries.forEach((entry) => {
 
 const loadHTML = async (route) => {
     const html: string = await readFileAsync(path.resolve(__dirname, route));
-    const doc: HTMLDocument = (await getPage(html)).document;
+    const doc: HTMLDocument = new JSDOM(html).window.document;
 
     const querySelectorAll = (function (document) {
         return (selector: string) => {

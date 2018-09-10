@@ -24,14 +24,12 @@
  * Requirements
  * ------------------------------------------------------------------------------
  */
-
 import * as path from 'path';
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
-import * as util from 'util';
 import { fork, ChildProcess } from 'child_process';
 
-import * as jsdom from 'jsdom/lib/old-api';
+import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
@@ -44,6 +42,9 @@ import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from 'hint/dist/src/lib
 import { Engine } from 'hint/dist/src/lib/engine';
 import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
+import CustomResourceLoader from './resource-loader';
+import { beforeParse } from './before-parse';
+
 
 /*
  * ------------------------------------------------------------------------------
@@ -58,22 +59,25 @@ const defaultOptions = { waitFor: 1000 };
 export default class JSDOMConnector implements IConnector {
     private _options;
     private _headers;
-    private _request: Requester;
-    private _server: Engine;
     private _href: string;
-    private _finalHref: string;
     private _targetNetworkData: NetworkData;
     private _window: Window;
     private _document: JSDOMAsyncHTMLDocument;
-    private _fetchedHrefs: Set<string>;
     private _timeout: number;
+    private _resourceLoader: ResourceLoader;
+
+    public request: Requester;
+    public server: Engine;
+    public finalHref: string;
+    public fetchedHrefs: Set<string>;
 
     public constructor(server: Engine, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
         this._headers = this._options.headers;
-        this._request = new Requester(this._options);
-        this._server = server;
+        this.request = new Requester(this._options);
+        this.server = server;
         this._timeout = server.timeout;
+        this._resourceLoader = new CustomResourceLoader(this);
     }
 
     /*
@@ -92,7 +96,7 @@ export default class JSDOMConnector implements IConnector {
 
         /* istanbul ignore else */
         if (!customHeaders) {
-            return this._request.get(uri);
+            return this.request.get(uri);
         }
 
         const r: Requester = new Requester({
@@ -117,103 +121,32 @@ export default class JSDOMConnector implements IConnector {
          */
         const event: ElementFound = {
             element: new JSDOMAsyncHTMLElement(element),
-            resource: this._finalHref
+            resource: this.finalHref
         };
 
-        await this._server.emitAsync(eventName, event);
+        await this.server.emitAsync(eventName, event);
         for (let i = 0; i < element.children.length; i++) {
             const child: HTMLElement = element.children[i] as HTMLElement;
 
             debug('next children');
             const traverseDown: TraverseDown = {
                 element: new JSDOMAsyncHTMLElement(element),
-                resource: this._finalHref
+                resource: this.finalHref
             };
 
-            await this._server.emitAsync(`traverse::down`, traverseDown);
+            await this.server.emitAsync(`traverse::down`, traverseDown);
             await this.traverseAndNotify(child);
 
         }
 
         const traverseUp: TraverseUp = {
             element: new JSDOMAsyncHTMLElement(element),
-            resource: this._finalHref
+            resource: this.finalHref
         };
 
-        await this._server.emitAsync(`traverse::up`, traverseUp);
+        await this.server.emitAsync(`traverse::up`, traverseUp);
 
         return Promise.resolve();
-    }
-
-    // TODO: resourceLoader is async but also needs the callback because of jsdom library
-    /** Alternative method to download resource for `JSDOM` so we can get the headers. */
-    private async resourceLoader(resource: { element: HTMLElement, url: URL }, callback: Function) {
-        let resourceUrl: string = resource.url.href;
-        const element = resource.element ? new JSDOMAsyncHTMLElement(resource.element) : null;
-
-        /* istanbul ignore if */
-        if (!resource.url.protocol) {
-            resourceUrl = new URL(resource.url.href, this._finalHref).href;
-        }
-
-        // Ignore if the resource has already been fetched.
-        /* istanbul ignore if */
-        if (this._fetchedHrefs.has(resourceUrl)) {
-            /*
-             * Queue callback at the end of the current event queue
-             * to avoid errors at the end of the analysis under certain
-             * circumstances.
-             */
-            return setImmediate(() => {
-                callback(null, '');
-            });
-        }
-
-        this._fetchedHrefs.add(resourceUrl);
-
-        debug(`resource ${resourceUrl} to be fetched`);
-        await this._server.emitAsync('fetch::start', { resource: resourceUrl });
-
-        try {
-            const resourceNetworkData: NetworkData = await this.fetchContent(resourceUrl);
-
-            debug(`resource ${resourceUrl} fetched`);
-
-            const fetchEndEvent: FetchEnd = {
-                element,
-                request: resourceNetworkData.request,
-                resource: resourceNetworkData.response.url,
-                response: resourceNetworkData.response
-            };
-
-            const { charset, mediaType } = getContentTypeData(element, fetchEndEvent.resource, fetchEndEvent.response.headers, fetchEndEvent.response.body.rawContent);
-            const type = getType(mediaType);
-
-            fetchEndEvent.response.mediaType = mediaType;
-            fetchEndEvent.response.charset = charset;
-
-            /*
-             * TODO: Replace `null` with `resource` once it
-             * can be converted to `JSDOMAsyncHTMLElement`.
-             * Event is also emitted when status code in response is not 200.
-             */
-            await this._server.emitAsync(`fetch::end::${type}`, fetchEndEvent);
-
-            return callback(null, resourceNetworkData.response.body.content);
-        } catch (err) {
-            const hops: Array<string> = this._request.getRedirects(err.uri);
-            const fetchError: FetchError = {
-                element,
-                error: err.error,
-                hops,
-                /* istanbul ignore next */
-                resource: err.uri || resourceUrl
-            };
-
-            await this._server.emitAsync('fetch::error', fetchError);
-
-            return callback(fetchError);
-        }
     }
 
     /**
@@ -226,7 +159,7 @@ export default class JSDOMConnector implements IConnector {
         const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
-            await util.promisify(this.resourceLoader).call(this, { element, url: new URL(href, this._finalHref) });
+            await this._resourceLoader.fetch(new URL(href, this.finalHref).href, { element });
         } catch (e) {
             /* istanbul ignore next */
             debug('Error loading ${href}', e);
@@ -255,19 +188,19 @@ export default class JSDOMConnector implements IConnector {
 
         const initialEvent: Event = { resource: href };
 
-        this._fetchedHrefs = new Set();
+        this.fetchedHrefs = new Set();
 
-        this._server.emit('scan::start', initialEvent);
+        this.server.emit('scan::start', initialEvent);
 
         return new Promise(async (resolve, reject) => {
 
             debug(`About to start fetching ${href}`);
-            await this._server.emitAsync('fetch::start::target', initialEvent);
+            await this.server.emitAsync('fetch::start::target', initialEvent);
 
             try {
                 this._targetNetworkData = await this.fetchContent(target);
             } catch (err) {
-                const hops: Array<string> = this._request.getRedirects(err.uri);
+                const hops: Array<string> = this.request.getRedirects(err.uri);
                 const fetchError: FetchError = {
                     element: null,
                     /* istanbul ignore next */
@@ -276,10 +209,10 @@ export default class JSDOMConnector implements IConnector {
                     resource: href
                 };
 
-                await this._server.emitAsync('fetch::error', fetchError);
+                await this.server.emitAsync('fetch::error', fetchError);
                 debug(`Failed to fetch: ${href}\n${err}`);
 
-                await this._server.emitAsync('scan::end', initialEvent);
+                await this.server.emitAsync('scan::end', initialEvent);
 
                 reject(fetchError);
 
@@ -287,14 +220,14 @@ export default class JSDOMConnector implements IConnector {
             }
 
             // Update finalHref to point to the final URL.
-            this._finalHref = this._targetNetworkData.response.url;
+            this.finalHref = this._targetNetworkData.response.url;
 
-            debug(`HTML for ${this._finalHref} downloaded`);
+            debug(`HTML for ${this.finalHref} downloaded`);
 
             const fetchEnd: FetchEnd = {
                 element: null,
                 request: this._targetNetworkData.request,
-                resource: this._finalHref,
+                resource: this.finalHref,
                 response: this._targetNetworkData.response
             };
 
@@ -304,80 +237,88 @@ export default class JSDOMConnector implements IConnector {
             fetchEnd.response.charset = charset;
 
             // Event is also emitted when status code in response is not 200.
-            await this._server.emitAsync(`fetch::end::${getType(mediaType)}`, fetchEnd);
+            await this.server.emitAsync(`fetch::end::${getType(mediaType)}`, fetchEnd);
 
             /*
              * If the target is not an HTML we don't need to
              * traverse it.
              */
             /* istanbul ignore if */
-            if (!isHTMLDocument(this._finalHref, this.headers)) {
-                await this._server.emitAsync('scan::end', { resource: this._finalHref });
+            if (!isHTMLDocument(this.finalHref, this.headers)) {
+                await this.server.emitAsync('scan::end', { resource: this.finalHref });
 
                 resolve();
 
                 return;
             }
 
-            jsdom.env({
-                done: async (err, window) => {
-                    /* istanbul ignore if */
-                    if (err) {
-                        await this._server.emitAsync('scan::end', { resource: this._finalHref });
+            const virtualConsole = new VirtualConsole();
 
-                        reject(err);
-
-                        return;
-                    }
-
-                    this._window = window;
-                    this._document = new JSDOMAsyncHTMLDocument(window.document);
-
-                    const evaluateEvent: Event = { resource: this._finalHref };
-
-                    await this._server.emitAsync('can-evaluate::script', evaluateEvent);
-
-                    /*
-                     * Even though `done()` is called after `window.onload`
-                     * (so all resoruces and scripts executed), we might want
-                     * to wait a few seconds if the site is lazy loading something.
-                     */
-                    setTimeout(async () => {
-                        const event: Event = { resource: this._finalHref };
-
-                        debug(`${this._finalHref} loaded, traversing`);
-                        try {
-                            await this._server.emitAsync('traverse::start', event);
-                            await this.traverseAndNotify(window.document.children[0]);
-                            await this._server.emitAsync('traverse::end', event);
-
-                            // We download only the first favicon found
-                            await this.getFavicon(window.document.querySelector('link[rel~="icon"]'));
-
-                            /*
-                             * TODO: when we reach this moment we should wait for all pending request to be done and
-                             * stop processing any more.
-                             */
-                            await this._server.emitAsync('scan::end', event);
-                        } catch (e) {
-                            /* istanbul ignore next */
-                            reject(e);
-                        }
-                        resolve();
-
-                    }, this._options.waitFor);
-
-                },
-                features: {
-                    FetchExternalResources: ['script', 'link', 'img'],
-                    ProcessExternalResources: ['script'],
-                    SkipExternalResources: false
-                },
-                headers: this._headers,
-                html: this._targetNetworkData.response.body.content,
-                resourceLoader: this.resourceLoader.bind(this),
-                url: this._finalHref
+            virtualConsole.on('error', (err) => {
+                debug(`Console: ${err}`);
             });
+
+            virtualConsole.on('jsdomError', (err) => {
+                debug(`Console: ${err}`);
+            });
+
+            const jsdom = new JSDOM(this._targetNetworkData.response.body.content, {
+                beforeParse: beforeParse(this.finalHref),
+                includeNodeLocations: true,
+                pretendToBeVisual: true,
+                resources: this._resourceLoader,
+                runScripts: 'dangerously',
+                url: this.finalHref,
+                virtualConsole
+            });
+            const window = jsdom.window;
+
+            this._window = window;
+
+            const onLoad = async () => {
+                this._document = new JSDOMAsyncHTMLDocument(window.document);
+
+                const evaluateEvent: Event = { resource: this.finalHref };
+
+                await this.server.emitAsync('can-evaluate::script', evaluateEvent);
+
+                /*
+                 * Even though `onLoad()` is called on `window.onload`
+                 * (so all resoruces and scripts executed), we might want
+                 * to wait a few seconds if the site is lazy loading something.
+                 */
+                setTimeout(async () => {
+                    const event: Event = { resource: this.finalHref };
+
+                    debug(`${this.finalHref} loaded, traversing`);
+                    try {
+                        await this.server.emitAsync('traverse::start', event);
+                        await this.traverseAndNotify(window.document.children[0]);
+                        await this.server.emitAsync('traverse::end', event);
+
+                        // We download only the first favicon found
+                        await this.getFavicon(window.document.querySelector('link[rel~="icon"]'));
+
+                        /*
+                         * TODO: when we reach this moment we should wait for all pending request to be done and
+                         * stop processing any more.
+                         */
+                        await this.server.emitAsync('scan::end', event);
+                    } catch (e) {
+                        /* istanbul ignore next */
+                        reject(e);
+                    }
+                    resolve();
+
+                }, this._options.waitFor);
+            };
+
+            const onError = (error) => {
+                debug(`onError: ${error}`);
+            };
+
+            jsdom.window.addEventListener('load', onLoad, { once: true });
+            jsdom.window.addEventListener('error', onError);
         });
     }
 
@@ -434,7 +375,7 @@ export default class JSDOMConnector implements IConnector {
     public evaluate(source: string): Promise<any> {
         return new Promise((resolve, reject) => {
             /* istanbul ignore next */
-            const runner: ChildProcess = fork(path.join(__dirname, 'evaluate-runner'), [this._finalHref || this._href, this._options.waitFor], { execArgv: [] });
+            const runner: ChildProcess = fork(path.join(__dirname, 'evaluate-runner'), [this.finalHref || this._href, this._options.waitFor], { execArgv: [] });
             let timeoutId;
 
             runner.on('message', (result) => {

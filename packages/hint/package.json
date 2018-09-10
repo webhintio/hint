@@ -24,6 +24,7 @@
     "handlebars": "^4.0.11",
     "is-ci": "^1.2.1",
     "is-svg": "^3.0.0",
+    "jsdom": "git://github.com/sarvaje/jsdom.git#v12-fixes",
     "lodash": "^4.17.10",
     "mime-db": "1.35.0",
     "npm-registry-fetch": "^3.8.0",
