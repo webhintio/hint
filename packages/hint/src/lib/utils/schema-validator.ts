@@ -6,7 +6,7 @@ import {
     without
 } from 'lodash';
 
-import { ProblemLocation, IJSONLocationFunction, ISchemaValidationError, SchemaValidationResult } from '../types';
+import { IJSONLocationFunction, ISchemaValidationError, SchemaValidationResult } from '../types';
 
 /*
  * If we want to use the ajv types in TypeScript, we need to import
