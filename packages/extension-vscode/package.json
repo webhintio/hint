@@ -13,11 +13,10 @@
     },
     "description": "Run webhint in Visual Studio Code.",
     "devDependencies": {
-        "@hint/configuration-progressive-web-apps": "^1.1.0",
-        "@hint/connector-local": "^1.1.0",
-        "@hint/hint-axe": "^1.0.3",
-        "@hint/parser-html": "^1.0.0",
-        "hint": "^3.3.1",
+        "@hint/configuration-progressive-web-apps": "^1.1.1",
+        "@hint/connector-local": "^1.1.1",
+        "@hint/parser-html": "^1.0.1",
+        "hint": "^3.4.0",
         "typescript": "^3.0.1"
     },
     "engines": {
