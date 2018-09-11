@@ -1,3 +1,10 @@
+# 1.0.4 (September 11, 2018)
+
+## Bug fixes / Improvements
+
+* [[`09f402107c`](https://github.com/webhintio/hint/commit/09f402107cddf1402b3865e7323eba7f31593b6e)] - Fix: Requester support for data URLs (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1240`](https://github.com/webhintio/hint/issues/1240)).
+
+
 # 1.0.3 (September 6, 2018)
 
 ## Bug fixes / Improvements
