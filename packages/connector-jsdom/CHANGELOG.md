@@ -1,3 +1,11 @@
+# 1.0.5 (September 11, 2018)
+
+## Bug fixes / Improvements
+
+* [[`1f94752647`](https://github.com/webhintio/hint/commit/1f94752647ba7f023ca47931351b3995567d890e)] - Fix: Normalize evaluate error messages and make them more user friendly (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1303`](https://github.com/webhintio/hint/issues/1303)).
+* [[`58b3479995`](https://github.com/webhintio/hint/commit/58b347999545ff3749344f83f16c2556a92a83b1)] - Fix: Avoid problem closing `jsdom` (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.0.4 (September 6, 2018)
 
 ## Bug fixes / Improvements
