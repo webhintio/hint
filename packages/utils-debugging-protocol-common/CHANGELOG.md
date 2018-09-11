@@ -1,3 +1,10 @@
+# 1.0.4 (September 11, 2018)
+
+## Bug fixes / Improvements
+
+* [[`1f94752647`](https://github.com/webhintio/hint/commit/1f94752647ba7f023ca47931351b3995567d890e)] - Fix: Normalize evaluate error messages and make them more user friendly (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1303`](https://github.com/webhintio/hint/issues/1303)).
+
+
 # 1.0.3 (September 6, 2018)
 
 ## Bug fixes / Improvements
