@@ -460,7 +460,7 @@ export default class JSDOMConnector implements IConnector {
                 debug(`Evaluation timed out after ${this._timeout / 1000}s. Killing process and reporting an error.`);
                 this.killProcess(runner);
 
-                return reject(new Error('TIMEOUT'));
+                return reject(new Error(`Script evaluation exceeded the allotted time of ${this._timeout / 1000}s.`));
             }, this._timeout);
         });
     }

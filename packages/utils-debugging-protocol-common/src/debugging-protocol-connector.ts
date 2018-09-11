@@ -974,7 +974,7 @@ export class Connector implements IConnector {
             // If this gets to 60s and it hasn't been resolved, reject the Promise.
             const asyncTimeout: NodeJS.Timer = setTimeout(
                 (() => {
-                    reject(new Error('The asynchronous expression exceeded the allotted time of 60s'));
+                    reject(new Error(`The script evaluation exceeded the allotted time of ${this._timeout / 1000}s.`));
                 }), this._timeout);
 
             try {
