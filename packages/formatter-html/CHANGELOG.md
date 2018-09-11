@@ -1,3 +1,10 @@
+# 1.0.4 (September 11, 2018)
+
+## Bug fixes / Improvements
+
+* [[`1203ba3089`](https://github.com/webhintio/hint/commit/1203ba308903a09b1ce3d1f1096523dde67be4dd)] - Fix: Hide report in HTML Formatter when the status is `error` (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.0.3 (September 6, 2018)
 
 ## Bug fixes / Improvements
