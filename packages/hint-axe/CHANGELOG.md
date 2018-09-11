@@ -1,3 +1,14 @@
+# 1.1.0 (September 11, 2018)
+
+## Bug fixes / Improvements
+
+* [[`1f94752647`](https://github.com/webhintio/hint/commit/1f94752647ba7f023ca47931351b3995567d890e)] - Fix: Normalize evaluate error messages and make them more user friendly (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1303`](https://github.com/webhintio/hint/issues/1303)).
+
+## New features
+
+* [[`b693050a90`](https://github.com/webhintio/hint/commit/b693050a9087c8a7371b9ce3ad28fd357608f3a3)] - New: Change `HintScope` to `any` for `axe` hint (by [`Tony Ross`](https://github.com/antross) / see also: [`#1301`](https://github.com/webhintio/hint/issues/1301)).
+
+
 # 1.0.4 (September 6, 2018)
 
 ## Bug fixes / Improvements
