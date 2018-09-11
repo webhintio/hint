@@ -2,8 +2,9 @@ import * as path from 'path';
 
 import { cloneDeep } from 'lodash';
 import { Engine } from 'hint/dist/src/lib/engine';
-import { FetchEnd, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
+import { FetchEnd, IJSONResult, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
+import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 import { TypeScriptConfig, TypeScriptConfigInvalidJSON, TypeScriptConfigInvalidSchema, TypeScriptConfigParse, TypeScriptConfigParseStart } from './types';
@@ -19,8 +20,8 @@ export default class TypeScriptConfigParser extends Parser {
         engine.on('fetch::end::*', this.parseTypeScript.bind(this));
     }
 
-    private async validateSchema(config: TypeScriptConfig, resource: string): Promise<SchemaValidationResult> {
-        const validationResult = validate(this.schema, config);
+    private async validateSchema(config: TypeScriptConfig, resource: string, result: IJSONResult): Promise<SchemaValidationResult> {
+        const validationResult = validate(this.schema, config, result.getLocation);
 
         const valid = validationResult.valid;
 
@@ -59,21 +60,21 @@ export default class TypeScriptConfigParser extends Parser {
 
         await this.engine.emitAsync(`parse::${this.name}::start`, parseStart);
 
-        let config: TypeScriptConfig;
+        let result: IJSONResult;
 
         try {
-            config = JSON.parse(fetchEnd.response.body.content);
+            result = parseJSON(fetchEnd.response.body.content);
 
-            const originalConfig = cloneDeep(config);
+            const originalConfig = cloneDeep(result.data);
 
-            config = await this.finalConfig<TypeScriptConfig, TypeScriptConfigInvalidJSON>(config, resource);
+            const config = await this.finalConfig<TypeScriptConfig, TypeScriptConfigInvalidJSON>(result.data, resource);
 
             if (!config) {
                 return;
             }
 
             // Validate if the TypeScript configuration is valid.
-            const validationResult = await this.validateSchema(config, resource);
+            const validationResult = await this.validateSchema(config, resource, result);
 
             if (!validationResult.valid) {
                 return;
@@ -81,6 +82,7 @@ export default class TypeScriptConfigParser extends Parser {
 
             const event: TypeScriptConfigParse = {
                 config: validationResult.data,
+                getLocation: result.getLocation,
                 originalConfig,
                 resource
             };

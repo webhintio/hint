@@ -3,6 +3,7 @@ import { EventEmitter2 } from 'eventemitter2';
 import * as sinon from 'sinon';
 
 import Parser from '../src/parser';
+import { ManifestParsed, ManifestInvalidSchema } from '../src/types';
 
 const elementLinkEventName = 'element::link';
 const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribute: string = 'site.webmanifest') => {
@@ -203,6 +204,23 @@ test(`'${parseEndEventName}' event is emitted when manifest content is valid`, a
     });
 });
 
+test(`'${parseEndEventName}' event includes location information`, async (t) => {
+    const manifestContent =
+`{
+    "name": "5"
+};`;
+
+    await createParseTest(t, manifestContent, parseEndEventName, (tt, result: ManifestParsed) => {
+        const nameLocation = result.getLocation('name');
+        const valueLocation = result.getLocation('name', { at: 'value' });
+
+        tt.is(nameLocation.line, 1);
+        tt.is(nameLocation.column, 5);
+        tt.is(valueLocation.line, 1);
+        tt.is(valueLocation.column, 12);
+    });
+});
+
 test(`'${parseJSONErrorEventName}' event is emitted when manifest content is not valid JSON`, async (t) => {
     const manifestContent = 'invalid';
 
@@ -243,5 +261,44 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
         tt.true(result.prettifiedErrors.every((e) => {
             return expectedPrettifiedErrors.includes(e);
         }));
+    });
+});
+
+test(`'${parseErrorSchemaEventName}' event includes location information`, async (t) => {
+    const expectedLocations = {
+        '\'icons[0]\' should NOT have additional properties. Additional property found \'density\'.': {
+            column: 9,
+            line: 4
+        },
+        'Should NOT have additional properties. Additional property found \'additionalProperty\'.': {
+            column: 5,
+            line: 1
+        },
+        'Should NOT have additional properties. Additional property found \'unknown_proprietary_extension\'.': {
+            column: 5,
+            line: 7
+        }
+    };
+
+    const manifestContent =
+`{
+    "additionalProperty": "x",
+    "gcm_sender_id": { "a": 5 },
+    "icons": [{
+        "density": 2,
+        "src": "/a.png"
+    }],
+    "unknown_proprietary_extension": 5
+}`;
+
+    await createParseTest(t, manifestContent, parseErrorSchemaEventName, (tt, result: ManifestInvalidSchema) => {
+
+        result.errors.forEach((error, i) => {
+            const message = result.prettifiedErrors[i];
+            const expectedLocation = expectedLocations[message];
+
+            tt.is(error.location.line, expectedLocation.line);
+            tt.is(error.location.column, expectedLocation.column);
+        });
     });
 });
