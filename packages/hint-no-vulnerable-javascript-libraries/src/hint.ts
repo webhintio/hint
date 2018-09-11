@@ -210,7 +210,15 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
             try {
                 detectedLibraries = (await context.evaluate(script)) as Array<Library>;
             } catch (e) {
-                await context.report(resource, null, `Error executing script '${e.message}'. Please try with another connector.`, null, null, Severity.warning);
+                let message: string;
+
+                if (e.message.includes('evaluation exceeded')) {
+                    message = `webhint didn't return the result fast enough`;
+                } else {
+                    message = `Error executing script: '${e.message}'`;
+                }
+
+                await context.report(resource, null, `${message}. Please try again later, or you could report an issue if this problem persists.`, null, null, Severity.warning);
                 debug('Error executing script', e);
 
                 return;
