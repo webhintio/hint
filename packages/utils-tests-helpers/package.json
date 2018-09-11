@@ -5,7 +5,7 @@
     "@hint/connector-local": "^1.1.1",
     "@hint/utils-create-server": "^1.0.3",
     "ava": "^0.25.0",
-    "hint": "^3.3.2"
+    "hint": "^3.4.0"
   },
   "description": "hint tests helpers",
   "devDependencies": {
@@ -37,7 +37,7 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-tests-helpers",
   "peerDependencies": {
-    "hint": "^3.3.2"
+    "hint": "^3.4.0"
   },
   "repository": "webhintio/hint",
   "scripts": {
