@@ -7,7 +7,10 @@
  * Requirements
  * ------------------------------------------------------------------------------
  */
-import * as decompressBrotli from 'brotli/decompress';
+import { promisify } from 'util';
+
+import * as brotli from 'iltorb';
+
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
@@ -21,6 +24,7 @@ import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protoc
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { CompressionCheckOptions } from './hint-types';
 
+const decompressBrotli = promisify(brotli.decompress);
 const uaString = 'Mozilla/5.0 Gecko';
 
 /*
@@ -137,7 +141,7 @@ export default class HttpCompressionHint implements IHint {
             };
         };
 
-        const isCompressedWithBrotli = (rawResponse: Buffer): boolean => {
+        const isCompressedWithBrotli = async (rawResponse: Buffer): Promise<boolean> => {
 
             /*
              * Brotli doesn't currently contain any magic numbers.
@@ -145,7 +149,7 @@ export default class HttpCompressionHint implements IHint {
              */
 
             try {
-                const decompressedContent = decompressBrotli(rawResponse);
+                const decompressedContent = await decompressBrotli(rawResponse);
 
                 if (decompressedContent.byteLength === 0 &&
                     rawResponse.byteLength !== 0) {
@@ -281,7 +285,7 @@ export default class HttpCompressionHint implements IHint {
             }
 
             const { contentEncodingHeaderValue, rawResponse, response } = networkData;
-            const compressedWithBrotli = isCompressedWithBrotli(rawResponse);
+            const compressedWithBrotli = await isCompressedWithBrotli(rawResponse);
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -303,7 +307,7 @@ export default class HttpCompressionHint implements IHint {
              * TODO: Remove the following once connectors
              *       support Brotli compression.
              */
-            const rawContent = compressedWithBrotli ? decompressBrotli(rawResponse) : response.body.rawContent;
+            const rawContent = compressedWithBrotli ? await decompressBrotli(rawResponse) : response.body.rawContent;
 
             const itShouldNotBeCompressed = contentEncodingHeaderValue === 'br' &&
                 rawContent.byteLength <= rawResponse.byteLength;
@@ -351,7 +355,7 @@ export default class HttpCompressionHint implements IHint {
 
             const { rawResponse: uaRawResponse } = networkData;
 
-            if (!isCompressedWithBrotli(uaRawResponse)) {
+            if (!(await isCompressedWithBrotli(uaRawResponse))) {
                 await context.report(resource, element, generateCompressionMessage('Brotli', false, `over HTTPS, regardless of the user agent`));
             }
         };
@@ -441,9 +445,9 @@ export default class HttpCompressionHint implements IHint {
 
         };
 
-        const responseIsCompressed = (rawResponse: Buffer, contentEncodingHeaderValue: string): boolean => {
+        const responseIsCompressed = async (rawResponse: Buffer, contentEncodingHeaderValue: string): Promise<boolean> => {
             return isCompressedWithGzip(rawResponse) ||
-                isCompressedWithBrotli(rawResponse) ||
+                await isCompressedWithBrotli(rawResponse) ||
 
             /*
              * Other compression methods may be used, but there
@@ -565,7 +569,7 @@ export default class HttpCompressionHint implements IHint {
 
             const { contentEncodingHeaderValue, rawResponse } = networkData;
 
-            if (responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {
+            if (await responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {
                 await context.report(resource, element, generateCompressionMessage('', true, `for requests made with 'accept-encoding: identity'`));
             }
 
@@ -691,7 +695,7 @@ export default class HttpCompressionHint implements IHint {
                 const contentEncodingHeaderValue = getHeaderValueNormalized(response.headers, 'content-encoding');
 
                 // * Check if the resource is actually compressed.
-                if (responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {
+                if (await responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {
                     await context.report(resource, element, generateCompressionMessage('', true));
                 }
 
