@@ -1,3 +1,10 @@
+# 1.0.7 (September 11, 2018)
+
+## Bug fixes / Improvements
+
+* [[`2db0a06a7d`](https://github.com/webhintio/hint/commit/2db0a06a7d0c011fb2e325f0630964fd5488018f)] - Fix: Use `iltorb` instead of `brotli` (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#932`](https://github.com/webhintio/hint/issues/932), and [`#1304`](https://github.com/webhintio/hint/issues/1304)).
+
+
 # 1.0.6 (September 6, 2018)
 
 ## Bug fixes / Improvements
