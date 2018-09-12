@@ -62,11 +62,11 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
 
     public getLocation(): ProblemLocation {
         try {
-            const location: any = this._dom && this._dom.nodeLocation(this._htmlelement);
+            const location = this._dom && this._dom.nodeLocation(this._htmlelement);
 
             return location && {
-                column: location.startCol,
-                line: location.startLine - 1
+                column: location.startTag.col,
+                line: location.startTag.line - 1
             } || null;
         } catch (e) {
             // JSDOM throws an exception of `includeNodeLocations` wasn't set.
