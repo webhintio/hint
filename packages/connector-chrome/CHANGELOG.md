@@ -1,3 +1,10 @@
+# 1.0.5 (September 12, 2018)
+
+## Bug fixes / Improvements
+
+* [[`72e5badad5`](https://github.com/webhintio/hint/commit/72e5badad54f1ec83dbb2ec5a836ffa82bdd3cfc)] - Docs: Add note about `defaultProfile` and Chrome launcher issue (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#773`](https://github.com/webhintio/hint/issues/773)).
+
+
 # 1.0.4 (September 6, 2018)
 
 ## Bug fixes / Improvements
