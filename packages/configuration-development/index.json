@@ -1,0 +1,36 @@
+{
+    "connector": "local",
+    "formatters": [
+        "html",
+        "summary"
+    ],
+    "hints": {
+        "axe": "error",
+        "babel-config/is-valid": "error",
+        "disown-opener": "error",
+        "highest-available-document-mode": "error",
+        "meta-charset-utf-8": "error",
+        "meta-viewport": "error",
+        "no-bom": "error",
+        "no-protocol-relative-urls": "error",
+        "sri": "error",
+        "typescript-config/consistent-casing": "error",
+        "typescript-config/import-helpers": "error",
+        "typescript-config/is-valid": "error",
+        "typescript-config/no-comments": "error",
+        "typescript-config/strict": "error",
+        "typescript-config/target": "error",
+        "webpack-config/is-installed": "error",
+        "webpack-config/is-valid": "error",
+        "webpack-config/module-esnext-typescript": "error",
+        "webpack-config/modules/false-babel": "error",
+        "webpack-config/no-devtool-in-prod": "error"
+    },
+    "hintsTimeout": 10000,
+    "parsers": [
+        "babel-config",
+        "html",
+        "typescript-config",
+        "webpack-config"
+    ]
+}
