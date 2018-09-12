@@ -21,7 +21,7 @@
     "@hint/hint-no-html-only-headers": "^1.0.3",
     "@hint/hint-no-http-redirects": "^1.0.3",
     "@hint/hint-no-protocol-relative-urls": "^1.0.2",
-    "@hint/hint-no-vulnerable-javascript-libraries": "^1.4.1",
+    "@hint/hint-no-vulnerable-javascript-libraries": "^1.5.0",
     "@hint/hint-sri": "^1.0.2",
     "@hint/hint-ssllabs": "^1.0.2",
     "@hint/hint-strict-transport-security": "^1.0.4",
