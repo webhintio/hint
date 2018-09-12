@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.11"
   },
   "description": "hint that that validates HTML pages using the Nu HTML checker",
   "devDependencies": {
