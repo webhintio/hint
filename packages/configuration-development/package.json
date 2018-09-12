@@ -11,7 +11,6 @@
     "@hint/hint-meta-viewport": "^1.0.2",
     "@hint/hint-no-bom": "^1.0.2",
     "@hint/hint-no-protocol-relative-urls": "^1.0.2",
-    "@hint/hint-sri": "^1.0.2",
     "@hint/hint-typescript-config": "^1.1.0",
     "@hint/hint-webpack-config": "^1.0.0",
     "@hint/parser-babel-config": "^1.1.0",
