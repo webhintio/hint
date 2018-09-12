@@ -39,7 +39,6 @@
   "peerDependencies": {
     "hint": "^3.4.0"
   },
-  "private": true,
   "repository": "webhintio/hint",
   "version": "1.0.0"
 }
