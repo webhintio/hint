@@ -1,4 +1,4 @@
-# webhint's recommended web configuration (`@hint/configuration-web-recommended`)
+# webhint's development configuration (`@hint/configuration-development`)
 
 This packages is a `webhint` configuration package to use during
 development.
