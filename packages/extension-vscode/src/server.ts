@@ -35,6 +35,15 @@ const userConfig = loadUserConfig();
 // The vscode extension only works with the local connector
 userConfig.connector = { name: 'local' };
 
+if (!userConfig.parsers) {
+    userConfig.parsers = [];
+}
+
+// Ensure the HTML parser is loaded
+if (userConfig.parsers.indexOf('html') === -1) {
+    userConfig.parsers.push('html');
+}
+
 // Create the webhint engine
 const config = Configuration.fromConfig(userConfig);
 const resources = loadResources(config);
