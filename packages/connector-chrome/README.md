@@ -39,7 +39,9 @@ The set of settings supported by Chrome connector are:
   default profile or create a new one. By default the value is `false`
   so a new one is created. You might want to set it to `true` if you
   want `webhint` to have access to pages where the default profile is
-  already authenticated.
+  already authenticated. NOTE: Due to an issue in
+  [`chrome-launcher`][chrome-launcher-issue], all the instances of
+  the browser need to be closed before run `webhint`.
 * `useTabUrl (boolean)`: Indicates if the browser should navigate first
   to a given page before going to the final target. `false` by default.
 * `tabUrl (string)`: The URL to visit before the final target in case
@@ -76,3 +78,4 @@ The set of settings supported by Chrome connector are:
 [cli flags]: https://github.com/GoogleChrome/chrome-launcher/blob/master/docs/chrome-flags-for-tools.md
 [connectors]: https://webhint.io/docs/user-guide/concepts/connectors/
 [hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[chrome-launcher-issue]: https://github.com/GoogleChrome/chrome-launcher/issues/118
