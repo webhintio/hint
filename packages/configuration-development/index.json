@@ -19,12 +19,18 @@
         "typescript-config/is-valid": "error",
         "typescript-config/no-comments": "error",
         "typescript-config/strict": "error",
-        "typescript-config/target": "error"
+        "typescript-config/target": "error",
+        "webpack-config/is-installed": "error",
+        "webpack-config/is-valid": "error",
+        "webpack-config/module-esnext-typescript": "error",
+        "webpack-config/modules/false-babel": "error",
+        "webpack-config/no-devtool-in-prod": "error"
     },
     "hintsTimeout": 10000,
     "parsers": [
         "babel-config",
         "html",
-        "typescript-config"
+        "typescript-config",
+        "webpack-config"
     ]
 }

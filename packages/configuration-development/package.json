@@ -13,9 +13,11 @@
     "@hint/hint-no-protocol-relative-urls": "^1.0.2",
     "@hint/hint-sri": "^1.0.2",
     "@hint/hint-typescript-config": "^1.1.0",
+    "@hint/hint-webpack-config": "^1.0.0",
     "@hint/parser-babel-config": "^1.1.0",
     "@hint/parser-html": "^1.0.1",
-    "@hint/parser-typescript-config": "^1.1.0"
+    "@hint/parser-typescript-config": "^1.1.0",
+    "@hint/parser-webpack-config": "^1.0.0"
   },
   "description": "webhint's recommended hints configuration for progressive web apps (PWAs)",
   "engines": {
@@ -29,7 +31,8 @@
     "development",
     "typescript",
     "webhint",
-    "webhint-configuration"
+    "webhint-configuration",
+    "webpack"
   ],
   "license": "Apache-2.0",
   "main": "index.json",
