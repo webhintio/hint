@@ -32,7 +32,7 @@
     "build:connector-edge": "node -e \"process.platform !== 'win32' && process.exit(1);\" && (cd packages/connector-edge && yarn build) || echo \"\"",
     "build:connector-jsdom": "cd packages/connector-jsdom && yarn build",
     "build:connector-local": "cd packages/connector-local && yarn build",
-    "build:connectors": "yarn build:connector-edge && yarn build:connector-chrome && yarn build:connector-jsdom",
+    "build:connectors": "yarn build:connector-edge && yarn build:connector-chrome && yarn build:connector-jsdom && yarn build:connector-local",
     "build:hint": "cd packages/hint && yarn build",
     "build:parser:babel": "cd packages/parser-babel-config && yarn build",
     "build:parser:html": "cd packages/parser-html && yarn build",
