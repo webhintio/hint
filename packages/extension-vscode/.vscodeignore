@@ -3,8 +3,3 @@
 **/tsconfig.json
 **/tsconfig.base.json
 .vscode/**
-client/node_modules/**
-!client/node_modules/vscode-jsonrpc/**
-!client/node_modules/vscode-languageclient/**
-!client/node_modules/vscode-languageserver-protocol/**
-!client/node_modules/vscode-languageserver-types/**
