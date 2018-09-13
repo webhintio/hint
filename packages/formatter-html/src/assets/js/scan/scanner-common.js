@@ -1,4 +1,4 @@
-/* global hljs */
+/* global hljs, ejsPartials */
 /* eslint-disable no-var,prefer-arrow-callback,prefer-template,no-self-assign */
 (function () {
     /** Polyfill for 'Element.closest()' */
@@ -25,12 +25,19 @@
         };
     }
 
+    var categoriesListElement = document.getElementById('categories-list');
+    var showMenuElement = document.getElementById('show-categories');
+    var header = document.querySelector('.header');
+    var mql = window.matchMedia('(min-width: 48em)');
+
     var expandDetails = function (item) {
         item.setAttribute('aria-expanded', 'true');
+        item.setAttribute('open', '');
     };
 
     var collapseDetails = function (item) {
         item.setAttribute('aria-expanded', 'false');
+        item.removeAttribute('open');
     };
 
     var childRulesExpanded = function (element) {
@@ -38,73 +45,122 @@
         var details = Array.prototype.slice.apply(parent.querySelectorAll('.rule-result--details'));
 
         return details.some(function (detail) {
-            return (detail.getAttribute('aria-expanded') === 'true');
+            return detail.getAttribute('open') !== null;
         });
     };
 
+    /**
+     * if all rules are closed, toggle button to 'expand all'.
+     * if any rule is open, toggle button to 'close all'.
+     */
     var updateExpandAllButton = function (element, closeAll) {
-        var expanded = typeof closecloseAll !== 'undefined' ? closeAll : childRulesExpanded(element);
+        var expanded = typeof closeAll !== 'undefined' ? closeAll : childRulesExpanded(element);
 
         if (expanded) {
-            element.innerHTML = '- close all';
+            element.innerHTML = 'close all';
             element.classList.remove('closed');
             element.classList.add('expanded');
         } else {
-            element.innerHTML = '+ expand all';
+            element.innerHTML = 'expand all';
             element.classList.remove('expanded');
             element.classList.add('closed');
         }
     };
 
-    var toggleExpandRule = function (element, closeAll) {
-        var parent = element.closest('.rule-result--details');
-        var expanded = typeof closeAll !== 'undefined' ? closeAll : parent.getAttribute('aria-expanded') === 'true';
-        var name = element.getAttribute('data-rule');
-        var expandAllButton = parent.closest('.rule-result').querySelector('.button-expand-all');
+    var expandRule = function (element, closeAll) {
+        var expanded = typeof closeAll !== 'undefined' ? closeAll : element.getAttribute('aria-expanded') === 'true';
+        var name = element.id;
 
         if (expanded) {
-            collapseDetails(parent);
-            element.innerHTML = 'open details';
+            collapseDetails(element);
             element.setAttribute('title', 'show ' + name + '\'s result details');
         } else {
-            expandDetails(parent);
-            element.innerHTML = 'close details';
+            expandDetails(element);
             element.setAttribute('title', 'close ' + name + '\'s result details');
         }
-
-        updateExpandAllButton(expandAllButton);
-        /*
-         * if all rules are closed, toggle button to '- open all'.
-         * if any rule is open, toggle button to '- close all'.
-         */
     };
 
     var toggleExpandAll = function (element) {
         var parent = element.closest('.rule-result');
-        var detailButtons = Array.prototype.slice.apply(parent.querySelectorAll('.button--details'));
+        var detailButtons = Array.prototype.slice.apply(parent.querySelectorAll('.rule-result--details'));
         var expanded = element.classList.contains('expanded');
 
         for (var i = 0; i < detailButtons.length; i++) {
             if (expanded) {
-                toggleExpandRule(detailButtons[i], true);
+                expandRule(detailButtons[i], true);
             } else {
-                toggleExpandRule(detailButtons[i], false);
+                expandRule(detailButtons[i], false);
             }
         }
 
         updateExpandAllButton(element, !expanded);
     };
 
+    var toggleExpandRule = function (element) {
+        var parent = element.closest('.rule-result');
+        var expandAll = parent.querySelector('.button-expand-all');
+
+        setImmediate(function () {
+            updateExpandAllButton(expandAll);
+        });
+    };
+
+    var getCurrentCategoryMenuHeight = function () {
+        if (header) {
+            return 'calc(100% - 5rem - ' + header.clientHeight + 'px)';
+        }
+
+        return 'calc(100% - 5rem)';
+    };
+
+    var toggleCategoryMenu = function () {
+        var parent = showMenuElement.closest('.module--categories');
+        var menu = parent.querySelector('.rule-categories');
+
+        if (menu.classList.contains('open')) {
+            showMenuElement.textContent = 'SHOW CATEGORIES';
+            menu.setAttribute('aria-expanded', 'false');
+            menu.classList.remove('open');
+            document.body.classList.remove('menu-open');
+        } else {
+            categoriesListElement.style.height = getCurrentCategoryMenuHeight();
+            showMenuElement.textContent = 'HIDE CATEGORIES';
+            menu.setAttribute('aria-expanded', 'true');
+            menu.classList.add('open');
+            document.body.classList.add('menu-open');
+        }
+    };
+
+    var categoryClasses = ['rule-tile', 'rule-icon', 'rule-tile__category', 'rule-tile__sub-category', 'rule-tile__passed', 'rule-tile__info', 'rule-tile__results'];
+
     var toggleExpand = function (evt) {
         var element = evt.target;
 
-        if (element.className.indexOf('button--details') !== -1) {
-            toggleExpandRule(element);
+        if (element.classList.contains('button-expand-all')) {
+            return toggleExpandAll(element);
         }
 
-        if (element.className.indexOf('button-expand-all') !== -1) {
-            toggleExpandAll(element);
+        if (element.classList.contains('rule-title')) {
+            return toggleExpandRule(element);
         }
+
+        if (element.classList.contains('show-categories')) {
+            return toggleCategoryMenu();
+        }
+
+        if (!mql.matches) {
+            categoryClasses.some(function (className) {
+                if (element.classList.contains(className)) {
+                    toggleCategoryMenu();
+
+                    return true;
+                }
+
+                return false;
+            });
+        }
+
+        return true;
     };
 
     var registerToggleExpandListener = function () {
@@ -112,6 +168,7 @@
 
         if (container) {
             container.addEventListener('click', toggleExpand, false);
+            container.addEventListener('toggle', toggleExpand, false);
         }
     };
 
@@ -168,19 +225,60 @@
         }
     };
 
-    var copyButton = document.querySelector('.permalink-copy');
-    var copyPermalinkToClipboard = function () {
-        var permalink = document.querySelector('.scan-overview__body__permalink').textContent;
+    var checkClipboard = function (element) {
+        var parentElement = element.closest('.permalink-copy');
+        var permalinkImageElement = parentElement.querySelector('img');
 
-        setClipboardText(permalink.trim());
+        if (!window.ejsPartials) {
+            permalinkImageElement.src = '/images/scan/results-passed-icon.svg';
+        } else {
+            parentElement.removeChild(permalinkImageElement);
+
+            parentElement.innerHTML += ejsPartials['check-mark']();
+        }
     };
 
-    if (copyButton) {
+    var copyButtons = Array.prototype.slice.apply(document.querySelectorAll('.permalink-copy'));
+    var copyPermalinkToClipboard = function (evt) {
+        const element = evt.currentTarget;
+
+        var permalinkElement = element.querySelector('.permalink-content');
+        var permalink = permalinkElement.textContent;
+
+        setClipboardText(permalink.trim());
+
+        checkClipboard(permalinkElement);
+    };
+
+    copyButtons.forEach(function (copyButton) {
         copyButton.addEventListener('click', copyPermalinkToClipboard);
-    }
+    });
 
     window.addEventListener('popstate', onPopState, false);
 
+    var validateMediaQuery = function () {
+        if (mql.matches) {
+            categoriesListElement.removeAttribute('aria-expanded');
+
+            document.body.classList.remove('menu-open');
+        } else {
+            var isOpen = categoriesListElement.classList.contains('open');
+
+            categoriesListElement.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+            if (isOpen) {
+                categoriesListElement.style.height = getCurrentCategoryMenuHeight();
+                document.body.classList.add('menu-open');
+            }
+        }
+    };
+
+    var registerMediaQuery = function () {
+        validateMediaQuery();
+        mql.addListener(validateMediaQuery);
+    };
+
     registerToggleExpandListener();
+    registerMediaQuery();
     highlightCodeBlocks();
 }());

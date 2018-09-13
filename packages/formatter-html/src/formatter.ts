@@ -14,13 +14,13 @@ import * as ejs from 'ejs';
 import * as fs from 'fs-extra';
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IFormatter, Problem, FormatterOptions } from 'hint/dist/src/lib/types';
+import { IFormatter, Problem, FormatterOptions, HintResources } from 'hint/dist/src/lib/types';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 
 const utils = require('./utils');
 
-import AnalysisResult from './result';
+import AnalysisResult, { CategoryResult, HintResult } from './result';
 
 const debug = d(__filename);
 
@@ -29,8 +29,22 @@ const debug = d(__filename);
  * Utils
  * ------------------------------------------------------------------------------
  */
+const getCategoryListFromResources = (resources: HintResources) => {
+    const categoriesArray: Array<string> = resources.hints.map((hint) => {
+        return hint.meta.docs!.category!;
+    });
 
-const getCategoryList = (): Array<string> => {
+    // Clean duplicated values.
+    const categories: Set<string> = new Set(categoriesArray);
+
+    return [...categories];
+};
+
+const getCategoryList = (resources?: HintResources): Array<string> => {
+    if (resources) {
+        return getCategoryListFromResources(resources);
+    }
+
     const result: Array<string> = [];
 
     for (let [, value] of Object.entries(Category)) {
@@ -70,7 +84,7 @@ export default class HTMLFormatter implements IFormatter {
         debug('Formatting results');
 
         const result = new AnalysisResult(target, options);
-        const categoryList: Array<string> = getCategoryList();
+        const categoryList: Array<string> = getCategoryList(options.resources);
 
         categoryList.forEach((category) => {
             result.addCategory(category);
@@ -80,8 +94,23 @@ export default class HTMLFormatter implements IFormatter {
             result.addProblem(message);
         });
 
+        if (options.resources) {
+            options.resources.hints.forEach((hintConstructor) => {
+                const categoryName: string = hintConstructor.meta.docs!.category!;
+                const hintId: string = hintConstructor.meta.id;
+
+                const category: CategoryResult = result.getCategoryByName(categoryName)!;
+                const hint: HintResult | undefined = category.getHintByName(hintId);
+
+                if (!hint) {
+                    category.addHint(hintId, 'pass');
+                }
+            });
+        }
+
         try {
             if (!options.noGenerateFiles) {
+                result.percentage = 100;
                 result.id = Date.now().toString();
 
                 const htmlPath = path.join(__dirname, 'views', 'pages', 'report.ejs');
@@ -100,7 +129,17 @@ export default class HTMLFormatter implements IFormatter {
 
                 await fs.mkdirp(configDir);
 
-                await fs.copy(path.join(currentDir, 'assets'), path.join(destDir));
+                await fs.copy(path.join(currentDir, 'assets'), destDir);
+
+                const scanCSSFile = path.join(destDir, 'styles', 'scan', 'scan-results.css');
+                let scanCSS = await fs.readFile(scanCSSFile, 'utf-8');
+                const urlCSSRegex = /url\(['"]?([^'")]*)['"]?\)/g;
+
+                scanCSS = scanCSS.replace(urlCSSRegex, (match, group) => {
+                    return `url('${group[0] === '/' ? '../..' : ''}${group}')`;
+                });
+
+                await fs.outputFile(scanCSSFile, scanCSS, { encoding: 'utf-8' });
 
                 if (options.config) {
                     await fs.outputFile(path.join(configDir, result.id), JSON.stringify(options.config));

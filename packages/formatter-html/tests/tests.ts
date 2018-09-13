@@ -30,13 +30,11 @@ test(`HTML formatter returns the right object`, async (t) => {
     t.plan((result.categories.length * 3) + 3);
 
     t.is(result.categories.length, 7);
-    t.is(result.errors, 0);
-    t.is(result.warnings, 0);
+    t.is(result.hintsCount, 0);
 
     result.categories.forEach((cat) => {
         t.is(cat.hints.length, 0);
-        t.is(cat.errors, 0);
-        t.is(cat.warnings, 0);
+        t.is(cat.hintsCount, 0);
     });
 });
 
@@ -48,16 +46,14 @@ test(`HTML formatter return the right number of erros and warnings`, async (t) =
     t.plan(17);
 
     t.is(result.categories.length, 7);
-    t.is(result.errors, 2);
-    t.is(result.warnings, 3);
+    t.is(result.hintsCount, 5);
 
     const otherCategory = result.getCategoryByName(Category.other);
     const devCategory = result.getCategoryByName(Category.development);
 
     if (otherCategory) {
         t.is(otherCategory.hints.length, 1);
-        t.is(otherCategory.errors, 1);
-        t.is(otherCategory.warnings, 3);
+        t.is(otherCategory.hintsCount, 4);
 
         const hint = otherCategory.getHintByName('random-hint');
 
@@ -69,8 +65,7 @@ test(`HTML formatter return the right number of erros and warnings`, async (t) =
 
     if (devCategory) {
         t.is(devCategory.hints.length, 1);
-        t.is(devCategory.errors, 1);
-        t.is(devCategory.warnings, 0);
+        t.is(devCategory.hintsCount, 1);
 
         const hint = devCategory.getHintByName('axe');
 
@@ -84,8 +79,7 @@ test(`HTML formatter return the right number of erros and warnings`, async (t) =
     result.removeCategory(Category.development);
 
     t.is(result.categories.length, 6);
-    t.is(result.errors, 1);
-    t.is(result.warnings, 3);
+    t.is(result.hintsCount, 4);
 });
 
 test(`HTML formatter return the right value for isFinish`, async (t) => {

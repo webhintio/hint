@@ -4,6 +4,8 @@
     <meta charset="utf-8" >
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include('../partials/browser-icon', { result }); %>
+    <link rel="stylesheet" href="styles/fonts.css" >
     <link rel="stylesheet" href="styles/base.css" >
     <link rel="stylesheet" href="styles/controls.css" >
     <link rel="stylesheet" href="styles/type.css" >
@@ -18,6 +20,8 @@
 
     <script src="js/highlight/highlight.min.js"></script>
     <script src="js/highlight/languages/xml.min.js"></script>
+    <script src="js/polyfills/accordion.js"></script>
+    <script src="js/polyfills/setimmediate.js"></script>
 
     <script src="js/scan/scanner-common.js"></script>
 </body>

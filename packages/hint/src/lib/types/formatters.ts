@@ -1,13 +1,15 @@
 import { Problem } from './problems';
-import { UserConfig } from '../types';
+import { UserConfig, HintResources } from '../types';
 
 export type FormatterOptions = {
+    config?: UserConfig;
     isScanner?: boolean;
     noGenerateFiles?: boolean;
+    resources?: HintResources;
     scanTime?: number;
     status?: string;
+    timeStamp?: number;
     version?: string;
-    config?: UserConfig;
 };
 
 export interface IFormatterConstructor {

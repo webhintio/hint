@@ -1,0 +1,11 @@
+<% if (result && result.status) { %>
+    <% if (result.status === 'error' || result.hintsCount !== 0) { %>
+        <link rel="icon" href="<%= (result.isScanner ? '' : '.') %>/images/scan/favicon_failed.ico">
+    <% } else if (result.status === 'finished') { %>
+        <link rel="icon" href="<%= (result.isScanner ? '' : '.') %>/images/scan/favicon_passed.ico">
+    <% } else { %>
+        <link rel="icon" href="<%= (result.isScanner ? '' : '.') %>/images/scan/favicon_pending.ico">
+    <% } %>
+<% } else { %>
+    <link rel="icon" href="<%= (result.isScanner ? '' : '.') %>/images/scan/favicon-32x32.png">
+<% } %>

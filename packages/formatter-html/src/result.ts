@@ -56,8 +56,8 @@ export class HintResult {
 }
 
 export class CategoryResult {
-    public errors: number;
-    public warnings: number;
+    public hintsCount: number;
+    public passed: Array<HintResult>;
     public hints: Array<HintResult>;
     public name: string;
     public image: string;
@@ -68,10 +68,10 @@ export class CategoryResult {
 
     public constructor(name: string, url: string, isScanner: boolean) {
         this.hints = [];
+        this.passed = [];
         this.name = name;
 
-        this.errors = 0;
-        this.warnings = 0;
+        this.hintsCount = 0;
 
         this.image = categoryImages[name.toLowerCase()];
         this.isScanner = isScanner;
@@ -101,16 +101,20 @@ export class CategoryResult {
         return hint;
     }
 
-    public addHint(name: string): HintResult {
+    public addHint(name: string, status: string): HintResult {
         let hint = this.getHintByName(name);
 
         if (hint) {
             return hint;
         }
 
-        hint = new HintResult(name, 'pass', this.url, this.isScanner);
+        hint = new HintResult(name, status, this.url, this.isScanner);
 
-        this.hints.push(hint);
+        if (status === 'pass') {
+            this.passed.push(hint);
+        } else {
+            this.hints.push(hint);
+        }
 
         return hint;
     }
@@ -129,10 +133,8 @@ export class CategoryResult {
             this.hints.push(hint);
         }
 
-        if (problem.severity === Severity.error) {
-            this.errors++;
-        } else if (problem.severity === Severity.warning) {
-            this.warnings++;
+        if (problem.severity === Severity.error || problem.severity === Severity.warning) {
+            this.hintsCount++;
         }
 
         hint.addProblem(problem);
@@ -140,9 +142,9 @@ export class CategoryResult {
 }
 
 export default class AnalysisResult {
-    public warnings: number;
-    public errors: number;
+    public hintsCount: number;
     public scanTime: string;
+    public timeStamp: string;
     public version?: string;
     public permalink: string;
     public categories: Array<CategoryResult>;
@@ -151,21 +153,23 @@ export default class AnalysisResult {
     public status: string;
     public id: string;
     public isScanner: boolean;
+    public percentage: number;
     private cache: Map<string, CategoryResult> = new Map();
 
     public constructor(target: string, options: FormatterOptions) {
         this.url = target;
-        this.warnings = 0;
-        this.errors = 0;
+        this.hintsCount = 0;
         this.status = options.status ? options.status : 'finished';
         // Question: Should we have this here or in webhint.io?
         this.isFinish = this.status === 'finished' || this.status === 'error';
 
         this.scanTime = this.parseScanTime(options.scanTime || 0);
+        this.timeStamp = this.parseTimeStamp(options.timeStamp!);
         this.version = options.version;
         this.permalink = '';
         this.id = '';
         this.isScanner = !!options.isScanner;
+        this.percentage = 0;
 
         this.categories = [];
     }
@@ -187,6 +191,10 @@ export default class AnalysisResult {
         }
 
         return time;
+    }
+
+    private parseTimeStamp(timeStamp: number): string {
+        return moment(timeStamp).format('YYYY-MM-DD H:mm');
     }
 
     public getCategoryByName(name: string): CategoryResult | undefined {
@@ -217,10 +225,8 @@ export default class AnalysisResult {
             this.categories.push(category);
         }
 
-        if (problem.severity === Severity.error) {
-            this.errors++;
-        } else if (problem.severity === Severity.warning) {
-            this.warnings++;
+        if (problem.severity === Severity.error || problem.severity === Severity.warning) {
+            this.hintsCount++;
         }
 
         category.addProblem(problem);
@@ -244,8 +250,7 @@ export default class AnalysisResult {
         const category = this.getCategoryByName(name);
 
         if (category) {
-            this.errors -= category.errors;
-            this.warnings -= category.warnings;
+            this.hintsCount -= category.hintsCount;
 
             const index = this.categories.indexOf(category);
 
