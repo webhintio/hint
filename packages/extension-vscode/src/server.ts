@@ -16,9 +16,9 @@ import { Configuration } from 'hint/dist/src/lib/config';
 import { loadResources } from 'hint/dist/src/lib/utils/resource-loader';
 import { Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 
-// Load a user configuration, falling back to 'web-recommended' if none exists.
+// Load a user configuration, falling back to 'development' if none exists.
 const loadUserConfig = (): UserConfig => {
-    const defaultConfig: UserConfig = { extends: ['web-recommended'] };
+    const defaultConfig: UserConfig = { extends: ['development'] };
 
     try {
         const configPath = Configuration.getFilenameForDirectory(process.cwd());
