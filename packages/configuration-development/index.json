@@ -1,5 +1,8 @@
 {
     "connector": "local",
+    "extends": [
+        "progressive-web-apps"
+    ],
     "formatters": [
         "html",
         "summary"
@@ -9,6 +12,7 @@
         "babel-config/is-valid": "error",
         "disown-opener": "error",
         "highest-available-document-mode": "error",
+        "manifest-exists": "off",
         "meta-charset-utf-8": "error",
         "meta-viewport": "error",
         "no-bom": "error",

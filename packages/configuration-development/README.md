@@ -30,6 +30,9 @@ and it will be as if you had this:
 ```json
 {
     "connector": "local",
+    "extends": [
+        "progressive-web-apps"
+    ],
     "formatters": [
         "summary"
     ],
@@ -38,9 +41,9 @@ and it will be as if you had this:
         "babel-config/is-valid": "error",
         "disown-opener": "error",
         "highest-available-document-mode": "error",
+        "manifest-exists": "off",
         "meta-charset-utf-8": "error",
         "meta-viewport": "error",
-        "no-bom": "error",
         ...
     },
     "hintsTimeout": 10000

@@ -27,7 +27,7 @@
   "name": "@hint/monorepo",
   "private": true,
   "scripts": {
-    "build": "yarn clean && yarn build:hint && yarn build:utils && npm-run-all --parallel build:parser:* && yarn build:connectors && yarn build:utils-test && loop \"yarn build\" --cwd packages/ --exclude configuration-progressive-web-apps,configuration-web-recommended,connector-edge,hint,utils-debugging-protocol-common,utils-connector-tools,utils-tests-helpers,connector-chrome,connector-jsdom,connector-local,parser-babel-config,parser-html,parser-javascript,parser-manifest,parser-typescript-config,parser-webpack-config",
+    "build": "yarn clean && yarn build:hint && yarn build:utils && npm-run-all --parallel build:parser:* && yarn build:connectors && yarn build:utils-test && loop \"yarn build\" --cwd packages/ --exclude configuration-development,configuration-progressive-web-apps,configuration-web-recommended,connector-edge,hint,utils-debugging-protocol-common,utils-connector-tools,utils-tests-helpers,connector-chrome,connector-jsdom,connector-local,parser-babel-config,parser-html,parser-javascript,parser-manifest,parser-typescript-config,parser-webpack-config",
     "build:connector-chrome": "cd packages/connector-chrome && yarn build",
     "build:connector-edge": "node -e \"process.platform !== 'win32' && process.exit(1);\" && (cd packages/connector-edge && yarn build) || echo \"\"",
     "build:connector-jsdom": "cd packages/connector-jsdom && yarn build",
