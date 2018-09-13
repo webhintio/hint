@@ -1,0 +1,18 @@
+<a class="rule-tile--wrapper" id="summary-<%= category.name %>" href="#<%= category.name %>">
+    <div class="rule-tile">
+        <img src="<%= category.image %>" class="rule-icon" alt="" role="presentation">
+        <div class="rule-tile__info">
+            <p class="rule-tile__category"><%= category.name.toUpperCase() %></p>
+            <div class="rule-tile__results">
+                <div class="rule-tile__result-wrapper">
+                    <p class="rule-tile__sub-category">hints</p>
+                    <p class="rule-tile__sub-category rule-tile__hints"><span><%= category.hintsCount %><span></p>
+                </div>
+                <div class="rule-tile__result-wrapper">
+                    <p class="rule-tile__sub-category">passed</p>
+                    <p class="rule-tile__sub-category"><span class="rule-tile__passed"><%= category.passed.length %></span>&nbsp;/&nbsp;<%= category.hints.length + category.passed.length %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

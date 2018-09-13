@@ -6,6 +6,9 @@ const fsExtra = {
     copy() { },
     mkdirp() { },
     outputFile() { },
+    readFile() {
+        return '';
+    },
     remove() { }
 };
 
@@ -27,37 +30,33 @@ test(`HTML formatter returns the right object`, async (t) => {
 
     const result: Result = await formatter.format(problems.noproblems, 'http://example.com');
 
-    t.plan((result.categories.length * 3) + 3);
+    t.plan((result.categories.length * 2) + 2);
 
     t.is(result.categories.length, 7);
-    t.is(result.errors, 0);
-    t.is(result.warnings, 0);
+    t.is(result.hintsCount, 0);
 
     result.categories.forEach((cat) => {
         t.is(cat.hints.length, 0);
-        t.is(cat.errors, 0);
-        t.is(cat.warnings, 0);
+        t.is(cat.hintsCount, 0);
     });
 });
 
-test(`HTML formatter return the right number of erros and warnings`, async (t) => {
+test(`HTML formatter returns the right number of erros and warnings`, async (t) => {
     const formatter = new HTMLFormatter();
 
     const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com');
 
-    t.plan(17);
+    t.plan(13);
 
     t.is(result.categories.length, 7);
-    t.is(result.errors, 2);
-    t.is(result.warnings, 3);
+    t.is(result.hintsCount, 5);
 
     const otherCategory = result.getCategoryByName(Category.other);
     const devCategory = result.getCategoryByName(Category.development);
 
     if (otherCategory) {
         t.is(otherCategory.hints.length, 1);
-        t.is(otherCategory.errors, 1);
-        t.is(otherCategory.warnings, 3);
+        t.is(otherCategory.hintsCount, 4);
 
         const hint = otherCategory.getHintByName('random-hint');
 
@@ -69,8 +68,7 @@ test(`HTML formatter return the right number of erros and warnings`, async (t) =
 
     if (devCategory) {
         t.is(devCategory.hints.length, 1);
-        t.is(devCategory.errors, 1);
-        t.is(devCategory.warnings, 0);
+        t.is(devCategory.hintsCount, 1);
 
         const hint = devCategory.getHintByName('axe');
 
@@ -84,8 +82,7 @@ test(`HTML formatter return the right number of erros and warnings`, async (t) =
     result.removeCategory(Category.development);
 
     t.is(result.categories.length, 6);
-    t.is(result.errors, 1);
-    t.is(result.warnings, 3);
+    t.is(result.hintsCount, 4);
 });
 
 test(`HTML formatter return the right value for isFinish`, async (t) => {
@@ -144,7 +141,7 @@ test.serial(`HTML formatter create copy and generate the right files`, async (t)
     t.true(t.context.fsExtra.copy.calledOnce);
     t.true(t.context.fsExtra.remove.calledOnce);
     t.true(t.context.fsExtra.mkdirp.calledOnce);
-    t.true(t.context.fsExtra.outputFile.calledTwice);
+    t.is(t.context.fsExtra.outputFile.callCount, 4);
 
     sandbox.restore();
 });

@@ -112,6 +112,16 @@
         });
     };
 
+    const passedHints = (category: any): Array<any> => {
+        if (!category) {
+            return [];
+        }
+
+        return category.hints.filter((hint: any) => {
+            return hint.status === hintStatus.pass;
+        });
+    };
+
     const utils = {
         cutCodeString,
         cutUrlString,
@@ -119,7 +129,8 @@
         linkify,
         noIssues,
         noPending,
-        normalizePosition
+        normalizePosition,
+        passedHints
     };
 
     if (typeof module === 'object' && module.exports) {

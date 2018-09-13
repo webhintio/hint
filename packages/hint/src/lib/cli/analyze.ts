@@ -356,10 +356,12 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         });
     };
 
-    const print = async (reports: Array<Problem>, target: string, scanTime: number): Promise<void> => {
+    const print = async (reports: Array<Problem>, target: string, scanTime: number, timeStamp: number): Promise<void> => {
         const formatterOptions: FormatterOptions = {
             config: userConfig,
+            resources,
             scanTime,
+            timeStamp,
             version: loadHintPackage().version
         };
 
@@ -383,7 +385,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             endSpinner(exitCode ? 'fail' : 'succeed');
 
             await askForTelemetryConfirmation(config);
-            await print(results, target.href, scanEnd - scanStart);
+            await print(results, target.href, scanEnd - scanStart, scanStart);
         } catch (e) {
             exitCode = 1;
             endSpinner('fail');

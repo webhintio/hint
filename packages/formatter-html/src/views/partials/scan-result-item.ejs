@@ -1,49 +1,50 @@
-<div class="rule-result--details" aria-expanded="false" id="<%= hint.name %>">
-    <div class="rule-result--details__header">
-        <p class="rule-title"><%= hint.name %>: <%= hint.count %> <%= hint.status %><% if(hint.count > 1) { %>s<% } %></p>
-        <div class="rule-result__docs">
-            <a class="docs-button" rel="noopener noreferrer" target="_blank" href="https://webhint.io/docs/user-guide/rules/rule-<%= hint.name %>/" title="documentation for <%= hint.name %> rule">
-                <% if (isScanner) { %>
-                    <img src="/images/scan/results-docs-icon.svg" alt="" class="docs-icon" />
-                <% } else { %>
-                    <img src="images/scan/results-docs-icon.svg" alt="" class="docs-icon" />
-                <% } %>
-                Documentation
+<details class="rule-result--details" id="<%= hint.name %>" aria-expanded="false" role="group">
+    <summary class="rule-title" title="show <%= hint.name %>'s result details" role="button"><%= hint.name %>: <%= hint.count %> hints</summary>
+    <div class="rule-content">
+        <% if (hint.hasDoc) { %>
+        <div class="rule-doc-buttons">
+            <a class="rule-doc-button" rel="noopener noreferrer" target="_blank" href="https://webhint.io/docs/user-guide/hints/hint-<%= hint.name %>/#why-is-this-important"
+                title="<%= hint.name %> - Why is this important">
+                Why is this important <span class="rule-doc-icon"></span>
             </a>
-            <button title="show <%= hint.name %>'s result details" class="button--details" data-rule="<%= hint.name %>">Open details</button>
-        </div>
-    </div>
-    <% hint.problems.forEach(function (problem) { %>
-    <div class="rule-result--details__body">
-        <p class="<%= hint.status %>-badge uppercase-text"><%= hint.status %></p>
-        <p>
-            <%= utils.linkify(problem.message); %>
-        </p>
-        <% if (problem.resource) { %>
-        <p>
-            <a target="_blank" rel="noopener noreferrer" href="<%= problem.resource %>">
-                <%= utils.cutUrlString(problem.resource); %><%= utils.normalizePosition(problem.location.line); %><%= utils.normalizePosition(problem.location.column); %>
-            </a>
-        </p>
-        <% } %>
-        <% if (problem.sourceCode) { %>
-        <div class="rule-result__code">
-            <code><%= utils.cutCodeString(problem.sourceCode); %></code>
-        </div>
-        <% } %>
-    </div>
-    <% }); %>
-    <% if(hint.thirdPartyInfo) { %>
-        <div class="rule-result--details__footer-msg">
-            <% if (hint.thirdPartyInfo.details) { %>
-                <p>To learn more visit </p>
-            <% } else { %>
-                <p>With the help of </p>
-            <% } %>
 
-            <a href="<%= hint.thirdPartyInfo.link %>">
-                <img src="<%= hint.thirdPartyInfo.logo.url %>" alt="<%= hint.thirdPartyInfo.logo.alt %>" class="<%= hint.thirdPartyInfo.logo.name %>-logo" />
+            <a class="rule-doc-button" rel="noopener noreferrer" target="_blank" href="https://webhint.io/docs/user-guide/hints/hint-<%= hint.name %>/#examples-that-pass-the-hint"
+                title="<%= hint.name %> - How to fix it">
+                How to fix this <span class="rule-doc-icon"></span>
             </a>
         </div>
-    <% } %>
-</div>
+        <% } %>
+        <% hint.problems.forEach(function (problem, index) { %>
+            <div class="rule-result--details__body">
+                <p>
+                    <span class="rule-result--details__hint-number">hint <%= index %>:</span> <%= utils.linkify(problem.message); %>
+                </p>
+                <% if (problem.resource) { %>
+                <p>
+                    <a class="rule-result--details__hint-link" target="_blank" rel="noopener noreferrer" href="<%= problem.resource %>">
+                        <%= utils.cutUrlString(problem.resource); %>
+                    </a>
+                </p>
+                <% } %>
+                <% if (problem.sourceCode) { %>
+                <div class="rule-result__code">
+                    <code><%= utils.cutCodeString(problem.sourceCode); %></code>
+                </div>
+                <% } %>
+            </div>
+            <% if(hint.thirdPartyInfo) { %>
+                <div class="rule-result--details__footer-msg">
+                    <% if (hint.thirdPartyInfo.details) { %>
+                        <p>To learn more visit </p>
+                    <% } else { %>
+                        <p>With the help of </p>
+                    <% } %>
+
+                    <a href="<%= hint.thirdPartyInfo.link %>">
+                        <img src="<%= hint.thirdPartyInfo.logo.url %>" alt="<%= hint.thirdPartyInfo.logo.alt %>" class="<%= hint.thirdPartyInfo.logo.name %>-logo">
+                    </a>
+                </div>
+            <% } %>
+        <% }); %>
+    </div>
+</details>

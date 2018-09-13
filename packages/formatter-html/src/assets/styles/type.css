@@ -62,9 +62,7 @@ h2,
 }
 
 .headline::before,
-.heading::before,
-.scan-heading::before,
-.rule-title::before {
+.heading::before {
     content: "";
     position: absolute;
     left: 0;
