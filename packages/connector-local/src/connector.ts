@@ -103,24 +103,12 @@ export default class LocalConnector implements IConnector {
     }
 
     private async fetchData(target: string, options?: IFetchOptions): Promise<FetchEnd> {
-        /*
-         * target can have one of these forms:
-         *   - /path/to/file
-         *   - C:/path/to/file
-         *   - file:///path/to/file
-         *   - file:///C:/path/to/file
-         *
-         * That's why we need to parse it to an URL
-         * and then get the path string.
-         */
-        const uri: url.URL = getAsUri(target);
-        const filePath: string = asPathString(uri);
-        const content: NetworkData = await this.fetchContent(filePath, null, options);
+        const content: NetworkData = await this.fetchContent(target, null, options);
 
         return {
             element: null,
             request: content.request,
-            resource: url.format(getAsUri(filePath)),
+            resource: url.format(getAsUri(target)),
             response: content.response
         };
     }
@@ -269,7 +257,19 @@ export default class LocalConnector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    public async fetchContent(filePath: string, headers?: object, options?: IFetchOptions): Promise<NetworkData> {
+    public async fetchContent(target: string, headers?: object, options?: IFetchOptions): Promise<NetworkData> {
+        /*
+         * target can have one of these forms:
+         *   - /path/to/file
+         *   - C:/path/to/file
+         *   - file:///path/to/file
+         *   - file:///C:/path/to/file
+         *
+         * That's why we need to parse it to an URL
+         * and then get the path string.
+         */
+        const uri: url.URL = getAsUri(target);
+        const filePath: string = asPathString(uri);
         const rawContent: Buffer = options && options.content ? Buffer.from(options.content) : await readFileAsBuffer(filePath);
         const contentType = getContentTypeData(null, filePath, null, rawContent);
         let content = '';
@@ -295,7 +295,7 @@ export default class LocalConnector implements IConnector {
                 hops: [],
                 mediaType: contentType.mediaType,
                 statusCode: 200,
-                url: filePath
+                url: url.format(uri)
             }
         };
     }
