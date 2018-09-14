@@ -68,12 +68,14 @@ const loadWebHint = async (directory: string): Promise<Engine> => {
     return await loadEngine(directory, userConfig);
 };
 
+let workspace: string;
 let engine: Engine;
 
 connection.onInitialize(async (params) => {
     try {
         // TODO: support multiple workspaces (`params.workspaceFolders`)
-        engine = await loadWebHint(params.rootPath);
+        workspace = params.rootPath;
+        engine = await loadWebHint(workspace);
     } catch (e) {
         console.error(e);
         connection.window.showErrorMessage('[webhint] Load failed. Add it via `npm install hint --save-dev`.');
@@ -140,6 +142,16 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
         uri: textDocument.uri
     });
 };
+
+// A watched .hintrc has changed. Reload the engine and re-validate documents.
+connection.onDidChangeWatchedFiles(async () => {
+    engine = await loadWebHint(workspace);
+    const docs = documents.all();
+
+    for (let i = 0; i < docs.length; i++) {
+        await validateTextDocument(docs[i]);
+    }
+});
 
 // Re-validate the document whenever the content changes.
 documents.onDidChangeContent((change) => {

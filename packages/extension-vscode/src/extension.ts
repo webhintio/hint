@@ -1,4 +1,4 @@
-import { ExtensionContext } from 'vscode';
+import { workspace, ExtensionContext } from 'vscode';
 
 import {
     LanguageClient,
@@ -35,7 +35,13 @@ export const activate = (context: ExtensionContext) => {
         }
     };
 
-    const clientOptions: LanguageClientOptions = { documentSelector: supportedDocuments };
+    const clientOptions: LanguageClientOptions = {
+        documentSelector: supportedDocuments,
+        synchronize: {
+            // Notify the server if a webhint-related configuration changes
+            fileEvents: workspace.createFileSystemWatcher('**/.hintrc')
+        }
+    };
 
     // Create and start the client (also starts the server)
     client = new LanguageClient('webhint', serverOptions, clientOptions);
