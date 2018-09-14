@@ -82,7 +82,7 @@ const problemToDiagnostic = (problem: Problem): Diagnostic => {
     }
 
     return {
-        message: problem.message,
+        message: `${problem.message}\n(${problem.hintId})`,
         range: {
             end: { character, line },
             start: { character, line }
