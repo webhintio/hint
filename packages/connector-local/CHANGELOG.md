@@ -1,3 +1,10 @@
+# 1.1.2 (September 14, 2018)
+
+## Bug fixes / Improvements
+
+* [[`90e566389a`](https://github.com/webhintio/hint/commit/90e566389aef79ad3d07bf3a8a71639f168a6e2d)] - Fix: `file` URI scheme handling in `connector-local` (by [`Tony Ross`](https://github.com/antross) / see also: [`#1311`](https://github.com/webhintio/hint/issues/1311)).
+
+
 # 1.1.1 (September 6, 2018)
 
 ## Bug fixes / Improvements
