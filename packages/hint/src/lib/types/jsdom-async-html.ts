@@ -60,6 +60,7 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
         return this._htmlelement.getAttribute(name);
     }
 
+    /* istanbul ignore next */
     public getLocation(): ProblemLocation {
         try {
             const location = this._dom && this._dom.nodeLocation(this._htmlelement);

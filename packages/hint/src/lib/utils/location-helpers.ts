@@ -69,6 +69,7 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<P
     const location = element.getLocation();
 
     // Use the element information from parsing if we have it.
+    /* istanbul ignore next */
     if (location) {
         return location;
     }
