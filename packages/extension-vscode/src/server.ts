@@ -3,6 +3,7 @@ import { URL } from 'url';
 
 import {
     createConnection,
+    Files,
     TextDocuments,
     TextDocument,
     Diagnostic,
@@ -16,13 +17,21 @@ import { Configuration } from 'hint/dist/src/lib/config';
 import { loadResources } from 'hint/dist/src/lib/utils/resource-loader';
 import { Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 
+// Connect to the language client
+const connection = createConnection(ProposedFeatures.all);
+const documents = new TextDocuments();
+
+const trace = (message: string): void => {
+    return console.log(message);
+};
+
 // Load a user configuration, falling back to 'development' if none exists.
-const loadUserConfig = (): UserConfig => {
+const loadUserConfig = (directory: string): UserConfig => {
     const defaultConfig: UserConfig = { extends: ['development'] };
 
     try {
-        const configPath = Configuration.getFilenameForDirectory(process.cwd());
-        const resolvedPath = path.resolve(process.cwd(), configPath);
+        const configPath = Configuration.getFilenameForDirectory(directory);
+        const resolvedPath = path.resolve(directory, configPath);
 
         return Configuration.loadConfigFile(resolvedPath) || defaultConfig;
     } catch (e) {
@@ -30,30 +39,46 @@ const loadUserConfig = (): UserConfig => {
     }
 };
 
-const userConfig = loadUserConfig();
+// Load a copy of webhint with the provided configuration
+const loadEngine = async (directory: string, userConfig: UserConfig): Promise<Engine> => {
+    const config = Configuration.fromConfig(userConfig);
+    const resources = loadResources(config);
+    const hint = await Files.resolveModule2(directory, 'hint', null, trace);
+    const WebHintEngine = hint.Engine as typeof Engine;
 
-// The vscode extension only works with the local connector
-userConfig.connector = { name: 'local' };
+    return new WebHintEngine(config, resources);
+};
 
-if (!userConfig.parsers) {
-    userConfig.parsers = [];
-}
+// Load both webhint and a configuration, adjusting it as needed for this extension
+const loadWebHint = async (directory: string): Promise<Engine> => {
+    const userConfig = loadUserConfig(directory);
 
-// Ensure the HTML parser is loaded
-if (userConfig.parsers.indexOf('html') === -1) {
-    userConfig.parsers.push('html');
-}
+    // The vscode extension only works with the local connector
+    userConfig.connector = { name: 'local' };
 
-// Create the webhint engine
-const config = Configuration.fromConfig(userConfig);
-const resources = loadResources(config);
-const engine = new Engine(config, resources);
+    if (!userConfig.parsers) {
+        userConfig.parsers = [];
+    }
 
-// Connect to the language client
-const connection = createConnection(ProposedFeatures.all);
-const documents = new TextDocuments();
+    // Ensure the HTML parser is loaded
+    if (userConfig.parsers.indexOf('html') === -1) {
+        userConfig.parsers.push('html');
+    }
 
-connection.onInitialize(() => {
+    return await loadEngine(directory, userConfig);
+};
+
+let engine: Engine;
+
+connection.onInitialize(async (params) => {
+    try {
+        // TODO: support multiple workspaces (`params.workspaceFolders`)
+        engine = await loadWebHint(params.rootPath);
+    } catch (e) {
+        console.error(e);
+        connection.window.showErrorMessage('[webhint] Load failed. Add it via `npm install hint --save-dev`.');
+    }
+
     return { capabilities: { textDocumentSync: documents.syncKind } };
 });
 
@@ -93,6 +118,11 @@ const problemToDiagnostic = (problem: Problem): Diagnostic => {
 };
 
 const validateTextDocument = async (textDocument: TextDocument): Promise<void> => {
+
+    // Ignore if `connection.onInitialize` failed to load webhint.
+    if (!engine) {
+        return;
+    }
 
     // In VSCode on Windows, the `:` is escaped after the drive letter in `textDocument.uri`.
     const url = new URL(unescape(textDocument.uri));
