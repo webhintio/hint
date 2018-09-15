@@ -12,9 +12,9 @@ import {
 } from 'vscode-languageserver';
 
 // TODO: Enhance `hint` exports so everything can be imported directly.
-import { Engine } from 'hint';
-import { Configuration } from 'hint/dist/src/lib/config';
-import { loadResources } from 'hint/dist/src/lib/utils/resource-loader';
+import * as hint from 'hint';
+import * as config from 'hint/dist/src/lib/config';
+import * as loader from 'hint/dist/src/lib/utils/resource-loader'; // eslint-disable-line
 import { Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 
 // Connect to the language client
@@ -25,8 +25,12 @@ const trace = (message: string): void => {
     return console.log(message);
 };
 
+const loadModule = async <T>(context: string, name: string): Promise<T> => {
+    return await Files.resolveModule2(context, name, null, trace);
+};
+
 // Load a user configuration, falling back to 'development' if none exists.
-const loadUserConfig = (directory: string): UserConfig => {
+const loadUserConfig = (directory: string, Configuration: typeof config.Configuration): UserConfig => {
     const defaultConfig: UserConfig = { extends: ['development'] };
 
     try {
@@ -40,18 +44,18 @@ const loadUserConfig = (directory: string): UserConfig => {
 };
 
 // Load a copy of webhint with the provided configuration
-const loadEngine = async (directory: string, userConfig: UserConfig): Promise<Engine> => {
-    const config = Configuration.fromConfig(userConfig);
-    const resources = loadResources(config);
-    const hint = await Files.resolveModule2(directory, 'hint', null, trace);
-    const WebHintEngine = hint.Engine as typeof Engine;
+const loadEngine = async (directory: string, configuration: config.Configuration): Promise<hint.Engine> => {
+    const { loadResources } = await loadModule<typeof loader>(directory, 'hint/dist/src/lib/utils/resource-loader');
+    const resources = loadResources(configuration);
+    const { Engine } = await loadModule<typeof hint>(directory, 'hint');
 
-    return new WebHintEngine(config, resources);
+    return new Engine(configuration, resources);
 };
 
 // Load both webhint and a configuration, adjusting it as needed for this extension
-const loadWebHint = async (directory: string): Promise<Engine> => {
-    const userConfig = loadUserConfig(directory);
+const loadWebHint = async (directory: string): Promise<hint.Engine> => {
+    const { Configuration } = await loadModule<typeof config>(directory, 'hint/dist/src/lib/config');
+    const userConfig = loadUserConfig(directory, Configuration);
 
     // The vscode extension only works with the local connector
     userConfig.connector = { name: 'local' };
@@ -65,11 +69,11 @@ const loadWebHint = async (directory: string): Promise<Engine> => {
         userConfig.parsers.push('html');
     }
 
-    return await loadEngine(directory, userConfig);
+    return await loadEngine(directory, Configuration.fromConfig(userConfig));
 };
 
 let workspace: string;
-let engine: Engine;
+let engine: hint.Engine;
 
 connection.onInitialize(async (params) => {
     try {
@@ -87,9 +91,9 @@ connection.onInitialize(async (params) => {
 // Translate a webhint severity into the VSCode DiagnosticSeverity format.
 const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity => {
     switch (severity) {
-        case Severity.error:
+        case 2:
             return DiagnosticSeverity.Error;
-        case Severity.warning:
+        case 1:
             return DiagnosticSeverity.Warning;
         default:
             return DiagnosticSeverity.Hint;
