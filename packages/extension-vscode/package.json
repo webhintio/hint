@@ -25,7 +25,7 @@
     "homepage": "https://webhint.io/",
     "license": "Apache-2.0",
     "main": "./dist/extension",
-    "name": "@hint/extension-vscode",
+    "name": "vscode-webhint",
     "private": true,
     "publisher": "webhint",
     "repository": "webhintio/hint",
