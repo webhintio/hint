@@ -3,6 +3,7 @@ import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
 import * as HTMLParser from '../src/parser';
+import { IAsyncHTMLDocument } from 'hint/dist/src/lib/types';
 
 test.beforeEach((t) => {
     t.context.engine = new EventEmitter2({
@@ -29,9 +30,10 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
     });
 
     const args = t.context.engine.emitAsync.args;
-    const document = args[1][1].window.document;
+    const document = args[1][1].window.document as IAsyncHTMLDocument;
     const div = (await document.querySelectorAll('div'))[0];
     const div2 = (await document.querySelectorAll('body > div'))[0];
+    const location = div.getLocation();
 
     let id = null;
 
@@ -49,6 +51,8 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
     t.is(await div.outerHTML(), '<div id="test">Test</div>');
     t.is(div.nodeName.toLowerCase(), 'div');
     t.is(div.getAttribute('id'), 'test');
+    t.is(location && location.line, 0);
+    t.is(location && location.column, 16);
     t.is(id.value, 'test');
     t.true(div.isSame(div2));
 
