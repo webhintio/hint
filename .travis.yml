@@ -15,6 +15,9 @@ env:
     # TRAVIS_API_TOKEN
     - secure: "IaW1CfeF12i16seRoO3tPQXw0IrF3ve/umcRpwCkmVgaxM0z/q5mJ+VCV25R67idqaGiSfVkdR5qb1q3q8eVKcMBhg/o6s4/7j3GGdm/5ixU5r8TOOfNUadsX2/e/pt4s5YE6+9NgSWshkwk81j9VBmmfQ1ClE0N0xS9uvjzn4YsZ7YSacrM02lEd5riPkVe0slxN0j0eGm50aum75MsPShM1WTGq9WdJyxd/Xpaia+2eBuiRCHu822dASLnoeVL6kyBmE4x86Ss17eR2VseaOS3XKRmFkdIDiPVO85B2EBaeqiyr4fHOqXTQm/WmWGCMSuzpQMRdksSNOCVrN/csmgajnhdye9f2kUdxTduu17TBcYzvkkoP2MRLglINcSCDHspDbI5177oIIBlE6nB9iawUWIIaiRATAmCBpllIGSA/zmvuztQM8YedjHA9E9o0yBXgyaFCHqz9N5fiZldKLU7do2OblPhwQoKzbUhs7+egpuVTnYp76NiqqipRV8gyCDjXCNWtXR/yba3UT5/3PIozL29mxxM41WIuhVhSXgVKhOzDSTYO5z8kB4S8L5dhVY9gLgXi0qnFU4d+Gsiy69lbZ9zXeK0occjMi/b0rkSOwovGmAZU2ArwUh7XRPbFZuCwxwaF/HBqaInsodRveuuOw7RbZh978kQKDf5J9g="
 
+    # GH_USER_NAME & GH_USER_EMAIL
+    - secure: "Woi9tmhZmvZ3vabbqeOZj/Pn56fcMMD3kbPd/Imu9cI75OWcasisUIMmQDGL4rPoKsnwQTOTewI83zybXNKRGEpmfZpvwuvl0CbL6Dk8jpPFY8RMGe5xkKTHCvZZCVdNvRRP6ylpn4WdUJkixCHtdYcFcKMaVufbur5fGTdNiu8FUEi5zzJFvy1D8DCV8qI5JAyKWiokRACtPaQ3C5Fj0oQGt+x5rbTLaesu+iTr3+2IwEruzlU+TbJQaMJAWGSb94LSqKVRX5v2buODI2zaY5Q9CaY5doSHT+k33xe+BsZW6J1A4WXoAWXxk5wklg6pQj9Zfq3HOSOr9QI08KC2/7joaXVKrHSo8ITKbpRl/AFCGxTfvfZM7b3AlfmikcWh2PfvvXktwbb2X5Gx5zmGGoIbt3v5IAsXNepRPz3tGsCaNz9x7WWiRpRznW9t1m342Q8gIiz6TfiXd/cWEsTck0kIXtuG2se9V5RLrmD2Ry10+Av1U88vvtfBXlPbA1fnnHbcjrtCcpC4qk1FzhclH/CR+qhhASUmW8D7jWJkpKVQZu6u2GG/HQj4WDUlq7R1zIpKlbSTd+MBDo+6nXle7Y2gqCfP63ij5l1PnRCLp0Q+scBMDz6RNsyq+2tV+I/0zLlrRzglGFkAp3yrrjfilwWm3u6mKf7iQPTTdRIGxs0="
+
     # Other
     - PACKAGE_BATCH_SIZE=2
 
@@ -110,6 +113,23 @@ jobs:
 
       script: ./.travis/trigger-site-update.sh
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Stage used for automatically merging Greenkeeper's commits
+    # that pass the tests.
+    #
+    # [!] Runs: Only for branches created by Greenkeeper.
+
+    - stage: greenkeeper-merge
+      if: |
+        branch =~ ^greenkeeper\/.*-.*$ and \
+        type = push
+
+      node_js: lts/*
+      os: linux
+
+      script:
+      - ./.travis/set-up-ssh.sh && node ./.travis/greenkeeper-merge.js
 
 language: node_js
 
