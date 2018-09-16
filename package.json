@@ -54,7 +54,7 @@
     "commitmsg": "node scripts/check-commit-message.js",
     "lint": "npm-run-all lint:*",
     "lint:md": "markdownlint *.md",
-    "lint:scripts": "eslint scripts --cache --ext js --ext ts --report-unused-disable-directives",
+    "lint:scripts": "eslint scripts .travis --cache --ext js --ext ts --report-unused-disable-directives",
     "pre-release": "npm run clean:packages && npm run build:scripts && npm run release -- --prerelease",
     "preparecommitmsg": "node scripts/prepare-commit-message.js",
     "release": "npm run clean:packages && npm run build:scripts && node dist/scripts/release.js",
