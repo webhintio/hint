@@ -39,12 +39,11 @@
   "description": "The linting tool for the web",
   "devDependencies": {
     "@types/debug": "0.0.30",
-    "@types/globby": "^6.1.0",
+    "@types/globby": "^8.0.0",
     "@types/handlebars": "^4.0.39",
     "@types/lodash": "^4.14.115",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
-    "@types/node": "8.0.14",
     "@types/request": "^2.0.13",
     "@types/semver": "^5.4.0",
     "@types/sinon": "^5.0.2",
@@ -73,6 +72,12 @@
     "dist/tests/helpers",
     "docs"
   ],
+  "greenkeeper": {
+    "ignore": [
+      "mime-db",
+      "proxyquire"
+    ]
+  },
   "homepage": "https://webhint.io/",
   "keywords": [
     "a11y",

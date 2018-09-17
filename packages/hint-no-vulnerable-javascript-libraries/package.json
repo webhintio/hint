@@ -39,6 +39,12 @@
   "files": [
     "dist"
   ],
+  "greenkeeper": {
+    "ignore": [
+      "angular",
+      "jquery"
+    ]
+  },
   "homepage": "https://webhint.io/",
   "keywords": [
     "no-vulnerable-javascript-libraries",

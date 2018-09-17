@@ -38,6 +38,11 @@
   "files": [
     "dist/src"
   ],
+  "greenkeeper": {
+    "ignore": [
+      "jsdom"
+    ]
+  },
   "homepage": "https://webhint.io/",
   "keywords": [
     "connector",
