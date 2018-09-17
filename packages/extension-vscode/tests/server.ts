@@ -1,0 +1,171 @@
+import * as mock from './fixtures/mocks';
+import * as proxyquire from 'proxyquire';
+import * as sinon from 'sinon';
+import test from 'ava';
+import { Problem, Severity } from 'hint/dist/src/lib/types';
+import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver';
+
+proxyquire('../src/server', {
+    'vscode-languageserver': {
+        createConnection: mock.createConnection,
+        Files: mock.Files,
+        ProposedFeatures: mock.ProposedFeatures,
+        TextDocuments: mock.TextDocuments
+    }
+});
+
+import '../src/server';
+
+test.beforeEach((t) => {
+    t.context.connection = mock.connection;
+    t.context.engine = mock.engine;
+    t.context.Files = mock.Files;
+});
+
+test.serial('It notifies if loading webhint fails', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const testContent = 'Test Content';
+    const testUri = 'file:///test/uri';
+
+    sandbox.stub(mock.document, 'getText').returns(testContent);
+    sandbox.stub(mock.document, 'uri').get(() => {
+        return testUri;
+    });
+
+    sandbox.spy(mock.connection.window, 'showErrorMessage');
+    sandbox.stub(mock.Files, 'resolveModule2').returns(null);
+    sandbox.spy(mock.engine, 'executeOn');
+
+    await mock.initializer({ rootPath: '' });
+    await mock.contentWatcher({ document: mock.document });
+
+    t.true(t.context.connection.window.showErrorMessage.calledOnce);
+    t.false(t.context.engine.executeOn.called);
+
+    sandbox.restore();
+});
+
+test.serial('It loads a local copy of webhint', async (t) => {
+    const testPath = '/test/path';
+    const sandbox = sinon.createSandbox();
+
+    sandbox.spy(mock.connection.window, 'showErrorMessage');
+    sandbox.spy(mock.Files, 'resolveModule2');
+
+    await mock.initializer({ rootPath: testPath });
+
+    t.is(t.context.Files.resolveModule2.args[0][0], testPath);
+    t.false(t.context.connection.window.showErrorMessage.called);
+
+    sandbox.restore();
+});
+
+test.serial('It runs webhint on content changes', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const testContent = 'Test Content';
+    const testUri = 'file:///test/uri';
+
+    sandbox.stub(mock.document, 'getText').returns(testContent);
+    sandbox.stub(mock.document, 'uri').get(() => {
+        return testUri;
+    });
+    sandbox.spy(mock.engine, 'executeOn');
+
+    await mock.contentWatcher({ document: mock.document });
+
+    t.true(t.context.engine.executeOn.calledOnce);
+    t.is(t.context.engine.executeOn.args[0][0].href, testUri);
+    t.is(t.context.engine.executeOn.args[0][1].content, testContent);
+
+    sandbox.restore();
+});
+
+test.serial('It reloads and runs webhint on watched file changes', async(t) => {
+    const sandbox = sinon.createSandbox();
+    const testContent = 'Test Content';
+    const testUri = 'file:///test/uri';
+
+    sandbox.stub(mock.documents, 'all').returns([mock.document]);
+    sandbox.stub(mock.document, 'getText').returns(testContent);
+    sandbox.stub(mock.document, 'uri').get(() => {
+        return testUri;
+    });
+    sandbox.spy(mock.engine, 'executeOn');
+
+    await mock.fileWatcher();
+
+    t.true(t.context.engine.executeOn.calledOnce);
+    t.is(t.context.engine.executeOn.args[0][0].href, testUri);
+    t.is(t.context.engine.executeOn.args[0][1].content, testContent);
+
+    sandbox.restore();
+});
+
+test.serial('It translates problems to diagnostics', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const testContent = 'Test Content';
+    const testUri = 'file:///test/uri';
+    const problems: Partial<Problem>[] = [
+        {
+            hintId: 'test-id-1',
+            location: {
+                column: 5,
+                line: 7
+            },
+            message: 'Test Message 1',
+            severity: Severity.warning
+        },
+        {
+            hintId: 'test-id-2',
+            location: {
+                column: -1,
+                line: -1
+            },
+            message: 'Test Message 2',
+            severity: Severity.error
+        },
+        {
+            hintId: 'test-id-3',
+            location: {
+                column: -1,
+                line: -1
+            },
+            message: 'Test Message 3',
+            severity: Severity.off
+        }
+    ];
+
+    sandbox.spy(mock.connection, 'sendDiagnostics');
+    sandbox.stub(mock.document, 'getText').returns(testContent);
+    sandbox.stub(mock.document, 'uri').get(() => {
+        return testUri;
+    });
+    sandbox.spy(mock.engine, 'clear');
+    sandbox.stub(mock.engine, 'executeOn').returns(problems);
+
+    await mock.contentWatcher({ document: mock.document });
+
+    t.true(t.context.engine.clear.calledOnce);
+    t.true(t.context.connection.sendDiagnostics.calledOnce);
+
+    t.is(t.context.connection.sendDiagnostics.args[0][0].uri, testUri);
+
+    const diagnostics = t.context.connection.sendDiagnostics.args[0][0].diagnostics as Diagnostic[];
+
+    t.is(diagnostics.length, 3);
+
+    t.is(diagnostics[0].source, 'webhint');
+    t.true(diagnostics[0].message.indexOf(problems[0].message) !== -1);
+    t.true(diagnostics[0].message.indexOf(problems[0].hintId) !== -1);
+    t.is(diagnostics[0].severity, DiagnosticSeverity.Warning);
+    t.is(diagnostics[0].range.start.line, problems[0].location.line);
+    t.is(diagnostics[0].range.start.character, problems[0].location.column);
+
+    t.is(diagnostics[1].severity, DiagnosticSeverity.Error);
+    t.is(diagnostics[1].range.start.line, 0);
+    t.is(diagnostics[1].range.start.character, 0);
+
+    t.is(diagnostics[2].severity, DiagnosticSeverity.Hint);
+
+    sandbox.restore();
+});

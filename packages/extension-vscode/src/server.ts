@@ -21,6 +21,7 @@ import { Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments();
 
+/* istanbul ignore next */
 const trace = (message: string): void => {
     return console.log(message);
 };
@@ -158,8 +159,8 @@ connection.onDidChangeWatchedFiles(async () => {
 });
 
 // Re-validate the document whenever the content changes.
-documents.onDidChangeContent((change) => {
-    validateTextDocument(change.document);
+documents.onDidChangeContent(async (change) => {
+    await validateTextDocument(change.document);
 });
 
 // Listen on the text document manager and connection
