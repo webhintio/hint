@@ -29,7 +29,10 @@
     "name": "vscode-webhint",
     "private": true,
     "publisher": "webhint",
-    "repository": "webhintio/hint",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/webhintio/hint.git"
+    },
     "scripts": {
         "build": "tsc -p ./tsconfig.json",
         "postinstall": "node ./node_modules/vscode/bin/install",
