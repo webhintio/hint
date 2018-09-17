@@ -3,7 +3,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 import { Problem, Severity } from 'hint/dist/src/lib/types';
-import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver';
+import { Diagnostic, DiagnosticSeverity, TextDocument } from 'vscode-languageserver';
 
 proxyquire('../src/server', {
     'vscode-languageserver': {
@@ -76,6 +76,45 @@ test.serial('It runs webhint on content changes', async (t) => {
     t.true(t.context.engine.executeOn.calledOnce);
     t.is(t.context.engine.executeOn.args[0][0].href, testUri);
     t.is(t.context.engine.executeOn.args[0][1].content, testContent);
+
+    sandbox.restore();
+});
+
+test.serial('It processes multiple files serially', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const testContent = 'Test Content';
+    const testUri = 'file:///test/uri';
+
+    const document2 = {
+        getText() {
+            return 'Test Content 2';
+        },
+        get uri() {
+            return 'file:///test/uri2';
+        }
+    } as TextDocument;
+
+    sandbox.stub(mock.document, 'getText').returns(testContent);
+    sandbox.stub(mock.document, 'uri').get(() => {
+        return testUri;
+    });
+    sandbox.spy(mock.engine, 'executeOn');
+
+    const p1 = mock.contentWatcher({ document: mock.document });
+    const p2 = mock.contentWatcher({ document: document2 });
+
+    sandbox.stub(mock.connection, 'sendDiagnostics').value(() => {
+        t.true(t.context.engine.executeOn.calledOnce);
+        t.is(t.context.engine.executeOn.args[0][0].href, testUri);
+        t.is(t.context.engine.executeOn.args[0][1].content, testContent);
+
+        sandbox.stub(mock.connection, 'sendDiagnostics').value(() => {
+            t.is(t.context.engine.executeOn.args[1][0].href, document2.uri);
+            t.is(t.context.engine.executeOn.args[1][1].content, document2.getText());
+        });
+    });
+
+    await Promise.all([p1, p2]);
 
     sandbox.restore();
 });

@@ -124,6 +124,27 @@ const problemToDiagnostic = (problem: Problem): Diagnostic => {
     };
 };
 
+let validating = false;
+let validationQueue: TextDocument[] = [];
+
+// Queue a document to validate later (if needed). Returns `true` if queued.
+const queueValidationIfNeeded = (textDocument: TextDocument): boolean => {
+    if (!validating) {
+        return false;
+    }
+
+    // Drop stale queued validations for the same document.
+    validationQueue = validationQueue.filter((doc) => {
+        return doc.uri !== textDocument.uri;
+    });
+
+    // Queue this document to be validated.
+    validationQueue.push(textDocument);
+
+    // Wait for the current validation to finish.
+    return true;
+};
+
 const validateTextDocument = async (textDocument: TextDocument): Promise<void> => {
 
     // Ignore if `connection.onInitialize` failed to load webhint.
@@ -131,31 +152,46 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
         return;
     }
 
-    // In VSCode on Windows, the `:` is escaped after the drive letter in `textDocument.uri`.
-    const url = new URL(unescape(textDocument.uri));
+    // Wait if another doc is validating to avoid interleaving errors.
+    if (queueValidationIfNeeded(textDocument)) {
+        return;
+    }
 
-    // Pass content directly to validate unsaved changes.
-    const content = textDocument.getText();
-    const problems = await engine.executeOn(url, { content });
+    try {
+        validating = true;
 
-    // Clear problems to avoid duplicates since vscode remembers them for us.
-    engine.clear();
+        // In VSCode on Windows, the `:` is escaped after the drive letter in `textDocument.uri`.
+        const url = new URL(unescape(textDocument.uri));
 
-    // Send the computed diagnostics to VSCode.
-    connection.sendDiagnostics({
-        diagnostics: problems.map(problemToDiagnostic),
-        uri: textDocument.uri
-    });
+        // Pass content directly to validate unsaved changes.
+        const content = textDocument.getText();
+        const problems = await engine.executeOn(url, { content });
+
+        // Clear problems to avoid duplicates since vscode remembers them for us.
+        engine.clear();
+
+        // Send the computed diagnostics to VSCode.
+        connection.sendDiagnostics({
+            diagnostics: problems.map(problemToDiagnostic),
+            uri: textDocument.uri
+        });
+
+    } finally {
+        validating = false;
+
+        // Validate any documents queued during validation.
+        if (validationQueue.length) {
+            validateTextDocument(validationQueue.shift());
+        }
+    }
 };
 
 // A watched .hintrc has changed. Reload the engine and re-validate documents.
 connection.onDidChangeWatchedFiles(async () => {
     engine = await loadWebHint(workspace);
-    const docs = documents.all();
-
-    for (let i = 0; i < docs.length; i++) {
-        await validateTextDocument(docs[i]);
-    }
+    await Promise.all(documents.all().map((doc) => {
+        return validateTextDocument(doc);
+    }));
 });
 
 // Re-validate the document whenever the content changes.
