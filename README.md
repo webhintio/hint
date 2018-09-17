@@ -1,5 +1,7 @@
 # webhint
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/webhintio/hint.svg)](https://greenkeeper.io/)
+
 <!-- markdownlint-disable MD013 MD033 -->
 
 <a href="https://travis-ci.org/webhintio/hint"><img src="https://travis-ci.org/webhintio/hint.svg?branch=master" alt="Travis CI Build Status"></a> <a href="https://ci.appveyor.com/project/NellieTheNarwhal/hint"><img src="https://ci.appveyor.com/api/projects/status/8rkglhr41pwao9pd?svg=true" alt="AppVeyor Build Status"></a> <a href="https://gitter.im/webhintio/Lobby"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"></a>
