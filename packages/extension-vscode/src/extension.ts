@@ -21,7 +21,7 @@ let client: LanguageClient;
 
 export const activate = (context: ExtensionContext) => {
 
-    const serverModule = context.asAbsolutePath('dist/server.js');
+    const serverModule = context.asAbsolutePath('dist/src/server.js');
 
     const serverOptions: ServerOptions = {
         debug: {
