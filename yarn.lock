@@ -1844,9 +1844,9 @@ chownr@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.0.1.tgz#e2a75042a9551908bebd25b8523d5f9769d79181"
 
-chrome-launcher@^0.10.2:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/chrome-launcher/-/chrome-launcher-0.10.2.tgz#f7d860ddec627b6f01015736b5ae1e33b3d165b1"
+chrome-launcher@^0.10.4:
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/chrome-launcher/-/chrome-launcher-0.10.4.tgz#8d4d99724110f8bbf00b00fa3c1e93fd7f1e188a"
   dependencies:
     "@types/core-js" "^0.9.41"
     "@types/mkdirp" "^0.3.29"
