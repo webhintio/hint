@@ -32,7 +32,7 @@
     "ts-loader": "^5.1.1",
     "typescript": "^3.0.3",
     "typescript-eslint-parser": "^18.0.0",
-    "webpack": "^4.19.0",
+    "webpack": "^4.19.1",
     "webpack-cli": "^3.1.0"
   },
   "engines": {
