@@ -75,9 +75,15 @@ to report the results.
 
 ### Default configuration
 
-To run `webhint` you need a `.hintrc` file. If you don't have one,
+To run `webhint` you need a `.hintrc` file. If you do not have one,
 `webhint` will use the [`web-recommended` set of hints][web recommended].
 This configuration will be equivalent to the following `.hintrc`:
+
+```json
+{
+    "extends": ["web-recommended"]
+}
+```
 
 ### Further reading
 
@@ -103,8 +109,9 @@ change default directory]. According to [npm’s documentation][npm use
 package manager], if you have node installed using a package
 manager like [Homebrew][homebrew] or [nvm][nvm], you may be able to avoid
 the trouble of messing with the directories and have the correct
-permissions set up right out of the box. As a result, you won’t experience
-the error described above even if you install `webhint` globally.
+permissions set up right out of the box. As a result, you will not
+experience the error described above even if you install `webhint`
+globally.
 
 <!-- Link labels: -->
 
@@ -114,4 +121,4 @@ the error described above even if you install `webhint` globally.
 [npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
 [nvm]: https://github.com/creationix/nvm
 [permission issue]: https://github.com/webhintio/hint/issues/308
-[web recommended]: https://github.com/webhintio/hint/tree/master/packages/configuration-web-recommended#readme
+[web recommended]: https://github.com/webhintio/hint/blob/master/packages/configuration-web-recommended/index.json
