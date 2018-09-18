@@ -1,3 +1,10 @@
+# 1.2.0 (September 17, 2018)
+
+## New features
+
+* [[`ef5df00899`](https://github.com/webhintio/hint/commit/ef5df00899c49fa35558c3a675c09b3c1146b548)] - New: Add `connector-local` and `parser-html` (by [`Tony Ross`](https://github.com/antross) / see also: [`#1318`](https://github.com/webhintio/hint/issues/1318)).
+
+
 # 1.1.1 (September 7, 2018)
 
 ## Bug fixes / Improvements
