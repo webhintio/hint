@@ -96,6 +96,23 @@ about the different pieces:
 * [Formatters](./concepts/formatters/)
 * [Parsers](./concepts/parsers/)
 
+### Windows and Python
+
+Depending on your environment you could get an error similar to the
+following if there is a problem downloading any of the precompiled
+native modules:
+
+> gyp ERR! stack Error: Can't find Python executable "python"
+
+The fastest way to have a Windows environment capable of compiling native
+Node modules is installing the [`windows-build-tools`][windows build tools].
+
+From an **Elevated PowerShell** run the following:
+
+```bash
+npm install --global windows-build-tools
+```
+
 ### Permission issues during installation
 
 If you receive an `EACCES` error when installing `webhint`, it is caused
@@ -122,3 +139,4 @@ globally.
 [nvm]: https://github.com/creationix/nvm
 [permission issue]: https://github.com/webhintio/hint/issues/308
 [web recommended]: https://github.com/webhintio/hint/blob/master/packages/configuration-web-recommended/index.json
+[windows build tools]: https://www.npmjs.com/package/windows-build-tools
