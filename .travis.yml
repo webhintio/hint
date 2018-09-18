@@ -74,7 +74,15 @@ install:
       # (For more information see: `before_install` step)
 
       if [ -f '.ci-run-tests' ]; then
-        rm -rf node_modules && yarn
+
+        # Update to the latest version of `yarn` before using it
+        # as older versions have known issues affecting the build.
+        #
+        # https://github.com/yarnpkg/yarn/issues/5089
+
+        rm -rf node_modules && \
+          curl -o- -L https://yarnpkg.com/install.sh | bash && \
+          yarn
       fi
 
 jobs:
