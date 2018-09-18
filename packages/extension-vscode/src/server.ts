@@ -104,11 +104,10 @@ const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity =>
 // Translate a webhint problem into the VSCode diagnostic format.
 const problemToDiagnostic = (problem: Problem): Diagnostic => {
 
-    let character = problem.location.column;
-    let line = problem.location.line;
+    let { column: character, line } = problem.location;
 
-    // Move (-1, -1) to (0, 0) so VSCode underlines the start of the document.
-    if (character < 0 && line < 0) {
+    // Move (-1, -1) or similar to (0, 0) so VSCode underlines the start of the document.
+    if (character < 0 || line < 0) {
         character = 0;
         line = 0;
     }

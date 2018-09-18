@@ -70,7 +70,7 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
                 line: location.startTag.line - 1
             } || null;
         } catch (e) {
-            // JSDOM throws an exception of `includeNodeLocations` wasn't set.
+            // JSDOM throws an exception if `includeNodeLocations` wasn't set.
             return null;
         }
     }

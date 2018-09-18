@@ -15,9 +15,10 @@ Or run `npm install -g hint` to install `webhint` globally.
 ## Configuration
 
 This extension uses your local `.hintrc` file to configure `webhint`.
-If no `.hintrc` file is found it defaults to `@hint/configuration-development`.
+If no `.hintrc` file is found it defaults to
+[`@hint/configuration-development`](https://github.com/webhintio/hint/blob/master/packages/configuration-development/index.json).
 
-To create one, run `npm init hintrc` to and choose `development` as the
+To create one, run `npm create hintrc` to and choose `development` as the
 configuration to extend.
 
 ## Help
