@@ -33,7 +33,7 @@ before_install:
 
       # Update to the latest yarn as older versions have known issues
       # affecting the build: https://github.com/yarnpkg/yarn/issues/5089
-      curl -o- -L https://yarnpkg.com/install.sh | bash
+      curl -o- -L https://yarnpkg.com/install.sh | bash && \
 
       # Only install the bare minimum of dependencies in order
       # to run the test script.
