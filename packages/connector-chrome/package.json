@@ -29,7 +29,7 @@
     "npm-run-all": "^4.1.2",
     "nyc": "^13.0.1",
     "rimraf": "^2.6.2",
-    "sinon": "^6.3.3",
+    "sinon": "^6.3.4",
     "typescript": "^3.0.3",
     "typescript-eslint-parser": "^18.0.0"
   },
