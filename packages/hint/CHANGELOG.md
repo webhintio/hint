@@ -1,3 +1,11 @@
+# 3.4.1 (September 19, 2018)
+
+## Bug fixes / Improvements
+
+* [[`046932e55f`](https://github.com/webhintio/hint/commit/046932e55f35525f450a58121315cb408dc16549)] - Docs: Mention `windows-build-tools` in User Guide (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1320`](https://github.com/webhintio/hint/issues/1320), and [`#1322`](https://github.com/webhintio/hint/issues/1322)).
+* [[`b26255d4a1`](https://github.com/webhintio/hint/commit/b26255d4a1c1778f6a943f0e94d72b018146ed83)] - Docs: Add missing default configuration (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1319`](https://github.com/webhintio/hint/issues/1319)).
+
+
 # 3.4.0 (September 11, 2018)
 
 ## New features
