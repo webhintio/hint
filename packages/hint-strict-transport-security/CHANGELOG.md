@@ -1,3 +1,10 @@
+# 1.0.5 (September 19, 2018)
+
+## Bug fixes / Improvements
+
+* [[`dcebd11ffa`](https://github.com/webhintio/hint/commit/dcebd11ffa76779ce4764a27bcfffdcee065f8ad)] - Fix: Validate only resources specified as `http(s)://...` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1323`](https://github.com/webhintio/hint/issues/1323)).
+
+
 # 1.0.4 (September 11, 2018)
 
 ## Bug fixes / Improvements
