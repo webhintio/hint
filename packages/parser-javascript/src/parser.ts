@@ -1,6 +1,7 @@
 import * as eslint from 'eslint';
 import * as espree from 'espree';
 
+import * as logger from 'hint/dist/src/lib/utils/logging';
 import { determineMediaTypeForScript } from 'hint/dist/src/lib/utils/content-type';
 import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
 import { ScriptParse } from './types';
@@ -36,7 +37,7 @@ export default class JavascriptParser extends Parser {
 
             await this.engine.emitAsync(`parse::${this.name}::end`, scriptData);
         } catch (err) {
-            console.log(`Error parsing code: ${code}`);
+            logger.error(`Error parsing JS code: ${code}`);
         }
     }
 

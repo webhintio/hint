@@ -30,7 +30,7 @@ export default class CSSParser extends Parser {
             await this.engine.emitAsync(`parse::${this.name}::end`, styleData);
 
         } catch (err) {
-            logger.error(`Error parsing code: ${code} - ${err}`);
+            logger.error(`Error parsing CSS code: ${code} - ${err}`);
         }
     }
 
