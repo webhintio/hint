@@ -5,6 +5,12 @@ import {
     TextDocumentChangeEvent
 } from 'vscode-languageserver';
 
+export const child_process = {
+    exec(_command: string, callback: () => void) {
+        callback();
+    }
+};
+
 export const engine = {
     clear() { },
     executeOn() {
@@ -40,7 +46,12 @@ export const connection = {
         initializer = fn;
     },
     sendDiagnostics() { },
-    window: { showErrorMessage() { } }
+    sendNotification() { },
+    window: {
+        showErrorMessage() { },
+        showInformationMessage() { },
+        showWarningMessage() { }
+    }
 };
 
 export const createConnection = () => {

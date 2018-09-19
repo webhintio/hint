@@ -1,4 +1,4 @@
-import { workspace, ExtensionContext } from 'vscode';
+import { window, workspace, ExtensionContext, StatusBarAlignment } from 'vscode';
 
 import {
     LanguageClient,
@@ -6,6 +6,8 @@ import {
     ServerOptions,
     TransportKind
 } from 'vscode-languageclient';
+
+import * as notifications from './notifications';
 
 // List of document types the extension will run against.
 const supportedDocuments = [
@@ -18,6 +20,8 @@ const supportedDocuments = [
 
 // Keep a reference to the client to stop it when deactivating.
 let client: LanguageClient;
+
+const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 
 export const activate = (context: ExtensionContext) => {
 
@@ -45,6 +49,20 @@ export const activate = (context: ExtensionContext) => {
 
     // Create and start the client (also starts the server)
     client = new LanguageClient('webhint', serverOptions, clientOptions);
+
+    client.onReady().then(() => {
+
+        // Listen for requests to show a status message from the language server
+        client.onNotification(notifications.status, (message: string) => {
+            if (message) {
+                statusBarItem.text = message;
+                statusBarItem.show();
+            } else {
+                statusBarItem.hide();
+            }
+        });
+    });
+
     client.start();
 };
 

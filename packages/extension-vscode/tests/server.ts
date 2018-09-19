@@ -6,6 +6,7 @@ import { Problem, Severity } from 'hint/dist/src/lib/types';
 import { Diagnostic, DiagnosticSeverity, TextDocument } from 'vscode-languageserver';
 
 proxyquire('../src/server', {
+    child_process: mock.child_process, // eslint-disable-line
     'vscode-languageserver': {
         createConnection: mock.createConnection,
         Files: mock.Files,
@@ -19,6 +20,7 @@ import '../src/server';
 test.beforeEach((t) => {
     t.context.connection = mock.connection;
     t.context.engine = mock.engine;
+    t.context.child_process = mock.child_process; // eslint-disable-line
     t.context.Files = mock.Files;
 });
 
@@ -32,8 +34,61 @@ test.serial('It notifies if loading webhint fails', async (t) => {
         return testUri;
     });
 
-    sandbox.spy(mock.connection.window, 'showErrorMessage');
-    sandbox.stub(mock.Files, 'resolveModule2').returns(null);
+    sandbox.stub(mock.connection.window, 'showWarningMessage').returns({ title: 'Cancel' });
+    sandbox.stub(mock.Files, 'resolveModule2').throws();
+    sandbox.spy(mock.engine, 'executeOn');
+
+    await mock.initializer({ rootPath: '' });
+    await mock.contentWatcher({ document: mock.document });
+
+    t.true(t.context.connection.window.showWarningMessage.calledOnce);
+    t.false(t.context.engine.executeOn.called);
+
+    sandbox.restore();
+});
+
+test.serial('It installs webhint if needed', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const testContent = 'Test Content';
+    const testUri = 'file:///test/uri';
+
+    sandbox.stub(mock.document, 'getText').returns(testContent);
+    sandbox.stub(mock.document, 'uri').get(() => {
+        return testUri;
+    });
+
+    sandbox.stub(mock.connection.window, 'showWarningMessage').returns({ title: 'Add webhint' });
+
+    sandbox.stub(mock.Files, 'resolveModule2')
+        .onFirstCall()
+        .throws();
+
+    sandbox.spy(mock.child_process, 'exec');
+    sandbox.spy(mock.engine, 'executeOn');
+
+    await mock.initializer({ rootPath: '' });
+    await mock.contentWatcher({ document: mock.document });
+
+    t.true(t.context.connection.window.showWarningMessage.calledOnce);
+    t.true(t.context.child_process.exec.calledOnce);
+    t.is(t.context.child_process.exec.args[0][0], 'npm install hint @hint/configuration-development --save-dev');
+    t.false(t.context.engine.executeOn.called);
+
+    sandbox.restore();
+});
+
+test.serial('It notifies if loading the configuration fails', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const testContent = 'Test Content';
+    const testUri = 'file:///test/uri';
+
+    sandbox.stub(mock.document, 'getText').returns(testContent);
+    sandbox.stub(mock.document, 'uri').get(() => {
+        return testUri;
+    });
+
+    sandbox.stub(mock.connection.window, 'showErrorMessage').returns({ title: 'Ignore' });
+    sandbox.stub(mock.Configuration, 'fromConfig').throws();
     sandbox.spy(mock.engine, 'executeOn');
 
     await mock.initializer({ rootPath: '' });
@@ -48,14 +103,22 @@ test.serial('It notifies if loading webhint fails', async (t) => {
 test.serial('It loads a local copy of webhint', async (t) => {
     const testPath = '/test/path';
     const sandbox = sinon.createSandbox();
+    const testContent = 'Test Content';
+    const testUri = 'file:///test/uri';
 
-    sandbox.spy(mock.connection.window, 'showErrorMessage');
+    sandbox.stub(mock.document, 'getText').returns(testContent);
+    sandbox.stub(mock.document, 'uri').get(() => {
+        return testUri;
+    });
+
+    sandbox.spy(mock.connection.window, 'showWarningMessage');
     sandbox.spy(mock.Files, 'resolveModule2');
 
     await mock.initializer({ rootPath: testPath });
+    await mock.contentWatcher({ document: mock.document });
 
     t.is(t.context.Files.resolveModule2.args[0][0], testPath);
-    t.false(t.context.connection.window.showErrorMessage.called);
+    t.false(t.context.connection.window.showWarningMessage.called);
 
     sandbox.restore();
 });

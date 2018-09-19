@@ -1,3 +1,4 @@
+import { exec } from 'child_process';
 import * as path from 'path';
 import { URL } from 'url';
 
@@ -11,6 +12,8 @@ import {
     ProposedFeatures
 } from 'vscode-languageserver';
 
+import * as notifications from './notifications';
+
 // TODO: Enhance `hint` exports so everything can be imported directly.
 import * as hint from 'hint';
 import * as config from 'hint/dist/src/lib/config';
@@ -21,13 +24,74 @@ import { Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments();
 
+// Ask the language client `extension.ts` to set a status message in VS Code
+const setStatus = (message: string) => {
+    connection.sendNotification(notifications.status, message);
+};
+
+// Remove any previously set status messages.
+const clearStatus = () => {
+    setStatus('');
+};
+
+// Adds webhint and configuration-development to the current workspace
+const installWebhint = (): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        connection.window.showInformationMessage('Installing webhint... This may take a few minutes.');
+
+        // Show some signs of life while installing.
+        let step = 0;
+        const steps = ['.  ', ' . ', '  .'];
+        const interval = setInterval(() => {
+            setStatus(`Installing webhint ${steps[step++ % steps.length]}`);
+        }, 500);
+
+        // Install the necessary dependencies.
+        exec('npm install hint @hint/configuration-development --save-dev', (error) => {
+            clearInterval(interval);
+            clearStatus();
+
+            if (error) {
+                connection.window.showErrorMessage(`Unable to install webhint. ${error}`);
+                reject(error);
+            } else {
+                connection.window.showInformationMessage('Finished installing webhint!');
+                resolve();
+            }
+        });
+    });
+};
+
 /* istanbul ignore next */
 const trace = (message: string): void => {
     return console.log(message);
 };
 
 const loadModule = async <T>(context: string, name: string): Promise<T> => {
-    return await Files.resolveModule2(context, name, null, trace);
+    let module: T;
+
+    try {
+        module = await Files.resolveModule2(context, name, null, trace);
+    } catch (e) {
+        const addWebHint = 'Add webhint';
+        const answer = await connection.window.showWarningMessage(
+            'Unable to find webhint. Add it to this project?',
+            { title: addWebHint },
+            { title: 'Cancel' }
+        );
+
+        if (answer && answer.title === addWebHint) {
+            try {
+                await installWebhint();
+
+                return loadModule<T>(context, name);
+            } catch (err) {
+                connection.window.showErrorMessage(`Unable to install webhint:\n${err}`);
+            }
+        }
+    }
+
+    return module;
 };
 
 // Load a user configuration, falling back to 'development' if none exists.
@@ -55,7 +119,14 @@ const loadEngine = async (directory: string, configuration: config.Configuration
 
 // Load both webhint and a configuration, adjusting it as needed for this extension
 const loadWebHint = async (directory: string): Promise<hint.Engine> => {
-    const { Configuration } = await loadModule<typeof config>(directory, 'hint/dist/src/lib/config');
+    const configModule = await loadModule<typeof config>(directory, 'hint/dist/src/lib/config');
+
+    // If no module was returned, the user cancelled installing webhint.
+    if (!configModule) {
+        return null;
+    }
+
+    const { Configuration } = configModule;
     const userConfig = loadUserConfig(directory, Configuration);
 
     // The vscode extension only works with the local connector
@@ -70,21 +141,44 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
         userConfig.parsers.push('html');
     }
 
-    return await loadEngine(directory, Configuration.fromConfig(userConfig));
+    let engine: hint.Engine;
+
+    try {
+        engine = await loadEngine(directory, Configuration.fromConfig(userConfig));
+
+        return engine;
+    } catch (e) {
+        // Instantiating webhint failed. Prompt the user to retry after checking their configuration.
+        const retry = 'Retry';
+        const answer = await connection.window.showErrorMessage(
+            'Unable to start webhint. Check your `.hintrc` and ensure dependencies are installed.',
+            { title: retry },
+            { title: 'Ignore' }
+        );
+
+        // Retry if asked.
+        if (answer && answer.title === retry) {
+            return await loadWebHint(directory);
+        }
+
+        return null;
+    }
 };
 
-let workspace: string;
 let engine: hint.Engine;
+let loaded = false;
+let validating = false;
+let validationQueue: TextDocument[] = [];
+let workspace: string;
 
-connection.onInitialize(async (params) => {
-    try {
-        // TODO: support multiple workspaces (`params.workspaceFolders`)
-        workspace = params.rootPath;
-        engine = await loadWebHint(workspace);
-    } catch (e) {
-        console.error(e);
-        connection.window.showErrorMessage('[webhint] Load failed. Add it via `npm install hint --save-dev`.');
-    }
+connection.onInitialize((params) => {
+    // Reset on initialization to facilitate testing.
+    loaded = false;
+    validating = false;
+    validationQueue = [];
+
+    // TODO: support multiple workspaces (`params.workspaceFolders`)
+    workspace = params.rootPath;
 
     return { capabilities: { textDocumentSync: documents.syncKind } };
 });
@@ -123,9 +217,6 @@ const problemToDiagnostic = (problem: Problem): Diagnostic => {
     };
 };
 
-let validating = false;
-let validationQueue: TextDocument[] = [];
-
 // Queue a document to validate later (if needed). Returns `true` if queued.
 const queueValidationIfNeeded = (textDocument: TextDocument): boolean => {
     if (!validating) {
@@ -146,11 +237,6 @@ const queueValidationIfNeeded = (textDocument: TextDocument): boolean => {
 
 const validateTextDocument = async (textDocument: TextDocument): Promise<void> => {
 
-    // Ignore if `connection.onInitialize` failed to load webhint.
-    if (!engine) {
-        return;
-    }
-
     // Wait if another doc is validating to avoid interleaving errors.
     if (queueValidationIfNeeded(textDocument)) {
         return;
@@ -158,6 +244,17 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
 
     try {
         validating = true;
+
+        // Try to load webhint if this is the first validation.
+        if (!loaded) {
+            loaded = true;
+            engine = await loadWebHint(workspace);
+        }
+
+        // Gracefully exit if all attempts to get an engine failed.
+        if (!engine) {
+            return;
+        }
 
         // In VSCode on Windows, the `:` is escaped after the drive letter in `textDocument.uri`.
         const url = new URL(unescape(textDocument.uri));
