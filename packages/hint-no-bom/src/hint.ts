@@ -7,7 +7,9 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, IHint, NetworkData, HintMetadata } from 'hint/dist/src/lib/types';
 import { asyncTry } from 'hint/dist/src/lib/utils/async-wrapper';
 import { isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
+import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
+
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -34,7 +36,9 @@ export default class implements IHint {
         const validateFetchEnd = async (fetchEnd: FetchEnd) => {
             debug(`Validating hint no-bom`);
 
-            if (!isTextMediaType(fetchEnd.response.mediaType)) {
+            const { resource, element } = fetchEnd;
+
+            if (!isRegularProtocol(resource) || !isTextMediaType(fetchEnd.response.mediaType)) {
                 return;
             }
 
@@ -42,7 +46,6 @@ export default class implements IHint {
              * Chrome strips the BOM so we need to request the asset again using `fetchContent`
              * that will use the `request` module
              */
-            const { resource, element } = fetchEnd;
             const safeFetch = asyncTry<NetworkData>(context.fetchContent.bind(context));
             const request = await safeFetch(resource);
 
