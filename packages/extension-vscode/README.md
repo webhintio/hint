@@ -7,7 +7,7 @@ This extension runs and reports diagnostics for workspace files based on
 
 ## Prerequisites
 
-This extension requires a local or global install of `webhint` to run.
+This extension requires a local install of `webhint` to run.
 
 Run `npm install hint --save-dev` to add `webhint` to your project.
 Or run `npm install -g hint` to install `webhint` globally.
@@ -18,7 +18,7 @@ This extension uses your local `.hintrc` file to configure `webhint`.
 If no `.hintrc` file is found it defaults to
 [`@hint/configuration-development`](https://github.com/webhintio/hint/blob/master/packages/configuration-development/index.json).
 
-To create one, run `npm create hintrc` to and choose `development` as the
+To create one, run `npm create hintrc` and choose `development` as the
 configuration to extend.
 
 ## Help
