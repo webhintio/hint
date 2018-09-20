@@ -131,15 +131,20 @@ export default class HTMLFormatter implements IFormatter {
 
                 await fs.copy(path.join(currentDir, 'assets'), destDir);
 
-                const scanCSSFile = path.join(destDir, 'styles', 'scan', 'scan-results.css');
-                let scanCSS = await fs.readFile(scanCSSFile, 'utf-8');
-                const urlCSSRegex = /url\(['"]?([^'")]*)['"]?\)/g;
+                const parseCssfile = async (filePath: string, prefix: string = '../..') => {
+                    const cssFile = filePath;
+                    let scanCSS = await fs.readFile(cssFile, 'utf-8');
+                    const urlCSSRegex = /url\(['"]?([^'")]*)['"]?\)/g;
 
-                scanCSS = scanCSS.replace(urlCSSRegex, (match, group) => {
-                    return `url('${group[0] === '/' ? '../..' : ''}${group}')`;
-                });
+                    scanCSS = scanCSS.replace(urlCSSRegex, (match, group) => {
+                        return `url('${group[0] === '/' ? prefix : ''}${group}')`;
+                    });
 
-                await fs.outputFile(scanCSSFile, scanCSS, { encoding: 'utf-8' });
+                    await fs.outputFile(filePath, scanCSS, { encoding: 'utf-8' });
+                };
+
+                await parseCssfile(path.join(destDir, 'styles', 'scan', 'scan-results.css'));
+                await parseCssfile(path.join(destDir, 'styles', 'anchor-top.css'), '../');
 
                 if (options.config) {
                     await fs.outputFile(path.join(configDir, result.id), JSON.stringify(options.config));

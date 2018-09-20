@@ -1,5 +1,5 @@
 <div class="section container">
-    <div class="scan-overview" data-id="<%= result.id %>">
+    <div class="scan-overview" data-id="<%= result.id %>" id="main">
         <div class="scan-overview__status">
             <div id="scan-percentage-bar" class="scan-overview__progress-bar<% if (result.percentage === 100) { %> end-animation<% } %>" style="width: <%= result.percentage %>%"></div>
             <p>SCANNING <span id="scan-percentage"><%= result.percentage %>%</span></p>
