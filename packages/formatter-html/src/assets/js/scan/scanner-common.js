@@ -240,7 +240,7 @@
 
     var copyButtons = Array.prototype.slice.apply(document.querySelectorAll('.permalink-copy'));
     var copyPermalinkToClipboard = function (evt) {
-        const element = evt.currentTarget;
+        var element = evt.currentTarget;
 
         var permalinkElement = element.querySelector('.permalink-content');
         var permalink = permalinkElement.textContent;
