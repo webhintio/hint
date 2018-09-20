@@ -451,6 +451,10 @@ a > .rule-tile:hover {
         display: inline-block;
     }
 
+    .rule-tile__result-wrapper p span {
+        margin-left: .5rem;
+    }
+
     .rule-tile__sub-category {
         font-size: 1.2rem;
     }
