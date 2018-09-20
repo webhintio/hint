@@ -1,3 +1,5 @@
+import { ProblemLocation } from './problems';
+
 export type AsyncHTMLAttribute = {
     /** Attribute name of the element */
     name: string;
@@ -15,6 +17,8 @@ export interface IAsyncHTMLElement {
     readonly attributes;
     /** Returns the value for a given attribute */
     getAttribute(attribute: string): string;
+    /** Returns the location of this element in source (or null) */
+    getLocation(): ProblemLocation;
     /** Checks if two AsyncHTMLElements are the same */
     isSame(element: IAsyncHTMLElement): boolean;
     /** Returns the outerHTML of the element */

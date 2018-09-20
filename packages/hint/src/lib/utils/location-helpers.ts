@@ -66,6 +66,15 @@ const getIndicesOf = (searchStr: string, str: string): Array<number> => {
 
 /** Finds the Location of an HTMLElement in the document */
 export const findElementLocation = async (element: IAsyncHTMLElement): Promise<ProblemLocation> => {
+    const location = element.getLocation();
+
+    // Use the element information from parsing if we have it.
+    /* istanbul ignore next */
+    if (location) {
+        return location;
+    }
+
+    // Otherwise try to infer where the element was located.
     const html: string = await element.ownerDocument.pageHTML();
     const elementHTML: string = await element.outerHTML();
     const indexOccurences: Array<number> = getIndicesOf(elementHTML, html);

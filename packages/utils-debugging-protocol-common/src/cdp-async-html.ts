@@ -1,5 +1,6 @@
 import { IAsyncHTMLDocument, IAsyncHTMLElement } from 'hint/dist/src/lib/types/async-html'; //eslint-disable-line
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { ProblemLocation } from 'hint/dist/src/lib/types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -159,6 +160,10 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
         const value = this._attributesMap.get(name);
 
         return typeof value === 'string' ? value : null;
+    }
+
+    public getLocation(): ProblemLocation {
+        return null;
     }
 
     public isSame(element: AsyncHTMLElement): boolean {
