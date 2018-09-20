@@ -36,6 +36,7 @@
     margin: 0;
     padding: 1.2rem 2.2rem .6rem;
     position: relative;
+    text-transform: uppercase;
 }
 
 .scan-overview__status * {
@@ -112,12 +113,18 @@
     margin-right: 2rem;
 }
 
+.scan-overview--version .scan-overview__subheader,
+.scan-overview--config .scan-overview__subheader {
+    text-transform: none;
+}
+
 .scan-overview__subheader {
     font-size: 1.4rem;
     font-weight: 500;
     letter-spacing: .03rem;
     margin-top: 1.4rem;
     max-width: none;
+    text-transform: uppercase;
 }
 
 .scan-overview__subheader span {

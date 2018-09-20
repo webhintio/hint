@@ -2,24 +2,24 @@
     <div class="scan-overview" data-id="<%= result.id %>" id="main">
         <div class="scan-overview__status">
             <div id="scan-percentage-bar" class="scan-overview__progress-bar<% if (result.percentage === 100) { %> end-animation<% } %>" style="width: <%= result.percentage %>%"></div>
-            <p>SCANNING <span id="scan-percentage"><%= result.percentage %>%</span></p>
+            <p>scanning <span id="scan-percentage"><%= result.percentage %>%</span></p>
             <p class="scan-overview__scan-time">
-                SCAN TIME: <span id="scan-time"><%= result.scanTime %></span>
+                scan time: <span id="scan-time"><%= result.scanTime %></span>
             </p>
         </div>
         <div class="scan-overview--details">
             <div class="scan-overview--hints">
-                <p class="scan-overview__subheader">HINTS</p>
+                <p class="scan-overview__subheader">hints</p>
                 <p class="scan-overview__body--purple large" id="total-hints"><%= result.hintsCount %></p>
             </div>
             <div class="scan-overview--more-details">
                 <div class="scan-overview--scan-links">
                     <div class="scan-overview--url">
-                        <p class="scan-overview__subheader">URL: <span class="overview--url__url"><%= result.url %></span></p>
+                        <p class="scan-overview__subheader">url: <span class="overview--url__url"><%= result.url %></span></p>
                     </div>
                     <% if (result.permalink) { %>
                         <div class="scan-overview--permalink">
-                            <p class="scan-overview__subheader scan-overview__body__permalink">YOUR SCAN RESULT LINK:
+                            <p class="scan-overview__subheader scan-overview__body__permalink">Your scan result link:
                                 <button class="permalink-copy">
                                     <span class="permalink-content"><%= result.permalink %></span> <img src="/images/scan/permalink-icon.svg" />
                                 </button>
@@ -27,13 +27,13 @@
                         </div>
                     <% } else { %>
                         <div class="scan-overview--time-stamp">
-                            <p class="scan-overview__subheader">TIME STAMP: <span class="overview--time-stamp__time-stamp"><%= result.timeStamp %></span></p>
+                            <p class="scan-overview__subheader">time stamp: <span class="overview--time-stamp__time-stamp"><%= result.timeStamp %></span></p>
                         </div>
                     <% } %>
                 </div>
                 <% if (result.permalink) { %>
                     <div class="scan-overview--time-stamp">
-                        <p class="scan-overview__subheader">TIME STAMP: <span class="overview--time-stamp__time-stamp"><%= result.timeStamp %></span></p>
+                        <p class="scan-overview__subheader">time stamp: <span class="overview--time-stamp__time-stamp"><%= result.timeStamp %></span></p>
                     </div>
                 <% } %>
             </div>
@@ -53,7 +53,7 @@
         <h2 id="hints">Hints</h2>
         <div class="layout layout--basic--offset--alt">
             <div class="module module--secondary module--categories">
-                <button aria-control="categories-list" class="show-categories" id="show-categories">SHOW CATEGORIES</button>
+                <button aria-control="categories-list" class="show-categories" id="show-categories">Jump to category</button>
                 <div class="rule-categories" id="categories-list">
                     <% result.categories.forEach((category) => { -%>
                         <%- include('scan-category-summary', { category }) %>
