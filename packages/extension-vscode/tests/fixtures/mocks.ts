@@ -5,9 +5,36 @@ import {
     TextDocumentChangeEvent
 } from 'vscode-languageserver';
 
+export const child = {
+    on(event: string, listener: () => void) {
+        if (event === 'exit') {
+            setTimeout(() => {
+                listener();
+            }, 0);
+        }
+    },
+    stderr: { pipe() { }},
+    stdout: { pipe() { }}
+};
+
+// eslint-disable-next-line
 export const child_process = {
-    exec(_command: string, callback: () => void) {
-        callback();
+    spawn() {
+        return child;
+    }
+};
+
+export const access = {
+    error() {
+        return new Error('ENOENT');
+    }
+};
+
+export const fs = {
+    access(path: string, callback: (err) => void) {
+        setTimeout(() => {
+            callback(access.error());
+        }, 0);
     }
 };
 

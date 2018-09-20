@@ -6,6 +6,7 @@ import { Problem, Severity } from 'hint/dist/src/lib/types';
 import { Diagnostic, DiagnosticSeverity, TextDocument } from 'vscode-languageserver';
 
 proxyquire('../src/server', {
+    fs: mock.fs,
     child_process: mock.child_process, // eslint-disable-line
     'vscode-languageserver': {
         createConnection: mock.createConnection,
@@ -63,15 +64,46 @@ test.serial('It installs webhint if needed', async (t) => {
         .onFirstCall()
         .throws();
 
-    sandbox.spy(mock.child_process, 'exec');
+    sandbox.spy(mock.child_process, 'spawn');
     sandbox.spy(mock.engine, 'executeOn');
 
     await mock.initializer({ rootPath: '' });
     await mock.contentWatcher({ document: mock.document });
 
     t.true(t.context.connection.window.showWarningMessage.calledOnce);
-    t.true(t.context.child_process.exec.calledOnce);
-    t.is(t.context.child_process.exec.args[0][0], 'npm install hint @hint/configuration-development --save-dev');
+    t.true(t.context.child_process.spawn.calledOnce);
+    t.is(t.context.child_process.spawn.args[0][0], `npm${process.platform === 'win32' ? '.cmd' : ''}`);
+    t.false(t.context.engine.executeOn.called);
+
+    sandbox.restore();
+});
+
+test.serial('It installs webhint via yarn if `yarn.lock` is present', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const testContent = 'Test Content';
+    const testUri = 'file:///test/uri';
+
+    sandbox.stub(mock.document, 'getText').returns(testContent);
+    sandbox.stub(mock.document, 'uri').get(() => {
+        return testUri;
+    });
+
+    sandbox.stub(mock.access, 'error').returns(null);
+    sandbox.stub(mock.connection.window, 'showWarningMessage').returns({ title: 'Add webhint' });
+
+    sandbox.stub(mock.Files, 'resolveModule2')
+        .onFirstCall()
+        .throws();
+
+    sandbox.spy(mock.child_process, 'spawn');
+    sandbox.spy(mock.engine, 'executeOn');
+
+    await mock.initializer({ rootPath: '' });
+    await mock.contentWatcher({ document: mock.document });
+
+    t.true(t.context.connection.window.showWarningMessage.calledOnce);
+    t.true(t.context.child_process.spawn.calledOnce);
+    t.is(t.context.child_process.spawn.args[0][0], `yarn${process.platform === 'win32' ? '.cmd' : ''}`);
     t.false(t.context.engine.executeOn.called);
 
     sandbox.restore();

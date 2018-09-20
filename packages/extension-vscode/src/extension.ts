@@ -1,4 +1,4 @@
-import { window, workspace, ExtensionContext, StatusBarAlignment } from 'vscode';
+import { workspace, ExtensionContext } from 'vscode';
 
 import {
     LanguageClient,
@@ -20,8 +20,6 @@ const supportedDocuments = [
 
 // Keep a reference to the client to stop it when deactivating.
 let client: LanguageClient;
-
-const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 
 export const activate = (context: ExtensionContext) => {
 
@@ -52,14 +50,10 @@ export const activate = (context: ExtensionContext) => {
 
     client.onReady().then(() => {
 
-        // Listen for requests to show a status message from the language server
-        client.onNotification(notifications.status, (message: string) => {
-            if (message) {
-                statusBarItem.text = message;
-                statusBarItem.show();
-            } else {
-                statusBarItem.hide();
-            }
+        // Listen for requests to show the output panel for this extension
+        client.onNotification(notifications.showOutput, () => {
+            client.outputChannel.clear();
+            client.outputChannel.show(true);
         });
     });
 

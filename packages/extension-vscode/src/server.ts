@@ -1,4 +1,5 @@
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
+import { access } from 'fs';
 import * as path from 'path';
 import { URL } from 'url';
 
@@ -20,40 +21,48 @@ import * as config from 'hint/dist/src/lib/config';
 import * as loader from 'hint/dist/src/lib/utils/resource-loader'; // eslint-disable-line
 import { Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 
+let workspace: string;
+
 // Connect to the language client
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments();
 
-// Ask the language client `extension.ts` to set a status message in VS Code
-const setStatus = (message: string) => {
-    connection.sendNotification(notifications.status, message);
-};
-
-// Remove any previously set status messages.
-const clearStatus = () => {
-    setStatus('');
+// Determine if a project is using yarn by checking for `yarn.lock`
+const hasYarnLock = (directory: string): Promise<boolean> => {
+    return new Promise((resolve) => {
+        access(path.join(directory, 'yarn.lock'), (err) => {
+            resolve(!err);
+        });
+    });
 };
 
 // Adds webhint and configuration-development to the current workspace
 const installWebhint = (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-        connection.window.showInformationMessage('Installing webhint... This may take a few minutes.');
+    return new Promise(async (resolve, reject) => {
+        connection.sendNotification(notifications.showOutput);
 
-        // Show some signs of life while installing.
-        let step = 0;
-        const steps = ['.  ', ' . ', '  .'];
-        const interval = setInterval(() => {
-            setStatus(`Installing webhint ${steps[step++ % steps.length]}`);
-        }, 500);
+        // Build the installation commands
+        const packages = 'hint @hint/configuration-development';
+        const cmd = process.platform === 'win32' ? '.cmd' : '';
+        const npm = `npm${cmd} install ${packages} --save-dev --verbose`;
+        const yarn = `yarn${cmd} add ${packages} --dev`;
 
-        // Install the necessary dependencies.
-        exec('npm install hint @hint/configuration-development --save-dev', (error) => {
-            clearInterval(interval);
-            clearStatus();
+        // Install via `yarn` if `yarn.lock` is present, `npm` otherwise
+        const isUsingYarn = await hasYarnLock(workspace);
+        const command = isUsingYarn ? yarn : npm;
+        const parts = command.split(' ');
 
-            if (error) {
-                connection.window.showErrorMessage(`Unable to install webhint. ${error}`);
-                reject(error);
+        // Actually start the installation
+        const child = spawn(parts[0], parts.slice(1));
+
+        // Show progress in the output window for the extension
+        child.stdout.pipe(process.stdout);
+        child.stderr.pipe(process.stderr);
+
+        child.on('exit', (code) => {
+            if (code) {
+                connection.window.showErrorMessage(`Unable to install webhint. ${code}`);
+                reject(code);
             } else {
                 connection.window.showInformationMessage('Finished installing webhint!');
                 resolve();
@@ -169,7 +178,6 @@ let engine: hint.Engine;
 let loaded = false;
 let validating = false;
 let validationQueue: TextDocument[] = [];
-let workspace: string;
 
 connection.onInitialize((params) => {
     // Reset on initialization to facilitate testing.
