@@ -11,23 +11,35 @@ const thirdPartyServices = loadJSONFile(path.join(__dirname, 'configs', 'third-p
 const categoryImages = loadJSONFile(path.join(__dirname, 'configs', 'category-images.json'));
 const hintsWithoutDocs = ['optimize-image'];
 
+/** Third party logo type */
 type ThirdPartyLogo = {
     name: string;
     url: string;
     alt: string;
 };
+
+/** Third party information */
 type ThirdPartyInfo = {
     logo: ThirdPartyLogo;
     link: string;
     details?: boolean;
 };
 
+/**
+ * Represents information about a Hint.
+ */
 export class HintResult {
+    /** Status of hint. */
     public status: string;
+    /** Number of suggestions reported for this hint. */
     public count: number;
+    /** Suggestions reported for this hint. */
     public problems: Array<Problem>;
+    /** Name of the hint. */
     public name: string;
+    /** Third party information (when apply). */
     public thirdPartyInfo: ThirdPartyInfo;
+    /** Indicate if there is documentation for this hint. */
     public hasDoc: boolean;
 
     public constructor(name: string, status: string, url: string, isScanner: boolean) {
@@ -49,21 +61,37 @@ export class HintResult {
         this.hasDoc = !hintsWithoutDocs.includes(name);
     }
 
+    /**
+     * Add a new suggestion to the hint.
+     * @param problem New suggestion.
+     */
     public addProblem(problem: Problem) {
         this.problems.push(problem);
         this.count++;
     }
 }
 
+/**
+ * Represents the information about a Category.
+ */
 export class CategoryResult {
+    /** Number of suggestions in the category. */
     public hintsCount: number;
+    /** Hints that have passed. */
     public passed: Array<HintResult>;
+    /** Hints that don't passed. */
     public hints: Array<HintResult>;
+    /** Category name. */
     public name: string;
+    /** Category image. */
     public image: string;
+    /** Category status. */
     public status: string;
+    /** Cache HintResults. */
     private cache: Map<string, HintResult> = new Map();
+    /** URL analyzed. */
     public url: string;
+    /** Is the result generated for the online scanner. */
     private isScanner: boolean;
 
     public constructor(name: string, url: string, isScanner: boolean) {
@@ -84,6 +112,10 @@ export class CategoryResult {
         this.url = url;
     }
 
+    /**
+     * Return a Hint given a name.
+     * @param name Hint name to get.
+     */
     public getHintByName(name: string): HintResult | undefined {
         const lowerCaseName = name.toLowerCase();
         let hint = this.cache.get(lowerCaseName);
@@ -101,6 +133,11 @@ export class CategoryResult {
         return hint;
     }
 
+    /**
+     * Add a new Hint given a name and the status.
+     * @param name Hint name.
+     * @param status Hint status.
+     */
     public addHint(name: string, status: string): HintResult {
         let hint = this.getHintByName(name);
 
@@ -119,6 +156,10 @@ export class CategoryResult {
         return hint;
     }
 
+    /**
+     * Add a new suggestion to the categoroy.
+     * @param problem Hint suggestion.
+     */
     public addProblem(problem: Problem) {
         const hintId = problem.hintId;
 
@@ -141,19 +182,35 @@ export class CategoryResult {
     }
 }
 
+/**
+ * Represents the result of an analysis.
+ */
 export default class AnalysisResult {
+    /** Number of suggestions. */
     public hintsCount: number;
+    /** Scan time */
     public scanTime: string;
+    /** When the scan was started (started in the online scanner). */
     public timeStamp: string;
+    /** webhint version. */
     public version?: string;
+    /** Link to the result (online scanner) */
     public permalink: string;
+    /** List of categories. */
     public categories: Array<CategoryResult>;
+    /** URL analized. */
     public url: string;
+    /** The analysis is finish. */
     public isFinish: boolean;
+    /** Status of the analysis. */
     public status: string;
+    /** Analysis id (mostly for the online scanner). */
     public id: string;
+    /** If the results was generated in the online scanner. */
     public isScanner: boolean;
+    /** Precentage of the analysis completed. */
     public percentage: number;
+    /** Cache for CategorieResults. */
     private cache: Map<string, CategoryResult> = new Map();
 
     public constructor(target: string, options: FormatterOptions) {
@@ -174,10 +231,17 @@ export default class AnalysisResult {
         this.categories = [];
     }
 
+    /**
+     * Add a 0 to a time string if needed.
+     */
     private pad = (timeString: string): string => {
         return timeString && timeString.length === 1 ? `0${timeString}` : timeString;
     };
 
+    /**
+     * Return a string representing the time.
+     * @param scanTime Time in milliseconds.
+     */
     private parseScanTime(scanTime: number): string {
         const duration = moment.duration(scanTime);
         const minutes = this.pad(`${duration.get('minutes')}`);
@@ -193,10 +257,18 @@ export default class AnalysisResult {
         return time;
     }
 
+    /**
+     * Return the string of a time stamp.
+     * @param timeStamp Time in milliseconds.
+     */
     private parseTimeStamp(timeStamp: number): string {
         return moment(timeStamp).format('YYYY-MM-DD H:mm');
     }
 
+    /**
+     * Return a category given a name.
+     * @param name Category name.
+     */
     public getCategoryByName(name: string): CategoryResult | undefined {
         const lowerCaseName = name.toLowerCase();
         let category = this.cache.get(lowerCaseName);
@@ -214,6 +286,10 @@ export default class AnalysisResult {
         return category;
     }
 
+    /**
+     * Add a suggestion to the result.
+     * @param problem New suggestion.
+     */
     public addProblem(problem: Problem): void {
         const categoryName: string = problem.category;
 
@@ -232,6 +308,10 @@ export default class AnalysisResult {
         category.addProblem(problem);
     }
 
+    /**
+     * Add a new category to the result.
+     * @param categoryName Category name.
+     */
     public addCategory(categoryName: string): void {
         let category = this.getCategoryByName(categoryName);
 
@@ -244,6 +324,10 @@ export default class AnalysisResult {
         this.categories.push(category);
     }
 
+    /**
+     * Remove a category from the results.
+     * @param categoryName Category name.
+     */
     public removeCategory(categoryName: string): void {
         const name = categoryName.toLowerCase();
 

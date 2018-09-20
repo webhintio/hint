@@ -100,9 +100,9 @@
         var parent = element.closest('.rule-result');
         var expandAll = parent.querySelector('.button-expand-all');
 
-        setImmediate(function () {
+        setTimeout(function () {
             updateExpandAllButton(expandAll);
-        });
+        }, 0);
     };
 
     var getCurrentCategoryMenuHeight = function () {

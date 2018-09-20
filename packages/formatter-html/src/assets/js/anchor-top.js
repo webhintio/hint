@@ -1,4 +1,4 @@
-/* eslint-disable no-var, prefer-template, strict, prefer-arrow-callback, object-shorthand */
+/* eslint-disable no-var, strict, prefer-arrow-callback, object-shorthand */
 /* eslint-env browser */
 (function () {
     'use strict';

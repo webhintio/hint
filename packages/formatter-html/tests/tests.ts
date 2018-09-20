@@ -6,6 +6,9 @@ const fsExtra = {
     copy() { },
     mkdirp() { },
     outputFile() { },
+    readFile() {
+        return '';
+    },
     remove() { }
 };
 
@@ -27,7 +30,7 @@ test(`HTML formatter returns the right object`, async (t) => {
 
     const result: Result = await formatter.format(problems.noproblems, 'http://example.com');
 
-    t.plan((result.categories.length * 3) + 3);
+    t.plan((result.categories.length * 2) + 2);
 
     t.is(result.categories.length, 7);
     t.is(result.hintsCount, 0);
@@ -38,12 +41,12 @@ test(`HTML formatter returns the right object`, async (t) => {
     });
 });
 
-test(`HTML formatter return the right number of erros and warnings`, async (t) => {
+test(`HTML formatter returns the right number of erros and warnings`, async (t) => {
     const formatter = new HTMLFormatter();
 
     const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com');
 
-    t.plan(17);
+    t.plan(13);
 
     t.is(result.categories.length, 7);
     t.is(result.hintsCount, 5);
@@ -138,7 +141,7 @@ test.serial(`HTML formatter create copy and generate the right files`, async (t)
     t.true(t.context.fsExtra.copy.calledOnce);
     t.true(t.context.fsExtra.remove.calledOnce);
     t.true(t.context.fsExtra.mkdirp.calledOnce);
-    t.true(t.context.fsExtra.outputFile.calledTwice);
+    t.is(t.context.fsExtra.outputFile.callCount, 4);
 
     sandbox.restore();
 });

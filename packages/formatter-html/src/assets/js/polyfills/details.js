@@ -1,13 +1,12 @@
-/* global setImmediate */
-/* eslint-disable no-var,prefer-arrow-callback,prefer-template */
+/* eslint-disable no-var,prefer-arrow-callback */
 (function () {
     var supportDetails = 'open' in document.createElement('details');
 
     var shim = function () {
-        var accordionButtons = document.querySelectorAll('summary');
+        var detailButtons = document.querySelectorAll('summary');
 
-        for (var i = 0, li = accordionButtons.length; i < li; i++) {
-            var button = accordionButtons[i];
+        for (var i = 0, li = detailButtons.length; i < li; i++) {
+            var button = detailButtons[i];
 
             if (!supportDetails) {
                 button.setAttribute('tabindex', '0');
@@ -17,7 +16,7 @@
         }
     };
 
-    var onToggleAccordion = function (e, target) {
+    var onToggleDetail = function (e, target) {
         var ariaExpanded = target.getAttribute('aria-expanded');
         var keydown = e.type === 'keydown';
         var key;
@@ -59,7 +58,7 @@
             var source = findSummary(target);
 
             if (source) {
-                onToggleAccordion(evt, source);
+                onToggleDetail(evt, source);
             }
         }, false);
 
@@ -68,7 +67,7 @@
             var source = findSummary(target);
 
             if (source) {
-                onToggleAccordion(evt, source);
+                onToggleDetail(evt, source);
             }
         }, false);
     };

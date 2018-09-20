@@ -1,17 +1,19 @@
 <details class="rule-result--details" id="<%= hint.name %>" aria-expanded="false" role="group">
     <summary class="rule-title" title="show <%= hint.name %>'s result details" role="button"><%= hint.name %>: <%= hint.count %> hints</summary>
     <div class="rule-content">
+        <% if (hint.hasDoc) { %>
         <div class="rule-doc-buttons">
             <a class="rule-doc-button" rel="noopener noreferrer" target="_blank" href="https://webhint.io/docs/user-guide/hints/hint-<%= hint.name %>/#why-is-this-important"
-                title="Why is this important for <%= hint.name %> rule">
+                title="<%= hint.name %> - Why is this important">
                 Why is this important <span class="rule-doc-icon"></span>
             </a>
 
             <a class="rule-doc-button" rel="noopener noreferrer" target="_blank" href="https://webhint.io/docs/user-guide/hints/hint-<%= hint.name %>/#examples-that-pass-the-hint"
-                title="How to fix <%= hint.name %> rule">
+                title="<%= hint.name %> - How to fix it">
                 How to fix this <span class="rule-doc-icon"></span>
             </a>
         </div>
+        <% } %>
         <% hint.problems.forEach(function (problem, index) { %>
             <div class="rule-result--details__body">
                 <p>

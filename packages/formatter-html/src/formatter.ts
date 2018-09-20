@@ -29,18 +29,24 @@ const debug = d(__filename);
  * Utils
  * ------------------------------------------------------------------------------
  */
+/* istanbul ignore next */
 const getCategoryListFromResources = (resources: HintResources) => {
     const categoriesArray: Array<string> = resources.hints.map((hint) => {
-        return hint.meta.docs!.category!;
+        if (hint.meta.docs && hint.meta.docs.category) {
+            return hint.meta.docs.category;
+        }
+
+        return Category.other;
     });
 
     // Clean duplicated values.
     const categories: Set<string> = new Set(categoriesArray);
 
-    return [...categories];
+    return Array.from(categories);
 };
 
 const getCategoryList = (resources?: HintResources): Array<string> => {
+    /* istanbul ignore if */
     if (resources) {
         return getCategoryListFromResources(resources);
     }
@@ -69,6 +75,7 @@ export default class HTMLFormatter implements IFormatter {
     private renderFile(filename: string, data: any) {
         return new Promise((resolve, reject) => {
             ejs.renderFile(filename, data, { filename }, (err, html) => {
+                /* istanbul ignore if */
                 if (err) {
                     return reject(err);
                 }
@@ -94,6 +101,7 @@ export default class HTMLFormatter implements IFormatter {
             result.addProblem(message);
         });
 
+        /* istanbul ignore if */
         if (options.resources) {
             options.resources.hints.forEach((hintConstructor) => {
                 const categoryName: string = hintConstructor.meta.docs!.category!;
@@ -131,6 +139,10 @@ export default class HTMLFormatter implements IFormatter {
 
                 await fs.copy(path.join(currentDir, 'assets'), destDir);
 
+                /**
+                 * Update images reference to make them work locally
+                 * when there is no server.
+                 */
                 const parseCssfile = async (filePath: string, prefix: string = '../..') => {
                     const cssFile = filePath;
                     let scanCSS = await fs.readFile(cssFile, 'utf-8');
