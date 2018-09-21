@@ -1,75 +1,75 @@
 {
-    "activationEvents": [
-        "onLanguage:css",
-        "onLanguage:html",
-        "onLanguage:javascript",
-        "onLanguage:json",
-        "onLanguage:jsonc"
-    ],
-    "ava": {
-        "failFast": false,
-        "files": [
-            "dist/tests/**/*.js"
-        ],
-        "timeout": "1m"
-    },
-    "dependencies": {
-        "vscode": "^1.1.21",
-        "vscode-languageclient": "^5.0.1",
-        "vscode-languageserver": "^5.0.3"
-    },
-    "description": "Run webhint in Visual Studio Code.",
-    "devDependencies": {
-        "ava": "^0.25.0",
-        "cpx": "^1.5.0",
-        "eslint": "^5.6.0",
-        "eslint-plugin-import": "^2.14.0",
-        "eslint-plugin-markdown": "^1.0.0-beta.7",
-        "eslint-plugin-typescript": "^0.12.0",
-        "hint": "^3.4.0",
-        "markdownlint-cli": "^0.13.0",
-        "npm-link-check": "^2.0.0",
-        "npm-run-all": "^4.1.2",
-        "nyc": "^13.0.1",
-        "proxyquire": "2.0.0",
-        "rimraf": "^2.6.2",
-        "sinon": "^6.3.3",
-        "typescript": "^3.0.3",
-        "typescript-eslint-parser": "^18.0.0"
-    },
-    "engines": {
-        "node": ">=8.0.0",
-        "vscode": "^1.26.0"
-    },
-    "homepage": "https://webhint.io/",
-    "icon": "icon.png",
-    "license": "Apache-2.0",
-    "main": "./dist/src/extension",
-    "name": "vscode-webhint",
-    "private": true,
-    "publisher": "webhint",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/webhintio/hint.git"
-    },
-    "scripts": {
-        "build": "npm run clean && npm-run-all build:*",
-        "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
-        "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
-        "build:ts": "tsc",
-        "clean": "rimraf dist",
-        "lint": "npm-run-all lint:*",
-        "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
-        "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run lint && npm run build && npm run test-only",
-        "test-only": "nyc ava",
-        "update-vscode": "node ./node_modules/vscode/bin/install",
-        "vscode:prepublish": "npm run update-vscode && npm run build",
-        "watch": "npm run build && npm-run-all --parallel -c watch:*",
-        "watch:assets": "npm run build:assets -- -w --no-initial",
-        "watch:test": "ava --watch",
-        "watch:ts": "npm run build:ts -- --watch"
-    },
-    "version": "1.0.0"
+  "activationEvents": [
+    "onLanguage:css",
+    "onLanguage:html",
+    "onLanguage:javascript",
+    "onLanguage:json",
+    "onLanguage:jsonc"
+  ],
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js"
+      ],
+      "timeout": "1m"
+  },
+  "dependencies": {
+    "vscode": "^1.1.21",
+    "vscode-languageclient": "^5.0.1",
+    "vscode-languageserver": "^5.0.3"
+  },
+  "description": "Run webhint in Visual Studio Code.",
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "cpx": "^1.5.0",
+    "eslint": "^5.6.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-markdown": "^1.0.0-beta.7",
+    "eslint-plugin-typescript": "^0.12.0",
+    "hint": "^3.4.0",
+    "markdownlint-cli": "^0.13.0",
+    "npm-link-check": "^2.0.0",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^13.0.1",
+    "proxyquire": "2.0.0",
+    "rimraf": "^2.6.2",
+    "sinon": "^6.3.3",
+    "typescript": "^3.0.3",
+    "typescript-eslint-parser": "^18.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0",
+    "vscode": "^1.26.0"
+  },
+  "homepage": "https://webhint.io/",
+  "icon": "icon.png",
+  "license": "Apache-2.0",
+  "main": "./dist/src/extension",
+  "name": "vscode-webhint",
+  "private": true,
+  "publisher": "webhint",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
+  "scripts": {
+    "build": "npm run clean && npm-run-all build:*",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run lint && npm run build && npm run test-only",
+    "test-only": "nyc ava",
+    "update-vscode": "node ./node_modules/vscode/bin/install",
+    "vscode:prepublish": "npm run update-vscode && npm run build",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:assets": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "1.0.0"
 }

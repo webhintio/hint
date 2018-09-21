@@ -1,5 +1,5 @@
-**/*.ts
 **/*.map
-**/tsconfig.json
+**/*.ts
 **/tsconfig.base.json
+**/tsconfig.json
 .vscode/**

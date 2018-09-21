@@ -1,7 +1,7 @@
 # Contributing
 
-Instructions for getting started contributing to `webhint` for Visual
-Studio Code.
+Instructions for getting started contributing to `webhint`
+for Visual Studio Code.
 
 ## Compile and Run
 

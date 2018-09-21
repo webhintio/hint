@@ -2,8 +2,8 @@
 
 Use `webhint` to improve your website - during development.
 
-This extension runs and reports diagnostics for workspace files based on
-`webhint` analysis.
+This extension runs and reports diagnostics for workspace files
+based on `webhint` analysis.
 
 ## Prerequisites
 
@@ -16,13 +16,18 @@ Or run `npm install -g hint` to install `webhint` globally.
 
 This extension uses your local `.hintrc` file to configure `webhint`.
 If no `.hintrc` file is found it defaults to
-[`@hint/configuration-development`](https://github.com/webhintio/hint/blob/master/packages/configuration-development/index.json).
+[`@hint/configuration-development`][config].
 
 To create one, run `npm create hintrc` and choose `development` as the
 configuration to extend.
 
 ## Help
 
-Learn more about webhint at [webhint.io](https://webhint.io).
-For help with output from specific hints, see the
-[webhint user guide](https://webhint.io/docs/user-guide/hints/).
+Learn more about webhint at [webhint.io][site]. For help with output
+from specific hints, see the [`webhint` user guide][hints].
+
+<!-- Link labels: -->
+
+[config]: https://github.com/webhintio/hint/blob/master/packages/configuration-development/index.json
+[hints]: https://webhint.io/docs/user-guide/hints/
+[site]: https://webhint.io
