@@ -51,8 +51,8 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
     t.is(await div.outerHTML(), '<div id="test">Test</div>');
     t.is(div.nodeName.toLowerCase(), 'div');
     t.is(div.getAttribute('id'), 'test');
-    t.is(location && location.line, 0);
-    t.is(location && location.column, 16);
+    t.is(location && location.line, NaN);
+    t.is(location && location.column, undefined); // eslint-disable-line no-undefined
     t.is(id.value, 'test');
     t.true(div.isSame(div2));
 
