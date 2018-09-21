@@ -54,6 +54,6 @@ export default class TypeScriptConfigImportHelpers implements IHint {
         };
 
         context.on('parse::typescript-config::end', validate);
-        context.on('scan::end', validateTslibInstalled);
+        context.on('parse::typescript-config::end', validateTslibInstalled);
     }
 }
