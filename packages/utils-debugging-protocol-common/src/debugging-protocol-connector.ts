@@ -16,6 +16,7 @@ import { promisify } from 'util';
 
 import * as cdp from 'chrome-remote-interface';
 import { compact, filter } from 'lodash';
+import { atob } from 'abab';
 
 import { CDPAsyncHTMLDocument, AsyncHTMLElement } from './cdp-async-html';
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
@@ -321,7 +322,7 @@ export class Connector implements IConnector {
             const { body, base64Encoded } = await this._client.Network.getResponseBody({ requestId: cdpResponse.requestId });
             const encoding = base64Encoded ? 'base64' : 'utf8';
 
-            content = body;
+            content = base64Encoded ? atob(body) : body; // There are some JS responses that are base64 encoded for some reason
             rawContent = Buffer.from(body, encoding);
 
             const returnValue = {
