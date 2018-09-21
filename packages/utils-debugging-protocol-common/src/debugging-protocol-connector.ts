@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 /**
  * @fileoverview Connector that uses the Chrome Debugging protocol
  * to load a site and do the traversing. It also uses request
@@ -15,6 +16,7 @@ import { URL } from 'url';
 import { promisify } from 'util';
 
 import * as cdp from 'chrome-remote-interface';
+import { Crdp } from 'chrome-remote-debug-protocol';
 import { compact, filter } from 'lodash';
 
 import { CDPAsyncHTMLDocument, AsyncHTMLElement } from './cdp-async-html';
@@ -52,7 +54,7 @@ export class Connector implements IConnector {
     /** The instance of hint that is using this connector. */
     private _server: Engine;
     /** The client to talk to the browser. */
-    private _client;
+    private _client: Crdp.CrdpClient;
     /** A set of requests done by the connector to retrieve initial information more easily. */
     private _requests: Map<string, any>;
     /** Indicates if there has been an error loading the page (e.g.: it doesn't exists). */
@@ -63,6 +65,8 @@ export class Connector implements IConnector {
     private _redirects = new RedirectManager();
     /** A collection of requests with their initial data. */
     private _pendingResponseReceived: Array<Function>;
+    /** Collection of */
+    private _finishedRequests: Map<string, any>;
     /** List of all the tabs used by the connector. */
     private _tabs = [];
     /** Tells if a favicon of a page has been downloaded from a link tag. */
@@ -70,13 +74,14 @@ export class Connector implements IConnector {
     /** The amount of time before an event is going to be timedout. */
     private _timeout: number;
     /** Browser PID */
-    private pid: number;
+    private _pid: number;
     private _targetNetworkData: NetworkData;
-    private launcher: ILauncher;
+    private _launcher: ILauncher;
     /** Promise that gets resolved when the taget is downloaded. */
     private _waitForTarget: Promise<null>;
     /** Function to call when the target is downloaded. */
-    private targetReceived: Function;
+    private _targetReceived: Function;
+
 
     public constructor(engine: Engine, config: object, launcher: ILauncher) {
         const defaultOptions = {
@@ -99,11 +104,12 @@ export class Connector implements IConnector {
 
         this._requests = new Map();
         this._pendingResponseReceived = [];
+        this._finishedRequests = new Map();
 
-        this.launcher = launcher;
+        this._launcher = launcher;
 
         this._waitForTarget = new Promise((resolve) => {
-            this.targetReceived = resolve;
+            this._targetReceived = resolve;
         });
     }
 
@@ -191,7 +197,7 @@ export class Connector implements IConnector {
     }
 
     /** Event handler for when the browser is about to make a request. */
-    private async onRequestWillBeSent(params) {
+    private async onRequestWillBeSent(params: Crdp.Network.RequestWillBeSentEvent) {
         const requestUrl: string = params.request.url;
 
         debug(`About to start fetching ${cutString(requestUrl)} (${params.requestId})`);
@@ -245,7 +251,7 @@ export class Connector implements IConnector {
     }
 
     /** Event handler fired when HTTP request fails for some reason. */
-    private async onLoadingFailed(params) {
+    private async onLoadingFailed(params: Crdp.Network.LoadingFailedEvent) {
         const requestInfo = this._requests.get(params.requestId);
 
         /*
@@ -302,7 +308,19 @@ export class Connector implements IConnector {
         }
     }
 
-    private async getResponseBody(cdpResponse): Promise<{ content: string, rawContent: Buffer, rawResponse(): Promise<Buffer> }> {
+    /** Wait until the given `requestId` request has loaded all the content. */
+    // TODO: remove `any` from return type
+    private waitForContentLoaded(requestId: string): Promise<any> {
+        if (this._finishedRequests.has(requestId)) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            this._finishedRequests.set(requestId, { reject, resolve });
+        });
+    }
+
+    private async getResponseBody(cdpResponse: Crdp.Network.ResponseReceivedEvent): Promise<{ content: string, rawContent: Buffer, rawResponse(): Promise<Buffer> }> {
         let content: string = '';
         let rawContent: Buffer = null;
         const rawResponse = (): Promise<Buffer> => {
@@ -318,17 +336,18 @@ export class Connector implements IConnector {
         }
 
         try {
+            await this.waitForContentLoaded(cdpResponse.requestId);
             const { body, base64Encoded } = await this._client.Network.getResponseBody({ requestId: cdpResponse.requestId });
-            const encoding = base64Encoded ? 'base64' : 'utf8';
+            const encoding = base64Encoded ? 'base64' : 'utf-8';
 
-            content = body;
+            content = base64Encoded ? atob(body) : body; // There are some JS responses that are base64Encoded for some weird reason
             rawContent = Buffer.from(body, encoding);
 
             const returnValue = {
                 content,
                 rawContent,
                 rawResponse(): Promise<Buffer> {
-                    const self = (this as any);
+                    const self = (this as { _rawResponse: Promise<Buffer> });
 
                     if (self) {
                         const cached = self._rawResponse;
@@ -407,7 +426,7 @@ export class Connector implements IConnector {
     }
 
     /** Returns a Response for the given request. */
-    private async createResponse(cdpResponse, element: IAsyncHTMLElement): Promise<Response> {
+    private async createResponse(cdpResponse: Crdp.Network.ResponseReceivedEvent, element: IAsyncHTMLElement): Promise<Response> {
         const resourceUrl: string = cdpResponse.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const resourceHeaders: object = normalizeHeaders(cdpResponse.response.headers);
@@ -453,7 +472,7 @@ export class Connector implements IConnector {
     }
 
     /** Event handler fired when HTTP response is available and DOM loaded. */
-    private async onResponseReceived(params) {
+    private async onResponseReceived(params: Crdp.Network.ResponseReceivedEvent) {
         const resourceUrl: string = params.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const originalUrl: string = hops[0] || resourceUrl;
@@ -497,7 +516,7 @@ export class Connector implements IConnector {
                 response
             };
 
-            this.targetReceived();
+            this._targetReceived();
         }
 
         eventName = `${eventName}::${getType(response.mediaType)}`;
@@ -521,6 +540,22 @@ export class Connector implements IConnector {
          * if we receive it in `onLoadingFailed` (used only for "catastrophic" failures).
          */
         this._requests.delete(params.requestId);
+    }
+
+    /** Event handler fired when an HTTP request has finished and all the content is available */
+    private onLoadingFinished(params: Crdp.Network.LoadingFinishedEvent) {
+        const { requestId } = params;
+
+        if (this._finishedRequests.has(requestId)) {
+            const { resolve } = this._finishedRequests.get(requestId);
+
+            // We remove the ones that have been processed already
+            this._finishedRequests.delete(requestId);
+
+            resolve();
+        } else {
+            this._finishedRequests.set(requestId, {});
+        }
     }
 
     /** Traverses the DOM notifying when a new element is traversed. */
@@ -571,7 +606,7 @@ export class Connector implements IConnector {
     }
 
     /** Wait until the browser load the first tab */
-    private getClient(port, tab): Promise<object> {
+    private getClient(port: number, tab: number): Promise<object> {
         let retries: number = 0;
         const loadCDP = async () => {
             try {
@@ -595,10 +630,10 @@ export class Connector implements IConnector {
 
     /** Initiates Chrome if needed and a new tab to start the collection. */
     private async initiateComms() {
-        const launcher: BrowserInfo = await this.launcher.launch(this._options.useTabUrl ? this._options.tabUrl : 'about:blank');
+        const launcher: BrowserInfo = await this._launcher.launch(this._options.useTabUrl ? this._options.tabUrl : 'about:blank');
         let client;
 
-        this.pid = launcher.pid;
+        this._pid = launcher.pid;
 
         /*
          * We want a new tab for this session. If it is a new browser, a new tab
@@ -661,9 +696,10 @@ export class Connector implements IConnector {
         await Promise.all([
             Network.clearBrowserCache(),
             Network.setCacheDisabled({ cacheDisabled: true }),
-            Network.requestWillBeSent(this.onRequestWillBeSent.bind(this)),
-            Network.responseReceived(this.onResponseReceived.bind(this)),
-            Network.loadingFailed(this.onLoadingFailed.bind(this))
+            Network['requestWillBeSent'](this.onRequestWillBeSent.bind(this)),
+            Network['responseReceived'](this.onResponseReceived.bind(this)),
+            Network['loadingFinished'](this.onLoadingFinished.bind(this)),
+            Network['loadingFailed'](this.onLoadingFailed.bind(this))
         ]);
     }
 
@@ -671,13 +707,13 @@ export class Connector implements IConnector {
     private async configureAndEnableCDP() {
         const { Network, Page } = this._client;
 
-        this._client.on('error', this.onError);
-        this._client.on('disconnect', this.onDisconnect);
+        (this._client as any).on('error', this.onError);
+        (this._client as any).on('disconnect', this.onDisconnect);
 
         await this.enableNetworkEvents();
 
         await Promise.all([
-            Network.enable(),
+            Network.enable({}),
             Page.enable()
         ]);
     }
@@ -874,7 +910,7 @@ export class Connector implements IConnector {
                      * https://nodejs.org/api/process.html#process_process_kill_pid_signal
                      */
 
-                    process.kill(this.pid, 0);
+                    process.kill(this._pid, 0);
 
                     maxTries--;
 
@@ -885,7 +921,7 @@ export class Connector implements IConnector {
                         await delay(50);
                     }
                 } catch (e) {
-                    debug(`Process with ${this.pid} doesn't seem to be running`);
+                    debug(`Process with ${this._pid} doesn't seem to be running`);
                     finish = true;
                 }
             }
@@ -901,7 +937,7 @@ export class Connector implements IConnector {
             const tab = this._tabs.pop();
 
             try {
-                await cdp.Close({ id: tab.id, port: this._client.port }); // eslint-disable-line new-cap
+                await cdp.Close({ id: tab.id, port: (this._client as any).port }); // eslint-disable-line new-cap
             } catch (e) {
                 debug(`Couldn't close tab ${tab.id}`);
             }
@@ -909,7 +945,7 @@ export class Connector implements IConnector {
 
         try {
 
-            this._client.close();
+            (this._client as any).close();
 
             /*
              * We need to wait until the browser is closed because
