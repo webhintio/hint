@@ -1,3 +1,10 @@
+# 3.4.2 (September 20, 2018)
+
+## Bug fixes / Improvements
+
+* [[`537bbbbd98`](https://github.com/webhintio/hint/commit/537bbbbd98c2269d95ecda08e54aa4a086468183)] - Fix: Use JSDOM locations for elements if available (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 3.4.1 (September 19, 2018)
 
 ## Bug fixes / Improvements
