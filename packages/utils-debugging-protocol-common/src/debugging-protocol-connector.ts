@@ -72,13 +72,13 @@ export class Connector implements IConnector {
     /** The amount of time before an event is going to be timedout. */
     private _timeout: number;
     /** Browser PID */
-    private pid: number;
+    private _pid: number;
     private _targetNetworkData: NetworkData;
-    private launcher: ILauncher;
+    private _launcher: ILauncher;
     /** Promise that gets resolved when the taget is downloaded. */
     private _waitForTarget: Promise<null>;
     /** Function to call when the target is downloaded. */
-    private targetReceived: Function;
+    private _targetReceived: Function;
 
     public constructor(engine: Engine, config: object, launcher: ILauncher) {
         const defaultOptions = {
@@ -102,10 +102,10 @@ export class Connector implements IConnector {
         this._requests = new Map();
         this._pendingResponseReceived = [];
 
-        this.launcher = launcher;
+        this._launcher = launcher;
 
         this._waitForTarget = new Promise((resolve) => {
-            this.targetReceived = resolve;
+            this._targetReceived = resolve;
         });
     }
 
@@ -499,7 +499,7 @@ export class Connector implements IConnector {
                 response
             };
 
-            this.targetReceived();
+            this._targetReceived();
         }
 
         eventName = `${eventName}::${getType(response.mediaType)}`;
@@ -597,10 +597,10 @@ export class Connector implements IConnector {
 
     /** Initiates Chrome if needed and a new tab to start the collection. */
     private async initiateComms() {
-        const launcher: BrowserInfo = await this.launcher.launch(this._options.useTabUrl ? this._options.tabUrl : 'about:blank');
+        const launcher: BrowserInfo = await this._launcher.launch(this._options.useTabUrl ? this._options.tabUrl : 'about:blank');
         let client;
 
-        this.pid = launcher.pid;
+        this._pid = launcher.pid;
 
         /*
          * We want a new tab for this session. If it is a new browser, a new tab
@@ -878,7 +878,7 @@ export class Connector implements IConnector {
                      * https://nodejs.org/api/process.html#process_process_kill_pid_signal
                      */
 
-                    process.kill(this.pid, 0);
+                    process.kill(this._pid, 0);
 
                     maxTries--;
 
@@ -889,7 +889,7 @@ export class Connector implements IConnector {
                         await delay(50);
                     }
                 } catch (e) {
-                    debug(`Process with ${this.pid} doesn't seem to be running`);
+                    debug(`Process with ${this._pid} doesn't seem to be running`);
                     finish = true;
                 }
             }
