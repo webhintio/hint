@@ -65,6 +65,8 @@ export class Connector implements IConnector {
     private _redirects = new RedirectManager();
     /** A collection of requests with their initial data. */
     private _pendingResponseReceived: Array<Function>;
+    /** Collection of */
+    private _finishedRequests: Map<string, any>;
     /** List of all the tabs used by the connector. */
     private _tabs = [];
     /** Tells if a favicon of a page has been downloaded from a link tag. */
@@ -101,6 +103,7 @@ export class Connector implements IConnector {
 
         this._requests = new Map();
         this._pendingResponseReceived = [];
+        this._finishedRequests = new Map();
 
         this.launcher = launcher;
 
@@ -304,6 +307,18 @@ export class Connector implements IConnector {
         }
     }
 
+    /** Wait until the given `requestId` request has loaded all the content. */
+    // TODO: remove `any` from return type
+    private waitForContentLoaded(requestId: string): Promise<any> {
+        if (this._finishedRequests.has(requestId)) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            this._finishedRequests.set(requestId, { reject, resolve });
+        });
+    }
+
     private async getResponseBody(cdpResponse: Crdp.Network.ResponseReceivedEvent): Promise<{ content: string, rawContent: Buffer, rawResponse(): Promise<Buffer> }> {
         let content: string = '';
         let rawContent: Buffer = null;
@@ -320,6 +335,7 @@ export class Connector implements IConnector {
         }
 
         try {
+            await this.waitForContentLoaded(cdpResponse.requestId);
             const { body, base64Encoded } = await this._client.Network.getResponseBody({ requestId: cdpResponse.requestId });
             const encoding = base64Encoded ? 'base64' : 'utf-8';
 
@@ -525,6 +541,21 @@ export class Connector implements IConnector {
         this._requests.delete(params.requestId);
     }
 
+    /** Event handler fired when an HTTP request has finished and all the content is available */
+    private onLoadingFinished(params: Crdp.Network.LoadingFinishedEvent) {
+        const { requestId } = params;
+
+        if (this._finishedRequests.has(requestId)) {
+            const { resolve } = this._finishedRequests.get(requestId);
+
+            // We remove the ones that have been processed already
+            this._finishedRequests.delete(requestId);
+            resolve();
+        } else {
+            this._finishedRequests.set(requestId, {});
+        }
+    }
+
     /** Traverses the DOM notifying when a new element is traversed. */
     private async traverseAndNotify(element) {
         /*
@@ -666,6 +697,7 @@ export class Connector implements IConnector {
             // The typings we use for CDP aren't 100% compatible with our libarary
             Network['requestWillBeSent'](this.onRequestWillBeSent.bind(this)), // eslint-disable-line dot-notation
             Network['responseReceived'](this.onResponseReceived.bind(this)), // eslint-disable-line dot-notation
+            Network['loadingFinished'](this.onLoadingFinished.bind(this)), // eslint-disable-line dot-notation
             Network['loadingFailed'](this.onLoadingFailed.bind(this)) // eslint-disable-line dot-notation
         ]);
     }
