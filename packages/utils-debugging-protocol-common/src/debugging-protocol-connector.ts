@@ -321,7 +321,7 @@ export class Connector implements IConnector {
 
         try {
             const { body, base64Encoded } = await this._client.Network.getResponseBody({ requestId: cdpResponse.requestId });
-            const encoding = base64Encoded ? 'base64' : 'utf8';
+            const encoding = base64Encoded ? 'base64' : 'utf-8';
 
             content = base64Encoded ? atob(body) : body; // There are some JS responses that are base64 encoded for some reason
             rawContent = Buffer.from(body, encoding);
