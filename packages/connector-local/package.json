@@ -12,7 +12,7 @@
   },
   "description": "hint local connector",
   "devDependencies": {
-    "@hint/parser-html": "^1.0.1",
+    "@hint/parser-html": "^1.0.2",
     "@types/chokidar": "^1.7.5",
     "@types/mock-require": "^2.0.0",
     "ava": "^0.25.0",
