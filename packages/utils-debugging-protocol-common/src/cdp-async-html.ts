@@ -1,3 +1,5 @@
+import { Crdp } from 'chrome-remote-debug-protocol';
+
 import { IAsyncHTMLDocument, IAsyncHTMLElement } from 'hint/dist/src/lib/types/async-html'; //eslint-disable-line
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
@@ -7,7 +9,7 @@ const debug: debug.IDebugger = d(__filename);
 /** An implementation of AsyncHTMLDocument on top of the Chrome Debugging Protocol */
 export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
     /** The DOM domain of the CDP client. */
-    private _DOM;
+    private _DOM: Crdp.DOMClient;
     /** The root element of the real DOM. */
     private _dom;
     /** A map with all the nodes accessible using `nodeId`. */
@@ -25,7 +27,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
      * initially, we store them in a Map using the `nodeId` as the key so we can access to them
      * later.
      */
-    private trackNodes(root) {
+    private trackNodes(root: Crdp.DOM.Node) {
         this._nodes.set(root.nodeId, root);
         if (!root.children) {
             return;
@@ -36,7 +38,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
         });
     }
 
-    private getHTMLChildren(children: Array<any>) {
+    private getHTMLChildren(children: Array<Crdp.DOM.Node>) {
         return children.find((item) => {
             return item.nodeType === 1 && item.nodeName === 'HTML';
         });
@@ -128,7 +130,7 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
     private _attributesArray: Array<{ name: string; value: string; }> = [];
     private _attributesMap: Map<string, string> = new Map();
 
-    public constructor(htmlelement, ownerDocument, DOM) {
+    public constructor(htmlelement: Crdp.DOM.Node, ownerDocument: CDPAsyncHTMLDocument, DOM: Crdp.DOMClient) {
         if (typeof htmlelement === 'number') {
             throw new Error();
         }
