@@ -10,8 +10,8 @@
     "failFast": false,
     "files": [
       "dist/tests/**/*.js"
-      ],
-      "timeout": "1m"
+    ],
+    "timeout": "1m"
   },
   "dependencies": {
     "vscode": "^1.1.21",
@@ -26,7 +26,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.4.0",
+    "hint": "^3.4.2",
     "markdownlint-cli": "^0.13.0",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
