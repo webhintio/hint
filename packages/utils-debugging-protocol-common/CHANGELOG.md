@@ -1,3 +1,10 @@
+# 1.0.6 (September 20, 2018)
+
+## Bug fixes / Improvements
+
+* [[`ea56a95ce4`](https://github.com/webhintio/hint/commit/ea56a95ce452c136c872dadd9c790b2cc5f9cd06)] - Fix: Several issues with the Debugging Protocol (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1325`](https://github.com/webhintio/hint/issues/1325)).
+
+
 # 1.0.5 (September 20, 2018)
 
 ## Bug fixes / Improvements
