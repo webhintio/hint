@@ -1,3 +1,10 @@
+# 1.1.1 (September 21, 2018)
+
+## Bug fixes / Improvements
+
+* [[`11e792b4af`](https://github.com/webhintio/hint/commit/11e792b4af558362b43fec08b6825a60dae55f1f)] - Fix: Scope `tslib` check to only run if `.tsconfig` exists (by [`Tony Ross`](https://github.com/antross) / see also: [`#1330`](https://github.com/webhintio/hint/issues/1330)).
+
+
 # 1.1.0 (September 11, 2018)
 
 ## New features
