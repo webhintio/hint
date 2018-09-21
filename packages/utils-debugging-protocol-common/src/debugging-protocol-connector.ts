@@ -17,6 +17,7 @@ import { promisify } from 'util';
 import * as cdp from 'chrome-remote-interface';
 import { compact, filter } from 'lodash';
 import { atob } from 'abab';
+import { Crdp } from 'chrome-remote-debug-protocol';
 
 import { CDPAsyncHTMLDocument, AsyncHTMLElement } from './cdp-async-html';
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
@@ -53,7 +54,7 @@ export class Connector implements IConnector {
     /** The instance of hint that is using this connector. */
     private _server: Engine;
     /** The client to talk to the browser. */
-    private _client;
+    private _client: Crdp.CrdpClient;
     /** A set of requests done by the connector to retrieve initial information more easily. */
     private _requests: Map<string, any>;
     /** Indicates if there has been an error loading the page (e.g.: it doesn't exists). */
@@ -192,7 +193,7 @@ export class Connector implements IConnector {
     }
 
     /** Event handler for when the browser is about to make a request. */
-    private async onRequestWillBeSent(params) {
+    private async onRequestWillBeSent(params: Crdp.Network.RequestWillBeSentEvent) {
         const requestUrl: string = params.request.url;
 
         debug(`About to start fetching ${cutString(requestUrl)} (${params.requestId})`);
@@ -246,7 +247,7 @@ export class Connector implements IConnector {
     }
 
     /** Event handler fired when HTTP request fails for some reason. */
-    private async onLoadingFailed(params) {
+    private async onLoadingFailed(params: Crdp.Network.LoadingFailedEvent) {
         const requestInfo = this._requests.get(params.requestId);
 
         /*
@@ -303,7 +304,7 @@ export class Connector implements IConnector {
         }
     }
 
-    private async getResponseBody(cdpResponse): Promise<{ content: string, rawContent: Buffer, rawResponse(): Promise<Buffer> }> {
+    private async getResponseBody(cdpResponse: Crdp.Network.ResponseReceivedEvent): Promise<{ content: string, rawContent: Buffer, rawResponse(): Promise<Buffer> }> {
         let content: string = '';
         let rawContent: Buffer = null;
         const rawResponse = (): Promise<Buffer> => {
@@ -329,7 +330,7 @@ export class Connector implements IConnector {
                 content,
                 rawContent,
                 rawResponse(): Promise<Buffer> {
-                    const self = (this as any);
+                    const self = (this as { _rawResponse: Promise<Buffer> });
 
                     if (self) {
                         const cached = self._rawResponse;
@@ -408,7 +409,7 @@ export class Connector implements IConnector {
     }
 
     /** Returns a Response for the given request. */
-    private async createResponse(cdpResponse, element: IAsyncHTMLElement): Promise<Response> {
+    private async createResponse(cdpResponse: Crdp.Network.ResponseReceivedEvent, element: IAsyncHTMLElement): Promise<Response> {
         const resourceUrl: string = cdpResponse.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const resourceHeaders: object = normalizeHeaders(cdpResponse.response.headers);
@@ -454,7 +455,7 @@ export class Connector implements IConnector {
     }
 
     /** Event handler fired when HTTP response is available and DOM loaded. */
-    private async onResponseReceived(params) {
+    private async onResponseReceived(params: Crdp.Network.ResponseReceivedEvent) {
         const resourceUrl: string = params.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const originalUrl: string = hops[0] || resourceUrl;
@@ -572,7 +573,7 @@ export class Connector implements IConnector {
     }
 
     /** Wait until the browser load the first tab */
-    private getClient(port, tab): Promise<object> {
+    private getClient(port: number, tab: number): Promise<object> {
         let retries: number = 0;
         const loadCDP = async () => {
             try {
@@ -662,9 +663,10 @@ export class Connector implements IConnector {
         await Promise.all([
             Network.clearBrowserCache(),
             Network.setCacheDisabled({ cacheDisabled: true }),
-            Network.requestWillBeSent(this.onRequestWillBeSent.bind(this)),
-            Network.responseReceived(this.onResponseReceived.bind(this)),
-            Network.loadingFailed(this.onLoadingFailed.bind(this))
+            // The typings we use for CDP aren't 100% compatible with our libarary
+            Network['requestWillBeSent'](this.onRequestWillBeSent.bind(this)), // eslint-disable-line dot-notation
+            Network['responseReceived'](this.onResponseReceived.bind(this)), // eslint-disable-line dot-notation
+            Network['loadingFailed'](this.onLoadingFailed.bind(this)) // eslint-disable-line dot-notation
         ]);
     }
 
@@ -672,13 +674,14 @@ export class Connector implements IConnector {
     private async configureAndEnableCDP() {
         const { Network, Page } = this._client;
 
-        this._client.on('error', this.onError);
-        this._client.on('disconnect', this.onDisconnect);
+        // The typings we use for CDP aren't 100% compatible with our libarary
+        (this._client as any).on('error', this.onError);
+        (this._client as any).on('disconnect', this.onDisconnect);
 
         await this.enableNetworkEvents();
 
         await Promise.all([
-            Network.enable(),
+            Network.enable({}),
             Page.enable()
         ]);
     }
@@ -902,7 +905,7 @@ export class Connector implements IConnector {
             const tab = this._tabs.pop();
 
             try {
-                await cdp.Close({ id: tab.id, port: this._client.port }); // eslint-disable-line new-cap
+                await cdp.Close({ id: tab.id, port: (this._client as any).port }); // eslint-disable-line new-cap
             } catch (e) {
                 debug(`Couldn't close tab ${tab.id}`);
             }
@@ -910,7 +913,7 @@ export class Connector implements IConnector {
 
         try {
 
-            this._client.close();
+            (this._client as any).close();
 
             /*
              * We need to wait until the browser is closed because
