@@ -63,11 +63,16 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
     /* istanbul ignore next */
     public getLocation(): ProblemLocation {
         try {
-            const location = this._dom && this._dom.nodeLocation(this._htmlelement);
+            /*
+             * TODO: Depending on the install (yarn vs npm) we get a different version of `jsdom`
+             * that has a different version of `parse5`. This takes care of this issue but should
+             * be fixed once we migrate completely to jsdom 12 (https://github.com/webhintio/hint/pull/1274)
+             */
+            const location: any = this._dom && this._dom.nodeLocation(this._htmlelement);
 
             return location && {
-                column: location.startTag.col,
-                line: location.startTag.line - 1
+                column: location.startTag.col || location.startTag.startCol,
+                line: (location.startTag.line || location.startTag.startLine) - 1
             } || null;
         } catch (e) {
             // JSDOM throws an exception if `includeNodeLocations` wasn't set.
