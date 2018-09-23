@@ -8,7 +8,7 @@
   },
   "description": "webhint parser for web app manifest files",
   "devDependencies": {
-    "ajv": "^6.5.3",
+    "ajv": "^6.5.4",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.6.0",
