@@ -1894,10 +1894,6 @@ chrome-launcher@^0.10.4:
     mkdirp "0.5.1"
     rimraf "^2.6.1"
 
-chrome-remote-debug-protocol@^1.2.20180422:
-  version "1.2.20180422"
-  resolved "https://registry.yarnpkg.com/chrome-remote-debug-protocol/-/chrome-remote-debug-protocol-1.2.20180422.tgz#535846acbd3d6663e68301276372a2d02eb79e20"
-
 chrome-remote-interface@^0.26.1:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/chrome-remote-interface/-/chrome-remote-interface-0.26.1.tgz#6c7d4479742b6d236752d716a9bc2d322d7d8ad2"
