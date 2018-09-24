@@ -13,6 +13,9 @@
     ],
     "timeout": "1m"
   },
+  "categories": [
+    "Linters"
+  ],
   "dependencies": {
     "vscode": "^1.1.21",
     "vscode-languageclient": "^5.0.1",
@@ -37,6 +40,7 @@
     "typescript": "^3.0.3",
     "typescript-eslint-parser": "^18.0.0"
   },
+  "displayName": "webhint",
   "engines": {
     "node": ">=8.0.0",
     "vscode": "^1.26.0"
@@ -46,6 +50,7 @@
   "license": "Apache-2.0",
   "main": "./dist/src/extension",
   "name": "vscode-webhint",
+  "preview": true,
   "private": true,
   "publisher": "webhint",
   "repository": {
@@ -71,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
