@@ -1,3 +1,10 @@
+# 1.0.7 (September 23, 2018)
+
+## Bug fixes / Improvements
+
+* [[`85496fe75f`](https://github.com/webhintio/hint/commit/85496fe75f0ec9995a6bded7058881cedca556eb)] - Fix: Revert "Fix: Several issues with the Debugging Protocol" (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.0.6 (September 20, 2018)
 
 ## Bug fixes / Improvements
