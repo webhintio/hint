@@ -141,11 +141,18 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
     // The vscode extension only works with the local connector.
     userConfig.connector = { name: 'local' };
 
+    if (!userConfig.hints) {
+        userConfig.hints = { };
+    }
+
+    // Ensure http-compression is disabled; the local connector doesn't support it.
+    userConfig.hints['http-compression'] = 'off';
+
     if (!userConfig.parsers) {
         userConfig.parsers = [];
     }
 
-    // Ensure the HTML parser is loaded
+    // Ensure the HTML parser is loaded.
     if (userConfig.parsers.indexOf('html') === -1) {
         userConfig.parsers.push('html');
     }
@@ -157,10 +164,14 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
 
         return engine;
     } catch (e) {
-        // Instantiating webhint failed. Prompt the user to retry after checking their configuration.
+        // Instantiating webhint failed, log the error to the webhint output panel to aid debugging.
+        console.log(e);
+
+        // Prompt the user to retry after checking their configuration.
         const retry = 'Retry';
         const answer = await connection.window.showErrorMessage(
-            'Unable to start webhint. Check your `.hintrc` and ensure dependencies are installed.',
+            'Unable to start webhint. Ensure you are using `hint 3.4.3` or newer and dependencies are installed. ' +
+            'If you do not have a `.hintrc`, try adding `@hint/configuration-development` to this project.',
             { title: retry },
             { title: 'Ignore' }
         );
