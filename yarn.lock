@@ -4664,9 +4664,9 @@ jquery@2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.1.4.tgz#228bde698a0c61431dc2630a6a154f15890d2317"
 
-js-library-detector@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/js-library-detector/-/js-library-detector-5.0.0.tgz#ceed3346aabe31de705249eba807d7a4a93cf280"
+js-library-detector@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/js-library-detector/-/js-library-detector-5.1.0.tgz#1e2e88b119bb91e6581b28f4a90018ea1320de73"
 
 js-string-escape@^1.0.1:
   version "1.0.1"
