@@ -56,10 +56,6 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
     t.is(id.value, 'test');
     t.true(div.isSame(div2));
 
-    console.log(JSON.stringify(args.map((a) => {
-        return a[0];
-    })));
-
     t.is(args[2][0], 'traverse::start');
     t.is(args[3][0], 'element::html');
     t.is(args[4][0], 'traverse::down');
