@@ -209,5 +209,5 @@ hintRunner.testHint(hintPath, tests, {
 
 [browserconfiguration]: ../../user-guide/index.md#browserconfiguration
 [new issue]: https://github.com/webhintio/hint/issues/new
-[parsers]: ../../user-guide/concepts/parser.md
+[parsers]: ../../user-guide/concepts/parsers/
 [ssllabs code]: https://github.com/webhintio/hint/blob/master/packages/hint-ssllabs/src/hint.ts

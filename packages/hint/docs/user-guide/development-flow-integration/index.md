@@ -16,6 +16,6 @@ assumed in the guides.
 
 <!-- Link labels: -->
 
-[local server]: ./local-server.md
-[travis azure]: ./travis-and-azure.md
+[local server]: ./local-server/
+[travis azure]: ./travis-and-azure/
 [webhint github]: https://github.com/webhintio/hint/issues/new
