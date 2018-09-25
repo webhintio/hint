@@ -170,7 +170,7 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
         // Prompt the user to retry after checking their configuration.
         const retry = 'Retry';
         const answer = await connection.window.showErrorMessage(
-            'Unable to start webhint. Ensure you are using `hint 3.4.3` or newer and dependencies are installed. ' +
+            'Unable to start webhint. Ensure you are using the latest version of `hint` and dependencies are installed. ' +
             'If you do not have a `.hintrc`, try adding `@hint/configuration-development` to this project.',
             { title: retry },
             { title: 'Ignore' }
