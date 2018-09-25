@@ -103,7 +103,7 @@ export default class LocalConnector implements IConnector {
     }
 
     private async fetchData(target: string, options?: IFetchOptions): Promise<FetchEnd> {
-        const content: NetworkData = await this.fetchContent(target, void 0, options);
+        const content: NetworkData = await this.fetchContent(target, undefined, options);
 
         return {
             element: null,
@@ -163,7 +163,7 @@ export default class LocalConnector implements IConnector {
 
             this.watcher = chokidar.watch(target, {
                 /* istanbul ignore next */
-                cwd: !isF ? targetString : void 0,
+                cwd: !isF ? targetString : undefined,
                 ignored: ignored.concat(['.git/']),
                 ignoreInitial: true,
                 /*
@@ -326,7 +326,7 @@ export default class LocalConnector implements IConnector {
 
             // Ignore options.content when matching multiple files
             if (options && options.content) {
-                options.content = void 0;
+                options.content = undefined;
             }
         }
 
