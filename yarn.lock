@@ -218,6 +218,12 @@
   dependencies:
     array-from "^2.1.1"
 
+"@types/amphtml-validator@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/amphtml-validator/-/amphtml-validator-1.0.0.tgz#9d4e0c879642938bbe5f363d49cafc8ae9f57c81"
+  dependencies:
+    "@types/node" "*"
+
 "@types/async-retry@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@types/async-retry/-/async-retry-1.2.1.tgz#fa9ac165907a8ee78f4924f4e393b656c65b5bb4"
