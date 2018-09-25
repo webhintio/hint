@@ -145,7 +145,11 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
         userConfig.hints = { };
     }
 
-    // Ensure http-compression is disabled; the local connector doesn't support it.
+    /*
+     * Ensure `http-compression` is disabled; there could be issues loading
+     * `iltorb` if it was compiled for a different version of `node` and the
+     * `local` connector doesn't support it anyway.
+     */
     userConfig.hints['http-compression'] = 'off';
 
     if (!userConfig.parsers) {
@@ -165,13 +169,12 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
         return engine;
     } catch (e) {
         // Instantiating webhint failed, log the error to the webhint output panel to aid debugging.
-        console.log(e);
+        console.error(e);
 
         // Prompt the user to retry after checking their configuration.
         const retry = 'Retry';
         const answer = await connection.window.showErrorMessage(
-            'Unable to start webhint. Ensure you are using the latest version of `hint` and dependencies are installed. ' +
-            'If you do not have a `.hintrc`, try adding `@hint/configuration-development` to this project.',
+            'Unable to start webhint. Ensure you are using the latest version of the `hint` and `@hint/configuration-development` packages.',
             { title: retry },
             { title: 'Ignore' }
         );
