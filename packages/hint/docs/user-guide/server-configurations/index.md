@@ -11,5 +11,5 @@ get started:
 
 <!-- Link labels: -->
 
-[apache config]: ./apache.md
-[iis config]: ./iis.md
+[apache config]: ./apache/
+[iis config]: ./iis/

@@ -69,10 +69,10 @@ in this diagram:
 <!-- Link labels: -->
 
 [default configuration]: ../../user-guide/#default-configuration
-[events]: ./events.md
-[new connector]: ../how-to/connector.md
-[new formatter]:../how-to/formatter.md
-[new parser]: ../how-to/parser.md
-[new hint]: ../how-to/hint.md
+[events]: ./events/
+[new connector]: ../how-to/connector/
+[new formatter]:../how-to/formatter/
+[new parser]: ../how-to/parser/
+[new hint]: ../how-to/hint/
 [npm]: https://www.npmjs.com/
 [typescript]: https://www.typescriptlang.org/

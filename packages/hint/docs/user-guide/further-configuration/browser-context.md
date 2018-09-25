@@ -36,4 +36,4 @@ browserslist.defaults = [
 
 [browserslist]: https://github.com/ai/browserslist#readme
 [browserslist defaults]: https://github.com/ai/browserslist#queries
-[doc modes]: ../hints/highest-available-document-mode.md
+[doc modes]: ../hints/hint-highest-available-document-mode/

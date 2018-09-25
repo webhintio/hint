@@ -92,7 +92,7 @@ telling us what you think can be improved.
 <!-- Link labels: -->
 
 [axe]: https://axe-core.org/
-[connector docs]: /docs/contributor-guide/connectors/index.md
+[connector docs]: /docs/contributor-guide/connectors/
 [issues]: https://github.com/webhintio/hint/issues
 [jsdom]: https://github.com/tmpvar/jsdom
 [narwhal echolocation]: http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162069
