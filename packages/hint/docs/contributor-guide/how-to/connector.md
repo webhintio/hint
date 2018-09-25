@@ -133,7 +133,7 @@ following tests:
 [depth-first search]: https://en.wikipedia.org/wiki/Depth-first_search
 [iconnector interface]: https://github.com/webhintio/hint/blob/master/packages/hint/src/lib/types/connector.ts
 [jsdom]: https://github.com/tmpvar/jsdom
-[events]: ../getting-started/events.md
+[events]: ../getting-started/events/
 [events scanstart]: ../getting-started/events.md#scanstart
 [events fetchstart]: ../getting-started/events.md#fetchstart
 [events fetcherror]: ../getting-started/events.md#fetcherror
