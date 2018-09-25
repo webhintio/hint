@@ -331,6 +331,12 @@
   resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.39.tgz#961fb54db68030890942e6aeffe9f93a957807bd"
   integrity sha512-vjaS7Q0dVqFp85QhyPSZqDKnTTCemcSHNHFvDdalO1s0Ifz5KuE64jQD5xoUkfdWwF4WpqdJEl7LsWH8rzhKJA==
 
+"@types/image-size@^0.0.29":
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/@types/image-size/-/image-size-0.0.29.tgz#0924d4ec95edc82f615b7f634cba31534b81c351"
+  dependencies:
+    "@types/node" "*"
+
 "@types/is-ci@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@types/is-ci/-/is-ci-1.1.0.tgz#583c5fbfcc461be9971106b9558930d67df49227"

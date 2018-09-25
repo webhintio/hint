@@ -148,7 +148,7 @@ const tests: Array<HintTest> = [
         name: `'apple-touch-icon' is specified in the '<body>'`,
         reports: [{ message: elementNotSpecifiedInHeadErrorMessage }],
         serverConfig: {
-            '/': generateHTMLPage(null, appleTouchIconLinkTag),
+            '/': generateHTMLPage(undefined, appleTouchIconLinkTag),
             '/apple-touch-icon.png': generateImageData()
         }
     },
