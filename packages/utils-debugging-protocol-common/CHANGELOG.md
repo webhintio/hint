@@ -1,3 +1,11 @@
+# 1.0.8 (September 24, 2018)
+
+## Bug fixes / Improvements
+
+* [[`3a43352cff`](https://github.com/webhintio/hint/commit/3a43352cffc9f48eed7c6454792e577db7ef8daa)] - Fix: Truncated body in some circumstances (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1325`](https://github.com/webhintio/hint/issues/1325)).
+* [[`33a8639be4`](https://github.com/webhintio/hint/commit/33a8639be47e72fbb55b6d04ae54107c38e68dfb)] - Fix: Convert `base64` text based responses to text (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 1.0.7 (September 23, 2018)
 
 ## Bug fixes / Improvements
