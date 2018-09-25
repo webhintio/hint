@@ -25,6 +25,10 @@
     "node": ">=8.0.0"
   },
   "greenkeeper": {
+    "commitMessages": {
+      "dependencyUpdate": "Chore: Update `${dependency}` to `v${version}`",
+      "devDependencyUpdate": "Chore: Update `${dependency}` to `v${version}`"
+    },
     "ignore": [
       "@types/node"
     ]
