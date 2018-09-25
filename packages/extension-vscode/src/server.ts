@@ -141,11 +141,22 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
     // The vscode extension only works with the local connector.
     userConfig.connector = { name: 'local' };
 
+    if (!userConfig.hints) {
+        userConfig.hints = { };
+    }
+
+    /*
+     * Ensure `http-compression` is disabled; there could be issues loading
+     * `iltorb` if it was compiled for a different version of `node` and the
+     * `local` connector doesn't support it anyway.
+     */
+    userConfig.hints['http-compression'] = 'off';
+
     if (!userConfig.parsers) {
         userConfig.parsers = [];
     }
 
-    // Ensure the HTML parser is loaded
+    // Ensure the HTML parser is loaded.
     if (userConfig.parsers.indexOf('html') === -1) {
         userConfig.parsers.push('html');
     }
@@ -157,10 +168,13 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
 
         return engine;
     } catch (e) {
-        // Instantiating webhint failed. Prompt the user to retry after checking their configuration.
+        // Instantiating webhint failed, log the error to the webhint output panel to aid debugging.
+        console.error(e);
+
+        // Prompt the user to retry after checking their configuration.
         const retry = 'Retry';
         const answer = await connection.window.showErrorMessage(
-            'Unable to start webhint. Check your `.hintrc` and ensure dependencies are installed.',
+            'Unable to start webhint. Ensure you are using the latest version of the `hint` and `@hint/configuration-development` packages.',
             { title: retry },
             { title: 'Ignore' }
         );
