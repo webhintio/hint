@@ -1,4 +1,4 @@
-/* eslint sort-keys: 0, no-undefined: 0 */
+/* eslint sort-keys: 0 */
 
 import * as mock from 'mock-require';
 

@@ -34,7 +34,7 @@ export default class AmpValidatorHint implements IHint {
     }
 
     public constructor(context: HintContext) {
-        let validPromise;
+        let validPromise: Promise<amphtmlValidator.Validator>;
         const errorsOnly = context.hintOptions && context.hintOptions['errors-only'] || false;
         let events: Array<FetchEnd> = [];
 
@@ -80,7 +80,7 @@ export default class AmpValidatorHint implements IHint {
                     if (errorsOnly && error.severity !== 'ERROR') {
                         debug(`AMP error doesn't meet threshold for reporting`);
                     } else {
-                        await context.report(resource, null, message, null, { column: error.column, line: error.line });
+                        await context.report(resource, null, message, '', { column: error.col, line: error.line });
                     }
                 }
             }

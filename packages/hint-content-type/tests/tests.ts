@@ -1,5 +1,3 @@
-/* eslint no-undefined: 0 */
-
 import * as fs from 'fs';
 
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';

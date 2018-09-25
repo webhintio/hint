@@ -54,7 +54,7 @@ test('getIncludedHeaders - no included headers', (t) => {
 
 test('mergeIgnoreIncludeArrays - new headers are included', (t) => {
     const included = ['header-4', 'header-5'];
-    const includedHeaders = hintHelpers.mergeIgnoreIncludeArrays(headersArray, undefined, included); // eslint-disable-line no-undefined
+    const includedHeaders = hintHelpers.mergeIgnoreIncludeArrays(headersArray, undefined, included);
 
     t.deepEqual(includedHeaders, ['header-1', 'header-2', 'header-3', 'header-4', 'header-5']);
 });

@@ -20,7 +20,7 @@ export type ScanEnd = Event;
 /** The object emitted on `fetch::end::*`. */
 export type FetchEnd = Event & {
     /** The element that initiated the request. */
-    element: IAsyncHTMLElement;
+    element: IAsyncHTMLElement | null;
     /** The request made to fetch the target. */
     request: Request;
     /** The response sent while fetching the target. */

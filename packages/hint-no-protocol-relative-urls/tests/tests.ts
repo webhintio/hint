@@ -1,4 +1,4 @@
-/* eslint sort-keys: 0, no-undefined: 0 */
+/* eslint sort-keys: 0 */
 
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';

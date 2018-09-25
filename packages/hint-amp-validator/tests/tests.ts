@@ -23,7 +23,15 @@ const defaultTests: Array<HintTest> = [
     {
         name: 'Invalid AMP HTML fails',
         serverConfig: invalidAMPHTML,
-        reports: [{ message: `The mandatory attribute '⚡' is missing in tag 'html ⚡ for top-level html'. (https://www.ampproject.org/docs/reference/spec#required-markup)` }]
+        reports: [
+            {
+                message: `The mandatory attribute '⚡' is missing in tag 'html ⚡ for top-level html'. (https://www.ampproject.org/docs/reference/spec#required-markup)`,
+                position: {
+                    column: 0,
+                    line: 2
+                }
+            }
+        ]
     },
     {
         name: 'Deprecated AMP attribute fails',
