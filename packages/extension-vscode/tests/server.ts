@@ -289,11 +289,14 @@ test.serial('It translates problems to diagnostics', async (t) => {
     t.is(diagnostics.length, 3);
 
     t.is(diagnostics[0].source, 'webhint');
-    t.true(diagnostics[0].message.indexOf(problems[0].message) !== -1);
-    t.true(diagnostics[0].message.indexOf(problems[0].hintId) !== -1);
+    t.true(diagnostics[0].message.indexOf(problems[0].message || '') !== -1);
+    t.true(diagnostics[0].message.indexOf(problems[0].hintId || '') !== -1);
     t.is(diagnostics[0].severity, DiagnosticSeverity.Warning);
-    t.is(diagnostics[0].range.start.line, problems[0].location.line);
-    t.is(diagnostics[0].range.start.character, problems[0].location.column);
+
+    const location = problems[0].location;
+
+    t.is(diagnostics[0].range.start.line, location && location.line);
+    t.is(diagnostics[0].range.start.character, location && location.column);
 
     t.is(diagnostics[1].severity, DiagnosticSeverity.Error);
     t.is(diagnostics[1].range.start.line, 0);
