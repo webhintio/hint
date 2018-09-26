@@ -1,3 +1,10 @@
+# 1.1.0 (September 26, 2018)
+
+## New features
+
+* [[`fd8fa8af93`](https://github.com/webhintio/hint/commit/fd8fa8af9351476b33a27b11ba9758385f10120b)] - New: Add Chrome launcher flags for Docker (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1346`](https://github.com/webhintio/hint/issues/1346)).
+
+
 # 1.0.5 (September 12, 2018)
 
 ## Bug fixes / Improvements
