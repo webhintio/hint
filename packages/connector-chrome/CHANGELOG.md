@@ -1,3 +1,11 @@
+# 1.1.1 (September 26, 2018)
+
+## Bug fixes / Improvements
+
+* [[`e5037433c2`](https://github.com/webhintio/hint/commit/e5037433c20fefb768fe347100edf78218e32e3f)] - Fix: Remove unnecessary flags for Chrome launcher (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1347`](https://github.com/webhintio/hint/issues/1347)).
+* [[`f691231bd8`](https://github.com/webhintio/hint/commit/f691231bd82a806ac5ab5df4d04605e2e1ccc96e)] - Fix: Guard against undefined `options` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1348`](https://github.com/webhintio/hint/issues/1348)).
+
+
 # 1.1.0 (September 26, 2018)
 
 ## New features
