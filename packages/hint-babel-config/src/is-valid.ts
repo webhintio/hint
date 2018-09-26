@@ -45,7 +45,7 @@ export default class BabelConfigIsValidHint implements IHint {
                 const message = prettifiedErrors[i];
                 const location = errors[i].location;
 
-                await context.report(resource, null, message, null, location);
+                await context.report(resource, null, message, undefined, location);
             }
         };
 
