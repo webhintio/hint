@@ -33,6 +33,12 @@
       "@types/node"
     ]
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "node scripts/check-commit-message.js",
+      "prepare-commit-msg": "node scripts/prepare-commit-message.js"
+    }
+  },
   "name": "@hint/monorepo",
   "private": true,
   "scripts": {
@@ -60,12 +66,10 @@
     "clean": "npm-run-all clean:*",
     "clean:packages": "rimraf \"packages/!(extension-vscode)/{dist,node_modules,npm-shrinkwrap.json,package-lock.json,yarn.lock}\"",
     "clean:root": "rimraf dist",
-    "commitmsg": "node scripts/check-commit-message.js",
     "lint": "npm-run-all lint:*",
     "lint:md": "markdownlint *.md",
     "lint:scripts": "eslint scripts .travis --cache --ext js --ext ts --report-unused-disable-directives",
     "pre-release": "npm run clean:packages && npm run build:scripts && npm run release -- --prerelease",
-    "preparecommitmsg": "node scripts/prepare-commit-message.js",
     "release": "npm run clean:packages && npm run build:scripts && node dist/scripts/release.js",
     "test": "npm run clean && node scripts/test.js",
     "test-root": "npm run clean && npm run lint && npm-run-all --parallel build:scripts:*",
