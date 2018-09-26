@@ -19,7 +19,7 @@ import * as notifications from './notifications';
 import * as hint from 'hint';
 import * as config from 'hint/dist/src/lib/config';
 import * as loader from 'hint/dist/src/lib/utils/resource-loader'; // eslint-disable-line
-import { Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
+import { HintsConfigObject, Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 
 let workspace = '';
 
@@ -155,7 +155,7 @@ const loadWebHint = async (directory: string): Promise<hint.Engine | null> => {
      * `iltorb` if it was compiled for a different version of `node` and the
      * `local` connector doesn't support it anyway.
      */
-    userConfig.hints['http-compression'] = 'off';
+    (userConfig.hints as HintsConfigObject)['http-compression'] = 'off';
 
     if (!userConfig.parsers) {
         userConfig.parsers = [];
