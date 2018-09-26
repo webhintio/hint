@@ -132,6 +132,8 @@ export class CDPLauncher extends Launcher {
             /* istanbul ignore next */
             if (isCI) {
                 this.chromeFlags.push('--headless', '--disable-gpu');
+            } else if (process.env.DOCKER === 'true') { // eslint-disable-line no-process-env
+                this.chromeFlags.push('--headless', '--disable-gpu', '--no-sandbox');
             }
 
             const chrome: chromeLauncher.LaunchedChrome = await chromeLauncher.launch({
