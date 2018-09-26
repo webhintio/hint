@@ -1,5 +1,3 @@
-/* eslint-disable no-undefined*/
-
 import * as mock from 'mock-require';
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 

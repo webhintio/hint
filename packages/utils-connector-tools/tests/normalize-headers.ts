@@ -7,7 +7,7 @@ test(`'normalizeHeaders' returns 'null' for 'null'`, (t) => {
 });
 
 test(`'normalizeHeaders' returns 'null' for 'undefined'`, (t) => {
-    t.is(normalizeHeaders(undefined), null); // eslint-disable-line no-undefined
+    t.is(normalizeHeaders(undefined), null);
 });
 
 test(`'normalizeHeaders' returns '{}' for '{}'`, (t) => {

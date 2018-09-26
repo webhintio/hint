@@ -1,4 +1,4 @@
-/* eslint sort-keys: 0, no-undefined: 0 */
+/* eslint sort-keys: 0 */
 
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
