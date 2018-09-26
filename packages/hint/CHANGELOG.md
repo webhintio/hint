@@ -1,3 +1,10 @@
+# 3.4.4 (September 26, 2018)
+
+## Bug fixes / Improvements
+
+* [[`da7cb4903f`](https://github.com/webhintio/hint/commit/da7cb4903ffd9b36c644d87046598604b2555669)] - Docs: Normalize links (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1344`](https://github.com/webhintio/hint/issues/1344)).
+
+
 # 3.4.3 (September 24, 2018)
 
 ## Bug fixes / Improvements
