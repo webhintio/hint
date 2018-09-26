@@ -2,7 +2,13 @@
  * This script automatically merges the Greenkeeper's commit.
  */
 
-const { exec, getLastCommitAuthorEmail, getLastCommitAuthorName, getLastCommitSubject, getLastCommitsWithSameMessage } = require('../scripts/utils');
+const {
+    exec,
+    getLastCommitAuthorEmail,
+    getLastCommitAuthorName,
+    getLastCommitSubject,
+    getLastCommitsWithSameMessage
+} = require('../scripts/utils');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -16,7 +22,7 @@ const getSHAs = (log) => {
 };
 
 const main = async () => {
-    const GIT_COMMIT_SUBJECT = await getLastCommitSubject();
+    const GIT_COMMIT_SUBJECT = (await getLastCommitSubject()).replace(/`/g, '\\`');
     const COMMITS_TO_SQUASH = await getLastCommitsWithSameMessage();
     const GIT_GREENKEEPER_BRANCH = process.env.TRAVIS_BRANCH; // eslint-disable-line no-process-env
     const GIT_REPO_SLUG = process.env.TRAVIS_REPO_SLUG; // eslint-disable-line no-process-env
