@@ -221,6 +221,7 @@
 "@types/amphtml-validator@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/amphtml-validator/-/amphtml-validator-1.0.0.tgz#9d4e0c879642938bbe5f363d49cafc8ae9f57c81"
+  integrity sha512-CJOi00fReT1JehItkgTZDI47v9WJxUH/OLX0XzkDgyEed7dGdeUQfXk5CTRM7N9FkHdv3klSjsZxo5sH1oTIGg==
   dependencies:
     "@types/node" "*"
 
@@ -334,6 +335,7 @@
 "@types/image-size@^0.0.29":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/image-size/-/image-size-0.0.29.tgz#0924d4ec95edc82f615b7f634cba31534b81c351"
+  integrity sha512-d47SGzTnoUXSLRn3Kej43FZXLduZjHJqkb26BmxKp9fQveCvjfirtpk7a5iLCGkJ/rur9kxUf7DwD2eKlPxjMg==
   dependencies:
     "@types/node" "*"
 
