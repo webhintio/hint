@@ -41,8 +41,12 @@ const main = async () => {
      *
      * Instead of rebase/squash, do a soft reset with the same commit
      * message.
+     *
+     * Also greenkeeper does not update yarn.lock in all scenarios (e.g:
+     * in range updates), so we add the new generated file.
      */
     await exec(`Soft reset latest ${COMMITS_TO_SQUASH} commits.`, `git reset --soft HEAD~${COMMITS_TO_SQUASH}`);
+    await exec(`Stage lock file`, `git add yarn.lock`);
     const files = await exec(`Files changed.`, `git status`);
 
     console.log(files);
