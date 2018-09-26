@@ -1,4 +1,4 @@
-/* eslint sort-keys: 0, no-undefined: 0 */
+/* eslint sort-keys: 0 */
 
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';

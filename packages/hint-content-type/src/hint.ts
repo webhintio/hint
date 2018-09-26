@@ -47,13 +47,13 @@ export default class ContentTypeHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        let userDefinedMediaTypes;
+        let userDefinedMediaTypes: { [regex: string]: string };
 
         const loadHintConfigs = () => {
             userDefinedMediaTypes = context.hintOptions || {};
         };
 
-        const getLastRegexThatMatches = (resource: string): string => {
+        const getLastRegexThatMatches = (resource: string): string | undefined => {
             const results = (Object.entries(userDefinedMediaTypes).filter(([regex]) => {
                 const re = new RegExp(regex, 'i');
 
@@ -61,11 +61,11 @@ export default class ContentTypeHint implements IHint {
             }))
                 .pop();
 
-            return results && (results[1] as string);
+            return results && results[1];
         };
 
         const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
 
             if (response.statusCode !== 200) {
                 debug(`Check does not apply to status code !== 200`);
@@ -95,7 +95,7 @@ export default class ContentTypeHint implements IHint {
              * defined by the user, use that value to validate.
              */
 
-            const userDefinedMediaType: string = getLastRegexThatMatches(resource);
+            const userDefinedMediaType: string | undefined = getLastRegexThatMatches(resource);
 
             if (userDefinedMediaType) {
                 if (normalizeString(userDefinedMediaType) !== contentTypeHeaderValue) {
@@ -121,7 +121,7 @@ export default class ContentTypeHint implements IHint {
                 return;
             }
 
-            const originalCharset: string = normalizeString(contentType.parameters.charset);
+            const originalCharset: string = normalizeString(contentType.parameters ? contentType.parameters.charset : '');
             const originalMediaType: string = contentType.type;
 
             /*

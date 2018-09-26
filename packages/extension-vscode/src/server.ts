@@ -19,9 +19,9 @@ import * as notifications from './notifications';
 import * as hint from 'hint';
 import * as config from 'hint/dist/src/lib/config';
 import * as loader from 'hint/dist/src/lib/utils/resource-loader'; // eslint-disable-line
-import { Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
+import { HintsConfigObject, Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 
-let workspace: string;
+let workspace = '';
 
 // Connect to the language client.
 const connection = createConnection(ProposedFeatures.all);
@@ -76,11 +76,11 @@ const trace = (message: string): void => {
     return console.log(message);
 };
 
-const loadModule = async <T>(context: string, name: string): Promise<T> => {
-    let module: T;
+const loadModule = async <T>(context: string, name: string): Promise<T | null> => {
+    let module: T | null = null;
 
     try {
-        module = await Files.resolveModule2(context, name, null, trace);
+        module = await Files.resolveModule2(context, name, '', trace);
     } catch (e) {
         const addWebHint = 'Add webhint';
         const answer = await connection.window.showWarningMessage(
@@ -118,16 +118,21 @@ const loadUserConfig = (directory: string, Configuration: typeof config.Configur
 };
 
 // Load a copy of webhint with the provided configuration.
-const loadEngine = async (directory: string, configuration: config.Configuration): Promise<hint.Engine> => {
-    const { loadResources } = await loadModule<typeof loader>(directory, 'hint/dist/src/lib/utils/resource-loader');
-    const resources = loadResources(configuration);
-    const { Engine } = await loadModule<typeof hint>(directory, 'hint');
+const loadEngine = async (directory: string, configuration: config.Configuration): Promise<hint.Engine | null> => {
+    const localLoader = await loadModule<typeof loader>(directory, 'hint/dist/src/lib/utils/resource-loader');
+    const localHint = await loadModule<typeof hint>(directory, 'hint');
 
-    return new Engine(configuration, resources);
+    if (!localLoader || !localHint) {
+        return null;
+    }
+
+    const resources = localLoader.loadResources(configuration);
+
+    return new localHint.Engine(configuration, resources);
 };
 
 // Load both webhint and a configuration, adjusting it as needed for this extension.
-const loadWebHint = async (directory: string): Promise<hint.Engine> => {
+const loadWebHint = async (directory: string): Promise<hint.Engine | null> => {
     const configModule = await loadModule<typeof config>(directory, 'hint/dist/src/lib/config');
 
     // If no module was returned, the user cancelled installing webhint.
@@ -150,7 +155,7 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
      * `iltorb` if it was compiled for a different version of `node` and the
      * `local` connector doesn't support it anyway.
      */
-    userConfig.hints['http-compression'] = 'off';
+    (userConfig.hints as HintsConfigObject)['http-compression'] = 'off';
 
     if (!userConfig.parsers) {
         userConfig.parsers = [];
@@ -161,7 +166,7 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
         userConfig.parsers.push('html');
     }
 
-    let engine: hint.Engine;
+    let engine: hint.Engine | null = null;
 
     try {
         engine = await loadEngine(directory, Configuration.fromConfig(userConfig));
@@ -188,7 +193,7 @@ const loadWebHint = async (directory: string): Promise<hint.Engine> => {
     }
 };
 
-let engine: hint.Engine;
+let engine: hint.Engine | null = null;
 let loaded = false;
 let validating = false;
 let validationQueue: TextDocument[] = [];
@@ -200,7 +205,7 @@ connection.onInitialize((params) => {
     validationQueue = [];
 
     // TODO: Support multiple workspaces (`params.workspaceFolders`).
-    workspace = params.rootPath;
+    workspace = params.rootPath || '';
 
     return { capabilities: { textDocumentSync: documents.syncKind } };
 });
@@ -299,7 +304,7 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
 
         // Validate any documents queued during validation.
         if (validationQueue.length) {
-            validateTextDocument(validationQueue.shift());
+            validateTextDocument(validationQueue.shift() as TextDocument);
         }
     }
 };

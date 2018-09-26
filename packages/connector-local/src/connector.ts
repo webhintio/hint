@@ -49,12 +49,12 @@ const debug: debug.IDebugger = d(__filename);
 const defaultOptions = {};
 
 export default class LocalConnector implements IConnector {
-    private _window: IAsyncWindow = null;
+    private _window: IAsyncWindow | undefined;
     private _options: any;
     private engine: Engine;
     private _href: string = '';
     private filesPattern: Array<string>;
-    private watcher: chokidar.FSWatcher = null;
+    private watcher: chokidar.FSWatcher | null = null;
 
     public constructor(engine: Engine, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
@@ -103,7 +103,7 @@ export default class LocalConnector implements IConnector {
     }
 
     private async fetchData(target: string, options?: IFetchOptions): Promise<FetchEnd> {
-        const content: NetworkData = await this.fetchContent(target, null, options);
+        const content: NetworkData = await this.fetchContent(target, undefined, options);
 
         return {
             element: null,
@@ -163,7 +163,7 @@ export default class LocalConnector implements IConnector {
 
             this.watcher = chokidar.watch(target, {
                 /* istanbul ignore next */
-                cwd: !isF ? targetString : null,
+                cwd: !isF ? targetString : undefined,
                 ignored: ignored.concat(['.git/']),
                 ignoreInitial: true,
                 /*
@@ -239,7 +239,9 @@ export default class LocalConnector implements IConnector {
 
             // Close the watcher after press Ctrl + C
             process.once('SIGINT', () => {
-                this.watcher.close();
+                if (this.watcher) {
+                    this.watcher.close();
+                }
                 this.engine.clear();
                 resolve();
             });
@@ -271,7 +273,7 @@ export default class LocalConnector implements IConnector {
         const uri: url.URL = getAsUri(target);
         const filePath: string = asPathString(uri);
         const rawContent: Buffer = options && options.content ? Buffer.from(options.content) : await readFileAsBuffer(filePath);
-        const contentType = getContentTypeData(null, filePath, null, rawContent);
+        const contentType = getContentTypeData(null as any, filePath, null, rawContent);
         let content = '';
 
         if (isTextMediaType(contentType.mediaType)) {
@@ -324,7 +326,7 @@ export default class LocalConnector implements IConnector {
 
             // Ignore options.content when matching multiple files
             if (options && options.content) {
-                options.content = null;
+                options.content = undefined;
             }
         }
 
@@ -344,7 +346,7 @@ export default class LocalConnector implements IConnector {
     }
 
     public evaluate(source: string): Promise<any> {
-        return Promise.resolve(this._window.evaluate(source));
+        return Promise.resolve(this._window ? this._window.evaluate(source) : null);
     }
 
     /* istanbul ignore next */
@@ -358,7 +360,7 @@ export default class LocalConnector implements IConnector {
     }
 
     /* istanbul ignore next */
-    public get dom(): IAsyncHTMLDocument {
+    public get dom(): IAsyncHTMLDocument | undefined {
         return this._window && this._window.document;
     }
 

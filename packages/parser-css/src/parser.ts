@@ -54,10 +54,10 @@ export default class CSSParser extends Parser {
         return !type || type === 'text/css';
     }
 
-    private getStyleContent(styleTagText) {
+    private getStyleContent(styleTagText: string) {
         const match = styleTagText.match(styleContentRegex);
 
-        return match[1].trim();
+        return match ? match[1].trim() : styleTagText;
     }
 
     private async parseStyleTag(elementFound: ElementFound) {

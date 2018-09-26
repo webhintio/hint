@@ -31,7 +31,7 @@ export const access = {
 };
 
 export const fs = {
-    access(path: string, callback: (err) => void) {
+    access(path: string, callback: (err: NodeJS.ErrnoException) => void) {
         setTimeout(() => {
             callback(access.error());
         }, 0);
@@ -85,7 +85,7 @@ export const createConnection = () => {
     return connection;
 };
 
-const modules = {
+const modules: { [name: string]: any } = {
     hint: { Engine },
     'hint/dist/src/lib/config': { Configuration },
     'hint/dist/src/lib/utils/resource-loader': { loadResources }

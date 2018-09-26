@@ -1,5 +1,3 @@
-/* eslint no-undefined: 0 */
-
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';

@@ -12,6 +12,7 @@
   "description": "hint for best practices related to the apple-touch-icons",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^1.0.1",
+    "@types/image-size": "^0.0.29",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.6.0",

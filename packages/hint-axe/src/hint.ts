@@ -110,7 +110,7 @@ export default class AxeHint implements IHint {
     return (${generateScript()}());
 }())`;
 
-            let result: AxeResults = null;
+            let result: AxeResults | null = null;
 
             /* istanbul ignore next */
             try {
@@ -124,7 +124,7 @@ export default class AxeHint implements IHint {
                     message = `Error executing script: '${e.message}'`;
                 }
 
-                await context.report(resource, null, `${message}. Please try again later, or report an issue if this problem persists.`, null, null, Severity.warning);
+                await context.report(resource, null, `${message}. Please try again later, or report an issue if this problem persists.`, undefined, undefined, Severity.warning);
                 debug('Error executing script %O', e);
 
                 return;
