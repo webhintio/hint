@@ -91,8 +91,7 @@ export class Connector implements IConnector {
              * and onRequestWillBeSent events from the default url opened when you create a new tab in Edge.
              */
             tabUrl: 'https://empty.webhint.io/',
-            useTabUrl: false,
-            waitFor: 1000
+            useTabUrl: false
         };
 
         this._server = engine;
@@ -761,7 +760,13 @@ export class Connector implements IConnector {
                 // Sometimes we receive the `onLoadEvent` before the response of the target. See: https://github.com/webhintio/hint/issues/1158
                 await this._waitForTarget;
 
-                await delay(this._options.waitFor);
+                if (this._options.waitFor) {
+                    await delay(this._options.waitFor);
+
+                    // Stop receiving network related events. Useful for pages that do not stop sending telemetry.
+                    this._client.Network.disable();
+                }
+
                 const { DOM } = this._client;
                 const event: Event = { resource: this._finalHref };
 
@@ -769,8 +774,6 @@ export class Connector implements IConnector {
                 await this._dom.load();
 
                 await this.processPendingResponses();
-
-
                 /*
                  * If the target is not an HTML we don't need to
                  * traverse it.
