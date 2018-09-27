@@ -7597,10 +7597,10 @@ posix-character-classes@^0.1.0:
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
-postcss@^7.0.3:
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.3.tgz#449779466c944c9ebbfc7ed7c871c16c78a0ae46"
-  integrity sha512-9ZZVMgSCRc9K00MEIeCRhC6xsZC4TeZqLybCbvZuFcdj1XdjW7q4OG8sP+Mp71JTLBB3srMjUqcgTMFlWjIGaA==
+postcss@^7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.4.tgz#b5a059597d2c1a8a9916cb6efb0b294f70b4f309"
+  integrity sha512-Bg1BrMZGKNOI0mkn8NtjJrOrZKgoHrl+geKJ45mTOkeY4WCsYq/mjd1BUWRgRvydHP/lA07Ys2n9m6Va5FsEsw==
   dependencies:
     chalk "^2.4.1"
     source-map "^0.6.1"
