@@ -19,7 +19,7 @@ import { compact, filter } from 'lodash';
 import { atob } from 'abab';
 import { Crdp } from 'chrome-remote-debug-protocol';
 
-import { CDPAsyncHTMLDocument, AsyncHTMLElement } from './cdp-async-html';
+import { createCDPAsyncHTMLDocument, CDPAsyncHTMLDocument, AsyncHTMLElement } from './cdp-async-html';
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import * as logger from 'hint/dist/src/lib/utils/logging';
@@ -770,8 +770,7 @@ export class Connector implements IConnector {
                 const { DOM } = this._client;
                 const event: Event = { resource: this._finalHref };
 
-                this._dom = new CDPAsyncHTMLDocument(DOM);
-                await this._dom.load();
+                this._dom = await createCDPAsyncHTMLDocument(DOM);
 
                 await this.processPendingResponses();
                 /*
