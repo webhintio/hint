@@ -11,14 +11,14 @@ const thirdPartyServices = loadJSONFile(path.join(__dirname, 'configs', 'third-p
 const categoryImages = loadJSONFile(path.join(__dirname, 'configs', 'category-images.json'));
 const hintsWithoutDocs = ['optimize-image'];
 
-/** Third party logo type */
+/** Third party logo type. */
 type ThirdPartyLogo = {
     name: string;
     url: string;
     alt: string;
 };
 
-/** Third party information */
+/** Third party information. */
 type ThirdPartyInfo = {
     logo: ThirdPartyLogo;
     link: string;
@@ -188,13 +188,13 @@ export class CategoryResult {
 export default class AnalysisResult {
     /** Number of suggestions. */
     public hintsCount: number;
-    /** Scan time */
+    /** Scan time. */
     public scanTime: string;
     /** When the scan was started (started in the online scanner). */
     public timeStamp: string;
     /** webhint version. */
     public version?: string;
-    /** Link to the result (online scanner) */
+    /** Link to the result (online scanner). */
     public permalink: string;
     /** List of categories. */
     public categories: Array<CategoryResult>;

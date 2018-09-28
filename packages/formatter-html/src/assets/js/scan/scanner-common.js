@@ -118,13 +118,13 @@
         var menu = parent.querySelector('.rule-categories');
 
         if (menu.classList.contains('open')) {
-            showMenuElement.textContent = 'SHOW CATEGORIES';
+            showMenuElement.textContent = 'Jump to category';
             menu.setAttribute('aria-expanded', 'false');
             menu.classList.remove('open');
             document.body.classList.remove('menu-open');
         } else {
             categoriesListElement.style.height = getCurrentCategoryMenuHeight();
-            showMenuElement.textContent = 'HIDE CATEGORIES';
+            showMenuElement.textContent = 'hide categories';
             menu.setAttribute('aria-expanded', 'true');
             menu.classList.add('open');
             document.body.classList.add('menu-open');
