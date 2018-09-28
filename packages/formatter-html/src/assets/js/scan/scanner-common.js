@@ -124,7 +124,7 @@
             document.body.classList.remove('menu-open');
         } else {
             categoriesListElement.style.height = getCurrentCategoryMenuHeight();
-            showMenuElement.textContent = 'hide categories';
+            showMenuElement.textContent = 'Hide categories';
             menu.setAttribute('aria-expanded', 'true');
             menu.classList.add('open');
             document.body.classList.add('menu-open');
