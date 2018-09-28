@@ -1,3 +1,10 @@
+# 1.0.9 (September 27, 2018)
+
+## Bug fixes / Improvements
+
+* [[`04768493c1`](https://github.com/webhintio/hint/commit/04768493c1e14eddfd4c11f142b7cd4d4f93c9b0)] - Fix: Stop listening to network request after `waitFor` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1350`](https://github.com/webhintio/hint/issues/1350)).
+
+
 # 1.0.8 (September 24, 2018)
 
 ## Bug fixes / Improvements
