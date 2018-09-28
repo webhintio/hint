@@ -54,7 +54,7 @@
   "main": "index.json",
   "name": "@hint/configuration-web-recommended",
   "peerDependencies": {
-    "hint": "^3.4.4"
+    "hint": "^3.4.5"
   },
   "repository": "webhintio/hint",
   "version": "1.2.0"

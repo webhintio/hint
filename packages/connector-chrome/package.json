@@ -23,7 +23,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.4.4",
+    "hint": "^3.4.5",
     "lodash": "^4.17.11",
     "markdownlint-cli": "^0.13.0",
     "npm-run-all": "^4.1.2",
@@ -62,7 +62,7 @@
     "statements": 70
   },
   "peerDependencies": {
-    "hint": "^3.4.4"
+    "hint": "^3.4.5"
   },
   "repository": "webhintio/hint",
   "scripts": {
