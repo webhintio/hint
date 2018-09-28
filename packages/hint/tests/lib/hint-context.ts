@@ -71,7 +71,7 @@ test(`hintContext should be a proxy for several engine's methods`, (t) => {
 
     methods.forEach((method) => {
         try {
-            t.true(engine[method].calledOnce, `HintContext.${method}() didn't call Engine.${method}()`);
+            t.true((engine as any)[method].calledOnce, `HintContext.${method}() didn't call Engine.${method}()`);
         } catch (e) {
             t.fail(`Error calling HintContext.${method}()`);
         }
@@ -94,7 +94,7 @@ test(`hintContext should be a proxy for location-helpers`, (t) => {
 
     methods.forEach((method) => {
         try {
-            t.true(locationHelpers[method].calledOnce, `HintContext.${method}() didn't call LocationHelpers.${method}()`);
+            t.true((locationHelpers as any)[method].calledOnce, `HintContext.${method}() didn't call LocationHelpers.${method}()`);
         } catch (e) {
             t.fail(`Error calling HintContext.${method}()`);
         }

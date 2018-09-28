@@ -1,6 +1,5 @@
 import * as fileType from 'file-type';
 import * as isSvg from 'is-svg';
-import * as mimeDB from 'mime-db';
 import { parse, MediaType } from 'content-type';
 
 import { debug as d } from './debug';
@@ -8,6 +7,8 @@ import { IAsyncHTMLElement } from '../types';
 import getFileExtension from './fs/file-extension';
 import getFileName from './fs/filename';
 import normalizeString from './misc/normalize-string';
+
+const mimeDB = require('mime-db');
 
 const debug = d(__filename);
 
@@ -17,13 +18,13 @@ const debug = d(__filename);
  * ---------------------------------------------------------------------
  */
 
-const getMediaTypeBasedOnFileExtension = (fileExtension: string): string => {
+const getMediaTypeBasedOnFileExtension = (fileExtension: string): string | null => {
     return fileExtension && Object.keys(mimeDB).find((key) => {
-        return mimeDB[key].extensions && mimeDB[key].extensions.includes(fileExtension);
+        return (mimeDB as any)[key].extensions && (mimeDB as any)[key].extensions.includes(fileExtension);
     }) || null; // if nothing is found, we return null to be consistent
 };
 
-const determineCharset = (originalCharset: string, mediaType: string): string => {
+const determineCharset = (originalCharset: string | null, mediaType: string | null): string | null => {
 
     /*
      * Prior to HTML5, for web pages, `ISO-8859-1` was the
@@ -43,11 +44,11 @@ const determineCharset = (originalCharset: string, mediaType: string): string =>
         ['iso-8859-1', 'latin1']
     ]);
 
-    const defaultCharset = charsetAliases.get(originalCharset) || originalCharset;
+    const defaultCharset = originalCharset && charsetAliases.get(originalCharset) || originalCharset;
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    const typeInfo = mimeDB[mediaType];
+    const typeInfo = mimeDB[mediaType || ''];
     let determinedCharset = typeInfo && normalizeString(typeInfo.charset);
 
     if (defaultCharset && (determinedCharset === defaultCharset)) {
@@ -64,7 +65,7 @@ const determineCharset = (originalCharset: string, mediaType: string): string =>
      * document is a binary file, and if it is, ignore the charset.
      */
 
-    if (!isTextMediaType(mediaType)) { // eslint-disable-line no-use-before-define, typescript/no-use-before-define
+    if (!isTextMediaType(mediaType || '')) { // eslint-disable-line no-use-before-define, typescript/no-use-before-define
         return null;
     }
 
@@ -93,8 +94,8 @@ const determineCharset = (originalCharset: string, mediaType: string): string =>
     return defaultCharset ? defaultCharset : determinedCharset;
 };
 
-const determineMediaTypeForScript = (element: IAsyncHTMLElement): string => {
-    const typeAttribute = normalizeString(element.getAttribute('type'));
+const determineMediaTypeForScript = (element: IAsyncHTMLElement): string | null => {
+    const typeAttribute = normalizeString(element.getAttribute('type') || '');
 
     /*
      * Valid JavaScript media types:
@@ -153,10 +154,10 @@ const determineMediaTypeForScript = (element: IAsyncHTMLElement): string => {
 };
 
 /* istanbul ignore next */
-const determineMediaTypeBasedOnElement = (element: IAsyncHTMLElement): string => {
+const determineMediaTypeBasedOnElement = (element: IAsyncHTMLElement | null): string | null => {
     const nodeName = element && normalizeString(element.nodeName);
 
-    if (nodeName) {
+    if (element && nodeName) {
 
         if (nodeName === 'script') {
             return determineMediaTypeForScript(element);
@@ -181,7 +182,7 @@ const determineMediaTypeBasedOnElement = (element: IAsyncHTMLElement): string =>
     return null;
 };
 
-const determineMediaTypeBasedOnFileExtension = (resource: string): string => {
+const determineMediaTypeBasedOnFileExtension = (resource: string): string | null => {
     const fileExtension = getFileExtension(resource);
 
     if (!fileExtension) {
@@ -260,7 +261,7 @@ const determineMediaTypeBasedOnFileExtension = (resource: string): string => {
  * * `.configrc` files: If the content is a valid `json`, it will return `text/json`, `text/plain` otherwise
  *
  */
-const determineMediaTypeBasedOnFileName = (resource: string, rawContent: Buffer): string => {
+const determineMediaTypeBasedOnFileName = (resource: string, rawContent: Buffer): string | null => {
     const fileName = getFileName(resource);
 
     if (!fileName) {
@@ -284,7 +285,7 @@ const determineMediaTypeBasedOnFileName = (resource: string, rawContent: Buffer)
 };
 
 /* istanbul ignore next */
-const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string => {
+const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string | null => {
 
     if (!rawContent) {
         return null;
@@ -313,7 +314,7 @@ const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string => {
 };
 
 /* istanbul ignore next */
-const getPreferedMediaType = (mediaType: string): string => {
+const getPreferedMediaType = (mediaType: string | null): string | null => {
 
     // Prefer certain media types over others.
 
@@ -333,8 +334,8 @@ const getPreferedMediaType = (mediaType: string): string => {
 };
 
 /* istanbul ignore next */
-const parseContentTypeHeader = (headers): MediaType => {
-    const contentTypeHeaderValue: string = normalizeString(headers ? headers['content-type'] : null);
+const parseContentTypeHeader = (headers: {[header: string]: string} | null): MediaType | null => {
+    const contentTypeHeaderValue: string | null = normalizeString(headers ? headers['content-type'] : null);
 
     // Check if the `Content-Type` header was sent.
 
@@ -377,14 +378,14 @@ const parseContentTypeHeader = (headers): MediaType => {
  * file extension.
  */
 /* istanbul ignore next */
-const getContentTypeData = (element: IAsyncHTMLElement, resource: string, headers, rawContent: Buffer) => {
+const getContentTypeData = (element: IAsyncHTMLElement | null, resource: string, headers: {[header: string]: string} | null, rawContent: Buffer) => {
 
-    let originalMediaType = null;
-    let originalCharset = null;
+    let originalMediaType: string | null = null;
+    let originalCharset: string | null = null;
     const contentType = parseContentTypeHeader(headers);
 
     if (contentType) {
-        originalCharset = contentType.parameters.charset;
+        originalCharset = contentType.parameters ? contentType.parameters.charset : null;
         originalMediaType = contentType.type;
     }
 

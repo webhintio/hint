@@ -20,7 +20,7 @@ export class HintContext {
     private severity: Severity
     private engine: Engine
 
-    public constructor(hintId: string, engine: Engine, severity: Severity, options, meta: HintMetadata) {
+    public constructor(hintId: string, engine: Engine, severity: Severity, options: any, meta: HintMetadata) {
 
         this.id = hintId;
         this.options = options;
@@ -92,8 +92,8 @@ export class HintContext {
 
     /** Reports a problem with the resource. */
     public async report(resource: string, element: IAsyncHTMLElement | null, message: string, content?: string, location?: ProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> {
-        let position: ProblemLocation = location;
-        let sourceCode: string = null;
+        let position: ProblemLocation | null = location || null;
+        let sourceCode: string | null = null;
 
         if (element) {
             position = await findProblemLocation(element, { column: 0, line: 0 }, content);
@@ -107,9 +107,9 @@ export class HintContext {
 
         this.engine.report(
             this.id,
-            (this.meta && this.meta.docs) ? this.meta.docs.category : Category.other,
+            (this.meta && this.meta.docs && this.meta.docs.category) ? this.meta.docs.category : Category.other,
             severity || this.severity,
-            codeSnippet || sourceCode,
+            codeSnippet || sourceCode || '',
             position,
             message,
             resource
@@ -117,7 +117,7 @@ export class HintContext {
     }
 
     /** Subscribe an event in hint. */
-    public on(event, listener) {
+    public on(event: string, listener: Function) {
         this.engine.onHintEvent(this.id, event, listener);
     }
 }

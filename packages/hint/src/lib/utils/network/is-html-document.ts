@@ -2,7 +2,7 @@ import { parse as parseContentTypeHeader } from 'content-type';
 import isLocalFile from './is-local-file';
 
 /** Convenience function to check if a resource is a HTMLDocument. */
-export default (targetURL: string, responseHeaders: object): boolean => {
+export default (targetURL: string, responseHeaders: {[name: string]: string}): boolean => {
 
     // If it's a local file, presume it's a HTML document.
 

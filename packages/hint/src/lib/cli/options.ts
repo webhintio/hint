@@ -8,7 +8,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as optionator from 'optionator';
+import optionator = require('optionator'); // `require` used because `optionator` exports a function
 
 /*
  * ------------------------------------------------------------------------------

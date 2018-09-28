@@ -52,7 +52,7 @@ test('getSeverity with an string should return the right value', (t) => {
     ]);
 
     for (const [key, value] of data) {
-        const severity = configHints.getSeverity(key);
+        const severity = configHints.getSeverity(key as any);
 
         t.is(severity, value);
     }
@@ -75,11 +75,11 @@ test('getSeverity with a number should return the right value', (t) => {
 });
 
 test('getSeverity with an array should return the right value', (t) => {
-    const data: Map<HintConfig | Array<HintConfig>, number> = new Map([
+    const data: Map<HintConfig, number | null> = new Map([
         [(['off', {}] as HintConfig), 0],
         [(['warning', {}] as HintConfig), 1],
         [(['error', {}] as HintConfig), 2],
-        [(['invalid', {}] as HintConfig), null],
+        [(['invalid' as any, {}] as HintConfig), null],
         [([0, {}] as HintConfig), 0],
         [([1, {}] as HintConfig), 1],
         [([2, {}] as HintConfig), 2],

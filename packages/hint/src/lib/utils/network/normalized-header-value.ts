@@ -5,6 +5,6 @@ import normalizeString from '../misc/normalize-string';
  * If `defaultValue` is provided, it will be return instead of the actual
  * return value if that value is `null`.
  */
-export default (headers: object, headerName: string, defaultValue?: string) => {
-    return normalizeString(headers && headers[normalizeString(headerName)], defaultValue);
+export default (headers: {[name: string]: string}, headerName: string, defaultValue?: string) => {
+    return normalizeString(headers && headers[normalizeString(headerName) || ''], defaultValue);
 };

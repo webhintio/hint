@@ -83,7 +83,7 @@ export const execute = async (args: string | Array<string> | Object): Promise<nu
     notifyIfNeeded();
 
     while (cliActions.length > 0 && !handled) {
-        const action = cliActions.shift();
+        const action = cliActions.shift()!;
 
         /* istanbul ignore next */
         try {

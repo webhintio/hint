@@ -147,7 +147,7 @@ test(`'getContentTypeData' returns correct media type`, (t) => {
     ];
 
     for (const file of files) {
-        const contentTypeData = contentType.getContentTypeData(null, null, null, file.rawContent);
+        const contentTypeData = contentType.getContentTypeData(null, '', null, file.rawContent);
 
         t.is(typeof contentTypeData, 'object', `The media type could not be determined`);
 

@@ -14,11 +14,11 @@ export type AsyncHTMLAttribute = {
  */
 export interface IAsyncHTMLElement {
     /** The attributes of the element */
-    readonly attributes;
+    readonly attributes: NamedNodeMap;
     /** Returns the value for a given attribute */
-    getAttribute(attribute: string): string;
+    getAttribute(attribute: string): string | null;
     /** Returns the location of this element in source (or null) */
-    getLocation(): ProblemLocation;
+    getLocation(): ProblemLocation | null;
     /** Checks if two AsyncHTMLElements are the same */
     isSame(element: IAsyncHTMLElement): boolean;
     /** Returns the outerHTML of the element */

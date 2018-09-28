@@ -57,7 +57,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             });
         };
 
-        const checkHeader = async (resource: string, responseHeaders: object) => {
+        const checkHeader = async (resource: string, responseHeaders: {[header: string]: string}) => {
             const originalHeaderValue = responseHeaders['x-ua-compatible'];
             const headerValue = normalizeString(originalHeaderValue);
 

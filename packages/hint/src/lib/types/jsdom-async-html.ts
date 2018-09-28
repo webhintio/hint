@@ -5,7 +5,7 @@ import { ProblemLocation } from './problems';
 /** An implementation of AsyncHTMLDocument on top of JSDDOM */
 export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
     private _document: HTMLDocument;
-    private _dom: JSDOM;
+    private _dom: JSDOM | undefined;
 
     public constructor(document: HTMLDocument, dom?: JSDOM) {
         this._document = document;
@@ -21,9 +21,9 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
     public querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {
         // jsdom's `querySelectorAll` can be a bit fragile (e.g.: fails if attribute name has `.` on it)
         try {
-            const elements = Array.prototype.slice.call(this._document.querySelectorAll(selector))
+            const elements = Array.from(this._document.querySelectorAll(selector))
                 .map((element) => {
-                    return new JSDOMAsyncHTMLElement(element, this._dom); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
+                    return new JSDOMAsyncHTMLElement(element as HTMLElement, this._dom); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
                 });
 
             return Promise.resolve(elements);
@@ -40,7 +40,7 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
 
 /** An implementation of AsyncHTMLElement on top of JSDOM */
 export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
-    private _dom: JSDOM;
+    private _dom: JSDOM | undefined;
     protected _htmlelement: HTMLElement;
     private _ownerDocument: IAsyncHTMLDocument;
 
@@ -56,12 +56,12 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
      * ------------------------------------------------------------------------------
      */
 
-    public getAttribute(name: string): string {
+    public getAttribute(name: string): string | null {
         return this._htmlelement.getAttribute(name);
     }
 
     /* istanbul ignore next */
-    public getLocation(): ProblemLocation {
+    public getLocation(): ProblemLocation | null {
         try {
             /*
              * TODO: Depending on the install (yarn vs npm) we get a different version of `jsdom`
@@ -115,7 +115,7 @@ export class JSDOMAsyncWindow implements IAsyncWindow {
     // TODO: Add type `DOMWindow` once @types/jsdom supports v12
     private _window: any;
     private _document: JSDOMAsyncHTMLDocument;
-    private _dom: JSDOM;
+    private _dom: JSDOM | undefined;
 
     public constructor(window: DOMWindow, dom?: JSDOM) {
         this._dom = dom;

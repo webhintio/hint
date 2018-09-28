@@ -20,15 +20,24 @@ proxyquire('../../../src/lib/types/parser', {
     path
 });
 
-import { Parser } from '../../../src/lib/types/parser';
+import { ExtendableConfiguration, Parser} from '../../../src/lib/types/parser';
+
+interface ITestConfig extends ExtendableConfiguration {
+    name?: string;
+}
+
+interface ITestError extends ErrorEvent {
+    error: Error;
+    resource: string;
+}
 
 class TestParser extends Parser {
     public constructor(engine: Engine) {
         super(engine, 'test');
     }
 
-    public config(config, resource) {
-        return this.finalConfig<{ name: string, extends: string }, { error, resource }>(config, resource);
+    public config(config: ITestConfig, resource: string) {
+        return this.finalConfig<ITestConfig, ITestError>(config, resource);
     }
 }
 
@@ -41,7 +50,7 @@ test.beforeEach((t) => {
 });
 
 test(`If config doesn't have an extends property, it should return the same object`, async (t) => {
-    const config = { extends: null };
+    const config = { extends: '' };
 
     const testParser = new TestParser(t.context.engine);
 
@@ -125,7 +134,7 @@ test.serial('If everything is ok, it should merge all the extended configuration
     const result = await testParser.config(config, 'valid-with-extends');
 
     t.true(miscStub.calledTwice);
-    t.is(result.name, 'valid');
+    t.is(result && result.name, 'valid');
 
     sandbox.restore();
 });

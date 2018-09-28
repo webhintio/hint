@@ -5,7 +5,7 @@ import { NetworkData } from './network';
 import { Engine } from '../engine';
 
 export interface IConnectorConstructor {
-    new(server: Engine, config: object, launcher?: ILauncher): IConnector;
+    new(server: Engine, config?: object, launcher?: ILauncher): IConnector;
 }
 
 /** A connector to be used by hint */
@@ -15,17 +15,17 @@ export interface IConnector {
     /** The original HTML of the resource collected. */
     html?: Promise<string>;
     /** The headers from the response if applicable. */
-    headers?: object;
+    headers?: {[name: string]: string};
     /** Collects all the information for the given target. */
     collect(target: url.URL, options?: IFetchOptions): Promise<any>;
     /** Releases any used resource and/or browser. */
     close(): Promise<void>;
     /** Download an external resource using ` customHeaders` if needed. */
-    fetchContent?(target: url.URL | string, customHeaders?: object, options?: IFetchOptions): Promise<NetworkData>;
+    fetchContent(target: url.URL | string, customHeaders?: object, options?: IFetchOptions): Promise<NetworkData>;
     /** Evaluates the given JavaScript `code` asynchronously in the target. */
-    evaluate?(code: string): Promise<any>;
+    evaluate(code: string): Promise<any>;
     /** Finds all the nodes that match the given query. */
-    querySelectorAll?(query: string): Promise<Array<IAsyncHTMLElement>>;
+    querySelectorAll(query: string): Promise<Array<IAsyncHTMLElement>>;
 }
 
 /** Additional detail for calls to `connect` and `fetchContent` on `IConnector`. */
@@ -41,7 +41,7 @@ export type BrowserInfo = {
 };
 
 export interface ILauncher {
-    launch(url: string, options?): Promise<BrowserInfo>;
+    launch(url: string, options?: any): Promise<BrowserInfo>;
 }
 
 export type LauncherOptions = {

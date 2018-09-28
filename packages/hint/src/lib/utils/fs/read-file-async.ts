@@ -1,7 +1,7 @@
 import { promisify } from 'util';
 import { readFile } from 'fs';
 
-import * as stripBom from 'strip-bom';
+import stripBom = require('strip-bom'); // `require` used because `strip-bom` exports a function
 
 /** Convenience wrapper for asynchronously reading file contents. */
 export default async (filePath: string): Promise<string> => {

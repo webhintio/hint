@@ -4,7 +4,7 @@ import test from 'ava';
 
 import loadJSONFile from '../../../../src/lib/utils/fs/load-json-file';
 
-const resolve = (route) => {
+const resolve = (route: string) => {
     return join(__dirname, route);
 };
 

@@ -9,7 +9,7 @@ export interface IJSONLocationOptions {
  * Pass `true` for `atValue` to get the location of the property value instead.
  */
 export interface IJSONLocationFunction {
-    (path: string, options?: IJSONLocationOptions): ProblemLocation;
+    (path: string, options?: IJSONLocationOptions): ProblemLocation | null;
 }
 
 /**
@@ -32,5 +32,5 @@ export interface IJSONResult {
      * Get a `JSONResult` scoped to the specified path as its root.
      * @param path The path to the new root (e.g. `foo.bar`)
      */
-    scope(path: string): IJSONResult;
+    scope(path: string): IJSONResult | null;
 }

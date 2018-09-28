@@ -15,9 +15,9 @@ export default (resource: string): string => {
         url = new URL(resource);
     } catch (err) {
         return extname(resource).split('.')
-            .pop();
+            .pop() || '';
     }
 
     return extname(url.pathname).split('.')
-        .pop();
+        .pop() || '';
 };

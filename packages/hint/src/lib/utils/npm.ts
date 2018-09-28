@@ -4,7 +4,7 @@ import * as fs from 'fs';
 
 import * as npmRegistryFetch from 'npm-registry-fetch';
 
-import { NpmPackage } from '../types';
+import { NpmPackage, NpmSearchResults } from '../types';
 import { debug as d } from './debug';
 import * as logger from './logging';
 import loadJSONFile from './fs/load-json-file';
@@ -97,14 +97,14 @@ const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
 };
 
 /** Get npm packages from the object returned for npmRegistryFetch.json. */
-const getPackages = (result): Array<NpmPackage> => {
+const getPackages = (result: NpmSearchResults): Array<NpmPackage> => {
     return result.objects.map((obj) => {
         return obj.package;
     });
 };
 
 /** Generate a search query to search packages. */
-const generateSearchQuery = (searchTerm, from?, size = 100) => {
+const generateSearchQuery = (searchTerm: string, from?: number, size = 100) => {
     return `/-/v1/search?text=${searchTerm}&size=${size}${from ? `&from=${from}` : ''}`;
 };
 
@@ -112,12 +112,12 @@ const generateSearchQuery = (searchTerm, from?, size = 100) => {
  * Searches all the packages in npm given `searchTerm`.
  */
 export const search = async (searchTerm: string): Promise<Array<NpmPackage>> => {
-    const result = await npmRegistryFetch.json(generateSearchQuery(searchTerm));
+    const result = await npmRegistryFetch.json(generateSearchQuery(searchTerm)) as NpmSearchResults;
 
     let total = getPackages(result);
 
     while (result.total > total.length) {
-        const r = await npmRegistryFetch.json(generateSearchQuery(searchTerm, total.length));
+        const r = await npmRegistryFetch.json(generateSearchQuery(searchTerm, total.length)) as NpmSearchResults;
 
         total = total.concat(getPackages(r));
     }

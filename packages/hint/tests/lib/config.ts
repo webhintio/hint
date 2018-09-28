@@ -4,7 +4,7 @@ import test from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { ConnectorConfig, CLIOptions, IHint, HintMetadata, UserConfig } from '../../src/lib/types';
+import { ConnectorConfig, CLIOptions, IHint, HintsConfigObject, HintMetadata, UserConfig } from '../../src/lib/types';
 import { HintScope } from '../../src/lib/enums/hintscope';
 import readFileAsync from '../../src/lib/utils/fs/read-file-async';
 
@@ -87,10 +87,8 @@ test(`if the config file doesn't have an extension, it should be parsed as JSON 
 
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeDisallowedHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
@@ -113,10 +111,8 @@ test(`if the config file is JavaScript, it should return the configuration part`
 
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeDisallowedHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
@@ -139,10 +135,8 @@ test(`if package.json contains a valid hint configuration, it should return it`,
 
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeDisallowedHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
@@ -165,10 +159,8 @@ test(`if package.json contains the property "ignoredUrls", it shold return them`
 
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeDisallowedHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
@@ -193,10 +185,8 @@ test.serial(`if the configuration file contains an extends property, it should c
 
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeDisallowedHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
@@ -215,9 +205,9 @@ test.serial(`if the configuration file contains an extends property, it should c
     const configuration: UserConfig = config.Configuration.fromFilePath(path.join(__dirname, './fixtures/valid/withextends.json'), { watch: false } as CLIOptions);
 
     t.is((configuration.connector as ConnectorConfig).name, 'chrome');
-    t.is(configuration.hints['disallowed-headers'], 'error');
-    t.is(configuration.formatters.length, 1);
-    t.is(configuration.parsers.length, 2);
+    t.is((configuration.hints as HintsConfigObject)['disallowed-headers'], 'error');
+    t.is(configuration.formatters && configuration.formatters.length, 1);
+    t.is(configuration.parsers && configuration.parsers.length, 2);
 });
 
 
@@ -240,10 +230,8 @@ test.serial(`if a Hint has an invalid configuration, it should tell which ones a
 
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeDisallowedHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
