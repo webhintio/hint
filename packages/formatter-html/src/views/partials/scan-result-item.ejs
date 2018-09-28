@@ -31,20 +31,20 @@
                     <code><%= utils.cutCodeString(problem.sourceCode); %></code>
                 </div>
                 <% } %>
-                <% if(hint.thirdPartyInfo) { %>
-                    <div class="rule-result--details__footer-msg">
-                        <% if (hint.thirdPartyInfo.details) { %>
-                            <p>To learn more visit </p>
-                        <% } else { %>
-                            <p>With the help of </p>
-                        <% } %>
-
-                        <a href="<%= hint.thirdPartyInfo.link %>">
-                            <img src="<%= hint.thirdPartyInfo.logo.url %>" alt="<%= hint.thirdPartyInfo.logo.alt %>" class="<%= hint.thirdPartyInfo.logo.name %>-logo">
-                        </a>
-                    </div>
-                <% } %>
             </div>
+            <% if(hint.thirdPartyInfo) { %>
+                <div class="rule-result--details__footer-msg">
+                    <% if (hint.thirdPartyInfo.details) { %>
+                        <p>To learn more visit </p>
+                    <% } else { %>
+                        <p>With the help of </p>
+                    <% } %>
+
+                    <a href="<%= hint.thirdPartyInfo.link %>">
+                        <img src="<%= hint.thirdPartyInfo.logo.url %>" alt="<%= hint.thirdPartyInfo.logo.alt %>" class="<%= hint.thirdPartyInfo.logo.name %>-logo">
+                    </a>
+                </div>
+            <% } %>
         <% }); %>
     </div>
 </details>

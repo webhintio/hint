@@ -62,6 +62,9 @@ The officially supported `formatter`s that can be installed via `npm` are:
 
 ![Example out for the HTML result of the html formatter](images/html-output.png)
 
+Note: If you are runing customs hints and the buttons `Why is this important`
+and `How to solve it` will not work.
+
 If you want to implement your own `formatter`, visit the [contributor
 guide][contributor guide]
 

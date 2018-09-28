@@ -714,7 +714,7 @@ button {
 /* INTEGRATION MESSAGES */
 
 .rule-result--details__footer-msg {
-    margin: 2.4rem 0;
+    margin: 2.4rem 0 2.4rem 3rem;
 }
 
 .rule-result--details__footer-msg p {
