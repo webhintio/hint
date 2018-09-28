@@ -1,3 +1,10 @@
+# 3.4.5 (September 27, 2018)
+
+## Bug fixes / Improvements
+
+* [[`85a48a78d2`](https://github.com/webhintio/hint/commit/85a48a78d2e0593c62e9087face4b2f9c395ebc9)] - Docs: Update information about `waitFor` option (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 3.4.4 (September 26, 2018)
 
 ## Bug fixes / Improvements
