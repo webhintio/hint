@@ -1,3 +1,10 @@
+# 1.1.2 (September 28, 2018)
+
+## Bug fixes / Improvements
+
+* [[`fab491b1ca`](https://github.com/webhintio/hint/commit/fab491b1caf8685f889dfb00f2dfc4d449383553)] - Fix: Guard against undefined `options` (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 1.1.1 (September 26, 2018)
 
 ## Bug fixes / Improvements
