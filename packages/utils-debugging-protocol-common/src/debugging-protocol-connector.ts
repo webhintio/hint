@@ -504,6 +504,21 @@ export class Connector implements IConnector {
 
         eventName = `${eventName}::${getType(response.mediaType)}`;
 
+        /*
+         * If there is no `waitFor` property we could be downloading the favicon twice:
+         *
+         * 1. Browser automatically at the end of all the network requests
+         * 2. The connector via `getFavicon`
+         *
+         * `getFavicon` will change `_faviconLoaded` to true as soon as it is called
+         * so if the browser does this request on its own we can ignore it.
+         */
+        if (hasAttributeWithValue(data.element, 'link', 'rel', 'icon') && this._faviconLoaded) {
+            this._requests.delete(params.requestId);
+
+            return;
+        }
+
         if (hasAttributeWithValue(data.element, 'link', 'rel', 'icon')) {
             this._faviconLoaded = true;
         }
@@ -789,6 +804,8 @@ export class Connector implements IConnector {
                 await this._server.emitAsync('can-evaluate::script', event);
 
                 if (!this._faviconLoaded) {
+                    this._faviconLoaded = true;
+
                     const faviconElement = (await this._dom.querySelectorAll('link[rel~="icon"]'))[0];
 
                     await this.getFavicon(faviconElement);
