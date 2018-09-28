@@ -104,11 +104,12 @@ export default class LocalConnector implements IConnector {
 
     private async fetchData(target: string, options?: IFetchOptions): Promise<FetchEnd> {
         const content: NetworkData = await this.fetchContent(target, undefined, options);
+        const uri = getAsUri(target);
 
         return {
             element: null,
             request: content.request,
-            resource: url.format(getAsUri(target)),
+            resource: uri ? url.format(uri) : /* istanbul ignore next */ '',
             response: content.response
         };
     }
@@ -204,7 +205,9 @@ export default class LocalConnector implements IConnector {
 
                 logger.log(`File ${file} changeg`);
                 // TODO: Manipulate the report if the file already have messages in the report.
-                this.engine.clean(fileUrl);
+                if (fileUrl) {
+                    this.engine.clean(fileUrl);
+                }
                 await this.fetch(file);
                 await this.notify();
             };
@@ -213,7 +216,10 @@ export default class LocalConnector implements IConnector {
                 const file: string = getFile(filePath);
                 const fileUrl = getAsUri(file);
 
-                this.engine.clean(fileUrl);
+                if (fileUrl) {
+                    this.engine.clean(fileUrl);
+                }
+
                 // TODO: Do anything when a file is removed? Maybe check the current report and remove messages related to that file.
                 logger.log('onUnlink');
 
@@ -248,6 +254,7 @@ export default class LocalConnector implements IConnector {
         });
     }
 
+    /* istanbul ignore next */
     private async onParseHTML(event: HTMLParse) {
         this._window = event.window;
         await this.engine.emitAsync('can-evaluate::script', { resource: this._href } as CanEvaluateScript);
@@ -270,19 +277,19 @@ export default class LocalConnector implements IConnector {
          * That's why we need to parse it to an URL
          * and then get the path string.
          */
-        const uri: url.URL = getAsUri(target);
-        const filePath: string = asPathString(uri);
+        const uri = getAsUri(target);
+        const filePath: string = uri ? asPathString(uri) : '';
         const rawContent: Buffer = options && options.content ? Buffer.from(options.content) : await readFileAsBuffer(filePath);
         const contentType = getContentTypeData(null as any, filePath, null, rawContent);
         let content = '';
 
-        if (isTextMediaType(contentType.mediaType)) {
-            content = rawContent.toString(contentType.charset);
+        if (isTextMediaType(contentType.mediaType || '')) {
+            content = rawContent.toString(contentType.charset || undefined);
         }
 
         // Need to do some magic to create a fetch::end::*
         return {
-            request: {} as Request,
+            request: {} as any,
             response: {
                 body: {
                     content,
@@ -292,12 +299,12 @@ export default class LocalConnector implements IConnector {
                         return Promise.resolve(rawContent);
                     }
                 },
-                charset: contentType.charset,
+                charset: contentType.charset || /* istanbul ignore next */ '',
                 headers: {},
                 hops: [],
-                mediaType: contentType.mediaType,
+                mediaType: contentType.mediaType || /* istanbul ignore next */ '',
                 statusCode: 200,
-                url: url.format(uri)
+                url: uri ? url.format(uri) : /* istanbul ignore next */ ''
             }
         };
     }
@@ -345,6 +352,7 @@ export default class LocalConnector implements IConnector {
         }
     }
 
+    /* istanbul ignore next */
     public evaluate(source: string): Promise<any> {
         return Promise.resolve(this._window ? this._window.evaluate(source) : null);
     }

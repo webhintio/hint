@@ -22,9 +22,9 @@ const debug = d(__filename);
  */
 
 /** Returns the severity of a hint based on its configuration */
-export const getSeverity = (config: HintConfig | Array<HintConfig>): Severity => {
+export const getSeverity = (config: HintConfig | Array<HintConfig>): Severity | null => {
 
-    let configuredSeverity: Severity;
+    let configuredSeverity: Severity | null = null;
 
     if (typeof config === 'string') {
         // Ex.: "hint-name": "warning"
@@ -38,7 +38,7 @@ export const getSeverity = (config: HintConfig | Array<HintConfig>): Severity =>
         configuredSeverity = getSeverity(config[0]);
     }
 
-    if (configuredSeverity >= 0 && configuredSeverity <= 2) {
+    if (configuredSeverity !== null && configuredSeverity >= 0 && configuredSeverity <= 2) {
         return configuredSeverity;
     }
 
@@ -51,7 +51,7 @@ const validateHint = (schema: object, hintConfig: object): boolean => {
 };
 
 /** Validates that a hint has a valid configuration based on its schema */
-export const validate = (meta: HintMetadata, config, hintId: string): boolean => {
+export const validate = (meta: HintMetadata, config: any, hintId: string): boolean => {
 
     debug(`Validating hint ${hintId}`);
 
@@ -60,7 +60,7 @@ export const validate = (meta: HintMetadata, config, hintId: string): boolean =>
         return false;
     }
 
-    const configuredSeverity: Severity = getSeverity(config);
+    const configuredSeverity: Severity | null = getSeverity(config);
 
     if (configuredSeverity === null) {
         throw new Error(`Invalid severity configured for ${hintId}`);

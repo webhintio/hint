@@ -109,7 +109,7 @@ const loadUserConfig = (directory: string, Configuration: typeof config.Configur
 
     try {
         const configPath = Configuration.getFilenameForDirectory(directory);
-        const resolvedPath = path.resolve(directory, configPath);
+        const resolvedPath = path.resolve(directory, configPath!); // Ok if `configPath` is `null`; will fall back to `defaultConfig` in `catch`
 
         return Configuration.loadConfigFile(resolvedPath) || defaultConfig;
     } catch (e) {

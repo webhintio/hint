@@ -80,7 +80,7 @@ export default class ContentTypeHint implements IHint {
                 return;
             }
 
-            const contentTypeHeaderValue: string = getHeaderValueNormalized(response.headers, 'content-type');
+            const contentTypeHeaderValue: string | null = getHeaderValueNormalized(response.headers, 'content-type');
 
             // Check if the `Content-Type` header was sent.
 
@@ -121,7 +121,7 @@ export default class ContentTypeHint implements IHint {
                 return;
             }
 
-            const originalCharset: string = normalizeString(contentType.parameters ? contentType.parameters.charset : '');
+            const originalCharset: string | null = normalizeString(contentType.parameters ? contentType.parameters.charset : '');
             const originalMediaType: string = contentType.type;
 
             /*

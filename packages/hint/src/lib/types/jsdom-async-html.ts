@@ -5,7 +5,7 @@ import { ProblemLocation } from './problems';
 /** An implementation of AsyncHTMLDocument on top of JSDDOM */
 export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
     private _document: HTMLDocument;
-    private _dom: JSDOM;
+    private _dom: JSDOM | undefined;
 
     public constructor(document: HTMLDocument, dom?: JSDOM) {
         this._document = document;
@@ -21,9 +21,9 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
     public querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {
         // jsdom's `querySelectorAll` can be a bit fragile (e.g.: fails if attribute name has `.` on it)
         try {
-            const elements = Array.prototype.slice.call(this._document.querySelectorAll(selector))
+            const elements = Array.from(this._document.querySelectorAll(selector))
                 .map((element) => {
-                    return new JSDOMAsyncHTMLElement(element, this._dom); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
+                    return new JSDOMAsyncHTMLElement(element as HTMLElement, this._dom); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
                 });
 
             return Promise.resolve(elements);
@@ -34,20 +34,27 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
 
     /* istanbul ignore next */
     public pageHTML(): Promise<string> {
-        return Promise.resolve(this._document.documentElement.outerHTML);
+        const documentElement = this._document.documentElement;
+
+        return Promise.resolve(documentElement ? documentElement.outerHTML : '');
     }
 }
 
 /** An implementation of AsyncHTMLElement on top of JSDOM */
 export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
-    private _dom: JSDOM;
+    private _dom: JSDOM | undefined;
     protected _htmlelement: HTMLElement;
     private _ownerDocument: IAsyncHTMLDocument;
 
     public constructor(htmlelement: HTMLElement, dom?: JSDOM) {
         this._dom = dom;
         this._htmlelement = htmlelement;
-        this._ownerDocument = new JSDOMAsyncHTMLDocument(htmlelement.ownerDocument, this._dom);
+
+        /*
+         * Can assume not-null as `Node.prototype.ownerDocument` only returns `null` if called on `Document` instances.
+         * https://github.com/Microsoft/TypeScript/blob/9aeb6e2ac4d218eb86821dad46219d81738a121a/lib/lib.dom.d.ts#L10315
+         */
+        this._ownerDocument = new JSDOMAsyncHTMLDocument(htmlelement.ownerDocument!, this._dom);
     }
 
     /*
@@ -56,12 +63,12 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
      * ------------------------------------------------------------------------------
      */
 
-    public getAttribute(name: string): string {
+    public getAttribute(name: string): string | null {
         return this._htmlelement.getAttribute(name);
     }
 
     /* istanbul ignore next */
-    public getLocation(): ProblemLocation {
+    public getLocation(): ProblemLocation | null {
         try {
             /*
              * TODO: Depending on the install (yarn vs npm) we get a different version of `jsdom`
@@ -115,7 +122,7 @@ export class JSDOMAsyncWindow implements IAsyncWindow {
     // TODO: Add type `DOMWindow` once @types/jsdom supports v12
     private _window: any;
     private _document: JSDOMAsyncHTMLDocument;
-    private _dom: JSDOM;
+    private _dom: JSDOM | undefined;
 
     public constructor(window: DOMWindow, dom?: JSDOM) {
         this._dom = dom;

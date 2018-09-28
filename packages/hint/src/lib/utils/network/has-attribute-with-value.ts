@@ -5,7 +5,7 @@ export default (element: IAsyncHTMLElement, nodeName: string, attribute: string,
         return false;
     }
 
-    const relAttribute: string = element.getAttribute(attribute);
+    const relAttribute: string | null = element.getAttribute(attribute);
 
     if (!relAttribute) {
         return false;

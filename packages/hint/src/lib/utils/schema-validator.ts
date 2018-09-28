@@ -32,8 +32,8 @@ enum ErrorKeyword {
     type = 'type'
 }
 
-const generateError = (type: string, action: ((error: ajv.ErrorObject, property: string, errors?: Array<ajv.ErrorObject>) => string)): ((error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>) => string) => {
-    return (error: ajv.ErrorObject, errors: Array<ajv.ErrorObject>): string => {
+const generateError = (type: string, action: ((error: ajv.ErrorObject, property: string, errors?: Array<ajv.ErrorObject>) => string)): ((error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>) => string | null) => {
+    return (error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>): string | null => {
         if (error.keyword !== type) {
             return null;
         }
@@ -50,7 +50,7 @@ const generateError = (type: string, action: ((error: ajv.ErrorObject, property:
 const generateAdditionalPropertiesError = generateError(ErrorKeyword.additionalProperties, (error: ajv.ErrorObject, property: string): string => {
     const additionalProperty = (error.params as ajv.AdditionalPropertiesParams).additionalProperty;
 
-    return `${property ? `'${property}' ` : ''}${property ? error.message : `${error.message[0].toLocaleUpperCase()}${error.message.substr(1)}`}. Additional property found '${additionalProperty}'.`;
+    return `${property ? `'${property}' ` : ''}${property ? error.message : `${error.message && error.message[0].toLocaleUpperCase()}${error.message && error.message.substr(1)}`}. Additional property found '${additionalProperty}'.`;
 });
 
 /**
@@ -66,14 +66,14 @@ const generateEnumError = generateError(ErrorKeyword.enum, (error: ajv.ErrorObje
  * Returns a readable error for 'pattern' errors.
  */
 const generatePatternError = generateError(ErrorKeyword.pattern, (error: ajv.ErrorObject, property: string) => {
-    return `'${property}' ${error.message.replace(/"/g, '\'')}. Value found '${error.data}'`;
+    return `'${property}' ${error.message && error.message.replace(/"/g, '\'')}. Value found '${error.data}'`;
 });
 
 /**
  * Returns a readable error for 'type' errors.
  */
 const generateTypeError = generateError(ErrorKeyword.type, (error: ajv.ErrorObject, property: string) => {
-    return `'${property}' ${error.message.replace(/"/g, '\'')}.`;
+    return `'${property}' ${error.message && error.message.replace(/"/g, '\'')}.`;
 });
 
 /**
@@ -90,21 +90,21 @@ const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorOb
     return results.join(' or ');
 });
 
-const errorGenerators: Array<((error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>) => string)> = [generateAdditionalPropertiesError, generateEnumError, generatePatternError, generateTypeError, generateAnyOfError];
+const errorGenerators: Array<((error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>) => string | null)> = [generateAdditionalPropertiesError, generateEnumError, generatePatternError, generateTypeError, generateAnyOfError];
 
 /**
  * Returns a readable error message.
  */
-const generate = (error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>): string => {
+const generate = (error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>): string | null => {
     return errorGenerators.reduce((message, generator) => {
-        const newErrorMessage: string = generator(error, errors);
+        const newErrorMessage: string | null = generator(error, errors);
 
         if (newErrorMessage) {
             return newErrorMessage;
         }
 
         return message;
-    }, error.message);
+    }, error.message || '');
 };
 
 
@@ -113,11 +113,11 @@ const prettify = (errors: Array<ajv.ErrorObject>) => {
 
     const result = reduce(grouped, (allMessages, groupErrors: Array<ajv.ErrorObject>) => {
         groupErrors.forEach((error) => {
-            allMessages.push(generate(error, groupErrors));
+            allMessages.push(generate(error, groupErrors) || '');
         });
 
         return allMessages;
-    }, []);
+    }, [] as string[]);
 
     return result;
 };
@@ -134,17 +134,17 @@ const errorWithLocation = (error: ajv.ErrorObject, getLocation: IJSONLocationFun
         path = path ? `${path}.${additionalProperty}` : additionalProperty;
     }
 
-    return { ...error, location: getLocation(path) };
+    return { ...error, location: getLocation(path) || undefined };
 };
 
-export const validate = (schema, json, getLocation?: IJSONLocationFunction): SchemaValidationResult => {
+export const validate = (schema: object, json: object, getLocation?: IJSONLocationFunction): SchemaValidationResult => {
     // We clone the incoming data because the validator can modify it.
     const data = cloneDeep(json);
     const validateFunction: ajv.ValidateFunction = validator.compile(schema);
 
     const valid: boolean = validateFunction(data) as boolean;
 
-    let errors: ISchemaValidationError[] = validateFunction.errors;
+    let errors: ISchemaValidationError[] = validateFunction.errors || [];
 
     if (errors && getLocation) {
         errors = errors.map((e) => {

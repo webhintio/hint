@@ -431,7 +431,7 @@ export class Connector implements IConnector {
     private async createResponse(cdpResponse: Crdp.Network.ResponseReceivedEvent, element: IAsyncHTMLElement): Promise<Response> {
         const resourceUrl: string = cdpResponse.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
-        const resourceHeaders: object = normalizeHeaders(cdpResponse.response.headers);
+        const resourceHeaders = normalizeHeaders(cdpResponse.response.headers);
         const { content, rawContent, rawResponse } = await this.getResponseBody(cdpResponse);
         const response: Response = {
             body: {

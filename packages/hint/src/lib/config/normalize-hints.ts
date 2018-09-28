@@ -1,4 +1,5 @@
-import { HintConfig, HintsConfigObject } from '../types';
+import { HintsConfigObject, HintSeverity } from '../types';
+import { Severity } from '../types/problems';
 
 /**
  * @fileoverview Used for normalizing hints that are passed as configuration.
@@ -8,19 +9,19 @@ import { HintConfig, HintsConfigObject } from '../types';
 
 const DEFAULT_HINT_LEVEL = 'error';
 
-const shortHandHintPrefixes = {
+const shortHandHintPrefixes: {[prefix: string]: keyof typeof Severity | undefined} = {
     '-': 'off',
     '?': 'warning'
 };
 
 type NormalizedHint = {
-    hintLevel: string;
+    hintLevel: HintSeverity;
     hintName: string;
 };
 
 const normalizeHint = (hint: string): NormalizedHint => {
-    let hintLevel: string;
-    let hintName: string;
+    let hintLevel: keyof typeof Severity | undefined;
+    let hintName = '';
 
     for (const prefix in shortHandHintPrefixes) {
         if (hint.startsWith(prefix)) {
@@ -33,7 +34,7 @@ const normalizeHint = (hint: string): NormalizedHint => {
 
     if (!hintLevel) {
         // Matches for a hint like: `hint1` or `hint1:warn`
-        [hintName, hintLevel] = hint.split(':');
+        [hintName, hintLevel] = hint.split(':') as [string, keyof typeof Severity];
         hintLevel = hintLevel || DEFAULT_HINT_LEVEL;
     }
 
@@ -50,12 +51,12 @@ const normalizeHint = (hint: string): NormalizedHint => {
  * * { "hint1": "warning" } => { "hint1": "warning" }
  * * ["hint1:warning"] => { "hint1": "warning" }
  */
-export default function normalizeHints(hints: HintsConfigObject | Array<HintConfig>): HintsConfigObject {
+export default function normalizeHints(hints: HintsConfigObject | (string | any[])[]): HintsConfigObject {
     if (!Array.isArray(hints)) {
         return hints;
     }
 
-    const result = {};
+    const result: HintsConfigObject = {};
 
     for (const hint of hints) {
         if (typeof hint === 'string') {
@@ -66,10 +67,10 @@ export default function normalizeHints(hints: HintsConfigObject | Array<HintConf
             const [hintKey, hintConfig] = hint;
             const { hintName, hintLevel } = normalizeHint(hintKey as string);
 
-            result[hintName] = [hintLevel];
-
             if (hintConfig) {
-                result[hintName].push(hintConfig);
+                result[hintName] = [hintLevel, hintConfig];
+            } else {
+                result[hintName] = [hintLevel];
             }
         } else {
             throw new Error(`Invalid hint type specified: "${hint}". Arrays and objects are supported.`);

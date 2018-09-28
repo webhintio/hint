@@ -7,7 +7,7 @@ const protocolRegex = /([^:]*):.*/;
 /** Convenience function to check if a uri's protocol is http/https if specified. */
 export default (uri: string): boolean => {
     const normalizedUri = normalizeString(uri);
-    const exec = protocolRegex.exec(normalizedUri);
+    const exec = protocolRegex.exec(normalizedUri!);
     const protocol = exec ? exec[1] : null;
 
     /*

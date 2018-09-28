@@ -1,7 +1,11 @@
+export type HttpHeaders = {
+    [name: string]: string | undefined; // TODO: include `string[]`
+};
+
 /** Request data from fetching an item using a connector. */
 export type Request = {
     /** The headers used by the connector to make the request */
-    headers: any;
+    headers: HttpHeaders;
     /** The initial requested URL. */
     url: string;
 };
@@ -22,7 +26,7 @@ export type Response = {
     /** The charset of the response's body. */
     charset: string;
     /** The headers sent by the server. */
-    headers: object;
+    headers: HttpHeaders;
     /** All the intermediate urls from the initial request until we got the response (if any). */
     hops: Array<string>;
     /** The media type of the response's body. */

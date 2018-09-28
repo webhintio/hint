@@ -2,6 +2,7 @@ import { IFormatterConstructor } from './types/formatters';
 import { IConnectorConstructor } from './types/connector';
 import { IParserConstructor } from './types/parser';
 import { IHintConstructor } from './types/hints';
+import { Severity } from './types/problems';
 
 export * from './types/async-html';
 export * from './types/connector';
@@ -13,6 +14,14 @@ export * from './types/problems';
 export * from './types/hints';
 export * from './types/parser';
 export * from './types/schema-validation-result';
+
+/**
+ * The `Serverity` of a hint.
+ * Can be represented as a number: `0`, `1`, `2`
+ * or as a severity string: `off`, `warning`, `error`
+ */
+export type HintSeverity = Severity | keyof typeof Severity;
+
 /**
  * The configuration of a hint. This could be:
  *
@@ -22,7 +31,7 @@ export * from './types/schema-validation-result';
  *   first item is the severity (`number | string`)
  *
  */
-export type HintConfig = number | string | [number | string, any];
+export type HintConfig = HintSeverity | [HintSeverity, any];
 
 /**
  * A hints configuration object:
@@ -35,7 +44,7 @@ export type HintConfig = number | string | [number | string, any];
  * ```
  */
 export type HintsConfigObject = {
-    [key: string]: HintConfig | Array<HintConfig>;
+    [key: string]: HintConfig | HintConfig[];
 };
 
 export type ConnectorOptionsConfig = {
@@ -57,7 +66,7 @@ export type UserConfig = {
     connector?: ConnectorConfig | string;
     extends?: Array<string>;
     parsers?: Array<string>;
-    hints?: HintsConfigObject | Array<[string, HintConfig]>;
+    hints?: HintsConfigObject | Array<[HintSeverity, HintConfig]>;
     browserslist?: string | Array<string>;
     hintsTimeout?: number;
     formatters?: Array<string>;
@@ -118,8 +127,17 @@ export type NpmPackage = {
     version: string;
 };
 
+export type NpmPackageResult = {
+    package: NpmPackage;
+};
+
+export type NpmSearchResults = {
+    objects: NpmPackageResult[];
+    total: number;
+};
+
 export type HintResources = {
-    connector: IConnectorConstructor;
+    connector: IConnectorConstructor | null;
     formatters: Array<IFormatterConstructor>;
     incompatible: Array<string>;
     missing: Array<string>;

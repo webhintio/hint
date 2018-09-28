@@ -104,7 +104,8 @@ export class Server {
         let numberOfMatches = 0;
 
         for (const [header, value] of Object.entries(headers)) {
-            const headerValue = getHeaderValueNormalized(req.headers, header);
+            // TODO: handle `string[]` in `req.headers`
+            const headerValue = getHeaderValueNormalized(req.headers as any, header);
 
             if ((headerValue !== normalizeString(value as string)) || (!headerValue && (value === null))) {
                 return 0;

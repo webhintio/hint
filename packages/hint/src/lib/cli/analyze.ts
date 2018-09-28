@@ -4,9 +4,10 @@ import * as path from 'path';
 
 import * as async from 'async';
 import * as ora from 'ora';
-import * as boxen from 'boxen';
+import boxen = require('boxen'); // `require` used because `boxen` exports a function
 import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
+import { EventAndListener } from 'eventemitter2';
 
 import * as configStore from '../utils/configstore';
 import { Configuration } from '../config';
@@ -20,7 +21,7 @@ import cutString from '../utils/misc/cut-string';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
 import * as insights from '../utils/appinsights';
-import { FormatterOptions } from '../types/formatters';
+import { FormatterOptions, IFormatter } from '../types/formatters';
 import loadHintPackage from '../utils/packages/load-hint-package';
 
 const each = promisify(async.each);
@@ -173,8 +174,8 @@ const getDefaultConfiguration = () => {
     return { extends: ['web-recommended'] };
 };
 
-const getUserConfig = (actions?: CLIOptions): UserConfig => {
-    const configPath: string = (actions && actions.config) || Configuration.getFilenameForDirectory(process.cwd());
+const getUserConfig = (actions?: CLIOptions): UserConfig | null => {
+    const configPath: string | null = (actions && actions.config) || Configuration.getFilenameForDirectory(process.cwd());
 
     if (!configPath) {
         return getDefaultConfiguration();
@@ -184,7 +185,7 @@ const getUserConfig = (actions?: CLIOptions): UserConfig => {
     try {
         const resolvedPath: string = path.resolve(process.cwd(), configPath);
 
-        const config: UserConfig = Configuration.loadConfigFile(resolvedPath);
+        const config: UserConfig | null = Configuration.loadConfigFile(resolvedPath);
 
         return config || getDefaultConfiguration();
     } catch (e) {
@@ -194,7 +195,7 @@ const getUserConfig = (actions?: CLIOptions): UserConfig => {
     }
 };
 
-const messages = {
+const messages: {[name: string]: string} = {
     'fetch::end': '%url% downloaded',
     'fetch::start': 'Downloading %url%',
     'scan::end': 'Finishing...',
@@ -214,7 +215,7 @@ const getEvent = (event: string) => {
 };
 
 const setUpUserFeedback = (engine: Engine, spinner: ORA) => {
-    engine.prependAny((event: string, value: { resource: string }) => {
+    engine.prependAny(((event: string, value: { resource: string }) => {
         const message: string = messages[getEvent(event)];
 
         if (!message) {
@@ -222,11 +223,11 @@ const setUpUserFeedback = (engine: Engine, spinner: ORA) => {
         }
 
         spinner.text = message.replace('%url%', cutString(value.resource));
-    });
+    }) as EventAndListener);
 };
 
 /** Asks the users if they want to create a new configuration file or use the default one. */
-const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<Configuration> => {
+const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<Configuration | null> => {
     const useDefault = await askUserToUseDefaultConfiguration();
     let userConfig: UserConfig;
 
@@ -246,12 +247,12 @@ const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<Configurat
  * Depending on the user, the configuration could be read from a file,
  * could be a new created one, or use the defaults.
  */
-const getHintConfiguration = async (userConfig: UserConfig, actions: CLIOptions): Promise<Configuration> => {
+const getHintConfiguration = async (userConfig: UserConfig | null, actions: CLIOptions): Promise<Configuration | null> => {
     if (!userConfig) {
         return getDefaultOrCreateConfig(actions);
     }
 
-    let config: Configuration;
+    let config: Configuration | null;
 
     try {
         config = Configuration.fromConfig(userConfig, actions);
@@ -272,7 +273,7 @@ const getHintConfiguration = async (userConfig: UserConfig, actions: CLIOptions)
 
 // HACK: we need this to correctly test the messages in tests/lib/cli.ts.
 
-export let engine: Engine = null;
+export let engine: Engine | null = null;
 
 /** Analyzes a website if indicated by `actions`. */
 export default async (actions: CLIOptions): Promise<boolean> => {
@@ -284,8 +285,8 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     }
 
     // userConfig will be null if an error occurred loading the user configuration (error parsing a JSON)
-    const userConfig: UserConfig = await getUserConfig(actions);
-    const config: Configuration = await getHintConfiguration(userConfig, actions);
+    const userConfig: UserConfig | null = await getUserConfig(actions);
+    const config: Configuration | null = await getHintConfiguration(userConfig, actions);
 
     if (!config) {
         return false;
@@ -345,8 +346,8 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     }
 
     const endSpinner = (method: string) => {
-        if (!actions.debug && spinner[method]) {
-            spinner[method]();
+        if (!actions.debug && (spinner as any)[method]) {
+            (spinner as any)[method]();
         }
     };
 
@@ -358,16 +359,18 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     const print = async (reports: Array<Problem>, target: string, scanTime: number, timeStamp: number): Promise<void> => {
         const formatterOptions: FormatterOptions = {
-            config: userConfig,
+            config: userConfig || undefined,
             resources,
             scanTime,
             timeStamp,
             version: loadHintPackage().version
         };
 
-        await each(engine.formatters, async (formatter) => {
-            await formatter.format(reports, target, formatterOptions);
-        });
+        if (engine) {
+            await each(engine.formatters, async (formatter: IFormatter) => {
+                await formatter.format(reports, target, formatterOptions);
+            });
+        }
     };
 
     engine.on('print', print);

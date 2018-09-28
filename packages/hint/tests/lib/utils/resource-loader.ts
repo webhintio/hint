@@ -293,7 +293,7 @@ test('loadResources loads all the resources of a given config', async (t) => {
         formatters: ['json'],
         hints: { hint1: 'error' },
         hintsTimeout: 1000,
-        ignoredUrls: [],
+        ignoredUrls: new Map(),
         parsers: []
     };
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');

@@ -21,12 +21,9 @@ proxyquire('../../src/lib/engine', { eventemitter2: eventEmitter });
 import { Engine } from '../../src/lib/engine';
 import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata, Problem } from '../../src/lib/types';
 import { Category } from '../../src/lib/enums/category';
+import { HintContext } from '../../src/lib/hint-context';
 
 class FakeConnector implements IConnector {
-    private config;
-    public constructor(server: Engine, config: object) {
-        this.config = config;
-    }
 
     public collect(target: url.URL) {
         return Promise.resolve(target);
@@ -35,6 +32,12 @@ class FakeConnector implements IConnector {
     public close() {
         return Promise.resolve();
     }
+
+    public evaluate(): any { }
+
+    public fetchContent(): any { }
+
+    public querySelectorAll(): any { }
 }
 
 test.beforeEach((t) => {
@@ -76,10 +79,8 @@ test.serial(`If config.browserslist is an array of strings, we should initilize 
 test.serial(`If config.hints has some hints "off", we shouldn't create those hints`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeDisallowedHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
@@ -91,10 +92,8 @@ test.serial(`If config.hints has some hints "off", we shouldn't create those hin
 
     class FakeManifestHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeManifestHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
@@ -105,7 +104,7 @@ test.serial(`If config.hints has some hints "off", we shouldn't create those hin
     }
 
     new Engine({
-        browserslist: null,
+        browserslist: [] as string[],
         connector: { name: 'connector' },
         extends: [],
         formatters: [],
@@ -113,8 +112,8 @@ test.serial(`If config.hints has some hints "off", we shouldn't create those hin
             'disallowed-headers': 'warning',
             'manifest-exists': 'off'
         },
-        hintsTimeout: null,
-        ignoredUrls: [],
+        hintsTimeout: 60000,
+        ignoredUrls: new Map(),
         parsers: []
     } as Configuration, {
         connector: FakeConnector,
@@ -132,10 +131,8 @@ test.serial(`If config.hints has some hints "off", we shouldn't create those hin
 test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't ignore those hints if the connector isn't in that property`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeDisallowedHint.called = true;
-            this.context = context;
 
             context.on('fetch::end', () => { });
         }
@@ -149,10 +146,8 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't
 
     class FakeManifestHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeManifestHint.called = true;
-            this.context = context;
 
             context.on('fetch::error', () => { });
         }
@@ -167,7 +162,7 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
 
     new Engine({
-        browserslist: null,
+        browserslist: [],
         connector: { name: 'jsdom' },
         extends: [],
         formatters: [],
@@ -175,8 +170,8 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        hintsTimeout: null,
-        ignoredUrls: [],
+        hintsTimeout: 60000,
+        ignoredUrls: new Map(),
         parsers: []
     }, {
         connector: FakeConnector,
@@ -199,10 +194,8 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't
 test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ignore those hints if the connector is in that property`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeDisallowedHint.called = true;
-            this.context = context;
 
             context.on('fetch::end', () => { });
         }
@@ -217,10 +210,8 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ig
 
     class FakeManifestHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeManifestHint.called = true;
-            this.context = context;
 
             context.on('fetch::error', () => { });
         }
@@ -233,7 +224,7 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ig
     }
 
     new Engine({
-        browserslist: null,
+        browserslist: [],
         connector: { name: 'chrome' },
         extends: [],
         formatters: [],
@@ -241,8 +232,8 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ig
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        hintsTimeout: null,
-        ignoredUrls: [],
+        hintsTimeout: 60000,
+        ignoredUrls: new Map(),
         parsers: []
     }, {
         connector: FakeConnector,
@@ -260,10 +251,8 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ig
 test.serial(`If the hint scope is 'local' and the connector isn't local the hint should be ignored`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeDisallowedHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
@@ -275,10 +264,8 @@ test.serial(`If the hint scope is 'local' and the connector isn't local the hint
 
     class FakeManifestHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeManifestHint.called = true;
-            this.context = context;
 
             context.on('fetch::error', () => { });
         }
@@ -291,7 +278,7 @@ test.serial(`If the hint scope is 'local' and the connector isn't local the hint
     }
 
     new Engine({
-        browserslist: null,
+        browserslist: [],
         connector: { name: 'chrome' },
         extends: [],
         formatters: [],
@@ -299,8 +286,8 @@ test.serial(`If the hint scope is 'local' and the connector isn't local the hint
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        hintsTimeout: null,
-        ignoredUrls: [],
+        hintsTimeout: 60000,
+        ignoredUrls: new Map(),
         parsers: []
     }, {
         connector: FakeConnector,
@@ -318,10 +305,8 @@ test.serial(`If the hint scope is 'local' and the connector isn't local the hint
 test.serial(`If the hint scope is 'site' and the connector is local the hint should be ignored`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeDisallowedHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
@@ -333,10 +318,8 @@ test.serial(`If the hint scope is 'site' and the connector is local the hint sho
 
     class FakeManifestHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeManifestHint.called = true;
-            this.context = context;
 
             context.on('fetch::error', () => { });
         }
@@ -349,7 +332,7 @@ test.serial(`If the hint scope is 'site' and the connector is local the hint sho
     }
 
     new Engine({
-        browserslist: null,
+        browserslist: [],
         connector: { name: 'local' },
         extends: [],
         formatters: [],
@@ -357,8 +340,8 @@ test.serial(`If the hint scope is 'site' and the connector is local the hint sho
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        hintsTimeout: null,
-        ignoredUrls: [],
+        hintsTimeout: 60000,
+        ignoredUrls: new Map(),
         parsers: []
     }, {
         connector: FakeConnector,
@@ -376,10 +359,8 @@ test.serial(`If the hint scope is 'site' and the connector is local the hint sho
 test.serial(`If the hint scope is 'any' and the connector is local the hint should be used`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor() {
             FakeDisallowedHint.called = true;
-            this.context = context;
         }
 
         public static readonly meta: HintMetadata = {
@@ -391,10 +372,8 @@ test.serial(`If the hint scope is 'any' and the connector is local the hint shou
 
     class FakeManifestHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeManifestHint.called = true;
-            this.context = context;
 
             context.on('fetch::error', () => { });
         }
@@ -407,7 +386,7 @@ test.serial(`If the hint scope is 'any' and the connector is local the hint shou
     }
 
     new Engine({
-        browserslist: null,
+        browserslist: [],
         connector: { name: 'local' },
         extends: [],
         formatters: [],
@@ -415,8 +394,8 @@ test.serial(`If the hint scope is 'any' and the connector is local the hint shou
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        hintsTimeout: null,
-        ignoredUrls: [],
+        hintsTimeout: 60000,
+        ignoredUrls: new Map(),
         parsers: []
     }, {
         connector: FakeConnector,
@@ -434,10 +413,8 @@ test.serial(`If the hint scope is 'any' and the connector is local the hint shou
 test.serial(`If the hint scope is 'any' and the connector isn't local the hint should be used`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeDisallowedHint.called = true;
-            this.context = context;
 
             context.on('fetch::end::html', () => { });
         }
@@ -451,10 +428,8 @@ test.serial(`If the hint scope is 'any' and the connector isn't local the hint s
 
     class FakeManifestHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeManifestHint.called = true;
-            this.context = context;
 
             context.on('fetch::error', () => { });
         }
@@ -467,7 +442,7 @@ test.serial(`If the hint scope is 'any' and the connector isn't local the hint s
     }
 
     new Engine({
-        browserslist: null,
+        browserslist: [],
         connector: { name: 'chrome' },
         extends: [],
         formatters: [],
@@ -475,8 +450,8 @@ test.serial(`If the hint scope is 'any' and the connector isn't local the hint s
             'disallowed-headers': 'warning',
             'manifest-exists': 'warning'
         },
-        hintsTimeout: null,
-        ignoredUrls: [],
+        hintsTimeout: 60000,
+        ignoredUrls: new Map(),
         parsers: []
     }, {
         connector: FakeConnector,
@@ -495,12 +470,12 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'emitAsync');
 
     const engineObject = new Engine({
-        browserslist: null,
+        browserslist: [],
         connector: { name: 'connector' },
         extends: [],
         formatters: [],
         hints: { 'disallowed-headers': 'warning' },
-        hintsTimeout: null,
+        hintsTimeout: 60000,
         ignoredUrls: new Map([['all', [/.*\.domain1\.com\/.*/i]]]),
         parsers: []
     }, {
@@ -522,10 +497,8 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
 test.serial(`If a hint is ignoring some url, it shouldn't run the event`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeDisallowedHint.called = true;
-            this.context = context;
 
             context.on('fetch::end::html', () => { });
         }
@@ -540,12 +513,12 @@ test.serial(`If a hint is ignoring some url, it shouldn't run the event`, (t) =>
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
 
     new Engine({
-        browserslist: null,
+        browserslist: [],
         connector: { name: 'connector' },
         extends: [],
         formatters: [],
         hints: { 'disallowed-headers': 'warning' },
-        hintsTimeout: null,
+        hintsTimeout: 60000,
         ignoredUrls: new Map([['all', [/.*\.domain1\.com\/.*/i]], ['disallowed-headers', [/.*\.domain2\.com\/.*/i]]]),
         parsers: []
     }, {
@@ -567,10 +540,8 @@ test.serial(`If a hint is ignoring some url, it shouldn't run the event`, (t) =>
 test.serial(`If a hint is taking too much time, it should be ignored after the configured timeout`, async (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
-        private context;
-        public constructor(context) {
+        public constructor(context: HintContext) {
             FakeDisallowedHint.called = true;
-            this.context = context;
 
             context.on('fetch::end::html', async () => {
                 await delay(5000);
@@ -589,7 +560,7 @@ test.serial(`If a hint is taking too much time, it should be ignored after the c
     sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
 
     new Engine({
-        browserslist: null,
+        browserslist: [],
         connector: { name: 'connector' },
         extends: [],
         formatters: [],
@@ -617,7 +588,7 @@ test.serial(`If there is no connector, it should throw an error`, (t) => {
     t.plan(1);
 
     try {
-        new Engine({ connector: { name: 'invalidConnector' } } as Configuration, { connector: null } as HintResources);
+        new Engine({ connector: { name: 'invalidConnector' } } as Configuration, { connector: null } as any);
     } catch (err) {
         t.is(err.message, 'Connector "invalidConnector" not found');
     }
@@ -626,10 +597,8 @@ test.serial(`If there is no connector, it should throw an error`, (t) => {
 test.serial('If connector is in the resources, we should init the connector', (t) => {
     class FakeConnectorInit implements IConnector {
         public static called: boolean = false;
-        private config;
-        public constructor(server: Engine, config: object) {
+        public constructor() {
             FakeConnectorInit.called = true;
-            this.config = config;
         }
 
         public collect(target: url.URL) {
@@ -639,6 +608,12 @@ test.serial('If connector is in the resources, we should init the connector', (t
         public close() {
             return Promise.resolve();
         }
+
+        public evaluate(): any { }
+
+        public fetchContent(): any { }
+
+        public querySelectorAll(): any { }
     }
 
     new Engine({ connector: { name: 'myconnector' } } as Configuration, {
@@ -656,10 +631,8 @@ test.serial('If connector is in the resources, we should init the connector', (t
 test.serial('If connector is an object with valid data, we should init the connector', (t) => {
     class FakeConnectorInit implements IConnector {
         public static called: boolean = false;
-        private config;
-        public constructor(server: Engine, config: object) {
+        public constructor() {
             FakeConnectorInit.called = true;
-            this.config = config;
         }
 
         public collect(target: url.URL) {
@@ -669,6 +642,12 @@ test.serial('If connector is an object with valid data, we should init the conne
         public close() {
             return Promise.resolve();
         }
+
+        public evaluate(): any { }
+
+        public fetchContent(): any { }
+
+        public querySelectorAll(): any { }
     }
 
     new Engine({
@@ -716,10 +695,6 @@ test.serial('pageContent should return the HTML', async (t) => {
     const html = '<html></html>';
 
     class FakeConnectorPageContent implements IConnector {
-        private config;
-        public constructor(server: Engine, config: object) {
-            this.config = config;
-        }
 
         public collect(target: url.URL) {
             return Promise.resolve(target);
@@ -728,6 +703,12 @@ test.serial('pageContent should return the HTML', async (t) => {
         public close() {
             return Promise.resolve();
         }
+
+        public evaluate(): any { }
+
+        public fetchContent(): any { }
+
+        public querySelectorAll(): any { }
 
         public get html() {
             return Promise.resolve(html);
@@ -755,10 +736,6 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
     const headers = { header1: 'value1' };
 
     class FakeConnectorPageContent implements IConnector {
-        private config;
-        public constructor(server: Engine, config: object) {
-            this.config = config;
-        }
 
         public collect(target: url.URL) {
             return Promise.resolve(target);
@@ -767,6 +744,12 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
         public close() {
             return Promise.resolve();
         }
+
+        public evaluate(): any { }
+
+        public fetchContent(): any { }
+
+        public querySelectorAll(): any { }
 
         public get headers() {
             return headers;
@@ -793,10 +776,6 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
 test.serial('If connector.collect fails, it should return an error', async (t) => {
     class FakeConnectorCollectFail implements IConnector {
         private error: boolean = true;
-        private config;
-        public constructor(server: Engine, config: object) {
-            this.config = config;
-        }
 
         public collect(target: url.URL) {
             if (this.error) {
@@ -809,6 +788,12 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
         public close() {
             return Promise.resolve();
         }
+
+        public evaluate(): any { }
+
+        public fetchContent(): any { }
+
+        public querySelectorAll(): any { }
     }
 
     const engineObject = new Engine({
@@ -837,10 +822,6 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
 
 test.serial(`'executeOn' should return all messages`, async (t) => {
     class FakeConnectorCollect implements IConnector {
-        private config;
-        public constructor(server: Engine, config: object) {
-            this.config = config;
-        }
 
         public collect(target: url.URL) {
             return Promise.resolve(target);
@@ -849,6 +830,12 @@ test.serial(`'executeOn' should return all messages`, async (t) => {
         public close() {
             return Promise.resolve();
         }
+
+        public evaluate(): any { }
+
+        public fetchContent(): any { }
+
+        public querySelectorAll(): any { }
     }
 
     const engineObject = new Engine({
@@ -877,15 +864,13 @@ test.serial(`'executeOn' should return all messages`, async (t) => {
 
 test.serial('executeOn should forward content if provided', async (t) => {
     class FakeConnectorCollect implements IConnector {
-        private config;
         private server: Engine;
-        public constructor(server: Engine, config: object) {
-            this.config = config;
+        public constructor(server: Engine) {
             this.server = server;
         }
 
         public collect(target: url.URL, options?: IFetchOptions) {
-            this.server.report('1', Category.other, 1, 'node', { column: 1, line: 1 }, options && options.content, target.href);
+            this.server.report('1', Category.other, 1, 'node', { column: 1, line: 1 }, options && options.content || '', target.href);
 
             return Promise.resolve(target);
         }
@@ -893,6 +878,12 @@ test.serial('executeOn should forward content if provided', async (t) => {
         public close() {
             return Promise.resolve();
         }
+
+        public evaluate(): any { }
+
+        public fetchContent(): any { }
+
+        public querySelectorAll(): any { }
     }
 
     const testContent = 'Test Content';

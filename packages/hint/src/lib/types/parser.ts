@@ -21,14 +21,15 @@ export abstract class Parser {
     protected engine: Engine;
     protected name: string;
 
-    protected async finalConfig<T extends ExtendableConfiguration, U extends ErrorEvent>(config: T, resource: string): Promise<T> {
+    protected async finalConfig<T extends ExtendableConfiguration, U extends ErrorEvent>(config: T, resource: string): Promise<T | null> {
         if (!config.extends) {
             return config;
         }
 
         const configIncludes = new Set();
 
-        let configPath = getAsPathString(getAsUri(resource));
+        // `resource` has already been loaded to provide `config` so `getAsUri` won't be null.
+        let configPath = getAsPathString(getAsUri(resource)!);
 
         /*
          * `configPath` will have the format c:/path or /path

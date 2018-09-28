@@ -2,7 +2,7 @@ import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
 import { compact } from 'lodash';
-import * as fileUrl from 'file-url';
+import fileUrl = require('file-url'); // `require` used because `file-url` exports a function
 
 import { debug as d } from '../debug';
 import * as logger from '../logging';
@@ -19,9 +19,9 @@ const debug: debug.IDebugger = d(__filename);
  * * null if not valid
  *
  */
-export const getAsUri = (source: string): URL => {
+export const getAsUri = (source: string): URL | null => {
     const entry: string = source.trim();
-    let target: URL;
+    let target: URL | null;
 
     try {
         target = new URL(entry);
@@ -32,7 +32,7 @@ export const getAsUri = (source: string): URL => {
         }
     }
 
-    const protocol: string = target ? target.protocol : null;
+    const protocol = target ? target.protocol : null;
 
     /* istanbul ignore else */
     /*
@@ -40,7 +40,7 @@ export const getAsUri = (source: string): URL => {
      * Check if the protocol is HTTP or HTTPS.
      */
     if (protocol === 'http:' || protocol === 'https:' || protocol === 'file:') {
-        debug(`Adding valid target: ${url.format(target)}`);
+        debug(`Adding valid target: ${target && url.format(target)}`);
 
         return target;
     }
@@ -85,7 +85,7 @@ export const getAsUri = (source: string): URL => {
  */
 export const getAsUris = (source: Array<string>): Array<URL> => {
     const targets: Array<URL> = source.reduce((uris: Array<URL>, entry: string): Array<URL> => {
-        const uri: URL = getAsUri(entry);
+        const uri = getAsUri(entry);
 
         if (uri) {
             uris.push(uri);

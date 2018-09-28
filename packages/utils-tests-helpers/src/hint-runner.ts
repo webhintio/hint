@@ -222,7 +222,8 @@ export const testLocalHint = (hintId: string, hintTests: Array<HintLocalTest>, c
             const resources = resourceLoader.loadResources(hintConfig);
             const engine = new Engine(hintConfig, resources);
 
-            const results = await engine.executeOn(getAsUri(hintTest.path));
+            // Can assume `getAsUri(hintTest.path)` is not `null` since these are controlled test inputs.
+            const results = await engine.executeOn(getAsUri(hintTest.path)!);
 
             await engine.close();
 
