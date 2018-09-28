@@ -1,3 +1,11 @@
+# 1.0.10 (September 28, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c88fe2e7e3`](https://github.com/webhintio/hint/commit/c88fe2e7e36ba11ab6d7387c119e0818762173a1)] - Fix: Prevent downloading the favicon twice (see also: [`#1352`](https://github.com/webhintio/hint/issues/1352)).
+* [[`19faf7fb69`](https://github.com/webhintio/hint/commit/19faf7fb69d1e82f5e5a543f88f0a07289f5eb4b)] - Fix: Make `_dom` fully loaded when assigned (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 1.0.9 (September 27, 2018)
 
 ## Bug fixes / Improvements
