@@ -25,14 +25,16 @@ export class CDPLauncher extends Launcher {
     private userDataDir: string | boolean;
     private chromeFlags: Array<string>;
 
-    public constructor(options: LauncherOptions) {
+    public constructor(options?: LauncherOptions) {
         super(options);
 
         this.chromeFlags = options && options.flags || ['--no-default-browser-check'];
         // `userDataDir` is a property in `chrome-launcher`: https://github.com/GoogleChrome/chrome-launcher#launch-options
         /* istanbul ignore next */
-        this.userDataDir = typeof options.defaultProfile === 'boolean' && options.defaultProfile ? false : '';
-        this.port = options.port;
+        this.userDataDir = options && typeof options.defaultProfile === 'boolean' && options.defaultProfile ?
+            false :
+            '';
+        this.port = options && options.port;
     }
 
     /** If a browser is already running, it returns its pid. Otherwise return value is -1.  */

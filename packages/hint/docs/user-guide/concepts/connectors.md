@@ -59,10 +59,9 @@ with the values you want to modify:
 The following is the list of shared configurations for all `connector`s:
 
 * `waitFor` time in milliseconds the connector will wait after the site is
-  ready before starting the DOM traversing. The default value is `1000`
-  milliseconds.
-
-The default value is `1000`.
+  ready before starting the DOM traversing and stop listening to any
+  network request. By default, it will wait until the network is somehow
+  "quiet" even though more requests could be processed after DOM traversing.
 
 Depending on the `connector`, other configurations may be available.
 
