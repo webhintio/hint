@@ -17,7 +17,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
     /** outerHTML of the page. */
     private _outerHTML: string;
 
-    public constructor(DOM) {
+    public constructor(DOM: Crdp.DOMClient) {
         this._DOM = DOM;
     }
 
@@ -56,6 +56,8 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
         try {
             nodeIds = (await this._DOM.querySelectorAll({ nodeId: this._dom.nodeId, selector })).nodeIds;
         } catch (e) {
+            debug(e);
+
             return [];
         }
 
@@ -120,6 +122,14 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
         return this._dom;
     }
 }
+
+export const createCDPAsyncHTMLDocument = async (DOM: Crdp.DOMClient) => {
+    const dom = new CDPAsyncHTMLDocument(DOM);
+
+    await dom.load();
+
+    return dom;
+};
 
 /** An implementation of AsyncHTMLElement on top of the Chrome Debugging Protocol */
 export class AsyncHTMLElement implements IAsyncHTMLElement {
