@@ -1,3 +1,10 @@
+# 2.0.0 (October 1, 2018)
+
+## Breaking Changes
+
+* [[`7d696ffa2b`](https://github.com/webhintio/hint/commit/7d696ffa2bd85bb082dca30c954203fa39bd3d97)] - Breaking: For consistency, rename `hint-types.ts` to `types.ts` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.0.7 (September 11, 2018)
 
 ## Bug fixes / Improvements
