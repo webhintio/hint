@@ -1,4 +1,4 @@
-import { HintConfig, HintsConfigObject, HintSeverity } from '../types';
+import { HintsConfigObject, HintSeverity } from '../types';
 import { Severity } from '../types/problems';
 
 /**
