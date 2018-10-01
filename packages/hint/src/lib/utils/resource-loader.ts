@@ -342,7 +342,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
         [path.resolve(currentProcessDir, name)] : // If the name is direct path to the source we should only check that
         [
             `@hint/${type}-${packageName}`, // Officially supported package
-            `hint-${type}-${packageName}`, // Third party package
+            `webhint-${type}-${packageName}`, // Third party package
             path.normalize(`${HINT_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
             path.normalize(currentProcessDir) // External hints.
             // path.normalize(`${path.resolve(HINT_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/hint-http-cache`
