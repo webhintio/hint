@@ -3,7 +3,7 @@ import * as isSvg from 'is-svg';
 import { parse, MediaType } from 'content-type';
 
 import { debug as d } from './debug';
-import { IAsyncHTMLElement } from '../types';
+import { HttpHeaders, IAsyncHTMLElement } from '../types';
 import getFileExtension from './fs/file-extension';
 import getFileName from './fs/filename';
 import normalizeString from './misc/normalize-string';
@@ -334,7 +334,7 @@ const getPreferedMediaType = (mediaType: string | null): string | null => {
 };
 
 /* istanbul ignore next */
-const parseContentTypeHeader = (headers: {[header: string]: string} | null): MediaType | null => {
+const parseContentTypeHeader = (headers: HttpHeaders | null): MediaType | null => {
     const contentTypeHeaderValue: string | null = normalizeString(headers ? headers['content-type'] : null);
 
     // Check if the `Content-Type` header was sent.
@@ -378,7 +378,7 @@ const parseContentTypeHeader = (headers: {[header: string]: string} | null): Med
  * file extension.
  */
 /* istanbul ignore next */
-const getContentTypeData = (element: IAsyncHTMLElement | null, resource: string, headers: {[header: string]: string} | null, rawContent: Buffer) => {
+const getContentTypeData = (element: IAsyncHTMLElement | null, resource: string, headers: HttpHeaders | null, rawContent: Buffer) => {
 
     let originalMediaType: string | null = null;
     let originalCharset: string | null = null;

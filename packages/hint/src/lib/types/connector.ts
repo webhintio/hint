@@ -1,7 +1,7 @@
 import * as url from 'url';
 
 import { IAsyncHTMLElement } from './async-html';
-import { NetworkData } from './network';
+import { HttpHeaders, NetworkData } from './network';
 import { Engine } from '../engine';
 
 export interface IConnectorConstructor {
@@ -15,7 +15,7 @@ export interface IConnector {
     /** The original HTML of the resource collected. */
     html?: Promise<string>;
     /** The headers from the response if applicable. */
-    headers?: {[name: string]: string};
+    headers?: HttpHeaders;
     /** Collects all the information for the given target. */
     collect(target: url.URL, options?: IFetchOptions): Promise<any>;
     /** Releases any used resource and/or browser. */

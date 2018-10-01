@@ -17,7 +17,7 @@ import { remove } from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-hints';
-import { IAsyncHTMLElement, IConnector, IFetchOptions, NetworkData, Event, Problem, ProblemLocation, IHint, HintConfig, Severity, IHintConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
+import { HttpHeaders, IAsyncHTMLElement, IConnector, IFetchOptions, NetworkData, Event, Problem, ProblemLocation, IHint, HintConfig, Severity, IHintConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
 import * as logger from './utils/logging';
 import { HintContext } from './hint-context';
 import { HintScope } from './enums/hintscope';
@@ -54,7 +54,7 @@ export class Engine extends EventEmitter {
     }
 
     /** The headers used in the requests. */
-    public get pageHeaders(): {[name: string]: string} | undefined {
+    public get pageHeaders(): HttpHeaders | undefined {
         return this.connector.headers;
     }
 
