@@ -1,3 +1,10 @@
+# 2.0.0 (October 1, 2018)
+
+## Breaking Changes
+
+* [[`6bd0f633b2`](https://github.com/webhintio/hint/commit/6bd0f633b2586f231571eb331095f909cc39e7b4)] - Breaking: Update `hint-http-compression` to `v2.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.2.0 (September 17, 2018)
 
 ## New features
