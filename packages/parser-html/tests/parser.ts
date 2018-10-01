@@ -53,7 +53,7 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
     t.is(div.getAttribute('id'), 'test');
     t.is(location && location.line, 0);
     t.is(location && location.column, 16);
-    t.is(id.value, 'test');
+    t.is(id && id.value, 'test');
     t.true(div.isSame(div2));
 
     t.is(args[2][0], 'traverse::start');
