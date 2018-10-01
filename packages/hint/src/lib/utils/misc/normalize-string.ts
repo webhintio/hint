@@ -3,7 +3,7 @@
  *  If `defaultValue` is provided, it will return it if the return
  *  value would be `null`.
  */
-export default (value: string | null, defaultValue?: string): string | null => {
+export default (value: string | null | undefined, defaultValue?: string): string | null => {
     if (typeof value === 'undefined' || value === null) {
         return typeof defaultValue !== 'undefined' ? defaultValue : null;
     }
