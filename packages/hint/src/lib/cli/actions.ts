@@ -4,9 +4,9 @@
 import { CLIOptions } from '../types';
 
 /** Wrapper to dynamically load the different CLI tasks depending on a condition */
-const action = (pkg: string, condition?: string): (actions: CLIOptions) => Promise<boolean> => {
+const action = (pkg: string, condition?: keyof CLIOptions): (actions: CLIOptions) => Promise<boolean> => {
     return async (options: CLIOptions): Promise<boolean> => {
-        if (!condition || (options as any)[condition]) {
+        if (!condition || options[condition]) {
             const { default: task } = await import(pkg);
 
             return await task(options);
