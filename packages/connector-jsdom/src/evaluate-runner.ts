@@ -10,7 +10,7 @@ const run = (data) => {
         evaluate: 'result'
     };
     const url = process.argv[2];
-    const waitFor = process.argv[3];
+    const waitFor = parseInt(process.argv[3], 10);
 
     jsdom.env({
         done: (error, window) => {
