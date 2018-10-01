@@ -51,9 +51,9 @@ https://example.com/assets/jquery-2.1.1.min.js
 https://example.com/assets/jquery-3.0.0-beta.js
 https://example.com/assets/favicon.123.ico
 https://example.com/wp-content/uploads/fvm/out/header-cb050ccd-1524626949.min.js
-https://cdn.example.com/jquery.lazy/1.6.5/jquery.lazy.min.js
+https://example.com/jquery.lazy/1.6.5/jquery.lazy.min.js
 https://example.com/site/javascript/v5/jquery.cookie.js
-https://static.xx.fbcdn.net/rsrc.php/v3iJhv4/yG/l/en_US/sqNNamBywvN.js
+https://example.com/rsrc.php/v3iJhv4/yG/l/en_US/sqNNamBywvN.js
 https://example.com/assets/unicorn-d41d8cd98f.css
 https://example.com/assets/app.e1c7a.bundle.js
 https://example.com/assets/9f61f58dd1cc3bb82182.bundle.js
