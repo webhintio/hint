@@ -43,7 +43,9 @@ test.serial(`If target is a file, it should emit 'fetch::start::target' event`, 
 
     const connector = new LocalConnector(t.context.engine as any, {});
 
-    await connector.collect(fileUri);
+    if (fileUri) {
+        await connector.collect(fileUri);
+    }
 
     t.is(t.context.engine.emitAsync.callCount, 4);
     t.is(t.context.engine.emitAsync.args[0][0], 'scan::start');
@@ -63,7 +65,9 @@ test.serial(`If target is a html file, it should emit 'fetch::end::html' event i
 
     const connector = new LocalConnector(t.context.engine as any, {});
 
-    await connector.collect(fileUri);
+    if (fileUri) {
+        await connector.collect(fileUri);
+    }
 
     t.is(t.context.engine.emitAsync.callCount, 4);
     t.is(t.context.engine.emitAsync.args[0][0], 'scan::start');
@@ -83,7 +87,9 @@ test.serial(`If target is a file (text), 'content' is setted`, async (t) => {
 
     const connector = new LocalConnector(t.context.engine as any, {});
 
-    await connector.collect(fileUri);
+    if (fileUri) {
+        await connector.collect(fileUri);
+    }
 
     const event = t.context.engine.emitAsync.args[2][1];
 
@@ -105,7 +111,9 @@ test.serial(`If content is passed, it is used instead of the file`, async (t) =>
 
     const connector = new LocalConnector(t.context.engine as any, {});
 
-    await connector.collect(fileUri, { content: testContent });
+    if (fileUri) {
+        await connector.collect(fileUri, { content: testContent });
+    }
 
     const event = t.context.engine.emitAsync.args[2][1];
 
@@ -125,7 +133,9 @@ test.serial(`If target is a file (image), 'content' is empty`, async (t) => {
 
     const connector = new LocalConnector(t.context.engine as any, {});
 
-    await connector.collect(fileUri);
+    if (fileUri) {
+        await connector.collect(fileUri);
+    }
 
     const event = t.context.engine.emitAsync.args[2][1];
 
@@ -145,7 +155,9 @@ test.serial(`If target is an image, 'content' is empty`, async (t) => {
 
     const connector = new LocalConnector(t.context.engine as any, {});
 
-    await connector.collect(fileUri);
+    if (fileUri) {
+        await connector.collect(fileUri);
+    }
 
     const event = t.context.engine.emitAsync.args[2][1];
 
@@ -165,7 +177,9 @@ test.serial(`If target is a directory, shouldn't emit the event 'fetch::start::t
 
     const connector = new LocalConnector(t.context.engine as any, {});
 
-    await connector.collect(directoryUri);
+    if (directoryUri) {
+        await connector.collect(directoryUri);
+    }
 
     t.is(t.context.engine.emitAsync.callCount, 5);
 
@@ -194,7 +208,9 @@ test.serial(`If target is a directory, passed content should be ignored`, async 
 
     const connector = new LocalConnector(t.context.engine as any, {});
 
-    await connector.collect(directoryUri, { content: testContent });
+    if (directoryUri) {
+        await connector.collect(directoryUri, { content: testContent });
+    }
 
     t.is(t.context.engine.emitAsync.callCount, 5);
 
@@ -216,7 +232,7 @@ test.serial(`If target is a directory, passed content should be ignored`, async 
 
 test.serial(`If watch is true, it should watch the right files`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = asPathString(directoryUri);
+    const directory = directoryUri ? asPathString(directoryUri) : '';
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
@@ -231,7 +247,11 @@ test.serial(`If watch is true, it should watch the right files`, async (t) => {
 
     const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
-    const promise = connector.collect(directoryUri);
+    let promise: Promise<void> | undefined;
+
+    if (directoryUri) {
+        promise = connector.collect(directoryUri);
+    }
 
     await delay(1000);
 
@@ -261,7 +281,7 @@ test.serial(`If watch is true, it should watch the right files`, async (t) => {
 
 test.serial(`If watch is true, it should use the .gitignore`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-ignore'));
-    const directory = asPathString(directoryUri);
+    const directory = directoryUri ? asPathString(directoryUri) : '';
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
@@ -276,7 +296,11 @@ test.serial(`If watch is true, it should use the .gitignore`, async (t) => {
 
     const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
-    const promise = connector.collect(directoryUri);
+    let promise: Promise<void> | undefined;
+
+    if (directoryUri) {
+        promise = connector.collect(directoryUri);
+    }
 
     await delay(500);
 
@@ -298,7 +322,7 @@ test.serial(`If watch is true, it should use the .gitignore`, async (t) => {
 
 test.serial(`When the watcher is ready, it should emit the scan::end event`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = asPathString(directoryUri);
+    const directory = directoryUri ? asPathString(directoryUri) : '';
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
@@ -313,7 +337,11 @@ test.serial(`When the watcher is ready, it should emit the scan::end event`, asy
 
     const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
-    const promise = connector.collect(directoryUri);
+    let promise: Promise<void> | undefined;
+
+    if (directoryUri) {
+        promise = connector.collect(directoryUri);
+    }
 
     await delay(500);
 
@@ -338,7 +366,7 @@ test.serial(`When the watcher is ready, it should emit the scan::end event`, asy
 
 test.serial(`When the watcher detects a new file, it should emit the fetch::end::{type} and the scan::end events`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = asPathString(directoryUri);
+    const directory = directoryUri ? asPathString(directoryUri) : '';
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
@@ -353,7 +381,11 @@ test.serial(`When the watcher detects a new file, it should emit the fetch::end:
 
     const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
-    const promise = connector.collect(directoryUri);
+    let promise: Promise<void> | undefined;
+
+    if (directoryUri) {
+        promise = connector.collect(directoryUri);
+    }
 
     await delay(500);
 
@@ -381,7 +413,7 @@ test.serial(`When the watcher detects a new file, it should emit the fetch::end:
 
 test.serial(`When the watcher detects a change in a file, it should emit the fetch::end::{type} and the scan::end events`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = asPathString(directoryUri);
+    const directory = directoryUri ? asPathString(directoryUri) : '';
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
@@ -396,7 +428,11 @@ test.serial(`When the watcher detects a change in a file, it should emit the fet
 
     const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
-    const promise = connector.collect(directoryUri);
+    let promise: Promise<void> | undefined;
+
+    if (directoryUri) {
+        promise = connector.collect(directoryUri);
+    }
 
     await delay(500);
 
@@ -424,7 +460,7 @@ test.serial(`When the watcher detects a change in a file, it should emit the fet
 
 test.serial(`When the watcher detects that a file was removed, it should emit the scan::end event`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = asPathString(directoryUri);
+    const directory = directoryUri ? asPathString(directoryUri) : '';
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
@@ -439,7 +475,11 @@ test.serial(`When the watcher detects that a file was removed, it should emit th
 
     const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
-    const promise = connector.collect(directoryUri);
+    let promise: Promise<void> | undefined;
+
+    if (directoryUri) {
+        promise = connector.collect(directoryUri);
+    }
 
     await delay(500);
 
@@ -466,7 +506,7 @@ test.serial(`When the watcher detects that a file was removed, it should emit th
 
 test.serial(`When the watcher get an error, it should throw an error`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
-    const directory = asPathString(directoryUri);
+    const directory = directoryUri ? asPathString(directoryUri) : '';
 
     const sandbox = sinon.createSandbox();
     const stream = new Stream();
@@ -481,7 +521,11 @@ test.serial(`When the watcher get an error, it should throw an error`, async (t)
 
     const connector = new LocalConnector(t.context.engine as any, { watch: true });
 
-    const promise = connector.collect(directoryUri);
+    let promise: Promise<void> | undefined;
+
+    if (directoryUri) {
+        promise = connector.collect(directoryUri);
+    }
 
     await delay(500);
 
