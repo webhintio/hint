@@ -34,6 +34,7 @@ import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
 import {
+    HttpHeaders,
     IConnector,
     ElementFound, Event, FetchEnd, FetchError, TraverseDown, TraverseUp,
     NetworkData
@@ -422,7 +423,7 @@ export default class JSDOMConnector implements IConnector {
         return this._document;
     }
 
-    public get headers(): object {
+    public get headers(): HttpHeaders {
         return this._targetNetworkData.response.headers;
     }
 
