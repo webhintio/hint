@@ -21,7 +21,7 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
 
     // attributes doesn't have the Symbol.Iterator();
     for (let i = 0; i < attributes.length; i++) {
-        const attribute: AsyncHTMLAttribute = attributes[i] || attributes.item(i);
+        const attribute: AsyncHTMLAttribute = attributes[i] || attributes.item && attributes.item(i);
 
         /*
          * jsdom breaks when attribute names have a `.` (invalid) but it is widely used,

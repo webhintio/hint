@@ -8,13 +8,19 @@ export type AsyncHTMLAttribute = {
     value: string;
 };
 
+export interface IAsyncNamedNodeMap {
+    [index: number]: AsyncHTMLAttribute;
+    item?(index: number): AsyncHTMLAttribute | null;
+    readonly length: number;
+}
+
 /**
  * A wrapper of an HTMLElement that gives access to the required resources
  * asynchronously to be compatible with all connectors
  */
 export interface IAsyncHTMLElement {
     /** The attributes of the element */
-    readonly attributes: NamedNodeMap;
+    readonly attributes: IAsyncNamedNodeMap;
     /** Returns the value for a given attribute */
     getAttribute(attribute: string): string | null;
     /** Returns the location of this element in source (or null) */
