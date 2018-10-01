@@ -1,3 +1,10 @@
+# 3.4.6 (October 1, 2018)
+
+## Bug fixes / Improvements
+
+* [[`27b16cd988`](https://github.com/webhintio/hint/commit/27b16cd988387f9d645acf8305afd0d383446c82)] - Fix: Use the right scope for third party code (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1358`](https://github.com/webhintio/hint/issues/1358)).
+
+
 # 3.4.5 (September 27, 2018)
 
 ## Bug fixes / Improvements
