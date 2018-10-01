@@ -10,7 +10,7 @@
   "description": "hint tests helpers",
   "devDependencies": {
     "cpx": "^1.5.0",
-    "eslint": "^5.6.0",
+    "eslint": "^5.6.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
@@ -18,7 +18,7 @@
     "npm-run-all": "^4.1.2",
     "rimraf": "^2.6.2",
     "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^19.0.1"
+    "typescript-eslint-parser": "^19.0.2"
   },
   "engines": {
     "node": ">=8.0.0"
