@@ -22,7 +22,7 @@ import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized
 import isHTTP from 'hint/dist/src/lib/utils/network/is-http';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import { CompressionCheckOptions } from './hint-types';
+import { CompressionCheckOptions } from './types';
 
 const decompressBrotli = promisify(brotli.decompress);
 const uaString = 'Mozilla/5.0 Gecko';
