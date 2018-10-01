@@ -49,7 +49,7 @@ const inflate = (buff: Buffer): Promise<Buffer> => {
 const identity = (buff: Buffer): Promise<Buffer> => {
     return Promise.resolve(Buffer.from(buff));
 };
-const asyncSome = promisify(async.someSeries);
+const asyncSome = promisify(async.someSeries) as any;
 
 const defaults = {
     encoding: null,
@@ -191,7 +191,7 @@ export class Requester {
 
         const networkData: NetworkData = {
             request: {
-                headers: [],
+                headers: {},
                 url: uri
             },
             response: {
@@ -203,7 +203,7 @@ export class Requester {
                     }
                 },
                 charset: parsedDataURL.mimeType.parameters.get('charset'),
-                headers: [],
+                headers: {},
                 hops: [],
                 mediaType: parsedDataURL.mimeType.toString(),
                 statusCode: 200,
