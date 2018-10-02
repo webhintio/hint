@@ -169,7 +169,16 @@ export default class NoBrokenLinksHint implements IHint {
 
         const createReports = (element: IAsyncHTMLElement, urls: Array<string>, resourceURL: URL): Array<Promise<void>> => {
             return urls.map((url) => {
-                const fullURL = (new URL(url, resourceURL)).toString();
+                let fullURL: string;
+
+                try {
+                    fullURL = (new URL(url, resourceURL)).toString();
+                } catch (error) {
+                    // `url` is malformed, e.g.: just "http://`
+                    debug(error);
+
+                    return context.report(url, null, `Broken link found (invalid URL).`);
+                }
 
                 /*
                  * If the URL is not HTTP or HTTPS (e.g. `mailto:`),

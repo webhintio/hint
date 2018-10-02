@@ -68,6 +68,10 @@ const bodyWithMailTo = `<div>
 <a href='mailto:someone@example.com'>Mail</a>
 </div>`;
 
+const bodyWithInvalidUrl = `<div>
+<a href='http://'>About</a>
+</div>`;
+
 const tests: Array<HintTest> = [
     {
         name: `This test should pass as it has links with valid href value`,
@@ -83,15 +87,15 @@ const tests: Array<HintTest> = [
     {
         name: `This test should pass as it has links with valid href values and a base tag which gets not used`,
         serverConfig: {
-            '/': {content: generateHTMLPage('<base href="nested/">', bodyWithValidLinks)},
-            '/about': {content: 'My about page content'}
+            '/': { content: generateHTMLPage('<base href="nested/">', bodyWithValidLinks) },
+            '/about': { content: 'My about page content' }
         }
     },
     {
         name: `This test should pass as it has a valid link (when resolved with the base tag)`,
         serverConfig: {
-            '/': {content: generateHTMLPage('<base href="nested/">', bodyWithValidRelativeLink)},
-            '/nested/about': {content: 'My about page content'}
+            '/': { content: generateHTMLPage('<base href="nested/">', bodyWithValidRelativeLink) },
+            '/nested/about': { content: 'My about page content' }
         }
     },
     {
@@ -190,6 +194,11 @@ const tests: Array<HintTest> = [
             '/': { content: generateHTMLPage('', bodyWithMailTo) },
             '/about': { content: 'My about page content' }
         }
+    },
+    {
+        name: `Invalid URL triggers an error`,
+        reports: [{ message: `Broken link found (invalid URL).` }],
+        serverConfig: { '/': { content: generateHTMLPage('', bodyWithInvalidUrl) } }
     }
 ];
 
@@ -230,11 +239,11 @@ const loopTestsChrome = [
     {
         name: `This test should fail as it has a link with 404 href value(absolute with base tag)`,
         reports: [
-            { message: `Broken link found (404 response).`}
+            { message: `Broken link found (404 response).` }
         ],
         serverConfig: {
-            '/': {content: generateHTMLPage('<base href="nested/">', bodyWithValidRelativeLink)},
-            '/nested/about': {status: 404}
+            '/': { content: generateHTMLPage('<base href="nested/">', bodyWithValidRelativeLink) },
+            '/nested/about': { status: 404 }
         }
     }
 ];
