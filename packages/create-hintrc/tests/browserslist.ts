@@ -44,7 +44,7 @@ test.serial('User selects to customize the queries, the format of the queries is
     const log = logger.log as sinon.SinonSpy;
 
     t.is(log.callCount, 2);
-    t.is(log.args[0][0], 'Unknown browser query `invalid query`.');
+    t.is(log.args[0][0], 'Unknown browser query `invalid query`. Maybe you are using old Browserslist or made typo in query..');
     t.is(log.args[1][0], 'Please try again.');
 
     t.is(config.length, 2);
