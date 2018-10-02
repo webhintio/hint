@@ -71,21 +71,27 @@ export default class DisownOpenerHint implements IHint {
         const checkSameOrigin = (resource: string, element: IAsyncHTMLElement): boolean => {
             const hrefValue: string = normalizeString(element.getAttribute('href'));
 
-            const fullURL: string = new URL(hrefValue, resource).href;
+            try {
+                const fullURL: string = new URL(hrefValue, resource).href;
 
-            /*
-             * Same origin URLs are ignored by default, but users can
-             * change that by setting `includeSameOriginURLs` to `true`.
-             */
+                /*
+                 * Same origin URLs are ignored by default, but users can
+                 * change that by setting `includeSameOriginURLs` to `true`.
+                 */
 
-            if ((new URL(resource).origin === new URL(fullURL).origin) && !includeSameOriginURLs) {
-                debug('Is same origin');
+                if ((new URL(resource).origin === new URL(fullURL).origin) && !includeSameOriginURLs) {
+                    debug('Is same origin');
 
-                return false;
+                    return false;
+                }
+
+                return true;
+            } catch (e) {
+                debug(e);
+
+                // If `href` is not a valid URL (e.g.: "http://") we ignore it
+                return true;
             }
-
-            return true;
-
         };
 
         const hasHrefValue = (element: IAsyncHTMLElement): boolean => {

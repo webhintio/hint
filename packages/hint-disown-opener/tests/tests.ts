@@ -45,6 +45,10 @@ const testsForOldBrowsers: Array<HintTest> = [
                     </map>`)
         }
     },
+    {
+        name: `'a' has invauld "href"'`,
+        serverConfig: { '/': generateHTMLPage(undefined, `<a href="http://">test</a>`) }
+    },
 
     // 'target="_blank"' but no 'noopener' and 'noreferrer'.
 
