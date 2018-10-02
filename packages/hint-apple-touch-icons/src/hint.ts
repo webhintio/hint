@@ -69,7 +69,7 @@ export default class AppleTouchIconsHint implements IHint {
                     return false;
                 }
 
-                const relValues = normalizeString(element.getAttribute('rel')).split(' ');
+                const relValues = normalizeString(relValue).split(' ');
 
                 return relValues.includes('apple-touch-icon') || relValues.includes('apple-touch-icon-precomposed');
             });
