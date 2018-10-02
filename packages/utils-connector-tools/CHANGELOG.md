@@ -1,3 +1,10 @@
+# 1.0.6 (October 2, 2018)
+
+## Bug fixes / Improvements
+
+* [[`866429c4bd`](https://github.com/webhintio/hint/commit/866429c4bde637b7759dab0b4947a821e4cf95ab)] - Fix: Reject if `location` is undefined on redirect (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1364`](https://github.com/webhintio/hint/issues/1364)).
+
+
 # 1.0.5 (September 11, 2018)
 
 ## Bug fixes / Improvements
