@@ -970,7 +970,7 @@ export class Connector implements IConnector {
         }
     }
 
-    public async fetchContent(target: URL | string, customHeaders?: object): Promise<NetworkData> {
+    public fetchContent(target: URL | string, customHeaders?: object): Promise<NetworkData> {
         /*
          * TODO: This should create a new tab, navigate to the
          * resource and control what is received somehow via an event.
@@ -986,9 +986,8 @@ export class Connector implements IConnector {
         };
 
         const request: Requester = new Requester(options);
-        const response: NetworkData = await request.get(href);
 
-        return response;
+        return request.get(href);
     }
 
     /**

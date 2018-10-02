@@ -40,12 +40,20 @@ export default class NoP3pHint implements IHint {
          * (/w3c/p3p.xml) defined in the spec https://www.w3.org/TR/P3P11/#Well_Known_Location
          */
         const validateWellKnown = async (scanStart: ScanStart) => {
-            const { resource } = scanStart;
-            const wellKnown = new URL('/w3c/p3p.xml', resource);
-            const result = await context.fetchContent(wellKnown);
+            try {
+                const { resource } = scanStart;
+                const wellKnown = new URL('/w3c/p3p.xml', resource);
+                const result = await context.fetchContent(wellKnown);
 
-            if (result.response.statusCode === 200) {
-                await context.report(wellKnown.toString(), null, errorMessage);
+                if (result.response.statusCode === 200) {
+                    await context.report(wellKnown.toString(), null, errorMessage);
+                }
+            } catch (e) {
+                /*
+                 * There's a problem accessing the URL. E.g.: "SSL Error: UNABLE_TO_VERIFY_LEAF_SIGNATURE"
+                 * The error is outside the scope of the hint so we ignore it
+                 */
+                debug(e);
             }
         };
 
