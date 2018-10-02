@@ -248,6 +248,13 @@ export class Requester {
 
                     // We check if we need to redirect and call ourselves again with the new target
                     if (Requester.validRedirects.includes(response.statusCode)) {
+                        if (!response.headers.location) {
+                            return reject({
+                                error: new Error('Redirect location undefined'),
+                                uri: uriString
+                            });
+                        }
+
                         const newUri = url.resolve(uriString, response.headers.location);
 
                         if (requestedUrls.has(newUri)) {
