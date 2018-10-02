@@ -1,5 +1,6 @@
 import * as fileType from 'file-type';
 import * as isSvg from 'is-svg';
+import * as mimeDB from 'mime-db';
 import { parse, MediaType } from 'content-type';
 
 import { debug as d } from './debug';
@@ -7,8 +8,6 @@ import { HttpHeaders, IAsyncHTMLElement } from '../types';
 import getFileExtension from './fs/file-extension';
 import getFileName from './fs/filename';
 import normalizeString from './misc/normalize-string';
-
-const mimeDB = require('mime-db');
 
 const debug = d(__filename);
 
@@ -48,7 +47,7 @@ const determineCharset = (originalCharset: string | null, mediaType: string | nu
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    const typeInfo = mimeDB[mediaType || ''];
+    const typeInfo = (mimeDB as any)[mediaType || ''];
     let determinedCharset = typeInfo && normalizeString(typeInfo.charset);
 
     if (defaultCharset && (determinedCharset === defaultCharset)) {
