@@ -65,6 +65,11 @@ export default class MetaCharsetUTF8Hint implements IHint {
         };
 
         const validate = async (event: TraverseEnd) => {
+            if (!receivedDOM) {
+                // There was a problem loading the HTML or the target wasn't one so no need to analyze
+                return;
+            }
+
             const { resource }: { resource: string } = event;
 
             /*
