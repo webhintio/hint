@@ -1,3 +1,10 @@
+# 1.0.3 (October 2, 2018)
+
+## Bug fixes / Improvements
+
+* [[`743fd7937d`](https://github.com/webhintio/hint/commit/743fd7937de30b96aac7f3dbbfdfe4d91352d2e1)] - Fix: Do not execute hint if target is not `html` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1225`](https://github.com/webhintio/hint/issues/1225)).
+
+
 # 1.0.2 (September 6, 2018)
 
 ## Bug fixes / Improvements
