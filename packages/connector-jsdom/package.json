@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-connector-tools": "^1.0.5",
+    "@hint/utils-connector-tools": "^1.0.6",
     "canvas-prebuilt": "^1.6.11",
     "jsdom": "^11.12.0",
     "node-pre-gyp": "^0.11.0"
