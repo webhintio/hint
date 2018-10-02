@@ -58,7 +58,7 @@ export default class NoBrokenLinksHint implements IHint {
         const fetchedURLs: any[] = [];
 
         /** Returns an array with all the URLs in the given `srcset` attribute or an empty string if none. */
-        const parseSrcSet = (srcset: string): Array<string> => {
+        const parseSrcSet = (srcset: string | null): Array<string> => {
             if (!srcset) {
                 return [];
             }
@@ -133,7 +133,7 @@ export default class NoBrokenLinksHint implements IHint {
             const simpleAttributes: Array<string> = ['src', 'poster', 'data', 'href'];
 
             const urls: Array<string> = simpleAttributes.reduce((found: Array<string>, attribute: string) => {
-                const value: string = element.getAttribute(attribute);
+                const value: string | null = element.getAttribute(attribute);
 
                 if (value) {
                     found.push(value);
