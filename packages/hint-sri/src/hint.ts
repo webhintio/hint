@@ -16,7 +16,7 @@ import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 const debug: debug.IDebugger = d(__filename);
-const everySeries = promisify(async.everySeries);
+const everySeries = promisify(async.everySeries) as (arr, iterator) => Promise<any>;
 
 /*
  * ------------------------------------------------------------------------------
