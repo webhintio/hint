@@ -502,7 +502,22 @@ export class Connector implements IConnector {
             this._targetReceived();
         }
 
-        eventName = `${eventName}::${getType(response.mediaType)}`;
+        /*
+         * If the target has a weird value like `application/x-httpd-php`
+         * (which translates into `unknown`) or is detected as `xml`.
+         * (e.g.: because it starts with
+         * `<?xml version="1.0" encoding="utf-8"?>` even though it has
+         * `<!DOCTYPE html>` declared after),
+         * we change the suffix to `html` so hints work properly.
+         */
+        let suffix = getType(response.mediaType);
+        const defaults = ['unknown', 'xml'];
+
+        if (isTarget && defaults.includes(suffix)) {
+            suffix = 'html';
+        }
+
+        eventName = `${eventName}::${suffix}`;
 
         /*
          * If there is no `waitFor` property we could be downloading the favicon twice:
