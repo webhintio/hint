@@ -1,3 +1,10 @@
+# 1.0.4 (October 2, 2018)
+
+## Bug fixes / Improvements
+
+* [[`4beada8e28`](https://github.com/webhintio/hint/commit/4beada8e28edfeebd8abba1757e0ffbdc53fffcf)] - Fix: Handle exceptions when requesting `p3p.xml` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1362`](https://github.com/webhintio/hint/issues/1362)).
+
+
 # 1.0.3 (September 6, 2018)
 
 ## Bug fixes / Improvements
