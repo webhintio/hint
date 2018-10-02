@@ -255,7 +255,7 @@ test.serial(`If watch is true, it should watch the right files`, async (t) => {
 
     await delay(1000);
 
-    process.emit('SIGINT');
+    process.emit('SIGINT' as any);
 
     await promise;
 
@@ -304,7 +304,7 @@ test.serial(`If watch is true, it should use the .gitignore`, async (t) => {
 
     await delay(500);
 
-    process.emit('SIGINT');
+    process.emit('SIGINT' as any);
 
     await promise;
 
@@ -347,7 +347,7 @@ test.serial(`When the watcher is ready, it should emit the scan::end event`, asy
 
     stream.emit('ready');
 
-    process.emit('SIGINT');
+    process.emit('SIGINT' as any);
 
     await promise;
 
@@ -393,7 +393,7 @@ test.serial(`When the watcher detects a new file, it should emit the fetch::end:
 
     await delay(500);
 
-    process.emit('SIGINT');
+    process.emit('SIGINT' as any);
 
     await promise;
 
@@ -440,7 +440,7 @@ test.serial(`When the watcher detects a change in a file, it should emit the fet
 
     await delay(500);
 
-    process.emit('SIGINT');
+    process.emit('SIGINT' as any);
 
     await promise;
 
@@ -487,7 +487,7 @@ test.serial(`When the watcher detects that a file was removed, it should emit th
 
     await delay(500);
 
-    process.emit('SIGINT');
+    process.emit('SIGINT' as any);
 
     await promise;
 
