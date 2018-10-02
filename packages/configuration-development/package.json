@@ -6,7 +6,7 @@
     "@hint/formatter-summary": "^1.0.2",
     "@hint/hint-axe": "^1.1.0",
     "@hint/hint-babel-config": "^1.1.0",
-    "@hint/hint-disown-opener": "^1.0.3",
+    "@hint/hint-disown-opener": "^1.0.4",
     "@hint/hint-highest-available-document-mode": "^1.0.3",
     "@hint/hint-meta-charset-utf-8": "^1.0.2",
     "@hint/hint-meta-viewport": "^1.0.2",
