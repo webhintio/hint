@@ -1,3 +1,10 @@
+# 1.0.7 (October 2, 2018)
+
+## Bug fixes / Improvements
+
+* [[`0a12ea33fb`](https://github.com/webhintio/hint/commit/0a12ea33fbc9b1e9e222d034ab36e1645c74c9fb)] - Fix: Ignore invalid `href` attributes (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1360`](https://github.com/webhintio/hint/issues/1360)).
+
+
 # 1.0.6 (September 6, 2018)
 
 ## Bug fixes / Improvements
