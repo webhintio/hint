@@ -1,3 +1,10 @@
+# 1.0.11 (October 2, 2018)
+
+## Bug fixes / Improvements
+
+* [[`cf0200bbb0`](https://github.com/webhintio/hint/commit/cf0200bbb02827e6ff0a35daa7799117c99b7ae3)] - Fix: Assume target is `html` if the media type is `unknown` or `xml` (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 1.0.10 (September 28, 2018)
 
 ## Bug fixes / Improvements
