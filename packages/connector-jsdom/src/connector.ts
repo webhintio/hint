@@ -72,7 +72,7 @@ export default class JSDOMConnector implements IConnector {
     public finalHref: string;
     public fetchedHrefs: Set<string>;
 
-    public constructor(server: Engine, config: object) {
+    public constructor(server: Engine, config?: object) {
         this._options = Object.assign({}, defaultOptions, config);
         this._headers = this._options.headers;
         this.request = new Requester(this._options);
