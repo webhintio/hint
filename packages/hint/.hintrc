@@ -5,7 +5,10 @@
             "waitFor": 1000
         }
     },
-    "formatters": ["summary"],
+    "formatters": [
+        "html",
+        "summary"
+    ],
     "parsers": ["javascript"],
     "hintsTimeout": 120000,
     "hints": {
