@@ -34,7 +34,9 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
 
     /* istanbul ignore next */
     public pageHTML(): Promise<string> {
-        return Promise.resolve(this._document.documentElement.outerHTML);
+        const documentElement = this._document.documentElement;
+
+        return Promise.resolve(documentElement ? documentElement.outerHTML : '');
     }
 }
 
@@ -47,7 +49,12 @@ export class JSDOMAsyncHTMLElement implements IAsyncHTMLElement {
     public constructor(htmlelement: HTMLElement, dom?: JSDOM) {
         this._dom = dom;
         this._htmlelement = htmlelement;
-        this._ownerDocument = new JSDOMAsyncHTMLDocument(htmlelement.ownerDocument, this._dom);
+
+        /*
+         * Can assume not-null as `Node.prototype.ownerDocument` only returns `null` if called on `Document` instances.
+         * https://github.com/Microsoft/TypeScript/blob/9aeb6e2ac4d218eb86821dad46219d81738a121a/lib/lib.dom.d.ts#L10315
+         */
+        this._ownerDocument = new JSDOMAsyncHTMLDocument(htmlelement.ownerDocument!, this._dom);
     }
 
     /*
