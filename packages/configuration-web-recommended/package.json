@@ -29,7 +29,7 @@
     "@hint/hint-stylesheet-limits": "^1.0.1",
     "@hint/hint-validate-set-cookie-header": "^1.0.2",
     "@hint/hint-x-content-type-options": "^1.0.3",
-    "@hint/parser-html": "^1.0.3"
+    "@hint/parser-html": "^1.0.4"
   },
   "description": "webhint's recommended hints configuration for live websites",
   "engines": {
