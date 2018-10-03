@@ -1,3 +1,10 @@
+# 1.0.7 (October 3, 2018)
+
+## Bug fixes / Improvements
+
+* [[`f92fe84d13`](https://github.com/webhintio/hint/commit/f92fe84d13e80b07962b4d6b6edbc679879878f3)] - Fix: Include missing `polyfills/custom-elements.min.js` (by [`Cătălin Mariș`](https://github.com/alrra) / see also: [`#1365`](https://github.com/webhintio/hint/issues/1365)).
+
+
 # 1.0.6 (October 3, 2018)
 
 ## Bug fixes / Improvements
