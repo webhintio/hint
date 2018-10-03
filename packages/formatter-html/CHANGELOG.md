@@ -1,3 +1,10 @@
+# 1.0.5 (October 3, 2018)
+
+## Bug fixes / Improvements
+
+* [[`aa52c565c0`](https://github.com/webhintio/hint/commit/aa52c565c09ba941eea0ae5d4fbb7015588439d1)] - Fix: Add new HTML formatter design (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1326`](https://github.com/webhintio/hint/issues/1326)).
+
+
 # 1.0.4 (September 11, 2018)
 
 ## Bug fixes / Improvements
