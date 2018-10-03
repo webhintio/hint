@@ -69,7 +69,8 @@ export default class AppleTouchIconsHint implements IHint {
                     return false;
                 }
 
-                const relValues = normalizeString(relValue).split(' ');
+                // `normalizeString` won't return null since `relValue` isn't null.
+                const relValues = normalizeString(relValue)!.split(' ');
 
                 return relValues.includes('apple-touch-icon') || relValues.includes('apple-touch-icon-precomposed');
             });
