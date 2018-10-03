@@ -104,11 +104,12 @@ export default class LocalConnector implements IConnector {
 
     private async fetchData(target: string, options?: IFetchOptions): Promise<FetchEnd> {
         const content: NetworkData = await this.fetchContent(target, undefined, options);
+        const uri = getAsUri(target);
 
         return {
             element: null,
             request: content.request,
-            resource: url.format(getAsUri(target) || ''),
+            resource: uri ? url.format(uri) : /* istanbul ignore next */ '',
             response: content.response
         };
     }
@@ -253,6 +254,7 @@ export default class LocalConnector implements IConnector {
         });
     }
 
+    /* istanbul ignore next */
     private async onParseHTML(event: HTMLParse) {
         this._window = event.window;
         await this.engine.emitAsync('can-evaluate::script', { resource: this._href } as CanEvaluateScript);
@@ -297,12 +299,12 @@ export default class LocalConnector implements IConnector {
                         return Promise.resolve(rawContent);
                     }
                 },
-                charset: contentType.charset || '',
+                charset: contentType.charset || /* istanbul ignore next */ '',
                 headers: {},
                 hops: [],
-                mediaType: contentType.mediaType || '',
+                mediaType: contentType.mediaType || /* istanbul ignore next */ '',
                 statusCode: 200,
-                url: url.format(uri || '')
+                url: uri ? url.format(uri) : /* istanbul ignore next */ ''
             }
         };
     }
@@ -350,6 +352,7 @@ export default class LocalConnector implements IConnector {
         }
     }
 
+    /* istanbul ignore next */
     public evaluate(source: string): Promise<any> {
         return Promise.resolve(this._window ? this._window.evaluate(source) : null);
     }
