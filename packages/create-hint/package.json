@@ -28,7 +28,7 @@
     "npm-run-all": "^4.1.2",
     "nyc": "^13.0.1",
     "rimraf": "^2.6.2",
-    "sinon": "^6.3.4",
+    "sinon": "^6.3.5",
     "ts-loader": "^5.2.0",
     "typescript": "^3.0.3",
     "typescript-eslint-parser": "^19.0.2",
