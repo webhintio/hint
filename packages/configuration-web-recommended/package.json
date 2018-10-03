@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@hint/connector-chrome": "^1.1.2",
-    "@hint/connector-jsdom": "^1.0.5",
+    "@hint/connector-jsdom": "^1.0.6",
     "@hint/connector-local": "^1.1.2",
     "@hint/formatter-html": "^1.0.4",
     "@hint/formatter-stylish": "^1.0.1",
