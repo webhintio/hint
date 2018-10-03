@@ -1,3 +1,10 @@
+# 1.0.4 (October 3, 2018)
+
+## Bug fixes / Improvements
+
+* [[`f825d2027c`](https://github.com/webhintio/hint/commit/f825d2027c1d8ba687dc46f66c1062c2109dc35c)] - Fix: Update `jsdom` to `v12.1.0` (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#163`](https://github.com/webhintio/hint/issues/163), [`#1223`](https://github.com/webhintio/hint/issues/1223), and [`#1357`](https://github.com/webhintio/hint/issues/1357)).
+
+
 # 1.0.3 (September 24, 2018)
 
 ## Bug fixes / Improvements
