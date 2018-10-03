@@ -65,6 +65,36 @@
         width: 50%;
         margin-top: 0;
     }
+
+    .layout--basic--alt .module--secondary,
+    .layout--basic--offset--alt .module--secondary {
+        float: right;
+    }
+
+}
+
+@media (min-width: 60em) {
+
+    .layout--basic .module--primary,
+    .layout--basic--alt .module--primary {
+        width: 62.5%;
+    }
+
+    .layout--basic .module--secondary,
+    .layout--basic--alt .module--secondary {
+        width: 33.333%;
+    }
+
+    .layout--basic--offset .module--primary,
+    .layout--basic--offset--alt .module--primary {
+        width: 58.333%;
+    }
+
+    .layout--basic--offset .module--secondary,
+    .layout--basic--offset--alt .module--secondary {
+        width: 37.5%;
+    }
+
 }
 
 /* Fixed sidebar width */

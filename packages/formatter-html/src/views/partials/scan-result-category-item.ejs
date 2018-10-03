@@ -1,0 +1,22 @@
+<section class="rule-result" id="<%= category.name %>">
+    <div class="rule-result--category">
+        <h3><%= category.name %></h3>
+        <% if (result.isFinish && !utils.noIssues(category)) { %>
+            <%- include('scan-expand-all') %>
+        <% } %>
+    </div>
+    <% if (result.status !== 'error' && result.status !== 'finished') { %>
+    <div class="rule-result--details compiling__loader">
+        <div class="rule-result__message--compiling">
+            <div class="rule-result__message--compiling__loader"></div>
+            <p>Gathering results</p>
+        </div>
+    </div>
+    <% } else if (utils.noIssues(category)) { %>
+        <%- include('category-pass-message'); %>
+    <% } else { %>
+        <% utils.filterErrorsAndWarnings(category).forEach((hint) => { %>
+            <%- include('scan-result-item', { hint, utils, isScanner }); %>
+        <% }) %>
+    <% } %>
+</section>
