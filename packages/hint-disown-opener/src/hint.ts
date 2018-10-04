@@ -56,8 +56,8 @@ export default class DisownOpenerHint implements IHint {
         };
 
         const checkForRelValues = async (resource: string, element: IAsyncHTMLElement, relValuesToCheckFor: Array<string>) => {
-            const relValues: Array<string> = normalizeString(element.getAttribute('rel'), '').split(' ');
-            const hrefValue: string = normalizeString(element.getAttribute('href'));
+            const relValues: Array<string> = normalizeString(element.getAttribute('rel'), '')!.split(' '); // `normalizeString` uses passed default ('') instead of null
+            const hrefValue: string = normalizeString(element.getAttribute('href')) || '';
 
             const requiredValues: Array<string> = relValuesToCheckFor.filter((value) => {
                 return !relValues.includes(value);
@@ -69,7 +69,7 @@ export default class DisownOpenerHint implements IHint {
         };
 
         const checkSameOrigin = (resource: string, element: IAsyncHTMLElement): boolean => {
-            const hrefValue: string = normalizeString(element.getAttribute('href'));
+            const hrefValue: string = normalizeString(element.getAttribute('href')) || '';
 
             try {
                 const fullURL: string = new URL(hrefValue, resource).href;
@@ -105,7 +105,7 @@ export default class DisownOpenerHint implements IHint {
         };
 
         const elementHrefHasRequiredProtocol = (element: IAsyncHTMLElement): boolean => {
-            const hrefValue: string = element.getAttribute('href');
+            const hrefValue: string = element.getAttribute('href') || '';
 
             return isRegularProtocol(hrefValue);
         };
