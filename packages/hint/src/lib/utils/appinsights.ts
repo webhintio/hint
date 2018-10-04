@@ -3,13 +3,17 @@ import * as appInsights from 'applicationinsights';
 import * as configStore from './configstore';
 import { debug as d } from './debug';
 
+interface IFlushOptions {
+    callback: () => void;
+}
+
 const debug: debug.IDebugger = d(__filename);
 const configStoreKey: string = 'insight';
 
 let insightsEnabled = configStore.get(configStoreKey);
 
 let appInsightsClient: appInsights.TelemetryClient = {
-    flush(options) {
+    flush(options: IFlushOptions) {
         debug('Application Insights is not enabled.');
         options.callback();
     },
@@ -84,7 +88,7 @@ export const trackException = (error: Error) => {
 };
 
 /** Track an event in Application Insights. */
-export const trackEvent = (name, properties?: {}) => {
+export const trackEvent = (name: string, properties?: {}) => {
     debug(`Sending event "${name}" to Application Insights with value ${JSON.stringify(properties)}`);
     appInsightsClient.trackEvent({ name, properties: { config: JSON.stringify(properties, null, 2) }});
 };

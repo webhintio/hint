@@ -32,6 +32,7 @@ import { Configuration } from '../config';
 import { ResourceType } from '../enums/resourcetype';
 import { ResourceErrorStatus } from '../enums/errorstatus';
 import { ResourceError } from '../types/resourceerror';
+import { IConnectorConstructor } from '../types/connector';
 
 const debug: debug.IDebugger = d(__filename);
 const HINT_ROOT: string = findPackageRoot();
@@ -114,7 +115,7 @@ const isVersionValid = (resourcePath: string): boolean => {
 /** Returns a list with the ids of all the core resources of the given `type`. */
 export const getCoreResources = (type: string): Array<string> => {
     if (resourceIds.has(type)) {
-        return resourceIds.get(type);
+        return resourceIds.get(type)!;
     }
 
     const resourcesFiles: Array<string> = globby.sync(`dist/src/lib/${type}s/**/*.js`, { cwd: HINT_ROOT });
@@ -136,7 +137,7 @@ export const getCoreResources = (type: string): Array<string> => {
 /**
  * Check if it is a package with multiple resources.
  */
-const hasMultipleResources = (resource, type: ResourceType) => {
+const hasMultipleResources = (resource: any, type: ResourceType) => {
     switch (type) {
         case ResourceType.hint:
             // In a simple hint, the property meta should exist.
@@ -151,7 +152,7 @@ export const getInstalledResources = (type: ResourceType): Array<string> => {
     const installedType = `installed-${type}`;
 
     if (resourceIds.has(installedType)) {
-        return resourceIds.get(installedType);
+        return resourceIds.get(installedType)!;
     }
 
     const resourcesFiles: Array<string> = globby.sync(`${NODE_MODULES_ROOT}/@hint/${type}-*/package.json`);
@@ -348,7 +349,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
             // path.normalize(`${path.resolve(HINT_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/hint-http-cache`
         ].concat(configPathsToResources);
 
-    let resource;
+    let resource: any;
     let loadedSource: string;
     let isValid: boolean = true;
 
@@ -404,7 +405,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     }
 
     if (type === ResourceType.configuration) {
-        resource = Configuration.toAbsolutePaths(resource, resolvePackage(loadedSource));
+        resource = Configuration.toAbsolutePaths(resource, resolvePackage(loadedSource!));
     }
 
     resources.set(key, resource);
@@ -437,7 +438,7 @@ const loadListOfResources = (list: Array<string> | Object = [], type: ResourceTy
         }
 
         return loaded;
-    }, []);
+    }, [] as any[]);
 
     return {
         incompatible,
@@ -446,7 +447,7 @@ const loadListOfResources = (list: Array<string> | Object = [], type: ResourceTy
     };
 };
 
-export const loadHint = (hintId: string, configurations: Array<string>): IHintConstructor => {
+export const loadHint = (hintId: string, configurations?: Array<string>): IHintConstructor => {
     return loadResource(hintId, ResourceType.hint, configurations);
 };
 
@@ -457,10 +458,11 @@ export const loadConfiguration = (configurationId: string) => {
 /** Returns all the resources from a `HintConfig` */
 export const loadResources = (config: Configuration): HintResources => {
     // TODO: validate connector version is OK once all are extracted
-    let connector = null;
+    let connector: IConnectorConstructor | null = null;
+    const connectorName = config.connector && config.connector.name || '';
 
     try {
-        connector = loadResource(config.connector.name, ResourceType.connector, config.extends, true);
+        connector = loadResource(connectorName, ResourceType.connector, config.extends, true);
     } catch (e) {
         debug(e);
 
@@ -472,11 +474,11 @@ export const loadResources = (config: Configuration): HintResources => {
     const { incompatible: incompatibleHints, resources: hints, missing: missingHints } = loadListOfResources(config.hints, ResourceType.hint, config.extends);
     const { incompatible: incompatibleParsers, resources: parsers, missing: missingParsers } = loadListOfResources(config.parsers, ResourceType.parser, config.extends);
     const { incompatible: incompatibleFormatters, resources: formatters, missing: missingFormatters } = loadListOfResources(config.formatters, ResourceType.formatter, config.extends);
-    const missing = [].concat(missingHints, missingParsers, missingFormatters);
-    const incompatible = [].concat(incompatibleFormatters, incompatibleParsers, incompatibleHints);
+    const missing = ([] as string[]).concat(missingHints, missingParsers, missingFormatters);
+    const incompatible = ([] as string[]).concat(incompatibleFormatters, incompatibleParsers, incompatibleHints);
 
     if (!connector) {
-        missing.push(`${ResourceType.connector}-${config.connector.name || config.connector}`);
+        missing.push(`${ResourceType.connector}-${connectorName || config.connector}`);
     }
 
     return {

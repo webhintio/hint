@@ -2,6 +2,7 @@
 import * as path from 'path';
 
 import test from 'ava';
+import { Context, GenericTestContext, Macros } from 'ava';
 import { JSDOM } from 'jsdom';
 
 import readFileAsync from '../../../src/lib/utils/fs/read-file-async';
@@ -17,17 +18,26 @@ import { JSDOMAsyncHTMLElement } from '../../../src/lib/types/jsdom-async-html';
  */
 
 /** Returns an object that simulates an AsyncHTMLElement */
-const getElement = (markup: string) => {
+const getElement = (markup: string): IAsyncHTMLElement => {
     // We don't specify the return value because ownerDocument isn't implemented here (nor needed)
     return {
+        get nodeName() {
+            return '';
+        },
         outerHTML() {
             return Promise.resolve(markup);
         },
+        get ownerDocument() {
+            return null as any;
+        },
         get attributes() {
-            return [];
+            return [] as any;
         },
         getAttribute(name) {
             return name;
+        },
+        getLocation() {
+            return null;
         },
         isSame(element) {//eslint-disable-line
             return false;
@@ -36,9 +46,9 @@ const getElement = (markup: string) => {
 };
 
 /** AVA Macro for findInElement */
-const findInElementMacro = async (t, info, expectedPosition) => {
+const findInElementMacro: Macros<GenericTestContext<Context<any>>> = async (t, info, expectedPosition) => {
     const element = getElement(info.markup);
-    const position = await findInElement(element as IAsyncHTMLElement, info.content);
+    const position = await findInElement(element, info.content);
 
     t.deepEqual(position, expectedPosition);
 };
@@ -83,15 +93,15 @@ findInElementEntries.forEach((entry) => {
  * ------------------------------------------------------------------------------
  */
 
-const loadHTML = async (route) => {
+const loadHTML = async (route: string) => {
     const html: string = await readFileAsync(path.resolve(__dirname, route));
     const doc: HTMLDocument = new JSDOM(html).window.document;
 
     const querySelectorAll = (function (document) {
         return (selector: string) => {
-            const elements = Array.prototype.slice.call(document.querySelectorAll(selector))
+            const elements = Array.from(document.querySelectorAll(selector))
                 .map((entry) => {
-                    return new JSDOMAsyncHTMLElement(entry);
+                    return new JSDOMAsyncHTMLElement(entry as HTMLElement);
                 });
 
             return Promise.resolve(elements);
@@ -164,7 +174,6 @@ const findProblemLocationEntries = [
         name: 'element without content',
         selector: `a[href="https://www.wikipedia.org"]`,
         index: 0,
-        content: null,
         position: {
             elementColumn: 0,
             elementLine: 1,

@@ -22,25 +22,25 @@ class JSONResult implements IJSONResult {
         return this._data;
     }
 
-    public getLocation(path: string, options?: IJSONLocationOptions): ProblemLocation {
+    public getLocation(path: string, options?: IJSONLocationOptions): ProblemLocation | null {
         const segments = this.pathToSegments(path);
-        const node = findNodeAtLocation(this._root, segments);
+        const node = findNodeAtLocation(this._root, segments) || null;
 
         return this.offsetToLocation(this.getAdjustedOffset(node, path, options));
     }
 
-    public scope(path: string): IJSONResult {
+    public scope(path: string): IJSONResult | null {
         const segments = this.pathToSegments(path);
         const node = findNodeAtLocation(this._root, segments);
         const value = this.findValueAtLocation(segments);
 
-        return node && new JSONResult(value, node, this._lines);
+        return node ? new JSONResult(value, node, this._lines) : null;
     }
 
     /**
      * Determine the best offset to point to given the provided context.
      */
-    private getAdjustedOffset(node: Node, path: string, options?: IJSONLocationOptions): number {
+    private getAdjustedOffset(node: Node | null, path: string, options?: IJSONLocationOptions): number {
 
         // Point to the root if nothing better is available
         if (!node) {
@@ -84,7 +84,7 @@ class JSONResult implements IJSONResult {
      * Convert a source offset into a `ProblemLocation` with line/column data.
      * @param offset The offset in the original source.
      */
-    private offsetToLocation(offset: number): ProblemLocation {
+    private offsetToLocation(offset: number): ProblemLocation | null {
         for (let i = 0, n = 0; i < this._lines.length; i++) {
             const lineLength = this._lines[i].length;
 

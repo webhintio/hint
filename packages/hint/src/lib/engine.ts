@@ -17,7 +17,7 @@ import { remove } from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-hints';
-import { IAsyncHTMLElement, IConnector, IFetchOptions, NetworkData, UserConfig, Event, Problem, ProblemLocation, IHint, HintConfig, Severity, IHintConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
+import { HttpHeaders, IAsyncHTMLElement, IConnector, IFetchOptions, NetworkData, Event, Problem, ProblemLocation, IHint, HintConfig, Severity, IHintConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
 import * as logger from './utils/logging';
 import { HintContext } from './hint-context';
 import { HintScope } from './enums/hintscope';
@@ -37,26 +37,24 @@ export class Engine extends EventEmitter {
     private parsers: Array<Parser>
     private hints: Map<string, IHint>
     private connector: IConnector
-    private connectorConfig: object
     private messages: Array<Problem>
     private browserslist: Array<string> = [];
     private ignoredUrls: Map<string, Array<RegExp>>;
     private _formatters: Array<IFormatter>
     private _timeout: number = 60000;
-    private _config: UserConfig;
 
     /** The DOM of the loaded page. */
-    public get pageDOM(): object {
+    public get pageDOM(): object | undefined {
         return this.connector.dom;
     }
 
     /** The HTML of the loaded page. */
-    public get pageContent(): Promise<string> {
+    public get pageContent(): Promise<string> | undefined {
         return this.connector.html;
     }
 
     /** The headers used in the requests. */
-    public get pageHeaders(): object {
+    public get pageHeaders(): HttpHeaders | undefined {
         return this.connector.headers;
     }
 
@@ -98,14 +96,14 @@ export class Engine extends EventEmitter {
         this.browserslist = config.browserslist;
         this.ignoredUrls = config.ignoredUrls;
 
-        const Connector: IConnectorConstructor = resources.connector;
-        const connectorId = config.connector.name;
+        const Connector: IConnectorConstructor | null = resources.connector;
+        const connectorId = config.connector && config.connector.name;
 
         if (!Connector) {
             throw new Error(`Connector "${connectorId}" not found`);
         }
 
-        this.connector = new Connector(this, config.connector.options);
+        this.connector = new Connector(this, config.connector && config.connector.options);
         this._formatters = resources.formatters.map((Formatter) => {
             return new Formatter();
         });
@@ -158,7 +156,7 @@ export class Engine extends EventEmitter {
                 });
             });
 
-            return config.hints[hintKey];
+            return config.hints[hintKey || ''];
         };
 
         resources.hints.forEach((Hint) => {
@@ -170,11 +168,11 @@ export class Engine extends EventEmitter {
 
                 return (connectorId === 'local' && HintCtor.meta.scope === HintScope.site) ||
                     (connectorId !== 'local' && HintCtor.meta.scope === HintScope.local) ||
-                    ignoredConnectors.includes(connectorId);
+                    ignoredConnectors.includes(connectorId || '');
             };
 
             const hintOptions: HintConfig | Array<HintConfig> = getHintConfig(id);
-            const severity: Severity = getSeverity(hintOptions);
+            const severity: Severity | null = getSeverity(hintOptions);
 
             if (ignoreHint(Hint)) {
                 debug(`Hint "${id}" is disabled for the connector "${connectorId}"`);
@@ -195,9 +193,13 @@ export class Engine extends EventEmitter {
         const that = this;
 
         const createEventHandler = (handler: Function, hintId: string) => {
-            return function (event: Event): Promise<any> {
-                const urlsIgnoredForAll = that.ignoredUrls.get('all') ? that.ignoredUrls.get('all') : [];
-                const urlsIgnoredForHint = that.ignoredUrls.get(hintId) ? that.ignoredUrls.get(hintId) : [];
+            /*
+             * Using fake `this` parameter for typing: https://www.typescriptlang.org/docs/handbook/functions.html#this-parameters
+             * `this.event` defined by eventemitter2: https://github.com/EventEmitter2/EventEmitter2#differences-non-breaking-compatible-with-existing-eventemitter
+             */
+            return function (this: { event: string }, event: Event): Promise<any> | null {
+                const urlsIgnoredForAll = that.ignoredUrls.get('all') || [];
+                const urlsIgnoredForHint = that.ignoredUrls.get(hintId) || [];
                 const urlsIgnored = urlsIgnoredForHint.concat(urlsIgnoredForAll);
 
                 if (that.isIgnored(urlsIgnored, event.resource)) {
@@ -236,7 +238,7 @@ export class Engine extends EventEmitter {
         this.on(eventName, createEventHandler(listener, id));
     }
 
-    public fetchContent(target: string | url.URL, headers: object): Promise<NetworkData> {
+    public fetchContent(target: string | url.URL, headers?: object): Promise<NetworkData> {
         return this.connector.fetchContent(target, headers);
     }
 
@@ -250,7 +252,7 @@ export class Engine extends EventEmitter {
     }
 
     /** Reports a message from one of the hints. */
-    public report(hintId: string, category: Category, severity: Severity, sourceCode: string, location: ProblemLocation, message: string, resource: string) {
+    public report(hintId: string, category: Category, severity: Severity, sourceCode: string, location: ProblemLocation | null, message: string, resource: string) {
         const problem: Problem = {
             category,
             hintId,
@@ -299,7 +301,7 @@ export class Engine extends EventEmitter {
     }
 
     public emitAsync(event: string | Array<string>, ...values: Array<any>): Promise<Array<any>> {
-        const ignoredUrls: Array<RegExp> = this.ignoredUrls.get('all');
+        const ignoredUrls = this.ignoredUrls.get('all') || [];
 
         if (this.isIgnored(ignoredUrls, values[0].resource)) {
             return Promise.resolve([]);

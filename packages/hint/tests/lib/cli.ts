@@ -16,7 +16,7 @@ const updateNotifier = () => {
 
 const loadHintPackage = { default() { } };
 
-const cliActions = [];
+const cliActions = [] as any;
 
 proxyquire('../../src/lib/cli', {
     './cli/actions': cliActions,

@@ -1,10 +1,12 @@
-export const normalizeHeaders = (headers: object) => {
+import { HttpHeaders } from 'hint/src/lib/types';
+
+export const normalizeHeaders = (headers: HttpHeaders) => {
     if (headers) {
         return Object.keys(headers).reduce((result, key) => {
             result[key.toLowerCase()] = headers[key];
 
             return result;
-        }, {});
+        }, {} as HttpHeaders);
     }
 
     return null;

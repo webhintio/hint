@@ -1,6 +1,6 @@
 import test from 'ava';
 import normalizeHints from '../../../src/lib/config/normalize-hints';
-import { HintConfig, HintsConfigObject } from '../../../src/lib/types';
+import { HintsConfigObject } from '../../../src/lib/types';
 
 test(`should normalize basic hints`, (t) => {
     const hints = [
@@ -10,7 +10,7 @@ test(`should normalize basic hints`, (t) => {
         'hint4:off'
     ];
 
-    const expected = {
+    const expected: HintsConfigObject = {
         hint1: 'error',
         hint2: 'error',
         hint3: 'warning',
@@ -21,7 +21,7 @@ test(`should normalize basic hints`, (t) => {
 });
 
 test(`should normalize hints including array`, (t) => {
-    const hints: Array<HintConfig> = [
+    const hints = [
         'hint1',
         ['hint2', { customization1: 'value1' }]
     ];
@@ -35,10 +35,10 @@ test(`should normalize hints including array`, (t) => {
 });
 
 test(`should normalize hints with shorthand prefixes`, (t) => {
-    const hints: Array<HintConfig> = [
+    const hints = [
         '?hint1',
         '-hint2',
-        ['?hint3', { customization1: 'value1' }]
+        ['?hint3', { customization1: 'value1' } as any]
     ];
 
     const expected: HintsConfigObject = {
@@ -51,7 +51,7 @@ test(`should normalize hints with shorthand prefixes`, (t) => {
 });
 
 test(`should throw invalid hint specified error when providing invalid hint`, (t) => {
-    const hints = [1];
+    const hints = [1] as any;
 
     t.throws(() => {
         normalizeHints(hints);
@@ -59,7 +59,7 @@ test(`should throw invalid hint specified error when providing invalid hint`, (t
 });
 
 test(`should maintain backwards compatibility by returning objects`, (t) => {
-    const hints = { hint1: 'error' };
+    const hints: HintsConfigObject = { hint1: 'error' };
 
     t.deepEqual(normalizeHints(hints), hints);
 });

@@ -17,7 +17,7 @@ import { CDPLauncher } from './chrome-launcher';
 import { Engine } from 'hint/dist/src/lib/engine';
 
 export default class ChromeConnector extends Connector {
-    public constructor(server: Engine, config: object) {
+    public constructor(server: Engine, config?: object) {
         const launcher: ILauncher = new CDPLauncher(config);
 
         super(server, config, launcher);

@@ -21,7 +21,7 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
 
     // attributes doesn't have the Symbol.Iterator();
     for (let i = 0; i < attributes.length; i++) {
-        const attribute: AsyncHTMLAttribute = attributes[i] || attributes.item(i);
+        const attribute: AsyncHTMLAttribute = attributes[i] || attributes.item && attributes.item(i);
 
         /*
          * jsdom breaks when attribute names have a `.` (invalid) but it is widely used,
@@ -106,7 +106,7 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<P
 
     const lines: Array<string> = htmlBeforeElement.split('\n');
     const line: number = lines.length;
-    const column: number = lines.pop().replace(/[\t]/g, '    ').length + 1;
+    const column: number = (lines.pop() || '').replace(/[\t]/g, '    ').length + 1;
 
     return {
         column,
@@ -143,7 +143,7 @@ export const findInElement = async (element: IAsyncHTMLElement, content: string)
     const line: number = lines.length;
 
     // `startIndex + 1` because `indexOf` starts from `0`.
-    const column: number = (lines.length === 1 ? startIndex : lines.pop().replace(/[\t]/g, '    ').length) + 1;
+    const column: number = (lines.length === 1 ? startIndex : (lines.pop() || '').replace(/[\t]/g, '    ').length) + 1;
 
     return {
         column,
@@ -154,7 +154,7 @@ export const findInElement = async (element: IAsyncHTMLElement, content: string)
 /** Returns the real location of a problem in the given HTML */
 export const findProblemLocation = async (element: IAsyncHTMLElement, offset: ProblemLocation, content?: string): Promise<ProblemLocation> => {
     const elementLocation: ProblemLocation = await findElementLocation(element);
-    const problemLocation: ProblemLocation = await findInElement(element, content);
+    const problemLocation: ProblemLocation = await findInElement(element, content || '');
 
     if (problemLocation.line === 1) {
         return {
