@@ -51,7 +51,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             return;
         }
 
-        const foundErrorPages = {};
+        const foundErrorPages: {[status: number]: {size: number, url: string}} = {};
 
         /*
          * Default thresholds:
