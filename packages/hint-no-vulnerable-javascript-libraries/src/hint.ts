@@ -164,7 +164,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
         };
 
         /** Removes any tags from a version. E.g.: 2.0.0rc --> 2.0.0, 2.0.1-pre --> 2.0.1 */
-        const removeTagsFromVersion = (version: string): string => {
+        const removeTagsFromVersion = (version: string): string | null => {
             const match = (/(\d+\.?)+/).exec(version);
 
             return match && match[0];
@@ -184,7 +184,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 }
 
                 const vulnerabilities: Array<Vulnerability> = snykInfo.reduce((vulns, vuln) => {
-                    const version = removeTagsFromVersion(lib.version);
+                    const version = removeTagsFromVersion(lib.version) /* istanbul ignore next */ || '';
 
                     try {
                         if (semver.satisfies(version, vuln.semver.vulnerable[0])) {
@@ -195,7 +195,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     }
 
                     return vulns;
-                }, []);
+                }, [] as Vulnerability[]);
 
                 await reportLibrary(lib, vulnerabilities, resource);
             }
@@ -218,7 +218,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     message = `Error executing script: '${e.message}'`;
                 }
 
-                await context.report(resource, null, `${message}. Please try again later, or report an issue if this problem persists.`, null, null, Severity.warning);
+                await context.report(resource, null, `${message}. Please try again later, or report an issue if this problem persists.`, undefined, undefined, Severity.warning);
                 debug('Error executing script', e);
 
                 return;

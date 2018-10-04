@@ -7,7 +7,7 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
-const generateScriptTag = (script) => {
+const generateScriptTag = (script: string) => {
     return `<script>${script}</script>`;
 };
 
