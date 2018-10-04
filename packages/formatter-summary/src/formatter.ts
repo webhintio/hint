@@ -42,7 +42,7 @@ export default class SummaryFormatter implements IFormatter {
             return;
         }
 
-        const buildMessage = (count, type): string => {
+        const buildMessage = (count: number, type: string): string => {
             if (count === 0) {
                 return '';
             }
