@@ -39,7 +39,7 @@ export default class XContentTypeOptionsHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        const isHeaderRequired = (element: IAsyncHTMLElement): boolean => {
+        const isHeaderRequired = (element: IAsyncHTMLElement | null): boolean => {
             if (!element) {
                 return false;
             }
@@ -59,7 +59,8 @@ export default class XContentTypeOptionsHint implements IHint {
             }
 
             if (nodeName === 'link') {
-                const relValues = (normalizeString(element.getAttribute('rel'), '')).split(' ');
+                // We check if element exists before and `normalizeString` will return `''` as default
+                const relValues = (normalizeString(element.getAttribute('rel'), ''))!.split(' ');
 
                 return relValues.includes('stylesheet');
             }
@@ -68,7 +69,7 @@ export default class XContentTypeOptionsHint implements IHint {
         };
 
         const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
 
             // This check does not make sense for data URI.
 
@@ -78,7 +79,7 @@ export default class XContentTypeOptionsHint implements IHint {
                 return;
             }
 
-            const headerValue: string = normalizeString(response.headers && response.headers['x-content-type-options']);
+            const headerValue: string = normalizeString(response.headers && response.headers['x-content-type-options']) || '';
 
             if (isHeaderRequired(element)) {
                 if (headerValue === null) {
