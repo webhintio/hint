@@ -10,6 +10,7 @@
  */
 
 import { uniqBy } from 'lodash';
+import { OptionsWithUrl } from 'request';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
@@ -64,7 +65,7 @@ export default class HtmlCheckerHint implements IHint {
         /** The promise that represents the scan by HTML checker. */
         let htmlCheckerPromises: Array<CheckerData> = [];
         /** Array of strings that needes to be ignored from the checker result. */
-        let ignoredMessages;
+        let ignoredMessages: string[];
         /** The options to pass to the HTML checker. */
         const scanOptions = {
             body: '',
@@ -85,7 +86,7 @@ export default class HtmlCheckerHint implements IHint {
             lastLine: number;
             hiliteStart: number;
             message: string;
-            subType: string;
+            subType: keyof typeof Severity;
         };
 
         const loadHintConfig = () => {
@@ -120,7 +121,7 @@ export default class HtmlCheckerHint implements IHint {
                     line: messageItem.lastLine
                 };
 
-                return context.report(resource, null, messageItem.message, null, position, Severity[messageItem.subType], messageItem.extract);
+                return context.report(resource, null, messageItem.message, undefined, position, Severity[messageItem.subType], messageItem.extract);
             };
         };
 
@@ -129,7 +130,7 @@ export default class HtmlCheckerHint implements IHint {
             await context.report(resource, null, `Could not get results from HTML checker for '${resource}'. Error: '${error}'.`);
         };
 
-        const requestRetry = async (options, retries: number = 3) => {
+        const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {
             const requestAsync = (await import('hint/dist/src/lib/utils/network/request-async')).default;
             const delay = (await import('hint/dist/src/lib/utils/misc/delay')).default;
 
