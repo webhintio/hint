@@ -84,7 +84,7 @@ export default class ExcelFormatter implements IFormatter {
         };
 
         /** Applies all the given properties to `cell`. */
-        const applyToCell = (cell, ...properties) => {
+        const applyToCell = (cell: Excel.Cell, ...properties: any[]) => {
             Object.assign(cell, ...properties);
         };
 
