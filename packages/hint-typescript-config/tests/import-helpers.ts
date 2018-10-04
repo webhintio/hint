@@ -1,20 +1,23 @@
 import * as path from 'path';
 
+import { GenericTestContext, Context } from 'ava';
 import * as sinon from 'sinon';
 
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 import { HintLocalTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
+
+
 const loadPackage = require('hint/dist/src/lib/utils/packages/load-package');
 
 const hintPath = getHintPath(__filename, true);
 
 const tests: Array<HintLocalTest> = [
     {
-        after: (t) => {
+        after: (t: GenericTestContext<Context<any>>) => {
             t.context.sandbox.restore();
         },
-        before: (t) => {
+        before: (t: GenericTestContext<Context<any>>) => {
             const sandbox = sinon.createSandbox();
 
             sandbox.stub(loadPackage, 'default').returns({ exists: true });
@@ -25,10 +28,10 @@ const tests: Array<HintLocalTest> = [
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'import')
     },
     {
-        after: (t) => {
+        after: (t: GenericTestContext<Context<any>>) => {
             t.context.sandbox.restore();
         },
-        before: (t) => {
+        before: (t: GenericTestContext<Context<any>>) => {
             const sandbox = sinon.createSandbox();
 
             sandbox.stub(loadPackage, 'default').throws(new Error('Not found'));
@@ -40,10 +43,10 @@ const tests: Array<HintLocalTest> = [
         reports: [{ message: `Couldn't find package "tslib".` }]
     },
     {
-        after: (t) => {
+        after: (t: GenericTestContext<Context<any>>) => {
             t.context.sandbox.restore();
         },
-        before: (t) => {
+        before: (t: GenericTestContext<Context<any>>) => {
             const sandbox = sinon.createSandbox();
 
             sandbox.stub(loadPackage, 'default').returns({ exists: true });
@@ -55,10 +58,10 @@ const tests: Array<HintLocalTest> = [
         reports: [{ message: 'The compiler option "importHelpers" should be enabled to reduce the output size.' }]
     },
     {
-        after: (t) => {
+        after: (t: GenericTestContext<Context<any>>) => {
             t.context.sandbox.restore();
         },
-        before: (t) => {
+        before: (t: GenericTestContext<Context<any>>) => {
             const sandbox = sinon.createSandbox();
 
             sandbox.stub(loadPackage, 'default').returns({ exists: true });
@@ -70,10 +73,10 @@ const tests: Array<HintLocalTest> = [
         reports: [{ message: 'The compiler option "importHelpers" should be enabled to reduce the output size.' }]
     },
     {
-        after: (t) => {
+        after: (t: GenericTestContext<Context<any>>) => {
             t.context.sandbox.restore();
         },
-        before: (t) => {
+        before: (t: GenericTestContext<Context<any>>) => {
             const sandbox = sinon.createSandbox();
 
             sandbox.stub(loadPackage, 'default').throws(new Error('Not found'));
