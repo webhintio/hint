@@ -9,6 +9,7 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { IHint, FetchEnd, ScanEnd, Response, HintMetadata } from 'hint/dist/src/lib/types';
 import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 
 import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';
 import * as Connections from './connections';
@@ -99,13 +100,18 @@ export default class PerformanceBudgetHint implements IHint {
                 response.body.rawContent.byteLength :
                 response.body.content.length;
             let sentSize: number;
+            const contentEncoding = getHeaderValueNormalized(response.headers, 'content-encoding', '');
 
-            try {
-                sentSize = (await response.body.rawResponse()).byteLength;
-            } catch (e) {
-                debug(`Error trying to get the rawResponse for ${resource}. Using uncompressedSize instead`);
-                debug(e);
+            if (contentEncoding) {
+                try {
+                    sentSize = (await response.body.rawResponse()).byteLength;
+                } catch (e) /* istanbul ignore next */ {
+                    debug(`Error trying to get the \`rawResponse\` for ${resource}. Using uncompressedSize instead`);
+                    debug(e);
 
+                    sentSize = uncompressedSize;
+                }
+            } else {
                 sentSize = uncompressedSize;
             }
 

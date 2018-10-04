@@ -1,4 +1,5 @@
 import { readFileSync } from 'fs';
+import { gzipSync } from 'zlib';
 
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
@@ -39,7 +40,16 @@ const generateServerConfig = (imageCount: number, redirects = false) => {
         }
     }
 
-    serverConfig['/'] = generateHTMLPage('', generateBody(imageCount));
+    const html = generateHTMLPage('', generateBody(imageCount));
+    const compressed = gzipSync(Buffer.from(html, 'utf-8'));
+
+    serverConfig['/'] = {
+        content: compressed,
+        headers: {
+            'content-encoding': 'gzip',
+            'content-type': 'text/html'
+        }
+    };
 
     return serverConfig;
 };
