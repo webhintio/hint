@@ -38,7 +38,7 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
-    "@types/debug": "0.0.30",
+    "@types/debug": "0.0.31",
     "@types/globby": "^8.0.0",
     "@types/handlebars": "^4.0.39",
     "@types/jsdom": "^11.12.0",

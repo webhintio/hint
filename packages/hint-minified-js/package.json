@@ -10,7 +10,7 @@
   "devDependencies": {
     "@hint/parser-javascript": "^1.0.1",
     "@hint/utils-tests-helpers": "^1.0.1",
-    "@types/debug": "0.0.30",
+    "@types/debug": "0.0.31",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.6.1",
