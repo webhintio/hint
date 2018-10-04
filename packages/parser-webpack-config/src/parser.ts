@@ -11,8 +11,6 @@ import { WebpackConfigParse, WebpackConfigInvalidConfiguration } from './types';
 
 export default class WebpackConfigParser extends Parser {
     private configFound: boolean = false;
-    private schema: any;
-    private newKeyword;
 
     public constructor(engine: Engine) {
         super(engine, 'webpack-config');
@@ -52,7 +50,7 @@ export default class WebpackConfigParser extends Parser {
         this.configFound = true;
 
         try {
-            const config: webpack.Configuration = await import(asPathString(getAsUri(resource)));
+            const config: webpack.Configuration = await import(asPathString(getAsUri(resource)!)); // `getAsUri(resource)` should not be null as the resource has already been fetched.
 
             const version = this.getLocallyInstalledWebpack();
 

@@ -12,6 +12,7 @@
   "description": "hint for best practices related to the meta charset",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^1.0.1",
+    "@types/cheerio": "^0.22.9",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.6.1",

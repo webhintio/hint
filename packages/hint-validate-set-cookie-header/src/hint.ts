@@ -67,7 +67,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
         const normalizeAfterSplitByEqual = (splitResult: Array<string>): Array<string> => {
             const [key, ...value]: Array<string> = splitResult;
 
-            return [normalizeString(key), unquote(value.join('='))];
+            return [normalizeString(key)!, unquote(value.join('='))];
         };
 
         /**
@@ -88,7 +88,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             }
 
             directivePairs.forEach((part) => {
-                const [directiveKey, directiveValue] = normalizeAfterSplitByEqual(part.split('='));
+                const [directiveKey, directiveValue] = normalizeAfterSplitByEqual(part.split('=')) as [keyof ParsedSetCookieHeader, string];
 
                 if (!acceptedCookieAttributes.includes(directiveKey)) {
                     throw new Error(`'${headerName}' header contains unknown attribute '${directiveKey}'.`);
@@ -154,7 +154,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
         /** Validate cookie name prefixes. */
         const validatePrefixes = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
             const cookieName: string = parsedSetCookie.name;
-            const resource: string = parsedSetCookie.resource;
+            const resource: string = parsedSetCookie.resource || '';
             const errors: ValidationMessages = [];
 
             const hasPrefixHttpError: string = `'${headerName}' header contains prefixes but is from an insecure page.`;
@@ -181,7 +181,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
         /** Validate `Secure` and `HttpOnly` attributes. */
         const validateSecurityAttributes = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
             const cookieName: string = parsedSetCookie.name;
-            const resource: string = parsedSetCookie.resource;
+            const resource: string = parsedSetCookie.resource || '';
             const errors: ValidationMessages = [];
 
             const hasSecureHttpError: string = `Insecure sites (${resource}) can't set cookies with the 'secure' directive.`;
@@ -273,7 +273,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
         };
 
         const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
             const defaultValidators: Array<Validator> = [validateNameAndValue, validatePrefixes, validateSecurityAttributes, validateExpireDate, validateMaxAgeAndExpires];
 
             // This check does not apply if URI starts with protocols others than http/https.
@@ -283,7 +283,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
                 return;
             }
 
-            const rawSetCookieHeaders: string | Array<string> = response.headers && response.headers['set-cookie'];
+            const rawSetCookieHeaders: string | Array<string> = response.headers && response.headers['set-cookie'] || '';
 
             if (!rawSetCookieHeaders) {
                 return;
@@ -293,7 +293,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const setCookieHeaders: Array<string> = Array.isArray(rawSetCookieHeaders) ? rawSetCookieHeaders : rawSetCookieHeaders.split(/\n|\r\n/);
             const reportBatch = async (errorMessages: ValidationMessages, severity?: Severity): Promise<void[]> => {
                 const promises: Array<Promise<void>> = errorMessages.map((error) => {
-                    return context.report(resource, element, error, null, null, severity);
+                    return context.report(resource, element, error, undefined, undefined, severity);
                 });
 
                 return await Promise.all(promises);

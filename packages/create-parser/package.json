@@ -11,6 +11,7 @@
   },
   "description": "webhint's parser initializer package",
   "devDependencies": {
+    "@types/inquirer": "^0.0.43",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.6.1",

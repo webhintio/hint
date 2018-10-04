@@ -34,7 +34,7 @@ const generateErrorMessage = (statusCode: number, threshold: number) => {
     return `Response with status code ${statusCode} should have more than ${threshold} bytes.`;
 };
 
-const addTests = (t, statusCodes, threshold) => {
+const addTests = (t: HintTest[], statusCodes: number[], threshold: number) => {
     statusCodes.forEach((statusCode) => {
         t.push({
             name: `Response has status code ${statusCode} and less than ${threshold} bytes`,

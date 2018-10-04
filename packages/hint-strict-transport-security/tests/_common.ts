@@ -29,7 +29,7 @@ export const noErrors = { errors: [] };
 export const hasErrors = { errors: [{ message: notPreloadableError }] };
 
 // error messages
-export const generateTooShortError = (value) => {
+export const generateTooShortError = (value: number) => {
     return `'${stsHeader}' header 'max-age' value should be more than ${value}`;
 };
 export const noHeaderError = `'${stsHeader}' header was not specified`;
@@ -59,7 +59,7 @@ export const generateHTMLPageData = (content: string) => {
 export const htmlPageWithScriptData = generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>'));
 export const htmlPageWithManifestData = generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.webmanifest">'));
 
-export const requestJSONAsyncMock = (responseObject) => {
+export const requestJSONAsyncMock = (responseObject: any) => {
     const isDataURI = {
         default() {
             return false;
@@ -81,7 +81,7 @@ export const requestJSONAsyncMock = (responseObject) => {
         }
     };
     const requestJSONAsync = {
-        default(uri) {
+        default(uri: string) {
             let response;
 
             if (uri.includes('/api/v2/preloadable')) {

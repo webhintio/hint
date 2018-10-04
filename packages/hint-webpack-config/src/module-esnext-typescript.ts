@@ -29,44 +29,44 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
         scope: HintScope.local
     }
 
-    private webpackEvent: WebpackConfigParse;
-    private typescriptEvent: TypeScriptConfigParse;
-
     public constructor(context: HintContext) {
+
+        let webpackEvent: WebpackConfigParse;
+        let typescriptEvent: TypeScriptConfigParse;
 
         const webpackConfigReceived = (webpackConfigEvent: WebpackConfigParse) => {
             debug(`parse::webpack-config::end received`);
 
-            this.webpackEvent = webpackConfigEvent;
+            webpackEvent = webpackConfigEvent;
         };
 
         const typescriptConfigReceived = (typescriptConfigEvent: TypeScriptConfigParse) => {
             debug(`parse::typescript-config::end received`);
 
-            this.typescriptEvent = typescriptConfigEvent;
+            typescriptEvent = typescriptConfigEvent;
         };
 
         const validate = async () => {
-            if (!this.webpackEvent) {
+            if (!webpackEvent) {
                 await context.report('', null, 'The parser webpack-config should be activated');
 
                 return;
             }
 
-            if (!this.typescriptEvent) {
+            if (!typescriptEvent) {
                 await context.report('', null, 'The parser typescript-config should be activated');
 
                 return;
             }
 
-            const version = parseInt(this.webpackEvent.version);
+            const version = parseInt(webpackEvent.version);
 
             if (version < 2) {
                 return;
             }
 
-            if (this.typescriptEvent.config.compilerOptions && this.typescriptEvent.config.compilerOptions.module !== 'esnext') {
-                await context.report(this.typescriptEvent.resource, null, 'TypeScript `compilerOptions.module` option should be `esnext`');
+            if (typescriptEvent.config.compilerOptions && typescriptEvent.config.compilerOptions.module !== 'esnext') {
+                await context.report(typescriptEvent.resource, null, 'TypeScript `compilerOptions.module` option should be `esnext`');
             }
         };
 

@@ -1,9 +1,8 @@
 /* eslint-disable */
-import * as path from 'path';
-
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
+import * as InquirerTypes from 'inquirer';
 
 import * as handlebarsUtils from '../src/handlebars-utils';
 
@@ -14,7 +13,7 @@ const normalizeStringByDelimiter = { default() { } };
 const readFileAsync = { default() { } };
 const writeFileAsync = { default() { } };
 
-const mkdirp = (dir, callback) => {
+const mkdirp = (dir: string, callback: Function) => {
     callback();
 };
 
@@ -122,14 +121,14 @@ test.serial('It should create a new official parser with no duplicate events.', 
 
     const result = await newParser();
     const questions = t.context.inquirer.prompt.args[3][0];
-    const eventQuestion = questions.find((question) => {
+    const eventQuestion = questions.find((question: InquirerTypes.Question) => {
         return question.name === 'event';
     });
     const eventList = eventQuestion.choices;
     const containFetchEnd = eventList.includes('fetch::end::*');
     const containElement = eventList.includes('element::');
     const data = t.context.handlebars.compileTemplate.args[0][1];
-    const events = data.events.map((event) => {
+    const events = data.events.map((event: { event: string }) => {
         return event.event;
     });
     const eventsSet = new Set(events);

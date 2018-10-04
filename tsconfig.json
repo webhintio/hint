@@ -14,7 +14,8 @@
         "moduleResolution": "node",
         "newLine": "lf",
         "removeComments": false,
-        "target": "esnext"
+        "target": "esnext",
+        "strict": true
     },
     "exclude": [
         "dist",

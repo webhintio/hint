@@ -11,7 +11,7 @@ const writeFileAsyncModule = { default() { } };
 const isOfficialModule = { default() { } };
 
 const fsExtra = { copy() { } };
-const mkdirp = (dir, callback) => {
+const mkdirp = (dir: string, callback: Function) => {
     callback();
 };
 
