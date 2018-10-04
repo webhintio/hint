@@ -13,10 +13,10 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 const debug = d(__filename);
 
 type TargetType = 'fetch' | 'html';
-type Directives = Map<string, number>;
+type Directives = Map<string, number | null>;
 type ParsedDirectives = {
     header: string;
-    invalidDirectives: Map<string, string>;
+    invalidDirectives: Map<string, string | null>;
     invalidValues: Map<string, string>;
     usedDirectives: Directives;
 };
@@ -249,7 +249,7 @@ export default class HttpCacheHint implements IHint {
         /**
          * Prevents agains the usage of non recommended directives (`must-revalidate`)
          */
-        const nonRecommendedDirectives = (directives: Directives): string => {
+        const nonRecommendedDirectives = (directives: Directives): string | null => {
             const noDirectives = ['must-revalidate', 'no-store'];
 
             for (const noDirective of noDirectives) {
@@ -268,7 +268,7 @@ export default class HttpCacheHint implements IHint {
          */
         const hasCacheControl = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { resource, response: { headers } } = fetchEnd;
-            const cacheControl: string = headers && headers['cache-control'] || null;
+            const cacheControl: string | null = headers && headers['cache-control'] || null;
 
             if (!cacheControl) {
                 await context.report(resource, fetchEnd.element, `No "cache-control" header or empty value found. It should have a value`);
@@ -425,7 +425,7 @@ export default class HttpCacheHint implements IHint {
 
             const headers = fetchEnd.response.headers;
             const { response: { mediaType } } = fetchEnd;
-            const cacheControlHeaderValue: string = getHeaderValueNormalized(headers, 'cache-control', '');
+            const cacheControlHeaderValue: string = getHeaderValueNormalized(headers, 'cache-control', '')!; // won't return null since default value was provided
             const parsedDirectives: ParsedDirectives = parseCacheControlHeader(cacheControlHeaderValue);
 
             const validators = [
@@ -441,7 +441,7 @@ export default class HttpCacheHint implements IHint {
                 validators.push(hasLongCache);
 
                 // Check if there are custom revving patterns
-                let customRegex = context.hintOptions && context.hintOptions.revvingPatterns || null;
+                let customRegex: RegExp[] | null = context.hintOptions && context.hintOptions.revvingPatterns || null;
 
                 if (customRegex) {
                     customRegex = customRegex.map((reg) => {
