@@ -26,7 +26,7 @@ const generateBody = (imageCount: number) => {
 };
 
 const generateServerConfig = (imageCount: number, redirects = false) => {
-    const serverConfig = {};
+    const serverConfig = {} as any;
 
     for (let i = 0; i < imageCount; i++) {
         if (redirects) {
