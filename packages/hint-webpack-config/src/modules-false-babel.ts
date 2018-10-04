@@ -29,38 +29,38 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
         scope: HintScope.local
     }
 
-    private webpackEvent: WebpackConfigParse;
-    private babelEvent: BabelConfigParsed;
-
     public constructor(context: HintContext) {
+
+        let webpackEvent: WebpackConfigParse;
+        let babelEvent: BabelConfigParsed;
 
         const webpackConfigReceived = (webpackConfigEvent: WebpackConfigParse) => {
             debug(`parse::webpack-config::end received`);
 
-            this.webpackEvent = webpackConfigEvent;
+            webpackEvent = webpackConfigEvent;
         };
 
         const babelConfigReceived = (babelConfigEvent: BabelConfigParsed) => {
             debug(`parse::babel-config::end received`);
 
-            this.babelEvent = babelConfigEvent;
+            babelEvent = babelConfigEvent;
         };
 
         const validate = async () => {
-            if (!this.webpackEvent) {
+            if (!webpackEvent) {
                 await context.report('', null, 'The parser webpack-config should be activated');
 
                 return;
             }
 
-            if (!this.babelEvent) {
+            if (!babelEvent) {
                 await context.report('', null, 'The parser babel-config should be activated');
 
                 return;
             }
 
-            const version = parseInt(this.webpackEvent.version);
-            const presets = this.babelEvent.config.presets;
+            const version = parseInt(webpackEvent.version);
+            const presets = babelEvent.config.presets;
 
             if (version < 2 || !presets || presets.length === 0) {
                 return;
@@ -71,7 +71,7 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
             });
 
             if (modulesFalse.length === 0) {
-                await context.report(this.babelEvent.resource, null, 'Babel presets `modules` option should be `false`');
+                await context.report(babelEvent.resource, null, 'Babel presets `modules` option should be `false`');
             }
         };
 
