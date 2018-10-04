@@ -103,7 +103,7 @@ const testsForDifferentServerHeaderValues: Array<HintTest> = (() => {
         'NgiNx/1.4.6 (ubuntu)'
     ];
 
-    const tests = [];
+    const tests: HintTest[] = [];
 
     allowedServerHeaderValues.forEach((value) => {
         tests.push({
