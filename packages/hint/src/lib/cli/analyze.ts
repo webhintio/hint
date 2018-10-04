@@ -359,12 +359,8 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     const print = async (reports: Array<Problem>, target: string, scanTime: number, timeStamp: number): Promise<void> => {
         const formatterOptions: FormatterOptions = {
-<<<<<<< HEAD
-            config: userConfig,
-            resources,
-=======
             config: userConfig || undefined,
->>>>>>> Chore: Build `packages/hint` in strict mode
+            resources,
             scanTime,
             timeStamp,
             version: loadHintPackage().version
