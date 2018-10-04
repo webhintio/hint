@@ -49,8 +49,8 @@ const safeTrim = (txt: string, charsToRemove: number): boolean => {
 const codeFrame = (code: string, location: ProblemLocation) => {
     const codeInLines: Array<string> = `\n${code}`.split('\n');
     const whiteSpacesToRemove: number = countLeftWhiteSpaces(codeInLines[codeInLines.length - 1]);
-    const line: number = location.elementLine;
-    const column: number = location.elementColumn;
+    const line: number = location.elementLine || -1;
+    const column: number = location.elementColumn || -1;
     const offsetColumn: number = location.column;
     const extraLinesToShow: number = 2;
     const firstLine: number = line - extraLinesToShow > 0 ? line - extraLinesToShow : 0;
@@ -61,8 +61,8 @@ const codeFrame = (code: string, location: ProblemLocation) => {
     }
 
     for (let i: number = firstLine; i < lastLine; i++) {
-        let result: string = null;
-        let mark: string = null;
+        let result= '';
+        let mark = '';
         const canTrim: boolean = safeTrim(codeInLines[i], whiteSpacesToRemove);
 
         if (i === 1 || !canTrim) {
