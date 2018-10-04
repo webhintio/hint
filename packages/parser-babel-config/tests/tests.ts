@@ -173,7 +173,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
     };
 
     await t.context.engine.emitAsync('fetch::end::json', {
-        resource: url.format(getAsUri(configPath)),
+        resource: url.format(getAsUri(configPath)!),
         response: { body: { content: JSON.stringify(validJSON) } }
     });
 
@@ -197,7 +197,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
     const validJSON = loadJSONFile(configPath);
 
     await t.context.engine.emitAsync('fetch::end::json', {
-        resource: url.format(getAsUri(configPath)),
+        resource: url.format(getAsUri(configPath)!),
         response: { body: { content: JSON.stringify(validJSON) } }
     });
 
@@ -221,7 +221,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
     const configuration = readFile(configPath);
 
     await t.context.engine.emitAsync('fetch::end::json', {
-        resource: url.format(getAsUri(configPath)),
+        resource: url.format(getAsUri(configPath)!),
         response: { body: { content: configuration } }
     });
 
@@ -243,7 +243,7 @@ test('If we receive a json with an extends with an invalid json, it should emit 
     const configuration = readFile(configPath);
 
     await t.context.engine.emitAsync('fetch::end::json', {
-        resource: url.format(getAsUri(configPath)),
+        resource: url.format(getAsUri(configPath)!),
         response: { body: { content: configuration } }
     });
 
