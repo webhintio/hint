@@ -46,7 +46,7 @@ type ParserEventType = {
  * Classes and dependencies.
  * ------------------------------------------------------------------------------
  */
-const events = {
+const events: { [key: string]: string } = {
     'element::': 'ElementFound',
     'fetch::end::*': 'FetchEnd',
     'fetch::end::html': 'FetchEnd',
@@ -90,7 +90,6 @@ class NewParser {
     public description: hbs.SafeString;
     public events: Array<ParserEventType> = [];
     public eventTypes: Array<string>;
-    public packageDir: string;
     public processDir: string;
     public destination: string;
     public packageMain: string;
@@ -161,10 +160,10 @@ const questions = (repeat: boolean = false) => {
             }
         },
         {
-            default(answers) {
+            default(answers: inquirer.Answers) {
                 return `Description for ${answers.name}`;
             },
-            message(answers) {
+            message(answers: inquirer.Answers) {
                 return `What's the description of this new parser '${answers.name}'?`;
             },
             name: 'description',
@@ -188,7 +187,7 @@ const questions = (repeat: boolean = false) => {
             message: `What's the element for the event?`,
             name: 'element',
             type: 'input',
-            when(answers) {
+            when(answers: inquirer.Answers) {
                 return answers.event === 'element::';
             }
         },
