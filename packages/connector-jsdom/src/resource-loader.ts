@@ -19,14 +19,14 @@ export default class CustomResourceLoader extends ResourceLoader {
         this._connector = connector;
     }
 
-    public fetch(url: string, options: { element: HTMLElement }) {
+    public async fetch(url: string, options: { element: HTMLElement }): Promise<Buffer | null> {
         /* istanbul ignore if */
         if (!url) {
             const promise = Promise.resolve(null);
 
             (promise as any).abort = () => { };
 
-            return promise;
+            return await promise;
         }
 
         const urlAsUrl = new URL(url);
@@ -47,9 +47,9 @@ export default class CustomResourceLoader extends ResourceLoader {
 
         debug(`resource ${resourceUrl} to be fetched`);
 
-        let abort;
+        let abort: Function;
 
-        const promise = new Promise(async (resolve, reject) => {
+        const promise = new Promise<Buffer>(async (resolve, reject) => {
             abort = reject;
 
             await this._connector.server.emitAsync('fetch::start', { resource: resourceUrl });
@@ -67,10 +67,10 @@ export default class CustomResourceLoader extends ResourceLoader {
                 };
 
                 const { charset, mediaType } = getContentTypeData(element, fetchEndEvent.resource, fetchEndEvent.response.headers, fetchEndEvent.response.body.rawContent);
-                const type = getType(mediaType);
+                const type = mediaType ? getType(mediaType) : /* istanbul ignore next */ 'unknown';
 
-                fetchEndEvent.response.mediaType = mediaType;
-                fetchEndEvent.response.charset = charset;
+                fetchEndEvent.response.mediaType = mediaType!;
+                fetchEndEvent.response.charset = charset!;
 
                 /*
                  * TODO: Replace `null` with `resource` once it
@@ -83,7 +83,7 @@ export default class CustomResourceLoader extends ResourceLoader {
             } catch (err) {
                 const hops: Array<string> = this._connector.request.getRedirects(err.uri);
                 const fetchError: FetchError = {
-                    element,
+                    element: element!,
                     error: err.error,
                     hops,
                     /* istanbul ignore next */
