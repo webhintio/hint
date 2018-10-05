@@ -164,6 +164,10 @@
     word-wrap: break-word;
 }
 
+.scan-overview__body__permalink .permalink-content {
+    text-transform: none;
+}
+
 .permalink-copy {
     background-color: transparent;
     color: #4046dd;
@@ -175,7 +179,6 @@
 }
 
 .permalink-copy img {
-    margin: 0 0 0 1rem;
     vertical-align: middle;
     width: 2rem;
 }
