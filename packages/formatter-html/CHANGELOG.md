@@ -1,3 +1,11 @@
+# 1.0.6 (October 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`f0438eb012`](https://github.com/webhintio/hint/commit/f0438eb0121c96a21c67619477c03b06ec8ac7a8)] - Fix: Make scan result URL a link (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1376`](https://github.com/webhintio/hint/issues/1376)).
+* [[`5f685b6b28`](https://github.com/webhintio/hint/commit/5f685b6b28aa99dff4b5459c547e5c1f978338b4)] - Fix: Better error handling (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.0.5 (October 3, 2018)
 
 ## Bug fixes / Improvements
