@@ -9,9 +9,10 @@ import * as path from 'path';
 import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
 
 import readFile from 'hint/dist/src/lib/utils/fs/read-file';
+import { DOMWindow } from 'jsdom';
 
-export const beforeParse = (finalHref) => {
-    return (window) => {
+export const beforeParse = (finalHref: string) => {
+    return (window: DOMWindow) => {
         const mutationObserverPolyfill = readFile(require.resolve('mutationobserver-shim'));
         const customElementsPolyfill = readFile(path.join(__dirname, 'polyfills', 'custom-elements.min.js'));
 
@@ -25,7 +26,7 @@ export const beforeParse = (finalHref) => {
 
         /* istanbul ignore next */
         window.matchMedia = () => {
-            return { addListener() { } };
+            return { addListener() { } } as any;
         };
 
         Object.defineProperty(window.HTMLHtmlElement.prototype, 'clientWidth', { value: 1024 });
