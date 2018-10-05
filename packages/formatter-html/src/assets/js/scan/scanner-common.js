@@ -195,8 +195,8 @@
 
             newTextArea.id = id;
             newTextArea.style.position = 'fixed';
-            newTextArea.style.top = 0;
-            newTextArea.style.left = 0;
+            newTextArea.style.top = '-10px';
+            newTextArea.style.left = '-10px';
 
             newTextArea.style.width = '1px';
             newTextArea.style.height = '1px';
@@ -241,8 +241,8 @@
     var copyButtons = Array.prototype.slice.apply(document.querySelectorAll('.permalink-copy'));
     var copyPermalinkToClipboard = function (evt) {
         var element = evt.currentTarget;
-
-        var permalinkElement = element.querySelector('.permalink-content');
+        var parent = element.parentElement;
+        var permalinkElement = parent.querySelector('.permalink-content');
         var permalink = permalinkElement.textContent;
 
         setClipboardText(permalink.trim());
