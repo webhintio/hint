@@ -3,7 +3,7 @@
     "@hint/connector-chrome": "^1.1.2",
     "@hint/connector-jsdom": "^1.0.7",
     "@hint/connector-local": "^1.1.2",
-    "@hint/formatter-html": "^1.0.5",
+    "@hint/formatter-html": "^1.0.6",
     "@hint/formatter-stylish": "^1.0.1",
     "@hint/formatter-summary": "^1.0.2",
     "@hint/hint-axe": "^1.1.0",
