@@ -27,7 +27,7 @@ export default class JavascriptParser extends Parser {
 
     private async emitScript(code: string, resource: string) {
         try {
-            const ast = espree.parse(code, defaultParserOptions);
+            const ast: eslint.AST.Program = espree.parse(code, defaultParserOptions);
 
             const scriptData: ScriptParse = {
                 ast,
@@ -61,7 +61,7 @@ export default class JavascriptParser extends Parser {
         return !!type;
     }
 
-    private getScriptContent(scriptTagText) {
+    private getScriptContent(scriptTagText: string) {
         const match = scriptTagText.match(scriptContentRegex);
 
         if (!match) {
