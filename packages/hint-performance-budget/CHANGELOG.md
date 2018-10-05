@@ -1,3 +1,10 @@
+# 1.0.3 (October 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`3a0d101103`](https://github.com/webhintio/hint/commit/3a0d10110361f1a7b8679986bf88e7b1d01b24e7)] - Fix: Avoid exception if resource is not compressed (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1369`](https://github.com/webhintio/hint/issues/1369)).
+
+
 # 1.0.2 (September 6, 2018)
 
 ## Bug fixes / Improvements
