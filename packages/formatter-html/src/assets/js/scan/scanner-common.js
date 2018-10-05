@@ -278,7 +278,9 @@
         mql.addListener(validateMediaQuery);
     };
 
-    registerToggleExpandListener();
-    registerMediaQuery();
-    highlightCodeBlocks();
+    if (categoriesListElement) {
+        registerToggleExpandListener();
+        registerMediaQuery();
+        highlightCodeBlocks();
+    }
 }());
