@@ -658,7 +658,8 @@ export class Connector implements IConnector {
                 return !tab.url.startsWith('chrome-extension');
             });
 
-            client = await this.getClient(launcher.port, tabs[0]);
+            // Can assume not-null as `this._launcher.launch` always will return a port.
+            client = await this.getClient(launcher.port!, tabs[0]);
             this._tabs = tabs;
         } else {
             const tab = await cdp.New({ port: launcher.port, url: this._options.useTabUrl ? this._options.tabUrl : null }); // eslint-disable-line new-cap

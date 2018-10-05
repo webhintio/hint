@@ -25,7 +25,7 @@ export class CDPLauncher extends Launcher {
     private userDataDir: string | boolean;
     private chromeFlags: Array<string>;
 
-    public constructor(options?: LauncherOptions) {
+    public constructor(options: LauncherOptions) {
         super(options);
 
         this.chromeFlags = options && options.flags || ['--no-default-browser-check'];
