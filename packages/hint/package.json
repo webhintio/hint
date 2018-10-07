@@ -18,7 +18,7 @@
     "content-type": "^1.0.4",
     "debug": "^4.0.1",
     "eventemitter2": "^5.0.1",
-    "file-type": "^9.0.0",
+    "file-type": "^10.0.0",
     "file-url": "^2.0.2",
     "globby": "^8.0.1",
     "handlebars": "^4.0.11",
