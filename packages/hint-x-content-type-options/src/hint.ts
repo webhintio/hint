@@ -79,7 +79,7 @@ export default class XContentTypeOptionsHint implements IHint {
                 return;
             }
 
-            const headerValue: string = normalizeString(response.headers && response.headers['x-content-type-options']) || '';
+            const headerValue: string | null = normalizeString(response.headers && response.headers['x-content-type-options']);
 
             if (isHeaderRequired(element)) {
                 if (headerValue === null) {
