@@ -46,7 +46,7 @@ type GitHub = {
     password?: string;
 };
 
-interface ITaskContext {
+type TaskContext = {
     skipRemainingTasks: boolean;
 
     packagePath: string;
@@ -68,12 +68,12 @@ interface ITaskContext {
 
     isUnpublishedPackage: boolean;
     isPrerelease: boolean;
-}
+};
 
-interface ITask {
-    task: (ctx: ITaskContext) => void;
+type Task = {
+    task: (ctx: TaskContext) => void;
     title: string;
-}
+};
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -116,9 +116,9 @@ const removePackageFiles = (dir: string = 'packages/*') => {
     );
 };
 
-const cleanup = (ctx: ITaskContext) => {
+const cleanup = (ctx: TaskContext) => {
     removePackageFiles(ctx.packagePath);
-    ctx = {} as ITaskContext; // eslint-disable-line no-param-reassign
+    ctx = {} as TaskContext; // eslint-disable-line no-param-reassign
 };
 
 const createGitHubToken = async (showInitialMessage = true) => {
@@ -259,7 +259,7 @@ const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false) 
     await exec(`git commit -m "${commitMessage}${skipCI ? ' [skip ci]' : ''}"`);
 };
 
-const gitCommitBuildChanges = async (ctx: ITaskContext) => {
+const gitCommitBuildChanges = async (ctx: TaskContext) => {
     await gitCommitChanges(`🚀 ${ctx.packageName} - v${ctx.newPackageVersion}`, true);
 };
 
@@ -442,7 +442,7 @@ const getDate = (): string => {
     return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
-const getChangelogContent = (ctx: ITaskContext) => {
+const getChangelogContent = (ctx: TaskContext) => {
     return `# ${ctx.newPackageVersion} (${getDate()})\n\n${ctx.packageReleaseNotes}\n`;
 };
 
@@ -499,21 +499,21 @@ const getCommitsSinceLastRelease = async (packagePath?: string, lastRelease?: st
     return commits;
 };
 
-const getCommitSHAsSinceLastRelease = async (ctx: ITaskContext) => {
+const getCommitSHAsSinceLastRelease = async (ctx: TaskContext) => {
     ctx.commitSHAsSinceLastRelease = await getCommitsSinceLastRelease(ctx.packagePath, ctx.packageLastTag);
 };
 
-const getLastReleasedVersionNumber = async (ctx: ITaskContext) => {
+const getLastReleasedVersionNumber = async (ctx: TaskContext) => {
     const packageJSONFileContent = (await exec(`git show ${ctx.packageLastTag}:${ctx.packageJSONFilePath}`)).stdout;
 
     ctx.packageVersion = (JSON.parse(packageJSONFileContent)).version;
 };
 
-const getVersionNumber = (ctx: ITaskContext) => {
+const getVersionNumber = (ctx: TaskContext) => {
     ctx.newPackageVersion = ctx.packageJSONFileContent.version;
 };
 
-const getReleaseData = async (ctx: ITaskContext) => {
+const getReleaseData = async (ctx: TaskContext) => {
     ({
         semverIncrement: ctx.packageSemverIncrement,
         releaseNotes: ctx.packageReleaseNotes
@@ -545,7 +545,7 @@ const getReleaseNotes = (changelogFilePath: string): string => {
     return regex.exec(shell.cat(changelogFilePath))![1];
 };
 
-const gitCreateRelease = async (ctx: ITaskContext) => {
+const gitCreateRelease = async (ctx: TaskContext) => {
     if (!ctx.isUnpublishedPackage) {
         await createRelease(ctx.packageNewTag, getReleaseNotes(ctx.changelogFilePath));
     } else {
@@ -563,11 +563,11 @@ const gitFetchTags = async () => {
     await exec('git fetch --tags');
 };
 
-const gitGetLastTaggedRelease = async (ctx: ITaskContext) => {
+const gitGetLastTaggedRelease = async (ctx: TaskContext) => {
     ctx.packageLastTag = (await exec(`git describe --tags --abbrev=0 --match "${ctx.packageName}-v*"`)).stdout;
 };
 
-const gitPush = async (ctx: ITaskContext) => {
+const gitPush = async (ctx: TaskContext) => {
     await exec(`git push origin master ${ctx.packageNewTag ? ctx.packageNewTag : ''}`);
 };
 
@@ -575,16 +575,16 @@ const gitReset = async () => {
     await exec(`git reset --quiet HEAD && git checkout --quiet .`);
 };
 
-const gitTagNewVersion = async (ctx: ITaskContext) => {
+const gitTagNewVersion = async (ctx: TaskContext) => {
     ctx.packageNewTag = `${ctx.packageName}-v${ctx.newPackageVersion}`;
 
     await gitDeleteTag(ctx.packageNewTag);
     await exec(`git tag -a "${ctx.packageNewTag}" -m "${ctx.packageNewTag}"`);
 };
 
-const newTask = (title: string, task: (ctx: ITaskContext) => void, condition?: boolean) => {
+const newTask = (title: string, task: (ctx: TaskContext) => void, condition?: boolean) => {
     return {
-        enabled: (ctx: ITaskContext) => {
+        enabled: (ctx: TaskContext) => {
             return !ctx.skipRemainingTasks || condition;
         },
         task,
@@ -592,11 +592,11 @@ const newTask = (title: string, task: (ctx: ITaskContext) => void, condition?: b
     };
 };
 
-const npmInstall = async (ctx: ITaskContext) => {
+const npmInstall = async (ctx: TaskContext) => {
     await exec(`cd ${ctx.packagePath} && npm install`);
 };
 
-const npmPublish = (ctx: ITaskContext) => {
+const npmPublish = (ctx: TaskContext) => {
     return listrInput('Enter OTP: ', {
         done: async (otp: string) => {
             if (!ctx.isPrerelease) {
@@ -616,20 +616,20 @@ const npmPublish = (ctx: ITaskContext) => {
     });
 };
 
-const npmRemovePrivateField = (ctx: ITaskContext) => {
+const npmRemovePrivateField = (ctx: TaskContext) => {
     delete ctx.packageJSONFileContent.private;
     updateFile(ctx.packageJSONFilePath!, `${JSON.stringify(ctx.packageJSONFileContent, null, 2)}\n`);
 };
 
-const npmRunBuildForRelease = async (ctx: ITaskContext) => {
+const npmRunBuildForRelease = async (ctx: TaskContext) => {
     await exec(`cd ${ctx.packagePath} && npm run build-release`);
 };
 
-const npmRunTests = async (ctx: ITaskContext) => {
+const npmRunTests = async (ctx: TaskContext) => {
     await exec(`cd ${ctx.packagePath} && npm run test`);
 };
 
-const npmUpdateVersion = async (ctx: ITaskContext) => {
+const npmUpdateVersion = async (ctx: TaskContext) => {
     const version = (await exec(`cd ${ctx.packagePath} && npm --quiet version ${ctx.packageSemverIncrement} --no-git-tag-version`)).stdout;
 
     /*
@@ -639,7 +639,7 @@ const npmUpdateVersion = async (ctx: ITaskContext) => {
     ctx.newPackageVersion = version.substring(1, version.length);
 };
 
-const npmUpdateVersionForPrerelease = (ctx: ITaskContext) => {
+const npmUpdateVersionForPrerelease = (ctx: TaskContext) => {
     const newPrereleaseVersion = semver.inc(ctx.packageJSONFileContent.version, (`pre${ctx.packageSemverIncrement}` as any), ('beta' as any))!;
 
     ctx.packageJSONFileContent.version = newPrereleaseVersion;
@@ -648,7 +648,7 @@ const npmUpdateVersionForPrerelease = (ctx: ITaskContext) => {
     updateFile(`${ctx.packageJSONFilePath}`, `${JSON.stringify(ctx.packageJSONFileContent, null, 2)}\n`);
 };
 
-const updateChangelog = (ctx: ITaskContext) => {
+const updateChangelog = (ctx: TaskContext) => {
     if (!ctx.isUnpublishedPackage) {
         updateFile(ctx.changelogFilePath, `${getChangelogContent(ctx)}${shell.cat(ctx.changelogFilePath)}`);
     } else {
@@ -671,7 +671,7 @@ const updateSnykSnapshot = async () => {
     );
 };
 
-const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx: ITaskContext) => {
+const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx: TaskContext) => {
 
     const semverIncrement = semver.diff(ctx.packageVersion!, ctx.newPackageVersion!);
 
@@ -691,7 +691,7 @@ const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx: ITaskContex
     await gitCommitChanges(`${commitPrefix} Update \\\`${ctx.packageName}\\\` to \\\`v${ctx.newPackageVersion}\\\``, true);
 };
 
-const updatePackageVersionNumberInOtherPackages = (ctx: ITaskContext) => {
+const updatePackageVersionNumberInOtherPackages = (ctx: TaskContext) => {
     const packages = [...shell.ls('-d', `packages/!(${ctx.packageName})`)];
 
     for (const pkg of packages) {
@@ -733,7 +733,7 @@ const waitForUser = async () => {
 
 const getTasksForRelease = (packageName: string, packageJSONFileContent: any) => {
 
-    const tasks: ITask[] = [];
+    const tasks: Task[] = [];
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -843,7 +843,7 @@ const getTasks = (packagePath: string) => {
     const isUnpublishedPackage = packageJSONFileContent.private === true;
     const isPrerelease = !!argv.prerelease;
 
-    const tasks: ITask[] = [];
+    const tasks: Task[] = [];
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -927,7 +927,7 @@ const main = async () => {
         return !exceptions.includes(name);
     });
 
-    const tasks: ITask[] = [];
+    const tasks: Task[] = [];
 
     for (const pkg of packages) {
         tasks.push({
