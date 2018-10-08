@@ -9,7 +9,7 @@
   "dependencies": {
     "@hint/utils-connector-tools": "^1.0.6",
     "canvas-prebuilt": "^1.6.11",
-    "jsdom": "^12.1.0",
+    "jsdom": "^12.2.0",
     "mutationobserver-shim": "^0.3.2",
     "node-pre-gyp": "^0.11.0",
     "whatwg-fetch": "^3.0.0"
