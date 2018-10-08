@@ -7,7 +7,6 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 import { HintLocalTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 
-
 const loadPackage = require('hint/dist/src/lib/utils/packages/load-package');
 
 const hintPath = getHintPath(__filename, true);
