@@ -49,14 +49,14 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
          *when testing the hint and `import` doesn't work here.
          */
         const cloudinary = require('cloudinary');
-        let uploads: Array<Promise<cloudinaryResult>> = [];
+        let uploads: Array<Promise<cloudinaryResult | null>> = [];
         let configured = false;
         let sizeThreshold = 0;
 
         /* eslint-disable camelcase */
 
         /** Sends the image to cloudinary to identify optimizations on size and format. */
-        const processImage = async (data: FetchEnd): Promise<cloudinaryResult> => {
+        const processImage = async (data: FetchEnd): Promise<cloudinaryResult | null> => {
 
             /*
              * Using the MD5 hash of the file is the recommended way to avoid duplicates
@@ -93,7 +93,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
         };
 
         /** Detects if there is a valid cloudinary configuration. */
-        const isConfigured = (hintOptions) => {
+        const isConfigured = (hintOptions: any) => {
             const cloudinaryUrl = process.env.CLOUDINARY_URL; // eslint-disable-line no-process-env
             const { apiKey, apiSecret, cloudName, threshold } = hintOptions;
 
@@ -157,7 +157,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
                 }
 
                 return result.bytes < result.originalBytes;
-            });
+            }) as cloudinaryResult[];
 
             let reported = false;
             let totalSavings = 0;

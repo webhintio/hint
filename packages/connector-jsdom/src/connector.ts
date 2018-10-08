@@ -58,23 +58,21 @@ const debug: debug.IDebugger = d(__filename);
 const defaultOptions = { waitFor: 1000 };
 
 export default class JSDOMConnector implements IConnector {
-    private _options;
-    private _headers;
-    private _href: string;
-    private _targetNetworkData: NetworkData;
-    private _window: Window;
-    private _document: JSDOMAsyncHTMLDocument;
+    private _options: any;
+    private _href: string = '';
+    private _targetNetworkData!: NetworkData;
+    private _window!: Window;
+    private _document!: JSDOMAsyncHTMLDocument;
     private _timeout: number;
     private _resourceLoader: ResourceLoader;
 
     public request: Requester;
     public server: Engine;
-    public finalHref: string;
-    public fetchedHrefs: Set<string>;
+    public finalHref!: string;
+    public fetchedHrefs!: Set<string>;
 
     public constructor(server: Engine, config?: object) {
         this._options = Object.assign({}, defaultOptions, config);
-        this._headers = this._options.headers;
         this.request = new Requester(this._options);
         this.server = server;
         this._timeout = server.timeout;
@@ -156,7 +154,7 @@ export default class JSDOMConnector implements IConnector {
      * * uses the `src` attribute of `<link rel="icon">` if present.
      * * uses `favicon.ico` and the final url after redirects.
      */
-    private async getFavicon(element?: HTMLElement) {
+    private async getFavicon(element?: Element | null) {
         const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
@@ -203,7 +201,7 @@ export default class JSDOMConnector implements IConnector {
             } catch (err) {
                 const hops: Array<string> = this.request.getRedirects(err.uri);
                 const fetchError: FetchError = {
-                    element: null,
+                    element: null as any,
                     /* istanbul ignore next */
                     error: err.error ? err.error : err,
                     hops,
@@ -234,11 +232,11 @@ export default class JSDOMConnector implements IConnector {
 
             const { charset, mediaType } = getContentTypeData(fetchEnd.element, fetchEnd.resource, fetchEnd.response.headers, fetchEnd.response.body.rawContent);
 
-            fetchEnd.response.mediaType = mediaType;
-            fetchEnd.response.charset = charset;
+            fetchEnd.response.mediaType = mediaType!;
+            fetchEnd.response.charset = charset!;
 
             // Event is also emitted when status code in response is not 200.
-            await this.server.emitAsync(`fetch::end::${getType(mediaType)}`, fetchEnd);
+            await this.server.emitAsync(`fetch::end::${getType(mediaType!)}`, fetchEnd);
 
             /*
              * If the target is not an HTML we don't need to
@@ -255,7 +253,7 @@ export default class JSDOMConnector implements IConnector {
 
             const virtualConsole = new VirtualConsole();
 
-            virtualConsole.on('error', (err) => {
+            virtualConsole.on('error', (err: Error) => {
                 debug(`Console: ${err}`);
             });
 
@@ -314,7 +312,7 @@ export default class JSDOMConnector implements IConnector {
                 }, this._options.waitFor);
             };
 
-            const onError = (error) => {
+            const onError = (error: ErrorEvent) => {
                 debug(`onError: ${error}`);
             };
 
@@ -377,7 +375,7 @@ export default class JSDOMConnector implements IConnector {
         return new Promise((resolve, reject) => {
             /* istanbul ignore next */
             const runner: ChildProcess = fork(path.join(__dirname, 'evaluate-runner'), [this.finalHref || this._href, this._options.waitFor], { execArgv: [] });
-            let timeoutId;
+            let timeoutId: NodeJS.Timer | null = null;
 
             runner.on('message', (result) => {
                 /* istanbul ignore if */

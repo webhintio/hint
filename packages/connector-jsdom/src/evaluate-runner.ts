@@ -9,10 +9,10 @@ import { beforeParse } from './before-parse';
 
 const debug: debug.IDebugger = d(__filename);
 
-const run = async (data) => {
+const run = async (data: { source: string }) => {
     const { source } = data;
     const result = {
-        error: null,
+        error: null as ErrorEvent | null,
         evaluate: 'result'
     };
     const url = process.argv[2];
@@ -20,11 +20,11 @@ const run = async (data) => {
 
     const virtualConsole = new VirtualConsole();
 
-    virtualConsole.on('error', (err) => {
+    virtualConsole.on('error', (err: Error) => {
         debug(err);
     });
 
-    virtualConsole.on('jsdomError', (err) => {
+    virtualConsole.on('jsdomError', (err: Error) => {
         debug(err);
     });
 
@@ -52,14 +52,14 @@ const run = async (data) => {
                 result.error = err;
             }
 
-            process.send(result);
+            process.send!(result);
         }, waitFor);
     };
 
-    const onError = (error) => {
+    const onError = (error: ErrorEvent) => {
         result.error = error;
 
-        process.send(result);
+        process.send!(result);
     };
 
     jsdom.window.addEventListener('load', onLoad, { once: true });

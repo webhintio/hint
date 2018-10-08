@@ -66,8 +66,8 @@ export default class NoDisallowedHeadersHint implements IHint {
             'x-version'
         ];
 
-        let includeHeaders;
-        let ignoreHeaders;
+        let includeHeaders: string[];
+        let ignoreHeaders: string[];
 
         const loadHintConfigs = () => {
             includeHeaders = (context.hintOptions && context.hintOptions.include) || [];
@@ -124,7 +124,7 @@ export default class NoDisallowedHeadersHint implements IHint {
         };
 
         const validate = async (fetchEnd: FetchEnd) => {
-            const { element, response, resource }: { element: IAsyncHTMLElement, response: Response, resource: string } = fetchEnd;
+            const { element, response, resource }: { element: IAsyncHTMLElement | null, response: Response, resource: string } = fetchEnd;
 
             // This check does not make sense for data URI.
 

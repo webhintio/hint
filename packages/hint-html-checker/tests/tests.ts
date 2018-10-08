@@ -76,9 +76,9 @@ const configCheckerMessages = {
     ]
 };
 
-const htmlCheckerMock = (response) => {
+const htmlCheckerMock = (response: any) => {
     const requestAsync = {
-        default(scanOptions) {
+        default(scanOptions: any) {
             let responseMessages;
 
             if (response.pass) { // No errors/warnings are detected in the target html

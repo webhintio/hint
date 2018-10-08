@@ -6,13 +6,14 @@ import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { cloudinaryResult } from '../src/cloudinary-types';
 
 const hintPath = getHintPath(__filename);
 const svg = readFileSync(`${__dirname}/fixtures/space-nellie.svg`);
 const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);
 const invalid = readFileSync(`${__dirname}/fixtures/invalid-image.js`);
 
-const generateResponse = (content: Buffer, type): Object => {
+const generateResponse = (content: Buffer, type: string): Object => {
     return {
         content,
         headers: { 'Content-Type': type }
@@ -41,7 +42,7 @@ const savings33 = {
 };
 
 /** Creates a fake `cloudinary` module that will return the `response` on `v2.uploader.upload_stream`. */
-const mockCloudinary = (responses?) => {
+const mockCloudinary = (responses?: Partial<cloudinaryResult> | Partial<cloudinaryResult>[]) => {
     const mockedModule = {
         v2: {
             config() { },
@@ -51,11 +52,7 @@ const mockCloudinary = (responses?) => {
                         return Promise.reject('Invalid image');
                     }
 
-                    let response = responses;
-
-                    if (Array.isArray(response)) {
-                        response = responses.shift();
-                    }
+                    const response = Array.isArray(responses) ? responses.shift() : responses;
 
                     return Promise.resolve(response);
                 }

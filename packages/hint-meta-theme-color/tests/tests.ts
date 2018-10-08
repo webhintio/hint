@@ -78,7 +78,7 @@ const defaultTests: Array<HintTest> = [
     {
         name: `'theme-color' meta element is specified in the '<body>'`,
         reports: [{ message: metaElementIsNotInHeadErrorMessage }],
-        serverConfig: generateHTMLPage(null, generateThemeColorMetaElement())
+        serverConfig: generateHTMLPage(undefined, generateThemeColorMetaElement())
     },
     {
         name: `Multiple meta 'theme-color' elements are specified`,

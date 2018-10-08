@@ -31,7 +31,7 @@ import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
 import {
     BrowserInfo, IConnector,
     IAsyncHTMLElement, ElementFound, Event, FetchEnd, FetchError, ILauncher, TraverseUp, TraverseDown,
-    Response, Request, NetworkData
+    Response, Request, NetworkData, HttpHeaders
 } from 'hint/dist/src/lib/types';
 
 import { normalizeHeaders } from '@hint/utils-connector-tools/dist/src/normalize-headers';
@@ -44,23 +44,23 @@ const debug: debug.IDebugger = d(__filename);
 
 export class Connector implements IConnector {
     /** The final set of options resulting of merging the users, and default ones. */
-    private _options;
+    private _options: any;
     /** The default headers to do any request. */
-    private _headers;
+    private _headers: HttpHeaders;
     /** The original URL to collect. */
-    private _href: string;
+    private _href: string = '';
     /** The final URL after redirects (if they exist) */
-    private _finalHref: string;
+    private _finalHref: string = '';
     /** The instance of hint that is using this connector. */
     private _server: Engine;
     /** The client to talk to the browser. */
-    private _client: Crdp.CrdpClient;
+    private _client!: Crdp.CrdpClient;
     /** A set of requests done by the connector to retrieve initial information more easily. */
     private _requests: Map<string, any>;
     /** Indicates if there has been an error loading the page (e.g.: it doesn't exists). */
     private _errorWithPage: boolean = false;
     /** The DOM abstraction on top of adapter. */
-    private _dom: CDPAsyncHTMLDocument;
+    private _dom!: CDPAsyncHTMLDocument;
     /** A handy tool to calculate the `hop`s for a given url. */
     private _redirects = new RedirectManager();
     /** A collection of requests with their initial data. */
@@ -70,19 +70,19 @@ export class Connector implements IConnector {
     /** Collection of requests waiting to be completed to get the body. */
     private _waitingForLoadingFinished: Map<string, { reject: Function; resolve: Function }>;
     /** List of all the tabs used by the connector. */
-    private _tabs = [];
+    private _tabs: any[] = [];
     /** Tells if a favicon of a page has been downloaded from a link tag. */
     private _faviconLoaded: boolean = false;
     /** The amount of time before an event is going to be timedout. */
     private _timeout: number;
     /** Browser PID */
-    private _pid: number;
-    private _targetNetworkData: NetworkData;
+    private _pid!: number;
+    private _targetNetworkData!: NetworkData;
     private _launcher: ILauncher;
     /** Promise that gets resolved when the taget is downloaded. */
     private _waitForTarget: Promise<null>;
     /** Function to call when the target is downloaded. */
-    private _targetReceived: Function;
+    private _targetReceived!: Function;
 
     public constructor(engine: Engine, config: object, launcher: ILauncher) {
         const defaultOptions = {
@@ -120,12 +120,12 @@ export class Connector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    private async getElementFromParser(parts: Array<string>): Promise<AsyncHTMLElement> {
-        let basename: string = null;
+    private async getElementFromParser(parts: Array<string>): Promise<AsyncHTMLElement | null> {
+        let basename: string | null = null;
         let elements: Array<AsyncHTMLElement> = [];
 
         while (parts.length > 0) {
-            basename = !basename ? parts.pop() : `${parts.pop()}/${basename}`;
+            basename = !basename ? parts.pop()! : `${parts.pop()}/${basename}`;
             const query: string = `[src$="${basename}"],[href$="${basename}"]`;
             const newElements: Array<AsyncHTMLElement> = await this._dom.querySelectorAll(query);
 
@@ -156,7 +156,7 @@ export class Connector implements IConnector {
     }
 
     /** Returns the IAsyncHTMLElement that initiated a request */
-    private async getElementFromRequest(requestId: string): Promise<AsyncHTMLElement> {
+    private async getElementFromRequest(requestId: string): Promise<AsyncHTMLElement | null> {
         const sourceRequest = this._requests.get(requestId);
 
         if (!sourceRequest) {
@@ -183,7 +183,7 @@ export class Connector implements IConnector {
     }
 
     /** Check if a request or response is to or from `/favicon.ico` */
-    private rootFaviconRequestOrResponse(params) {
+    private rootFaviconRequestOrResponse(params: any) {
         if (!this._finalHref) {
             return false;
         }
@@ -286,7 +286,7 @@ export class Connector implements IConnector {
             return;
         }
 
-        const element: AsyncHTMLElement = await this.getElementFromRequest(params.requestId);
+        const element: AsyncHTMLElement = (await this.getElementFromRequest(params.requestId))!;
         const eventName: string = 'fetch::error';
         const hops: Array<string> = this._redirects.calculate(resource);
 
@@ -322,15 +322,15 @@ export class Connector implements IConnector {
         });
     }
 
-    private async getResponseBody(cdpResponse: Crdp.Network.ResponseReceivedEvent): Promise<{ content: string, rawContent: Buffer, rawResponse(): Promise<Buffer> }> {
+    private async getResponseBody(cdpResponse: Crdp.Network.ResponseReceivedEvent): Promise<{ content: string, rawContent: Buffer | null, rawResponse(): Promise<Buffer | null> }> {
         let content: string = '';
-        let rawContent: Buffer = null;
-        const rawResponse = (): Promise<Buffer> => {
+        let rawContent: Buffer | null = null;
+        const rawResponse = (): Promise<Buffer | null> => {
             return Promise.resolve(null);
         };
-        const fetchContent = this.fetchContent.bind(this);
+        const fetchContent: (target: URL | string, customHeaders?: object) => Promise<NetworkData> = this.fetchContent.bind(this);
 
-        const defaultBody = { content, rawContent, rawResponse };
+        const defaultBody = { content, rawContent: rawContent as Buffer | null, rawResponse };
 
         if (cdpResponse.response.status !== 200) {
             // TODO: is this right? no-friendly-error-pages won't have a problem?
@@ -339,7 +339,7 @@ export class Connector implements IConnector {
 
         try {
             await this.waitForContentLoaded(cdpResponse.requestId);
-            const { body, base64Encoded } = await this._client.Network.getResponseBody({ requestId: cdpResponse.requestId });
+            const { body, base64Encoded } = await this._client.Network.getResponseBody!({ requestId: cdpResponse.requestId });
             const encoding = base64Encoded ? 'base64' : 'utf-8';
 
             content = base64Encoded ? atob(body) : body; // There are some JS responses that are base64 encoded for some reason
@@ -349,7 +349,7 @@ export class Connector implements IConnector {
                 content,
                 rawContent,
                 rawResponse(): Promise<Buffer> {
-                    const self = (this as { _rawResponse: Promise<Buffer> });
+                    const self = (this as unknown as { _rawResponse: Buffer });
 
                     if (self) {
                         const cached = self._rawResponse;
@@ -359,7 +359,7 @@ export class Connector implements IConnector {
                         }
                     }
 
-                    if (rawContent.length.toString() === cdpResponse.response.headers['Content-Length']) {
+                    if (rawContent && rawContent.length.toString() === cdpResponse.response.headers['Content-Length']) {
                         // Response wasn't compressed so both buffers are the same
                         return Promise.resolve(rawContent);
                     }
@@ -396,7 +396,7 @@ export class Connector implements IConnector {
                         final[key] = value;
 
                         return final;
-                    }, {});
+                    }, {} as Crdp.Network.Headers);
 
                     return fetchContent(responseUrl, validHeaders)
                         .then((result) => {
@@ -428,7 +428,7 @@ export class Connector implements IConnector {
     }
 
     /** Returns a Response for the given request. */
-    private async createResponse(cdpResponse: Crdp.Network.ResponseReceivedEvent, element: IAsyncHTMLElement): Promise<Response> {
+    private async createResponse(cdpResponse: Crdp.Network.ResponseReceivedEvent, element: IAsyncHTMLElement | null): Promise<Response> {
         const resourceUrl: string = cdpResponse.response.url;
         const hops: Array<string> = this._redirects.calculate(resourceUrl);
         const resourceHeaders = normalizeHeaders(cdpResponse.response.headers);
@@ -436,20 +436,20 @@ export class Connector implements IConnector {
         const response: Response = {
             body: {
                 content,
-                rawContent,
-                rawResponse
+                rawContent: rawContent!,
+                rawResponse: rawResponse as () => Promise<Buffer>
             },
-            charset: null,
-            headers: resourceHeaders,
+            charset: null!,
+            headers: resourceHeaders!,
             hops,
-            mediaType: null,
+            mediaType: null!,
             statusCode: cdpResponse.response.status,
             url: resourceUrl
         };
         const { charset, mediaType } = getContentTypeData(element, resourceUrl, response.headers, response.body.rawContent);
 
-        response.mediaType = mediaType;
-        response.charset = charset;
+        response.mediaType = mediaType!;
+        response.charset = charset!;
 
         return response;
     }
@@ -482,7 +482,7 @@ export class Connector implements IConnector {
         const response: Response = await this.createResponse(params, element);
 
         const request: Request = {
-            headers: params.response.requestHeaders,
+            headers: params.response.requestHeaders as HttpHeaders,
             url: originalUrl
         };
 
@@ -528,13 +528,13 @@ export class Connector implements IConnector {
          * `getFavicon` will change `_faviconLoaded` to true as soon as it is called
          * so if the browser does this request on its own we can ignore it.
          */
-        if (hasAttributeWithValue(data.element, 'link', 'rel', 'icon') && this._faviconLoaded) {
+        if (hasAttributeWithValue(data.element!, 'link', 'rel', 'icon') && this._faviconLoaded) {
             this._requests.delete(params.requestId);
 
             return;
         }
 
-        if (hasAttributeWithValue(data.element, 'link', 'rel', 'icon')) {
+        if (hasAttributeWithValue(data.element!, 'link', 'rel', 'icon')) {
             this._faviconLoaded = true;
         }
 
@@ -562,7 +562,7 @@ export class Connector implements IConnector {
         this._finishedRequests.add(requestId);
 
         if (this._waitingForLoadingFinished.has(requestId)) {
-            const { resolve } = this._waitingForLoadingFinished.get(requestId);
+            const { resolve } = this._waitingForLoadingFinished.get(requestId)!; // Will not be null as `has` check already passed.
 
             // We remove the ones that have been processed already
             this._waitingForLoadingFinished.delete(requestId);
@@ -571,7 +571,7 @@ export class Connector implements IConnector {
     }
 
     /** Traverses the DOM notifying when a new element is traversed. */
-    private async traverseAndNotify(element) {
+    private async traverseAndNotify(element: Crdp.DOM.Node) {
         /*
          * CDP returns more elements than the ones we want. For example there
          * are 2 HTML elements. One has children and has `nodeType === 1`,
@@ -601,7 +601,7 @@ export class Connector implements IConnector {
 
         for (const child of elementChildren) {
             const traverseDown: TraverseDown = {
-                element,
+                element: wrappedElement,
                 resource: this._finalHref
             };
 
@@ -610,7 +610,7 @@ export class Connector implements IConnector {
         }
 
         const traverseUp: TraverseUp = {
-            element,
+            element: wrappedElement,
             resource: this._finalHref
         };
 
@@ -620,7 +620,7 @@ export class Connector implements IConnector {
     /** Wait until the browser load the first tab */
     private getClient(port: number, tab: number): Promise<object> {
         let retries: number = 0;
-        const loadCDP = async () => {
+        const loadCDP = async (): Promise<any> => {
             try {
                 const client = await cdp({ port, tab });
 
@@ -671,7 +671,7 @@ export class Connector implements IConnector {
 
             client = await cdp({
                 port: launcher.port,
-                tab: (tabs): number => {
+                tab: (tabs: any[]): number => {
                     /*
                      * We can return a tab or an index. Also `tab` !== tab[index]
                      * even if the have the same `id`.
@@ -691,7 +691,7 @@ export class Connector implements IConnector {
     }
 
     /** Handles when there has been an unexpected error talking with the browser. */
-    private onError(err) {
+    private onError(err: string) {
         debug(`Error: \n${err}`);
     }
 
@@ -706,13 +706,13 @@ export class Connector implements IConnector {
         const { Network } = this._client;
 
         await Promise.all([
-            Network.clearBrowserCache(),
-            Network.setCacheDisabled({ cacheDisabled: true }),
+            Network.clearBrowserCache!(),
+            Network.setCacheDisabled!({ cacheDisabled: true }),
             // The typings we use for CDP aren't 100% compatible with our libarary
-            Network['requestWillBeSent'](this.onRequestWillBeSent.bind(this)), // eslint-disable-line dot-notation
-            Network['responseReceived'](this.onResponseReceived.bind(this)), // eslint-disable-line dot-notation
-            Network['loadingFinished'](this.onLoadingFinished.bind(this)), // eslint-disable-line dot-notation
-            Network['loadingFailed'](this.onLoadingFailed.bind(this)) // eslint-disable-line dot-notation
+            (Network as any)['requestWillBeSent'](this.onRequestWillBeSent.bind(this)), // eslint-disable-line dot-notation
+            (Network as any)['responseReceived'](this.onResponseReceived.bind(this)), // eslint-disable-line dot-notation
+            (Network as any)['loadingFinished'](this.onLoadingFinished.bind(this)), // eslint-disable-line dot-notation
+            (Network as any)['loadingFailed'](this.onLoadingFailed.bind(this)) // eslint-disable-line dot-notation
         ]);
     }
 
@@ -727,8 +727,8 @@ export class Connector implements IConnector {
         await this.enableNetworkEvents();
 
         await Promise.all([
-            Network.enable({}),
-            Page.enable()
+            Network.enable!({}),
+            Page.enable!()
         ]);
     }
 
@@ -775,7 +775,7 @@ export class Connector implements IConnector {
     private async processPendingResponses(): Promise<void> {
         while (this._pendingResponseReceived.length) {
             debug(`Pending requests: ${this._pendingResponseReceived.length}`);
-            await this._pendingResponseReceived.shift()();
+            await this._pendingResponseReceived.shift()!(); // Function will exist due to `length` check above.
         }
     }
 
@@ -794,7 +794,7 @@ export class Connector implements IConnector {
                     await delay(this._options.waitFor);
 
                     // Stop receiving network related events. Useful for pages that do not stop sending telemetry.
-                    this._client.Network.disable();
+                    this._client.Network.disable!();
                 }
 
                 const { DOM } = this._client;
@@ -854,7 +854,7 @@ export class Connector implements IConnector {
             throw err;
         }
 
-        return promisify(async (callback) => {
+        return promisify(async (callback: Function) => {
             this._href = target.href.replace(target.hash, '');
             this._finalHref = target.href; // This value will be updated if we load the site
             const event: Event = { resource: target.href };
@@ -886,7 +886,7 @@ export class Connector implements IConnector {
              */
 
             if (this._options.overrideInvalidCert) {
-                Security.certificateError(({ eventId }) => {
+                Security.certificateError(({ eventId }: { eventId: number }) => {
                     Security.handleCertificateError({
                         action: 'continue',
                         eventId
@@ -1012,7 +1012,7 @@ export class Connector implements IConnector {
      * Instead, map to a successful object that contains this information.
      * @param {string|Error} err The error to convert istanbul ignore next
      */
-    private wrapRuntimeEvalErrorInBrowser(e) {
+    private wrapRuntimeEvalErrorInBrowser(e: Error | null) {
         const err = e || new Error();
         const fallbackMessage: string = typeof err === 'string' ? err : 'unknown error';
 
@@ -1029,7 +1029,7 @@ export class Connector implements IConnector {
      *
      * This awesomeness comes from lighthouse
      */
-    public evaluate(code): Promise<any> {
+    public evaluate(code: string): Promise<any> {
 
         return new Promise(async (resolve, reject) => {
             // If this gets to 60s and it hasn't been resolved, reject the Promise.
@@ -1049,7 +1049,7 @@ export class Connector implements IConnector {
           });
         }())`;
 
-                const result = await this._client.Runtime.evaluate({
+                const result = await this._client.Runtime.evaluate!({
                     awaitPromise: true,
                     /*
                      * We need to explicitly wrap the raw expression for several purposes:

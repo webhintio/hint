@@ -1,9 +1,11 @@
+import { AST, SourceCode } from 'eslint';
+
 import { Event } from 'hint/dist/src/lib/types/events';
 
 /** The object emitted by the `javascript` parser */
 export type ScriptParse = Event & {
     /** The ast generated from the script */
-    ast: any;
+    ast: AST.Program;
     /** The source code parsed */
-    sourceCode: any;
+    sourceCode: SourceCode;
 };

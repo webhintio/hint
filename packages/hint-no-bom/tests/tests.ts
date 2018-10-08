@@ -40,8 +40,8 @@ const tests: Array<HintTest> = [
             asyncWrapper.asyncTry = originalAsyncTry;
         },
         before() {
-            asyncWrapper.asyncTry = function (fetch) {
-                return (target) => {
+            asyncWrapper.asyncTry = function (fetch: (target: string) => Promise<any>) {
+                return (target: string) => {
                     if (!target.includes('styles.css')) {
                         return fetch(target);
                     }
