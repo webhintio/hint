@@ -35,7 +35,7 @@
     "sinon": "^6.3.5",
     "ts-loader": "^5.2.0",
     "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^19.0.2",
+    "typescript-eslint-parser": "^20.0.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"
   },
