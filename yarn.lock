@@ -499,10 +499,10 @@
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
 
-"@types/sinon@^5.0.3":
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-5.0.4.tgz#a765b390b373cf01a3b19b0c97f9eb4bb2a168b1"
-  integrity sha512-xji+eh4DPcc9BBFWvIUNH1n7yELeYUSSjWSEn2MDaUeuIHUKsuWWA/O/+ozhx8crtnMa/qa0jPrXl16OEdLB9w==
+"@types/sinon@^5.0.5":
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-5.0.5.tgz#de600fa07eb1ec9d5f55669d5bac46a75fc88115"
+  integrity sha512-Wnuv66VhvAD2LEJfZkq8jowXGxe+gjVibeLCYcVBp7QLdw0BFx2sRkKzoiiDkYEPGg5VyqO805Rcj0stVjQwCQ==
 
 "@types/strip-bom@^3.0.0":
   version "3.0.0"
