@@ -9444,18 +9444,18 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript-eslint-parser@^19.0.2:
-  version "19.0.2"
-  resolved "https://registry.yarnpkg.com/typescript-eslint-parser/-/typescript-eslint-parser-19.0.2.tgz#3df184b5290469598375e93842cd0a42d8b7745d"
-  integrity sha512-ZwbgliYgAjbeV+l7Ul8awcJlkzNeOLM2NiYgj1djOYl2WU0lRLIpr1HPmvBzqj9pK/Sf5Kn50ap9MAXCCDW5qA==
+typescript-eslint-parser@^20.0.0:
+  version "20.0.0"
+  resolved "https://registry.yarnpkg.com/typescript-eslint-parser/-/typescript-eslint-parser-20.0.0.tgz#508678796bbcf60365ada28c38bd557e736bec01"
+  integrity sha512-HZEoGA+LnS3etUlVAPX6I8sZ7872Yb0vPvQv6QDCIE44KD3bFmvPEQ4LbiD+qGkcxh6segjVK0v3rxpb2R6oSA==
   dependencies:
     eslint "4.19.1"
-    typescript-estree "1.0.0"
+    typescript-estree "2.1.0"
 
-typescript-estree@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/typescript-estree/-/typescript-estree-1.0.0.tgz#6266f31108d2f12594cb996d0e16d938e3cb83cd"
-  integrity sha512-KTsKik/vCxgkRImEuE6LFcAImffc9HJ0vPURPlFSy80w5QdjQUpkjHvG0GR5fY36SlWhwxdB2HxICaCP3lqe0A==
+typescript-estree@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/typescript-estree/-/typescript-estree-2.1.0.tgz#b2f3353494409ed53bf7055b46f78c1fbbe47661"
+  integrity sha512-t4o+7pB4OnxV36Bp41Vgtq8vXIvIUbx1vM98PSE2mL5QBY6woFaBN9hhD8pZHIrAu24IB5gzxbkEJOXj4lWNXQ==
   dependencies:
     lodash.unescape "4.0.1"
     semver "5.5.0"
