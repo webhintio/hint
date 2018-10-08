@@ -6,9 +6,11 @@ import * as inquirer from 'inquirer';
 import * as Listr from 'listr';
 import * as listrInput from 'listr-input';
 import { promisify } from 'util';
-import * as request from 'request';
+import * as req from 'request';
 import * as shell from 'shelljs';
 import * as semver from 'semver';
+
+const request = promisify(req) as (options: req.OptionsWithUrl) => Promise<req.Response>;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -110,9 +112,9 @@ const createGitHubToken = async (showInitialMessage = true) => {
         type: 'input'
     }];
 
-    const answers = await inquirer.prompt(questions);
+    const answers = await inquirer.prompt(questions) as inquirer.Answers;
 
-    const res = await promisify(request)({
+    const res = await request({
         auth: {
             pass: answers.password,
             user: answers.username
@@ -148,7 +150,7 @@ const updateFile = (filePath: string, content: string) => {
 };
 
 const createRelease = async (tag: string, releaseNotes: string) => {
-    const res = await promisify(request)({
+    const res = await request({
         body: {
             body: releaseNotes,
             name: tag,
@@ -161,7 +163,7 @@ const createRelease = async (tag: string, releaseNotes: string) => {
         json: true,
         method: 'POST',
         url: `https://api.github.com/repos/${REPOSITORY_SLUG}/releases`
-    });
+    }) as req.Response;
 
     if (res.statusCode !== 201) {
         throw new Error(res.body.message);
@@ -169,7 +171,7 @@ const createRelease = async (tag: string, releaseNotes: string) => {
 };
 
 const downloadFile = async (downloadURL: string, downloadLocation: string) => {
-    const res = await promisify(request)({ url: downloadURL });
+    const res = await request({ url: downloadURL }) as req.Response;
 
     if (res.body.message) {
         throw new Error(res.body.message);
@@ -246,9 +248,9 @@ const deleteGitHubToken = async () => {
         type: 'input'
     }];
 
-    const answers = await inquirer.prompt(questions);
+    const answers = await inquirer.prompt(questions) as inquirer.Answers;
 
-    const res = await promisify(request)({
+    const res = await request({
         auth: {
             pass: GITHUB.password,
             user: GITHUB.userName
@@ -259,7 +261,7 @@ const deleteGitHubToken = async () => {
         },
         method: 'DELETE',
         url: `https://api.github.com/authorizations/${GITHUB.tokenID}`
-    });
+    }) as req.Response;
 
     if (res.statusCode !== 204) {
         console.error(`Failed to delete GitHub Token: ${GITHUB.tokenID}`);
@@ -275,7 +277,7 @@ const getCommitAuthorInfo = async (commitSHA: string): Promise<object> => {
 
     // Get commit related info.
 
-    const responseForCommitInfoRequest = await promisify(request)({
+    const responseForCommitInfoRequest = await request({
         headers: {
             Authorization: `token ${GITHUB.token}`,
             'User-Agent': 'Nellie The Narwhal'
@@ -304,7 +306,7 @@ const getCommitAuthorInfo = async (commitSHA: string): Promise<object> => {
      * which in most cases, is wrongly set.
      */
 
-    const responseForUserInfoRequest = await promisify(request)({
+    const responseForUserInfoRequest = await request({
         headers: {
             Authorization: `token ${GITHUB.token}`,
             'User-Agent': 'Nellie The Narwhal'
