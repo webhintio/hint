@@ -191,7 +191,7 @@ export default class AnalysisResult {
     /** Scan time. */
     public scanTime: string;
     /** When the scan was started (started in the online scanner). */
-    public timeStamp: string;
+    public date: string;
     /** webhint version. */
     public version?: string;
     /** Link to the result (online scanner). */
@@ -221,7 +221,7 @@ export default class AnalysisResult {
         this.isFinish = this.status === 'finished' || this.status === 'error';
 
         this.scanTime = this.parseScanTime(options.scanTime || 0);
-        this.timeStamp = this.parseTimeStamp(options.timeStamp!);
+        this.date = options.date!;
         this.version = options.version;
         this.permalink = '';
         this.id = '';
@@ -255,14 +255,6 @@ export default class AnalysisResult {
         }
 
         return time;
-    }
-
-    /**
-     * Return the string of a time stamp.
-     * @param timeStamp Time in milliseconds.
-     */
-    private parseTimeStamp(timeStamp: number): string {
-        return moment(timeStamp).format('YYYY-MM-DD H:mm');
     }
 
     /**
