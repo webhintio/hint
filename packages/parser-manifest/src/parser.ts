@@ -82,7 +82,7 @@ export default class ManifestParser extends Parser {
 
         // If so, check if a non-empty `href` was specified.
 
-        const hrefValue: string = normalizeString(element.getAttribute('href'));
+        const hrefValue: string | null = normalizeString(element.getAttribute('href'));
 
         if (!hrefValue) {
             return;
@@ -95,13 +95,13 @@ export default class ManifestParser extends Parser {
 
         await this.engine.emitAsync(this.fetchStartEventName, fetchStartEvent);
 
-        let manifestNetworkData: NetworkData;
-        let error: Error;
+        let manifestNetworkData: NetworkData | undefined;
+        let error: Error | undefined;
 
         try {
-            manifestNetworkData = await this.engine.fetchContent(manifestURL, null);
+            manifestNetworkData = await this.engine.fetchContent(manifestURL);
         } catch (e) {
-            error = e;
+            error = e as Error;
 
             /*
              * Generic error message is used as it would be complicated
@@ -114,9 +114,9 @@ export default class ManifestParser extends Parser {
 
         // TODO: Add check if manifest cannot be fetch because of CSP.
 
-        const statusCode: number = manifestNetworkData && manifestNetworkData.response.statusCode;
+        const statusCode: number | undefined = manifestNetworkData && manifestNetworkData.response.statusCode;
 
-        if (error || statusCode !== 200) {
+        if (!manifestNetworkData || error || statusCode !== 200) {
             const fetchErrorEvent: FetchError = {
                 element,
                 error: error || new Error(`'${hrefValue}' could not be fetched (status code: ${statusCode}).`),

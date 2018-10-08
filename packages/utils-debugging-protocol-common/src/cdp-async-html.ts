@@ -11,11 +11,11 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
     /** The DOM domain of the CDP client. */
     private _DOM: Crdp.DOMClient;
     /** The root element of the real DOM. */
-    private _dom;
+    private _dom!: Crdp.DOM.Node;
     /** A map with all the nodes accessible using `nodeId`. */
     private _nodes: Map<number, any> = new Map();
     /** outerHTML of the page. */
-    private _outerHTML: string;
+    private _outerHTML: string = '';
 
     public constructor(DOM: Crdp.DOMClient) {
         this._DOM = DOM;
@@ -54,7 +54,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
         let nodeIds;
 
         try {
-            nodeIds = (await this._DOM.querySelectorAll({ nodeId: this._dom.nodeId, selector })).nodeIds;
+            nodeIds = (await this._DOM.querySelectorAll!({ nodeId: this._dom.nodeId, selector })).nodeIds;
         } catch (e) {
             debug(e);
 
@@ -88,16 +88,16 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
             return Promise.resolve(this._outerHTML);
         }
 
-        let { outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._dom.nodeId });
+        let { outerHTML } = await this._DOM.getOuterHTML!({ nodeId: this._dom.nodeId });
 
         /*
          * Some browsers like Edge don't have the property outerHTML in the root element
          * so we need to find the html element
          */
         if (!outerHTML) {
-            const htmlElement = this.getHTMLChildren(this._dom.children);
+            const htmlElement = this.getHTMLChildren(this._dom.children!);
 
-            ({ outerHTML } = await this._DOM.getOuterHTML({ nodeId: htmlElement.nodeId }));
+            ({ outerHTML } = await this._DOM.getOuterHTML!({ nodeId: htmlElement!.nodeId })); // HTML documents always have a root (the parser creates one)
         }
 
         this._outerHTML = outerHTML;
@@ -106,7 +106,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
     }
 
     public async load() {
-        const { root: dom } = await this._DOM.getDocument({ depth: -1 });
+        const { root: dom } = await this._DOM.getDocument!({ depth: -1 });
 
         this.trackNodes(dom);
         this._dom = dom;
@@ -133,10 +133,10 @@ export const createCDPAsyncHTMLDocument = async (DOM: Crdp.DOMClient) => {
 
 /** An implementation of AsyncHTMLElement on top of the Chrome Debugging Protocol */
 export class AsyncHTMLElement implements IAsyncHTMLElement {
-    protected _htmlelement;
-    private _ownerDocument: IAsyncHTMLDocument;
-    private _DOM;
-    private _outerHTML: string;
+    protected _htmlelement: Crdp.DOM.Node;
+    private _ownerDocument: CDPAsyncHTMLDocument;
+    private _DOM: Crdp.DOMClient;
+    private _outerHTML: string = '';
     private _attributesArray: Array<{ name: string; value: string; }> = [];
     private _attributesMap: Map<string, string> = new Map();
 
@@ -164,7 +164,7 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
      * ------------------------------------------------------------------------------
      */
 
-    public getAttribute(name: string): string {
+    public getAttribute(name: string): string | null {
         if (this._attributesArray.length === 0) {
             this.initializeAttributes();
         }
@@ -174,7 +174,7 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
         return typeof value === 'string' ? value : null;
     }
 
-    public getLocation(): ProblemLocation {
+    public getLocation(): ProblemLocation | null {
         return null;
     }
 
@@ -190,7 +190,7 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
         let outerHTML = '';
 
         try {
-            ({ outerHTML } = await this._DOM.getOuterHTML({ nodeId: this._htmlelement.nodeId }));
+            ({ outerHTML } = await this._DOM.getOuterHTML!({ nodeId: this._htmlelement.nodeId }));
         } catch (e) {
             debug(`Error trying to get outerHTML for node ${this._htmlelement.nodeId}`);
             debug(e);

@@ -41,7 +41,7 @@ const tests: Array<HintTest> = [
             { message: metaElementIsNotFirstInHeadErrorMessage },
             { message: metaElementIsNotInHeadErrorMessage }
         ],
-        serverConfig: generateHTMLPage(null, metaCharset)
+        serverConfig: generateHTMLPage(undefined, metaCharset)
     },
     {
         name: `'charset' meta element is specified in '<head>' after another element`,

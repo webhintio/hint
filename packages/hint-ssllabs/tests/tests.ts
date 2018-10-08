@@ -8,10 +8,10 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 
 const hintPath = getHintPath(__filename);
 
-const ssllabsMock = (response) => {
+const ssllabsMock = (response: any) => {
     const mockedModule = {
         // Original node-ssllabs uses callback and we promisify in the hint
-        scan: (options, callback) => {
+        scan: (options: any, callback: Function) => {
             if (response === null) {
                 return callback('Error');
             }

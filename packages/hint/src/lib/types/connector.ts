@@ -37,7 +37,7 @@ export interface IFetchOptions {
 export type BrowserInfo = {
     isNew?: boolean;
     pid: number;
-    port: number;
+    port?: number;
 };
 
 export interface ILauncher {

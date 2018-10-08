@@ -3,7 +3,7 @@ import { IAsyncHTMLElement } from 'hint/dist/src/lib/types';
 
 export type cloudinaryResult = {
     bytes: number;
-    element: IAsyncHTMLElement;
+    element: IAsyncHTMLElement | null;
     format: string;
     height: number;
     originalBytes: number;
