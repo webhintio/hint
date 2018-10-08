@@ -104,7 +104,7 @@ export class EdgeLauncher extends Launcher {
     private checkIfRunning(procs: Array<string>): Promise<Array<boolean>> {
         return new Promise((resolve, reject) => {
             const cmd = spawn('cmd');
-            let out = [];
+            let out: (string | Buffer)[] = [];
 
             cmd.stdout.on('data', (data) => {
                 out = out.concat(data);
@@ -133,7 +133,7 @@ export class EdgeLauncher extends Launcher {
         });
     }
 
-    public async launch(url): Promise<BrowserInfo> {
+    public async launch(url: string): Promise<BrowserInfo> {
         const osInfo = this.isWin10();
 
         if (!osInfo.isWin || osInfo.version < 10) {
