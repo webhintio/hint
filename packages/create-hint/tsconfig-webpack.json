@@ -5,7 +5,8 @@
         "inlineSourceMap": false,
         "removeComments": true,
         "target": "esnext",
-        "outDir": "dist"
+        "outDir": "dist",
+        "strict": true
     },
     "exclude": [
         "dist",

@@ -14,7 +14,7 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { UserConfig } from 'hint/dist/src/lib/types';
+import { NpmPackage, UserConfig } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 
@@ -22,13 +22,12 @@ import { getInstalledResources, getCoreResources } from 'hint/dist/src/lib/utils
 import { ResourceType } from 'hint/dist/src/lib/enums/resourcetype';
 import { generateBrowserslistConfig } from './browserslist';
 import { getOfficialPackages, installPackages } from 'hint/dist/src/lib/utils/npm';
-import { NpmPackage } from 'hint/dist/src/lib/types';
 import { trackEvent } from 'hint/dist/src/lib/utils/appinsights';
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
 
-type InitUserConfig = {
+type InitUserConfig = { // eslint-disable-line no-unused-vars
     config: UserConfig;
     packages?: Array<string>;
 };
@@ -52,7 +51,7 @@ const getConfigurationName = (pkgName: string): string => {
 };
 
 /** Shwos the user a list of official configuration packages available in npm to install. */
-const extendConfig = async (): Promise<InitUserConfig> => {
+const extendConfig = async (): Promise<InitUserConfig | null> => {
     const configPackages: Array<NpmPackage> = await getOfficialPackages(ResourceType.configuration);
 
     if (!anyResources(configPackages, ResourceType.configuration)) {
@@ -84,7 +83,7 @@ const extendConfig = async (): Promise<InitUserConfig> => {
 };
 
 /** Prompts a series of questions to create a new configuration object based on the installed packages. */
-const customConfig = async (): Promise<InitUserConfig> => {
+const customConfig = async (): Promise<InitUserConfig | null> => {
     const connectorKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
     const formattersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
     const parsersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
@@ -118,7 +117,7 @@ const customConfig = async (): Promise<InitUserConfig> => {
             name: 'hints',
             pageSize: 15,
             type: 'checkbox',
-            when: (answers) => {
+            when: (answers: inquirer.Answers) => {
                 return !answers.default;
             }
         }
@@ -153,11 +152,11 @@ const customConfig = async (): Promise<InitUserConfig> => {
     hintConfig.connector.name = results.connector;
     hintConfig.formatters = results.formatters;
 
-    results.hints.forEach((hint) => {
-        hintConfig.hints[hint] = 'error';
+    results.hints.forEach((hint: string) => {
+        (hintConfig.hints as any)[hint] = 'error';
     });
 
-    hintConfig.browserslist = await generateBrowserslistConfig();
+    (hintConfig.browserslist as string[]) = await generateBrowserslistConfig();
 
     return { config: hintConfig };
 };
