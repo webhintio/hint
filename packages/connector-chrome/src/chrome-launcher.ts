@@ -17,7 +17,7 @@ import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
 import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 
 const debug: debug.IDebugger = d(__filename);
-const lock = promisify(lockfile.lock);
+const lock = promisify(lockfile.lock) as (path: string, options: lockfile.Options) => Promise<void>;
 const unlock = promisify(lockfile.unlock);
 
 export class CDPLauncher extends Launcher {
