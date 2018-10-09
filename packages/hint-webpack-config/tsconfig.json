@@ -11,5 +11,12 @@
     "include": [
         "src/**/*.ts",
         "tests/**/*.ts"
+    ],
+    "references": [
+        { "path": "../hint" },
+        { "path": "../parser-babel-config" },
+        { "path": "../parser-typescript-config" },
+        { "path": "../parser-webpack-config" },
+        { "path": "../utils-tests-helpers" }
     ]
 }

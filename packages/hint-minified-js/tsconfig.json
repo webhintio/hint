@@ -11,5 +11,10 @@
     "include": [
         "src/**/*.ts",
         "tests/**/*.ts"
+    ],
+    "references": [
+        { "path": "../hint" },
+        { "path": "../parser-javascript" },
+        { "path": "../utils-tests-helpers" }
     ]
 }
