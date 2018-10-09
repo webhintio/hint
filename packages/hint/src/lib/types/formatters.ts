@@ -8,7 +8,8 @@ export type FormatterOptions = {
     resources?: HintResources;
     scanTime?: number;
     status?: string;
-    timeStamp?: number;
+    /** Start time (queued in online scanner) ISO string */
+    date?: string;
     version?: string;
 };
 
