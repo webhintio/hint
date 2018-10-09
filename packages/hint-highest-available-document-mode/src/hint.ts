@@ -10,7 +10,7 @@
  */
 
 import { Category } from 'hint/dist/src/lib/enums/category';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, TraverseEnd, HintMetadata } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, TraverseEnd, HintMetadata, HttpHeaders } from 'hint/dist/src/lib/types';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import isLocalFile from 'hint/dist/src/lib/utils/network/is-local-file';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -57,7 +57,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             });
         };
 
-        const checkHeader = async (resource: string, responseHeaders: object) => {
+        const checkHeader = async (resource: string, responseHeaders: HttpHeaders) => {
             const originalHeaderValue = responseHeaders['x-ua-compatible'];
             const headerValue = normalizeString(originalHeaderValue);
 
@@ -143,7 +143,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
              */
 
             const XUACompatibleMetaElement: IAsyncHTMLElement = XUACompatibleMetaElements[0];
-            const contentValue: string = XUACompatibleMetaElement.getAttribute('content');
+            const contentValue: string | null = XUACompatibleMetaElement.getAttribute('content');
 
             // * it has the value `ie=edge`.
 
@@ -219,7 +219,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
 
             // The following check doesn't make sense for local files.
 
-            if (!isLocalFile(resource)) {
+            if (!isLocalFile(resource) && context.pageHeaders) {
                 checkHeader(resource, context.pageHeaders);
             }
 

@@ -152,7 +152,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
     };
 
     await t.context.engine.emitAsync('fetch::end::json', {
-        resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends.json'))),
+        resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends.json'))!),
         response: { body: { content: JSON.stringify(validJSON) } }
     });
 
@@ -175,7 +175,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
     const configuration = readFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-loop.json'));
 
     await t.context.engine.emitAsync('fetch::end::json', {
-        resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-loop.json'))),
+        resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-loop.json'))!),
         response: { body: { content: configuration } }
     });
 
@@ -196,7 +196,7 @@ test('If we receive a json with an extends with an invalid json, it should emit 
     const configuration = readFile(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-invalid.json'));
 
     await t.context.engine.emitAsync('fetch::end::json', {
-        resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-invalid.json'))),
+        resource: url.format(getAsUri(path.join(__dirname, 'fixtures', 'tsconfig.valid-with-extends-invalid.json'))!),
         response: { body: { content: configuration } }
     });
 

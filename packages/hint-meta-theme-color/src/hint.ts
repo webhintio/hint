@@ -9,19 +9,16 @@
  * ------------------------------------------------------------------------------
  */
 
-import { get as parseColor } from 'color-string';
+import { get as parseColor, ColorDescriptor } from 'color-string';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
-/* eslint-disable no-unused-vars */
 import {
     ElementFound,
-    IAsyncHTMLDocument,
     IAsyncHTMLElement,
     IHint,
     HintMetadata,
     TraverseEnd
 } from 'hint/dist/src/lib/types';
-/* eslint-enable no-unused-vars */
 import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -60,7 +57,7 @@ export default class MetaThemeColorHint implements IHint {
             }
         };
 
-        const isNotSupportedColorValue = (color, normalizedColorValue: string): boolean => {
+        const isNotSupportedColorValue = (color: ColorDescriptor, normalizedColorValue: string): boolean => {
             const hexWithAlphaRegex = /^#([0-9a-fA-F]{4}){1,2}$/;
 
             /*
@@ -91,7 +88,7 @@ export default class MetaThemeColorHint implements IHint {
 
         const checkContentAttributeValue = async (resource: string, element: IAsyncHTMLElement) => {
             const contentValue = element.getAttribute('content');
-            const normalizedContentValue = normalizeString(contentValue, '');
+            const normalizedContentValue = normalizeString(contentValue, '')!; // Will not be null because default was provided.
             const color = parseColor(normalizedContentValue);
 
             if (color === null) {

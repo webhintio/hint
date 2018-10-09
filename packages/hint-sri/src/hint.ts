@@ -16,7 +16,7 @@ import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 const debug: debug.IDebugger = d(__filename);
-const everySeries = promisify(async.everySeries) as (arr, iterator) => Promise<any>;
+const everySeries = promisify(async.everySeries) as (arr: any, iterator: any) => Promise<any>;
 
 /*
  * ------------------------------------------------------------------------------
@@ -53,8 +53,8 @@ export default class SRIHint implements IHint {
 
     private resources: Map<string, string>;
     private context: HintContext;
-    private origin: string;
-    private baseline: string = 'sha384';
+    private origin: string = '';
+    private baseline: keyof typeof algorithms = 'sha384';
 
     /**
      * Returns the hash of the content for the given `sha` strengh in a format
@@ -105,7 +105,7 @@ export default class SRIHint implements IHint {
         }
 
         if (nodeName === 'link') {
-            const relValues = (normalizeString(element.getAttribute('rel'), '')).split(' ');
+            const relValues = (normalizeString(element.getAttribute('rel'), ''))!.split(' '); // normalizeString won't return null as a default was passed.
 
             return Promise.resolve(relValues.includes('stylesheet'));
         }
@@ -132,7 +132,7 @@ export default class SRIHint implements IHint {
         }
 
         // cross-origin scripts need to be loaded with a valid "crossorigin" attribute (ie.: anonymous or use-credentials)
-        const crossorigin = normalizeString(element.getAttribute('crossorigin'));
+        const crossorigin = normalizeString(element && element.getAttribute('crossorigin'));
 
         if (!crossorigin) {
             await this.context.report(resource, element, `Cross-origin scripts need a "crossorigin" attribute to be eligible for integrity validation`);
@@ -153,7 +153,7 @@ export default class SRIHint implements IHint {
     private async hasIntegrityAttribute(evt: FetchEnd): Promise<boolean> {
         debug('has integrity attribute?');
         const { element, resource } = evt;
-        const integrity = element.getAttribute('integrity');
+        const integrity = element && element.getAttribute('integrity');
 
         if (!integrity) {
             await this.context.report(resource, element, `Resource ${resource} requested without the "integrity" attribute`);
@@ -180,23 +180,25 @@ export default class SRIHint implements IHint {
     private async isIntegrityFormatValid(evt: FetchEnd): Promise<boolean> {
         debug('Is integrity attribute valid?');
         const { element, resource } = evt;
-        const integrity = element.getAttribute('integrity');
+        const integrity = element && element.getAttribute('integrity');
         const integrityRegExp = /^sha(256|384|512)-/;
-        const integrityValues = integrity.split(/\s+/);
+        const integrityValues = integrity ? integrity.split(/\s+/) : [];
         let highestAlgorithmPriority = 0;
         const that = this;
 
-        const areFormatsValid = await everySeries(integrityValues, async (integrityValue) => {
+        const areFormatsValid = await everySeries(integrityValues, async (integrityValue: string) => {
             const results = integrityRegExp.exec(integrityValue);
             const isValid = Array.isArray(results);
 
             if (!isValid) {
-                await that.context.report(resource, element, `The format of the "integrity" attribute should be "sha(256|384|512)-HASH": ${integrity.substr(0, 10)}…`);
+                // integrity must exist since we're iterating over integrityValues
+                await that.context.report(resource, element, `The format of the "integrity" attribute should be "sha(256|384|512)-HASH": ${integrity!.substr(0, 10)}…`);
 
                 return false;
             }
 
-            const algorithm = `sha${results[1]}`;
+            // results won't be null since isValid must be true to get here.
+            const algorithm = `sha${results![1]}` as keyof typeof algorithms;
             const algorithmPriority = algorithms[algorithm];
 
             highestAlgorithmPriority = Math.max(algorithmPriority, highestAlgorithmPriority);
@@ -247,16 +249,16 @@ export default class SRIHint implements IHint {
     private async hasRightHash(evt: FetchEnd): Promise<boolean> {
         debug('Does it have the right hash?');
         const { element, resource, response } = evt;
-        const integrity = element.getAttribute('integrity');
-        const integrities = integrity.split(/\s+/);
+        const integrity = element && element.getAttribute('integrity');
+        const integrities = integrity ? integrity.split(/\s+/) : [];
         const calculatedHashes: Map<string, string> = new Map();
         // const that = this;
 
         const isOK = integrities.some((integrityValue) => {
             const integrityRegExp = /^sha(256|384|512)-(.*)$/;
-            const [, bits, hash] = integrityRegExp.exec(integrityValue);
+            const [, bits = '', hash = ''] = integrityRegExp.exec(integrityValue) || [];
             const calculatedHash = calculatedHashes.has(bits) ?
-                calculatedHashes.get(bits) :
+                calculatedHashes.get(bits)! :
                 this.calculateHash(response.body.content, `sha${bits}`);
 
             calculatedHashes.set(bits, calculatedHash);
@@ -296,7 +298,7 @@ Actual:   ${hashes.join(', ')}`);
 
         debug(`Validating integrity of: ${evt.resource}`);
 
-        await everySeries(validations, async (validation) => {
+        await everySeries(validations, async (validation: Function) => {
             return await validation(evt);
         });
     }

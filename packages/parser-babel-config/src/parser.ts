@@ -66,16 +66,19 @@ export default class BabelConfigParser extends Parser {
 
             await this.engine.emitAsync(`parse::${this.name}::start`, parseStart);
 
-            result = isPackageJson ? result.scope('babel') : result;
+            // `result.scope('babel')` won't be null since `result.data.babel` was confirmed to exist above.
+            result = isPackageJson ? result.scope('babel')! : result;
             config = result.data;
 
             const originalConfig: BabelConfig = cloneDeep(config);
 
-            config = await this.finalConfig<BabelConfig, BabelConfigInvalidJSON>(config, resource);
+            const finalConfig = await this.finalConfig<BabelConfig, BabelConfigInvalidJSON>(config, resource);
 
-            if (!config) {
+            if (!finalConfig) {
                 return;
             }
+
+            config = finalConfig;
 
             const validationResult: SchemaValidationResult = await this.validateSchema(config, resource, result);
 

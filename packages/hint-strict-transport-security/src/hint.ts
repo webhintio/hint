@@ -69,7 +69,7 @@ export default class StrictTransportSecurityHint implements IHint {
          * "max-age=31536000; includesubdomains; preload" => {"max-age":31536000,"includesubdomains":true,"preload":true}
          */
         const parse = (headerValue: string) => {
-            const parsedHeader = {};
+            const parsedHeader: {[name:string]: string } = {};
             const directives = headerValue.toLowerCase().split(';');
             const nameValuePairRegex = /^ *([!#$%&'*+.^_`|~0-9A-Za-z-]+) *= *("(?:[~0-9])*"|[!#$%&'*+.^_`|~0-9]+) *$/;
             /*
@@ -92,14 +92,14 @@ export default class StrictTransportSecurityHint implements IHint {
                     throw new Error(`'strict-transport-security' header contains more than one '${name}'`);
                 }
 
-                parsedHeader[name] = value || true;
+                parsedHeader[name] = value || 'true';
             });
 
             return parsedHeader;
         };
 
         const isUnderAgeLimit = (maxAge: string, limit: number): boolean => {
-            return maxAge && parseInt(maxAge) < limit;
+            return !!maxAge && parseInt(maxAge) < limit;
         };
 
         const isPreloaded = (hostname: string): Promise<{ [key: string]: any }> => {
@@ -114,7 +114,7 @@ export default class StrictTransportSecurityHint implements IHint {
             return requestJSONAsync(`${preloadableApiEndPoint}${hostname}`);
         };
 
-        const verifyPreload = async (resource): Promise<{ [key: string]: any }> => {
+        const verifyPreload = async (resource: string): Promise<{ [key: string]: any }> => {
             const originalDomain = new URL(resource).hostname;
             const mainDomain = originalDomain.replace(/^www./, '');
             // Some hostnames in the list include `www.`, e.g., `www.gov.uk`.
@@ -160,7 +160,7 @@ export default class StrictTransportSecurityHint implements IHint {
         };
 
         const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
 
             if (!isRegularProtocol(resource)) {
                 debug(`Check does not apply for non HTTP(s) URIs`);

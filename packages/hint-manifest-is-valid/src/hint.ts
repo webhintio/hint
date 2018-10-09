@@ -9,7 +9,7 @@
  */
 
 import { parse as bcp47 } from 'bcp47';
-import { get as parseColor } from 'color-string';
+import { get as parseColor, ColorDescriptor } from 'color-string';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import {
@@ -51,7 +51,7 @@ export default class ManifestIsValidHint implements IHint {
 
         const targetedBrowsers: string = context.targetedBrowsers.join();
 
-        const isNotSupportedColorValue = (color, normalizedColorValue: string): boolean => {
+        const isNotSupportedColorValue = (color: ColorDescriptor, normalizedColorValue: string): boolean => {
             const hexWithAlphaRegex = /^#([0-9a-fA-F]{4}){1,2}$/;
 
             /*
@@ -80,7 +80,7 @@ export default class ManifestIsValidHint implements IHint {
                 color.model === 'hwb';
         };
 
-        const checkColors = async (resource: string, element: IAsyncHTMLElement, manifest: Manifest, getLocation: IJSONLocationFunction) => {
+        const checkColors = async (resource: string, element: IAsyncHTMLElement | null, manifest: Manifest, getLocation: IJSONLocationFunction) => {
             const colorProperties = [
                 'background_color',
                 'theme_color'
@@ -97,22 +97,22 @@ export default class ManifestIsValidHint implements IHint {
                 const color = parseColor(normalizedColorValue);
 
                 if (color === null) {
-                    await context.report(resource, element, `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`, null, getLocation(property));
+                    await context.report(resource, element, `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`, undefined, getLocation(property) || undefined);
 
                     continue;
                 }
 
                 if (isNotSupportedColorValue(color, normalizedColorValue)) {
-                    await context.report(resource, element, `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`, null, getLocation(property));
+                    await context.report(resource, element, `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`, undefined, getLocation(property) || undefined);
                 }
             }
         };
 
-        const checkLang = async (resource: string, element: IAsyncHTMLElement, manifest: Manifest, getLocation: IJSONLocationFunction) => {
+        const checkLang = async (resource: string, element: IAsyncHTMLElement | null, manifest: Manifest, getLocation: IJSONLocationFunction) => {
             const lang = manifest.lang;
 
             if (lang && !bcp47(lang)) {
-                await context.report(resource, element, `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`, null, getLocation('lang'));
+                await context.report(resource, element, `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`, undefined, getLocation('lang') || undefined);
             }
         };
 
@@ -127,7 +127,7 @@ export default class ManifestIsValidHint implements IHint {
                 const error = manifestInvalidSchemaEvent.prettifiedErrors[i];
                 const location = manifestInvalidSchemaEvent.errors[i].location;
 
-                await context.report(manifestInvalidSchemaEvent.resource, manifestInvalidSchemaEvent.element, error, null, location);
+                await context.report(manifestInvalidSchemaEvent.resource, manifestInvalidSchemaEvent.element, error, undefined, location);
             }
         };
 

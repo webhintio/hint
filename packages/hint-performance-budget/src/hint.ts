@@ -135,11 +135,14 @@ export default class PerformanceBudgetHint implements IHint {
          * Returns the details for the selected network
          * configuration or the default one.
          */
-        const getConfiguration = (): NetworkConfig => {
+        const getConfiguration = (): NetworkConfig | null => {
             const userConfig = Object.assign({}, defaultConfig, context.hintOptions) as PerfBudgetConfig;
-            const config = Connections.getById(userConfig.connectionType);
+            const config = Connections.getById(userConfig.connectionType /* istanbul ignore next */ || '');
 
-            config.load = userConfig.loadTime;
+            /* istanbul ignore else */
+            if (config) {
+                config.load = userConfig.loadTime;
+            }
 
             return config;
         };
@@ -287,12 +290,18 @@ export default class PerformanceBudgetHint implements IHint {
          */
         const onScanEnd = async (scanEnd: ScanEnd) => {
             const { resource } = scanEnd;
-            const config: NetworkConfig = getConfiguration();
+            const config: NetworkConfig | null = getConfiguration();
+
+            /* istanbul ignore if */
+            if (!config) {
+                return;
+            }
+
             const loadTime = getBestCaseScenario(config);
 
             debug(`Ideal load time: ${loadTime}s`);
 
-            if (loadTime > config.load) {
+            if (typeof config.load === 'number' && loadTime > config.load) {
                 await context.report(resource, null, `To load all the resources on a ${config.id} network, it will take about ${loadTime.toFixed(1)}s in optimal conditions (that is ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s target).`);
             }
         };

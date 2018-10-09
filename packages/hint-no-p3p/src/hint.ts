@@ -62,7 +62,7 @@ export default class NoP3pHint implements IHint {
          * https://www.w3.org/TR/P3P11/#syntax_ext
          */
         const validateHeaders = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
             const headers: Array<string> = getIncludedHeaders(response.headers, ['p3p']);
             const numberOfHeaders: number = headers.length;
 
@@ -78,7 +78,7 @@ export default class NoP3pHint implements IHint {
         const validateHtml = async (data: ElementFound) => {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
 
-            const rel: string = element.getAttribute('rel');
+            const rel: string | null = element.getAttribute('rel');
 
             if (rel && normalizeString(rel) === 'p3pv1') {
                 await context.report(resource, element, errorMessage);

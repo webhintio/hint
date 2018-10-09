@@ -31,11 +31,11 @@ export class RedirectManager {
          * know we've reached the original `resourceUrl` and we can stop looking.
          * Because `hops` always contains the latest url, we `pop` to have the intermediate requests.
          */
-        let targetUrl = target;
+        let targetUrl: string = target;
         const hops: Array<string> = [targetUrl];
 
         while (this._redirects.has(targetUrl)) {
-            targetUrl = this._redirects.get(targetUrl);
+            targetUrl = this._redirects.get(targetUrl)!; // The `has` check above means this exists.
 
             if (hops.includes(targetUrl)) {
                 break;

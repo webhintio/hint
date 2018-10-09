@@ -7,7 +7,7 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 const hintPath = getHintPath(__filename);
 
 // Headers.
-const setCookie = (fields) => {
+const setCookie = (fields: string) => {
     return { 'set-cookie': fields };
 };
 
