@@ -441,10 +441,10 @@
   resolved "https://registry.yarnpkg.com/@types/lockfile/-/lockfile-1.0.0.tgz#76a7c19c50fe8ee2b1666d653ff5d557c30fe0ff"
   integrity sha512-pD6JuijPmrfi84qF3/TzGQ7zi0QIX+d7ZdetD6jUA6cp+IsCzAquXZfi5viesew+pfpOTIdAVKuh1SHA7KeKzg==
 
-"@types/lodash@^4.14.115":
-  version "4.14.116"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.116.tgz#5ccf215653e3e8c786a58390751033a9adca0eb9"
-  integrity sha512-lRnAtKnxMXcYYXqOiotTmJd74uawNWuPnsnPrrO7HiFuE3npE2iQhfABatbYDyxTNqZNuXzcKGhw37R7RjBFLg==
+"@types/lodash@^4.14.117":
+  version "4.14.117"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.117.tgz#695a7f514182771a1e0f4345d189052ee33c8778"
+  integrity sha512-xyf2m6tRbz8qQKcxYZa7PA4SllYcay+eh25DN3jmNYY6gSTL7Htc/bttVdkqj2wfJGbeWlQiX8pIyJpKU+tubw==
 
 "@types/log-symbols@^2.0.0":
   version "2.0.0"
