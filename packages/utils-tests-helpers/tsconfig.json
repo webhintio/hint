@@ -12,5 +12,12 @@
     "include": [
         "src/**/*.ts",
         "tests/**/*.ts"
+    ],
+    "references": [
+        { "path": "../connector-chrome" },
+        { "path": "../connector-jsdom" },
+        { "path": "../connector-local" },
+        { "path": "../hint" },
+        { "path": "../utils-create-server" }
     ]
 }
