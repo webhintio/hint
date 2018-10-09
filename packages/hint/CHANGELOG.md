@@ -1,3 +1,10 @@
+# 3.4.9 (October 9, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c6f9203f94`](https://github.com/webhintio/hint/commit/c6f9203f9443420d17ea508e7d8337604b4d48a6)] - Fix: User `date` on HTML formatter (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1386`](https://github.com/webhintio/hint/issues/1386)).
+
+
 # 3.4.8 (October 3, 2018)
 
 ## Bug fixes / Improvements
