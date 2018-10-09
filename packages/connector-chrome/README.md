@@ -52,6 +52,9 @@ The set of settings supported by Chrome connector are:
   session in headless mode or with GPU disabled. Here's the full list
   of [available command line flags][cli flags].
   `['--no-default-browser-check']` is the default value.
+* `waitForContentLoaded (number)`: Time in milliseconds to wait for the
+  `loadingFinished` event from the `debugging protocol` before requesting
+  the body of a response. The default value is `10000` (10 seconds).
 
 ```json
 {
@@ -61,7 +64,8 @@ The set of settings supported by Chrome connector are:
             "defaultProfile": true,
             "useTabUrl": false,
             "tabUrl": "https://empty.webhint.io/",
-            "flags": ["--headless", "--disable-gpu"]
+            "flags": ["--headless", "--disable-gpu"],
+            "waitForContentLoaded": 10000
         }
     },
     ...
