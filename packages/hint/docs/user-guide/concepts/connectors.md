@@ -147,7 +147,7 @@ To use that property, you need to call to the `executeOn` method in
 the engine with the content to analyze.
 
 ```js
-  engine.executeOn(url, {content: '{{your content}}'})
+engine.executeOn(url, {content: '{{your content}}'});
 ```
 
 ## Differences among connectors
