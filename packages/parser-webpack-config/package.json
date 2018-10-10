@@ -8,7 +8,7 @@
   },
   "description": "webhint parser needed to analyze webpack config files",
   "devDependencies": {
-    "@types/webpack": "^4.4.15",
+    "@types/webpack": "^4.4.16",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint-plugin-import": "^2.14.0",
