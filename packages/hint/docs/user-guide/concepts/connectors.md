@@ -35,6 +35,8 @@ The current supported connectors are:
   Creators Update or later to use it. This connector will only be
   installed if you are running on it. There are some known issues so
   please check the [Edge issues](#edge-issues) section below.
+* `local`: This connector will analyze the files specified (a file
+  or a directory).
 
 **Note:** If you are running Windows 10 [build 14951][wsl-interop] (or
 later) and Windows Subsystem for Linux (WSL), `webhint` will be capable
@@ -110,6 +112,33 @@ The set of settings specific for them are:
     "tabUrl": "https://empty.webhint.io/",
     "useTabUrl": false
 }
+```
+
+### local configuration
+
+ `local` allows you to configure the following:
+
+* `pattern`: Add or ignore files defined in the pattern. By default the
+  `local` connector will use the following patter `['**', '!.git/**']`. This
+  doesn't apply if you are targeting just a file or if you are using the
+  options `content`.
+* `watch`: Run `webhint` in watch mode. Watch files and trigger the analysis
+  on changes.
+
+```json
+{
+  "pattern": ["**", "!.git/**"],
+  "watch": false
+}
+```
+
+In addition, the `local` connector accept a new parameter in the
+method `collect` that allow you to pass the content to analyze as an string.
+To use that property, you need to call to the `executeOn` method in
+the engine with the content to analyze.
+
+```js
+  engine.executeOn(url, {content: '{{your content}}'})
 ```
 
 ## Differences among connectors
