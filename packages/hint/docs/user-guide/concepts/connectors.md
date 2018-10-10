@@ -109,9 +109,9 @@ The set of settings specific for them are:
   command line API flags. Useful if you would like to start your
   session in headless mode or with GPU disabled. Here's the full list
   of [available command line flags][cli flags].
-* `waitForContentLoaded (number)`: Time the browser has to wait for the
-  event `loadingFinished` before use the body received in the event
-  `responseReceived`. `10000` (10 seconds) is the default value.
+* `waitForContentLoaded (number)`: Time in milliseconds to wait for the
+  `loadingFinished` event from the `debugging protocol` before requesting
+  the body of a response. The default value is `10000` (10 seconds).
 
 ```json
 {

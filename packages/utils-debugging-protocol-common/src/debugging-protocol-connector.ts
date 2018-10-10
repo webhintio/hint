@@ -130,7 +130,7 @@ export class Connector implements IConnector {
              * parts components are lower case even if the original component
              * has a different case. [src$="texttofind" i] will do the search
              * case insensitive.
-             * decodeURIComponent is added because the connector return the
+             * decodeURIComponent is added because the connector returns the
              * elements already escaped, but the real value doesn't need to be
              * escaped.
              */
@@ -331,10 +331,10 @@ export class Connector implements IConnector {
 
         return new Promise((resolve, reject) => {
             /*
-             * There some cases where the a request never dispatch
-             * the event 'loadFinished'.
-             * To avoid problems, we will wait for 10 seconds, if not,
-             * we will use the body returned in the event ResponseReceived.
+             * Sometimes the `debugging protocol` doesn't dispatch the event
+             * `loadFinished` for a request even thought it's finished.
+             * To avoid waiting forever, timeout at `waitForContentLoaded` and
+             * continue the process.
              */
             const timeout = setTimeout(() => {
                 debug(`Timeout waiting for requestId: ${requestId}`);
