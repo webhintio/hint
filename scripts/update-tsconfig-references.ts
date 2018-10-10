@@ -40,10 +40,10 @@ const updateFile = (filePath: string, content: string) => {
 
 const main = () => {
 
-    // Include all sub-packages (except configurations and connector-edge)
+    // Include all sub-packages (except configurations which don't use TypeScript).
     const subPackages = shell.ls('packages')
         .filter((packageName: string) => {
-            return !packageName.startsWith('configuration-') && packageName !== 'connector-edge';
+            return !packageName.startsWith('configuration-');
         })
         .map((packageName: string) => {
             return `packages/${packageName}`;
@@ -62,7 +62,10 @@ const main = () => {
 
             // Include all sub-packages as references in the root `tsconfig.json`.
             prefix = '';
-            references = subPackages;
+            references = subPackages.filter((path) => {
+                // Exclude `connector-edge` as it only builds on Windows (can be built separately as-needed).
+                return path !== 'packages/connector-edge';
+            });
 
         } else {
 
