@@ -13,6 +13,7 @@
         "tests/**/*.ts"
     ],
     "references": [
-        { "path": "../hint" }
+        { "path": "../hint" },
+        { "path": "../utils-debugging-protocol-common" }
     ]
 }
