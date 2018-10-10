@@ -49,4 +49,22 @@ test(`redirectManager returns the expected number of hops for a single redirect`
     ]);
 });
 
+test(`redirectManager returns the expected number of hops for a circular redirect`, (t) => {
+    const redirects = t.context.redirects;
+
+    redirects.add('http://hop2.com', 'http://hop1.com');
+    redirects.add('http://hop3.com', 'http://hop2.com');
+    redirects.add('http://hop4.com', 'http://hop3.com');
+    redirects.add('http://hop1.com', 'http://hop4.com');
+
+    const hops = redirects.calculate('http://hop1.com');
+
+    t.deepEqual(hops, [
+        'http://hop1.com',
+        'http://hop2.com',
+        'http://hop3.com',
+        'http://hop4.com'
+    ]);
+});
+
 // TODO: test(`redirectManager supports multiple redirects for the same target`, (t)=>{});
