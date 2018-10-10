@@ -276,6 +276,11 @@
   resolved "https://registry.yarnpkg.com/@types/core-js/-/core-js-0.9.46.tgz#ea701ee34cbb6dfe6d100f1530319547c93c8d79"
   integrity sha512-LooLR6XHes9V+kNYRz1Qm8w3atw9QMn7XeZUmIpUelllF9BdryeUKd/u0Wh5ErcjpWfG39NrToU9MF7ngsTFVw==
 
+"@types/debug@0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.30.tgz#dc1e40f7af3b9c815013a7860e6252f6352a84df"
+  integrity sha512-orGL5LXERPYsLov6CWs3Fh6203+dXzJkR7OnddIr2514Hsecwc8xRpzCapshBbKFImCsvS/mk6+FWiN5LyZJAQ==
+
 "@types/debug@0.0.31", "@types/debug@^0.0.31":
   version "0.0.31"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.31.tgz#bac8d8aab6a823e91deb7f79083b2a35fa638f33"
@@ -3539,7 +3544,7 @@ eslint@4.19.1:
     table "4.0.2"
     text-table "~0.2.0"
 
-eslint@^5.6.1:
+eslint@^5.5.0, eslint@^5.6.1:
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-5.6.1.tgz#348134e32ccc09abb2df1bf282b3f6eed8c7b480"
   integrity sha512-hgrDtGWz368b7Wqf+v1Z69O3ZebNR0+GA7PtDdbmuz4rInFVUV9uw7whjZEiWyLzCjVb5Rs5WRN1TAS6eo7AYA==
@@ -9443,6 +9448,14 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typescript-eslint-parser@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/typescript-eslint-parser/-/typescript-eslint-parser-18.0.0.tgz#3e5055a44980d69e4154350fc5d8b1ab4e2332a8"
+  integrity sha512-Pn/A/Cw9ysiXSX5U1xjBmPQlxtWGV2o7jDNiH/u7KgBO2yC/y37wNFl2ogSrGZBQFuglLzGq0Xl0Bt31Jv44oA==
+  dependencies:
+    lodash.unescape "4.0.1"
+    semver "5.5.0"
 
 typescript-eslint-parser@^19.0.2:
   version "19.0.2"
