@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@hint/connector-chrome": "^1.1.2",
+    "@hint/connector-chrome": "^1.1.3",
     "@hint/connector-jsdom": "^1.0.7",
     "@hint/connector-local": "^1.1.2",
     "@hint/utils-create-server": "^1.0.3",
