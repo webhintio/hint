@@ -126,7 +126,15 @@ export class Connector implements IConnector {
 
         while (parts.length > 0) {
             basename = !basename ? parts.pop()! : `${parts.pop()}/${basename}`;
-            const query: string = `[src$="${basename}"],[href$="${basename}"]`;
+            /*
+             * parts components are lower case even if the original component
+             * has a different case. [src$="texttofind" i] will do the search
+             * case insensitive.
+             * decodeURIComponent is added because the connector returns the
+             * elements already escaped, but the real value doesn't need to be
+             * escaped.
+             */
+            const query: string = `[src$="${basename}" i],[href$="${basename}" i],[src$="${decodeURIComponent(basename)}" i],[href$="${decodeURIComponent(basename)}" i]`;
             const newElements: Array<AsyncHTMLElement> = await this._dom.querySelectorAll(query);
 
             if (newElements.length === 0) {
@@ -168,14 +176,18 @@ export class Connector implements IConnector {
         // We need to calculate the original url because it might have redirects
         const originalUrl: Array<string> = this._redirects.calculate(requestUrl);
 
-        requestUrl = new URL(originalUrl[0] || requestUrl);
-        const parts: Array<string> = requestUrl.href.split('/');
+        /*
+         * In this point, the url is used only to generate a selector to find the element.
+         * There is no need to validate if the url is valid or not.
+         */
+        requestUrl = (originalUrl[0] || requestUrl).trim();
+        const parts: Array<string> = requestUrl.split('/');
 
         /*
          * TODO: Check what happens with prefetch, etc.
          * `type` can be "parser", "script", "preload", and "other": https://chromedevtools.github.io/debugger-protocol-viewer/tot/Network/#type-Initiator
          */
-        if (['parser', 'other'].includes(type) && requestUrl.protocol.indexOf('http') === 0) {
+        if (['parser', 'other'].includes(type) && requestUrl.startsWith('http')) {
             return await this.getElementFromParser(parts);
         }
 
@@ -318,7 +330,29 @@ export class Connector implements IConnector {
         }
 
         return new Promise((resolve, reject) => {
-            this._waitingForLoadingFinished.set(requestId, { reject, resolve });
+            /*
+             * Sometimes the `debugging protocol` doesn't dispatch the event
+             * `loadFinished` for a request even thought it's finished.
+             * To avoid waiting forever, timeout at `waitForContentLoaded` and
+             * continue the process.
+             */
+            const timeout = setTimeout(() => {
+                debug(`Timeout waiting for requestId: ${requestId}`);
+
+                if (this._waitingForLoadingFinished.has(requestId)) {
+                    this._waitingForLoadingFinished.delete(requestId);
+                }
+
+                return resolve();
+            }, this._options.waitForContentLoaded || 10000);
+
+            this._waitingForLoadingFinished.set(requestId, {
+                reject, resolve() {
+                    clearTimeout(timeout);
+
+                    return resolve();
+                }
+            });
         });
     }
 
