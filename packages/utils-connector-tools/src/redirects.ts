@@ -37,11 +37,27 @@ export class RedirectManager {
         while (this._redirects.has(targetUrl)) {
             targetUrl = this._redirects.get(targetUrl)!; // The `has` check above means this exists.
 
-            if (hops.includes(targetUrl)) {
-                break;
-            }
+            /*
+             * In some edgy cases the redirect ends in the
+             * same URL that it starts.
+             *
+             * http://url1 => http://url2
+             * http://url2 => http://url3
+             * http://url3 => http://url1
+             *
+             * In these cases, the hop returned should contain
+             * the first URL too:
+             *
+             * ['http://url1', 'http://url2', 'http://url3']
+             */
+
+            const finish = hops.includes(targetUrl);
 
             hops.unshift(targetUrl);
+
+            if (finish) {
+                break;
+            }
         }
         hops.pop();
 
