@@ -3,6 +3,7 @@ import * as shell from 'shelljs';
 type PackageJSON = {
     dependencies?: { [name: string ]: string };
     devDependencies?: { [name: string ]: string };
+    peerDependencies?: { [name: string ]: string };
 };
 
 type TSConfig = {
@@ -15,10 +16,12 @@ const getReferencesFromDependencies = (packagePath: string): string[] => {
 
     const dependencies = Object.keys(packageJSON.dependencies || {});
     const devDependencies = Object.keys(packageJSON.devDependencies || {});
-    const allDependencies = dependencies.concat(devDependencies);
+    const peerDependencies = Object.keys(packageJSON.peerDependencies || {});
+    const allDependencies = [...dependencies, ...devDependencies, ...peerDependencies];
+    const uniqueDependencies = Array.from(new Set(allDependencies));
 
     // Map `hint` and `@hint/*` dependencies from `package.json` to `tsconfig.json` reference names.
-    return allDependencies
+    return uniqueDependencies
         .filter((name) => {
             return name === 'hint' || name.startsWith('@hint/');
         })
