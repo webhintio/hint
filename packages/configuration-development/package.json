@@ -38,7 +38,7 @@
   "main": "index.json",
   "name": "@hint/configuration-development",
   "peerDependencies": {
-    "hint": "^3.4.9"
+    "hint": "^3.4.10"
   },
   "repository": "webhintio/hint",
   "version": "1.1.1"
