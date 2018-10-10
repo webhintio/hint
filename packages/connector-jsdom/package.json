@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-connector-tools": "^1.0.6",
+    "@hint/utils-connector-tools": "^1.0.7",
     "canvas-prebuilt": "^1.6.11",
     "jsdom": "^12.2.0",
     "mutationobserver-shim": "^0.3.2",
