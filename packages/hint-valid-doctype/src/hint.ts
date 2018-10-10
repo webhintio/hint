@@ -4,10 +4,8 @@
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, HintMetadata, FetchEnd } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-
-import { HTMLParse } from '@hint/parser-html';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -31,11 +29,11 @@ export default class implements IHint {
 
     public constructor(context: HintContext) {
 
-        const validateDoctype = async (html: HTMLParse) => {
+        const onFetchEndHTML = async (fetchEnd: FetchEnd) => {
             debug(`Validating doctype`);
-            console.log(html);
+            console.log(fetchEnd);
         };
 
-        context.on('parse::html::end', validateDoctype);
+        context.on('fetch::end::html', onFetchEndHTML);
     }
 }
