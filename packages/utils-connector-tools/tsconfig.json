@@ -11,5 +11,9 @@
     "include": [
         "src/**/*.ts",
         "tests/**/*.ts"
+    ],
+    "references": [
+        { "path": "../hint" },
+        { "path": "../utils-create-server" }
     ]
 }
