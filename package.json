@@ -46,8 +46,8 @@
   "name": "@hint/monorepo",
   "private": true,
   "scripts": {
-    "build": "yarn clean && yarn build:assets && yarn build:ts",
-    "build:assets": "loop \"yarn build:assets\" --cwd packages/ --exclude configuration-development,configuration-progressive-web-apps,configuration-web-recommended",
+    "build": "yarn clean && yarn update:references && yarn build:assets && yarn build:ts",
+    "build:assets": "loop \"yarn build:assets\" --cwd packages --exclude configuration-development,configuration-progressive-web-apps,configuration-web-recommended",
     "build:scripts": "npm run clean:root && npm run lint:scripts && npm-run-all --parallel build:scripts:*",
     "build:scripts:non-ts": "cpx \"./scripts/{!(*.ts),.!(ts)}\" dist/scripts",
     "build:scripts:ts": "tsc",

@@ -44,13 +44,7 @@ const updateFile = (filePath: string, content: string) => {
 const main = () => {
 
     // Include all sub-packages (except configurations which don't use TypeScript).
-    const subPackages = shell.ls('packages')
-        .filter((packageName: string) => {
-            return !packageName.startsWith('configuration-');
-        })
-        .map((packageName: string) => {
-            return `packages/${packageName}`;
-        });
+    const subPackages = shell.ls('-d', 'packages/!(configuration-*)');
 
     // For the root and every package in this repo.
     ['.', ...subPackages].forEach((packagePath: string) => {
