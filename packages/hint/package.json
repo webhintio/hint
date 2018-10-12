@@ -16,7 +16,7 @@
     "caniuse-api": "^3.0.0",
     "chalk": "^2.4.1",
     "content-type": "^1.0.4",
-    "debug": "^4.0.1",
+    "debug": "^4.1.0",
     "eventemitter2": "^5.0.1",
     "file-type": "^10.0.0",
     "file-url": "^2.0.2",
@@ -31,7 +31,7 @@
     "optionator": "^0.8.2",
     "ora": "^3.0.0",
     "request": "^2.88.0",
-    "semver": "^5.5.1",
+    "semver": "^5.6.0",
     "strip-bom": "^3.0.0",
     "strip-json-comments": "^2.0.1",
     "update-notifier": "^2.5.0"

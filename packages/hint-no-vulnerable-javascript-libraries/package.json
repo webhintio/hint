@@ -9,7 +9,7 @@
   "dependencies": {
     "js-library-detector": "^5.1.0",
     "lodash": "^4.17.11",
-    "semver": "^5.5.1"
+    "semver": "^5.6.0"
   },
   "description": "hint that that checks using Snyk for vulnerable JavaScript libraries",
   "devDependencies": {
