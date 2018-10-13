@@ -86,7 +86,7 @@ export default class HTMLFormatter implements IFormatter {
     }
 
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public async format(problems: Array<Problem>, target: string, options: FormatterOptions = {}) {
+    public async format(problems: Array<Problem>, target = '', options: FormatterOptions = {}) {
 
         debug('Formatting results');
 
