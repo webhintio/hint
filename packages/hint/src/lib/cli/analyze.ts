@@ -357,7 +357,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         });
     };
 
-    const print = async (reports: Array<Problem>, target: string, scanTime: number, date: string): Promise<void> => {
+    const print = async (reports: Array<Problem>, target?: string, scanTime?: number, date?: string): Promise<void> => {
         const formatterOptions: FormatterOptions = {
             config: userConfig || undefined,
             date,
