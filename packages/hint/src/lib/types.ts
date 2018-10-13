@@ -16,7 +16,7 @@ export * from './types/parser';
 export * from './types/schema-validation-result';
 
 /**
- * The `Serverity` of a hint.
+ * The `Severity` of a hint.
  * Can be represented as a number: `0`, `1`, `2`
  * or as a severity string: `off`, `warning`, `error`
  */
@@ -26,7 +26,7 @@ export type HintSeverity = Severity | keyof typeof Severity;
  * The configuration of a hint. This could be:
  *
  * * A number to set the severity: `0`, `1`, `2`
- * * A string with the serverity: `off`, `warning`, `error`
+ * * A string with the severity: `off`, `warning`, `error`
  * * An array if it needs to be further configured whose
  *   first item is the severity (`number | string`)
  *
@@ -144,3 +144,9 @@ export type HintResources = {
     parsers: Array<IParserConstructor>;
     hints: Array<IHintConstructor>;
 };
+
+/**
+ * Get just the `string` keys of `T` as `keyof T` can be `string | number | symbol`.
+ * https://github.com/Microsoft/TypeScript/issues/23724#issuecomment-384807714
+ */
+export type StringKeyOf<T> = Extract<keyof T, string>;

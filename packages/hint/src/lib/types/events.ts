@@ -1,10 +1,11 @@
 import { IAsyncHTMLElement } from './async-html';
+import { Event } from './event';
+import { ElementEvents } from './element-events';
+import { Problem } from './problems';
 import { Request, Response } from './network';
 
-export type Event = {
-    /** The URL that emit the event */
-    resource: string;
-};
+export * from './event';
+export * from './element-events';
 
 export type ErrorEvent = Event & {
     /** The Error that emit the event */
@@ -58,11 +59,31 @@ export type TraverseDown = Event & {
     element: IAsyncHTMLElement;
 };
 
-/** The object emitted by a connector on `element::<element-type>`. */
-export type ElementFound = Event & {
-    /** The visited element. */
-    element: IAsyncHTMLElement;
-};
-
 /** The object emitted by a connector on `can-evaluate` */
 export type CanEvaluateScript = Event;
+
+export type Events = {
+    'can-evaluate::script': CanEvaluateScript;
+    'fetch::end::*': FetchEnd;
+    'fetch::end::css': FetchEnd;
+    'fetch::end::font': FetchEnd;
+    'fetch::end::html': FetchEnd;
+    'fetch::end::image': FetchEnd;
+    'fetch::end::json': FetchEnd;
+    'fetch::end::manifest': FetchEnd;
+    'fetch::end::script': FetchEnd;
+    'fetch::end::txt': FetchEnd;
+    'fetch::end::unknown': FetchEnd;
+    'fetch::end::xml': FetchEnd;
+    'fetch::error': FetchError;
+    'fetch::start': FetchStart;
+    'fetch::start::target': FetchStart;
+    'parse::*::error': ErrorEvent;
+    'print': Problem[];
+    'scan::end': ScanEnd;
+    'scan::start': ScanStart;
+    'traverse::down': TraverseDown;
+    'traverse::end': TraverseEnd;
+    'traverse::start': TraverseStart;
+    'traverse::up': TraverseUp;
+} & ElementEvents;

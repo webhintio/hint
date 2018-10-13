@@ -476,7 +476,12 @@ test.serial('Event fetch::end should write a message in the spinner', async (t) 
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
-        await engine!.emitAsync('fetch::end', { resource: 'http://localhost/' });
+        await engine!.emitAsync('fetch::end::html', {
+            element: null,
+            request: {} as any,
+            resource: 'http://localhost/',
+            response: {} as any
+        });
     });
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
     sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
@@ -516,7 +521,12 @@ test.serial('Event fetch::end::html should write a message in the spinner', asyn
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
-        await engine!.emitAsync('fetch::end::html', { resource: 'http://localhost/' });
+        await engine!.emitAsync('fetch::end::html', {
+            element: null,
+            request: {} as any,
+            resource: 'http://localhost/',
+            response: {} as any
+        });
     });
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
     sandbox.stub(t.context.Configuration, 'getFilenameForDirectory').returns('/config/path');
@@ -556,7 +566,10 @@ test.serial('Event traverse::up should write a message in the spinner', async (t
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
-        await engine!.emitAsync('traverse::up', { resource: 'http://localhost/' });
+        await engine!.emitAsync('traverse::up', {
+            element: {} as any,
+            resource: 'http://localhost/'
+        });
     });
     sandbox.stub(engineContainer, 'Engine').returns(engineObj);
     sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');

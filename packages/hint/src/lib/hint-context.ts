@@ -6,21 +6,29 @@
  */
 import { URL } from 'url';
 
-import { Engine } from './engine';
-import { IAsyncHTMLElement, NetworkData, ProblemLocation, HintMetadata, Severity } from './types';
+import { Engine } from './engine'; // eslint-disable-line no-unused-vars
+import {
+    Events, // eslint-disable-line no-unused-vars
+    HintMetadata,
+    IAsyncHTMLElement,
+    NetworkData,
+    ProblemLocation,
+    Severity,
+    StringKeyOf // eslint-disable-line no-unused-vars
+} from './types';
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 import { Category } from './enums/category';
 
 
 /** Acts as an abstraction layer between hints and the main hint object. */
-export class HintContext {
+export class HintContext<E extends Events = Events> {
     private id: string
     private options: Array<any>
     private meta: HintMetadata
     private severity: Severity
-    private engine: Engine
+    private engine: Engine<E>
 
-    public constructor(hintId: string, engine: Engine, severity: Severity, options: any, meta: HintMetadata) {
+    public constructor(hintId: string, engine: Engine<E>, severity: Severity, options: any, meta: HintMetadata) {
 
         this.id = hintId;
         this.options = options;
@@ -117,7 +125,7 @@ export class HintContext {
     }
 
     /** Subscribe an event in hint. */
-    public on(event: string, listener: Function) {
+    public on<K extends StringKeyOf<E>>(event: K, listener: (data: E[K], event: string) => void) {
         this.engine.onHintEvent(this.id, event, listener);
     }
 }

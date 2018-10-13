@@ -134,7 +134,7 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't
         public constructor(context: HintContext) {
             FakeDisallowedHint.called = true;
 
-            context.on('fetch::end', () => { });
+            context.on('fetch::end::*', () => { });
         }
 
         public static readonly meta: HintMetadata = {
@@ -197,7 +197,7 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ig
         public constructor(context: HintContext) {
             FakeDisallowedHint.called = true;
 
-            context.on('fetch::end', () => { });
+            context.on('fetch::end::*', () => { });
         }
 
         public static readonly meta: HintMetadata = {
@@ -487,7 +487,7 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
         parsers: []
     });
 
-    await engineObject.emitAsync('event', { resource: 'http://www.domain1.com/test' });
+    await engineObject.emitAsync('traverse::start', { resource: 'http://www.domain1.com/test' });
 
     t.false(t.context.eventemitter.prototype.emitAsync.called);
 

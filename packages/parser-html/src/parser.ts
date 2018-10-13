@@ -4,17 +4,17 @@
 
 import { JSDOM } from 'jsdom';
 import { JSDOMAsyncHTMLElement, JSDOMAsyncWindow } from 'hint/dist/src/lib/types/jsdom-async-html';
-import { Event, ElementFound, FetchEnd, Parser, TraverseDown, TraverseUp } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint/dist/src/lib/engine';
-import { HTMLParse } from './types';
+import { Event, FetchEnd, Parser, TraverseDown, TraverseUp } from 'hint/dist/src/lib/types';
+import { Engine } from 'hint';
+import { HTMLEvents } from './types';
 
-export { HTMLParse } from './types';
+export * from './types';
 
-export default class HTMLParser extends Parser {
+export default class HTMLParser extends Parser<HTMLEvents> {
 
     private _url = '';
 
-    public constructor(engine: Engine) {
+    public constructor(engine: Engine<HTMLEvents>) {
         super(engine, 'html');
 
         engine.on('fetch::end::html', this.onFetchEndHtml.bind(this));
@@ -42,7 +42,7 @@ export default class HTMLParser extends Parser {
         const window = new JSDOMAsyncWindow(dom.window, dom);
         const documentElement = dom.window.document.documentElement;
 
-        await this.engine.emitAsync(`parse::${this.name}::end`, { html, resource, window } as HTMLParse);
+        await this.engine.emitAsync(`parse::html::end`, { html, resource, window });
 
         const event = { resource } as Event;
 
@@ -59,10 +59,10 @@ export default class HTMLParser extends Parser {
     /** Traverses the DOM while sending `element::typeofelement` events. */
     private async traverseAndNotify(element: HTMLElement, dom: JSDOM): Promise<void> {
 
-        await this.engine.emitAsync(`element::${element.tagName.toLowerCase()}`, {
+        await this.engine.emitAsync(`element::${element.tagName.toLowerCase()}` as 'element::*', {
             element: new JSDOMAsyncHTMLElement(element, dom),
             resource: this._url
-        } as ElementFound);
+        });
 
         const traverseEvent = {
             element: new JSDOMAsyncHTMLElement(element, dom),

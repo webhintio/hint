@@ -1,4 +1,4 @@
-import { Event, ErrorEvent } from 'hint/dist/src/lib/types/events';
+import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
 import { IJSONLocationFunction, ISchemaValidationError } from 'hint/dist/src/lib/types';
 
 /** Valid values for the `JSX` compiler option. */
@@ -215,4 +215,13 @@ export type TypeScriptConfigParse = Event & {
     getLocation: IJSONLocationFunction;
     /** The original TypeScript config */
     originalConfig: TypeScriptConfig;
+};
+
+export type TypeScriptConfigEvents = Events & {
+    'parse::typescript-config::end': TypeScriptConfigParse;
+    'parse::typescript-config::error::circular': ErrorEvent;
+    'parse::typescript-config::error::extends': ErrorEvent;
+    'parse::typescript-config::error::json': TypeScriptConfigInvalidJSON;
+    'parse::typescript-config::error::schema': TypeScriptConfigInvalidSchema;
+    'parse::typescript-config::start': TypeScriptConfigParseStart;
 };

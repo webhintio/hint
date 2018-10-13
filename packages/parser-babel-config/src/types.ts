@@ -1,4 +1,4 @@
-import { Event, ErrorEvent } from 'hint/dist/src/lib/types/events';
+import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
 import { IJSONLocationFunction, ISchemaValidationError } from 'hint/dist/src/lib/types';
 
 export type BabelConfig = {
@@ -47,4 +47,13 @@ export type BabelConfigParsed = Event & {
 export type BabelConfigInvalidSchema = Event & {
     errors: Array<ISchemaValidationError>;
     prettifiedErrors: Array<string>;
+};
+
+export type BabelConfigEvents = Events & {
+    'parse::babel-config::end': BabelConfigParsed;
+    'parse::babel-config::error::circular': ErrorEvent;
+    'parse::babel-config::error::extends': ErrorEvent;
+    'parse::babel-config::error::json': BabelConfigInvalidJSON;
+    'parse::babel-config::error::schema': BabelConfigInvalidSchema;
+    'parse::babel-config::start': BabelConfigParseStart;
 };

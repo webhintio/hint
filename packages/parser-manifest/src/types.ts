@@ -1,4 +1,4 @@
-import { FetchEnd, ISchemaValidationError, IJSONLocationFunction } from 'hint/dist/src/lib/types';
+import { FetchEnd, FetchError, FetchStart, ISchemaValidationError, IJSONLocationFunction, Events } from 'hint/dist/src/lib/types';
 
 /* eslint-disable camelcase */
 
@@ -159,4 +159,13 @@ export type ManifestParsed = FetchEnd & {
     getLocation: IJSONLocationFunction;
     /** The content of manifest parsed */
     parsedContent: Manifest;
+};
+
+export type ManifestEvents = Events & {
+    'fetch::end::manifest': FetchEnd;
+    'fetch::error::manifest': FetchError;
+    'fetch::start::manifest': FetchStart;
+    'parse::manifest::end': ManifestParsed;
+    'parse::manifest::error::schema': ManifestInvalidSchema;
+    'parse::manifest::error::json': ManifestInvalidJSON;
 };

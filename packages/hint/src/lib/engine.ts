@@ -17,7 +17,25 @@ import { remove } from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-hints';
-import { HttpHeaders, IAsyncHTMLElement, IConnector, IFetchOptions, NetworkData, Event, Problem, ProblemLocation, IHint, HintConfig, Severity, IHintConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
+import {
+    Events,
+    HintConfig,
+    HintResources,
+    HttpHeaders,
+    IAsyncHTMLElement,
+    IConnector,
+    IConnectorConstructor,
+    IFetchOptions,
+    IFormatter,
+    IHint,
+    IHintConstructor,
+    NetworkData,
+    Parser,
+    Problem,
+    ProblemLocation,
+    Severity,
+    StringKeyOf // eslint-disable-line no-unused-vars
+} from './types';
 import * as logger from './utils/logging';
 import { HintContext } from './hint-context';
 import { HintScope } from './enums/hintscope';
@@ -32,7 +50,7 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-export class Engine extends EventEmitter {
+export class Engine<E extends Events = Events> extends EventEmitter {
     // TODO: review which ones need to be private or not
     private parsers: Array<Parser>
     private hints: Map<string, IHint>
@@ -191,20 +209,20 @@ export class Engine extends EventEmitter {
         });
     }
 
-    public onHintEvent(id: string, eventName: string, listener: Function) {
+    public onHintEvent<K extends StringKeyOf<E>>(id: string, eventName: K, listener: (data: E[K], event: string) => void) {
         const that = this;
 
-        const createEventHandler = (handler: Function, hintId: string) => {
+        const createEventHandler = (handler: (data: E[K], event: string) => void, hintId: string) => {
             /*
              * Using fake `this` parameter for typing: https://www.typescriptlang.org/docs/handbook/functions.html#this-parameters
              * `this.event` defined by eventemitter2: https://github.com/EventEmitter2/EventEmitter2#differences-non-breaking-compatible-with-existing-eventemitter
              */
-            return function (this: { event: string }, event: Event): Promise<any> | null {
+            return function (this: { event: string }, event: E[K]): Promise<any> | null { // eslint-disable-line no-shadow
                 const urlsIgnoredForAll = that.ignoredUrls.get('all') || [];
                 const urlsIgnoredForHint = that.ignoredUrls.get(hintId) || [];
                 const urlsIgnored = urlsIgnoredForHint.concat(urlsIgnoredForAll);
 
-                if (that.isIgnored(urlsIgnored, event.resource)) {
+                if (that.isIgnored(urlsIgnored, (event as any).resource)) {
                     return null;
                 }
 
@@ -237,7 +255,7 @@ export class Engine extends EventEmitter {
             };
         };
 
-        this.on(eventName, createEventHandler(listener, id));
+        this.on(eventName as any, createEventHandler(listener, id));
     }
 
     public fetchContent(target: string | url.URL, headers?: object): Promise<NetworkData> {
@@ -280,7 +298,8 @@ export class Engine extends EventEmitter {
         this.messages = [];
     }
 
-    public async notify() {
+    // eslint-disable-next-line no-unused-vars
+    public async notify(this: Engine<Events>) {
         await this.emitAsync('print', this.messages);
     }
 
@@ -302,13 +321,21 @@ export class Engine extends EventEmitter {
         return this.connector.querySelectorAll(selector);
     }
 
-    public emitAsync(event: string | Array<string>, ...values: Array<any>): Promise<Array<any>> {
+    public emit<K extends StringKeyOf<E>>(event: K, data: E[K]): boolean {
+        return super.emit(event, data);
+    }
+
+    public emitAsync<K extends StringKeyOf<E>>(event: K, data: E[K]): Promise<any[]> {
         const ignoredUrls = this.ignoredUrls.get('all') || [];
 
-        if (this.isIgnored(ignoredUrls, values[0].resource)) {
+        if (this.isIgnored(ignoredUrls, (data as any).resource)) {
             return Promise.resolve([]);
         }
 
-        return super.emitAsync(event, ...values);
+        return super.emitAsync(event, data);
+    }
+
+    public on<K extends StringKeyOf<E>>(event: K, listener: (data: E[K]) => void): this {
+        return super.on(event, listener);
     }
 }

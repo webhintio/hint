@@ -26,18 +26,13 @@ interface ITestConfig extends ExtendableConfiguration {
     name?: string;
 }
 
-interface ITestError extends ErrorEvent {
-    error: Error;
-    resource: string;
-}
-
 class TestParser extends Parser {
     public constructor(engine: Engine) {
         super(engine, 'test');
     }
 
     public config(config: ITestConfig, resource: string) {
-        return this.finalConfig<ITestConfig, ITestError>(config, resource);
+        return this.finalConfig(config, resource);
     }
 }
 
