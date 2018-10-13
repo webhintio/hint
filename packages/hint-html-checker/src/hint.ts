@@ -63,7 +63,7 @@ export default class HtmlCheckerHint implements IHint {
     public constructor(context: HintContext) {
 
         /** The promise that represents the scan by HTML checker. */
-        let htmlCheckerPromises: Array<CheckerData> = [];
+        let htmlCheckerPromises: CheckerData[] = [];
         /** Array of strings that needes to be ignored from the checker result. */
         let ignoredMessages: string[];
         /** The options to pass to the HTML checker. */
@@ -100,7 +100,7 @@ export default class HtmlCheckerHint implements IHint {
         };
 
         // Filter out ignored and redundant messages.
-        const filter = (messages: Array<HtmlError>): Array<HtmlError> => {
+        const filter = (messages: HtmlError[]): HtmlError[] => {
             const noIgnoredMesssages = messages.filter((message) => {
                 return !ignoredMessages.includes(message.message);
             });
@@ -189,8 +189,8 @@ export default class HtmlCheckerHint implements IHint {
 
                 debug(`Received HTML checker results for ${resource}`);
 
-                const filteredMessages: Array<HtmlError> = filter(result.messages);
-                const reportPromises: Array<Promise<void>> = filteredMessages.map((messageItem: HtmlError): Promise<void> => {
+                const filteredMessages: HtmlError[] = filter(result.messages);
+                const reportPromises: Promise<void>[] = filteredMessages.map((messageItem: HtmlError): Promise<void> => {
                     return locateAndReportByResource(messageItem);
                 });
 

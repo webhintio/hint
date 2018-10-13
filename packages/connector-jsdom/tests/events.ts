@@ -175,7 +175,7 @@ const sameData = (actual: any, expected: any): boolean => {
     });
 };
 
-const validEvent = (eventsToSearch: Array<any>, expectedEvent: any) => {
+const validEvent = (eventsToSearch: any[], expectedEvent: any) => {
     const originalSize = eventsToSearch.length;
 
     for (let i = 0; i < eventsToSearch.length; i++) {
@@ -276,14 +276,14 @@ test(`[${name}] Events`, async (t) => {
         '/style.css': { content: '' }
     });
 
-    const pendingEvents: Array<any> = events.map((event) => {
+    const pendingEvents: any[] = events.map((event) => {
         return updateLocalhost(event, server.port);
     });
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
 
     const { emit, emitAsync } = t.context.engine;
-    const invokes: Array<any> = [];
+    const invokes: any[] = [];
 
     for (let i = 0; i < emitAsync.callCount; i++) {
         invokes.push(emitAsync.getCall(i).args);

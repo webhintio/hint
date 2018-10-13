@@ -5,7 +5,7 @@ import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 
 const hintPath = getHintPath(__filename);
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: 'No redirects pass the hint',
         serverConfig: generateHTMLPage()
@@ -39,7 +39,7 @@ const tests: Array<HintTest> = [
     }
 ];
 
-const testsWithCustomConfiguration: Array<HintTest> = [
+const testsWithCustomConfiguration: HintTest[] = [
     {
         name: 'No redirects pass the hint',
         serverConfig: generateHTMLPage()

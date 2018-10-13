@@ -7,8 +7,10 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-import { WebpackConfigParse } from '@hint/parser-webpack-config/dist/src/types';
-import { TypeScriptConfigParse } from '@hint/parser-typescript-config/dist/src/types';
+/* eslint-disable no-unused-vars */
+import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
+import { TypeScriptConfigEvents, TypeScriptConfigParse } from '@hint/parser-typescript-config';
+/* eslint-enable no-unused-vars*/
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -29,7 +31,7 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
         scope: HintScope.local
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<WebpackConfigEvents & TypeScriptConfigEvents>) {
 
         let webpackEvent: WebpackConfigParse;
         let typescriptEvent: TypeScriptConfigParse;

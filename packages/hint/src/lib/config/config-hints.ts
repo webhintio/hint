@@ -22,7 +22,7 @@ const debug = d(__filename);
  */
 
 /** Returns the severity of a hint based on its configuration */
-export const getSeverity = (config: HintConfig | Array<HintConfig>): Severity | null => {
+export const getSeverity = (config: HintConfig | HintConfig[]): Severity | null => {
 
     let configuredSeverity: Severity | null = null;
 
@@ -67,7 +67,7 @@ export const validate = (meta: HintMetadata, config: any, hintId: string): boole
     }
 
     // Hint schema validation
-    const schema: Array<any> = meta.schema;
+    const schema: any[] = meta.schema;
 
     /*
      * Only way to have something else to validate is if hint config

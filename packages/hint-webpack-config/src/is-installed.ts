@@ -7,6 +7,8 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
+import { WebpackConfigEvents } from '@hint/parser-webpack-config';
+
 const debug: debug.IDebugger = d(__filename);
 
 /*
@@ -26,7 +28,7 @@ export default class WebpackConfigIsInstalled implements IHint {
         scope: HintScope.local
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<WebpackConfigEvents>) {
 
         const notInstall = async () => {
             debug(`parse::webpack-config::error::not-install received`);

@@ -55,7 +55,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        let unneededHeaders: Array<string> = [
+        let unneededHeaders: string[] = [
             'content-security-policy',
             'feature-policy',
             'x-content-security-policy',
@@ -125,7 +125,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             }
 
             if (!willBeTreatedAsHTML(response)) {
-                const headers: Array<string> = getIncludedHeaders(response.headers, unneededHeaders);
+                const headers: string[] = getIncludedHeaders(response.headers, unneededHeaders);
                 const numberOfHeaders: number = headers.length;
 
                 if (numberOfHeaders > 0) {

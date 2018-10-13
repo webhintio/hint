@@ -19,11 +19,11 @@ export enum Grades {
 export type SSLLabsEndpoint = {
     grade: keyof typeof Grades;
     serverName: string;
-    details: { protocols: Array<string> };
+    details: { protocols: string[] };
 };
 
 export type SSLLabsEndpointDetail = {
-    protocols: Array<any>;
+    protocols: any[];
 };
 
 export type SSLLabsOptions = {
@@ -34,5 +34,5 @@ export type SSLLabsOptions = {
 };
 
 export type SSLLabsResult = {
-    endpoints: Array<SSLLabsEndpoint>;
+    endpoints: SSLLabsEndpoint[];
 };

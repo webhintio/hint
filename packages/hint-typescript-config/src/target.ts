@@ -8,7 +8,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 
-import { TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript-config/dist/src/types';
+import { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript-config';
 
 /*
  * ------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ export default class TypeScriptConfigTarget implements IHint {
         scope: HintScope.local
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const Targets: Map<string, string> = new Map([
             ['es3', 'es3'],
             ['es5', 'es5'],
@@ -149,7 +149,7 @@ export default class TypeScriptConfigTarget implements IHint {
         };
 
         /** Transforms a browserslist array into an object with the minimum versions of each one */
-        const toMiniumBrowser = (targetedBrowsers: Array<string>) => {
+        const toMiniumBrowser = (targetedBrowsers: string[]) => {
             const configuration = targetedBrowsers.reduce((config, browserVersion) => {
                 // The format in the array is "browser version". E.g.: "firefox 52"
                 const [browser, strVersion] = browserVersion.split(' ');

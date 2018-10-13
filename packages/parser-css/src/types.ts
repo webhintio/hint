@@ -1,4 +1,4 @@
-import { Event } from 'hint/dist/src/lib/types/events';
+import { Event, Events } from 'hint/dist/src/lib/types/events';
 import { Root } from 'postcss';
 
 /** The object emitted by the `css` parser */
@@ -11,4 +11,8 @@ export type StyleParse = Event & {
     ast: Root;
     /** The raw stylesheet source code */
     code: string;
+};
+
+export type StyleEvents = Events & {
+    'parse::css::end': StyleParse;
 };

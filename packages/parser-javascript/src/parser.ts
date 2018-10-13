@@ -4,8 +4,10 @@ import * as espree from 'espree';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import { determineMediaTypeForScript } from 'hint/dist/src/lib/utils/content-type';
 import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
-import { ScriptParse } from './types';
-import { Engine } from 'hint/dist/src/lib/engine';
+import { ScriptEvents } from './types';
+import { Engine } from 'hint';
+
+export * from './types';
 
 const scriptContentRegex: RegExp = /^<script[^>]*>([\s\S]*)<\/script>$/;
 // This is the default configuration in eslint for espree.
@@ -17,8 +19,8 @@ const defaultParserOptions = {
     tokens: true
 };
 
-export default class JavascriptParser extends Parser {
-    public constructor(engine: Engine) {
+export default class JavascriptParser extends Parser<ScriptEvents> {
+    public constructor(engine: Engine<ScriptEvents>) {
         super(engine, 'javascript');
 
         engine.on('fetch::end::script', this.parseJavascript.bind(this));
@@ -29,13 +31,11 @@ export default class JavascriptParser extends Parser {
         try {
             const ast: eslint.AST.Program = espree.parse(code, defaultParserOptions);
 
-            const scriptData: ScriptParse = {
+            await this.engine.emitAsync(`parse::javascript::end`, {
                 ast,
                 resource,
                 sourceCode: new eslint.SourceCode(code, ast)
-            };
-
-            await this.engine.emitAsync(`parse::${this.name}::end`, scriptData);
+            });
         } catch (err) {
             logger.error(`Error parsing JS code: ${code}`);
         }

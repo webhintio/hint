@@ -5,6 +5,7 @@
  */
 import * as path from 'path';
 
+import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -33,7 +34,7 @@ export default class TypeScriptConfigImportHelpers implements IHint {
         scope: HintScope.local
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const validate = configChecker('compilerOptions.importHelpers', true, 'The compiler option "importHelpers" should be enabled to reduce the output size.', context);
 
         const validateTslibInstalled = async (evt: ScanEnd): Promise<void> => {

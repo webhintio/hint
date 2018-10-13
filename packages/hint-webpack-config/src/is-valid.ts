@@ -7,7 +7,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-import { WebpackConfigInvalidConfiguration } from '@hint/parser-webpack-config/dist/src/types';
+import { WebpackConfigEvents, WebpackConfigInvalidConfiguration } from '@hint/parser-webpack-config';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -28,7 +28,7 @@ export default class WebpackConfigIsValid implements IHint {
         scope: HintScope.local
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<WebpackConfigEvents>) {
 
         const invalidConfigurationFile = async (webpackConfigInvalid: WebpackConfigInvalidConfiguration) => {
             const { error, resource } = webpackConfigInvalid;

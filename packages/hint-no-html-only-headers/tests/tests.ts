@@ -9,11 +9,11 @@ import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 const hintPath = getHintPath(__filename);
 const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
 
-const generateMessage = (values: Array<string>): string => {
+const generateMessage = (values: string[]): string => {
     return `Response should not include unneeded ${prettyPrintArray(values)} ${values.length === 1 ? 'header' : 'headers'}.`;
 };
 
-const testsForDefaults: Array<HintTest> = [
+const testsForDefaults: HintTest[] = [
     {
         name: `Non HTML resource is served without unneeded headers`,
         serverConfig: {
@@ -132,7 +132,7 @@ const testsForDefaults: Array<HintTest> = [
     }
 ];
 
-const testsForIgnoreConfigs: Array<HintTest> = [
+const testsForIgnoreConfigs: HintTest[] = [
     {
         name: `Non HTML resource is served with one unneeded headers but ignored because of configs`,
         serverConfig: {
@@ -156,7 +156,7 @@ const testsForIgnoreConfigs: Array<HintTest> = [
     }
 ];
 
-const testsForIncludeConfigs: Array<HintTest> = [
+const testsForIncludeConfigs: HintTest[] = [
     {
         name: `Non HTML resource is served with unneeded headers because of configs`,
         reports: [
@@ -190,7 +190,7 @@ const testsForIncludeConfigs: Array<HintTest> = [
     }
 ];
 
-const testsForConfigs: Array<HintTest> = [
+const testsForConfigs: HintTest[] = [
     {
         name: `Non HTML resource is served with unneeded headers that are both ignored and enforced because of configs`,
         reports: [

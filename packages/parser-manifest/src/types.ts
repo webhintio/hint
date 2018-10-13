@@ -1,4 +1,4 @@
-import { FetchEnd, ISchemaValidationError, IJSONLocationFunction } from 'hint/dist/src/lib/types';
+import { FetchEnd, FetchError, FetchStart, ISchemaValidationError, IJSONLocationFunction, Events } from 'hint/dist/src/lib/types';
 
 /* eslint-disable camelcase */
 
@@ -44,7 +44,7 @@ export type ManifestExternalApplicationResourceFingerprint = {
 
 export type ManifestExternalApplicationResources = {
     platform: ManifestPlatform;
-    fingerprints?: Array<ManifestExternalApplicationResourceFingerprint>;
+    fingerprints?: ManifestExternalApplicationResourceFingerprint[];
     id?: string;
     min_version?: string;
     url?: string;
@@ -114,7 +114,7 @@ export type Manifest = {
         'minimal-ui' |
         'standalon';
     iarc_rating_id?: string;
-    icons?: Array<ManifestImageResource>;
+    icons?: ManifestImageResource[];
     lang?: string;
     name?: string;
     orientation:
@@ -127,9 +127,9 @@ export type Manifest = {
         'portrait-primary' |
         'portrait-secondar';
     prefer_related_applications: boolean;
-    related_applications?: Array<ManifestExternalApplicationResources>;
+    related_applications?: ManifestExternalApplicationResources[];
     scope?: string;
-    screenshots?: Array<ManifestImageResource>;
+    screenshots?: ManifestImageResource[];
     serviceworker?: ServiceWorkerRegistrationObject;
     short_name?: string;
     start_url?: string;
@@ -149,9 +149,9 @@ export type ManifestInvalidJSON = FetchEnd & {
 
 export type ManifestInvalidSchema = FetchEnd & {
     /** The parse errors as returned by ajv. */
-    errors: Array<ISchemaValidationError>;
+    errors: ISchemaValidationError[];
     /** The errors in a more human readable format. */
-    prettifiedErrors: Array<string>;
+    prettifiedErrors: string[];
 };
 
 export type ManifestParsed = FetchEnd & {
@@ -159,4 +159,13 @@ export type ManifestParsed = FetchEnd & {
     getLocation: IJSONLocationFunction;
     /** The content of manifest parsed */
     parsedContent: Manifest;
+};
+
+export type ManifestEvents = Events & {
+    'fetch::end::manifest': FetchEnd;
+    'fetch::error::manifest': FetchError;
+    'fetch::start::manifest': FetchStart;
+    'parse::manifest::end': ManifestParsed;
+    'parse::manifest::error::schema': ManifestInvalidSchema;
+    'parse::manifest::error::json': ManifestInvalidJSON;
 };

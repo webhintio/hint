@@ -40,7 +40,7 @@ const generateImageData = (content: Buffer = defaultImage): Object => {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: `Resource is not an HTML document`,
         serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }

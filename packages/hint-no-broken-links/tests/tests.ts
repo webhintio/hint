@@ -72,7 +72,7 @@ const bodyWithInvalidUrl = `<div>
 <a href='http://'>About</a>
 </div>`;
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: `This test should pass as it has links with valid href value`,
         serverConfig: {

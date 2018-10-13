@@ -11,7 +11,7 @@ The following is a basic `formatter` that `.stringify()`s the results:
 
 ```js
 export default class JSONFormatter implements IFormatter {
-    public format(messages: Array<Problem>) {
+    public format(messages: Problem[]) {
         console.log(JSON.stringify(messages, null, 2));
     }
 }
@@ -38,7 +38,7 @@ import * as _ from 'lodash';
 
 export default class JSONFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public format(messages: Array<Problem>) {
+    public format(messages: Problem[]) {
         const resources = _.groupBy(messages, 'resource');
 
         _.forEach(resources, (msgs, resource) => {

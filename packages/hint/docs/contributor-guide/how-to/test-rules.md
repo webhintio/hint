@@ -23,7 +23,7 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 
 const hintPath = getHintPath(__filename);
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: 'Name of the tests',
         serverConfig: 'HTML to use',
@@ -40,12 +40,12 @@ hintRunner.testHint(hintPath, tests);
 
 The high level overview of what's is happening in the code above is as follows:
 
-1. `tests` (of type `Array<HintTest>`) contains the list of things to test, the
+1. `tests` (of type `HintTest[]`) contains the list of things to test, the
    server configuration to use (`serverConfig`) and the expected result(s)
    (`reports`). If no results are defined that means `webhint` should not
    fail that configuration. Otherwise the results should match the ones
    defined.
-1. `hintRunner.testHint` will take an `Array<HintTest>` and create a web server
+1. `hintRunner.testHint` will take an `HintTest[]` and create a web server
    for each one of the items in it. It will also create a `webhint` object
    with just the hint to test configured and run it against the web server for
    that particular test.
@@ -79,7 +79,7 @@ the actual tests (e.g.: if you need to mock a dependency). For those
 cases you can use the `before` and `after` properties of `HintTest`:
 
 ```ts
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         after() {
             // Code to execute right before calling `connector.close` goes here.
@@ -188,7 +188,7 @@ If you need to test an external resource (because you are integrating
 with a third party service) you need to use the property `serverUrl`:
 
 ```ts
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: 'Name of the tests',
         reports: [{
@@ -206,7 +206,7 @@ const tests: Array<HintTest> = [
 of `hintRunner.testHint` is:
 
 * `hintPath`, the name of the hint being tested.
-* `tests`, an `Array<HintTest>`.
+* `tests`, an `HintTest[]`.
 * `configuration` (optional), allows you to modify the defaults of how the
    tests are run.
 

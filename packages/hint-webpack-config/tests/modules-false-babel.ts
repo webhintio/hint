@@ -18,7 +18,7 @@ const loadPackage = {
     }
 };
 
-const tests: Array<HintLocalTest> = [
+const tests: HintLocalTest[] = [
     {
         before() {
             loadPackage.default = () => {
@@ -55,7 +55,7 @@ const tests: Array<HintLocalTest> = [
     }
 ];
 
-const generateTest = (message: string): Array<HintLocalTest> => {
+const generateTest = (message: string): HintLocalTest[] => {
     return [
         {
             before() {

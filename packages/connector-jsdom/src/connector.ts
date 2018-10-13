@@ -109,7 +109,7 @@ export default class JSDOMConnector implements IConnector {
 
     /** Traverses the DOM while sending `element::typeofelement` events. */
     private async traverseAndNotify(element: HTMLElement) {
-        const eventName: string = `element::${element.nodeName.toLowerCase()}`;
+        const eventName = `element::${element.nodeName.toLowerCase()}` as 'element::*';
 
         debug(`emitting ${eventName}`);
         /*
@@ -199,7 +199,7 @@ export default class JSDOMConnector implements IConnector {
             try {
                 this._targetNetworkData = await this.fetchContent(target);
             } catch (err) {
-                const hops: Array<string> = this.request.getRedirects(err.uri);
+                const hops: string[] = this.request.getRedirects(err.uri);
                 const fetchError: FetchError = {
                     element: null as any,
                     /* istanbul ignore next */
@@ -236,7 +236,7 @@ export default class JSDOMConnector implements IConnector {
             fetchEnd.response.charset = charset!;
 
             // Event is also emitted when status code in response is not 200.
-            await this.server.emitAsync(`fetch::end::${getType(mediaType!)}`, fetchEnd);
+            await this.server.emitAsync(`fetch::end::${getType(mediaType!)}` as 'fetch::end::*', fetchEnd);
 
             /*
              * If the target is not an HTML we don't need to
@@ -406,7 +406,7 @@ export default class JSDOMConnector implements IConnector {
     }
 
     /* istanbul ignore next */
-    public querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<JSDOMAsyncHTMLElement[]> {
         return this._document.querySelectorAll(selector);
     }
 

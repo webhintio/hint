@@ -121,7 +121,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
         };
 
         /** If a used library has vulnerability that meets the minimum threshold, it gets reported.  */
-        const reportLibrary = async (library: Library, vulns: Array<Vulnerability>, resource: string) => {
+        const reportLibrary = async (library: Library, vulns: Vulnerability[], resource: string) => {
             let vulnerabilities = vulns;
 
 
@@ -171,19 +171,19 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
         };
 
         /** Given a list of libraries, reports the ones that have known vulnerabilities. */
-        const detectAndReportVulnerableLibraries = async (libraries: Array<Library>, resource: string) => {
+        const detectAndReportVulnerableLibraries = async (libraries: Library[], resource: string) => {
             // TODO: Check if snykDB is older than 24h and download if so. If not, or if itfails, use local version
             const snykDB = await loadSnyk();
 
             for (const lib of libraries) {
-                const snykInfo = snykDB.npm[lib.npmPkgName] as Array<Vulnerability>;
+                const snykInfo = snykDB.npm[lib.npmPkgName] as Vulnerability[];
 
                 // No npm package that snyk could check
                 if (!snykInfo) {
                     continue;
                 }
 
-                const vulnerabilities: Array<Vulnerability> = snykInfo.reduce((vulns, vuln) => {
+                const vulnerabilities: Vulnerability[] = snykInfo.reduce((vulns, vuln) => {
                     const version = removeTagsFromVersion(lib.version) /* istanbul ignore next */ || '';
 
                     try {
@@ -208,7 +208,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
             let detectedLibraries;
 
             try {
-                detectedLibraries = (await context.evaluate(script)) as Array<Library>;
+                detectedLibraries = (await context.evaluate(script)) as Library[];
             } catch (e) {
                 let message: string;
 

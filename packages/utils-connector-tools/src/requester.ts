@@ -94,7 +94,7 @@ export class Requester {
     }
 
     /** Returns the functions to try to use in order for a given algorithm. */
-    private decompressors(algorithm: string): Array<Function> {
+    private decompressors(algorithm: string): Function[] {
         const priorities: {[name: string]: number | undefined} = {
             br: 0,
             gzip: 1,
@@ -184,7 +184,7 @@ export class Requester {
     }
 
     /** Return the redirects for a given `uri`. */
-    public getRedirects(uri: string): Array<string> {
+    public getRedirects(uri: string): string[] {
         return this._redirects.calculate(uri);
     }
 
@@ -235,7 +235,7 @@ export class Requester {
             requestedUrls.add(uriString);
 
             return new Promise((resolve: Function, reject: Function) => {
-                const byteChunks: Array<Buffer> = [];
+                const byteChunks: Buffer[] = [];
                 let rawBodyResponse: Buffer;
 
                 this._request({ uri: uriString }, async (err, response) => {
@@ -286,7 +286,7 @@ export class Requester {
                     const contentTypeData = getContentTypeData(null, uri, response.headers as HttpHeaders, rawBody as Buffer);
                     const charset = contentTypeData.charset || '';
                     const mediaType = contentTypeData.mediaType || '';
-                    const hops: Array<string> = this._redirects.calculate(uriString);
+                    const hops: string[] = this._redirects.calculate(uriString);
                     const body: string | null = rawBody && iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
 
                     const networkData: NetworkData = {

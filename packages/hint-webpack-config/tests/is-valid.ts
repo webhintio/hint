@@ -6,7 +6,7 @@ import { HintLocalTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type
 
 const hintPath = getHintPath(__filename, true);
 
-const tests: Array<HintLocalTest> = [
+const tests: HintLocalTest[] = [
     {
         name: 'Valid configuration should pass',
         path: path.join(__dirname, 'fixtures', 'valid')

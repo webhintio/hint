@@ -31,7 +31,7 @@ const debug = d(__filename);
  */
 /* istanbul ignore next */
 const getCategoryListFromResources = (resources: HintResources) => {
-    const categoriesArray: Array<string> = resources.hints.map((hint) => {
+    const categoriesArray: string[] = resources.hints.map((hint) => {
         if (hint.meta.docs && hint.meta.docs.category) {
             return hint.meta.docs.category;
         }
@@ -45,13 +45,13 @@ const getCategoryListFromResources = (resources: HintResources) => {
     return Array.from(categories);
 };
 
-const getCategoryList = (resources?: HintResources): Array<string> => {
+const getCategoryList = (resources?: HintResources): string[] => {
     /* istanbul ignore if */
     if (resources) {
         return getCategoryListFromResources(resources);
     }
 
-    const result: Array<string> = [];
+    const result: string[] = [];
 
     for (let [, value] of Object.entries(Category)) {
         if (value === 'pwa') {
@@ -86,12 +86,12 @@ export default class HTMLFormatter implements IFormatter {
     }
 
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public async format(problems: Array<Problem>, target = '', options: FormatterOptions = {}) {
+    public async format(problems: Problem[], target = '', options: FormatterOptions = {}) {
 
         debug('Formatting results');
 
         const result = new AnalysisResult(target, options);
-        const categoryList: Array<string> = getCategoryList(options.resources);
+        const categoryList: string[] = getCategoryList(options.resources);
 
         categoryList.forEach((category) => {
             result.addCategory(category);

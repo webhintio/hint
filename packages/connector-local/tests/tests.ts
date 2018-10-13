@@ -183,7 +183,7 @@ test.serial(`If target is a directory, shouldn't emit the event 'fetch::start::t
 
     t.is(t.context.engine.emitAsync.callCount, 5);
 
-    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
+    const events: string[] = t.context.engine.emitAsync.args.map((arg: any[]) => {
         return arg[0];
     }).sort();
 
@@ -214,7 +214,7 @@ test.serial(`If target is a directory, passed content should be ignored`, async 
 
     t.is(t.context.engine.emitAsync.callCount, 5);
 
-    const events: Array<Array<any>> = t.context.engine.emitAsync.args.map((args: Array<any>) => {
+    const events: any[][] = t.context.engine.emitAsync.args.map((args: any[]) => {
         return args;
     }).sort();
 
@@ -261,7 +261,7 @@ test.serial(`If watch is true, it should watch the right files`, async (t) => {
 
     t.is(t.context.engine.emitAsync.callCount, 2);
 
-    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
+    const events: string[] = t.context.engine.emitAsync.args.map((arg: any[]) => {
         return arg[0];
     }).sort();
 
@@ -353,7 +353,7 @@ test.serial(`When the watcher is ready, it should emit the scan::end event`, asy
 
     t.is(t.context.engine.emitAsync.callCount, 3);
 
-    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
+    const events: string[] = t.context.engine.emitAsync.args.map((arg: any[]) => {
         return arg[0];
     }).sort();
 
@@ -399,7 +399,7 @@ test.serial(`When the watcher detects a new file, it should emit the fetch::end:
 
     t.is(t.context.engine.emitAsync.callCount, 4);
 
-    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
+    const events: string[] = t.context.engine.emitAsync.args.map((arg: any[]) => {
         return arg[0];
     }).sort();
 
@@ -446,7 +446,7 @@ test.serial(`When the watcher detects a change in a file, it should emit the fet
 
     t.is(t.context.engine.emitAsync.callCount, 4);
 
-    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
+    const events: string[] = t.context.engine.emitAsync.args.map((arg: any[]) => {
         return arg[0];
     }).sort();
 
@@ -493,7 +493,7 @@ test.serial(`When the watcher detects that a file was removed, it should emit th
 
     t.is(t.context.engine.emitAsync.callCount, 3);
 
-    const events: Array<string> = t.context.engine.emitAsync.args.map((arg: Array<any>) => {
+    const events: string[] = t.context.engine.emitAsync.args.map((arg: any[]) => {
         return arg[0];
     }).sort();
 

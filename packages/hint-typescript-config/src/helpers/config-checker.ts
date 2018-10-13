@@ -1,4 +1,4 @@
-import { TypeScriptConfigParse } from '@hint/parser-typescript-config/dist/src/types';
+import { TypeScriptConfigParse } from '@hint/parser-typescript-config';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 /** Helper method to check if a property matches the desired value and report an issue if not. */

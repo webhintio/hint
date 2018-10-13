@@ -39,7 +39,7 @@ export default class MetaViewportHint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getViewportMetaElements = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
+        const getViewportMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
             return elements.filter((element) => {
                 return (element.getAttribute('name') !== null && normalizeString(element.getAttribute('name')) === 'viewport');
             });
@@ -161,7 +161,7 @@ export default class MetaViewportHint implements IHint {
 
             const { resource }: { resource: string } = event;
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const viewportMetaElements: Array<IAsyncHTMLElement> = getViewportMetaElements(await pageDOM.querySelectorAll('meta'));
+            const viewportMetaElements: IAsyncHTMLElement[] = getViewportMetaElements(await pageDOM.querySelectorAll('meta'));
 
             if (viewportMetaElements.length === 0) {
                 await context.report(resource, null, `'viewport' meta element was not specified.`);
@@ -177,7 +177,7 @@ export default class MetaViewportHint implements IHint {
              */
 
             const viewportMetaElement: IAsyncHTMLElement = viewportMetaElements[0];
-            const bodyMetaElements: Array<IAsyncHTMLElement> = getViewportMetaElements(await pageDOM.querySelectorAll('body meta'));
+            const bodyMetaElements: IAsyncHTMLElement[] = getViewportMetaElements(await pageDOM.querySelectorAll('body meta'));
 
             if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(viewportMetaElement)) {
                 await context.report(resource, viewportMetaElement, `'viewport' meta element should be specified in the '<head>', not '<body>'.`);

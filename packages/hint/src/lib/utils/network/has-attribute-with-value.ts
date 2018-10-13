@@ -11,7 +11,7 @@ export default (element: IAsyncHTMLElement, nodeName: string, attribute: string,
         return false;
     }
 
-    const rels: Array<string> = relAttribute.toLowerCase()
+    const rels: string[] = relAttribute.toLowerCase()
         .split(' ');
 
     return rels.some((rel) => {

@@ -83,8 +83,8 @@ export const getAsUri = (source: string): URL | null => {
  * * null if not valid
  *
  */
-export const getAsUris = (source: Array<string>): Array<URL> => {
-    const targets: Array<URL> = source.reduce((uris: Array<URL>, entry: string): Array<URL> => {
+export const getAsUris = (source: string[]): URL[] => {
+    const targets: URL[] = source.reduce((uris: URL[], entry: string): URL[] => {
         const uri = getAsUri(entry);
 
         if (uri) {

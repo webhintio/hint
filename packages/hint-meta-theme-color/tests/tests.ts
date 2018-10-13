@@ -39,7 +39,7 @@ const generateThemeColorMetaElement = (contentValue: string = '#f00', nameValue:
     return `<meta name="${nameValue}" content="${contentValue}">`;
 };
 
-const generateTest = (colorValues: Array<string>, valueType: string = 'valid', reason?: string) => {
+const generateTest = (colorValues: string[], valueType: string = 'valid', reason?: string) => {
     const defaultTests = [];
 
     for (const colorValue of colorValues) {
@@ -61,7 +61,7 @@ const generateTest = (colorValues: Array<string>, valueType: string = 'valid', r
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const defaultTests: Array<HintTest> = [
+const defaultTests: HintTest[] = [
     {
         name: `'theme-color' meta element is not specified`,
         reports: [{ message: metaElementIsNotSpecifiedErrorMessage }],
@@ -95,7 +95,7 @@ const defaultTests: Array<HintTest> = [
     }
 ];
 
-const testForNoSupportForHexWithAlpha: Array<HintTest> = [...generateTest(notAlwaysSupportedColorValues, 'unsupported', 'because of the targeted browsers')];
+const testForNoSupportForHexWithAlpha: HintTest[] = [...generateTest(notAlwaysSupportedColorValues, 'unsupported', 'because of the targeted browsers')];
 
 hintRunner.testHint(hintPath, defaultTests, {
     browserslist: [

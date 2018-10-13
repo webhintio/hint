@@ -7,7 +7,7 @@ export interface ISchemaValidationError extends ajv.ErrorObject {
 
 export type SchemaValidationResult = {
     data: any;
-    errors: Array<ISchemaValidationError>;
-    prettifiedErrors: Array<string>;
+    errors: ISchemaValidationError[];
+    prettifiedErrors: string[];
     valid: boolean;
 };

@@ -34,7 +34,7 @@ export class HintResult {
     /** Number of suggestions reported for this hint. */
     public count: number;
     /** Suggestions reported for this hint. */
-    public problems: Array<Problem>;
+    public problems: Problem[];
     /** Name of the hint. */
     public name: string;
     /** Third party information (when apply). */
@@ -78,9 +78,9 @@ export class CategoryResult {
     /** Number of suggestions in the category. */
     public hintsCount: number;
     /** Hints that have passed. */
-    public passed: Array<HintResult>;
+    public passed: HintResult[];
     /** Hints that don't passed. */
-    public hints: Array<HintResult>;
+    public hints: HintResult[];
     /** Category name. */
     public name: string;
     /** Category image. */
@@ -197,7 +197,7 @@ export default class AnalysisResult {
     /** Link to the result (online scanner). */
     public permalink: string;
     /** List of categories. */
-    public categories: Array<CategoryResult>;
+    public categories: CategoryResult[];
     /** URL analized. */
     public url: string;
     /** The analysis is finish. */

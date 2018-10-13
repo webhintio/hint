@@ -44,7 +44,7 @@ const generateServerConfig = (imageCount: number, redirects = false) => {
     return serverConfig;
 };
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: 'Plain page loads fast enough',
         serverConfig: generateHTMLPage()
@@ -65,7 +65,7 @@ const tests: Array<HintTest> = [
     }
 ];
 
-const loadTimeTests: Array<HintTest> = [
+const loadTimeTests: HintTest[] = [
     {
         name: 'Plain page loads fast enough',
         serverConfig: generateHTMLPage()
@@ -77,7 +77,7 @@ const loadTimeTests: Array<HintTest> = [
     }
 ];
 
-const connectionTypeTests: Array<HintTest> = [
+const connectionTypeTests: HintTest[] = [
     {
         name: 'Plain page loads fast enough',
         serverConfig: generateHTMLPage()

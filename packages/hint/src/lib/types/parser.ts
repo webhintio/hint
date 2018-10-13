@@ -6,7 +6,7 @@ import { Engine } from '../engine';
 import { getAsUri } from '../utils/network/as-uri';
 import getAsPathString from '../utils/network/as-path-string';
 import loadJSONFile from '../utils/fs/load-json-file';
-import { ErrorEvent } from './events';
+import { Events } from './events';
 
 export type ExtendableConfiguration = {
     extends: string;
@@ -17,11 +17,11 @@ export interface IParserConstructor {
 }
 
 /** A `Parser` that understands a file content. */
-export abstract class Parser {
-    protected engine: Engine;
+export abstract class Parser<E extends Events = Events> {
+    protected engine: Engine<E>;
     protected name: string;
 
-    protected async finalConfig<T extends ExtendableConfiguration, U extends ErrorEvent>(config: T, resource: string): Promise<T | null> {
+    protected async finalConfig<T extends ExtendableConfiguration>(config: T, resource: string): Promise<T | null> {
         if (!config.extends) {
             return config;
         }
@@ -48,12 +48,11 @@ export abstract class Parser {
             configPath = path.resolve(configDir, finalConfigJSON.extends);
 
             if (configIncludes.has(configPath)) {
-                const errorEvent: U = {
+
+                await (this.engine as Engine<Events>).emitAsync(`parse::${this.name}::error::circular` as 'parse::*::error', {
                     error: new Error(`Circular reference found in file ${lastPath}`),
                     resource
-                } as U;
-
-                await this.engine.emitAsync(`parse::${this.name}::error::circular`, errorEvent);
+                });
 
                 return null;
             }
@@ -68,12 +67,11 @@ export abstract class Parser {
 
                 finalConfigJSON = merge({}, extendedConfig, finalConfigJSON);
             } catch (err) {
-                const error = {
+
+                await (this.engine as Engine<Events>).emitAsync(`parse::${this.name}::error::extends` as 'parse::*::error', {
                     error: err,
                     resource
-                };
-
-                await this.engine.emitAsync(`parse::${this.name}::error::extends`, error);
+                });
 
                 return null;
             }
@@ -83,7 +81,7 @@ export abstract class Parser {
     }
 
     /* istanbul ignore next */
-    public constructor(engine: Engine, parseEventType: string) {
+    public constructor(engine: Engine<E>, parseEventType: string) {
         this.engine = engine;
         this.name = parseEventType;
     }

@@ -73,7 +73,7 @@ type FetchError {
     /** The error found. */
     error: any;
     /** The redirects performed for the url. */
-    hops: Array<string>
+    hops: string[];
 }
 ```
 

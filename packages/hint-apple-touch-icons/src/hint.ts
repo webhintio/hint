@@ -43,7 +43,7 @@ export default class AppleTouchIconsHint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getAppleTouchIcons = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
+        const getAppleTouchIcons = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
             return elements.filter((element) => {
 
                 /*
@@ -179,7 +179,7 @@ export default class AppleTouchIconsHint implements IHint {
             // TODO: Check if the image has some kind of transparency.
         };
 
-        const chooseBestIcon = (icons: Array<IAsyncHTMLElement>): IAsyncHTMLElement => {
+        const chooseBestIcon = (icons: IAsyncHTMLElement[]): IAsyncHTMLElement => {
 
             /*
              * Site will usually have something such as:
@@ -217,7 +217,7 @@ export default class AppleTouchIconsHint implements IHint {
         const validate = async (event: TraverseEnd) => {
             const { resource }: { resource: string } = event;
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const appleTouchIcons: Array<IAsyncHTMLElement> = getAppleTouchIcons(await pageDOM.querySelectorAll('link'));
+            const appleTouchIcons: IAsyncHTMLElement[] = getAppleTouchIcons(await pageDOM.querySelectorAll('link'));
 
             if (appleTouchIcons.length === 0) {
                 await context.report(resource, null, `'apple-touch-icon' link element was not specified.`);
@@ -265,7 +265,7 @@ export default class AppleTouchIconsHint implements IHint {
              * Check if the `apple-touch-icon` is included in the `<body>`.
              */
 
-            const bodyAppleTouchIcons: Array<IAsyncHTMLElement> = getAppleTouchIcons(await pageDOM.querySelectorAll('body link'));
+            const bodyAppleTouchIcons: IAsyncHTMLElement[] = getAppleTouchIcons(await pageDOM.querySelectorAll('body link'));
 
             for (const icon of bodyAppleTouchIcons) {
                 if (icon.isSame(appleTouchIcon)) {

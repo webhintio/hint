@@ -63,7 +63,7 @@ const mockCloudinary = (responses?: Partial<cloudinaryResult> | Partial<cloudina
     mock('cloudinary', mockedModule);
 };
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         before() {
             mockCloudinary(savings50);
@@ -97,7 +97,7 @@ const tests: Array<HintTest> = [
     }
 ];
 
-const testThresholds: Array<HintTest> = [
+const testThresholds: HintTest[] = [
     {
         before() {
             mockCloudinary([savings33, savings33]);
@@ -122,7 +122,7 @@ const testThresholds: Array<HintTest> = [
     }
 ];
 
-const noConfigTest: Array<HintTest> = [
+const noConfigTest: HintTest[] = [
     {
         before() {
             mockCloudinary(savings50);

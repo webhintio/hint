@@ -63,7 +63,7 @@ const notifyIfNeeded = () => {
  */
 
 /** Executes the CLI based on an array of arguments that is passed in. */
-export const execute = async (args: string | Array<string> | Object): Promise<number> => {
+export const execute = async (args: string | string[] | Object): Promise<number> => {
     let currentOptions: CLIOptions;
 
     try {

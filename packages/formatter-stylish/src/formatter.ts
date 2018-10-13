@@ -47,7 +47,7 @@ const printPosition = (position: number, text: string) => {
 
 export default class StylishFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public format(messages: Array<Problem>) {
+    public format(messages: Problem[]) {
 
         debug('Formatting results');
 
@@ -55,15 +55,15 @@ export default class StylishFormatter implements IFormatter {
             return;
         }
 
-        const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'resource');
+        const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'resource');
         let totalErrors: number = 0;
         let totalWarnings: number = 0;
 
-        _.forEach(resources, (msgs: Array<Problem>, resource: string) => {
+        _.forEach(resources, (msgs: Problem[], resource: string) => {
             let warnings: number = 0;
             let errors: number = 0;
-            const sortedMessages: Array<Problem> = _.sortBy(msgs, ['location.line', 'location.column']);
-            const tableData: Array<Array<string>> = [];
+            const sortedMessages: Problem[] = _.sortBy(msgs, ['location.line', 'location.column']);
+            const tableData: string[][] = [];
             let hasPosition: boolean = false;
 
             logger.log(chalk.cyan(`${cutString(resource, 80)}`));
@@ -92,7 +92,7 @@ export default class StylishFormatter implements IFormatter {
              * position components from the array to avoid unnecessary white spaces
              */
             if (!hasPosition) {
-                tableData.forEach((row: Array<string>) => {
+                tableData.forEach((row: string[]) => {
                     row.splice(0, 2);
                 });
             }

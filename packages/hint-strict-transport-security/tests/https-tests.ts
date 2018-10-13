@@ -7,7 +7,7 @@ import * as common from './_common';
 
 const hintPath = getHintPath(__filename);
 
-const defaultTests: Array<HintTest> = [
+const defaultTests: HintTest[] = [
     {
         name: `HTML page is served over HTTPS without 'Strict-Transport-Security' header specified`,
         reports: [{ message: common.noHeaderError }],
@@ -82,14 +82,14 @@ const defaultTests: Array<HintTest> = [
     }
 ];
 
-const configMaxAgeTests: Array<HintTest> = [{
+const configMaxAgeTests: HintTest[] = [{
     name: `Change the minimum max-age value`,
     // the max-age that passes before is now too short
     reports: [{ message: common.generateTooShortError(common.OkayMaxAge + 1) }],
     serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.maxAgeOnlyHeader } })
 }];
 
-const configPreloadTets: Array<HintTest> = [
+const configPreloadTets: HintTest[] = [
     {
         name: `The 'Strict-Transport-Security' header doesn't have 'preload' attribute`,
         serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.maxAgeOnlyHeader } })

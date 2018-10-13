@@ -29,11 +29,11 @@ const defaultFormatter = 'summary';
 
 type InitUserConfig = {
     config: UserConfig;
-    packages?: Array<string>;
+    packages?: string[];
 };
 
 /** Validates if the given array is not empty and if so, prints an error message. */
-const anyResources = (resources: Array<any>, type: string) => {
+const anyResources = (resources: any[], type: string) => {
     /* istanbul ignore else */
     if (resources.length > 0) {
         return true;
@@ -52,7 +52,7 @@ const getConfigurationName = (pkgName: string): string => {
 
 /** Shwos the user a list of official configuration packages available in npm to install. */
 const extendConfig = async (): Promise<InitUserConfig | null> => {
-    const configPackages: Array<NpmPackage> = await getOfficialPackages(ResourceType.configuration);
+    const configPackages: NpmPackage[] = await getOfficialPackages(ResourceType.configuration);
 
     if (!anyResources(configPackages, ResourceType.configuration)) {
         return null;
@@ -84,10 +84,10 @@ const extendConfig = async (): Promise<InitUserConfig | null> => {
 
 /** Prompts a series of questions to create a new configuration object based on the installed packages. */
 const customConfig = async (): Promise<InitUserConfig | null> => {
-    const connectorKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
-    const formattersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
-    const parsersKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
-    const hintsKeys: Array<inquirer.ChoiceType> = getInstalledResources(ResourceType.hint).concat(getCoreResources(ResourceType.hint));
+    const connectorKeys: inquirer.ChoiceType[] = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
+    const formattersKeys: inquirer.ChoiceType[] = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
+    const parsersKeys: inquirer.ChoiceType[] = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
+    const hintsKeys: inquirer.ChoiceType[] = getInstalledResources(ResourceType.hint).concat(getCoreResources(ResourceType.hint));
 
     if (!anyResources(connectorKeys, ResourceType.connector) ||
         !anyResources(formattersKeys, ResourceType.formatter) ||
@@ -96,7 +96,7 @@ const customConfig = async (): Promise<InitUserConfig | null> => {
         return null;
     }
 
-    const customQuestions: Array<inquirer.Question> = [
+    const customQuestions: inquirer.Question[] = [
         {
             choices: connectorKeys,
             message: 'What connector do you want to use?',

@@ -56,7 +56,7 @@ export default class NoDisallowedHeadersHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        let disallowedHeaders: Array<string> = [
+        let disallowedHeaders: string[] = [
             'public-key-pins',
             'public-key-pins-report-only',
             'x-aspnet-version',
@@ -134,7 +134,7 @@ export default class NoDisallowedHeadersHint implements IHint {
                 return;
             }
 
-            const headers: Array<string> = getIncludedHeaders(response.headers, disallowedHeaders);
+            const headers: string[] = getIncludedHeaders(response.headers, disallowedHeaders);
             const numberOfHeaders: number = headers.length;
 
             /*

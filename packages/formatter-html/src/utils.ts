@@ -102,7 +102,7 @@
         });
     };
 
-    const filterErrorsAndWarnings = (category: any): Array<any> => {
+    const filterErrorsAndWarnings = (category: any): any[] => {
         if (!category) {
             return [];
         }
@@ -112,7 +112,7 @@
         });
     };
 
-    const passedHints = (category: any): Array<any> => {
+    const passedHints = (category: any): any[] => {
         if (!category) {
             return [];
         }

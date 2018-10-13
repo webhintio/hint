@@ -120,7 +120,7 @@ const loadIgnoredUrls = (userConfig: UserConfig): Map<string, RegExp[]> => {
             hints.forEach((hint: string) => {
                 const hintName = hint === '*' ? 'all' : hint;
 
-                const urlsInHint: Array<RegExp> | undefined = ignoredUrls.get(hintName);
+                const urlsInHint: RegExp[] | undefined = ignoredUrls.get(hintName);
                 const urlRegex: RegExp = new RegExp(urlRegexString, 'i');
 
                 if (!urlsInHint) {
@@ -170,16 +170,16 @@ const updateConfigWithCommandLineValues = (config: UserConfig, actions?: CLIOpti
 };
 
 export class Configuration {
-    public readonly browserslist: Array<string>;
+    public readonly browserslist: string[];
     public readonly connector: ConnectorConfig | undefined;
-    public readonly formatters: Array<string> | undefined;
+    public readonly formatters: string[] | undefined;
     public readonly ignoredUrls: Map<string, RegExp[]>;
-    public readonly parsers: Array<string> | undefined;
+    public readonly parsers: string[] | undefined;
     public readonly hints: HintsConfigObject;
     public readonly hintsTimeout: number;
-    public readonly extends: Array<string> | undefined;
+    public readonly extends: string[] | undefined;
 
-    private constructor(userConfig: UserConfig, browsers: Array<string>, ignoredUrls: Map<string, RegExp[]>, hints: HintsConfigObject) {
+    private constructor(userConfig: UserConfig, browsers: string[], ignoredUrls: Map<string, RegExp[]>, hints: HintsConfigObject) {
         this.browserslist = browsers;
         this.formatters = userConfig.formatters;
         this.ignoredUrls = ignoredUrls;
@@ -218,7 +218,7 @@ export class Configuration {
      */
     public static loadBrowsersList(config: UserConfig) {
         const directory: string = process.cwd();
-        const files: Array<string> = CONFIG_FILES.reduce((total, configFile) => {
+        const files: string[] = CONFIG_FILES.reduce((total, configFile) => {
             const filename: string = path.join(directory, configFile);
 
             if (isFile(filename)) {

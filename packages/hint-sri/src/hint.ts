@@ -266,7 +266,7 @@ export default class SRIHint implements IHint {
         });
 
         if (!isOK) {
-            const hashes: Array<string> = [];
+            const hashes: string[] = [];
 
             calculatedHashes.forEach((value, key) => {
                 hashes.push(`sha${key}-${value}`);

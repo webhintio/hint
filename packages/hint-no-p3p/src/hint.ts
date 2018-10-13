@@ -63,7 +63,7 @@ export default class NoP3pHint implements IHint {
          */
         const validateHeaders = async (fetchEnd: FetchEnd) => {
             const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
-            const headers: Array<string> = getIncludedHeaders(response.headers, ['p3p']);
+            const headers: string[] = getIncludedHeaders(response.headers, ['p3p']);
             const numberOfHeaders: number = headers.length;
 
             if (numberOfHeaders > 0) {

@@ -7,7 +7,7 @@ import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
-import { BabelConfigInvalidJSON, BabelConfigInvalidSchema } from '@hint/parser-babel-config/dist/src/types';
+import { BabelConfigEvents, BabelConfigInvalidJSON, BabelConfigInvalidSchema } from '@hint/parser-babel-config';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -27,7 +27,7 @@ export default class BabelConfigIsValidHint implements IHint {
         scope: HintScope.local
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<BabelConfigEvents>) {
         const invalidJSONFile = async (babelConfigInvalid: BabelConfigInvalidJSON, event: string) => {
             const { error, resource } = babelConfigInvalid;
 

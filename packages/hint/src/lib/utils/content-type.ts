@@ -413,7 +413,7 @@ const getContentTypeData = (element: IAsyncHTMLElement | null, resource: string,
 
 /** Checks if a media type is one of a file type that is text based. */
 const isTextMediaType = (mediaType: string): boolean => {
-    const textMediaTypes: Array<RegExp> = [
+    const textMediaTypes: RegExp[] = [
         /application\/(?:javascript|json|x-javascript|xml)/i,
         /application\/.*\+(?:json|xml)/i,
         /image\/svg\+xml/i,

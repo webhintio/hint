@@ -9,7 +9,7 @@ const generateErrorMessage = (url: string): string => {
     return `'${url}' should not be specified as a protocol-relative URL.`;
 };
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: `'link' with no initial slashes passes the hint`,
         serverConfig: generateHTMLPage('<link rel="manifest" href="site.webmanifest">')

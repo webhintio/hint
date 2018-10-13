@@ -50,12 +50,12 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
  *
  * Original code: http://stackoverflow.com/a/3410557/414145
  */
-const getIndicesOf = (searchStr: string, str: string): Array<number> => {
+const getIndicesOf = (searchStr: string, str: string): number[] => {
     const searchStrLen: number = searchStr.length;
 
     let startIndex: number = 0;
     let index: number;
-    const indices: Array<number> = [];
+    const indices: number[] = [];
 
     // We had a problem getting the outerHTML of the element before
     if (searchStr === '') {
@@ -85,9 +85,9 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<P
     // Otherwise try to infer where the element was located.
     const html: string = await element.ownerDocument.pageHTML();
     const elementHTML: string = await element.outerHTML();
-    const indexOccurences: Array<number> = getIndicesOf(elementHTML, html);
+    const indexOccurences: number[] = getIndicesOf(elementHTML, html);
     const selector: string = selectorFromElement(element);
-    const elements: Array<IAsyncHTMLElement> = await element.ownerDocument.querySelectorAll(selector);
+    const elements: IAsyncHTMLElement[] = await element.ownerDocument.querySelectorAll(selector);
 
     let similarItems: number = 0;
 
@@ -112,7 +112,7 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<P
 
     const htmlBeforeElement: string = html.substring(0, indexOccurences[similarItems - 1]);
 
-    const lines: Array<string> = htmlBeforeElement.split('\n');
+    const lines: string[] = htmlBeforeElement.split('\n');
     const line: number = lines.length;
     const column: number = (lines.pop() || '').replace(/[\t]/g, '    ').length + 1;
 
@@ -147,7 +147,7 @@ export const findInElement = async (element: IAsyncHTMLElement, content: string)
     }
 
     const html: string = outerHTML.substring(0, startIndex);
-    const lines: Array<string> = html.split('\n');
+    const lines: string[] = html.split('\n');
     const line: number = lines.length;
 
     // `startIndex + 1` because `indexOf` starts from `0`.

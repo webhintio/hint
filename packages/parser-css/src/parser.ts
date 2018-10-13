@@ -3,13 +3,15 @@ import * as postcss from 'postcss';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
-import { StyleParse } from './types';
-import { Engine } from 'hint/dist/src/lib/engine';
+import { StyleEvents } from './types';
+import { Engine } from 'hint';
+
+export * from './types';
 
 const styleContentRegex: RegExp = /^<style[^>]*>([\s\S]*)<\/style\s*>$/;
 
-export default class CSSParser extends Parser {
-    public constructor(engine: Engine) {
+export default class CSSParser extends Parser<StyleEvents> {
+    public constructor(engine: Engine<StyleEvents>) {
         super(engine, 'css');
 
         engine.on('fetch::end::css', this.parseCSS.bind(this));
@@ -21,13 +23,11 @@ export default class CSSParser extends Parser {
         try {
             const ast = postcss.parse(code, { from: resource });
 
-            const styleData: StyleParse = {
+            await this.engine.emitAsync(`parse::css::end`, {
                 ast,
                 code,
                 resource
-            };
-
-            await this.engine.emitAsync(`parse::${this.name}::end`, styleData);
+            });
 
         } catch (err) {
             logger.error(`Error parsing CSS code: ${code} - ${err}`);

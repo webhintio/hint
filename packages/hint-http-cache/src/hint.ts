@@ -88,7 +88,7 @@ export default class HttpCacheHint implements IHint {
             'video/ogg',
             'video/webm'];
         /** The predefined patterns for file revving.*/
-        const predefinedRevvingPatterns: Array<RegExp> = [
+        const predefinedRevvingPatterns: RegExp[] = [
             /*
              * E.g.: version/timestamp/hash
              *
@@ -126,7 +126,7 @@ export default class HttpCacheHint implements IHint {
         ];
 
         /** The cache revving patterns to use for matching.*/
-        let cacheRevvingPatterns: Array<RegExp> = [];
+        let cacheRevvingPatterns: RegExp[] = [];
 
         /**
          * Parses the `Cache-Control` header of a response creating an object with valid and invalid directives,

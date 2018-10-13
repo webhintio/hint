@@ -10,7 +10,7 @@
  *
  */
 
-export default (array: Array<string|number>): string => {
+export default (array: (string|number)[]): string => {
     const items = Array.from(array);
 
     if (!items || items.length === 0) {

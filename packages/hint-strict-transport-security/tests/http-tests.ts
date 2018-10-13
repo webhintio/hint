@@ -7,7 +7,7 @@ import * as common from './_common';
 
 const hintPath = getHintPath(__filename);
 
-const noHttpServerTests: Array<HintTest> = [{
+const noHttpServerTests: HintTest[] = [{
     name: `strict-transport-security sent over HTTP`,
     // the max-age that passes before is now too short
     reports: [{ message: `'strict-transport-security' header should't be specified in pages served over HTTP.` }],

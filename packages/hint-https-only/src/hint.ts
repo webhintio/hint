@@ -56,7 +56,7 @@ export default class HttpsOnlyHint implements IHint {
             return;
         };
 
-        const reportInsecureHops = (response: Response): Array<Promise<void>> => {
+        const reportInsecureHops = (response: Response): Promise<void>[] => {
             const { hops } = response;
 
             return hops.map((hop) => {
@@ -98,7 +98,7 @@ export default class HttpsOnlyHint implements IHint {
         };
 
         /** Returns an array with all the URLs in the given `srcset` attribute or an empty string if none. */
-        const parseSrcSet = (srcset: string | null): Array<string> => {
+        const parseSrcSet = (srcset: string | null): string[] => {
             if (!srcset) {
                 return [];
             }
@@ -147,13 +147,13 @@ export default class HttpsOnlyHint implements IHint {
              *   https://developer.mozilla.org/en-US/docs/Web/HTML/Element/object
              */
 
-            const simpleAttributes: Array<string> = [
+            const simpleAttributes: string[] = [
                 'src',
                 'poster',
                 'data'
             ];
 
-            const urls: Array<string> = simpleAttributes.reduce((found: Array<string>, attribute: string) => {
+            const urls: string[] = simpleAttributes.reduce((found: string[], attribute: string) => {
                 const value: string | null = element.getAttribute(attribute);
 
                 if (value) {
@@ -163,13 +163,13 @@ export default class HttpsOnlyHint implements IHint {
                 return found;
             }, []);
 
-            const srcset: Array<string> = parseSrcSet(element.getAttribute('srcset'));
+            const srcset: string[] = parseSrcSet(element.getAttribute('srcset'));
 
             if (srcset.length > 0) {
                 urls.push(...srcset);
             }
 
-            const reports: Array<Promise<void>> = urls.map((url) => {
+            const reports: Promise<void>[] = urls.map((url) => {
                 const fullUrl = URL.resolve(resource, url);
 
                 if (!isHTTPS(fullUrl) && !isDataURI(fullUrl) && !reportedUrls.has(fullUrl)) {

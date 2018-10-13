@@ -14,7 +14,7 @@ export const ids = [
 ];
 
 /** The Constructors of the available connectors to test. */
-export const connectors: Array<{ctor: IConnectorConstructor, name: string}> = [
+export const connectors: {ctor: IConnectorConstructor, name: string}[] = [
     {
         ctor: ChromeConnector,
         name: 'chrome'

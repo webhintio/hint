@@ -25,7 +25,7 @@ import { trackEvent, trackException } from 'hint/dist/src/lib/utils/appinsights'
  */
 
 /** A map that matches usecases with events. */
-const events: Map<string, Array<string>> = new Map([
+const events: Map<string, string[]> = new Map([
     ['dom', ['ElementFound']],
     ['request', ['FetchStart', 'FetchEnd', 'FetchError']],
     ['thirdPartyService', ['FetchStart', 'FetchEnd']],
@@ -132,7 +132,7 @@ class HintPackage {
     public official: boolean;
     public packageMain: string;
     public packageName: string;
-    public hints: Array<INewHint>;
+    public hints: INewHint[];
     public destination: string;
     public isHint: boolean = true;
 
@@ -150,7 +150,7 @@ class HintPackage {
         this.hints = [];
 
         if (this.isMulti) {
-            (data.hints as Array<inquirer.Answers>).forEach((hint) => {
+            (data.hints as inquirer.Answers[]).forEach((hint) => {
                 this.hints.push(new NewHint(hint, this.normalizedName));
             });
         } else {
@@ -177,7 +177,7 @@ Handlebars.registerPartial('event-code', partialEventCode);
 Handlebars.registerHelper('toCamelCase', toCamelCase);
 
 /** List hint categories. */
-const categories: Array<any> = [];
+const categories: any[] = [];
 
 for (const [, value] of Object.entries(Category)) {
     if (value !== 'other') {
@@ -186,7 +186,7 @@ for (const [, value] of Object.entries(Category)) {
 }
 
 /** List of scopes */
-const scopes: Array<any> = [];
+const scopes: any[] = [];
 
 for (const [, value] of Object.entries(HintScope)) {
     /* istanbul ignore else */
@@ -388,7 +388,7 @@ const generateHintFiles = async (destination: string, data: any) => {
 export default async (): Promise<boolean> => {
     try {
         const results = await inquirer.prompt(questions(QuestionsType.main));
-        const hints: Array<inquirer.Answers> = [];
+        const hints: inquirer.Answers[] = [];
 
         results.official = await isOfficial();
 

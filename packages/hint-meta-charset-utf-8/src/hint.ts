@@ -44,7 +44,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getCharsetMetaElements = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
+        const getCharsetMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
             return elements.filter((element) => {
                 return (element.getAttribute('charset') !== null) ||
                     (element.getAttribute('http-equiv') !== null && normalizeString(element.getAttribute('http-equiv')) === 'content-type');
@@ -86,7 +86,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
              */
 
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const charsetMetaElements: Array<IAsyncHTMLElement> = getCharsetMetaElements(await pageDOM.querySelectorAll('meta'));
+            const charsetMetaElements: IAsyncHTMLElement[] = getCharsetMetaElements(await pageDOM.querySelectorAll('meta'));
 
             if (charsetMetaElements.length === 0) {
                 await context.report(resource, null, `'charset' meta element was not specified.`);
@@ -134,7 +134,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
 
             // * specified in the `<body>`.
 
-            const bodyMetaElements: Array<IAsyncHTMLElement> = getCharsetMetaElements(await pageDOM.querySelectorAll('body meta'));
+            const bodyMetaElements: IAsyncHTMLElement[] = getCharsetMetaElements(await pageDOM.querySelectorAll('body meta'));
 
             if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(charsetMetaElement)) {
                 await context.report(resource, charsetMetaElement, `'charset' meta element should be specified in the '<head>', not '<body>'.`);
