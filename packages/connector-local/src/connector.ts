@@ -35,7 +35,7 @@ import {
     Event, FetchEnd, ScanEnd, NetworkData, CanEvaluateScript
 } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
-import { HTMLParse } from '@hint/parser-html';
+import { HTMLParse, HTMLEvents } from '@hint/parser-html';
 
 /*
  * ------------------------------------------------------------------------------
@@ -48,12 +48,12 @@ const defaultOptions = {};
 export default class LocalConnector implements IConnector {
     private _window: IAsyncWindow | undefined;
     private _options: any;
-    private engine: Engine;
+    private engine: Engine<HTMLEvents>;
     private _href: string = '';
     private filesPattern: Array<string>;
     private watcher: chokidar.FSWatcher | null = null;
 
-    public constructor(engine: Engine, config: object) {
+    public constructor(engine: Engine<HTMLEvents>, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
         this.filesPattern = this.getFilesPattern();
         this.engine = engine;
@@ -90,7 +90,7 @@ export default class LocalConnector implements IConnector {
     private async notifyFetch(event: FetchEnd) {
         const type = getType(event.response.mediaType);
 
-        await this.engine.emitAsync(`fetch::end::${type}`, event);
+        await this.engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }
 
     private async fetch(target: string, options?: IFetchOptions) {

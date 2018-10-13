@@ -10,7 +10,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
-import { ScriptParse } from '@hint/parser-javascript/dist/src/types';
+import { ScriptEvents, ScriptParse } from '@hint/parser-javascript';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -34,7 +34,7 @@ export default class MinifiedJsHint implements IHint {
         scope: HintScope.any
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<ScriptEvents>) {
         /*
          * We derived 75 as a safe threshold value after running tests on 15 popular
          * js libraries and few custom scripts from webhint.io website

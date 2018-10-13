@@ -7,7 +7,11 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-import { TypeScriptConfigInvalidJSON, TypeScriptConfigInvalidSchema } from '@hint/parser-typescript-config/dist/src/types';
+import {
+    TypeScriptConfigEvents,
+    TypeScriptConfigInvalidJSON,
+    TypeScriptConfigInvalidSchema
+} from '@hint/parser-typescript-config';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -28,7 +32,7 @@ export default class TypeScriptConfigIsValid implements IHint {
         scope: HintScope.local
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<TypeScriptConfigEvents>) {
 
         const invalidJSONFile = async (typeScriptConfigInvalid: TypeScriptConfigInvalidJSON, event: string) => {
             const { error, resource } = typeScriptConfigInvalid;

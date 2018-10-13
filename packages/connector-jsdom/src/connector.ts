@@ -109,7 +109,7 @@ export default class JSDOMConnector implements IConnector {
 
     /** Traverses the DOM while sending `element::typeofelement` events. */
     private async traverseAndNotify(element: HTMLElement) {
-        const eventName: string = `element::${element.nodeName.toLowerCase()}`;
+        const eventName = `element::${element.nodeName.toLowerCase()}` as 'element::*';
 
         debug(`emitting ${eventName}`);
         /*
@@ -236,7 +236,7 @@ export default class JSDOMConnector implements IConnector {
             fetchEnd.response.charset = charset!;
 
             // Event is also emitted when status code in response is not 200.
-            await this.server.emitAsync(`fetch::end::${getType(mediaType!)}`, fetchEnd);
+            await this.server.emitAsync(`fetch::end::${getType(mediaType!)}` as 'fetch::end::*', fetchEnd);
 
             /*
              * If the target is not an HTML we don't need to

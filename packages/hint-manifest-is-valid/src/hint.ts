@@ -22,10 +22,11 @@ import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import {
     Manifest,
+    ManifestEvents,
     ManifestInvalidJSON,
     ManifestInvalidSchema,
     ManifestParsed
-} from '@hint/parser-manifest/dist/src/types';
+} from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
@@ -47,7 +48,7 @@ export default class ManifestIsValidHint implements IHint {
         scope: HintScope.any
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<ManifestEvents>) {
 
         const targetedBrowsers: string = context.targetedBrowsers.join();
 

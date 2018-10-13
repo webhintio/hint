@@ -7,8 +7,10 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-import { WebpackConfigParse } from '@hint/parser-webpack-config/dist/src/types';
-import { BabelConfigParsed } from '@hint/parser-babel-config/dist/src/types';
+/* eslint-disable no-unused-vars */
+import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
+import { BabelConfigEvents, BabelConfigParsed } from '@hint/parser-babel-config';
+/* eslint-enable no-unused-vars */
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -29,7 +31,7 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
         scope: HintScope.local
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<WebpackConfigEvents & BabelConfigEvents>) {
 
         let webpackEvent: WebpackConfigParse;
         let babelEvent: BabelConfigParsed;

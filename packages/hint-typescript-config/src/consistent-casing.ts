@@ -2,6 +2,7 @@
  * @fileoverview `typescript-config/consistent-casing` checks if the property `forceConsistentCasingInFileNames`
  * is enabled in the TypeScript configuration file (i.e `tsconfig.json`).
  */
+import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -25,7 +26,7 @@ export default class TypeScriptConfigConsistentCasing implements IHint {
         scope: HintScope.local
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const validate = configChecker('compilerOptions.forceConsistentCasingInFileNames', true, 'The compiler option "forceConsistentCasingInFileNames" should be enabled to reduce issues when working with different OSes.', context);
 
         context.on('parse::typescript-config::end', validate);

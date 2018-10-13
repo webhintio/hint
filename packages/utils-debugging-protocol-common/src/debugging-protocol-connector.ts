@@ -211,7 +211,7 @@ export class Connector implements IConnector {
             this._headers = normalizeHeaders(params.request.headers)!;
         }
 
-        const eventName: string = this._href === requestUrl ? 'fetch::start::target' : 'fetch::start';
+        const eventName = this._href === requestUrl ? 'fetch::start::target' : 'fetch::start';
 
         await this._server.emitAsync(eventName, { resource: requestUrl });
     }
@@ -254,7 +254,7 @@ export class Connector implements IConnector {
         debug(`Error found loading ${resource}:\n%O`, params);
 
         const element: IAsyncHTMLElement | null = (await this.getElementFromRequest(params.requestId, this._dom));
-        const eventName: string = 'fetch::error';
+        const eventName = 'fetch::error';
         const hops: Array<string> = requestResponse.hops;
 
         const event: FetchError = {
@@ -273,7 +273,6 @@ export class Connector implements IConnector {
         const originalUrl: string = hops[0] || resourceUrl;
 
         let element = null;
-        let eventName: string = 'fetch::end';
         /*
          * `dom` should be `null` only if "fetch::end" is for the target
          * (and thus no `dom` is needed )
@@ -334,7 +333,7 @@ export class Connector implements IConnector {
             suffix = 'html';
         }
 
-        eventName = `${eventName}::${suffix}`;
+        const eventName = `fetch::end::${suffix}` as 'fetch::end::*';
 
 
         /** Event is also emitted when status code in response is not 200. */
@@ -426,7 +425,7 @@ export class Connector implements IConnector {
             return;
         }
 
-        const eventName: string = `element::${element.nodeName.toLowerCase()}`;
+        const eventName = `element::${element.nodeName.toLowerCase()}` as 'element::*';
 
         // If we are traversing, we know `this._dom` exists already
         const wrappedElement: AsyncHTMLElement = new AsyncHTMLElement(element, this._dom!, this._client.DOM);

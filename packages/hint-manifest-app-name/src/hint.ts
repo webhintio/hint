@@ -13,7 +13,7 @@ import { ucs2 } from 'punycode';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { IHint, HintMetadata, IJSONLocationFunction } from 'hint/dist/src/lib/types';
-import { Manifest, ManifestParsed } from '@hint/parser-manifest/dist/src/types';
+import { Manifest, ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
@@ -35,7 +35,7 @@ export default class ManifestAppNameHint implements IHint {
         scope: HintScope.any
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<ManifestEvents>) {
 
         const checkIfPropertyExists = async (resource: string, content: string | undefined, propertyName: string) => {
             if (typeof content === 'undefined') {

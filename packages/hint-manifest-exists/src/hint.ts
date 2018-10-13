@@ -20,6 +20,7 @@ import {
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { ManifestEvents } from '@hint/parser-manifest';
 
 /*
  * ------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ export default class ManifestExistsHint implements IHint {
         scope: HintScope.any
     }
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<ManifestEvents>) {
 
         let manifestIsSpecified = false;
 
