@@ -29,7 +29,7 @@ export default class implements IHint {
 
     public constructor(context: HintContext) {
         const validDoctype = '<!doctype html>';
-        const doctypeRegex = /(<!doctype ).+(>).+/;
+        const doctypeRegex = /(<!doctype ).+(>)(.+)?/;
 
         const checkDoctypeFirstLine = async (resource: string, element: IAsyncHTMLElement, content: string) => {
             debug(`Checking if the doctype is in the first line, and there is nothing else.`);
@@ -38,14 +38,14 @@ export default class implements IHint {
             const matched = firstLine.match(doctypeRegex);
 
             if (!matched || matched.length < 1) {
-                await context.report(resource, element, `The first line does not contain a doctype.`);
+                await context.report(resource, element, `The first line does not contain a valid doctype tag.`);
                 return;
             }
 
             const [contentDoctype] = matched;
 
             if (contentDoctype !== validDoctype) {
-                await context.report(resource, element, `The first line contain more than a valid doctype ${contentDoctype}`);
+                await context.report(resource, element, `The first line contain more than a valid doctype tag: ${contentDoctype}`);
             }
         };
 
@@ -54,6 +54,7 @@ export default class implements IHint {
 
             if (!response || !response.body || !response.body.content) {
                 await context.report(resource, element, 'Content has no body.');
+                return;
             }
 
             const { body } = response;
