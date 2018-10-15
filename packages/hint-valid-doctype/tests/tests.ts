@@ -16,8 +16,8 @@ const tests: Array<HintTest> = [
         }
     },
     {
-        name: 'Doctype not found on first line should fail',
-        reports: [{ message: `The first line does not contain a valid doctype tag.` }],
+        name: 'Doctype not found should fail',
+        reports: [{ message: `The file does not contain a doctype tag.` }],
         serverConfig: {
             '/': {
                 content: `<head>
@@ -30,20 +30,18 @@ const tests: Array<HintTest> = [
         }
     },
     {
-        name: 'Doctype found on first line but but has additional information should fail',
-        reports: [{ message: `The first line contain more than a valid doctype tag: <!doctype html> <head>` }],
+        name: 'Doctype not valid should fail',
+        reports: [{ message: `The doctype tag is not valid: <!doctype htmltest>` }],
         serverConfig: {
             '/': {
-                content: `<!doctype html> <head>
-
-                </head>
+                content: `<!doctype htmltest>
+                <head></head>
                 <body></body>
                 `,
                 headers: { 'Content-Type': 'text/html' }
             }
         }
     },
-    ,
     {
         name: 'Doctype found on first line and nothing else found should pass',
         serverConfig: {
@@ -51,6 +49,25 @@ const tests: Array<HintTest> = [
                 content: `<!doctype html>
                 <head></head>
                 `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype is not lowercase should fail',
+        reports: [{ message: `The doctype should be in lowercase` }],
+        serverConfig: {
+            '/': {
+                content: `<!DOCTYPE html>`,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype is lowercase should pass',
+        serverConfig: {
+            '/': {
+                content: `<!doctype html>`,
                 headers: { 'Content-Type': 'text/html' }
             }
         }

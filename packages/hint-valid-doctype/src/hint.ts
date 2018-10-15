@@ -30,22 +30,48 @@ export default class implements IHint {
     public constructor(context: HintContext) {
         const validDoctype = '<!doctype html>';
         const doctypeRegex = /(<!doctype ).+(>)(.+)?/;
+        const doctypeRegexFactory = (flags?: string) => new RegExp('(<!doctype ).+(>)(.+)?', flags ? flags : 'g');
 
-        const checkDoctypeFirstLine = async (resource: string, element: IAsyncHTMLElement, content: string) => {
-            debug(`Checking if the doctype is in the first line, and there is nothing else.`);
+        const checkDoctypeIsValid = async (resource: string, element: IAsyncHTMLElement, content: string) => {
+            debug(`Checking if the doctype is valid.`);
 
-            const firstLine = content.split(/\r|\n/)[0];
-            const matched = firstLine.match(doctypeRegex);
+            const matched = content.match(doctypeRegexFactory('gi'));
 
             if (!matched || matched.length < 1) {
-                await context.report(resource, element, `The first line does not contain a valid doctype tag.`);
+                await context.report(resource, element, `The file does not contain a doctype tag.`);
                 return;
             }
 
             const [contentDoctype] = matched;
 
-            if (contentDoctype !== validDoctype) {
-                await context.report(resource, element, `The first line contain more than a valid doctype tag: ${contentDoctype}`);
+            if (contentDoctype.toLowerCase() !== validDoctype) {
+                await context.report(resource, element, `The doctype tag is not valid: ${contentDoctype}`);
+                return;
+            }
+
+            return true;
+        };
+
+        const checkDoctypeFirstLine = async (resource: string, element: IAsyncHTMLElement, content: string) => {
+            debug(`Checking if the doctype is in the first line.`);
+
+            const firstLine = content.split(/\r|\n/)[0];
+            const matched = firstLine.match(doctypeRegexFactory('gi'));
+
+            if (!matched || matched.length < 1) {
+                await context.report(resource, element, `The first line does not contain a valid doctype tag.`);
+                return;
+            }
+        };
+
+        const checkDoctypeLowercase = async (resource: string, element: IAsyncHTMLElement, content: string) => {
+            debug(`Checking that the doctype is in lowercase`);
+
+            const matched = content.match(doctypeRegexFactory())
+
+            if (!matched) {
+                await context.report(resource, element, `The doctype should be in lowercase`);
+                return;
             }
         };
 
@@ -59,7 +85,13 @@ export default class implements IHint {
 
             const { body } = response;
             const { content } = body;
+
+            if (!await checkDoctypeIsValid(resource, element, content)) {
+                return;
+            }
+
             await checkDoctypeFirstLine(resource, element, content);
+            await checkDoctypeLowercase(resource, element, content);
         };
 
         context.on('fetch::end::html', onFetchEndHTML);
