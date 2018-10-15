@@ -84,6 +84,17 @@ const tests: Array<HintTest> = [
             }
         }
     },
+    {
+        name: 'Doctype appearing only once should pass',
+        serverConfig: {
+            '/': {
+                content: `<!doctype html>
+                <p></p>
+                <!doctype html>`,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
 ];
 
 hintRunner.testHint(hintPath, tests);
