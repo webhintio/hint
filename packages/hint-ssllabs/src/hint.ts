@@ -16,7 +16,7 @@ import { promisify } from 'util';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { FetchEnd, ScanEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
-import { SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from './types';
+import { Grades, SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from './types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
@@ -71,7 +71,7 @@ export default class SSLLabsHint implements IHint {
         /** The promise that represents the scan by SSL Labs. */
         let promise: Promise<SSLLabsResult>;
         /** The minimum grade required to pass. */
-        let minimumGrade: string = 'A-';
+        let minimumGrade: keyof typeof Grades = 'A-';
         /** The options to pass to the SSL Labs scanner. */
         let scanOptions: SSLLabsOptions = {
             all: 'done',
@@ -82,24 +82,6 @@ export default class SSLLabsHint implements IHint {
         /** Error processing the request if any. */
         let failed: boolean = false;
 
-        /**
-         * Enum with the different possible grades for an endpoint returned by SSL Labs scan.
-         *
-         * https://github.com/ssllabs/ssllabs-scan/blob/stable/ssllabs-api-docs.md#endpoint
-         */
-        enum Grades {
-            'A+' = 1,
-            A,
-            'A-',
-            B,
-            C,
-            D,
-            E,
-            F,
-            M,
-            T
-        }
-
         const loadHintConfig = () => {
             minimumGrade = (context.hintOptions && context.hintOptions.grade) || 'A-';
             const userSslOptions = (context.hintOptions && context.hintOptions.ssllabs) || {};
@@ -108,7 +90,7 @@ export default class SSLLabsHint implements IHint {
         };
 
         const verifyEndpoint = async (resource: string, endpoint: SSLLabsEndpoint) => {
-            const { grade, serverName = resource, details }: { grade: string, serverName: string, details: SSLLabsEndpointDetail } = endpoint;
+            const { grade, serverName = resource, details }: { grade: keyof typeof Grades, serverName: string, details: SSLLabsEndpointDetail } = endpoint;
 
             if (!grade && details.protocols.length === 0) {
                 const message = `'${resource}' does not support HTTPS.`;
@@ -156,7 +138,7 @@ export default class SSLLabsHint implements IHint {
             scanOptions.host = resource;
 
             promise = ssllabs(scanOptions)
-                .catch(async (error) => {
+                .catch(async (error: any) => {
                     failed = true;
                     await notifyError(resource, error);
                 });

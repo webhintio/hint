@@ -1,3 +1,10 @@
+# 1.0.12 (October 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`d04e94b7de`](https://github.com/webhintio/hint/commit/d04e94b7dee1ccd3f7c6d9cc7af545f06a40e9b5)] - Fix: Add timeout waiting for a request to finish (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.0.11 (October 2, 2018)
 
 ## Bug fixes / Improvements

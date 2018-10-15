@@ -73,7 +73,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
         };
 
         const willBeTreatedAsHTML = (response: Response): boolean => {
-            const contentTypeHeader: string = response.headers['content-type'];
+            const contentTypeHeader: string | undefined = response.headers['content-type'];
             const mediaType: string = contentTypeHeader ? contentTypeHeader.split(';')[0].trim() : '';
 
             /*
@@ -114,7 +114,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
         };
 
         const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
 
             // This check does not make sense for data URI.
 

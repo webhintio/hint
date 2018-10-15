@@ -8,14 +8,14 @@ const configChecker = (property: string, desiredValue: boolean, message: string,
         const { config, getLocation, resource } = evt;
         const properties = property.split('.');
 
-        let current = config[properties.shift()];
+        let current = (config as any)[properties.shift() || ''];
 
         while (properties.length > 0 && typeof current !== 'undefined') {
-            current = current[properties.shift()];
+            current = current[properties.shift() || ''];
         }
 
         if (current !== desiredValue) {
-            await context.report(resource, null, message, null, getLocation(property));
+            await context.report(resource, null, message, undefined, getLocation(property) || undefined);
         }
     };
 };

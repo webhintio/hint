@@ -278,6 +278,30 @@
         mql.addListener(validateMediaQuery);
     };
 
+    var pad = function(time) {
+        return time < 10 ? `0${time}` : time;
+    };
+
+    var updateDate = function () {
+        var dateElement = document.getElementById('scan-date');
+
+        if (!dateElement) {
+            return;
+        }
+
+        var isoDateString = dateElement.getAttribute('data-date');
+
+        if (!isoDateString) {
+            return;
+        }
+
+        var isoDate = new Date(isoDateString);
+
+        dateElement.textContent = isoDate.getFullYear() + '-' + pad(isoDate.getMonth() + 1) + '-' + pad(isoDate.getDate()) + ' ' + pad(isoDate.getHours()) + ':' + pad(isoDate.getMinutes());
+    };
+
+    updateDate();
+
     if (categoriesListElement) {
         registerToggleExpandListener();
         registerMediaQuery();

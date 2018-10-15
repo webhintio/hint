@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "lodash": "^4.17.11",
     "on-headers": "^1.0.1"
   },
@@ -8,19 +8,19 @@
   "devDependencies": {
     "@types/async-retry": "^1.2.1",
     "@types/express": "^4.16.0",
-    "@types/lodash": "^4.14.115",
+    "@types/lodash": "^4.14.117",
     "@types/on-headers": "^1.0.0",
     "cpx": "^1.5.0",
     "eslint": "^5.6.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.4.8",
+    "hint": "^3.4.10",
     "markdownlint-cli": "^0.13.0",
     "npm-run-all": "^4.1.2",
     "rimraf": "^2.6.2",
     "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^19.0.2"
+    "typescript-eslint-parser": "^20.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -40,14 +40,14 @@
   "main": "dist/src/index.js",
   "name": "@hint/utils-create-server",
   "peerDependencies": {
-    "hint": "^3.4.8"
+    "hint": "^3.4.10"
   },
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build-release": "npm run clean && npm run build:assets && tsc -b --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
-    "build:ts": "tsc",
+    "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",

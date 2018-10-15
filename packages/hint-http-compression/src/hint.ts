@@ -15,7 +15,7 @@ import * as brotli from 'iltorb';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { FetchEnd, IAsyncHTMLElement, IHint, NetworkData, Response, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, IAsyncHTMLElement, IHint, NetworkData, Response, HintMetadata, HttpHeaders } from 'hint/dist/src/lib/types';
 import { asyncTry } from 'hint/dist/src/lib/utils/async-wrapper';
 import { getFileExtension, isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
@@ -24,7 +24,7 @@ import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protoc
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { CompressionCheckOptions } from './types';
 
-const decompressBrotli = promisify(brotli.decompress);
+const decompressBrotli = promisify(brotli.decompress) as (buffer: Buffer) => Promise<Buffer>;
 const uaString = 'Mozilla/5.0 Gecko';
 
 /*
@@ -82,17 +82,17 @@ export default class HttpCompressionHint implements IHint {
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-        const checkIfBytesMatch = (rawResponse: Buffer, magicNumbers) => {
+        const checkIfBytesMatch = (rawResponse: Buffer, magicNumbers: number[]) => {
             return rawResponse && magicNumbers.every((b, i) => {
                 return rawResponse[i] === b;
             });
         };
 
-        const getHeaderValues = (headers, headerName) => {
+        const getHeaderValues = (headers: HttpHeaders, headerName: string) => {
             return (getHeaderValueNormalized(headers, headerName) || '').split(',');
         };
 
-        const checkVaryHeader = async (resource, element, headers) => {
+        const checkVaryHeader = async (resource: string, element: IAsyncHTMLElement | null, headers: HttpHeaders) => {
             const varyHeaderValues = getHeaderValues(headers, 'vary');
             const cacheControlValues = getHeaderValues(headers, 'cache-control');
 
@@ -114,20 +114,20 @@ export default class HttpCompressionHint implements IHint {
             return `Response should${notRequired ? ' not' : ''} be compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
         };
 
-        const generateSizeMessage = async (resource: string, element: IAsyncHTMLElement, encoding: string, sizeDifference) => {
+        const generateSizeMessage = async (resource: string, element: IAsyncHTMLElement | null, encoding: string, sizeDifference: number) => {
             await context.report(resource, element, `Response should not be served compressed with ${encoding} as the compressed size is ${sizeDifference > 0 ? 'bigger than' : 'the same size as'} the uncompressed one.`);
         };
 
-        const getNetworkData = async (resource: string, requestHeaders) => {
+        const getNetworkData = async (resource: string, requestHeaders: HttpHeaders) => {
             const safeFetch = asyncTry<NetworkData>(context.fetchContent.bind(context));
-            const networkData: NetworkData = await safeFetch(resource, requestHeaders);
+            const networkData: NetworkData | null = await safeFetch(resource, requestHeaders);
 
             if (!networkData) {
                 return null;
             }
 
             const safeRawResponse = asyncTry<Buffer>(networkData.response.body.rawResponse.bind(networkData.response.body));
-            const rawResponse: Buffer = await safeRawResponse();
+            const rawResponse: Buffer | null = await safeRawResponse();
 
             if (!rawResponse) {
                 return null;
@@ -275,7 +275,7 @@ export default class HttpCompressionHint implements IHint {
             return !checkIfBytesMatch(rawResponse, [0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x03]);
         };
 
-        const checkBrotli = async (resource, element) => {
+        const checkBrotli = async (resource: string, element: IAsyncHTMLElement | null) => {
             let networkData = await getNetworkData(resource, { 'Accept-Encoding': 'br' });
 
             if (!networkData) {
@@ -360,7 +360,7 @@ export default class HttpCompressionHint implements IHint {
             }
         };
 
-        const checkGzipZopfli = async (resource: string, element: IAsyncHTMLElement, shouldCheckIfCompressedWith: CompressionCheckOptions) => {
+        const checkGzipZopfli = async (resource: string, element: IAsyncHTMLElement | null, shouldCheckIfCompressedWith: CompressionCheckOptions) => {
             let networkData = await getNetworkData(resource, { 'Accept-Encoding': 'gzip' });
 
             if (!networkData) {
@@ -445,7 +445,7 @@ export default class HttpCompressionHint implements IHint {
 
         };
 
-        const responseIsCompressed = async (rawResponse: Buffer, contentEncodingHeaderValue: string): Promise<boolean> => {
+        const responseIsCompressed = async (rawResponse: Buffer, contentEncodingHeaderValue: string | null): Promise<boolean> => {
             return isCompressedWithGzip(rawResponse) ||
                 await isCompressedWithBrotli(rawResponse) ||
 
@@ -457,7 +457,7 @@ export default class HttpCompressionHint implements IHint {
              * being compressed.
              */
 
-                (contentEncodingHeaderValue &&
+                (!!contentEncodingHeaderValue &&
 
                 /*
                  * Although `identity` should not be sent as a value
@@ -481,7 +481,7 @@ export default class HttpCompressionHint implements IHint {
                     (contentEncodingHeaderValue !== 'identity'));
         };
 
-        const checkForDisallowedCompressionMethods = async (resource: string, element: IAsyncHTMLElement, response: Response) => {
+        const checkForDisallowedCompressionMethods = async (resource: string, element: IAsyncHTMLElement | null, response: Response) => {
 
             // See: https://www.iana.org/assignments/http-parameters/http-parameters.xml.
 
@@ -506,7 +506,7 @@ export default class HttpCompressionHint implements IHint {
 
                     const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse.bind(response.body));
 
-                    const rawResponse: Buffer = await safeRawResponse();
+                    const rawResponse: Buffer | null = await safeRawResponse();
 
                     if (!rawResponse) {
                         await context.report(resource, element, `Could not be fetched`);
@@ -543,7 +543,7 @@ export default class HttpCompressionHint implements IHint {
             }
         };
 
-        const checkUncompressed = async (resource: string, element: IAsyncHTMLElement) => {
+        const checkUncompressed = async (resource: string, element: IAsyncHTMLElement | null) => {
 
             /*
              * From: http://httpwg.org/specs/rfc7231.html#header.accept-encoding
@@ -612,7 +612,7 @@ export default class HttpCompressionHint implements IHint {
             return false;
         };
 
-        const isSpecialCase = async (resource: string, element: IAsyncHTMLElement, response: Response): Promise<boolean> => {
+        const isSpecialCase = async (resource: string, element: IAsyncHTMLElement | null, response: Response): Promise<boolean> => {
 
             /*
              * Check for special cases:
@@ -627,7 +627,7 @@ export default class HttpCompressionHint implements IHint {
 
             const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse.bind(response.body));
 
-            const rawResponse: Buffer = await safeRawResponse();
+            const rawResponse: Buffer | null = await safeRawResponse();
 
             if (!rawResponse) {
                 await context.report(resource, element, `Could not be fetched`);
@@ -651,7 +651,7 @@ export default class HttpCompressionHint implements IHint {
         const validate = async (fetchEnd: FetchEnd, eventName: string) => {
             const shouldCheckIfCompressedWith: CompressionCheckOptions = eventName === 'fetch::end::html' ? htmlOptions : resourceOptions;
 
-            const { element, resource, response }: { element: IAsyncHTMLElement, resource: string, response: Response } = fetchEnd;
+            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
 
             /*
              * We shouldn't validate error responses, and 204 (response with no body).
@@ -684,7 +684,7 @@ export default class HttpCompressionHint implements IHint {
             if (!isCompressibleAccordingToMediaType(response.mediaType)) {
                 const safeRawResponse = asyncTry<Buffer>(response.body.rawResponse.bind(response.body));
 
-                const rawResponse: Buffer = await safeRawResponse();
+                const rawResponse: Buffer | null = await safeRawResponse();
 
                 if (!rawResponse) {
                     await context.report(resource, element, `Could not be fetched`);

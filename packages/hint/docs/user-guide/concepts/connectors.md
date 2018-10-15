@@ -35,6 +35,8 @@ The current supported connectors are:
   Creators Update or later to use it. This connector will only be
   installed if you are running on it. There are some known issues so
   please check the [Edge issues](#edge-issues) section below.
+* `local`: This connector will analyze the files specified (a file
+  or a directory).
 
 **Note:** If you are running Windows 10 [build 14951][wsl-interop] (or
 later) and Windows Subsystem for Linux (WSL), `webhint` will be capable
@@ -103,13 +105,49 @@ The set of settings specific for them are:
 * `tabUrl (string)`: The URL to visit before the final target in case
   `useTabUrl` is `true`. `https://empty.webhint.io/` is the
   default value.
+* `flags? (Array<string>)`: Allows you to pass in additional Chrome
+  command line API flags. Useful if you would like to start your
+  session in headless mode or with GPU disabled. Here's the full list
+  of [available command line flags][cli flags].
+* `waitForContentLoaded (number)`: Time in milliseconds to wait for the
+  `loadingFinished` event from the `debugging protocol` before requesting
+  the body of a response. The default value is `10000` (10 seconds).
 
 ```json
 {
     "defaultProfile": true,
+    "flags": ["--headless", "--disable-gpu"],
     "tabUrl": "https://empty.webhint.io/",
-    "useTabUrl": false
+    "useTabUrl": false,
+    "waitForContentLoaded": 10000
 }
+```
+
+### local configuration
+
+ `local` allows you to configure the following:
+
+* `pattern`: Add or ignore files defined in the pattern. By default the
+  `local` connector will use the following patter `['**', '!.git/**']`. This
+  doesn't apply if you are targeting just a file or if you are using the
+  options `content`.
+* `watch`: Run `webhint` in watch mode. Watch files and trigger the analysis
+  on changes.
+
+```json
+{
+  "pattern": ["**", "!.git/**"],
+  "watch": false
+}
+```
+
+In addition, the `local` connector accept a new parameter in the
+method `collect` that allow you to pass the content to analyze as an string.
+To use that property, you need to call to the `executeOn` method in
+the engine with the content to analyze.
+
+```js
+engine.executeOn(url, {content: '{{your content}}'});
 ```
 
 ## Differences among connectors

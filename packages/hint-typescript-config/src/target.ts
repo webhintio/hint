@@ -16,6 +16,19 @@ import { TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript
  * ------------------------------------------------------------------------------
  */
 
+type Browser = number | string;
+
+type Browsers = {
+    [name: string]: Browser | undefined;
+    chrome: Browser;
+    firefox: Browser;
+    edge: Browser;
+    ie: Browser;
+    ie_mob: Browser; // eslint-disable-line camelcase
+    opera: Browser;
+    safari: Browser;
+};
+
 export default class TypeScriptConfigTarget implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
@@ -49,7 +62,7 @@ export default class TypeScriptConfigTarget implements IHint {
          * * http://2ality.com/2011/02/es5-shim-use-ecmascript-5-in-older.html
          * * https://www.chromestatus.com/features#ES6
          */
-        const compatMatrix = {
+        const compatMatrix: { [index: string]: Browsers } = {
             es5: {
                 chrome: 5,
                 edge: 12,
@@ -149,7 +162,7 @@ export default class TypeScriptConfigTarget implements IHint {
                 }
 
                 return config;
-            }, {});
+            }, {} as any);
 
             return configuration;
         };
@@ -158,7 +171,7 @@ export default class TypeScriptConfigTarget implements IHint {
          * Based on the minimum supported browser configuration passed,
          * determines what's the maximum ES version that can be targetted.
          */
-        const getMaxVersion = (minimumBrowsers): string => {
+        const getMaxVersion = (minimumBrowsers: Browsers): string => {
             const versions = Object.keys(compatMatrix);
             let maxVersion = 'es3';
 
@@ -170,7 +183,7 @@ export default class TypeScriptConfigTarget implements IHint {
              */
             versions.forEach((version) => {
                 /** The list of browsers to take into account for the compat matrix. */
-                const browsers: [string, string | number][] = Object.entries(compatMatrix[version]);
+                const browsers = Object.entries(compatMatrix[version]) as [string, Browser][];
 
                 const validates = browsers.reduce((valid, [browser, minimumBrowserVersion]) => {
                     const minimumTargettedBrowserVersion = minimumBrowsers[browser];
@@ -215,7 +228,7 @@ export default class TypeScriptConfigTarget implements IHint {
         const getConfiguredTarget = (config: TypeScriptConfig): string => {
             const target = config.compilerOptions.target;
 
-            return Targets.get(target.toLowerCase());
+            return Targets.get(target.toLowerCase()) || '';
         };
 
         const validate = async (evt: TypeScriptConfigParse) => {
@@ -227,7 +240,7 @@ export default class TypeScriptConfigTarget implements IHint {
             const maxESVersion = getMaxVersion(minimumBrowsers);
 
             if (maxESVersion !== target) {
-                await context.report(resource, null, `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`, null, getLocation('compilerOptions.target'));
+                await context.report(resource, null, `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`, undefined, getLocation('compilerOptions.target') || undefined);
             }
         };
 

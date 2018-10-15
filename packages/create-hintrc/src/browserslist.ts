@@ -9,10 +9,10 @@
  */
 
 import * as inquirer from 'inquirer';
-import * as browserslist from 'browserslist';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
+const browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
 const debug: debug.IDebugger = d(__filename);
 
 /** Prompts the user about browsers usage and generates a valid browserslist configuration. */
@@ -24,7 +24,7 @@ export const generateBrowserslistConfig = (): Promise<Array<string>> => {
         { name: 'Custom (use browserslist format:  https://github.com/ai/browserslist#queries)', value: 'custom' }
     ];
 
-    const browsersListQuestions: inquirer.Questions = [
+    const browsersListQuestions: inquirer.Question[] = [
         {
             choices: addBrowsersListOptions,
             message: 'What browsers are you targeting?',
@@ -34,7 +34,7 @@ export const generateBrowserslistConfig = (): Promise<Array<string>> => {
         {
             message: 'Please enter the queries you want to specify (Use comma as the separator if you have more than one query):',
             name: 'customQueries',
-            when: (answers) => {
+            when: (answers: inquirer.Answers) => {
                 return answers.targetBy === 'custom';
             }
         }

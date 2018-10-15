@@ -1,15 +1,16 @@
-import test from 'ava';
+import test, { Context, GenericTestContext } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 import * as sinon from 'sinon';
 
 import Parser from '../src/parser';
-import { ManifestParsed, ManifestInvalidSchema } from '../src/types';
+import { Manifest, ManifestInvalidJSON, ManifestInvalidSchema, ManifestParsed } from '../src/types';
+import { ProblemLocation } from 'hint/dist/src/lib/types';
 
 const elementLinkEventName = 'element::link';
 const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribute: string = 'site.webmanifest') => {
     return {
         element: {
-            getAttribute: (value) => {
+            getAttribute: (value: string) => {
                 if (value === 'href') {
                     return hrefAttribute;
                 }
@@ -56,7 +57,7 @@ const createNetworkDataObject = (manifestContent: string = '', statusCode: numbe
     };
 };
 
-const createMissingTest = async (t, relAttribute: string = 'manifest', hrefAttribute: string = '') => {
+const createMissingTest = async (t: GenericTestContext<Context<any>>, relAttribute: string = 'manifest', hrefAttribute: string = '') => {
     const elementLinkEventValue = getElementLinkEventValue(relAttribute, hrefAttribute);
     const sandbox = sinon.createSandbox();
     const engine = t.context.engine;
@@ -76,7 +77,7 @@ const createMissingTest = async (t, relAttribute: string = 'manifest', hrefAttri
     sandbox.restore();
 };
 
-const createParseTest = async (t, manifestContent: string, expectedEventName: string, verifyResult) => {
+const createParseTest = async (t: GenericTestContext<Context<any>>, manifestContent: string, expectedEventName: string, verifyResult: Function) => {
     const elementEventValue = getElementLinkEventValue();
     const sandbox = sinon.createSandbox();
     const engine = t.context.engine;
@@ -197,9 +198,9 @@ test(`'${parseEndEventName}' event is emitted when manifest content is valid`, a
         display: 'browser',
         name: '5',
         prefer_related_applications: false // eslint-disable-line camelcase
-    };
+    } as Manifest;
 
-    await createParseTest(t, JSON.stringify(manifestContent), parseEndEventName, (tt, result) => {
+    await createParseTest(t, JSON.stringify(manifestContent), parseEndEventName, (tt: GenericTestContext<Context<any>>, result: ManifestParsed) => {
         tt.deepEqual(result.parsedContent, manifestContentParsed);
     });
 });
@@ -210,21 +211,21 @@ test(`'${parseEndEventName}' event includes location information`, async (t) => 
     "name": "5"
 };`;
 
-    await createParseTest(t, manifestContent, parseEndEventName, (tt, result: ManifestParsed) => {
+    await createParseTest(t, manifestContent, parseEndEventName, (tt: GenericTestContext<Context<any>>, result: ManifestParsed) => {
         const nameLocation = result.getLocation('name');
         const valueLocation = result.getLocation('name', { at: 'value' });
 
-        tt.is(nameLocation.line, 1);
-        tt.is(nameLocation.column, 5);
-        tt.is(valueLocation.line, 1);
-        tt.is(valueLocation.column, 12);
+        tt.is(nameLocation && nameLocation.line, 1);
+        tt.is(nameLocation && nameLocation.column, 5);
+        tt.is(valueLocation && valueLocation.line, 1);
+        tt.is(valueLocation && valueLocation.column, 12);
     });
 });
 
 test(`'${parseJSONErrorEventName}' event is emitted when manifest content is not valid JSON`, async (t) => {
     const manifestContent = 'invalid';
 
-    await createParseTest(t, manifestContent, parseJSONErrorEventName, (tt, result) => {
+    await createParseTest(t, manifestContent, parseJSONErrorEventName, (tt: GenericTestContext<Context<any>>, result: ManifestInvalidJSON) => {
         tt.not(typeof result.error, 'undefined');
     });
 });
@@ -256,7 +257,7 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
     };
     /* eslint-enable camelcase */
 
-    await createParseTest(t, JSON.stringify(manifestContent), parseErrorSchemaEventName, (tt, result) => {
+    await createParseTest(t, JSON.stringify(manifestContent), parseErrorSchemaEventName, (tt: GenericTestContext<Context<any>>, result: ManifestInvalidSchema) => {
         tt.is(result.prettifiedErrors.length, expectedPrettifiedErrors.length);
         tt.true(result.prettifiedErrors.every((e) => {
             return expectedPrettifiedErrors.includes(e);
@@ -265,7 +266,7 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
 });
 
 test(`'${parseErrorSchemaEventName}' event includes location information`, async (t) => {
-    const expectedLocations = {
+    const expectedLocations: {[message: string]: ProblemLocation } = {
         '\'icons[0]\' should NOT have additional properties. Additional property found \'density\'.': {
             column: 9,
             line: 4
@@ -291,14 +292,14 @@ test(`'${parseErrorSchemaEventName}' event includes location information`, async
     "unknown_proprietary_extension": 5
 }`;
 
-    await createParseTest(t, manifestContent, parseErrorSchemaEventName, (tt, result: ManifestInvalidSchema) => {
+    await createParseTest(t, manifestContent, parseErrorSchemaEventName, (tt: GenericTestContext<Context<any>>, result: ManifestInvalidSchema) => {
 
         result.errors.forEach((error, i) => {
             const message = result.prettifiedErrors[i];
             const expectedLocation = expectedLocations[message];
 
-            tt.is(error.location.line, expectedLocation.line);
-            tt.is(error.location.column, expectedLocation.column);
+            tt.is(error.location && error.location.line, expectedLocation.line);
+            tt.is(error.location && error.location.column, expectedLocation.column);
         });
     });
 });

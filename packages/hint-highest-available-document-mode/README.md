@@ -348,7 +348,7 @@ see the [IIS server configuration related documentation][iis config].
 
 ## Can the hint be configured?
 
-`requireMetaTag` can be set to `true` to allow and require the use of
+`requireMetaElement` can be set to `true` to allow and require the use of
 `meta` tag.
 
 In the [`.hintrc`][hintrc] file:
@@ -359,7 +359,7 @@ In the [`.hintrc`][hintrc] file:
     "formatters": [...],
     "hints": {
         "highest-available-document-mode": [ "warning", {
-            "requireMetaTag": true
+            "requireMetaElement": true
         }],
         ...
     },

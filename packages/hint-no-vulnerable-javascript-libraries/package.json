@@ -9,7 +9,7 @@
   "dependencies": {
     "js-library-detector": "^5.1.0",
     "lodash": "^4.17.11",
-    "semver": "^5.5.1"
+    "semver": "^5.6.0"
   },
   "description": "hint that that checks using Snyk for vulnerable JavaScript libraries",
   "devDependencies": {
@@ -21,7 +21,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.4.8",
+    "hint": "^3.4.10",
     "jquery": "2.1.4",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
     "markdownlint-cli": "^0.13.0",
@@ -31,7 +31,7 @@
     "nyc": "^13.0.1",
     "rimraf": "^2.6.2",
     "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^19.0.2"
+    "typescript-eslint-parser": "^20.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -60,14 +60,14 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^3.4.8"
+    "hint": "^3.4.10"
   },
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build-release": "npm run clean && npm run build:assets && tsc -b --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
-    "build:ts": "tsc",
+    "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",

@@ -10,6 +10,14 @@ const escapeQuotes = (text: string): string => {
 };
 
 /**
+ * Escape an attribute name with namespace.
+ * e.g. xmlns:data
+ */
+const escapeNamespace = (text: string): string => {
+    return text.replace(':', '\\:');
+};
+
+/**
  * Creates a CSS selector from a given element using its attributes and the type of node:
  *
  * Ex.: <a href="www.wikipedia.org"></a> --> 'a[href="www.wikipedia.org"]'
@@ -28,7 +36,7 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
          * so we ignore that selector.
          */
         if (!attribute.name.includes('.')) {
-            selector += `[${attribute.name}="${escapeQuotes(attribute.value)}"]`;
+            selector += `[${escapeNamespace(attribute.name)}="${escapeQuotes(attribute.value)}"]`;
         }
     }
 

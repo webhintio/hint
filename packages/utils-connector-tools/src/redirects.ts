@@ -31,17 +31,33 @@ export class RedirectManager {
          * know we've reached the original `resourceUrl` and we can stop looking.
          * Because `hops` always contains the latest url, we `pop` to have the intermediate requests.
          */
-        let targetUrl = target;
+        let targetUrl: string = target;
         const hops: Array<string> = [targetUrl];
 
         while (this._redirects.has(targetUrl)) {
-            targetUrl = this._redirects.get(targetUrl);
+            targetUrl = this._redirects.get(targetUrl)!; // The `has` check above means this exists.
 
-            if (hops.includes(targetUrl)) {
-                break;
-            }
+            /*
+             * In some edgy cases the redirect ends in the
+             * same URL that it starts.
+             *
+             * http://url1 => http://url2
+             * http://url2 => http://url3
+             * http://url3 => http://url1
+             *
+             * In these cases, the hop returned should contain
+             * the first URL too:
+             *
+             * ['http://url1', 'http://url2', 'http://url3']
+             */
+
+            const finish = hops.includes(targetUrl);
 
             hops.unshift(targetUrl);
+
+            if (finish) {
+                break;
+            }
         }
         hops.pop();
 

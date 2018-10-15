@@ -36,7 +36,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
     }
 
     public constructor(context: HintContext) {
-        let receivedDOM;
+        let receivedDOM: CheerioStatic | undefined;
         /*
          * This function exists because not all connector (e.g.: jsdom)
          * support matching attribute values case-insensitively.

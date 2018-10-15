@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
         "outDir": "dist",
-        "rootDir": "."
+        "rootDir": ".",
+        "strict": true
     },
     "exclude": [
         "dist",
@@ -11,5 +12,9 @@
     "include": [
         "src/**/*.ts",
         "tests/**/*.ts"
+    ],
+    "references": [
+        { "path": "../hint" },
+        { "path": "../utils-connector-tools" }
     ]
 }

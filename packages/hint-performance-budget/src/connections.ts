@@ -34,7 +34,7 @@ const parseConnection = (configText: string): NetworkConfig => {
     const numerics = ['bwIn', 'bwOut', 'latency', 'plr'];
 
     lines.forEach((line) => {
-        const [key, value] = line.trim().split('=');
+        const [key, value] = line.trim().split('=') as [keyof NetworkConfig, string];
 
         if (key.startsWith('[')) {
             config.id = key.replace(/[[\]]/g, '');
@@ -74,10 +74,10 @@ const ids = connections.map((connection) => {
 }, []);
 
 /** Returns the `NetworkConfig` for the given `id`. */
-const getById = (id: string): NetworkConfig => {
+const getById = (id: string): NetworkConfig | null => {
     return connections.find((connection) => {
         return connection.id === id;
-    });
+    }) || null;
 };
 
 export {

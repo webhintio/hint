@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "@hint/connector-chrome": "^1.1.2",
+    "@hint/connector-chrome": "^1.1.3",
     "@hint/connector-jsdom": "^1.0.7",
-    "@hint/formatter-html": "^1.0.6",
+    "@hint/formatter-html": "^1.0.7",
     "@hint/formatter-summary": "^1.0.2",
     "@hint/hint-apple-touch-icons": "^1.0.2",
     "@hint/hint-manifest-app-name": "^1.1.0",
@@ -29,7 +29,7 @@
   "main": "index.json",
   "name": "@hint/configuration-progressive-web-apps",
   "peerDependencies": {
-    "hint": "^3.4.8"
+    "hint": "^3.4.10"
   },
   "repository": "webhintio/hint",
   "version": "1.1.1"

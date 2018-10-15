@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
-        "outDir": "dist"
+        "outDir": "dist",
+        "strict": true
     },
     "exclude": [
         "dist",
@@ -10,5 +11,10 @@
     "include": [
         "src/**/*.ts",
         "tests/**/*.ts"
+    ],
+    "references": [
+        { "path": "../hint" },
+        { "path": "../parser-javascript" },
+        { "path": "../utils-tests-helpers" }
     ]
 }

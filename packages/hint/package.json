@@ -12,11 +12,11 @@
     "applicationinsights": "^1.0.4",
     "async": "^2.6.1",
     "boxen": "^2.0.0",
-    "browserslist": "^4.2.0",
+    "browserslist": "^4.2.1",
     "caniuse-api": "^3.0.0",
     "chalk": "^2.4.1",
     "content-type": "^1.0.4",
-    "debug": "^4.0.1",
+    "debug": "^4.1.0",
     "eventemitter2": "^5.0.1",
     "file-type": "^10.0.0",
     "file-url": "^2.0.2",
@@ -31,7 +31,7 @@
     "optionator": "^0.8.2",
     "ora": "^3.0.0",
     "request": "^2.88.0",
-    "semver": "^5.5.1",
+    "semver": "^5.6.0",
     "strip-bom": "^3.0.0",
     "strip-json-comments": "^2.0.1",
     "update-notifier": "^2.5.0"
@@ -47,8 +47,8 @@
     "@types/globby": "^8.0.0",
     "@types/handlebars": "^4.0.39",
     "@types/is-svg": "^3.0.0",
-    "@types/jsdom": "^11.12.0",
-    "@types/lodash": "^4.14.115",
+    "@types/jsdom": "^12.2.0",
+    "@types/lodash": "^4.14.117",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
     "@types/ora": "^1.3.4",
@@ -71,7 +71,7 @@
     "rimraf": "^2.6.2",
     "sinon": "^6.3.5",
     "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^19.0.2"
+    "typescript-eslint-parser": "^20.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -115,9 +115,9 @@
   "scripts": {
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build-release": "npm run clean && npm run build:assets && tsc -b --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
-    "build:ts": "tsc",
+    "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
@@ -132,5 +132,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.4.8"
+  "version": "3.4.10"
 }

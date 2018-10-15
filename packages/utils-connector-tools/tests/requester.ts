@@ -3,7 +3,7 @@ import * as zlib from 'zlib';
 
 import * as iconv from 'iconv-lite';
 import * as brotli from 'iltorb';
-import test from 'ava';
+import test, { Context, GenericTestContext } from 'ava';
 
 import { createServer } from '@hint/utils-create-server';
 import { Requester } from '../src/requester';
@@ -71,7 +71,7 @@ const contentTypes = [
  * and the supported `charset`s, even when the server response is compressed.
  *
  */
-const testTextDecoding = async (t, encoding: string, contentType: string, compression?: 'gzip' | 'br') => {
+const testTextDecoding = async (t: GenericTestContext<Context<any>>, encoding: string, contentType: string, compression?: 'gzip' | 'br') => {
     const { requester, server } = t.context;
     const originalBytes = iconv.encode(text, encoding);
     const transformedText = iconv.decode(originalBytes, encoding);
@@ -122,7 +122,7 @@ const binTypes = [
 ];
 
 /** This function verifies that no decoding is done if `Content-Type` doesn't expect it. */
-const testBinaries = async (t, binType) => {
+const testBinaries = async (t: GenericTestContext<Context<any>>, binType: string) => {
     const { requester, server } = t.context;
 
     const content = iconv.encode(text, 'iso-8859-1');

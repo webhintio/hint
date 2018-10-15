@@ -15,15 +15,17 @@ import * as async from 'async';
 import * as brotli from 'iltorb';
 import * as request from 'request';
 import * as iconv from 'iconv-lite';
-import * as parseDataURL from 'data-urls';
+import parseDataURL = require('data-urls'); // Using `require` as `data-urls` exports a function.
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 import toLowerCaseKeys from 'hint/dist/src/lib/utils/misc/to-lowercase-keys';
 
 import { getContentTypeData } from 'hint/dist/src/lib/utils/content-type';
-import { NetworkData } from 'hint/dist/src/lib/types'; //eslint-disable-line
+import { NetworkData, HttpHeaders } from 'hint/dist/src/lib/types'; //eslint-disable-line
 import { RedirectManager } from './redirects';
+
+interface IDecompressor { (content: Buffer): Promise<Buffer> }
 
 const debug = d(__filename);
 const decompressBrotli = promisify(brotli.decompress);
@@ -71,7 +73,7 @@ export class Requester {
     /** The valid status codes for redirects we follow. */
     private static validRedirects = [301, 302, 303, 307, 308]
     /** Internal `request` object. */
-    private _request;
+    private _request: request.RequestAPI<request.Request, request.CoreOptions, request.RequiredUriUrl>;
     /** Internal `redirectManager`. */
     private _redirects: RedirectManager = new RedirectManager();
     /** Maximum number of redirects */
@@ -80,7 +82,7 @@ export class Requester {
     private _options: request.CoreOptions;
 
     /** Tries to decompress the given `Buffer` `content` using the given `decompressor` */
-    private async tryToDecompress(decompressor, content): Promise<Buffer> {
+    private async tryToDecompress(decompressor: IDecompressor, content: Buffer): Promise<Buffer | null> {
         try {
             const result = await decompressor(content);
 
@@ -93,7 +95,7 @@ export class Requester {
 
     /** Returns the functions to try to use in order for a given algorithm. */
     private decompressors(algorithm: string): Array<Function> {
-        const priorities = {
+        const priorities: {[name: string]: number | undefined} = {
             br: 0,
             gzip: 1,
             deflate: 2, // eslint-disable-line sort-keys
@@ -122,7 +124,7 @@ export class Requester {
      * first with Brotli, then gzip, then return a copy of the original Buffer
      *
      */
-    private async decompressResponse(contentEncoding: string, rawBodyResponse: Buffer): Promise<Buffer> {
+    private async decompressResponse(contentEncoding: string | null, rawBodyResponse: Buffer): Promise<Buffer | null> {
         const that = this;
         /*
          * The "Content-Encoding" header field indicates what content codings
@@ -141,17 +143,17 @@ export class Requester {
         const algorithms = contentEncoding ?
             contentEncoding.split(',') :
             ['']; // `contentEncoding` could be null. For our purposes '' is OK
-        const decompressors = this.decompressors(algorithms.shift().trim());
-        let rawBody: Buffer;
+        const decompressors = this.decompressors(algorithms.shift()!.trim()); // `algorithms` will have at least one item, so `shift()` won't return `undefined`.
+        let rawBody: Buffer | null = null;
 
-        await asyncSome(decompressors, async (decompressor) => {
+        await asyncSome(decompressors, async (decompressor: IDecompressor) => {
             rawBody = await that.tryToDecompress(decompressor, rawBodyResponse);
 
             return !!rawBody;
         });
 
         // There's another decompression we need to do
-        if (algorithms.length > 0) {
+        if (rawBody && algorithms.length > 0) {
             return this.decompressResponse(algorithms.join(','), rawBody);
         }
 
@@ -196,13 +198,13 @@ export class Requester {
             },
             response: {
                 body: {
-                    content: parsedDataURL.body,
+                    content: parsedDataURL.body as any,
                     rawContent: parsedDataURL.body,
                     rawResponse: () => {
                         return Promise.resolve(parsedDataURL.body);
                     }
                 },
-                charset: parsedDataURL.mimeType.parameters.get('charset'),
+                charset: parsedDataURL.mimeType.parameters.get('charset') || '',
                 headers: {},
                 hops: [],
                 mediaType: parsedDataURL.mimeType.toString(),
@@ -255,7 +257,7 @@ export class Requester {
                             });
                         }
 
-                        const newUri = url.resolve(uriString, response.headers.location);
+                        const newUri = url.resolve(uriString, response.headers.location as string);
 
                         if (requestedUrls.has(newUri)) {
                             return reject(`'${uriString}' could not be fetched using ${this._options.method || 'GET'} method (redirect loop detected).`);
@@ -279,11 +281,13 @@ export class Requester {
                         }
                     }
 
-                    const contentEncoding: string = getHeaderValueNormalized(response.headers, 'content-encoding');
-                    const rawBody: Buffer = await this.decompressResponse(contentEncoding, rawBodyResponse);
-                    const { charset, mediaType } = getContentTypeData(null, uri, response.headers, rawBody);
+                    const contentEncoding: string | null = getHeaderValueNormalized(response.headers as HttpHeaders, 'content-encoding');
+                    const rawBody: Buffer | null = await this.decompressResponse(contentEncoding, rawBodyResponse);
+                    const contentTypeData = getContentTypeData(null, uri, response.headers as HttpHeaders, rawBody as Buffer);
+                    const charset = contentTypeData.charset || '';
+                    const mediaType = contentTypeData.mediaType || '';
                     const hops: Array<string> = this._redirects.calculate(uriString);
-                    const body: string = iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
+                    const body: string | null = rawBody && iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
 
                     const networkData: NetworkData = {
                         request: {
@@ -292,14 +296,14 @@ export class Requester {
                         },
                         response: {
                             body: {
-                                content: body,
-                                rawContent: rawBody,
+                                content: body as string,
+                                rawContent: rawBody as Buffer,
                                 rawResponse: () => {
                                     return Promise.resolve(rawBodyResponse);
                                 }
                             },
                             charset,
-                            headers: response.headers,
+                            headers: response.headers as HttpHeaders,
                             hops,
                             mediaType,
                             statusCode: response.statusCode,

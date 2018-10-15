@@ -1,3 +1,10 @@
+# 1.0.7 (October 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c97cbb800a`](https://github.com/webhintio/hint/commit/c97cbb800a5368dddaf482cebb03fda230997590)] - Fix: Redirects doesn't return the right hops on circular redirects (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1392`](https://github.com/webhintio/hint/issues/1392)).
+
+
 # 1.0.6 (October 2, 2018)
 
 ## Bug fixes / Improvements

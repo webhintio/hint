@@ -78,7 +78,7 @@ const installedConnectors = [
     'installedConnector2'
 ];
 
-const installedParsers = [];
+const installedParsers: string[] = [];
 
 test.serial(`initHintrc should install the configuration package if user chooses a recommended configuration and the configuration doesn't exists`, async (t) => {
     const sandbox = sinon.createSandbox();
@@ -86,7 +86,7 @@ test.serial(`initHintrc should install the configuration package if user chooses
     const configAnswer = { configuration: '@hint/configuration-recommended' };
 
     sandbox.stub(npm, 'getOfficialPackages').resolves([{
-        date: null,
+        date: new Date(),
         description: '',
         keywords: [],
         maintainers: [],
@@ -120,7 +120,7 @@ test.serial(`initHintrc shouldn't install the configuration package if user choo
     const configAnswer = { configuration: '@hint/configuration-recommended' };
 
     sandbox.stub(npm, 'getOfficialPackages').resolves([{
-        date: null,
+        date: new Date(),
         description: '',
         keywords: [],
         maintainers: [],
@@ -205,7 +205,7 @@ test.serial(`if instalation of a config package fails, "initHintrc" returns true
     const configAnswer = { configuration: '@hint/configuration-recommended' };
 
     sandbox.stub(npm, 'getOfficialPackages').resolves([{
-        date: null,
+        date: new Date(),
         description: '',
         keywords: [],
         maintainers: [],

@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as mock from 'mock-require';
 
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
+import { HttpHeaders } from 'hint/dist/src/lib/types';
 
 // We need to use `require` to be able to overwrite the method `asyncTry`.
 const fnWrapper = require('hint/dist/src/lib/utils/async-wrapper');
@@ -10,12 +11,16 @@ const originalAsyncTry = fnWrapper.asyncTry;
 
 const uaString = 'Mozilla/5.0 Gecko';
 
+interface IFetchFunction {
+    (target: string, headers: HttpHeaders): Promise<any>;
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // Error messages.
 
 const generateCompressionMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => {
-    return `Response should${notRequired ? ' not' : ''} be compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
+    return `Response should${notRequired ? ' not' : ''} be compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding || '') ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
 };
 
 const generateContentEncodingMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => {
@@ -86,21 +91,21 @@ const svgzFile = fs.readFileSync(`${__dirname}/fixtures/image.svgz`);
 const createConfig = ({
     faviconFileContent = faviconFile.zopfli,
     faviconFileHeaders = {
-        'Content-Encoding': 'gzip',
-        Vary: 'Accept-Encoding'
+        'Content-Encoding': 'gzip' as (string | null),
+        Vary: 'Accept-Encoding' as (string | null)
     },
     htmlFileContent = htmlFile.zopfli,
     htmlFileHeaders = {
-        'Content-Encoding': 'gzip',
-        Vary: 'Accept-Encoding'
+        'Content-Encoding': 'gzip' as (string | null),
+        Vary: 'Accept-Encoding' as (string | null)
     },
     imageFileContent = imageFile.original,
     imageFileHeaders = {},
     request = { headers: { 'Accept-Encoding': 'gzip, deflate, br' } },
     scriptFileContent = scriptFile.zopfli,
     scriptFileHeaders = {
-        'Content-Encoding': 'gzip',
-        Vary: 'Accept-Encoding'
+        'Content-Encoding': 'gzip' as (string | null),
+        Vary: 'Accept-Encoding' as (string | null)
     },
     svgzFileContent = svgzFile,
     svgzFileHeaders = { 'Content-Encoding': 'gzip' }
@@ -203,14 +208,14 @@ const createServerConfig = (configs = {}, https: boolean = false) => {
     );
 };
 
-const createGzipZopfliServerConfig = (configs, https: boolean = false) => {
+const createGzipZopfliServerConfig = (configs: {}, https: boolean = false) => {
     return Object.assign(
         createServerConfig({}, https),
         createGzipZopfliConfigs(configs)
     );
 };
 
-const createBrotliServerConfig = (configs) => {
+const createBrotliServerConfig = (configs: {}) => {
     return createGzipZopfliServerConfig(
         Object.assign(
             {},
@@ -248,8 +253,8 @@ const testsForBrotli: Array<HintTest> = [
             fnWrapper.asyncTry = originalAsyncTry;
         },
         before() {
-            fnWrapper.asyncTry = (fetch) => {
-                return (target, headers) => {
+            fnWrapper.asyncTry = (fetch: IFetchFunction) => {
+                return (target: string, headers: HttpHeaders) => {
                     if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'br') {
                         return fetch(target, headers);
                     }
@@ -485,8 +490,8 @@ const testsForGzipZopfli = (https: boolean = false): Array<HintTest> => {
                 fnWrapper.asyncTry = originalAsyncTry;
             },
             before() {
-                fnWrapper.asyncTry = (fetch) => {
-                    return (target, headers) => {
+                fnWrapper.asyncTry = (fetch: IFetchFunction) => {
+                    return (target: string, headers: HttpHeaders) => {
                         if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'gzip') {
                             return fetch(target, headers);
                         }
@@ -698,8 +703,8 @@ const testsForNoCompression = (https: boolean = false): Array<HintTest> => {
                 fnWrapper.asyncTry = originalAsyncTry;
             },
             before() {
-                fnWrapper.asyncTry = (fetch) => {
-                    return (target, headers) => {
+                fnWrapper.asyncTry = (fetch: IFetchFunction) => {
+                    return (target: string, headers: HttpHeaders) => {
                         if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'identity') {
                             return fetch(target, headers);
                         }
@@ -746,7 +751,7 @@ const testsForSpecialCases = (https: boolean = false): Array<HintTest> => {
     ];
 };
 
-const testsForUserConfigs = (encoding, isTarget: boolean = true, https: boolean = false): Array<HintTest> => {
+const testsForUserConfigs = (encoding: string, isTarget: boolean = true, https: boolean = false): Array<HintTest> => {
     const isBrotli = encoding === 'Brotli';
     const isGzip = encoding === 'gzip';
 

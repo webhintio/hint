@@ -1,3 +1,19 @@
+# 3.4.10 (October 10, 2018)
+
+## Bug fixes / Improvements
+
+* [[`f300d048d0`](https://github.com/webhintio/hint/commit/f300d048d0f6ac685045a13cfb13fd2197d0a67f)] - Fix: Selector for attributes with namespace (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1388`](https://github.com/webhintio/hint/issues/1388)).
+* [[`d04e94b7de`](https://github.com/webhintio/hint/commit/d04e94b7dee1ccd3f7c6d9cc7af545f06a40e9b5)] - Fix: Add timeout waiting for a request to finish (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`9b8eacf23b`](https://github.com/webhintio/hint/commit/9b8eacf23bc37919eaf260fb317eb48ed0a37ea2)] - Docs: Add documentation for the `local` connector (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1245`](https://github.com/webhintio/hint/issues/1245)).
+
+
+# 3.4.9 (October 9, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c6f9203f94`](https://github.com/webhintio/hint/commit/c6f9203f9443420d17ea508e7d8337604b4d48a6)] - Fix: User `date` on HTML formatter (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1386`](https://github.com/webhintio/hint/issues/1386)).
+
+
 # 3.4.8 (October 3, 2018)
 
 ## Bug fixes / Improvements

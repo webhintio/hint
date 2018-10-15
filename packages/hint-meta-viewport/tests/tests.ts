@@ -85,7 +85,7 @@ const testsForDefaults: Array<HintTest> = [
     {
         name: `'viewport' meta element is specified in the '<body>'`,
         reports: [{ message: metaElementNotInHeadErrorMessage }],
-        serverConfig: generateHTMLPage(null, generateMegaViewport())
+        serverConfig: generateHTMLPage(undefined, generateMegaViewport())
     }
 ];
 

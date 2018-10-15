@@ -18,8 +18,8 @@ import { Engine } from 'hint/dist/src/lib/engine';
 
 export default class ChromeConnector extends Connector {
     public constructor(server: Engine, config?: object) {
-        const launcher: ILauncher = new CDPLauncher(config);
+        const launcher: ILauncher = new CDPLauncher(config || {});
 
-        super(server, config, launcher);
+        super(server, config || {}, launcher);
     }
 }

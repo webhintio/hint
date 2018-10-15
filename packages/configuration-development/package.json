@@ -2,7 +2,7 @@
   "dependencies": {
     "@hint/configuration-progressive-web-apps": "^1.1.1",
     "@hint/connector-local": "^1.1.2",
-    "@hint/formatter-html": "^1.0.6",
+    "@hint/formatter-html": "^1.0.7",
     "@hint/formatter-summary": "^1.0.2",
     "@hint/hint-axe": "^1.1.0",
     "@hint/hint-babel-config": "^1.1.0",
@@ -38,7 +38,7 @@
   "main": "index.json",
   "name": "@hint/configuration-development",
   "peerDependencies": {
-    "hint": "^3.4.8"
+    "hint": "^3.4.10"
   },
   "repository": "webhintio/hint",
   "version": "1.1.1"

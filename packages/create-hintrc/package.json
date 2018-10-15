@@ -10,11 +10,12 @@
     "create-hintrc": "./dist/src/create-hintrc.js"
   },
   "dependencies": {
-    "browserslist": "^4.2.0",
+    "browserslist": "^4.2.1",
     "encoding": "^0.1.12"
   },
   "description": "webhint's configuration file initializer package",
   "devDependencies": {
+    "@types/inquirer": "^0.0.43",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.6.1",
@@ -24,7 +25,7 @@
     "fork-ts-checker-webpack-plugin": "^0.4.10",
     "fs-extra": "^7.0.0",
     "handlebars": "^4.0.11",
-    "hint": "^3.4.8",
+    "hint": "^3.4.10",
     "inquirer": "^6.2.0",
     "markdownlint-cli": "^0.13.0",
     "mkdirp": "^0.5.1",
@@ -35,7 +36,7 @@
     "sinon": "^6.3.5",
     "ts-loader": "^5.2.0",
     "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^19.0.2",
+    "typescript-eslint-parser": "^20.0.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"
   },
@@ -63,7 +64,7 @@
     "build": "npm run clean && npm-run-all build:*",
     "build-release": "npm run clean && npm run build:assets && webpack",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
-    "build:ts": "tsc",
+    "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
