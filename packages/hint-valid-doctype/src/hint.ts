@@ -38,7 +38,7 @@ export default class implements IHint {
             const matched = content.match(doctypeRegexFactory('gi'));
 
             if (!matched || matched.length < 1) {
-                await context.report(resource, element, `The file does not contain a doctype tag.`);
+                await context.report(resource, element, `The file does not contain a doctype tag`);
                 return;
             }
 
@@ -90,7 +90,7 @@ export default class implements IHint {
             const { resource, element, response } = fetchEnd;
 
             if (!response || !response.body || !response.body.content) {
-                await context.report(resource, element, 'Content has no body.');
+                await context.report(resource, element, 'Content has no body');
                 return;
             }
 
