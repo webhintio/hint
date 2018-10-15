@@ -1,29 +1,22 @@
-# valid-doctype (`@hint/hint-valid-doctype`)
+# Check that the Doctype tag of the document is valid
 
-hint to validate if the doctype is valid
+This hint checks if there is a valid in the document.
 
 ## Why is this important?
 
-Explain why this hint is important for your users
+Because have a valid doctype will give to the browser the correct information about the version of HTML.
 
 ## What does the hint check?
 
-A bit more detail of what the hint does.
+The hint checks that the doctype is `<!doctype html>` and is in the first line of the document.
 
 ### Examples that **trigger** the hint
 
-A list of code examples that will fail this hint.
-It's good to put some edge cases in here.
+An uppercase doctype should fail, also if the doctype is not in the first line.
 
 ### Examples that **pass** the hint
 
-A list of code examples that will pass this hint.
-It's good to put some edge cases in here.
-
-## Can the hint be configured?
-
-If this hint allows some configuration, please put the format and
-options for the user.
+A doctype in the first line, without other information in that line.
 
 ## How to use this hint?
 
@@ -57,6 +50,11 @@ configuration file:
 
 What can the user read to know more about this subject?
 
+
+* [Doctype (Wikipedia)][docwiki]
+* [Doctype (MDN)][docmdn]
+
 <!-- Link labels: -->
 
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[docwiki]: https://en.wikipedia.org/wiki/Document_type_declaration
+[docmdn]: https://developer.mozilla.org/en-US/docs/Glossary/Doctype
