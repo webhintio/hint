@@ -23,7 +23,10 @@ export default class WebpackConfigParser extends Parser<WebpackConfigEvents> {
 
     private async parseEnd() {
         if (!this.configFound) {
-            await this.engine.emitAsync('parse::webpack-config::error::not-found', { resource: '' });
+            await this.engine.emitAsync('parse::error::webpack-config::not-found', {
+                error: new Error('webpack.config.js was not found'),
+                resource: ''
+            });
         }
     }
 
@@ -51,24 +54,29 @@ export default class WebpackConfigParser extends Parser<WebpackConfigEvents> {
 
         this.configFound = true;
 
+        await this.engine.emitAsync(`parse::start::webpack-config`, { resource });
+
         try {
             const config: webpack.Configuration = await import(asPathString(getAsUri(resource)!)); // `getAsUri(resource)` should not be null as the resource has already been fetched.
 
             const version = this.getLocallyInstalledWebpack();
 
             if (!version) {
-                await this.engine.emitAsync('parse::webpack-config::error::not-install', { resource });
+                await this.engine.emitAsync('parse::error::webpack-config::not-install', {
+                    error: new Error('webpack is not installed'),
+                    resource
+                });
 
                 return;
             }
 
-            await this.engine.emitAsync('parse::webpack-config::end', {
+            await this.engine.emitAsync('parse::end::webpack-config', {
                 config,
                 resource,
                 version
             });
         } catch (err) {
-            await this.engine.emitAsync('parse::webpack-config::error::configuration', {
+            await this.engine.emitAsync('parse::error::webpack-config::configuration', {
                 error: err,
                 resource
             });

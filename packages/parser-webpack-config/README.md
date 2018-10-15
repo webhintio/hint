@@ -35,24 +35,24 @@ project, checking the name of the file (`webpack.config.json`).
 
 This `parser` emits the following events:
 
-* `parse::webpack-config::end`, of type `WebpackConfigParse`
+* `parse::end::webpack-config`, of type `WebpackConfigParse`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `config`: an object with a valid configuration (`webpack.Configuration`).
   * `version`: the webpack version installed locally.
 
-* `parse::webpack-config::error::configuration`, of type `WebpackConfigInvalidConfiguration`
+* `parse::error::webpack-config::configuration`, of type `WebpackConfigInvalidConfiguration`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `parse::webpack-config::error::not-install`. This event is sent if
+* `parse::error::webpack-config::not-install`. This event is sent if
   the package `webpack` is not installed locally. This event doesn't
   containt anything else.
 
-* `parse::webpack-config::error::not-found`. This event is sent if
+* `parse::error::webpack-config::not-found`. This event is sent if
   the parser doesn't find any configuration file at the end of the
   scan. This event doesn't containt anything else.
 

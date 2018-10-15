@@ -45,12 +45,12 @@ test('If the file contains an invalid json, it should fail', async (t) => {
 
     // 2 times, the previous call and the error
     t.is(t.context.engine.emitAsync.callCount, 2);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::babel-config::error::json');
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::error::babel-config::json');
 
     sandbox.restore();
 });
 
-test(`If .babelrc contains an invalid schema, it should emit the 'parse::babel-config::error::schema' event`, async (t) => {
+test(`If .babelrc contains an invalid schema, it should emit the 'parse::error::babel-config::schema' event`, async (t) => {
     const sandbox = sinon.createSandbox();
 
     new BabelConfigParser(t.context.engine); // eslint-disable-line no-new
@@ -72,13 +72,13 @@ test(`If .babelrc contains an invalid schema, it should emit the 'parse::babel-c
 
     // 3 times, the previous call, the start parse and the error
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::babel-config::start');
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::babel-config::error::schema');
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::start::babel-config');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::babel-config::schema');
 
     sandbox.restore();
 });
 
-test(`If 'package.json' contains an invalid 'babel' property, it should emit the 'parse::babel-config::error::schema' event`, async (t) => {
+test(`If 'package.json' contains an invalid 'babel' property, it should emit the 'parse::error::babel-config::schema' event`, async (t) => {
     const sandbox = sinon.createSandbox();
     const invalidSchemaContent = `{
         "babel": {
@@ -102,7 +102,7 @@ test(`If 'package.json' contains an invalid 'babel' property, it should emit the
 
     // 3 times, the previous call, the start parse and the error
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::babel-config::error::schema');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::babel-config::schema');
 
     sandbox.restore();
 });
@@ -129,12 +129,12 @@ test('If the content type is unknown, it should still validate if the file name 
 
     // 3 times, the previous call, the start parse and the error
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::babel-config::error::schema');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::babel-config::schema');
 
     sandbox.restore();
 });
 
-test('If we receive a valid json with a valid name, it should emit the event parse::babel-config::end', async (t) => {
+test('If we receive a valid json with a valid name, it should emit the event parse::end::babel-config', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -179,14 +179,14 @@ test('If we receive a valid json with a valid name, it should emit the event par
 
     // 3 times, the previous call, the start parse and the end
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::babel-config::end');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::end::babel-config');
     t.deepEqual(t.context.engine.emitAsync.args[2][1].originalConfig, validJSON);
     t.deepEqual(t.context.engine.emitAsync.args[2][1].config, parsedJSON);
 
     sandbox.restore();
 });
 
-test('If we receive a valid json with an extends, it should emit the event parse::babel-config::end with the right data', async (t) => {
+test('If we receive a valid json with an extends, it should emit the event parse::end::babel-config with the right data', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -203,14 +203,14 @@ test('If we receive a valid json with an extends, it should emit the event parse
 
     // 3 times, the previous call, the start parse and the end
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::babel-config::end');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::end::babel-config');
     t.deepEqual(t.context.engine.emitAsync.args[2][1].originalConfig, validJSON);
     t.is(t.context.engine.emitAsync.args[2][1].config.presets[0][1].targets.uglify, false);
 
     sandbox.restore();
 });
 
-test('If we receive a json with an extends with a loop, it should emit the event parse::babel-config::error::circular', async (t) => {
+test('If we receive a json with an extends with a loop, it should emit the event parse::error::babel-config::circular', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -227,12 +227,12 @@ test('If we receive a json with an extends with a loop, it should emit the event
 
     // 3 times, the previous call, the start parse and the error
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::babel-config::error::circular');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::babel-config::circular');
 
     sandbox.restore();
 });
 
-test('If we receive a json with an extends with an invalid json, it should emit the event parse::typescript-config::error::extends', async (t) => {
+test('If we receive a json with an extends with an invalid json, it should emit the event parse::error::typescript-config::extends', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -249,7 +249,7 @@ test('If we receive a json with an extends with an invalid json, it should emit 
 
     // 3 times, the previous call, the start parse and the error
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::babel-config::error::extends');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::babel-config::extends');
 
     sandbox.restore();
 });

@@ -23,6 +23,8 @@ export default class HTMLParser extends Parser<HTMLEvents> {
     private async onFetchEndHtml(fetchEnd: FetchEnd) {
         const resource = this._url = fetchEnd.response.url;
 
+        await this.engine.emitAsync(`parse::start::html`, { resource });
+
         const html = fetchEnd.response.body.content;
 
         const dom = new JSDOM(html, {
@@ -42,7 +44,7 @@ export default class HTMLParser extends Parser<HTMLEvents> {
         const window = new JSDOMAsyncWindow(dom.window, dom);
         const documentElement = dom.window.document.documentElement;
 
-        await this.engine.emitAsync(`parse::html::end`, { html, resource, window });
+        await this.engine.emitAsync(`parse::end::html`, { html, resource, window });
 
         const event = { resource } as Event;
 

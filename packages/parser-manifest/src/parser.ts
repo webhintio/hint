@@ -32,9 +32,9 @@ export default class ManifestParser extends Parser<ManifestEvents> {
     private readonly fetchErrorEventName = 'fetch::error::manifest';
     private readonly fetchStartEventName = 'fetch::start::manifest';
 
-    private readonly parseEndEventName = 'parse::manifest::end';
-    private readonly parseErrorSchemaEventName = 'parse::manifest::error::schema';
-    private readonly parseJSONErrorEventName = 'parse::manifest::error::json';
+    private readonly parseEndEventName = 'parse::end::manifest';
+    private readonly parseErrorSchemaEventName = 'parse::error::manifest::schema';
+    private readonly parseJSONErrorEventName = 'parse::error::manifest::json';
 
     // Other.
 
@@ -131,7 +131,9 @@ export default class ManifestParser extends Parser<ManifestEvents> {
     }
 
     private async validateManifest (fetchEnd: FetchEnd) {
-        const { element, resource, response, request } = fetchEnd;
+        const { resource, response } = fetchEnd;
+
+        await this.engine.emitAsync(`parse::start::manifest`, { resource });
 
         let result: IJSONResult;
 
@@ -145,11 +147,8 @@ export default class ManifestParser extends Parser<ManifestEvents> {
         } catch (e) {
 
             await this.engine.emitAsync(this.parseJSONErrorEventName, {
-                element,
                 error: e,
-                request,
-                resource,
-                response
+                resource
             });
 
             return;
@@ -165,12 +164,10 @@ export default class ManifestParser extends Parser<ManifestEvents> {
         if (!validationResult.valid) {
 
             await this.engine.emitAsync(this.parseErrorSchemaEventName, {
-                element,
+                error: new Error('Invalid manifest'),
                 errors: validationResult.errors,
                 prettifiedErrors: validationResult.prettifiedErrors,
-                request,
-                resource,
-                response
+                resource
             });
 
             return;
@@ -182,12 +179,9 @@ export default class ManifestParser extends Parser<ManifestEvents> {
          */
 
         await this.engine.emitAsync(this.parseEndEventName, {
-            element,
             getLocation: result.getLocation,
             parsedContent: validationResult.data,
-            request,
-            resource,
-            response
+            resource
         });
     }
 }

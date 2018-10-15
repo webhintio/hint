@@ -66,7 +66,7 @@ test.serial('If an script tag is not a javascript, then nothing should happen', 
     sandbox.restore();
 });
 
-test.serial('If an script tag is an internal javascript, then we should parse the code and emit a parse::javascript::end event', async (t) => {
+test.serial('If an script tag is an internal javascript, then we should parse the code and emit a parse::end::javascript event', async (t) => {
     const sandbox = sinon.createSandbox();
     const parseObject = {};
     const sourceCodeObject = {};
@@ -99,14 +99,14 @@ test.serial('If an script tag is an internal javascript, then we should parse th
 
     const args = t.context.engine.emitAsync.args[1];
 
-    t.is(args[0], 'parse::javascript::end');
+    t.is(args[0], 'parse::end::javascript');
     t.is(args[1].resource, 'Internal javascript');
     t.is(args[1].sourceCode, sourceCodeObject);
 
     sandbox.restore();
 });
 
-test.serial('If fetch::end::script is received, then we should parse the code and emit a parse::javascript::end event', async (t) => {
+test.serial('If fetch::end::script is received, then we should parse the code and emit a parse::end::javascript event', async (t) => {
     const sandbox = sinon.createSandbox();
     const parseObject = {};
     const sourceCodeObject = {};
@@ -134,7 +134,7 @@ test.serial('If fetch::end::script is received, then we should parse the code an
 
     const args = t.context.engine.emitAsync.args[1];
 
-    t.is(args[0], 'parse::javascript::end');
+    t.is(args[0], 'parse::end::javascript');
     t.is(args[1].resource, 'script.js');
     t.is(args[1].sourceCode, sourceCodeObject);
 

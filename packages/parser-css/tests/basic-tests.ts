@@ -40,7 +40,7 @@ test.serial('We should provide a correct AST when parsing CSS.', async (t) => {
     const rule = root.first as Rule;
     const declaration = rule.first as Declaration;
 
-    t.is(args[0], 'parse::css::end');
+    t.is(args[0], 'parse::end::css');
     t.is(rule.selector, '.foo');
     t.is(declaration.prop, 'color');
     t.is(declaration.value, '#fff');

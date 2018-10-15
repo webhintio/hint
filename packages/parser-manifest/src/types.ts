@@ -1,4 +1,4 @@
-import { FetchEnd, FetchError, FetchStart, ISchemaValidationError, IJSONLocationFunction, Events } from 'hint/dist/src/lib/types';
+import { FetchEnd, FetchError, FetchStart, ISchemaValidationError, IJSONLocationFunction, Event, ErrorEvent, Events } from 'hint/dist/src/lib/types';
 
 /* eslint-disable camelcase */
 
@@ -142,19 +142,16 @@ export type Manifest = {
     [other: string]: any;
 };
 
-export type ManifestInvalidJSON = FetchEnd & {
-    /** The parse JSON error. */
-    error: Error;
-};
+export type ManifestInvalidJSON = ErrorEvent;
 
-export type ManifestInvalidSchema = FetchEnd & {
+export type ManifestInvalidSchema = ErrorEvent & {
     /** The parse errors as returned by ajv. */
     errors: ISchemaValidationError[];
     /** The errors in a more human readable format. */
     prettifiedErrors: string[];
 };
 
-export type ManifestParsed = FetchEnd & {
+export type ManifestParsed = Event & {
     /** Find the location of a path within the original JSON source */
     getLocation: IJSONLocationFunction;
     /** The content of manifest parsed */
@@ -165,7 +162,8 @@ export type ManifestEvents = Events & {
     'fetch::end::manifest': FetchEnd;
     'fetch::error::manifest': FetchError;
     'fetch::start::manifest': FetchStart;
-    'parse::manifest::end': ManifestParsed;
-    'parse::manifest::error::schema': ManifestInvalidSchema;
-    'parse::manifest::error::json': ManifestInvalidJSON;
+    'parse::end::manifest': ManifestParsed;
+    'parse::error::manifest::schema': ManifestInvalidSchema;
+    'parse::error::manifest::json': ManifestInvalidJSON;
+    'parse::start::manifest': Event;
 };

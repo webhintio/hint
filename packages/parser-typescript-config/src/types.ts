@@ -199,7 +199,7 @@ export type TypeScriptConfig = {
 export type TypeScriptConfigInvalidJSON = ErrorEvent;
 
 /** Data type sent for JSON doesn't validate Schema event */
-export type TypeScriptConfigInvalidSchema = Event & {
+export type TypeScriptConfigInvalidSchema = ErrorEvent & {
     errors: ISchemaValidationError[];
     prettifiedErrors: string[];
 };
@@ -218,10 +218,10 @@ export type TypeScriptConfigParse = Event & {
 };
 
 export type TypeScriptConfigEvents = Events & {
-    'parse::typescript-config::end': TypeScriptConfigParse;
-    'parse::typescript-config::error::circular': ErrorEvent;
-    'parse::typescript-config::error::extends': ErrorEvent;
-    'parse::typescript-config::error::json': TypeScriptConfigInvalidJSON;
-    'parse::typescript-config::error::schema': TypeScriptConfigInvalidSchema;
-    'parse::typescript-config::start': TypeScriptConfigParseStart;
+    'parse::end::typescript-config': TypeScriptConfigParse;
+    'parse::error::typescript-config::circular': ErrorEvent;
+    'parse::error::typescript-config::extends': ErrorEvent;
+    'parse::error::typescript-config::json': TypeScriptConfigInvalidJSON;
+    'parse::error::typescript-config::schema': TypeScriptConfigInvalidSchema;
+    'parse::start::typescript-config': TypeScriptConfigParseStart;
 };

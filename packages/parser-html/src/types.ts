@@ -10,5 +10,6 @@ export type HTMLParse = Event & {
 };
 
 export type HTMLEvents = Events & {
-    'parse::html::end': HTMLParse;
+    'parse::end::html': HTMLParse;
+    'parse::start::html': Event;
 };

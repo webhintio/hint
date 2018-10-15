@@ -49,7 +49,7 @@ successfully downloaded the web app manifest file.
 Event is of type [`FetchError`][fetcherror] and is emitted when the
 parser encounters a problem trying to fetch the web app manifest file.
 
-### `parse::manifest::end`
+### `parse::end::manifest`
 
 Event is emitted when the parser successfully completed parsing
 the web app manifest file.
@@ -64,7 +64,7 @@ export type ManifestParsed = FetchEnd & {
 };
 ```
 
-### `parse::manifest::error::json`
+### `parse::error::manifest::json`
 
 Event is emitted when the content of the web app manifest file
 is not valid JSON.
@@ -78,7 +78,7 @@ export type ManifestInvalidJSON = FetchEnd & {
 };
 ```
 
-### `parse::manifest::error::schema`
+### `parse::error::manifest::schema`
 
 Event is emitted when the content of the web app manifest file
 is not valid according to the schema.

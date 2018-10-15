@@ -21,9 +21,11 @@ export default class CSSParser extends Parser<StyleEvents> {
     private async emitCSS(code: string, resource: string) {
 
         try {
+            await this.engine.emitAsync(`parse::start::css`, { resource });
+
             const ast = postcss.parse(code, { from: resource });
 
-            await this.engine.emitAsync(`parse::css::end`, {
+            await this.engine.emitAsync(`parse::end::css`, {
                 ast,
                 code,
                 resource

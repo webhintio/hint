@@ -49,7 +49,7 @@ export abstract class Parser<E extends Events = Events> {
 
             if (configIncludes.has(configPath)) {
 
-                await (this.engine as Engine<Events>).emitAsync(`parse::${this.name}::error::circular` as 'parse::*::error', {
+                await (this.engine as Engine<Events>).emitAsync(`parse::error::${this.name}::circular` as 'parse::error::*', {
                     error: new Error(`Circular reference found in file ${lastPath}`),
                     resource
                 });
@@ -68,7 +68,7 @@ export abstract class Parser<E extends Events = Events> {
                 finalConfigJSON = merge({}, extendedConfig, finalConfigJSON);
             } catch (err) {
 
-                await (this.engine as Engine<Events>).emitAsync(`parse::${this.name}::error::extends` as 'parse::*::error', {
+                await (this.engine as Engine<Events>).emitAsync(`parse::error::${this.name}::extends` as 'parse::error::*', {
                     error: err,
                     resource
                 });

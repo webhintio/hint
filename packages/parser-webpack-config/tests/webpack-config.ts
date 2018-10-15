@@ -18,7 +18,7 @@ test.beforeEach((t) => {
     });
 });
 
-test('If any file is parsed, it should emit a `parse::webpack-config::error::not-found` error', async (t) => {
+test('If any file is parsed, it should emit a `parse::error::webpack-config::not-found` error', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -29,7 +29,7 @@ test('If any file is parsed, it should emit a `parse::webpack-config::error::not
 
     // 2 times, the previous call, and the expected call.
     t.true(t.context.engine.emitAsync.calledTwice);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::webpack-config::error::not-found');
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::error::webpack-config::not-found');
 
     sandbox.restore();
 });
@@ -60,13 +60,13 @@ test('If the file contains an invalid configuration, it should fail', async (t) 
 
     // 2 times, the previous call, and the expected call.
     t.true(t.context.engine.emitAsync.calledTwice);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::webpack-config::error::configuration');
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::error::webpack-config::configuration');
     t.is(t.context.engine.emitAsync.args[1][1].error.message, 'Invalid or unexpected token');
 
     sandbox.restore();
 });
 
-test.serial('If the configuration is valid and webpack is installed locally, it should emit the event parse::webpack-config::end', async (t) => {
+test.serial('If the configuration is valid and webpack is installed locally, it should emit the event parse::end::webpack-config', async (t) => {
     const configPath = path.join(__dirname, 'fixtures', 'valid', 'webpack.config.js');
     const sandbox = sinon.createSandbox();
 
@@ -83,13 +83,13 @@ test.serial('If the configuration is valid and webpack is installed locally, it 
 
     // 3 times, the two previous call and the parse.
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::webpack-config::end');
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::end::webpack-config');
     t.deepEqual(t.context.engine.emitAsync.args[1][1].config, config);
 
     sandbox.restore();
 });
 
-test.serial(`If the configuration is valid but webpack isn't installed locally, it should emit the event parse::webpack-config::error::not-install`, async (t) => {
+test.serial(`If the configuration is valid but webpack isn't installed locally, it should emit the event parse::error::webpack-config::not-install`, async (t) => {
     const configPath = path.join(__dirname, 'fixtures', 'valid', 'webpack.config.js');
     const sandbox = sinon.createSandbox();
 
@@ -104,7 +104,7 @@ test.serial(`If the configuration is valid but webpack isn't installed locally, 
 
     // 3 times, the two previous call and the error.
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::webpack-config::error::not-install');
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::error::webpack-config::not-install');
 
     sandbox.restore();
 });

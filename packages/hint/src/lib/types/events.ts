@@ -78,7 +78,7 @@ export type Events = {
     'fetch::error': FetchError;
     'fetch::start': FetchStart;
     'fetch::start::target': FetchStart;
-    'parse::*::error': ErrorEvent;
+    'parse::error::*': ErrorEvent;
     'print': Problem[];
     'scan::end': ScanEnd;
     'scan::start': ScanStart;

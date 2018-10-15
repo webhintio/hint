@@ -13,7 +13,7 @@ test.beforeEach((t) => {
     });
 });
 
-test.serial('If `fetch::end::html` is received, then the code should be parsed and the `parse::html::end` event emitted', async (t) => {
+test.serial('If `fetch::end::html` is received, then the code should be parsed and the `parse::end::html` event emitted', async (t) => {
     const sandbox = sinon.createSandbox();
     const code = '<!DOCTYPE html><div id="test">Test</div>';
     new HTMLParser.default(t.context.engine); // eslint-disable-line
@@ -44,7 +44,7 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
         }
     }
 
-    t.is(args[1][0], 'parse::html::end');
+    t.is(args[1][0], 'parse::end::html');
     t.is(args[1][1].resource, 'test.html');
     t.is(args[1][1].html, code);
     t.is(await document.pageHTML(), '<html><head></head><body><div id="test">Test</div></body></html>');
@@ -74,7 +74,7 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
     sandbox.restore();
 });
 
-test.serial('The `parse::html::end` event should include a window with support for evaluating script', async (t) => {
+test.serial('The `parse::end::html` event should include a window with support for evaluating script', async (t) => {
     const sandbox = sinon.createSandbox();
     const code = '<!DOCTYPE html><div id="test">Test</div>';
     new HTMLParser.default(t.context.engine); // eslint-disable-line
