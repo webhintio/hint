@@ -31,6 +31,6 @@ export default class TypeScriptConfigNoComments implements IHint {
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const validate = configChecker('compilerOptions.removeComments', true, 'The compiler option "removeComments" should be enabled to reduce the output size.', context);
 
-        context.on('parse::typescript-config::end', validate);
+        context.on('parse::end::typescript-config', validate);
     }
 }

@@ -36,36 +36,36 @@ validates the Babel configuration against the schema.
 
 This `parser` emits the following events:
 
-* `parse::babel-config::start`, of type `BabelConfigParseStart`
+* `parse::start::babel-config`, of type `BabelConfigParseStart`
   which contains the following information:
 
   * `resource`: the resource we are going to parse.
 
-* `parse::babel-config::end`, of type `BabelConfigParse`
+* `parse::end::babel-config`, of type `BabelConfigParse`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `config`: an object with a valid configuration.
 
-* `parse::babel-config::error::json`, of type `BabelConfigInvalidJSON`
+* `parse::error::babel-config::json`, of type `BabelConfigInvalidJSON`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `parse::babel-config::error::circular`, of type `BabelConfigInvalidJSON`
+* `parse::error::babel-config::circular`, of type `BabelConfigInvalidJSON`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `parse::babel-config::error::extends`, of type `BabelConfigInvalidJSON`
+* `parse::error::babel-config::extends`, of type `BabelConfigInvalidJSON`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `parse::babel-config::error::schema`, of type `BabelConfigInvalidSchema`
+* `parse::error::babel-config::schema`, of type `BabelConfigInvalidSchema`
   which contains the following information:
 
   * `resource`: the parsed resource.
@@ -77,7 +77,7 @@ If you need to import any type or enum defined in this parser,
 you need to import them as follows:
 
 ```ts
-import { TypeOrEnumYouWantToUse } from '@hint/parser-babel-config/dist/src/types';
+import { TypeOrEnumYouWantToUse } from '@hint/parser-babel-config';
 ```
 
 <!-- Link labels: -->

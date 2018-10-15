@@ -29,9 +29,11 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
 
     private async emitScript(code: string, resource: string) {
         try {
+            await this.engine.emitAsync(`parse::start::javascript`, { resource });
+
             const ast: eslint.AST.Program = espree.parse(code, defaultParserOptions);
 
-            await this.engine.emitAsync(`parse::javascript::end`, {
+            await this.engine.emitAsync(`parse::end::javascript`, {
                 ast,
                 resource,
                 sourceCode: new eslint.SourceCode(code, ast)

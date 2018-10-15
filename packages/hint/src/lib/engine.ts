@@ -34,7 +34,7 @@ import {
     Problem,
     ProblemLocation,
     Severity,
-    StringKeyOf // eslint-disable-line no-unused-vars
+    StringKeyOf
 } from './types';
 import * as logger from './utils/logging';
 import { HintContext } from './hint-context';
@@ -298,7 +298,6 @@ export class Engine<E extends Events = Events> extends EventEmitter {
         this.messages = [];
     }
 
-    // eslint-disable-next-line no-unused-vars
     public async notify(this: Engine<Events>) {
         await this.emitAsync('print', this.messages);
     }

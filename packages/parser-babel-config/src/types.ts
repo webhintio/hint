@@ -44,16 +44,16 @@ export type BabelConfigParsed = Event & {
     originalConfig: BabelConfig;
 };
 
-export type BabelConfigInvalidSchema = Event & {
+export type BabelConfigInvalidSchema = ErrorEvent & {
     errors: ISchemaValidationError[];
     prettifiedErrors: string[];
 };
 
 export type BabelConfigEvents = Events & {
-    'parse::babel-config::end': BabelConfigParsed;
-    'parse::babel-config::error::circular': ErrorEvent;
-    'parse::babel-config::error::extends': ErrorEvent;
-    'parse::babel-config::error::json': BabelConfigInvalidJSON;
-    'parse::babel-config::error::schema': BabelConfigInvalidSchema;
-    'parse::babel-config::start': BabelConfigParseStart;
+    'parse::end::babel-config': BabelConfigParsed;
+    'parse::error::babel-config::circular': ErrorEvent;
+    'parse::error::babel-config::extends': ErrorEvent;
+    'parse::error::babel-config::json': BabelConfigInvalidJSON;
+    'parse::error::babel-config::schema': BabelConfigInvalidSchema;
+    'parse::start::babel-config': BabelConfigParseStart;
 };

@@ -8,13 +8,13 @@ import { URL } from 'url';
 
 import { Engine } from './engine';
 import {
-    Events, // eslint-disable-line no-unused-vars
+    Events,
     HintMetadata,
     IAsyncHTMLElement,
     NetworkData,
     ProblemLocation,
     Severity,
-    StringKeyOf // eslint-disable-line no-unused-vars
+    StringKeyOf
 } from './types';
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 import { Category } from './enums/category';

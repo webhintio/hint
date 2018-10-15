@@ -244,6 +244,6 @@ export default class TypeScriptConfigTarget implements IHint {
             }
         };
 
-        context.on('parse::typescript-config::end', validate);
+        context.on('parse::end::typescript-config', validate);
     }
 }

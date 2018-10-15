@@ -31,11 +31,11 @@ export default class WebpackConfigIsInstalled implements IHint {
     public constructor(context: HintContext<WebpackConfigEvents>) {
 
         const notInstall = async () => {
-            debug(`parse::webpack-config::error::not-install received`);
+            debug(`parse::error::webpack-config::not-install received`);
 
             await context.report('', null, 'webpack is not installed in your project.');
         };
 
-        context.on('parse::webpack-config::error::not-install', notInstall);
+        context.on('parse::error::webpack-config::not-install', notInstall);
     }
 }

@@ -1,11 +1,9 @@
 import * as webpack from 'webpack';
 
-import { Event, Events } from 'hint/dist/src/lib/types/events';
+import { ErrorEvent, Event, Events } from 'hint/dist/src/lib/types/events';
 
 /** Data type sent for Invalid configuation event */
-export type WebpackConfigInvalidConfiguration = Event & {
-    error: Error;
-};
+export type WebpackConfigInvalidConfiguration = ErrorEvent;
 
 /** The object emitted by the `webpack-config` parser */
 export type WebpackConfigParse = Event & {
@@ -16,8 +14,9 @@ export type WebpackConfigParse = Event & {
 };
 
 export type WebpackConfigEvents = Events & {
-    'parse::webpack-config::end': WebpackConfigParse;
-    'parse::webpack-config::error::configuration': WebpackConfigInvalidConfiguration;
-    'parse::webpack-config::error::not-found': Event;
-    'parse::webpack-config::error::not-install': Event;
+    'parse::end::webpack-config': WebpackConfigParse;
+    'parse::error::webpack-config::configuration': WebpackConfigInvalidConfiguration;
+    'parse::error::webpack-config::not-found': ErrorEvent;
+    'parse::error::webpack-config::not-install': ErrorEvent;
+    'parse::start::webpack-config': Event;
 };

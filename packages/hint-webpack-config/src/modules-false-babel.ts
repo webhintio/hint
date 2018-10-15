@@ -7,10 +7,8 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-/* eslint-disable no-unused-vars */
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
 import { BabelConfigEvents, BabelConfigParsed } from '@hint/parser-babel-config';
-/* eslint-enable no-unused-vars */
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -37,13 +35,13 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
         let babelEvent: BabelConfigParsed;
 
         const webpackConfigReceived = (webpackConfigEvent: WebpackConfigParse) => {
-            debug(`parse::webpack-config::end received`);
+            debug(`parse::end::webpack-config received`);
 
             webpackEvent = webpackConfigEvent;
         };
 
         const babelConfigReceived = (babelConfigEvent: BabelConfigParsed) => {
-            debug(`parse::babel-config::end received`);
+            debug(`parse::end::babel-config received`);
 
             babelEvent = babelConfigEvent;
         };
@@ -77,8 +75,8 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
             }
         };
 
-        context.on('parse::webpack-config::end', webpackConfigReceived);
-        context.on('parse::babel-config::end', babelConfigReceived);
+        context.on('parse::end::webpack-config', webpackConfigReceived);
+        context.on('parse::end::babel-config', babelConfigReceived);
         context.on('scan::end', validate);
     }
 }

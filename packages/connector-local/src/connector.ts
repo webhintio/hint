@@ -58,7 +58,7 @@ export default class LocalConnector implements IConnector {
         this.filesPattern = this.getFilesPattern();
         this.engine = engine;
 
-        this.engine.on('parse::html::end', this.onParseHTML.bind(this));
+        this.engine.on('parse::end::html', this.onParseHTML.bind(this));
     }
 
     /*

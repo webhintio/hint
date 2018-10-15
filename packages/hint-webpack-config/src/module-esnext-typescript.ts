@@ -7,10 +7,8 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-/* eslint-disable no-unused-vars */
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
 import { TypeScriptConfigEvents, TypeScriptConfigParse } from '@hint/parser-typescript-config';
-/* eslint-enable no-unused-vars*/
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -37,13 +35,13 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
         let typescriptEvent: TypeScriptConfigParse;
 
         const webpackConfigReceived = (webpackConfigEvent: WebpackConfigParse) => {
-            debug(`parse::webpack-config::end received`);
+            debug(`parse::end::webpack-config received`);
 
             webpackEvent = webpackConfigEvent;
         };
 
         const typescriptConfigReceived = (typescriptConfigEvent: TypeScriptConfigParse) => {
-            debug(`parse::typescript-config::end received`);
+            debug(`parse::end::typescript-config received`);
 
             typescriptEvent = typescriptConfigEvent;
         };
@@ -72,8 +70,8 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
             }
         };
 
-        context.on('parse::webpack-config::end', webpackConfigReceived);
-        context.on('parse::typescript-config::end', typescriptConfigReceived);
+        context.on('parse::end::webpack-config', webpackConfigReceived);
+        context.on('parse::end::typescript-config', typescriptConfigReceived);
         context.on('scan::end', validate);
     }
 }

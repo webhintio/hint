@@ -28,7 +28,8 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
         const valid = validationResult.valid;
 
         if (!valid) {
-            await this.engine.emitAsync(`parse::typescript-config::error::schema`, {
+            await this.engine.emitAsync(`parse::error::typescript-config::schema`, {
+                error: new Error('Invalid TypeScript configuration'),
                 errors: validationResult.errors,
                 prettifiedErrors: validationResult.prettifiedErrors,
                 resource
@@ -56,7 +57,7 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
             return;
         }
 
-        await this.engine.emitAsync(`parse::typescript-config::start`, { resource });
+        await this.engine.emitAsync(`parse::start::typescript-config`, { resource });
 
         let result: IJSONResult;
 
@@ -78,14 +79,14 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
                 return;
             }
 
-            await this.engine.emitAsync(`parse::typescript-config::end`, {
+            await this.engine.emitAsync(`parse::end::typescript-config`, {
                 config: validationResult.data,
                 getLocation: result.getLocation,
                 originalConfig,
                 resource
             });
         } catch (err) {
-            await this.engine.emitAsync(`parse::typescript-config::error::json`, {
+            await this.engine.emitAsync(`parse::error::typescript-config::json`, {
                 error: err,
                 resource
             });

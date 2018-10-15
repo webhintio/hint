@@ -33,13 +33,13 @@ export default class WebpackConfigNoDevtoolInProd implements IHint {
         const configReceived = async (webpackConfigEvent: WebpackConfigParse) => {
             const { config, resource } = webpackConfigEvent;
 
-            debug(`parse::webpack-config::end received`);
+            debug(`parse::end::webpack-config received`);
 
             if (config.devtool && config.devtool.toString().includes('eval')) {
                 await context.report(resource, null, `\`${config.devtool.toString()}\` not recommended for prodution`);
             }
         };
 
-        context.on('parse::webpack-config::end', configReceived);
+        context.on('parse::end::webpack-config', configReceived);
     }
 }

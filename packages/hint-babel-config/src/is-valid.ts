@@ -39,7 +39,7 @@ export default class BabelConfigIsValidHint implements IHint {
         const invalidSchema = async (fetchEnd: BabelConfigInvalidSchema) => {
             const { errors, prettifiedErrors, resource } = fetchEnd;
 
-            debug(`parse::babel-config::error::schema received`);
+            debug(`parse::error::babel-config::schema received`);
 
             for (let i = 0; i < errors.length; i++) {
                 const message = prettifiedErrors[i];
@@ -49,9 +49,9 @@ export default class BabelConfigIsValidHint implements IHint {
             }
         };
 
-        context.on('parse::babel-config::error::json', invalidJSONFile);
-        context.on('parse::babel-config::error::circular', invalidJSONFile);
-        context.on('parse::babel-config::error::extends', invalidJSONFile);
-        context.on('parse::babel-config::error::schema', invalidSchema);
+        context.on('parse::error::babel-config::json', invalidJSONFile);
+        context.on('parse::error::babel-config::circular', invalidJSONFile);
+        context.on('parse::error::babel-config::extends', invalidJSONFile);
+        context.on('parse::error::babel-config::schema', invalidSchema);
     }
 }

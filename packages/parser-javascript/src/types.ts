@@ -11,5 +11,6 @@ export type ScriptParse = Event & {
 };
 
 export type ScriptEvents = Events & {
-    'parse::javascript::end': ScriptParse;
+    'parse::end::javascript': ScriptParse;
+    'parse::start::javascript': Event;
 };

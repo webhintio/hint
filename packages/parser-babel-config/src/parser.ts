@@ -31,7 +31,8 @@ export default class BabelConfigParser extends Parser<BabelConfigEvents> {
         const valid = validationResult.valid;
 
         if (!valid) {
-            await this.engine.emitAsync('parse::babel-config::error::schema', {
+            await this.engine.emitAsync('parse::error::babel-config::schema', {
+                error: new Error('Invalid Babel configuration'),
                 errors: validationResult.errors,
                 prettifiedErrors: validationResult.prettifiedErrors,
                 resource
@@ -62,7 +63,7 @@ export default class BabelConfigParser extends Parser<BabelConfigEvents> {
                 return;
             }
 
-            await this.engine.emitAsync('parse::babel-config::start', { resource });
+            await this.engine.emitAsync('parse::start::babel-config', { resource });
 
             // `result.scope('babel')` won't be null since `result.data.babel` was confirmed to exist above.
             result = isPackageJson ? result.scope('babel')! : result;
@@ -84,14 +85,14 @@ export default class BabelConfigParser extends Parser<BabelConfigEvents> {
                 return;
             }
 
-            await this.engine.emitAsync('parse::babel-config::end', {
+            await this.engine.emitAsync('parse::end::babel-config', {
                 config: validationResult.data,
                 getLocation: result.getLocation,
                 originalConfig,
                 resource
             });
         } catch (err) {
-            await this.engine.emitAsync('parse::babel-config::error::json', {
+            await this.engine.emitAsync('parse::error::babel-config::json', {
                 error: err,
                 resource
             });

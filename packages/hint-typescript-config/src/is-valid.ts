@@ -45,7 +45,7 @@ export default class TypeScriptConfigIsValid implements IHint {
         const invalidSchema = async (fetchEnd: TypeScriptConfigInvalidSchema) => {
             const { errors, prettifiedErrors, resource } = fetchEnd;
 
-            debug(`parse::typescript-config::error::schema received`);
+            debug(`parse::error::typescript-config::schema received`);
 
             for (let i = 0; i < errors.length; i++) {
                 const message = prettifiedErrors[i];
@@ -55,9 +55,9 @@ export default class TypeScriptConfigIsValid implements IHint {
             }
         };
 
-        context.on('parse::typescript-config::error::json', invalidJSONFile);
-        context.on('parse::typescript-config::error::circular', invalidJSONFile);
-        context.on('parse::typescript-config::error::extends', invalidJSONFile);
-        context.on('parse::typescript-config::error::schema', invalidSchema);
+        context.on('parse::error::typescript-config::json', invalidJSONFile);
+        context.on('parse::error::typescript-config::circular', invalidJSONFile);
+        context.on('parse::error::typescript-config::extends', invalidJSONFile);
+        context.on('parse::error::typescript-config::schema', invalidSchema);
     }
 }

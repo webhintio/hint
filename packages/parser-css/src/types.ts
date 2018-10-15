@@ -14,5 +14,6 @@ export type StyleParse = Event & {
 };
 
 export type StyleEvents = Events & {
-    'parse::css::end': StyleParse;
+    'parse::end::css': StyleParse;
+    'parse::start::css': Event;
 };

@@ -34,13 +34,15 @@ test.serial('We should provide a correct AST when parsing CSS.', async (t) => {
 
     await t.context.engine.emitAsync('element::style', { element });
 
-    const args = t.context.engine.emitAsync.args[1];
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::start::css');
+
+    const args = t.context.engine.emitAsync.args[2];
     const data= args[1] as StyleParse;
     const root = data.ast;
     const rule = root.first as Rule;
     const declaration = rule.first as Declaration;
 
-    t.is(args[0], 'parse::css::end');
+    t.is(args[0], 'parse::end::css');
     t.is(rule.selector, '.foo');
     t.is(declaration.prop, 'color');
     t.is(declaration.value, '#fff');

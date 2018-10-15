@@ -62,6 +62,6 @@ export default class MinifiedJsHint implements IHint {
             }
         };
 
-        context.on('parse::javascript::end', validateContentMinified);
+        context.on('parse::end::javascript', validateContentMinified);
     }
 }

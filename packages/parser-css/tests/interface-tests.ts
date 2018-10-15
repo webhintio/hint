@@ -38,7 +38,7 @@ test.serial('If a style tag is not CSS, then nothing should happen', async (t) =
     sandbox.restore();
 });
 
-test.serial('If a style tag is inline CSS, then we should parse the stylesheet and emit a parse::css::end event', async (t) => {
+test.serial('If a style tag is inline CSS, then we should parse the stylesheet and emit a parse::end::css event', async (t) => {
     const sandbox = sinon.createSandbox();
     const parseObject = {};
     const code = '.foo { color: #fff }';
@@ -59,18 +59,18 @@ test.serial('If a style tag is inline CSS, then we should parse the stylesheet a
     t.is(t.context.element.getAttribute.args[0][0], 'type');
     t.true(t.context.postcss.parse.calledOnce);
     t.is(t.context.postcss.parse.args[0][0], code);
-    t.true(t.context.engine.emitAsync.calledTwice);
+    t.true(t.context.engine.emitAsync.calledThrice);
 
-    const args = t.context.engine.emitAsync.args[1];
+    const args = t.context.engine.emitAsync.args[2];
 
-    t.is(args[0], 'parse::css::end');
+    t.is(args[0], 'parse::end::css');
     t.is(args[1].code, code);
     t.is(args[1].resource, 'Inline CSS');
 
     sandbox.restore();
 });
 
-test.serial('If fetch::end::css is received, then we should parse the stylesheet and emit a parse::css::end event', async (t) => {
+test.serial('If fetch::end::css is received, then we should parse the stylesheet and emit a parse::end::css event', async (t) => {
     const sandbox = sinon.createSandbox();
     const parseObject = {};
     const code = '.foo { color: #fff }';
@@ -89,11 +89,11 @@ test.serial('If fetch::end::css is received, then we should parse the stylesheet
 
     t.true(t.context.postcss.parse.calledOnce);
     t.is(t.context.postcss.parse.args[0][0], code);
-    t.true(t.context.engine.emitAsync.calledTwice);
+    t.true(t.context.engine.emitAsync.calledThrice);
 
-    const args = t.context.engine.emitAsync.args[1];
+    const args = t.context.engine.emitAsync.args[2];
 
-    t.is(args[0], 'parse::css::end');
+    t.is(args[0], 'parse::end::css');
     t.is(args[1].code, code);
     t.is(args[1].resource, 'styles.css');
 
