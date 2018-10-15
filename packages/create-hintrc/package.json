@@ -10,7 +10,7 @@
     "create-hintrc": "./dist/src/create-hintrc.js"
   },
   "dependencies": {
-    "browserslist": "^4.2.0",
+    "browserslist": "^4.2.1",
     "encoding": "^0.1.12"
   },
   "description": "webhint's configuration file initializer package",
