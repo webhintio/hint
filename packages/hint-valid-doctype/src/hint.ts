@@ -75,6 +75,17 @@ export default class implements IHint {
             }
         };
 
+        const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement, content: string) => {
+            debug(`Checking that there is only one doctype tag in the document`);
+
+            const matched = content.match(doctypeRegexFactory('gi'))
+
+            if (matched.length > 1) {
+                await context.report(resource, element, `There is more than one doctype tag in the document`);
+                return;
+            }
+        };
+
         const onFetchEndHTML = async (fetchEnd: FetchEnd) => {
             const { resource, element, response } = fetchEnd;
 
@@ -92,9 +103,10 @@ export default class implements IHint {
             if (!await checkDoctypeIsValid(resource, element, content)) {
                 return;
             }
-
+   
             await checkDoctypeFirstLine(resource, element, content);
             await checkDoctypeLowercase(resource, element, content);
+            await checkNoDuplicateDoctype(resource, element, content);
         };
 
         context.on('fetch::end::html', onFetchEndHTML);
