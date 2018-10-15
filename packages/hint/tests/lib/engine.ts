@@ -185,7 +185,7 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't
     t.true(FakeDisallowedHint.called);
     t.true(FakeManifestHint.called);
     t.true(t.context.eventemitter.prototype.on.calledTwice);
-    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
+    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end::*');
     t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
 
     t.context.eventemitter.prototype.on.restore();
