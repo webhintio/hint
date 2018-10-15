@@ -39,7 +39,7 @@
     "valid-doctype-hint"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/index.js",
+  "main": "dist/src/hint.js",
   "name": "@hint/hint-valid-doctype",
   "nyc": {
     "extends": "../../.nycrc"
