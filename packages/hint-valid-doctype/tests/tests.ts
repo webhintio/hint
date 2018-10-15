@@ -7,7 +7,7 @@ const hintPath = getHintPath(__filename);
 const tests: Array<HintTest> = [
     {
         name: 'HTML with no content should fail',
-        reports: [{ message: `Content has no body.` }],
+        reports: [{ message: `Content has no body` }],
         serverConfig: {
             '/': {
                 content: '',
@@ -17,7 +17,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype not found should fail',
-        reports: [{ message: `The file does not contain a doctype tag.` }],
+        reports: [{ message: `The file does not contain a doctype tag` }],
         serverConfig: {
             '/': {
                 content: `<head>
@@ -68,6 +68,29 @@ const tests: Array<HintTest> = [
         serverConfig: {
             '/': {
                 content: `<!doctype html>`,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype appearing more than once should fail',
+        reports: [{ message: `There is more than one doctype tag in the document` }],
+        serverConfig: {
+            '/': {
+                content: `<!doctype html>
+                <p></p>
+                <!doctype html>`,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype appearing only once should pass',
+        serverConfig: {
+            '/': {
+                content: `<!doctype html>
+                <p></p>
+                <!doctype html>`,
                 headers: { 'Content-Type': 'text/html' }
             }
         }
