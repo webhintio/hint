@@ -36,7 +36,7 @@ const generateHTMLPageData = (content: string) => {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const testsForDefaults: Array<HintTest> = [
+const testsForDefaults: HintTest[] = [
 
     // No `Content-Type` header.
 
@@ -298,7 +298,7 @@ const testsForDefaults: Array<HintTest> = [
     }
 ];
 
-const testsForConfigs: Array<HintTest> = [
+const testsForConfigs: HintTest[] = [
     {
         name: `Script is served with 'Content-Type' header with the correct media type but wrong because of the custom config`,
         reports: [{ message: generateRequireValueErrorMessage('application/javascript') }],

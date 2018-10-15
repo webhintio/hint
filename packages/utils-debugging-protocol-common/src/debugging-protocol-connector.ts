@@ -61,7 +61,7 @@ export class Connector implements IConnector {
     /** The DOM abstraction on top of adapter. */
     private _dom: CDPAsyncHTMLDocument | undefined;
     /** A collection of requests with their initial data. */
-    private _pendingResponseReceived: Array<Function>;
+    private _pendingResponseReceived: Function[];
     /** List of all the tabs used by the connector. */
     private _tabs: any[] = [];
     /** The amount of time before an event is going to be timedout. */
@@ -110,9 +110,9 @@ export class Connector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    private async getElementFromParser(parts: Array<string>, dom: CDPAsyncHTMLDocument): Promise<AsyncHTMLElement | null> {
+    private async getElementFromParser(parts: string[], dom: CDPAsyncHTMLDocument): Promise<AsyncHTMLElement | null> {
         let basename: string | null = null;
-        let elements: Array<AsyncHTMLElement> = [];
+        let elements: AsyncHTMLElement[] = [];
 
         while (parts.length > 0) {
             basename = !basename ? parts.pop()! : `${parts.pop()}/${basename}`;
@@ -133,7 +133,7 @@ export class Connector implements IConnector {
                 decodeBasename = basename;
             }
             const query: string = `[src$="${basename}" i],[href$="${basename}" i],[src$="${decodeBasename}" i],[href$="${decodeBasename}" i]`;
-            const newElements: Array<AsyncHTMLElement> = await dom.querySelectorAll(query);
+            const newElements: AsyncHTMLElement[] = await dom.querySelectorAll(query);
 
             if (newElements.length === 0) {
                 if (elements.length > 0) {
@@ -176,7 +176,7 @@ export class Connector implements IConnector {
          * to find the element. There is no need to validate if the URL
          * is valid or not.
          */
-        const parts: Array<string> = requestUrl.split('/');
+        const parts: string[] = requestUrl.split('/');
 
         /*
          * TODO: Check what happens with prefetch, etc.
@@ -255,7 +255,7 @@ export class Connector implements IConnector {
 
         const element: IAsyncHTMLElement | null = (await this.getElementFromRequest(params.requestId, this._dom));
         const eventName = 'fetch::error';
-        const hops: Array<string> = requestResponse.hops;
+        const hops: string[] = requestResponse.hops;
 
         const event: FetchError = {
             element,
@@ -269,7 +269,7 @@ export class Connector implements IConnector {
 
     private async emitFetchEnd(requestResponse: RequestResponse, dom: CDPAsyncHTMLDocument | null) {
         const resourceUrl: string = requestResponse.finalUrl;
-        const hops: Array<string> = requestResponse.hops;
+        const hops: string[] = requestResponse.hops;
         const originalUrl: string = hops[0] || resourceUrl;
 
         let element = null;
@@ -389,7 +389,7 @@ export class Connector implements IConnector {
         await requestResponse.updateLoadingFinished(params);
 
         const resourceUrl: string = requestResponse.finalUrl;
-        const hops: Array<string> = requestResponse.hops;
+        const hops: string[] = requestResponse.hops;
         const originalUrl: string = hops[0] || resourceUrl;
 
         const isTarget: boolean = this._href === originalUrl;
@@ -419,7 +419,7 @@ export class Connector implements IConnector {
          *
          * 10: `HTML` with no children
          */
-        const ignoredNodeTypes: Array<number> = [10];
+        const ignoredNodeTypes: number[] = [10];
 
         if (ignoredNodeTypes.includes(element.nodeType)) {
             return;
@@ -933,7 +933,7 @@ export class Connector implements IConnector {
         });
     }
 
-    public querySelectorAll(selector: string): Promise<Array<AsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<AsyncHTMLElement[]> {
         if (!this._dom) {
             return Promise.resolve([]);
         }

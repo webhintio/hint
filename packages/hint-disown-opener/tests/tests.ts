@@ -9,11 +9,11 @@ import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
 const hintPath = getHintPath(__filename);
 
-const generateMissingMessage = (value: string, linkTypes: Array<string>): string => {
+const generateMissingMessage = (value: string, linkTypes: string[]): string => {
     return `'${cutString(value, 100)}' should have 'rel' attribute value include ${prettyPrintArray(linkTypes)} ${linkTypes.length === 1 ? 'keyword' : 'keywords'}.`;
 };
 
-const testsForOldBrowsers: Array<HintTest> = [
+const testsForOldBrowsers: HintTest[] = [
 
     // No 'target="_blank"'
 
@@ -162,7 +162,7 @@ const testsForOldBrowsers: Array<HintTest> = [
     }
 ];
 
-const testsWithFullSupportBrowsers: Array<HintTest> = [
+const testsWithFullSupportBrowsers: HintTest[] = [
     {
         name: `'a' with 'href="https://example.com"' has 'target="_blank"', and 'noopener' is supported by all targeted browsers`,
         reports: [{ message: generateMissingMessage('<a href="https://example.com" id="test" class="t … test4 test5 test5 test6" target="_blank">test</a>', ['noopener']) }],
@@ -174,7 +174,7 @@ const testsWithFullSupportBrowsers: Array<HintTest> = [
     }
 ];
 
-const testsForIncludeSameOriginURLsConfig: Array<HintTest> = [
+const testsForIncludeSameOriginURLsConfig: HintTest[] = [
     {
         name: `'a' with 'href=""' has 'target="_blank"'`,
         reports: [{ message: generateMissingMessage('<a href="" target="_blank">test</a>', ['noopener', 'noreferrer']) }],

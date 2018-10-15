@@ -19,5 +19,5 @@ export interface IFormatterConstructor {
 
 /** A format function that will output the results obtained by hint */
 export interface IFormatter {
-    format(problems: Array<Problem>, target?: string, options?: FormatterOptions): void;
+    format(problems: Problem[], target?: string, options?: FormatterOptions): void;
 }

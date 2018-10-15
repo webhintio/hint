@@ -19,7 +19,7 @@ const generateResponse = (content: Buffer, type: string): Object => {
     };
 };
 
-const testsHTTPS: Array<HintTest> = [
+const testsHTTPS: HintTest[] = [
     {
         name: 'HTML page with no resources over HTTPS passes',
         serverConfig: generateHTMLPage()

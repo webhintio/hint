@@ -58,7 +58,7 @@ export default class NoBrokenLinksHint implements IHint {
         const fetchedURLs: any[] = [];
 
         /** Returns an array with all the URLs in the given `srcset` attribute or an empty string if none. */
-        const parseSrcSet = (srcset: string | null): Array<string> => {
+        const parseSrcSet = (srcset: string | null): string[] => {
             if (!srcset) {
                 return [];
             }
@@ -130,9 +130,9 @@ export default class NoBrokenLinksHint implements IHint {
          */
         const collectElementSrcs = (traverseElement: ElementFound): void => {
             const { element } = traverseElement;
-            const simpleAttributes: Array<string> = ['src', 'poster', 'data', 'href'];
+            const simpleAttributes: string[] = ['src', 'poster', 'data', 'href'];
 
-            const urls: Array<string> = simpleAttributes.reduce((found: Array<string>, attribute: string) => {
+            const urls: string[] = simpleAttributes.reduce((found: string[], attribute: string) => {
                 const value: string | null = element.getAttribute(attribute);
 
                 if (value) {
@@ -142,7 +142,7 @@ export default class NoBrokenLinksHint implements IHint {
                 return found;
             }, []);
 
-            const srcset: Array<string> = parseSrcSet(element.getAttribute('srcset'));
+            const srcset: string[] = parseSrcSet(element.getAttribute('srcset'));
 
             if (srcset.length > 0) {
                 urls.push(...srcset);
@@ -161,13 +161,13 @@ export default class NoBrokenLinksHint implements IHint {
 
         const createResourceURL = async (resource: string) => {
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const baseTags: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('base');
+            const baseTags: IAsyncHTMLElement[] = await pageDOM.querySelectorAll('base');
             const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
 
             return (hrefAttribute === null) ? new URL(resource) : new URL(hrefAttribute, new URL(resource));
         };
 
-        const createReports = (element: IAsyncHTMLElement, urls: Array<string>, resourceURL: URL): Array<Promise<void>> => {
+        const createReports = (element: IAsyncHTMLElement, urls: string[], resourceURL: URL): Promise<void>[] => {
             return urls.map((url) => {
                 let fullURL: string;
 
@@ -215,7 +215,7 @@ export default class NoBrokenLinksHint implements IHint {
         const validateCollectedURLs = async (event: TraverseEnd) => {
             const resourceURL = await createResourceURL(event.resource);
 
-            const reports: Array<Promise<void>> = collectedElementsWithURLs.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
+            const reports: Promise<void>[] = collectedElementsWithURLs.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
                 return [...accumulatedReports, ...createReports(element, urls, resourceURL)];
             }, []);
 

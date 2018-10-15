@@ -5,7 +5,7 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: `Web app manifest file is not specified, so the hint does not apply and the test should pass`,
         serverConfig: generateHTMLPage('<link rel="stylesheet" href="style.css">')

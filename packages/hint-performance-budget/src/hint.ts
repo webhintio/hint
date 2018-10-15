@@ -63,7 +63,7 @@ export default class PerformanceBudgetHint implements IHint {
     public constructor(context: HintContext) {
 
         /** An array containing all the responses. */
-        const responses: Array<ResourceResponse> = [];
+        const responses: ResourceResponse[] = [];
         /** Set with all the different domains loaded by the site. */
         const uniqueDomains: Set<string> = new Set();
         /** Set with all the different HTTPS domains loaded by the site. */
@@ -247,7 +247,7 @@ export default class PerformanceBudgetHint implements IHint {
         };
 
         /** Calculates the transfer time in seconds for all the given responses with no TCP connection reuse.*/
-        const calculateTransferTimeWithSlowStart = (allResponses: Array<ResourceResponse>, config: NetworkConfig): number => {
+        const calculateTransferTimeWithSlowStart = (allResponses: ResourceResponse[], config: NetworkConfig): number => {
             const totalTime = allResponses.reduce((time, resource) => {
                 const transfertTime = calculateTransferTimeForResource(resource, config);
 

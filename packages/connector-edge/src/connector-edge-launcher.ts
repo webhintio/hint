@@ -101,7 +101,7 @@ export class EdgeLauncher extends Launcher {
         };
     }
 
-    private checkIfRunning(procs: Array<string>): Promise<Array<boolean>> {
+    private checkIfRunning(procs: string[]): Promise<boolean[]> {
         return new Promise((resolve, reject) => {
             const cmd = spawn('cmd');
             let out: (string | Buffer)[] = [];

@@ -24,7 +24,7 @@ const generateInvalidValueMessage = (value: string = '') => {
 
 // Tests.
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: `HTML page is served without 'X-Content-Type-Options' header`,
         serverConfig: { '/': '' }

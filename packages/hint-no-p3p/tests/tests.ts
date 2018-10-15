@@ -7,7 +7,7 @@ const hintPath = getHintPath(__filename);
 
 const message = 'P3P should not be used as it is deprecated.';
 
-const testsForDefaults: Array<HintTest> = [
+const testsForDefaults: HintTest[] = [
     {
         name: `HTML and JS with P3P headers should fail`,
         reports: [{ message }, { message }],

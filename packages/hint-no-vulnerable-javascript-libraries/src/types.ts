@@ -17,15 +17,15 @@ export type Vulnerability = {
     severity: string;
     semver: any;
     vulnerable: string;
-    credit: Array<string>;
+    credit: string[];
     CVSSv3: string;
     disclosureTime: string; // Should be a date time, but we don't hydrate that from JSON.
-    patches: Array<string>;
+    patches: string[];
     publicationTime: string; // Should be a date time, but we don't hydrate that from JSON.
     modificationTime: string; // Should be a date time, but we don't hydrate that from JSON.
     creationTime: string; // Should be a date time, but we don't hydrate that from JSON.
     id: string;
     packageName: string;
     cvssScore: number;
-    alternativeIds: Array<string>;
+    alternativeIds: string[];
 };

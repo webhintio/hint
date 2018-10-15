@@ -34,7 +34,7 @@ const results = {
     nohttps: { endpoints: [{ details: { protocols: [] } }] }
 };
 
-const testsForDefaults: Array<HintTest> = [
+const testsForDefaults: HintTest[] = [
     {
         name: `Site with with A+ grade passes`,
         serverUrl: 'https://example.com',
@@ -63,7 +63,7 @@ const testsForDefaults: Array<HintTest> = [
     }
 ];
 
-const testsForConfigs: Array<HintTest> = [
+const testsForConfigs: HintTest[] = [
     {
         name: `Site with A+ grade passes with A+ minimum`,
         serverUrl: 'https://example.com',
@@ -92,7 +92,7 @@ const testsForConfigs: Array<HintTest> = [
     }
 ];
 
-const testsForErrors: Array<HintTest> = [
+const testsForErrors: HintTest[] = [
     {
         name: 'Issue gettings results from SSL Labs reports error',
         reports: [{ message: `Could not get results from SSL Labs for 'https://example.com/'.` }],

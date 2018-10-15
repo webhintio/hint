@@ -55,7 +55,7 @@ const messages = (cookieName: string = 'cookiename'): { [key: string]: string } 
     };
 };
 
-const defaultTests: Array<HintTest> = [
+const defaultTests: HintTest[] = [
     {
         name: `Standard set-cookie header`,
         serverConfig: { '/': { headers: standardHeader } }

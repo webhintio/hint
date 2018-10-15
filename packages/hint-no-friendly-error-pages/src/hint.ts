@@ -58,8 +58,8 @@ export default class NoFriendlyErrorPagesHint implements IHint {
          * https://blogs.msdn.microsoft.com/ieinternals/2010/08/18/friendly-http-error-pages/
          */
 
-        const statusCodesWith256Threshold: Array<number> = [403, 405, 410];
-        const statusCodesWith512Threshold: Array<number> = [400, 404, 406, 408, 409, 500, 501, 505];
+        const statusCodesWith256Threshold: number[] = [403, 405, 410];
+        const statusCodesWith512Threshold: number[] = [400, 404, 406, 408, 409, 500, 501, 505];
 
         const checkForErrorPages = (fetchEnd: FetchEnd) => {
             const { resource, response }: { resource: string, response: Response } = fetchEnd;

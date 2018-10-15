@@ -49,7 +49,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
          *when testing the hint and `import` doesn't work here.
          */
         const cloudinary = require('cloudinary');
-        let uploads: Array<Promise<cloudinaryResult | null>> = [];
+        let uploads: Promise<cloudinaryResult | null>[] = [];
         let configured = false;
         let sizeThreshold = 0;
 

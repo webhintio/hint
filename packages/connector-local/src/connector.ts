@@ -50,7 +50,7 @@ export default class LocalConnector implements IConnector {
     private _options: any;
     private engine: Engine<HTMLEvents>;
     private _href: string = '';
-    private filesPattern: Array<string>;
+    private filesPattern: string[];
     private watcher: chokidar.FSWatcher | null = null;
 
     public constructor(engine: Engine<HTMLEvents>, config: object) {
@@ -66,7 +66,7 @@ export default class LocalConnector implements IConnector {
      * Private methods
      * ------------------------------------------------------------------------------
      */
-    private getFilesPattern(): Array<string> {
+    private getFilesPattern(): string[] {
         const pattern = this._options.pattern;
 
         if (!pattern) {
@@ -116,7 +116,7 @@ export default class LocalConnector implements IConnector {
             const rawList = await readFileAsync(path.join(process.cwd(), '.gitignore'));
             const splitList = rawList.split('\n');
 
-            const result = splitList.reduce((total: Array<string>, ignore: string) => {
+            const result = splitList.reduce((total: string[], ignore: string) => {
                 const value: string = ignore.trim();
 
                 /* istanbul ignore if */
@@ -355,7 +355,7 @@ export default class LocalConnector implements IConnector {
     }
 
     /* istanbul ignore next */
-    public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
         return this._window ? this._window.document.querySelectorAll(selector) : Promise.resolve([]);
     }
 

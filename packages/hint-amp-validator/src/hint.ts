@@ -36,7 +36,7 @@ export default class AmpValidatorHint implements IHint {
     public constructor(context: HintContext) {
         let validPromise: Promise<amphtmlValidator.Validator>;
         const errorsOnly = context.hintOptions && context.hintOptions['errors-only'] || false;
-        let events: Array<FetchEnd> = [];
+        let events: FetchEnd[] = [];
 
         const onFetchEndHTML = (fetchEnd: FetchEnd) => {
             const { response: { body: { content }, statusCode } } = fetchEnd;

@@ -59,25 +59,25 @@ export type ConnectorConfig = {
 
 export type IgnoredUrl = {
     domain: string;
-    hints: Array<string>;
+    hints: string[];
 };
 
 export type UserConfig = {
     connector?: ConnectorConfig | string;
-    extends?: Array<string>;
-    parsers?: Array<string>;
-    hints?: HintsConfigObject | Array<[HintSeverity, HintConfig]>;
-    browserslist?: string | Array<string>;
+    extends?: string[];
+    parsers?: string[];
+    hints?: HintsConfigObject | [HintSeverity, HintConfig][];
+    browserslist?: string | string[];
     hintsTimeout?: number;
-    formatters?: Array<string>;
-    ignoredUrls?: Array<IgnoredUrl>;
+    formatters?: string[];
+    ignoredUrls?: IgnoredUrl[];
 };
 
 /** A resource required by hint: Connector, Formatter, Hint. */
 export type Resource = IConnectorConstructor | IFormatterConstructor | IHintConstructor;
 
 export type CLIOptions = {
-    _: Array<string>;
+    _: string[];
     config: string;
     debug: boolean;
     format: string;
@@ -121,8 +121,8 @@ export type NpmMaintainer = {
 export type NpmPackage = {
     date: Date;
     description: string;
-    keywords: Array<string>;
-    maintainers: Array<NpmMaintainer>;
+    keywords: string[];
+    maintainers: NpmMaintainer[];
     name: string;
     version: string;
 };
@@ -138,11 +138,11 @@ export type NpmSearchResults = {
 
 export type HintResources = {
     connector: IConnectorConstructor | null;
-    formatters: Array<IFormatterConstructor>;
-    incompatible: Array<string>;
-    missing: Array<string>;
-    parsers: Array<IParserConstructor>;
-    hints: Array<IHintConstructor>;
+    formatters: IFormatterConstructor[];
+    incompatible: string[];
+    missing: string[];
+    parsers: IParserConstructor[];
+    hints: IHintConstructor[];
 };
 
 /**

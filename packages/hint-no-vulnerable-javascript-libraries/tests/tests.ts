@@ -19,7 +19,7 @@ const knockout = fs.readFileSync(require.resolve('knockout/dist/knockout.js'), '
 const moment = fs.readFileSync(require.resolve('moment/moment.js'), 'utf-8');
 
 
-const defaultTests: Array<HintTest> = [
+const defaultTests: HintTest[] = [
     {
         name: `page with no libraries passes the hint`,
         serverConfig: generateHTMLPage()
@@ -40,7 +40,7 @@ const defaultTests: Array<HintTest> = [
     }
 ];
 
-const userHighConfigTests: Array<HintTest> = [
+const userHighConfigTests: HintTest[] = [
     {
         name: `page with a library with vulnerabilities medium or lower passes if configured severity is "high"`,
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
@@ -52,7 +52,7 @@ const userHighConfigTests: Array<HintTest> = [
     }
 ];
 
-const userMediumConfigTests: Array<HintTest> = [
+const userMediumConfigTests: HintTest[] = [
     {
         name: `page with a library with vulnerabilities medium fails if configured severity is "medium"`,
         reports: [{ message: `'jQuery@2.1.4' has 1 known vulnerability (1 medium). See 'https://snyk.io/vuln/npm:jquery' for more information.` }],

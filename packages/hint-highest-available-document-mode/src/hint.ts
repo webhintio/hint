@@ -50,7 +50,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getXUACompatibleMetaElements = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
+        const getXUACompatibleMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
             return elements.filter((element: IAsyncHTMLElement) => {
                 return (element.getAttribute('http-equiv') !== null &&
                     normalizeString(element.getAttribute('http-equiv')) === 'x-ua-compatible');
@@ -105,7 +105,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
         const checkMetaElement = async (resource: string) => {
 
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const XUACompatibleMetaElements: Array<IAsyncHTMLElement> = getXUACompatibleMetaElements(await pageDOM.querySelectorAll('meta'));
+            const XUACompatibleMetaElements: IAsyncHTMLElement[] = getXUACompatibleMetaElements(await pageDOM.querySelectorAll('meta'));
 
             /*
              * By default, if the user did not request the meta
@@ -159,7 +159,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
              *   https://msdn.microsoft.com/en-us/library/jj676915.aspx
              */
 
-            const headElements: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('head *');
+            const headElements: IAsyncHTMLElement[] = await pageDOM.querySelectorAll('head *');
             let metaElementIsBeforeRequiredElements: boolean = true;
 
             for (const headElement of headElements) {
@@ -178,7 +178,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
 
             // * it's specified in the `<body>`.
 
-            const bodyMetaElements: Array<IAsyncHTMLElement> = getXUACompatibleMetaElements(await pageDOM.querySelectorAll('body meta'));
+            const bodyMetaElements: IAsyncHTMLElement[] = getXUACompatibleMetaElements(await pageDOM.querySelectorAll('body meta'));
 
             if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(XUACompatibleMetaElement)) {
                 await context.report(resource, XUACompatibleMetaElement, `'x-ua-compatible' meta element should be specified in the '<head>', not '<body>'.`);

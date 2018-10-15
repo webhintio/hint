@@ -35,7 +35,7 @@ export type FetchError = Event & {
     /** The error found. */
     error: any;
     /** The redirects performed for the url. */
-    hops: Array<string>;
+    hops: string[];
 };
 
 /** The object emitted on `fetch::start::*`. */

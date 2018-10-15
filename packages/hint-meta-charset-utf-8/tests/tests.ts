@@ -15,7 +15,7 @@ const metaElementIsNotInHeadErrorMessage = `'charset' meta element should be spe
 const metaElementIsNotNeededErrorMessage = `'charset' meta element is not needed as one was already specified.`;
 const metaElementNotSpecifiedErrorMessage = `'charset' meta element was not specified.`;
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: `'charset' meta element is not specified`,
         reports: [{ message: metaElementNotSpecifiedErrorMessage }],

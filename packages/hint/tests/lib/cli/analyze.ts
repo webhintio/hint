@@ -238,7 +238,7 @@ test.serial('If executeOn returns an error, it should exit with code 1 and call 
         public static called: boolean = false;
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             FakeFormatter.called = true;
             console.log(problems);
         }
@@ -339,7 +339,7 @@ test.serial('If executeOn returns no errors, it should exit with code 0 and call
         public static called: boolean = false;
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             FakeFormatter.called = true;
             console.log(problems);
         }
@@ -379,7 +379,7 @@ test.serial('If executeOn returns no errors, it should call to spinner.succeed()
         public static called: boolean = false;
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             FakeFormatter.called = true;
             console.log(problems);
         }
@@ -418,7 +418,7 @@ test.serial('Event fetch::start should write a message in the spinner', async (t
         public static called: boolean = false;
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             FakeFormatter.called = true;
             console.log(problems);
         }
@@ -458,7 +458,7 @@ test.serial('Event fetch::end should write a message in the spinner', async (t) 
         public static called: boolean = false;
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             FakeFormatter.called = true;
             console.log(problems);
         }
@@ -503,7 +503,7 @@ test.serial('Event fetch::end::html should write a message in the spinner', asyn
         public static called: boolean = false;
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             FakeFormatter.called = true;
             console.log(problems);
         }
@@ -548,7 +548,7 @@ test.serial('Event traverse::up should write a message in the spinner', async (t
         public static called: boolean = false;
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             FakeFormatter.called = true;
             console.log(problems);
         }
@@ -591,7 +591,7 @@ test.serial('Event traverse::end should write a message in the spinner', async (
         public static called: boolean = false;
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             FakeFormatter.called = true;
             console.log(problems);
         }
@@ -631,7 +631,7 @@ test.serial('Event scan::end should write a message in the spinner', async (t) =
         public static called: boolean = false;
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             FakeFormatter.called = true;
             console.log(problems);
         }

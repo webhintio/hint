@@ -671,7 +671,7 @@ test.serial('formatter should return the formatter configured', (t) => {
     class FakeFormatter implements IFormatter {
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             console.log(problems);
         }
     }

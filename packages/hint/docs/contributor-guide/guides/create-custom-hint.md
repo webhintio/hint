@@ -247,7 +247,7 @@ const footer = {
     wrongTextInFooter: `<footer>(c) webhint</footer>`
 };
 
-const defaultTests: Array<HintTest> = [
+const defaultTests: HintTest[] = [
     {
         name: `Footer exists and it contains '(c) webhint'`,
         serverConfig: generateHTMLPage('', footer.noProblem)

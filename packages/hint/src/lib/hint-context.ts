@@ -23,7 +23,7 @@ import { Category } from './enums/category';
 /** Acts as an abstraction layer between hints and the main hint object. */
 export class HintContext<E extends Events = Events> {
     private id: string
-    private options: Array<any>
+    private options: any[]
     private meta: HintMetadata
     private severity: Severity
     private engine: Engine<E>
@@ -55,7 +55,7 @@ export class HintContext<E extends Events = Events> {
     }
 
     /** List of browsers to target as specified by the hint configuration. */
-    public get targetedBrowsers(): Array<string> {
+    public get targetedBrowsers(): string[] {
         return this.engine.targetedBrowsers;
     }
 
@@ -84,7 +84,7 @@ export class HintContext<E extends Events = Events> {
         return this.engine.fetchContent(target, headers);
     }
 
-    public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
         return this.engine.querySelectorAll(selector);
     }
 

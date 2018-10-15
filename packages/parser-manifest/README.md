@@ -88,9 +88,9 @@ is not valid according to the schema.
 ```ts
 export type ManifestInvalidSchema = FetchEnd & {
     /** The parse errors as returned by ajv. */
-    errors: Array<ajv.ErrorObject>;
+    errors: ajv.ErrorObject[];
     /** The errors in a more human readable format. */
-    prettifiedErrors: Array<string>;
+    prettifiedErrors: string[];
 };
 
 ```

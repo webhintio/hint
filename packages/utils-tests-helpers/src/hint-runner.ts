@@ -60,7 +60,7 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
 };
 
 /** Validates that the results from the execution match the expected ones. */
-const validateResults = (t: GenericTestContext<Context<any>>, results: Array<Problem>, reports: Array<Report> | undefined) => {
+const validateResults = (t: GenericTestContext<Context<any>>, results: Problem[], reports: Report[] | undefined) => {
     const server = t.context.server || {};
 
     if (!reports) {
@@ -89,7 +89,7 @@ const validateResults = (t: GenericTestContext<Context<any>>, results: Array<Pro
 };
 
 /** Executes all the tests from `hintTests` in the hint whose id is `hintId` */
-export const testHint = (hintId: string, hintTests: Array<HintTest>, configs: { [key: string]: any } = {}) => {
+export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key: string]: any } = {}) => {
     /**
      * Because tests are executed asynchronously in ava, we need
      * a different server and hint object for each one
@@ -190,7 +190,7 @@ export const testHint = (hintId: string, hintTests: Array<HintTest>, configs: { 
     });
 };
 
-export const testLocalHint = (hintId: string, hintTests: Array<HintLocalTest>, configs: { [key: string]: any } = {}) => {
+export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], configs: { [key: string]: any } = {}) => {
     const Hint: IHintConstructor = resourceLoader.loadHint(hintId, []);
 
     if (Hint.meta.ignoredConnectors && Hint.meta.ignoredConnectors.includes('local')) {

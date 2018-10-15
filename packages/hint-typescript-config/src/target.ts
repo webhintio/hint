@@ -149,7 +149,7 @@ export default class TypeScriptConfigTarget implements IHint {
         };
 
         /** Transforms a browserslist array into an object with the minimum versions of each one */
-        const toMiniumBrowser = (targetedBrowsers: Array<string>) => {
+        const toMiniumBrowser = (targetedBrowsers: string[]) => {
             const configuration = targetedBrowsers.reduce((config, browserVersion) => {
                 // The format in the array is "browser version". E.g.: "firefox 52"
                 const [browser, strVersion] = browserVersion.split(' ');

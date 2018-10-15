@@ -13,9 +13,9 @@ export type HintMetadata = {
     /** The id of the hint */
     id: string;
     /** List of connectors that should not run the hint */
-    ignoredConnectors?: Array<string>;
+    ignoredConnectors?: string[];
     /** The schema the hint configuration must follow in order to be valid */
-    schema: Array<any>; // TODO: this shouldn't be an Array of any
+    schema: any[]; // TODO: this shouldn't be an Array of any
     /** The scope of the hints (local, site, any) */
     scope: HintScope;
 };

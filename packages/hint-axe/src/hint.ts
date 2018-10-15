@@ -97,7 +97,7 @@ export default class AxeHint implements IHint {
 
         const getElement = async (node: AxeNodeResult): Promise<IAsyncHTMLElement> => {
             const selector: string = node.target[0];
-            const elements: Array<IAsyncHTMLElement> = await context.querySelectorAll(selector);
+            const elements: IAsyncHTMLElement[] = await context.querySelectorAll(selector);
 
             return elements[0];
         };
@@ -143,7 +143,7 @@ export default class AxeHint implements IHint {
                 return;
             }
 
-            const reportPromises: Array<Promise<void>> = result.violations.reduce((promises: Array<Promise<void>>, violation: AxeResult) => {
+            const reportPromises: Promise<void>[] = result.violations.reduce((promises: Promise<void>[], violation: AxeResult) => {
 
                 const elementPromises = violation.nodes.map(async (node: AxeNodeResult) => {
                     const element = await getElement(node);

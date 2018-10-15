@@ -38,7 +38,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
         });
     }
 
-    private getHTMLChildren(children: Array<Crdp.DOM.Node>) {
+    private getHTMLChildren(children: Crdp.DOM.Node[]) {
         return children.find((item) => {
             return item.nodeType === 1 && item.nodeName === 'HTML';
         });
@@ -50,7 +50,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
      * ------------------------------------------------------------------------------
      */
 
-    public async querySelectorAll(selector: string): Promise<Array<AsyncHTMLElement>> {
+    public async querySelectorAll(selector: string): Promise<AsyncHTMLElement[]> {
         let nodeIds;
 
         try {
@@ -61,7 +61,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
             return [];
         }
 
-        const nodes: Array<AsyncHTMLElement> = [];
+        const nodes: AsyncHTMLElement[] = [];
 
         for (let i = 0; i < nodeIds.length; i++) {
             const nodeId = nodeIds[i];
@@ -137,7 +137,7 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
     private _ownerDocument: CDPAsyncHTMLDocument;
     private _DOM: Crdp.DOMClient;
     private _outerHTML: string = '';
-    private _attributesArray: Array<{ name: string; value: string; }> = [];
+    private _attributesArray: { name: string; value: string; }[] = [];
     private _attributesMap: Map<string, string> = new Map();
 
     public constructor(htmlelement: Crdp.DOM.Node, ownerDocument: CDPAsyncHTMLDocument, DOM: Crdp.DOMClient) {

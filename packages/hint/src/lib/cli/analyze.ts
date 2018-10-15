@@ -139,7 +139,7 @@ const showMissingAndIncompatiblePackages = (resources: HintResources) => {
 const askUserToInstallDependencies = async (resources: HintResources): Promise<boolean> => {
     showMissingAndIncompatiblePackages(resources);
 
-    const dependencies: Array<string> = resources.incompatible.concat(resources.missing);
+    const dependencies: string[] = resources.incompatible.concat(resources.missing);
 
     const question: string = `There ${dependencies.length === 1 ? 'is a package' : 'are packages'} from your .hintrc file not installed or with an incompatible version. Do you want us to try to install/update them?`;
 
@@ -278,7 +278,7 @@ export let engine: Engine | null = null;
 /** Analyzes a website if indicated by `actions`. */
 export default async (actions: CLIOptions): Promise<boolean> => {
 
-    const targets: Array<URL> = getAsUris(actions._);
+    const targets: URL[] = getAsUris(actions._);
 
     if (targets.length === 0) {
         return false;
@@ -351,13 +351,13 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         }
     };
 
-    const hasError = (reports: Array<Problem>): boolean => {
+    const hasError = (reports: Problem[]): boolean => {
         return reports.some((result: Problem) => {
             return result.severity === Severity.error;
         });
     };
 
-    const print = async (reports: Array<Problem>, target?: string, scanTime?: number, date?: string): Promise<void> => {
+    const print = async (reports: Problem[], target?: string, scanTime?: number, date?: string): Promise<void> => {
         const formatterOptions: FormatterOptions = {
             config: userConfig || undefined,
             date,
@@ -378,7 +378,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     for (const target of targets) {
         try {
             const scanStart = Date.now();
-            const results: Array<Problem> = await engine.executeOn(target);
+            const results: Problem[] = await engine.executeOn(target);
             const scanEnd = Date.now();
 
             if (hasError(results)) {

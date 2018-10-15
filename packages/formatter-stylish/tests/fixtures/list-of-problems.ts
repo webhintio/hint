@@ -1,7 +1,7 @@
 import { Problem, Severity } from 'hint/dist/src/lib/types';
 import { Category } from 'hint/dist/src/lib/enums/category';
 
-const multipleproblemsandresources: Array<Problem> = [{
+const multipleproblemsandresources: Problem[] = [{
     category: Category.other,
     hintId: 'random-hint',
     location: {
@@ -68,7 +68,7 @@ const multipleproblemsandresources: Array<Problem> = [{
     </a>`
 }];
 
-const noproblems: Array<Problem> = [];
+const noproblems: Problem[] = [];
 
 export {
     multipleproblemsandresources,

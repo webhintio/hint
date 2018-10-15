@@ -68,7 +68,7 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
                 return;
             }
 
-            const modulesFalse = (presets as Array<Array<any>>).filter((preset) => {
+            const modulesFalse = (presets as any[][]).filter((preset) => {
                 return preset.length > 1 && preset[1].modules === false;
             });
 

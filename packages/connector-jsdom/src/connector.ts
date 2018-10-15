@@ -199,7 +199,7 @@ export default class JSDOMConnector implements IConnector {
             try {
                 this._targetNetworkData = await this.fetchContent(target);
             } catch (err) {
-                const hops: Array<string> = this.request.getRedirects(err.uri);
+                const hops: string[] = this.request.getRedirects(err.uri);
                 const fetchError: FetchError = {
                     element: null as any,
                     /* istanbul ignore next */
@@ -406,7 +406,7 @@ export default class JSDOMConnector implements IConnector {
     }
 
     /* istanbul ignore next */
-    public querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<JSDOMAsyncHTMLElement[]> {
         return this._document.querySelectorAll(selector);
     }
 

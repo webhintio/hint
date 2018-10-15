@@ -30,7 +30,7 @@ const install = (command: string) => {
     });
 };
 
-export const installPackages = async (packages: Array<string>): Promise<boolean> => {
+export const installPackages = async (packages: string[]): Promise<boolean> => {
     /** Whether or not the package should be installed as devDependencies. */
     let isDev: boolean = false;
     /** Current working directory. */
@@ -90,14 +90,14 @@ Please try executing:
 };
 
 /** Filters the packages that `startsWith` `initTerm`. */
-const filterPackages = (packages: Array<NpmPackage>, initTerm: string) => {
+const filterPackages = (packages: NpmPackage[], initTerm: string) => {
     return packages.filter((pkg) => {
         return pkg.name.startsWith(initTerm);
     });
 };
 
 /** Get npm packages from the object returned for npmRegistryFetch.json. */
-const getPackages = (result: NpmSearchResults): Array<NpmPackage> => {
+const getPackages = (result: NpmSearchResults): NpmPackage[] => {
     return result.objects.map((obj) => {
         return obj.package;
     });
@@ -111,7 +111,7 @@ const generateSearchQuery = (searchTerm: string, from?: number, size = 100) => {
 /**
  * Searches all the packages in npm given `searchTerm`.
  */
-export const search = async (searchTerm: string): Promise<Array<NpmPackage>> => {
+export const search = async (searchTerm: string): Promise<NpmPackage[]> => {
     const result = await npmRegistryFetch.json(generateSearchQuery(searchTerm)) as NpmSearchResults;
 
     let total = getPackages(result);
@@ -127,7 +127,7 @@ export const search = async (searchTerm: string): Promise<Array<NpmPackage>> => 
 };
 
 /** Get core packages from npm. */
-export const getOfficialPackages = async (type: string): Promise<Array<NpmPackage>> => {
+export const getOfficialPackages = async (type: string): Promise<NpmPackage[]> => {
     const hints = await search(`@hint/${type}`);
 
     /*
@@ -138,7 +138,7 @@ export const getOfficialPackages = async (type: string): Promise<Array<NpmPackag
 };
 
 /** Get external packages from npm. */
-export const getUnnoficialPackages = async (type: string): Promise<Array<NpmPackage>> => {
+export const getUnnoficialPackages = async (type: string): Promise<NpmPackage[]> => {
     const hints = await search(`hint-${type}`);
 
     /*

@@ -35,7 +35,7 @@ const debug = d(__filename);
 
 export default class SummaryFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public format(messages: Array<Problem>) {
+    public format(messages: Problem[]) {
         debug('Formatting results');
 
         if (_.defaultTo(messages.length, 0) === 0) {
@@ -50,10 +50,10 @@ export default class SummaryFormatter implements IFormatter {
             return `${count} ${type}${count === 1 ? '' : 's'}`;
         };
 
-        const tableData: Array<Array<string>> = [];
+        const tableData: string[][] = [];
         let totalErrors: number = 0;
         let totalWarnings: number = 0;
-        const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'hintId');
+        const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'hintId');
         const sortedResources = Object.entries(resources).sort(([hintA, problemsA], [hintB, problemsB]) => {
             if (problemsA.length < problemsB.length) {
                 return -1;
@@ -72,7 +72,7 @@ export default class SummaryFormatter implements IFormatter {
             const warnings = msgsBySeverity[Severity.warning] ? msgsBySeverity[Severity.warning].length : 0;
             const red: typeof chalk = chalk.red;
             const yellow: typeof chalk = chalk.yellow;
-            const line: Array<string> = [chalk.cyan(hintId)];
+            const line: string[] = [chalk.cyan(hintId)];
 
             if (errors > 0) {
                 line.push(red(buildMessage(errors, 'error')));

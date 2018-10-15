@@ -52,13 +52,13 @@ const debug: debug.IDebugger = d(__filename);
 
 export class Engine<E extends Events = Events> extends EventEmitter {
     // TODO: review which ones need to be private or not
-    private parsers: Array<Parser>
+    private parsers: Parser[]
     private hints: Map<string, IHint>
     private connector: IConnector
-    private messages: Array<Problem>
-    private browserslist: Array<string> = [];
-    private ignoredUrls: Map<string, Array<RegExp>>;
-    private _formatters: Array<IFormatter>
+    private messages: Problem[]
+    private browserslist: string[] = [];
+    private ignoredUrls: Map<string, RegExp[]>;
+    private _formatters: IFormatter[]
     private _timeout: number = 60000;
 
     /** The DOM of the loaded page. */
@@ -77,12 +77,12 @@ export class Engine<E extends Events = Events> extends EventEmitter {
     }
 
     /** The list of targetted browsers. */
-    public get targetedBrowsers(): Array<string> {
+    public get targetedBrowsers(): string[] {
         return this.browserslist;
     }
 
     /** The list of configured formatters. */
-    public get formatters(): Array<IFormatter> {
+    public get formatters(): IFormatter[] {
         return this._formatters;
     }
 
@@ -91,7 +91,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
         return this._timeout;
     }
 
-    private isIgnored(urls: Array<RegExp>, resource: string): boolean {
+    private isIgnored(urls: RegExp[], resource: string): boolean {
         if (!urls) {
             return false;
         }
@@ -146,7 +146,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
          *
          * @param id The id of the hint
          */
-        const getHintConfig = (id: string): HintConfig | Array<HintConfig> => {
+        const getHintConfig = (id: string): HintConfig | HintConfig[] => {
             if (config.hints[id]) {
                 return config.hints[id];
             }
@@ -184,14 +184,14 @@ export class Engine<E extends Events = Events> extends EventEmitter {
             const id = Hint.meta.id;
 
             const ignoreHint = (HintCtor: IHintConstructor): boolean => {
-                const ignoredConnectors: Array<string> = HintCtor.meta.ignoredConnectors || [];
+                const ignoredConnectors: string[] = HintCtor.meta.ignoredConnectors || [];
 
                 return (connectorId === 'local' && HintCtor.meta.scope === HintScope.site) ||
                     (connectorId !== 'local' && HintCtor.meta.scope === HintScope.local) ||
                     ignoredConnectors.includes(connectorId || '');
             };
 
-            const hintOptions: HintConfig | Array<HintConfig> = getHintConfig(id);
+            const hintOptions: HintConfig | HintConfig[] = getHintConfig(id);
             const severity: Severity | null = getSeverity(hintOptions);
 
             if (ignoreHint(Hint)) {
@@ -304,7 +304,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
     }
 
     /** Runs all the configured hints on a target */
-    public async executeOn(target: url.URL, options?: IFetchOptions): Promise<Array<Problem>> {
+    public async executeOn(target: url.URL, options?: IFetchOptions): Promise<Problem[]> {
 
         const start: number = Date.now();
 
@@ -317,7 +317,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
         return this.messages;
     }
 
-    public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
         return this.connector.querySelectorAll(selector);
     }
 

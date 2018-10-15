@@ -28,7 +28,7 @@ const html = {
 </div>`)
 };
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: `Page doesn't have any a11y problems and passes`,
         serverConfig: html.noProblems
@@ -48,7 +48,7 @@ const tests: Array<HintTest> = [
     }
 ];
 
-const testsWithCustomConfiguration: Array<HintTest> = [
+const testsWithCustomConfiguration: HintTest[] = [
     {
         name: `Page doesn't have any a11y problems and passes`,
         serverConfig: html.noProblems

@@ -55,11 +55,11 @@ export default class DisownOpenerHint implements IHint {
             includeSameOriginURLs = (context.hintOptions && context.hintOptions.includeSameOriginURLs) || false;
         };
 
-        const checkForRelValues = async (resource: string, element: IAsyncHTMLElement, relValuesToCheckFor: Array<string>) => {
-            const relValues: Array<string> = normalizeString(element.getAttribute('rel'), '')!.split(' '); // `normalizeString` uses passed default ('') instead of null
+        const checkForRelValues = async (resource: string, element: IAsyncHTMLElement, relValuesToCheckFor: string[]) => {
+            const relValues: string[] = normalizeString(element.getAttribute('rel'), '')!.split(' '); // `normalizeString` uses passed default ('') instead of null
             const hrefValue: string = normalizeString(element.getAttribute('href')) || '';
 
-            const requiredValues: Array<string> = relValuesToCheckFor.filter((value) => {
+            const requiredValues: string[] = relValuesToCheckFor.filter((value) => {
                 return !relValues.includes(value);
             });
 
@@ -137,7 +137,7 @@ export default class DisownOpenerHint implements IHint {
              */
 
             const targetedBrowsers: string = context.targetedBrowsers.join();
-            const relValuesToCheckFor: Array<string> = ['noopener'];
+            const relValuesToCheckFor: string[] = ['noopener'];
 
             /*
              * If no browsers were targeted, or `noopener`

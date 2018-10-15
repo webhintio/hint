@@ -5,7 +5,7 @@ import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
 const htmlWithManifestSpecified = generateHTMLPage('<link rel="manifest" href="site.webmanifest">');
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: `Web app manifest is specified without 'name' and 'short_name'`,
         reports: [{ message: `Web app manifest should have 'name' property.` }],

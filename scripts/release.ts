@@ -406,7 +406,7 @@ const prettyPrintCommit = async (commit: Commit): Promise<string> => {
     return `${result}.`;
 };
 
-const generateChangelogSection = async (title: string, tags: Array<string>, commits: Array<Commit>): Promise<string> => {
+const generateChangelogSection = async (title: string, tags: string[], commits: Commit[]): Promise<string> => {
     let result = '';
 
     for (const commit of commits) {

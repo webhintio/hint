@@ -19,7 +19,7 @@ const metaElementNotNeededErrorMessage = `'viewport' meta element is not needed 
 const metaElementNotSpecifiedErrorMessage = `'viewport' meta element was not specified.`;
 const unknownPropertyErrorMessage = `'viewport' meta element 'content' attribute value should not contain unknown property 'x'.`;
 
-const testsForDefaults: Array<HintTest> = [
+const testsForDefaults: HintTest[] = [
     {
         name: `Resource is not an HTML document`,
         serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
@@ -89,7 +89,7 @@ const testsForDefaults: Array<HintTest> = [
     }
 ];
 
-const testsForBrowsersWithOrientationChangeBug: Array<HintTest> = [
+const testsForBrowsersWithOrientationChangeBug: HintTest[] = [
     {
         name: `'viewport' meta element does not have 'initial-scale' required by the targeted browsers`,
         reports: [{ message: initialScaleErrorMessage }],
@@ -97,7 +97,7 @@ const testsForBrowsersWithOrientationChangeBug: Array<HintTest> = [
     }
 ];
 
-const testsForBrowsersWithoutOrientationChangeBug: Array<HintTest> = [
+const testsForBrowsersWithoutOrientationChangeBug: HintTest[] = [
     {
         name: `'viewport' meta element does not have 'initial-scale', but it's not required by the targeted browsers`,
         serverConfig: generateHTMLPage(generateMegaViewport('width=device-width'))

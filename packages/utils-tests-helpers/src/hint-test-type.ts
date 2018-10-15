@@ -16,7 +16,7 @@ export type HintTest = {
     /** The name of the test. */
     name: string;
     /** The expected results of the execution. */
-    reports?: Array<Report>;
+    reports?: Report[];
     /** The configuration `test-server` should use. */
     serverConfig?: any;
     /** The url to `executeOn` if different than `localhost`. */
@@ -33,5 +33,5 @@ export type HintLocalTest = {
     /** The name of the test. */
     name: string;
     /** The expected results of the execution. */
-    reports?: Array<Report>;
+    reports?: Report[];
 };

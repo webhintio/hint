@@ -15,7 +15,7 @@ const hintPath = getHintPath(__filename);
 const bom = fs.readFileSync(`${__dirname}/fixtures/bom.html`); // eslint-disable-line no-sync
 const noBom = fs.readFileSync(`${__dirname}/fixtures/no-bom.html`); // eslint-disable-line no-sync
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: 'HTML with no BOM should pass',
         serverConfig: {

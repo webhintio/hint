@@ -228,7 +228,7 @@ const createBrotliServerConfig = (configs: {}) => {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const testsForBrotli: Array<HintTest> = [
+const testsForBrotli: HintTest[] = [
     {
         name: `Resource is not served compressed with Brotli when Brotli compression is requested`,
         reports: [{ message: generateCompressionMessage('Brotli', false, 'over HTTPS') }],
@@ -274,7 +274,7 @@ const testsForBrotli: Array<HintTest> = [
     }
 ];
 
-const testsForBrotliOverHTTP: Array<HintTest> = [
+const testsForBrotliOverHTTP: HintTest[] = [
     {
         name: `Resource is served compressed with Brotli over HTTP`,
         reports: [{ message: 'Response should not be compressed with Brotli over HTTP.' }],
@@ -293,7 +293,7 @@ const testsForBrotliOverHTTP: Array<HintTest> = [
     }
 ];
 
-const testsForBrotliSmallSize: Array<HintTest> = [
+const testsForBrotliSmallSize: HintTest[] = [
     {
         name: `Resource is served compressed with Brotli when Brotli compression is requested but uncompressed size is smaller the compressed size`,
         reports: [{ message: generateSizeMessage('Brotli', true) }],
@@ -301,7 +301,7 @@ const testsForBrotliSmallSize: Array<HintTest> = [
     }
 ];
 
-const testsForBrotliUASniffing = (): Array<HintTest> => {
+const testsForBrotliUASniffing = (): HintTest[] => {
     const headersConfig = {
         request: {
             headers: {
@@ -328,7 +328,7 @@ const testsForBrotliUASniffing = (): Array<HintTest> => {
     ];
 };
 
-const testsForDefaults = (https: boolean = false): Array<HintTest> => {
+const testsForDefaults = (https: boolean = false): HintTest[] => {
     return [
         {
             name: `Only resources that should be served compressed are served compressed`,
@@ -374,7 +374,7 @@ const testsForDefaults = (https: boolean = false): Array<HintTest> => {
     ];
 };
 
-const testsForDisallowedCompressionMethods = (https: boolean = false): Array<HintTest> => {
+const testsForDisallowedCompressionMethods = (https: boolean = false): HintTest[] => {
     return [
         {
             name: `Compressed resource is served with disallowed 'Content-Encoding: x-gzip' header`,
@@ -423,7 +423,7 @@ const testsForDisallowedCompressionMethods = (https: boolean = false): Array<Hin
     ];
 };
 
-const testsForGzipZopfli = (https: boolean = false): Array<HintTest> => {
+const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
     return [
         {
             name: `Resource is not served compressed with gzip when gzip compression is requested`,
@@ -515,7 +515,7 @@ const testsForGzipZopfli = (https: boolean = false): Array<HintTest> => {
     ];
 };
 
-const testsForGzipZopfliCaching = (https: boolean = false): Array<HintTest> => {
+const testsForGzipZopfliCaching = (https: boolean = false): HintTest[] => {
     return [
         {
             name: `Resource is served compressed with Zopfli and without the 'Vary' or 'Cache-Control' header when gzip compression is requested`,
@@ -578,7 +578,7 @@ const testsForGzipZopfliCaching = (https: boolean = false): Array<HintTest> => {
     ];
 };
 
-const testsForGzipZopfliSmallSize = (https: boolean = false): Array<HintTest> => {
+const testsForGzipZopfliSmallSize = (https: boolean = false): HintTest[] => {
     return [
         {
             name: `Resource is served compressed with gzip when gzip compression is requested but uncompressed size is smaller the compressed size`,
@@ -605,7 +605,7 @@ const testsForGzipZopfliSmallSize = (https: boolean = false): Array<HintTest> =>
     ];
 };
 
-const testsForGzipZopfliUASniffing = (https: boolean = false): Array<HintTest> => {
+const testsForGzipZopfliUASniffing = (https: boolean = false): HintTest[] => {
     const headersConfig = {
         request: {
             headers: {
@@ -647,7 +647,7 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): Array<HintTest> =
     ];
 };
 
-const testsForNoCompression = (https: boolean = false): Array<HintTest> => {
+const testsForNoCompression = (https: boolean = false): HintTest[] => {
     return [
         {
             name: `Resource is served compressed when requested uncompressed`,
@@ -733,7 +733,7 @@ const testsForNoCompression = (https: boolean = false): Array<HintTest> => {
     ];
 };
 
-const testsForSpecialCases = (https: boolean = false): Array<HintTest> => {
+const testsForSpecialCases = (https: boolean = false): HintTest[] => {
     return [
 
         // SVGZ.
@@ -751,7 +751,7 @@ const testsForSpecialCases = (https: boolean = false): Array<HintTest> => {
     ];
 };
 
-const testsForUserConfigs = (encoding: string, isTarget: boolean = true, https: boolean = false): Array<HintTest> => {
+const testsForUserConfigs = (encoding: string, isTarget: boolean = true, https: boolean = false): HintTest[] => {
     const isBrotli = encoding === 'Brotli';
     const isGzip = encoding === 'gzip';
 

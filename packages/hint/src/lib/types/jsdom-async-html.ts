@@ -18,7 +18,7 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
      * ------------------------------------------------------------------------------
      */
     /* istanbul ignore next */
-    public querySelectorAll(selector: string): Promise<Array<JSDOMAsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<JSDOMAsyncHTMLElement[]> {
         // jsdom's `querySelectorAll` can be a bit fragile (e.g.: fails if attribute name has `.` on it)
         try {
             const elements = Array.from(this._document.querySelectorAll(selector))

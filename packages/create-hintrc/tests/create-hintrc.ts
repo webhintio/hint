@@ -92,7 +92,7 @@ test.serial(`initHintrc should install the configuration package if user chooses
         maintainers: [],
         name: '@hint/configuration-recommended',
         version: '1.0.0'
-    }] as Array<NpmPackage>);
+    }] as NpmPackage[]);
 
     const stub = sandbox.stub(npm, 'installPackages').returns(true);
 
@@ -126,7 +126,7 @@ test.serial(`initHintrc shouldn't install the configuration package if user choo
         maintainers: [],
         name: '@hint/configuration-recommended',
         version: '1.0.0'
-    }] as Array<NpmPackage>);
+    }] as NpmPackage[]);
 
     const stub = sandbox.stub(npm, 'installPackages').returns(true);
 
@@ -211,7 +211,7 @@ test.serial(`if instalation of a config package fails, "initHintrc" returns true
         maintainers: [],
         name: '@hint/configuration-recommended',
         version: '1.0.0'
-    }] as Array<NpmPackage>);
+    }] as NpmPackage[]);
 
     sandbox.stub(npm, 'installPackages').returns(false);
     sandbox.stub(resourceLoader, 'getInstalledResources').returns([]);

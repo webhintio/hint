@@ -81,7 +81,7 @@ export default class CustomResourceLoader extends ResourceLoader {
 
                 return resolve(resourceNetworkData.response.body.rawContent);
             } catch (err) {
-                const hops: Array<string> = this._connector.request.getRedirects(err.uri);
+                const hops: string[] = this._connector.request.getRedirects(err.uri);
                 const fetchError: FetchError = {
                     element: element!,
                     error: err.error,
