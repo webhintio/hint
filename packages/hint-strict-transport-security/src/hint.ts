@@ -213,9 +213,7 @@ export default class StrictTransportSecurityHint implements IHint {
                      * If the https resource can't be fetched, add
                      * the domain to the unsupported list
                      */
-                    if (err && err.error && err.error.code === 'ETIMEDOUT') {
-                        unsupportedDomains.add(urlObject.host);
-                    }
+                    unsupportedDomains.add(urlObject.host);
                 }
 
                 return;
