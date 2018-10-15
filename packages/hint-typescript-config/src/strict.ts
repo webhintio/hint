@@ -30,6 +30,6 @@ export default class TypeScriptConfigStrict implements IHint {
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const validate = configChecker('compilerOptions.strict', true, 'The compiler option "strict" should be enabled to reduce type errors.', context);
 
-        context.on('parse::typescript-config::end', validate);
+        context.on('parse::end::typescript-config', validate);
     }
 }

@@ -1,6 +1,26 @@
 import { Event, {{#each eventTypes}}{{this}}, {{/each}}Parser } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
 
+
+/*
+ * Extend `Event` to add information neeeded by hints.
+ * i.e.
+ *    type ManifestParsed = Event & {
+ *        sourceCode: any;
+ *    }
+ */
+export type {{capitalizedName}}Parsed = Event & {
+    // Extend `Event` to add the information you will need in your hints.
+};
+
+/*
+ * Extend `Events` to declare new events emitted by this parser.
+ */
+export type {{capitalizedName}}Events = Events & {
+    'parse::end::{{../normalizedName}}': {{capitalizedName}}Parsed;
+    'parse::start::{{../normalizedName}}': Event;
+};
+
 export default class {{capitalizedName}} extends Parser {
     public constructor(engine: Engine) {
         super(engine);
@@ -12,17 +32,14 @@ export default class {{capitalizedName}} extends Parser {
 
 {{#each events}}
     private async {{handler}}({{varName}}: {{type}}) {
-        /*
-         * You can extend Event to add the information
-         * you will need in you hints.
-         * i.e.
-         *    type ScriptParse = Event & {
-         *        sourceCode: any;
-         *    }
-         */
-        const eventData: Event = {{varName}};
 
-        await this.engine.emitAsync('parse::{{../normalizedName}}', eventData);
+        await this.engine.emitAsync('parse::start::{{../normalizedName}}', { {{varName}}.resource });
+
+        // TODO: Parse the resource.
+
+        const eventData: {{capitalizedName}}Parsed = {{varName}};
+
+        await this.engine.emitAsync('parse::end::{{../normalizedName}}', eventData);
     }
 {{/each}}
 }

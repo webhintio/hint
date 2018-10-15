@@ -29,6 +29,6 @@ export default class TypeScriptConfigConsistentCasing implements IHint {
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const validate = configChecker('compilerOptions.forceConsistentCasingInFileNames', true, 'The compiler option "forceConsistentCasingInFileNames" should be enabled to reduce issues when working with different OSes.', context);
 
-        context.on('parse::typescript-config::end', validate);
+        context.on('parse::end::typescript-config', validate);
     }
 }

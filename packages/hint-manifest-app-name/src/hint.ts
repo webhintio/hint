@@ -119,6 +119,6 @@ export default class ManifestAppNameHint implements IHint {
             await checkIfPropertyValueIsUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit, getLocation);
         };
 
-        context.on('parse::manifest::end', validate);
+        context.on('parse::end::manifest', validate);
     }
 }
