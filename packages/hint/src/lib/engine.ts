@@ -217,7 +217,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
              * Using fake `this` parameter for typing: https://www.typescriptlang.org/docs/handbook/functions.html#this-parameters
              * `this.event` defined by eventemitter2: https://github.com/EventEmitter2/EventEmitter2#differences-non-breaking-compatible-with-existing-eventemitter
              */
-            return function (this: { event: string }, event: E[K]): Promise<any> | null { // eslint-disable-line no-shadow
+            return function (this: { event: string }, event: E[K]): Promise<any> | null {
                 const urlsIgnoredForAll = that.ignoredUrls.get('all') || [];
                 const urlsIgnoredForHint = that.ignoredUrls.get(hintId) || [];
                 const urlsIgnored = urlsIgnoredForHint.concat(urlsIgnoredForAll);

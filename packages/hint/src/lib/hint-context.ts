@@ -6,7 +6,7 @@
  */
 import { URL } from 'url';
 
-import { Engine } from './engine'; // eslint-disable-line no-unused-vars
+import { Engine } from './engine';
 import {
     Events, // eslint-disable-line no-unused-vars
     HintMetadata,
