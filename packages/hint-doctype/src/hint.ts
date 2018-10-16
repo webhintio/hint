@@ -34,7 +34,7 @@ export default class implements IHint {
             return new RegExp(/(<!doctype\s(html)\s*?)(>)(.+)?/, flags ? flags : 'g');
         };
 
-        const checkDoctypeIsValid = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
+        const checkDoctypeIsValid = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<boolean> => {
             debug(`Checking if the doctype is valid.`);
 
             const matched = content.match(doctypeRegexFactory('gi'));
@@ -48,29 +48,31 @@ export default class implements IHint {
             return true;
         };
 
-        const checkDoctypeFirstLine = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
+        const checkDoctypeFirstLine = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<void> => {
             debug(`Checking if the doctype is in the first line.`);
 
             const firstLine = content.split(/\r|\n/)[0];
             const matched = firstLine.match(doctypeRegexFactory('gi'));
-           
+
 
             if (!matched || matched.length < 1) {
                 await context.report(resource, element, `The first line does not contain a valid doctype tag.`);
 
-                return false;
+                return;
             }
 
             if (matched) {
-                let cleaned = matched[0].trim().split('')
+                const cleaned = matched[0].trim().split('');
+
                 if (cleaned[cleaned.length-1] !== '>') {
                     await context.report(resource, element, `There is additional information on the line with the doctype tag`);
-                    return false;
+
+                    return;
                 }
             }
         };
 
-        const checkDoctypeLowercase = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
+        const checkDoctypeLowercase = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<void> => {
             debug(`Checking that the doctype is in lowercase`);
 
             const matched = content.match(doctypeRegexFactory());
@@ -78,11 +80,11 @@ export default class implements IHint {
             if (!matched) {
                 await context.report(resource, element, `The doctype should be in lowercase`);
 
-                return false;
+                return;
             }
         };
 
-        const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
+        const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<void> => {
             debug(`Checking that there is only one doctype tag in the document`);
 
             const matched = content.match(doctypeRegexFactory('gi'));
@@ -90,17 +92,17 @@ export default class implements IHint {
             if (matched && matched.length > 1) {
                 await context.report(resource, element, `There is more than one doctype tag in the document`);
 
-                return false;
+                return;
             }
         };
 
-        const onFetchEndHTML = async (fetchEnd: FetchEnd) => {
+        const onFetchEndHTML = async (fetchEnd: FetchEnd): Promise<void> => {
             const { resource, element, response } = fetchEnd;
 
             if (!response || !response.body || !response.body.content) {
                 await context.report(resource, element, 'Content has no body');
 
-                return false;
+                return;
             }
 
             const { body } = response;
@@ -110,7 +112,7 @@ export default class implements IHint {
              * If doctype is not valid, don not run more tests
              */
             if (!await checkDoctypeIsValid(resource, element, content)) {
-                return false;
+                return;
             }
 
             await checkDoctypeFirstLine(resource, element, content);
