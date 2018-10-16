@@ -29,7 +29,7 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
-        const validDoctype = '<!doctype html>';
+        const validDoctype = ['<!doctype html>', '<!doctype html >'];
         const doctypeRegexFactory = (flags?: string) => {
             return new RegExp('(<!doctype ).+(>)(.+)?', flags ? flags : 'g');
         };
@@ -47,7 +47,7 @@ export default class implements IHint {
 
             const [contentDoctype] = matched;
 
-            if (contentDoctype.toLowerCase() !== validDoctype) {
+            if (!validDoctype.includes(contentDoctype.toLowerCase())) {
                 await context.report(resource, element, `The doctype tag is not valid: ${contentDoctype}`);
 
                 return false;
