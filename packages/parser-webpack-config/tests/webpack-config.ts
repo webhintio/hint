@@ -58,10 +58,11 @@ test('If the file contains an invalid configuration, it should fail', async (t) 
 
     await t.context.engine.emitAsync('fetch::end::script', { resource: path.join(__dirname, 'fixtures', 'invalid-config', 'webpack.config.js') });
 
-    // 2 times, the previous call, and the expected call.
-    t.true(t.context.engine.emitAsync.calledTwice);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::error::webpack-config::configuration');
-    t.is(t.context.engine.emitAsync.args[1][1].error.message, 'Invalid or unexpected token');
+    // 3 times, the previous call, the parse start, and the expected call.
+    t.true(t.context.engine.emitAsync.calledThrice);
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::start::webpack-config');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::webpack-config::configuration');
+    t.is(t.context.engine.emitAsync.args[2][1].error.message, 'Invalid or unexpected token');
 
     sandbox.restore();
 });
@@ -81,10 +82,11 @@ test.serial('If the configuration is valid and webpack is installed locally, it 
 
     await t.context.engine.emitAsync('scan::end');
 
-    // 3 times, the two previous call and the parse.
-    t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::end::webpack-config');
-    t.deepEqual(t.context.engine.emitAsync.args[1][1].config, config);
+    // 4 times, the two previous call and the parse start/end.
+    t.is(t.context.engine.emitAsync.callCount, 4);
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::start::webpack-config');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::end::webpack-config');
+    t.deepEqual(t.context.engine.emitAsync.args[2][1].config, config);
 
     sandbox.restore();
 });
@@ -102,9 +104,10 @@ test.serial(`If the configuration is valid but webpack isn't installed locally, 
 
     await t.context.engine.emitAsync('scan::end');
 
-    // 3 times, the two previous call and the error.
-    t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::error::webpack-config::not-install');
+    // 4 times, the two previous call, the parse start, and the error.
+    t.is(t.context.engine.emitAsync.callCount, 4);
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::start::webpack-config');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::webpack-config::not-install');
 
     sandbox.restore();
 });

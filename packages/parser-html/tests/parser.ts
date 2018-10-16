@@ -44,9 +44,10 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
         }
     }
 
-    t.is(args[1][0], 'parse::end::html');
-    t.is(args[1][1].resource, 'test.html');
-    t.is(args[1][1].html, code);
+    t.is(args[1][0], 'parse::start::html');
+    t.is(args[2][0], 'parse::end::html');
+    t.is(args[2][1].resource, 'test.html');
+    t.is(args[2][1].html, code);
     t.is(await document.pageHTML(), '<html><head></head><body><div id="test">Test</div></body></html>');
     t.is(await div.outerHTML(), '<div id="test">Test</div>');
     t.is(div.nodeName.toLowerCase(), 'div');
@@ -56,20 +57,20 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
     t.is(id && id.value, 'test');
     t.true(div.isSame(div2));
 
-    t.is(args[2][0], 'traverse::start');
-    t.is(args[3][0], 'element::html');
-    t.is(args[4][0], 'traverse::down');
-    t.is(args[5][0], 'element::head');
-    t.is(args[6][0], 'traverse::down');
-    t.is(args[7][0], 'traverse::up');
-    t.is(args[8][0], 'element::body');
-    t.is(args[9][0], 'traverse::down');
-    t.is(args[10][0], 'element::div');
-    t.is(args[11][0], 'traverse::down');
-    t.is(args[12][0], 'traverse::up');
+    t.is(args[3][0], 'traverse::start');
+    t.is(args[4][0], 'element::html');
+    t.is(args[5][0], 'traverse::down');
+    t.is(args[6][0], 'element::head');
+    t.is(args[7][0], 'traverse::down');
+    t.is(args[8][0], 'traverse::up');
+    t.is(args[9][0], 'element::body');
+    t.is(args[10][0], 'traverse::down');
+    t.is(args[11][0], 'element::div');
+    t.is(args[12][0], 'traverse::down');
     t.is(args[13][0], 'traverse::up');
     t.is(args[14][0], 'traverse::up');
-    t.is(args[15][0], 'traverse::end');
+    t.is(args[15][0], 'traverse::up');
+    t.is(args[16][0], 'traverse::end');
 
     sandbox.restore();
 });
@@ -92,7 +93,7 @@ test.serial('The `parse::end::html` event should include a window with support f
 
     const args = t.context.engine.emitAsync.args;
 
-    const window = args[1][1].window;
+    const window = args[2][1].window;
 
     const result1 = await window.evaluate(`
         (function(){
