@@ -228,5 +228,3 @@ type CanEvaluateScript {
 
 [nodeName docs]: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeName
 [parsers]: https://webhint.io/docs/user-guide/concepts/parsers/
-[postcss]: https://postcss.org/
-[postcss-walk]: https://api.postcss.org/Container.html#walk

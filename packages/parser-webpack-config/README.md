@@ -62,7 +62,7 @@ If you need to import any type defined in this parser, you need to
 import them as follows:
 
 ```ts
-import { TypeYouWantToUse } from '@hint/parser-webpack-config/dist/src/types';
+import { TypeYouWantToUse } from '@hint/parser-webpack-config';
 ```
 
 <!-- Link labels: -->

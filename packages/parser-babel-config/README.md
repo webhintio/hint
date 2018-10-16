@@ -77,7 +77,7 @@ If you need to import any type or enum defined in this parser,
 you need to import them as follows:
 
 ```ts
-import { TypeOrEnumYouWantToUse } from '@hint/parser-babel-config/dist/src/types';
+import { TypeOrEnumYouWantToUse } from '@hint/parser-babel-config';
 ```
 
 <!-- Link labels: -->

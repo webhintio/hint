@@ -57,7 +57,6 @@ the web app manifest file.
 **Format:**
 
 ```ts
-
 export type ManifestParsed = FetchEnd & {
     /** The content of manifest parsed */
     parsedContent: Manifest;
@@ -72,7 +71,7 @@ is not valid JSON.
 **Format:**
 
 ```ts
-export type ManifestInvalidJSON = FetchEnd & {
+export type ManifestInvalidJSON = ErrorEvent & {
     /** The parse JSON error. */
     error: Error;
 };
@@ -86,7 +85,7 @@ is not valid according to the schema.
 **Format:**
 
 ```ts
-export type ManifestInvalidSchema = FetchEnd & {
+export type ManifestInvalidSchema = ErrorEvent & {
     /** The parse errors as returned by ajv. */
     errors: ajv.ErrorObject[];
     /** The errors in a more human readable format. */
@@ -101,7 +100,7 @@ If you need to import any type or enum defined in this parser, you just
 need to import them as follows:
 
 ```ts
-import { TypeOrEnumYouWantToUse } from '@hint/parser-manifest/dist/src/types';
+import { TypeOrEnumYouWantToUse } from '@hint/parser-manifest';
 ```
 
 <!-- Link labels: -->
