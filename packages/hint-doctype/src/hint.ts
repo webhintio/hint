@@ -23,7 +23,7 @@ export default class implements IHint {
             category: Category.interoperability,
             description: `Hint to validate if the doctype is correct`
         },
-        id: 'valid-doctype',
+        id: 'doctype',
         schema: [],
         scope: HintScope.any
     }

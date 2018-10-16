@@ -35,12 +35,12 @@
   "keywords": [
     "hint",
     "hint",
-    "valid-doctype",
-    "valid-doctype-hint"
+    "doctype",
+    "doctype-hint"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/hint.js",
-  "name": "@hint/hint-valid-doctype",
+  "name": "@hint/hint-doctype",
   "nyc": {
     "extends": "../../.nycrc"
   },
