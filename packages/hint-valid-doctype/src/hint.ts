@@ -42,7 +42,7 @@ export default class implements IHint {
             if (!matched || matched.length < 1) {
                 await context.report(resource, element, `The file does not contain a doctype tag`);
 
-                return;
+                return false;
             }
 
             const [contentDoctype] = matched;
@@ -50,7 +50,7 @@ export default class implements IHint {
             if (contentDoctype.toLowerCase() !== validDoctype) {
                 await context.report(resource, element, `The doctype tag is not valid: ${contentDoctype}`);
 
-                return;
+                return false;
             }
 
             return true;
@@ -72,7 +72,7 @@ export default class implements IHint {
         const checkDoctypeLowercase = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
             debug(`Checking that the doctype is in lowercase`);
 
-            const matched = content.match(doctypeRegexFactory())
+            const matched = content.match(doctypeRegexFactory());
 
             if (!matched) {
                 await context.report(resource, element, `The doctype should be in lowercase`);
@@ -84,7 +84,7 @@ export default class implements IHint {
         const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
             debug(`Checking that there is only one doctype tag in the document`);
 
-            const matched = content.match(doctypeRegexFactory('gi'))
+            const matched = content.match(doctypeRegexFactory('gi'));
 
             if (matched && matched.length > 1) {
                 await context.report(resource, element, `There is more than one doctype tag in the document`);
@@ -98,7 +98,7 @@ export default class implements IHint {
 
             if (!response || !response.body || !response.body.content) {
                 await context.report(resource, element, 'Content has no body');
-                
+
                 return;
             }
 
