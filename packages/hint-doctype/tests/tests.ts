@@ -54,6 +54,16 @@ const tests: Array<HintTest> = [
         }
     },
     {
+        name: 'Doctype with additional info on same line should fail',
+        reports: [{ message: `There is additional information on the line with the doctype tag` }],
+        serverConfig: {
+            '/': {
+                content: `<!doctype html>sadioklj`,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
         name: 'Doctype is not lowercase should fail',
         reports: [{ message: `The doctype should be in lowercase` }],
         serverConfig: {

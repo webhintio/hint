@@ -53,11 +53,20 @@ export default class implements IHint {
 
             const firstLine = content.split(/\r|\n/)[0];
             const matched = firstLine.match(doctypeRegexFactory('gi'));
+           
 
             if (!matched || matched.length < 1) {
                 await context.report(resource, element, `The first line does not contain a valid doctype tag.`);
 
                 return false;
+            }
+
+            if (matched) {
+                let cleaned = matched[0].trim().split('')
+                if (cleaned[cleaned.length-1] !== '>') {
+                    await context.report(resource, element, `There is additional information on the line with the doctype tag`);
+                    return false;
+                }
             }
         };
 
