@@ -1,3 +1,10 @@
+# 1.0.6 (October 16, 2018)
+
+## Bug fixes / Improvements
+
+* [[`caed4ccbbe`](https://github.com/webhintio/hint/commit/caed4ccbbe7418e284df72f2857a2eed2a47d23f)] - Fix: Ignore domains when they don't support HTTPS (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1401`](https://github.com/webhintio/hint/issues/1401)).
+
+
 # 1.0.5 (September 19, 2018)
 
 ## Bug fixes / Improvements
