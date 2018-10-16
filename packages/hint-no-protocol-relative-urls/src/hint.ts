@@ -39,9 +39,12 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
 
         const validate = async (data: ElementFound) => {
             const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
-            const html: string = await element.outerHTML();
 
-            debug(`Analyzing link\n${cutString(html, 50)}`);
+            if (debug.enabled) {
+                const html: string = await element.outerHTML();
+
+                debug(`Analyzing link\n${cutString(html, 50)}`);
+            }
 
             /*
              * We need to use getAttribute to get the exact value.
