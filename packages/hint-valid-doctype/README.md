@@ -1,10 +1,10 @@
 # Check that the Doctype tag of the document is valid
 
-This hint checks if there is a valid in the document.
+This hint checks if there is a valid Doctype in the document.
 
 ## Why is this important?
 
-Because have a valid doctype will give to the browser the correct information about the version of HTML.
+A valid doctype will give the browser the correct information about the version of HTML.
 
 ## What does the hint check?
 
@@ -12,11 +12,20 @@ The hint checks that the doctype is `<!doctype html>` and is in the first line o
 
 ### Examples that **trigger** the hint
 
-An uppercase doctype should fail, also if the doctype is not in the first line.
+An uppercase doctype should fail, for example `<!DOCTYPE html>`
+Also the hint will trigger if the doctype is not in the first line, for example
+```html
+<!--first line taken up by this unnecessary comment-->
+<!doctype html>
+```
 
 ### Examples that **pass** the hint
 
 A doctype in the first line, without other information in that line.
+```html
+<!doctype html> 
+<!--all content below the doctype tag-->
+```
 
 ## How to use this hint?
 
