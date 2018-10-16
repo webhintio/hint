@@ -30,7 +30,7 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
     });
 
     const args = t.context.engine.emitAsync.args;
-    const document = args[1][1].window.document as IAsyncHTMLDocument;
+    const document = args[2][1].window.document as IAsyncHTMLDocument;
     const div = (await document.querySelectorAll('div'))[0];
     const div2 = (await document.querySelectorAll('body > div'))[0];
     const location = div.getLocation();
