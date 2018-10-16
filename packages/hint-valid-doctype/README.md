@@ -32,7 +32,7 @@ A doctype in the first line, without other information in that line.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @hint/hint-valid-doctype
+npm install @hint/hint-doctype
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
