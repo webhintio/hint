@@ -1,3 +1,10 @@
+# 1.0.4 (October 16, 2018)
+
+## Bug fixes / Improvements
+
+* [[`69bccb2838`](https://github.com/webhintio/hint/commit/69bccb2838760a2aa2bb1c19d61cd301f87060d9)] - Fix: How to configure related information (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.0.3 (September 6, 2018)
 
 ## Bug fixes / Improvements
