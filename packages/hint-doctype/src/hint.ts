@@ -29,7 +29,6 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
-        // const validDoctype = ['<!doctype html>', '<!doctype html >'];
         const validDoctypeRegExp = new RegExp('(<!doctype )html+\s*(>)?', 'g');
         const doctypeRegexFactory = (flags?: string) => {
             return new RegExp('(<!doctype ).+(>)(.+)?', flags ? flags : 'g');
