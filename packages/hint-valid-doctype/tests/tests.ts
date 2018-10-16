@@ -89,8 +89,7 @@ const tests: Array<HintTest> = [
         serverConfig: {
             '/': {
                 content: `<!doctype html>
-                <p></p>
-                <!doctype html>`,
+                <p></p>`,
                 headers: { 'Content-Type': 'text/html' }
             }
         }
