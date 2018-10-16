@@ -13,7 +13,6 @@ import { get as parseColor, ColorDescriptor } from 'color-string';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import {
-    IAsyncHTMLElement,
     IHint,
     IJSONLocationFunction,
     HintMetadata
