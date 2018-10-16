@@ -94,7 +94,7 @@ const tests: Array<HintTest> = [
                 headers: { 'Content-Type': 'text/html' }
             }
         }
-    },
+    }
 ];
 
 hintRunner.testHint(hintPath, tests);
