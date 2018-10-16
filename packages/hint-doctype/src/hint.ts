@@ -31,7 +31,7 @@ export default class implements IHint {
     public constructor(context: HintContext) {
 
         const doctypeRegexFactory = (flags?: string) => {
-            return new RegExp(/(<!doctype\s(html)\s*?)(>)(.+)?/, flags ? flags : 'g');
+            return new RegExp(/(<!doctype\s+(html)\s*?)(>)(.+)?/, flags ? flags : 'g');
         };
 
         const checkDoctypeIsValid = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<boolean> => {
