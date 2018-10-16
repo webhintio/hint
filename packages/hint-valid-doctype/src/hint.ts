@@ -1,10 +1,11 @@
 /**
  * @fileoverview Hint to validate if the doctype is correct
  */
+
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, FetchEnd, IAsyncHTMLElement, ResponseBody } from 'hint/dist/src/lib/types';
+import { IHint, HintMetadata, FetchEnd, IAsyncHTMLElement } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 const debug: debug.IDebugger = d(__filename);
@@ -32,7 +33,7 @@ export default class implements IHint {
         const doctypeRegex = /(<!doctype ).+(>)(.+)?/;
         const doctypeRegexFactory = (flags?: string) => new RegExp('(<!doctype ).+(>)(.+)?', flags ? flags : 'g');
 
-        const checkDoctypeIsValid = async (resource: string, element: IAsyncHTMLElement, content: string) => {
+        const checkDoctypeIsValid = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
             debug(`Checking if the doctype is valid.`);
 
             const matched = content.match(doctypeRegexFactory('gi'));
@@ -52,7 +53,7 @@ export default class implements IHint {
             return true;
         };
 
-        const checkDoctypeFirstLine = async (resource: string, element: IAsyncHTMLElement, content: string) => {
+        const checkDoctypeFirstLine = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
             debug(`Checking if the doctype is in the first line.`);
 
             const firstLine = content.split(/\r|\n/)[0];
@@ -64,7 +65,7 @@ export default class implements IHint {
             }
         };
 
-        const checkDoctypeLowercase = async (resource: string, element: IAsyncHTMLElement, content: string) => {
+        const checkDoctypeLowercase = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
             debug(`Checking that the doctype is in lowercase`);
 
             const matched = content.match(doctypeRegexFactory())
@@ -75,12 +76,12 @@ export default class implements IHint {
             }
         };
 
-        const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement, content: string) => {
+        const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
             debug(`Checking that there is only one doctype tag in the document`);
 
             const matched = content.match(doctypeRegexFactory('gi'))
 
-            if (matched.length > 1) {
+            if (matched && matched.length > 1) {
                 await context.report(resource, element, `There is more than one doctype tag in the document`);
                 return;
             }
@@ -103,7 +104,7 @@ export default class implements IHint {
             if (!await checkDoctypeIsValid(resource, element, content)) {
                 return;
             }
-   
+
             await checkDoctypeFirstLine(resource, element, content);
             await checkDoctypeLowercase(resource, element, content);
             await checkNoDuplicateDoctype(resource, element, content);
