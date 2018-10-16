@@ -29,9 +29,9 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
-        const validDoctypeRegExp = new RegExp('(<!doctype )html+\s*(>)?', 'g');
+
         const doctypeRegexFactory = (flags?: string) => {
-            return new RegExp('(<!doctype ).+(>)(.+)?', flags ? flags : 'g');
+            return new RegExp(/(<!doctype\s(html)\s*?)(>)(.+)?/, flags ? flags : 'g');
         };
 
         const checkDoctypeIsValid = async (resource: string, element: IAsyncHTMLElement | null, content: string) => {
@@ -40,27 +40,7 @@ export default class implements IHint {
             const matched = content.match(doctypeRegexFactory('gi'));
 
             if (!matched || matched.length < 1) {
-                await context.report(resource, element, `The file does not contain a doctype tag`);
-
-                return false;
-            }
-
-            const [contentDoctype] = matched;
-            if (!contentDoctype) {
-                await context.report(resource, element, `The doctype tag is not valid: ${contentDoctype}`);
-
-                return false;
-            }
-
-            let validMatch = contentDoctype.match(validDoctypeRegExp)
-
-            if (validMatch) {
-                validMatch = validMatch[0].split('')
-            }
-
-
-            if (validMatch && validMatch[validMatch.length-1] !== '>') {
-                await context.report(resource, element, `The doctype tag is not valid: ${contentDoctype}`);
+                await context.report(resource, element, `The file does not contain a valid doctype tag`);
 
                 return false;
             }
@@ -77,7 +57,7 @@ export default class implements IHint {
             if (!matched || matched.length < 1) {
                 await context.report(resource, element, `The first line does not contain a valid doctype tag.`);
 
-                return;
+                return false;
             }
         };
 
@@ -89,7 +69,7 @@ export default class implements IHint {
             if (!matched) {
                 await context.report(resource, element, `The doctype should be in lowercase`);
 
-                return;
+                return false;
             }
         };
 
@@ -101,7 +81,7 @@ export default class implements IHint {
             if (matched && matched.length > 1) {
                 await context.report(resource, element, `There is more than one doctype tag in the document`);
 
-                return;
+                return false;
             }
         };
 
@@ -111,7 +91,7 @@ export default class implements IHint {
             if (!response || !response.body || !response.body.content) {
                 await context.report(resource, element, 'Content has no body');
 
-                return;
+                return false;
             }
 
             const { body } = response;
@@ -121,7 +101,7 @@ export default class implements IHint {
              * If doctype is not valid, don not run more tests
              */
             if (!await checkDoctypeIsValid(resource, element, content)) {
-                return;
+                return false;
             }
 
             await checkDoctypeFirstLine(resource, element, content);

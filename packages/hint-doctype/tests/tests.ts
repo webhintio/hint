@@ -17,7 +17,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype not found should fail',
-        reports: [{ message: `The file does not contain a doctype tag` }],
+        reports: [{ message: `The file does not contain a valid doctype tag` }],
         serverConfig: {
             '/': {
                 content: `<head>
@@ -31,7 +31,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype not valid should fail',
-        reports: [{ message: `The doctype tag is not valid: <!doctype htmltest>` }],
+        reports: [{ message: `The file does not contain a valid doctype tag` }],
         serverConfig: {
             '/': {
                 content: `<!doctype htmltest>
