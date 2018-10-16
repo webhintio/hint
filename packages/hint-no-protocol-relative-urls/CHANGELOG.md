@@ -1,3 +1,10 @@
+# 1.0.3 (October 16, 2018)
+
+## Bug fixes / Improvements
+
+* [[`be13188f55`](https://github.com/webhintio/hint/commit/be13188f5555c2d5eeda295eabe36ebb8ff6454e)] - Fix: Get `outerHTML` only if `debug` is enabled (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1408`](https://github.com/webhintio/hint/issues/1408)).
+
+
 # 1.0.2 (September 6, 2018)
 
 ## Bug fixes / Improvements
