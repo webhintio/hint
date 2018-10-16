@@ -39,6 +39,7 @@ export default class implements IHint {
 
             if (!matched || matched.length < 1) {
                 await context.report(resource, element, `The file does not contain a doctype tag`);
+
                 return;
             }
 
@@ -46,6 +47,7 @@ export default class implements IHint {
 
             if (contentDoctype.toLowerCase() !== validDoctype) {
                 await context.report(resource, element, `The doctype tag is not valid: ${contentDoctype}`);
+
                 return;
             }
 
@@ -60,6 +62,7 @@ export default class implements IHint {
 
             if (!matched || matched.length < 1) {
                 await context.report(resource, element, `The first line does not contain a valid doctype tag.`);
+
                 return;
             }
         };
@@ -71,6 +74,7 @@ export default class implements IHint {
 
             if (!matched) {
                 await context.report(resource, element, `The doctype should be in lowercase`);
+
                 return;
             }
         };
@@ -82,6 +86,7 @@ export default class implements IHint {
 
             if (matched && matched.length > 1) {
                 await context.report(resource, element, `There is more than one doctype tag in the document`);
+
                 return;
             }
         };
@@ -91,6 +96,7 @@ export default class implements IHint {
 
             if (!response || !response.body || !response.body.content) {
                 await context.report(resource, element, 'Content has no body');
+                
                 return;
             }
 
