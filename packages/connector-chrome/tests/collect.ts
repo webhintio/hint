@@ -6,6 +6,7 @@ import { URL } from 'url';
 
 import * as sinon from 'sinon';
 import test, { GenericTestContext, Context } from 'ava';
+import * as isCI from 'is-ci';
 
 import { createServer, ServerConfiguration } from '@hint/utils-create-server';
 import { IConnector, IConnectorConstructor } from 'hint/dist/src/lib/types';
@@ -55,65 +56,78 @@ const runTest = async (t: GenericTestContext<Context<any>>, ConnectorConstructor
     await connector.close();
 };
 
-test(`[${name}] Favicon is present in a 'link' element with 'rel' attribute set to 'icon' `, async (t) => {
-    const faviconInLinkElementDir = `http://localhost:${t.context.server.port}/images/favicon-32x32.png`;
-    const serverConfig: ServerConfiguration = {
-        '/': generateHTMLPage(`<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">`),
-        '/images/favicon-favicon-32x32.png': fs.readFileSync(pathToFaviconInLinkElement)
-    };
+test(`[${name}] The HTML is downloaded is present in a 'link' element with 'rel' attribute set to 'icon' `, async (t) => {
+    const serverConfig: ServerConfiguration = { '/': generateHTMLPage(`<title>Test</title>`) };
 
     await runTest(t, ChromeConnector, serverConfig);
 
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInLinkElementDir);
-
+    t.is(t.context.engine.emitAsync.withArgs('fetch::end::html').callCount, 1);
 });
 
-test(`[${name}] Favicon is present in the root directory`, async (t) => {
-    const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
-    const serverConfig: ServerConfiguration = { '/favicon.ico': fs.readFileSync(pathToFaviconInDir) };
 
-    await runTest(t, ChromeConnector, serverConfig);
+// Headless chrome does not download the favicon
+if (!isCI) {
+    test(`[${name}] Favicon is present in a 'link' element with 'rel' attribute set to 'icon' `, async (t) => {
+        const faviconInLinkElementDir = `http://localhost:${t.context.server.port}/images/favicon-32x32.png`;
+        const serverConfig: ServerConfiguration = {
+            '/': generateHTMLPage(`<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">`),
+            '/images/favicon-32x32.png': fs.readFileSync(pathToFaviconInLinkElement)
+        };
 
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
-});
+        await runTest(t, ChromeConnector, serverConfig);
 
-test(`[${name}] Favicon is present in both the root directory and the 'link' element`, async (t) => {
-    const faviconInLinkElementDir = `http://localhost:${t.context.server.port}/images/favicon-32x32.png`;
-    const serverConfig: ServerConfiguration = {
-        '/': generateHTMLPage(`<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">`),
-        '/favicon.ico': fs.readFileSync(pathToFaviconInDir),
-        '/images/favicon-favicon-32x32.png': fs.readFileSync(pathToFaviconInLinkElement)
-    };
+        t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
+        t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInLinkElementDir);
 
-    await runTest(t, ChromeConnector, serverConfig);
+    });
 
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
-    // Should load favicon from the link element if it exists
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInLinkElementDir);
-});
+    test(`[${name}] Favicon is present in the root directory`, async (t) => {
+        const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
+        const serverConfig: ServerConfiguration = { '/favicon.ico': fs.readFileSync(pathToFaviconInDir) };
 
-test(`[${name}] Favicon is present in both the root directory and the 'link' element, but the 'link' element has empty 'href'`, async (t) => {
-    const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
-    const serverConfig: ServerConfiguration = {
-        '/': generateHTMLPage(`<link rel="icon" type="image/png" href="" sizes="32x32">`),
-        '/favicon.ico': fs.readFileSync(pathToFaviconInDir)
-    };
+        await runTest(t, ChromeConnector, serverConfig);
 
-    await runTest(t, ChromeConnector, serverConfig);
+        t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
+        t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
+    });
 
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
-    // Should load favicon from the root even though the link element exists because 'href' is empty.
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
-});
+    test(`[${name}] Favicon is present in both the root directory and the 'link' element`, async (t) => {
+        const faviconInLinkElementDir = `http://localhost:${t.context.server.port}/images/favicon-32x32.png`;
+        const serverConfig: ServerConfiguration = {
+            '/': generateHTMLPage(`<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">`),
+            '/favicon.ico': fs.readFileSync(pathToFaviconInDir),
+            '/images/favicon-32x32.png': fs.readFileSync(pathToFaviconInLinkElement)
+        };
 
-test(`[${name}] Favicon is not present in either the root directory or the 'link' element`, async (t) => {
-    const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
+        await runTest(t, ChromeConnector, serverConfig);
 
-    await runTest(t, ChromeConnector);
+        t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
+        // Should load favicon from the link element if it exists
+        t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInLinkElementDir);
+    });
 
-    // Requests to `/favicon.ico` are always sent when favicon doesn't exist as a `link` tag in the html.
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
-});
+    test(`[${name}] Favicon is present in both the root directory and the 'link' element, but the 'link' element has empty 'href'`, async (t) => {
+        const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
+        const serverConfig: ServerConfiguration = {
+            '/': generateHTMLPage(`<link rel="icon" type="image/png" href="" sizes="32x32">`),
+            '/favicon.ico': fs.readFileSync(pathToFaviconInDir)
+        };
+
+        await runTest(t, ChromeConnector, serverConfig);
+
+        t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
+        // Should load favicon from the root even though the link element exists because 'href' is empty.
+        t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
+    });
+
+    test(`[${name}] Favicon is not present in either the root directory or the 'link' element`, async (t) => {
+        const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
+        const serverConfig: ServerConfiguration = { '/': generateHTMLPage() };
+
+        await runTest(t, ChromeConnector, serverConfig);
+
+        // Requests to `/favicon.ico` are always sent when favicon doesn't exist as a `link` tag in the html.
+        t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
+        t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
+    });
+}
