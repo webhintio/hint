@@ -16,29 +16,28 @@ import { promisify } from 'util';
 
 import * as cdp from 'chrome-remote-interface';
 import { compact, filter } from 'lodash';
-import { atob } from 'abab';
+
 import { Crdp } from 'chrome-remote-debug-protocol';
 
 import { createCDPAsyncHTMLDocument, CDPAsyncHTMLDocument, AsyncHTMLElement } from './cdp-async-html';
-import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
+import { getType } from 'hint/dist/src/lib/utils/content-type';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import * as logger from 'hint/dist/src/lib/utils/logging';
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import delay from 'hint/dist/src/lib/utils/misc/delay';
-import hasAttributeWithValue from 'hint/dist/src/lib/utils/network/has-attribute-with-value';
 import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
 
 import {
     BrowserInfo, IConnector,
-    IAsyncHTMLElement, ElementFound, Event, FetchEnd, FetchError, ILauncher, TraverseUp, TraverseDown,
-    Response, Request, NetworkData, HttpHeaders
+    ElementFound, Event, FetchEnd, FetchError, ILauncher, TraverseUp, TraverseDown,
+    Response, Request, NetworkData, HttpHeaders, IAsyncHTMLElement
 } from 'hint/dist/src/lib/types';
 
 import { normalizeHeaders } from '@hint/utils-connector-tools/dist/src/normalize-headers';
-import { RedirectManager } from '@hint/utils-connector-tools/dist/src/redirects';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 
 import { Engine } from 'hint/dist/src/lib/engine';
+
+import { RequestResponse } from './RequestResponse';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -56,27 +55,19 @@ export class Connector implements IConnector {
     /** The client to talk to the browser. */
     private _client!: Crdp.CrdpClient;
     /** A set of requests done by the connector to retrieve initial information more easily. */
-    private _requests: Map<string, any>;
+    private _requests: Map<string, RequestResponse>;
     /** Indicates if there has been an error loading the page (e.g.: it doesn't exists). */
     private _errorWithPage: boolean = false;
     /** The DOM abstraction on top of adapter. */
-    private _dom!: CDPAsyncHTMLDocument;
-    /** A handy tool to calculate the `hop`s for a given url. */
-    private _redirects = new RedirectManager();
+    private _dom: CDPAsyncHTMLDocument | undefined;
     /** A collection of requests with their initial data. */
     private _pendingResponseReceived: Array<Function>;
-    /** List of requests that are fully loaded. */
-    private _finishedRequests: Set<string>;
-    /** Collection of requests waiting to be completed to get the body. */
-    private _waitingForLoadingFinished: Map<string, { reject: Function; resolve: Function }>;
     /** List of all the tabs used by the connector. */
     private _tabs: any[] = [];
-    /** Tells if a favicon of a page has been downloaded from a link tag. */
-    private _faviconLoaded: boolean = false;
     /** The amount of time before an event is going to be timedout. */
     private _timeout: number;
     /** Browser PID */
-    private _pid!: number;
+    private _pid: number | undefined;
     private _targetNetworkData!: NetworkData;
     private _launcher: ILauncher;
     /** Promise that gets resolved when the taget is downloaded. */
@@ -86,6 +77,7 @@ export class Connector implements IConnector {
 
     public constructor(engine: Engine, config: object, launcher: ILauncher) {
         const defaultOptions = {
+            overrideInvalidCert: false,
             /*
              * tabUrl is a empty html site used to avoid edge diagnostics adapter to receive unexpeted onLoadEventFired
              * and onRequestWillBeSent events from the default url opened when you create a new tab in Edge.
@@ -104,8 +96,6 @@ export class Connector implements IConnector {
 
         this._requests = new Map();
         this._pendingResponseReceived = [];
-        this._finishedRequests = new Set();
-        this._waitingForLoadingFinished = new Map();
 
         this._launcher = launcher;
 
@@ -120,7 +110,7 @@ export class Connector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    private async getElementFromParser(parts: Array<string>): Promise<AsyncHTMLElement | null> {
+    private async getElementFromParser(parts: Array<string>, dom: CDPAsyncHTMLDocument): Promise<AsyncHTMLElement | null> {
         let basename: string | null = null;
         let elements: Array<AsyncHTMLElement> = [];
 
@@ -136,7 +126,7 @@ export class Connector implements IConnector {
              * doesn't need to be escaped.
              */
             const query: string = `[src$="${basename}" i],[href$="${basename}" i],[src$="${decodeURIComponent(basename)}" i],[href$="${decodeURIComponent(basename)}" i]`;
-            const newElements: Array<AsyncHTMLElement> = await this._dom.querySelectorAll(query);
+            const newElements: Array<AsyncHTMLElement> = await dom.querySelectorAll(query);
 
             if (newElements.length === 0) {
                 if (elements.length > 0) {
@@ -165,24 +155,20 @@ export class Connector implements IConnector {
     }
 
     /** Returns the IAsyncHTMLElement that initiated a request */
-    private async getElementFromRequest(requestId: string): Promise<AsyncHTMLElement | null> {
+    private async getElementFromRequest(requestId: string, dom: CDPAsyncHTMLDocument): Promise<AsyncHTMLElement | null> {
         const sourceRequest = this._requests.get(requestId);
 
         if (!sourceRequest) {
             return null;
         }
 
-        const { initiator: { type } } = sourceRequest;
-        let { request: { url: requestUrl } } = sourceRequest;
-        // We need to calculate the original url because it might have redirects
-        const originalUrl: Array<string> = this._redirects.calculate(requestUrl);
-
+        const { initiator: { type } } = sourceRequest.willBeSent;
+        const requestUrl = sourceRequest.originalUrl;
         /*
          * In this point, the URL is used only to generate a selector
          * to find the element. There is no need to validate if the URL
          * is valid or not.
          */
-        requestUrl = (originalUrl[0] || requestUrl).trim();
         const parts: Array<string> = requestUrl.split('/');
 
         /*
@@ -190,101 +176,51 @@ export class Connector implements IConnector {
          * `type` can be "parser", "script", "preload", and "other": https://chromedevtools.github.io/debugger-protocol-viewer/tot/Network/#type-Initiator
          */
         if (['parser', 'other'].includes(type) && requestUrl.startsWith('http')) {
-            return await this.getElementFromParser(parts);
+            return await this.getElementFromParser(parts, dom);
         }
 
         return null;
     }
 
-    /** Check if a request or response is to or from `/favicon.ico` */
-    private rootFaviconRequestOrResponse(params: any) {
-        if (!this._finalHref) {
-            return false;
-        }
-        const faviconUrl = new URL('/favicon.ico', this._finalHref).href;
-        const event = params.request || params.response;
-
-        if (!event) {
-            return false;
-        }
-
-        return this._finalHref && faviconUrl === event.url;
-    }
-
     /** Event handler for when the browser is about to make a request. */
     private async onRequestWillBeSent(params: Crdp.Network.RequestWillBeSentEvent) {
+        const { requestId } = params;
+        let requestResponse: RequestResponse;
+
+        if (this._requests.has(requestId)) {
+            requestResponse = this._requests.get(requestId) as RequestResponse;
+            requestResponse.updateRequestWillBeSent(params);
+        } else {
+            requestResponse = new RequestResponse(this._client.Network, params, this._options.overrideInvalidCert);
+            this._requests.set(requestId, requestResponse);
+        }
+
         const requestUrl: string = params.request.url;
 
         debug(`About to start fetching ${cutString(requestUrl)} (${params.requestId})`);
 
-        this._requests.set(params.requestId, params);
-
         if (!this._headers) {
             // TODO: do some clean up, we probably don't want all the headers as the "defaults".
-            this._headers = params.request.headers;
-        }
-
-        if (params.redirectResponse) {
-            debug(`Redirect found for ${cutString(requestUrl)}`);
-
-            if (requestUrl === params.redirectResponse.url) {
-                logger.error(`Error redirecting: ${requestUrl} is an infinite loop`);
-
-                return;
-            }
-
-            const hops = this._redirects.calculate(requestUrl);
-
-            // We limit the number of redirects
-            if (hops.length >= 10) {
-                logger.error(`More than 10 redirects found for ${requestUrl}`);
-
-                return;
-            }
-
-            // We store the redirects with the finalUrl as a key to do a reverse search in onResponseReceived.
-            this._redirects.add(requestUrl, params.redirectResponse.url);
-
-            // If needed, update the final URL.
-            if (hops[0] === this._href) {
-                this._finalHref = requestUrl;
-            }
-
-            return;
+            this._headers = normalizeHeaders(params.request.headers)!;
         }
 
         const eventName: string = this._href === requestUrl ? 'fetch::start::target' : 'fetch::start';
 
-        /*
-         * `getFavicon` will make attempts to download favicon later.
-         * Ignore `cdp` requests to download favicon from the root
-         * to avoid emitting duplidate events.
-         */
-        if (!this.rootFaviconRequestOrResponse(params)) {
-            await this._server.emitAsync(eventName, { resource: requestUrl });
-        }
+        await this._server.emitAsync(eventName, { resource: requestUrl });
     }
 
     /** Event handler fired when HTTP request fails for some reason. */
     private async onLoadingFailed(params: Crdp.Network.LoadingFailedEvent) {
-        const requestInfo = this._requests.get(params.requestId);
+        const { requestId } = params;
+        const requestResponse = this._requests.get(requestId);
 
-        /*
-         * If `requestId` is not in `this._requests` it means that we
-         * already processed the request in `onResponseReceived`.
-         *
-         * Usually `onLoadingFailed` should be fired before but we've
-         * had problems with this before.
-         */
-        if (!requestInfo) {
-            debug(`requestId ${params.requestId} doesn't exist, skipping this error`);
+        if (!requestResponse) {
+            debug(`(${params.requestId}) Couldn't find associated "RequestResponse", skipping loadingFailed`);
 
             return;
         }
 
-        const { request: { url: resource } } = requestInfo;
-
-        debug(`Error found loading ${resource}:\n%O`, params);
+        const resource = requestResponse.finalUrl;
 
         /* There is a problem loading the website and we should abort any further processing. */
         if (resource === this._href || resource === this._finalHref) {
@@ -300,9 +236,19 @@ export class Connector implements IConnector {
             return;
         }
 
-        const element: AsyncHTMLElement = (await this.getElementFromRequest(params.requestId))!;
+        if (requestResponse.responseReceived) {
+            debug(`(${params.requestId}) Error handled during "responseReceived", skipping loadingFailed`);
+
+            return;
+        }
+
+        requestResponse.updateLoadingFailed(params);
+
+        debug(`Error found loading ${resource}:\n%O`, params);
+
+        const element: IAsyncHTMLElement | null = (await this.getElementFromRequest(params.requestId, this._dom));
         const eventName: string = 'fetch::error';
-        const hops: Array<string> = this._redirects.calculate(resource);
+        const hops: Array<string> = requestResponse.hops;
 
         const event: FetchError = {
             element,
@@ -311,214 +257,42 @@ export class Connector implements IConnector {
             resource
         };
 
-        this._requests.delete(params.requestId);
-
-        /*
-         * `getFavicon` will make attempts to download favicon later.
-         * Ignore `cdp` requests to download favicon from the root
-         * to avoid emitting duplidate events.
-         */
-        if (!this.rootFaviconRequestOrResponse(params)) {
-            await this._server.emitAsync(eventName, event);
-        }
+        await this._server.emitAsync(eventName, event);
     }
 
-    /** Wait until the given `requestId` request has loaded all the content. */
-    // TODO: remove `any` from return type
-    private waitForContentLoaded(requestId: string): Promise<any> {
-        // `_finishedRequests` is only updated in the `onLoadingFinished` event.
-        if (this._finishedRequests.has(requestId)) {
-            return Promise.resolve();
-        }
-
-        return new Promise((resolve, reject) => {
-            /*
-             * Sometimes the `debugging protocol` doesn't dispatch the event
-             * `loadFinished` for a request even thought it's finished.
-             * To avoid waiting forever, timeout at `waitForContentLoaded` and
-             * continue the process.
-             */
-            const timeout = setTimeout(() => {
-                debug(`Timeout waiting for requestId: ${requestId}`);
-
-                if (this._waitingForLoadingFinished.has(requestId)) {
-                    this._waitingForLoadingFinished.delete(requestId);
-                }
-
-                return resolve();
-            }, this._options.waitForContentLoaded || 10000);
-
-            this._waitingForLoadingFinished.set(requestId, {
-                reject, resolve() {
-                    clearTimeout(timeout);
-
-                    return resolve();
-                }
-            });
-        });
-    }
-
-    private async getResponseBody(cdpResponse: Crdp.Network.ResponseReceivedEvent): Promise<{ content: string, rawContent: Buffer | null, rawResponse(): Promise<Buffer | null> }> {
-        let content: string = '';
-        let rawContent: Buffer | null = null;
-        const rawResponse = (): Promise<Buffer | null> => {
-            return Promise.resolve(null);
-        };
-        const fetchContent: (target: URL | string, customHeaders?: object) => Promise<NetworkData> = this.fetchContent.bind(this);
-
-        const defaultBody = { content, rawContent: rawContent as Buffer | null, rawResponse };
-
-        if (cdpResponse.response.status !== 200) {
-            // TODO: is this right? no-friendly-error-pages won't have a problem?
-            return defaultBody;
-        }
-
-        try {
-            await this.waitForContentLoaded(cdpResponse.requestId);
-            const { body, base64Encoded } = await this._client.Network.getResponseBody!({ requestId: cdpResponse.requestId });
-            const encoding = base64Encoded ? 'base64' : 'utf-8';
-
-            content = base64Encoded ? atob(body) : body; // There are some JS responses that are base64 encoded for some reason
-            rawContent = Buffer.from(body, encoding);
-
-            const returnValue = {
-                content,
-                rawContent,
-                rawResponse(): Promise<Buffer> {
-                    const self = (this as unknown as { _rawResponse: Buffer });
-
-                    if (self) {
-                        const cached = self._rawResponse;
-
-                        if (cached) {
-                            return Promise.resolve(cached);
-                        }
-                    }
-
-                    if (rawContent && rawContent.length.toString() === cdpResponse.response.headers['Content-Length']) {
-                        // Response wasn't compressed so both buffers are the same
-                        return Promise.resolve(rawContent);
-                    }
-
-                    const { url: responseUrl, requestHeaders: headers } = cdpResponse.response;
-
-                    /*
-                     * Real browser connectors automatically request using HTTP2. This spec has
-                     * [`Pseudo-Header Fields`](https://tools.ietf.org/html/rfc7540#section-8.1.2.3):
-                     * `:authority`, `:method`, `:path` and `:scheme`.
-                     *
-                     * An example of request with those `Pseudo-Header Fields` to google.com:
-                     *
-                     * ```
-                     * :authority:www.google.com
-                     * :method:GET
-                     * :path:/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png
-                     * :scheme:https
-                     * accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*\/*;q=0.8
-                     * accept-encoding:gzip, deflate, br
-                     * ...
-                     * ```
-                     *
-                     * The `request` module doesn't support HTTP2 yet: https://github.com/request/request/issues/2033
-                     * so the request need to be transformed to valid HTTP 1.1 ones, basically removing those headers.
-                     *
-                     */
-
-                    const validHeaders = Object.entries(headers || {}).reduce((final, [key, value]) => {
-                        if (key.startsWith(':')) {
-                            return final;
-                        }
-
-                        final[key] = value;
-
-                        return final;
-                    }, {} as Crdp.Network.Headers);
-
-                    return fetchContent(responseUrl, validHeaders)
-                        .then((result) => {
-                            const { response: { body: { rawResponse: rr } } } = result;
-
-                            return rr();
-                        })
-                        .then((value) => {
-                            if (self) {
-                                self._rawResponse = value;
-                            }
-
-                            return value;
-                        });
-                }
-            };
-
-            debug(`Content for ${cutString(cdpResponse.response.url)} downloaded`);
-
-            return returnValue;
-        } catch (e) {
-            debug(`Body requested after connection closed for request ${cdpResponse.requestId}`);
-            defaultBody.rawContent = Buffer.alloc(0);
-
-            debug(`Content for ${cutString(cdpResponse.response.url)} downloaded`);
-
-            return defaultBody;
-        }
-    }
-
-    /** Returns a Response for the given request. */
-    private async createResponse(cdpResponse: Crdp.Network.ResponseReceivedEvent, element: IAsyncHTMLElement | null): Promise<Response> {
-        const resourceUrl: string = cdpResponse.response.url;
-        const hops: Array<string> = this._redirects.calculate(resourceUrl);
-        const resourceHeaders = normalizeHeaders(cdpResponse.response.headers);
-        const { content, rawContent, rawResponse } = await this.getResponseBody(cdpResponse);
-        const response: Response = {
-            body: {
-                content,
-                rawContent: rawContent!,
-                rawResponse: rawResponse as () => Promise<Buffer>
-            },
-            charset: null!,
-            headers: resourceHeaders!,
-            hops,
-            mediaType: null!,
-            statusCode: cdpResponse.response.status,
-            url: resourceUrl
-        };
-        const { charset, mediaType } = getContentTypeData(element, resourceUrl, response.headers, response.body.rawContent);
-
-        response.mediaType = mediaType!;
-        response.charset = charset!;
-
-        return response;
-    }
-
-    /** Event handler fired when HTTP response is available and DOM loaded. */
-    private async onResponseReceived(params: Crdp.Network.ResponseReceivedEvent) {
-        const resourceUrl: string = params.response.url;
-        const hops: Array<string> = this._redirects.calculate(resourceUrl);
+    private async emitFetchEnd(requestResponse: RequestResponse, dom: CDPAsyncHTMLDocument | null) {
+        const resourceUrl: string = requestResponse.finalUrl;
+        const hops: Array<string> = requestResponse.hops;
         const originalUrl: string = hops[0] || resourceUrl;
 
         let element = null;
         let eventName: string = 'fetch::end';
-        const isTarget: boolean = this._href === originalUrl;
+        /*
+         * `dom` should be `null` only if "fetch::end" is for the target
+         * (and thus no `dom` is needed )
+         */
+        const isTarget: boolean = !dom;
 
-        if (!isTarget) {
-            // DOM is not ready so we queue up the event for later
-            if (!this._dom) {
-                this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
-
-                return;
-            }
-
+        if (dom) {
             try {
-                element = await this.getElementFromRequest(params.requestId);
+                element = await this.getElementFromRequest(requestResponse.requestId, dom);
             } catch (e) {
-                debug(`Error finding element for request ${params.requestId}. element will be null`);
+                debug(`Error finding element for request ${requestResponse.requestId}. element will be null`);
             }
         }
 
-        const response: Response = await this.createResponse(params, element);
+        const response: Response = requestResponse.getResponse(element);
+
+        // Doing a check so TypeScript is happy during `normalizeHeaders` later on
+        if (!requestResponse.responseReceived) {
+
+            const message = `Trying to emit "fetch::end" but no responseReceived for ${requestResponse.requestId} found`;
+
+            throw new Error(message);
+        }
 
         const request: Request = {
-            headers: params.response.requestHeaders as HttpHeaders,
+            headers: normalizeHeaders(requestResponse.responseReceived.response.requestHeaders) as HttpHeaders,
             url: originalUrl
         };
 
@@ -555,55 +329,78 @@ export class Connector implements IConnector {
 
         eventName = `${eventName}::${suffix}`;
 
-        /*
-         * If there is no `waitFor` property we could be downloading the favicon twice:
-         *
-         * 1. Browser automatically at the end of all the network requests
-         * 2. The connector via `getFavicon`
-         *
-         * `getFavicon` will change `_faviconLoaded` to true as soon as it is called
-         * so if the browser does this request on its own we can ignore it.
-         */
-        if (hasAttributeWithValue(data.element!, 'link', 'rel', 'icon') && this._faviconLoaded) {
-            this._requests.delete(params.requestId);
+
+        /** Event is also emitted when status code in response is not 200. */
+        await this._server.emitAsync(eventName, data);
+    }
+
+    /** Event handler fired when HTTP response is available and DOM loaded. */
+    private async onResponseReceived(params: Crdp.Network.ResponseReceivedEvent) {
+        const { requestId } = params;
+        const requestResponse = this._requests.get(requestId);
+
+        if (!requestResponse) {
+            debug(`(${requestId}) ResponseReceived but no requestWillBeSent found`);
 
             return;
         }
 
-        if (hasAttributeWithValue(data.element!, 'link', 'rel', 'icon')) {
-            this._faviconLoaded = true;
+        // Do not update if the process was queued and responseReceived exists already
+        if (!requestResponse.responseReceived) {
+            requestResponse.updateResponseReceived(params);
+        }
+
+        // Need `this._dom` so `emitFetchEnd` can get the element associated to the request
+        if (!this._dom) {
+            this._pendingResponseReceived.push(this.onResponseReceived.bind(this, params));
+
+            return;
+        }
+
+        if (params.response.status === 200) {
+            return;
         }
 
         /*
-         * `getFavicon` will make attempts to download favicon later.
-         * Ignore `cdp` requests to download favicon from the root
-         * to avoid emitting duplidate events.
+         * Some status will not emit a `loadingFinished`, like 404 status code.
+         * Also, redirects do not emit a `responseReceived`
          */
-        if (!this.rootFaviconRequestOrResponse(params)) {
-            /** Event is also emitted when status code in response is not 200. */
-            await this._server.emitAsync(eventName, data);
-        }
 
-        /*
-         * We don't need to store the request anymore so we can remove it and ignore it
-         * if we receive it in `onLoadingFailed` (used only for "catastrophic" failures).
-         */
-        this._requests.delete(params.requestId);
+        await this.emitFetchEnd(requestResponse, this._dom);
     }
 
     /** Event handler fired when an HTTP request has finished and all the content is available */
-    private onLoadingFinished(params: Crdp.Network.LoadingFinishedEvent) {
+    private async onLoadingFinished(params: Crdp.Network.LoadingFinishedEvent) {
         const { requestId } = params;
+        const requestResponse = this._requests.get(requestId);
 
-        this._finishedRequests.add(requestId);
+        if (!requestResponse) {
+            debug(`(${requestId}) LoadingFinished but no requestWillBeSent found`);
 
-        if (this._waitingForLoadingFinished.has(requestId)) {
-            const { resolve } = this._waitingForLoadingFinished.get(requestId)!; // Will not be null as `has` check already passed.
-
-            // We remove the ones that have been processed already
-            this._waitingForLoadingFinished.delete(requestId);
-            resolve();
+            return;
         }
+
+        await requestResponse.updateLoadingFinished(params);
+
+        const resourceUrl: string = requestResponse.finalUrl;
+        const hops: Array<string> = requestResponse.hops;
+        const originalUrl: string = hops[0] || resourceUrl;
+
+        const isTarget: boolean = this._href === originalUrl;
+
+        if (isTarget) {
+            await this.emitFetchEnd(requestResponse, null);
+
+            return;
+        }
+
+        if (!this._dom) {
+            this._pendingResponseReceived.push(this.onLoadingFinished.bind(this, params));
+
+            return;
+        }
+
+        await this.emitFetchEnd(requestResponse, this._dom);
     }
 
     /** Traverses the DOM notifying when a new element is traversed. */
@@ -624,7 +421,8 @@ export class Connector implements IConnector {
 
         const eventName: string = `element::${element.nodeName.toLowerCase()}`;
 
-        const wrappedElement: AsyncHTMLElement = new AsyncHTMLElement(element, this._dom, this._client.DOM);
+        // If we are traversing, we know `this._dom` exists already
+        const wrappedElement: AsyncHTMLElement = new AsyncHTMLElement(element, this._dom!, this._client.DOM);
 
         const event: ElementFound = {
             element: wrappedElement,
@@ -770,12 +568,13 @@ export class Connector implements IConnector {
     }
 
     /**
-     * CDP sometimes doesn't download the favicon automatically, this method:
+     * Manually download the site's favicon:
      *
      * * uses the `src` attribute of `<link rel="icon">` if present.
      * * uses `favicon.ico` and the final url after redirects.
      */
-    private async getFavicon(element: AsyncHTMLElement) {
+    private async getFavicon(dom: CDPAsyncHTMLDocument) {
+        const element = (await dom.querySelectorAll('link[rel~="icon"]'))[0];
         const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
@@ -795,12 +594,10 @@ export class Connector implements IConnector {
 
             await this._server.emitAsync('fetch::end::image', data);
         } catch (error) {
-            const hops = this._redirects.calculate(href);
-
             const event: FetchError = {
                 element,
                 error,
-                hops,
+                hops: [],
                 resource: href
             };
 
@@ -810,10 +607,14 @@ export class Connector implements IConnector {
 
     /** Processes the pending responses received while the DOM wasn't ready. */
     private async processPendingResponses(): Promise<void> {
+        const promises = [];
+
         while (this._pendingResponseReceived.length) {
             debug(`Pending requests: ${this._pendingResponseReceived.length}`);
-            await this._pendingResponseReceived.shift()!(); // Function will exist due to `length` check above.
+            promises.push(this._pendingResponseReceived.shift()!()); // Function will exist due to `length` check above.
         }
+
+        await Promise.all(promises);
     }
 
     /** Handler fired when page is loaded. */
@@ -844,24 +645,29 @@ export class Connector implements IConnector {
                  * If the target is not an HTML we don't need to
                  * traverse it.
                  */
-                if (!isHTMLDocument(this._finalHref, this.headers)) {
+                if (!isHTMLDocument(this._finalHref, this.headers!)) {
                     await this._server.emitAsync('scan::end', event);
 
                     return callback();
+                }
+
+                /*
+                 * Headless chrome does not download the favicon automatically.
+                 * Also we can do it at the end because it uses `fetchContent`
+                 * to download it so even though no more `Network` events are
+                 * sent, this does not depend on those.
+                 * Ref: https://bugs.chromium.org/p/chromium/issues/detail?id=896465
+                 */
+                if (this._launcher.options &&
+                    this._launcher.options.flags &&
+                    this._launcher.options.flags.includes('--headless')) {
+                    await this.getFavicon(this._dom);
                 }
 
                 await this._server.emitAsync('traverse::start', event);
                 await this.traverseAndNotify(this._dom.root);
                 await this._server.emitAsync('traverse::end', event);
                 await this._server.emitAsync('can-evaluate::script', event);
-
-                if (!this._faviconLoaded) {
-                    this._faviconLoaded = true;
-
-                    const faviconElement = (await this._dom.querySelectorAll('link[rel~="icon"]'))[0];
-
-                    await this.getFavicon(faviconElement);
-                }
 
                 // We let time to any pending things (like error networks and so) to happen in the next second
                 return setTimeout(async () => {
@@ -938,7 +744,8 @@ export class Connector implements IConnector {
 
             const loadHandler = this.onLoadEventFired(callback);
 
-            Page.loadEventFired(loadHandler);
+            // TODO: Investigate why some websites trigger this event twice. Iframe?
+            (this._client as any).once('Page.loadEventFired', loadHandler);
 
             try {
                 await this.configureAndEnableCDP();
@@ -958,6 +765,12 @@ export class Connector implements IConnector {
         return new Promise(async (resolve) => {
             let maxTries = 200;
             let finish = false;
+
+            if (!this._pid) {
+                resolve();
+
+                return;
+            }
 
             while (!finish) {
                 try {
@@ -987,13 +800,6 @@ export class Connector implements IConnector {
     }
 
     public async close() {
-        debug(`Canceling all pending requests: ${this._waitingForLoadingFinished.size}`);
-
-        this._waitingForLoadingFinished.forEach(({ reject }, requestId) => {
-            debug(`Cancelling request ${requestId}`);
-            reject();
-        });
-
         debug(`Pending tabs: ${this._tabs.length}`);
 
         while (this._tabs.length > 0) {
@@ -1122,6 +928,10 @@ export class Connector implements IConnector {
     }
 
     public querySelectorAll(selector: string): Promise<Array<AsyncHTMLElement>> {
+        if (!this._dom) {
+            return Promise.resolve([]);
+        }
+
         return this._dom.querySelectorAll(selector);
     }
 
@@ -1131,18 +941,22 @@ export class Connector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    public get dom(): CDPAsyncHTMLDocument {
+    public get dom(): CDPAsyncHTMLDocument | undefined {
         return this._dom;
     }
 
     public get headers() {
         return this._targetNetworkData &&
             this._targetNetworkData.response &&
-            this._targetNetworkData.response.headers ||
-            null;
+            normalizeHeaders(this._targetNetworkData.response.headers) ||
+            undefined;
     }
 
     public get html(): Promise<string> {
+        if (!this._dom) {
+            return Promise.resolve('');
+        }
+
         return this._dom.pageHTML();
     }
 }

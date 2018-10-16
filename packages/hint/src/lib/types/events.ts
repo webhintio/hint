@@ -30,7 +30,7 @@ export type FetchEnd = Event & {
 /** The object emitted on `fetch::error::*` */
 export type FetchError = Event & {
     /** The element that initiated the request. */
-    element: IAsyncHTMLElement;
+    element: IAsyncHTMLElement | null;
     /** The error found. */
     error: any;
     /** The redirects performed for the url. */

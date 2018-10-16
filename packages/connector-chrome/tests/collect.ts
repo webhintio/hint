@@ -55,11 +55,19 @@ const runTest = async (t: GenericTestContext<Context<any>>, ConnectorConstructor
     await connector.close();
 };
 
+test(`[${name}] The HTML is downloaded and the right event emitted`, async (t) => {
+    const serverConfig: ServerConfiguration = { '/': generateHTMLPage(`<title>Test</title>`) };
+
+    await runTest(t, ChromeConnector, serverConfig);
+
+    t.is(t.context.engine.emitAsync.withArgs('fetch::end::html').callCount, 1);
+});
+
 test(`[${name}] Favicon is present in a 'link' element with 'rel' attribute set to 'icon' `, async (t) => {
     const faviconInLinkElementDir = `http://localhost:${t.context.server.port}/images/favicon-32x32.png`;
     const serverConfig: ServerConfiguration = {
         '/': generateHTMLPage(`<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">`),
-        '/images/favicon-favicon-32x32.png': fs.readFileSync(pathToFaviconInLinkElement)
+        '/images/favicon-32x32.png': fs.readFileSync(pathToFaviconInLinkElement)
     };
 
     await runTest(t, ChromeConnector, serverConfig);
@@ -84,7 +92,7 @@ test(`[${name}] Favicon is present in both the root directory and the 'link' ele
     const serverConfig: ServerConfiguration = {
         '/': generateHTMLPage(`<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">`),
         '/favicon.ico': fs.readFileSync(pathToFaviconInDir),
-        '/images/favicon-favicon-32x32.png': fs.readFileSync(pathToFaviconInLinkElement)
+        '/images/favicon-32x32.png': fs.readFileSync(pathToFaviconInLinkElement)
     };
 
     await runTest(t, ChromeConnector, serverConfig);
@@ -110,8 +118,9 @@ test(`[${name}] Favicon is present in both the root directory and the 'link' ele
 
 test(`[${name}] Favicon is not present in either the root directory or the 'link' element`, async (t) => {
     const faviconInRootDir = `http://localhost:${t.context.server.port}/favicon.ico`;
+    const serverConfig: ServerConfiguration = { '/': generateHTMLPage() };
 
-    await runTest(t, ChromeConnector);
+    await runTest(t, ChromeConnector, serverConfig);
 
     // Requests to `/favicon.ico` are always sent when favicon doesn't exist as a `link` tag in the html.
     t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
