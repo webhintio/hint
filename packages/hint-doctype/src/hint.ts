@@ -60,6 +60,7 @@ export default class implements IHint {
             }
 
             if (matched) {
+                // check for additional info on first line e.g. `<!doctype html></br>` 
                 const cleaned = firstLine.match(doctypeRegExpStrict);
 
                 if (cleaned && !(cleaned[0] === matched[0])) {
