@@ -143,7 +143,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype with additional info on same line should fail',
-        reports: [{ message: `There is additional information on the line with the doctype tag` }],
+        reports: [{ message: `There is additional information on the line with the DOCTYPE tag.` }],
         serverConfig: {
             '/': {
                 content: `<!doctype html>sadioklj`,

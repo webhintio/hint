@@ -53,7 +53,7 @@ export default class implements IHint {
 
 
             if (!matched || matched.length < 1) {
-                await context.report(resource, element, `The first line does not contain a valid doctype tag.`);
+                await context.report(resource, element, `The first line does not contain a valid DOCTYPE tag.`);
 
                 return;
             }
@@ -62,7 +62,7 @@ export default class implements IHint {
                 const cleaned = matched[0].trim().split('');
 
                 if (cleaned[cleaned.length-1] !== '>') {
-                    await context.report(resource, element, `There is additional information on the line with the doctype tag`);
+                    await context.report(resource, element, `There is additional information on the line with the DOCTYPE tag.`);
 
                     return;
                 }
