@@ -60,7 +60,7 @@ const tests: Array<HintTest> = [
         reports: [{ message: `The resource does not contain a valid doctype tag` }],
         serverConfig: {
             '/': {
-                content: `<!DOCTYPEhtml SYSTEM "about:legacy-compat">
+                content: `<!doctypehtml SYSTEM "about:legacy-compat">
                 <head></head>
                 <body></body>
                 `,
@@ -73,7 +73,7 @@ const tests: Array<HintTest> = [
         reports: [{ message: `The resource does not contain a valid doctype tag` }],
         serverConfig: {
             '/': {
-                content: `<!DOCTYPE htmlSYSTEM "about:legacy-compat">
+                content: `<!doctype htmlSYSTEM "about:legacy-compat">
                 <head></head>
                 <body></body>
                 `,
@@ -86,19 +86,7 @@ const tests: Array<HintTest> = [
         reports: [{ message: `The resource does not contain a valid doctype tag` }],
         serverConfig: {
             '/': {
-                content: `<!DOCTYPE html SYSTEM"about:legacy-compat">
-                <head></head>
-                <body></body>
-                `,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
-        name: 'Doctype tag should pass',
-        serverConfig: {
-            '/': {
-                content: `<!DOCTYPE html>
+                content: `<!doctype html SYSTEM"about:legacy-compat">
                 <head></head>
                 <body></body>
                 `,
@@ -110,7 +98,7 @@ const tests: Array<HintTest> = [
         name: 'Doctype tag with legacy-compat should pass',
         serverConfig: {
             '/': {
-                content: `<!DOCTYPE html SYSTEM "about:legacy-compat">
+                content: `<!doctype html SYSTEM "about:legacy-compat">
                 <head></head>
                 <body></body>
                 `,
@@ -134,7 +122,7 @@ const tests: Array<HintTest> = [
         name: 'Doctype legacy-compat with one more spaces after html should pass',
         serverConfig: {
             '/': {
-                content: `<!DOCTYPE html SYSTEM "about:legacy-compat"     >
+                content: `<!doctype html SYSTEM "about:legacy-compat"     >
                 <head></head>
                 <body></body>
                 `,
