@@ -29,15 +29,12 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
-
-        const doctypeRegexFactory = (flags?: string) => {
-            return new RegExp(/(<!doctype\s+(html)\s*?)(>)(.+)?/, flags ? flags : 'g');
-        };
+        const doctypeRegExp = /(<!doctype\s+(html)\s*(\s+system\s+"about:legacy-compat")?\s*?>)(.+)?/gi
 
         const checkDoctypeIsValid = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<boolean> => {
             debug(`Checking if the doctype is valid.`);
 
-            const matched = content.match(doctypeRegexFactory('gi'));
+            const matched = content.match(doctypeRegExp);
 
             if (!matched || matched.length < 1) {
                 await context.report(resource, element, `The resource does not contain a valid doctype tag`);
@@ -52,7 +49,7 @@ export default class implements IHint {
             debug(`Checking if the doctype is in the first line.`);
 
             const firstLine = content.split(/\r|\n/)[0];
-            const matched = firstLine.match(doctypeRegexFactory('gi'));
+            const matched = firstLine.match(doctypeRegExp);
 
 
             if (!matched || matched.length < 1) {
@@ -75,7 +72,7 @@ export default class implements IHint {
         const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<void> => {
             debug(`Checking that there is only one doctype tag in the document`);
 
-            const matched = content.match(doctypeRegexFactory('gi'));
+            const matched = content.match(doctypeRegExp);
 
             if (matched && matched.length > 1) {
                 await context.report(resource, element, `There is more than one doctype tag in the document`);
