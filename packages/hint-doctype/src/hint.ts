@@ -40,7 +40,7 @@ export default class implements IHint {
             const matched = content.match(doctypeRegexFactory('gi'));
 
             if (!matched || matched.length < 1) {
-                await context.report(resource, element, `The file does not contain a valid doctype tag`);
+                await context.report(resource, element, `The resource does not contain a valid doctype tag`);
 
                 return false;
             }
