@@ -1,11 +1,18 @@
 # Check that the DOCTYPE tag of the document is valid
 
-This hint checks if there is a valid DOCTYPE in the document.
+This hint checks if the HTML is using the most modern DOCTYPE.
 
 ## Why is this important?
 
-A valid DOCTYPE will give the browser the correct information
-about the version of HTML.
+In HTML, the doctype is the required "<!DOCTYPE html>" preamble
+found at the top of all documents. Its sole purpose is to prevent
+a browser from switching into so-called “quirks mode” when rendering
+a document; that is, the "<!DOCTYPE html>" doctype ensures that the
+browser makes a best-effort attempt at following the relevant specifications,
+rather than using a different rendering mode that is incompatible
+with some specifications.
+
+[MDN - Doctype](https://developer.mozilla.org/en-US/docs/Glossary/Doctype)
 
 ## What does the hint check?
 
