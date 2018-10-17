@@ -72,18 +72,6 @@ export default class implements IHint {
             }
         };
 
-        const checkDoctypeLowercase = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<void> => {
-            debug(`Checking that the doctype is in lowercase`);
-
-            const matched = content.match(doctypeRegexFactory());
-
-            if (!matched) {
-                await context.report(resource, element, `The doctype should be in lowercase`);
-
-                return;
-            }
-        };
-
         const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<void> => {
             debug(`Checking that there is only one doctype tag in the document`);
 
@@ -116,7 +104,6 @@ export default class implements IHint {
             }
 
             await checkDoctypeFirstLine(resource, element, content);
-            await checkDoctypeLowercase(resource, element, content);
             await checkNoDuplicateDoctype(resource, element, content);
         };
 

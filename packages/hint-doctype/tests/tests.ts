@@ -76,16 +76,6 @@ const tests: Array<HintTest> = [
         }
     },
     {
-        name: 'Doctype is not lowercase should fail',
-        reports: [{ message: `The doctype should be in lowercase` }],
-        serverConfig: {
-            '/': {
-                content: `<!DOCTYPE html>`,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
         name: 'Doctype is lowercase should pass',
         serverConfig: {
             '/': {
