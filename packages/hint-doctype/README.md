@@ -12,12 +12,9 @@ browser makes a best-effort attempt at following the relevant specifications,
 rather than using a different rendering mode that is incompatible
 with some specifications.
 
-[MDN - Doctype](https://developer.mozilla.org/en-US/docs/Glossary/Doctype)
-
 ## What does the hint check?
 
-The hint checks that the DOCTYPE is `<!DOCTYPE html>`
-and is in the first line of the document.
+This hint checks if the HTML is using the most modern DOCTYPE.
 
 ### Examples that **trigger** the hint
 
@@ -66,8 +63,6 @@ configuration file:
 ```
 
 ## Further Reading
-
-What can the user read to know more about this subject?
 
 * [DOCTYPE (Wikipedia)][docwiki]
 * [DOCTYPE (MDN)][docmdn]
