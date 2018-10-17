@@ -54,7 +54,7 @@ export default class implements IHint {
 
 
             if (!matched || matched.length < 1) {
-                await context.report(resource, element, `The first line does not contain a valid DOCTYPE tag.`);
+                await context.report(resource, element, `DOCTYPE is not in the first line.`);
 
                 return;
             }
