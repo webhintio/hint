@@ -161,6 +161,18 @@ const tests: Array<HintTest> = [
         }
     },
     {
+        name: 'Doctype tag in uppercase should pass',
+        serverConfig: {
+            '/': {
+                content: `<!DOCTYPE html>
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
         name: 'Doctype appearing more than once should fail',
         reports: [{ message: `There is more than one doctype tag in the document` }],
         serverConfig: {
