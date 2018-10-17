@@ -16,8 +16,7 @@ with some specifications.
 
 ## What does the hint check?
 
-The hint checks that the DOCTYPE is `<!DOCTYPE html>`
-and is in the first line of the document.
+This hint checks if the HTML is using the most modern DOCTYPE.
 
 ### Examples that **trigger** the hint
 
