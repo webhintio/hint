@@ -76,7 +76,7 @@ export default class implements IHint {
             const matched = content.match(doctypeRegExp);
 
             if (matched && matched.length > 1) {
-                await context.report(resource, element, `There is more than one doctype tag in the document`);
+                await context.report(resource, element, `There is more than one DOCTYPE tag in the document.`);
 
                 return;
             }

@@ -174,7 +174,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype appearing more than once should fail',
-        reports: [{ message: `There is more than one doctype tag in the document` }],
+        reports: [{ message: `There is more than one DOCTYPE tag in the document.` }],
         serverConfig: {
             '/': {
                 content: `<!doctype html>
