@@ -94,9 +94,8 @@ export default class implements IHint {
             const { body } = response;
             const { content } = body;
 
-            /*
-             * If doctype is not valid, don not run more tests
-             */
+            
+            // If doctype is not valid, do not run more tests
             if (!await checkDoctypeIsValid(resource, element, content)) {
                 return;
             }
