@@ -17,7 +17,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype not found should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE tag.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
         serverConfig: {
             '/': {
                 content: `<head>
@@ -31,7 +31,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype not valid should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE tag.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
         serverConfig: {
             '/': {
                 content: `<!doctype htmltest>
@@ -44,7 +44,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype regular with no space between terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE tag.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
         serverConfig: {
             '/': {
                 content: `<!doctypehtml>
@@ -57,7 +57,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype legacy-compat with no space bewteen first two terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE tag.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
         serverConfig: {
             '/': {
                 content: `<!doctypehtml SYSTEM "about:legacy-compat">
@@ -70,7 +70,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype legacy-compat with no space bewteen second two terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE tag.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
         serverConfig: {
             '/': {
                 content: `<!doctype htmlSYSTEM "about:legacy-compat">
@@ -83,7 +83,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'Doctype legacy-compat with no space bewteen third two terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE tag.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
         serverConfig: {
             '/': {
                 content: `<!doctype html SYSTEM"about:legacy-compat">
