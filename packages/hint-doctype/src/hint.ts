@@ -32,19 +32,22 @@ export default class implements IHint {
         const doctypeRegExp = /(<!doctype\s+(html)\s*(\s+system\s+"about:legacy-compat")?\s*?>)(.+)?/gi;
         const defaultProblemLocation: ProblemLocation = {
             column: 0,
-            line: 0,
+            line: 0
         };
 
         const getCurrentProblemLocation = (content: string): ProblemLocation => {
             const lines = content.split('\n');
             const location = {} as ProblemLocation;
-            lines.forEach((line: string, idx: number): void => {
+
+            lines.forEach((line: string, i: number): void => {
                 const matched = doctypeRegExp.exec(line);
+
                 if (matched && !location.line){
-                    location.line = idx;
-                    location.column = matched.index
+                    location.line = i;
+                    location.column = matched.index;
                 }
-            })
+            });
+
             return location;
         };
 
@@ -71,25 +74,26 @@ export default class implements IHint {
 
 
             if (!matched || matched.length < 1) {
-                //DOCTYPE is not found in the first line
-                const globalMatched = content.match(doctypeRegExp); //DOCTYPE was found somewhere else in the document
+                // DOCTYPE is not found in the first line
+                const globalMatched = content.match(doctypeRegExp);
                 let problemLocation = defaultProblemLocation;
 
-                if (globalMatched) {
-                    problemLocation = getCurrentProblemLocation(content);
-                    await context.report(resource, null, `DOCTYPE was found somewhere else other than the first line.`, undefined, problemLocation);
+                if (!globalMatched || globalMatched.length < 1) {
+                    // DOCTYPE was not found in first line or anywhere else in the document
+                    await context.report(resource, null, `DOCTYPE is not in the first line.`, undefined, problemLocation);
 
                     return;
                 }
 
-                //DOCTYPE was not found in first line or anywhere else in the document
-                await context.report(resource, null, `DOCTYPE is not in the first line.`, undefined, problemLocation);
+                // DOCTYPE was found somewhere else in the document
+                problemLocation = getCurrentProblemLocation(content);
+                await context.report(resource, null, `DOCTYPE was found somewhere else other than the first line.`, undefined, problemLocation);
 
                 return;
             }
 
             if (matched) {
-                // check for additional info on first line e.g. `<!doctype html></br>`
+                // Check for additional info on first line e.g. `<!doctype html></br>`
                 const cleaned = firstLine.match(doctypeRegExpStrict);
 
                 if (cleaned && !(cleaned[0] === matched[0])) {
@@ -106,9 +110,9 @@ export default class implements IHint {
             const matched = content.match(doctypeRegExp);
 
             if (matched && matched.length > 1) {
-                const position = 99999;
+                const problemLocation = getCurrentProblemLocation(content);
 
-                await context.report(resource, null, `There is more than one DOCTYPE tag in the document.`);
+                await context.report(resource, null, `There is more than one DOCTYPE tag in the document.`, undefined, problemLocation);
 
                 return;
             }
