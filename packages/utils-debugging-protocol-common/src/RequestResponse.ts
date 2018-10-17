@@ -54,10 +54,10 @@ export class RequestResponse {
         return this.willBeSent.request.url;
     }
 
-    private _willBeSent: Crdp.Network.RequestWillBeSentEvent | undefined;
+    private _willBeSent: Crdp.Network.RequestWillBeSentEvent;
     /** The payload returned by the debugging protocol in the `RequestWillBeSent` event. */
-    public get willBeSent(): Crdp.Network.RequestWillBeSentEvent {
-        return this._willBeSent!;
+    public get willBeSent() {
+        return this._willBeSent;
     }
 
     private _responseReceived: Crdp.Network.ResponseReceivedEvent | undefined;

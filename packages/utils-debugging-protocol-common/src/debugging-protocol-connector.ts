@@ -22,7 +22,6 @@ import { Crdp } from 'chrome-remote-debug-protocol';
 import { createCDPAsyncHTMLDocument, CDPAsyncHTMLDocument, AsyncHTMLElement } from './cdp-async-html';
 import { getType } from 'hint/dist/src/lib/utils/content-type';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-// import * as logger from 'hint/dist/src/lib/utils/logging';
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import delay from 'hint/dist/src/lib/utils/misc/delay';
 import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
@@ -111,7 +110,7 @@ export class Connector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    private async getElementFromParser(parts: Array<string>): Promise<AsyncHTMLElement | null> {
+    private async getElementFromParser(parts: Array<string>, dom: CDPAsyncHTMLDocument): Promise<AsyncHTMLElement | null> {
         let basename: string | null = null;
         let elements: Array<AsyncHTMLElement> = [];
 
@@ -127,7 +126,7 @@ export class Connector implements IConnector {
              * doesn't need to be escaped.
              */
             const query: string = `[src$="${basename}" i],[href$="${basename}" i],[src$="${decodeURIComponent(basename)}" i],[href$="${decodeURIComponent(basename)}" i]`;
-            const newElements: Array<AsyncHTMLElement> = await this._dom!.querySelectorAll(query);
+            const newElements: Array<AsyncHTMLElement> = await dom.querySelectorAll(query);
 
             if (newElements.length === 0) {
                 if (elements.length > 0) {
@@ -156,7 +155,7 @@ export class Connector implements IConnector {
     }
 
     /** Returns the IAsyncHTMLElement that initiated a request */
-    private async getElementFromRequest(requestId: string): Promise<AsyncHTMLElement | null> {
+    private async getElementFromRequest(requestId: string, dom: CDPAsyncHTMLDocument): Promise<AsyncHTMLElement | null> {
         const sourceRequest = this._requests.get(requestId);
 
         if (!sourceRequest) {
@@ -177,7 +176,7 @@ export class Connector implements IConnector {
          * `type` can be "parser", "script", "preload", and "other": https://chromedevtools.github.io/debugger-protocol-viewer/tot/Network/#type-Initiator
          */
         if (['parser', 'other'].includes(type) && requestUrl.startsWith('http')) {
-            return await this.getElementFromParser(parts);
+            return await this.getElementFromParser(parts, dom);
         }
 
         return null;
@@ -247,7 +246,7 @@ export class Connector implements IConnector {
 
         debug(`Error found loading ${resource}:\n%O`, params);
 
-        const element: AsyncHTMLElement = (await this.getElementFromRequest(params.requestId))!;
+        const element: AsyncHTMLElement = (await this.getElementFromRequest(params.requestId, this._dom))!;
         const eventName: string = 'fetch::error';
         const hops: Array<string> = requestResponse.hops;
 
@@ -261,18 +260,22 @@ export class Connector implements IConnector {
         await this._server.emitAsync(eventName, event);
     }
 
-    private async emitFetchEnd(requestResponse: RequestResponse) {
+    private async emitFetchEnd(requestResponse: RequestResponse, dom: CDPAsyncHTMLDocument | null) {
         const resourceUrl: string = requestResponse.finalUrl;
         const hops: Array<string> = requestResponse.hops;
         const originalUrl: string = hops[0] || resourceUrl;
 
         let element = null;
         let eventName: string = 'fetch::end';
-        const isTarget: boolean = this._href === originalUrl;
+        /*
+         * `dom` should be `null` only if "fetch::end" is for the target
+         * (and thus no `dom` is needed )
+         */
+        const isTarget: boolean = !dom;
 
-        if (!isTarget) {
+        if (dom) {
             try {
-                element = await this.getElementFromRequest(requestResponse.requestId);
+                element = await this.getElementFromRequest(requestResponse.requestId, dom);
             } catch (e) {
                 debug(`Error finding element for request ${requestResponse.requestId}. element will be null`);
             }
@@ -280,8 +283,16 @@ export class Connector implements IConnector {
 
         const response: Response = requestResponse.getResponse(element);
 
+        // Doing a check so TypeScript is happy during `normalizeHeaders` later on
+        if (!requestResponse.responseReceived) {
+
+            const message = `Trying to emit "fetch::end" but no responseReceived for ${requestResponse.requestId} found`;
+
+            throw new Error(message);
+        }
+
         const request: Request = {
-            headers: normalizeHeaders(requestResponse.responseReceived!.response.requestHeaders) as HttpHeaders,
+            headers: normalizeHeaders(requestResponse.responseReceived.response.requestHeaders) as HttpHeaders,
             url: originalUrl
         };
 
@@ -355,7 +366,7 @@ export class Connector implements IConnector {
          * Also, redirects do not emit a `responseReceived`
          */
 
-        await this.emitFetchEnd(requestResponse);
+        await this.emitFetchEnd(requestResponse, this._dom);
     }
 
     /** Event handler fired when an HTTP request has finished and all the content is available */
@@ -377,14 +388,19 @@ export class Connector implements IConnector {
 
         const isTarget: boolean = this._href === originalUrl;
 
-        // DOM is not ready so we queue up the event for later
-        if (!isTarget && !this._dom) {
+        if (isTarget) {
+            await this.emitFetchEnd(requestResponse, null);
+
+            return;
+        }
+
+        if (!this._dom) {
             this._pendingResponseReceived.push(this.onLoadingFinished.bind(this, params));
 
             return;
         }
 
-        await this.emitFetchEnd(requestResponse);
+        await this.emitFetchEnd(requestResponse, this._dom);
     }
 
     /** Traverses the DOM notifying when a new element is traversed. */
