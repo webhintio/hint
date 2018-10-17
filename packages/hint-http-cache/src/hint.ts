@@ -271,7 +271,7 @@ export default class HttpCacheHint implements IHint {
             const cacheControl: string | null = headers && headers['cache-control'] || null;
 
             if (!cacheControl) {
-                await context.report(resource, fetchEnd.element, `No "cache-control" header or empty value found. It should have a value`);
+                await context.report(resource, `No "cache-control" header or empty value found. It should have a value`, { element: fetchEnd.element });
 
                 return false;
             }
@@ -289,7 +289,7 @@ export default class HttpCacheHint implements IHint {
             if (invalidDirectives.size > 0) {
                 const message: string = `The ${invalidDirectives.size === 1 ? 'directive' : 'directives'} ${Array.from(invalidDirectives.keys()).join(', ')} ${invalidDirectives.size === 1 ? 'is' : 'are'} invalid`;
 
-                await context.report(resource, fetchEnd.element, message);
+                await context.report(resource, message, { element: fetchEnd.element });
 
                 return false;
             }
@@ -297,7 +297,7 @@ export default class HttpCacheHint implements IHint {
             if (invalidValues.size > 0) {
                 const message: string = `The following ${invalidValues.size === 1 ? 'directive has' : 'directives have'} an invalid value:\n${directivesToString(invalidValues)}`;
 
-                await context.report(resource, fetchEnd.element, message);
+                await context.report(resource, message, { element: fetchEnd.element });
 
                 return false;
             }
@@ -316,7 +316,7 @@ export default class HttpCacheHint implements IHint {
             if (nonRecommendedDirective) {
                 const message: string = `The directive "${nonRecommendedDirective}" is not recommended`;
 
-                await context.report(resource, fetchEnd.element, message);
+                await context.report(resource, message, { element: fetchEnd.element });
 
                 return false;
             }
@@ -337,7 +337,7 @@ export default class HttpCacheHint implements IHint {
                 if (hasMaxAge) {
                     const message: string = `The following Cache-Control header is using a wrong combination of directives:\n${header}`;
 
-                    await context.report(fetchEnd.resource, fetchEnd.element, message);
+                    await context.report(fetchEnd.resource, message, { element: fetchEnd.element });
 
                     return false;
                 }
@@ -361,7 +361,7 @@ export default class HttpCacheHint implements IHint {
             if (!isValidCache) {
                 const message: string = `The target should not be cached, or have a small "max-age" value (${maxAgeTarget}):\n${header}`;
 
-                await context.report(fetchEnd.resource, fetchEnd.element, message);
+                await context.report(fetchEnd.resource, message, { element: fetchEnd.element });
 
                 return false;
             }
@@ -383,7 +383,7 @@ export default class HttpCacheHint implements IHint {
             if (usedDirectives.has('no-cache') || !(longCache && immutable)) {
                 const message: string = `Static resources should have a long cache value (${maxAgeResource}) and use the immutable directive:\n${header}`;
 
-                await context.report(resource, element, message);
+                await context.report(resource, message, { element });
 
                 return false;
             }
@@ -403,7 +403,7 @@ export default class HttpCacheHint implements IHint {
             if (!matches) {
                 const message: string = `No configured patterns for cache busting match ${resource}. See docs to add a custom one.`;
 
-                await context.report(resource, element, message);
+                await context.report(resource, message, { element });
 
                 return false;
             }

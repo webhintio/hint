@@ -36,7 +36,7 @@ export default class WebpackConfigNoDevtoolInProd implements IHint {
             debug(`parse::end::webpack-config received`);
 
             if (config.devtool && config.devtool.toString().includes('eval')) {
-                await context.report(resource, null, `\`${config.devtool.toString()}\` not recommended for prodution`);
+                await context.report(resource, `\`${config.devtool.toString()}\` not recommended for prodution`);
             }
         };
 

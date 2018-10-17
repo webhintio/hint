@@ -80,10 +80,10 @@ export default class NoBrokenLinksHint implements IHint {
             debug(`Error accessing {$absoluteURL}. ${JSON.stringify(error)}`);
 
             if (typeof error === 'string' && error.toLowerCase().includes('loop')) {
-                return context.report(url, element, error);
+                return context.report(url, error, { element });
             }
 
-            return context.report(url, element, 'Broken link found (domain not found).');
+            return context.report(url, 'Broken link found (domain not found).', { element });
         };
 
         /**
@@ -98,7 +98,9 @@ export default class NoBrokenLinksHint implements IHint {
             );
 
             if (statusIndex > -1) {
-                return context.report(url, element, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                const message = `Broken link found (${brokenStatusCodes[statusIndex]} response).`;
+
+                return context.report(url, message, { element });
             }
 
             fetchedURLs.push({ status: networkData.response.statusCode, url });
@@ -177,7 +179,7 @@ export default class NoBrokenLinksHint implements IHint {
                     // `url` is malformed, e.g.: just "http://`
                     debug(error);
 
-                    return context.report(url, null, `Broken link found (invalid URL).`);
+                    return context.report(url, `Broken link found (invalid URL).`);
                 }
 
                 /*
@@ -194,7 +196,7 @@ export default class NoBrokenLinksHint implements IHint {
                     const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
 
                     if (statusIndex > -1) {
-                        return context.report(fullURL, null, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                        return context.report(fullURL, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
                     }
                 } else {
                     // An element which was not present in the fetch end results

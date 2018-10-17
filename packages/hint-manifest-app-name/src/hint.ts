@@ -39,19 +39,25 @@ export default class ManifestAppNameHint implements IHint {
 
         const checkIfPropertyExists = async (resource: string, content: string | undefined, propertyName: string) => {
             if (typeof content === 'undefined') {
-                await context.report(resource, null, `Web app manifest should have '${propertyName}' property.`);
+                await context.report(resource, `Web app manifest should have '${propertyName}' property.`);
             }
         };
 
         const checkIfPropertyValueIsNotEmpty = async (resource: string, content: string | undefined, propertyName: string, getLocation: IJSONLocationFunction) => {
             if (typeof content === 'string' && (content.trim() === '')) {
-                await context.report(resource, null, `Web app manifest should have non-empty '${propertyName}' property value.`, undefined, getLocation(propertyName) || undefined);
+                const message = `Web app manifest should have non-empty '${propertyName}' property value.`;
+                const location = getLocation(propertyName);
+
+                await context.report(resource, message, { location });
             }
         };
 
         const checkIfPropertyValueIsUnderLimit = async (resource: string, content: string | undefined, propertyName: string, shortNameLengthLimit: number, getLocation: IJSONLocationFunction) => {
             if (content && (ucs2.decode(content).length > shortNameLengthLimit)) {
-                await context.report(resource, null, `Web app manifest should have '${propertyName}' property value under ${shortNameLengthLimit} characters.`, undefined, getLocation(propertyName) || undefined);
+                const message = `Web app manifest should have '${propertyName}' property value under ${shortNameLengthLimit} characters.`;
+                const location = getLocation(propertyName);
+
+                await context.report(resource, message, { location });
 
                 return false;
             }

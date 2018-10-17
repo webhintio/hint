@@ -48,13 +48,13 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
 
         const validate = async () => {
             if (!webpackEvent) {
-                await context.report('', null, 'The parser webpack-config should be activated');
+                await context.report('', 'The parser webpack-config should be activated');
 
                 return;
             }
 
             if (!typescriptEvent) {
-                await context.report('', null, 'The parser typescript-config should be activated');
+                await context.report('', 'The parser typescript-config should be activated');
 
                 return;
             }
@@ -66,7 +66,7 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
             }
 
             if (typescriptEvent.config.compilerOptions && typescriptEvent.config.compilerOptions.module !== 'esnext') {
-                await context.report(typescriptEvent.resource, null, 'TypeScript `compilerOptions.module` option should be `esnext`');
+                await context.report(typescriptEvent.resource, 'TypeScript `compilerOptions.module` option should be `esnext`');
             }
         };
 

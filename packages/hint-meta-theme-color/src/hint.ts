@@ -53,7 +53,7 @@ export default class MetaThemeColorHint implements IHint {
             const { resource } = event;
 
             if (!firstThemeColorMetaElement) {
-                await context.report(resource, null, `'theme-color' meta element was not specified.`);
+                await context.report(resource, `'theme-color' meta element was not specified.`);
             }
         };
 
@@ -92,13 +92,17 @@ export default class MetaThemeColorHint implements IHint {
             const color = parseColor(normalizedContentValue);
 
             if (color === null) {
-                await context.report(resource, element, `'theme-color' meta element 'content' attribute should not have invalid value of '${contentValue}'.`);
+                const message = `'theme-color' meta element 'content' attribute should not have invalid value of '${contentValue}'.`;
+
+                await context.report(resource, message, { element });
 
                 return;
             }
 
             if (isNotSupportedColorValue(color, normalizedContentValue)) {
-                await context.report(resource, element, `'theme-color' meta element 'content' attribute should not have unsupported value of '${contentValue}'.`);
+                const message = `'theme-color' meta element 'content' attribute should not have unsupported value of '${contentValue}'.`;
+
+                await context.report(resource, message, { element });
             }
         };
 
@@ -116,7 +120,9 @@ export default class MetaThemeColorHint implements IHint {
             const nameAttributeValue = element.getAttribute('name');
 
             if (nameAttributeValue && nameAttributeValue !== nameAttributeValue.trim()) {
-                await context.report(resource, element, `'theme-color' meta element 'name' attribute value should be 'theme-color', not '${nameAttributeValue}'.`);
+                const message = `'theme-color' meta element 'name' attribute value should be 'theme-color', not '${nameAttributeValue}'.`;
+
+                await context.report(resource, message, { element });
             }
         };
 
@@ -140,7 +146,7 @@ export default class MetaThemeColorHint implements IHint {
              */
 
             if (firstThemeColorMetaElement) {
-                await context.report(resource, element, `'theme-color' meta element is not needed as one was already specified.`);
+                await context.report(resource, `'theme-color' meta element is not needed as one was already specified.`, { element });
 
                 return;
             }
@@ -152,7 +158,7 @@ export default class MetaThemeColorHint implements IHint {
             //  * was specified in the `<body>`
 
             if (bodyElementWasReached) {
-                await context.report(resource, element, `'theme-color' meta element should be specified in the '<head>', not '<body>'.`);
+                await context.report(resource, `'theme-color' meta element should be specified in the '<head>', not '<body>'.`, { element });
 
                 return;
             }

@@ -116,7 +116,9 @@ export default class FooterHint implements IHint {
             debug(`Validating hint validate-footer`);
 
             if (!footerHTML.includes(stringToBeIncluded)) {
-                await context.report(resource, element, `"${stringToBeIncluded}" is not included in the footer.`);
+                const message = `"${stringToBeIncluded}" is not included in the footer.`;
+
+                await context.report(resource, message, { element });
             }
         };
 

@@ -94,15 +94,25 @@ with the website and report errors.
 To report an error, the hint has to do the following:
 
 ```ts
-await context.report(resource, element, message);
+await context.report(resource, message, { element: element });
 ```
 
 * `context.report()` is an asynchronous method, you should always `await`.
 * `resource` is the URL of what is being analyzed (HTML, JS, CSS, manifest,
   etc.)
-* `element` is the `IAsyncHTMLElement` that triggered the problem. Not always
-  necessary. In the case of an image, script, style, it will be an `img`,
-  `script`, `link`, etc.
+* `message` is the text to show to the user about the problem.
+* `options` is an (optional) object that can contain the following:
+  * `element` is an optional `IAsyncHTMLElement` where the issue was found
+    (used to get a `ProblemLocation` if one was not provided). For example,
+    if an image is missing an `alt` attribute, this can be the `img` element.
+  * `codeSnippet` is a string of source code to display (defaults to the
+    `outerHTML` of `element`).
+  * `content` is a string of text within `element` where the issue was found
+    (used to refine a `ProblemLocation`).;
+  * `location` is an explicit `ProblemLocation` (`{col: number, line: number}`)
+     where the issue was found.
+  * `severity` overrides the default `Severity` for the hint to determine how
+    the issue will be reported (e.g. `Severity.error`).
 
 On top or reporting errors, the `context` object exposes more information
 to enable more complex scenarios. Some of the following sections describe them.

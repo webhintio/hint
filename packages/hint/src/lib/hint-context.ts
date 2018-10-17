@@ -19,6 +19,18 @@ import {
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 import { Category } from './enums/category';
 
+export type ReportOptions = {
+    /** The source code to display (defaults to the `outerHTML` of `element`). */
+    codeSnippet?: string;
+    /** The text within `element` where the issue was found (used to refine a `ProblemLocation`). */
+    content?: string;
+    /** The `IAsyncHTMLElement` where the issue was found (used to get a `ProblemLocation`). */
+    element?: IAsyncHTMLElement | null;
+    /** The `ProblemLocation` where the issue was found. */
+    location?: ProblemLocation | null;
+    /** The `Severity` to report the issue as (overrides default settings for a hint). */
+    severity?: Severity;
+};
 
 /** Acts as an abstraction layer between hints and the main hint object. */
 export class HintContext<E extends Events = Events> {
@@ -99,8 +111,9 @@ export class HintContext<E extends Events = Events> {
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, element: IAsyncHTMLElement | null, message: string, content?: string, location?: ProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> {
-        let position: ProblemLocation | null = location || null;
+    public async report(resource: string, message: string, options: ReportOptions = {}): Promise<void> {
+        const { codeSnippet, content, element, severity } = options;
+        let position: ProblemLocation | null = options.location || null;
         let sourceCode: string | null = null;
 
         if (element) {

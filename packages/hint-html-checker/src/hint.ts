@@ -121,13 +121,17 @@ export default class HtmlCheckerHint implements IHint {
                     line: messageItem.lastLine
                 };
 
-                return context.report(resource, null, messageItem.message, undefined, position, Severity[messageItem.subType], messageItem.extract);
+                return context.report(resource, messageItem.message, {
+                    codeSnippet: messageItem.extract,
+                    location: position,
+                    severity: Severity[messageItem.subType]
+                });
             };
         };
 
         const notifyError = async (resource: string, error: any) => {
             debug(`Error getting HTML checker result for ${resource}.`, error);
-            await context.report(resource, null, `Could not get results from HTML checker for '${resource}'. Error: '${error}'.`);
+            await context.report(resource, `Could not get results from HTML checker for '${resource}'. Error: '${error}'.`);
         };
 
         const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {

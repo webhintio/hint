@@ -161,11 +161,15 @@ export default class NoDisallowedHeadersHint implements IHint {
                 serverHeaderValue &&
                 serverHeaderContainsTooMuchInformation(serverHeaderValue)
             ) {
-                await context.report(resource, element, `'server' header value should only contain the server name, not '${(response.headers as any).server}'.`);
+                const message = `'server' header value should only contain the server name, not '${(response.headers as any).server}'.`;
+
+                await context.report(resource, message, { element });
             }
 
             if (numberOfHeaders > 0) {
-                await context.report(resource, element, `Response should not include disallowed ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`);
+                const message = `Response should not include disallowed ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`;
+
+                await context.report(resource, message, { element });
             }
         };
 

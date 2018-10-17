@@ -15,7 +15,7 @@ const configChecker = (property: string, desiredValue: boolean, message: string,
         }
 
         if (current !== desiredValue) {
-            await context.report(resource, null, message, undefined, getLocation(property) || undefined);
+            await context.report(resource, message, { location: getLocation(property) });
         }
     };
 };

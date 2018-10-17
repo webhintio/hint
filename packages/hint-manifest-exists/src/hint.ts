@@ -46,7 +46,7 @@ export default class ManifestExistsHint implements IHint {
 
         const checkIfManifestWasSpecified = async (scanEndEvent: ScanEnd) => {
             if (!manifestIsSpecified) {
-                await context.report(scanEndEvent.resource, null, `'manifest' link element was not specified.`);
+                await context.report(scanEndEvent.resource, `'manifest' link element was not specified.`);
             }
         };
 
@@ -63,7 +63,7 @@ export default class ManifestExistsHint implements IHint {
              */
 
             if (manifestIsSpecified) {
-                await context.report(resource, element, `'manifest' link element is not needed as one was already specified.`);
+                await context.report(resource, `'manifest' link element is not needed as one was already specified.`, { element });
 
                 return;
             }
@@ -73,14 +73,14 @@ export default class ManifestExistsHint implements IHint {
             const href = normalizeString(element.getAttribute('href'));
 
             if (!href) {
-                await context.report(resource, element, `'manifest' link element should have non-empty 'href' attribute.`);
+                await context.report(resource, `'manifest' link element should have non-empty 'href' attribute.`, { element });
             }
         };
 
         const handleFetchErrors= async (fetchErrorEvent: FetchError) => {
             const { resource, element, error } = fetchErrorEvent;
 
-            await context.report(resource, element, error.message);
+            await context.report(resource, error.message, { element });
         };
 
         context.on('element::link', checkIfManifest);

@@ -46,7 +46,7 @@ export default class NoP3pHint implements IHint {
                 const result = await context.fetchContent(wellKnown);
 
                 if (result.response.statusCode === 200) {
-                    await context.report(wellKnown.toString(), null, errorMessage);
+                    await context.report(wellKnown.toString(), errorMessage);
                 }
             } catch (e) {
                 /*
@@ -67,7 +67,7 @@ export default class NoP3pHint implements IHint {
             const numberOfHeaders: number = headers.length;
 
             if (numberOfHeaders > 0) {
-                await context.report(resource, element, errorMessage);
+                await context.report(resource, errorMessage, { element });
             }
         };
 
@@ -81,7 +81,7 @@ export default class NoP3pHint implements IHint {
             const rel: string | null = element.getAttribute('rel');
 
             if (rel && normalizeString(rel) === 'p3pv1') {
-                await context.report(resource, element, errorMessage);
+                await context.report(resource, errorMessage, { element });
             }
         };
 
