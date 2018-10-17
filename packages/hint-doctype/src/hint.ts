@@ -21,7 +21,7 @@ export default class implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
             category: Category.interoperability,
-            description: `Hint to validate if the DOCTYPE is correct`
+            description: `Hint to validate if the DOCTYPE is correct.`
         },
         id: 'doctype',
         schema: [],
@@ -71,7 +71,7 @@ export default class implements IHint {
         };
 
         const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<void> => {
-            debug(`Checking that there is only one DOCTYPE tag in the document`);
+            debug(`Checking that there is only one DOCTYPE tag in the document.`);
 
             const matched = content.match(doctypeRegExp);
 
