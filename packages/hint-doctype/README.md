@@ -1,34 +1,33 @@
-# Check that the Doctype tag of the document is valid
+# Check that the DOCTYPE tag of the document is valid
 
-This hint checks if there is a valid Doctype in the document.
+This hint checks if there is a valid DOCTYPE in the document.
 
 ## Why is this important?
 
-A valid doctype will give the browser the correct information
+A valid DOCTYPE will give the browser the correct information
 about the version of HTML.
 
 ## What does the hint check?
 
-The hint checks that the doctype is `<!doctype html>`
+The hint checks that the DOCTYPE is `<!DOCTYPE html>`
 and is in the first line of the document.
 
 ### Examples that **trigger** the hint
 
-An uppercase doctype should fail, for example `<!DOCTYPE html>`
-Also the hint will trigger if the doctype is not in the first line, for example
+Also the hint will trigger if the DOCTYPE is not in the first line, for example
 
 ```html
 <!--first line taken up by this unnecessary comment-->
-<!doctype html>
+<!DOCTYPE html>
 ```
 
 ### Examples that **pass** the hint
 
-A doctype in the first line, without other information in that line.
+A DOCTYPE in the first line, without other information in that line.
 
 ```html
-<!doctype html>
-<!--all content below the doctype tag-->
+<!DOCTYPE html>
+<!--all content below the DOCTYPE tag-->
 ```
 
 ## How to use this hint?
@@ -36,7 +35,7 @@ A doctype in the first line, without other information in that line.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @hint/hint-doctype
+npm install @hint/hint-DOCTYPE
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -63,10 +62,10 @@ configuration file:
 
 What can the user read to know more about this subject?
 
-* [Doctype (Wikipedia)][docwiki]
-* [Doctype (MDN)][docmdn]
+* [DOCTYPE (Wikipedia)][docwiki]
+* [DOCTYPE (MDN)][docmdn]
 
 <!-- Link labels: -->
 
 [docwiki]: https://en.wikipedia.org/wiki/Document_type_declaration
-[docmdn]: https://developer.mozilla.org/en-US/docs/Glossary/Doctype
+[docmdn]: https://developer.mozilla.org/en-US/docs/Glossary/DOCTYPE
