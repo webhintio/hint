@@ -43,10 +43,98 @@ const tests: Array<HintTest> = [
         }
     },
     {
-        name: 'Doctype with one more spaces after html should pass',
+        name: 'Doctype regular with no space between terms should fail',
+        reports: [{ message: `The resource does not contain a valid doctype tag` }],
+        serverConfig: {
+            '/': {
+                content: `<!doctypehtml>
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype legacy-compat with no space bewteen first two terms should fail',
+        reports: [{ message: `The resource does not contain a valid doctype tag` }],
+        serverConfig: {
+            '/': {
+                content: `<!DOCTYPEhtml SYSTEM "about:legacy-compat">
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype legacy-compat with no space bewteen second two terms should fail',
+        reports: [{ message: `The resource does not contain a valid doctype tag` }],
+        serverConfig: {
+            '/': {
+                content: `<!DOCTYPE htmlSYSTEM "about:legacy-compat">
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype legacy-compat with no space bewteen third two terms should fail',
+        reports: [{ message: `The resource does not contain a valid doctype tag` }],
+        serverConfig: {
+            '/': {
+                content: `<!DOCTYPE html SYSTEM"about:legacy-compat">
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype tag should pass',
+        serverConfig: {
+            '/': {
+                content: `<!DOCTYPE html>
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype tag with legacy-compat should pass',
+        serverConfig: {
+            '/': {
+                content: `<!DOCTYPE html SYSTEM "about:legacy-compat">
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype regular with one more spaces after html should pass',
         serverConfig: {
             '/': {
                 content: `<!doctype html      >
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'Doctype legacy-compat with one more spaces after html should pass',
+        serverConfig: {
+            '/': {
+                content: `<!DOCTYPE html SYSTEM "about:legacy-compat"     >
                 <head></head>
                 <body></body>
                 `,
