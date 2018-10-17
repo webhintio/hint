@@ -86,7 +86,7 @@ export default class implements IHint {
             const { resource, element, response } = fetchEnd;
 
             if (!response || !response.body || !response.body.content) {
-                await context.report(resource, element, 'Content has no body');
+                await context.report(resource, element, 'Content has no body.');
 
                 return;
             }
