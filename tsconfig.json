@@ -49,6 +49,7 @@
         { "path": "packages/hint-babel-config" },
         { "path": "packages/hint-content-type" },
         { "path": "packages/hint-disown-opener" },
+        { "path": "packages/hint-doctype" },
         { "path": "packages/hint-highest-available-document-mode" },
         { "path": "packages/hint-html-checker" },
         { "path": "packages/hint-http-cache" },

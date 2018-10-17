@@ -35,11 +35,17 @@ export default class implements IHint {
             line: 0,
         };
 
-        const getCurrentProblemLocation = (matchArray: RegExpMatchArray): ProblemLocation => {
-            return {
-                column: 0,
-                line: 0
-            };
+        const getCurrentProblemLocation = (content: string): ProblemLocation => {
+            const lines = content.split('\n');
+            const location = {} as ProblemLocation;
+            lines.forEach((line: string, idx: number): void => {
+                const matched = doctypeRegExp.exec(line);
+                if (matched && !location.line){
+                    location.line = idx;
+                    location.column = matched.index
+                }
+            })
+            return location;
         };
 
         const checkDoctypeIsValid = async (resource: string, content: string): Promise<boolean> => {
@@ -76,19 +82,6 @@ export default class implements IHint {
                     return;
                 }
 
-                function getCurrentProblemLocation (content: string) {
-                    const lines = content.split('\n');
-                    const location = {} as ProblemLocation;
-                    lines.forEach((line: string, idx: number): void => {
-                        const matched = doctypeRegExp.exec(line);
-                        if (matched && !location.line){
-                            location.line = idx;
-                            location.column = matched.index
-                        }
-                    })
-                    return location;
-                }
-
                 //DOCTYPE was not found in first line or anywhere else in the document
                 await context.report(resource, null, `DOCTYPE is not in the first line.`, undefined, problemLocation);
 
@@ -96,7 +89,7 @@ export default class implements IHint {
             }
 
             if (matched) {
-                // check for additional info on first line e.g. `<!doctype html></br>` 
+                // check for additional info on first line e.g. `<!doctype html></br>`
                 const cleaned = firstLine.match(doctypeRegExpStrict);
 
                 if (cleaned && !(cleaned[0] === matched[0])) {
