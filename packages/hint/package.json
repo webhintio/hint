@@ -9,7 +9,7 @@
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
     "ajv": "^6.5.4",
-    "applicationinsights": "^1.0.4",
+    "applicationinsights": "^1.0.6",
     "async": "^2.6.1",
     "boxen": "^2.0.0",
     "browserslist": "^4.2.1",
@@ -115,7 +115,7 @@
   "scripts": {
     "ava": "ava",
     "build": "npm run clean && npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc -b --inlineSourceMap false --removeComments true",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",

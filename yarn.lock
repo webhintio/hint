@@ -1095,10 +1095,10 @@ append-transform@^1.0.0:
   dependencies:
     default-require-extensions "^2.0.0"
 
-applicationinsights@^1.0.4:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.0.5.tgz#a60d1ffdf7aa1ac77c637c0ef7fcf2a9671cc869"
-  integrity sha512-T6V4ZyhikGKnuqYGbNz1q5+ORROutUp58UqfLLwHH+X1RkcnEU+gW15kIKWJ8zqGWbilhn6bONJa+T5en642mg==
+applicationinsights@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.0.6.tgz#bc201810de91cea910dab34e8ad35ecde488edeb"
+  integrity sha512-VQT3kBpJVPw5fCO5n+WUeSx0VHjxFtD7znYbILBlVgOS9/cMDuGFmV2Br3ObzFyZUDGNbEfW36fD1y2/vAiCKw==
   dependencies:
     diagnostic-channel "0.2.0"
     diagnostic-channel-publishers "0.2.1"
@@ -10006,10 +10006,10 @@ vscode-jsonrpc@^4.0.0:
   resolved "https://registry.yarnpkg.com/vscode-jsonrpc/-/vscode-jsonrpc-4.0.0.tgz#a7bf74ef3254d0a0c272fab15c82128e378b3be9"
   integrity sha512-perEnXQdQOJMTDFNv+UF3h1Y0z4iSiaN9jIlb0OqIYgosPCZGYh/MCUlkFtV2668PL69lRDO32hmvL2yiidUYg==
 
-vscode-languageclient@^5.0.1:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/vscode-languageclient/-/vscode-languageclient-5.1.0.tgz#650ab0dc9fd0daaade058a8471aaff5bc3f9580e"
-  integrity sha512-Z95Kps8UqD4o17HE3uCkZuvenOsxHVH46dKmaGVpGixEFZigPaVuVxLM/JWeIY9aRenoC0ZD9CK1O7L4jpffKg==
+vscode-languageclient@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/vscode-languageclient/-/vscode-languageclient-5.1.1.tgz#5b1f12066d89660d0d74b80dbbca371c6aea52f7"
+  integrity sha512-jMxshi+BPRQFNG8GB00dJv7ldqMda0be26laYYll/udtJuHbog6RqK10GSxHWDN0PgY0b0m5fePyTk3bq8a0TA==
   dependencies:
     semver "^5.5.0"
     vscode-languageserver-protocol "3.13.0"
@@ -10208,9 +10208,9 @@ wide-align@^1.1.0:
     string-width "^1.0.2 || 2"
 
 widest-line@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/widest-line/-/widest-line-2.0.0.tgz#0142a4e8a243f8882c0233aa0e0281aa76152273"
-  integrity sha1-AUKk6KJD+IgsAjOqDgKBqnYVInM=
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/widest-line/-/widest-line-2.0.1.tgz#7438764730ec7ef4381ce4df82fb98a53142a3fc"
+  integrity sha512-Ba5m9/Fa4Xt9eb2ELXt77JxVDV8w7qQrH0zS/TWSJdLyAwQjWoOzpzj5lwVftDz6n/EOu3tNACS84v509qwnJA==
   dependencies:
     string-width "^2.1.1"
 

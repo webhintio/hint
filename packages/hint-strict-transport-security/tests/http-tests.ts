@@ -12,6 +12,10 @@ const noHttpServerTests: Array<HintTest> = [{
     // the max-age that passes before is now too short
     reports: [{ message: `'strict-transport-security' header should't be specified in pages served over HTTP.` }],
     serverConfig: Object.assign({}, { '/': { headers: common.maxAgeOnlyHeader } })
+},
+{
+    name: `strict-transport-security sent over HTTP`,
+    serverConfig: Object.assign({}, { '/': '' })
 }];
 
 hintRunner.testHint(hintPath, noHttpServerTests);

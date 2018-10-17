@@ -46,6 +46,8 @@ export default class StrictTransportSecurityHint implements IHint {
         const statusApiEndPoint = `https://hstspreload.org/api/v2/status?domain=`;
         /** Endpoint to verify that the domain name is qualified to be preloaded */
         const preloadableApiEndPoint = `https://hstspreload.org/api/v2/preloadable?domain=`;
+        /** Set of unsupported domains to avoid make unnecessary requests. */
+        const unsupportedDomains: Set<string> = new Set();
 
         /*
          * HACK: Need to do a require here in order to be capable of mocking
@@ -69,7 +71,7 @@ export default class StrictTransportSecurityHint implements IHint {
          * "max-age=31536000; includesubdomains; preload" => {"max-age":31536000,"includesubdomains":true,"preload":true}
          */
         const parse = (headerValue: string) => {
-            const parsedHeader: {[name:string]: string } = {};
+            const parsedHeader: { [name: string]: string } = {};
             const directives = headerValue.toLowerCase().split(';');
             const nameValuePairRegex = /^ *([!#$%&'*+.^_`|~0-9A-Za-z-]+) *= *("(?:[~0-9])*"|[!#$%&'*+.^_`|~0-9]+) *$/;
             /*
@@ -178,7 +180,15 @@ export default class StrictTransportSecurityHint implements IHint {
             }
 
             if (!isHTTPS(resource) && !headerValue) {
-                const httpsResource = url.format(Object.assign(new URL(resource), { protocol: `https` }));
+                const urlObject = new URL(resource);
+
+                if (unsupportedDomains.has(urlObject.host)) {
+                    debug(`${resource} ignored because the domain ${urlObject.host} does not support HTTPS.`);
+
+                    return;
+                }
+
+                const httpsResource = url.format(Object.assign(urlObject, { protocol: `https` }));
 
                 try {
                     const networkData: NetworkData = await context.fetchContent(httpsResource);
@@ -198,6 +208,12 @@ export default class StrictTransportSecurityHint implements IHint {
                 } catch (err) {
                     // HTTPS site can't be fetched, do nothing.
                     debug(`${resource} doesn't support HTTPS`);
+
+                    /*
+                     * If the HTTPS resource can't be fetched,
+                     * add the domain to the unsupported list.
+                     */
+                    unsupportedDomains.add(urlObject.host);
                 }
 
                 return;
