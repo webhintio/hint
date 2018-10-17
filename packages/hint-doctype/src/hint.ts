@@ -50,6 +50,7 @@ export default class implements IHint {
 
             const firstLine = content.split(/\r|\n/)[0];
             const matched = firstLine.match(doctypeRegExp);
+            const doctypeRegExpStrict = /(<!doctype\s+(html)\s*(\s+system\s+"about:legacy-compat")?\s*?>)/gi;
 
 
             if (!matched || matched.length < 1) {
@@ -59,12 +60,12 @@ export default class implements IHint {
             }
 
             if (matched) {
-                const cleaned = matched[0].trim().split('');
+                const cleaned = firstLine.match(doctypeRegExpStrict)
 
-                if (cleaned[cleaned.length-1] !== '>') {
+                if (cleaned && !(cleaned[0] === matched[0])) {
                     await context.report(resource, element, `There is additional information on the line with the DOCTYPE tag.`);
 
-                    return;
+                    return
                 }
             }
         };

@@ -146,7 +146,7 @@ const tests: Array<HintTest> = [
         reports: [{ message: `There is additional information on the line with the DOCTYPE tag.` }],
         serverConfig: {
             '/': {
-                content: `<!doctype html>sadioklj`,
+                content: `<!doctype html></br>`,
                 headers: { 'Content-Type': 'text/html' }
             }
         }
