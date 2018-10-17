@@ -7,7 +7,7 @@ const hintPath = getHintPath(__filename);
 const tests: Array<HintTest> = [
     {
         name: 'HTML with no content should fail',
-        reports: [{ message: `Content has no body.` }],
+        reports: [{ message: `Resource has no content.` }],
         serverConfig: {
             '/': {
                 content: '',
