@@ -43,6 +43,18 @@ const tests: Array<HintTest> = [
         }
     },
     {
+        name: 'Doctype with one more spaces after html should pass',
+        serverConfig: {
+            '/': {
+                content: `<!doctype html      >
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
         name: 'Doctype found on first line and nothing else found should pass',
         serverConfig: {
             '/': {
