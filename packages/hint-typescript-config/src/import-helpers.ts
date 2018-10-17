@@ -50,7 +50,7 @@ export default class TypeScriptConfigImportHelpers implements IHint {
             } catch (e) {
                 debug(e);
 
-                await context.report(resource, null, `Couldn't find package "tslib".`);
+                await context.report(resource, `Couldn't find package "tslib".`);
             }
         };
 

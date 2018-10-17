@@ -72,7 +72,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                  */
 
                 if (!requireMetaElement && !suggestRemoval) {
-                    await context.report(resource, null, `Response should include 'x-ua-compatible' header.`);
+                    await context.report(resource, `Response should include 'x-ua-compatible' header.`);
                 }
 
                 return;
@@ -85,13 +85,13 @@ export default class HighestAvailableDocumentModeHint implements IHint {
              */
 
             if (suggestRemoval) {
-                await context.report(resource, null, `Response should not include unneeded 'x-ua-compatible' header.`);
+                await context.report(resource, `Response should not include unneeded 'x-ua-compatible' header.`);
 
                 return;
             }
 
             if (headerValue !== 'ie=edge') {
-                await context.report(resource, null, `'x-ua-compatible' header value should be 'ie=edge', not '${!originalHeaderValue ? '' : originalHeaderValue}'.`);
+                await context.report(resource, `'x-ua-compatible' header value should be 'ie=edge', not '${!originalHeaderValue ? '' : originalHeaderValue}'.`);
             }
 
             /*
@@ -122,7 +122,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                         `'x-ua-compatible' meta element should not be specified, and instead, equivalent HTTP header should be used.`;
 
                     for (const metaElement of XUACompatibleMetaElements) {
-                        await context.report(resource, metaElement, errorMessage);
+                        await context.report(resource, errorMessage, { element: metaElement });
                     }
                 }
 
@@ -132,7 +132,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             // If the user requested the meta element to be specified.
 
             if (XUACompatibleMetaElements.length === 0) {
-                await context.report(resource, null, `'x-ua-compatible' meta element should be specified.`);
+                await context.report(resource, `'x-ua-compatible' meta element should be specified.`);
 
                 return;
             }
@@ -148,7 +148,9 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             // * it has the value `ie=edge`.
 
             if (normalizeString(contentValue) !== 'ie=edge') {
-                await context.report(resource, XUACompatibleMetaElement, `'x-ua-compatible' meta element 'content' attribute value should be 'ie=edge', not '${!contentValue ? '' : contentValue}'.`);
+                const message = `'x-ua-compatible' meta element 'content' attribute value should be 'ie=edge', not '${!contentValue ? '' : contentValue}'.`;
+
+                await context.report(resource, message, { element: XUACompatibleMetaElement });
             }
 
             /*
@@ -165,7 +167,9 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             for (const headElement of headElements) {
                 if (headElement.isSame(XUACompatibleMetaElement)) {
                     if (!metaElementIsBeforeRequiredElements) {
-                        await context.report(resource, XUACompatibleMetaElement, `'x-ua-compatible' meta element should be specified before all other elements except for '<title>' and other '<meta>' elements.`);
+                        const message = `'x-ua-compatible' meta element should be specified before all other elements except for '<title>' and other '<meta>' elements.`;
+
+                        await context.report(resource, message, { element: XUACompatibleMetaElement });
                     }
 
                     break;
@@ -181,7 +185,9 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             const bodyMetaElements: IAsyncHTMLElement[] = getXUACompatibleMetaElements(await pageDOM.querySelectorAll('body meta'));
 
             if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(XUACompatibleMetaElement)) {
-                await context.report(resource, XUACompatibleMetaElement, `'x-ua-compatible' meta element should be specified in the '<head>', not '<body>'.`);
+                const message = `'x-ua-compatible' meta element should be specified in the '<head>', not '<body>'.`;
+
+                await context.report(resource, message, { element: XUACompatibleMetaElement });
 
                 return;
             }
@@ -192,7 +198,9 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                 const metaElements = XUACompatibleMetaElements.slice(1);
 
                 for (const metaElement of metaElements) {
-                    await context.report(resource, metaElement, `'x-ua-compatible' meta element is not needed as one was already specified.`);
+                    const message = `'x-ua-compatible' meta element is not needed as one was already specified.`;
+
+                    await context.report(resource, message, { element: metaElement });
                 }
             }
         };

@@ -80,7 +80,12 @@ export default class AmpValidatorHint implements IHint {
                     if (errorsOnly && error.severity !== 'ERROR') {
                         debug(`AMP error doesn't meet threshold for reporting`);
                     } else {
-                        await context.report(resource, null, message, '', { column: error.col, line: error.line });
+                        const location = {
+                            column: error.col,
+                            line: error.line
+                        };
+
+                        await context.report(resource, message, { location });
                     }
                 }
             }

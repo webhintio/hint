@@ -240,7 +240,10 @@ export default class TypeScriptConfigTarget implements IHint {
             const maxESVersion = getMaxVersion(minimumBrowsers);
 
             if (maxESVersion !== target) {
-                await context.report(resource, null, `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`, undefined, getLocation('compilerOptions.target') || undefined);
+                const message = `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`;
+                const location = getLocation('compilerOptions.target');
+
+                await context.report(resource, message, { location });
             }
         };
 

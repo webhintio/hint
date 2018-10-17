@@ -45,7 +45,9 @@ export default class ManifestFileExtensionHint implements IHint {
                 const fileExtension: string = getFileExtension(normalizeString(element.getAttribute('href')) || '');
 
                 if (fileExtension !== standardManifestFileExtension) {
-                    await context.report(resource, element, `Web app manifest should have the filename extension '${standardManifestFileExtension}'${fileExtension ? `, not '${fileExtension}'` : ''}.`, fileExtension);
+                    const message = `Web app manifest should have the filename extension '${standardManifestFileExtension}'${fileExtension ? `, not '${fileExtension}'` : ''}.`;
+
+                    await context.report(resource, message, { content: fileExtension, element });
                 }
             }
         };

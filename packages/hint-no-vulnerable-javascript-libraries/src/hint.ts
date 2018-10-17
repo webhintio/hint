@@ -159,7 +159,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 .join(', ');
 
             if (detail) {
-                await context.report(resource, null, `'${library.name}@${library.version}' has ${vulnerabilities.length} known ${vulnerabilities.length === 1 ? 'vulnerability' : 'vulnerabilities'} (${detail}). See '${link}' for more information.`);
+                await context.report(resource, `'${library.name}@${library.version}' has ${vulnerabilities.length} known ${vulnerabilities.length === 1 ? 'vulnerability' : 'vulnerabilities'} (${detail}). See '${link}' for more information.`);
             }
         };
 
@@ -218,7 +218,9 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     message = `Error executing script: '${e.message}'`;
                 }
 
-                await context.report(resource, null, `${message}. Please try again later, or report an issue if this problem persists.`, undefined, undefined, Severity.warning);
+                message = `${message}. Please try again later, or report an issue if this problem persists.`;
+
+                await context.report(resource, message, { severity: Severity.warning });
                 debug('Error executing script', e);
 
                 return;

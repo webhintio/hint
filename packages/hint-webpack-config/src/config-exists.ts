@@ -33,7 +33,7 @@ export default class WebpackConfigConfigExists implements IHint {
         const notFound = async () => {
             debug(`parse::error::webpack-config::not-found received`);
 
-            await context.report('', null, 'webpack configuration file not found in your project.');
+            await context.report('', 'webpack configuration file not found in your project.');
         };
 
         context.on('parse::error::webpack-config::not-found', notFound);

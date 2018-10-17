@@ -64,7 +64,9 @@ export default class DisownOpenerHint implements IHint {
             });
 
             if (requiredValues.length !== 0) {
-                await context.report(resource, element, `'${cutString(await element.outerHTML(), 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`, hrefValue);
+                const message = `'${cutString(await element.outerHTML(), 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`;
+
+                await context.report(resource, message, { content: hrefValue, element });
             }
         };
 

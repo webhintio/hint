@@ -129,7 +129,7 @@ export default class StrictTransportSecurityHint implements IHint {
                 const message = `Error with getting preload status for ${resource}.`;
 
                 debug(message, err);
-                await context.report(resource, null, message);
+                await context.report(resource, message);
 
                 return issues;
             }
@@ -140,7 +140,7 @@ export default class StrictTransportSecurityHint implements IHint {
                 const message = `Error with getting preload status for ${resource}. There might be something wrong with the verification endpoint.`;
 
                 debug(message);
-                await context.report(resource, null, message);
+                await context.report(resource, message);
 
                 return issues;
             }
@@ -152,7 +152,7 @@ export default class StrictTransportSecurityHint implements IHint {
                     const message = `Error with getting preload eligibility for ${resource}.`;
 
                     debug(message, err);
-                    await context.report(resource, null, message);
+                    await context.report(resource, message);
                 }
 
                 debug(`Received preload eligibility for ${resource}.`);
@@ -174,7 +174,9 @@ export default class StrictTransportSecurityHint implements IHint {
             let parsedHeader;
 
             if (!isHTTPS(resource) && headerValue) {
-                await context.report(resource, element, `'strict-transport-security' header should't be specified in pages served over HTTP.`);
+                const message = `'strict-transport-security' header should't be specified in pages served over HTTP.`;
+
+                await context.report(resource, message, { element });
 
                 return;
             }
@@ -221,7 +223,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
             // Check if the header `Strict-Transport-Security` is sent for resources served over HTTPS.
             if (!headerValue) {
-                await context.report(resource, element, `'strict-transport-security' header was not specified`);
+                await context.report(resource, `'strict-transport-security' header was not specified`, { element });
 
                 return;
             }
@@ -229,7 +231,7 @@ export default class StrictTransportSecurityHint implements IHint {
             try {
                 parsedHeader = parse(headerValue);
             } catch (err) {
-                await context.report(resource, element, err.message);
+                await context.report(resource, err.message, { element });
 
                 return;
             }
@@ -240,7 +242,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
                 if (errors) {
                     for (const error of errors) {
-                        await context.report(resource, element, error.message);
+                        await context.report(resource, error.message, { element });
                     }
 
                     return;
@@ -251,14 +253,18 @@ export default class StrictTransportSecurityHint implements IHint {
 
             // Check if header `Strict-Transport-Security` contains `max-age` directive.
             if (!maxAge) {
-                await context.report(resource, element, `'strict-transport-security' header requires 'max-age' directive`);
+                const message = `'strict-transport-security' header requires 'max-age' directive`;
+
+                await context.report(resource, message, { element });
 
                 return;
             }
 
             // Check if the `max-age` value is smaller than the minimum of max-age defined
             if (isUnderAgeLimit(maxAge, minMaxAgeValue)) {
-                await context.report(resource, element, `'strict-transport-security' header 'max-age' value should be more than ${minMaxAgeValue}`);
+                const message = `'strict-transport-security' header 'max-age' value should be more than ${minMaxAgeValue}`;
+
+                await context.report(resource, message, { element });
 
                 return;
             }

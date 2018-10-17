@@ -97,13 +97,19 @@ export default class ManifestIsValidHint implements IHint {
                 const color = parseColor(normalizedColorValue);
 
                 if (color === null) {
-                    await context.report(resource, null, `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`, undefined, getLocation(property) || undefined);
+                    const location = getLocation(property);
+                    const message = `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`;
+
+                    await context.report(resource, message, { location });
 
                     continue;
                 }
 
                 if (isNotSupportedColorValue(color, normalizedColorValue)) {
-                    await context.report(resource, null, `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`, undefined, getLocation(property) || undefined);
+                    const location = getLocation(property);
+                    const message = `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`;
+            
+                    await context.report(resource, message, { location });
                 }
             }
         };
@@ -112,14 +118,17 @@ export default class ManifestIsValidHint implements IHint {
             const lang = manifest.lang;
 
             if (lang && !bcp47(lang)) {
-                await context.report(resource, null, `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`, undefined, getLocation('lang') || undefined);
+                const location = getLocation('lang');
+                const message = `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`;
+
+                await context.report(resource, message, { location });
             }
         };
 
         const handleInvalidJSON = async (manifestInvalidJSON: ManifestInvalidJSON) => {
             const { resource } = manifestInvalidJSON;
 
-            await context.report(resource, null, `Web app manifest should contain valid JSON.`);
+            await context.report(resource, `Web app manifest should contain valid JSON.`);
         };
 
         const handleInvalidSchema = async (manifestInvalidSchemaEvent: ManifestInvalidSchema) => {
@@ -127,7 +136,7 @@ export default class ManifestIsValidHint implements IHint {
                 const error = manifestInvalidSchemaEvent.prettifiedErrors[i];
                 const location = manifestInvalidSchemaEvent.errors[i].location;
 
-                await context.report(manifestInvalidSchemaEvent.resource, null, error, undefined, location);
+                await context.report(manifestInvalidSchemaEvent.resource, error, { location });
             }
         };
 

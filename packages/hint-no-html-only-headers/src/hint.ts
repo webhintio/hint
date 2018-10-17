@@ -129,7 +129,9 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
                 const numberOfHeaders: number = headers.length;
 
                 if (numberOfHeaders > 0) {
-                    await context.report(resource, element, `Response should not include unneeded ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`);
+                    const message = `Response should not include unneeded ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`;
+
+                    await context.report(resource, message, { element });
                 }
             }
         };

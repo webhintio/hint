@@ -96,7 +96,7 @@ export default class SSLLabsHint implements IHint {
                 const message = `'${resource}' does not support HTTPS.`;
 
                 debug(message);
-                await context.report(resource, null, message);
+                await context.report(resource, message);
 
                 return;
             }
@@ -108,7 +108,7 @@ export default class SSLLabsHint implements IHint {
                 const message: string = `${serverName}'s grade ${grade} does not meet the minimum ${minimumGrade} required.`;
 
                 debug(message);
-                await context.report(resource, null, message);
+                await context.report(resource, message);
             } else {
                 debug(`Grade ${grade} for ${resource} is ok.`);
             }
@@ -116,7 +116,7 @@ export default class SSLLabsHint implements IHint {
 
         const notifyError = async (resource: string, error: any) => {
             debug(`Error getting data for ${resource} %O`, error);
-            await context.report(resource, null, `Could not get results from SSL Labs for '${resource}'.`);
+            await context.report(resource, `Could not get results from SSL Labs for '${resource}'.`);
         };
 
         const start = async (data: FetchEnd) => {
@@ -126,7 +126,7 @@ export default class SSLLabsHint implements IHint {
                 const message: string = `'${resource}' does not support HTTPS.`;
 
                 debug(message);
-                await context.report(resource, null, message);
+                await context.report(resource, message);
 
                 return;
             }
@@ -169,7 +169,7 @@ export default class SSLLabsHint implements IHint {
 There might be something wrong with SSL Labs servers.`;
 
                 debug(msg);
-                await context.report(resource, null, msg);
+                await context.report(resource, msg);
 
                 return;
             }

@@ -158,15 +158,15 @@ export default class StylesheetLimitsHint implements IHint {
 
             // Only check `maxImports` if a limit has been specified
             if (hasImportLimit && results.imports >= maxImports) {
-                await context.report(event.resource, null, `Maximum of ${maxImports} nested imports reached (${results.imports})`);
+                await context.report(event.resource, `Maximum of ${maxImports} nested imports reached (${results.imports})`);
             }
 
             if (hasRuleLimit && results.rules >= maxRules) {
-                await context.report(event.resource, null, `Maximum of ${maxRules} CSS rules reached (${results.rules})`);
+                await context.report(event.resource, `Maximum of ${maxRules} CSS rules reached (${results.rules})`);
             }
 
             if (hasSheetLimit && results.sheets >= maxSheets) {
-                await context.report(event.resource, null, `Maximum of ${maxSheets} stylesheets reached (${results.sheets})`);
+                await context.report(event.resource, `Maximum of ${maxSheets} stylesheets reached (${results.sheets})`);
             }
         };
 

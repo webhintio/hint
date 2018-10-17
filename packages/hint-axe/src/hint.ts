@@ -124,7 +124,9 @@ export default class AxeHint implements IHint {
                     message = `Error executing script: '${e.message}'`;
                 }
 
-                await context.report(resource, null, `${message}. Please try again later, or report an issue if this problem persists.`, undefined, undefined, Severity.warning);
+                message = `${message}. Please try again later, or report an issue if this problem persists.`;
+
+                await context.report(resource, message, { severity: Severity.warning });
                 debug('Error executing script %O', e);
 
                 return;
@@ -149,7 +151,7 @@ export default class AxeHint implements IHint {
                     const element = await getElement(node);
 
                     // TODO: find the right element here using node.target[0] ?
-                    await context.report(resource, element, violation.help);
+                    await context.report(resource, violation.help, { element });
 
                     return;
                 });

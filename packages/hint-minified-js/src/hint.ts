@@ -58,7 +58,7 @@ export default class MinifiedJsHint implements IHint {
             debug(`Calculated improvementIndex for ${scriptData.resource}: ${improvementIndex}`);
 
             if (improvementIndex > threshold) {
-                await context.report(scriptData.resource, null, 'JavaScript content should be minified.');
+                await context.report(scriptData.resource, 'JavaScript content should be minified.');
             }
         };
 

@@ -293,7 +293,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const setCookieHeaders: string[] = Array.isArray(rawSetCookieHeaders) ? rawSetCookieHeaders : rawSetCookieHeaders.split(/\n|\r\n/);
             const reportBatch = async (errorMessages: ValidationMessages, severity?: Severity): Promise<void[]> => {
                 const promises: Promise<void>[] = errorMessages.map((error) => {
-                    return context.report(resource, element, error, undefined, undefined, severity);
+                    return context.report(resource, error, { element, severity });
                 });
 
                 return await Promise.all(promises);
@@ -306,7 +306,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
                     parsedSetCookie = parse(setCookieHeader);
                     parsedSetCookie.resource = resource;
                 } catch (err) {
-                    await context.report(resource, element, err.message);
+                    await context.report(resource, err.message, { element });
 
                     return;
                 }
