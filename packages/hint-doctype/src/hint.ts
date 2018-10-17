@@ -29,7 +29,7 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
-        const doctypeRegExp = /(<!doctype\s+(html)\s*(\s+system\s+"about:legacy-compat")?\s*?>)(.+)?/gi
+        const doctypeRegExp = /(<!doctype\s+(html)\s*(\s+system\s+"about:legacy-compat")?\s*?>)(.+)?/gi;
 
         const checkDoctypeIsValid = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<boolean> => {
             debug(`Checking if the DOCTYPE is valid.`);
@@ -60,12 +60,12 @@ export default class implements IHint {
             }
 
             if (matched) {
-                const cleaned = firstLine.match(doctypeRegExpStrict)
+                const cleaned = firstLine.match(doctypeRegExpStrict);
 
                 if (cleaned && !(cleaned[0] === matched[0])) {
                     await context.report(resource, element, `There is additional information on the line with the DOCTYPE tag.`);
 
-                    return
+                    return;
                 }
             }
         };
@@ -94,7 +94,6 @@ export default class implements IHint {
             const { body } = response;
             const { content } = body;
 
-            
             // If doctype is not valid, do not run more tests
             if (!await checkDoctypeIsValid(resource, element, content)) {
                 return;
