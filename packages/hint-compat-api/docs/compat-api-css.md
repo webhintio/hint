@@ -1,0 +1,24 @@
+# `compat-api-css`
+
+## Why is this important?
+
+Explain why this hint is important for your users
+
+### Examples that **trigger** the hint
+
+A list of code examples that will fail this hint.
+It's good to put some edge cases in here.
+
+### Examples that **pass** the hint
+
+A list of code examples that will pass this hint.
+It's good to put some edge cases in here.
+
+## Can the hint be configured?
+
+If this hint allows some configuration, please put the format and
+options for the user.
+
+## Further Reading
+
+What can the user read to know more about this subject?
