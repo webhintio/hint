@@ -21,7 +21,7 @@ export default class implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
             category: Category.interoperability,
-            description: `Hint to validate if the doctype is correct`
+            description: `Hint to validate if the DOCTYPE is correct`
         },
         id: 'doctype',
         schema: [],
@@ -32,7 +32,7 @@ export default class implements IHint {
         const doctypeRegExp = /(<!doctype\s+(html)\s*(\s+system\s+"about:legacy-compat")?\s*?>)(.+)?/gi
 
         const checkDoctypeIsValid = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<boolean> => {
-            debug(`Checking if the doctype is valid.`);
+            debug(`Checking if the DOCTYPE is valid.`);
 
             const matched = content.match(doctypeRegExp);
 
@@ -46,7 +46,7 @@ export default class implements IHint {
         };
 
         const checkDoctypeFirstLine = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<void> => {
-            debug(`Checking if the doctype is in the first line.`);
+            debug(`Checking if the DOCTYPE is in the first line.`);
 
             const firstLine = content.split(/\r|\n/)[0];
             const matched = firstLine.match(doctypeRegExp);
@@ -71,7 +71,7 @@ export default class implements IHint {
         };
 
         const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<void> => {
-            debug(`Checking that there is only one doctype tag in the document`);
+            debug(`Checking that there is only one DOCTYPE tag in the document`);
 
             const matched = content.match(doctypeRegExp);
 
