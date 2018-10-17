@@ -94,7 +94,7 @@ with the website and report errors.
 To report an error, the hint has to do the following:
 
 ```ts
-await context.report(resource, element, message);
+await context.report(resource, message, { element: element });
 ```
 
 * `context.report()` is an asynchronous method, you should always `await`.
