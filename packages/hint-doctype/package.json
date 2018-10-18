@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "hint to validate if the doctype is correct",
+  "description": "this hint checks if the HTML is using the most modern DOCTYPE.",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^1.0.0",
     "@types/debug": "0.0.31",

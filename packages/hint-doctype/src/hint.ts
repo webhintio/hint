@@ -22,7 +22,7 @@ export default class implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
             category: Category.interoperability,
-            description: `Hint to validate if the DOCTYPE is correct.`
+            description: `This hint checks if the HTML is using the most modern DOCTYPE.`
         },
         id: 'doctype',
         schema: [],
