@@ -279,7 +279,7 @@
     };
 
     var pad = function(time) {
-        return time < 10 ? `0${time}` : time;
+        return time < 10 ? ('0' + time) : time;
     };
 
     var updateDate = function () {
