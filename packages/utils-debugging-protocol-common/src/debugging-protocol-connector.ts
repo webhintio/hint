@@ -29,7 +29,7 @@ import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
 import {
     BrowserInfo, IConnector,
     ElementFound, Event, FetchEnd, FetchError, ILauncher, TraverseUp, TraverseDown,
-    Response, Request, NetworkData, HttpHeaders
+    Response, Request, NetworkData, HttpHeaders, IAsyncHTMLElement
 } from 'hint/dist/src/lib/types';
 
 import { normalizeHeaders } from '@hint/utils-connector-tools/dist/src/normalize-headers';
@@ -246,7 +246,7 @@ export class Connector implements IConnector {
 
         debug(`Error found loading ${resource}:\n%O`, params);
 
-        const element: AsyncHTMLElement = (await this.getElementFromRequest(params.requestId, this._dom))!;
+        const element: IAsyncHTMLElement | null = (await this.getElementFromRequest(params.requestId, this._dom));
         const eventName: string = 'fetch::error';
         const hops: Array<string> = requestResponse.hops;
 
