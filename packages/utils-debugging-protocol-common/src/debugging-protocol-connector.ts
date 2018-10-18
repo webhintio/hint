@@ -744,7 +744,8 @@ export class Connector implements IConnector {
 
             const loadHandler = this.onLoadEventFired(callback);
 
-            Page.loadEventFired(loadHandler);
+            // TODO: Investigate why some websites trigger this event twice. Iframe?
+            (this._client as any).once('Page.loadEventFired', loadHandler);
 
             try {
                 await this.configureAndEnableCDP();

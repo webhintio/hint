@@ -1,7 +1,7 @@
 import { atob } from 'abab';
 import { Crdp } from 'chrome-remote-debug-protocol';
 
-import { getContentTypeData} from 'hint/dist/src/lib/utils/content-type';
+import { getContentTypeData } from 'hint/dist/src/lib/utils/content-type';
 import { HttpHeaders, Response } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
@@ -240,16 +240,35 @@ export class RequestResponse {
 
     /** Update the payload received on the `LoadingFinished` event for this `requestId`. */
     public async updateLoadingFinished(event: Crdp.Network.LoadingFinishedEvent) {
-        this._loadingFinished = event;
-        try {
-            this._responseBody = await this._network.getResponseBody!({ requestId: event.requestId });
-        } catch (e) {
-            this.logInfo(`Error getting body`);
+        /*
+         * Because we queue the event handles if the dom is not ready, we can set this twice.
+         * There seems to be a problem trying to get the body when the event has been queued
+         * (maybe an internal lost reference for `_network`?) that always throws an exception
+         * saying `Error: No resource with given identifier found`.
+         * It's faster to get the response while we wait for the dom and then just check if
+         * it's present instead of downloading it twice.
+         */
+        if (!this._loadingFinished) {
+            this._loadingFinished = event;
+            this._status = RequestStatus.loadingFinished;
+            this.logInfo(RequestStatus.loadingFinished);
+        } else {
+            this.logInfo(`${RequestStatus.loadingFinished} already set`);
         }
 
-        this._status = RequestStatus.loadingFinished;
+        try {
+            if (this._responseBody) {
+                this.logInfo(`Got body already`);
 
-        this.logInfo(RequestStatus.loadingFinished);
+                return;
+            }
+            this.logInfo(`Getting body`);
+            this._responseBody = await this._network.getResponseBody!({ requestId: event.requestId });
+            this.logInfo(`Got body`);
+        } catch (e) {
+            this.logInfo(`Error getting body`);
+            this.logInfo(e);
+        }
     }
 
     /** Update the payload received on the `LoadingFailed` event for this `requestId`. */
