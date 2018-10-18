@@ -26,9 +26,11 @@ export class CDPLauncher extends Launcher {
     private chromeFlags: Array<string>;
 
     public constructor(options: LauncherOptions) {
-        super(options);
+        const flags = options && options.flags || ['--no-default-browser-check'];
 
-        this.chromeFlags = options && options.flags || ['--no-default-browser-check'];
+        super(Object.assign({}, options, { flags }));
+
+        this.chromeFlags = flags;
         // `userDataDir` is a property in `chrome-launcher`: https://github.com/GoogleChrome/chrome-launcher#launch-options
         /* istanbul ignore next */
         this.userDataDir = options && typeof options.defaultProfile === 'boolean' && options.defaultProfile ?
@@ -147,6 +149,8 @@ export class CDPLauncher extends Launcher {
                 startingUrl: url,
                 userDataDir: this.userDataDir
             });
+
+            this._options.flags = this.chromeFlags;
 
             const browserInfo = {
                 isNew: true,

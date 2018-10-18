@@ -568,12 +568,13 @@ export class Connector implements IConnector {
     }
 
     /**
-     * CDP sometimes doesn't download the favicon automatically, this method:
+     * Manually download the site's favicon:
      *
      * * uses the `src` attribute of `<link rel="icon">` if present.
      * * uses `favicon.ico` and the final url after redirects.
      */
-    private async getFavicon(element: AsyncHTMLElement) {
+    private async getFavicon(dom: CDPAsyncHTMLDocument) {
+        const element = (await dom.querySelectorAll('link[rel~="icon"]'))[0];
         const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
@@ -654,6 +655,19 @@ export class Connector implements IConnector {
                 await this.traverseAndNotify(this._dom.root);
                 await this._server.emitAsync('traverse::end', event);
                 await this._server.emitAsync('can-evaluate::script', event);
+
+                /*
+                 * Headless chrome does not download the favicon automatically.
+                 * Also we can do it at the end because it uses `fetchContent`
+                 * to download it so even though no more `Network` events are
+                 * sent, this does not depend on those.
+                 * Ref: https://bugs.chromium.org/p/chromium/issues/detail?id=896465
+                 */
+                if (this._launcher.options &&
+                    this._launcher.options.flags &&
+                    this._launcher.options.flags.includes('--headless')) {
+                    await this.getFavicon(this._dom);
+                }
 
                 // We let time to any pending things (like error networks and so) to happen in the next second
                 return setTimeout(async () => {
