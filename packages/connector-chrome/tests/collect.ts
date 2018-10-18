@@ -55,7 +55,7 @@ const runTest = async (t: GenericTestContext<Context<any>>, ConnectorConstructor
     await connector.close();
 };
 
-test(`[${name}] The HTML is downloaded is present in a 'link' element with 'rel' attribute set to 'icon' `, async (t) => {
+test(`[${name}] The HTML is downloaded and the right event emitted`, async (t) => {
     const serverConfig: ServerConfiguration = { '/': generateHTMLPage(`<title>Test</title>`) };
 
     await runTest(t, ChromeConnector, serverConfig);

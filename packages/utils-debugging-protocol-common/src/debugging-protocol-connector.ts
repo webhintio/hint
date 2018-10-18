@@ -651,11 +651,6 @@ export class Connector implements IConnector {
                     return callback();
                 }
 
-                await this._server.emitAsync('traverse::start', event);
-                await this.traverseAndNotify(this._dom.root);
-                await this._server.emitAsync('traverse::end', event);
-                await this._server.emitAsync('can-evaluate::script', event);
-
                 /*
                  * Headless chrome does not download the favicon automatically.
                  * Also we can do it at the end because it uses `fetchContent`
@@ -668,6 +663,11 @@ export class Connector implements IConnector {
                     this._launcher.options.flags.includes('--headless')) {
                     await this.getFavicon(this._dom);
                 }
+
+                await this._server.emitAsync('traverse::start', event);
+                await this.traverseAndNotify(this._dom.root);
+                await this._server.emitAsync('traverse::end', event);
+                await this._server.emitAsync('can-evaluate::script', event);
 
                 // We let time to any pending things (like error networks and so) to happen in the next second
                 return setTimeout(async () => {
