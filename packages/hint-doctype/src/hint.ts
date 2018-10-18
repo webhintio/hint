@@ -7,6 +7,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata, FetchEnd, ProblemLocation } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { MatchInformation } from './types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -29,20 +30,37 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
-        const doctypeRegExp = /(<!doctype\s+(html)\s*(\s+system\s+"about:legacy-compat")?\s*?>)(.+)?/gi;
+        const regExpFactory = (isFlexible = false) => {
+            return new RegExp(`(<!doctype\\s+(html)\\s*(\\s+system\\s+"about:legacy-compat")?\\s*?>)${isFlexible ? '(.+)?' : ''}`, 'gi');
+        };
+
+        const correctLine = 0;
+        const doctypeRegExp = regExpFactory();
+        const doctypeRegExpFlexible = regExpFactory(true);
+
         const defaultProblemLocation: ProblemLocation = {
             column: 0,
             line: 0
         };
 
-        const getCurrentProblemLocation = (content: string): ProblemLocation => {
-            const lines = content.split('\n');
-            const location = {} as ProblemLocation;
+        const report = async (resource: string, message: string, problemLocation = defaultProblemLocation): Promise<void> => {
+            await context.report(resource, null, message, undefined, problemLocation);
+        };
+
+        const getCurrentDoctypeProblemLocation = (text: string): ProblemLocation => {
+            const lines = text.split('\n');
+            const location = defaultProblemLocation;
+            let found = false;
 
             lines.forEach((line: string, i: number): void => {
-                const matched = doctypeRegExp.exec(line);
+                if (found) {
+                    return;
+                }
 
-                if (matched && !location.line){
+                const matched = doctypeRegExpFlexible.exec(line);
+
+                if (matched){
+                    found = true;
                     location.line = i;
                     location.column = matched.index;
                 }
@@ -51,78 +69,63 @@ export default class implements IHint {
             return location;
         };
 
-        const checkDoctypeIsValid = async (resource: string, content: string): Promise<boolean> => {
-            debug(`Checking if the DOCTYPE is valid.`);
-
-            const matched = content.match(doctypeRegExp);
-
-            if (!matched || matched.length < 1) {
-                await context.report(resource, null, `The resource does not contain a valid DOCTYPE.`, undefined, defaultProblemLocation);
-
-                return false;
-            }
-
-            return true;
+        const getMatchInformation = (text: string): MatchInformation => {
+            return {
+                matches: text.match(doctypeRegExpFlexible),
+                location: getCurrentDoctypeProblemLocation(text)
+            };
         };
 
-        const checkDoctypeFirstLine = async (resource: string, content: string): Promise<void> => {
-            debug(`Checking if the DOCTYPE is in the first line.`);
+        const checkNoDoctypeInContent = async (matchInfo: MatchInformation, resource: string): Promise<boolean> => {
+            if (matchInfo.matches && matchInfo.matches.length > 0) {
+                return true;
+            }
 
-            const firstLine = content.split(/\r|\n/)[0];
-            const matched = firstLine.match(doctypeRegExp);
-            const doctypeRegExpStrict = /(<!doctype\s+(html)\s*(\s+system\s+"about:legacy-compat")?\s*?>)/gi;
+            await report(resource, 'The resource does not contain a valid DOCTYPE.');
+            return false;
+        };
 
-
-            if (!matched || matched.length < 1) {
-                // DOCTYPE is not found in the first line
-                const globalMatched = content.match(doctypeRegExp);
-                let problemLocation = defaultProblemLocation;
-
-                if (!globalMatched || globalMatched.length < 1) {
-                    // DOCTYPE was not found in first line or anywhere else in the document
-                    await context.report(resource, null, `DOCTYPE is not in the first line.`, undefined, problemLocation);
-
-                    return;
-                }
-
-                // DOCTYPE was found somewhere else in the document
-                problemLocation = getCurrentProblemLocation(content);
-                await context.report(resource, null, `DOCTYPE was found somewhere else other than the first line.`, undefined, problemLocation);
-
+        const checkNoDoctypeInCorrectLine = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
+            if (matchInfo.location.line === correctLine) {
                 return;
             }
 
-            if (matched) {
-                // Check for additional info on first line e.g. `<!doctype html></br>`
-                const cleaned = firstLine.match(doctypeRegExpStrict);
-
-                if (cleaned && !(cleaned[0] === matched[0])) {
-                    await context.report(resource, null, `There is additional information on the line with the DOCTYPE tag.`, undefined, defaultProblemLocation);
-
-                    return;
-                }
-            }
+            await report(resource, 'DOCTYPE is not in the first line.', matchInfo.location);
         };
 
-        const checkNoDuplicateDoctype = async (resource: string, content: string): Promise<void> => {
-            debug(`Checking that there is only one DOCTYPE tag in the document.`);
-
-            const matched = content.match(doctypeRegExp);
-
-            if (matched && matched.length > 1) {
-                const problemLocation = getCurrentProblemLocation(content);
-
-                await context.report(resource, null, `There is more than one DOCTYPE tag in the document.`, undefined, problemLocation);
-
+        const checkDoctypeHasMoreThanValidInfo = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
+            if (!matchInfo.matches || matchInfo.matches.length < 1) {
                 return;
             }
+
+            const matchedDoctype = matchInfo.matches[0];
+            const strictMatch = matchedDoctype.match(doctypeRegExp);
+
+            if (!strictMatch || strictMatch.length < 1) {
+                return;
+            }
+
+            if (strictMatch[0] === matchedDoctype) {
+                return;
+            }
+
+            await report(resource, 'There is additional information on the line with the DOCTYPE.');
+        };
+
+        const checkDoctypeIsDuplicated = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
+            if (!matchInfo.matches || matchInfo.matches.length < 2) {
+                return;
+            }
+
+            await report(resource, 'There is more than one DOCTYPE in the document.', matchInfo.location);
+
         };
 
         const onFetchEndHTML = async (fetchEnd: FetchEnd): Promise<void> => {
             const { resource, response } = fetchEnd;
 
             if (!response || !response.body || !response.body.content) {
-                await context.report(resource, null, 'Resource has no content.', undefined, defaultProblemLocation);
+                await context.report(resource, null, 'Resource has no content.', undefined);
 
                 return;
             }
@@ -130,13 +133,15 @@ export default class implements IHint {
             const { body } = response;
             const { content } = body;
 
-            // If doctype is not valid, do not run more tests
-            if (!await checkDoctypeIsValid(resource, content)) {
+            const globalMatch = getMatchInformation(content);
+
+            if (!checkNoDoctypeInContent(globalMatch, resource)) {
                 return;
             }
 
-            await checkDoctypeFirstLine(resource, content);
-            await checkNoDuplicateDoctype(resource, content);
+            checkNoDoctypeInCorrectLine(globalMatch, resource);
+            checkDoctypeHasMoreThanValidInfo(globalMatch, resource);
+            checkDoctypeIsDuplicated(globalMatch, resource);
         };
 
         context.on('fetch::end::html', onFetchEndHTML);

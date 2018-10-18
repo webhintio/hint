@@ -7,7 +7,7 @@ const hintPath = getHintPath(__filename);
 const tests: Array<HintTest> = [
     {
         name: 'DOCTYPE is not in the first line should fail',
-        reports: [{ message: `DOCTYPE was found somewhere else other than the first line.` }],
+        reports: [{ message: `DOCTYPE is not in the first line.` }],
         serverConfig: {
             '/': {
                 content: `<p><span></span>
@@ -20,7 +20,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'DOCTYPE found more than once should fail',
-        reports: [{ message: `There is more than one DOCTYPE tag in the document.` }],
+        reports: [{ message: `There is more than one DOCTYPE in the document.` }],
         serverConfig: {
             '/': {
                 content: `<!DOCTYPE html>
@@ -96,7 +96,7 @@ const tests: Array<HintTest> = [
         }
     },
     {
-        name: 'DOCTYPE legacy-compat with no space bewteen second two terms should fail',
+        name: 'DOCTYPE legacy-compat with no space between second two terms should fail',
         reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
         serverConfig: {
             '/': {
@@ -122,7 +122,7 @@ const tests: Array<HintTest> = [
         }
     },
     {
-        name: 'DOCTYPE tag with legacy-compat should pass',
+        name: 'DOCTYPE with legacy-compat should pass',
         serverConfig: {
             '/': {
                 content: `<!doctype html SYSTEM "about:legacy-compat">
@@ -170,7 +170,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'DOCTYPE with additional info on same line should fail',
-        reports: [{ message: `There is additional information on the line with the DOCTYPE tag.` }],
+        reports: [{ message: `There is additional information on the line with the DOCTYPE.` }],
         serverConfig: {
             '/': {
                 content: `<!doctype html></br>`,
@@ -188,7 +188,7 @@ const tests: Array<HintTest> = [
         }
     },
     {
-        name: 'DOCTYPE tag in uppercase should pass',
+        name: 'DOCTYPE in uppercase should pass',
         serverConfig: {
             '/': {
                 content: `<!DOCTYPE html>
@@ -201,7 +201,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'DOCTYPE appearing more than once should fail',
-        reports: [{ message: `There is more than one DOCTYPE tag in the document.` }],
+        reports: [{ message: `There is more than one DOCTYPE in the document.` }],
         serverConfig: {
             '/': {
                 content: `<!doctype html>
