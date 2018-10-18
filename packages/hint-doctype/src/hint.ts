@@ -71,8 +71,8 @@ export default class implements IHint {
 
         const getMatchInformation = (text: string): MatchInformation => {
             return {
-                matches: text.match(doctypeRegExpFlexible),
-                location: getCurrentDoctypeProblemLocation(text)
+                location: getCurrentDoctypeProblemLocation(text),
+                matches: text.match(doctypeRegExpFlexible)
             };
         };
 
@@ -82,6 +82,7 @@ export default class implements IHint {
             }
 
             await report(resource, 'The resource does not contain a valid DOCTYPE.');
+
             return false;
         };
 
