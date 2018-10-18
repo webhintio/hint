@@ -207,7 +207,7 @@ hintRunner.testHint(hintPath, tests, {
 
 <!-- Link labels: -->
 
-[browserconfiguration]: ../../user-guide/index.md#browserconfiguration
+[browserconfiguration]: ../../../user-guide/further-configuration/browser-context/
 [new issue]: https://github.com/webhintio/hint/issues/new
-[parsers]: ../../user-guide/concepts/parsers/
+[parsers]: ../../../user-guide/concepts/parsers/
 [ssllabs code]: https://github.com/webhintio/hint/blob/master/packages/hint-ssllabs/src/hint.ts
