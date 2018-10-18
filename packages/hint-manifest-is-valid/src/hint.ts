@@ -108,7 +108,7 @@ export default class ManifestIsValidHint implements IHint {
                 if (isNotSupportedColorValue(color, normalizedColorValue)) {
                     const location = getLocation(property);
                     const message = `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`;
-            
+
                     await context.report(resource, message, { location });
                 }
             }
