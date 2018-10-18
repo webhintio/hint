@@ -23,7 +23,9 @@ lines before the DOCTYPE. This is important as some browsers,
 including versions of IE prior to IE10, trigger quirks mode if a comment
 occurs before the DOCTYPE.
 
-It checks that there is no additional info apart from the DOCTYPE on the same line and that it is not duplicated elsewhere in the document. For compatibility with older browsers, it also accepts the legacy-compat DOCTYPE. Examples:
+It checks that there is no additional info apart from the DOCTYPE on the same
+line and that it is not duplicated elsewhere in the document. For compatibility
+with older browsers, it also accepts the legacy-compat DOCTYPE. Examples:
 
 `<!DOCTYPE html>`
 
