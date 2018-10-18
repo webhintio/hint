@@ -220,6 +220,18 @@ const tests: Array<HintTest> = [
                 headers: { 'Content-Type': 'text/html' }
             }
         }
+    },
+    {
+        name: 'Document starting with empty line instead of DOCTYPE',
+        reports: [{ message: `DOCTYPE is not in the first line.` }],
+        serverConfig: {
+            '/': {
+                content: `
+                <!doctype html>
+                <p></p>`,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
     }
 ];
 
