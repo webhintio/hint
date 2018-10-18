@@ -164,7 +164,7 @@ export default class AppleTouchIconsHint implements IHint {
             } catch (e) {
                 if (e instanceof TypeError) {
                     const message = `'${appleTouchIconHref}' should be a valid PNG image.`;
-    
+
                     await context.report(resource, message, { element: appleTouchIcon });
                 } else {
                     debug(`'getImageData' failed for '${appleTouchIconURL}'`);
