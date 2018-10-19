@@ -57,8 +57,8 @@ It will trigger if there are multiple DOCTYPEs:
 <!--some content below the DOCTYPE-->
 <!DOCTYPE html>
 <!--more content below the second DOCTYPE-->
-
 ```
+
 It will trigger if there is additional information on the same line as the DOCTYPE:
 
 ```html
