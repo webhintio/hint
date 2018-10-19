@@ -59,7 +59,7 @@ export default class implements IHint {
 
                 const matched = doctypeRegExpFlexible.exec(line);
 
-                if (matched){
+                if (matched) {
                     found = true;
                     location.line = i;
                     location.column = matched.index;
