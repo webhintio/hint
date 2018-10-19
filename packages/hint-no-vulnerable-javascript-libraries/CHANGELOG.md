@@ -1,3 +1,10 @@
+# 1.8.0 (October 19, 2018)
+
+## New features
+
+* [[`48534c373f`](https://github.com/webhintio/hint/commit/48534c373f1454571dd2b1a2641e79fbf9513e17)] - Update: `snyk-snapshot.json` (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 1.7.0 (October 16, 2018)
 
 ## New features
