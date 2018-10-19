@@ -38,7 +38,7 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
-    "@types/async": "^2.0.49",
+    "@types/async": "^2.0.50",
     "@types/configstore": "^2.1.1",
     "@types/content-type": "^1.1.2",
     "@types/debug": "0.0.31",
