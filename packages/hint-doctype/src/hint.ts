@@ -136,13 +136,17 @@ export default class implements IHint {
 
             const globalMatch = getMatchInformation(content);
 
-            if (!checkNoDoctypeInContent(globalMatch, resource)) {
+            if (!(await checkNoDoctypeInContent(globalMatch, resource))) {
                 return;
             }
 
-            checkNoDoctypeInCorrectLine(globalMatch, resource);
-            checkDoctypeHasMoreThanValidInfo(globalMatch, resource);
-            checkDoctypeIsDuplicated(globalMatch, resource);
+            await Promise.all([
+                checkNoDoctypeInCorrectLine(globalMatch, resource),
+                checkDoctypeHasMoreThanValidInfo(globalMatch, resource),
+                checkDoctypeIsDuplicated(globalMatch, resource)
+            ]);
+
+            return;
         };
 
         context.on('fetch::end::html', onFetchEndHTML);
