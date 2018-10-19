@@ -1,0 +1,27 @@
+{
+    "author": "webhint",
+    "background": {
+        "scripts": ["background-script.js"],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_icon": {
+            "40": "icon.png"
+        },
+        "default_title": "Run webhint"
+    },
+    "icons": {
+        "40": "icon.png"
+    },
+    "description": "Run webhint in your browser.",
+    "manifest_version": 2,
+    "name": "webhint",
+    "permissions": [
+        "<all_urls>",
+        "webRequest"
+    ],
+    "version": "1.0",
+    "web_accessible_resources": [
+        "main.js"
+    ]
+}
