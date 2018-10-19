@@ -36,6 +36,7 @@
         { "path": "packages/create-hint" },
         { "path": "packages/create-hintrc" },
         { "path": "packages/create-parser" },
+        { "path": "packages/extension-browser" },
         { "path": "packages/extension-vscode" },
         { "path": "packages/formatter-codeframe" },
         { "path": "packages/formatter-excel" },

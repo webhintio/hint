@@ -1,0 +1,76 @@
+{
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "description": "webhint browser extension",
+  "devDependencies": {
+    "@hint/hint-content-type": "^1.0.3",
+    "@hint/hint-manifest-is-valid": "^1.1.0",
+    "@hint/hint-minified-js": "^1.0.2",
+    "@hint/parser-css": "^1.0.1",
+    "@hint/parser-javascript": "^1.0.1",
+    "@hint/parser-manifest": "^1.1.0",
+    "@types/chrome": "^0.0.74",
+    "ava": "^0.25.0",
+    "browserslist": "^4.3.2",
+    "cpx": "^1.5.0",
+    "eslint": "^5.7.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-markdown": "^1.0.0-beta.7",
+    "eslint-plugin-typescript": "^0.12.0",
+    "hint": "^3.4.10",
+    "lodash": "^4.17.11",
+    "markdownlint-cli": "^0.13.0",
+    "mock-require": "^3.0.2",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^13.1.0",
+    "rimraf": "^2.6.2",
+    "sinon": "^7.0.0",
+    "typescript": "^3.0.3",
+    "typescript-eslint-parser": "^20.0.0",
+    "webpack": "^4.22.0",
+    "webpack-cli": "^3.1.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "dist/src"
+  ],
+  "homepage": "https://webhint.io/",
+  "keywords": [
+    "extension",
+    "browser",
+    "hint",
+    "hint-extension-browser",
+    "webhint"
+  ],
+  "license": "Apache-2.0",
+  "main": "./dist/src/connector.js",
+  "name": "@hint/extension-browser",
+  "peerDependencies": {
+    "hint": "^3.4.10"
+  },
+  "private": true,
+  "repository": "webhintio/hint",
+  "scripts": {
+    "build": "npm run clean && npm-run-all build:*",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc -b",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
+    "test": "npm run lint && npm run build && nyc ava",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch",
+    "webpack": "yarn build && webpack && cpx ./src/manifest.json dist/bundle && cpx ./src/icon.png dist/bundle"
+  },
+  "version": "1.0.0"
+}
