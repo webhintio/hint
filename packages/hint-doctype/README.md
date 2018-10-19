@@ -24,7 +24,7 @@ including versions of IE prior to IE10, trigger quirks mode if a comment
 occurs before the DOCTYPE.
 
 It checks that there is no additional info apart from the DOCTYPE on the same
-line and that it is not duplicated elsewhere in the document. To support older 
+line and that it is not duplicated elsewhere in the document. To support older
 HTML content generators, it also accepts the legacy-compat DOCTYPE. Examples:
 
 `<!DOCTYPE html>`
@@ -57,6 +57,7 @@ It will trigger if there are multiple DOCTYPEs:
 <!--some content below the DOCTYPE-->
 <!DOCTYPE html>
 <!--more content below the second DOCTYPE-->
+
 ```
 It will trigger if there is additional information on the same line as the DOCTYPE:
 
