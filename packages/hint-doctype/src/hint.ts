@@ -81,7 +81,7 @@ export default class implements IHint {
                 return true;
             }
 
-            await report(resource, 'The resource does not contain a valid DOCTYPE.');
+            await report(resource, 'The resource does not contain a valid DOCTYPE (e.g. `<!doctype html>`).');
 
             return false;
         };

@@ -4,7 +4,7 @@ import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
 const hintPath = getHintPath(__filename);
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: 'DOCTYPE is not in the first line should fail',
         reports: [{ message: `DOCTYPE is not in the first line.` }],
@@ -44,7 +44,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'DOCTYPE not found should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
         serverConfig: {
             '/': {
                 content: `<head>
@@ -58,7 +58,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'DOCTYPE not valid should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
         serverConfig: {
             '/': {
                 content: `<!doctype htmltest>
@@ -71,7 +71,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'DOCTYPE regular with no space between terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
         serverConfig: {
             '/': {
                 content: `<!doctypehtml>
@@ -84,7 +84,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'DOCTYPE legacy-compat with no space bewteen first two terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
         serverConfig: {
             '/': {
                 content: `<!doctypehtml SYSTEM "about:legacy-compat">
@@ -97,7 +97,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'DOCTYPE legacy-compat with no space between second two terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
         serverConfig: {
             '/': {
                 content: `<!doctype htmlSYSTEM "about:legacy-compat">
@@ -110,7 +110,7 @@ const tests: Array<HintTest> = [
     },
     {
         name: 'DOCTYPE legacy-compat with no space bewteen third two terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE.` }],
+        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
         serverConfig: {
             '/': {
                 content: `<!doctype html SYSTEM"about:legacy-compat">
