@@ -473,10 +473,15 @@
   dependencies:
     moment "*"
 
-"@types/node@*", "@types/node@^10.12.0":
+"@types/node@*":
   version "10.12.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.0.tgz#ea6dcbddbc5b584c83f06c60e82736d8fbb0c235"
   integrity sha512-3TUHC3jsBAB7qVRGxT6lWyYo2v96BMmD2PTcl47H25Lu7UXtFH/2qqmKiVrnel6Ne//0TFYf6uvNX+HW2FRkLQ==
+
+"@types/node@10.9.1":
+  version "10.9.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.9.1.tgz#06f002136fbcf51e730995149050bb3c45ee54e6"
+  integrity sha512-f+qQR5lLCB8UPhtk8Xm8RQvbR4ycD7MOsdiuAEQCYpz44bBx2g7JL0+iYBcjl9J7d0KT1sX2g0VGNeHfw+GXpg==
 
 "@types/node@^9.3.0":
   version "9.6.35"
@@ -598,9 +603,9 @@
     "@types/rx-lite" "*"
 
 "@types/rx-lite@*":
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/@types/rx-lite/-/rx-lite-4.0.6.tgz#3c02921c4244074234f26b772241bcc20c18c253"
-  integrity sha512-oYiDrFIcor9zDm0VDUca1UbROiMYBxMLMaM6qzz4ADAfOmA9r1dYEcAFH+2fsPI5BCCjPvV9pWC3X3flbrvs7w==
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@types/rx-lite/-/rx-lite-4.0.5.tgz#b3581525dff69423798daa9a0d33c1e66a5e8c4c"
+  integrity sha512-KZk5XTR1dm/kNgBx8iVpjno6fRYtAUQWBOmj+O8j724+nk097sz4fOoHJNpCkOJUtHUurZlJC7QvSFCZHbkC+w==
   dependencies:
     "@types/rx-core" "*"
     "@types/rx-core-binding" "*"
@@ -944,9 +949,9 @@ agent-base@4, agent-base@^4.1.0, agent-base@~4.2.0:
     es6-promisify "^5.0.0"
 
 agentkeepalive@^3.4.1:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/agentkeepalive/-/agentkeepalive-3.5.2.tgz#a113924dd3fa24a0bc3b78108c450c2abee00f67"
-  integrity sha512-e0L/HNe6qkQ7H19kTlRRqUibEAwDK5AFk6y3PtMsuut2VAH6+Q4xZml1tNDJD7kSAyqmbG/K08K5WEJYtUrSlQ==
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/agentkeepalive/-/agentkeepalive-3.5.1.tgz#4eba75cf2ad258fc09efd506cdb8d8c2971d35a4"
+  integrity sha512-Cte/sTY9/XcygXjJ0q58v//SnEQ7ViWExKyJpLJlLqomDbQyMLh6Is4KuWJ/wmxzhiwkGRple7Gqv1zf6Syz5w==
   dependencies:
     humanize-ms "^1.2.1"
 
@@ -2264,9 +2269,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000890:
-  version "1.0.30000893"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000893.tgz#284b20932bd41b93e21626975f2050cb01561986"
-  integrity sha512-kOddHcTEef+NgN/fs0zmX2brHTNATVOWMEIhlZHCuwQRtXobjSw9pAECc44Op4bTBcavRjkLaPrGomknH7+Jvg==
+  version "1.0.30000892"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000892.tgz#344d2b51ee3ff5977537da4aa449c90eec40b759"
+  integrity sha512-X9rxMaWZNbJB5qjkDqPtNv/yfViTeUL6ILk0QJNxLV3OhKC5Acn5vxsuUvllR6B48mog8lmS+whwHq/QIYSL9w==
 
 canvas-prebuilt@^1.6.11:
   version "1.6.11"
@@ -2648,7 +2653,14 @@ colors@1.1.2:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
   integrity sha1-FopHAXVran9RoSzgyXv6KMCE7WM=
 
-combined-stream@^1.0.6, combined-stream@~1.0.6:
+combined-stream@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.6.tgz#723e7df6e801ac5613113a7e445a9b69cb632818"
+  integrity sha1-cj599ugBrFYTETp+RFqbactjKBg=
+  dependencies:
+    delayed-stream "~1.0.0"
+
+combined-stream@~1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.7.tgz#2d1d24317afb8abe95d6d2c0b07b57813539d828"
   integrity sha512-brWl9y6vOB1xYPZcpZde3N9zDByXTosAeMDo4p1wzo6UMOX4vumB+TP1RZ76sfE6Md68Q0NJSrE/gbezd4Ul+w==
@@ -3410,9 +3422,9 @@ ejs@^2.6.1:
   integrity sha512-0xy4A/twfrRCnkhfk8ErDi5DqdAsAqeGxht4xkCUrsvhhbQNs7E+4jV0CN7+NKIY0aHE72+XvqtBIXzD31ZbXQ==
 
 electron-to-chromium@^1.3.79:
-  version "1.3.80"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.80.tgz#e99ec7efe64c2c6a269d3885ff411ea88852fa53"
-  integrity sha512-WClidEWEUNx7OfwXehB0qaxCuetjbKjev2SmXWgybWPLKAThBiMTF/2Pd8GSUDtoGOavxVzdkKwfFAPRSWlkLw==
+  version "1.3.79"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.79.tgz#774718f06284a4bf8f578ac67e74508fe659f13a"
+  integrity sha512-LQdY3j4PxuUl6xfxiFruTSlCniTrTrzAd8/HfsLEMi0PUpaQ0Iy+Pr4N4VllDYjs0Hyu2lkTbvzqlG+PX9NsNw==
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -4311,12 +4323,12 @@ fork-ts-checker-webpack-plugin@^0.4.10:
     tapable "^1.0.0"
 
 form-data@~2.3.2:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.3.3.tgz#dcce52c05f644f298c6a7ab936bd724ceffbf3a6"
-  integrity sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.3.2.tgz#4970498be604c20c005d4f5c23aecd21d6b49099"
+  integrity sha1-SXBJi+YEwgwAXU9cI67NIda0kJk=
   dependencies:
     asynckit "^0.4.0"
-    combined-stream "^1.0.6"
+    combined-stream "1.0.6"
     mime-types "^2.1.12"
 
 forwarded@~0.1.2:
@@ -7765,9 +7777,9 @@ postcss@^7.0.5:
     supports-color "^5.5.0"
 
 prebuild-install@^5.0.0:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-5.2.1.tgz#87ba8cf17c65360a75eefeb3519e87973bf9791d"
-  integrity sha512-9DAccsInWHB48TBQi2eJkLPE049JuAI6FjIH0oIrij4bpDVEbX6JvlWRAcAAlUqBHhjgq0jNqA3m3bBXWm9v6w==
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-5.2.0.tgz#53c0422ebf28437047d699450bd4fd765b2951ea"
+  integrity sha512-cpuyMS8y30Df0bnN+I8pdmpwtZbm8fj9cQADOhSH/qnS1exb80elZ707FTMohFBJax4NyWjJVSg0chRQXzHSvg==
   dependencies:
     detect-libc "^1.0.3"
     expand-template "^1.0.2"
@@ -7836,9 +7848,9 @@ process@^0.11.10:
   integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
 
 progress@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.1.tgz#c9242169342b1c29d275889c95734621b1952e31"
-  integrity sha512-OE+a6vzqazc+K6LxJrX5UPyKFvGnL5CYmq2jFGNIBWHpc4QyE49/YOumcrpQFJpfejmvRtbJzgO1zPmMCqlbBg==
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.0.tgz#8a1be366bf8fc23db2bd23f10c6fe920b4389d1f"
+  integrity sha1-ihvjZr+Pwj2yvSPxDG/pILQ4nR8=
 
 promise-inflight@^1.0.1:
   version "1.0.1"
