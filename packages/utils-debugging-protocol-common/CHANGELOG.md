@@ -1,3 +1,10 @@
+# 1.0.13 (October 19, 2018)
+
+## Bug fixes / Improvements
+
+* [[`5d8a804c03`](https://github.com/webhintio/hint/commit/5d8a804c0344a0a10991ff81488fcbc0b700c0da)] - Fix: Refactor debugging protocol (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1398`](https://github.com/webhintio/hint/issues/1398), [`#1403`](https://github.com/webhintio/hint/issues/1403), and [`#1409`](https://github.com/webhintio/hint/issues/1409)).
+
+
 # 1.0.12 (October 10, 2018)
 
 ## Bug fixes / Improvements
