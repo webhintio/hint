@@ -24,8 +24,8 @@ including versions of IE prior to IE10, trigger quirks mode if a comment
 occurs before the DOCTYPE.
 
 It checks that there is no additional info apart from the DOCTYPE on the same
-line and that it is not duplicated elsewhere in the document. For compatibility
-with older browsers, it also accepts the legacy-compat DOCTYPE. Examples:
+line and that it is not duplicated elsewhere in the document. To support older 
+HTML content generators, it also accepts the legacy-compat DOCTYPE. Examples:
 
 `<!DOCTYPE html>`
 
@@ -35,11 +35,34 @@ with older browsers, it also accepts the legacy-compat DOCTYPE. Examples:
 
 ### Examples that **trigger** the hint
 
-Also the hint will trigger if the DOCTYPE is not in the first line, for example
+The hint will trigger if the DOCTYPE is not in the first line:
 
 ```html
 <!--first line taken up by this unnecessary comment-->
 <!DOCTYPE html>
+```
+
+The hint will trigger if you use an old DOCTYPE:
+
+```html
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+```
+
+It will trigger if there are multiple DOCTYPEs:
+
+```html
+<!DOCTYPE html>
+<!--some content below the DOCTYPE-->
+<!DOCTYPE html>
+<!--more content below the second DOCTYPE-->
+```
+It will trigger if there is additional information on the same line as the DOCTYPE:
+
+```html
+<!DOCTYPE html> <span></span>
+<!--some content below the DOCTYPE-->
 ```
 
 ### Examples that **pass** the hint
@@ -48,23 +71,14 @@ A DOCTYPE in the first line, without other information in that line.
 
 ```html
 <!DOCTYPE html>
-<!--all content below the DOCTYPE tag-->
+<!--all content below the DOCTYPE-->
 ```
 
 A legacy compat DOCTYPE in the first line, without other information in that line.
 
 ```html
 <!DOCTYPE html SYSTEM "about:legacy-compat">
-<!--all content below the DOCTYPE tag-->
-```
-
-A DOCTYPE in multiple lines.
-
-```html
-<!DOCTYPE html>
-<!--some content below the DOCTYPE tag-->
-<!DOCTYPE html>
-<!--all content below the second DOCTYPE tag-->
+<!--all content below the DOCTYPE-->
 ```
 
 ## How to use this hint?
