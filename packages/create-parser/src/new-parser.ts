@@ -141,7 +141,7 @@ class NewParser {
  * Constants and Private functions.
  * ------------------------------------------------------------------------------
  */
-const mkdirpAsync = promisify(mkdirp);
+const mkdirpAsync = promisify(mkdirp) as (dir: string) => Promise<void>;
 const eventList: Array<string> = Object.keys(events);
 const TEMPLATE_PATH: string = './templates';
 const SHARED_TEMPLATE_PATH = './shared-templates';
