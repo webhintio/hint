@@ -1,3 +1,10 @@
+# 1.0.2 (October 19, 2018)
+
+## Bug fixes / Improvements
+
+* [[`1d543dff5c`](https://github.com/webhintio/hint/commit/1d543dff5c9225afd5629c3f7b9e5f7a06ac37f8)] - Fix: Add `"strict": true` to `tsconfig.json.hbs` (by [`Pawel Kadluczka`](https://github.com/moozzyk) / see also: [`#1400`](https://github.com/webhintio/hint/issues/1400), and [`#1404`](https://github.com/webhintio/hint/issues/1404)).
+
+
 # 1.0.1 (September 6, 2018)
 
 ## Bug fixes / Improvements
