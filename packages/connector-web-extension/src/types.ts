@@ -1,4 +1,4 @@
-import { FetchEnd } from 'hint/dist/src/lib/types';
+import { FetchEnd, FetchStart } from 'hint/dist/src/lib/types/events';
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/HttpHeaders
 export type HttpHeaders = {
@@ -40,4 +40,5 @@ export type Details = {
 
 export type ExtensionEvents = {
     fetchEnd?: FetchEnd;
+    fetchStart?: FetchStart;
 };

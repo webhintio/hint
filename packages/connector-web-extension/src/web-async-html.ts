@@ -65,7 +65,7 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
     }
 }
 
-export class AsyncHTMLWindow implements IAsyncWindow {
+export class AsyncWindow implements IAsyncWindow {
     public document: IAsyncHTMLDocument;
 
     public constructor(document: AsyncHTMLDocument) {

@@ -1,35 +1,56 @@
 import { FetchEnd, FetchStart } from 'hint/dist/src/lib/types/events';
-import { Request, Response } from 'hint/dist/src/lib/types/network';
+import { HttpHeaders, Request, Response } from 'hint/dist/src/lib/types/network';
 import { ExtensionEvents, Details } from './types';
 
-// Normalize access to extension APIs across browsers
+// Normalize access to extension APIs across browsers.
 const browser: typeof chrome = (self as any).browser || self.chrome;
 
+// Track data associated with all outstanding requests by `requestId`.
 const requests = new Map<string, Details[]>();
 
-const sendFetchEnd = (parts: Details[]) => {
+// Convert `webRequest` headers to `hint` headers.
+const mapHeaders = (webRequestHeaders: { name: string, value?: string }[]): HttpHeaders => {
+    return webRequestHeaders.reduce((headers, header) => {
+        headers[header.name] = header.value || '';
 
+        return headers;
+    }, {} as HttpHeaders);
+};
+
+// Convert `webRequest` details to a `hint` `Request` object.
+const mapRequest = (parts: Details[]): Request => {
     const requestDetails = parts[0];
-    const responseDetails = parts[parts.length - 1];
 
-    const element = null;
-    const resource = responseDetails.url;
-
+    // Take the first `requestHeaders` found (ignoring headers for redirects).
     const requestHeaders = parts.map((details) => {
         return details.requestHeaders;
     }).filter((headers) => {
         return !!headers;
     })[0];
 
-    const request: Request = {
-        headers: requestHeaders,
+    // Build a `hint` request object.
+    return {
+        headers: mapHeaders(requestHeaders),
         url: requestDetails.url
     };
+};
 
-    const response: Response = {
-        body: '', // TODO
+// Convert `webRequest` details to a `hint` `Response` object.
+const mapResponse = async (parts: Details[]): Promise<Response> => {
+    const responseDetails = parts[parts.length - 1];
+
+    // Fetch the response body.
+    const responseBody = await fetch(responseDetails.url);
+
+    // Build a `hint` response object.
+    return {
+        body: {
+            content: await responseBody.text(),
+            rawContent: null as any,
+            rawResponse: null as any
+        },
         charset: '', // TODO
-        headers: responseDetails.responseHeaders,
+        headers: mapHeaders(responseDetails.responseHeaders),
         hops: parts.map((details) => {
             return details.redirectUrl;
         }).filter((url) => {
@@ -39,12 +60,21 @@ const sendFetchEnd = (parts: Details[]) => {
         statusCode: responseDetails.statusCode,
         url: responseDetails.url
     };
+};
+
+// Build and trigger `fetch::end::*` based on provided `webRequest` details.
+const sendFetchEnd = async (parts: Details[]): Promise<void> => {
+    const element = null;
+    const request = mapRequest(parts);
+    const response = await mapResponse(parts);
+    const resource = response.url;
 
     const fetchEnd: FetchEnd = { element, request, resource, response };
 
     browser.tabs.sendMessage(parts[0].tabId, { fetchEnd } as ExtensionEvents);
 };
 
+// Build and trigger `fetch::start` based on provided `webRequest` details.
 const sendFetchStart = (details: Details) => {
     const resource = details.url;
     const fetchStart: FetchStart = { resource };
@@ -52,10 +82,12 @@ const sendFetchStart = (details: Details) => {
     browser.tabs.sendMessage(details.tabId, { fetchStart } as ExtensionEvents);
 };
 
+// Queue a `webRequest` event by `requestId`, flushing after `onCompleted`.
 const queueDetails = (event: string, details: Details) => {
     if (!requests.has(details.requestId)) {
         requests.set(details.requestId, []);
 
+        // Trigger a `fetch::start` on the first event for a `requestId`.
         sendFetchStart(details);
     }
 
@@ -66,10 +98,12 @@ const queueDetails = (event: string, details: Details) => {
     if (event === 'onCompleted') {
         requests.delete(details.requestId);
 
+        // Trigger a `fetch::end::*` on `onCompleted` for a `requestId`.
         sendFetchEnd(parts);
     }
 };
 
+// Register and queue all `webRequest` events by `requestId`.
 [
     'onBeforeRequest',
     'onBeforeSendHeaders',
