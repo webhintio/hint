@@ -119,7 +119,6 @@ export default class implements IHint {
             }
 
             await report(resource, 'There is more than one DOCTYPE in the document.', matchInfo.location);
-
         };
 
         const onFetchEndHTML = async (fetchEnd: FetchEnd): Promise<void> => {
