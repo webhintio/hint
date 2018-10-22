@@ -1,5 +1,4 @@
-import { FetchEnd, FetchStart } from 'hint/dist/src/lib/types/events';
-import { HttpHeaders, Request, Response } from 'hint/dist/src/lib/types/network';
+import { FetchEnd, FetchStart, HttpHeaders, Request, Response } from 'hint/dist/src/lib/types';
 import { ExtensionEvents, Details } from './types';
 
 // Normalize access to extension APIs across browsers.
@@ -49,14 +48,14 @@ const mapResponse = async (parts: Details[]): Promise<Response> => {
             rawContent: null as any,
             rawResponse: null as any
         },
-        charset: '', // TODO
+        charset: '', // Set by `connector`.
         headers: mapHeaders(responseDetails.responseHeaders),
         hops: parts.map((details) => {
             return details.redirectUrl;
         }).filter((url) => {
             return !!url;
         }),
-        mediaType: '', // TODO
+        mediaType: '', // Set by `connector`.
         statusCode: responseDetails.statusCode,
         url: responseDetails.url
     };
@@ -114,6 +113,7 @@ const queueDetails = (event: string, details: Details) => {
     'onResponseStarted',
     'onCompleted'
 ].forEach((event) => {
+    // TODO: Filter to relevant `ResourceType`s (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/ResourceType)
     (browser.webRequest as any)[event].addListener((details: Details) => {
         queueDetails(event, details);
     });
