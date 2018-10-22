@@ -47,31 +47,27 @@ export default class implements IHint {
             await context.report(resource, null, message, undefined, problemLocation);
         };
 
-        const getCurrentDoctypeProblemLocation = (text: string): ProblemLocation => {
+        const getCurrentDoctypeProblemLocation = (text: string): ProblemLocation[] => {
             const lines = text.split('\n');
-            const location = defaultProblemLocation;
-            let found = false;
+            const locations: ProblemLocation[] = [];
 
             lines.forEach((line: string, i: number): void => {
-                if (found) {
-                    return;
-                }
-
                 const matched = doctypeRegExpFlexible.exec(line);
 
                 if (matched){
-                    found = true;
-                    location.line = i;
-                    location.column = matched.index;
+                    locations.push({
+                        line: i,
+                        column: matched.index
+                    });
                 }
             });
 
-            return location;
+            return locations;
         };
 
         const getMatchInformation = (text: string): MatchInformation => {
             return {
-                location: getCurrentDoctypeProblemLocation(text),
+                locations: getCurrentDoctypeProblemLocation(text),
                 matches: text.match(doctypeRegExpFlexible)
             };
         };
@@ -83,15 +79,16 @@ export default class implements IHint {
 
             await report(resource, 'The resource does not contain a valid DOCTYPE (e.g. `<!doctype html>`).');
 
-            return false;
+            return false; //REMOVE
         };
 
         const checkNoDoctypeInCorrectLine = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
-            if (matchInfo.location.line === correctLine) {
+           
+            if (matchInfo.locations[0].line === correctLine) {
                 return;
             }
 
-            await report(resource, 'DOCTYPE is not in the first line.', matchInfo.location);
+            await report(resource, 'DOCTYPE is not in the first line.', matchInfo.locations[0]);
         };
 
         const checkDoctypeHasMoreThanValidInfo = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
@@ -118,8 +115,7 @@ export default class implements IHint {
                 return;
             }
 
-            await report(resource, 'There is more than one DOCTYPE in the document.', matchInfo.location);
-
+            await report(resource, 'There is more than one DOCTYPE in the document.', matchInfo.locations[matchInfo.locations.length - 1]);
         };
 
         const onFetchEndHTML = async (fetchEnd: FetchEnd): Promise<void> => {

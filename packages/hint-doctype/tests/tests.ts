@@ -7,7 +7,7 @@ const hintPath = getHintPath(__filename);
 const tests: HintTest[] = [
     {
         name: 'DOCTYPE is not in the first line should fail',
-        reports: [{ message: `DOCTYPE is not in the first line.` }],
+        reports: [{ message: `DOCTYPE is not in the first line.`,  position: { column: 16, line: 2 } }],
         serverConfig: {
             '/': {
                 content: `<p><span></span>
@@ -19,8 +19,20 @@ const tests: HintTest[] = [
         }
     },
     {
+        name: 'Document starting with empty line instead of DOCTYPE',
+        reports: [{ message: `DOCTYPE is not in the first line.` }],
+        serverConfig: {
+            '/': {
+                content: `
+                <!doctype html>
+                <p></p>`,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
         name: 'DOCTYPE found more than once should fail',
-        reports: [{ message: `There is more than one DOCTYPE in the document.` }],
+        reports: [{ message: `There is more than one DOCTYPE in the document.`, position: { column: 16, line: 3 } }],
         serverConfig: {
             '/': {
                 content: `<!DOCTYPE html>
@@ -200,34 +212,10 @@ const tests: HintTest[] = [
         }
     },
     {
-        name: 'DOCTYPE appearing more than once should fail',
-        reports: [{ message: `There is more than one DOCTYPE in the document.` }],
-        serverConfig: {
-            '/': {
-                content: `<!doctype html>
-                <p></p>
-                <!doctype html>`,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
         name: 'DOCTYPE appearing only once should pass',
         serverConfig: {
             '/': {
                 content: `<!doctype html>
-                <p></p>`,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
-        name: 'Document starting with empty line instead of DOCTYPE',
-        reports: [{ message: `DOCTYPE is not in the first line.` }],
-        serverConfig: {
-            '/': {
-                content: `
-                <!doctype html>
                 <p></p>`,
                 headers: { 'Content-Type': 'text/html' }
             }
