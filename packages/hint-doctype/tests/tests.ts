@@ -20,7 +20,7 @@ const tests: HintTest[] = [
     },
     {
         name: 'Document starting with empty line instead of DOCTYPE',
-        reports: [{ message: `DOCTYPE is not in the first line.` }],
+        reports: [{ message: `DOCTYPE is not in the first line.`, position: { column: 16, line: 1 } }],
         serverConfig: {
             '/': {
                 content: `
