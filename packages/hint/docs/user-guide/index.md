@@ -19,11 +19,13 @@ npm install -g --engine-strict hint
 You can also install it as a `devDependency` if you prefer not to
 have it globally (which is the team's preferred option).
 
-The next thing that `webhint` needs is a `.hintrc` file. By
-default, `webhint` will look for this file first in the current
-folder and then in the user's home directory.
+`webhint` needs a configuration file to know what `hint`s,
+`connector`s, etc. to use. By default it will look for a `.hintrc`
+file in the current folder and then in the user's home directory.
+If none is found, it will use a built-in default configuration and
+warn the user about it.
 
-The fastest and easiest way to create one is by running:
+The recommended way to create the configuration file is by running:
 
 ```bash
 npm create hintrc
