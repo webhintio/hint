@@ -54,11 +54,18 @@ export default class implements IHint {
             lines.forEach((line: string, i: number): void => {
                 const matched = doctypeRegExpFlexible.exec(line);
 
+<<<<<<< HEAD
                 if (matched){
                     locations.push({
                         column: matched.index,
                         line: i
                     });
+=======
+                if (matched) {
+                    found = true;
+                    location.line = i;
+                    location.column = matched.index;
+>>>>>>> a42ea417c3614ad5e0eb8e23e89f4df0a32eeee4
                 }
             });
 
@@ -115,7 +122,11 @@ export default class implements IHint {
                 return;
             }
 
+<<<<<<< HEAD
             await report(resource, 'There is more than one DOCTYPE in the document.', matchInfo.locations[matchInfo.locations.length - 1]);
+=======
+            await report(resource, 'There is more than one DOCTYPE in the document.', matchInfo.location);
+>>>>>>> a42ea417c3614ad5e0eb8e23e89f4df0a32eeee4
         };
 
         const onFetchEndHTML = async (fetchEnd: FetchEnd): Promise<void> => {
