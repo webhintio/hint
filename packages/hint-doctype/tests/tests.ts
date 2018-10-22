@@ -7,7 +7,7 @@ const hintPath = getHintPath(__filename);
 const tests: HintTest[] = [
     {
         name: 'DOCTYPE is not in the first line should fail',
-        reports: [{ message: `DOCTYPE is not in the first line.`,  position: { column: 16, line: 2 } }],
+        reports: [{ message: `DOCTYPE is not in the first line.`, position: { column: 16, line: 2 } }],
         serverConfig: {
             '/': {
                 content: `<p><span></span>

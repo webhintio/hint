@@ -56,8 +56,8 @@ export default class implements IHint {
 
                 if (matched){
                     locations.push({
-                        line: i,
-                        column: matched.index
+                        column: matched.index,
+                        line: i
                     });
                 }
             });
@@ -79,11 +79,11 @@ export default class implements IHint {
 
             await report(resource, 'The resource does not contain a valid DOCTYPE (e.g. `<!doctype html>`).');
 
-            return false; //REMOVE
+            return false;
         };
 
         const checkNoDoctypeInCorrectLine = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
-           
+
             if (matchInfo.locations[0].line === correctLine) {
                 return;
             }
