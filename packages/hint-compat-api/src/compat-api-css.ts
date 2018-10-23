@@ -8,6 +8,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata, IAsyncHTMLElement } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
+import {getUserBrowsers} from './helpers/user-browsers-config';
 
 const debug: debug.IDebugger = d(__filename);
 

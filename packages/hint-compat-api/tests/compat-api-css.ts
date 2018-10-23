@@ -18,4 +18,10 @@ const tests: Array<HintTest> = [
     }
 ];
 
-hintRunner.testHint(hintPath, tests);
+hintRunner.testHint(hintPath, tests, 
+    {
+        // browserslist: ['> 5% in alt-AS']
+        // browserslist: ['and_uc 11.8'],
+        browserslist: ['> 1%'],
+    }
+);
