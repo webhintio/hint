@@ -6,8 +6,8 @@ import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata, IAsyncHTMLElement } from 'hint/dist/src/lib/types';
-import { CSSParser } from '@hint/parser-css';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { StyleParse } from '@hint/parser-css/dist/src/types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -36,7 +36,7 @@ export default class implements IHint {
             await context.report(resource, element, `There is more than one doctype tag in the document`);
         };
 
-        const onParseCSS = async (cssParser: CSSParser): Promise<void> => {
+        const onParseCSS = async (styleParse: StyleParse): Promise<void> => {
             debugger
         };
 
