@@ -38,7 +38,12 @@ export type Details = {
     url: string;
 };
 
-export type ExtensionEvents = {
+export type BackgroundEvents = {
     fetchEnd?: FetchEnd;
     fetchStart?: FetchStart;
+};
+
+export type ContentEvents = {
+    ready?: boolean;
+    done?: boolean;
 };

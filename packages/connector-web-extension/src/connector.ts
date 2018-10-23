@@ -1,41 +1,60 @@
 import * as url from 'url';
 
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow, IConnector, IFetchOptions, FetchEnd, NetworkData } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow, IConnector, FetchEnd, NetworkData } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
 
-import { ExtensionEvents } from './types';
+import { BackgroundEvents, ContentEvents } from './types';
 import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-html';
+
+type Options = {
+    waitFor: number;
+};
+
+const browser: typeof chrome = (self as any).browser || self.chrome;
 
 export default class WebExtensionConnector implements IConnector {
     private _window: IAsyncWindow;
-    private engine: Engine;
+    private _engine: Engine;
+    private _options: Options;
 
-    public constructor(engine: Engine) {
-        this.engine = engine;
+    public constructor(engine: Engine, options: Options) {
+        this._engine = engine;
         this._window = new AsyncWindow(new AsyncHTMLDocument(document));
-
-        const browser: typeof chrome = (self as any).browser || self.chrome;
+        this._options = { waitFor: 1000, ...options };
 
         // TODO: Account for events sent before listener was added (queue in background-script?).
-        browser.runtime.onMessage.addListener(async (events: ExtensionEvents) => {
+        browser.runtime.onMessage.addListener(async (events: BackgroundEvents) => {
             if (events.fetchEnd) {
                 await this.notifyFetch(events.fetchEnd);
             }
             if (events.fetchStart) {
-                await this.engine.emitAsync('fetch::start', events.fetchStart);
+                await this._engine.emitAsync('fetch::start', events.fetchStart);
             }
             // TODO: Trigger 'fetch::start::target'.
         });
 
         window.addEventListener('load', async () => {
-            if (document.documentElement) {
-                await this.engine.emitAsync('can-evaluate::script', { resource: location.href });
-                await this.engine.emitAsync('traverse::start', event);
-                await this.traverseAndNotify(document.documentElement, this._window.document);
-                await this.engine.emitAsync('traverse::end', event);
-            }
+            const resource = location.href;
+
+            await this._engine.emitAsync('can-evaluate::script', { resource });
+
+            setTimeout(async () => {
+                if (document.documentElement) {
+                    await this._engine.emitAsync('traverse::start', { resource });
+                    await this.traverseAndNotify(document.documentElement, this._window.document);
+                    await this._engine.emitAsync('traverse::end', { resource });
+                }
+
+                await this._engine.emitAsync('scan::end', { resource });
+
+                this.sendMessage({ done: true });
+            }, this._options.waitFor);
         });
+    }
+
+    private sendMessage(message: ContentEvents) {
+        browser.runtime.sendMessage(message);
     }
 
     /** Traverses the DOM while sending `element::*` events. */
@@ -44,15 +63,15 @@ export default class WebExtensionConnector implements IConnector {
         const name = node.tagName.toLowerCase();
         const resource = location.href;
 
-        await this.engine.emitAsync(`element::${name}`, { element, resource });
-        await this.engine.emitAsync(`traverse::down`, { element, resource });
+        await this._engine.emitAsync(`element::${name}`, { element, resource });
+        await this._engine.emitAsync(`traverse::down`, { element, resource });
 
         // Recursively traverse child elements.
         for (let i = 0; i < node.children.length; i++) {
             await this.traverseAndNotify(node.children[i], doc);
         }
 
-        await this.engine.emitAsync(`traverse::up`, { element, resource });
+        await this._engine.emitAsync(`traverse::up`, { element, resource });
     }
 
     private async notifyFetch(event: FetchEnd) {
@@ -63,7 +82,7 @@ export default class WebExtensionConnector implements IConnector {
 
         const type = getType(mediaType);
 
-        await this.engine.emitAsync(`fetch::end::${type}`, event);
+        await this._engine.emitAsync(`fetch::end::${type}`, event);
     }
 
     public async fetchContent(target: string, headers?: Record<string, string>): Promise<NetworkData> {
@@ -75,7 +94,7 @@ export default class WebExtensionConnector implements IConnector {
                 response: {
                     body: {
                         content: await response.text(),
-                        rawContent: null,
+                        rawContent: null, // TODO: Set once this supports `Blob`.
                         rawResponse: null
                     },
                     charset,
@@ -92,11 +111,15 @@ export default class WebExtensionConnector implements IConnector {
     public async collect(target: url.URL) {
         const resource = target.href;
 
-        await this.engine.emitAsync('scan::start', { resource });
+        await this._engine.emitAsync('scan::start', { resource });
 
-        // TODO: Determine when scan is over... (N seconds after `window.onload`, or after idle without `FetchEnd`s?)
+        this.sendMessage({ ready: true });
 
-        await this.engine.emitAsync('scan::end', { resource });
+        return new Promise((resolve) => {
+            this._engine.once('scan::end', () => {
+                resolve();
+            });
+        });
     }
 
     /* istanbul ignore next */

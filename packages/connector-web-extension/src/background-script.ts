@@ -1,5 +1,5 @@
 import { FetchEnd, FetchStart, HttpHeaders, Request, Response } from 'hint/dist/src/lib/types';
-import { ExtensionEvents, Details } from './types';
+import { BackgroundEvents, ContentEvents, Details } from './types';
 
 // Normalize access to extension APIs across browsers.
 const browser: typeof chrome = (self as any).browser || self.chrome;
@@ -38,7 +38,16 @@ const mapRequest = (parts: Details[]): Request => {
 const mapResponse = async (parts: Details[]): Promise<Response> => {
     const responseDetails = parts[parts.length - 1];
 
-    // Fetch the response body.
+    /*
+     * Fetch the response body.
+     *
+     * TODO: Get response body from `Response` if available:
+     * * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/filterResponseData
+     * * https://bugs.chromium.org/p/chromium/issues/detail?id=487422#c18
+     *
+     * TODO: Look at `devtools.network` as an alternative:
+     * * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/devtools.network/onRequestFinished
+     */
     const responseBody = await fetch(responseDetails.url);
 
     // Build a `hint` response object.
@@ -61,7 +70,28 @@ const mapResponse = async (parts: Details[]): Promise<Response> => {
     };
 };
 
-// Build and trigger `fetch::end::*` based on provided `webRequest` details.
+const readyTabs = new Set<number>();
+const queuedEvents = new Map<number, BackgroundEvents[]>();
+
+/** Emit an event to a tab's content script if ready; queue otherwise. */
+const sendEvent = (tabId: number, event: BackgroundEvents) => {
+    if (readyTabs.has(tabId)) {
+
+        browser.tabs.sendMessage(tabId, event);
+
+    } else {
+
+        if (!queuedEvents.has(tabId)) {
+            queuedEvents.set(tabId, []);
+        }
+
+        const events = queuedEvents.get(tabId)!; // Won't be `null` per `has` check above.
+
+        events.push(event);
+    }
+};
+
+/** Build and trigger `fetch::end::*` based on provided `webRequest` details. */
 const sendFetchEnd = async (parts: Details[]): Promise<void> => {
     const element = null;
     const request = mapRequest(parts);
@@ -70,18 +100,18 @@ const sendFetchEnd = async (parts: Details[]): Promise<void> => {
 
     const fetchEnd: FetchEnd = { element, request, resource, response };
 
-    browser.tabs.sendMessage(parts[0].tabId, { fetchEnd } as ExtensionEvents);
+    sendEvent(parts[0].tabId, { fetchEnd });
 };
 
-// Build and trigger `fetch::start` based on provided `webRequest` details.
+/** Build and trigger `fetch::start` based on provided `webRequest` details. */
 const sendFetchStart = (details: Details) => {
     const resource = details.url;
     const fetchStart: FetchStart = { resource };
 
-    browser.tabs.sendMessage(details.tabId, { fetchStart } as ExtensionEvents);
+    sendEvent(details.tabId, { fetchStart });
 };
 
-// Queue a `webRequest` event by `requestId`, flushing after `onCompleted`.
+/** Queue a `webRequest` event by `requestId`, flushing after `onCompleted`. */
 const queueDetails = (event: string, details: Details) => {
     if (!requests.has(details.requestId)) {
         requests.set(details.requestId, []);
@@ -102,8 +132,7 @@ const queueDetails = (event: string, details: Details) => {
     }
 };
 
-// Register and queue all `webRequest` events by `requestId`.
-[
+const webRequestEvents = [
     'onBeforeRequest',
     'onBeforeSendHeaders',
     'onSendHeaders',
@@ -112,9 +141,72 @@ const queueDetails = (event: string, details: Details) => {
     'onAuthRequired',
     'onResponseStarted',
     'onCompleted'
-].forEach((event) => {
-    // TODO: Filter to relevant `ResourceType`s (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/ResourceType)
-    (browser.webRequest as any)[event].addListener((details: Details) => {
+];
+
+const webRequestHandlers = webRequestEvents.map((event) => {
+    return (details: Details) => {
         queueDetails(event, details);
-    });
+    };
+});
+
+const enabledTabs = new Set<number>();
+const requestFilter = { types: ['main_frame', 'sub_frame', 'stylesheet', 'script', 'image', 'media'] };
+
+/** Turn on request tracking for the specified tab. */
+const enable = (tabId: number) => {
+    if (!enabledTabs.size) {
+        // Register and queue all `webRequest` events by `requestId`.
+        webRequestEvents.forEach((event, i) => {
+            // TODO: Filter to relevant `ResourceType`s (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/ResourceType)
+            (browser.webRequest as any)[event].addListener(webRequestHandlers[i], requestFilter);
+        });
+    }
+    enabledTabs.add(tabId);
+    browser.tabs.reload(tabId);
+
+    // TODO: Handle user-initiated reload.
+    browser.tabs.executeScript({ file: 'webhint.js', runAt: 'document_start' });
+};
+
+/** Turn off request tracking for the specified tab. */
+const disable = (tabId: number) => {
+    enabledTabs.delete(tabId);
+    readyTabs.delete(tabId);
+    if (!enabledTabs.size) {
+        webRequestEvents.forEach((event, i) => {
+            (browser.webRequest as any)[event].removeListener(webRequestHandlers[i]);
+        });
+    }
+};
+
+browser.browserAction.onClicked.addListener((tab) => {
+    if (tab.id) {
+        if (enabledTabs.has(tab.id)) {
+            disable(tab.id);
+        } else {
+            enable(tab.id);
+        }
+    }
+});
+
+browser.runtime.onMessage.addListener((message: ContentEvents, sender) => {
+    const tabId = sender.tab && sender.tab.id;
+
+    if (message.ready && tabId) {
+        readyTabs.add(tabId);
+
+        if (queuedEvents.has(tabId)) {
+            const events = queuedEvents.get(tabId)!;
+
+            events.forEach((event) => {
+                sendEvent(tabId, event);
+            });
+
+            queuedEvents.delete(tabId);
+        }
+    }
+
+    if (message.done && tabId) {
+        disable(tabId);
+    }
 });
