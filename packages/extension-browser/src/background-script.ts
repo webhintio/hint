@@ -9,6 +9,10 @@ const requests = new Map<string, Details[]>();
 
 // Convert `webRequest` headers to `hint` headers.
 const mapHeaders = (webRequestHeaders: { name: string, value?: string }[]): HttpHeaders => {
+    if (!webRequestHeaders) {
+        return {};
+    }
+
     return webRequestHeaders.reduce((headers, header) => {
         headers[header.name] = header.value || '';
 
@@ -150,7 +154,10 @@ const webRequestHandlers = webRequestEvents.map((event) => {
 });
 
 const enabledTabs = new Set<number>();
-const requestFilter = { types: ['main_frame', 'sub_frame', 'stylesheet', 'script', 'image', 'media'] };
+const requestFilter = {
+    types: ['main_frame', 'sub_frame', 'stylesheet', 'script', 'image', 'media'],
+    urls: ['<all_urls>']
+};
 
 /** Turn on request tracking for the specified tab. */
 const enable = (tabId: number) => {

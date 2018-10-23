@@ -1,4 +1,4 @@
-import { IFormatter, Problem } from 'hint/dist/src/lib/types';
+import { IFormatter, Problem, Severity } from 'hint/dist/src/lib/types';
 
 export default class WebExtensionFormatter implements IFormatter {
     public format(problems: Problem[]) {
@@ -6,10 +6,10 @@ export default class WebExtensionFormatter implements IFormatter {
             const message = `${p.message} in ${p.resource} at ${p.location.line}:${p.location.column} (${p.hintId})`;
 
             switch (p.severity) {
-                case 2: // Severity.error
+                case Severity.error:
                     console.error(message);
                     break;
-                case 1: // Severity.warning
+                case Severity.warning:
                     console.warn(message);
                     break;
                 default:
