@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "hint web extension connector",
+  "description": "webhint browser extension",
   "devDependencies": {
     "@types/chrome": "^0.0.74",
     "ava": "^0.25.0",
@@ -34,15 +34,15 @@
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "connector",
-    "web-extension",
+    "extension",
+    "browser",
     "hint",
-    "hint-connector-web-extension",
+    "hint-extension-browser",
     "webhint"
   ],
   "license": "Apache-2.0",
   "main": "./dist/src/connector.js",
-  "name": "@hint/connector-web-extension",
+  "name": "@hint/extension-browser",
   "peerDependencies": {
     "hint": "^3.4.10"
   },
