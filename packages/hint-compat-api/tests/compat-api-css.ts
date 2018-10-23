@@ -15,11 +15,6 @@ const tests: Array<HintTest> = [
     {
         name: 'This test should pass',
         serverConfig: generateHTMLPage()
-    },
-    {
-        name: `This test should fail`,
-        reports: [{ message: `This should be your error message` }],
-        serverConfig: generateHTMLPage()
     }
 ];
 

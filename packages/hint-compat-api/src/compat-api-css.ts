@@ -24,7 +24,7 @@ export default class implements IHint {
             category: Category.interoperability,
             description: `Hint to validate if the doctype is correct`
         },
-        id: 'doctype',
+        id: 'compat-api-css',
         schema: [],
         scope: HintScope.any
     }
