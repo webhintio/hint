@@ -49,7 +49,7 @@ https://example.com`:
 1. If everything goes well, a new `Engine` object is created using the
    previous `HintConfig` and `HintResources`, then `CLI` calls its
    `executeOn` method.
-1. `engine` then calls the `collect` method (`async`) of the configured
+1. `Engine` then calls the `collect` method (`async`) of the configured
    `connector`.
 1. The `connector` will navigate to the `URL`, traverse the HTML, and
    send `event`s related to this and the loaded resources.
