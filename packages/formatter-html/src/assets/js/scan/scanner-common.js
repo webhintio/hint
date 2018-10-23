@@ -154,7 +154,7 @@
         }
 
         /*
-         * The user click a hint.
+         * The user clicks a hint.
          *
          * When the user click a hint, we needs to add an offset
          * to the default position, if not, the documenation links
