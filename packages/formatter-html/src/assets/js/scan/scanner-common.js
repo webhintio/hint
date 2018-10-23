@@ -158,7 +158,7 @@
          *
          * When the user click a hint, we needs to add an offset
          * to the default position, if not, the documenation links
-         * will covere the hint message.
+         * will cover the hint message.
          */
 
         var title = document.getElementById(id);
