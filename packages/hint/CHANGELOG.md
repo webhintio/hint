@@ -1,3 +1,11 @@
+# 3.4.11 (October 19, 2018)
+
+## Bug fixes / Improvements
+
+* [[`5d8a804c03`](https://github.com/webhintio/hint/commit/5d8a804c0344a0a10991ff81488fcbc0b700c0da)] - Fix: Refactor debugging protocol (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1398`](https://github.com/webhintio/hint/issues/1398), [`#1403`](https://github.com/webhintio/hint/issues/1403), and [`#1409`](https://github.com/webhintio/hint/issues/1409)).
+* [[`59d19a76d8`](https://github.com/webhintio/hint/commit/59d19a76d88387ca1eaa76710b94ff6c625a693b)] - Docs: Fix links (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1418`](https://github.com/webhintio/hint/issues/1418)).
+
+
 # 3.4.10 (October 10, 2018)
 
 ## Bug fixes / Improvements

@@ -8,7 +8,7 @@
   },
   "description": "Verify that all links and resources the page uses are available online.",
   "dependencies": {
-    "@hint/utils-connector-tools": "^1.0.7"
+    "@hint/utils-connector-tools": "^1.0.8"
   },
   "devDependencies": {
     "@hint/utils-tests-helpers": "^1.0.1",
@@ -18,7 +18,7 @@
     "eslint": "^5.7.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.4.10",
+    "hint": "^3.4.11",
     "markdownlint-cli": "^0.13.0",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
@@ -47,7 +47,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^3.4.10"
+    "hint": "^3.4.11"
   },
   "repository": "webhintio/hint",
   "scripts": {

@@ -12,7 +12,7 @@ const debug: debug.IDebugger = d(__filename);
 const run = async (data: { source: string }) => {
     const { source } = data;
     const result = {
-        error: null as ErrorEvent | null,
+        error: null as Error | null,
         evaluate: 'result'
     };
     const url = process.argv[2];
@@ -57,9 +57,7 @@ const run = async (data: { source: string }) => {
     };
 
     const onError = (error: ErrorEvent) => {
-        result.error = error;
-
-        process.send!(result);
+        debug(`onError: ${error}`);
     };
 
     jsdom.window.addEventListener('load', onLoad, { once: true });

@@ -167,7 +167,7 @@ class HintPackage {
  * ------------------------------------------------------------------------------
  */
 
-const mkdirpAsync = promisify(mkdirp);
+const mkdirpAsync = promisify(mkdirp) as (dir: string) => Promise<void>;
 /** Name of the package to use as a template. */
 const TEMPLATE_PATH = './templates';
 const SHARED_TEMPLATE_PATH = './shared-templates';

@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "alwaysStrict": true,
+        "composite": false,
         "declaration": false,
         "inlineSourceMap": false,
         "removeComments": true,

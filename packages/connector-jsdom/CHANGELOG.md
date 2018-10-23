@@ -1,3 +1,10 @@
+# 1.0.8 (October 19, 2018)
+
+## Bug fixes / Improvements
+
+* [[`09a8e48f90`](https://github.com/webhintio/hint/commit/09a8e48f90a6e5e0f21f0ac7e6fc22494fc90acb)] - Fix: Error `evaluate-runner` sends to the `jsdom` connector (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1425`](https://github.com/webhintio/hint/issues/1425)).
+
+
 # 1.0.7 (October 3, 2018)
 
 ## Bug fixes / Improvements

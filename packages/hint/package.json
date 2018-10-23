@@ -12,7 +12,7 @@
     "applicationinsights": "^1.0.6",
     "async": "^2.6.1",
     "boxen": "^2.0.0",
-    "browserslist": "^4.2.1",
+    "browserslist": "^4.3.1",
     "caniuse-api": "^3.0.0",
     "chalk": "^2.4.1",
     "content-type": "^1.0.4",
@@ -38,7 +38,7 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
-    "@types/async": "^2.0.49",
+    "@types/async": "^2.0.50",
     "@types/configstore": "^2.1.1",
     "@types/content-type": "^1.1.2",
     "@types/debug": "0.0.31",
@@ -132,5 +132,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.4.10"
+  "version": "3.4.11"
 }

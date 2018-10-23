@@ -1,3 +1,10 @@
+# 1.0.8 (October 19, 2018)
+
+## Bug fixes / Improvements
+
+* [[`db5fb7f879`](https://github.com/webhintio/hint/commit/db5fb7f87955002b6c78e8546357af3006aa39c2)] - Fix: Add property `showError` to html formatter (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1423`](https://github.com/webhintio/hint/issues/1423)).
+
+
 # 1.0.7 (October 9, 2018)
 
 ## Bug fixes / Improvements

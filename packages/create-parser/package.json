@@ -12,6 +12,7 @@
   "description": "webhint's parser initializer package",
   "devDependencies": {
     "@types/inquirer": "^0.0.43",
+    "@types/node": "10.12.0",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.7.0",
@@ -21,7 +22,7 @@
     "fork-ts-checker-webpack-plugin": "^0.4.10",
     "fs-extra": "^7.0.0",
     "handlebars": "^4.0.11",
-    "hint": "^3.4.10",
+    "hint": "^3.4.11",
     "inquirer": "^6.2.0",
     "markdownlint-cli": "^0.13.0",
     "mkdirp": "^0.5.1",
@@ -33,7 +34,7 @@
     "ts-loader": "^5.2.2",
     "typescript": "^3.0.3",
     "typescript-eslint-parser": "^20.0.0",
-    "webpack": "^4.21.0",
+    "webpack": "^4.22.0",
     "webpack-cli": "^3.1.2"
   },
   "engines": {
@@ -73,5 +74,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "1.0.2"
+  "version": "1.0.3"
 }

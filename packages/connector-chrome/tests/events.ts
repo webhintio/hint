@@ -134,7 +134,7 @@ const events = [
         element: {
             getAttribute(attr: string) {
                 if (attr === 'href') {
-                    return 'test://fa.il';
+                    return '/script5.js';
                 }
 
                 return '';
@@ -295,7 +295,7 @@ test(`[${name}] Events`, async (t) => {
     }
 
     // List of events that only have to be called once per execution
-    const singles = ['fetch::error', 'scan::start', 'scan::end', 'fetch::end::html'];
+    const singles = ['scan::start', 'scan::end', 'fetch::end::html'];
     const groupedEvents = groupBy(invokes, (invoke) => {
         return invoke[0];
     });

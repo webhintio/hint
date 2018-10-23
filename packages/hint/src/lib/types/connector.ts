@@ -42,6 +42,7 @@ export type BrowserInfo = {
 
 export interface ILauncher {
     launch(url: string, options?: any): Promise<BrowserInfo>;
+    options?: any;
 }
 
 export type LauncherOptions = {

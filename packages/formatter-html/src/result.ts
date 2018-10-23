@@ -210,6 +210,8 @@ export default class AnalysisResult {
     public isScanner: boolean;
     /** Precentage of the analysis completed. */
     public percentage: number;
+    /** Indicate if it is necessary to show the error message. */
+    public showError: boolean;
     /** Cache for CategorieResults. */
     private cache: Map<string, CategoryResult> = new Map();
 
@@ -219,7 +221,7 @@ export default class AnalysisResult {
         this.status = options.status ? options.status : 'finished';
         // Question: Should we have this here or in webhint.io?
         this.isFinish = this.status === 'finished' || this.status === 'error';
-
+        this.showError = this.status === 'error';
         this.scanTime = this.parseScanTime(options.scanTime || 0);
         this.date = options.date!;
         this.version = options.version;

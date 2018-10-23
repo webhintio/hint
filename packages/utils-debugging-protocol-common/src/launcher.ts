@@ -16,10 +16,14 @@ import { BrowserInfo, ILauncher, LauncherOptions } from 'hint/dist/src/lib/types
 export abstract class Launcher implements ILauncher {
     protected pidFile: string = path.join(process.cwd(), 'cdp.pid');
     protected port?: number = 9222;
-    protected options: LauncherOptions;
+    protected _options: LauncherOptions;
+
+    public get options(){
+        return this._options;
+    }
 
     public constructor(options: LauncherOptions) {
-        this.options = options;
+        this._options = options;
     }
 
     /**

@@ -26,9 +26,18 @@ export class CDPLauncher extends Launcher {
     private chromeFlags: Array<string>;
 
     public constructor(options: LauncherOptions) {
-        super(options);
+        const flags = options && options.flags || ['--no-default-browser-check'];
 
-        this.chromeFlags = options && options.flags || ['--no-default-browser-check'];
+        /* istanbul ignore next */
+        if (isCI) {
+            flags.push('--headless', '--disable-gpu');
+        } else if (process.env.DOCKER === 'true') { // eslint-disable-line no-process-env
+            flags.push('--headless');
+        }
+
+        super(Object.assign({}, options, { flags: Array.from(new Set(flags)) }));
+
+        this.chromeFlags = flags;
         // `userDataDir` is a property in `chrome-launcher`: https://github.com/GoogleChrome/chrome-launcher#launch-options
         /* istanbul ignore next */
         this.userDataDir = options && typeof options.defaultProfile === 'boolean' && options.defaultProfile ?
@@ -131,13 +140,6 @@ export class CDPLauncher extends Launcher {
         }
 
         try {
-            /* istanbul ignore next */
-            if (isCI) {
-                this.chromeFlags.push('--headless', '--disable-gpu');
-            } else if (process.env.DOCKER === 'true') { // eslint-disable-line no-process-env
-                this.chromeFlags.push('--headless');
-            }
-
             const chrome: chromeLauncher.LaunchedChrome = await chromeLauncher.launch({
                 chromeFlags: this.chromeFlags,
                 connectionPollInterval: 1000,
