@@ -1,24 +1,29 @@
 import * as url from 'url';
 
+import { Engine } from 'hint';
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow, IConnector, FetchEnd, NetworkData } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint/dist/src/lib/engine';
+import {
+    ConnectorOptionsConfig,
+    HttpHeaders,
+    IAsyncHTMLDocument,
+    IAsyncHTMLElement,
+    IAsyncWindow,
+    IConnector,
+    FetchEnd,
+    NetworkData
+} from 'hint/dist/src/lib/types';
 
 import { BackgroundEvents, ContentEvents } from './types';
 import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-html';
-
-type Options = {
-    waitFor: number;
-};
 
 const browser: typeof chrome = (self as any).browser || self.chrome;
 
 export default class WebExtensionConnector implements IConnector {
     private _window: IAsyncWindow;
     private _engine: Engine;
-    private _options: Options;
+    private _options: ConnectorOptionsConfig;
 
-    public constructor(engine: Engine, options: Options) {
+    public constructor(engine: Engine, options?: ConnectorOptionsConfig) {
         this._engine = engine;
         this._window = new AsyncWindow(new AsyncHTMLDocument(document));
         this._options = { waitFor: 1000, ...options };
@@ -75,32 +80,43 @@ export default class WebExtensionConnector implements IConnector {
     }
 
     private async notifyFetch(event: FetchEnd) {
-        const { charset, mediaType } = getContentTypeData(null, event.response.url, event.response.headers, null);
+        const { charset, mediaType } = getContentTypeData(null, event.response.url, event.response.headers, null as any);
 
-        event.response.charset = charset;
-        event.response.mediaType = mediaType;
+        event.response.charset = charset || '';
+        event.response.mediaType = mediaType || '';
 
-        const type = getType(mediaType);
+        const type = getType(mediaType || '');
 
         await this._engine.emitAsync(`fetch::end::${type}`, event);
     }
 
-    public async fetchContent(target: string, headers?: Record<string, string>): Promise<NetworkData> {
+    private mapResponseHeaders(headers: Headers): HttpHeaders {
+        const responseHeaders: HttpHeaders = {};
+
+        headers.forEach((val, key) => {
+            responseHeaders[key] = val;
+        });
+
+        return responseHeaders;
+    }
+
+    public async fetchContent(target: string, headers?: any): Promise<NetworkData> {
         return await fetch(target, { headers }).then(async (response) => {
-            const { charset, mediaType } = getContentTypeData(null, target, response.headers, null);
+            const responseHeaders = this.mapResponseHeaders(response.headers);
+            const { charset, mediaType } = getContentTypeData(null, target, responseHeaders, null as any);
 
             return {
-                request: { headers, url: target },
+                request: { headers: headers as any, url: target },
                 response: {
                     body: {
                         content: await response.text(),
-                        rawContent: null, // TODO: Set once this supports `Blob`.
-                        rawResponse: null
+                        rawContent: null as any, // TODO: Set once this supports `Blob`.
+                        rawResponse: null as any
                     },
-                    charset,
-                    headers: response.headers,
+                    charset: charset || '',
+                    headers: responseHeaders,
                     hops: [],
-                    mediaType,
+                    mediaType: mediaType || '',
                     statusCode: response.status,
                     url: target
                 }
@@ -128,7 +144,7 @@ export default class WebExtensionConnector implements IConnector {
     }
 
     /* istanbul ignore next */
-    public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
         return this._window ? this._window.document.querySelectorAll(selector) : Promise.resolve([]);
     }
 
