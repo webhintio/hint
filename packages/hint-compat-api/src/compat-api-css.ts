@@ -8,7 +8,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
-import { CompatApi } from './helpers';
+import { CompatApi, userBrowsers } from './helpers';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -34,12 +34,8 @@ export default class implements IHint {
         const onParseCSS = (styleParse: StyleParse): void => {
 
             // Internal testing purposes
-            const compatApi = new CompatApi('css', {
-                edge: {
-                    max: 11,
-                    min: 0
-                }
-            });
+            const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
+            const compatApi = new CompatApi('javascript', mdnBrowsersCollection);
 
             console.log(compatApi, styleParse);
         };
