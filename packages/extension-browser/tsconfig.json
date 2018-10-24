@@ -13,6 +13,12 @@
         "tests/**/*.ts"
     ],
     "references": [
-        { "path": "../hint" }
+        { "path": "../hint" },
+        { "path": "../hint-content-type" },
+        { "path": "../hint-manifest-is-valid" },
+        { "path": "../hint-minified-js" },
+        { "path": "../parser-css" },
+        { "path": "../parser-javascript" },
+        { "path": "../parser-manifest" }
     ]
 }
