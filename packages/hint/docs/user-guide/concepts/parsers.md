@@ -44,7 +44,6 @@ To use a parse you need to subscribe to the event(s) that the parser dispatches.
 Please check the details page of each parser to have more information about the
 events emitted by them.
 
-
 <!-- Link labels: -->
 
 [@hint/parser-babel-config]: https://npmjs.com/package/@hint/parser-babel-config/
