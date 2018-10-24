@@ -1,0 +1,8 @@
+.analyze {
+    background-color: var(--bg-alt-color);
+}
+
+.analyze__status {
+    padding: 2em;
+    text-align: center;
+}

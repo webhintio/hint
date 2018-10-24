@@ -7,29 +7,30 @@ import {
     HttpHeaders,
     IAsyncHTMLDocument,
     IAsyncHTMLElement,
-    IAsyncWindow,
     IConnector,
     FetchEnd,
     NetworkData
 } from 'hint/dist/src/lib/types';
 
-import { BackgroundEvents, ContentEvents } from './types';
+import { Events } from '../shared/types';
 import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-html';
-
-const browser: typeof chrome = (self as any).browser || self.chrome;
+import browser from '../shared/browser';
 
 export default class WebExtensionConnector implements IConnector {
-    private _window: IAsyncWindow;
+    private _document = new AsyncHTMLDocument(document);
+    private _window = new AsyncWindow(this._document);
     private _engine: Engine;
     private _options: ConnectorOptionsConfig;
 
     public constructor(engine: Engine, options?: ConnectorOptionsConfig) {
         this._engine = engine;
-        this._window = new AsyncWindow(new AsyncHTMLDocument(document));
-        this._options = { waitFor: 1000, ...options };
+        this._options = options || {};
 
-        // TODO: Account for events sent before listener was added (queue in background-script?).
-        browser.runtime.onMessage.addListener(async (events: BackgroundEvents) => {
+        if (!this._options.waitFor) {
+            this._options.waitFor = 1000;
+        }
+
+        browser.runtime.onMessage.addListener(async (events: Events) => {
             if (events.fetchEnd) {
                 await this.notifyFetch(events.fetchEnd);
             }
@@ -39,26 +40,31 @@ export default class WebExtensionConnector implements IConnector {
             // TODO: Trigger 'fetch::start::target'.
         });
 
-        window.addEventListener('load', async () => {
+        const onLoad = async () => {
             const resource = location.href;
 
             await this._engine.emitAsync('can-evaluate::script', { resource });
 
             setTimeout(async () => {
-                if (document.documentElement) {
+
+                if (this._window && document.documentElement) {
                     await this._engine.emitAsync('traverse::start', { resource });
                     await this.traverseAndNotify(document.documentElement, this._window.document);
                     await this._engine.emitAsync('traverse::end', { resource });
                 }
 
                 await this._engine.emitAsync('scan::end', { resource });
-
-                this.sendMessage({ done: true });
             }, this._options.waitFor);
-        });
+        };
+
+        if (document.readyState === 'complete') {
+            onLoad();
+        } else {
+            window.addEventListener('load', onLoad);
+        }
     }
 
-    private sendMessage(message: ContentEvents) {
+    private sendMessage(message: Events) {
         browser.runtime.sendMessage(message);
     }
 
@@ -68,7 +74,7 @@ export default class WebExtensionConnector implements IConnector {
         const name = node.tagName.toLowerCase();
         const resource = location.href;
 
-        await this._engine.emitAsync(`element::${name}`, { element, resource });
+        await this._engine.emitAsync(`element::${name}` as 'element::*', { element, resource });
         await this._engine.emitAsync(`traverse::down`, { element, resource });
 
         // Recursively traverse child elements.
@@ -79,15 +85,35 @@ export default class WebExtensionConnector implements IConnector {
         await this._engine.emitAsync(`traverse::up`, { element, resource });
     }
 
-    private async notifyFetch(event: FetchEnd) {
+    private setFetchElement(event: FetchEnd) {
+        const url = event.request.url;
+        const elements = Array.from(document.querySelectorAll('[href],[src]')).filter((element: any) => {
+            return element.href === url || element.src === url;
+        });
+
+        if (elements.length) {
+            event.element = new AsyncHTMLElement(elements[0], this._document);
+        }
+    }
+
+    private setFetchType(event: FetchEnd): string {
         const { charset, mediaType } = getContentTypeData(null, event.response.url, event.response.headers, null as any);
 
         event.response.charset = charset || '';
         event.response.mediaType = mediaType || '';
 
-        const type = getType(mediaType || '');
+        return getType(mediaType || '');
+    }
 
-        await this._engine.emitAsync(`fetch::end::${type}`, event);
+    private async notifyFetch(event: FetchEnd) {
+        this.setFetchElement(event);
+        const type = this.setFetchType(event);
+
+        if (event.response.url === location.href) {
+            this._document.setPageHTML(event.response.body.content);
+        }
+
+        await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }
 
     private mapResponseHeaders(headers: Headers): HttpHeaders {
@@ -134,18 +160,19 @@ export default class WebExtensionConnector implements IConnector {
         return new Promise((resolve) => {
             this._engine.once('scan::end', () => {
                 resolve();
+                this.sendMessage({ done: true });
             });
         });
     }
 
     /* istanbul ignore next */
     public evaluate(source: string): Promise<any> {
-        return Promise.resolve(this._window ? this._window.evaluate(source) : null);
+        return Promise.resolve(this._window.evaluate(source));
     }
 
     /* istanbul ignore next */
     public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
-        return this._window ? this._window.document.querySelectorAll(selector) : Promise.resolve([]);
+        return this._document.querySelectorAll(selector);
     }
 
     /* istanbul ignore next */
@@ -154,12 +181,12 @@ export default class WebExtensionConnector implements IConnector {
     }
 
     /* istanbul ignore next */
-    public get dom(): IAsyncHTMLDocument | undefined {
-        return this._window && this._window.document;
+    public get dom(): IAsyncHTMLDocument {
+        return this._document;
     }
 
     /* istanbul ignore next */
     public get html(): Promise<string> {
-        return this._window ? this._window.document.pageHTML() : Promise.resolve('');
+        return this._document.pageHTML();
     }
 }
