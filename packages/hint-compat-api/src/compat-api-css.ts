@@ -1,14 +1,14 @@
 /**
- * @fileoverview Hint to validate if the doctype is correct
+ * @fileoverview Hint to validate if the HTML, CSS and JS APIs of the project are deprecated or not broadly supported
  */
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, IAsyncHTMLElement } from 'hint/dist/src/lib/types';
+import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
-import { convertBrowserSupportCollectionToMDN, userBrowsers } from './helpers';
+import { CompatApi } from './helpers';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -23,7 +23,7 @@ export default class implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
             category: Category.interoperability,
-            description: `Hint to validate if the doctype is correct`
+            description: `Hint to validate if the HTML, CSS and JS APIs of the project are deprecated or not broadly supported`
         },
         id: 'compat-api-css',
         schema: [],
@@ -31,28 +31,18 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
+        const onParseCSS = (styleParse: StyleParse): void => {
 
-        const onParseCSS = async (styleParse: StyleParse): Promise<void> => {
-            debugger
+            // Internal testing purposes
+            const compatApi = new CompatApi('css', {
+                edge: {
+                    max: 11,
+                    min: 0
+                }
+            });
 
-            const userObject = {
-                Chrome: { min: '67', max: '68' },
-                ios_saf: { min: '11.0', max: '11.8' },
-                and_uc: { min: '11.8', max: null }
-              }
-
-              const a = convertBrowserSupportCollectionToMDN(userObject);
-
-
-              const browsersList = [
-                "and_chr 69","and_uc 11.8","chrome 69","chrome 68","edge 17","firefox 62","firefox 61","ie 11","ios_saf 11.3-11.4","ios_saf 11.0-11.2","op_mini all","safari 11.1"
-                ]
-
-              const b = userBrowsers.convert(browsersList);
-              console.log(b);
-              console.log(a);
+            console.log(compatApi, styleParse);
         };
-
 
         context.on('parse::css::end', onParseCSS);
     }

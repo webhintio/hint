@@ -1,17 +1,7 @@
-export type BrowserSupportItem = {
-    min: number;
-    max?: number | null;
-};
-
 export type BrowserSupportCollection = {
-    [key: string]: BrowserSupportItem;
-};
-
-export type BrowserSupportItemRaw = {
-    min: string;
-    max?: string | null;
+    [key: string]: number[];
 };
 
 export type BrowserSupportCollectionRaw = {
-    [key: string]: BrowserSupportItemRaw;
+    [key: string]: string[];
 };

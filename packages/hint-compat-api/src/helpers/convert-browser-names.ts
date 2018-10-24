@@ -32,17 +32,17 @@ const browserNamesToMDN: BrowsersDictionary = {
 export const convertBrowserSupportCollectionToMDN = (browserCollection: BrowserSupportCollectionRaw): BrowserSupportCollection => {
     const mdnCollection = {} as BrowserSupportCollection;
 
-    Object.entries(browserCollection).forEach(([browserName, browserItem]) => {
+    Object.entries(browserCollection).forEach(([browserName, browserVersions]) => {
         const mdnName = browserNamesToMDN[browserName.toLowerCase()];
 
         if (!mdnName) {
             return;
         }
 
-        mdnCollection[mdnName] = {
-            max: browserItem.max ? Number(browserItem.max) : null,
-            min: Number(browserItem.min)
-        };
+        mdnCollection[mdnName] = mdnCollection[mdnName] || [];
+
+        const mdnVersions = browserVersions.map(x => Number(x));
+        mdnCollection[mdnName] = ([...mdnCollection[mdnName], ...mdnVersions]).sort((a, b) => a - b);
     });
 
     return mdnCollection;
