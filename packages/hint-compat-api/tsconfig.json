@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "types": [],
-        "outDir": "dist"
+        "outDir": "dist",
+        "types": []
     },
     "exclude": [
         "dist",
