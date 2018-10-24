@@ -19,10 +19,10 @@ test.beforeEach((t) => {
 
 test.serial('We should provide a correct AST when parsing CSS.', async (t) => {
     const sandbox = sinon.createSandbox();
-    const parser = new CSSParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const code = '.foo { color: #fff }';
     const style = `<style>  ${code}  </style>`;
+    new CSSParser.default(t.context.engine); // eslint-disable-line
 
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(postcss, 'parse').returns(parseObject);

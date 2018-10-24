@@ -114,6 +114,8 @@ export class Engine extends EventEmitter {
             return new ParserConstructor(this);
         });
 
+        debug(`Parsers loaded: ${this.parsers.length}`);
+
         this.hints = new Map();
 
         /**

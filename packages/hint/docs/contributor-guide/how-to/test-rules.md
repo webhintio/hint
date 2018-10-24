@@ -17,7 +17,7 @@ If not, you need to:
 1. Have the following template:
 
 ```ts
-import { HintTest } from 'hint/dist/tests/helpers/hint-test-type'; // eslint-disable-line no-unused-vars
+import { HintTest } from 'hint/dist/tests/helpers/hint-test-type';
 import * as hintRunner from 'hint/dist/tests/helpers/hint-runner';
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 
@@ -112,8 +112,6 @@ It can be of different types depending on your particular needs:
 * `string` containing the response for `/` (HTML, plain text, etc.).
 * `object` with paths as properties names and their content as values:
 
-<!-- eslint-disable no-unused-vars -->
-
 ```js
 const serverConfig = {
     '/': 'some HTML here',
@@ -127,8 +125,6 @@ all requests done to `/` and with `other content` to the requests done to
 
 You can even specify the headers and status code for the response for
 a specific path, by using the `headers` and `status` properties:
-
-<!-- eslint-disable no-unused-vars -->
 
 ```js
 const serverConfig = {
@@ -160,8 +156,6 @@ on the contents of a `request`, e.g.: when requesting an asset that can be
 compressed with different formats. The following is an example of how you
 can return a different value depending on the content of the
 `Accept-Encoding` header:
-
-<!-- eslint-disable no-unused-vars -->
 
 ```ts
 const serverConfig = {

@@ -2,7 +2,7 @@
  * This interface needs to be imported in order
  * to generate the definition of this file.
  */
-import { IConnectorConstructor } from 'hint/dist/src/lib/types'; // eslint-disable-line no-unused-vars
+import { IConnectorConstructor } from 'hint/dist/src/lib/types';
 
 import ChromeConnector from '@hint/connector-chrome';
 import JSDOMConnector from '@hint/connector-jsdom';

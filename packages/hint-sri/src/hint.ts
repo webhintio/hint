@@ -51,7 +51,6 @@ export default class SRIHint implements IHint {
         scope: HintScope.any
     }
 
-    private resources: Map<string, string>;
     private context: HintContext;
     private origin: string = '';
     private baseline: keyof typeof algorithms = 'sha384';
@@ -312,7 +311,6 @@ Actual:   ${hashes.join(', ')}`);
 
     public constructor(context: HintContext) {
         this.context = context;
-        this.resources = new Map();
         this.baseline = context.hintOptions ?
             context.hintOptions.baseline :
             this.baseline;

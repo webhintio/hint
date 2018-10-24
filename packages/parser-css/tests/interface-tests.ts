@@ -22,7 +22,7 @@ test.beforeEach((t) => {
 
 test.serial('If a style tag is not CSS, then nothing should happen', async (t) => {
     const sandbox = sinon.createSandbox();
-    const parser = new CSSParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
+    new CSSParser.default(t.context.engine); // eslint-disable-line
 
     sandbox.spy(postcss, 'parse');
     sandbox.stub(element, 'getAttribute')
@@ -40,10 +40,10 @@ test.serial('If a style tag is not CSS, then nothing should happen', async (t) =
 
 test.serial('If a style tag is inline CSS, then we should parse the stylesheet and emit a parse::css::end event', async (t) => {
     const sandbox = sinon.createSandbox();
-    const parser = new CSSParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const code = '.foo { color: #fff }';
     const style = `<style>  ${code}  </style>`;
+    new CSSParser.default(t.context.engine); // eslint-disable-line
 
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(postcss, 'parse').returns(parseObject);
@@ -72,9 +72,9 @@ test.serial('If a style tag is inline CSS, then we should parse the stylesheet a
 
 test.serial('If fetch::end::css is received, then we should parse the stylesheet and emit a parse::css::end event', async (t) => {
     const sandbox = sinon.createSandbox();
-    const parser = new CSSParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const code = '.foo { color: #fff }';
+    new CSSParser.default(t.context.engine); // eslint-disable-line
 
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(postcss, 'parse').returns(parseObject);
