@@ -1,0 +1,28 @@
+.category__summary {
+    background-color: var(--bg-alt-color);
+    border: 1px solid var(--border-alt-color);
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    cursor: pointer;
+    line-height: 2em;
+    padding: 0 2rem;
+}
+
+.category[open] > .category__summary,
+.category:last-child > .category__summary {
+    border-bottom-style: solid;
+}
+
+.category__name {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.category__status {
+    float: right;
+}
+
+.category__results {
+    padding: 0 2rem;
+}

@@ -8,7 +8,10 @@ const espree = { parse() { } };
 const element = { getAttribute() { }, outerHTML() { } };
 
 proxyquire('../src/parser', {
-    eslint,
+    // eslint-disable-next-line
+    'eslint/lib/util/source-code': function(...args: any[]) {
+        return Reflect.construct(eslint.SourceCode, args, new.target);
+    },
     espree
 });
 

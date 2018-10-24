@@ -1,4 +1,4 @@
-import { FetchEnd, FetchStart } from 'hint/dist/src/lib/types/events';
+import { FetchEnd, FetchStart, Problem } from 'hint/dist/src/lib/types';
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/HttpHeaders
 export type HttpHeaders = {
@@ -35,15 +35,46 @@ export type Details = {
     statusLine: string;
     tabId: number;
     timeStamp: number;
+    type: chrome.webRequest.ResourceType;
     url: string;
 };
 
-export type BackgroundEvents = {
-    fetchEnd?: FetchEnd;
-    fetchStart?: FetchStart;
+export type Config = {
+    categories?: string[];
+    browserslist?: string;
+    ignoredUrls?: string;
 };
 
-export type ContentEvents = {
-    ready?: boolean;
+export type HintResults = {
+    helpURL: string;
+    id: string;
+    name: string;
+    problems: Problem[];
+};
+
+export type CategoryResults = {
+    hints: HintResults[];
+    name: string;
+    passed: number;
+};
+
+export type ResponseBody = {
+    content: string;
+    url: string;
+};
+
+export type Results = {
+    categories: CategoryResults[];
+};
+
+export type Events = {
+    enable?: Config;
+    fetchEnd?: FetchEnd;
+    fetchStart?: FetchStart;
     done?: boolean;
+    ready?: boolean;
+    requestConfig?: boolean;
+    responseBody?: ResponseBody;
+    results?: Results;
+    tabId?: number;
 };

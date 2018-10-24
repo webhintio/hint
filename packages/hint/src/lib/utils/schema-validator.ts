@@ -134,7 +134,7 @@ const errorWithLocation = (error: ajv.ErrorObject, getLocation: IJSONLocationFun
         path = path ? `${path}.${additionalProperty}` : additionalProperty;
     }
 
-    return { ...error, location: getLocation(path) || undefined };
+    return Object.assign(error, { location: getLocation(path) || undefined });
 };
 
 export const validate = (schema: object, json: object, getLocation?: IJSONLocationFunction): SchemaValidationResult => {

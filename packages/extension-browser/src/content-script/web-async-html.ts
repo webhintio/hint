@@ -43,15 +43,24 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
 export class AsyncHTMLDocument implements IAsyncHTMLDocument {
 
     private _document: Document;
+    private _pageHTML = '';
 
     public constructor(document: Document) {
         this._document = document;
     }
 
     public pageHTML(): Promise<string> {
+        if (this._pageHTML) {
+            return Promise.resolve(this._pageHTML);
+        }
+
         const root = this._document.documentElement;
 
         return Promise.resolve(root ? root.outerHTML : '');
+    }
+
+    public setPageHTML(pageHTML: string) {
+        this._pageHTML = pageHTML;
     }
 
     public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {

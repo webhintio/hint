@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { URL } from 'url';
 
 import {
@@ -12,7 +11,6 @@ import {
 
 import isHTTP from 'hint/dist/src/lib/utils/network/is-http';
 import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 
 import { ManifestEvents } from './types';
@@ -21,6 +19,9 @@ import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 export * from './types';
+
+// Using `require` instead of `loadJSONFile` so this can be bundled with `extension-browser`.
+const schema = require('./schema.json');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -36,16 +37,10 @@ export default class ManifestParser extends Parser<ManifestEvents> {
     private readonly parseErrorSchemaEventName = 'parse::error::manifest::schema';
     private readonly parseJSONErrorEventName = 'parse::error::manifest::json';
 
-    // Other.
-
-    private schema: any;
-
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public constructor(engine: Engine<ManifestEvents>) {
         super(engine, 'manifest');
-
-        this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
         engine.on('element::link', this.fetchManifest.bind(this));
         engine.on('fetch::end::manifest', this.validateManifest.bind(this));
@@ -159,7 +154,7 @@ export default class ManifestParser extends Parser<ManifestEvents> {
          * is a valid acording to the schema.
          */
 
-        const validationResult: SchemaValidationResult = validate(this.schema, result.data, result.getLocation);
+        const validationResult: SchemaValidationResult = validate(schema, result.data, result.getLocation);
 
         if (!validationResult.valid) {
 
