@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { URL } from 'url';
 
 import {
@@ -12,7 +11,6 @@ import {
 
 import isHTTP from 'hint/dist/src/lib/utils/network/is-http';
 import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 
 import { ManifestEvents } from './types';
@@ -22,6 +20,7 @@ import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 export * from './types';
 
+// Using `require` instead of `loadJSONFile` so this can be bundled with `extension-browser`.
 const schema = require('./schema.json');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
