@@ -1,3 +1,10 @@
+# 1.1.0 (October 24, 2018)
+
+## New features
+
+* [[`ca333c1fe2`](https://github.com/webhintio/hint/commit/ca333c1fe26da40ba055e3395ffd78f1ddcec177)] - New: Add ability to link to a certain hint (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1429`](https://github.com/webhintio/hint/issues/1429)).
+
+
 # 1.0.8 (October 19, 2018)
 
 ## Bug fixes / Improvements
