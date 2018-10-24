@@ -17,6 +17,8 @@ const browserNamesToMDN: BrowsersDictionary = {
     explorer: 'ie',
     ff: 'firefox',
     firefox: 'firefox',
+    firefoxandroid: 'firefox_android',
+    and_ff: 'firefox_android',
     ie: 'ie',
     iOS: 'iOS',
     ios_saf: 'safari_ios',
