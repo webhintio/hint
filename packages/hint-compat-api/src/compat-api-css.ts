@@ -35,7 +35,7 @@ export default class implements IHint {
 
             // Internal testing purposes
             const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
-            const compatApi = new CompatApi('javascript', mdnBrowsersCollection);
+            const compatApi = new CompatApi('css', mdnBrowsersCollection);
 
             console.log(compatApi, styleParse);
         };

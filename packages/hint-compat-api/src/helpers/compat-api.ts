@@ -1,64 +1,81 @@
 // Waiting for this PR https://github.com/mdn/browser-compat-data/pull/3004
-const bcd = require('mdn-browser-compat-data');
+const bcd: CompatData = require('mdn-browser-compat-data');
 
 import { forEach } from 'lodash';
+import { BrowserSupportCollection } from '../types';
+import { CompatData, Identifier, CompatStatement } from '../types-mdn.temp'; // Temporal
 
 type CompatNamespace = 'css' | 'javascript' | 'html';
 
-export class CompatApi {
-    private compatData: any; // Any because no types by the moment
-    private browsers: any;
+type BrowserVersionsInfo = {
+    version_added: string;
+    version_removed?: string;
+}
 
-    public constructor(namespaceName: CompatNamespace, browsers: any /* Isabella PR */) {
+export class CompatApi {
+    private compatDataApi: Identifier; // Any because no types by the moment, check line 1
+    private browsers: BrowserSupportCollection;
+
+    public constructor(namespaceName: CompatNamespace, browsers: BrowserSupportCollection, isCheckingNotBroadlySupported = false) {
         this.browsers = browsers;
-        this.compatData = bcd[namespaceName];
-        this.compatData = this.applyBrowsersConfiguration();
+        this.compatDataApi = bcd[namespaceName];
+        this.compatDataApi = this.applyBrowsersConfiguration(isCheckingNotBroadlySupported);
     }
 
-    private applyBrowsersConfiguration(): any {
-        const compatData = {} as any;
+    private applyBrowsersConfiguration(isCheckingNotBroadlySupported = false): any {
+        const compatDataApi = {} as Identifier;
 
-        forEach(this.compatData, (apiTypeValue, apiTypeKey) => {
-            const apiType = {} as any;
+        forEach(this.compatDataApi, (groupTermsValues, groupTermsKey) => {
+            const groupTerms = {} as CompatStatement & Identifier;
 
-            forEach(apiTypeValue, (propertyValue, propertyKey) => {
+            forEach(groupTermsValues, (termValue, termKey) => {
+                const typedTermValue = termValue as CompatStatement & Identifier;
 
-                if (!this.apiPropertyIsRequired(propertyValue)) {
+                if (!this.isTermRequiredToTest(typedTermValue, isCheckingNotBroadlySupported)) {
                     return;
                 }
 
-                apiType[propertyKey] = propertyValue;
+                groupTerms[termKey] = typedTermValue;
             });
-            compatData[apiTypeKey] = apiType;
+
+            compatDataApi[groupTermsKey] = groupTerms;
         });
 
-        return compatData;
+        return compatDataApi;
     }
 
-    private apiPropertyIsRequired(propertyValue: any /* waiting types */): boolean {
+    private isTermRequiredToTest(typedTermValue: CompatStatement & Identifier, isCheckingNotBroadlySupported = false): boolean {
         // TODO: Here we are checking only parent but this object has children
-        let isRequired = true;
+        let isRequiredToTest = false;
 
-        forEach(this.browsers, (values, browser) => {
-            if (!isRequired || !propertyValue.__compat || !propertyValue.__compat.support) {
+        forEach(this.browsers, (browserVersions, browser) => {
+            if (isRequiredToTest || !typedTermValue.__compat || !typedTermValue.__compat.support) {
                 return;
             }
 
-            const propertySupport = propertyValue.__compat.support[browser];
+            const browserTermSupported = (typedTermValue.__compat.support as any)[browser] as BrowserVersionsInfo;
 
-            if (!propertySupport) {
-                isRequired = false;
-
+            // If we dont have information about the compatibility, ignore.
+            if (!browserTermSupported) {
                 return;
             }
 
-            const version = propertySupport.version_added;
+            const { version_added, version_removed } = browserTermSupported;
 
-            isRequired = !!version &&
-                version === true ||
-                !isNaN(parseFloat(version)) && (version >= values.min && version <= (values.max || Infinity));
+            if (isCheckingNotBroadlySupported) {
+                // Check added
+                return;
+            }
+
+            if (!version_removed || isNaN(parseFloat(version_removed))) {
+                return;
+            }
+
+            if (browserVersions[browserVersions.length - 1] >= Number(version_removed)) {
+                isRequiredToTest = true;
+            }
         });
 
-        return isRequired;
+        return isRequiredToTest;
     }
 }
