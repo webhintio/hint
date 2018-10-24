@@ -17,6 +17,11 @@ const contentConfig = {
     output: {
         filename: 'webhint.js',
         path: path.resolve(__dirname, 'dist/bundle')
+    },
+    resolve: {
+        alias: { // eslint-disable-line
+            url$: path.resolve(__dirname, 'dist/src/shims/url.js')
+        }
     }
 };
 

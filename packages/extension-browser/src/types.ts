@@ -35,6 +35,7 @@ export type Details = {
     statusLine: string;
     tabId: number;
     timeStamp: number;
+    type: chrome.webRequest.ResourceType;
     url: string;
 };
 

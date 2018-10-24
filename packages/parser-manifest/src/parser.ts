@@ -22,6 +22,8 @@ import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 export * from './types';
 
+const schema = require('./schema.json');
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 export default class ManifestParser extends Parser<ManifestEvents> {
@@ -44,8 +46,6 @@ export default class ManifestParser extends Parser<ManifestEvents> {
 
     public constructor(engine: Engine<ManifestEvents>) {
         super(engine, 'manifest');
-
-        this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
         engine.on('element::link', this.fetchManifest.bind(this));
         engine.on('fetch::end::manifest', this.validateManifest.bind(this));
@@ -159,7 +159,7 @@ export default class ManifestParser extends Parser<ManifestEvents> {
          * is a valid acording to the schema.
          */
 
-        const validationResult: SchemaValidationResult = validate(this.schema, result.data, result.getLocation);
+        const validationResult: SchemaValidationResult = validate(schema, result.data, result.getLocation);
 
         if (!validationResult.valid) {
 

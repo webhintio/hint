@@ -14,7 +14,7 @@ const mapHeaders = (webRequestHeaders: { name: string, value?: string }[]): Http
     }
 
     return webRequestHeaders.reduce((headers, header) => {
-        headers[header.name] = header.value || '';
+        headers[header.name.toLowerCase()] = header.value || '';
 
         return headers;
     }, {} as HttpHeaders);
@@ -74,6 +74,7 @@ const mapResponse = async (parts: Details[]): Promise<Response> => {
     };
 };
 
+const enabledTabs = new Set<number>();
 const readyTabs = new Set<number>();
 const queuedEvents = new Map<number, BackgroundEvents[]>();
 
@@ -128,6 +129,11 @@ const queueDetails = (event: string, details: Details) => {
 
     parts.push(details);
 
+    if (event === 'onResponseStarted' && details.type === 'main_frame' && enabledTabs.has(details.tabId)) {
+        // Inject the content script to run webhint.
+        browser.tabs.executeScript(details.tabId, { file: 'webhint.js', runAt: 'document_start' });
+    }
+
     if (event === 'onCompleted') {
         requests.delete(details.requestId);
 
@@ -153,10 +159,15 @@ const webRequestHandlers = webRequestEvents.map((event) => {
     };
 });
 
-const enabledTabs = new Set<number>();
 const requestFilter = {
     types: ['main_frame', 'sub_frame', 'stylesheet', 'script', 'image', 'media'],
     urls: ['<all_urls>']
+};
+
+const extraInfo: { [name: string]: string[] } = {
+    onCompleted: ['responseHeaders'],
+    onHeadersReceived: ['responseHeaders'],
+    onSendHeaders: ['requestHeaders']
 };
 
 /** Turn on request tracking for the specified tab. */
@@ -165,14 +176,11 @@ const enable = (tabId: number) => {
         // Register and queue all `webRequest` events by `requestId`.
         webRequestEvents.forEach((event, i) => {
             // TODO: Filter to relevant `ResourceType`s (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/ResourceType)
-            (browser.webRequest as any)[event].addListener(webRequestHandlers[i], requestFilter);
+            (browser.webRequest as any)[event].addListener(webRequestHandlers[i], requestFilter, extraInfo[event]);
         });
     }
     enabledTabs.add(tabId);
-    browser.tabs.reload(tabId);
-
-    // TODO: Handle user-initiated reload.
-    browser.tabs.executeScript({ file: 'webhint.js', runAt: 'document_start' });
+    browser.tabs.reload(tabId, { bypassCache: true });
 };
 
 /** Turn off request tracking for the specified tab. */

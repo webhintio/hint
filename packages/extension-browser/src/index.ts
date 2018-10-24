@@ -46,6 +46,12 @@ const engine = new Engine(config, {
     ]
 });
 
-const connector = new WebExtensionConnector(engine, config.connector!.options);
+const main = async () => {
+    const problems = await engine.executeOn(new URL(location.href));
 
-connector.collect(new URL(location.href));
+    engine.formatters.forEach((formatter) => {
+        formatter.format(problems, location.href, {});
+    });
+};
+
+main();
