@@ -4,7 +4,7 @@ type BrowsersDictionary = {
     [key: string]: string;
 };
 
-/* eslint-disable camelcase */
+/* eslint-disable */
 const browserNamesToMDN: BrowsersDictionary = {
     and_chr: 'chrome_android',
     and_qq: 'qq_android',
@@ -17,8 +17,8 @@ const browserNamesToMDN: BrowsersDictionary = {
     explorer: 'ie',
     ff: 'firefox',
     firefox: 'firefox',
-    firefoxandroid: 'firefox_android',
     and_ff: 'firefox_android',
+    firefoxandroid: 'firefox_android',
     ie: 'ie',
     iOS: 'iOS',
     ios_saf: 'safari_ios',
@@ -29,7 +29,7 @@ const browserNamesToMDN: BrowsersDictionary = {
     samsung: 'samsunginternet_android',
     ucandroid: 'uc_android'
 };
-/* eslint-enable camelcase */
+/* eslint-enable */
 
 export const convertBrowserSupportCollectionToMDN = (browserCollection: BrowserSupportCollectionRaw): BrowserSupportCollection => {
     const mdnCollection = {} as BrowserSupportCollection;
@@ -43,8 +43,13 @@ export const convertBrowserSupportCollectionToMDN = (browserCollection: BrowserS
 
         mdnCollection[mdnName] = mdnCollection[mdnName] || [];
 
-        const mdnVersions = browserVersions.map(x => Number(x));
-        mdnCollection[mdnName] = ([...mdnCollection[mdnName], ...mdnVersions]).sort((a, b) => a - b);
+        const mdnVersions = browserVersions.map((x: string) => {
+            return Number(x);
+        });
+
+        mdnCollection[mdnName] = ([...mdnCollection[mdnName], ...mdnVersions]).sort((a, b) => {
+            return a - b;
+        });
     });
 
     return mdnCollection;

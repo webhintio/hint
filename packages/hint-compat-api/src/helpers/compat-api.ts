@@ -7,11 +7,6 @@ import { CompatData, Identifier, CompatStatement } from '../types-mdn.temp'; // 
 
 type CompatNamespace = 'css' | 'javascript' | 'html';
 
-type BrowserVersionsInfo = {
-    version_added: string;
-    version_removed?: string;
-}
-
 export class CompatApi {
     private compatDataApi: Identifier; // Any because no types by the moment, check line 1
     private browsers: BrowserSupportCollection;
@@ -53,25 +48,27 @@ export class CompatApi {
                 return;
             }
 
-            const browserTermSupported = (typedTermValue.__compat.support as any)[browser] as BrowserVersionsInfo;
+            const browserTermSupported = (typedTermValue.__compat.support as any)[browser];
 
             // If we dont have information about the compatibility, ignore.
             if (!browserTermSupported) {
                 return;
             }
 
-            const { version_added, version_removed } = browserTermSupported;
+            const { version_added: addedVersion, version_removed: removedVersion } = browserTermSupported;
 
             if (isCheckingNotBroadlySupported) {
                 // Check added
+                console.log(addedVersion);
+
                 return;
             }
 
-            if (!version_removed || isNaN(parseFloat(version_removed))) {
+            if (!removedVersion || isNaN(parseFloat(removedVersion))) {
                 return;
             }
 
-            if (browserVersions[browserVersions.length - 1] >= Number(version_removed)) {
+            if (browserVersions[browserVersions.length - 1] >= Number(removedVersion)) {
                 isRequiredToTest = true;
             }
         });

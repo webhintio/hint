@@ -9,7 +9,7 @@ class UserBrowsers {
             const [browserName, browserVersion] = browserInfo.split(' ');
 
             browserCollection[browserName] = browserCollection[browserName] || [];
-            browserCollection[browserName] = [...browserCollection[browserName], ...this.getBrowserVersions(browserVersion)]
+            browserCollection[browserName] = [...browserCollection[browserName], ...this.getBrowserVersions(browserVersion)];
         });
 
         return convertBrowserSupportCollectionToMDN(browserCollection);
@@ -19,6 +19,7 @@ class UserBrowsers {
         // We support to have two versions in same targeted browser
         if (version.match(/-/)) {
             const [first, second] = version.split('-');
+
             return [first, second];
         }
 
