@@ -18,7 +18,7 @@ import * as notifications from './notifications';
 // TODO: Enhance `hint` exports so everything can be imported directly.
 import * as hint from 'hint';
 import * as config from 'hint/dist/src/lib/config';
-import * as loader from 'hint/dist/src/lib/utils/resource-loader'; // eslint-disable-line
+import * as loader from 'hint/dist/src/lib/utils/resource-loader';
 import { HintsConfigObject, Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 
 let workspace = '';
