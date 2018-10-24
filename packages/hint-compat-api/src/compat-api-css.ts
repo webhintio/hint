@@ -1,13 +1,14 @@
 /**
- * @fileoverview Hint to validate if the doctype is correct
+ * @fileoverview Hint to validate if the HTML, CSS and JS APIs of the project are deprecated or not broadly supported
  */
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, IAsyncHTMLElement } from 'hint/dist/src/lib/types';
+import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
+import { CompatApi } from './helpers';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -22,7 +23,7 @@ export default class implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
             category: Category.interoperability,
-            description: `Hint to validate if the doctype is correct`
+            description: `Hint to validate if the HTML, CSS and JS APIs of the project are deprecated or not broadly supported`
         },
         id: 'compat-api-css',
         schema: [],
@@ -30,14 +31,17 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
+        const onParseCSS = (styleParse: StyleParse): void => {
 
-        const checkNoDuplicateDoctype = async (resource: string, element: IAsyncHTMLElement | null, content: string): Promise<void> => {
-            debug(`Checking that there is only one doctype tag in the document`);
-            await context.report(resource, element, `There is more than one doctype tag in the document`);
-        };
+            // Internal testing purposes
+            const compatApi = new CompatApi('css', {
+                edge: {
+                    max: 11,
+                    min: 0
+                }
+            });
 
-        const onParseCSS = async (styleParse: StyleParse): Promise<void> => {
-            debugger
+            console.log(compatApi, styleParse);
         };
 
         context.on('parse::css::end', onParseCSS);
