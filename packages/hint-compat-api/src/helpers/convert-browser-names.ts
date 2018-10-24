@@ -1,39 +1,36 @@
-import { BrowserSupportCollection } from '../types';
+import { BrowserSupportCollection, BrowserSupportCollectionRaw } from '../types';
 
-const browserNamesToMDN = {
-    chrome: 'chrome',
-    edge: 'edge',
-    opera: 'opera',
-    safari: 'safari',
-    ie: 'ie',
-    explorer: 'ie',
-    android: 'webview_android',
-    chromeandroid: 'chrome_android',
+type BrowsersDictionary = {
+    [key: string]: string;
+};
+
+/* eslint-disable camelcase */
+const browserNamesToMDN: BrowsersDictionary = {
     and_chr: 'chrome_android',
+    and_qq: 'qq_android',
+    and_uc: 'uc_android',
+    android: 'webview_android',
+    chrome: 'chrome',
+    chromeandroid: 'chrome_android',
+    edge: 'edge',
     edge_mob: 'edge_mobile',
-    firefox: 'firefox',
+    explorer: 'ie',
     ff: 'firefox',
+    firefox: 'firefox',
+    ie: 'ie',
     iOS: 'iOS',
     ios_saf: 'safari_ios',
     node: 'node',
+    opera: 'opera',
     qqandroid: 'qq_android',
-    and_qq: 'qq_android',
+    safari: 'safari',
     samsung: 'samsunginternet_android',
-    ucandroid: 'uc_android',
-    and_uc: 'uc_android'
-} as any;
-
-type BrowserSupportItemRaw = {
-    min: string;
-    max?: string | null;
-}
-
-type BrowserSupportCollectionRaw = {
-    [key: string]: BrowserSupportItemRaw
-}
+    ucandroid: 'uc_android'
+};
+/* eslint-enable camelcase */
 
 export const convertBrowserSupportCollectionToMDN = (browserCollection: BrowserSupportCollectionRaw): BrowserSupportCollection => {
-    let mdnCollection = {} as BrowserSupportCollection;
+    const mdnCollection = {} as BrowserSupportCollection;
 
     Object.entries(browserCollection).forEach(([browserName, browserItem]) => {
         const mdnName = browserNamesToMDN[browserName.toLowerCase()];
@@ -43,11 +40,10 @@ export const convertBrowserSupportCollectionToMDN = (browserCollection: BrowserS
         }
 
         mdnCollection[mdnName] = {
-            min: Number(browserItem.min),
-            max: browserItem.max ? Number(browserItem.max) : null
+            max: browserItem.max ? Number(browserItem.max) : null,
+            min: Number(browserItem.min)
         };
     });
 
     return mdnCollection;
 };
-
