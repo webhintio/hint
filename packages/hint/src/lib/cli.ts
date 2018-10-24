@@ -21,12 +21,8 @@ import { CLIOptions } from './types';
 import * as logger from './utils/logging';
 import getHintPackage from './utils/packages/load-hint-package';
 
-import { debug as d } from './utils/debug';
-
 import { options } from './cli/options';
 import { cliActions } from './cli/actions';
-
-const debug: debug.IDebugger = d(__filename);
 
 /** Notify user if the current version of webhint is not up to date. */
 const notifyIfNeeded = () => {

@@ -20,7 +20,6 @@ const readFileAsBuffer = promisify(readFile);
 import * as chokidar from 'chokidar';
 import * as globby from 'globby';
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
 import { getContentTypeData, isTextMediaType, getType } from 'hint/dist/src/lib/utils/content-type';
@@ -43,8 +42,6 @@ import { HTMLParse } from '@hint/parser-html';
  * Defaults
  * ------------------------------------------------------------------------------
  */
-
-const debug: debug.IDebugger = d(__filename);
 
 const defaultOptions = {};
 

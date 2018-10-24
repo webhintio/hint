@@ -177,10 +177,7 @@
         "no-unsafe-finally": "error",
         "no-unsafe-negation": "error",
         "no-unused-expressions": "error",
-        "no-unused-vars": ["error", {
-            "vars": "all",
-            "args": "after-used"
-        }],
+        "no-unused-vars": "off",
         "no-use-before-define": "error",
         "no-useless-call": "error",
         "no-useless-computed-key": "error",
@@ -258,7 +255,7 @@
         "typescript/no-namespace": "error",
         "typescript/no-parameter-properties": "error",
         "typescript/no-triple-slash-reference": "error",
-        "typescript/no-unused-vars": "error",
+        "typescript/no-unused-vars": "off",
         "typescript/no-use-before-define": "error",
         "typescript/prefer-namespace-keyword": "error",
         "typescript/type-annotation-spacing": "error"

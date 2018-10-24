@@ -27,7 +27,7 @@ test.beforeEach((t) => {
 
 test.serial('If an script tag is an external javascript, then nothing happen', async (t) => {
     const sandbox = sinon.createSandbox();
-    const parser = new JavascriptParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
+    new JavascriptParser.default(t.context.engine); // eslint-disable-line
 
     sandbox.spy(eslint, 'SourceCode');
     sandbox.spy(espree, 'parse');
@@ -45,7 +45,7 @@ test.serial('If an script tag is an external javascript, then nothing happen', a
 
 test.serial('If an script tag is not a javascript, then nothing should happen', async (t) => {
     const sandbox = sinon.createSandbox();
-    const parser = new JavascriptParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
+    new JavascriptParser.default(t.context.engine); // eslint-disable-line
 
     sandbox.spy(eslint, 'SourceCode');
     sandbox.spy(espree, 'parse');
@@ -68,11 +68,11 @@ test.serial('If an script tag is not a javascript, then nothing should happen', 
 
 test.serial('If an script tag is an internal javascript, then we should parse the code and emit a parse::javascript::end event', async (t) => {
     const sandbox = sinon.createSandbox();
-    const parser = new JavascriptParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const sourceCodeObject = {};
     const code = 'var x = 8;';
     const script = `<script>  ${code}  </script>`;
+    new JavascriptParser.default(t.context.engine); // eslint-disable-line
 
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(eslint, 'SourceCode').returns(sourceCodeObject);
@@ -108,10 +108,10 @@ test.serial('If an script tag is an internal javascript, then we should parse th
 
 test.serial('If fetch::end::script is received, then we should parse the code and emit a parse::javascript::end event', async (t) => {
     const sandbox = sinon.createSandbox();
-    const parser = new JavascriptParser.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
     const parseObject = {};
     const sourceCodeObject = {};
     const code = 'var x = 8;';
+    new JavascriptParser.default(t.context.engine); // eslint-disable-line
 
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(eslint, 'SourceCode').returns(sourceCodeObject);

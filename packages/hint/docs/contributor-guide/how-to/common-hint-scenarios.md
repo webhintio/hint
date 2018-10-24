@@ -14,8 +14,6 @@ via the property `content.targetedBrowsers`.
 You can have access to the list, and thus modify
 the feedback of your hint, via the property `context.targetedBrowsers`.
 
-<!-- eslint-disable no-unused-vars -->
-
 ```js
 const validate = (fetchEnd) => {
     if (!context.targetedBrowsers.includes('Edge 14')) {

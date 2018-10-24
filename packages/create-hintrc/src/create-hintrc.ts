@@ -27,7 +27,7 @@ import { trackEvent } from 'hint/dist/src/lib/utils/appinsights';
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
 
-type InitUserConfig = { // eslint-disable-line no-unused-vars
+type InitUserConfig = {
     config: UserConfig;
     packages?: Array<string>;
 };
