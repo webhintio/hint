@@ -68,8 +68,11 @@ the most up-to-date diagram of the interaction:
 
 <!-- Link labels: -->
 
-[default configuration]: ../../user-guide/#default-configuration [events]:
-./events/ [new connector]: ../how-to/connector/ [new
-formatter]:../how-to/formatter/ [new parser]: ../how-to/parser/ [new hint]:
-../how-to/hint/ [npm]: https://www.npmjs.com/ [typescript]:
-https://www.typescriptlang.org/
+[default configuration]: ../../user-guide/#default-configuration
+[events]: ./events/
+[new connector]: ../how-to/connector/
+[newformatter]:../how-to/formatter/
+[new parser]: ../how-to/parser/
+[new hint]: ../how-to/hint/
+[npm]: https://www.npmjs.com/
+[typescript]: https://www.typescriptlang.org/
