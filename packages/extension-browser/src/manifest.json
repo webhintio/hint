@@ -6,12 +6,12 @@
     },
     "browser_action": {
         "default_icon": {
-            "40": "icon.png"
+            "180": "icon.png"
         },
         "default_title": "Run webhint"
     },
     "icons": {
-        "40": "icon.png"
+        "180": "icon.png"
     },
     "description": "Run webhint in your browser.",
     "manifest_version": 2,
@@ -20,8 +20,5 @@
         "<all_urls>",
         "webRequest"
     ],
-    "version": "1.0",
-    "web_accessible_resources": [
-        "main.js"
-    ]
+    "version": "1.0"
 }
