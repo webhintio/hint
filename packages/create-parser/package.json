@@ -30,11 +30,11 @@
     "npm-run-all": "^4.1.2",
     "nyc": "^13.1.0",
     "rimraf": "^2.6.2",
-    "sinon": "^7.0.0",
+    "sinon": "^7.1.0",
     "ts-loader": "^5.2.2",
     "typescript": "^3.0.3",
     "typescript-eslint-parser": "^20.0.0",
-    "webpack": "^4.22.0",
+    "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2"
   },
   "engines": {
