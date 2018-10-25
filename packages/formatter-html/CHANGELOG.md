@@ -1,3 +1,10 @@
+# 1.1.1 (October 25, 2018)
+
+## Bug fixes / Improvements
+
+* [[`a402a07a5f`](https://github.com/webhintio/hint/commit/a402a07a5f760c0a35186cd77c3420164ba56754)] - Fix: Error in HTML formatter script (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1448`](https://github.com/webhintio/hint/issues/1448)).
+
+
 # 1.1.0 (October 24, 2018)
 
 ## New features
