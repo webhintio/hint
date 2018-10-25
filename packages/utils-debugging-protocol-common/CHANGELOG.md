@@ -1,3 +1,10 @@
+# 1.0.14 (October 25, 2018)
+
+## Bug fixes / Improvements
+
+* [[`548474dfc1`](https://github.com/webhintio/hint/commit/548474dfc191a1a6e28b21a56ea19dd9017939d1)] - Fix: Prevent CDP connector from failing because of `decodeURIComponent` (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1449`](https://github.com/webhintio/hint/issues/1449)).
+
+
 # 1.0.13 (October 19, 2018)
 
 ## Bug fixes / Improvements
