@@ -25,7 +25,7 @@ export default class WebExtensionConnector implements IConnector {
     public constructor(engine: Engine, options?: ConnectorOptionsConfig) {
         this._engine = engine;
         this._window = new AsyncWindow(new AsyncHTMLDocument(document));
-        this._options = { waitFor: 1000, ...options };
+        this._options = Object.apply({ waitFor: 1000 }, options);
 
         // TODO: Account for events sent before listener was added (queue in background-script?).
         browser.runtime.onMessage.addListener(async (events: BackgroundEvents) => {
@@ -38,7 +38,7 @@ export default class WebExtensionConnector implements IConnector {
             // TODO: Trigger 'fetch::start::target'.
         });
 
-        window.addEventListener('load', async () => {
+        const onLoad = async () => {
             const resource = location.href;
 
             await this._engine.emitAsync('can-evaluate::script', { resource });
@@ -51,10 +51,14 @@ export default class WebExtensionConnector implements IConnector {
                 }
 
                 await this._engine.emitAsync('scan::end', { resource });
-
-                this.sendMessage({ done: true });
             }, this._options.waitFor);
-        });
+        };
+
+        if (document.readyState === 'complete') {
+            onLoad();
+        } else {
+            window.addEventListener('load', onLoad);
+        }
     }
 
     private sendMessage(message: ContentEvents) {
@@ -133,6 +137,7 @@ export default class WebExtensionConnector implements IConnector {
         return new Promise((resolve) => {
             this._engine.once('scan::end', () => {
                 resolve();
+                this.sendMessage({ done: true });
             });
         });
     }

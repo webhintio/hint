@@ -158,7 +158,7 @@ const webRequestHandlers = webRequestEvents.map((event) => {
 });
 
 const requestFilter = {
-    types: ['main_frame', 'sub_frame', 'stylesheet', 'script', 'image', 'media'],
+    types: ['main_frame', 'sub_frame', 'stylesheet', 'script', 'image'],
     urls: ['<all_urls>']
 };
 
