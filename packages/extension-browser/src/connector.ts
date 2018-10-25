@@ -18,13 +18,13 @@ import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-ht
 import browser from './util/browser';
 
 export default class WebExtensionConnector implements IConnector {
-    private _window: IAsyncWindow;
+    private _window: IAsyncWindow | undefined;
     private _engine: Engine;
     private _options: ConnectorOptionsConfig;
+    private _pageHTML = '';
 
     public constructor(engine: Engine, options?: ConnectorOptionsConfig) {
         this._engine = engine;
-        this._window = new AsyncWindow(new AsyncHTMLDocument(document));
         this._options = Object.apply({ waitFor: 1000 }, options);
 
         // TODO: Account for events sent before listener was added (queue in background-script?).
@@ -44,6 +44,8 @@ export default class WebExtensionConnector implements IConnector {
             await this._engine.emitAsync('can-evaluate::script', { resource });
 
             setTimeout(async () => {
+                this._window = new AsyncWindow(new AsyncHTMLDocument(document, this._pageHTML));
+
                 if (document.documentElement) {
                     await this._engine.emitAsync('traverse::start', { resource });
                     await this.traverseAndNotify(document.documentElement, this._window.document);
@@ -84,6 +86,10 @@ export default class WebExtensionConnector implements IConnector {
 
     private async notifyFetch(event: FetchEnd) {
         const { charset, mediaType } = getContentTypeData(null, event.response.url, event.response.headers, null as any);
+
+        if (event.response.url === location.href) {
+            this._pageHTML = event.response.body.content;
+        }
 
         event.response.charset = charset || '';
         event.response.mediaType = mediaType || '';

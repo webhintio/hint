@@ -3,7 +3,8 @@ import { IFormatter, Problem, Severity } from 'hint/dist/src/lib/types';
 export default class WebExtensionFormatter implements IFormatter {
     public format(problems: Problem[]) {
         problems.forEach((p) => {
-            const message = `${p.message} in ${p.resource} at ${p.location.line}:${p.location.column} (${p.hintId})`;
+            const location = p.location && p.location.line >= 0 ? `:${p.location.line + 1}:${p.location.column + 1}` : '';
+            const message = `${p.message} (${p.hintId}) ${p.resource}${location}`;
 
             switch (p.severity) {
                 case Severity.error:
