@@ -15,8 +15,7 @@ import {
 
 import { BackgroundEvents, ContentEvents } from './types';
 import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-html';
-
-const browser: typeof chrome = (self as any).browser || self.chrome;
+import browser from './util/browser';
 
 export default class WebExtensionConnector implements IConnector {
     private _window: IAsyncWindow;

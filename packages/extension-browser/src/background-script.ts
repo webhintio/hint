@@ -1,8 +1,6 @@
 import { FetchEnd, FetchStart, HttpHeaders, Request, Response } from 'hint/dist/src/lib/types';
 import { BackgroundEvents, ContentEvents, Details } from './types';
-
-// Normalize access to extension APIs across browsers.
-const browser: typeof chrome = (self as any).browser || self.chrome;
+import browser from './util/browser';
 
 // Track data associated with all outstanding requests by `requestId`.
 const requests = new Map<string, Details[]>();
