@@ -125,7 +125,14 @@ export class Connector implements IConnector {
              * returns the elements already escaped, but the real value
              * doesn't need to be escaped.
              */
-            const query: string = `[src$="${basename}" i],[href$="${basename}" i],[src$="${decodeURIComponent(basename)}" i],[href$="${decodeURIComponent(basename)}" i]`;
+            let decodeBasename: string;
+
+            try {
+                decodeBasename = decodeURIComponent(basename);
+            } catch (e) {
+                decodeBasename = basename;
+            }
+            const query: string = `[src$="${basename}" i],[href$="${basename}" i],[src$="${decodeBasename}" i],[href$="${decodeBasename}" i]`;
             const newElements: Array<AsyncHTMLElement> = await dom.querySelectorAll(query);
 
             if (newElements.length === 0) {
