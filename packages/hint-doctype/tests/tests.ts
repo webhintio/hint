@@ -181,16 +181,6 @@ const tests: HintTest[] = [
         }
     },
     {
-        name: 'DOCTYPE with additional info on same line should fail',
-        reports: [{ message: `There is additional information on the line with the DOCTYPE.` }],
-        serverConfig: {
-            '/': {
-                content: `<!doctype html></br>`,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
         name: 'DOCTYPE is lowercase should pass',
         serverConfig: {
             '/': {
