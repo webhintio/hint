@@ -25,4 +25,22 @@ const contentConfig = {
     }
 };
 
-module.exports = [backgroundConfig, contentConfig];
+const devtoolsConfig = {
+    entry: './dist/src/devtools.js',
+    mode: 'none',
+    output: {
+        filename: 'devtools.js',
+        path: path.resolve(__dirname, 'dist/bundle')
+    }
+};
+
+const webhintPanelConfig = {
+    entry: './dist/src/webhint-panel.js',
+    mode: 'none',
+    output: {
+        filename: 'webhint-panel.js',
+        path: path.resolve(__dirname, 'dist/bundle')
+    }
+};
+
+module.exports = [backgroundConfig, contentConfig, devtoolsConfig, webhintPanelConfig];
