@@ -69,6 +69,15 @@ const tests: HintTest[] = [
         }
     },
     {
+        name: 'DOCTYPE with additional info on same line should pass',
+        serverConfig: {
+            '/': {
+                content: `<!doctype html></br>`,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
         name: 'DOCTYPE not valid should fail',
         reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
         serverConfig: {
@@ -162,6 +171,31 @@ const tests: HintTest[] = [
         serverConfig: {
             '/': {
                 content: `<!doctype html SYSTEM "about:legacy-compat"     >
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'DOCTYPE legacy-compat with single quptes should pass',
+        serverConfig: {
+            '/': {
+                content: `<!doctype html SYSTEM 'about:legacy-compat'>
+                <head></head>
+                <body></body>
+                `,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
+        name: 'DOCTYPE legacy-compat with mixed quotes should fail',
+        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
+        serverConfig: {
+            '/': {
+                content: `<!doctype html SYSTEM 'about:legacy-compat">
                 <head></head>
                 <body></body>
                 `,
