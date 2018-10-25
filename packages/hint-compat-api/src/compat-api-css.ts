@@ -11,7 +11,7 @@ import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { filter } from 'lodash';
 import { CompatApi, userBrowsers } from './helpers';
-import { FeatureStrategy } from './types';
+import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -36,14 +36,25 @@ export default class implements IHint {
     public constructor(context: HintContext) {
         const onParseCSS = (styleParse: StyleParse): void => {
 
+            const checkDeprecatedCSSFeature = (name: string, data: MDNTreeFilteredByBrowsers): boolean => {
+
+                return true;
+            };
+
             const chooseStrategyToSearchDeprecatedCSSFeature = (childNode: ChildNode): FeatureStrategy<ChildNode> => {
                 const atStrategy: FeatureStrategy<AtRule> = {
                     check: (node) => {
                         return node.type === 'atrule';
                     },
 
-                    testFeature: (node) => {
+                    testFeature: (node: AtRule, data) => {
+                        const isDeprecated = checkDeprecatedCSSFeature(node.name, data);
 
+                        if (!isDeprecated) {
+                            return;
+                        }
+
+                        debug('ERROR!');
                     }
                 };
 
@@ -52,8 +63,14 @@ export default class implements IHint {
                         return node.type === 'rule';
                     },
 
-                    testFeature: (node) => {
+                    testFeature: (node: Rule, data) => {
+                        const isDeprecated = checkDeprecatedCSSFeature(node.selector, data);
 
+                        if (!isDeprecated) {
+                            return;
+                        }
+
+                        debug('ERROR!');
                     }
                 };
 
@@ -62,17 +79,23 @@ export default class implements IHint {
                         return node.type === 'decl';
                     },
 
-                    testFeature: (node) => {
+                    testFeature: (node: Declaration, data) => {
+                        const isDeprecated = checkDeprecatedCSSFeature(node.value, data);
 
+                        if (!isDeprecated) {
+                            return;
+                        }
+
+                        debug('ERROR!');
                     }
                 };
 
-                const defaultStrategy: FeatureStrategy<Declaration> = {
+                const defaultStrategy: FeatureStrategy<ChildNode> = {
                     check: () => {
                         return true;
                     },
 
-                    testFeature: (node) => {
+                    testFeature: () => {
                         return;
                     }
                 };
@@ -94,21 +117,21 @@ export default class implements IHint {
                     return defaultStrategy;
                 }
 
-                return selectedStrategies[0];
+                return selectedStrategies[0] as FeatureStrategy<ChildNode>;
             };
 
-            const searchDeprecatedCSSFeatures = (compatApi: CompatApi, parse: StyleParse) => {
+            const searchDeprecatedCSSFeatures = (data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, parse: StyleParse) => {
                 parse.ast.walk((node: ChildNode) => {
                     const strategy = chooseStrategyToSearchDeprecatedCSSFeature(node);
 
-                    strategy.testFeature(node);
+                    strategy.testFeature(node, data, browsers);
                 });
             };
 
             const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
             const compatApi = new CompatApi('css', mdnBrowsersCollection);
 
-            searchDeprecatedCSSFeatures(compatApi, styleParse);
+            searchDeprecatedCSSFeatures(compatApi.compatDataApi, mdnBrowsersCollection, styleParse);
         };
 
         context.on('parse::css::end', onParseCSS);

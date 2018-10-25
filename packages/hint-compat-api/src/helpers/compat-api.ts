@@ -2,14 +2,14 @@
 const bcd: CompatData = require('mdn-browser-compat-data');
 
 import { forEach } from 'lodash';
-import { BrowserSupportCollection } from '../types';
-import { CompatData, Identifier, CompatStatement } from '../types-mdn.temp'; // Temporal
+import { BrowserSupportCollection, MDNTreeFilteredByBrowsers } from '../types';
+import { CompatData, CompatStatement } from '../types-mdn.temp'; // Temporal
 import { isArray } from 'util';
 
 type CompatNamespace = 'css' | 'javascript' | 'html';
 
 export class CompatApi {
-    private compatDataApi: Identifier; // Any because no types by the moment, check line 1
+    public compatDataApi: MDNTreeFilteredByBrowsers; // Any because no types by the moment, check line 1
     private browsers: BrowserSupportCollection;
 
     public constructor(namespaceName: CompatNamespace, browsers: BrowserSupportCollection, isCheckingNotBroadlySupported = false) {
@@ -19,13 +19,13 @@ export class CompatApi {
     }
 
     private applyBrowsersConfiguration(isCheckingNotBroadlySupported = false): any {
-        const compatDataApi = {} as Identifier;
+        const compatDataApi = {} as MDNTreeFilteredByBrowsers;
 
         forEach(this.compatDataApi, (groupFeaturesValues, groupFeaturesKey) => {
-            const groupFeatures = {} as CompatStatement & Identifier;
+            const groupFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
             forEach(groupFeaturesValues, (featureValue, featureKey) => {
-                const typedFeatureValue = featureValue as CompatStatement & Identifier;
+                const typedFeatureValue = featureValue as CompatStatement & MDNTreeFilteredByBrowsers;
 
                 if (!this.isFeatureRequiredToTest(typedFeatureValue, isCheckingNotBroadlySupported)) {
                     return;
@@ -40,7 +40,7 @@ export class CompatApi {
         return compatDataApi;
     }
 
-    private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & Identifier, isCheckingNotBroadlySupported = false): boolean {
+    private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported = false): boolean {
         // TODO: Here we are checking only parent but this object has children
         let isRequiredToTest = false;
 
