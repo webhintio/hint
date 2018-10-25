@@ -23,63 +23,6 @@ type BrowserNames =
   'webview_android';
 
 /**
- * The browser namespace.
- */
-interface Browsers extends Record<BrowserNames,BrowserStatement> {
-}
-
-/**
- * A browser statement.
- */
-interface BrowserStatement {
-  /**
-   * The browser brand name, for example:
-   * `"Firefox"`, `"Firefox Android"`, `"Safari"`, `"iOS Safari"`, etc.
-   */
-  name: string;
-
-  /**
-   * The known versions of this browser.
-   */
-  releases: {
-    [version: string]: ReleaseStatement;
-  };
-}
-
-/**
- * The data about this version.
- */
-interface ReleaseStatement {
-  /**
-   * The date on which this version was released.
-   *
-   * Formatted as `YYYY-MM-DD`.
-   */
-  release_date?: string;
-
-  /**
-   * The URL of the release notes.
-   */
-  release_notes?: string;
-
-  /**
-   * A property indicating where in the lifetime cycle this release is in.
-   *
-   * It's an enum accepting these values:
-   * - `retired`: This release is no longer supported (EOL).
-   * - `current`: This release is the official latest release.
-   * - `exclusive`: This is an exclusive release (for example on a flagship device),
-   *   not generally available.
-   * - `beta`: This release will the next official release.
-   * - `nightly`: This release is the current alpha / experimental release
-   *   (like Firefox Nightly, Chrome Canary).
-   * - `esr`: This release is an Extended Support Release.
-   * - `planned`: This release is planned in the future.
-   */
-  status: 'retired' | 'current' | 'limited' | 'beta' | 'nightly' | 'esr' | 'planned';
-}
-
-/**
  * The `support_statement` object describes the support provided
  * by a single browser type for the given sub-feature.
  *

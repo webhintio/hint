@@ -34,8 +34,9 @@ export default class implements IHint {
         const onParseCSS = (styleParse: StyleParse): void => {
 
             // Internal testing purposes
+            debug('These are fake tests');
             const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
-            const compatApi = new CompatApi('css', mdnBrowsersCollection);
+            const compatApi = new CompatApi('javascript', mdnBrowsersCollection);
 
             console.log(compatApi, styleParse);
         };

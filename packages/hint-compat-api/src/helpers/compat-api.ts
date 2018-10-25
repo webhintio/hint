@@ -4,6 +4,7 @@ const bcd: CompatData = require('mdn-browser-compat-data');
 import { forEach } from 'lodash';
 import { BrowserSupportCollection } from '../types';
 import { CompatData, Identifier, CompatStatement } from '../types-mdn.temp'; // Temporal
+import { isArray } from 'util';
 
 type CompatNamespace = 'css' | 'javascript' | 'html';
 
@@ -48,11 +49,16 @@ export class CompatApi {
                 return;
             }
 
-            const browserTermSupported = (typedTermValue.__compat.support as any)[browser];
+            let browserTermSupported = (typedTermValue.__compat.support as any)[browser];
 
             // If we dont have information about the compatibility, ignore.
             if (!browserTermSupported) {
                 return;
+            }
+
+            // Sometimes the API give an array but only the first seems relevant
+            if (isArray(browserTermSupported) && browserTermSupported.length > 0) {
+                browserTermSupported = browserTermSupported[0];
             }
 
             const { version_added: addedVersion, version_removed: removedVersion } = browserTermSupported;
