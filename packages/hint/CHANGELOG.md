@@ -1,3 +1,10 @@
+# 3.4.13 (October 25, 2018)
+
+## Bug fixes / Improvements
+
+* [[`b4cc570391`](https://github.com/webhintio/hint/commit/b4cc570391484ef189d0d28a2f9d0fa7d4339c6e)] - Docs: Update `Architecture` section (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1406`](https://github.com/webhintio/hint/issues/1406)).
+
+
 # 3.4.12 (October 24, 2018)
 
 ## Bug fixes / Improvements
