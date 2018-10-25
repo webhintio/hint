@@ -479,6 +479,15 @@ a > .rule-tile:hover {
     margin-bottom: 3.6rem;
 }
 
+.hint-link::after {
+	position: absolute;
+	content: url("/images/scan/sub-section.svg");
+	display: inline-block;
+	width: 2rem;
+	margin-top: .3rem;
+	margin-left: 1.5rem;
+}
+
 .button-expand-all {
     background: rgba(255, 255, 255, 0) url('/images/scan/open-close.svg') 0 -1px no-repeat;
     color: #4046dd;
@@ -497,6 +506,7 @@ a > .rule-tile:hover {
 }
 
 .rule-result h3 {
+    display: flex;
     text-transform: capitalize;
 }
 
@@ -505,7 +515,6 @@ a > .rule-tile:hover {
     display: block;
     margin-bottom: 3rem;
     max-width: none;
-    position: relative;
     width: 100%;
 }
 
@@ -528,16 +537,16 @@ a > .rule-tile:hover {
     display: none;
 }
 
-.rule-title::after {
+.rule-title::before {
     background: url('/images/scan/open-close.svg') no-repeat 0 -22px;
     content: "";
     height: 22px;
-    left: 0;
     position: absolute;
     width: 22px;
+    margin-left: -3rem;
 }
 
-.rule-result--details[open] .rule-title::after {
+.rule-result--details[open] .rule-title::before {
     background-position: 0 0;
 }
 
@@ -605,7 +614,6 @@ button {
 
 .rule-result--details__body {
     padding: 1.4rem 0;
-    position: relative;
     margin-left: 3rem;
 }
 

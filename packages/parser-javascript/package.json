@@ -8,17 +8,17 @@
   },
   "dependencies": {
     "eslint": "^5.7.0",
-    "espree": "^4.0.0"
+    "espree": "^4.1.0"
   },
   "description": "webhint parser needed to analyze JavaScript files",
   "devDependencies": {
-    "@types/eslint": "^4.16.3",
+    "@types/eslint": "^4.16.4",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.4.11",
+    "hint": "^3.4.12",
     "markdownlint-cli": "^0.13.0",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
@@ -53,7 +53,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^3.4.11"
+    "hint": "^3.4.12"
   },
   "repository": "webhintio/hint",
   "scripts": {

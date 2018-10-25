@@ -1,6 +1,6 @@
 <section class="rule-result" id="<%= category.name %>">
     <div class="rule-result--category">
-        <h3><%= category.name %></h3>
+        <h3 id="category-<%= category.name %>"><%= category.name %> <a href="#category-<%= category.name %>" class="hint-link" title="<%= category.name %>"></a></h3>
         <% if (result.isFinish && !utils.noIssues(category)) { %>
             <%- include('scan-expand-all') %>
         <% } %>

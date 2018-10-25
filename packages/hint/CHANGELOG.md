@@ -1,3 +1,14 @@
+# 3.4.12 (October 24, 2018)
+
+## Bug fixes / Improvements
+
+* [[`8ad451642b`](https://github.com/webhintio/hint/commit/8ad451642bd60d858cfcfe72b9ba99c14134a7d4)] - Docs: Rename top level entries to `summary.md` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1435`](https://github.com/webhintio/hint/issues/1435)).
+* [[`e0d397ee56`](https://github.com/webhintio/hint/commit/e0d397ee56e9661f8c97d5e63edad1d9fa668c4c)] - Docs: Update content to latest changes (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1128`](https://github.com/webhintio/hint/issues/1128)).
+* [[`84a880cfa9`](https://github.com/webhintio/hint/commit/84a880cfa942e05b0affb1978a538046089142a3)] - Docs: Add information about `local` connector (by [`Antón Molleda`](https://github.com/molant)).
+* [[`87d3fcee7c`](https://github.com/webhintio/hint/commit/87d3fcee7c87bc3342b890b4d09674cd96b3f6e7)] - Docs: Update `parser` documentation (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1045`](https://github.com/webhintio/hint/issues/1045)).
+* [[`a05e45bce1`](https://github.com/webhintio/hint/commit/a05e45bce1bad3b5b571bf3f1d05c3c9a98c8223)] - Docs: Improve documentation around `.hintrc` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#884`](https://github.com/webhintio/hint/issues/884), and [`#1174`](https://github.com/webhintio/hint/issues/1174)).
+
+
 # 3.4.11 (October 19, 2018)
 
 ## Bug fixes / Improvements

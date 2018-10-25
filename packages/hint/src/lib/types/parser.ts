@@ -6,7 +6,7 @@ import { Engine } from '../engine';
 import { getAsUri } from '../utils/network/as-uri';
 import getAsPathString from '../utils/network/as-path-string';
 import loadJSONFile from '../utils/fs/load-json-file';
-import { ErrorEvent } from './events'; // eslint-disable-line no-unused-vars
+import { ErrorEvent } from './events';
 
 export type ExtendableConfiguration = {
     extends: string;

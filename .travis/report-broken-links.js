@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const request= require('request');
-const shell = require('shelljs/global'); // eslint-disable-line no-unused-vars
+const shell = require('shelljs/global');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

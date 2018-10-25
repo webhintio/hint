@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const test = `Lorem ipsum dolor sit amet, consectetur adipiscing
 elit. Phasellus dictum dolor ac sodales gravida. Sed in libero arcu.
 Vestibulum tincidunt massa quis orci faucibus, in luctus odio bibendum.

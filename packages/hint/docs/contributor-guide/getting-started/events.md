@@ -3,7 +3,8 @@
 Information is shared internally via `event`s. `connector`s and `parser`s can
 create them, while `parser`s and `hint`s consume them.
 The following is a list of all the events common to all `connector`s, with
-their signature, and the `interface` they implement.
+their signature, and the `interface` they implement. The exception is the
+`local connector` that needs the `HTML parser` to emit these events:
 
 * [`element::<element-type>`](#elementelement-type)
 * [`fetch::end::<resource-type>`](#fetchendresource-type)

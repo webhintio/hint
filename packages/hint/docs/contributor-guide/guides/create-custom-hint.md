@@ -21,13 +21,12 @@ a resource file.
 
 ## What is it like to create a new hint?
 
-The recommended way to create a new hint is to use `npm init hint` from the
-CLI. Support for bootstrapping custom hint has shipped in webhint since
-v1.0.0.
+The recommended way to create a new hint is to use `npm create hint` from
+the CLI.
 
-**Note**: If you are creating a new hint for the main repo you can use
-`yarn new:hint` or `npm run new:hint` from the root and it will be created
-automatically in the `packages` folder.
+**Note for core hints**: If you are creating a hint for the main repo you should
+use the same command from the `packages` folder. The generated files will be
+slighthly different (references and task will change a bit).
 
 At this point, a wizard will ask a series of questions relevant to the new hint,
 including the name, description, category, etc. In particular, you will be asked
@@ -65,13 +64,17 @@ The next main thing to do is to populate the `validate-footer.ts` and `test.ts`
 with our actual hint and tests. But before that, we need to navigate to the hint
 folder and run `npm run init`. This command does two things:
 
-1. install all the dependencies
-2. build the project, which compiles the TypeScript to JavaScript in the `dist`
+1. Install all the dependencies.
+2. Build the project, which compiles the TypeScript to JavaScript in the `dist`
    folder (support for creating JavaScript hints via webhint's CLI will be
    added in a future release, but you can manually do it now).
 
-Do remember that since a compilation is needed, you have to run build every time
-after you make changes to the .ts files. Or alternatively, you run `npm run
+**Note for core hints**: Instead of running `npm run init` run `yarn` and
+`yarn build`. `webhint` is a monorepo built on top of `yarn` workspaces and this
+is the proper way to link the modules.
+
+Do remember that since a compilation is needed, you have to build every time
+after you make changes to the `.ts` files. Or alternatively, you run `npm run
 watch:ts` in the terminal and the project builds itself after each update. *If
 your debugger never stops at the break point you set up, it’s very likely
 because you forgot to build your project after making changes.*
@@ -100,9 +103,8 @@ export default class FooterHint implements IHint {
             description: `A hint to validate footer`
         },
         id: 'footer',
-        recommended: false,
         schema: [],
-        worksWithLocalFiles: true
+        scope: HintScope.any
     }
 
     public constructor(context: HintContext) {
@@ -164,7 +166,6 @@ export default class CopyrightHint implements IHint {
             description: `A new hint to validate footer`
         },
         id: 'copyright',
-        recommended: false,
         schema: [{
             additionalProperties: false,
             properties: {
@@ -172,7 +173,7 @@ export default class CopyrightHint implements IHint {
                 stringToBeIncluded: { type: 'string' }
             }
         }],
-        worksWithLocalFiles: true
+        scope: HintScope.any
     }
 
     public constructor(context: HintContext) {

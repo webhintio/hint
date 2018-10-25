@@ -3,7 +3,7 @@
 The `HTML` parser is built on top of [`jsdom`][jsdom] so hints can
 analyze `HTML` files.
 
-Note: This parser is currently only needed if using the local
+Note: This parser is currently only needed if using the `local`
 [connector][connectors]. Other connectors provide their own DOM to
 generate events instead.
 
@@ -50,6 +50,7 @@ elements in the tree (see [events][events] for details):
 * `traverse::end`
 * `traverse::start`
 * `traverse::up`
+* `parse::html::end`
 
 <!-- Link labels: -->
 

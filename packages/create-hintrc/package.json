@@ -10,7 +10,7 @@
     "create-hintrc": "./dist/src/create-hintrc.js"
   },
   "dependencies": {
-    "browserslist": "^4.3.1",
+    "browserslist": "^4.3.3",
     "encoding": "^0.1.12"
   },
   "description": "webhint's configuration file initializer package",
@@ -22,10 +22,10 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "fork-ts-checker-webpack-plugin": "^0.4.10",
+    "fork-ts-checker-webpack-plugin": "^0.4.12",
     "fs-extra": "^7.0.0",
     "handlebars": "^4.0.11",
-    "hint": "^3.4.11",
+    "hint": "^3.4.12",
     "inquirer": "^6.2.0",
     "markdownlint-cli": "^0.13.0",
     "mkdirp": "^0.5.1",

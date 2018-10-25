@@ -23,7 +23,7 @@ test.afterEach.always((t) => {
 
 {{#each events}}
 test.serial('Test for event {{event}}', async (t) => {
-    const parser = new {{../capitalizedName}}.default(t.context.engine); // eslint-disable-line new-cap,no-unused-vars
+    const parser = new {{../capitalizedName}}.default(t.context.engine); // eslint-disable-line new-cap
     // Code to prepare your test.
 
     await t.context.engine.emitAsync('{{event}}', { /* testing data */ });

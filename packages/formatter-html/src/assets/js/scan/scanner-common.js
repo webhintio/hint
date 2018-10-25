@@ -131,10 +131,49 @@
         }
     };
 
+    var scrollTo = function (element) {
+        setTimeout(function () {
+            window.scrollTo(0, element.offsetTop - 50);
+        }, 0);
+    };
+
+    var scrollToElementLink = function (element) {
+        var href = element.getAttribute('href');
+        /*
+         * id should be:
+         *    type-name[-index]
+         * e.g.:
+         *    category-performance
+         *    hint-axe-3
+         */
+        var id = href.substr(1);
+
+        if (id.indexOf('category') === 0) {
+            // The browser will scroll automatically.
+            return;
+        }
+
+        /*
+         * The user clicks a hint.
+         *
+         * When the user clicks a hint, we need to add an offset
+         * to the default position, if not, the documenation links
+         * will cover the hint message.
+         */
+
+        var title = document.getElementById(id);
+
+        scrollTo(title);
+    };
+
     var categoryClasses = ['rule-tile', 'rule-icon', 'rule-tile__category', 'rule-tile__sub-category', 'rule-tile__passed', 'rule-tile__info', 'rule-tile__results'];
 
-    var toggleExpand = function (evt) {
+    var onContainerClick = function (evt) {
         var element = evt.target;
+
+        if (element.classList.contains('hint-link')) {
+            return scrollToElementLink(element);
+        }
 
         if (element.classList.contains('button-expand-all')) {
             return toggleExpandAll(element);
@@ -167,7 +206,7 @@
         var container = document.getElementById('results-container');
 
         if (container) {
-            container.addEventListener('click', toggleExpand, false);
+            container.addEventListener('click', onContainerClick, false);
             container.addEventListener('toggle', toggleExpand, false);
         }
     };
@@ -278,7 +317,7 @@
         mql.addListener(validateMediaQuery);
     };
 
-    var pad = function(time) {
+    var pad = function (time) {
         return time < 10 ? ('0' + time) : time;
     };
 
@@ -300,9 +339,48 @@
         dateElement.textContent = isoDate.getFullYear() + '-' + pad(isoDate.getMonth() + 1) + '-' + pad(isoDate.getDate()) + ' ' + pad(isoDate.getHours()) + ':' + pad(isoDate.getMinutes());
     };
 
+    var contractDetails = function () {
+        var elements = Array.prototype.slice.apply(document.querySelectorAll('details[open]'));
+
+        elements.forEach(function (element) {
+            element.removeAttribute('open');
+            element.setAttribute('aria-expanded', 'false');
+        });
+    };
+
+    var scrollToLink = function () {
+        var hash = location.hash;
+
+        if (!hash) {
+            return;
+        }
+
+        var id = hash.substr(1);
+
+        if (id.indexOf('category') === 0) {
+            // The browser will scroll automatically.
+            return;
+        }
+
+        /*
+         * When the link is pointing to a hint, we need to
+         * open the details/summary that contains the hint
+         * and then scroll to that hint.
+         */
+        var title = document.getElementById(id);
+        var detail = title.closest('.rule-result--details');
+
+        detail.setAttribute('open', 'open');
+        detail.setAttribute('aria-expanded', 'true');
+
+        scrollTo(title);
+    };
+
     updateDate();
 
     if (categoriesListElement) {
+        contractDetails();
+        scrollToLink();
         registerToggleExpandListener();
         registerMediaQuery();
         highlightCodeBlocks();

@@ -1,4 +1,4 @@
-<details class="rule-result--details" id="<%= hint.name %>" aria-expanded="false" role="group">
+<details open class="rule-result--details" id="<%= hint.name %>" aria-expanded="true" role="group">
     <summary class="rule-title" title="show <%= hint.name %>'s result details" role="button"><%= hint.name %>: <%= hint.count %> hints</summary>
     <div class="rule-content">
         <% if (hint.hasDoc) { %>
@@ -16,8 +16,8 @@
         <% } %>
         <% hint.problems.forEach(function (problem, index) { %>
             <div class="rule-result--details__body">
-                <p>
-                    <span class="rule-result--details__hint-number">hint <%= index %>:</span> <%= utils.linkify(problem.message); %>
+                <p id="hint-<%= hint.name %>-<%= index + 1 %>">
+                    <span class="rule-result--details__hint-number">hint #<%= index + 1 %>:</span> <%= utils.linkify(problem.message); %> <a href="#hint-<%= hint.name %>-<%= index + 1 %>" class="hint-link" title="<%= hint.name %> hint #<%= index + 1 %>"></a>
                 </p>
                 <% if (problem.resource) { %>
                 <p>

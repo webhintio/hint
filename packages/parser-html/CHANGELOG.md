@@ -1,3 +1,10 @@
+# 1.0.5 (October 24, 2018)
+
+## Bug fixes / Improvements
+
+* [[`640989e192`](https://github.com/webhintio/hint/commit/640989e192db1402e0ab0584b37c44efde09692c)] - Docs: Add missing event (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1393`](https://github.com/webhintio/hint/issues/1393)).
+
+
 # 1.0.4 (October 3, 2018)
 
 ## Bug fixes / Improvements
