@@ -30,13 +30,12 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
-        const regExpFactory = (isFlexible = false) => {
-            return new RegExp(`(<!doctype\\s+(html)\\s*(\\s+system\\s+"about:legacy-compat")?\\s*?>)${isFlexible ? '(.+)?' : ''}`, 'gi');
+        const regExpFactory = () => {
+            return new RegExp(`(<!doctype\\s+(html)\\s*(\\s+system\\s+(("about:legacy-compat")|('about:legacy-compat')))?\\s*?>)(.+)?`, 'gi');
         };
 
         const correctLine = 0;
         const doctypeRegExp = regExpFactory();
-        const doctypeRegExpFlexible = regExpFactory(true);
 
         const defaultProblemLocation: ProblemLocation = {
             column: 0,
@@ -52,7 +51,7 @@ export default class implements IHint {
             const locations: ProblemLocation[] = [];
 
             lines.forEach((line: string, i: number): void => {
-                const matched = doctypeRegExpFlexible.exec(line);
+                const matched = doctypeRegExp.exec(line);
 
                 if (matched){
                     locations.push({
@@ -68,7 +67,7 @@ export default class implements IHint {
         const getMatchInformation = (text: string): MatchInformation => {
             return {
                 locations: getCurrentDoctypeProblemLocation(text),
-                matches: text.match(doctypeRegExpFlexible)
+                matches: text.match(doctypeRegExp)
             };
         };
 
