@@ -91,25 +91,6 @@ export default class implements IHint {
             await report(resource, 'DOCTYPE is not in the first line.', matchInfo.locations[0]);
         };
 
-        const checkDoctypeHasMoreThanValidInfo = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
-            if (!matchInfo.matches || matchInfo.matches.length < 1) {
-                return;
-            }
-
-            const matchedDoctype = matchInfo.matches[0];
-            const strictMatch = matchedDoctype.match(doctypeRegExp);
-
-            if (!strictMatch || strictMatch.length < 1) {
-                return;
-            }
-
-            if (strictMatch[0] === matchedDoctype) {
-                return;
-            }
-
-            await report(resource, 'There is additional information on the line with the DOCTYPE.');
-        };
-
         const checkDoctypeIsDuplicated = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
             if (!matchInfo.matches || matchInfo.matches.length < 2) {
                 return;
@@ -138,7 +119,6 @@ export default class implements IHint {
 
             await Promise.all([
                 checkNoDoctypeInCorrectLine(globalMatch, resource),
-                checkDoctypeHasMoreThanValidInfo(globalMatch, resource),
                 checkDoctypeIsDuplicated(globalMatch, resource)
             ]);
 
