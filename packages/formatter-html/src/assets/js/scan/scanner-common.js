@@ -57,11 +57,11 @@
         var expanded = typeof closeAll !== 'undefined' ? closeAll : childRulesExpanded(element);
 
         if (expanded) {
-            element.innerHTML = 'close all';
+            element.textContent = 'close all';
             element.classList.remove('closed');
             element.classList.add('expanded');
         } else {
-            element.innerHTML = 'expand all';
+            element.textContent = 'expand all';
             element.classList.remove('expanded');
             element.classList.add('closed');
         }
@@ -207,7 +207,6 @@
 
         if (container) {
             container.addEventListener('click', onContainerClick, false);
-            container.addEventListener('toggle', toggleExpand, false);
         }
     };
 
@@ -341,10 +340,17 @@
 
     var contractDetails = function () {
         var elements = Array.prototype.slice.apply(document.querySelectorAll('details[open]'));
+        var expandAllButtons = Array.prototype.slice.apply(document.querySelectorAll('.button-expand-all'));
 
         elements.forEach(function (element) {
             element.removeAttribute('open');
             element.setAttribute('aria-expanded', 'false');
+        });
+
+        expandAllButtons.forEach(function (element) {
+            element.textContent = 'expand all';
+            element.classList.add('closed');
+            element.classList.remove('expanded');
         });
     };
 
