@@ -21,47 +21,47 @@ export class CompatApi {
     private applyBrowsersConfiguration(isCheckingNotBroadlySupported = false): any {
         const compatDataApi = {} as Identifier;
 
-        forEach(this.compatDataApi, (groupTermsValues, groupTermsKey) => {
-            const groupTerms = {} as CompatStatement & Identifier;
+        forEach(this.compatDataApi, (groupFeaturesValues, groupFeaturesKey) => {
+            const groupFeatures = {} as CompatStatement & Identifier;
 
-            forEach(groupTermsValues, (termValue, termKey) => {
-                const typedTermValue = termValue as CompatStatement & Identifier;
+            forEach(groupFeaturesValues, (featureValue, featureKey) => {
+                const typedFeatureValue = featureValue as CompatStatement & Identifier;
 
-                if (!this.isTermRequiredToTest(typedTermValue, isCheckingNotBroadlySupported)) {
+                if (!this.isFeatureRequiredToTest(typedFeatureValue, isCheckingNotBroadlySupported)) {
                     return;
                 }
 
-                groupTerms[termKey] = typedTermValue;
+                groupFeatures[featureKey] = typedFeatureValue;
             });
 
-            compatDataApi[groupTermsKey] = groupTerms;
+            compatDataApi[groupFeaturesKey] = groupFeatures;
         });
 
         return compatDataApi;
     }
 
-    private isTermRequiredToTest(typedTermValue: CompatStatement & Identifier, isCheckingNotBroadlySupported = false): boolean {
+    private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & Identifier, isCheckingNotBroadlySupported = false): boolean {
         // TODO: Here we are checking only parent but this object has children
         let isRequiredToTest = false;
 
         forEach(this.browsers, (browserVersions, browser) => {
-            if (isRequiredToTest || !typedTermValue.__compat || !typedTermValue.__compat.support) {
+            if (isRequiredToTest || !typedFeatureValue.__compat || !typedFeatureValue.__compat.support) {
                 return;
             }
 
-            let browserTermSupported = (typedTermValue.__compat.support as any)[browser];
+            let browserFeatureSupported = (typedFeatureValue.__compat.support as any)[browser];
 
             // If we dont have information about the compatibility, ignore.
-            if (!browserTermSupported) {
+            if (!browserFeatureSupported) {
                 return;
             }
 
             // Sometimes the API give an array but only the first seems relevant
-            if (isArray(browserTermSupported) && browserTermSupported.length > 0) {
-                browserTermSupported = browserTermSupported[0];
+            if (isArray(browserFeatureSupported) && browserFeatureSupported.length > 0) {
+                browserFeatureSupported = browserFeatureSupported[0];
             }
 
-            const { version_added: addedVersion, version_removed: removedVersion } = browserTermSupported;
+            const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
 
             if (isCheckingNotBroadlySupported) {
                 // Check added

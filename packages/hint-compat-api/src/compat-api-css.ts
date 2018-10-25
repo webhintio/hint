@@ -23,7 +23,7 @@ export default class implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
             category: Category.interoperability,
-            description: `Hint to validate if the HTML, CSS and JS APIs of the project are deprecated or not broadly supported`
+            description: `Hint to validate if the CSS features of the project are deprecated`
         },
         id: 'compat-api-css',
         schema: [],
@@ -33,12 +33,18 @@ export default class implements IHint {
     public constructor(context: HintContext) {
         const onParseCSS = (styleParse: StyleParse): void => {
 
+            const searchDeprecatedCSSFeatures = (compatApi: CompatApi, styleParse: StyleParse) => {
+                styleParse.ast.walk(node => {
+                    console.log(node);
+                });
+            };
+
             // Internal testing purposes
             debug('These are fake tests');
             const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
-            const compatApi = new CompatApi('javascript', mdnBrowsersCollection);
+            const compatApi = new CompatApi('css', mdnBrowsersCollection);
 
-            console.log(compatApi, styleParse);
+            searchDeprecatedCSSFeatures(compatApi, styleParse);
         };
 
         context.on('parse::css::end', onParseCSS);
