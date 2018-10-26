@@ -77,7 +77,7 @@ export default class implements IHint {
                         return;
                     }
 
-                    // Not a common case, but if removed version is true, is always deprecated.
+                    // Not a common case, but if removed version is exactly true, is always deprecated.
                     if (removedVersion === true) {
                         debug('error');
 
@@ -85,9 +85,21 @@ export default class implements IHint {
                     }
 
                     // If the version is smaller than the browser supported, should fail
-                    forEach(browsersToSupport, browserName => {
-                        debugger;
+                    const removedVersionNumber = Number(removedVersion);
+                    let notSupportedVersions: string[] = [];
+                    forEach(browsersToSupport, (versions, browserName) => {
+                        versions.forEach(version => {
+                            if (version <= removedVersionNumber) {
+                                return;
+                            }
+
+                            notSupportedVersions.push(`${browserName} ${version}`);
+                        });
                     });
+
+                    if (notSupportedVersions.length > 0) {
+                        debug(`Error in feature ${name} on browsers ${notSupportedVersions.join(', ')}`);
+                    }
                 });
             };
 
@@ -108,7 +120,7 @@ export default class implements IHint {
                     },
 
                     testFeature: (node: Rule, data, browsers) => {
-                        checkDeprecatedCSSFeature('at-rules', node.selector, data, browsers);
+                        // checkDeprecatedCSSFeature('at-rules', node.selector, data, browsers);
                     }
                 };
 
@@ -118,7 +130,7 @@ export default class implements IHint {
                     },
 
                     testFeature: (node: Declaration, data, browsers) => {
-                        checkDeprecatedCSSFeature('at-rules', node.value, data, browsers);
+                        // checkDeprecatedCSSFeature('at-rules', node.value, data, browsers);
                     }
                 };
 
