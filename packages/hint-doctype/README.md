@@ -1,6 +1,6 @@
-# Check that the DOCTYPE tag of the document is valid
+# Check that the DOCTYPE of the document is valid
 
-This hint checks if the HTML is using the most modern DOCTYPE.
+This hint checks if the HTML is using the most modern document type declaration (a.k.a. doctype).
 
 ## Why is this important?
 
@@ -16,7 +16,7 @@ with some specifications.
 
 ## What does the hint check?
 
-This hint checks if the HTML is using the most modern and valid DOCTYPE.
+This hint checks if the HTML is using the most modern and valid document type declaration (a.k.a. doctype).
 
 It checks that the DOCTYPE is in the first line and that there are no other
 lines before the DOCTYPE. This is important as some browsers,
