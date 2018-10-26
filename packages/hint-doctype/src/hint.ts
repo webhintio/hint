@@ -30,12 +30,8 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
-        const regExpFactory = () => {
-            return new RegExp(`(<!doctype\\s+(html)\\s*(\\s+system\\s+(("about:legacy-compat")|('about:legacy-compat')))?\\s*?>)(.+)?`, 'gi');
-        };
-
         const correctLine = 0;
-        const doctypeRegExp = regExpFactory();
+        const doctypeRegExp = new RegExp(`(<!doctype\\s+(html)\\s*(\\s+system\\s+(("about:legacy-compat")|('about:legacy-compat')))?\\s*?>)(.+)?`, 'gi');
 
         const defaultProblemLocation: ProblemLocation = {
             column: 0,
@@ -109,8 +105,9 @@ export default class implements IHint {
 
             const { body } = response;
             const { content } = body;
+            const contentTrimmed = content.trim();
 
-            const globalMatch = getMatchInformation(content);
+            const globalMatch = getMatchInformation(contentTrimmed);
 
             if (!(await checkNoDoctypeInContent(globalMatch, resource))) {
                 return;
