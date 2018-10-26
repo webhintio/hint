@@ -1,6 +1,7 @@
 # Check if the page has the most modern document type declaration
 
-This hint checks if the HTML is using the most modern document type declaration (a.k.a. doctype).
+This hint checks if the HTML is using the most modern
+document type declaration (a.k.a. doctype).
 
 ## Why is this important?
 
@@ -16,15 +17,19 @@ with some specifications.
 
 ## What does the hint check?
 
-This hint checks if the HTML is using the most modern document type declaration (a.k.a. doctype).
+This hint checks if the HTML is using the most modern
+document type declaration (a.k.a. doctype).
 
-It checks that the DOCTYPE is in the first line and that there are no other
-lines before the DOCTYPE. This is important as some browsers,
-including versions of Internet Explorer prior to version 10, trigger quirks mode if a comment
-occurs before the DOCTYPE.
+It checks that the DOCTYPE is in the first line and
+that there are no other lines before the DOCTYPE.
+This is important as some browsers, including versions of
+Internet Explorer prior to version 10, trigger quirks mode
+if a commentoccurs before the DOCTYPE.
 
-It also checks that the DOCTYPE is not duplicated elsewhere in the document. To support older
-HTML content generators, it also accepts the legacy-compat DOCTYPE. Examples:
+It also checks that the DOCTYPE is not duplicated elsewhere in the document.
+To support older HTML content generators, it also acceptsthe legacy-compat DOCTYPE.
+
+Examples:
 
 `<!doctype html>`
 
