@@ -28,6 +28,7 @@
     "mock-require": "^3.0.2",
     "npm-run-all": "^4.1.2",
     "nyc": "^13.1.0",
+    "raw-loader": "^0.5.1",
     "rimraf": "^2.6.2",
     "sinon": "^7.0.0",
     "typescript": "^3.0.3",

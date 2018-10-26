@@ -41,12 +41,13 @@ export default class WebExtensionConnector implements IConnector {
         const onLoad = async () => {
             const resource = location.href;
 
+            this._window = new AsyncWindow(new AsyncHTMLDocument(document, this._pageHTML));
+
             await this._engine.emitAsync('can-evaluate::script', { resource });
 
             setTimeout(async () => {
-                this._window = new AsyncWindow(new AsyncHTMLDocument(document, this._pageHTML));
 
-                if (document.documentElement) {
+                if (this._window && document.documentElement) {
                     await this._engine.emitAsync('traverse::start', { resource });
                     await this.traverseAndNotify(document.documentElement, this._window.document);
                     await this._engine.emitAsync('traverse::end', { resource });

@@ -7,7 +7,7 @@ import { Configuration } from 'hint/dist/src/lib/config';
 // import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
-// import AxeHint from '@hint/hint-axe';
+import AxeHint from '@hint/hint-axe';
 import ContentTypeHint from '@hint/hint-content-type';
 import DisownOpenerHint from '@hint/hint-disown-opener';
 import HighestAvailableDocumentModeHint from '@hint/hint-highest-available-document-mode';
@@ -27,7 +27,7 @@ const config: Configuration = {
     extends: undefined,
     formatters: ['web-extension'],
     hints: {
-        // axe: 'error',
+        axe: 'error',
         'content-type': 'error',
         'disown-opener': 'error',
         'highest-available-document-mode': 'error',
@@ -48,7 +48,7 @@ const engine = new Engine(config, {
     connector: WebExtensionConnector,
     formatters: [WebExtensionFormatter],
     hints: [
-        // AxeHint,
+        AxeHint,
         ContentTypeHint,
         DisownOpenerHint,
         HighestAvailableDocumentModeHint,

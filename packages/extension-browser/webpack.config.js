@@ -13,6 +13,14 @@ const backgroundConfig = {
 const contentConfig = {
     entry: './dist/src/index.js',
     mode: 'none',
+    module: {
+        rules: [
+            {
+                test: /axe-core/,
+                use: 'raw-loader'
+            }
+        ]
+    },
     node: { fs: 'empty' },
     output: {
         filename: 'webhint.js',
