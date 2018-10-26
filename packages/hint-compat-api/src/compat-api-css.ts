@@ -9,9 +9,10 @@ import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
-import { filter } from 'lodash';
+import { find, forEach } from 'lodash';
 import { CompatApi, userBrowsers } from './helpers';
 import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
+import { SupportBlock } from './types-mdn.temp';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -36,9 +37,58 @@ export default class implements IHint {
     public constructor(context: HintContext) {
         const onParseCSS = (styleParse: StyleParse): void => {
 
-            const checkDeprecatedCSSFeature = (name: string, data: MDNTreeFilteredByBrowsers): boolean => {
+            const checkDeprecatedCSSFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection): void => {
+                const key: any = data[keyName];
 
-                return true;
+                if (!key) {
+                    debug('error');
+
+                    return;
+                }
+
+                const feature = key[name];
+
+                // If feature is not in the filtered by browser data, that means that is always supported.
+                if (!feature) {
+                    return
+                }
+
+                // If feature does not have compat data, we ignore it.
+                const featureInfo = feature.__compat;
+
+                if (!featureInfo) {
+                    return;
+                }
+
+                // Check for each browser the support block
+                const supportBlock: SupportBlock = featureInfo.support;
+                forEach(supportBlock, browserInfo => {
+                    let browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo);
+
+                    // If we dont have information about the compatibility, ignore.
+                    if (!browserFeatureSupported) {
+                        return;
+                    }
+
+                    const removedVersion = browserFeatureSupported.version_removed;
+
+                    // If there is no removed version, it is no deprecated.
+                    if (!removedVersion) {
+                        return;
+                    }
+
+                    // Not a common case, but if removed version is true, is always deprecated.
+                    if (removedVersion === true) {
+                        debug('error');
+
+                        return;
+                    }
+
+                    // If the version is smaller than the browser supported, should fail
+                    forEach(browsersToSupport, browserName => {
+                        debugger;
+                    });
+                });
             };
 
             const chooseStrategyToSearchDeprecatedCSSFeature = (childNode: ChildNode): FeatureStrategy<ChildNode> => {
@@ -47,14 +97,8 @@ export default class implements IHint {
                         return node.type === 'atrule';
                     },
 
-                    testFeature: (node: AtRule, data) => {
-                        const isDeprecated = checkDeprecatedCSSFeature(node.name, data);
-
-                        if (!isDeprecated) {
-                            return;
-                        }
-
-                        debug('ERROR!');
+                    testFeature: (node: AtRule, data, browsers) => {
+                        checkDeprecatedCSSFeature('at-rules', node.name, data, browsers);
                     }
                 };
 
@@ -63,14 +107,8 @@ export default class implements IHint {
                         return node.type === 'rule';
                     },
 
-                    testFeature: (node: Rule, data) => {
-                        const isDeprecated = checkDeprecatedCSSFeature(node.selector, data);
-
-                        if (!isDeprecated) {
-                            return;
-                        }
-
-                        debug('ERROR!');
+                    testFeature: (node: Rule, data, browsers) => {
+                        checkDeprecatedCSSFeature('at-rules', node.selector, data, browsers);
                     }
                 };
 
@@ -79,14 +117,8 @@ export default class implements IHint {
                         return node.type === 'decl';
                     },
 
-                    testFeature: (node: Declaration, data) => {
-                        const isDeprecated = checkDeprecatedCSSFeature(node.value, data);
-
-                        if (!isDeprecated) {
-                            return;
-                        }
-
-                        debug('ERROR!');
+                    testFeature: (node: Declaration, data, browsers) => {
+                        checkDeprecatedCSSFeature('at-rules', node.value, data, browsers);
                     }
                 };
 
@@ -95,9 +127,7 @@ export default class implements IHint {
                         return true;
                     },
 
-                    testFeature: () => {
-                        return;
-                    }
+                    testFeature: () => { }
                 };
 
                 const strategies = {
@@ -106,18 +136,18 @@ export default class implements IHint {
                     ruleStrategy
                 };
 
-                const selectedStrategies = filter(strategies, (x) => {
+                const selectedStrategy = find(strategies, (x) => {
                     return x.check(childNode);
                 });
 
                 // If no result return default strategy to be consistent
-                if (!selectedStrategies || selectedStrategies.length < 1) {
+                if (!selectedStrategy) {
                     debug('Compat api CSS cannot find valid strategies.');
 
                     return defaultStrategy;
                 }
 
-                return selectedStrategies[0] as FeatureStrategy<ChildNode>;
+                return selectedStrategy as FeatureStrategy<ChildNode>;
             };
 
             const searchDeprecatedCSSFeatures = (data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, parse: StyleParse) => {

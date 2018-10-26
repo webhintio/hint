@@ -3,8 +3,7 @@ const bcd: CompatData = require('mdn-browser-compat-data');
 
 import { forEach } from 'lodash';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers } from '../types';
-import { CompatData, CompatStatement } from '../types-mdn.temp'; // Temporal
-import { isArray } from 'util';
+import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement } from '../types-mdn.temp'; // Temporal
 
 type CompatNamespace = 'css' | 'javascript' | 'html';
 
@@ -21,23 +20,37 @@ export class CompatApi {
     private applyBrowsersConfiguration(isCheckingNotBroadlySupported = false): any {
         const compatDataApi = {} as MDNTreeFilteredByBrowsers;
 
-        forEach(this.compatDataApi, (groupFeaturesValues, groupFeaturesKey) => {
-            const groupFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
+        forEach(this.compatDataApi, (namespaceFeaturesValues, namespaceFeaturesKey) => {
+            const namespaceFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
-            forEach(groupFeaturesValues, (featureValue, featureKey) => {
+            forEach(namespaceFeaturesValues, (featureValue, featureKey) => {
                 const typedFeatureValue = featureValue as CompatStatement & MDNTreeFilteredByBrowsers;
 
                 if (!this.isFeatureRequiredToTest(typedFeatureValue, isCheckingNotBroadlySupported)) {
                     return;
                 }
 
-                groupFeatures[featureKey] = typedFeatureValue;
+                namespaceFeatures[featureKey] = typedFeatureValue;
             });
 
-            compatDataApi[groupFeaturesKey] = groupFeatures;
+            compatDataApi[namespaceFeaturesKey] = namespaceFeatures;
         });
 
         return compatDataApi;
+    }
+
+    public getSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined): SimpleSupportStatement | undefined {
+        // If we dont have information about the compatibility, ignore.
+        if (!browserFeatureSupported) {
+            return;
+        }
+
+        // Sometimes the API give an array but only the first seems relevant
+        if (Array.isArray(browserFeatureSupported) && browserFeatureSupported.length > 0) {
+            browserFeatureSupported = browserFeatureSupported[0];
+        }
+
+        return browserFeatureSupported as SimpleSupportStatement;
     }
 
     private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported = false): boolean {
@@ -49,16 +62,11 @@ export class CompatApi {
                 return;
             }
 
-            let browserFeatureSupported = (typedFeatureValue.__compat.support as any)[browser];
+            let browserFeatureSupported = this.getSupportStatementFromInfo((typedFeatureValue.__compat.support as any)[browser]);
 
             // If we dont have information about the compatibility, ignore.
             if (!browserFeatureSupported) {
                 return;
-            }
-
-            // Sometimes the API give an array but only the first seems relevant
-            if (isArray(browserFeatureSupported) && browserFeatureSupported.length > 0) {
-                browserFeatureSupported = browserFeatureSupported[0];
             }
 
             const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
@@ -70,7 +78,7 @@ export class CompatApi {
                 return;
             }
 
-            if (!removedVersion || isNaN(parseFloat(removedVersion))) {
+            if (!removedVersion || isNaN(parseFloat(removedVersion.toString()))) {
                 return;
             }
 
