@@ -1,4 +1,5 @@
-import * as eslint from 'eslint';
+import { AST } from 'eslint';
+import SourceCode = require('eslint/lib/util/source-code');
 import * as espree from 'espree';
 
 import * as logger from 'hint/dist/src/lib/utils/logging';
@@ -31,13 +32,15 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
         try {
             await this.engine.emitAsync(`parse::start::javascript`, { resource });
 
-            const ast: eslint.AST.Program = espree.parse(code, defaultParserOptions);
+            const ast: AST.Program = espree.parse(code, defaultParserOptions);
 
             await this.engine.emitAsync(`parse::end::javascript`, {
                 ast,
                 resource,
-                sourceCode: new eslint.SourceCode(code, ast)
+                sourceCode: new SourceCode(code, ast)
             });
+
+            await this.engine.emitAsync(`parse::${this.name}::end`, scriptData);
         } catch (err) {
             logger.error(`Error parsing JS code: ${code}`);
         }

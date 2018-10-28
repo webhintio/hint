@@ -6,7 +6,7 @@ import { Engine } from 'hint';
 import { Configuration } from 'hint/dist/src/lib/config';
 
 import CSSParser from '@hint/parser-css';
-// import JavaScriptParser from '@hint/parser-javascript';
+import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
 import AxeHint from '@hint/hint-axe';
@@ -19,7 +19,7 @@ import ManifestFileExtensionHint from '@hint/hint-manifest-file-extension';
 import ManifestIsValidHint from '@hint/hint-manifest-is-valid';
 import MetaCharsetUTF8Hint from '@hint/hint-meta-charset-utf-8';
 import MetaViewportHint from '@hint/hint-meta-viewport';
-// import MinifiedJSHint from '@hint/hint-minified-js';
+import MinifiedJSHint from '@hint/hint-minified-js';
 import NoDisallowedHeadersHint from '@hint/hint-no-disallowed-headers';
 import NoHTMLOnlyHeadersHint from '@hint/hint-no-html-only-headers';
 import NoHttpRedirectsHint from '@hint/hint-no-http-redirects';
@@ -49,7 +49,7 @@ const config: Configuration = {
         'manifest-is-valid': 'error',
         'meta-charset-utf-8': 'error',
         'meta-viewport': 'error',
-        // 'minified-js': 'error',
+        'minified-js': 'error',
         'no-disallowed-headers': 'error',
         'no-html-only-headers': 'error',
         'no-http-redirects': 'error',
@@ -62,7 +62,7 @@ const config: Configuration = {
     },
     hintsTimeout: 10000,
     ignoredUrls: new Map(),
-    parsers: ['css', /* 'javascript', */ 'manifest']
+    parsers: ['css', 'javascript', 'manifest']
 };
 
 const engine = new Engine(config, {
@@ -79,7 +79,7 @@ const engine = new Engine(config, {
         ManifestIsValidHint,
         MetaCharsetUTF8Hint,
         MetaViewportHint,
-        // MinifiedJSHint,
+        MinifiedJSHint,
         NoDisallowedHeadersHint,
         NoHTMLOnlyHeadersHint,
         NoHttpRedirectsHint,
@@ -94,7 +94,7 @@ const engine = new Engine(config, {
     missing: [],
     parsers: [
         CSSParser,
-        // JavaScriptParser,
+        JavaScriptParser,
         ManifestParser
     ]
 });
