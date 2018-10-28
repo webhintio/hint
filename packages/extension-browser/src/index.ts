@@ -28,6 +28,7 @@ import NoProtocolRelativeURLsHint from '@hint/hint-no-protocol-relative-urls';
 import SRIHint from '@hint/hint-sri';
 // import StrictTransportSecurityHint from '@hint/hint-strict-transport-security';
 import StylesheetLimitsHint from '@hint/hint-stylesheet-limits';
+import ValidateSetCookieHeaderHint from '@hint/hint-validate-set-cookie-header';
 import XContentTypeOptionsHint from '@hint/hint-x-content-type-options';
 
 import WebExtensionConnector from './connector';
@@ -58,6 +59,7 @@ const config: Configuration = {
         sri: 'error',
         // 'strict-transport-security': 'error',
         'stylesheet-limits': 'error',
+        'validate-set-cookie-header': 'error',
         'x-content-type-options': 'error'
     },
     hintsTimeout: 10000,
@@ -88,6 +90,7 @@ const engine = new Engine(config, {
         SRIHint,
         // StrictTransportSecurityHint,
         StylesheetLimitsHint,
+        ValidateSetCookieHeaderHint,
         XContentTypeOptionsHint
     ],
     incompatible: [],
