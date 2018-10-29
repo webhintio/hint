@@ -4,6 +4,7 @@ import browserslist = require('browserslist'); // `require` used because `browse
 
 import { Engine } from 'hint';
 import { Configuration } from 'hint/dist/src/lib/config';
+import { HintResources } from 'hint/dist/src/lib/types';
 
 import CSSParser from '@hint/parser-css';
 import JavaScriptParser from '@hint/parser-javascript';
@@ -67,7 +68,7 @@ const config: Configuration = {
     parsers: ['css', 'javascript', 'manifest']
 };
 
-const engine = new Engine(config, {
+const resources: HintResources = {
     connector: WebExtensionConnector,
     formatters: [WebExtensionFormatter],
     hints: [
@@ -100,13 +101,15 @@ const engine = new Engine(config, {
         JavaScriptParser,
         ManifestParser
     ]
-});
+};
+
+const engine = new Engine(config, resources);
 
 const main = async () => {
     const problems = await engine.executeOn(new URL(location.href));
 
     engine.formatters.forEach((formatter) => {
-        formatter.format(problems, location.href, {});
+        formatter.format(problems, location.href, { resources });
     });
 };
 

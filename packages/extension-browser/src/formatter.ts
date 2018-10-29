@@ -1,5 +1,5 @@
 import { Category } from 'hint/dist/src/lib/enums/category';
-import { IFormatter, Problem, Severity } from 'hint/dist/src/lib/types';
+import { FormatterOptions, HintResources, IFormatter, IHintConstructor, Problem, Severity } from 'hint/dist/src/lib/types';
 
 export default class WebExtensionFormatter implements IFormatter {
 
@@ -21,28 +21,51 @@ export default class WebExtensionFormatter implements IFormatter {
     }
 
     private formatHint(id: string, reports: Problem[]) {
-        console.groupCollapsed(`${id}: ${reports.length} ${reports.length === 1 ? 'hint' : 'hints'}`);
+        if (reports.length) {
+            console.groupCollapsed(`${reports.length} ${reports.length === 1 ? 'hint' : 'hints'}: ${id}`);
+        } else {
+            console.groupCollapsed(`PASSED: ${id}`);
+        }
 
-        console.info(`Learn why this matters and how to fix it at https://webhint.io/docs/user-guide/hints/hint-${id}/`);
+        const fixText = reports.length ? ' and how to fix it' : '';
+
+        console.info(`Learn why this matters${fixText} at https://webhint.io/docs/user-guide/hints/hint-${id}/`);
 
         reports.forEach(this.formatProblem);
 
         console.groupEnd();
     }
 
-    private formatCategory(category: string, matching: Problem[]) {
+    private getHintCategory(hint: IHintConstructor): string {
+        return hint.meta.docs && hint.meta.docs.category || Category.other;
+    }
+
+    private getHintsForCategory(category: string, resources: HintResources): string[] {
+        return resources.hints.filter((hint) => {
+            return category === this.getHintCategory(hint);
+        }).map((hint) => {
+            return hint.meta.id;
+        });
+    }
+
+    private formatCategory(category: string, matching: Problem[], resources: HintResources) {
         console.group(`${category.toUpperCase()}`);
 
-        const hints = new Set<string>();
+        const hints = this.getHintsForCategory(category, resources);
 
-        // TODO: Include all hints, even those that didn't report any problems.
-        matching.forEach((p) => {
-            hints.add(p.hintId);
+        const failedHints = hints.filter((id) => {
+            return matching.some((p) => {
+                return p.hintId === id;
+            });
         });
 
-        const hintIds = Array.from(hints).sort();
+        const passedHints = hints.filter((id) => {
+            return matching.every((p) => {
+                return p.hintId !== id;
+            });
+        });
 
-        hintIds.forEach((id) => {
+        [...failedHints, ...passedHints].forEach((id) => {
 
             const reports = matching.filter((p) => {
                 return p.hintId === id;
@@ -51,30 +74,32 @@ export default class WebExtensionFormatter implements IFormatter {
             this.formatHint(id, reports);
         });
 
-        if (!hintIds.length) {
+        if (!hints.length) {
             console.info('PASSED');
         }
 
         console.groupEnd();
     }
 
-    public format(problems: Problem[]) {
+    private getCategories(resources: HintResources): string[] {
+        const categories = resources.hints.map(this.getHintCategory);
+
+        return Array.from(new Set(categories));
+    }
+
+    public format(problems: Problem[], target: string, options: FormatterOptions) {
         console.group('webhint');
 
-        Object.keys(Category).forEach((category) => {
-            if (typeof category !== 'string' || !isNaN(parseInt(category))) {
-                return;
-            }
+        // The browser extension always provides resources to the formatter.
+        const resources = options.resources!;
 
-            if (category === Category.development || category === Category.other) {
-                return;
-            }
+        this.getCategories(resources).forEach((category) => {
 
             const matching = problems.filter((p) => {
                 return p.category === category;
             });
 
-            this.formatCategory(category, matching);
+            this.formatCategory(category, matching, resources);
         });
 
         console.groupEnd();
