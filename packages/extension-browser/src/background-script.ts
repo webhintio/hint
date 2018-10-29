@@ -5,7 +5,7 @@ import browser from './util/browser';
 // Track data associated with all outstanding requests by `requestId`.
 const requests = new Map<string, Details[]>();
 
-// Convert `webRequest` headers to `hint` headers.
+/** Convert `webRequest` headers to `hint` headers. */
 const mapHeaders = (webRequestHeaders: { name: string, value?: string }[]): HttpHeaders => {
     if (!webRequestHeaders) {
         return {};
@@ -18,7 +18,7 @@ const mapHeaders = (webRequestHeaders: { name: string, value?: string }[]): Http
     }, {} as HttpHeaders);
 };
 
-// Convert `webRequest` details to a `hint` `Request` object.
+/** Convert `webRequest` details to a `hint` `Request` object. */
 const mapRequest = (parts: Details[]): Request => {
     const requestDetails = parts[0];
 
@@ -36,7 +36,7 @@ const mapRequest = (parts: Details[]): Request => {
     };
 };
 
-// Convert `webRequest` details to a `hint` `Response` object.
+/** Convert `webRequest` details to a `hint` `Response` object. */
 const mapResponse = async (parts: Details[]): Promise<Response> => {
     const responseDetails = parts[parts.length - 1];
 
@@ -202,10 +202,31 @@ browser.browserAction.onClicked.addListener((tab) => {
     }
 });
 
-browser.runtime.onMessage.addListener((message: ContentEvents, sender) => {
-    const tabId = sender.tab && sender.tab.id;
+// Keep a mapping of tab IDs to connected devtools panels for messaging.
+const ports = new Map<number, chrome.runtime.Port>();
 
-    if (message.ready && tabId) {
+// Watch for new connections from devtools panels.
+browser.runtime.onConnect.addListener((port) => {
+    ports.set(parseInt(port.name), port);
+});
+
+// Watch for messages from content scripts and devtools panels.
+browser.runtime.onMessage.addListener((message: ContentEvents, sender) => {
+    const tabId = sender.tab && sender.tab.id || message.tabId;
+
+    if (!tabId) {
+        return;
+    }
+
+    if (message.enable) {
+        enable(tabId);
+    }
+
+    if (message.done) {
+        disable(tabId);
+    }
+
+    if (message.ready) {
         readyTabs.add(tabId);
 
         if (queuedEvents.has(tabId)) {
@@ -219,7 +240,12 @@ browser.runtime.onMessage.addListener((message: ContentEvents, sender) => {
         }
     }
 
-    if (message.done && tabId) {
-        disable(tabId);
+    // Forward results to the associated devtools panel.
+    if (message.results) {
+        const port = ports.get(tabId);
+
+        if (port) {
+            port.postMessage(message);
+        }
     }
 });

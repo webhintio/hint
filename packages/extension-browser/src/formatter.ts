@@ -1,6 +1,8 @@
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { FormatterOptions, HintResources, IFormatter, IHintConstructor, Problem, Severity } from 'hint/dist/src/lib/types';
 
+import browser from './util/browser';
+
 export default class WebExtensionFormatter implements IFormatter {
 
     private formatProblem(p: Problem) {
@@ -40,9 +42,9 @@ export default class WebExtensionFormatter implements IFormatter {
         return hint.meta.docs && hint.meta.docs.category || Category.other;
     }
 
-    private getHintsForCategory(category: string, resources: HintResources): string[] {
+    private getHints(resources: HintResources, category?: string): string[] {
         return resources.hints.filter((hint) => {
-            return category === this.getHintCategory(hint);
+            return !category || category === this.getHintCategory(hint);
         }).map((hint) => {
             return hint.meta.id;
         });
@@ -51,7 +53,7 @@ export default class WebExtensionFormatter implements IFormatter {
     private formatCategory(category: string, matching: Problem[], resources: HintResources) {
         console.group(`${category.toUpperCase()}`);
 
-        const hints = this.getHintsForCategory(category, resources);
+        const hints = this.getHints(resources, category);
 
         const failedHints = hints.filter((id) => {
             return matching.some((p) => {
@@ -93,13 +95,25 @@ export default class WebExtensionFormatter implements IFormatter {
         // The browser extension always provides resources to the formatter.
         const resources = options.resources!;
 
-        this.getCategories(resources).forEach((category) => {
+        const categories = this.getCategories(resources);
+        const hints = this.getHints(resources);
+
+        categories.forEach((category) => {
 
             const matching = problems.filter((p) => {
                 return p.category === category;
             });
 
             this.formatCategory(category, matching, resources);
+        });
+
+        // Forward results to the devtools page (via the background script).
+        browser.runtime.sendMessage({
+            results: {
+                categories,
+                hints,
+                problems
+            }
         });
 
         console.groupEnd();

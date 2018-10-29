@@ -1,4 +1,4 @@
-import { FetchEnd, FetchStart } from 'hint/dist/src/lib/types/events';
+import { FetchEnd, FetchStart, Problem } from 'hint/dist/src/lib/types';
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/HttpHeaders
 export type HttpHeaders = {
@@ -44,7 +44,16 @@ export type BackgroundEvents = {
     fetchStart?: FetchStart;
 };
 
+export type Results = {
+    categories: string[];
+    hints: string[];
+    problems: Problem[];
+};
+
 export type ContentEvents = {
-    ready?: boolean;
+    enable?: boolean;
     done?: boolean;
+    ready?: boolean;
+    results?: Results;
+    tabId?: number;
 };
