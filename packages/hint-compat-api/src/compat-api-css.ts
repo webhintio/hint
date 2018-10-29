@@ -121,7 +121,7 @@ export default class implements IHint {
                     },
 
                     testFeature: (node: Rule, data, browsers) => {
-                        // checkDeprecatedCSSFeature('at-rules', node.selector, data, browsers);
+                        checkDeprecatedCSSFeature('selectors', node.selector, data, browsers);
                     }
                 };
 
@@ -131,7 +131,7 @@ export default class implements IHint {
                     },
 
                     testFeature: (node: Declaration, data, browsers) => {
-                        // checkDeprecatedCSSFeature('at-rules', node.value, data, browsers);
+                        checkDeprecatedCSSFeature('properties', node.prop, data, browsers);
                     }
                 };
 
