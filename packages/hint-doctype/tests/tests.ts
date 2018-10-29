@@ -103,46 +103,8 @@ const tests: HintTest[] = [
         }
     },
     {
-        name: 'DOCTYPE legacy-compat with no space bewteen first two terms should fail',
+        name: 'DOCTYPE with legacy-compat should fail',
         reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
-        serverConfig: {
-            '/': {
-                content: `<!doctypehtml SYSTEM "about:legacy-compat">
-                <head></head>
-                <body></body>
-                `,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
-        name: 'DOCTYPE legacy-compat with no space between second two terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
-        serverConfig: {
-            '/': {
-                content: `<!doctype htmlSYSTEM "about:legacy-compat">
-                <head></head>
-                <body></body>
-                `,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
-        name: 'DOCTYPE legacy-compat with no space bewteen third two terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
-        serverConfig: {
-            '/': {
-                content: `<!doctype html SYSTEM"about:legacy-compat">
-                <head></head>
-                <body></body>
-                `,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
-        name: 'DOCTYPE with legacy-compat should pass',
         serverConfig: {
             '/': {
                 content: `<!doctype html SYSTEM "about:legacy-compat">
@@ -158,43 +120,6 @@ const tests: HintTest[] = [
         serverConfig: {
             '/': {
                 content: `<!doctype html      >
-                <head></head>
-                <body></body>
-                `,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
-        name: 'DOCTYPE legacy-compat with one more spaces after html should pass',
-        serverConfig: {
-            '/': {
-                content: `<!doctype html SYSTEM "about:legacy-compat"     >
-                <head></head>
-                <body></body>
-                `,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
-        name: 'DOCTYPE legacy-compat with single quptes should pass',
-        serverConfig: {
-            '/': {
-                content: `<!doctype html SYSTEM 'about:legacy-compat'>
-                <head></head>
-                <body></body>
-                `,
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
-        name: 'DOCTYPE legacy-compat with mixed quotes should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
-        serverConfig: {
-            '/': {
-                content: `<!doctype html SYSTEM 'about:legacy-compat">
                 <head></head>
                 <body></body>
                 `,

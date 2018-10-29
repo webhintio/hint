@@ -31,7 +31,7 @@ export default class implements IHint {
 
     public constructor(context: HintContext) {
         const correctLine = 0;
-        const doctypeRegExp = new RegExp(`(<!doctype\\s+(html)\\s*(\\s+system\\s+(("about:legacy-compat")|('about:legacy-compat')))?\\s*?>)(.+)?`, 'gi');
+        const doctypeRegExp = new RegExp(`(<!doctype\\s+(html)\\s*>)(.+)?`, 'gi');
 
         const defaultProblemLocation: ProblemLocation = {
             column: 0,
