@@ -13,6 +13,7 @@ import { find, forEach } from 'lodash';
 import { CompatApi, userBrowsers } from './helpers';
 import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
 import { SupportBlock } from './types-mdn.temp';
+import { browserVersions } from './helpers/normalize-version';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -85,7 +86,7 @@ export default class implements IHint {
                     }
 
                     // If the version is smaller than the browser supported, should fail
-                    const removedVersionNumber = Number(removedVersion);
+                    const removedVersionNumber = browserVersions.normalize(removedVersion);
                     let notSupportedVersions: string[] = [];
                     forEach(browsersToSupport, (versions, browserName) => {
                         versions.forEach(version => {
@@ -93,7 +94,7 @@ export default class implements IHint {
                                 return;
                             }
 
-                            notSupportedVersions.push(`${browserName} ${version}`);
+                            notSupportedVersions.push(`${browserName} ${browserVersions.deNormalize(version)}`);
                         });
                     });
 

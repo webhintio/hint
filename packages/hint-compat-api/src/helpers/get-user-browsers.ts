@@ -1,9 +1,10 @@
-import { BrowserSupportCollection, BrowserSupportCollectionRaw } from '../types';
+import { BrowserSupportCollection } from '../types';
 import { convertBrowserSupportCollectionToMDN } from '.';
+import { browserVersions } from './normalize-version';
 
 class UserBrowsers {
     public convert(targetedBrowsers: string[]): BrowserSupportCollection {
-        const browserCollection = {} as BrowserSupportCollectionRaw;
+        const browserCollection = {} as BrowserSupportCollection;
 
         targetedBrowsers.forEach((browserInfo: string) => {
             const [browserName, browserVersion] = browserInfo.split(' ');
@@ -15,15 +16,15 @@ class UserBrowsers {
         return convertBrowserSupportCollectionToMDN(browserCollection);
     }
 
-    private getBrowserVersions(version: string): string[] {
+    private getBrowserVersions(version: string): number[] {
         // We support to have two versions in same targeted browser
         if (version.match(/-/)) {
             const [first, second] = version.split('-');
 
-            return [first, second];
+            return [browserVersions.normalize(first), browserVersions.normalize(second)];
         }
 
-        return [version];
+        return [browserVersions.normalize(version)];
     }
 }
 
