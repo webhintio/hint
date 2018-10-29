@@ -20,22 +20,25 @@ with some specifications.
 This hint checks if the HTML is using the most modern
 document type declaration (a.k.a. doctype).
 
-It checks that the DOCTYPE is in the first line and
-that there are no other lines before the DOCTYPE.
-This is important as some browsers, including versions of
-Internet Explorer prior to version 10, trigger quirks mode
-if a commentoccurs before the DOCTYPE.
-
-It also checks that the DOCTYPE is not duplicated elsewhere in the document.
-To support older HTML content generators, it also acceptsthe legacy-compat DOCTYPE.
-
-Examples:
+Examples of the DOCTYPE declaration:
 
 `<!doctype html>`
 
 `<!DOCTYPE html>`
 
-`<!doctype html SYSTEM "about:legacy-compat">`
+It checks that the DOCTYPE is in the first line and
+that there are no other lines before the DOCTYPE.
+This is important as some browsers, including versions of
+Internet Explorer prior to version 10, trigger quirks mode
+if a comment occurs before the DOCTYPE.
+
+It also checks that the DOCTYPE is not duplicated elsewhere in the document.
+
+Although an alternative legacy compatibility DOCTYPE is available,
+this hint does not recommend it. It is a common misconception that
+the legacy compatibility DOCTYPE refers to compatibility with
+legacy browsers, when, in fact, it is used to deal with [compatibility issues with
+outdated XML tools](http://bugzilla.bluegriffon.org/show_bug.cgi?id=634#c0).
 
 ### Examples that **trigger** the hint
 
@@ -54,13 +57,20 @@ The hint will trigger if you use an old DOCTYPE:
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 ```
 
-It will trigger if there are multiple DOCTYPEs:
+The hint will will trigger if there are multiple DOCTYPEs:
 
 ```html
 <!doctype html>
 <!--some content below the DOCTYPE-->
 <!doctype html>
 <!--more content below the second DOCTYPE-->
+```
+
+The hint will trigger if a legacy compat DOCTYPE is used.
+
+```html
+<!doctype html SYSTEM "about:legacy-compat">
+<!--all content below the DOCTYPE-->
 ```
 
 ### Examples that **pass** the hint
@@ -74,13 +84,6 @@ A DOCTYPE in the first line.
 
 ```html
 <!DOCTYPE html>
-<!--all content below the DOCTYPE-->
-```
-
-A legacy compat DOCTYPE in the first line.
-
-```html
-<!doctype html SYSTEM "about:legacy-compat">
 <!--all content below the DOCTYPE-->
 ```
 
