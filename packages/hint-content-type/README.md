@@ -462,7 +462,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
 [required media type]: https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache#Referencing_a_cache_manifest_file
 [server configs]: https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Configuring_server_MIME_types
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 
 <!-- Apache links -->
 

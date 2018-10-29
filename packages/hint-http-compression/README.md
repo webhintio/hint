@@ -1073,7 +1073,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [deflate issues]: https://stackoverflow.com/questions/9170338/why-are-major-web-sites-using-GZIP/9186091#9186091
 [gzip is not enough]: https://www.youtube.com/watch?v=whGwm0Lky2s
 [gzip ratio]: https://www.youtube.com/watch?v=Mjab_aZsdxw&t=24s
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [unship sdch]: https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/nQl0ORHy7sw
 [wdmsc]: https://whatdoesmysitecost.com/
 [zopfli blog post]: https://developers.googleblog.com/2013/02/compress-data-more-densely-with-zopfli.html

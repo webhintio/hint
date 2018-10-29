@@ -42,6 +42,6 @@ which has the following information:
 
 <!-- Link labels: -->
 
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [postcss]: https://postcss.org/
 [postcss-walk]: https://api.postcss.org/Container.html#walk

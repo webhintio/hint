@@ -207,6 +207,6 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [hex with alpha support]: https://caniuse.com/#feat=css-rrggbbaa
 [manifest]: https://www.w3.org/TR/appmanifest/
 [pwas]: https://developer.mozilla.org/en-US/Apps/Progressive
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
-[targeted browsers]: https://webhint.io/docs/user-guide/further-configuration/browser-context/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[targeted browsers]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
 [theme-color spec]: https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color

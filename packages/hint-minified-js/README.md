@@ -104,6 +104,6 @@ https://en.wikipedia.org/wiki/Minification_(programming)
 [NPM documentation]:
 [https://docs.npmjs.com/cli/install]
 [hintrc]:
-https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+https://webhint.io/docs/user-guide/configuring-webhint/summary/
 
 <!-- Link labels: -->

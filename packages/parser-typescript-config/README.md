@@ -83,4 +83,4 @@ import { TypeOrEnumYouWantToUse } from '@hint/parser-typescript-config/dist/src/
 
 <!-- Link labels: -->
 
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

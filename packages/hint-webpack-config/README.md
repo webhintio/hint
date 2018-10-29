@@ -62,5 +62,5 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [module-esnext-typescript]: ./docs/module-esnext-typescript.md
 [modules-false-babel]: ./docs/modules-false-babel.md
 [no-devtool-in-prod]: ./docs/no-devtool-in-prod.md
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [webpack docs]: https://webpack.js.org/concepts/

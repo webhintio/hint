@@ -119,7 +119,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [fetch spec issue]: https://github.com/whatwg/fetch/issues/395
 [javascript media types]: https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 
 <!-- Apache links -->
 

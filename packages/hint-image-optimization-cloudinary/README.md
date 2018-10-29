@@ -128,4 +128,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [environment-variable]: https://www.npmjs.com/package/cloudinary#configuration
 [httparchive-report]: http://httparchive.org/interesting.php?a=All&l=Sep%2015%202017#bytesperpage
 [signup]: https://cloudinary.com/users/register/free
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

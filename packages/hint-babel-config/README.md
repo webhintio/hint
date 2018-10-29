@@ -47,4 +47,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [babel documentation]: https://babeljs.io/docs/usage/babelrc/
 [is-valid]: ./docs/is-valid.md
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

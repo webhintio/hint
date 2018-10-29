@@ -89,5 +89,5 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [js-library-detector]: https://npmjs.com/package/js-library-detector
 [not depend on me]: https://blog.acolyer.org/2017/03/07/thou-shalt-not-depend-on-me-analysing-the-use-of-outdated-javascript-libraries-on-the-web/
 [snykdb]: https://snyk.io/vuln/
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [XSS]: https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting

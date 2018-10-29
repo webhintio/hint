@@ -60,5 +60,5 @@ configuration file:
 <!-- Link labels: -->
 
 [jsdom]: https://github.com/jsdom/jsdom
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [connectors]: https://webhint.io/docs/user-guide/concepts/connectors/

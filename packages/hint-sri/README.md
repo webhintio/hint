@@ -178,7 +178,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [crossorigin]: https://w3c.github.io/webappsec-subresource-integrity/#is-response-eligible
 [prevent cryptojacking]: https://scotthelme.co.uk/protect-site-from-cryptojacking-csp-sri/
 [secure context]: https://w3c.github.io/webappsec-subresource-integrity/#non-secure-contexts
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [sri format]: https://w3c.github.io/webappsec-subresource-integrity/#resource-integrity
 [sri spec]: https://w3c.github.io/webappsec-subresource-integrity/
 [srihash generator]: https://www.srihash.org/

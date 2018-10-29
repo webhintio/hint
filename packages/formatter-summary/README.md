@@ -31,4 +31,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 <!-- Link labels: -->
 
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

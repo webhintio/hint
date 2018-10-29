@@ -55,7 +55,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [import-helpers]: ./docs/import-helpers.md
 [is-valid]: ./docs/is-valid.md
 [no-comment]: ./docs/no-comment.md
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [strict]: ./docs/strict.md
 [target]: ./docs/target.md
 [typescript docs]: https://www.typescriptlang.org/docs/home.html

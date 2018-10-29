@@ -57,5 +57,5 @@ elements in the tree (see [events][events] for details):
 [asynchtml]: https://webhint.io/docs/contributor-guide/how-to/connector/#iasynchtml
 [connectors]: https://webhint.io/docs/user-guide/concepts/connectors/
 [events]: https://webhint.io/docs/contributor-guide/getting-started/events/
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [jsdom]: https://github.com/jsdom/jsdom

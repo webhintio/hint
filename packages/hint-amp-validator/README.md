@@ -80,4 +80,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [amp]: https://www.ampproject.org/learn/overview/
 [amphtml-validator]: https://www.npmjs.com/package/amphtml-validator
 [ampproject]: https://github.com/ampproject/amphtml
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

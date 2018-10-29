@@ -81,5 +81,5 @@ The set of settings supported by Chrome connector are:
 [cdp]: https://chromedevtools.github.io/devtools-protocol/
 [cli flags]: https://github.com/GoogleChrome/chrome-launcher/blob/master/docs/chrome-flags-for-tools.md
 [connectors]: https://webhint.io/docs/user-guide/concepts/connectors/
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [chrome-launcher-issue]: https://github.com/GoogleChrome/chrome-launcher/issues/118

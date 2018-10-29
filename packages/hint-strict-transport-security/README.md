@@ -266,7 +266,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [pineapple]: https://www.troyhunt.com/the-beginners-guide-to-breaking-website/
 [preload form]:https://hstspreload.org/
 [preload list]:https://cs.chromium.org/codesearch/f/chromium/src/net/http/transport_security_state_static.json
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [sql injection]: https://www.owasp.org/index.php/SQL_Injection
 [understading hsts]: https://www.troyhunt.com/understanding-http-strict-transport/
 [xss]: https://www.owasp.org/index.php/Cross-site_Scripting_%28XSS%29

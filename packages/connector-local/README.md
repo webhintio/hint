@@ -42,4 +42,4 @@ configuration file:
 <!-- Link labels: -->
 
 [connectors]: https://webhint.io/docs/user-guide/concepts/connectors/
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

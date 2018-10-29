@@ -94,5 +94,5 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 <!-- Link labels: -->
 
 [chrome limits]: https://stackoverflow.com/questions/20828995/how-long-can-a-css-selector-be]
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [stylesheet limits]: https://blogs.msdn.microsoft.com/ieinternals/2011/05/14/stylesheet-limits-in-internet-explorer/

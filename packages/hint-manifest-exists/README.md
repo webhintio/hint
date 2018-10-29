@@ -154,6 +154,6 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [chrome]: https://developers.google.com/web/fundamentals/engage-and-retain/app-install-banners/
 [opera]: https://dev.opera.com/blog/web-app-install-banners/
 [samsung internet]: https://medium.com/samsung-internet-dev/what-does-it-mean-to-be-an-app-ace43eb6b94d
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [spec]: https://www.w3.org/TR/appmanifest
 [windows]: https://medium.com/web-on-the-edge/progressive-web-apps-on-windows-8d8eb68d524e

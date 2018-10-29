@@ -276,7 +276,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 <!-- Link labels: -->
 
 [hpkp deprecation]: https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 
 <!-- Apache links -->
 

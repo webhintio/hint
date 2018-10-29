@@ -409,9 +409,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [chrome frame]: https://blog.chromium.org/2013/06/retiring-chrome-frame.html
 [doc modes]: https://msdn.microsoft.com/en-us/library/cc288325.aspx
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [ie complications]: https://hsivonen.fi/doctype/#ie8
-[targeted browsers]: https://webhint.io/docs/user-guide/further-configuration/browser-context/
+[targeted browsers]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
 
 <!-- Apache links -->
 

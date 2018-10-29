@@ -66,5 +66,5 @@ browser or tab:
 <!-- Link labels: -->
 
 [eda]: https://github.com/Microsoft/edge-diagnostics-adapter
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [connectors]: https://webhint.io/docs/user-guide/concepts/connectors/

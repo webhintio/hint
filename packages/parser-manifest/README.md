@@ -109,5 +109,5 @@ import { TypeOrEnumYouWantToUse } from '@hint/parser-manifest/dist/src/types';
 [fetchend]: https://webhint.io/docs/contributor-guide/getting-started/events/#fetchend
 [fetcherror]: https://webhint.io/docs/contributor-guide/getting-started/events/#fetcherror
 [fetchstart]: https://webhint.io/docs/contributor-guide/getting-started/events/#fetchstart
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [manifest]: https://www.w3.org/TR/appmanifest/
