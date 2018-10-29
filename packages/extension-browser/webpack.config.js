@@ -1,9 +1,18 @@
 const path = require('path');
 
-const backgroundConfig = {
-    entry: './dist/src/background-script.js',
+const baseConfig = {
     mode: 'none',
     node: { fs: 'empty' },
+    resolve: {
+        alias: { // eslint-disable-line
+            url$: path.resolve(__dirname, 'dist/src/shims/url.js')
+        }
+    }
+};
+
+const backgroundConfig = {
+    ...baseConfig,
+    entry: './dist/src/background-script.js',
     output: {
         filename: 'background-script.js',
         path: path.resolve(__dirname, 'dist/bundle')
@@ -11,8 +20,8 @@ const backgroundConfig = {
 };
 
 const contentConfig = {
+    ...baseConfig,
     entry: './dist/src/index.js',
-    mode: 'none',
     module: {
         rules: [
             {
@@ -21,21 +30,15 @@ const contentConfig = {
             }
         ]
     },
-    node: { fs: 'empty' },
     output: {
         filename: 'webhint.js',
         path: path.resolve(__dirname, 'dist/bundle')
-    },
-    resolve: {
-        alias: { // eslint-disable-line
-            url$: path.resolve(__dirname, 'dist/src/shims/url.js')
-        }
     }
 };
 
 const devtoolsConfig = {
+    ...baseConfig,
     entry: './dist/src/devtools.js',
-    mode: 'none',
     output: {
         filename: 'devtools.js',
         path: path.resolve(__dirname, 'dist/bundle')
@@ -43,8 +46,8 @@ const devtoolsConfig = {
 };
 
 const webhintPanelConfig = {
+    ...baseConfig,
     entry: './dist/src/webhint-panel.js',
-    mode: 'none',
     output: {
         filename: 'webhint-panel.js',
         path: path.resolve(__dirname, 'dist/bundle')
