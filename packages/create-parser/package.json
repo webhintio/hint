@@ -12,7 +12,7 @@
   "description": "webhint's parser initializer package",
   "devDependencies": {
     "@types/inquirer": "^0.0.43",
-    "@types/node": "10.12.0",
+    "@types/node": "10.12.1",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.8.0",
@@ -32,7 +32,7 @@
     "rimraf": "^2.6.2",
     "sinon": "^7.1.0",
     "ts-loader": "^5.2.2",
-    "typescript": "^3.0.3",
+    "typescript": "^3.1.4",
     "typescript-eslint-parser": "^20.0.0",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2"
