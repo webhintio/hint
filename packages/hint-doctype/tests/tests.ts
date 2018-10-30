@@ -7,7 +7,7 @@ const hintPath = getHintPath(__filename);
 
 const normalizeEOL = (text: string): string => {
     return text.replace(/\n/g, os.EOL);
-}
+};
 
 const tests: HintTest[] = [
     {
@@ -36,10 +36,10 @@ const tests: HintTest[] = [
     },
     {
         name: 'DOCTYPE found more than once should fail',
-        reports: [{ message:`'DOCTYPE' is not needed as one was already specified.`, position: { column: 16, line: 3 } }],
+        reports: [{ message: `'DOCTYPE' is not needed as one was already specified.`, position: { column: 16, line: 3 } }],
         serverConfig: {
             '/': {
-                content:normalizeEOL(`<!DOCTYPE html>
+                content: normalizeEOL(`<!DOCTYPE html>
                 <p><span></span>
                 <head></head>
                 <!DOCTYPE html>

@@ -43,7 +43,7 @@ outdated XML tools](http://bugzilla.bluegriffon.org/show_bug.cgi?id=634#c0).
 ### Examples that **trigger** the hint
 
 The hint will trigger if the preceeding line or line before the DOCTYPE
-contains anything other than whitespace. 
+contains anything other than whitespace.
 
 ```html
 <!--first line taken up by this unnecessary comment-->
