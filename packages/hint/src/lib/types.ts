@@ -14,6 +14,7 @@ export * from './types/problems';
 export * from './types/hints';
 export * from './types/parser';
 export * from './types/schema-validation-result';
+export * from './types/redirecterror';
 
 /**
  * The `Severity` of a hint.

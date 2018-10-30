@@ -29,7 +29,7 @@ import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
 import {
     BrowserInfo, IConnector,
     ElementFound, Event, FetchEnd, FetchError, ILauncher, TraverseUp, TraverseDown,
-    Response, Request, NetworkData, HttpHeaders, IAsyncHTMLElement
+    Response, Request, NetworkData, HttpHeaders, IAsyncHTMLElement, RedirectError
 } from 'hint/dist/src/lib/types';
 
 import { normalizeHeaders } from '@hint/utils-connector-tools/dist/src/normalize-headers';
@@ -638,7 +638,12 @@ export class Connector implements IConnector {
                     await delay(this._options.waitFor);
 
                     // Stop receiving network related events. Useful for pages that do not stop sending telemetry.
-                    this._client.Network.disable!();
+                    try {
+                        await this._client.Network.disable!();
+                    } catch (err) {
+                        debug(err);
+                        debug('Ignoring error when disabling the network.');
+                    }
                 }
 
                 const { DOM } = this._client;
@@ -752,6 +757,28 @@ export class Connector implements IConnector {
 
             // TODO: Investigate why some websites trigger this event twice. Iframe?
             (this._client as any).once('Page.loadEventFired', loadHandler);
+
+            Page.frameNavigated((params: any) => {
+                /*
+                 * if parentId exists, is not the main frame
+                 * and it is not a possible redirect.
+                 */
+                if (params.frame.parentId) {
+                    return null;
+                }
+
+                // Check if only change to https.
+                const orig = new URL(this._finalHref);
+                const dest = new URL(params.frame.url);
+
+                if (orig.hostname + orig.pathname !== dest.hostname + dest.pathname) {
+                    this._server.removeAllListeners();
+
+                    return callback(new RedirectError(`Redirect detected from ${orig.href} to ${dest.href}`, dest), null);
+                }
+
+                return null;
+            });
 
             try {
                 await this.configureAndEnableCDP();

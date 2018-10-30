@@ -195,7 +195,7 @@ const getUserConfig = (actions?: CLIOptions): UserConfig | null => {
     }
 };
 
-const messages: {[name: string]: string} = {
+const messages: { [name: string]: string } = {
     'fetch::end': '%url% downloaded',
     'fetch::start': 'Downloading %url%',
     'scan::end': 'Finishing...',
@@ -263,6 +263,27 @@ const getHintConfiguration = async (userConfig: UserConfig | null, actions: CLIO
     }
 
     return config;
+};
+
+const initSpinner = (spinner: ORA, engine: Engine, isDebug: boolean) => {
+    if (!isDebug) {
+        spinner.start();
+        setUpUserFeedback(engine, spinner);
+    }
+
+    return spinner;
+};
+
+const endSpinner = (spinner: ORA, method: string, isDebug: boolean) => {
+    if (!isDebug && (spinner as any)[method]) {
+        (spinner as any)[method]();
+    }
+};
+
+const hasError = (reports: Array<Problem>): boolean => {
+    return reports.some((result: Problem) => {
+        return result.severity === Severity.error;
+    });
 };
 
 /*
@@ -334,28 +355,8 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    engine = new Engine(config, resources);
-
     const start: number = Date.now();
-    const spinner: ORA = ora({ spinner: 'line' });
     let exitCode: number = 0;
-
-    if (!actions.debug) {
-        spinner.start();
-        setUpUserFeedback(engine, spinner);
-    }
-
-    const endSpinner = (method: string) => {
-        if (!actions.debug && (spinner as any)[method]) {
-            (spinner as any)[method]();
-        }
-    };
-
-    const hasError = (reports: Problem[]): boolean => {
-        return reports.some((result: Problem) => {
-            return result.severity === Severity.error;
-        });
-    };
 
     const print = async (reports: Problem[], target?: string, scanTime?: number, date?: string): Promise<void> => {
         const formatterOptions: FormatterOptions = {
@@ -373,31 +374,75 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         }
     };
 
-    engine.on('print', print);
+    const scan = async (eng: Engine, target: URL) => {
+        let code = 0;
+        let newUrl: URL | null = null;
+        const spinner: ORA = ora({ spinner: 'line' });
 
-    for (const target of targets) {
+        initSpinner(spinner, eng, actions.debug);
+
         try {
             const scanStart = Date.now();
-            const results: Problem[] = await engine.executeOn(target);
+            const results: Problem[] = await eng.executeOn(target);
             const scanEnd = Date.now();
 
             if (hasError(results)) {
-                exitCode = 1;
+                code = 1;
             }
 
-            endSpinner(exitCode ? 'fail' : 'succeed');
+            endSpinner(spinner, code ? 'fail' : 'succeed', actions.debug);
 
             await askForTelemetryConfirmation(config);
             await print(results, target.href, scanEnd - scanStart, new Date(scanStart).toISOString());
         } catch (e) {
-            exitCode = 1;
-            endSpinner('fail');
+            code = e.name === 'RedirectError' ? 2 : 1;
+
+            if (code === 2) {
+                newUrl = e.newUrl;
+            }
+            endSpinner(spinner, 'fail', actions.debug);
             debug(`Failed to analyze: ${target.href}`);
             debug(e);
         }
-    }
 
-    await engine.close();
+        await eng.close();
+
+        return {
+            code,
+            newUrl
+        };
+    };
+
+    const createEngine = () => {
+        const eng = new Engine(config, resources);
+
+        eng.on('print', print);
+
+        return eng;
+    };
+
+    for (const target of targets) {
+        let code: number = 0;
+        let result: { code: number, newUrl: URL | null };
+
+        engine = createEngine();
+        result = await scan(engine!, target);
+
+        code = result.code;
+
+        while (code === 2) {
+            engine = createEngine();
+            logger.log(`Redirect detected, analyzing: ${result.newUrl!.href}`);
+
+            result = await scan(engine!, result.newUrl!);
+
+            code = result.code;
+        }
+
+        if (code > 0) {
+            exitCode = code;
+        }
+    }
 
     debug(`Total runtime: ${Date.now() - start}ms`);
 
