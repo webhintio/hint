@@ -5,8 +5,7 @@ class BrowserVersions {
     private columnSeparator = '.';
     private charForPad = '0';
     private itemsInColum = 2; // Assuming that worst case is xx.xx.xx
-    private columns = 3;
-    private itemsInColumns = this.itemsInColum * this.columns;
+    private itemsInColumns = 6;
 
     public normalize(browserVersion: string): number {
         const result = browserVersion.split(this.columnSeparator).map(column => {

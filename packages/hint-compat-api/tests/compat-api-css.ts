@@ -16,7 +16,7 @@ const generateCSSConfig = (fileName: string) => {
             content: styles,
             headers: { 'Content-Type': 'text/css' }
         }
-    }
+    };
 };
 
 /*
@@ -33,4 +33,4 @@ const tests: Array<HintTest> = [
     }
 ];
 
-hintRunner.testHint(hintPath, tests, { parsers: ['css'], browserslist: ['last 2 versions']});
+hintRunner.testHint(hintPath, tests, { browserslist: ['last 2 versions'], parsers: ['css']});

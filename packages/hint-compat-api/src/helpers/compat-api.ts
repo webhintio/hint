@@ -39,7 +39,14 @@ export class CompatApi {
         return compatDataApi;
     }
 
-    public getSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined): SimpleSupportStatement | undefined {
+    public getPrefix(name: string): [string, string] | [undefined, string] {
+        const regexp = new RegExp(`\-(moz|o|webkit|ms)\-`, 'gi');
+        const matched = name.match(regexp);
+
+        return matched && matched.length > 0 ? [matched[0], name.replace(matched[0], '')] : [undefined, name];
+    }
+
+    public getSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined, prefix: string | undefined): SimpleSupportStatement | undefined {
         // If we dont have information about the compatibility, ignore.
         if (!browserFeatureSupported) {
             return;
@@ -47,7 +54,53 @@ export class CompatApi {
 
         // Sometimes the API give an array but only the first seems relevant
         if (Array.isArray(browserFeatureSupported) && browserFeatureSupported.length > 0) {
-            browserFeatureSupported = browserFeatureSupported[0];
+            if (prefix) {
+                browserFeatureSupported = browserFeatureSupported.find(info => {
+                    return info.prefix === prefix;
+                });
+            } else {
+                browserFeatureSupported = browserFeatureSupported.find(info => {
+                    return !info.prefix;
+                });
+            }
+        }
+
+        return browserFeatureSupported as SimpleSupportStatement;
+    }
+
+    public getWorstCaseSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined): SimpleSupportStatement | undefined {
+        // If we dont have information about the compatibility, ignore.
+        if (!browserFeatureSupported) {
+            return;
+        }
+
+        // Take the smaller version_removed and bigger version_added
+        let worstBrowserFeatureSupported: SimpleSupportStatement = {
+            version_added: null,
+            version_removed: null
+        };
+
+        if (Array.isArray(browserFeatureSupported) && browserFeatureSupported.length > 0) {
+            browserFeatureSupported.forEach(info => {
+                if (!worstBrowserFeatureSupported.version_added && info.version_added === true) {
+                    worstBrowserFeatureSupported.version_added = true;
+                }
+
+                if (!worstBrowserFeatureSupported.version_added || worstBrowserFeatureSupported.version_added && info.version_added && info.version_added > worstBrowserFeatureSupported.version_added) {
+                    worstBrowserFeatureSupported.version_added = info.version_added;
+                }
+
+                if (!worstBrowserFeatureSupported.version_removed &&  info.version_removed === true) {
+                    worstBrowserFeatureSupported.version_removed = true;
+                }
+
+                if (!worstBrowserFeatureSupported.version_removed || worstBrowserFeatureSupported.version_removed && info.version_removed && info.version_removed < worstBrowserFeatureSupported.version_removed) {
+                    worstBrowserFeatureSupported.version_removed = info.version_removed;
+                }
+            });
+
+
+            return worstBrowserFeatureSupported;
         }
 
         return browserFeatureSupported as SimpleSupportStatement;
@@ -62,7 +115,7 @@ export class CompatApi {
                 return;
             }
 
-            let browserFeatureSupported = this.getSupportStatementFromInfo((typedFeatureValue.__compat.support as any)[browser]);
+            let browserFeatureSupported = this.getWorstCaseSupportStatementFromInfo((typedFeatureValue.__compat.support as any)[browser]);
 
             // If we dont have information about the compatibility, ignore.
             if (!browserFeatureSupported) {

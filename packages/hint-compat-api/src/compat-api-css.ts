@@ -37,9 +37,12 @@ export default class implements IHint {
 
     public constructor(context: HintContext) {
         const onParseCSS = (styleParse: StyleParse): void => {
+            const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
+            const compatApi = new CompatApi('css', mdnBrowsersCollection);
 
             const checkDeprecatedCSSFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection): void => {
                 const key: any = data[keyName];
+                const [prefix, featureName] = compatApi.getPrefix(name);
 
                 if (!key) {
                     debug('error');
@@ -47,7 +50,7 @@ export default class implements IHint {
                     return;
                 }
 
-                const feature = key[name];
+                const feature = key[featureName];
 
                 // If feature is not in the filtered by browser data, that means that is always supported.
                 if (!feature) {
@@ -64,7 +67,7 @@ export default class implements IHint {
                 // Check for each browser the support block
                 const supportBlock: SupportBlock = featureInfo.support;
                 forEach(supportBlock, browserInfo => {
-                    let browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo);
+                    let browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
                     // If we dont have information about the compatibility, ignore.
                     if (!browserFeatureSupported) {
@@ -170,9 +173,6 @@ export default class implements IHint {
                     strategy.testFeature(node, data, browsers);
                 });
             };
-
-            const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
-            const compatApi = new CompatApi('css', mdnBrowsersCollection);
 
             searchDeprecatedCSSFeatures(compatApi.compatDataApi, mdnBrowsersCollection, styleParse);
         };
