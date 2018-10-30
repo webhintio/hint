@@ -2,6 +2,7 @@
  * @fileoverview Hint to validate if the doctype is correct
  */
 
+import * as os from 'os';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -41,7 +42,7 @@ export default class implements IHint {
         };
 
         const getCurrentDoctypeProblemLocation = (text: string): ProblemLocation[] => {
-            const lines = text.split('\n');
+            const lines = text.split(os.EOL);
             const locations: ProblemLocation[] = [];
 
             lines.forEach((line: string, i: number): void => {

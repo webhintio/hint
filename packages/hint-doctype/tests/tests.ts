@@ -1,19 +1,24 @@
+import * as os from 'os';
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
 const hintPath = getHintPath(__filename);
 
+const normalizeEOL = (text: string): string => {
+    return text.replace(/\n/g, os.EOL);
+}
+
 const tests: HintTest[] = [
     {
         name: 'DOCTYPE is not in the first line should fail',
-        reports: [{ message: `\'DOCTYPE\' should be specified before anything else.`, position: { column: 16, line: 2 } }],
+        reports: [{ message: `'DOCTYPE' should be specified before anything else.`, position: { column: 16, line: 2 } }],
         serverConfig: {
             '/': {
-                content: `<p><span></span>
+                content: normalizeEOL(`<p><span></span>
                 <head></head>
                 <!DOCTYPE html>
-                `,
+                `),
                 headers: { 'Content-Type': 'text/html' }
             }
         }
@@ -31,14 +36,14 @@ const tests: HintTest[] = [
     },
     {
         name: 'DOCTYPE found more than once should fail',
-        reports: [{ message: `\'DOCTYPE\' is not needed as one was already specified.`, position: { column: 16, line: 3 } }],
+        reports: [{ message:`'DOCTYPE' is not needed as one was already specified.`, position: { column: 16, line: 3 } }],
         serverConfig: {
             '/': {
-                content: `<!DOCTYPE html>
+                content:normalizeEOL(`<!DOCTYPE html>
                 <p><span></span>
                 <head></head>
                 <!DOCTYPE html>
-                `,
+                `),
                 headers: { 'Content-Type': 'text/html' }
             }
         }
