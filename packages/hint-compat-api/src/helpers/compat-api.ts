@@ -40,48 +40,51 @@ export class CompatApi {
     }
 
     public getPrefix(name: string): [string, string] | [undefined, string] {
-        const regexp = new RegExp(`\-(moz|o|webkit|ms)\-`, 'gi');
+        const regexp = new RegExp(`-(moz|o|webkit|ms)-`, 'gi');
         const matched = name.match(regexp);
 
         return matched && matched.length > 0 ? [matched[0], name.replace(matched[0], '')] : [undefined, name];
     }
 
     public getSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined, prefix: string | undefined): SimpleSupportStatement | undefined {
+        let currentBrowserFeatureSupported = browserFeatureSupported;
+
         // If we dont have information about the compatibility, ignore.
-        if (!browserFeatureSupported) {
-            return;
+        if (!currentBrowserFeatureSupported) {
+            return currentBrowserFeatureSupported;
         }
 
         // Sometimes the API give an array but only the first seems relevant
-        if (Array.isArray(browserFeatureSupported) && browserFeatureSupported.length > 0) {
+        if (Array.isArray(currentBrowserFeatureSupported) && currentBrowserFeatureSupported.length > 0) {
             if (prefix) {
-                browserFeatureSupported = browserFeatureSupported.find(info => {
+                currentBrowserFeatureSupported = currentBrowserFeatureSupported.find((info) => {
                     return info.prefix === prefix;
                 });
             } else {
-                browserFeatureSupported = browserFeatureSupported.find(info => {
+                currentBrowserFeatureSupported = currentBrowserFeatureSupported.find((info) => {
                     return !info.prefix;
                 });
             }
         }
 
-        return browserFeatureSupported as SimpleSupportStatement;
+        return currentBrowserFeatureSupported as SimpleSupportStatement;
     }
 
+    /* eslint-disable camelcase */
     public getWorstCaseSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined): SimpleSupportStatement | undefined {
         // If we dont have information about the compatibility, ignore.
         if (!browserFeatureSupported) {
-            return;
+            return browserFeatureSupported;
         }
 
         // Take the smaller version_removed and bigger version_added
-        let worstBrowserFeatureSupported: SimpleSupportStatement = {
+        const worstBrowserFeatureSupported: SimpleSupportStatement = {
             version_added: null,
             version_removed: null
         };
 
         if (Array.isArray(browserFeatureSupported) && browserFeatureSupported.length > 0) {
-            browserFeatureSupported.forEach(info => {
+            browserFeatureSupported.forEach((info) => {
                 if (!worstBrowserFeatureSupported.version_added && info.version_added === true) {
                     worstBrowserFeatureSupported.version_added = true;
                 }
@@ -90,7 +93,7 @@ export class CompatApi {
                     worstBrowserFeatureSupported.version_added = info.version_added;
                 }
 
-                if (!worstBrowserFeatureSupported.version_removed &&  info.version_removed === true) {
+                if (!worstBrowserFeatureSupported.version_removed && info.version_removed === true) {
                     worstBrowserFeatureSupported.version_removed = true;
                 }
 
@@ -99,12 +102,12 @@ export class CompatApi {
                 }
             });
 
-
             return worstBrowserFeatureSupported;
         }
 
         return browserFeatureSupported as SimpleSupportStatement;
     }
+    /* eslint-enable camelcase */
 
     private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported = false): boolean {
         // TODO: Here we are checking only parent but this object has children
@@ -115,7 +118,7 @@ export class CompatApi {
                 return;
             }
 
-            let browserFeatureSupported = this.getWorstCaseSupportStatementFromInfo((typedFeatureValue.__compat.support as any)[browser]);
+            const browserFeatureSupported = this.getWorstCaseSupportStatementFromInfo((typedFeatureValue.__compat.support as any)[browser]);
 
             // If we dont have information about the compatibility, ignore.
             if (!browserFeatureSupported) {

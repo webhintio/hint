@@ -8,31 +8,34 @@ class BrowserVersions {
     private itemsInColumns = 6;
 
     public normalize(browserVersion: string): number {
-        const result = browserVersion.split(this.columnSeparator).map(column => {
+        const result = browserVersion.split(this.columnSeparator).map((column) => {
             return padStart(column, this.itemsInColum, this.charForPad);
-        }).join('');
+        })
+            .join('');
 
-        return Number(padEnd(result, this.itemsInColumns, this.charForPad))
+        return Number(padEnd(result, this.itemsInColumns, this.charForPad));
     }
 
     public deNormalize(normalizedVersion: number): string {
-        const normalizedVersionString = padStart(normalizedVersion + '', this.itemsInColumns, this.charForPad);
+        const normalizedVersionString = padStart(`${normalizedVersion}`, this.itemsInColumns, this.charForPad);
         const columns = normalizedVersionString.match(/..?/g);
 
         if (!columns) {
             throw new Error(`Value ${normalizedVersion} is not allowed to be denormalized.`);
         }
 
-        let realNumbers: number[] = [];
+        const realNumbers: number[] = [];
         let foundNumberGreaterThanZero = false;
-        columns.reverse().forEach(items => {
+
+        columns.reverse().forEach((items) => {
             const converted = Number(items);
+
             if (converted === 0 && !foundNumberGreaterThanZero) {
-              return;
+                return;
             }
 
             if (converted > 0) {
-              foundNumberGreaterThanZero = true;
+                foundNumberGreaterThanZero = true;
             }
 
             realNumbers.push(converted);
