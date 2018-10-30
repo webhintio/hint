@@ -77,6 +77,15 @@ const tests: HintTest[] = [
         }
     },
     {
+        name: 'DOCTYPE as text in document should pass',
+        serverConfig: {
+            '/': {
+                content: `<!doctype html><p>doctype</p>`,
+                headers: { 'Content-Type': 'text/html' }
+            }
+        }
+    },
+    {
         name: 'DOCTYPE not valid should fail',
         reports: [{ message: `'DOCTYPE' should be specified as '<!doctype html>'.` }],
         serverConfig: {
