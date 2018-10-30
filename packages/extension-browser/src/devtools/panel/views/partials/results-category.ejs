@@ -1,0 +1,15 @@
+<details class="category">
+    <summary class="category__header">
+        <span class="category__name">
+            <%= name.toUpperCase() %>
+        </span>
+        <span class="category__status">
+            PASSED: <%= passed %>/<%= hints.length %>
+        </span>
+    </summary>
+    <div class="category__results">
+        <% hints.forEach(function (hint) { %>
+            <%- include('results-hint', hint); %>
+        <% }); %>
+    </div>
+</details>

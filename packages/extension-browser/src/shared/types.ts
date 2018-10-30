@@ -44,10 +44,21 @@ export type BackgroundEvents = {
     fetchStart?: FetchStart;
 };
 
-export type Results = {
-    categories: string[];
-    hints: string[];
+export type HintResults = {
+    helpURL: string;
+    id: string;
+    name: string;
     problems: Problem[];
+};
+
+export type CategoryResults = {
+    hints: HintResults[];
+    name: string;
+    passed: number;
+};
+
+export type Results = {
+    categories: CategoryResults[];
 };
 
 export type ContentEvents = {

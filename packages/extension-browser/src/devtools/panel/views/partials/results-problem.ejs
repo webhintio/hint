@@ -1,0 +1,7 @@
+<section class="problem">
+    <h1 class="problem__message">hint <%= (index + 1) %>: <%= problem.message %></h1>
+    <a class="problem__resource" href="<%= problem.resource %>"><%= problem.resource %></a>
+    <% if (problem.sourceCode) { %>
+        <pre class="problem__code"><%= problem.sourceCode %></pre>
+    <% } %>
+</section>

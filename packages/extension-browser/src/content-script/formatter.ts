@@ -2,6 +2,7 @@ import { Category } from 'hint/dist/src/lib/enums/category';
 import { FormatterOptions, HintResources, IFormatter, IHintConstructor, Problem, Severity } from 'hint/dist/src/lib/types';
 
 import browser from '../shared/browser';
+import { CategoryResults, HintResults } from '../shared/types';
 
 export default class WebExtensionFormatter implements IFormatter {
 
@@ -22,20 +23,44 @@ export default class WebExtensionFormatter implements IFormatter {
         }
     }
 
-    private formatHint(id: string, reports: Problem[]) {
-        if (reports.length) {
-            console.groupCollapsed(`${reports.length} ${reports.length === 1 ? 'hint' : 'hints'}: ${id}`);
+    private formatHint(hint: HintResults) {
+        if (hint.problems.length) {
+            console.groupCollapsed(`${hint.problems.length} ${hint.problems.length === 1 ? 'hint' : 'hints'}: ${hint.name}`);
         } else {
-            console.groupCollapsed(`PASSED: ${id}`);
+            console.groupCollapsed(`PASSED: ${hint.name}`);
         }
 
-        const fixText = reports.length ? ' and how to fix it' : '';
+        const fixText = hint.problems.length ? ' and how to fix it' : '';
 
-        console.info(`Learn why this matters${fixText} at https://webhint.io/docs/user-guide/hints/hint-${id}/`);
+        console.info(`Learn why this matters${fixText} at https://webhint.io/docs/user-guide/hints/hint-${hint.id}/`);
 
-        reports.forEach(this.formatProblem);
+        hint.problems.forEach(this.formatProblem);
 
         console.groupEnd();
+    }
+
+    private formatCategory(category: CategoryResults) {
+        console.group(`${category.name.toUpperCase()}`);
+
+        const failedHints = category.hints.filter((hint) => {
+            return hint.problems.length > 0;
+        });
+
+        const passedHints = category.hints.filter((hint) => {
+            return hint.problems.length === 0;
+        });
+
+        [...failedHints, ...passedHints].forEach((hint) => {
+            return this.formatHint(hint);
+        });
+
+        console.groupEnd();
+    }
+
+    private getCategories(resources: HintResources): string[] {
+        const categories = resources.hints.map(this.getHintCategory);
+
+        return Array.from(new Set(categories));
     }
 
     private getHintCategory(hint: IHintConstructor): string {
@@ -50,43 +75,31 @@ export default class WebExtensionFormatter implements IFormatter {
         });
     }
 
-    private formatCategory(category: string, matching: Problem[], resources: HintResources) {
-        console.group(`${category.toUpperCase()}`);
-
-        const hints = this.getHints(resources, category);
-
-        const failedHints = hints.filter((id) => {
-            return matching.some((p) => {
-                return p.hintId === id;
-            });
+    private buildHintResults(resources: HintResources, problems: Problem[], category: string): HintResults[] {
+        return this.getHints(resources, category).map((id) => {
+            return {
+                helpURL: `https://webhint.io/docs/user-guide/hints/hint-${id}/`,
+                id,
+                name: id, // TODO: Map to a user-friendly name.
+                problems: problems.filter((problem) => {
+                    return id === problem.hintId;
+                })
+            };
         });
-
-        const passedHints = hints.filter((id) => {
-            return matching.every((p) => {
-                return p.hintId !== id;
-            });
-        });
-
-        [...failedHints, ...passedHints].forEach((id) => {
-
-            const reports = matching.filter((p) => {
-                return p.hintId === id;
-            });
-
-            this.formatHint(id, reports);
-        });
-
-        if (!hints.length) {
-            console.info('PASSED');
-        }
-
-        console.groupEnd();
     }
 
-    private getCategories(resources: HintResources): string[] {
-        const categories = resources.hints.map(this.getHintCategory);
+    private buildCategoryResults(resources: HintResources, problems: Problem[]): CategoryResults[] {
+        return this.getCategories(resources).map((name) => {
+            const hints = this.buildHintResults(resources, problems, name);
 
-        return Array.from(new Set(categories));
+            return {
+                hints,
+                name,
+                passed: hints.filter((hint) => {
+                    return hint.problems.length === 0;
+                }).length
+            };
+        });
     }
 
     public format(problems: Problem[], target: string, options: FormatterOptions) {
@@ -95,26 +108,14 @@ export default class WebExtensionFormatter implements IFormatter {
         // The browser extension always provides resources to the formatter.
         const resources = options.resources!;
 
-        const categories = this.getCategories(resources);
-        const hints = this.getHints(resources);
+        const categories = this.buildCategoryResults(resources, problems);
 
         categories.forEach((category) => {
-
-            const matching = problems.filter((p) => {
-                return p.category === category;
-            });
-
-            this.formatCategory(category, matching, resources);
+            return this.formatCategory(category);
         });
 
         // Forward results to the devtools page (via the background script).
-        browser.runtime.sendMessage({
-            results: {
-                categories,
-                hints,
-                problems
-            }
-        });
+        browser.runtime.sendMessage({ results: { categories } });
 
         console.groupEnd();
     }

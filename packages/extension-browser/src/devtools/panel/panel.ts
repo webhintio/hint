@@ -32,11 +32,10 @@ const resolver = (base: string) => {
             pathParts.shift();
         }
 
-        const baseStr = baseParts.length ? `${baseParts.join('/')}/` : '';
-        const pathStr = pathParts.join('/');
-        const dirStr = pathParts.slice(0, -1).join('/');
+        const resolvedPath = [...baseParts, ...pathParts].join('/');
+        const resolvedBase = [...baseParts, ...pathParts.slice(0, -1)].join('/');
 
-        return require(`./views/${baseStr}${pathStr}.ejs`)(data, null, resolver(`${baseStr}${dirStr}`));
+        return require(`./views/${resolvedPath}.ejs`)(data, null, resolver(resolvedBase));
     };
 };
 
