@@ -718,9 +718,9 @@ button {
 .rule-result__message--passed::before {
     content: url("/images/scan/results-passed-icon.svg");
     height: .5rem;
-    left: 0;
     position: absolute;
     width: 2.5rem;
+    margin-left: -3rem;
 }
 
 /* INTEGRATION MESSAGES */
