@@ -21,7 +21,7 @@ const backgroundConfig = {
 
 const contentConfig = {
     ...baseConfig,
-    entry: './dist/src/index.js',
+    entry: './dist/src/content-script/webhint.js',
     module: {
         rules: [
             {
@@ -32,25 +32,25 @@ const contentConfig = {
     },
     output: {
         filename: 'webhint.js',
-        path: path.resolve(__dirname, 'dist/bundle')
+        path: path.resolve(__dirname, 'dist/bundle/content-script')
     }
 };
 
 const devtoolsConfig = {
     ...baseConfig,
-    entry: './dist/src/devtools.js',
+    entry: './dist/src/devtools/devtools.js',
     output: {
         filename: 'devtools.js',
-        path: path.resolve(__dirname, 'dist/bundle')
+        path: path.resolve(__dirname, 'dist/bundle/devtools')
     }
 };
 
 const webhintPanelConfig = {
     ...baseConfig,
-    entry: './dist/src/webhint-panel.js',
+    entry: './dist/src/devtools/panel/panel.js',
     output: {
-        filename: 'webhint-panel.js',
-        path: path.resolve(__dirname, 'dist/bundle')
+        filename: 'panel.js',
+        path: path.resolve(__dirname, 'dist/bundle/devtools/panel')
     }
 };
 

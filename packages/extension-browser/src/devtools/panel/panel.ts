@@ -1,5 +1,5 @@
-import browser from './util/browser';
-import { ContentEvents } from './types';
+import browser from '../../shared/browser';
+import { ContentEvents } from '../../shared/types';
 
 const tabId = browser.devtools.inspectedWindow.tabId;
 const port = browser.runtime.connect({ name: `${tabId}` });

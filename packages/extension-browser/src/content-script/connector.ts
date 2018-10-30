@@ -13,9 +13,9 @@ import {
     NetworkData
 } from 'hint/dist/src/lib/types';
 
-import { BackgroundEvents, ContentEvents } from './types';
+import { BackgroundEvents, ContentEvents } from '../shared/types';
 import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-html';
-import browser from './util/browser';
+import browser from '../shared/browser';
 
 export default class WebExtensionConnector implements IConnector {
     private _window: IAsyncWindow | undefined;

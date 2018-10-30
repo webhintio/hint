@@ -72,7 +72,7 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch",
-    "webpack": "yarn build && webpack && cpx ./src/*.{html,json,png} dist/bundle"
+    "webpack": "yarn build && webpack && cpx ./src/**/*.{html,json,png} dist/bundle"
   },
   "version": "1.0.0"
 }

@@ -1,6 +1,6 @@
 import { FetchEnd, FetchStart, HttpHeaders, Request, Response } from 'hint/dist/src/lib/types';
-import { BackgroundEvents, ContentEvents, Details } from './types';
-import browser from './util/browser';
+import { BackgroundEvents, ContentEvents, Details } from './shared/types';
+import browser from './shared/browser';
 
 // Track data associated with all outstanding requests by `requestId`.
 const requests = new Map<string, Details[]>();
@@ -129,7 +129,7 @@ const queueDetails = (event: string, details: Details) => {
 
     if (event === 'onResponseStarted' && details.type === 'main_frame' && enabledTabs.has(details.tabId)) {
         // Inject the content script to run webhint.
-        browser.tabs.executeScript(details.tabId, { file: 'webhint.js', runAt: 'document_start' });
+        browser.tabs.executeScript(details.tabId, { file: 'content-script/webhint.js', runAt: 'document_start' });
     }
 
     if (event === 'onCompleted') {
