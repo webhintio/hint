@@ -7,7 +7,7 @@ const hintPath = getHintPath(__filename);
 const tests: HintTest[] = [
     {
         name: 'DOCTYPE is not in the first line should fail',
-        reports: [{ message: `DOCTYPE is not in the first line.`, position: { column: 16, line: 2 } }],
+        reports: [{ message: `\'DOCTYPE\' should be specified before anything else.`, position: { column: 16, line: 2 } }],
         serverConfig: {
             '/': {
                 content: `<p><span></span>
@@ -31,7 +31,7 @@ const tests: HintTest[] = [
     },
     {
         name: 'DOCTYPE found more than once should fail',
-        reports: [{ message: `There is more than one DOCTYPE in the document.`, position: { column: 16, line: 3 } }],
+        reports: [{ message: `\'DOCTYPE\' is not needed as one was already specified.`, position: { column: 16, line: 3 } }],
         serverConfig: {
             '/': {
                 content: `<!DOCTYPE html>
@@ -55,7 +55,7 @@ const tests: HintTest[] = [
     },
     {
         name: 'DOCTYPE not found should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
+        reports: [{ message: `'DOCTYPE' was not specified.` }],
         serverConfig: {
             '/': {
                 content: `<head>
@@ -78,7 +78,7 @@ const tests: HintTest[] = [
     },
     {
         name: 'DOCTYPE not valid should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
+        reports: [{ message: `'DOCTYPE' should be specified as '<!doctype html>'.` }],
         serverConfig: {
             '/': {
                 content: `<!doctype htmltest>
@@ -91,7 +91,7 @@ const tests: HintTest[] = [
     },
     {
         name: 'DOCTYPE regular with no space between terms should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
+        reports: [{ message: `'DOCTYPE' should be specified as '<!doctype html>'.` }],
         serverConfig: {
             '/': {
                 content: `<!doctypehtml>
@@ -104,7 +104,7 @@ const tests: HintTest[] = [
     },
     {
         name: 'DOCTYPE with legacy-compat should fail',
-        reports: [{ message: `The resource does not contain a valid DOCTYPE (e.g. \`<!doctype html>\`).` }],
+        reports: [{ message: `'DOCTYPE' should be specified as '<!doctype html>'.` }],
         serverConfig: {
             '/': {
                 content: `<!doctype html SYSTEM "about:legacy-compat">

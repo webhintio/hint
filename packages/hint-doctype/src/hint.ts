@@ -6,10 +6,7 @@ import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata, FetchEnd, ProblemLocation } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { MatchInformation } from './types';
-
-const debug: debug.IDebugger = d(__filename);
 
 /*
  * ------------------------------------------------------------------------------
@@ -32,6 +29,7 @@ export default class implements IHint {
     public constructor(context: HintContext) {
         const correctLine = 0;
         const doctypeRegExp = new RegExp(`(<!doctype\\s+(html)\\s*>)(.+)?`, 'gi');
+        const doctypeFlexibleRegExp = new RegExp(`<[^>]*doctype[^<]*>`, 'gi');
 
         const defaultProblemLocation: ProblemLocation = {
             column: 0,
@@ -67,12 +65,18 @@ export default class implements IHint {
             };
         };
 
-        const checkNoDoctypeInContent = async (matchInfo: MatchInformation, resource: string): Promise<boolean> => {
+        const checkNoDoctypeInContent = async (matchInfo: MatchInformation, resource: string, content: string): Promise<boolean> => {
             if (matchInfo.matches && matchInfo.matches.length > 0) {
                 return true;
             }
 
-            await report(resource, 'The resource does not contain a valid DOCTYPE (e.g. `<!doctype html>`).');
+            if (!doctypeFlexibleRegExp.exec(content)) {
+                await report(resource, `'DOCTYPE' was not specified.`);
+
+                return false;
+            }
+
+            await report(resource, `'DOCTYPE' should be specified as '<!doctype html>'.`);
 
             return false;
         };
@@ -83,7 +87,7 @@ export default class implements IHint {
                 return;
             }
 
-            await report(resource, 'DOCTYPE is not in the first line.', matchInfo.locations[0]);
+            await report(resource, `'DOCTYPE' should be specified before anything else.`, matchInfo.locations[0]);
         };
 
         const checkDoctypeIsDuplicated = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
@@ -91,7 +95,7 @@ export default class implements IHint {
                 return;
             }
 
-            await report(resource, 'There is more than one DOCTYPE in the document.', matchInfo.locations[matchInfo.locations.length - 1]);
+            await report(resource, `'DOCTYPE' is not needed as one was already specified.`, matchInfo.locations[matchInfo.locations.length - 1]);
         };
 
         const onFetchEndHTML = async (fetchEnd: FetchEnd): Promise<void> => {
@@ -109,7 +113,7 @@ export default class implements IHint {
 
             const globalMatch = getMatchInformation(contentTrimmed);
 
-            if (!(await checkNoDoctypeInContent(globalMatch, resource))) {
+            if (!(await checkNoDoctypeInContent(globalMatch, resource, contentTrimmed))) {
                 return;
             }
 
