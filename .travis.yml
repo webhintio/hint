@@ -87,6 +87,19 @@ install:
       fi
 
 jobs:
+
+  # Allow node v11 builds to fail for now as `canvas-prebuilt`
+  # will be missing.
+  #
+  # Ref: https://github.com/webhintio/hint/issues/1445
+
+  allow_failures:
+    - node_js: node
+
+  fast_finish: true
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   include:
 
     # Stage used for checking for broken links.
