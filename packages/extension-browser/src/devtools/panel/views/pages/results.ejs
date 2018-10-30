@@ -1,0 +1,6 @@
+<section class="rule-result" id="<%= categories.join(', ') %>">
+    <div>Problems: <%= problems.length %></div>
+    <% categories.forEach(function (category) { %>
+        <%- include('../partials/result-category', { category: category, problems: problems }); %>
+    <% }); %>
+</section>

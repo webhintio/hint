@@ -13,6 +13,10 @@ module.exports = {
             {
                 test: /axe-core/,
                 use: 'raw-loader'
+            },
+            {
+                test: /\.ejs$/,
+                use: 'compile-ejs-loader'
             }
         ]
     },

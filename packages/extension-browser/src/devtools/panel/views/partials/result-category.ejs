@@ -1,0 +1,8 @@
+<div>
+    <span><%= category %></span>
+    <% problems.forEach(function (problem) { %>
+        <% if (problem.category === category) { %>
+            <%- include('result-hint', { problem: problem }); %>
+        <% } %>
+    <% }); %>
+</div>
