@@ -47,8 +47,8 @@ events emitted by them.
 <!-- Link labels: -->
 
 [@hint/parser-babel-config]: https://npmjs.com/package/@hint/parser-babel-config/
-[@hint/parser-css]: https://npmjs.com/packages/@hint/parser-css/
-[@hint/parser-javascript]: https://npmjs.com/packages/@hint/parser-javascript/
-[@hint/parser-html]: https://npmjs.com/packages/@hint/parser-html/
-[@hint/parser-manifest]: https://npmjs.com/packages/@hint/parser-manifest/
-[@hint/parser-typescript-config]:https://npmjs.com/packages/@hint/parser-typescript-config/
+[@hint/parser-css]: https://npmjs.com/package/@hint/parser-css/
+[@hint/parser-javascript]: https://npmjs.com/package/@hint/parser-javascript/
+[@hint/parser-html]: https://npmjs.com/package/@hint/parser-html/
+[@hint/parser-manifest]: https://npmjs.com/package/@hint/parser-manifest/
+[@hint/parser-typescript-config]:https://npmjs.com/package/@hint/parser-typescript-config/
