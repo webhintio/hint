@@ -29,8 +29,8 @@ const tests: Array<HintTest> = [
     {
         name: 'This test should pass',
         // reports: [{ message: 'text' }],
-        serverConfig: generateCSSConfig('keyframes')
+        serverConfig: generateCSSConfig('box-line')
     }
 ];
 
-hintRunner.testHint(hintPath, tests, { browserslist: ['last 2 versions'], parsers: ['css']});
+hintRunner.testHint(hintPath, tests, { browserslist: ['chrome 64-67'], parsers: ['css']});

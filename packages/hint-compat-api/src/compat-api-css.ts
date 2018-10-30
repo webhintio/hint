@@ -67,11 +67,19 @@ export default class implements IHint {
                 // Check for each browser the support block
                 const supportBlock: SupportBlock = featureInfo.support;
 
-                forEach(supportBlock, (browserInfo) => {
+                forEach(supportBlock, (browserInfo, browserToSupportName) => {
                     const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
-                    // If we dont have information about the compatibility, ignore.
+                    // If we dont have information about the compatibility, its an error.
                     if (!browserFeatureSupported) {
+                        forEach(browsersToSupport, (versions, browserName) => {
+                            if (browserName !== browserToSupportName) {
+                                return;
+                            }
+
+                            debug('error');
+                        });
+
                         return;
                     }
 
@@ -94,8 +102,12 @@ export default class implements IHint {
                     const notSupportedVersions: string[] = [];
 
                     forEach(browsersToSupport, (versions, browserName) => {
+                        if (browserName !== browserToSupportName) {
+                            return;
+                        }
+
                         versions.forEach((version) => {
-                            if (version <= removedVersionNumber) {
+                            if (version < removedVersionNumber) {
                                 return;
                             }
 

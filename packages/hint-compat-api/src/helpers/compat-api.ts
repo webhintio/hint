@@ -54,6 +54,10 @@ export class CompatApi {
             return currentBrowserFeatureSupported;
         }
 
+        if (!Array.isArray(currentBrowserFeatureSupported) && currentBrowserFeatureSupported.prefix && currentBrowserFeatureSupported.prefix !== prefix) {
+            return undefined;
+        }
+
         // Sometimes the API give an array but only the first seems relevant
         if (Array.isArray(currentBrowserFeatureSupported) && currentBrowserFeatureSupported.length > 0) {
             if (prefix) {
