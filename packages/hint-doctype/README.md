@@ -28,7 +28,7 @@ Examples of the DOCTYPE declaration:
 
 It checks that the DOCTYPE is in the first line. If there
 are lines preceeding the DOCTYPE, it checks that these lines
-consist of whitespaces only. This is important as some browsers,
+consist of whitespace only. This is important as some browsers,
 including versions of Internet Explorer prior to version 10,
 trigger quirks mode if a comment occurs before the DOCTYPE.
 
@@ -99,9 +99,9 @@ npm install @hint/hint-doctype
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
 parameter, or to install it globally, you can use the `-g` parameter. For
 other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+[**npm's** documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
+And then activate it via the `.hintrc` or `hintrc`
 configuration file:
 
 ```json
