@@ -26,11 +26,11 @@ Examples of the DOCTYPE declaration:
 
 `<!DOCTYPE html>`
 
-It checks that the DOCTYPE is in the first line and
-that there are no other lines before the DOCTYPE.
-This is important as some browsers, including versions of
-Internet Explorer prior to version 10, trigger quirks mode
-if a comment occurs before the DOCTYPE.
+It checks that the DOCTYPE is in the first line. If there
+are lines preceeding the DOCTYPE, it checks that these lines
+consist of whitespaces only. This is important as some browsers,
+including versions of Internet Explorer prior to version 10,
+trigger quirks mode if a comment occurs before the DOCTYPE.
 
 It also checks that the DOCTYPE is not duplicated elsewhere in the document.
 
@@ -42,7 +42,8 @@ outdated XML tools](http://bugzilla.bluegriffon.org/show_bug.cgi?id=634#c0).
 
 ### Examples that **trigger** the hint
 
-The hint will trigger if the DOCTYPE is not in the first line:
+The hint will trigger if the preceeding line or line before the DOCTYPE
+contains anything other than whitespace. 
 
 ```html
 <!--first line taken up by this unnecessary comment-->
