@@ -37,8 +37,8 @@ export default class implements IHint {
             line: 0
         };
 
-        const report = async (resource: string, message: string, problemLocation = defaultProblemLocation): Promise<void> => {
-            await context.report(resource, null, message, undefined, problemLocation);
+        const report = async (resource: string, message: string, location = defaultProblemLocation): Promise<void> => {
+            await context.report(resource, message, { location });
         };
 
         const getCurrentDoctypeProblemLocation = (text: string): ProblemLocation[] => {
@@ -103,7 +103,7 @@ export default class implements IHint {
             const { resource, response } = fetchEnd;
 
             if (!response || !response.body || !response.body.content) {
-                await context.report(resource, null, 'Resource has no content.', undefined);
+                await context.report(resource, 'Resource has no content.');
 
                 return;
             }
