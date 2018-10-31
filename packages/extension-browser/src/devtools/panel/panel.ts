@@ -3,23 +3,15 @@ import { ContentEvents } from '../../shared/types';
 
 import './panel.css';
 
-import renderResults = require('./views/pages/results.ejs'); // Using `require` as `*.ejs` exports a function.
+// Using `require` as `*.ejs` exports a function.
+import renderAnalyze = require('./views/pages/analyze.ejs');
+import renderResults = require('./views/pages/results.ejs');
 
 const startText = 'Analyze website';
 const stopText = 'Cancel analysis';
 const tabId = browser.devtools.inspectedWindow.tabId;
 const port = browser.runtime.connect({ name: `${tabId}` });
 const results = document.getElementById('results')!;
-const toggle = document.getElementById('toggle')!;
-
-const onStart = () => {
-    results.textContent = '';
-    toggle.textContent = stopText;
-};
-
-const onStop = () => {
-    toggle.textContent = startText;
-};
 
 const sendMessage = (message: ContentEvents) => {
     browser.runtime.sendMessage(message);
@@ -43,12 +35,18 @@ const resolver = (base: string) => {
     };
 };
 
-port.onMessage.addListener((message: ContentEvents) => {
-    if (message.results) {
-        results.innerHTML = renderResults(message.results, null, resolver('pages'));
-        onStop();
-    }
-});
+document.getElementById('analyze')!.innerHTML = renderAnalyze();
+
+const toggle = document.querySelector('.analyze__button')!;
+
+const onStart = () => {
+    results.textContent = '';
+    toggle.textContent = stopText;
+};
+
+const onStop = () => {
+    toggle.textContent = startText;
+};
 
 toggle.addEventListener('click', () => {
     if (toggle.textContent === startText) {
@@ -56,6 +54,13 @@ toggle.addEventListener('click', () => {
         onStart();
     } else {
         sendMessage({ done: true, tabId });
+        onStop();
+    }
+});
+
+port.onMessage.addListener((message: ContentEvents) => {
+    if (message.results) {
+        results.innerHTML = renderResults(message.results, null, resolver('pages'));
         onStop();
     }
 });

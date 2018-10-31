@@ -1,0 +1,27 @@
+.analyze {
+    align-items: center;
+    display: flex;
+    padding: 1rem 2rem;
+}
+
+.analyze__help {
+    width: 100%;
+}
+
+.analyze__title {
+    font-weight: normal;
+    margin: 0;
+}
+
+.analyze__actions {
+    text-align: right;
+    width: 100%;
+}
+
+.analyze__button {
+    background-color: var(--bg-inverse-color);
+    border: none;
+    border-radius: 3px;
+    color: var(--text-inverse-color);
+    padding: 0.5em 2em;
+}
