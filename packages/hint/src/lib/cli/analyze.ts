@@ -432,7 +432,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
         while (code === 2) {
             engine = createEngine();
-            logger.log(`Redirect detected, analyzing: ${result.newUrl!.href}`);
+            logger.log(`Client side redirect detected, analyzing: ${result.newUrl!.href}`);
 
             result = await scan(engine!, result.newUrl!);
 
