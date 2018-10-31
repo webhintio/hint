@@ -4,65 +4,52 @@ import browserslist = require('browserslist'); // `require` used because `browse
 
 import { Engine } from 'hint';
 import { Configuration } from 'hint/dist/src/lib/config';
-import { HintResources } from 'hint/dist/src/lib/types';
+import { HintResources, HintsConfigObject, IHintConstructor } from 'hint/dist/src/lib/types';
 
 import CSSParser from '@hint/parser-css';
 import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
-import AxeHint from '@hint/hint-axe';
-import ContentTypeHint from '@hint/hint-content-type';
-import DisownOpenerHint from '@hint/hint-disown-opener';
-import HighestAvailableDocumentModeHint from '@hint/hint-highest-available-document-mode';
-import HttpCacheHint from '@hint/hint-http-cache';
-import ManifestAppNameHint from '@hint/hint-manifest-app-name';
-import ManifestFileExtensionHint from '@hint/hint-manifest-file-extension';
-import ManifestIsValidHint from '@hint/hint-manifest-is-valid';
-import MetaCharsetUTF8Hint from '@hint/hint-meta-charset-utf-8';
-import MetaViewportHint from '@hint/hint-meta-viewport';
-import MinifiedJSHint from '@hint/hint-minified-js';
-import NoDisallowedHeadersHint from '@hint/hint-no-disallowed-headers';
-import NoHTMLOnlyHeadersHint from '@hint/hint-no-html-only-headers';
-import NoHttpRedirectsHint from '@hint/hint-no-http-redirects';
-import NoProtocolRelativeURLsHint from '@hint/hint-no-protocol-relative-urls';
-// import NoVulnerableJavascriptLibrariesHint from '@hint/hint-no-vulnerable-javascript-libraries';
-import SRIHint from '@hint/hint-sri';
-// import StrictTransportSecurityHint from '@hint/hint-strict-transport-security';
-import StylesheetLimitsHint from '@hint/hint-stylesheet-limits';
-import ValidateSetCookieHeaderHint from '@hint/hint-validate-set-cookie-header';
-import XContentTypeOptionsHint from '@hint/hint-x-content-type-options';
-
 import WebExtensionConnector from './connector';
 import WebExtensionFormatter from './formatter';
+
+// TODO: Filter based on choices from devtools panel.
+const hints: IHintConstructor[] = [
+    require('@hint/hint-axe').default,
+    require('@hint/hint-content-type').default,
+    require('@hint/hint-disown-opener').default,
+    require('@hint/hint-highest-available-document-mode').default,
+    require('@hint/hint-http-cache').default,
+    require('@hint/hint-manifest-app-name').default,
+    require('@hint/hint-manifest-file-extension').default,
+    require('@hint/hint-manifest-is-valid').default,
+    require('@hint/hint-meta-charset-utf-8').default,
+    require('@hint/hint-meta-viewport').default,
+    require('@hint/hint-minified-js').default,
+    require('@hint/hint-no-disallowed-headers').default,
+    require('@hint/hint-no-html-only-headers').default,
+    require('@hint/hint-no-http-redirects').default,
+    require('@hint/hint-no-protocol-relative-urls').default,
+    // require('@hint/hint-no-vulnerable-javascript-libraries').default,
+    require('@hint/hint-sri').default,
+    // require('@hint/hint-strict-transport-security').default,
+    require('@hint/hint-stylesheet-limits').default,
+    require('@hint/hint-validate-set-cookie-header').default,
+    require('@hint/hint-x-content-type-options').default
+];
+
+const hintsConfig = hints.reduce((o, hint) => {
+    o[hint.meta.id] = 'warning';
+
+    return o;
+}, {} as HintsConfigObject);
 
 const config: Configuration = {
     browserslist: browserslist(),
     connector: { name: 'web-extension', options: { } },
     extends: undefined,
     formatters: ['web-extension'],
-    hints: {
-        axe: 'warning',
-        'content-type': 'warning',
-        'disown-opener': 'warning',
-        'highest-available-document-mode': 'warning',
-        'http-cache': 'warning',
-        'manifest-app-name': 'warning',
-        'manifest-file-extension': 'warning',
-        'manifest-is-valid': 'warning',
-        'meta-charset-utf-8': 'warning',
-        'meta-viewport': 'warning',
-        'minified-js': 'warning',
-        'no-disallowed-headers': 'warning',
-        'no-html-only-headers': 'warning',
-        'no-http-redirects': 'warning',
-        'no-protocol-relative-urls': 'warning',
-        // 'no-vulnerable-javascript-libraries': 'warning'
-        sri: 'warning',
-        // 'strict-transport-security': 'warning',
-        'stylesheet-limits': 'warning',
-        'validate-set-cookie-header': 'warning',
-        'x-content-type-options': 'warning'
-    },
+    hints: hintsConfig,
     hintsTimeout: 10000,
     ignoredUrls: new Map(),
     parsers: ['css', 'javascript', 'manifest']
@@ -71,29 +58,7 @@ const config: Configuration = {
 const resources: HintResources = {
     connector: WebExtensionConnector,
     formatters: [WebExtensionFormatter],
-    hints: [
-        AxeHint,
-        ContentTypeHint,
-        DisownOpenerHint,
-        HighestAvailableDocumentModeHint,
-        HttpCacheHint,
-        ManifestAppNameHint,
-        ManifestFileExtensionHint,
-        ManifestIsValidHint,
-        MetaCharsetUTF8Hint,
-        MetaViewportHint,
-        MinifiedJSHint,
-        NoDisallowedHeadersHint,
-        NoHTMLOnlyHeadersHint,
-        NoHttpRedirectsHint,
-        NoProtocolRelativeURLsHint,
-        // NoVulnerableJavascriptLibrariesHint,
-        SRIHint,
-        // StrictTransportSecurityHint,
-        StylesheetLimitsHint,
-        ValidateSetCookieHeaderHint,
-        XContentTypeOptionsHint
-    ],
+    hints,
     incompatible: [],
     missing: [],
     parsers: [

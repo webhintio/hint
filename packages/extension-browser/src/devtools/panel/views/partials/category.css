@@ -11,8 +11,8 @@
     padding: 0 2rem;
 }
 
-.category__summary:last-child,
-.category[open] > .category__summary {
+.category[open] > .category__summary,
+.category:last-child > .category__summary {
     border-bottom-style: solid;
 }
 
