@@ -714,6 +714,14 @@ export class Connector implements IConnector {
                 return null;
             }
 
+            /*
+             * Ignore if an url is invalid and the browser load the
+             * "This site can't be reached" page.
+             */
+            if (dest.href.includes('chrome-error://')) {
+                return null;
+            }
+
             const request: RequestResponse | undefined = this._requests.get(params.frame.loaderId);
 
             if (request) {
@@ -812,7 +820,7 @@ export class Connector implements IConnector {
 
                 await Page.navigate({ url: target.href });
 
-                if (options.redirectsInfo && options.redirectsInfo.length > 0) {
+                if (options && options.redirectsInfo && options.redirectsInfo.length > 0) {
                     const scanRedirect: ScanRedirect = {
                         redirectsInfo: options.redirectsInfo,
                         resource: this._finalHref

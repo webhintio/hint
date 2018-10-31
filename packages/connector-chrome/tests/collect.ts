@@ -8,7 +8,7 @@ import * as sinon from 'sinon';
 import test, { GenericTestContext, Context } from 'ava';
 
 import { createServer, ServerConfiguration } from '@hint/utils-create-server';
-import { IConnector, IConnectorConstructor } from 'hint/dist/src/lib/types';
+import { IConnector, IConnectorConstructor, RedirectInfo } from 'hint/dist/src/lib/types';
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 import ChromeConnector from '../src/connector';
 
@@ -42,7 +42,7 @@ test.afterEach.always((t) => {
 const pathToFaviconInDir = path.join(__dirname, './fixtures/common/favicon.ico');
 const pathToFaviconInLinkElement = path.join(__dirname, './fixtures/common/favicon-32x32.png');
 
-const runTest = async (t: GenericTestContext<Context<any>>, ConnectorConstructor: IConnectorConstructor, serverConfig?: ServerConfiguration) => {
+const runTest = async (t: GenericTestContext<Context<any>>, ConnectorConstructor: IConnectorConstructor, serverConfig?: ServerConfiguration, redirectsInfo?: RedirectInfo[]) => {
     const { engine } = t.context;
     const connector: IConnector = new ConnectorConstructor(engine, {});
     const server = t.context.server;
@@ -51,7 +51,7 @@ const runTest = async (t: GenericTestContext<Context<any>>, ConnectorConstructor
         server.configure(serverConfig);
     }
 
-    await connector.collect(new URL(`http://localhost:${server.port}/`));
+    await connector.collect(new URL(`http://localhost:${server.port}/`), { redirectsInfo });
     await connector.close();
 };
 
@@ -61,6 +61,38 @@ test(`[${name}] The HTML is downloaded and the right event emitted`, async (t) =
     await runTest(t, ChromeConnector, serverConfig);
 
     t.is(t.context.engine.emitAsync.withArgs('fetch::end::html').callCount, 1);
+});
+
+test(`[${name}] The event 'scan::redirect' is emitted if the redirect info is passed`, async (t) => {
+    const serverConfig: ServerConfiguration = { '/': generateHTMLPage(`<title>Test</title>`) };
+    const redirects: RedirectInfo[] = [{
+        dest: new URL('http://www.example2.com/'),
+        orig: new URL('http://www.example.com/')
+    },
+    {
+        dest: new URL('http://www.example3.com/'),
+        orig: new URL('http://www.example2.com/')
+    }];
+
+    await runTest(t, ChromeConnector, serverConfig, redirects);
+
+    const emits = t.context.engine.emitAsync.withArgs('scan::redirect');
+    const redirectsEmitted = emits.args[0][1].redirectsInfo;
+
+    t.is(emits.callCount, 1);
+    t.is(redirects.length, 2);
+    t.is(redirectsEmitted, redirects);
+});
+
+test(`[${name}] The event 'scan::redirect' is not emitted if the redirect info is an empty array`, async (t) => {
+    const serverConfig: ServerConfiguration = { '/': generateHTMLPage(`<title>Test</title>`) };
+    const redirects: RedirectInfo[] = [];
+
+    await runTest(t, ChromeConnector, serverConfig, redirects);
+
+    const emits = t.context.engine.emitAsync.withArgs('scan::redirect');
+
+    t.false(emits.called);
 });
 
 test(`[${name}] Favicon is present in a 'link' element with 'rel' attribute set to 'icon' `, async (t) => {
