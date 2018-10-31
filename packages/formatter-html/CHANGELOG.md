@@ -1,3 +1,11 @@
+# 1.1.2 (October 31, 2018)
+
+## Bug fixes / Improvements
+
+* [[`37e2dfbc68`](https://github.com/webhintio/hint/commit/37e2dfbc682fef9cf95d8a5f66f88427156abe12)] - Fix: Visual issue when a category doesn't have any issues (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1462`](https://github.com/webhintio/hint/issues/1462)).
+* [[`3c81bfb673`](https://github.com/webhintio/hint/commit/3c81bfb673dff06d518dcd829e9df793f33b342a)] - Docs: Update broken links (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1459`](https://github.com/webhintio/hint/issues/1459)).
+
+
 # 1.1.1 (October 25, 2018)
 
 ## Bug fixes / Improvements
