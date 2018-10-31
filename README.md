@@ -1,7 +1,6 @@
 # webhint
 
 [![Travis CI build status](https://travis-ci.org/webhintio/hint.svg?branch=master)](https://travis-ci.org/webhintio/hint)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/8rkglhr41pwao9pd?svg=true)](https://ci.appveyor.com/project/NellieTheNarwhal/hint)
 [![Greenkeeper status](https://badges.greenkeeper.io/webhintio/hint.svg)](https://greenkeeper.io/)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/webhintio/Lobby)
 
