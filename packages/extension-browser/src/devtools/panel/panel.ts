@@ -1,8 +1,12 @@
 import browser from '../../shared/browser';
 import { ContentEvents } from '../../shared/types';
 
+import './panel.css';
+
 import renderResults = require('./views/pages/results.ejs'); // Using `require` as `*.ejs` exports a function.
 
+const startText = 'Analyze website';
+const stopText = 'Cancel analysis';
 const tabId = browser.devtools.inspectedWindow.tabId;
 const port = browser.runtime.connect({ name: `${tabId}` });
 const results = document.getElementById('results')!;
@@ -10,11 +14,11 @@ const toggle = document.getElementById('toggle')!;
 
 const onStart = () => {
     results.textContent = '';
-    toggle.textContent = 'Stop';
+    toggle.textContent = stopText;
 };
 
 const onStop = () => {
-    toggle.textContent = 'Start';
+    toggle.textContent = startText;
 };
 
 const sendMessage = (message: ContentEvents) => {
@@ -47,7 +51,7 @@ port.onMessage.addListener((message: ContentEvents) => {
 });
 
 toggle.addEventListener('click', () => {
-    if (toggle.textContent === 'Start') {
+    if (toggle.textContent === startText) {
         sendMessage({ enable: true, tabId });
         onStart();
     } else {
@@ -55,3 +59,5 @@ toggle.addEventListener('click', () => {
         onStop();
     }
 });
+
+onStop();

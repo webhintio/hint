@@ -2,15 +2,18 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <style>
-            body {
-                background-color: #fff;
-            }
-        </style>
+        <title>Hints</title>
     </head>
     <body>
-        <h1>webhint</h1>
-        <button id="toggle">Start</button>
+        <header class="analyze">
+            <div class="analyze__help">
+                <h1 class="analyze__title">webhint</h1>
+                <a href="https://webhint.io" target="_blank">Learn more</a>
+            </div>
+            <div class="analyze__actions">
+                <button id="toggle" class="analyze__button"></button>
+            </div>
+        </header>
         <div id="results"></div>
         <script src="panel.js"></script>
     </body>

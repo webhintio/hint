@@ -1,6 +1,6 @@
-<section>
-    <h1>Hints</h1>
+<section class="results">
+    <h1 class="results__header">Hints</h1>
     <% categories.forEach(function (category) { %>
-        <%- include('../partials/results-category', category); %>
+        <%- include('../partials/category', category); %>
     <% }); %>
 </section>

@@ -42,15 +42,7 @@ export default class WebExtensionFormatter implements IFormatter {
     private formatCategory(category: CategoryResults) {
         console.group(`${category.name.toUpperCase()}`);
 
-        const failedHints = category.hints.filter((hint) => {
-            return hint.problems.length > 0;
-        });
-
-        const passedHints = category.hints.filter((hint) => {
-            return hint.problems.length === 0;
-        });
-
-        [...failedHints, ...passedHints].forEach((hint) => {
+        category.hints.forEach((hint) => {
             return this.formatHint(hint);
         });
 
@@ -91,6 +83,17 @@ export default class WebExtensionFormatter implements IFormatter {
     private buildCategoryResults(resources: HintResources, problems: Problem[]): CategoryResults[] {
         return this.getCategories(resources).map((name) => {
             const hints = this.buildHintResults(resources, problems, name);
+
+            // Order hints so those with problems appear first.
+            hints.sort((a, b) => {
+                if (a.problems.length && !b.problems.length) {
+                    return -1;
+                } else if (!a.problems.length && b.problems.length) {
+                    return 1;
+                }
+
+                return 0;
+            });
 
             return {
                 hints,

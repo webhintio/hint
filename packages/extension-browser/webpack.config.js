@@ -15,6 +15,13 @@ module.exports = {
                 use: 'raw-loader'
             },
             {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
                 test: /\.ejs$/,
                 use: 'compile-ejs-loader'
             }

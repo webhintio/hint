@@ -1,7 +1,7 @@
 <details class="category">
-    <summary class="category__header">
+    <summary class="category__summary">
         <span class="category__name">
-            <%= name.toUpperCase() %>
+            <%= name %>
         </span>
         <span class="category__status">
             PASSED: <%= passed %>/<%= hints.length %>
@@ -9,7 +9,7 @@
     </summary>
     <div class="category__results">
         <% hints.forEach(function (hint) { %>
-            <%- include('results-hint', hint); %>
+            <%- include('hint', hint); %>
         <% }); %>
     </div>
 </details>
