@@ -1,3 +1,11 @@
+# 3.4.14 (October 31, 2018)
+
+## Bug fixes / Improvements
+
+* [[`a88fc0963b`](https://github.com/webhintio/hint/commit/a88fc0963b93fe832f0f94e3a6d44b06749d25c2)] - Docs: Fix links to `parser`s (by [`Antón Molleda`](https://github.com/molant)).
+* [[`3c81bfb673`](https://github.com/webhintio/hint/commit/3c81bfb673dff06d518dcd829e9df793f33b342a)] - Docs: Update broken links (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1459`](https://github.com/webhintio/hint/issues/1459)).
+
+
 # 3.4.13 (October 25, 2018)
 
 ## Bug fixes / Improvements
