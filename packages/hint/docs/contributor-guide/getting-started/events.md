@@ -35,6 +35,7 @@ their signature, and the `interface` they implement. The exception is the
 * [`fetch::error`](#fetcherrorresource-type)
 * [`fetch::start`](#fetchstartresource-type)
 * [`scan::end`](#scanend)
+* [`scan::redirect`](#scanredirect)
 * [`scan::start`](#scanstart)
 * [`traverse::down`](#traversedown)
 * [`traverse::end`](#traverseend)
@@ -127,6 +128,20 @@ events and its about to return. This is the last event to be emitted.
 type ScanEnd {
      /** The final URL analyzed. */
     resource: string;
+}
+```
+
+## `scan::redirect`
+
+Event is emitted **when** we send to the `connector` that there was
+a previous client redirect.
+
+**Format:**
+```ts
+type ScanRedirect {
+    /** The URL to analyze. */
+    resource: string;
+    redirectsInfo: RedirectInfo[];
 }
 ```
 

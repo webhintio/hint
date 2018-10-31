@@ -25,6 +25,7 @@ Once this method is invoked the following events should be fired in
 this order:
 
 1. [`scan::start`][events scanstart]
+1. [`scan::redirect][events scanredirect]
 1. [`fetch::start`][events fetchstart]
    * If there is an error, send [`fetch::error`][events fetcherror]
      follow by [`scan::end`][events scanend].
@@ -135,6 +136,7 @@ following tests:
 [jsdom]: https://github.com/tmpvar/jsdom
 [events]: ../getting-started/events/
 [events scanstart]: ../getting-started/events.md#scanstart
+[events scanredirect]: ../getting-started/events.md#scanredirect
 [events fetchstart]: ../getting-started/events.md#fetchstart
 [events fetcherror]: ../getting-started/events.md#fetcherror
 [events fetchend]: ../getting-started/events.md#fetchendresource-type

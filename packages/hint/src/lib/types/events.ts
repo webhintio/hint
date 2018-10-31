@@ -3,6 +3,7 @@ import { Event } from './event';
 import { ElementEvents } from './element-events';
 import { Problem } from './problems';
 import { Request, Response } from './network';
+import { RedirectInfo } from './connector';
 
 export * from './event';
 export * from './element-events';
@@ -17,6 +18,11 @@ export type ScanStart = Event;
 
 /** The object emitted when the connector has finished the process. */
 export type ScanEnd = Event;
+
+/** The object emitted when the connector start a scan after a client redirect. */
+export type ScanRedirect = Event & {
+    redirectsInfo: RedirectInfo[];
+};
 
 /** The object emitted on `fetch::end::*`. */
 export type FetchEnd = Event & {

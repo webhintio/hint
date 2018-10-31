@@ -29,7 +29,8 @@ import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
 import {
     BrowserInfo, IConnector,
     ElementFound, Event, FetchEnd, FetchError, ILauncher, TraverseUp, TraverseDown,
-    Response, Request, NetworkData, HttpHeaders, IAsyncHTMLElement, RedirectError
+    Response, Request, NetworkData, HttpHeaders, IAsyncHTMLElement, RedirectError,
+    IFetchOptions, ScanRedirect
 } from 'hint/dist/src/lib/types';
 
 import { normalizeHeaders } from '@hint/utils-connector-tools/dist/src/normalize-headers';
@@ -692,13 +693,51 @@ export class Connector implements IConnector {
         };
     }
 
+    /* Handler fired when there is a navigation */
+    private onFrameNavigated(callback: Function): Function {
+        return (params: Crdp.Page.FrameNavigatedEvent) => {
+            /*
+             * if parentId exists, is not the main frame
+             * and it is not a possible redirect.
+             */
+            if (params.frame.parentId) {
+                return null;
+            }
+
+            const dest = new URL(params.frame.url);
+
+            /*
+             * There is some cases where we receive the event for the
+             * same url we are analyzing.
+             */
+            if (dest.href === this._finalHref) {
+                return null;
+            }
+
+            const request: RequestResponse | undefined = this._requests.get(params.frame.loaderId);
+
+            if (request) {
+                const inHop: boolean = request.hops.includes(this._finalHref);
+
+                // If the _finalHref is in the Hop, then it is not a client redirect.
+                if (inHop) {
+                    return null;
+                }
+            }
+
+            this._server.removeAllListeners();
+
+            return callback(new RedirectError(`Redirect detected from ${this._finalHref} to ${dest.href}`, dest), null);
+        };
+    }
+
     /*
      * ------------------------------------------------------------------------------
      * Public methods
      * ------------------------------------------------------------------------------
      */
 
-    public collect(target: URL) {
+    public collect(target: URL, options: IFetchOptions) {
         if (!target.protocol.match(/https?:/)) {
             const err = {
                 message: `Protocol "${target.protocol}" invalid for the current collector`,
@@ -766,45 +805,21 @@ export class Connector implements IConnector {
              * We are using the event `frameNavigated` to detect if
              * there is a client redirect.
              */
-            Page.frameNavigated((params: any) => {
-                /*
-                 * if parentId exists, is not the main frame
-                 * and it is not a possible redirect.
-                 */
-                if (params.frame.parentId) {
-                    return null;
-                }
-
-                const dest = new URL(params.frame.url);
-
-                /*
-                 * There is some cases where we receive the event for the
-                 * same url we are analyzing.
-                 */
-                if (dest.href === this._finalHref) {
-                    return null;
-                }
-
-                const request: RequestResponse | undefined = this._requests.get(params.frame.loaderId);
-
-                if (request) {
-                    const inHop: boolean = request.hops.includes(this._finalHref);
-
-                    // If the _finalHref is in the Hop, then it is not a client redirect.
-                    if (inHop) {
-                        return null;
-                    }
-                }
-
-                this._server.removeAllListeners();
-
-                return callback(new RedirectError(`Redirect detected from ${this._finalHref} to ${dest.href}`, dest), null);
-            });
+            Page.frameNavigated(this.onFrameNavigated(callback));
 
             try {
                 await this.configureAndEnableCDP();
 
                 await Page.navigate({ url: target.href });
+
+                if (options.redirectsInfo && options.redirectsInfo.length > 0) {
+                    const scanRedirect: ScanRedirect = {
+                        redirectsInfo: options.redirectsInfo,
+                        resource: this._finalHref
+                    };
+
+                    await this._server.emitAsync('scan::redirect', scanRedirect);
+                }
             } catch (e) {
                 await this._server.emitAsync('scan::end', event);
 

@@ -12,7 +12,7 @@ import { EventAndListener } from 'eventemitter2';
 import * as configStore from '../utils/configstore';
 import { Configuration } from '../config';
 import { Engine } from '../engine';
-import { CLIOptions, ORA, Problem, Severity, UserConfig, HintResources } from '../types';
+import { CLIOptions, ORA, Problem, Severity, UserConfig, HintResources, RedirectInfo } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/network/as-uri';
 import * as logger from '../utils/logging';
@@ -374,7 +374,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         }
     };
 
-    const scan = async (eng: Engine, target: URL) => {
+    const scan = async (eng: Engine, target: URL, redirectsInfo?: RedirectInfo[]) => {
         let code = 0;
         let newUrl: URL | null = null;
         const spinner: ORA = ora({ spinner: 'line' });
@@ -383,7 +383,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
         try {
             const scanStart = Date.now();
-            const results: Problem[] = await eng.executeOn(target);
+            const results: Problem[] = await eng.executeOn(target, { redirectsInfo });
             const scanEnd = Date.now();
 
             if (hasError(results)) {
@@ -430,12 +430,23 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
         code = result.code;
 
+        let oldUrl: URL = target;
+        let newUrl: URL = result.newUrl!;
+        const redirectInfo: RedirectInfo[] = [];
+
         while (code === 2) {
+            redirectInfo.push({
+                dest: newUrl,
+                orig: oldUrl
+            });
+
             engine = createEngine();
-            logger.log(`Client side redirect detected, analyzing: ${result.newUrl!.href}`);
+            logger.log(`Client side redirect detected, analyzing: ${newUrl.href}`);
 
-            result = await scan(engine!, result.newUrl!);
+            result = await scan(engine!, newUrl, redirectInfo);
 
+            oldUrl = newUrl;
+            newUrl = result.newUrl!;
             code = result.code;
         }
 

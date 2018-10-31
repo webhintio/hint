@@ -28,10 +28,18 @@ export interface IConnector {
     querySelectorAll(query: string): Promise<IAsyncHTMLElement[]>;
 }
 
+/** Details about a redirection. */
+export type RedirectInfo = {
+    orig: URL;
+    dest: URL;
+};
+
 /** Additional detail for calls to `connect` and `fetchContent` on `IConnector`. */
 export interface IFetchOptions {
     /** The content to analyze. Overrides fetching content from the provided target. */
     content?: string;
+    /** Details about previous redirections. */
+    redirectsInfo?: RedirectInfo[];
 }
 
 export type BrowserInfo = {
