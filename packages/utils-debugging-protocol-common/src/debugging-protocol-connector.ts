@@ -755,9 +755,17 @@ export class Connector implements IConnector {
 
             const loadHandler = this.onLoadEventFired(callback);
 
-            // TODO: Investigate why some websites trigger this event twice. Iframe?
+            /*
+             * When a website makes a client redirect, the event load is
+             * dispatched more than once.
+             */
+
             (this._client as any).once('Page.loadEventFired', loadHandler);
 
+            /*
+             * We are using the event `frameNavigated` to detect if
+             * there is a client redirect.
+             */
             Page.frameNavigated((params: any) => {
                 /*
                  * if parentId exists, is not the main frame
@@ -767,17 +775,30 @@ export class Connector implements IConnector {
                     return null;
                 }
 
-                // Check if only change to https.
-                const orig = new URL(this._finalHref);
                 const dest = new URL(params.frame.url);
 
-                if (orig.hostname + orig.pathname !== dest.hostname + dest.pathname) {
-                    this._server.removeAllListeners();
-
-                    return callback(new RedirectError(`Redirect detected from ${orig.href} to ${dest.href}`, dest), null);
+                /*
+                 * There is some cases where we receive the event for the
+                 * same url we are analyzing.
+                 */
+                if (dest.href === this._finalHref) {
+                    return null;
                 }
 
-                return null;
+                const request: RequestResponse | undefined = this._requests.get(params.frame.loaderId);
+
+                if (request) {
+                    const inHop: boolean = request.hops.includes(this._finalHref);
+
+                    // If the _finalHref is in the Hop, then it is not a client redirect.
+                    if (inHop) {
+                        return null;
+                    }
+                }
+
+                this._server.removeAllListeners();
+
+                return callback(new RedirectError(`Redirect detected from ${this._finalHref} to ${dest.href}`, dest), null);
             });
 
             try {

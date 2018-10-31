@@ -413,7 +413,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         };
     };
 
-    const createEngine = () => {
+    const createEngine = (): Engine => {
         const eng = new Engine(config, resources);
 
         eng.on('print', print);
