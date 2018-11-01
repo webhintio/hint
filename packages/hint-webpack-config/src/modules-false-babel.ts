@@ -7,10 +7,8 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-/* eslint-disable no-unused-vars */
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
 import { BabelConfigEvents, BabelConfigParsed } from '@hint/parser-babel-config';
-/* eslint-enable no-unused-vars */
 
 const debug: debug.IDebugger = d(__filename);
 
