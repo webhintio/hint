@@ -1,0 +1,48 @@
+<%- include('../partials/header', { analyze: { text: 'Analyze website' } }); %>
+<section class="configuration page">
+    <h1 class="page__header">
+        Configuration
+    </h1>
+    <section class="configuration__section">
+        <h1 class="configuration__header">
+            Categories:
+        </h1>
+        <% categories.forEach(function (category) { %>
+            <label class="configuration__label">
+                <input type="checkbox" checked />
+                <%= category %>
+            </label>
+        <% }); %>
+    </section>
+    <section class="configuration__section">
+        <h1 class="configuration__header">
+            Browser support:
+        </h1>
+        <label class="configuration__label">
+            <input type="checkbox" checked />
+            Recommended settings
+            <div class="configuration__example">&gt; 0.5%, last 2 versions, Firefox ESR, not dead</div>
+        </label>
+        <label class="configuration__label">
+            <input type="checkbox" />
+            <input type="text" disabled placeholder="&gt; 1% in US, last 1 version, not dead, IE 10" />
+        </label>
+    </section>
+    <section class="configuration__section">
+        <h1 class="configuration__header">
+            Resources:
+        </h1>
+        <label class="configuration__label">
+            <input type="radio" checked />
+            All
+        </label>
+        <label class="configuration__label">
+            <input type="radio" />
+            Same origin only
+        </label>
+        <label class="configuration__label">
+            <input type="radio" />
+            <input type="text" disabled placeholder="Filter by regular expression" />
+        </label>
+    </section>
+</section>

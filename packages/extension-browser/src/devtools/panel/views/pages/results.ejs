@@ -1,5 +1,6 @@
-<section class="results">
-    <h1 class="results__header">Hints</h1>
+<%- include('../partials/header', { analyze: { text: 'Analyze again' } }); %>
+<section class="results page">
+    <h1 class="page__header">Hints</h1>
     <% categories.forEach(function (category) { %>
         <%- include('../partials/category', category); %>
     <% }); %>

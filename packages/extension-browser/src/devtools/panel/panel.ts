@@ -5,13 +5,11 @@ import './panel.css';
 
 // Using `require` as `*.ejs` exports a function.
 import renderAnalyze = require('./views/pages/analyze.ejs');
+import renderConfiguration = require('./views/pages/configuration.ejs');
 import renderResults = require('./views/pages/results.ejs');
 
-const startText = 'Analyze website';
-const stopText = 'Cancel analysis';
 const tabId = browser.devtools.inspectedWindow.tabId;
 const port = browser.runtime.connect({ name: `${tabId}` });
-const results = document.getElementById('results')!;
 
 const sendMessage = (message: ContentEvents) => {
     browser.runtime.sendMessage(message);
@@ -35,34 +33,42 @@ const resolver = (base: string) => {
     };
 };
 
-document.getElementById('analyze')!.innerHTML = renderAnalyze();
+const onCancel = () => {
+    sendMessage({ done: true, tabId });
 
-const toggle = document.querySelector('.analyze__button')!;
+    document.body.innerHTML = renderConfiguration({
+        categories: [
+            'Accessibility',
+            'Interoperability',
+            'PWA',
+            'Performance',
+            'Security'
+        ]
+    }, null, resolver('pages'));
+
+    const startButton = document.querySelector('.header__analyze-button')!;
+
+    startButton.addEventListener('click', onStart); // eslint-disable-line
+};
 
 const onStart = () => {
-    results.textContent = '';
-    toggle.textContent = stopText;
-};
+    sendMessage({ enable: true, tabId });
 
-const onStop = () => {
-    toggle.textContent = startText;
-};
+    document.body.innerHTML = renderAnalyze(null, null, resolver('pages'));
 
-toggle.addEventListener('click', () => {
-    if (toggle.textContent === startText) {
-        sendMessage({ enable: true, tabId });
-        onStart();
-    } else {
-        sendMessage({ done: true, tabId });
-        onStop();
-    }
-});
+    const cancelButton = document.querySelector('.analyze__cancel-button')!;
+
+    cancelButton.addEventListener('click', onCancel);
+};
 
 port.onMessage.addListener((message: ContentEvents) => {
     if (message.results) {
-        results.innerHTML = renderResults(message.results, null, resolver('pages'));
-        onStop();
+        document.body.innerHTML = renderResults(message.results, null, resolver('pages'));
+
+        const restartButton = document.querySelector('.header__analyze-button')!;
+
+        restartButton.addEventListener('click', onCancel);
     }
 });
 
-onStop();
+onCancel();

@@ -1,0 +1,21 @@
+@import url('page.css');
+
+.header {
+    align-items: center;
+    display: flex;
+    padding: 1rem 2rem;
+}
+
+.header__help {
+    width: 100%;
+}
+
+.header__title {
+    font-weight: normal;
+    margin: 0;
+}
+
+.header__actions {
+    text-align: right;
+    width: 100%;
+}

@@ -1,12 +1,5 @@
 @import url('../partials/category.css');
-
-.results__header {
-    background-color: var(--bg-inverse-alt-color);
-    color: var(--text-inverse-color);
-    font-weight: normal;
-    margin: 0;
-    padding: 0 2rem;
-}
+@import url('../partials/header.css');
 
 .results__status {
     background-color: var(--bg-alt-color);

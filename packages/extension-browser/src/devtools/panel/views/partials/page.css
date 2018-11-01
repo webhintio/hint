@@ -1,0 +1,26 @@
+.page {
+    flex: auto;
+}
+
+.page__header {
+    background-color: var(--bg-inverse-alt-color);
+    color: var(--text-inverse-color);
+    font-size: 1.25em;
+    font-weight: normal;
+    line-height: 1.75em;
+    margin: 0;
+    padding: 0 2rem;
+}
+
+.page__button {
+    background-color: var(--bg-inverse-color);
+    border: none;
+    border-radius: 3px;
+    color: var(--text-inverse-color);
+    padding: 0.5em 2em;
+}
+
+.page__button:disabled {
+    background-color: var(--bg-alt-color);
+    color: var(--text-color);
+}

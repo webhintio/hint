@@ -1,0 +1,24 @@
+@import url('../partials/page.css');
+
+.configuration {
+    background-color: var(--bg-alt-color);
+}
+
+.configuration__section {
+    margin: 1.5rem 2rem;
+}
+
+.configuration__header {
+    font-weight: normal;
+    margin: 0;
+}
+
+.configuration__label {
+    display: block;
+    margin: 0.25rem 0;
+}
+
+.configuration__example {
+    font-size: 0.75rem;
+    margin-left: 1.5rem;
+}

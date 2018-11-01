@@ -1,4 +1,5 @@
 @import url('./views/pages/analyze.css');
+@import url('./views/pages/configuration.css');
 @import url('./views/pages/results.css');
 
 html {
@@ -13,8 +14,15 @@ html {
     --text-passed-color: rgb(0, 134, 75);
 }
 
+html,
+body {
+    height: 100%;
+}
+
 body {
     background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
     font-family: "Segoe UI", Tahoma, sans-serif; /* Match default overrides in Chrome */
     font-size: 75%; /* Match default overrides in Chrome */
     margin: 0;
