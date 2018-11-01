@@ -28,7 +28,7 @@
     "@hint/hint-strict-transport-security": "^1.0.7",
     "@hint/hint-stylesheet-limits": "^1.0.2",
     "@hint/hint-validate-set-cookie-header": "^1.0.3",
-    "@hint/hint-x-content-type-options": "^1.0.3",
+    "@hint/hint-x-content-type-options": "^1.0.4",
     "@hint/parser-html": "^1.0.6"
   },
   "description": "webhint's recommended hints configuration for live websites",
