@@ -28,17 +28,17 @@
     "eslint": "^5.8.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-rc.0",
-    "eslint-plugin-typescript": "^0.12.0",
+    "eslint-plugin-typescript": "^0.13.0",
     "hint": "^3.4.14",
     "markdownlint-cli": "^0.13.0",
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
     "nyc": "^13.1.0",
-    "proxyquire": "2.0.0",
+    "proxyquire": "2.1.0",
     "rimraf": "^2.6.2",
     "sinon": "^7.1.1",
     "typescript": "^3.1.5",
-    "typescript-eslint-parser": "20.0.0"
+    "typescript-eslint-parser": "20.1.1"
   },
   "displayName": "webhint",
   "engines": {
