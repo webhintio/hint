@@ -13,7 +13,7 @@
     "@hint/hint-no-bom": "^1.0.4",
     "@hint/hint-no-protocol-relative-urls": "^1.0.4",
     "@hint/hint-typescript-config": "^1.1.2",
-    "@hint/hint-webpack-config": "^1.0.0",
+    "@hint/hint-webpack-config": "^1.0.1",
     "@hint/parser-babel-config": "^1.1.1",
     "@hint/parser-html": "^1.0.6",
     "@hint/parser-typescript-config": "^1.1.1",
