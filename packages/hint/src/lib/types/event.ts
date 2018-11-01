@@ -1,4 +1,4 @@
 export type Event = {
-    /** The URL that emit the event */
+    /** The URL that emits the event */
     resource: string;
 };
