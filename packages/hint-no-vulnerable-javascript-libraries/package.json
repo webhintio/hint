@@ -14,15 +14,15 @@
   "description": "hint that that checks using Snyk for vulnerable JavaScript libraries",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^1.0.1",
-    "angular": "1.4.9",
+    "angular": "1.7.5",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.8.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-rc.0",
-    "eslint-plugin-typescript": "^0.12.0",
+    "eslint-plugin-typescript": "^0.13.0",
     "hint": "^3.4.14",
-    "jquery": "2.1.4",
+    "jquery": "3.3.1",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
     "markdownlint-cli": "^0.13.0",
     "moment": "2.22.2",
@@ -31,7 +31,7 @@
     "nyc": "^13.1.0",
     "rimraf": "^2.6.2",
     "typescript": "^3.1.5",
-    "typescript-eslint-parser": "20.0.0"
+    "typescript-eslint-parser": "20.1.1"
   },
   "engines": {
     "node": ">=8.0.0"
