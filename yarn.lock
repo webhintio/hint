@@ -5064,14 +5064,14 @@ ignore@^4.0.6:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
   integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
 
-iltorb@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/iltorb/-/iltorb-2.4.0.tgz#befef47a5aea0cee46767731cb63859b57e58327"
-  integrity sha512-Px3k32eqlAwpS0OwiQDRUrlPNeY1JKyZvH636cRRxxhkqc5ukmfXZStNHNfRzpa3tb9EK3Nq0pIX9cXUdr+q3w==
+iltorb@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/iltorb/-/iltorb-2.4.1.tgz#3ae14f0a76ba880503884a2fe630b1f748eb4c17"
+  integrity sha512-huyAN7dSNe2b7VAl5AyvaeZ8XTcDTSF1b8JVYDggl+SBfHsORq3qMZeesZW7zoEy21s15SiERAITWT5cwxu1Uw==
   dependencies:
     detect-libc "^1.0.3"
     npmlog "^4.1.2"
-    prebuild-install "^5.0.0"
+    prebuild-install "^5.2.1"
     which-pm-runs "^1.0.0"
 
 image-size@^0.6.3:
@@ -7752,7 +7752,7 @@ postcss@^7.0.5:
     source-map "^0.6.1"
     supports-color "^5.5.0"
 
-prebuild-install@^5.0.0:
+prebuild-install@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-5.2.1.tgz#87ba8cf17c65360a75eefeb3519e87973bf9791d"
   integrity sha512-9DAccsInWHB48TBQi2eJkLPE049JuAI6FjIH0oIrij4bpDVEbX6JvlWRAcAAlUqBHhjgq0jNqA3m3bBXWm9v6w==
