@@ -1,3 +1,14 @@
+# 1.1.0 (November 2, 2018)
+
+## Bug fixes / Improvements
+
+* [[`47d51aeaa1`](https://github.com/webhintio/hint/commit/47d51aeaa187351267f7b4cabd3f075de49d043d)] - Fix: Make `canvas` optional (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1465`](https://github.com/webhintio/hint/issues/1465)).
+
+## New features
+
+* [[`842227394d`](https://github.com/webhintio/hint/commit/842227394df15ca83fda27b397d50fafa085a19d)] - New: Update `jsdom` to `v13.0.0` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1445`](https://github.com/webhintio/hint/issues/1445)).
+
+
 # 1.0.9 (October 31, 2018)
 
 ## Bug fixes / Improvements
