@@ -101,6 +101,46 @@ const getConfiguration = (): Config => {
     };
 };
 
+type SavedConfiguration = {[key: string]: string | boolean};
+
+const restoreConfiguration = () => {
+    const configStr = localStorage.getItem('config') || '{}';
+
+    try {
+        const config: SavedConfiguration = JSON.parse(configStr);
+
+        Object.keys(config).forEach((name) => {
+            const inputs = findAllInputs(`.configuration input[name='${name}']`);
+            const value = config[name];
+
+            if (inputs.length > 1) {
+                inputs.forEach((input) => {
+                    input.checked = input.value === value;
+                });
+            } else if (typeof value === 'boolean') {
+                inputs[0].checked = value;
+            } else {
+                inputs[0].value = value;
+            }
+        });
+    } catch (e) {
+        // Existing configuration is malformed, ignoring.
+        console.warn(`Ignoring malformed configuration: ${configStr}`);
+    }
+};
+
+const saveConfiguration = () => {
+    const config = findAllInputs('.configuration input').reduce((o, input) => {
+        if (!o[input.name] || input.checked) {
+            o[input.name] = input.type === 'checkbox' ? input.checked : input.value;
+        }
+
+        return o;
+    }, {} as SavedConfiguration);
+
+    localStorage.setItem('config', JSON.stringify(config));
+};
+
 const onCancel = () => {
     sendMessage({ done: true, tabId });
 
@@ -109,9 +149,13 @@ const onCancel = () => {
     const startButton = document.querySelector('.header__analyze-button')!;
 
     startButton.addEventListener('click', onStart); // eslint-disable-line
+
+    restoreConfiguration();
 };
 
 const onStart = () => {
+    saveConfiguration();
+
     sendMessage({ enable: getConfiguration(), tabId });
 
     document.body.innerHTML = renderAnalyze(null, null, resolver('pages'));

@@ -9,7 +9,7 @@
         </h1>
         <% categories.forEach(function (category) { %>
             <label class="configuration__label">
-                <input type="checkbox" class="configuration__category" value="<%= category.toLowerCase() %>" checked />
+                <input type="checkbox" class="configuration__category" name="category-<%= category.toLowerCase() %>" value="<%= category.toLowerCase() %>" checked />
                 <%= category %>
             </label>
         <% }); %>
@@ -47,7 +47,12 @@
         </label>
         <label class="configuration__label">
             <input type="radio" name="resources" value="custom" />
-            <input type="text" name="custom-resources" placeholder="google-analytics\.com|foo\.html" />
+            <input type="text" name="custom-resources" placeholder="google-analytics\.com" />
+            <div class="configuration__example">
+                <a href="https://webhint.io/docs/user-guide/configuring-webhint/ignoring-domains/" target="_blank">
+                    See expression instructions
+                </a> 
+            </div>
         </label>
     </section>
 </section>
