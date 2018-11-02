@@ -1,6 +1,10 @@
+import * as hljs from 'highlight.js';
+
 import browser from '../../shared/browser';
 import { Config, ContentEvents } from '../../shared/types';
 
+// TODO: Pick a better looking theme from highlight.js/styles.
+import 'highlight.js/styles/default.css';
 import './panel.css';
 
 // Using `require` as `*.ejs` exports a function.
@@ -121,10 +125,15 @@ port.onMessage.addListener((message: ContentEvents) => {
     if (message.results) {
         document.body.innerHTML = renderResults(message.results, null, resolver('pages'));
 
+        Array.from(document.querySelectorAll('.problem__code')).forEach((codeBlock) => {
+            hljs.highlightBlock(codeBlock);
+        });
+
         const restartButton = document.querySelector('.header__analyze-button')!;
 
         restartButton.addEventListener('click', onCancel);
     }
 });
 
+// Start in the stopped state (on the "Configuration" page).
 onCancel();
