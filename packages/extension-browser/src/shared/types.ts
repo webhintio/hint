@@ -39,7 +39,14 @@ export type Details = {
     url: string;
 };
 
+export type Config = {
+    categories?: string[];
+    browserslist?: string;
+    ignoredUrls?: string;
+};
+
 export type BackgroundEvents = {
+    config?: Config;
     fetchEnd?: FetchEnd;
     fetchStart?: FetchStart;
 };
@@ -62,9 +69,10 @@ export type Results = {
 };
 
 export type ContentEvents = {
-    enable?: boolean;
+    enable?: Config;
     done?: boolean;
     ready?: boolean;
+    requestConfig?: boolean;
     results?: Results;
     tabId?: number;
 };

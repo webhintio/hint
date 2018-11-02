@@ -1,5 +1,5 @@
 import { FetchEnd, FetchStart, HttpHeaders, Request, Response } from 'hint/dist/src/lib/types';
-import { BackgroundEvents, ContentEvents, Details } from './shared/types';
+import { BackgroundEvents, Config, ContentEvents, Details } from './shared/types'; // eslint-disable-line
 import browser from './shared/browser';
 
 // Track data associated with all outstanding requests by `requestId`.
@@ -72,6 +72,7 @@ const mapResponse = async (parts: Details[]): Promise<Response> => {
     };
 };
 
+const configs = new Map<number, Config>();
 const enabledTabs = new Set<number>();
 const readyTabs = new Set<number>();
 const queuedEvents = new Map<number, BackgroundEvents[]>();
@@ -114,6 +115,11 @@ const sendFetchStart = (details: Details) => {
     sendEvent(details.tabId, { fetchStart });
 };
 
+/** Add the script to run webhint to the page. */
+const injectContentScript = (tabId: number) => {
+    browser.tabs.executeScript(tabId, { file: 'content-script/webhint.js', runAt: 'document_start' });
+};
+
 /** Queue a `webRequest` event by `requestId`, flushing after `onCompleted`. */
 const queueDetails = (event: string, details: Details) => {
     if (!requests.has(details.requestId)) {
@@ -128,8 +134,7 @@ const queueDetails = (event: string, details: Details) => {
     parts.push(details);
 
     if (event === 'onResponseStarted' && details.type === 'main_frame' && enabledTabs.has(details.tabId)) {
-        // Inject the content script to run webhint.
-        browser.tabs.executeScript(details.tabId, { file: 'content-script/webhint.js', runAt: 'document_start' });
+        injectContentScript(details.tabId);
     }
 
     if (event === 'onCompleted') {
@@ -173,7 +178,6 @@ const enable = (tabId: number) => {
     if (!enabledTabs.size) {
         // Register and queue all `webRequest` events by `requestId`.
         webRequestEvents.forEach((event, i) => {
-            // TODO: Filter to relevant `ResourceType`s (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/ResourceType)
             (browser.webRequest as any)[event].addListener(webRequestHandlers[i], requestFilter, extraInfo[event]);
         });
     }
@@ -219,6 +223,7 @@ browser.runtime.onMessage.addListener((message: ContentEvents, sender) => {
     }
 
     if (message.enable) {
+        configs.set(tabId, message.enable);
         enable(tabId);
     }
 
@@ -238,6 +243,12 @@ browser.runtime.onMessage.addListener((message: ContentEvents, sender) => {
 
             queuedEvents.delete(tabId);
         }
+    }
+
+    if (message.requestConfig) {
+        const configMessage: BackgroundEvents = { config: configs.get(tabId) || {} };
+
+        browser.tabs.sendMessage(tabId, configMessage);
     }
 
     // Forward results to the associated devtools panel.

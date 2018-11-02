@@ -10,10 +10,12 @@ import CSSParser from '@hint/parser-css';
 import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
+import browser from '../shared/browser';
+import { BackgroundEvents, Config, ContentEvents } from '../shared/types';
+
 import WebExtensionConnector from './connector';
 import WebExtensionFormatter from './formatter';
 
-// TODO: Filter based on choices from devtools panel.
 const hints: IHintConstructor[] = [
     require('@hint/hint-axe').default,
     require('@hint/hint-content-type').default,
@@ -38,39 +40,57 @@ const hints: IHintConstructor[] = [
     require('@hint/hint-x-content-type-options').default
 ];
 
-const hintsConfig = hints.reduce((o, hint) => {
-    o[hint.meta.id] = 'warning';
+const main = async (userConfig: Config) => {
+    const enabledHints: IHintConstructor[] = [];
 
-    return o;
-}, {} as HintsConfigObject);
+    const hintsConfig = hints.reduce((o, hint) => {
+        const category = hint.meta.docs && hint.meta.docs.category || 'other';
+        const enabled = !userConfig.categories || userConfig.categories.includes(category);
 
-const config: Configuration = {
-    browserslist: browserslist(),
-    connector: { name: 'web-extension', options: { } },
-    extends: undefined,
-    formatters: ['web-extension'],
-    hints: hintsConfig,
-    hintsTimeout: 10000,
-    ignoredUrls: new Map(),
-    parsers: ['css', 'javascript', 'manifest']
-};
+        o[hint.meta.id] = enabled ? 'warning' : 'off';
 
-const resources: HintResources = {
-    connector: WebExtensionConnector,
-    formatters: [WebExtensionFormatter],
-    hints,
-    incompatible: [],
-    missing: [],
-    parsers: [
-        CSSParser,
-        JavaScriptParser,
-        ManifestParser
-    ]
-};
+        if (enabled) {
+            enabledHints.push(hint);
+        }
 
-const engine = new Engine(config, resources);
+        return o;
+    }, {} as HintsConfigObject);
 
-const main = async () => {
+    const ignoredUrls = (() => {
+        const map = new Map<string, RegExp[]>();
+
+        if (userConfig.ignoredUrls) {
+            map.set('all', [new RegExp(userConfig.ignoredUrls, 'i')]);
+        }
+
+        return map;
+    })();
+
+    const config: Configuration = {
+        browserslist: browserslist(userConfig.browserslist || 'defaults'),
+        connector: { name: 'web-extension', options: { } },
+        extends: undefined,
+        formatters: ['web-extension'],
+        hints: hintsConfig,
+        hintsTimeout: 10000,
+        ignoredUrls,
+        parsers: ['css', 'javascript', 'manifest']
+    };
+
+    const resources: HintResources = {
+        connector: WebExtensionConnector,
+        formatters: [WebExtensionFormatter],
+        hints: enabledHints,
+        incompatible: [],
+        missing: [],
+        parsers: [
+            CSSParser,
+            JavaScriptParser,
+            ManifestParser
+        ]
+    };
+
+    const engine = new Engine(config, resources);
     const problems = await engine.executeOn(new URL(location.href));
 
     engine.formatters.forEach((formatter) => {
@@ -78,4 +98,15 @@ const main = async () => {
     });
 };
 
-main();
+const onMessage = (events: BackgroundEvents) => {
+    if (events.config) {
+        main(events.config);
+        browser.runtime.onMessage.removeListener(onMessage);
+    }
+};
+
+browser.runtime.onMessage.addListener(onMessage);
+
+const requestConfig: ContentEvents = { requestConfig: true };
+
+browser.runtime.sendMessage(requestConfig);

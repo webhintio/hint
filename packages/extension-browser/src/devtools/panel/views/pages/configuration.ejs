@@ -9,40 +9,45 @@
         </h1>
         <% categories.forEach(function (category) { %>
             <label class="configuration__label">
-                <input type="checkbox" checked />
+                <input type="checkbox" class="configuration__category" value="<%= category.toLowerCase() %>" checked />
                 <%= category %>
             </label>
         <% }); %>
     </section>
     <section class="configuration__section">
         <h1 class="configuration__header">
-            Browser support:
+            Your target browsers:
         </h1>
         <label class="configuration__label">
-            <input type="checkbox" checked />
+            <input type="checkbox" name="recommended-browsers" checked />
             Recommended settings
             <div class="configuration__example">&gt; 0.5%, last 2 versions, Firefox ESR, not dead</div>
         </label>
         <label class="configuration__label">
-            <input type="checkbox" />
-            <input type="text" disabled placeholder="&gt; 1% in US, last 1 version, not dead, IE 10" />
+            <input type="checkbox" name="custom-browsers" />
+            <input type="text" name="custom-browsers-list" placeholder="&gt; 1% in US, IE 10" />
+            <div class="configuration__example">
+                <a href="https://github.com/browserslist/browserslist#full-list" target="_blank">
+                    See query instructions
+                </a>
+            </div>
         </label>
     </section>
     <section class="configuration__section">
         <h1 class="configuration__header">
-            Resources:
+            Ignored resources:
         </h1>
         <label class="configuration__label">
-            <input type="radio" checked />
-            All
+            <input type="radio" name="resources" value="none" checked />
+            None
         </label>
         <label class="configuration__label">
-            <input type="radio" />
-            Same origin only
+            <input type="radio" name="resources" value="third-party" />
+            Third party
         </label>
         <label class="configuration__label">
-            <input type="radio" />
-            <input type="text" disabled placeholder="Filter by regular expression" />
+            <input type="radio" name="resources" value="custom" />
+            <input type="text" name="custom-resources" placeholder="google-analytics\.com|foo\.html" />
         </label>
     </section>
 </section>
