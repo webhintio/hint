@@ -101,7 +101,7 @@ await context.report(resource, message, { element: element });
 * `resource` is the URL of what is being analyzed (HTML, JS, CSS, manifest,
   etc.)
 * `message` is the text to show to the user about the problem.
-* `options` is an (optional) object that can contain the following: 
+* `options` is an (optional) object that can contain the following:
   * `element` is an optional `IAsyncHTMLElement` where the issue was found
     (used to get a `ProblemLocation` if one was not provided). For example,
     if an image is missing an `alt` attribute, this can be the `img` element.
