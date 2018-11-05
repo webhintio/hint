@@ -5,12 +5,12 @@
  * a reasonable threshold to determine whether a script is minified or not
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { ScriptEvents, ScriptParse } from '@hint/parser-javascript';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -21,18 +21,7 @@ const debug: debug.IDebugger = d(__filename);
  */
 export default class MinifiedJsHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Hint to check script is minified or not`
-        },
-        id: 'minified-js',
-        schema: [{
-            additionalProperties: false,
-            properties: { threshold: { type: 'number' } }
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<ScriptEvents>) {
         /*

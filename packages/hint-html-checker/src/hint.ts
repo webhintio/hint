@@ -12,11 +12,11 @@
 import { uniqBy } from 'lodash';
 import { OptionsWithUrl } from 'request';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation, Severity, HintMetadata, TraverseStart } from 'hint/dist/src/lib/types';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { IHint, ProblemLocation, Severity, TraverseStart } from 'hint/dist/src/lib/types';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -34,31 +34,7 @@ type CheckerData = {
 
 export default class HtmlCheckerHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: `Validate HTML using 'the Nu HTML checker'`
-        },
-        id: 'html-checker',
-        schema: [{
-            properties: {
-                details: { type: 'boolean' },
-                ignore: {
-                    anyOf: [
-                        {
-                            items: { type: 'string' },
-                            type: 'array'
-                        }, { type: 'string' }
-                    ]
-                },
-                validator: {
-                    pattern: '^(http|https)://',
-                    type: 'string'
-                }
-            }
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

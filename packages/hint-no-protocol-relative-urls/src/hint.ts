@@ -8,12 +8,12 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { ElementFound, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -25,15 +25,7 @@ const debug = d(__filename);
 
 export default class NoProtocolRelativeUrlsHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: 'Disallow protocol relative URLs'
-        },
-        id: 'no-protocol-relative-urls',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

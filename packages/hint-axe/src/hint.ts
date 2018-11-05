@@ -11,12 +11,12 @@
 
 import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'axe-core';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IHint, Severity, CanEvaluateScript, HintMetadata } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLElement, IHint, Severity, CanEvaluateScript } from 'hint/dist/src/lib/types';
 import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -28,46 +28,7 @@ const debug = d(__filename);
 
 export default class AxeHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.accessibility,
-            description: 'Runs axe-core tests in the target'
-        },
-        id: 'axe',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                rules: {
-                    patternProperties: {
-                        '^.+$': {
-                            additionalProperties: false,
-                            properties: { enabled: { type: 'boolean' } },
-                            required: ['enabled'],
-                            type: 'object'
-                        }
-                    },
-                    type: 'object'
-                },
-                runOnly: {
-                    additionalProperties: false,
-                    properties: {
-                        type: { type: 'string' },
-                        values: {
-                            items: { type: 'string' },
-                            minItems: 1,
-                            type: 'array',
-                            uniqueItems: true
-                        }
-                    },
-                    type: 'object'
-                }
-            }
-        }],
-        /*
-         * axe can not analize a file itself, it needs a connector.
-         */
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

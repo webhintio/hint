@@ -1,13 +1,13 @@
 /**
  * @fileoverview `babel-config/is-valid` warns against providing an invalid babel configuration file.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 import { BabelConfigEvents, BabelConfigInvalidJSON, BabelConfigInvalidSchema } from '@hint/parser-babel-config';
+
+import meta from './meta/is-valid';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -17,15 +17,7 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 export default class BabelConfigIsValidHint implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: `'babel-config/is-valid' warns against providing an invalid babel configuration file \`.babelrc\``
-        },
-        id: 'babel-config/is-valid',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<BabelConfigEvents>) {
         const invalidJSONFile = async (babelConfigInvalid: BabelConfigInvalidJSON, event: string) => {

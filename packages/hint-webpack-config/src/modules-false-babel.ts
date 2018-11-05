@@ -1,14 +1,14 @@
 /**
  * @fileoverview `webpack-config/modules-false-babel` warns against not having set the propety `modules` to `false` in presets in babel configuration file.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
 import { BabelConfigEvents, BabelConfigParsed } from '@hint/parser-babel-config';
+
+import meta from './meta/modules-false-babel';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -19,15 +19,7 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class WebpackConfigModulesFalseBabel implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`webpack-config/modules-false-babel` warns against not having set the propety `modules` to `false` in presets in babel configuration file'
-        },
-        id: 'webpack-config/modules-false-babel',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<WebpackConfigEvents & BabelConfigEvents>) {
 

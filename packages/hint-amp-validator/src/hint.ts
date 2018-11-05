@@ -4,11 +4,11 @@
 
 import * as amphtmlValidator from 'amphtml-validator';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IHint, HintMetadata, FetchEnd } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -19,19 +19,7 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class AmpValidatorHint implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Require HTML page to be AMP valid.`
-        },
-        id: 'amp-validator',
-        schema: [{
-            additionalProperties: false,
-            properties: { 'errors-only': { type: 'boolean' } },
-            type: 'object'
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
         let validPromise: Promise<amphtmlValidator.Validator>;

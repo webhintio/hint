@@ -9,13 +9,12 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, FetchEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLElement, FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -27,16 +26,7 @@ const debug = d(__filename);
 
 export default class XContentTypeOptionsHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: `Require 'X-Content-Type-Options' header`
-        },
-        id: 'x-content-type-options',
-        schema: [],
-        scope: HintScope.site
-    }
-
+    public static readonly meta = meta;
     public constructor(context: HintContext) {
 
         const isHeaderRequired = (element: IAsyncHTMLElement | null): boolean => {

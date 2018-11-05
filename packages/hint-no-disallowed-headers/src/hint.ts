@@ -9,14 +9,14 @@
  */
 
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
-import { FetchEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -28,30 +28,7 @@ const debug = d(__filename);
 
 export default class NoDisallowedHeadersHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: 'Disallow certain HTTP response headers'
-        },
-        id: 'no-disallowed-headers',
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                'string-array': {
-                    items: { type: 'string' },
-                    minItems: 1,
-                    type: 'array',
-                    uniqueItems: true
-                }
-            },
-            properties: {
-                ignore: { $ref: '#/definitions/string-array' },
-                include: { $ref: '#/definitions/string-array' }
-            },
-            type: ['object', 'null']
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

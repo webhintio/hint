@@ -12,16 +12,16 @@
 
 import { URL } from 'url';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, ElementFound, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLElement, ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -33,19 +33,7 @@ const debug = d(__filename);
 
 export default class DisownOpenerHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: 'Require `noopener` (and `noreferrer`) on `a` and `area` element with target="_blank"'
-        },
-        id: 'disown-opener',
-        schema: [{
-            additionalProperties: false,
-            properties: { includeSameOriginURLs: { type: 'boolean' } },
-            type: ['object', 'null']
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

@@ -11,18 +11,17 @@
 
 import { get as parseColor, ColorDescriptor } from 'color-string';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import {
     ElementFound,
     IAsyncHTMLElement,
     IHint,
-    HintMetadata,
     TraverseEnd
 } from 'hint/dist/src/lib/types';
 import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -32,15 +31,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class MetaThemeColorHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.pwa,
-            description: `Require a 'theme-color' meta element`
-        },
-        id: 'meta-theme-color',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

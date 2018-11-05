@@ -6,13 +6,13 @@ import { URL } from 'url';
 
 import * as getImageData from 'image-size';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, TraverseEnd, NetworkData, HintMetadata } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, TraverseEnd, NetworkData } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -24,15 +24,7 @@ const debug: debug.IDebugger = d(__filename);
 
 export default class AppleTouchIconsHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.pwa,
-            description: `Require an 'apple-touch-icon'`
-        },
-        id: 'apple-touch-icons',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

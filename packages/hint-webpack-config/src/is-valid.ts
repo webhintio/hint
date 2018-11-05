@@ -1,13 +1,13 @@
 /**
  * @fileoverview `webpack-config/is-valid` warns against providing an invalid webpack configuration file `webpack.config.js`.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 import { WebpackConfigEvents, WebpackConfigInvalidConfiguration } from '@hint/parser-webpack-config';
+
+import meta from './meta/is-valid';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -18,15 +18,7 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class WebpackConfigIsValid implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`webpack-config/is-valid` warns against providing an invalid webpack configuration file `webpack.config.js`'
-        },
-        id: 'webpack-config/is-valid',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<WebpackConfigEvents>) {
 

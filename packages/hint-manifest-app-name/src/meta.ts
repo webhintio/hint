@@ -1,0 +1,16 @@
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { HintMetadata } from 'hint/dist/src/lib/types';
+
+const meta: HintMetadata = {
+    docs: {
+        category: Category.pwa,
+        description: 'Require web application name to be specified in the web app manifest file',
+        name: 'Require manifest to specify name'
+    },
+    id: 'manifest-app-name',
+    schema: [],
+    scope: HintScope.any
+};
+
+export default meta;

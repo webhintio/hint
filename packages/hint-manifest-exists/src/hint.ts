@@ -9,18 +9,17 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import {
     ElementFound,
     FetchError,
     IHint,
-    HintMetadata,
     ScanEnd
 } from 'hint/dist/src/lib/types';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { ManifestEvents } from '@hint/parser-manifest';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -30,15 +29,7 @@ import { ManifestEvents } from '@hint/parser-manifest';
 
 export default class ManifestExistsHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.pwa,
-            description: 'Require a web app manifest'
-        },
-        id: 'manifest-exists',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<ManifestEvents>) {
 

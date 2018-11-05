@@ -9,12 +9,12 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { ElementFound, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import getFileExtension from 'hint/dist/src/lib/utils/fs/file-extension';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -24,15 +24,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class ManifestFileExtensionHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.pwa,
-            description: 'Require `.webmanifest` as the file extension for the web app manifest file'
-        },
-        id: 'manifest-file-extension',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

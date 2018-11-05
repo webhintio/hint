@@ -4,16 +4,16 @@
 
 import { URL } from 'url';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IHint, FetchEnd, ScanEnd, Response, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd, ScanEnd, Response } from 'hint/dist/src/lib/types';
 import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 
 import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';
 import * as Connections from './connections';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -37,28 +37,7 @@ const defaultConfig: PerfBudgetConfig = {
 
 export default class PerformanceBudgetHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed`
-        },
-        id: 'performance-budget',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                connectionType: {
-                    oneOf: [{ enum: Connections.ids }],
-                    type: 'string'
-                },
-                loadTime: {
-                    minimum: 1,
-                    type: 'number'
-                }
-            },
-            type: 'object'
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

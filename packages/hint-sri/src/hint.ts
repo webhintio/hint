@@ -8,12 +8,13 @@ import { promisify } from 'util';
 
 import * as async from 'async';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, FetchEnd } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import { algorithms } from './types';
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 const everySeries = promisify(async.everySeries) as (arr: any, iterator: any) => Promise<any>;
@@ -24,32 +25,9 @@ const everySeries = promisify(async.everySeries) as (arr: any, iterator: any) =>
  * ------------------------------------------------------------------------------
  */
 
-// We don't do a `const enum` because of this: https://stackoverflow.com/questions/18111657/how-does-one-get-the-names-of-typescript-enum-entries#comment52596297_18112157
-enum algorithms {
-    sha256 = 1,
-    sha384 = 2,
-    sha512 = 3
-}
-
 export default class SRIHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: `Require scripts and link elements to use Subresource Integrity`
-        },
-        id: 'sri',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                baseline: {
-                    oneOf: [Object.keys(algorithms)],
-                    type: 'string'
-                }
-            }
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     private context: HintContext;
     private origin: string = '';

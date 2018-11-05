@@ -4,14 +4,14 @@
 
 import * as URL from 'url';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
-import { IHint, HintMetadata, FetchEnd, Response, ElementFound } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd, Response, ElementFound } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -24,15 +24,7 @@ const debug: debug.IDebugger = d(__filename);
 export default class HttpsOnlyHint implements IHint {
     private targetIsServedOverHTTPS: boolean = false;
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: `Verifies if a website is using HTTPS and if it has mixed content.`
-        },
-        id: 'https-only',
-        schema: [],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
         let target: string;

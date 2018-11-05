@@ -2,15 +2,15 @@
  * @fileoverview This hint validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { FetchEnd, IHint, Severity, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, IHint, Severity } from 'hint/dist/src/lib/types';
 import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { ParsedSetCookieHeader } from './types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -22,16 +22,7 @@ const debug = d(__filename);
 
 export default class ValidateSetCookieHeaderHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: 'This hint validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.'
-        },
-        id: 'validate-set-cookie-header',
-        ignoredConnectors: [],
-        schema: [],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
