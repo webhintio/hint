@@ -45,7 +45,7 @@ export default class implements IHint {
                 const [prefix, featureName] = compatApi.getPrefix(name);
 
                 if (!key) {
-                    debug('error');
+                    debug('Error: The keyname does not exist.');
 
                     return;
                 }
@@ -66,20 +66,23 @@ export default class implements IHint {
 
                 // Check for each browser the support block
                 const supportBlock: SupportBlock = featureInfo.support;
-
                 forEach(supportBlock, (browserInfo, browserToSupportName) => {
                     const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
                     // If we dont have information about the compatibility, its an error.
                     if (!browserFeatureSupported) {
+                        let wasSupportedInSometime = false;
                         forEach(browsersToSupport, (versions, browserName) => {
                             if (browserName !== browserToSupportName) {
                                 return;
                             }
 
-                            debug('error');
+                           wasSupportedInSometime = true;
                         });
 
+                        if (!wasSupportedInSometime) {
+                            debug(`${featureName} of CSS was never supported on ${browserToSupportName} browser.`);
+                        }
                         return;
                     }
 
@@ -92,7 +95,7 @@ export default class implements IHint {
 
                     // Not a common case, but if removed version is exactly true, is always deprecated.
                     if (removedVersion === true) {
-                        debug('error');
+                        debug(`${featureName} of CSS is not supported on ${browserToSupportName} browser.`);
 
                         return;
                     }
@@ -116,7 +119,7 @@ export default class implements IHint {
                     });
 
                     if (notSupportedVersions.length > 0) {
-                        debug(`Error in feature ${name} on browsers ${notSupportedVersions.join(', ')}`);
+                        debug(`${featureName} of CSS is not supported on ${notSupportedVersions.join(', ')} browsers.`);
                     }
                 });
             };
