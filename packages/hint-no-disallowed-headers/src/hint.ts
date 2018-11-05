@@ -14,10 +14,9 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
-import { IAsyncHTMLElement, FetchEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
-import { Response } from 'hint/dist/src/lib/types/network';
 
 const debug = d(__filename);
 
@@ -123,9 +122,7 @@ export default class NoDisallowedHeadersHint implements IHint {
             });
         };
 
-        const validate = async (fetchEnd: FetchEnd) => {
-            const { element, response, resource }: { element: IAsyncHTMLElement | null, response: Response, resource: string } = fetchEnd;
-
+        const validate = async ({ element, response, resource }: FetchEnd) => {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {

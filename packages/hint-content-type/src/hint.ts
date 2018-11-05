@@ -13,7 +13,7 @@ import { MediaType, parse } from 'content-type';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, Response, IHint, FetchEnd, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd, HintMetadata } from 'hint/dist/src/lib/types';
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
@@ -64,9 +64,7 @@ export default class ContentTypeHint implements IHint {
             return results && results[1];
         };
 
-        const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
-
+        const validate = async ({ element, resource, response }: FetchEnd) => {
             if (response.statusCode !== 200) {
                 debug(`Check does not apply to status code !== 200`);
 

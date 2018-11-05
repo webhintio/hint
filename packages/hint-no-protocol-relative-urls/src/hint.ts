@@ -10,7 +10,7 @@
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, ElementFound, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { ElementFound, IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
@@ -37,9 +37,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        const validate = async (data: ElementFound) => {
-            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
-
+        const validate = async ({ element, resource }: ElementFound) => {
             if (debug.enabled) {
                 const html: string = await element.outerHTML();
 

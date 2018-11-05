@@ -4,7 +4,7 @@
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { FetchEnd, IAsyncHTMLElement, Response, IHint, Severity, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, IHint, Severity, HintMetadata } from 'hint/dist/src/lib/types';
 import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
@@ -272,8 +272,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             });
         };
 
-        const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
+        const validate = async ({ element, resource, response }: FetchEnd) => {
             const defaultValidators: Validator[] = [validateNameAndValue, validatePrefixes, validateSecurityAttributes, validateExpireDate, validateMaxAgeAndExpires];
 
             // This check does not apply if URI starts with protocols others than http/https.

@@ -64,13 +64,11 @@ export default class MetaCharsetUTF8Hint implements IHint {
                 cheerio.load('');
         };
 
-        const validate = async (event: TraverseEnd) => {
+        const validate = async ({ resource }: TraverseEnd) => {
             if (!receivedDOM) {
                 // There was a problem loading the HTML or the target wasn't one so no need to analyze
                 return;
             }
-
-            const { resource }: { resource: string } = event;
 
             /*
              * There are 2 versions of the charset meta element:

@@ -7,7 +7,7 @@ import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, Response, FetchEnd, IHint, NetworkData, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, IHint, NetworkData, HintMetadata } from 'hint/dist/src/lib/types';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 
@@ -161,9 +161,7 @@ export default class StrictTransportSecurityHint implements IHint {
             return issues;
         };
 
-        const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
-
+        const validate = async ({ element, resource, response }: FetchEnd) => {
             if (!isRegularProtocol(resource)) {
                 debug(`Check does not apply for non HTTP(s) URIs`);
 

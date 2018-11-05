@@ -413,7 +413,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
     return resource;
 };
 
-const loadListOfResources = (list: string[] | Object = [], type: ResourceType, configurations: string[] = []): { incompatible: string[], missing: string[], resources: any[] } => {
+const loadListOfResources = (list: string[] | Object = [], type: ResourceType, configurations: string[] = []): { incompatible: string[]; missing: string[]; resources: any[] } => {
     const missing: string[] = [];
     const incompatible: string[] = [];
 

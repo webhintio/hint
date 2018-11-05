@@ -118,7 +118,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                 if (XUACompatibleMetaElements.length !== 0) {
 
                     const errorMessage = suggestRemoval ?
-                        `'x-ua-compatible' meta element should not be specified as it is not needed.`:
+                        `'x-ua-compatible' meta element should not be specified as it is not needed.` :
                         `'x-ua-compatible' meta element should not be specified, and instead, equivalent HTTP header should be used.`;
 
                     for (const metaElement of XUACompatibleMetaElements) {
@@ -222,9 +222,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             });
         };
 
-        const validate = async (event: TraverseEnd) => {
-            const { resource }: { resource: string } = event;
-
+        const validate = async ({ resource }: TraverseEnd) => {
             // The following check doesn't make sense for local files.
 
             if (!isLocalFile(resource) && context.pageHeaders) {

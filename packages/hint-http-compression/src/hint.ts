@@ -650,10 +650,8 @@ export default class HttpCompressionHint implements IHint {
             return false;
         };
 
-        const validate = async (fetchEnd: FetchEnd, eventName: string) => {
+        const validate = async ({ element, resource, response }: FetchEnd, eventName: string) => {
             const shouldCheckIfCompressedWith: CompressionCheckOptions = eventName === 'fetch::end::html' ? htmlOptions : resourceOptions;
-
-            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
 
             /*
              * We shouldn't validate error responses, and 204 (response with no body).

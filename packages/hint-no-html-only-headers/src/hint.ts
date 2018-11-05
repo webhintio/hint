@@ -14,7 +14,7 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
-import { IAsyncHTMLElement, FetchEnd, Response, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, Response, IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
@@ -113,9 +113,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             return false;
         };
 
-        const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
-
+        const validate = async ({ element, resource, response }: FetchEnd) => {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
