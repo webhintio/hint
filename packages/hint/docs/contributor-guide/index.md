@@ -16,6 +16,7 @@ This section contains the basics to start hacking `webhint`:
 
 The ins and outs of the different parts that make `webhint` plus some common scenarios:
 
+* [Create a custom shareable configuration](./how-to/configuration.md)
 * [Develop a connector](./how-to/connector.md)
 * [Develop a formatter](./how-to/formatter.md)
 * [Develop a parser](./how-to/parser.md)
