@@ -16,7 +16,7 @@ import { promisify } from 'util';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { FetchEnd, ScanEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
-import { Grades, SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from './types';
+import { Grades, SSLLabsEndpoint, SSLLabsOptions, SSLLabsResult } from './types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
@@ -89,9 +89,7 @@ export default class SSLLabsHint implements IHint {
             scanOptions = Object.assign(scanOptions, userSslOptions);
         };
 
-        const verifyEndpoint = async (resource: string, endpoint: SSLLabsEndpoint) => {
-            const { grade, serverName = resource, details }: { grade: keyof typeof Grades, serverName: string, details: SSLLabsEndpointDetail } = endpoint;
-
+        const verifyEndpoint = async (resource: string, { grade, serverName = resource, details }: SSLLabsEndpoint) => {
             if (!grade && details.protocols.length === 0) {
                 const message = `'${resource}' does not support HTTPS.`;
 
@@ -119,9 +117,7 @@ export default class SSLLabsHint implements IHint {
             await context.report(resource, `Could not get results from SSL Labs for '${resource}'.`);
         };
 
-        const start = async (data: FetchEnd) => {
-            const { resource }: { resource: string } = data;
-
+        const start = async ({ resource }: FetchEnd) => {
             if (!resource.startsWith('https://')) {
                 const message: string = `'${resource}' does not support HTTPS.`;
 
@@ -144,9 +140,7 @@ export default class SSLLabsHint implements IHint {
                 });
         };
 
-        const end = async (data: ScanEnd) => {
-            const { resource }: { resource: string } = data;
-
+        const end = async ({ resource }: ScanEnd) => {
             if (!promise || failed) {
                 return;
             }

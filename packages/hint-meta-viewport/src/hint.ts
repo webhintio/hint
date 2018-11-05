@@ -170,9 +170,7 @@ export default class MetaViewportHint implements IHint {
             }
         };
 
-        const validate = async (event: TraverseEnd) => {
-
-            const { resource }: { resource: string } = event;
+        const validate = async ({ resource }: TraverseEnd) => {
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
             const viewportMetaElements: IAsyncHTMLElement[] = getViewportMetaElements(await pageDOM.querySelectorAll('meta'));
 

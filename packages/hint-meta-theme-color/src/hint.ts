@@ -126,9 +126,7 @@ export default class MetaThemeColorHint implements IHint {
             }
         };
 
-        const validate = async (event: ElementFound) => {
-            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = event;
-
+        const validate = async ({ element, resource }: ElementFound) => {
             // Check if it's a `theme-color` meta element.
 
             if (normalizeString(element.getAttribute('name')) !== 'theme-color') {

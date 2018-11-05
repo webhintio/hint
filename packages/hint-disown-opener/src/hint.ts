@@ -122,9 +122,7 @@ export default class DisownOpenerHint implements IHint {
             return false;
         };
 
-        const validate = async (data: ElementFound) => {
-            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
-
+        const validate = async ({ element, resource }: ElementFound) => {
             if (!hasTargetBlank(element) ||
                 !hasHrefValue(element) ||
                 !elementHrefHasRequiredProtocol(element) ||

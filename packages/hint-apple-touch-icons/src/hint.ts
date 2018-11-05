@@ -227,8 +227,7 @@ export default class AppleTouchIconsHint implements IHint {
         };
 
 
-        const validate = async (event: TraverseEnd) => {
-            const { resource }: { resource: string } = event;
+        const validate = async ({ resource }: TraverseEnd) => {
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
             const appleTouchIcons: IAsyncHTMLElement[] = getAppleTouchIcons(await pageDOM.querySelectorAll('link'));
 

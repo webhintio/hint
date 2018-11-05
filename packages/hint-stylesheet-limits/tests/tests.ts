@@ -37,7 +37,7 @@ const generateImports = (count = 1) => {
     return config;
 };
 
-const test = (label: string, limits: { maxRules: number, maxSheets: number, maxImports: number }, configs: any) => {
+const test = (label: string, limits: { maxRules: number; maxSheets: number; maxImports: number }, configs: any) => {
     const { maxRules, maxSheets, maxImports } = limits;
 
     hintRunner.testHint(hintPath, [

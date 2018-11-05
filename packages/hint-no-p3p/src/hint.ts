@@ -6,7 +6,7 @@ import { URL } from 'url';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IAsyncHTMLElement, ElementFound, FetchEnd, Response, IHint, HintMetadata, ScanStart } from 'hint/dist/src/lib/types';
+import { ElementFound, FetchEnd, IHint, HintMetadata, ScanStart } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
@@ -61,8 +61,7 @@ export default class NoP3pHint implements IHint {
          * Verifies none of the responses have the `p3p` header
          * https://www.w3.org/TR/P3P11/#syntax_ext
          */
-        const validateHeaders = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
+        const validateHeaders = async ({ element, resource, response }: FetchEnd) => {
             const headers: string[] = getIncludedHeaders(response.headers, ['p3p']);
             const numberOfHeaders: number = headers.length;
 
@@ -75,9 +74,7 @@ export default class NoP3pHint implements IHint {
          * Checks there isn't any `<link rel="P3Pv1">` in the document
          * https://www.w3.org/TR/P3P11/#syntax_link
          */
-        const validateHtml = async (data: ElementFound) => {
-            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
-
+        const validateHtml = async ({ element, resource }: ElementFound) => {
             const rel: string | null = element.getAttribute('rel');
 
             if (rel && normalizeString(rel) === 'p3pv1') {

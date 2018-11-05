@@ -735,7 +735,7 @@ export class Connector implements IConnector {
              */
 
             if (this._options.overrideInvalidCert) {
-                Security.certificateError(({ eventId }: { eventId: number }) => {
+                Security.certificateError(({ eventId }: Crdp.Security.CertificateErrorEvent) => {
                     Security.handleCertificateError({
                         action: 'continue',
                         eventId

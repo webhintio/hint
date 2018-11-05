@@ -10,7 +10,7 @@
  */
 
 import { Category } from 'hint/dist/src/lib/enums/category';
-import { IAsyncHTMLElement, ElementFound, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { ElementFound, IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import getFileExtension from 'hint/dist/src/lib/utils/fs/file-extension';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -38,9 +38,7 @@ export default class ManifestFileExtensionHint implements IHint {
 
         const standardManifestFileExtension: string = 'webmanifest';
 
-        const validate = async (data: ElementFound) => {
-            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
-
+        const validate = async ({ element, resource }: ElementFound) => {
             if (normalizeString(element.getAttribute('rel')) === 'manifest') {
                 const fileExtension: string = getFileExtension(normalizeString(element.getAttribute('href')) || '');
 
