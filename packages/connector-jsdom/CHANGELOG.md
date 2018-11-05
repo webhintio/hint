@@ -1,3 +1,13 @@
+# 2.0.0 (November 5, 2018)
+
+## Breaking Changes
+
+* [[`dfd635d74e`](https://github.com/webhintio/hint/commit/dfd635d74e0858ac2b7fe9e2ffc6e75a4e6b8578)] - Breaking: Update `utils-connector-tools` to `v2.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+* [[`617442df8e`](https://github.com/webhintio/hint/commit/617442df8e4a8d026103515d447004df538baef7)] - Breaking: Update `utils-create-server` to `v2.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+* [[`59e5b9ade4`](https://github.com/webhintio/hint/commit/59e5b9ade47698d9bae42106cd93606a451b5a56)] - Breaking: Update `hint` to `v4.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+* [[`d181168807`](https://github.com/webhintio/hint/commit/d18116880733897793628f0a8e829de941531d18)] - Breaking: Use typed event registration and dispatch (by [`Tony Ross`](https://github.com/antross) / see also: [`#123`](https://github.com/webhintio/hint/issues/123)).
+
+
 # 1.1.0 (November 2, 2018)
 
 ## Bug fixes / Improvements
