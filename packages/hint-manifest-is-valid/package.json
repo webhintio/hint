@@ -12,7 +12,7 @@
   },
   "description": "hint that that checks if the web app manifest file is valid",
   "devDependencies": {
-    "@hint/parser-manifest": "^1.1.1",
+    "@hint/parser-manifest": "^2.0.0",
     "@hint/utils-tests-helpers": "^2.0.0",
     "@types/color-string": "^1.5.0",
     "ava": "^0.25.0",
@@ -51,7 +51,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-manifest": "^1.1.1",
+    "@hint/parser-manifest": "^2.0.0",
     "hint": "^4.0.0"
   },
   "repository": "webhintio/hint",
