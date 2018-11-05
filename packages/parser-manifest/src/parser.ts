@@ -37,10 +37,6 @@ export default class ManifestParser extends Parser<ManifestEvents> {
     private readonly parseErrorSchemaEventName = 'parse::error::manifest::schema';
     private readonly parseJSONErrorEventName = 'parse::error::manifest::json';
 
-    // Other.
-
-    private schema: any;
-
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public constructor(engine: Engine<ManifestEvents>) {

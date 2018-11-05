@@ -39,8 +39,6 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
                 resource,
                 sourceCode: new SourceCode(code, ast)
             });
-
-            await this.engine.emitAsync(`parse::${this.name}::end`, scriptData);
         } catch (err) {
             logger.error(`Error parsing JS code: ${code}`);
         }

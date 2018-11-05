@@ -74,7 +74,7 @@ export default class WebExtensionConnector implements IConnector {
         const name = node.tagName.toLowerCase();
         const resource = location.href;
 
-        await this._engine.emitAsync(`element::${name}`, { element, resource });
+        await this._engine.emitAsync(`element::${name}` as 'element::*', { element, resource });
         await this._engine.emitAsync(`traverse::down`, { element, resource });
 
         // Recursively traverse child elements.
@@ -97,7 +97,7 @@ export default class WebExtensionConnector implements IConnector {
 
         const type = getType(mediaType || '');
 
-        await this._engine.emitAsync(`fetch::end::${type}`, event);
+        await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }
 
     private mapResponseHeaders(headers: Headers): HttpHeaders {

@@ -84,9 +84,9 @@ const main = async (userConfig: Config) => {
         incompatible: [],
         missing: [],
         parsers: [
-            CSSParser,
-            JavaScriptParser,
-            ManifestParser
+            CSSParser as any,
+            JavaScriptParser as any,
+            ManifestParser as any
         ]
     };
 
