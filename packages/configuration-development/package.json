@@ -15,7 +15,7 @@
     "@hint/hint-typescript-config": "^1.1.2",
     "@hint/hint-webpack-config": "^1.0.1",
     "@hint/parser-babel-config": "^1.1.1",
-    "@hint/parser-html": "^1.1.0",
+    "@hint/parser-html": "^2.0.0",
     "@hint/parser-typescript-config": "^1.1.1",
     "@hint/parser-webpack-config": "^1.0.1"
   },
