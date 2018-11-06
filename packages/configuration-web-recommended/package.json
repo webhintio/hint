@@ -24,7 +24,7 @@
     "@hint/hint-no-protocol-relative-urls": "^2.0.0",
     "@hint/hint-no-vulnerable-javascript-libraries": "^2.0.0",
     "@hint/hint-sri": "^2.0.0",
-    "@hint/hint-ssllabs": "^1.0.3",
+    "@hint/hint-ssllabs": "^2.0.0",
     "@hint/hint-strict-transport-security": "^1.0.7",
     "@hint/hint-stylesheet-limits": "^1.0.2",
     "@hint/hint-validate-set-cookie-header": "^1.0.3",
