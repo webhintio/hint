@@ -922,7 +922,8 @@ const main = async () => {
         ...shell.ls('-d', 'packages/formatter-*'),
         ...shell.ls('-d', 'packages/parser-!(html)'),
         ...shell.ls('-d', 'packages/hint-*'),
-        ...shell.ls('-d', 'packages/configuration-*')
+        ...shell.ls('-d', 'packages/configuration-!(development)'),
+        'packages/configuration-development'
     ].filter((name) => {
         return !exceptions.includes(name);
     });
