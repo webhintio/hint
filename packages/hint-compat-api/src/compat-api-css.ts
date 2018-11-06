@@ -8,10 +8,9 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
-import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
-import { find, forEach } from 'lodash';
-import { CompatApi, userBrowsers } from './helpers';
-import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
+import {  forEach } from 'lodash';
+import { CompatApi, userBrowsers, CompatCSS } from './helpers';
+import { MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
 import { SupportBlock } from './types-mdn.temp';
 import { browserVersions } from './helpers/normalize-version';
 
@@ -128,74 +127,9 @@ export default class implements IHint {
                 });
             };
 
-            const chooseStrategyToSearchDeprecatedCSSFeature = (childNode: ChildNode): FeatureStrategy<ChildNode> => {
-                const atStrategy: FeatureStrategy<AtRule> = {
-                    check: (node) => {
-                        return node.type === 'atrule';
-                    },
+            const compatCSS = new CompatCSS(checkDeprecatedCSSFeature);
 
-                    testFeature: (node: AtRule, data, browsers) => {
-                        checkDeprecatedCSSFeature('at-rules', node.name, data, browsers);
-                    }
-                };
-
-                const ruleStrategy: FeatureStrategy<Rule> = {
-                    check: (node) => {
-                        return node.type === 'rule';
-                    },
-
-                    testFeature: (node: Rule, data, browsers) => {
-                        checkDeprecatedCSSFeature('selectors', node.selector, data, browsers);
-                    }
-                };
-
-                const declarationStrategy: FeatureStrategy<Declaration> = {
-                    check: (node) => {
-                        return node.type === 'decl';
-                    },
-
-                    testFeature: (node: Declaration, data, browsers) => {
-                        checkDeprecatedCSSFeature('properties', node.prop, data, browsers);
-                    }
-                };
-
-                const defaultStrategy: FeatureStrategy<ChildNode> = {
-                    check: () => {
-                        return true;
-                    },
-
-                    testFeature: () => { }
-                };
-
-                const strategies = {
-                    atStrategy,
-                    declarationStrategy,
-                    ruleStrategy
-                };
-
-                const selectedStrategy = find(strategies, (x) => {
-                    return x.check(childNode);
-                });
-
-                // If no result return default strategy to be consistent
-                if (!selectedStrategy) {
-                    debug('Error: Compat api CSS cannot find valid strategies.');
-
-                    return defaultStrategy;
-                }
-
-                return selectedStrategy as FeatureStrategy<ChildNode>;
-            };
-
-            const searchDeprecatedCSSFeatures = (data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, parse: StyleParse) => {
-                parse.ast.walk((node: ChildNode) => {
-                    const strategy = chooseStrategyToSearchDeprecatedCSSFeature(node);
-
-                    strategy.testFeature(node, data, browsers);
-                });
-            };
-
-            searchDeprecatedCSSFeatures(compatApi.compatDataApi, mdnBrowsersCollection, styleParse);
+            compatCSS.searchCSSFeatures(compatApi.compatDataApi, mdnBrowsersCollection, styleParse);
         };
 
         context.on('parse::css::end', onParseCSS);

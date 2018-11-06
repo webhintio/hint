@@ -9,11 +9,10 @@ import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { forEach } from 'lodash';
-import { CompatApi, userBrowsers } from './helpers';
+import { CompatApi, userBrowsers, CompatCSS } from './helpers';
 import { MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
 import { SupportBlock } from './types-mdn.temp';
 import { browserVersions } from './helpers/normalize-version';
-import { CompatCSS } from './helpers/compat-css';
 
 const debug: debug.IDebugger = d(__filename);
 
