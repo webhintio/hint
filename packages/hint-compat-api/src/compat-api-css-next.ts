@@ -38,9 +38,10 @@ export default class implements IHint {
         const onParseCSS = (styleParse: StyleParse): void => {
             const { resource } = styleParse;
             const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
-            const compatApi = new CompatApi('css', mdnBrowsersCollection);
+            const isCheckingNotBroadlySupported = true;
+            const compatApi = new CompatApi('css', mdnBrowsersCollection, isCheckingNotBroadlySupported);
 
-            const checkDeprecatedCSSFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection): void => {
+            const checkNotBroadlySupportedFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection): void => {
                 const key: any = data[keyName];
                 const [prefix, featureName] = compatApi.getPrefix(name);
 
@@ -52,7 +53,7 @@ export default class implements IHint {
 
                 const feature = key[featureName];
 
-                // If feature is not in the filtered by browser data, that means that is always supported.
+                // If feature is not in the filtered by browser data, that means that is not new.
                 if (!feature) {
                     return;
                 }
@@ -65,69 +66,70 @@ export default class implements IHint {
                 }
 
                 // Check for each browser the support block
-                const supportBlock: SupportBlock = featureInfo.support;
+                // TODO
+                // const supportBlock: SupportBlock = featureInfo.support;
 
-                forEach(supportBlock, (browserInfo, browserToSupportName) => {
-                    const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
+                // forEach(supportBlock, (browserInfo, browserToSupportName) => {
+                //     const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
-                    // If we dont have information about the compatibility, its an error.
-                    if (!browserFeatureSupported) {
-                        let wasSupportedInSometime = false;
+                //     // If we dont have information about the compatibility, its an error.
+                //     if (!browserFeatureSupported) {
+                //         let wasSupportedInSometime = false;
 
-                        forEach(browsersToSupport, (versions, browserName) => {
-                            if (browserName !== browserToSupportName) {
-                                return;
-                            }
+                //         forEach(browsersToSupport, (versions, browserName) => {
+                //             if (browserName !== browserToSupportName) {
+                //                 return;
+                //             }
 
-                            wasSupportedInSometime = true;
-                        });
+                //             wasSupportedInSometime = true;
+                //         });
 
-                        if (!wasSupportedInSometime) {
-                            context.report(resource, null, `${featureName} of CSS was never supported on ${browserToSupportName} browser.`, featureName);
-                        }
+                //         if (!wasSupportedInSometime) {
+                //             context.report(resource, null, `${featureName} of CSS was never supported on ${browserToSupportName} browser.`, featureName);
+                //         }
 
-                        return;
-                    }
+                //         return;
+                //     }
 
-                    const removedVersion = browserFeatureSupported.version_removed;
+                //     const removedVersion = browserFeatureSupported.version_removed;
 
-                    // If there is no removed version, it is no deprecated.
-                    if (!removedVersion) {
-                        return;
-                    }
+                //     // If there is no removed version, it is no deprecated.
+                //     if (!removedVersion) {
+                //         return;
+                //     }
 
-                    // Not a common case, but if removed version is exactly true, is always deprecated.
-                    if (removedVersion === true) {
-                        context.report(resource, null, `${featureName} of CSS is not supported on ${browserToSupportName} browser.`, featureName);
+                //     // Not a common case, but if removed version is exactly true, is always deprecated.
+                //     if (removedVersion === true) {
+                //         context.report(resource, null, `${featureName} of CSS is not supported on ${browserToSupportName} browser.`, featureName);
 
-                        return;
-                    }
+                //         return;
+                //     }
 
-                    // If the version is smaller than the browser supported, should fail
-                    const removedVersionNumber = browserVersions.normalize(removedVersion);
-                    const notSupportedVersions: string[] = [];
+                //     // If the version is smaller than the browser supported, should fail
+                //     const removedVersionNumber = browserVersions.normalize(removedVersion);
+                //     const notSupportedVersions: string[] = [];
 
-                    forEach(browsersToSupport, (versions, browserName) => {
-                        if (browserName !== browserToSupportName) {
-                            return;
-                        }
+                //     forEach(browsersToSupport, (versions, browserName) => {
+                //         if (browserName !== browserToSupportName) {
+                //             return;
+                //         }
 
-                        versions.forEach((version) => {
-                            if (version < removedVersionNumber) {
-                                return;
-                            }
+                //         versions.forEach((version) => {
+                //             if (version < removedVersionNumber) {
+                //                 return;
+                //             }
 
-                            notSupportedVersions.push(`${browserName} ${browserVersions.deNormalize(version)}`);
-                        });
-                    });
+                //             notSupportedVersions.push(`${browserName} ${browserVersions.deNormalize(version)}`);
+                //         });
+                //     });
 
-                    if (notSupportedVersions.length > 0) {
-                        context.report(resource, null, `${featureName} of CSS is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
-                    }
-                });
+                //     if (notSupportedVersions.length > 0) {
+                //         context.report(resource, null, `${featureName} of CSS is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
+                //     }
+                // });
             };
 
-            const compatCSS = new CompatCSS(checkDeprecatedCSSFeature);
+            const compatCSS = new CompatCSS(checkNotBroadlySupportedFeature);
 
             compatCSS.searchCSSFeatures(compatApi.compatDataApi, mdnBrowsersCollection, styleParse);
         };
