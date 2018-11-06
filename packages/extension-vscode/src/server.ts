@@ -218,34 +218,28 @@ connection.onInitialize((params) => {
      * Because `jsdom` is the one requireing `canvas` we search for `canvas`
      * as if we were that package to make sure to find the same package.
      *
-     * The path nam resolution code is inspired by `Module._resolveFilename`
-     * https://github.com/nodejs/node/blob/5c2d555b29d99f9d1f484fd46eff33b42ee9c11f/lib/internal/modules/cjs/loader.js#L569
      */
     const Module = require('module');
-    const fakeParent = new Module('', null);
 
-    fakeParent.paths = Module._nodeModulePaths(workspace);
-
-    const jsdomLookupPaths: string[] = Module._resolveLookupPaths('jsdom', fakeParent, true);
-    const jsdomPath: string = Module._findPath('jsdom', jsdomLookupPaths);
-    const endPath = `jsdom${path.sep}`;
-    const jsdomNodeModules = jsdomPath.substring(0, jsdomPath.indexOf(endPath) + endPath.length);
-
-    fakeParent.paths = Module._nodeModulePaths(jsdomNodeModules);
+    const jsdomPath: string = require.resolve('jsdom', { paths: [path.join(workspace, 'node_modules')] });
+    const jsdomNodeModules = jsdomPath.substring(0, jsdomPath.indexOf('jsdom'));
 
     ['canvas', 'canvas-prebuilt'].forEach((moduleName) => {
-        const canvasLookupPaths = Module._resolveLookupPaths(moduleName, fakeParent, true);
-        const canvasPath = Module._findPath(moduleName, canvasLookupPaths);
+        try {
+            const canvasPath = require.resolve(moduleName, { paths: [jsdomNodeModules] });
 
-        if (!canvasPath) {
-            return;
+            if (!canvasPath) {
+                return;
+            }
+
+            const fakeCanvas = new Module(canvasPath, null);
+
+            fakeCanvas.exports = function () { };
+
+            require.cache[canvasPath] = fakeCanvas;
+        } catch (e) {
+            // ${moduleName} is not installed, nothing to do
         }
-
-        const fakeCanvas = new Module(canvasPath, null);
-
-        fakeCanvas.exports = function () { };
-
-        require.cache[canvasPath] = fakeCanvas;
     });
 
 
