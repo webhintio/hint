@@ -12,6 +12,11 @@ for Visual Studio Code.
 * Select `Client + Server` from the drop down.
 * Run the launch config.
 
+**NOTE**: Make sure to open a project and a file that can be analyzed
+by `webhint` (e.g.: `.html`) in the new VS Code instance in order to
+get everything started. Otherwise you will get timeout errors when
+trying to debug.
+
 ## Running Tests
 
 * Run `yarn test` from this directory.
