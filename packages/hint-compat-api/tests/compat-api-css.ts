@@ -25,12 +25,21 @@ const generateCSSConfig = (fileName: string) => {
  * available in:
  * https://webhint.io/docs/contributor-guide/how-to/test-hints/
  */
-const tests: Array<HintTest> = [
+const neverRemoved: Array<HintTest> = [
     {
-        name: 'This test should pass',
-        // reports: [{ message: 'text' }],
+        name: 'Features that were never removed should pass.',
+        serverConfig: generateCSSConfig('charset')
+    }
+];
+
+hintRunner.testHint(hintPath, neverRemoved, { browserslist: ['chrome 64-69'], parsers: ['css']});
+
+const removedForLaterVersions: Array<HintTest> = [
+    {
+        name: 'Features that were removed in versions earlier than the targeted browsers should fail.',
+        reports: [{ message: 'box-lines of CSS is not supported on chrome 67, chrome 68, chrome 69 browsers.' }],
         serverConfig: generateCSSConfig('box-line')
     }
 ];
 
-hintRunner.testHint(hintPath, tests, { browserslist: ['chrome 64-69'], parsers: ['css']});
+hintRunner.testHint(hintPath, removedForLaterVersions, { browserslist: ['chrome 64-69'], parsers: ['css']});
