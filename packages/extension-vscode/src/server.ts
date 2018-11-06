@@ -223,6 +223,9 @@ connection.onInitialize((params) => {
 
     const jsdomPath: string = require.resolve('jsdom', { paths: [path.join(workspace, 'node_modules')] });
     const jsdomNodeModules = jsdomPath.substring(0, jsdomPath.indexOf('jsdom'));
+    const fakeCanvas = new Module('', null);
+
+    fakeCanvas.exports = function () { };
 
     ['canvas', 'canvas-prebuilt'].forEach((moduleName) => {
         try {
@@ -232,9 +235,7 @@ connection.onInitialize((params) => {
                 return;
             }
 
-            const fakeCanvas = new Module(canvasPath, null);
-
-            fakeCanvas.exports = function () { };
+            
 
             require.cache[canvasPath] = fakeCanvas;
         } catch (e) {
