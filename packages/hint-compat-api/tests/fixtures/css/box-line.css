@@ -1,0 +1,4 @@
+.example {
+    box-lines: single;
+    -webkit-box-lines: single;
+}

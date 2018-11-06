@@ -29,13 +29,13 @@ type BrowserNames =
  * It is an array of `simple_support_statement` objects, but if there
  * is only one of them, the array must be omitted.
  */
-type SupportStatement = SimpleSupportStatement | SimpleSupportStatement[];
+export type SupportStatement = SimpleSupportStatement | SimpleSupportStatement[];
 type VersionValue = string | boolean | null;
 
 /**
  * The `simple_support_statement` object is the core object containing the compatibility information for a browser.
  */
-interface SimpleSupportStatement {
+export interface SimpleSupportStatement {
   /** The version indicating when a sub-feature has been added (and is therefore supported).
    *
    * The `boolean` values indicate that a sub-feature is supported

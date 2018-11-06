@@ -1,4 +1,4 @@
-import { BrowserSupportCollection, BrowserSupportCollectionRaw } from '../types';
+import { BrowserSupportCollection } from '../types';
 
 type BrowsersDictionary = {
     [key: string]: string;
@@ -31,7 +31,7 @@ const browserNamesToMDN: BrowsersDictionary = {
 };
 /* eslint-enable */
 
-export const convertBrowserSupportCollectionToMDN = (browserCollection: BrowserSupportCollectionRaw): BrowserSupportCollection => {
+export const convertBrowserSupportCollectionToMDN = (browserCollection: BrowserSupportCollection): BrowserSupportCollection => {
     const mdnCollection = {} as BrowserSupportCollection;
 
     Object.entries(browserCollection).forEach(([browserName, browserVersions]) => {
@@ -43,11 +43,7 @@ export const convertBrowserSupportCollectionToMDN = (browserCollection: BrowserS
 
         mdnCollection[mdnName] = mdnCollection[mdnName] || [];
 
-        const mdnVersions = browserVersions.map((x: string) => {
-            return Number(x);
-        });
-
-        mdnCollection[mdnName] = ([...mdnCollection[mdnName], ...mdnVersions]).sort((a, b) => {
+        mdnCollection[mdnName] = ([...mdnCollection[mdnName], ...browserVersions]).sort((a, b) => {
             return a - b;
         });
     });
