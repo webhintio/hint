@@ -82,7 +82,7 @@ export default class implements IHint {
                             wasSupportedInSometime = true;
                         });
 
-                        if (!wasSupportedInSometime) {
+                        if (!wasSupportedInSometime && Object.keys(browsersToSupport).includes(browserToSupportName)) {
                             context.report(resource, null, `${featureName} of CSS was never supported on ${browserToSupportName} browser.`, featureName);
                         }
 
