@@ -9,6 +9,7 @@ Explain why this package is important for your users
 ## Hints
 
 * [compat-api/compat-api-css][compat-api-css]
+* [compat-api/compat-api-css-next][compat-api-css-next]
 
 ## How to use these hints?
 
@@ -33,7 +34,7 @@ configuration file:
     "parsers": [...],
     "hints": {
         "compat-api/compat-api-css": "error",
-        "compat-api/compat-api-js": "error"
+        "compat-api/compat-api-css-next": "error"
     },
     ...
 }
@@ -47,3 +48,4 @@ What can the user read to know more about this subject?
 
 [hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
 [compat-api-css]: ./docs/compat-api-css.md
+[compat-api-css-next]: ./docs/compat-api-css-next.md
