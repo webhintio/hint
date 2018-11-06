@@ -1,3 +1,15 @@
+# 2.0.0 (November 5, 2018)
+
+## Breaking Changes
+
+* [[`931f70cb99`](https://github.com/webhintio/hint/commit/931f70cb99505cdb2ff8d9f7144714c243cda97b)] - Breaking: Update `parser-typescript-config` to `v2.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+* [[`64cef0cc48`](https://github.com/webhintio/hint/commit/64cef0cc48d77a70df196fdb3a96eb1d33f1ea32)] - Breaking: Update `utils-tests-helpers` to `v2.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+* [[`59e5b9ade4`](https://github.com/webhintio/hint/commit/59e5b9ade47698d9bae42106cd93606a451b5a56)] - Breaking: Update `hint` to `v4.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+* [[`0e82bcad9b`](https://github.com/webhintio/hint/commit/0e82bcad9bd5fb3626bf68d94278b89d685b46c7)] - Breaking: Change `context.report` to take an `options` object (by [`Tony Ross`](https://github.com/antross) / see also: [`#1415`](https://github.com/webhintio/hint/issues/1415)).
+* [[`8499d5ca65`](https://github.com/webhintio/hint/commit/8499d5ca6519d859d81d5126cfd9886bee5d3091)] - Breaking: Rename `parse::*::end`, etc. to `parse::end::*` (by [`Tony Ross`](https://github.com/antross) / see also: [`#1397`](https://github.com/webhintio/hint/issues/1397)).
+* [[`d181168807`](https://github.com/webhintio/hint/commit/d18116880733897793628f0a8e829de941531d18)] - Breaking: Use typed event registration and dispatch (by [`Tony Ross`](https://github.com/antross) / see also: [`#123`](https://github.com/webhintio/hint/issues/123)).
+
+
 # 1.1.2 (October 31, 2018)
 
 ## Bug fixes / Improvements
