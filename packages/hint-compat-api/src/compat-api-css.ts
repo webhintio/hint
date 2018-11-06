@@ -37,6 +37,7 @@ export default class implements IHint {
 
     public constructor(context: HintContext) {
         const onParseCSS = (styleParse: StyleParse): void => {
+            const { resource } = styleParse;
             const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
             const compatApi = new CompatApi('css', mdnBrowsersCollection);
 
@@ -66,23 +67,26 @@ export default class implements IHint {
 
                 // Check for each browser the support block
                 const supportBlock: SupportBlock = featureInfo.support;
+
                 forEach(supportBlock, (browserInfo, browserToSupportName) => {
                     const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
                     // If we dont have information about the compatibility, its an error.
                     if (!browserFeatureSupported) {
                         let wasSupportedInSometime = false;
+
                         forEach(browsersToSupport, (versions, browserName) => {
                             if (browserName !== browserToSupportName) {
                                 return;
                             }
 
-                           wasSupportedInSometime = true;
+                            wasSupportedInSometime = true;
                         });
 
                         if (!wasSupportedInSometime) {
-                            debug(`${featureName} of CSS was never supported on ${browserToSupportName} browser.`);
+                            context.report(resource, null, `${featureName} of CSS was never supported on ${browserToSupportName} browser.`, featureName);
                         }
+
                         return;
                     }
 
@@ -95,7 +99,7 @@ export default class implements IHint {
 
                     // Not a common case, but if removed version is exactly true, is always deprecated.
                     if (removedVersion === true) {
-                        debug(`${featureName} of CSS is not supported on ${browserToSupportName} browser.`);
+                        context.report(resource, null, `${featureName} of CSS is not supported on ${browserToSupportName} browser.`, featureName);
 
                         return;
                     }
@@ -119,7 +123,7 @@ export default class implements IHint {
                     });
 
                     if (notSupportedVersions.length > 0) {
-                        debug(`${featureName} of CSS is not supported on ${notSupportedVersions.join(', ')} browsers.`);
+                        context.report(resource, null, `${featureName} of CSS is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
                     }
                 });
             };
@@ -175,7 +179,7 @@ export default class implements IHint {
 
                 // If no result return default strategy to be consistent
                 if (!selectedStrategy) {
-                    debug('Compat api CSS cannot find valid strategies.');
+                    debug('Error: Compat api CSS cannot find valid strategies.');
 
                     return defaultStrategy;
                 }
