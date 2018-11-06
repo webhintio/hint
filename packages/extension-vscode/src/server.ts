@@ -147,7 +147,7 @@ const loadWebHint = async (directory: string): Promise<hint.Engine | null> => {
     userConfig.connector = { name: 'local' };
 
     if (!userConfig.hints) {
-        userConfig.hints = { };
+        userConfig.hints = {};
     }
 
     /*
@@ -206,6 +206,48 @@ connection.onInitialize((params) => {
 
     // TODO: Support multiple workspaces (`params.workspaceFolders`).
     workspace = params.rootPath || '';
+
+    /**
+     * The `local` connector uses `jsdom` that is going to always try to load
+     * `canvas` even though it is not needed in the VS Code extension. If there
+     * is a mismatch between the user's node version and the one uses by
+     * VS Code, `canvas` will fail to load and crash the extension. To avoid
+     * that we hijack `require`'s cache and set an empty `Module` so `jsdom`
+     * doesn't use it and continues executing normally.
+     *
+     * Because `jsdom` is the one requireing `canvas` we search for `canvas`
+     * as if we were that package to make sure to find the same package.
+     *
+     * The path nam resolution code is inspired by `Module._resolveFilename`
+     * https://github.com/nodejs/node/blob/5c2d555b29d99f9d1f484fd46eff33b42ee9c11f/lib/internal/modules/cjs/loader.js#L569
+     */
+    const Module = require('module');
+    const fakeParent = new Module('', null);
+
+    fakeParent.paths = Module._nodeModulePaths(workspace);
+
+    const jsdomLookupPaths: string[] = Module._resolveLookupPaths('jsdom', fakeParent, true);
+    const jsdomPath: string = Module._findPath('jsdom', jsdomLookupPaths);
+    const endPath = `jsdom${path.sep}`;
+    const jsdomNodeModules = jsdomPath.substring(0, jsdomPath.indexOf(endPath) + endPath.length);
+
+    fakeParent.paths = Module._nodeModulePaths(jsdomNodeModules);
+
+    ['canvas', 'canvas-prebuilt'].forEach((moduleName) => {
+        const canvasLookupPaths = Module._resolveLookupPaths(moduleName, fakeParent, true);
+        const canvasPath = Module._findPath(moduleName, canvasLookupPaths);
+
+        if (!canvasPath) {
+            return;
+        }
+
+        const fakeCanvas = new Module(canvasPath, null);
+
+        fakeCanvas.exports = function () { };
+
+        require.cache[canvasPath] = fakeCanvas;
+    });
+
 
     return { capabilities: { textDocumentSync: documents.syncKind } };
 });

@@ -23,7 +23,8 @@
                 "<node_internals>/**/*.js"
             ],
             "sourceMaps": true,
-            "outFiles": ["${workspaceRoot}/dist/**/*.js"]
+            "outFiles": ["${workspaceRoot}/dist/**/*.js"],
+            "timeout": 15000
         }
     ],
     "compounds": [
