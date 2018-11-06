@@ -10,7 +10,7 @@
     "@hint/hint-highest-available-document-mode": "^2.0.0",
     "@hint/hint-meta-charset-utf-8": "^2.0.0",
     "@hint/hint-meta-viewport": "^2.0.0",
-    "@hint/hint-no-bom": "^1.0.4",
+    "@hint/hint-no-bom": "^2.0.0",
     "@hint/hint-no-protocol-relative-urls": "^1.0.4",
     "@hint/hint-typescript-config": "^1.1.2",
     "@hint/hint-webpack-config": "^1.0.1",
