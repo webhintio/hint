@@ -1,3 +1,10 @@
+# 4.0.1 (November 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`fdec57602d`](https://github.com/webhintio/hint/commit/fdec57602d931e945a27b53ab2a58af05199279e)] - Fix: Update `configuration-web-recommended` to `v2.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 4.0.0 (November 5, 2018)
 
 ## Breaking Changes
