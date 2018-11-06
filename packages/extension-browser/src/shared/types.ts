@@ -45,12 +45,6 @@ export type Config = {
     ignoredUrls?: string;
 };
 
-export type BackgroundEvents = {
-    config?: Config;
-    fetchEnd?: FetchEnd;
-    fetchStart?: FetchStart;
-};
-
 export type HintResults = {
     helpURL: string;
     id: string;
@@ -64,15 +58,23 @@ export type CategoryResults = {
     passed: number;
 };
 
+export type ResponseBody = {
+    content: string;
+    url: string;
+}
+
 export type Results = {
     categories: CategoryResults[];
 };
 
-export type ContentEvents = {
+export type Events = {
     enable?: Config;
+    fetchEnd?: FetchEnd;
+    fetchStart?: FetchStart;
     done?: boolean;
     ready?: boolean;
     requestConfig?: boolean;
+    responseBody?: ResponseBody;
     results?: Results;
     tabId?: number;
 };

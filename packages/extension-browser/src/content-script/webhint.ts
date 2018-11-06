@@ -11,7 +11,7 @@ import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
 import browser from '../shared/browser';
-import { BackgroundEvents, Config, ContentEvents } from '../shared/types';
+import { Config, Events } from '../shared/types';
 
 import WebExtensionConnector from './connector';
 import WebExtensionFormatter from './formatter';
@@ -98,15 +98,15 @@ const main = async (userConfig: Config) => {
     });
 };
 
-const onMessage = (events: BackgroundEvents) => {
-    if (events.config) {
-        main(events.config);
+const onMessage = (events: Events) => {
+    if (events.enable) {
+        main(events.enable);
         browser.runtime.onMessage.removeListener(onMessage);
     }
 };
 
 browser.runtime.onMessage.addListener(onMessage);
 
-const requestConfig: ContentEvents = { requestConfig: true };
+const requestConfig: Events = { requestConfig: true };
 
 browser.runtime.sendMessage(requestConfig);

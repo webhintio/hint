@@ -32,6 +32,7 @@
     "@hint/parser-manifest": "^1.1.0",
     "@types/chrome": "^0.0.74",
     "@types/ejs": "^2.6.0",
+    "@types/har-format": "^1.2.3",
     "@types/highlight.js": "^9.12.3",
     "ava": "^0.25.0",
     "browserslist": "^4.3.2",

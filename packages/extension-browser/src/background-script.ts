@@ -1,22 +1,10 @@
-import { FetchEnd, FetchStart, HttpHeaders, Request, Response } from 'hint/dist/src/lib/types';
-import { BackgroundEvents, Config, ContentEvents, Details } from './shared/types'; // eslint-disable-line
+import { FetchEnd, FetchStart, Request, Response } from 'hint/dist/src/lib/types';
+import { Config, Details, Events } from './shared/types'; // eslint-disable-line
 import browser from './shared/browser';
+import { mapHeaders } from './shared/headers';
 
 // Track data associated with all outstanding requests by `requestId`.
 const requests = new Map<string, Details[]>();
-
-/** Convert `webRequest` headers to `hint` headers. */
-const mapHeaders = (webRequestHeaders: { name: string, value?: string }[]): HttpHeaders => {
-    if (!webRequestHeaders) {
-        return {};
-    }
-
-    return webRequestHeaders.reduce((headers, header) => {
-        headers[header.name.toLowerCase()] = header.value || '';
-
-        return headers;
-    }, {} as HttpHeaders);
-};
 
 /** Convert `webRequest` details to a `hint` `Request` object. */
 const mapRequest = (parts: Details[]): Request => {
@@ -39,17 +27,6 @@ const mapRequest = (parts: Details[]): Request => {
 /** Convert `webRequest` details to a `hint` `Response` object. */
 const mapResponse = async (parts: Details[]): Promise<Response> => {
     const responseDetails = parts[parts.length - 1];
-
-    /*
-     * Fetch the response body.
-     *
-     * TODO: Get response body from `Response` if available:
-     * * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/filterResponseData
-     * * https://bugs.chromium.org/p/chromium/issues/detail?id=487422#c18
-     *
-     * TODO: Look at `devtools.network` as an alternative:
-     * * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/devtools.network/onRequestFinished
-     */
     const responseBody = await fetch(responseDetails.url);
 
     // Build a `hint` response object.
@@ -59,14 +36,14 @@ const mapResponse = async (parts: Details[]): Promise<Response> => {
             rawContent: null as any,
             rawResponse: null as any
         },
-        charset: '', // Set by `connector`.
+        charset: '', // Set by `content-script/connector`.
         headers: mapHeaders(responseDetails.responseHeaders),
         hops: parts.map((details) => {
             return details.redirectUrl;
         }).filter((url) => {
             return !!url;
         }),
-        mediaType: '', // Set by `connector`.
+        mediaType: '', // Set by `content-script/connector`.
         statusCode: responseDetails.statusCode,
         url: responseDetails.url
     };
@@ -75,10 +52,10 @@ const mapResponse = async (parts: Details[]): Promise<Response> => {
 const configs = new Map<number, Config>();
 const enabledTabs = new Set<number>();
 const readyTabs = new Set<number>();
-const queuedEvents = new Map<number, BackgroundEvents[]>();
+const queuedEvents = new Map<number, Events[]>();
 
 /** Emit an event to a tab's content script if ready; queue otherwise. */
-const sendEvent = (tabId: number, event: BackgroundEvents) => {
+const sendEvent = (tabId: number, event: Events) => {
     if (readyTabs.has(tabId)) {
 
         browser.tabs.sendMessage(tabId, event);
@@ -95,8 +72,25 @@ const sendEvent = (tabId: number, event: BackgroundEvents) => {
     }
 };
 
+// Keep a mapping of tab IDs to connected devtools panels for messaging.
+const ports = new Map<number, chrome.runtime.Port>();
+
 /** Build and trigger `fetch::end::*` based on provided `webRequest` details. */
 const sendFetchEnd = async (parts: Details[]): Promise<void> => {
+
+    /*
+     * Ignore sending `fetch::end` here when a devtools page is attached.
+     *
+     * This is because there's no `responseBody` property in the `webRequest` APIs so
+     * we have to make an extra `fetch` call to get it, adding additional overhead.
+     *
+     * Since `devtools.network.onRequestFinished` has a `getContent()` method, we defer
+     * to it when available (see `devtools/panel/panel.ts`).
+     */
+    if (ports.has(parts[0].tabId)) {
+        return;
+    }
+
     const element = null;
     const request = mapRequest(parts);
     const response = await mapResponse(parts);
@@ -196,6 +190,7 @@ const disable = (tabId: number) => {
     }
 };
 
+// Support starting/stopping via the icon in the browser toolbar.
 browser.browserAction.onClicked.addListener((tab) => {
     if (tab.id) {
         if (enabledTabs.has(tab.id)) {
@@ -206,31 +201,33 @@ browser.browserAction.onClicked.addListener((tab) => {
     }
 });
 
-// Keep a mapping of tab IDs to connected devtools panels for messaging.
-const ports = new Map<number, chrome.runtime.Port>();
-
 // Watch for new connections from devtools panels.
 browser.runtime.onConnect.addListener((port) => {
     ports.set(parseInt(port.name), port);
 });
 
-// Watch for messages from content scripts and devtools panels.
-browser.runtime.onMessage.addListener((message: ContentEvents, sender) => {
+// Watch for messages from content scripts and devtools panels (listed roughly in the order they will occur).
+browser.runtime.onMessage.addListener((message: Events, sender) => {
     const tabId = sender.tab && sender.tab.id || message.tabId;
 
     if (!tabId) {
         return;
     }
 
+    // Activate content-script when requested by devtools page (saving configuration for when content-script is ready).
     if (message.enable) {
         configs.set(tabId, message.enable);
         enable(tabId);
     }
 
-    if (message.done) {
-        disable(tabId);
+    // Forward configuration to content-script when asked (happens before `message.ready`).
+    if (message.requestConfig) {
+        const configMessage: Events = { enable: configs.get(tabId) || {} };
+
+        browser.tabs.sendMessage(tabId, configMessage);
     }
 
+    // Send queued events to content-script when ready.
     if (message.ready) {
         readyTabs.add(tabId);
 
@@ -245,14 +242,15 @@ browser.runtime.onMessage.addListener((message: ContentEvents, sender) => {
         }
     }
 
-    if (message.requestConfig) {
-        const configMessage: BackgroundEvents = { config: configs.get(tabId) || {} };
-
-        browser.tabs.sendMessage(tabId, configMessage);
+    // Forward or queue `fetch::*` events from devtools page to content script (can occur before `message.ready`).
+    if (message.fetchEnd || message.fetchStart) {
+        sendEvent(tabId, message);
     }
 
-    // Forward results to the associated devtools panel.
+    // Forward results from content-script to the associated devtools panel.
     if (message.results) {
+        disable(tabId);
+
         const port = ports.get(tabId);
 
         if (port) {

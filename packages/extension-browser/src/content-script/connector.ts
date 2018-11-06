@@ -13,7 +13,7 @@ import {
     NetworkData
 } from 'hint/dist/src/lib/types';
 
-import { BackgroundEvents, ContentEvents } from '../shared/types';
+import { Events } from '../shared/types';
 import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-html';
 import browser from '../shared/browser';
 
@@ -27,8 +27,7 @@ export default class WebExtensionConnector implements IConnector {
         this._engine = engine;
         this._options = Object.apply({ waitFor: 1000 }, options);
 
-        // TODO: Account for events sent before listener was added (queue in background-script?).
-        browser.runtime.onMessage.addListener(async (events: BackgroundEvents) => {
+        browser.runtime.onMessage.addListener(async (events: Events) => {
             if (events.fetchEnd) {
                 await this.notifyFetch(events.fetchEnd);
             }
@@ -64,7 +63,7 @@ export default class WebExtensionConnector implements IConnector {
         }
     }
 
-    private sendMessage(message: ContentEvents) {
+    private sendMessage(message: Events) {
         browser.runtime.sendMessage(message);
     }
 
