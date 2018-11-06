@@ -1,3 +1,10 @@
+# 3.0.0 (November 5, 2018)
+
+## Breaking Changes
+
+* [[`33fc1de23b`](https://github.com/webhintio/hint/commit/33fc1de23b7dbadb6acf97cafb480af153c2d15a)] - Breaking: Update `configuration-development` to `v2.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 2.0.0 (November 5, 2018)
 
 ## Breaking Changes
