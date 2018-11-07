@@ -35,106 +35,107 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
-        const onParseCSS = (styleParse: StyleParse): void => {
-            const { resource } = styleParse;
-            const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
-            const compatApi = new CompatApi('css', mdnBrowsersCollection);
+        const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
+        const compatApi = new CompatApi('css', mdnBrowsersCollection);
 
-            const checkDeprecatedCSSFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, children?: string): void => {
-                const key: any = data[keyName];
-                let [prefix, featureName] = compatApi.getPrefix(name);
+        const checkDeprecatedCSSFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, resource: string, children?: string): void => {
+            const key: any = data[keyName];
+            let [prefix, featureName] = compatApi.getPrefix(name);
 
-                if (!key) {
-                    debug('Error: The keyname does not exist.');
+            if (!key) {
+                debug('Error: The keyname does not exist.');
 
-                    return;
-                }
+                return;
+            }
 
-                let feature = key[featureName];
+            let feature = key[featureName];
 
-                if (children) {
-                    [prefix, featureName] = compatApi.getPrefix(children);
-                    feature = feature[featureName];
-                }
+            if (children) {
+                [prefix, featureName] = compatApi.getPrefix(children);
+                feature = feature[featureName];
+            }
 
-                // If feature is not in the filtered by browser data, that means that is always supported.
-                if (!feature) {
-                    return;
-                }
+            // If feature is not in the filtered by browser data, that means that is always supported.
+            if (!feature) {
+                return;
+            }
 
-                // If feature does not have compat data, we ignore it.
-                const featureInfo = feature.__compat;
+            // If feature does not have compat data, we ignore it.
+            const featureInfo = feature.__compat;
 
-                if (!featureInfo) {
-                    return;
-                }
+            if (!featureInfo) {
+                return;
+            }
 
-                // Check for each browser the support block
-                const supportBlock: SupportBlock = featureInfo.support;
+            // Check for each browser the support block
+            const supportBlock: SupportBlock = featureInfo.support;
 
-                forEach(supportBlock, (browserInfo, browserToSupportName) => {
-                    const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
+            forEach(supportBlock, (browserInfo, browserToSupportName) => {
+                const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
-                    // If we dont have information about the compatibility, its an error.
-                    if (!browserFeatureSupported) {
-                        let wasSupportedInSometime = false;
-
-                        forEach(browsersToSupport, (versions, browserName) => {
-                            if (browserName !== browserToSupportName) {
-                                return;
-                            }
-
-                            wasSupportedInSometime = true;
-                        });
-
-                        if (!wasSupportedInSometime && Object.keys(browsersToSupport).includes(browserToSupportName)) {
-                            context.report(resource, null, `${featureName} of CSS was never supported on ${browserToSupportName} browser.`, featureName);
-                        }
-
-                        return;
-                    }
-
-                    const removedVersion = browserFeatureSupported.version_removed;
-
-                    // If there is no removed version, it is no deprecated.
-                    if (!removedVersion) {
-                        return;
-                    }
-
-                    // Not a common case, but if removed version is exactly true, is always deprecated.
-                    if (removedVersion === true) {
-                        context.report(resource, null, `${featureName} of CSS is not supported on ${browserToSupportName} browser.`, featureName);
-
-                        return;
-                    }
-
-                    // If the version is bigger than the browser supported, should fail
-                    const removedVersionNumber = browserVersions.normalize(removedVersion);
-                    const notSupportedVersions: string[] = [];
+                // If we dont have information about the compatibility, its an error.
+                if (!browserFeatureSupported) {
+                    let wasSupportedInSometime = false;
 
                     forEach(browsersToSupport, (versions, browserName) => {
                         if (browserName !== browserToSupportName) {
                             return;
                         }
 
-                        versions.forEach((version) => {
-                            if (version < removedVersionNumber) {
-                                return;
-                            }
-
-                            notSupportedVersions.push(`${browserName} ${browserVersions.deNormalize(version)}`);
-                        });
+                        wasSupportedInSometime = true;
                     });
 
-                    if (notSupportedVersions.length > 0) {
-                        context.report(resource, null, `${featureName} of CSS is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
+                    if (!wasSupportedInSometime && Object.keys(browsersToSupport).includes(browserToSupportName)) {
+                        context.report(resource, null, `${featureName} of CSS was never supported on ${browserToSupportName} browser.`, featureName);
                     }
+
+                    return;
+                }
+
+                const removedVersion = browserFeatureSupported.version_removed;
+
+                // If there is no removed version, it is no deprecated.
+                if (!removedVersion) {
+                    return;
+                }
+
+                // Not a common case, but if removed version is exactly true, is always deprecated.
+                if (removedVersion === true) {
+                    context.report(resource, null, `${featureName} of CSS is not supported on ${browserToSupportName} browser.`, featureName);
+
+                    return;
+                }
+
+                // If the version is bigger than the browser supported, should fail
+                const removedVersionNumber = browserVersions.normalize(removedVersion);
+                const notSupportedVersions: string[] = [];
+
+                forEach(browsersToSupport, (versions, browserName) => {
+                    if (browserName !== browserToSupportName) {
+                        return;
+                    }
+
+                    versions.forEach((version) => {
+                        if (version < removedVersionNumber) {
+                            return;
+                        }
+
+                        notSupportedVersions.push(`${browserName} ${browserVersions.deNormalize(version)}`);
+                    });
                 });
-            };
 
-            const compatCSS = new CompatCSS(checkDeprecatedCSSFeature);
+                if (notSupportedVersions.length > 0) {
+                    context.report(resource, null, `${featureName} of CSS is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
+                }
+            });
+        };
 
-            compatCSS.searchCSSFeatures(compatApi.compatDataApi, mdnBrowsersCollection, styleParse);
+        const compatCSS = new CompatCSS(checkDeprecatedCSSFeature);
+
+        const onParseCSS = (styleParse: StyleParse): void => {
+            const { resource } = styleParse;
+
+            compatCSS.searchCSSFeatures(compatApi.compatDataApi, mdnBrowsersCollection, styleParse, resource);
         };
 
         context.on('parse::css::end', onParseCSS);
