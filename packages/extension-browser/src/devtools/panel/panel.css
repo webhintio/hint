@@ -1,7 +1,3 @@
-@import url('./views/pages/analyze.css');
-@import url('./views/pages/configuration.css');
-@import url('./views/pages/results.css');
-
 html {
     --bg-color: #fff;
     --bg-alt-color: #f2f2f2;

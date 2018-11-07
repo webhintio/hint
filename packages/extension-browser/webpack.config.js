@@ -20,10 +20,6 @@ module.exports = {
                     'style-loader',
                     'css-loader'
                 ]
-            },
-            {
-                test: /\.ejs$/,
-                use: 'compile-ejs-loader'
             }
         ]
     },

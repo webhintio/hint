@@ -1,145 +1,18 @@
-import * as hljs from 'highlight.js';
-
 import browser from '../../shared/browser';
 import { mapHeaders } from '../../shared/headers';
 import { Config, Events } from '../../shared/types';
 
-// TODO: Pick a better looking theme from highlight.js/styles.
-import 'highlight.js/styles/default.css';
-import './panel.css';
+import analyzeView from './views/pages/analyze';
+import configurationView from './views/pages/configuration';
+import resultsView from './views/pages/results';
 
-// Using `require` as `*.ejs` exports a function.
-import renderAnalyze = require('./views/pages/analyze.ejs');
-import renderConfiguration = require('./views/pages/configuration.ejs');
-import renderResults = require('./views/pages/results.ejs');
+import './panel.css';
 
 const tabId = browser.devtools.inspectedWindow.tabId;
 const port = browser.runtime.connect({ name: `${tabId}` });
 
-// TODO: Read from packaged hint metadata.
-const categories = [
-    'Accessibility',
-    'Interoperability',
-    'PWA',
-    'Performance',
-    'Security'
-];
-
-const findInput = (s: string): HTMLInputElement => {
-    return document.querySelector(s) as HTMLInputElement;
-};
-
-const findAllInputs = (s: string): HTMLInputElement[] => {
-    return Array.from(document.querySelectorAll(s));
-};
-
 const sendMessage = (message: Events) => {
     browser.runtime.sendMessage(message);
-};
-
-/** Convert EJS `include` calls to `require` calls. */
-const resolver = (base: string) => {
-    return (path: string, data: any) => {
-        const baseParts = base.split('/');
-        const pathParts = path.split('/');
-
-        while (pathParts[0] === '..') {
-            baseParts.pop();
-            pathParts.shift();
-        }
-
-        const resolvedPath = [...baseParts, ...pathParts].join('/');
-        const resolvedBase = [...baseParts, ...pathParts.slice(0, -1)].join('/');
-
-        return require(`./views/${resolvedPath}.ejs`)(data, null, resolver(resolvedBase));
-    };
-};
-
-/** Extract selected browsers from the form and convert to the `Config` format. */
-const getBrowsersList = (): string => {
-    const browsersQuery: string[] = [];
-
-    if (findInput('[name="recommended-browsers"]').checked) {
-        browsersQuery.push('defaults');
-    }
-
-    if (findInput('[name="custom-browsers"]').checked) {
-        browsersQuery.push(findInput('[name="custom-browsers-list"]').value);
-    }
-
-    return browsersQuery.join(', ');
-};
-
-/** Extract selected categories from the form and convert to the `Config` format. */
-const getCategories = (): string[] => {
-    return findAllInputs('.configuration__category:checked').map((input) => {
-        return input.value;
-    });
-};
-
-/** Extract ignored URLs from the form and convert to the `Config` format. */
-const getIgnoredUrls = (): string => {
-    const type = findInput('[name="resources"]:checked').value;
-
-    switch (type) {
-        case 'none':
-            return '';
-        case 'third-party':
-            throw new Error('Not yet implemented');
-        case 'custom':
-            return findInput('[name="custom-resources"]').value;
-        default:
-            throw new Error(`Unrecognized resource filter: '${type}'`);
-    }
-};
-
-/** Extract all user provided configuration from the form as a `Config` object. */
-const getConfiguration = (): Config => {
-    return {
-        browserslist: getBrowsersList(),
-        categories: getCategories(),
-        ignoredUrls: getIgnoredUrls()
-    };
-};
-
-type SavedConfiguration = {[key: string]: string | boolean};
-
-const restoreConfiguration = () => {
-    const configStr = localStorage.getItem('config') || '{}';
-
-    try {
-        const config: SavedConfiguration = JSON.parse(configStr);
-
-        Object.keys(config).forEach((name) => {
-            const inputs = findAllInputs(`.configuration input[name='${name}']`);
-            const value = config[name];
-
-            if (inputs.length > 1) {
-                inputs.forEach((input) => {
-                    input.checked = input.value === value;
-                });
-            } else if (typeof value === 'boolean') {
-                inputs[0].checked = value;
-            } else {
-                inputs[0].value = value;
-            }
-        });
-    } catch (e) {
-        // Existing configuration is malformed, ignoring.
-        console.warn(`Ignoring malformed configuration: ${configStr}`);
-    }
-};
-
-const saveConfiguration = () => {
-    const config = findAllInputs('.configuration input').reduce((o, input) => {
-        if (!o[input.name] || input.checked) {
-            o[input.name] = input.type === 'checkbox' ? input.checked : input.value;
-        }
-
-        return o;
-    }, {} as SavedConfiguration);
-
-    localStorage.setItem('config', JSON.stringify(config));
 };
 
 const hops = new Map<string, string[]>();
@@ -197,47 +70,32 @@ const onRequestFinished = (request: chrome.devtools.network.Request) => {
     });
 };
 
+const render = (fragment: DocumentFragment) => {
+    document.body.textContent = '';
+    document.body.appendChild(fragment);
+};
+
 const onCancel = () => {
     sendMessage({ done: true, tabId });
 
     browser.devtools.network.onRequestFinished.removeListener(onRequestFinished);
 
-    document.body.innerHTML = renderConfiguration({ categories }, null, resolver('pages'));
-
-    const startButton = document.querySelector('.header__analyze-button')!;
-
-    startButton.addEventListener('click', onStart); // eslint-disable-line
-
-    restoreConfiguration();
+    render(configurationView({ onAnalyzeClick: onStart })); // eslint-disable-line
 };
 
-const onStart = () => {
-    saveConfiguration();
-
-    sendMessage({ enable: getConfiguration(), tabId });
+const onStart = (config: Config) => {
+    sendMessage({ enable: config, tabId });
 
     browser.devtools.network.onRequestFinished.addListener(onRequestFinished);
 
-    document.body.innerHTML = renderAnalyze(null, null, resolver('pages'));
-
-    const cancelButton = document.querySelector('.analyze__cancel-button')!;
-
-    cancelButton.addEventListener('click', onCancel);
+    render(analyzeView({ onCancelClick: onCancel }));
 };
 
 port.onMessage.addListener((message: Events) => {
     if (message.results) {
         browser.devtools.network.onRequestFinished.removeListener(onRequestFinished);
 
-        document.body.innerHTML = renderResults(message.results, null, resolver('pages'));
-
-        Array.from(document.querySelectorAll('.problem__code')).forEach((codeBlock) => {
-            hljs.highlightBlock(codeBlock);
-        });
-
-        const restartButton = document.querySelector('.header__analyze-button')!;
-
-        restartButton.addEventListener('click', onCancel);
+        render(resultsView({onRestartClick: onCancel, results: message.results}));
     }
 });
 

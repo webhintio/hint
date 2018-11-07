@@ -61,7 +61,7 @@ export type CategoryResults = {
 export type ResponseBody = {
     content: string;
     url: string;
-}
+};
 
 export type Results = {
     categories: CategoryResults[];

@@ -1,6 +1,3 @@
-@import url('../partials/category.css');
-@import url('../partials/header.css');
-
 .results__status {
     background-color: var(--bg-alt-color);
 }
