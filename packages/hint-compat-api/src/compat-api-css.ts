@@ -8,7 +8,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
-import {  forEach } from 'lodash';
+import { forEach } from 'lodash';
 import { CompatApi, userBrowsers, CompatCSS } from './helpers';
 import { MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
 import { SupportBlock } from './types-mdn.temp';
@@ -40,9 +40,9 @@ export default class implements IHint {
             const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
             const compatApi = new CompatApi('css', mdnBrowsersCollection);
 
-            const checkDeprecatedCSSFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection): void => {
+            const checkDeprecatedCSSFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, children?: string): void => {
                 const key: any = data[keyName];
-                const [prefix, featureName] = compatApi.getPrefix(name);
+                let [prefix, featureName] = compatApi.getPrefix(name);
 
                 if (!key) {
                     debug('Error: The keyname does not exist.');
@@ -50,7 +50,12 @@ export default class implements IHint {
                     return;
                 }
 
-                const feature = key[featureName];
+                let feature = key[featureName];
+
+                if (children) {
+                    [prefix, featureName] = compatApi.getPrefix(children);
+                    feature = feature[featureName];
+                }
 
                 // If feature is not in the filtered by browser data, that means that is always supported.
                 if (!feature) {

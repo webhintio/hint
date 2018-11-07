@@ -2,6 +2,7 @@
 const bcd: CompatData = require('mdn-browser-compat-data');
 
 import { forEach } from 'lodash';
+import { browserVersions } from './normalize-version';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers } from '../types';
 import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement } from '../types-mdn.temp'; // Temporal
 
@@ -117,7 +118,7 @@ export class CompatApi {
         // TODO: Here we are checking only parent but this object has children
         let isRequiredToTest = false;
 
-        forEach(this.browsers, (browserVersions, browser) => {
+        forEach(this.browsers, (browserVersionsList, browser) => {
             if (isRequiredToTest || !typedFeatureValue.__compat || !typedFeatureValue.__compat.support) {
                 return;
             }
@@ -132,19 +133,21 @@ export class CompatApi {
             const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
 
             if (isCheckingNotBroadlySupported) {
-                // Check added
-                 // TODO
-                console.log(addedVersion);
+                if (!addedVersion || isNaN(parseFloat(addedVersion.toString()))) {
+                    return;
+                }
 
-                return;
-            }
+                if (addedVersion || browserVersionsList[0] <= browserVersions.normalize(addedVersion)) {
+                    isRequiredToTest = true;
+                }
+            } else {
+                if (!removedVersion || isNaN(parseFloat(removedVersion.toString()))) {
+                    return;
+                }
 
-            if (!removedVersion || isNaN(parseFloat(removedVersion.toString()))) {
-                return;
-            }
-
-            if (browserVersions[browserVersions.length - 1] >= Number(removedVersion)) {
-                isRequiredToTest = true;
+                if (removedVersion || browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion)) {
+                    isRequiredToTest = true;
+                }
             }
         });
 

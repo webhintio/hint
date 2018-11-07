@@ -1,0 +1,5 @@
+body {
+    display: -webkit-flex;
+    background: red;
+    display: flex;
+}
