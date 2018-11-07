@@ -1,6 +1,16 @@
 const basePrefix = '__html';
 const pathAttr = 'data-path';
 
+const unsafe: {[char: string]: string} = {
+    '"': 'quot',
+    '&': 'amp',
+    '\'': 'apos',
+    '<': 'lt',
+    '>': 'gt'
+};
+
+const rxUnsafe = new RegExp(Object.keys(unsafe).join('|'), 'g');
+
 /** Resolve a value at the specified path from the provided collection of values. */
 const getValue = (path: string | string[], values: any[]): any => {
     let v = values;
@@ -41,12 +51,9 @@ const safe = (value: any, index: number, prefix = basePrefix): string => {
     }
 
     // Make `string`s safe by escaping values which can close or create markup.
-    return `${value}`
-        .replace(`&`, '&amp;')
-        .replace(`<`, '&lt;')
-        .replace(`>`, '&gt;')
-        .replace(`"`, '&quot;')
-        .replace(`'`, '&apos;');
+    return `${value}`.replace(rxUnsafe, (c) => {
+        return `&${unsafe[c] || ''};`;
+    });
 };
 
 /**
