@@ -210,8 +210,9 @@ browser.runtime.onConnect.addListener((port) => {
 browser.runtime.onMessage.addListener((message: Events, sender) => {
     const tabId = sender.tab && sender.tab.id || message.tabId;
 
+    // Aid debugging by ensuring a tabId is always found.
     if (!tabId) {
-        return;
+        throw new Error(`Message received without a tabId: ${JSON.stringify(message)}`);
     }
 
     // Activate content-script when requested by devtools page (saving configuration for when content-script is ready).

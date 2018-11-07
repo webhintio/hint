@@ -12,6 +12,7 @@ const tabId = browser.devtools.inspectedWindow.tabId;
 const port = browser.runtime.connect({ name: `${tabId}` });
 
 const sendMessage = (message: Events) => {
+    message.tabId = tabId;
     browser.runtime.sendMessage(message);
 };
 
@@ -40,15 +41,18 @@ const onRequestFinished = (request: chrome.devtools.network.Request) => {
 
         } else {
 
+            const requestHops = hops.get(url) || [];
+            const requestURL = requestHops.length ? requestHops[0] : url;
+
             // Otherwise generate a `fetch::end`.
             sendMessage({
                 fetchEnd: {
                     element: null,
                     request: {
                         headers: mapHeaders(request.request.headers),
-                        url: request.request.url
+                        url: requestURL
                     },
-                    resource: request.request.url,
+                    resource: url,
                     response: {
                         body: {
                             content,
@@ -57,10 +61,10 @@ const onRequestFinished = (request: chrome.devtools.network.Request) => {
                         },
                         charset: '', // Set by `content-script/connector`.
                         headers: mapHeaders(request.response.headers),
-                        hops: hops.get(url) || [],
+                        hops: requestHops,
                         mediaType: '', // Set by `content-script/connector`.
                         statusCode: request.response.status,
-                        url: request.request.url
+                        url
                     }
                 }
             });
@@ -76,7 +80,7 @@ const render = (fragment: DocumentFragment) => {
 };
 
 const onCancel = () => {
-    sendMessage({ done: true, tabId });
+    sendMessage({ done: true });
 
     browser.devtools.network.onRequestFinished.removeListener(onRequestFinished);
 
@@ -84,7 +88,7 @@ const onCancel = () => {
 };
 
 const onStart = (config: Config) => {
-    sendMessage({ enable: config, tabId });
+    sendMessage({ enable: config });
 
     browser.devtools.network.onRequestFinished.addListener(onRequestFinished);
 
