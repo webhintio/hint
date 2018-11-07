@@ -7,9 +7,9 @@ import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection } 
 const debug: debug.IDebugger = d(__filename);
 
 export class CompatCSS {
-    public testFunction: (key: string, name: string, data: any, browsers: any) => void;
+    public testFunction: (key: string, name: string, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, children?: string) => void;
 
-    public constructor(testFunction: (key: string, name: string, data: any, browsers: any) => void) {
+    public constructor(testFunction: (key: string, name: string, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, children?: string) => void) {
         this.testFunction = testFunction;
     }
 
@@ -55,6 +55,7 @@ export class CompatCSS {
 
             testFeature: (node: Declaration, data, browsers) => {
                 this.testFunction('properties', node.prop, data, browsers);
+                this.testFunction('properties', node.prop, data, browsers, node.value);
             }
         };
 
