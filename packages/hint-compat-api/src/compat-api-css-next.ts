@@ -40,6 +40,15 @@ export default class implements IHint {
             const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
             const isCheckingNotBroadlySupported = true;
             const compatApi = new CompatApi('css', mdnBrowsersCollection, isCheckingNotBroadlySupported);
+            const userPrefixes: any = {};
+
+            const addUserUsedPrefixes = (browserName: string, featureName: string): void => {
+                userPrefixes[browserName + featureName] = true;
+            };
+
+            const checkUserUsedPrefixes = (browserName: string, featureName: string): boolean => {
+                return userPrefixes[browserName + featureName];
+            };
 
             const checkNotBroadlySupportedFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, children?: string): void => {
                 const key: any = data[keyName];
@@ -109,7 +118,7 @@ export default class implements IHint {
                         return;
                     }
 
-                    // If the version is bigger than the browser supported, should fail
+                    // If the version is smaller than the browser supported, should fail
                     const addedVersionNumber = browserVersions.normalize(addedVersion);
                     const notSupportedVersions: string[] = [];
 
@@ -118,8 +127,17 @@ export default class implements IHint {
                             return;
                         }
 
+                        // If user used prefixes we should not check for more errors
+                        if (!prefix && checkUserUsedPrefixes(browserName, featureName)) {
+                            return;
+                        }
+
                         versions.forEach((version) => {
                             if (version >= addedVersionNumber) {
+                                if (prefix) {
+                                    addUserUsedPrefixes(browserName, featureName);
+                                }
+
                                 return;
                             }
 

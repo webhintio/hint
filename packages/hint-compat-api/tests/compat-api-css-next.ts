@@ -33,4 +33,4 @@ const tests: Array<HintTest> = [
     }
 ];
 
-hintRunner.testHint(hintPath, tests, { browserslist: ['chrome 20-30'], parsers: ['css']});
+hintRunner.testHint(hintPath, tests, { browserslist: ['chrome 20-30', 'chromeandroid 20-30'], parsers: ['css']});

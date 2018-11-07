@@ -108,7 +108,7 @@ export default class implements IHint {
                         return;
                     }
 
-                    // If the version is smaller than the browser supported, should fail
+                    // If the version is bigger than the browser supported, should fail
                     const removedVersionNumber = browserVersions.normalize(removedVersion);
                     const notSupportedVersions: string[] = [];
 
