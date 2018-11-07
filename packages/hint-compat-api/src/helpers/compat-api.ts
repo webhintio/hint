@@ -40,7 +40,7 @@ export class CompatApi {
         return compatDataApi;
     }
 
-    public getPrefix(name: string): [string, string] | [undefined, string] {
+    public getPrefix(name: string): [string | undefined, string] {
         const regexp = new RegExp(`-(moz|o|webkit|ms)-`, 'gi');
         const matched = name.match(regexp);
 
