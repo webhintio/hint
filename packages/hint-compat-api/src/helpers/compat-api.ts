@@ -40,14 +40,14 @@ export class CompatApi {
         return compatDataApi;
     }
 
-    public getPrefix(name: string): [string, string] | [undefined, string] {
+    public getPrefix(name: string): [string | undefined, string] {
         const regexp = new RegExp(`-(moz|o|webkit|ms)-`, 'gi');
         const matched = name.match(regexp);
 
         return matched && matched.length > 0 ? [matched[0], name.replace(matched[0], '')] : [undefined, name];
     }
 
-    public getSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined, prefix: string | undefined): SimpleSupportStatement | undefined {
+    public getSupportStatementFromInfo(browserFeatureSupported?: SupportStatement, prefix?: string): SimpleSupportStatement | undefined {
         let currentBrowserFeatureSupported = browserFeatureSupported;
 
         // If we dont have information about the compatibility, ignore.

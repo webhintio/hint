@@ -2,18 +2,18 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
-import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection } from '../types';
+import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection, CSSTestFunction } from '../types';
 
 const debug: debug.IDebugger = d(__filename);
 
 export class CompatCSS {
-    public testFunction: (key: string, name: string, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, children?: string) => void;
+    public testFunction: CSSTestFunction
 
-    public constructor(testFunction: (key: string, name: string, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, children?: string) => void) {
+    public constructor(testFunction: CSSTestFunction) {
         this.testFunction = testFunction;
     }
 
-    public searchCSSFeatures(data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, parse: StyleParse): void {
+    public searchCSSFeatures(data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, parse: StyleParse, resource: string): void {
         if (!this.testFunction) {
             debug('Error: You need to provide a testfunction');
 
@@ -23,7 +23,7 @@ export class CompatCSS {
         parse.ast.walk((node: ChildNode) => {
             const strategy = this.chooseStrategyToSearchCSSFeature(node);
 
-            strategy.testFeature(node, data, browsers);
+            strategy.testFeature(node, data, browsers, resource);
         });
     }
 
@@ -33,8 +33,8 @@ export class CompatCSS {
                 return node.type === 'atrule';
             },
 
-            testFeature: (node: AtRule, data, browsers) => {
-                this.testFunction('at-rules', node.name, data, browsers);
+            testFeature: (node: AtRule, data, browsers, resource) => {
+                this.testFunction('at-rules', node.name, data, browsers, resource);
             }
         };
 
@@ -43,8 +43,8 @@ export class CompatCSS {
                 return node.type === 'rule';
             },
 
-            testFeature: (node: Rule, data, browsers) => {
-                this.testFunction('selectors', node.selector, data, browsers);
+            testFeature: (node: Rule, data, browsers, resource) => {
+                this.testFunction('selectors', node.selector, data, browsers, resource);
             }
         };
 
@@ -53,9 +53,9 @@ export class CompatCSS {
                 return node.type === 'decl';
             },
 
-            testFeature: (node: Declaration, data, browsers) => {
-                this.testFunction('properties', node.prop, data, browsers);
-                this.testFunction('properties', node.prop, data, browsers, node.value);
+            testFeature: (node: Declaration, data, browsers, resource) => {
+                this.testFunction('properties', node.prop, data, browsers, resource);
+                this.testFunction('properties', node.prop, data, browsers, resource, node.value);
             }
         };
 
