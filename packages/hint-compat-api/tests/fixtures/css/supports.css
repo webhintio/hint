@@ -1,1 +1,5 @@
-@supports (display: table-cell) 
+@supports (display: grid) {
+    div {
+      display: grid;
+    }
+  }
