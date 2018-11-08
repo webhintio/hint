@@ -1,3 +1,10 @@
+# 2.0.1 (November 9, 2018)
+
+## Bug fixes / Improvements
+
+* [[`968911603b`](https://github.com/webhintio/hint/commit/968911603bc465f25add3d0e302b9ff4701446c4)] - Fix: Prevent loading `canvas` from `html-parser` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1482`](https://github.com/webhintio/hint/issues/1482)).
+
+
 # 2.0.0 (November 5, 2018)
 
 ## Breaking Changes
