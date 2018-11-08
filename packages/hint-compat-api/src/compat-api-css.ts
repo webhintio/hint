@@ -94,7 +94,7 @@ export default class implements IHint {
 
                 const removedVersion = browserFeatureSupported.version_removed;
 
-                // If there is no removed version, it is no deprecated.
+                // If there is no removed version, it is not deprecated.
                 if (!removedVersion) {
                     return;
                 }
@@ -125,7 +125,10 @@ export default class implements IHint {
                 });
 
                 if (notSupportedVersions.length > 0) {
-                    context.report(resource, null, `${featureName} of CSS is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
+                    const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
+
+                    context.report(resource, null, `${featureName} ${usedPrefix ? usedPrefix : ''}is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
+                    // context.report(resource, null, `${featureName} is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
                 }
             });
         };
