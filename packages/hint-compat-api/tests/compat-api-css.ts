@@ -44,6 +44,16 @@ const prefixedFeatureNeverRemoved: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, prefixedFeatureNeverRemoved, { browserslist: ['safari 3 - 9'], parsers: ['css']});
 
+const featureRemoved: Array<HintTest> = [
+    {
+        name: 'Features that were removed in versions before the targeted browsers should fail.',
+        reports: [{ message: 'padding-box is not supported on firefox 52 browsers.' }],
+        serverConfig: generateCSSConfig('box-sizing')
+    }
+];
+
+hintRunner.testHint(hintPath, featureRemoved, { browserslist: ['firefox 52'], parsers: ['css']});
+
 const prefixFeatureRemoved: Array<HintTest> = [
     {
         name: 'Prefixed features that were removed in versions before the targeted browsers should fail.',
@@ -56,12 +66,12 @@ hintRunner.testHint(hintPath, prefixFeatureRemoved, { browserslist: ['chrome 65 
 
 const removedLaterThanTargetedBrowsers: Array<HintTest> = [
     {
-        name: 'Features that were removed in a version later to the targeted browsers should pass.',
-        serverConfig: generateCSSConfig('viewport')
+        name: 'Prefixed features that were removed in a version later to the targeted browsers should pass.',
+        serverConfig: generateCSSConfig('keyframes')
     }
 ];
 
-hintRunner.testHint(hintPath, removedLaterThanTargetedBrowsers, { browserslist: ['opera 11-14'], parsers: ['css']});
+hintRunner.testHint(hintPath, removedLaterThanTargetedBrowsers, { browserslist: ['opera 13-14'], parsers: ['css']});
 
 const removedInEarlierVersionsAndAddedLater: Array<HintTest> = [
     {
