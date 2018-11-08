@@ -113,7 +113,7 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<P
     const htmlBeforeElement: string = html.substring(0, indexOccurences[similarItems - 1]);
 
     const lines: string[] = htmlBeforeElement.split('\n');
-    const line: number = lines.length - 1;
+    const line: number = lines.length;
     const column: number = (lines.pop() || '').replace(/[\t]/g, '    ').length + 1;
 
     return {
