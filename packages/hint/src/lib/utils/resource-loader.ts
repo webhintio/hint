@@ -451,8 +451,8 @@ export const loadHint = (hintId: string, configurations?: string[]): IHintConstr
     return loadResource(hintId, ResourceType.hint, configurations);
 };
 
-export const loadConfiguration = (configurationId: string) => {
-    return loadResource(configurationId, ResourceType.configuration);
+export const loadConfiguration = (configurationId: string, configurations?: string[]) => {
+    return loadResource(configurationId, ResourceType.configuration, configurations);
 };
 
 /** Returns all the resources from a `HintConfig` */

@@ -66,7 +66,7 @@ const loadPackageJSONConfigFile = (filePath: string): UserConfig => {
  * Configurations for `extends` are applied left to right.
  *
  */
-const composeConfig = (userConfig: UserConfig) => {
+const composeConfig = (userConfig: UserConfig, parentConfig = '') => {
     /*
      * If an `extends` property is defined, it represents a configuration package to use as
      * a "parent". Load the configuration and merge recursively.
@@ -79,13 +79,13 @@ const composeConfig = (userConfig: UserConfig) => {
     }
 
     const configurations = userConfig.extends.map((config) => {
-        const loadedConfiguration = resourceLoader.loadConfiguration(config);
+        const loadedConfiguration = resourceLoader.loadConfiguration(config, [parentConfig]);
 
         if (!validateConfig(loadedConfiguration)) {
             throw new Error(`Configuration package "${config}" is not valid`);
         }
 
-        return composeConfig(loadedConfiguration);
+        return composeConfig(loadedConfiguration, config);
     });
 
     const finalConfig: UserConfig = mergeWith({}, ...configurations, userConfig, (objValue: any, srcValue: any) => {
