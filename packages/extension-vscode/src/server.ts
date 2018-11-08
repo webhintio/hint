@@ -37,18 +37,20 @@ const hasYarnLock = (directory: string): Promise<boolean> => {
 };
 
 // Adds webhint and configuration-development to the current workspace.
-const installWebhint = (): Promise<void> => {
+const installWebhint = ({ global }: { global: boolean }): Promise<void> => {
     return new Promise(async (resolve, reject) => {
         connection.sendNotification(notifications.showOutput);
 
         // Build the installation commands.
         const packages = 'hint @hint/configuration-development';
         const cmd = process.platform === 'win32' ? '.cmd' : '';
-        const npm = `npm${cmd} install ${packages} --save-dev --verbose`;
+        const npm = `npm${cmd} install ${packages} ${global ? '-g' : '--save-dev'} --verbose`;
         const yarn = `yarn${cmd} add ${packages} --dev`;
 
         // Install via `yarn` if `yarn.lock` is present, `npm` otherwise.
-        const isUsingYarn = await hasYarnLock(workspace);
+        const isUsingYarn = global ?
+            false :
+            await hasYarnLock(workspace);
         const command = isUsingYarn ? yarn : npm;
         const parts = command.split(' ');
 
@@ -82,16 +84,19 @@ const loadModule = async <T>(context: string, name: string): Promise<T | null> =
     try {
         module = await Files.resolveModule2(context, name, '', trace);
     } catch (e) {
-        const addWebHint = 'Add webhint';
+        const addWebHintLocally = 'To this project';
+        const addWebHintGlobally = 'Globally';
+        const cancel = 'Cancel';
         const answer = await connection.window.showWarningMessage(
-            'Unable to find webhint. Add it to this project?',
-            { title: addWebHint },
-            { title: 'Cancel' }
+            'Unable to find webhint. Add it?',
+            { title: addWebHintLocally },
+            { title: addWebHintGlobally },
+            { title: cancel }
         );
 
-        if (answer && answer.title === addWebHint) {
+        if (answer && answer.title !== cancel) {
             try {
-                await installWebhint();
+                await installWebhint({ global: answer.title === addWebHintGlobally });
 
                 return loadModule<T>(context, name);
             } catch (err) {
