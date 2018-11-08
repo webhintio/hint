@@ -19,6 +19,9 @@ npm install -g --engine-strict hint
 You can also install it as a `devDependency` if you prefer not to
 have it globally (which is the team's preferred option).
 
+**NOTE**: If you run into any issues during the install process
+please check the [troubleshoot section](./troubleshoot/).
+
 `webhint` needs a configuration file to know what `hint`s,
 `connector`s, etc. to use. By default it will look for a `.hintrc`
 file in the current folder and then in the user's home directory.
@@ -98,47 +101,8 @@ about the different pieces:
 * [Formatters](./concepts/formatters/)
 * [Parsers](./concepts/parsers/)
 
-### Windows and Python
-
-Depending on your environment you could get an error similar to the
-following if there is a problem downloading any of the precompiled
-native modules:
-
-> gyp ERR! stack Error: Can't find Python executable "python"
-
-The fastest way to have a Windows environment capable of compiling native
-Node modules is installing the [`windows-build-tools`][windows build tools].
-
-From an **Elevated PowerShell** run the following:
-
-```bash
-npm install --global windows-build-tools
-```
-
-### Permission issues during installation
-
-If you receive an `EACCES` error when installing `webhint`, it is caused
-by installing packages globally. The recommended solution is to [change
-`npm`’s default directory][npm change default directory] and then try
-again. There have been reports of this issue when installing the
-dependency `canvas-prebuilt` throws an `EACCES`. This [issue][permission
-issue] was resolved adopting the recommended solution. You can find
-detailed steps on how to change the npm default directory [here][npm
-change default directory]. According to [npm’s documentation][npm use
-package manager], if you have node installed using a package
-manager like [Homebrew][homebrew] or [nvm][nvm], you may be able to avoid
-the trouble of messing with the directories and have the correct
-permissions set up right out of the box. As a result, you will not
-experience the error described above even if you install `webhint`
-globally.
-
 <!-- Link labels: -->
 
-[homebrew]: https://brew.sh/
 [nodejs]: https://nodejs.org/en/download/current/
-[npm change default directory]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-2-change-npms-default-directory-to-another-directory
 [npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
-[nvm]: https://github.com/creationix/nvm
-[permission issue]: https://github.com/webhintio/hint/issues/308
 [web recommended]: https://github.com/webhintio/hint/blob/master/packages/configuration-web-recommended/index.json
-[windows build tools]: https://www.npmjs.com/package/windows-build-tools
