@@ -1,3 +1,10 @@
+# 4.0.2 (November 9, 2018)
+
+## Bug fixes / Improvements
+
+* [[`5d1bf635a5`](https://github.com/webhintio/hint/commit/5d1bf635a51f4a8fce7096041dcd8bc061a9eeec)] - Fix: Find modules inside configurations (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1437`](https://github.com/webhintio/hint/issues/1437)).
+
+
 # 4.0.1 (November 5, 2018)
 
 ## Bug fixes / Improvements
