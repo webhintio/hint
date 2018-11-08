@@ -120,7 +120,6 @@ export class CompatApi {
     /* eslint-enable camelcase */
 
     private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported = false): boolean {
-        // TODO: Here we are checking only parent but this object has children
         let isRequiredToTest = false;
 
         forEach(this.browsers, (browserVersionsList, browser) => {
