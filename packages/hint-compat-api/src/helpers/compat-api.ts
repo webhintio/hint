@@ -89,7 +89,12 @@ export class CompatApi {
         };
 
         if (Array.isArray(browserFeatureSupported) && browserFeatureSupported.length > 0) {
-            browserFeatureSupported.forEach((info) => {
+            // We should remove flags information
+            const normalizedBrowserFeatureSupported = browserFeatureSupported.filter((info) => {
+                return !info.flags;
+            });
+
+            normalizedBrowserFeatureSupported.forEach((info) => {
                 if (!worstBrowserFeatureSupported.version_added && info.version_added === true) {
                     worstBrowserFeatureSupported.version_added = true;
                 }
