@@ -12,7 +12,6 @@ type Props = {
     results: Results;
 };
 
-// eslint-disable-next-line
 export default function view({ onRestartClick, results }: Props) {
     return html`
         ${headerView({ analyzeText: 'Analyze again', onAnalyzeClick: onRestartClick })}

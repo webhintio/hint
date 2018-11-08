@@ -5,7 +5,6 @@ import hintView from './hint';
 
 import './category.css';
 
-// eslint-disable-next-line
 export default function view({ name, hints, passed }: CategoryResults) {
     return html`
         <details class="category">

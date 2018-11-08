@@ -9,7 +9,6 @@ type Props = {
     onAnalyzeClick?: Function;
 };
 
-// eslint-disable-next-line
 export default function view({ analyzeDisabled, analyzeText, onAnalyzeClick }: Props) {
     return html`
         <header class="header">

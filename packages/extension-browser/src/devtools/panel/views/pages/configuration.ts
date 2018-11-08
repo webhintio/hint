@@ -19,7 +19,6 @@ const categories = [
     'Security'
 ];
 
-// eslint-disable-next-line
 export default function view({ onAnalyzeClick }: Props) {
     const fragment = configurationHtmlView({
         categories,

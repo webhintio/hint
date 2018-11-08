@@ -28,9 +28,5 @@ module.exports = {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist/bundle')
     },
-    resolve: {
-        alias: { // eslint-disable-line
-            url$: path.resolve(__dirname, 'dist/src/shims/url.js')
-        }
-    }
+    resolve: { alias: { url$: path.resolve(__dirname, 'dist/src/shims/url.js') } }
 };

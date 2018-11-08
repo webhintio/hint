@@ -5,7 +5,6 @@ import problemView from './problem';
 
 import './hint.css';
 
-// eslint-disable-next-line
 export default function view({ name, problems, helpURL }: HintResults) {
 
     const hintStatus = !problems.length ?

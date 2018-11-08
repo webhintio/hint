@@ -1,5 +1,5 @@
 import { FetchEnd, FetchStart, Request, Response } from 'hint/dist/src/lib/types';
-import { Config, Details, Events } from './shared/types'; // eslint-disable-line
+import { Config, Details, Events } from './shared/types';
 import browser from './shared/browser';
 import { mapHeaders } from './shared/headers';
 

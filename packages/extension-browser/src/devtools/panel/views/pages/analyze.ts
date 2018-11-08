@@ -9,7 +9,6 @@ type Props = {
     onCancelClick: Function;
 };
 
-// eslint-disable-next-line
 export default function view({ onCancelClick }: Props) {
     return html`
         ${headerView({analyzeDisabled: true, analyzeText: 'Analyze website'})}
