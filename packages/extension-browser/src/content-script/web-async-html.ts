@@ -45,9 +45,8 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
     private _document: Document;
     private _pageHTML = '';
 
-    public constructor(document: Document, pageHTML = '') {
+    public constructor(document: Document) {
         this._document = document;
-        this._pageHTML = pageHTML;
     }
 
     public pageHTML(): Promise<string> {
@@ -58,6 +57,10 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
         const root = this._document.documentElement;
 
         return Promise.resolve(root ? root.outerHTML : '');
+    }
+
+    public setPageHTML(pageHTML: string) {
+        this._pageHTML = pageHTML;
     }
 
     public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {

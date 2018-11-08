@@ -91,7 +91,7 @@ const sendFetchEnd = async (parts: Details[]): Promise<void> => {
         return;
     }
 
-    const element = null;
+    const element = null; // Set by `content-script/connector`.
     const request = mapRequest(parts);
     const response = await mapResponse(parts);
     const resource = response.url;

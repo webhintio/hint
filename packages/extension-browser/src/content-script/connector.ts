@@ -7,7 +7,6 @@ import {
     HttpHeaders,
     IAsyncHTMLDocument,
     IAsyncHTMLElement,
-    IAsyncWindow,
     IConnector,
     FetchEnd,
     NetworkData
@@ -18,10 +17,10 @@ import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-ht
 import browser from '../shared/browser';
 
 export default class WebExtensionConnector implements IConnector {
-    private _window: IAsyncWindow | undefined;
+    private _document = new AsyncHTMLDocument(document);
+    private _window = new AsyncWindow(this._document);
     private _engine: Engine;
     private _options: ConnectorOptionsConfig;
-    private _pageHTML = '';
 
     public constructor(engine: Engine, options?: ConnectorOptionsConfig) {
         this._engine = engine;
@@ -39,8 +38,6 @@ export default class WebExtensionConnector implements IConnector {
 
         const onLoad = async () => {
             const resource = location.href;
-
-            this._window = new AsyncWindow(new AsyncHTMLDocument(document, this._pageHTML));
 
             await this._engine.emitAsync('can-evaluate::script', { resource });
 
@@ -84,17 +81,33 @@ export default class WebExtensionConnector implements IConnector {
         await this._engine.emitAsync(`traverse::up`, { element, resource });
     }
 
-    private async notifyFetch(event: FetchEnd) {
-        const { charset, mediaType } = getContentTypeData(null, event.response.url, event.response.headers, null as any);
+    private setFetchElement(event: FetchEnd) {
+        const url = event.request.url;
+        const elements = Array.from(document.querySelectorAll('[href],[src]')).filter((element: any) => {
+            return element.href === url || element.src === url;
+        });
 
-        if (event.response.url === location.href) {
-            this._pageHTML = event.response.body.content;
+        if (elements.length) {
+            event.element = new AsyncHTMLElement(elements[0], this._document);
         }
+    }
+
+    private setFetchType(event: FetchEnd): string {
+        const { charset, mediaType } = getContentTypeData(null, event.response.url, event.response.headers, null as any);
 
         event.response.charset = charset || '';
         event.response.mediaType = mediaType || '';
 
-        const type = getType(mediaType || '');
+        return getType(mediaType || '');
+    }
+
+    private async notifyFetch(event: FetchEnd) {
+        this.setFetchElement(event);
+        const type = this.setFetchType(event);
+
+        if (event.response.url === location.href) {
+            this._document.setPageHTML(event.response.body.content);
+        }
 
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }
@@ -150,12 +163,12 @@ export default class WebExtensionConnector implements IConnector {
 
     /* istanbul ignore next */
     public evaluate(source: string): Promise<any> {
-        return Promise.resolve(this._window ? this._window.evaluate(source) : null);
+        return Promise.resolve(this._window.evaluate(source));
     }
 
     /* istanbul ignore next */
     public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
-        return this._window ? this._window.document.querySelectorAll(selector) : Promise.resolve([]);
+        return this._document.querySelectorAll(selector);
     }
 
     /* istanbul ignore next */
@@ -164,12 +177,12 @@ export default class WebExtensionConnector implements IConnector {
     }
 
     /* istanbul ignore next */
-    public get dom(): IAsyncHTMLDocument | undefined {
-        return this._window && this._window.document;
+    public get dom(): IAsyncHTMLDocument {
+        return this._document;
     }
 
     /* istanbul ignore next */
     public get html(): Promise<string> {
-        return this._window ? this._window.document.pageHTML() : Promise.resolve('');
+        return this._document.pageHTML();
     }
 }

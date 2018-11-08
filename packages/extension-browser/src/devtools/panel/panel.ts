@@ -47,7 +47,7 @@ const onRequestFinished = (request: chrome.devtools.network.Request) => {
             // Otherwise generate a `fetch::end`.
             sendMessage({
                 fetchEnd: {
-                    element: null,
+                    element: null, // Set by `content-script/connector`.
                     request: {
                         headers: mapHeaders(request.request.headers),
                         url: requestURL
