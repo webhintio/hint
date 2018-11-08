@@ -27,7 +27,22 @@ export class CompatApi {
             forEach(namespaceFeaturesValues, (featureValue, featureKey) => {
                 const typedFeatureValue = featureValue as CompatStatement & MDNTreeFilteredByBrowsers;
 
-                if (!this.isFeatureRequiredToTest(typedFeatureValue, isCheckingNotBroadlySupported)) {
+                // First check all the children
+                let isChildRequired = false;
+
+                if (typeof featureValue === 'object' && Object.keys(featureValue).length > 1) {
+
+                    forEach(featureValue, (childValue, childKey) => {
+
+                        if (!this.isFeatureRequiredToTest(childValue, isCheckingNotBroadlySupported)) {
+                            return;
+                        }
+
+                        isChildRequired = true;
+                    });
+                }
+
+                if (!isChildRequired && !this.isFeatureRequiredToTest(typedFeatureValue, isCheckingNotBroadlySupported)) {
                     return;
                 }
 
