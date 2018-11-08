@@ -20,11 +20,12 @@ const generateCSSConfig = (fileName: string) => {
 };
 
 /*
- * You should test for cases where the hint passes and doesn't.
+ * Tests for css features that were removed / deprecated.
  * More information about how `hintRunner` can be configured is
  * available in:
  * https://webhint.io/docs/contributor-guide/how-to/test-hints/
  */
+
 const neverRemoved: Array<HintTest> = [
     {
         name: 'Features that were never removed should pass.',
@@ -32,7 +33,7 @@ const neverRemoved: Array<HintTest> = [
     }
 ];
 
-hintRunner.testHint(hintPath, neverRemoved, { browserslist: ['chrome 64-69'], parsers: ['css']});
+hintRunner.testHint(hintPath, neverRemoved, { browserslist: ['> 1%'], parsers: ['css']});
 
 const prefixedFeatureNeverRemoved: Array<HintTest> = [
     {
@@ -41,17 +42,17 @@ const prefixedFeatureNeverRemoved: Array<HintTest> = [
     }
 ];
 
-hintRunner.testHint(hintPath, prefixedFeatureNeverRemoved, { browserslist: ['safari 3 -9'], parsers: ['css']});
+hintRunner.testHint(hintPath, prefixedFeatureNeverRemoved, { browserslist: ['safari 3 - 9'], parsers: ['css']});
 
-// const prefixFeatureNeverRemoved: Array<HintTest> = [
-//     {
-//         name: 'Prefixed features that were removed in versions before the targeted browsers should fail.',
-//         reports: [{ message: 'box-lines of CSS is not supported on chrome 67, chrome 68, chrome 69 browsers.' }],
-//         serverConfig: generateCSSConfig('box-lines-prefix-current')
-//     }
-// ];
+const prefixFeatureRemoved: Array<HintTest> = [
+    {
+        name: 'Prefixed features that were removed in versions before the targeted browsers should fail.',
+        reports: [{ message: 'box-lines prefixed with -webkit- is not supported on chrome 67, chrome 68, chrome 69 browsers.' }],
+        serverConfig: generateCSSConfig('box-lines-prefix-current')
+    }
+];
 
-// hintRunner.testHint(hintPath, prefixFeatureNeverRemoved, { browserslist: ['chrome 65 - 69'], parsers: ['css']});
+hintRunner.testHint(hintPath, prefixFeatureRemoved, { browserslist: ['chrome 65 - 69'], parsers: ['css']});
 
 const removedLaterThanTargetedBrowsers: Array<HintTest> = [
     {
@@ -60,70 +61,71 @@ const removedLaterThanTargetedBrowsers: Array<HintTest> = [
     }
 ];
 
-hintRunner.testHint(hintPath, removedLaterThanTargetedBrowsers, { browserslist: ['opera 11-14'], parsers: ['css']})
+hintRunner.testHint(hintPath, removedLaterThanTargetedBrowsers, { browserslist: ['opera 11-14'], parsers: ['css']});
 
 const removedInEarlierVersionsAndAddedLater: Array<HintTest> = [
     {
-        name: 'Features that were removed and re-added to versions earlier than the targeted browsers should pass.',
-        serverConfig: generateCSSConfig('viewport')
+        name: 'Features removed and re-added to versions earlier than the targeted browsers should pass.',
+        serverConfig: generateCSSConfig('animation-duration')
     }
 ];
 
-hintRunner.testHint(hintPath, removedInEarlierVersionsAndAddedLater, { browserslist: ['opera 17'], parsers: ['css']})
+hintRunner.testHint(hintPath, removedInEarlierVersionsAndAddedLater, { browserslist: ['opera 32'], parsers: ['css']});
+
 
 const removedForBrowser: Array<HintTest> = [
     {
         name: 'Features that were removed in a version equal to the targeted browser should fail.',
-        reports: [{ message: 'keyframes of CSS is not supported on opera 15 browsers.' }],
-        serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
+        reports: [{ message: 'keyframes is not supported on opera 15 browsers.' }],
+        serverConfig: generateCSSConfig('keyframes')
     }
 ];
 
-hintRunner.testHint(hintPath, removedForBrowser, { browserslist: ['opera 15'], parsers: ['css']})
+hintRunner.testHint(hintPath, removedForBrowser, { browserslist: ['opera 15'], parsers: ['css']});
 
-const removedForPrefix: Array<HintTest> = [
+const removedForPrefixEqualToTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Prefixed features that were removed in a version equal to the targeted browser should fail.',
-        reports: [{ message: 'keyframes of CSS is not supported on opera 15 browsers.' }],
+        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 15 browsers.' }],
         serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
     }
 ];
 
-hintRunner.testHint(hintPath, removedForPrefix, { browserslist: ['opera 15'], parsers: ['css']})
+hintRunner.testHint(hintPath, removedForPrefixEqualToTargetedBrowsers, { browserslist: ['opera 15'], parsers: ['css']});
 
-const addedForPrefix: Array<HintTest> = [
+const removedForPrefixEarlierThanTargetedBrowsers: Array<HintTest> = [
+    {
+        name: 'Prefixed features that were removed in a version earlier than the targeted browser should fail.',
+        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 16, opera 17, opera 18, opera 19 browsers.' }],
+        serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
+    }
+];
+
+hintRunner.testHint(hintPath, removedForPrefixEarlierThanTargetedBrowsers, { browserslist: ['opera 16-19'], parsers: ['css']});
+
+const addedForPrefixEqualToTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Prefixed features that were added in a version equal to the targeted browser should pass.',
         serverConfig: generateCSSConfig('keyframes-prefix-current')
     }
 ];
 
-hintRunner.testHint(hintPath, addedForPrefix, { browserslist: ['opera 15'], parsers: ['css']})
+hintRunner.testHint(hintPath, addedForPrefixEqualToTargetedBrowsers, { browserslist: ['opera 15'], parsers: ['css']});
 
-const alwaysTrueForPrefix: Array<HintTest> = [
+const addedForPrefixEarlierThanTargetedBrowsers: Array<HintTest> = [
     {
-        name: 'Prefixed features that are always true for versions added should pass.',
+        name: 'Prefixed features that were added in a version earlier to the targeted browser should pass.',
         serverConfig: generateCSSConfig('keyframes-prefix-current')
     }
 ];
 
-hintRunner.testHint(hintPath, alwaysTrueForPrefix, { browserslist: ['chrome 16'], parsers: ['css']})
+hintRunner.testHint(hintPath, addedForPrefixEarlierThanTargetedBrowsers, { browserslist: ['opera 16-19'], parsers: ['css']});
 
-const alwaysTrueForPrefix: Array<HintTest> = [
+const removedForFlags: Array<HintTest> = [
     {
-        name: 'Feature added before targeted browsers should pass.',
-        serverConfig: generateCSSConfig('keyframes')
-    }
-];
-
-hintRunner.testHint(hintPath, alwaysTrueForPrefix, { browserslist: ['safari 10'], parsers: ['css']})
-
-const prefixFeatureNeverRemoved: Array<HintTest> = [
-    {
-        name: 'Features that were removed in unspecified versions should fail.',
-        reports: [{ message: 'supports of CSS is not supported on firefox 18, firefox 19, firefox 20 browsers.' }],
+        name: 'Features removed from versions requiring flags should pass.',
         serverConfig: generateCSSConfig('supports')
     }
 ];
 
-hintRunner.testHint(hintPath, prefixFeatureNeverRemoved, { browserslist: ['firefox 18 - 20'], parsers: ['css']});
+hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['firefox 18'], parsers: ['css']});
