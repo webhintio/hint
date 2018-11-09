@@ -17,7 +17,7 @@ export default function view({ onCancelClick }: Props) {
                 Analyzing...
             </h1>
             <section class="analyze__status">
-                <button class="page__button analyze__cancel-button" onclick=${onCancelClick}>
+                <button class="page__button page__button--primary analyze__cancel-button" onclick=${onCancelClick}>
                     Cancel analysis
                 </button>
             </section>

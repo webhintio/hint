@@ -5,6 +5,7 @@ html {
     --bg-alt-color: #f2f2f2;
     --bg-inverse-color: #4046dd;
     --bg-inverse-alt-color: #999;
+    --border-color: #333;
     --border-alt-color: #d7d7d7;
     --link-color: #4700a3;
     --shadow-color: #00000080;
@@ -19,6 +20,7 @@ html[data-theme='dark'] {
     --bg-alt-color: #242424;
     --bg-inverse-color: #4046dd;
     --bg-inverse-alt-color: #333;
+    --border-color: #ccc;
     --border-alt-color: #525252;
     --link-color: #888cea;
     --shadow-color: #ffffff80;

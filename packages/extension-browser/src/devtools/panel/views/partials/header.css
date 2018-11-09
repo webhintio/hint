@@ -2,19 +2,24 @@
     align-items: center;
     display: flex;
     flex: none;
-    padding: 1rem 2rem;
+    padding: 1rem;
 }
 
 .header__help {
+    flex: auto;
+    margin: 0 1rem;
     width: 100%;
-}
-
-.header__title {
-    font-weight: normal;
-    margin: 0;
 }
 
 .header__actions {
-    text-align: right;
-    width: 100%;
+    margin: 0 1rem;
+}
+
+.header__analyze-button {
+    min-width: 10.5em;
+    white-space: nowrap;
+}
+
+.header__powered-by {
+    white-space: nowrap;
 }

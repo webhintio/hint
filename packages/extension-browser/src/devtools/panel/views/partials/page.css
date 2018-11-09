@@ -13,15 +13,21 @@
 }
 
 .page__button {
-    background-color: var(--bg-inverse-color);
-    border: none;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
     border-radius: 2px;
-    color: var(--text-inverse-color);
+    color: var(--text-color);
     cursor: pointer;
-    padding: 0.5em 2em;
+    padding: 0.5em 1.5em;
 }
 
-.page__button:disabled {
+.page__button--primary {
+    background-color: var(--bg-inverse-color);
+    border: none;
+    color: var(--text-inverse-color);
+}
+
+.page__button--primary:disabled {
     background-color: var(--bg-alt-color);
     color: var(--text-color);
 }
