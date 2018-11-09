@@ -70,7 +70,7 @@ and thus never deprecated.
 
 This hint throws errors for CSS features that have been deprecated in any of the [targeted browsers](../../hint/docs/user-guide/configuring-webhint/browser-context.md) listed.
 
-The targeted browsers can be defined in either the `.hintrc` or `package.json` file. This property follws the same convention as [browserlist](https://github.com/browserslist/browserslist#readme).
+The targeted browsers can be defined in either the `.hintrc` or `package.json` file. This property follows the same convention as [browserlist](https://github.com/browserslist/browserslist#readme).
 
 ```json
 {
@@ -91,3 +91,4 @@ The targeted browsers can be defined in either the `.hintrc` or `package.json` f
 [docmdn]: https://developer.mozilla.org/en-US/docs/Web/CSS
 [browser-compat]: https://github.com/mdn/browser-compat-data
 [browser-context]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
+
