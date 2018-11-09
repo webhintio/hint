@@ -9,10 +9,11 @@ import './configuration.css';
 type Props = {
     categories: string[];
     onAnalyzeClick: (config: Config) => void;
+    onRestoreClick: () => void;
 };
 
 /* eslint-disable */
-export default function view({ categories, onAnalyzeClick }: Props) {
+export default function view({ categories, onAnalyzeClick, onRestoreClick }: Props) {
     return html`
         ${headerView({ analyzeText: 'Analyze website', onAnalyzeClick })}
         <section class="configuration page">
@@ -70,6 +71,9 @@ export default function view({ categories, onAnalyzeClick }: Props) {
                         </a> 
                     </div>
                 </label>
+            </section>
+            <section class="configuration__section">
+                <button type="button" class="page__button" onclick=${onRestoreClick}>Restore Defaults</button>
             </section>
         </section>
     `;

@@ -10,6 +10,8 @@ type SavedConfiguration = {
     [key: string]: string | boolean;
 };
 
+const configKey = 'config';
+
 // TODO: Read from packaged hint metadata.
 const categories = [
     'Accessibility',
@@ -25,6 +27,9 @@ export default function view({ onAnalyzeClick }: Props) {
         onAnalyzeClick: () => {
             saveConfiguration(); // eslint-disable-line
             onAnalyzeClick(getConfiguration()); // eslint-disable-line
+        },
+        onRestoreClick: () => {
+            resetConfiguration(); // eslint-disable-line
         }
     });
 
@@ -85,11 +90,21 @@ export default function view({ onAnalyzeClick }: Props) {
         };
     };
 
+    const readConfiguration = () => {
+        return findAllInputs('.configuration input').reduce((o, input) => {
+            if (!o[input.name] || input.checked) {
+                o[input.name] = input.type === 'checkbox' ? input.checked : input.value;
+            }
+
+            return o;
+        }, {} as SavedConfiguration);
+    };
+
     const restoreConfiguration = () => {
-        const configStr = localStorage.getItem('config') || '{}';
+        const configStr = localStorage.getItem(configKey);
 
         try {
-            const config: SavedConfiguration = JSON.parse(configStr);
+            const config: SavedConfiguration = configStr ? JSON.parse(configStr) : defaultConfig; // eslint-disable-line
 
             Object.keys(config).forEach((name) => {
                 const inputs = findAllInputs(`.configuration input[name='${name}']`);
@@ -111,17 +126,18 @@ export default function view({ onAnalyzeClick }: Props) {
         }
     };
 
-    const saveConfiguration = () => {
-        const config = findAllInputs('.configuration input').reduce((o, input) => {
-            if (!o[input.name] || input.checked) {
-                o[input.name] = input.type === 'checkbox' ? input.checked : input.value;
-            }
-
-            return o;
-        }, {} as SavedConfiguration);
-
-        localStorage.setItem('config', JSON.stringify(config));
+    const resetConfiguration = () => {
+        localStorage.removeItem(configKey);
+        restoreConfiguration();
     };
+
+    const saveConfiguration = () => {
+        const config = readConfiguration();
+
+        localStorage.setItem(configKey, JSON.stringify(config));
+    };
+
+    const defaultConfig = readConfiguration();
 
     restoreConfiguration();
 
