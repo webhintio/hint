@@ -1,7 +1,7 @@
 // Waiting for this PR https://github.com/mdn/browser-compat-data/pull/3004
 const bcd: CompatData = require('mdn-browser-compat-data');
 
-import { forEach } from 'lodash';
+import { some, forEach } from 'lodash';
 import { browserVersions } from './normalize-version';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers } from '../types';
 import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement } from '../types-mdn.temp'; // Temporal
@@ -135,41 +135,39 @@ export class CompatApi {
     /* eslint-enable camelcase */
 
     private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported = false): boolean {
-        let isRequiredToTest = false;
-
-        forEach(this.browsers, (browserVersionsList, browser) => {
-            if (isRequiredToTest || !typedFeatureValue.__compat || !typedFeatureValue.__compat.support) {
-                return;
+        return some(this.browsers, (browserVersionsList, browser): boolean => {
+            if (!typedFeatureValue.__compat || !typedFeatureValue.__compat.support) {
+                return false;
             }
 
             const browserFeatureSupported = this.getWorstCaseSupportStatementFromInfo((typedFeatureValue.__compat.support as any)[browser]);
 
             // If we dont have information about the compatibility, ignore.
             if (!browserFeatureSupported) {
-                return;
+                return false;
             }
 
             const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
 
             if (isCheckingNotBroadlySupported) {
                 if (!addedVersion || isNaN(parseFloat(addedVersion.toString()))) {
-                    return;
+                    return false;
                 }
 
                 if (addedVersion || browserVersionsList[0] <= browserVersions.normalize(addedVersion)) {
-                    isRequiredToTest = true;
+                    return true;
                 }
             } else {
                 if (!removedVersion || isNaN(parseFloat(removedVersion.toString()))) {
-                    return;
+                    return false;
                 }
 
                 if (removedVersion || browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion)) {
-                    isRequiredToTest = true;
+                    return true;
                 }
             }
-        });
 
-        return isRequiredToTest;
+            return false;
+        });
     }
 }
