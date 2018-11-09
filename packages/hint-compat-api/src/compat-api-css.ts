@@ -75,6 +75,12 @@ export default class implements IHint {
             const supportBlock: SupportBlock = featureInfo.support;
 
             forEach(supportBlock, (browserInfo, browserToSupportName) => {
+                if (!Object.keys(browsersToSupport).some((browser) => {
+                    return browser === browserToSupportName;
+                })) {
+                    return;
+                }
+
                 const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
                 // If we dont have information about the compatibility, its an error.
@@ -90,7 +96,7 @@ export default class implements IHint {
                     });
 
                     if (!wasSupportedInSometime && Object.keys(browsersToSupport).includes(browserToSupportName)) {
-                        context.report(resource, null, `${featureName} of CSS was never supported on ${browserToSupportName} browser.`, featureName);
+                        context.report(resource, null, `${featureName} of CSS was never supported on any of your browsers to support.`, featureName);
                     }
 
                     return;
@@ -132,7 +138,6 @@ export default class implements IHint {
                     const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
 
                     context.report(resource, null, `${featureName} ${usedPrefix ? usedPrefix : ''}is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
-                    // context.report(resource, null, `${featureName} is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
                 }
             });
         };
