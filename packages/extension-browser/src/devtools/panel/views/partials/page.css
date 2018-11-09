@@ -15,8 +15,9 @@
 .page__button {
     background-color: var(--bg-inverse-color);
     border: none;
-    border-radius: 3px;
+    border-radius: 2px;
     color: var(--text-inverse-color);
+    cursor: pointer;
     padding: 0.5em 2em;
 }
 

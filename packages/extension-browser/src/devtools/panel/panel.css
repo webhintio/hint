@@ -5,9 +5,23 @@ html {
     --bg-inverse-alt-color: #999;
     --border-alt-color: #d7d7d7;
     --link-color: #4700a3;
-    --text-highlight-color: #4046dd;
+    --text-color: #000;
+    --text-highlight-color: #666;
     --text-inverse-color: #fff;
-    --text-passed-color: rgb(0, 134, 75);
+    --text-passed-color: #00864b;
+}
+
+html[data-theme='dark'] {
+    --bg-color: #000;
+    --bg-alt-color: #242424;
+    --bg-inverse-color: #4046dd;
+    --bg-inverse-alt-color: #333;
+    --border-alt-color: #525252;
+    --link-color: #6b70e5;
+    --text-color: #d5d5d5;
+    --text-highlight-color: #999;
+    --text-inverse-color: #fff;
+    --text-passed-color: #00ca71;
 }
 
 html,
@@ -17,6 +31,7 @@ body {
 
 body {
     background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     font-family: "Segoe UI", Tahoma, sans-serif; /* Match default overrides in Chrome */
@@ -25,9 +40,23 @@ body {
 }
 
 a[href] {
+    color: var(--link-color);
     text-decoration: none;
 }
 
 a[href]:hover {
     text-decoration: underline;
+}
+
+input,
+select {
+    background-color: var(--bg-alt-color);
+    border: 1px solid var(--border-alt-color);
+    border-radius: 2px;
+    color: var(--text-color);
+}
+
+html[data-theme="dark"] input[type="checkbox"],
+html[data-theme="dark"] input[type="radio"] {
+    filter: invert(80%);
 }

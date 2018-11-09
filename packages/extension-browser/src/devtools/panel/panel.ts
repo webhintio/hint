@@ -8,6 +8,8 @@ import resultsView from './views/pages/results';
 
 import './panel.css';
 
+document.documentElement!.setAttribute('data-theme', browser.devtools.panels.themeName);
+
 const tabId = browser.devtools.inspectedWindow.tabId;
 const port = browser.runtime.connect({ name: `${tabId}` });
 
