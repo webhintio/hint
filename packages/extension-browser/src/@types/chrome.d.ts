@@ -11,5 +11,13 @@ declare global {
     namespace chrome.devtools.panels {
         /** The name of the color theme set in user's DevTools settings. */
         export var themeName: 'default' | 'dark';
+
+        /**
+         * Fired when the devtools theme changes (Firefox only).
+         * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/devtools.panels/onThemeChanged
+         */
+        export var onThemeChanged: {
+            addListener(callback: (themeName: string) => void): void;
+        };
     }
 }

@@ -1,3 +1,5 @@
+@import url('scrollbars.css');
+
 html {
     --bg-color: #fff;
     --bg-alt-color: #f2f2f2;
@@ -5,6 +7,7 @@ html {
     --bg-inverse-alt-color: #999;
     --border-alt-color: #d7d7d7;
     --link-color: #4700a3;
+    --shadow-color: #00000080;
     --text-color: #000;
     --text-highlight-color: #666;
     --text-inverse-color: #fff;
@@ -17,7 +20,8 @@ html[data-theme='dark'] {
     --bg-inverse-color: #4046dd;
     --bg-inverse-alt-color: #333;
     --border-alt-color: #525252;
-    --link-color: #6b70e5;
+    --link-color: #888cea;
+    --shadow-color: #ffffff80;
     --text-color: #d5d5d5;
     --text-highlight-color: #999;
     --text-inverse-color: #fff;
@@ -54,6 +58,12 @@ select {
     border: 1px solid var(--border-alt-color);
     border-radius: 2px;
     color: var(--text-color);
+}
+
+input:focus,
+select:focus {
+    background-color: var(--bg-color);
+    border-color: var(--text-color);
 }
 
 html[data-theme="dark"] input[type="checkbox"],
