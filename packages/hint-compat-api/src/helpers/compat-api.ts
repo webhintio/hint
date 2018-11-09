@@ -77,7 +77,7 @@ export class CompatApi {
 
     /* eslint-disable camelcase */
     public getWorstCaseSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined): SimpleSupportStatement | undefined {
-        // If we dont have information about the compatibility, ignore.
+        // If we don't have information about the compatibility, ignore.
         if (!browserFeatureSupported) {
             return browserFeatureSupported;
         }
