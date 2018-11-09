@@ -1,5 +1,5 @@
 /**
- * @fileoverview Hint to validate if the HTML, CSS and JS APIs of the project are deprecated or not broadly supported
+ * @fileoverview Hint to validate if the CSS features of the project are not broadly supported
  */
 
 import { Category } from 'hint/dist/src/lib/enums/category';
