@@ -53,7 +53,7 @@ The [@media CSS at-rule](https://developer.mozilla.org/en-US/docs/Web/CSS/@media
 
 This hint throws errors for CSS features that have been deprecated in any of the [targeted browsers](../../hint/docs/user-guide/configuring-webhint/browser-context.md) listed.
 
-The targeted browsers can be defined in either the `.hintrc` or `package.json` file. This property follws the same convention as [browserlist](https://github.com/browserslist/browserslist#readme).
+The targeted browsers can be defined in either the `.hintrc` or `package.json` file. This property follows the same convention as [browserlist](https://github.com/browserslist/browserslist#readme).
 
 ```json
 {
