@@ -1,5 +1,5 @@
 # Check for Deprecated CSS features
-`compat-api-css` checks if the CSS features used are deprecated in the [targeted browsers](../../hint/docs/user-guide/configuring-webhint/browser-context.md).
+`compat-api-css` checks if the CSS features used are deprecated in the [targeted browsers][browser-context].
 
 ## Why is this important?
 
@@ -11,6 +11,7 @@ This hint will check if you are using features that have been deprecated,
 taking into account prefixes.
 
 ### Examples that **trigger** the hint
+
 The [box-lines](https://developer.mozilla.org/en-US/docs/Web/CSS/box-lines) property
 was added with the `-webkit-` prefix for Chrome and removed from versions of Chrome 67 and onwards.
 Targeted Chrome browsers of versions 67 and up will trigger the hint.
@@ -89,3 +90,4 @@ The targeted browsers can be defined in either the `.hintrc` or `package.json` f
 
 [docmdn]: https://developer.mozilla.org/en-US/docs/Web/CSS
 [browser-compat]: https://github.com/mdn/browser-compat-data
+[browser-context]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
