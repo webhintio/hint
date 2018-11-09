@@ -60,14 +60,18 @@ export default class implements IHint {
 
             let feature = key[featureName];
 
-            if (children) {
-                [prefix, featureName] = compatApi.getPrefix(children);
-                feature = feature[featureName];
-            }
-
             // If feature is not in the filtered by browser data, that means that is not new.
             if (!feature) {
                 return;
+            }
+
+            if (children) {
+                [prefix, featureName] = compatApi.getPrefix(children);
+                feature = feature[featureName];
+
+                if (!feature) {
+                    return;
+                }
             }
 
             // If feature does not have compat data, we ignore it.
