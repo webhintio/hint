@@ -1,53 +1,70 @@
 # Check for Deprecated CSS features
-`compat-api-css` checks if the CSS features used are deprecated in the [targeted browsers](../../hint/docs/user-guide/configuring-webhint/browser-context.md) 
+`compat-api-css` checks if the CSS features used are deprecated in the [targeted browsers][browser-context].
 
 ## Why is this important?
 
-Deprecated CSS APIs should not be used as browsers may no longer provide support for these APIs.
+Deprecated CSS APIs should not be used as browsers may no longer
+provide support for these APIs. It can be tricky knowing when browser
+support for CSS features have been removed - and whether the support
+was removed for the prefixed or non-prefixed version of the feature.
+This hint will check if you are using features that have been deprecated,
+taking into account prefixes.
 
 ### Examples that **trigger** the hint
-The [box-lines](https://developer.mozilla.org/en-US/docs/Web/CSS/box-lines) property is deprecated and was removed in Chrome 67, Safari 3 and Opera 54.
+
+The [box-lines](https://developer.mozilla.org/en-US/docs/Web/CSS/box-lines) property
+was added with the `-webkit-` prefix for Chrome and removed from versions of Chrome 67 and onwards.
+Targeted Chrome browsers of versions 67 and up will trigger the hint.
 
 ```css
 .example {
-    box-lines: single;
-    box-lines: multiple;
+    -webkit-box-lines: single;
 }
 ```
 
-The [box-flex-group](https://developer.mozilla.org/en-US/docs/Web/CSS/box-flex-group) property is deprecated and was removed in Chrome 67, Webview Android 67 and Opera 54.
+The `padding-box` value of the [box-sizing](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing)
+property is deprecated and was removed in Firefox 50.
+Targeted Firefox browsers of versions 50 and up will trigger the hint.
 
 ```css
 .example {
-    box-flex-group: 1;
-    box-flex-group: 5;
+    box-sizing: padding-box;
 }
 ```
 
-The non-standard Mozilla CSS extension, [moz-text-blink](https://developer.mozilla.org/en-US/docs/Web/CSS/-moz-text-blink) is obsolete since Gecko 26 (Firefox 26 / Thunderbird 26 / SeaMonkey 2.23 / Firefox OS 1.2).
+The non-prefixed [keyframes](https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes)
+at-rule was removed from Opera 15. Targeted Opera browsers of versions 15
+and up will trigger the hint if the at-rule is used without the `-webkit-` prefix.
 
 ```css
-.example {
-  -moz-text-blink: blink;
+@keyframes name {
+    0% {
+        left: 0%;
+    }
 }
 ```
 
 ### Examples that **pass** the hint
-
-The [background](https://developer.mozilla.org/en-US/docs/Web/CSS/background) CSS property which was added for all browsers since their earliest versions, e.g. Chrome 1, Firefox 1, Internet Explorer 4.
+The [background](https://developer.mozilla.org/en-US/docs/Web/CSS/background) property was never
+removed for any browser. It should always pass the hint.
 
 ```css
-.example-class {
-    background: green;
+.example {
+    background: firebrick;
 }
-
-#example-id {
-    background: no-repeat url("../../media/examples/lizard.png");
-}
-
 ```
 
-The [@media CSS at-rule](https://developer.mozilla.org/en-US/docs/Web/CSS/@media) which was added for most popular browsers since their earliest versions, e.g. Chrome 1, Firefox 1, Safari 1.3.
+The [box-lines](https://developer.mozilla.org/en-US/docs/Web/CSS/box-lines) property
+was added with prefixes for Chrome, Opera and Safari. Although the prefixed property
+was removed for these browsers subsequently, using the property without a prefix will
+not trigger the hint since the non-prefixed version of `box-lines` was never added
+and thus never deprecated.
+
+```css
+.example {
+    box-lines: single;
+}
+```
 
 ## Can the hint be configured?
 
@@ -67,7 +84,11 @@ The targeted browsers can be defined in either the `.hintrc` or `package.json` f
 ## Further Reading
 
 * [CSS: Cascading Style Sheets (MDN)][docmdn]
+* [Browser Compat Data (MDN)][browser-compat]
 
 <!-- Link labels: -->
 
 [docmdn]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[browser-compat]: https://github.com/mdn/browser-compat-data
+[browser-context]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
+

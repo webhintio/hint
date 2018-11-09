@@ -27,7 +27,22 @@ export class CompatApi {
             forEach(namespaceFeaturesValues, (featureValue, featureKey) => {
                 const typedFeatureValue = featureValue as CompatStatement & MDNTreeFilteredByBrowsers;
 
-                if (!this.isFeatureRequiredToTest(typedFeatureValue, isCheckingNotBroadlySupported)) {
+                // First check all the children
+                let isChildRequired = false;
+
+                if (typeof featureValue === 'object' && Object.keys(featureValue).length > 1) {
+
+                    forEach(featureValue, (childValue, childKey) => {
+
+                        if (!this.isFeatureRequiredToTest(childValue, isCheckingNotBroadlySupported)) {
+                            return;
+                        }
+
+                        isChildRequired = true;
+                    });
+                }
+
+                if (!isChildRequired && !this.isFeatureRequiredToTest(typedFeatureValue, isCheckingNotBroadlySupported)) {
                     return;
                 }
 
@@ -89,7 +104,12 @@ export class CompatApi {
         };
 
         if (Array.isArray(browserFeatureSupported) && browserFeatureSupported.length > 0) {
-            browserFeatureSupported.forEach((info) => {
+            // We should remove flags information
+            const normalizedBrowserFeatureSupported = browserFeatureSupported.filter((info) => {
+                return !info.flags;
+            });
+
+            normalizedBrowserFeatureSupported.forEach((info) => {
                 if (!worstBrowserFeatureSupported.version_added && info.version_added === true) {
                     worstBrowserFeatureSupported.version_added = true;
                 }
@@ -115,7 +135,6 @@ export class CompatApi {
     /* eslint-enable camelcase */
 
     private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported = false): boolean {
-        // TODO: Here we are checking only parent but this object has children
         let isRequiredToTest = false;
 
         forEach(this.browsers, (browserVersionsList, browser) => {
