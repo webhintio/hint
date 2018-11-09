@@ -128,7 +128,6 @@ export default class implements IHint {
                     const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
 
                     context.report(resource, null, `${featureName} ${usedPrefix ? usedPrefix : ''}is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
-                    // context.report(resource, null, `${featureName} is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
                 }
             });
         };
