@@ -1,5 +1,5 @@
 /**
- * @fileoverview Hint to validate if the HTML, CSS and JS APIs of the project are deprecated or not broadly supported
+ * @fileoverview Hint to validate if the CSS features of the project are not broadly supported
  */
 
 import { Category } from 'hint/dist/src/lib/enums/category';
@@ -60,14 +60,18 @@ export default class implements IHint {
 
             let feature = key[featureName];
 
-            if (children) {
-                [prefix, featureName] = compatApi.getPrefix(children);
-                feature = feature[featureName];
-            }
-
             // If feature is not in the filtered by browser data, that means that is not new.
             if (!feature) {
                 return;
+            }
+
+            if (children) {
+                [prefix, featureName] = compatApi.getPrefix(children);
+                feature = feature[featureName];
+
+                if (!feature) {
+                    return;
+                }
             }
 
             // If feature does not have compat data, we ignore it.
@@ -81,6 +85,12 @@ export default class implements IHint {
             const supportBlock: SupportBlock = featureInfo.support;
 
             forEach(supportBlock, (browserInfo, browserToSupportName) => {
+                if (!Object.keys(browsersToSupport).some((browser) => {
+                    return browser === browserToSupportName;
+                })) {
+                    return;
+                }
+
                 const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
                 // If we dont have information about the compatibility, its an error.
@@ -96,7 +106,7 @@ export default class implements IHint {
                     });
 
                     if (!wasSupportedInSometime) {
-                        context.report(resource, null, `${featureName} of CSS was never added on ${browserToSupportName} browser.`, featureName);
+                        context.report(resource, null, `${featureName} of CSS was never added on any of your browsers to support.`, featureName);
                     }
 
                     return;
@@ -144,7 +154,9 @@ export default class implements IHint {
                 });
 
                 if (notSupportedVersions.length > 0) {
-                    context.report(resource, null, `${featureName} of CSS is not added on ${notSupportedVersions.join(', ')} browsers.`, featureName);
+                    const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
+
+                    context.report(resource, null, `${featureName} ${usedPrefix ? usedPrefix : ''}is not added on ${notSupportedVersions.join(', ')} browsers.`, featureName);
                 }
             });
         };

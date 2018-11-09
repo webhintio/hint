@@ -50,14 +50,18 @@ export default class implements IHint {
 
             let feature = key[featureName];
 
-            if (children) {
-                [prefix, featureName] = compatApi.getPrefix(children);
-                feature = feature[featureName];
-            }
-
             // If feature is not in the filtered by browser data, that means that is always supported.
             if (!feature) {
                 return;
+            }
+
+            if (children) {
+                [prefix, featureName] = compatApi.getPrefix(children);
+                feature = feature[featureName];
+
+                if (!feature) {
+                    return;
+                }
             }
 
             // If feature does not have compat data, we ignore it.
@@ -71,6 +75,12 @@ export default class implements IHint {
             const supportBlock: SupportBlock = featureInfo.support;
 
             forEach(supportBlock, (browserInfo, browserToSupportName) => {
+                if (!Object.keys(browsersToSupport).some((browser) => {
+                    return browser === browserToSupportName;
+                })) {
+                    return;
+                }
+
                 const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
                 // If we dont have information about the compatibility, its an error.
@@ -86,7 +96,7 @@ export default class implements IHint {
                     });
 
                     if (!wasSupportedInSometime && Object.keys(browsersToSupport).includes(browserToSupportName)) {
-                        context.report(resource, null, `${featureName} of CSS was never supported on ${browserToSupportName} browser.`, featureName);
+                        context.report(resource, null, `${featureName} of CSS was never supported on any of your browsers to support.`, featureName);
                     }
 
                     return;
