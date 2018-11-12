@@ -26,23 +26,45 @@ const generateCSSConfig = (fileName: string) => {
  * https://webhint.io/docs/contributor-guide/how-to/test-hints/
  */
 
-const addedBeforeTargetedBrowsers: Array<HintTest> = [
+// const addedBeforeTargetedBrowsers: Array<HintTest> = [
+//     {
+//         name: 'Features that were added in versions earlier than the targeted browsers should pass.',
+//         serverConfig: generateCSSConfig('charset')
+//     }
+// ];
+
+// hintRunner.testHint(hintPath, addedBeforeTargetedBrowsers, { browserslist: ['last 2 Chrome versions'], parsers: ['css']});
+
+// const compatibilityUnknown: Array<HintTest> = [
+//     {
+//         name: 'Features that were added in versions earlier than the targeted browsers should pass.',
+//         reports: [{ message: 'capitalize of CSS is not added on chrome browser.' }],
+//         serverConfig: generateCSSConfig('text-transform')
+//     }
+// ];
+
+// hintRunner.testHint(hintPath, compatibilityUnknown, { browserslist: ['last 2 Chrome versions'], parsers: ['css']});
+
+//BOX-LINES DOES NOT THROW ERROR, IS THIS EXPECTED BEHAVIOUR?
+// const neverAdded: Array<HintTest> = [
+//     {
+//         name: 'Features that were added in versions earlier than the targeted browsers should pass.',
+//         // reports: [{ message: 'capitalize of CSS is not added on chrome browser.' }],
+//         serverConfig: generateCSSConfig('box-lines')
+//     }
+// ];
+
+// hintRunner.testHint(hintPath, neverAdded, { browserslist: ['firefox 23'], parsers: ['css']});
+
+const neverAdded: Array<HintTest> = [
     {
         name: 'Features that were added in versions earlier than the targeted browsers should pass.',
-        serverConfig: generateCSSConfig('charset')
+        // reports: [{ message: 'capitalize of CSS is not added on chrome browser.' }],
+        serverConfig: generateCSSConfig('box-flex')
     }
 ];
 
-hintRunner.testHint(hintPath, addedBeforeTargetedBrowsers, { browserslist: ['last 2 Chrome versions'], parsers: ['css']});
+hintRunner.testHint(hintPath, neverAdded, { browserslist: ['ie 11'], parsers: ['css']});
 
-const cmopatibilityUnknown: Array<HintTest> = [
-    {
-        name: 'Features that were added in versions earlier than the targeted browsers should pass.',
-        reports: [{ message: 'capitalize of CSS is not added on chrome browser.' }],
-        serverConfig: generateCSSConfig('text-transform')
-    }
-];
-
-hintRunner.testHint(hintPath, cmopatibilityUnknown, { browserslist: ['last 2 Chrome versions'], parsers: ['css']});
 
 
