@@ -8,7 +8,6 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
-import { forEach } from 'lodash';
 import { CompatApi, userBrowsers, CompatCSS } from './helpers';
 import { MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
 import { SupportBlock } from './types-mdn.temp';
@@ -84,7 +83,7 @@ export default class implements IHint {
             // Check for each browser the support block
             const supportBlock: SupportBlock = featureInfo.support;
 
-            forEach(supportBlock, (browserInfo, browserToSupportName) => {
+            Object.entries(supportBlock).forEach(([browserToSupportName, browserInfo]) => {
                 if (!Object.keys(browsersToSupport).some((browser) => {
                     return browser === browserToSupportName;
                 })) {
@@ -97,7 +96,7 @@ export default class implements IHint {
                 if (!browserFeatureSupported) {
                     let wasSupportedInSometime = false;
 
-                    forEach(browsersToSupport, (versions, browserName) => {
+                    Object.entries(browsersToSupport).forEach(([browserName, versions]) => {
                         if (browserName !== browserToSupportName) {
                             return;
                         }
@@ -130,7 +129,7 @@ export default class implements IHint {
                 const addedVersionNumber = browserVersions.normalize(addedVersion);
                 const notSupportedVersions: string[] = [];
 
-                forEach(browsersToSupport, (versions, browserName) => {
+                Object.entries(browsersToSupport).forEach(([browserName, versions]) => {
                     if (browserName !== browserToSupportName) {
                         return;
                     }

@@ -153,11 +153,8 @@ export class CompatApi {
                     return true;
                 }
 
-                return false;
-            } else {
-                if (removedVersion || (removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion))) {
-                    return true;
-                }
+            } else if (removedVersion || (removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion))) {
+                return true;
             }
 
             return false;
