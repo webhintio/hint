@@ -52,7 +52,7 @@ export default class WebExtensionFormatter implements IFormatter {
     private getCategories(resources: HintResources): string[] {
         const categories = resources.hints.map(this.getHintCategory);
 
-        return Array.from(new Set(categories));
+        return Array.from(new Set(categories)).sort();
     }
 
     private getHintCategory(hint: IHintConstructor): string {

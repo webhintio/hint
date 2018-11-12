@@ -7,7 +7,7 @@ import './category.css';
 
 export default function view({ name, hints, passed }: CategoryResults) {
     return html`
-        <details class="category">
+        <details class="category" open>
             <summary class="category__summary">
                 <span class="category__name">
                     ${name}

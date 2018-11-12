@@ -72,9 +72,7 @@ export default function view({ categories, onAnalyzeClick, onRestoreClick }: Pro
                     </div>
                 </label>
             </section>
-            <section class="configuration__section">
-                <button type="button" class="page__button" onclick=${onRestoreClick}>Restore Defaults</button>
-            </section>
+            <button type="button" class="page__button configuration__restore-button" onclick=${onRestoreClick}>Restore defaults</button>
         </section>
     `;
 }

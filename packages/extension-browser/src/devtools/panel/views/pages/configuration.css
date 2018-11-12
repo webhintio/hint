@@ -1,9 +1,18 @@
 .configuration {
     background-color: var(--bg-alt-color);
+    position: relative;
 }
 
 .configuration__section {
     margin: 1.5rem 2rem;
+}
+
+@media (min-width: 1000px) {
+    .configuration__section {
+        float: left;
+        margin-right: 0;
+        width: 25%;
+    }
 }
 
 .configuration__header {
@@ -13,10 +22,17 @@
 
 .configuration__label {
     display: block;
-    margin: 0.25rem 0;
+    margin: 0.75rem 1.25rem;
 }
 
 .configuration__example {
-    font-size: 0.75rem;
+    color: var(--text-highlight-color);
+    font-size: 0.85em;
     margin-left: 1.5rem;
+}
+
+.configuration__restore-button {
+    position: absolute;
+    right: 2rem;
+    top: 3rem;
 }
