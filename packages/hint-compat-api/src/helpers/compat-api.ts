@@ -1,7 +1,7 @@
 // Waiting for this PR https://github.com/mdn/browser-compat-data/pull/3004
 const bcd: CompatData = require('mdn-browser-compat-data');
 
-import { some, forEach } from 'lodash';
+import { forEach } from 'lodash';
 import { browserVersions } from './normalize-version';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers } from '../types';
 import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement } from '../types-mdn.temp'; // Temporal
@@ -135,7 +135,7 @@ export class CompatApi {
     /* eslint-enable camelcase */
 
     private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported = false): boolean {
-        return some(this.browsers, (browserVersionsList, browser): boolean => {
+        return Object.entries(this.browsers).some(([browser, browserVersionsList]): boolean => {
             if (!typedFeatureValue.__compat || !typedFeatureValue.__compat.support) {
                 return false;
             }
@@ -149,10 +149,16 @@ export class CompatApi {
 
             const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
 
-            if (isCheckingNotBroadlySupported && (addedVersion || addedVersion === false || browserVersionsList[0] <= browserVersions.normalize(addedVersion as string))) {
-                return true;
-            } else if (removedVersion || browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion as string)) {
-                return true;
+            if (isCheckingNotBroadlySupported) {
+                if (addedVersion === false || addedVersion || (addedVersion && browserVersionsList[0] <= browserVersions.normalize(addedVersion))) {
+                    return true;
+                }
+
+                return false;
+            } else {
+                if (removedVersion || (removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion))) {
+                    return true;
+                }
             }
 
             return false;
