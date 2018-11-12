@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Helper that convert browser names from Browserlist to MDN Api.
+ */
+
 import { BrowserSupportCollection } from '../types';
 
 type BrowsersDictionary = {

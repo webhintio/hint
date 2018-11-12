@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Helper to get the versions of browsers.
+ */
+
 import { BrowserSupportCollection } from '../types';
 import { convertBrowserSupportCollectionToMDN } from '.';
 import { browserVersions } from './normalize-version';

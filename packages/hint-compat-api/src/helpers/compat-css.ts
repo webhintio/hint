@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Helper that contains all the logic related with CSS compat api, to use in different modules.
+ */
+
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { ProblemLocation } from 'hint/dist/src/lib/types';

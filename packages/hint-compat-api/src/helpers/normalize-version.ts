@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Helper to work with versions and normalize it because versions sometimes are numbers and sometime not.
+ */
+
 import { padStart, padEnd } from 'lodash';
 
 // Normalize versions because https://github.com/mdn/browser-compat-data/pull/2690#issuecomment-417237045

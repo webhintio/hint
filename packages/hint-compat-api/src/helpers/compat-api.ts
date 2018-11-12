@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Helper that contains all the logic related with compat api, to use in different modules.
+ */
+
 // Waiting for this PR https://github.com/mdn/browser-compat-data/pull/3004
 const bcd: CompatData = require('mdn-browser-compat-data');
 
