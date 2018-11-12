@@ -5,10 +5,9 @@
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, HintMetadata, ProblemLocation } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
-import { forEach } from 'lodash';
 import { CompatApi, userBrowsers, CompatCSS } from './helpers';
 import { MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
 import { SupportBlock } from './types-mdn.temp';
@@ -38,7 +37,7 @@ export default class implements IHint {
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         const compatApi = new CompatApi('css', mdnBrowsersCollection);
 
-        const checkDeprecatedCSSFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, resource: string, children?: string): void => {
+        const checkDeprecatedCSSFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, resource: string, location?: ProblemLocation, children?: string): void => {
             const key: any = data[keyName];
             let [prefix, featureName] = compatApi.getPrefix(name);
 
@@ -74,7 +73,7 @@ export default class implements IHint {
             // Check for each browser the support block
             const supportBlock: SupportBlock = featureInfo.support;
 
-            forEach(supportBlock, (browserInfo, browserToSupportName) => {
+            Object.entries(supportBlock).forEach(([browserToSupportName, browserInfo]) => {
                 if (!Object.keys(browsersToSupport).some((browser) => {
                     return browser === browserToSupportName;
                 })) {
@@ -87,7 +86,7 @@ export default class implements IHint {
                 if (!browserFeatureSupported) {
                     let wasSupportedInSometime = false;
 
-                    forEach(browsersToSupport, (versions, browserName) => {
+                    Object.entries(browsersToSupport).forEach(([browserName, versions]) => {
                         if (browserName !== browserToSupportName) {
                             return;
                         }
@@ -96,7 +95,7 @@ export default class implements IHint {
                     });
 
                     if (!wasSupportedInSometime && Object.keys(browsersToSupport).includes(browserToSupportName)) {
-                        context.report(resource, null, `${featureName} of CSS was never supported on any of your browsers to support.`, featureName);
+                        context.report(resource, null, `${featureName} of CSS was never supported on any of your browsers to support.`, featureName, location);
                     }
 
                     return;
@@ -111,7 +110,7 @@ export default class implements IHint {
 
                 // Not a common case, but if removed version is exactly true, is always deprecated.
                 if (removedVersion === true) {
-                    context.report(resource, null, `${featureName} of CSS is not supported on ${browserToSupportName} browser.`, featureName);
+                    context.report(resource, null, `${featureName} of CSS is not supported on ${browserToSupportName} browser.`, featureName, location);
 
                     return;
                 }
@@ -120,7 +119,7 @@ export default class implements IHint {
                 const removedVersionNumber = browserVersions.normalize(removedVersion);
                 const notSupportedVersions: string[] = [];
 
-                forEach(browsersToSupport, (versions, browserName) => {
+                Object.entries(browsersToSupport).forEach(([browserName, versions]) => {
                     if (browserName !== browserToSupportName) {
                         return;
                     }
@@ -137,7 +136,7 @@ export default class implements IHint {
                 if (notSupportedVersions.length > 0) {
                     const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
 
-                    context.report(resource, null, `${featureName} ${usedPrefix ? usedPrefix : ''}is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName);
+                    context.report(resource, null, `${featureName} ${usedPrefix ? usedPrefix : ''}is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName, location);
                 }
             });
         };

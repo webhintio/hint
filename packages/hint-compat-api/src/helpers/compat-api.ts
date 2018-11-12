@@ -1,7 +1,6 @@
 // Waiting for this PR https://github.com/mdn/browser-compat-data/pull/3004
 const bcd: CompatData = require('mdn-browser-compat-data');
 
-import { forEach } from 'lodash';
 import { browserVersions } from './normalize-version';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers } from '../types';
 import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement } from '../types-mdn.temp'; // Temporal
@@ -21,10 +20,10 @@ export class CompatApi {
     private applyBrowsersConfiguration(isCheckingNotBroadlySupported = false): any {
         const compatDataApi = {} as MDNTreeFilteredByBrowsers;
 
-        forEach(this.compatDataApi, (namespaceFeaturesValues, namespaceFeaturesKey) => {
+        Object.entries(this.compatDataApi).forEach(([namespaceFeaturesKey, namespaceFeaturesValues]) => {
             const namespaceFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
-            forEach(namespaceFeaturesValues, (featureValue, featureKey) => {
+            Object.entries(namespaceFeaturesValues as object).forEach(([featureKey, featureValue]) => {
                 const typedFeatureValue = featureValue as CompatStatement & MDNTreeFilteredByBrowsers;
 
                 // First check all the children
@@ -32,9 +31,9 @@ export class CompatApi {
 
                 if (typeof featureValue === 'object' && Object.keys(featureValue).length > 1) {
 
-                    forEach(featureValue, (childValue, childKey) => {
+                    Object.entries(featureValue).forEach(([childKey, childValue]) => {
 
-                        if (!this.isFeatureRequiredToTest(childValue, isCheckingNotBroadlySupported)) {
+                        if (!this.isFeatureRequiredToTest(childValue as CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported)) {
                             return;
                         }
 
@@ -154,11 +153,8 @@ export class CompatApi {
                     return true;
                 }
 
-                return false;
-            } else {
-                if (removedVersion || (removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion))) {
-                    return true;
-                }
+            } else if (removedVersion || (removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion))) {
+                return true;
             }
 
             return false;

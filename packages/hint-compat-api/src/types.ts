@@ -1,5 +1,6 @@
 import { ChildNode } from 'postcss';
 import { Identifier } from './types-mdn.temp'; // Temporal
+import { ProblemLocation } from 'hint/dist/src/lib/types';
 
 export type MDNTreeFilteredByBrowsers = Identifier;
 
@@ -9,7 +10,7 @@ export type BrowserSupportCollection = {
 
 export type FeatureStrategy<T extends ChildNode> = {
     check: (node: T | ChildNode) => boolean;
-    testFeature: (node: T, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, resource: string) => void;
+    testFeature: (node: T, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, resource: string, location?: ProblemLocation) => void;
 };
 
-export type CSSTestFunction = (key: string, name: string, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, resource: string, children?: string) => void;
+export type CSSTestFunction = (key: string, name: string, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, resource: string, location?: ProblemLocation, children?: string) => void;

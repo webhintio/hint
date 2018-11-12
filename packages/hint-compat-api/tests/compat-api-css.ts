@@ -11,8 +11,8 @@ const generateCSSConfig = (fileName: string) => {
     const styles = readFile(`${__dirname}/${path}/${fileName}.css`);
 
     return {
-        '/': generateHTMLPage('<link rel="stylesheet" href="styles">'),
-        '/styles': {
+        '/': generateHTMLPage(`<link rel="stylesheet" href="styles/${fileName}">`),
+        [`/styles/${fileName}`]: {
             content: styles,
             headers: { 'Content-Type': 'text/css' }
         }
