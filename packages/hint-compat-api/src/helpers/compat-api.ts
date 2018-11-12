@@ -149,10 +149,16 @@ export class CompatApi {
 
             const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
 
-            if (isCheckingNotBroadlySupported && (addedVersion || addedVersion === false || browserVersionsList[0] <= browserVersions.normalize(addedVersion as string))) {
-                return true;
-            } else if (removedVersion || browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion as string)) {
-                return true;
+            if (isCheckingNotBroadlySupported) {
+                if (addedVersion === false || addedVersion || (addedVersion && browserVersionsList[0] <= browserVersions.normalize(addedVersion))) {
+                    return true;
+                }
+
+                return false;
+            } else {
+                if (removedVersion || (removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion))) {
+                    return true;
+                }
             }
 
             return false;
