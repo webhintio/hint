@@ -26,40 +26,52 @@ const generateCSSConfig = (fileName: string) => {
  * https://webhint.io/docs/contributor-guide/how-to/test-hints/
  */
 
-// const addedBeforeTargetedBrowsers: Array<HintTest> = [
-//     {
-//         name: 'Features that were added in versions earlier than the targeted browsers should pass.',
-//         serverConfig: generateCSSConfig('charset')
-//     }
-// ];
+const addedBeforeTargetedBrowsers: Array<HintTest> = [
+    {
+        name: 'Features that were added in versions earlier than the targeted browsers should pass.',
+        serverConfig: generateCSSConfig('charset')
+    }
+];
 
-// hintRunner.testHint(hintPath, addedBeforeTargetedBrowsers, { browserslist: ['last 2 Chrome versions'], parsers: ['css']});
+hintRunner.testHint(hintPath, addedBeforeTargetedBrowsers, { browserslist: ['last 2 Chrome versions'], parsers: ['css']});
+
+//where version_added is true
+const prefixedFeatureAdded: Array<HintTest> = [
+    {
+        name: 'Prefixed features that are added irrelevant of version should pass.',
+        serverConfig: generateCSSConfig('box-flex-prefix')
+    }
+];
+
+hintRunner.testHint(hintPath, prefixedFeatureAdded, { browserslist: ['chrome 32', 'chrome 63 - 65'], parsers: ['css']});
 
 // const compatibilityUnknown: Array<HintTest> = [
 //     {
-//         name: 'Features that were added in versions earlier than the targeted browsers should pass.',
+//         name: 'Features using child properties whoes compatibility is unknown with the targeted browsers should fail.',
 //         reports: [{ message: 'capitalize of CSS is not added on chrome browser.' }],
 //         serverConfig: generateCSSConfig('text-transform')
 //     }
 // ];
 
-// hintRunner.testHint(hintPath, compatibilityUnknown, { browserslist: ['last 2 Chrome versions'], parsers: ['css']});
+// hintRunner.testHint(hintPath, compatibilityUnknown, { browserslist: ['chrome 65'], parsers: ['css']});
 
-//BOX-LINES DOES NOT THROW ERROR, IS THIS EXPECTED BEHAVIOUR?
-// const neverAdded: Array<HintTest> = [
-//     {
-//         name: 'Features that were added in versions earlier than the targeted browsers should pass.',
-//         // reports: [{ message: 'capitalize of CSS is not added on chrome browser.' }],
-//         serverConfig: generateCSSConfig('box-lines')
-//     }
-// ];
+//case where version_added is null
+//I think is a bug from mdn
+const childCompatibilityUnknown: Array<HintTest> = [
+    {
+        name: 'Features using child properties whoes compatibility is unknown with the targeted browsers should fail.',
+        reports: [{ message: 'capitalize of CSS is not added on chrome browser.' }],
+        serverConfig: generateCSSConfig('text-transform')
+    }
+];
 
-// hintRunner.testHint(hintPath, neverAdded, { browserslist: ['firefox 23'], parsers: ['css']});
+hintRunner.testHint(hintPath, childCompatibilityUnknown, { browserslist: ['chrome 65'], parsers: ['css']});
 
+//case where version_added is false
 const neverAdded: Array<HintTest> = [
     {
-        name: 'Features that were added in versions earlier than the targeted browsers should pass.',
-        // reports: [{ message: 'capitalize of CSS is not added on chrome browser.' }],
+        name: 'Features that were never added should fail.',
+        reports: [{ message: 'box-flex of CSS is not added on ie browser.' }],
         serverConfig: generateCSSConfig('box-flex')
     }
 ];
