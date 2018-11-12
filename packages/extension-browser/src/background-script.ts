@@ -110,8 +110,22 @@ const sendFetchStart = (details: Details) => {
 };
 
 /** Add the script to run webhint to the page. */
-const injectContentScript = (tabId: number) => {
-    browser.tabs.executeScript(tabId, { file: 'content-script/webhint.js', runAt: 'document_start' });
+const injectContentScript = (tabId: number, retries = 0) => {
+    browser.tabs.executeScript(tabId, { file: 'content-script/webhint.js', runAt: 'document_start' }, (result) => {
+        if (!result) {
+            if (retries <= 2) {
+                /*
+                 * Injection occassionally fails in Firefox; retry.
+                 * Variation of https://bugzilla.mozilla.org/show_bug.cgi?id=1397667
+                 */
+                console.warn('Failed to inject content script. Retrying...');
+                injectContentScript(tabId, retries + 1);
+            } else {
+                // Give up if retrying still doesn't inject the content script.
+                console.error('Failed to inject content script after retrying.');
+            }
+        }
+    });
 };
 
 /** Queue a `webRequest` event by `requestId`, flushing after `onCompleted`. */
