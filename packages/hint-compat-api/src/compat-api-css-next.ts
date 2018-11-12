@@ -5,7 +5,7 @@
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, HintMetadata, ProblemLocation } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { CompatApi, userBrowsers, CompatCSS } from './helpers';
@@ -47,7 +47,7 @@ export default class implements IHint {
             return userPrefixes[browserName + featureName];
         };
 
-        const checkNotBroadlySupportedFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, resource: string, children?: string): void => {
+        const checkNotBroadlySupportedFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, resource: string, location?: ProblemLocation, children?: string): void => {
             const key: any = data[keyName];
             let [prefix, featureName] = compatApi.getPrefix(name);
 
@@ -105,7 +105,7 @@ export default class implements IHint {
                     });
 
                     if (!wasSupportedInSometime) {
-                        context.report(resource, null, `${featureName} of CSS was never added on any of your browsers to support.`, featureName);
+                        context.report(resource, null, `${featureName} of CSS was never added on any of your browsers to support.`, featureName, location);
                     }
 
                     return;
@@ -120,7 +120,7 @@ export default class implements IHint {
 
                 // Not a common case, but if added version does not exist, was not added.
                 if (!addedVersion) {
-                    context.report(resource, null, `${featureName} of CSS is not added on ${browserToSupportName} browser.`, featureName);
+                    context.report(resource, null, `${featureName} of CSS is not added on ${browserToSupportName} browser.`, featureName, location);
 
                     return;
                 }
@@ -155,7 +155,7 @@ export default class implements IHint {
                 if (notSupportedVersions.length > 0) {
                     const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
 
-                    context.report(resource, null, `${featureName} ${usedPrefix ? usedPrefix : ''}is not added on ${notSupportedVersions.join(', ')} browsers.`, featureName);
+                    context.report(resource, null, `${featureName} ${usedPrefix ? usedPrefix : ''}is not added on ${notSupportedVersions.join(', ')} browsers.`, featureName, location);
                 }
             });
         };
