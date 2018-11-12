@@ -8,7 +8,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata, ProblemLocation } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
-import { CompatApi, userBrowsers, CompatCSS } from './helpers';
+import { CompatApi, userBrowsers, CompatCSS, CachedCompatFeatures } from './helpers';
 import { MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
 import { SupportBlock } from './types-mdn.temp';
 import { browserVersions } from './helpers/normalize-version';
@@ -37,6 +37,7 @@ export default class implements IHint {
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         const isCheckingNotBroadlySupported = true;
         const compatApi = new CompatApi('css', mdnBrowsersCollection, isCheckingNotBroadlySupported);
+        const cachedFeatures = new CachedCompatFeatures();
         const userPrefixes: any = {};
 
         const addUserUsedPrefixes = (browserName: string, featureName: string): void => {
@@ -73,6 +74,16 @@ export default class implements IHint {
                 }
             }
 
+            // Check if feature was tested
+
+            if (cachedFeatures.isCached(featureName)) {
+                cachedFeatures.showCachedErrors(featureName, context);
+
+                return;
+            }
+
+            cachedFeatures.add(featureName);
+
             // If feature does not have compat data, we ignore it.
             const featureInfo = feature.__compat;
 
@@ -105,7 +116,10 @@ export default class implements IHint {
                     });
 
                     if (!wasSupportedInSometime) {
-                        context.report(resource, null, `${featureName} of CSS was never added on any of your browsers to support.`, featureName, location);
+                        const message = `${featureName} of CSS was never added on any of your browsers to support.`;
+
+                        cachedFeatures.addError(featureName, resource, message, location);
+                        context.report(resource, null, message, featureName, location);
                     }
 
                     return;
@@ -120,7 +134,10 @@ export default class implements IHint {
 
                 // Not a common case, but if added version does not exist, was not added.
                 if (!addedVersion) {
-                    context.report(resource, null, `${featureName} of CSS is not added on ${browserToSupportName} browser.`, featureName, location);
+                    const message = `${featureName} of CSS is not added on ${browserToSupportName} browser.`;
+
+                    cachedFeatures.addError(featureName, resource, message, location);
+                    context.report(resource, null, message, featureName, location);
 
                     return;
                 }
@@ -154,8 +171,10 @@ export default class implements IHint {
 
                 if (notSupportedVersions.length > 0) {
                     const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
+                    const message = `${featureName} ${usedPrefix ? usedPrefix : ''}is not added on ${notSupportedVersions.join(', ')} browsers.`;
 
-                    context.report(resource, null, `${featureName} ${usedPrefix ? usedPrefix : ''}is not added on ${notSupportedVersions.join(', ')} browsers.`, featureName, location);
+                    cachedFeatures.addError(featureName, resource, message, location);
+                    context.report(resource, null, message, featureName, location);
                 }
             });
         };

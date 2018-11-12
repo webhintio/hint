@@ -8,7 +8,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, HintMetadata, ProblemLocation } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
-import { CompatApi, userBrowsers, CompatCSS } from './helpers';
+import { CompatApi, userBrowsers, CompatCSS, CachedCompatFeatures } from './helpers';
 import { MDNTreeFilteredByBrowsers, BrowserSupportCollection } from './types';
 import { SupportBlock } from './types-mdn.temp';
 import { browserVersions } from './helpers/normalize-version';
@@ -36,6 +36,7 @@ export default class implements IHint {
     public constructor(context: HintContext) {
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         const compatApi = new CompatApi('css', mdnBrowsersCollection);
+        const cachedFeatures = new CachedCompatFeatures();
 
         const checkDeprecatedCSSFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, resource: string, location?: ProblemLocation, children?: string): void => {
             const key: any = data[keyName];
@@ -62,6 +63,15 @@ export default class implements IHint {
                     return;
                 }
             }
+
+            // Check if feature was tested
+            if (cachedFeatures.isCached(featureName)) {
+                cachedFeatures.showCachedErrors(featureName, context);
+
+                return;
+            }
+
+            cachedFeatures.add(featureName);
 
             // If feature does not have compat data, we ignore it.
             const featureInfo = feature.__compat;
@@ -95,7 +105,10 @@ export default class implements IHint {
                     });
 
                     if (!wasSupportedInSometime && Object.keys(browsersToSupport).includes(browserToSupportName)) {
-                        context.report(resource, null, `${featureName} of CSS was never supported on any of your browsers to support.`, featureName, location);
+                        const message = `${featureName} of CSS was never supported on any of your browsers to support.`;
+
+                        cachedFeatures.addError(featureName, resource, message, location);
+                        context.report(resource, null, message, featureName, location);
                     }
 
                     return;
@@ -110,7 +123,10 @@ export default class implements IHint {
 
                 // Not a common case, but if removed version is exactly true, is always deprecated.
                 if (removedVersion === true) {
-                    context.report(resource, null, `${featureName} of CSS is not supported on ${browserToSupportName} browser.`, featureName, location);
+                    const message = `${featureName} of CSS is not supported on ${browserToSupportName} browser.`;
+
+                    cachedFeatures.addError(featureName, resource, message, location);
+                    context.report(resource, null, message, featureName, location);
 
                     return;
                 }
@@ -135,8 +151,10 @@ export default class implements IHint {
 
                 if (notSupportedVersions.length > 0) {
                     const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
+                    const message = `${featureName} ${usedPrefix ? usedPrefix : ''}is not supported on ${notSupportedVersions.join(', ')} browsers.`;
 
-                    context.report(resource, null, `${featureName} ${usedPrefix ? usedPrefix : ''}is not supported on ${notSupportedVersions.join(', ')} browsers.`, featureName, location);
+                    cachedFeatures.addError(featureName, resource, message, location);
+                    context.report(resource, null, message, featureName, location);
                 }
             });
         };
