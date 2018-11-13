@@ -31,11 +31,6 @@
   "files": [
     "dist/src"
   ],
-  "greenkeeper": {
-    "ignore": [
-      "proxyquire"
-    ]
-  },
   "homepage": "https://webhint.io/",
   "keywords": [
     "webhint",

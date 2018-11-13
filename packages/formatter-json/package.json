@@ -35,11 +35,6 @@
     "dist/src",
     "images"
   ],
-  "greenkeeper": {
-    "ignore": [
-      "proxyquire"
-    ]
-  },
   "homepage": "https://webhint.io/",
   "keywords": [
     "json",

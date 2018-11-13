@@ -83,12 +83,6 @@
     "dist/tests/helpers",
     "docs"
   ],
-  "greenkeeper": {
-    "ignore": [
-      "mime-db",
-      "proxyquire"
-    ]
-  },
   "homepage": "https://webhint.io/",
   "keywords": [
     "a11y",
