@@ -28,28 +28,27 @@ export class CompatApi {
             const namespaceFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
             Object.entries(namespaceFeaturesValues as object).forEach(([featureKey, featureValue]) => {
-                const typedFeatureValue = featureValue as CompatStatement & MDNTreeFilteredByBrowsers;
-
-                // First check all the children
+                const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
+                if (featureValue && featureValue.__compat) typedFeatures.__compat = featureValue.__compat
                 let isChildRequired = false;
 
                 if (typeof featureValue === 'object' && Object.keys(featureValue).length > 1) {
 
-                    Object.entries(featureValue).forEach(([childKey, childValue]) => {
-
+                    Object.entries(featureValue as object).forEach(([childKey, childValue]) => {
+ 
                         if (!this.isFeatureRequiredToTest(childValue as CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported)) {
                             return;
                         }
 
+                        typedFeatures[childKey] = childValue
                         isChildRequired = true;
                     });
                 }
 
-                if (!isChildRequired && !this.isFeatureRequiredToTest(typedFeatureValue, isCheckingNotBroadlySupported)) {
+                if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue as CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported)) {
                     return;
                 }
-
-                namespaceFeatures[featureKey] = typedFeatureValue;
+                namespaceFeatures[featureKey] = typedFeatures;
             });
 
             compatDataApi[namespaceFeaturesKey] = namespaceFeatures;
