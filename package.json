@@ -8,7 +8,7 @@
     "@types/yargs": "^12.0.1",
     "chalk": "^2.4.1",
     "cpx": "^1.5.0",
-    "eslint": "^5.8.0",
+    "eslint": "^5.9.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-rc.0",
     "eslint-plugin-typescript": "0.13.0",
@@ -19,7 +19,7 @@
     "markdownlint-cli": "^0.13.0",
     "npm-run-all": "^4.1.2",
     "rimraf": "^2.6.2",
-    "shelljs": "^0.8.2",
+    "shelljs": "^0.8.3",
     "typescript": "^3.1.6",
     "typescript-eslint-parser": "20.1.1",
     "yargs": "^12.0.2"
