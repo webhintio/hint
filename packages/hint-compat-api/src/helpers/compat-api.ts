@@ -7,61 +7,76 @@ const bcd: CompatData = require('mdn-browser-compat-data');
 
 import { browserVersions } from './normalize-version';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers } from '../types';
-import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement } from '../types-mdn.temp'; // Temporal
+import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, Identifier } from '../types-mdn.temp'; // Temporal
 
 type CompatNamespace = 'css' | 'javascript' | 'html';
 
 export class CompatApi {
-    public compatDataApi: MDNTreeFilteredByBrowsers; // Any because no types at the moment, check line 1
-    private browsers: BrowserSupportCollection;
+    public compatDataApi: MDNTreeFilteredByBrowsers;
+    private isCheckingNotBroadlySupported = false;
 
     public constructor(namespaceName: CompatNamespace, browsers: BrowserSupportCollection, isCheckingNotBroadlySupported = false) {
-        this.browsers = browsers;
+        this.isCheckingNotBroadlySupported = isCheckingNotBroadlySupported;
         this.compatDataApi = bcd[namespaceName];
-        this.compatDataApi = this.applyBrowsersConfiguration(isCheckingNotBroadlySupported);
+        this.compatDataApi = this.filterCompatDataByBrowsers(browsers);
     }
 
-    private applyBrowsersConfiguration(isCheckingNotBroadlySupported = false): any {
+    private filterCompatDataByBrowsers(browsers: BrowserSupportCollection): any {
         const compatDataApi = {} as MDNTreeFilteredByBrowsers;
 
         Object.entries(this.compatDataApi).forEach(([namespaceFeaturesKey, namespaceFeaturesValues]) => {
-            const namespaceFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
-
-            Object.entries(namespaceFeaturesValues as object).forEach(([featureKey, featureValue]) => {
-                const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
-                if (featureValue && featureValue.__compat) typedFeatures.__compat = featureValue.__compat
-                let isChildRequired = false;
-
-                if (typeof featureValue === 'object' && Object.keys(featureValue).length > 1) {
-
-                    Object.entries(featureValue as object).forEach(([childKey, childValue]) => {
- 
-                        if (!this.isFeatureRequiredToTest(childValue as CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported)) {
-                            return;
-                        }
-
-                        typedFeatures[childKey] = childValue
-                        isChildRequired = true;
-                    });
-                }
-
-                if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue as CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported)) {
-                    return;
-                }
-                namespaceFeatures[featureKey] = typedFeatures;
-            });
-
-            compatDataApi[namespaceFeaturesKey] = namespaceFeatures;
+            compatDataApi[namespaceFeaturesKey] = this.filterNamespacesDataByBrowsers(browsers, namespaceFeaturesValues);
         });
 
         return compatDataApi;
     }
 
-    public getPrefix(name: string): [string | undefined, string] {
-        const regexp = new RegExp(`-(moz|o|webkit|ms)-`, 'gi');
-        const matched = name.match(regexp);
+    private filterNamespacesDataByBrowsers(browsers: BrowserSupportCollection, namespaceFeaturesValues?: CompatStatement): CompatStatement & Identifier {
+        const namespaceFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
-        return matched && matched.length > 0 ? [matched[0], name.replace(matched[0], '')] : [undefined, name];
+        Object.entries(namespaceFeaturesValues as object).forEach(([featureKey, featureValue]) => {
+            const filteredFeature = this.filterFeatureByBrowsers(featureValue, browsers);
+
+            if (!filteredFeature) {
+                return;
+            }
+
+            namespaceFeatures[featureKey] = filteredFeature;
+        });
+
+        return namespaceFeatures;
+    }
+
+    private filterFeatureByBrowsers(featureValue: any, browsers: BrowserSupportCollection): CompatStatement | undefined {
+        const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
+
+        if (featureValue && featureValue.__compat) {
+            typedFeatures.__compat = featureValue.__compat;
+        }
+
+        let isChildRequired = this.getFeaturesAndChildrenRequiredToTest(typedFeatures, featureValue, browsers);
+
+        if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue as CompatStatement & MDNTreeFilteredByBrowsers, browsers)) {
+            return;
+        }
+
+        return typedFeatures;
+    }
+
+    private getFeaturesAndChildrenRequiredToTest(typedFeatures: CompatStatement & MDNTreeFilteredByBrowsers, featureValue: any, browsers: BrowserSupportCollection): boolean {
+        if (typeof featureValue === 'object' && Object.keys(featureValue).length > 1) {
+            return Object.entries(featureValue as object).some(([childKey, childValue]) => {
+
+                if (!this.isFeatureRequiredToTest(childValue as CompatStatement & MDNTreeFilteredByBrowsers, browsers)) {
+                    return false;
+                }
+
+                typedFeatures[childKey] = childValue
+                return true;
+            });
+        }
+
+        return false;
     }
 
     public getSupportStatementFromInfo(browserFeatureSupported?: SupportStatement, prefix?: string): SimpleSupportStatement | undefined {
@@ -136,8 +151,8 @@ export class CompatApi {
     }
     /* eslint-enable camelcase */
 
-    private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers, isCheckingNotBroadlySupported = false): boolean {
-        return Object.entries(this.browsers).some(([browser, browserVersionsList]): boolean => {
+    private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection): boolean {
+        return Object.entries(browsers).some(([browser, browserVersionsList]): boolean => {
             if (!typedFeatureValue.__compat || !typedFeatureValue.__compat.support) {
                 return false;
             }
@@ -151,7 +166,7 @@ export class CompatApi {
 
             const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
 
-            if (isCheckingNotBroadlySupported) {
+            if (this.isCheckingNotBroadlySupported) {
                 if (addedVersion === false || addedVersion || (addedVersion && browserVersionsList[0] <= browserVersions.normalize(addedVersion))) {
                     return true;
                 }

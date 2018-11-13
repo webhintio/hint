@@ -50,7 +50,7 @@ export default class implements IHint {
 
         const checkNotBroadlySupportedFeature = (keyName: string, name: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, resource: string, location?: ProblemLocation, children?: string): void => {
             const key: any = data[keyName];
-            let [prefix, featureName] = compatApi.getPrefix(name);
+            let [prefix, featureName] = compatCSS.getPrefix(name);
 
             if (!key || !featureName) {
                 debug('Error: The keyname does not exist.');
@@ -66,7 +66,7 @@ export default class implements IHint {
             }
 
             if (children) {
-                [prefix, featureName] = compatApi.getPrefix(children);
+                [prefix, featureName] = compatCSS.getPrefix(children);
                 feature = feature[featureName];
 
                 if (!feature) {

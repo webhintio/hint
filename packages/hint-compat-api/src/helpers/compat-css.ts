@@ -15,6 +15,10 @@ export class CompatCSS {
     public testFunction: CSSTestFunction
 
     public constructor(testFunction: CSSTestFunction) {
+        if (!testFunction) {
+            throw new Error('This helper cannot work without a CSSTestFunction.');
+        }
+
         this.testFunction = testFunction;
     }
 
@@ -32,12 +36,6 @@ export class CompatCSS {
     }
 
     public searchCSSFeatures(data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, parse: StyleParse, resource: string): void {
-        if (!this.testFunction) {
-            debug('Error: You need to provide a testfunction');
-
-            return;
-        }
-
         parse.ast.walk((node: ChildNode) => {
             const strategy = this.chooseStrategyToSearchCSSFeature(node);
             const location = this.getProblemLocationFromNode(node);
@@ -104,5 +102,13 @@ export class CompatCSS {
         }
 
         return selectedStrategy as FeatureStrategy<ChildNode>;
+    }
+
+    public getPrefix(name: string): [string | undefined, string] {
+        const regexp = new RegExp(`-(moz|o|webkit|ms)-`, 'gi');
+        const matched = name.match(regexp);
+        const prefix = matched && matched.length > 0 ? matched[0] : undefined;
+
+        return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
     }
 }
