@@ -47,7 +47,7 @@ hintRunner.testHint(hintPath, prefixedFeatureAddedBeforeTargetedBrowsers, { brow
 const childFeatureAddedBeforeTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Child features that were added in versions earlier than the targeted browsers should pass.',
-        serverConfig: generateCSSConfig('flexbox')
+        serverConfig: generateCSSConfig('display-flex')
     }
 ];
 
@@ -56,7 +56,7 @@ hintRunner.testHint(hintPath, childFeatureAddedBeforeTargetedBrowsers, { browser
 const prefixedChildFeatureAddedBeforeTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Prefixed child features that were added in versions earlier than the targeted browsers should pass.',
-        serverConfig: generateCSSConfig('flexbox-prefix')
+        serverConfig: generateCSSConfig('display-flex-prefix')
     }
 ];
 
@@ -74,7 +74,7 @@ hintRunner.testHint(hintPath, featureAddedSameAsTargetedBrowsers, { browserslist
 const childFeatureAddedSameAsTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Child features that were added the version of the targeted browser should pass.',
-        serverConfig: generateCSSConfig('flexbox')
+        serverConfig: generateCSSConfig('display-flex')
     }
 ];
 
@@ -83,7 +83,7 @@ hintRunner.testHint(hintPath, childFeatureAddedSameAsTargetedBrowsers, { browser
 const childPrefixedFeatureAddedSameAsTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Child prefixed features that were added the version of the targeted browser should pass.',
-        serverConfig: generateCSSConfig('flexbox-prefix')
+        serverConfig: generateCSSConfig('display-flex-prefix')
     }
 ];
 
@@ -192,7 +192,7 @@ const childFeatureAddedLaterThanTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Child features that were added later than targeted browsers should fail.',
         reports: [{ message: 'flex is not added on chrome 26, chrome 27, chrome 28 browsers.' }],
-        serverConfig: generateCSSConfig('flexbox')
+        serverConfig: generateCSSConfig('display-flex')
     }
 ];
 
@@ -202,7 +202,7 @@ const childPrefixedFeatureAddedLaterThanTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Child prefixed features that were added later than targeted browsers should fail.',
         reports: [{ message: 'flex prefixed with -webkit- is not added on chrome 17, chrome 18, chrome 19 browsers.' }],
-        serverConfig: generateCSSConfig('flexbox-prefix')
+        serverConfig: generateCSSConfig('display-flex-prefix')
     }
 ];
 
