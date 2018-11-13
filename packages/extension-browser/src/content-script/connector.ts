@@ -24,7 +24,11 @@ export default class WebExtensionConnector implements IConnector {
 
     public constructor(engine: Engine, options?: ConnectorOptionsConfig) {
         this._engine = engine;
-        this._options = Object.apply({ waitFor: 1000 }, options);
+        this._options = options || {};
+
+        if (!this._options.waitFor) {
+            this._options.waitFor = 1000;
+        }
 
         browser.runtime.onMessage.addListener(async (events: Events) => {
             if (events.fetchEnd) {

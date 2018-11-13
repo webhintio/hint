@@ -19,7 +19,8 @@
     "name": "webhint",
     "permissions": [
         "<all_urls>",
-        "webRequest"
+        "webRequest",
+        "webRequestBlocking"
     ],
     "version": "1.0"
 }

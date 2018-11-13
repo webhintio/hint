@@ -20,4 +20,16 @@ declare global {
             addListener(callback: (themeName: string) => void): void;
         };
     }
+
+    namespace chrome.webRequest {
+
+        interface StreamFilter {
+            disconnect(): void;
+            ondata: (event: { data: ArrayBuffer }) => void;
+            onstop: () => void;
+            write(data: ArrayBuffer): void;
+        }
+
+        export function filterResponseData(requestId: string): StreamFilter;
+    }
 }

@@ -6,6 +6,9 @@ import { mapHeaders } from './shared/headers';
 // Track data associated with all outstanding requests by `requestId`.
 const requests = new Map<string, Details[]>();
 
+// Track response content associated with requests by `requestId`.
+const responses = new Map<string, Promise<string>>();
+
 /** Convert `webRequest` details to a `hint` `Request` object. */
 const mapRequest = (parts: Details[]): Request => {
     const requestDetails = parts[0];
@@ -25,14 +28,28 @@ const mapRequest = (parts: Details[]): Request => {
 };
 
 /** Convert `webRequest` details to a `hint` `Response` object. */
-const mapResponse = async (parts: Details[]): Promise<Response> => {
+const mapResponse = async (parts: Details[], responsePromise?: Promise<string>): Promise<Response> => {
     const responseDetails = parts[parts.length - 1];
-    const responseBody = await fetch(responseDetails.url);
+
+    let content = '';
+
+    if (responsePromise) {
+
+        // Get the response text from a `StreamFilter` promise if available (Firefox).
+        content = await responsePromise;
+
+    } else {
+
+        // Otherwise re-fetch the URL to get the response text (Edge).
+        const responseBody = await fetch(responseDetails.url);
+        content = await responseBody.text(); // eslint-disable-line
+
+    }
 
     // Build a `hint` response object.
     return {
         body: {
-            content: await responseBody.text(),
+            content,
             rawContent: null as any,
             rawResponse: null as any
         },
@@ -77,28 +94,34 @@ const ports = new Map<number, chrome.runtime.Port>();
 
 /** Build and trigger `fetch::end::*` based on provided `webRequest` details. */
 const sendFetchEnd = async (parts: Details[]): Promise<void> => {
+    const tabId = parts[0].tabId;
+    const requestId = parts[0].requestId;
+    const responsePromise = responses.get(requestId);
+
+    responses.delete(requestId);
 
     /*
-     * Ignore sending `fetch::end` here when a devtools page is attached.
+     * If response content is not already available via a `StreamFilter`,
+     * ignore sending `fetch::end` here when a devtools page is attached (Chrome).
      *
      * This is because there's no `responseBody` property in the `webRequest` APIs so
      * we have to make an extra `fetch` call to get it, adding additional overhead.
      *
-     * Since `devtools.network.onRequestFinished` has a `getContent()` method, we defer
-     * to it when available (see `devtools/panel/panel.ts`).
+     * Since `devtools.network.onRequestFinished` has a `getContent()` method,
+     * it gets used when `StreamFilter` is not available (see `devtools/panel/panel.ts`).
      */
-    if (ports.has(parts[0].tabId)) {
+    if (!responsePromise && ports.has(tabId)) {
         return;
     }
 
     const element = null; // Set by `content-script/connector`.
     const request = mapRequest(parts);
-    const response = await mapResponse(parts);
+    const response = await mapResponse(parts, responsePromise);
     const resource = response.url;
 
     const fetchEnd: FetchEnd = { element, request, resource, response };
 
-    sendEvent(parts[0].tabId, { fetchEnd });
+    sendEvent(tabId, { fetchEnd });
 };
 
 /** Build and trigger `fetch::start` based on provided `webRequest` details. */
@@ -128,6 +151,29 @@ const injectContentScript = (tabId: number, retries = 0) => {
     });
 };
 
+/** Store the content of the specified response via `webRequest` APIs (if possible). */
+const saveResponseContent = (requestId: string): void => {
+    if (!browser.webRequest.filterResponseData) {
+        return;
+    }
+
+    responses.set(requestId, new Promise<string>((resolve) => {
+        let responseText = '';
+        const filter = browser.webRequest.filterResponseData(requestId);
+        const decoder = new TextDecoder('utf-8');
+
+        filter.ondata = (event) => {
+            responseText += decoder.decode(event.data, { stream: true });
+            filter.write(event.data);
+        };
+
+        filter.onstop = () => {
+            resolve(responseText);
+            filter.disconnect();
+        };
+    }));
+};
+
 /** Queue a `webRequest` event by `requestId`, flushing after `onCompleted`. */
 const queueDetails = (event: string, details: Details) => {
     if (!requests.has(details.requestId)) {
@@ -140,6 +186,10 @@ const queueDetails = (event: string, details: Details) => {
     const parts = requests.get(details.requestId)!; // Won't be null due to above if + set.
 
     parts.push(details);
+
+    if (event === 'onBeforeRequest') {
+        saveResponseContent(details.requestId);
+    }
 
     if (event === 'onResponseStarted' && details.type === 'main_frame' && enabledTabs.has(details.tabId)) {
         injectContentScript(details.tabId);
@@ -176,6 +226,7 @@ const requestFilter = {
 };
 
 const extraInfo: { [name: string]: string[] } = {
+    onBeforeRequest: ['blocking'],
     onCompleted: ['responseHeaders'],
     onHeadersReceived: ['responseHeaders'],
     onSendHeaders: ['requestHeaders']
@@ -190,13 +241,13 @@ const enable = (tabId: number) => {
         });
     }
     enabledTabs.add(tabId);
+    readyTabs.delete(tabId);
     browser.tabs.reload(tabId, { bypassCache: true });
 };
 
 /** Turn off request tracking for the specified tab. */
 const disable = (tabId: number) => {
     enabledTabs.delete(tabId);
-    readyTabs.delete(tabId);
     if (!enabledTabs.size) {
         webRequestEvents.forEach((event, i) => {
             (browser.webRequest as any)[event].removeListener(webRequestHandlers[i]);
@@ -259,7 +310,10 @@ browser.runtime.onMessage.addListener((message: Events, sender) => {
 
     // Forward or queue `fetch::*` events from devtools page to content script (can occur before `message.ready`).
     if (message.fetchEnd || message.fetchStart) {
-        sendEvent(tabId, message);
+        // But only if response content wasn't available from the `webRequest` APIs directly (Chrome).
+        if (!browser.webRequest.filterResponseData) {
+            sendEvent(tabId, message);
+        }
     }
 
     // Forward results from content-script to the associated devtools panel.
