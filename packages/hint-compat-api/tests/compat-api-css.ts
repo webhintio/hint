@@ -76,7 +76,7 @@ hintRunner.testHint(hintPath, removedLaterThanTargetedBrowsers, { browserslist: 
 const removedInEarlierVersionsAndAddedLater: Array<HintTest> = [
     {
         name: 'Features removed and re-added to versions earlier than the targeted browsers should pass.',
-        serverConfig: generateCSSConfig('animation-duration')
+        serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];
 
