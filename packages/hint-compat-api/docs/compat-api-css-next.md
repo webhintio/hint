@@ -1,6 +1,8 @@
-# Check for Deprecated CSS features
+# Check for CSS features that are not broadly supported
+
+## What does the hint check?
 `compat-api-css-next` checks if the CSS features used are
-broadly supported in the [targeted browsers][browser-context].
+supported in the [targeted browsers][browser-context].
 
 ## Why is this important?
 
@@ -32,6 +34,18 @@ will trigger the hint.
 }
 ```
 
+The at-rule [keyframes](https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes) was added for versions of Chrome 43 and onwards. Using `@keyframes`
+while targeting Chrome browsers of versions less than 43
+will trigger the hint.
+
+```css
+@keyframes name {
+    0% {
+        left: 0%;
+    }
+}
+```
+
 The prefixed `flex` value of the
 [display](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
 property was added for versions of Chrome 21 and onwards.
@@ -47,7 +61,7 @@ versions less than 21 will trigger the hint.
 ### Examples that **pass** the hint
 The [charset](https://developer.mozilla.org/en-US/docs/Web/CSS/@charset)
 at-rule was added from Chrome version 2. It should pass the hint for
-versions of Chrome more than 2.
+versions of Chrome from 2 onwards.
 
 ```css
 @charset "UTF-8";
@@ -57,18 +71,20 @@ The [box-flex](https://developer.mozilla.org/en-US/docs/Web/CSS/box-flex) proper
 was added with prefixes for Chrome, Firefox, Opera and Safari.
 [MDN compat data][browser-compat] does not specify which versions
 they were added in, asserting that the property is supported with
-prefixes, regardless of version.
+prefixes, regardless of version. If box-flex is used with prefixes,
+it should pass the hint for these browsers.
 
 ```css
 .example {
-    box-flex: 0;
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
 }
 ```
 
 The `capitalize` property of [text-transform](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform)
 does not have any information about when it was added to various browsers
 according to the  [MDN compat data][browser-compat]. No error is thrown
-if there is no information available on when or if the feature was added.
+if there is no information available on when, or if, the feature was added.
 
 ```css
 .example {
