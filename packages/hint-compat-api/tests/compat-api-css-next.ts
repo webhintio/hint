@@ -161,7 +161,7 @@ hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { br
 const featureVersionAddedFalse: Array<HintTest> = [
     {
         name: 'Features that have version added as false should fail.',
-        reports: [{ message: 'box-flex of CSS is not added on ie browser.' }],
+        reports: [{ message: 'box-flex of CSS is not added on ie browser.', position: { column: 5, line: 2}}],
         serverConfig: generateCSSConfig('box-flex')
     }
 ];
@@ -171,7 +171,7 @@ hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'
 const featureVersionAddedLaterThanTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Features that were added after the targeted browser should fail.',
-        reports: [{ message: 'keyframes is not added on chrome 40 browsers.' }],
+        reports: [{ message: 'keyframes is not added on chrome 40 browsers.', position: { column: 1, line: 1}}],
         serverConfig: generateCSSConfig('keyframes')
     }
 ];
@@ -181,30 +181,33 @@ hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { br
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
-        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browsers.' }],
+        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browsers.', position: { column: 5, line: 3} }],
         serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];
 
 hintRunner.testHint(hintPath, prefixedFeatureVersionAddedLaterThanTargetedBrowsers, { browserslist: ['opera 12'], parsers: ['css']});
 
-// const childFeatureAddedLaterThanTargetedBrowsers: Array<HintTest> = [
-//     {
-//         name: 'Child features that were added later than targeted browsers should fail.',
-//         reports: [{ message: 'flex is not added on chrome 26, chrome 27, chrome 28 browsers.' }],
-//         serverConfig: generateCSSConfig('display-flex')
-//     }
-// ];
+/*
+ * const childFeatureAddedLaterThanTargetedBrowsers: Array<HintTest> = [
+ *     {
+ *         name: 'Child features that were added later than targeted browsers should fail.',
+ *         reports: [{ message: 'flex is not added on chrome 26, chrome 27, chrome 28 browsers.' }],
+ *         serverConfig: generateCSSConfig('display-flex')
+ *     }
+ * ];
+ *
+ * hintRunner.testHint(hintPath, childFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 26 - 29'], parsers: ['css']});
+ */
 
-// hintRunner.testHint(hintPath, childFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 26 - 29'], parsers: ['css']});
-
-// const childPrefixedFeatureAddedLaterThanTargetedBrowsers: Array<HintTest> = [
-//     {
-//         name: 'Child prefixed features that were added later than targeted browsers should fail.',
-//         reports: [{ message: 'flex prefixed with -webkit- is not added on chrome 17, chrome 18, chrome 19 browsers.' }],
-//         serverConfig: generateCSSConfig('display-flex-prefix')
-//     }
-// ];
-
-// hintRunner.testHint(hintPath, childPrefixedFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 17 - 19'], parsers: ['css']});
-
+/*
+ * const childPrefixedFeatureAddedLaterThanTargetedBrowsers: Array<HintTest> = [
+ *     {
+ *         name: 'Child prefixed features that were added later than targeted browsers should fail.',
+ *         reports: [{ message: 'flex prefixed with -webkit- is not added on chrome 17, chrome 18, chrome 19 browsers.' }],
+ *         serverConfig: generateCSSConfig('display-flex-prefix')
+ *     }
+ * ];
+ *
+ * hintRunner.testHint(hintPath, childPrefixedFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 17 - 19'], parsers: ['css']});
+ */
