@@ -40,19 +40,23 @@ export default class implements IHint {
 
         this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         this.compatApi = new CompatApi('css', this.mdnBrowsersCollection, isCheckingNotBroadlySupported);
-        this.compatCSS = new CompatCSS(context, this.testFeatureIsSupportedInBrowser);
+        this.compatCSS = new CompatCSS(context, (...params) => {
+            this.testFeatureIsSupportedInBrowser(...params);
+        });
 
-        context.on('parse::css::end', this.onParseCSS);
+        context.on('parse::css::end', (styleParse: StyleParse) => {
+            this.onParseCSS(styleParse);
+        });
     }
 
-    private onParseCSS = (styleParse: StyleParse): void => {
+    private onParseCSS(styleParse: StyleParse): void {
         const { resource } = styleParse;
 
         this.compatCSS.setResource(resource);
         this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, this.mdnBrowsersCollection, styleParse);
     }
 
-    private testFeatureIsSupportedInBrowser = (browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation): void => {
+    private testFeatureIsSupportedInBrowser(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation): void {
         if (!this.compatApi.isBrowserToSupportPartOfBrowsersCollection(browsersToSupport, browserToSupportName)) {
             return;
         }
@@ -68,7 +72,7 @@ export default class implements IHint {
         }
 
         this.testAddedVersionByBrowsers(browsersToSupport, browserFeatureSupported, browserToSupportName, featureName, location, prefix);
-    };
+    }
 
     private testAddedVersionByBrowsers(browsersToSupport: BrowserSupportCollection, browserFeatureSupported: SimpleSupportStatement, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void {
         const addedVersion = browserFeatureSupported.version_added;
@@ -88,7 +92,7 @@ export default class implements IHint {
         }
 
         this.testNotSupportedVersionsByBrowsers(browsersToSupport, addedVersion, browserToSupportName, featureName, location, prefix);
-    };
+    }
 
     private testNotSupportedVersionsByBrowsers(browsersToSupport: BrowserSupportCollection, addedVersion: string, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void {
         const addedVersionNumber = browserVersions.normalize(addedVersion);
@@ -101,7 +105,7 @@ export default class implements IHint {
 
             this.compatCSS.reportError(featureName, message, location);
         }
-    };
+    }
 
     private getNotSupportedVersionByBrowsers(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, addedVersionNumber: number, featureName: string, prefix?: string): string[] {
         const notSupportedVersions: string[] = [];
@@ -130,13 +134,13 @@ export default class implements IHint {
         });
 
         return notSupportedVersions;
-    };
+    }
 
     private addUserUsedPrefixes(browserName: string, featureName: string): void {
         this.userPrefixes[browserName + featureName] = true;
-    };
+    }
 
     private checkUserUsedPrefixes (browserName: string, featureName: string): boolean {
         return this.userPrefixes[browserName + featureName];
-    };
+    }
 }

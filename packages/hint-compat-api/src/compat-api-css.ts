@@ -36,19 +36,23 @@ export default class implements IHint {
     public constructor(context: HintContext) {
         this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         this.compatApi = new CompatApi('css', this.mdnBrowsersCollection);
-        this.compatCSS = new CompatCSS(context, this.testFeatureIsSupportedInBrowser);
+        this.compatCSS = new CompatCSS(context, (...params) => {
+            this.testFeatureIsSupportedInBrowser(...params);
+        });
 
-        context.on('parse::css::end', this.onParseCSS);
+        context.on('parse::css::end', (styleParse: StyleParse) => {
+            this.onParseCSS(styleParse);
+        });
     }
 
-    private onParseCSS = (styleParse: StyleParse): void => {
+    private onParseCSS(styleParse: StyleParse): void {
         const { resource } = styleParse;
 
         this.compatCSS.setResource(resource);
         this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, this.mdnBrowsersCollection, styleParse);
     }
 
-    private testFeatureIsSupportedInBrowser = (browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation): void => {
+    private testFeatureIsSupportedInBrowser(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation): void {
         if (!this.compatApi.isBrowserToSupportPartOfBrowsersCollection(browsersToSupport, browserToSupportName)) {
             return;
         }
