@@ -135,6 +135,7 @@ const sendFetchStart = (details: Details) => {
 /** Add the script to run webhint to the page. */
 const injectContentScript = (tabId: number, retries = 0) => {
     browser.tabs.executeScript(tabId, { file: 'content-script/webhint.js', runAt: 'document_start' }, (result) => {
+        // We get an empty object `{}` back on success, or `undefined` if the script failed to execute.
         if (!result) {
             if (retries <= 2) {
                 /*
