@@ -31,23 +31,41 @@ export default class implements IHint {
     }
 
     public constructor(context: HintContext) {
+        const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
+        const compatApi = new CompatApi('css', mdnBrowsersCollection);
+        const compatCSS = new CompatCSS(context);
 
-        const testFeatureIsSupportedInBrowser = (browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation): void => {
-            if(!compatApi.isBrowserToSupportPartOfBrowsersColletcion(browsersToSupport, browserToSupportName)) {
-                return;
+        const getNotSupportedVersionByBrowsers = (browsersToSupport: BrowserSupportCollection, browserToSupportName: string, removedVersionNumber: number): string[] => {
+            const notSupportedVersions: string[] = [];
+
+            Object.entries(browsersToSupport).forEach(([browserName, versions]) => {
+                if (browserName !== browserToSupportName) {
+                    return;
+                }
+
+                versions.forEach((version) => {
+                    if (version < removedVersionNumber) {
+                        return;
+                    }
+
+                    notSupportedVersions.push(`${browserName} ${browserVersions.deNormalize(version)}`);
+                });
+            });
+
+            return notSupportedVersions;
+        };
+
+        const testNotSupportedVersionsByBrowsers = (browsersToSupport: BrowserSupportCollection, removedVersion: string, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void => {
+            const removedVersionNumber = browserVersions.normalize(removedVersion);
+
+            const notSupportedVersions = getNotSupportedVersionByBrowsers(browsersToSupport, browserToSupportName, removedVersionNumber);
+
+            if (notSupportedVersions.length > 0) {
+                const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
+                const message = `${featureName} ${usedPrefix ? usedPrefix : ''}is not supported on ${notSupportedVersions.join(', ')} browsers.`;
+
+                compatCSS.reportError(featureName, message, location);
             }
-
-            const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
-
-            if (!browserFeatureSupported) {
-                const message = `${featureName} of CSS was never supported on any of your browsers to support.`;
-
-                compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browsersToSupport, browserToSupportName, featureName, location)
-
-                return;
-            }
-
-            testRemovedVersionByBrowsers(browsersToSupport, browserFeatureSupported, browserToSupportName, featureName, location, prefix);
         };
 
         const testRemovedVersionByBrowsers = (browsersToSupport: BrowserSupportCollection, browserFeatureSupported: SimpleSupportStatement, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void => {
@@ -61,46 +79,32 @@ export default class implements IHint {
             // Not a common case, but if removed version is exactly true, is always deprecated.
             if (removedVersion === true) {
                 const message = `${featureName} of CSS is not supported on ${browserToSupportName} browser.`;
+
                 compatCSS.reportError(featureName, message, location);
 
                 return;
             }
 
             testNotSupportedVersionsByBrowsers(browsersToSupport, removedVersion, browserToSupportName, featureName, location, prefix);
-        }
+        };
 
-        const testNotSupportedVersionsByBrowsers = (browsersToSupport: BrowserSupportCollection, removedVersion: string, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void => {
-            const removedVersionNumber = browserVersions.normalize(removedVersion);
-
-            const notSupportedVersions = getNotSupportedVersionByBrowsers(browsersToSupport, browserToSupportName, removedVersionNumber);
-
-            if (notSupportedVersions.length > 0) {
-                const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
-                const message = `${featureName} ${usedPrefix ? usedPrefix : ''}is not supported on ${notSupportedVersions.join(', ')} browsers.`;
-
-                compatCSS.reportError(featureName, message, location);
+        const testFeatureIsSupportedInBrowser = (browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation): void => {
+            if (!compatApi.isBrowserToSupportPartOfBrowsersColletcion(browsersToSupport, browserToSupportName)) {
+                return;
             }
-        }
 
-        const getNotSupportedVersionByBrowsers = (browsersToSupport: BrowserSupportCollection, browserToSupportName: string, removedVersionNumber: number): string[] => {
-            let notSupportedVersions: string[] = [];
+            const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
-            Object.entries(browsersToSupport).forEach(([browserName, versions]) => {
-                if (browserName !== browserToSupportName) {
-                    return;
-                }
+            if (!browserFeatureSupported) {
+                const message = `${featureName} of CSS was never supported on any of your browsers to support.`;
 
-                versions.forEach((version) => {
-                    if (version < removedVersionNumber) {
-                        return '';
-                    }
+                compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browsersToSupport, browserToSupportName, featureName, location);
 
-                    notSupportedVersions.push(`${browserName} ${browserVersions.deNormalize(version)}`);
-                });
-            });
+                return;
+            }
 
-            return notSupportedVersions
-        }
+            testRemovedVersionByBrowsers(browsersToSupport, browserFeatureSupported, browserToSupportName, featureName, location, prefix);
+        };
 
         const onParseCSS = (styleParse: StyleParse): void => {
             const { resource } = styleParse;
@@ -109,10 +113,7 @@ export default class implements IHint {
             compatCSS.searchCSSFeatures(compatApi.compatDataApi, mdnBrowsersCollection, styleParse);
         };
 
-        const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
-        const compatApi = new CompatApi('css', mdnBrowsersCollection);
-        const compatCSS = new CompatCSS(context, testFeatureIsSupportedInBrowser);
-
+        compatCSS.setTestingFunction(testFeatureIsSupportedInBrowser);
         context.on('parse::css::end', onParseCSS);
     }
 }

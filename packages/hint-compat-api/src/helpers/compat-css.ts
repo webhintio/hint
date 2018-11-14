@@ -15,23 +15,23 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 const debug: debug.IDebugger = d(__filename);
 
 export class CompatCSS {
-    public testFunction: CSSTestFunction
+    public testFunction: CSSTestFunction | undefined;
+
     private cachedFeatures: CachedCompatFeatures;
     private hintContext: HintContext;
     private hintResource: string = 'unknown';
 
-    public constructor(hintContext: HintContext, testFunction: CSSTestFunction) {
-        if (!testFunction) {
-            throw new Error('This helper cannot work without a CSSTestFunction.');
-        }
-
-        this.testFunction = testFunction;
+    public constructor(hintContext: HintContext) {
         this.hintContext = hintContext;
         this.cachedFeatures = new CachedCompatFeatures();
     }
 
-    public setResource(hintResource: string,): void {
+    public setResource(hintResource: string): void {
         this.hintResource = hintResource;
+    }
+
+    public setTestingFunction(testFunction: CSSTestFunction) {
+        this.testFunction = testFunction;
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
@@ -137,11 +137,15 @@ export class CompatCSS {
         const supportBlock: SupportBlock = featureInfo.support;
 
         Object.entries(supportBlock).forEach(([browserToSupportName, browserInfo]) => {
+            if (!this.testFunction) {
+                throw new Error('You must set setTestingFunction before test a feature.');
+            }
+
             this.testFunction(browsersToSupport, browserToSupportName, browserInfo, featureName, prefix, location);
         });
-    };
+    }
 
-    public validateStrategy (strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): StrategyData | undefined {
+    public validateStrategy (strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): StrategyData | null {
         let [prefix, featureName] = this.getPrefix(featureNameWithPrefix);
 
         const strategyContent: any = data[strategyName];
@@ -149,14 +153,14 @@ export class CompatCSS {
         if (!strategyContent) {
             debug('Error: The strategy does not exist.');
 
-            return;
+            return null;
         }
 
         let feature = strategyContent[featureName];
 
         // If feature is not in the filtered by browser data, that means that is always supported.
         if (!feature) {
-            return;
+            return null;
         }
 
         if (optionalChildrenNameWithPrefix) {
@@ -164,7 +168,7 @@ export class CompatCSS {
             feature = feature[featureName];
 
             if (!feature) {
-                return;
+                return null;
             }
         }
 
@@ -172,15 +176,15 @@ export class CompatCSS {
         const featureInfo = feature.__compat;
 
         if (!featureInfo || !featureInfo.support) {
-            return;
+            return null;
         }
 
         return {
-            prefix,
             featureInfo,
-            featureName
+            featureName,
+            prefix
         };
-    };
+    }
 
     public wasBrowserSupportedInSometime (browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
         return Object.entries(browsersToSupport).some(([browserName]) => {
@@ -190,7 +194,7 @@ export class CompatCSS {
 
             return true;
         });
-    };
+    }
 
     private getPrefix(name: string): [string | undefined, string] {
         const regexp = new RegExp(`-(moz|o|webkit|ms)-`, 'gi');
@@ -203,7 +207,7 @@ export class CompatCSS {
     public reportError (featureName: string, message: string, location?: ProblemLocation): void {
         this.cachedFeatures.addError(featureName, this.hintResource, message, location);
         this.hintContext.report(this.hintResource, null, message, featureName, location);
-    };
+    }
 
     public reportIfThereIsNoInformationAboutCompatibility(message: string, browsersToSupport: BrowserSupportCollection, browserToSupportName: string, featureName: string, location?: ProblemLocation) {
         if (!this.wasBrowserSupportedInSometime(browsersToSupport, browserToSupportName) && Object.keys(browsersToSupport).includes(browserToSupportName)) {

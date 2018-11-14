@@ -47,17 +47,17 @@ export class CompatApi {
         return namespaceFeatures;
     }
 
-    private filterFeatureByBrowsers(featureValue: any, browsers: BrowserSupportCollection): CompatStatement | undefined {
+    private filterFeatureByBrowsers(featureValue: any, browsers: BrowserSupportCollection): CompatStatement | null {
         const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
         if (featureValue && featureValue.__compat) {
             typedFeatures.__compat = featureValue.__compat;
         }
 
-        let isChildRequired = this.getFeaturesAndChildrenRequiredToTest(typedFeatures, featureValue, browsers);
+        const isChildRequired = this.getFeaturesAndChildrenRequiredToTest(typedFeatures, featureValue, browsers);
 
         if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue as CompatStatement & MDNTreeFilteredByBrowsers, browsers)) {
-            return;
+            return null;
         }
 
         return typedFeatures;
@@ -71,7 +71,8 @@ export class CompatApi {
                     return false;
                 }
 
-                typedFeatures[childKey] = childValue
+                typedFeatures[childKey] = childValue;
+
                 return true;
             });
         }
