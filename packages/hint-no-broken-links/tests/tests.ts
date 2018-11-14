@@ -73,11 +73,11 @@ const bodyWithInvalidUrl = `<div>
 </div>`;
 
 const bodyWithBrokenDnsPrefetchLinkTag = `<div>
-<link rel="dns-prefetch" href="https://example.com/404">
+<link rel="dns-prefetch" href="http://localhost/404">
 </div>`;
 
 const bodyWithBrokenPreconnectLinkTag = `<div>
-<link rel="preconnect" href="https://example.com/404">
+<link rel="preconnect" href="http://localhost/404">
 </div>`;
 
 const tests: HintTest[] = [
@@ -210,11 +210,17 @@ const tests: HintTest[] = [
     },
     {
         name: `This test should pass as the 404 error should be ignored for dns-prefetch link tags`,
-        serverConfig: { '/': { content: generateHTMLPage('', bodyWithBrokenDnsPrefetchLinkTag) } }
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithBrokenDnsPrefetchLinkTag) },
+            '/404': { status: 404 }
+        }
     },
     {
         name: `This test should pass as the 404 error should be ignored for preconnect link tags`,
-        serverConfig: { '/': { content: generateHTMLPage('', bodyWithBrokenPreconnectLinkTag) } }
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithBrokenPreconnectLinkTag) },
+            '/404': { status: 404 }
+        }
     }
 ];
 
