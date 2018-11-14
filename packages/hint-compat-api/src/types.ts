@@ -10,7 +10,13 @@ export type BrowserSupportCollection = {
 
 export type FeatureStrategy<T extends ChildNode> = {
     check: (node: T | ChildNode) => boolean;
-    testFeature: (node: T, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, resource: string, location?: ProblemLocation) => void;
+    testFeature: (node: T, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, location?: ProblemLocation) => void;
 };
 
-export type CSSTestFunction = (key: string, name: string, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, resource: string, location?: ProblemLocation, children?: string) => void;
+export type CSSTestFunction = (browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation) => void;
+
+export type StrategyData = {
+    prefix: string | undefined;
+    featureName: string;
+    featureInfo: any;
+};
