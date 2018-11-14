@@ -178,4 +178,14 @@ export class CompatApi {
             return false;
         });
     }
+
+    public isBrowserToSupportPartOfBrowsersColletcion(browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
+        if (!Object.keys(browsersToSupport).some((browser) => {
+            return browser === browserToSupportName;
+        })) {
+            return false;
+        }
+
+        return true;
+    }
 }

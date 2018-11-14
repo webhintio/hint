@@ -7,19 +7,31 @@ import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
-import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection, CSSTestFunction } from '../types';
+import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection, CSSTestFunction, StrategyData } from '../types';
+import { CachedCompatFeatures } from './cached-compat-features';
+import { SupportBlock } from '../types-mdn.temp';
+import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 const debug: debug.IDebugger = d(__filename);
 
 export class CompatCSS {
     public testFunction: CSSTestFunction
+    private cachedFeatures: CachedCompatFeatures;
+    private hintContext: HintContext;
+    private hintResource: string = 'unknown';
 
-    public constructor(testFunction: CSSTestFunction) {
+    public constructor(hintContext: HintContext, testFunction: CSSTestFunction) {
         if (!testFunction) {
             throw new Error('This helper cannot work without a CSSTestFunction.');
         }
 
         this.testFunction = testFunction;
+        this.hintContext = hintContext;
+        this.cachedFeatures = new CachedCompatFeatures();
+    }
+
+    public setResource(hintResource: string,): void {
+        this.hintResource = hintResource;
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
@@ -35,12 +47,12 @@ export class CompatCSS {
         };
     }
 
-    public searchCSSFeatures(data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, parse: StyleParse, resource: string): void {
+    public searchCSSFeatures(data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, parse: StyleParse): void {
         parse.ast.walk((node: ChildNode) => {
             const strategy = this.chooseStrategyToSearchCSSFeature(node);
             const location = this.getProblemLocationFromNode(node);
 
-            strategy.testFeature(node, data, browsers, resource, location);
+            strategy.testFeature(node, data, browsers, location);
         });
     }
 
@@ -50,8 +62,8 @@ export class CompatCSS {
                 return node.type === 'atrule';
             },
 
-            testFeature: (node: AtRule, data, browsers, resource, location) => {
-                this.testFunction('at-rules', node.name, data, browsers, resource, location);
+            testFeature: (node: AtRule, data, browsers, location) => {
+                this.testFeature('at-rules', node.name, data, browsers, location);
             }
         };
 
@@ -60,8 +72,8 @@ export class CompatCSS {
                 return node.type === 'rule';
             },
 
-            testFeature: (node: Rule, data, browsers, resource, location) => {
-                this.testFunction('selectors', node.selector, data, browsers, resource, location);
+            testFeature: (node: Rule, data, browsers, location) => {
+                this.testFeature('selectors', node.selector, data, browsers, location);
             }
         };
 
@@ -70,9 +82,9 @@ export class CompatCSS {
                 return node.type === 'decl';
             },
 
-            testFeature: (node: Declaration, data, browsers, resource, location) => {
-                this.testFunction('properties', node.prop, data, browsers, resource, location);
-                this.testFunction('properties', node.prop, data, browsers, resource, location, node.value);
+            testFeature: (node: Declaration, data, browsers, location) => {
+                this.testFeature('properties', node.prop, data, browsers, location);
+                this.testFeature('properties', node.prop, data, browsers, location, node.value);
             }
         };
 
@@ -104,11 +116,98 @@ export class CompatCSS {
         return selectedStrategy as FeatureStrategy<ChildNode>;
     }
 
-    public getPrefix(name: string): [string | undefined, string] {
+    private testFeature (strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): void {
+        const strategyData = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
+
+        if (!strategyData) {
+            return;
+        }
+
+        const { prefix, featureInfo, featureName } = strategyData;
+
+        if (this.cachedFeatures.isCached(featureName)) {
+            this.cachedFeatures.showCachedErrors(featureName, this.hintContext);
+
+            return;
+        }
+
+        this.cachedFeatures.add(featureName);
+
+        // Check for each browser the support block
+        const supportBlock: SupportBlock = featureInfo.support;
+
+        Object.entries(supportBlock).forEach(([browserToSupportName, browserInfo]) => {
+            this.testFunction(browsersToSupport, browserToSupportName, browserInfo, featureName, prefix, location);
+        });
+    };
+
+    public validateStrategy (strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): StrategyData | undefined {
+        let [prefix, featureName] = this.getPrefix(featureNameWithPrefix);
+
+        const strategyContent: any = data[strategyName];
+
+        if (!strategyContent) {
+            debug('Error: The strategy does not exist.');
+
+            return;
+        }
+
+        let feature = strategyContent[featureName];
+
+        // If feature is not in the filtered by browser data, that means that is always supported.
+        if (!feature) {
+            return;
+        }
+
+        if (optionalChildrenNameWithPrefix) {
+            [prefix, featureName] = this.getPrefix(optionalChildrenNameWithPrefix);
+            feature = feature[featureName];
+
+            if (!feature) {
+                return;
+            }
+        }
+
+        // If feature does not have compat data, we ignore it.
+        const featureInfo = feature.__compat;
+
+        if (!featureInfo || !featureInfo.support) {
+            return;
+        }
+
+        return {
+            prefix,
+            featureInfo,
+            featureName
+        };
+    };
+
+    public wasBrowserSupportedInSometime (browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
+        return Object.entries(browsersToSupport).some(([browserName]) => {
+            if (browserName !== browserToSupportName) {
+                return false;
+            }
+
+            return true;
+        });
+    };
+
+    private getPrefix(name: string): [string | undefined, string] {
         const regexp = new RegExp(`-(moz|o|webkit|ms)-`, 'gi');
         const matched = name.match(regexp);
         const prefix = matched && matched.length > 0 ? matched[0] : undefined;
 
         return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
+    }
+
+    public reportError (featureName: string, message: string, location?: ProblemLocation): void {
+        this.cachedFeatures.addError(featureName, this.hintResource, message, location);
+        this.hintContext.report(this.hintResource, null, message, featureName, location);
+    };
+
+    public reportIfThereIsNoInformationAboutCompatibility(message: string, browsersToSupport: BrowserSupportCollection, browserToSupportName: string, featureName: string, location?: ProblemLocation) {
+        if (!this.wasBrowserSupportedInSometime(browsersToSupport, browserToSupportName) && Object.keys(browsersToSupport).includes(browserToSupportName)) {
+            this.reportError(featureName, message, location);
+        }
     }
 }
