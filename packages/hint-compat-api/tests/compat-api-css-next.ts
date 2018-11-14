@@ -161,7 +161,7 @@ hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { br
 const featureVersionAddedFalse: Array<HintTest> = [
     {
         name: 'Features that have version added as false should fail.',
-        reports: [{ message: 'box-flex of CSS is not added on ie browser.' }],
+        reports: [{ message: 'box-flex of CSS is not added on ie browser.', position: { column: 5, line: 2}}],
         serverConfig: generateCSSConfig('box-flex')
     }
 ];
@@ -171,7 +171,7 @@ hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'
 const featureVersionAddedLaterThanTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Features that were added after the targeted browser should fail.',
-        reports: [{ message: 'keyframes is not added on chrome 40 browsers.' }],
+        reports: [{ message: 'keyframes is not added on chrome 40 browsers.', position: { column: 1, line: 1}}],
         serverConfig: generateCSSConfig('keyframes')
     }
 ];
@@ -181,7 +181,7 @@ hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { br
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
-        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browsers.' }],
+        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browsers.', position: { column: 5, line: 3} }],
         serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];
