@@ -32,58 +32,22 @@ export default class implements IHint {
 
     public constructor(context: HintContext) {
 
-        const testFeatureIsSupportedInBrowser = (browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation): void => {
-            if (!compatApi.isBrowserToSupportPartOfBrowsersColletcion(browsersToSupport, browserToSupportName)) {
-                return;
-            }
+        const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
+        const userPrefixes: any = {};
+        const isCheckingNotBroadlySupported = true;
+        const compatApi = new CompatApi('css', mdnBrowsersCollection, isCheckingNotBroadlySupported);
+        const compatCSS = new CompatCSS(context);
 
-            const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
-
-            if (!browserFeatureSupported) {
-                const message = `${featureName} of CSS was never added on any of your browsers to support.`;
-
-                compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browsersToSupport, browserToSupportName, featureName, location)
-
-                return;
-            }
-
-            testAddedVersionByBrowsers(browsersToSupport, browserFeatureSupported, browserToSupportName, featureName, location, prefix);
+        const addUserUsedPrefixes = (browserName: string, featureName: string): void => {
+            userPrefixes[browserName + featureName] = true;
         };
 
-        const testAddedVersionByBrowsers = (browsersToSupport: BrowserSupportCollection, browserFeatureSupported: SimpleSupportStatement, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void => {
-            const addedVersion = browserFeatureSupported.version_added;
-
-            // If there added version is exactly true, always supported
-            if (addedVersion === true) {
-                return;
-            }
-
-            // Not a common case, but if added version does not exist, was not added.
-            if (!addedVersion) {
-                const message = `${featureName} of CSS is not added on ${browserToSupportName} browser.`;
-                compatCSS.reportError(featureName, message, location);
-
-                return;
-            }
-
-            testNotSupportedVersionsByBrowsers(browsersToSupport, addedVersion, browserToSupportName, featureName, location, prefix);
-        }
-
-        const testNotSupportedVersionsByBrowsers = (browsersToSupport: BrowserSupportCollection, addedVersion: string, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void => {
-            const addedVersionNumber = browserVersions.normalize(addedVersion);
-
-            const notSupportedVersions = getNotSupportedVersionByBrowsers(browsersToSupport, browserToSupportName, addedVersionNumber, featureName, prefix);
-
-            if (notSupportedVersions.length > 0) {
-                const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
-                const message = `${featureName} ${usedPrefix ? usedPrefix : ''}is not added on ${notSupportedVersions.join(', ')} browsers.`;
-
-                compatCSS.reportError(featureName, message, location);
-            }
-        }
+        const checkUserUsedPrefixes = (browserName: string, featureName: string): boolean => {
+            return userPrefixes[browserName + featureName];
+        };
 
         const getNotSupportedVersionByBrowsers = (browsersToSupport: BrowserSupportCollection, browserToSupportName: string, addedVersionNumber: number, featureName: string, prefix?: string): string[] => {
-            let notSupportedVersions: string[] = [];
+            const notSupportedVersions: string[] = [];
 
             Object.entries(browsersToSupport).forEach(([browserName, versions]) => {
                 if (browserName !== browserToSupportName) {
@@ -108,15 +72,58 @@ export default class implements IHint {
                 });
             });
 
-            return notSupportedVersions
-        }
-
-        const addUserUsedPrefixes = (browserName: string, featureName: string): void => {
-            userPrefixes[browserName + featureName] = true;
+            return notSupportedVersions;
         };
 
-        const checkUserUsedPrefixes = (browserName: string, featureName: string): boolean => {
-            return userPrefixes[browserName + featureName];
+        const testNotSupportedVersionsByBrowsers = (browsersToSupport: BrowserSupportCollection, addedVersion: string, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void => {
+            const addedVersionNumber = browserVersions.normalize(addedVersion);
+
+            const notSupportedVersions = getNotSupportedVersionByBrowsers(browsersToSupport, browserToSupportName, addedVersionNumber, featureName, prefix);
+
+            if (notSupportedVersions.length > 0) {
+                const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
+                const message = `${featureName} ${usedPrefix ? usedPrefix : ''}is not added on ${notSupportedVersions.join(', ')} browsers.`;
+
+                compatCSS.reportError(featureName, message, location);
+            }
+        };
+
+        const testAddedVersionByBrowsers = (browsersToSupport: BrowserSupportCollection, browserFeatureSupported: SimpleSupportStatement, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void => {
+            const addedVersion = browserFeatureSupported.version_added;
+
+            // If there added version is exactly true, always supported
+            if (addedVersion === true) {
+                return;
+            }
+
+            // Not a common case, but if added version does not exist, was not added.
+            if (!addedVersion) {
+                const message = `${featureName} of CSS is not added on ${browserToSupportName} browser.`;
+
+                compatCSS.reportError(featureName, message, location);
+
+                return;
+            }
+
+            testNotSupportedVersionsByBrowsers(browsersToSupport, addedVersion, browserToSupportName, featureName, location, prefix);
+        };
+
+        const testFeatureIsSupportedInBrowser = (browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation): void => {
+            if (!compatApi.isBrowserToSupportPartOfBrowsersColletcion(browsersToSupport, browserToSupportName)) {
+                return;
+            }
+
+            const browserFeatureSupported = compatApi.getSupportStatementFromInfo(browserInfo, prefix);
+
+            if (!browserFeatureSupported) {
+                const message = `${featureName} of CSS was never added on any of your browsers to support.`;
+
+                compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browsersToSupport, browserToSupportName, featureName, location);
+
+                return;
+            }
+
+            testAddedVersionByBrowsers(browsersToSupport, browserFeatureSupported, browserToSupportName, featureName, location, prefix);
         };
 
         const onParseCSS = (styleParse: StyleParse): void => {
@@ -126,11 +133,7 @@ export default class implements IHint {
             compatCSS.searchCSSFeatures(compatApi.compatDataApi, mdnBrowsersCollection, styleParse);
         };
 
-        const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
-        const userPrefixes: any = {};
-        const isCheckingNotBroadlySupported = true;
-        const compatApi = new CompatApi('css', mdnBrowsersCollection, isCheckingNotBroadlySupported);
-        const compatCSS = new CompatCSS(context, testFeatureIsSupportedInBrowser);
+        compatCSS.setTestingFunction(testFeatureIsSupportedInBrowser);
 
         context.on('parse::css::end', onParseCSS);
     }
