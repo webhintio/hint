@@ -71,5 +71,3 @@ const featureVersionAddedFalse: Array<HintTest> = [
 ];
 
 hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'], parsers: ['css']});
-
-
