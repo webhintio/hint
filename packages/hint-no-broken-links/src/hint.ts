@@ -203,7 +203,17 @@ export default class NoBrokenLinksHint implements IHint {
                     return requester
                         .get(fullURL)
                         .then((value: NetworkData) => {
-                            return handleSuccess(value, fullURL, element);
+                            if (element.nodeName !== 'LINK') {
+                                return handleSuccess(value, fullURL, element);
+                            }
+
+                            const relAttribute = element.getAttribute('rel');
+
+                            if (relAttribute !== 'dns-prefetch' && relAttribute !== 'preconnect') {
+                                return handleSuccess(value, fullURL, element);
+                            }
+
+                            return undefined;
                         })
                         .catch((error: any) => {
                             return handleRejection(error, fullURL, element);
