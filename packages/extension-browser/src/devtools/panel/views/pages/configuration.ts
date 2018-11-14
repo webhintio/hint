@@ -1,3 +1,6 @@
+import escapeRegExp = require('lodash/escaperegexp');
+
+import browser from '../../../../shared/browser';
 import { Config } from '../../../../shared/types';
 
 import configurationHtmlView from './configuration.html';
@@ -24,9 +27,9 @@ const categories = [
 export default function view({ onAnalyzeClick }: Props) {
     const fragment = configurationHtmlView({
         categories,
-        onAnalyzeClick: () => {
+        onAnalyzeClick: async () => {
             saveConfiguration(); // eslint-disable-line
-            onAnalyzeClick(getConfiguration()); // eslint-disable-line
+            onAnalyzeClick(await getConfiguration()); // eslint-disable-line
         },
         onRestoreClick: () => {
             resetConfiguration(); // eslint-disable-line
@@ -65,15 +68,24 @@ export default function view({ onAnalyzeClick }: Props) {
         });
     };
 
+    /** Create a regular expression to exclude URLs not part of the current origin. */
+    const buildIgnoreThirdParty = (): Promise<string> => {
+        return new Promise((resolve) => {
+            browser.devtools.inspectedWindow.eval('location.origin', (origin: string) => {
+                resolve(`^(?!${escapeRegExp(origin)})`);
+            });
+        });
+    };
+
     /** Extract ignored URLs from the form and convert to the `Config` format. */
-    const getIgnoredUrls = (): string => {
+    const getIgnoredUrls = async (): Promise<string> => {
         const type = findInput('[name="resources"]:checked').value;
 
         switch (type) {
             case 'none':
                 return '';
             case 'third-party':
-                throw new Error('Not yet implemented');
+                return await buildIgnoreThirdParty();
             case 'custom':
                 return findInput('[name="custom-resources"]').value;
             default:
@@ -82,11 +94,11 @@ export default function view({ onAnalyzeClick }: Props) {
     };
 
     /** Extract all user provided configuration from the form as a `Config` object. */
-    const getConfiguration = (): Config => {
+    const getConfiguration = async (): Promise<Config> => {
         return {
             browserslist: getBrowsersList(),
             categories: getCategories(),
-            ignoredUrls: getIgnoredUrls()
+            ignoredUrls: await getIgnoredUrls()
         };
     };
 

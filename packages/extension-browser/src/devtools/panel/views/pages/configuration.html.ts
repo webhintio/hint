@@ -60,7 +60,7 @@ export default function view({ categories, onAnalyzeClick, onRestoreClick }: Pro
                 </label>
                 <label class="configuration__label">
                     <input type="radio" name="resources" value="third-party" />
-                    Third party
+                    Different origin
                 </label>
                 <label class="configuration__label">
                     <input type="radio" name="resources" value="custom" />
