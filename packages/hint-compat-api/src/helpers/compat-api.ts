@@ -180,7 +180,7 @@ export class CompatApi {
         });
     }
 
-    public isBrowserToSupportPartOfBrowsersColletcion(browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
+    public isBrowserToSupportPartOfBrowsersCollection(browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
         if (!Object.keys(browsersToSupport).some((browser) => {
             return browser === browserToSupportName;
         })) {

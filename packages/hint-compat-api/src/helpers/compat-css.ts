@@ -15,23 +15,23 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 const debug: debug.IDebugger = d(__filename);
 
 export class CompatCSS {
-    public testFunction: CSSTestFunction | undefined;
-
+    private testFunction: CSSTestFunction | undefined;
     private cachedFeatures: CachedCompatFeatures;
     private hintContext: HintContext;
     private hintResource: string = 'unknown';
 
-    public constructor(hintContext: HintContext) {
+    public constructor(hintContext: HintContext, testFunction: CSSTestFunction) {
+        if (!testFunction) {
+            throw new Error('You must set test function before test a feature.');
+        }
+
+        this.testFunction = testFunction;
         this.hintContext = hintContext;
         this.cachedFeatures = new CachedCompatFeatures();
     }
 
     public setResource(hintResource: string): void {
         this.hintResource = hintResource;
-    }
-
-    public setTestingFunction(testFunction: CSSTestFunction) {
-        this.testFunction = testFunction;
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
@@ -138,7 +138,7 @@ export class CompatCSS {
 
         Object.entries(supportBlock).forEach(([browserToSupportName, browserInfo]) => {
             if (!this.testFunction) {
-                throw new Error('You must set setTestingFunction before test a feature.');
+                return;
             }
 
             this.testFunction(browsersToSupport, browserToSupportName, browserInfo, featureName, prefix, location);
