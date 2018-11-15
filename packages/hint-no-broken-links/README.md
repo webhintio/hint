@@ -66,6 +66,10 @@ the URLs.
 
 URLs which return 200 OK will pass this hint.
 
+URLs requested via `<link rel="dns-prefetch">` or `<link rel="preconnect">`
+[resource hints](https://www.w3.org/TR/resource-hints/#resource-hints) will
+pass this hint if the request succeeds, regardless of status code.
+
 ## How to use this hint?
 
 To use it you will have to install it via `npm`:
