@@ -91,16 +91,16 @@ export class CompatApi {
      * If the user has used a prefix and the prefix is "-webkit", the support statement returned will be {prefix: "-webkit-", version_added: 22}
      * If the user has used a prefix and the prefix is "-moz", the support statement returned will be {prefix: "-webkit-", version_added: 20}
      */
-    public getSupportStatementFromInfo(browserFeatureSupported?: SupportStatement, prefix?: string): SimpleSupportStatement | undefined {
+    public getSupportStatementFromInfo(browserFeatureSupported?: SupportStatement, prefix?: string): SimpleSupportStatement | null {
         let currentBrowserFeatureSupported = browserFeatureSupported;
 
         // If we dont have information about the compatibility, ignore.
         if (!currentBrowserFeatureSupported) {
-            return currentBrowserFeatureSupported;
+            return null;
         }
 
         if (!Array.isArray(currentBrowserFeatureSupported) && currentBrowserFeatureSupported.prefix && currentBrowserFeatureSupported.prefix !== prefix) {
-            return undefined;
+            return null;
         }
 
         // Sometimes the API give an array but only the first seems relevant
@@ -129,10 +129,10 @@ export class CompatApi {
      * [{version_added: "12.1", "version_removed": "15"}, {prefix: "-o-", version_added: 12, version_removed: false}] is reduced to {version_added: "15", version_removed: 15}
      * [{version_added: "12.1", "version_removed": "15"}, {prefix: "-webkit-", version_added: 12, version_removed: 13}] is reduced to {version_added: "15", version_removed: 13}
      */
-    public getWorstCaseSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined): SimpleSupportStatement | undefined {
+    public getWorstCaseSupportStatementFromInfo(browserFeatureSupported: SupportStatement | null): SimpleSupportStatement | null {
         // If we don't have information about the compatibility, ignore.
         if (!browserFeatureSupported) {
-            return browserFeatureSupported;
+            return null;
         }
 
         // Take the smaller version_removed and bigger version_added
