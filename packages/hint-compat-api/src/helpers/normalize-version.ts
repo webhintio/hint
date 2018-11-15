@@ -20,7 +20,7 @@ class BrowserVersions {
      * 52.12.1 normalizes into 521201
      * 52.1.10 normalizes into 520110
      * 5.1.10 normalizes into 50110
-     * 
+     *
      */
     public normalize(browserVersion: string): number {
         const result = browserVersion.split(this.columnSeparator).map((column) => {

@@ -38,7 +38,7 @@ export class CachedCompatFeatures {
         });
     }
 
-    public showCachedErrors(featureName: string, context: HintContext): void {
+    public showCachedErrors(featureName: string, context: HintContext, location?: ProblemLocation): void {
         const cachedErrors = this.cachedFeatures[featureName];
 
         if (!cachedErrors || cachedErrors.length < 1) {
@@ -46,7 +46,7 @@ export class CachedCompatFeatures {
         }
 
         cachedErrors.forEach((cachedFeature: CachedFeature) => {
-            context.report(cachedFeature.resource, null, cachedFeature.message, featureName, cachedFeature.location);
+            context.report(cachedFeature.resource, null, cachedFeature.message, featureName, location || cachedFeature.location);
         });
     }
 }

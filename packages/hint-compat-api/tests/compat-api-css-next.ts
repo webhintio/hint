@@ -171,7 +171,11 @@ hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'
 const featureVersionAddedLaterThanTargetedBrowsers: Array<HintTest> = [
     {
         name: 'Features that were added after the targeted browser should fail.',
-        reports: [{ message: 'keyframes is not added on chrome 40 browsers.', position: { column: 1, line: 1}}],
+        reports: [
+            { message: 'keyframes is not added on chrome 40 browsers.', position: { column: 1, line: 1}},
+            { message: 'keyframes is not added on chrome 40 browsers.', position: { column: 1, line: 7}},
+            { message: 'keyframes is not added on chrome 40 browsers.', position: { column: 1, line: 13}}
+        ],
         serverConfig: generateCSSConfig('keyframes')
     }
 ];

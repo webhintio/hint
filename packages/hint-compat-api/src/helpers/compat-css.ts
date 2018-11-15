@@ -126,7 +126,7 @@ export class CompatCSS {
         const { prefix, featureInfo, featureName } = strategyData;
 
         if (this.cachedFeatures.isCached(featureName)) {
-            this.cachedFeatures.showCachedErrors(featureName, this.hintContext);
+            this.cachedFeatures.showCachedErrors(featureName, this.hintContext, location);
 
             return;
         }
