@@ -86,6 +86,16 @@ export default class NoBrokenLinksHint implements IHint {
             return context.report(url, 'Broken link found (domain not found).', { element });
         };
 
+        const isDNSOnlyResourceHint = (element: IAsyncHTMLElement): boolean => {
+            if (element.nodeName !== 'LINK') {
+                return false;
+            }
+
+            const relAttribute = element.getAttribute('rel');
+
+            return (relAttribute === 'dns-prefetch' || relAttribute === 'preconnect');
+        };
+
         /**
          * The callback to handle success handler returned from the `head` method
          * We will check the response status againist the brokenStatusCodes list
@@ -93,6 +103,10 @@ export default class NoBrokenLinksHint implements IHint {
          * so that duplicate requests will not be made if 2 links have the same href value
          */
         const handleSuccess = (networkData: NetworkData, url: string, element: IAsyncHTMLElement) => {
+            if (isDNSOnlyResourceHint(element)) {
+                return Promise.resolve();
+            }
+
             const statusIndex = brokenStatusCodes.indexOf(
                 networkData.response.statusCode
             );
