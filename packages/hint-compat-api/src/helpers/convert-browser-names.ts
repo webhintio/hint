@@ -36,7 +36,7 @@ const browserNamesToMDN: BrowsersDictionary = {
 /* eslint-enable */
 
 export const convertBrowserSupportCollectionToMDN = (browserCollection: BrowserSupportCollection): BrowserSupportCollection => {
-    const mdnCollection = {} as BrowserSupportCollection;
+    const mdnCollection: BrowserSupportCollection = {};
 
     Object.entries(browserCollection).forEach(([browserName, browserVersions]) => {
         const mdnName = browserNamesToMDN[browserName.toLowerCase()];

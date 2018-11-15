@@ -151,6 +151,7 @@ export class CompatCSS {
         const strategyContent: any = data[strategyName];
 
         if (!strategyContent) {
+            // Review: Throw an error
             debug('Error: The strategy does not exist.');
 
             return null;
@@ -186,18 +187,8 @@ export class CompatCSS {
         };
     }
 
-    public wasBrowserSupportedInSometime (browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
-        return Object.entries(browsersToSupport).some(([browserName]) => {
-            if (browserName !== browserToSupportName) {
-                return false;
-            }
-
-            return true;
-        });
-    }
-
     private getPrefix(name: string): [string | undefined, string] {
-        const regexp = new RegExp(`-(moz|o|webkit|ms)-`, 'gi');
+        const regexp = /-(moz|o|webkit|ms)-/gi;
         const matched = name.match(regexp);
         const prefix = matched && matched.length > 0 ? matched[0] : undefined;
 
@@ -213,5 +204,15 @@ export class CompatCSS {
         if (!this.wasBrowserSupportedInSometime(browsersToSupport, browserToSupportName) && Object.keys(browsersToSupport).includes(browserToSupportName)) {
             this.reportError(featureName, message, location);
         }
+    }
+
+    public wasBrowserSupportedInSometime (browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
+        return Object.entries(browsersToSupport).some(([browserName]) => {
+            if (browserName !== browserToSupportName) {
+                return false;
+            }
+
+            return true;
+        });
     }
 }

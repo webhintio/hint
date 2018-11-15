@@ -22,7 +22,7 @@ export class CompatApi {
     }
 
     private filterCompatDataByBrowsers(browsers: BrowserSupportCollection): any {
-        const compatDataApi = {} as MDNTreeFilteredByBrowsers;
+        const compatDataApi: MDNTreeFilteredByBrowsers = {};
 
         Object.entries(this.compatDataApi).forEach(([namespaceFeaturesKey, namespaceFeaturesValues]) => {
             compatDataApi[namespaceFeaturesKey] = this.filterNamespacesDataByBrowsers(browsers, namespaceFeaturesValues);
@@ -167,12 +167,14 @@ export class CompatApi {
 
             const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
 
+            // Review check the bool and version in separated blocks.
+
             if (this.isCheckingNotBroadlySupported) {
-                if (addedVersion === false || addedVersion || (addedVersion && browserVersionsList[0] <= browserVersions.normalize(addedVersion))) {
+                if (addedVersion === false || (addedVersion && addedVersion !== true && browserVersionsList[0] <= browserVersions.normalize(addedVersion))) {
                     return true;
                 }
 
-            } else if (removedVersion || (removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion))) {
+            } else if (removedVersion === true || (removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion))) {
                 return true;
             }
 
