@@ -80,6 +80,17 @@ export class CompatApi {
         return false;
     }
 
+    /**
+     * @method getSupportStatementFromInfo
+     * Checks mdn compat data for support info on the targeted browsers.
+     * In it's simplest form, the data defaults to info provided in an object of the non-prefixed version of the feature.
+     * Sometimes though, it is an array. In this case, we get the info relevant to the user. 
+     * Example:
+     * firefox: [{version_added: "29"}, {prefix: "-webkit-", version_added: 22}, {prefix: "-moz-", version_added: 20}]
+     * If the user wishes to target firefox browsers and has not used a prefix, the support statement returned will be {version_added: "29"}
+     * If the user has used a prefix and the prefix is "-webkit", the support statement returned will be {prefix: "-webkit-", version_added: 22}
+     * If the user has used a prefix and the prefix is "-moz", the support statement returned will be {prefix: "-webkit-", version_added: 20}
+     */
     public getSupportStatementFromInfo(browserFeatureSupported?: SupportStatement, prefix?: string): SimpleSupportStatement | undefined {
         let currentBrowserFeatureSupported = browserFeatureSupported;
 
