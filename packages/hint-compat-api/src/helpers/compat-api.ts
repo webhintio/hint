@@ -84,7 +84,7 @@ export class CompatApi {
      * @method getSupportStatementFromInfo
      * Checks mdn compat data for support info on the targeted browsers.
      * In it's simplest form, the data defaults to info provided in an object of the non-prefixed version of the feature.
-     * Sometimes though, it is an array. In this case, we get the info relevant to the user. 
+     * Sometimes though, it is an array. In this case, we get the info relevant to the user.
      * Example:
      * firefox: [{version_added: "29"}, {prefix: "-webkit-", version_added: 22}, {prefix: "-moz-", version_added: 20}]
      * If the user wishes to target firefox browsers and has not used a prefix, the support statement returned will be {version_added: "29"}
@@ -187,15 +187,26 @@ export class CompatApi {
 
             const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
 
-            // Review check the bool and version in separated blocks.
-
             if (this.isCheckingNotBroadlySupported) {
-                if (addedVersion === false || (addedVersion && addedVersion !== true && browserVersionsList[0] <= browserVersions.normalize(addedVersion))) {
+                // Boolean check
+                if (typeof addedVersion === 'boolean' && addedVersion === false) {
                     return true;
                 }
 
-            } else if (removedVersion === true || (removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion))) {
-                return true;
+                // Version check
+                if (typeof addedVersion !== 'boolean' && addedVersion && browserVersionsList[0] <= browserVersions.normalize(addedVersion)) {
+                    return true;
+                }
+            } else {
+                // Boolean check
+                if (typeof removedVersion === 'boolean' && removedVersion === true) {
+                    return true;
+                }
+
+                // Version check
+                if (typeof removedVersion !== 'boolean' && removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion)) {
+                    return true;
+                }
             }
 
             return false;
