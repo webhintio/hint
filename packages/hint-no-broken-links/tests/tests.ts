@@ -80,6 +80,14 @@ const bodyWithBrokenPreconnectLinkTag = `<div>
 <link rel="preconnect" href="http://localhost/404">
 </div>`;
 
+const bodyWithInvalidDomainDnsPrefetchLinkTag = `<div>
+<link rel="dns-prefetch" href="https://invalid.domain/">
+</div>`;
+
+const bodyWithInvalidDomainPreconnectLinkTag = `<div>
+<link rel="preconnect" href="https://invalid.domain/">
+</div>`;
+
 const tests: HintTest[] = [
     {
         name: `This test should pass as it has links with valid href value`,
@@ -221,6 +229,16 @@ const tests: HintTest[] = [
             '/': { content: generateHTMLPage('', bodyWithBrokenPreconnectLinkTag) },
             '/404': { status: 404 }
         }
+    },
+    {
+        name: `This test should fail as the domain is not found for the dns-prefetch link tag`,
+        reports: [{ message: `Broken link found (domain not found).` }],
+        serverConfig: generateHTMLPage('', bodyWithInvalidDomainDnsPrefetchLinkTag)
+    },
+    {
+        name: `This test should fail as the domain is not found for the preconnect link tag`,
+        reports: [{ message: `Broken link found (domain not found).` }],
+        serverConfig: generateHTMLPage('', bodyWithInvalidDomainPreconnectLinkTag)
     }
 ];
 
