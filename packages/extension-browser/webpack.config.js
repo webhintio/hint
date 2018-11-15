@@ -10,14 +10,25 @@ module.exports = {
     mode: 'none',
     module: {
         rules: [
+            // Bundle `axe-core` as a raw string so it can be injected at runtime.
             {
                 test: /axe-core/,
                 use: 'raw-loader'
             },
+            // Automatically bundle and inject referenced CSS files.
             {
+                exclude: /highlight\.js[/\\]styles/,
                 test: /\.css$/,
                 use: [
                     'style-loader',
+                    'css-loader'
+                ]
+            },
+            // Bundle highlight.js styles with `Useable` so they can be turned on/off.
+            {
+                test: /highlight\.js[/\\]styles/,
+                use: [
+                    'style-loader/useable',
                     'css-loader'
                 ]
             }

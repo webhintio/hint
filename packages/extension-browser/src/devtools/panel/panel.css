@@ -41,7 +41,7 @@ body {
     display: flex;
     flex-direction: column;
     font-family: "Segoe UI", Tahoma, sans-serif; /* Match default overrides in Chrome */
-    font-size: 75%; /* Match default overrides in Chrome */
+    font-size: 12px; /* Match default overrides in Chrome */
     margin: 0;
 }
 

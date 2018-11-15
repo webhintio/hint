@@ -6,8 +6,10 @@
     color: var(--text-highlight-color);
 }
 
-.problem__code {
+.problem__code,
+.problem__code.hljs {
     background-color: var(--bg-alt-color);
+    font-size: 0.7rem;
     padding: 1rem;
     white-space: pre-wrap;
 }
