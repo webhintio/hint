@@ -121,6 +121,12 @@ export class CompatApi {
             version_removed: null
         };
 
+        /*
+         * [{version_added: "43"}, {prefix: "-webkit-", version_added: true}] is reduced to {version_added: "43", version_removed: undefined}
+         * [{version_added: "29"}, {prefix: "-webkit-", version_added: 21}] is reduced to {version_added: "29", version_removed: undefined}
+         * [{version_added: "12.1", "version_removed": "15"}, {prefix: "-o-", version_added: 12, version_removed: 15}] is reduced to {version_added: "15", version_removed: 15}
+         * [{version_added: "12.1", "version_removed": "15"}, {prefix: "-webkit-", version_added: 12, version_removed: 13}] is reduced to {version_added: "15", version_removed: 13}
+         */
         if (Array.isArray(browserFeatureSupported) && browserFeatureSupported.length > 0) {
             // We should remove flags information
             const normalizedBrowserFeatureSupported = browserFeatureSupported.filter((info) => {
