@@ -80,6 +80,17 @@ export class CompatApi {
         return false;
     }
 
+    /**
+     * @method getSupportStatementFromInfo
+     * Checks mdn compat data for support info on the targeted browsers.
+     * In it's simplest form, the data defaults to info provided in an object of the non-prefixed version of the feature.
+     * Sometimes though, it is an array. In this case, we get the info relevant to the user. 
+     * Example:
+     * firefox: [{version_added: "29"}, {prefix: "-webkit-", version_added: 22}, {prefix: "-moz-", version_added: 20}]
+     * If the user wishes to target firefox browsers and has not used a prefix, the support statement returned will be {version_added: "29"}
+     * If the user has used a prefix and the prefix is "-webkit", the support statement returned will be {prefix: "-webkit-", version_added: 22}
+     * If the user has used a prefix and the prefix is "-moz", the support statement returned will be {prefix: "-webkit-", version_added: 20}
+     */
     public getSupportStatementFromInfo(browserFeatureSupported?: SupportStatement, prefix?: string): SimpleSupportStatement | undefined {
         let currentBrowserFeatureSupported = browserFeatureSupported;
 
@@ -109,6 +120,15 @@ export class CompatApi {
     }
 
     /* eslint-disable camelcase */
+    /**
+     * @method getWorstCaseSupportStatementFromInfo
+     * {version_added: "43"} returns {version_added: "43", version_removed: undefined}
+     * {version_added: "12", version_removed: "15"} returns {version_added: "412", version_removed: "15"}
+     * [{version_added: "43"}, {prefix: "-webkit-", version_added: true}] is reduced to {version_added: "43", version_removed: undefined}
+     * [{version_added: "29"}, {prefix: "-webkit-", version_added: 21}] is reduced to {version_added: "29", version_removed: undefined}
+     * [{version_added: "12.1", "version_removed": "15"}, {prefix: "-o-", version_added: 12, version_removed: false}] is reduced to {version_added: "15", version_removed: 15}
+     * [{version_added: "12.1", "version_removed": "15"}, {prefix: "-webkit-", version_added: 12, version_removed: 13}] is reduced to {version_added: "15", version_removed: 13}
+     */
     public getWorstCaseSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined): SimpleSupportStatement | undefined {
         // If we don't have information about the compatibility, ignore.
         if (!browserFeatureSupported) {

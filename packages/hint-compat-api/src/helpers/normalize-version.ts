@@ -1,16 +1,27 @@
 /**
  * @fileoverview Helper to work with versions and normalize it because versions sometimes are numbers and sometime not.
+ * For more information on the issue: https://github.com/mdn/browser-compat-data/pull/2690#issuecomment-417237045
  */
 
 import { padStart, padEnd } from 'lodash';
 
-// Normalize versions because https://github.com/mdn/browser-compat-data/pull/2690#issuecomment-417237045
 class BrowserVersions {
     private columnSeparator = '.';
     private charForPad = '0';
     private itemsInColum = 2; // Assuming that worst case is xx.xx.xx
     private itemsInColumns = 6;
 
+    /**
+     * @method normalize
+     * For more information on the issue: https://github.com/mdn/browser-compat-data/pull/2690#issuecomment-417237045
+     * Examples:
+     * 52 normalizes into 520000
+     * 52.12 normalizes into 521200
+     * 52.12.1 normalizes into 521201
+     * 52.1.10 normalizes into 520110
+     * 5.1.10 normalizes into 50110
+     * 
+     */
     public normalize(browserVersion: string): number {
         const result = browserVersion.split(this.columnSeparator).map((column) => {
             return padStart(column, this.itemsInColum, this.charForPad);
