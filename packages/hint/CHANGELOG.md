@@ -1,3 +1,10 @@
+# 4.0.3 (November 16, 2018)
+
+## Bug fixes / Improvements
+
+* [[`e56c6df5d1`](https://github.com/webhintio/hint/commit/e56c6df5d135c9f26ee7fcfef9e19ffd8534236b)] - Docs: Add Troubleshoot section (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1464`](https://github.com/webhintio/hint/issues/1464)).
+
+
 # 4.0.2 (November 9, 2018)
 
 ## Bug fixes / Improvements
