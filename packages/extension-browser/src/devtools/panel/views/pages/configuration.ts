@@ -1,4 +1,4 @@
-import escapeRegExp = require('lodash/escaperegexp');
+import escapeRegExp = require('lodash/escapeRegExp');
 
 import browser from '../../../../shared/browser';
 import { Config } from '../../../../shared/types';
