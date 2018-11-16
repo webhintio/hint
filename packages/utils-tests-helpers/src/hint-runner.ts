@@ -75,16 +75,38 @@ const validateResults = (t: GenericTestContext<Context<any>>, results: Problem[]
         return t.fail(`Result count is ${results.length}, should be ${reports.length}`);
     }
 
-    return reports.forEach((report, index: number) => {
-        if (server.port) {
-            t.is(results[index].message, report.message.replace(localhostRegex, `$1://localhost:${server.port}/`), `Different message`);
-        } else {
-            t.is(results[index].message, report.message, `Different message`);
+    if (server.port) {
+        reports.forEach((report) => {
+            report.message = report.message.replace(localhostRegex, `$1://localhost:${server.port}/`);
+        });
+    }
+
+    const reportsCopy = reports.slice(0);
+
+    results.forEach((result) => {
+        const { message } = result;
+        let index = 0;
+
+        const found = reportsCopy.some((report, i) => {
+            index = i;
+
+            if(report.message !== result.message){
+                return false;
+            }
+
+            if(report.position && result.location) {
+                return report.position.column === result.location.column &&
+                       report.position.line === result.location.line;
+            }
+
+            return true;
+        });
+
+        if(found){
+            reportsCopy.splice(index, 1);
         }
-        if (report.position) {
-            t.is(results[index].location.column, report.position.column, `Different column`);
-            t.is(results[index].location.line, report.position.line, `Different line`);
-        }
+
+        t.true(found, `No reports match "${message}" or its location.`);
     });
 };
 
