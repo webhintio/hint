@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.pwa,
         description: `Require an 'apple-touch-icon'`,
-        name: 'Require an apple touch icon'
+        name: 'Use Apple touch icon'
     },
     id: 'apple-touch-icons',
     schema: [],

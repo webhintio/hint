@@ -8,7 +8,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.security,
         description: `Require scripts and link elements to use Subresource Integrity`,
-        name: ''
+        name: 'Use subresource integrity'
     },
     id: 'sri',
     schema: [{

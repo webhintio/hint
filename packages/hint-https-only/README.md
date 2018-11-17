@@ -1,4 +1,4 @@
-# Require https for you site and assets (`https-only`)
+# Use HTTPS (`https-only`)
 
 `https-only` checks if your site is using HTTPS and warns against
 having mixed content.

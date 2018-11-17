@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.security,
         description: `Verifies if a website is using HTTPS and if it has mixed content.`,
-        name: 'Require HTTPS'
+        name: 'Use HTTPS'
     },
     id: 'https-only',
     schema: [],

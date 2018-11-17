@@ -1,4 +1,4 @@
-# Enable strict option in TypeScript configuration (`strict`)
+# TypeScript strict (`strict`)
 
 `typescript-config/strict` checks if the property `strict`
 is enabled in your TypeScript configuration file (i.e. `tsconfig.json`).

@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.performance,
         description: `Image optimization with cloudinary`,
-        name: 'Image optimization with Cloudinary'
+        name: 'Optimize images'
     },
     id: 'image-optimization-cloudinary',
     schema: [{

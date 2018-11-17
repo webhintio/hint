@@ -1,4 +1,4 @@
-# Require valid manifest (`manifest-is-valid`)
+# Valid manifest (`manifest-is-valid`)
 
 `manifest-is-valid` checks if the content of the web app manifest
 file is valid JSON, valid according to the specification, and the

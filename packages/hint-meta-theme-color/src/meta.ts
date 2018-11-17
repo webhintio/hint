@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.pwa,
         description: `Require a 'theme-color' meta element`,
-        name: 'Require `theme-color` meta tag'
+        name: 'Valid `theme-color`'
     },
     id: 'meta-theme-color',
     schema: [],

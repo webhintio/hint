@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.pwa,
         description: 'Require web application name to be specified in the web app manifest file',
-        name: 'Require manifest to specify name'
+        name: 'Manifest has name'
     },
     id: 'manifest-app-name',
     schema: [],

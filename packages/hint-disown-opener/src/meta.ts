@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.security,
         description: 'Require `noopener` (and `noreferrer`) on `a` and `area` element with target="_blank"',
-        name: 'Require external links to disown opener'
+        name: 'External links disown opener'
     },
     id: 'disown-opener',
     schema: [{

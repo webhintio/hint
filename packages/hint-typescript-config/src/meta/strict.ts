@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.development,
         description: '`typescript-config/strict` checks if the property `strict` is enabled in the TypeScript configuration file (i.e `tsconfig.json`).',
-        name: 'Enable strict option in TypeScript configuration'
+        name: 'TypeScript strict'
     },
     id: 'typescript-config/strict',
     schema: [],

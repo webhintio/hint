@@ -1,4 +1,4 @@
-# Check if the page has the most modern document type declaration
+# Modern DOCTYPE
 
 This hint checks if the HTML is using the most modern document type
 declaration (a.k.a. `doctype`).

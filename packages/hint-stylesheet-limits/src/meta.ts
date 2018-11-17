@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.interoperability,
         description: `Checks if CSS exceeds known stylesheet limits.`,
-        name: 'Avoid exceeding CSS stylesheet limits'
+        name: 'Avoid CSS limits'
     },
     id: 'stylesheet-limits',
     schema: [{

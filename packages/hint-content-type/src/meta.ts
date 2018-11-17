@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.interoperability,
         description: 'Require `Content-Type` header with appropriate value',
-        name: 'Require `Content-Type` header'
+        name: 'Correct `Content-Type` header'
     },
     id: 'content-type',
     schema: [{

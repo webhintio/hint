@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.interoperability,
         description: `This hint checks if the HTML is using the most modern DOCTYPE.`,
-        name: 'Ensure modern DOCTYPE'
+        name: 'Modern DOCTYPE'
     },
     id: 'doctype',
     schema: [],

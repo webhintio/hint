@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.development,
         description: `'babel-config/is-valid' warns against providing an invalid babel configuration file \`.babelrc\``,
-        name: 'Babel configuration is valid'
+        name: 'Valid Babel configuration'
     },
     id: 'babel-config/is-valid',
     schema: [],

@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.development,
         description: '`typescript-config/consistent-casing` checks if the property `forceConsistentCasingInFileNames` is enabled in the TypeScript configuration file (i.e `tsconfig.json`)',
-        name: 'Enable consistent casing in TypeScript configuration'
+        name: 'TypeScript consistent casing'
     },
     id: 'typescript-config/consistent-casing',
     schema: [],

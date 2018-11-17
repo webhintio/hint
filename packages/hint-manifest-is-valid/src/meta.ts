@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.pwa,
         description: 'Require valid web app manifest',
-        name: 'Require valid manifest'
+        name: 'Valid manifest'
     },
     id: 'manifest-is-valid',
     schema: [],

@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.development,
         description: '`webpack-config/modules-false-babel` warns against not having set the propety `modules` to `false` in presets in babel configuration file',
-        name: 'Babel `modules` is `false` with webpack'
+        name: 'No Babel `modules` with webpack'
     },
     id: 'webpack-config/modules-false-babel',
     schema: [],

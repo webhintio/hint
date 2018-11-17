@@ -1,4 +1,4 @@
-# Accessibility assessment with aXe (`axe`)
+# aXe accessibility check (`axe`)
 
 `aXe` is the accessibility engine for automated testing of HTML-based
 user interfaces. This hint performs the default accessibility tests

@@ -1,4 +1,4 @@
-# Require scripts and styles to use subresource integrity (`sri`)
+# Use subresource integrity (`sri`)
 
 `sri` warns about requesting scripts or stylesheets without using
 subresource integrity.

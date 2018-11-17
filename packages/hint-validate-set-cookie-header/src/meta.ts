@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.security,
         description: 'This hint validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.',
-        name: 'Validate `Set-Cookie` header'
+        name: 'Valid `Set-Cookie` header'
     },
     id: 'validate-set-cookie-header',
     ignoredConnectors: [],

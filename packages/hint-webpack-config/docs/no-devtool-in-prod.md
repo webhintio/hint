@@ -1,4 +1,4 @@
-# Check `devtool` property in webpack configuration (`no-devtool-in-prod`)
+# No production `devtool` in webpack (`no-devtool-in-prod`)
 
 ## Why is this important?
 

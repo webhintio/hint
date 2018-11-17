@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.interoperability,
         description: 'Require viewport meta element',
-        name: 'Require viewport meta tag'
+        name: 'Correct viewport'
     },
     id: 'meta-viewport',
     schema: [],

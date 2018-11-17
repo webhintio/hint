@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.security,
         description: 'Disallow protocol relative URLs',
-        name: 'Disallow protocol-relative URLs'
+        name: 'No protocol-relative URLs'
     },
     id: 'no-protocol-relative-urls',
     schema: [],

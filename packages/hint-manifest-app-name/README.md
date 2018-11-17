@@ -1,4 +1,4 @@
-# Require manifest to specify the web site/app name (`manifest-app-name`)
+# Manifest has name (`manifest-app-name`)
 
 `manifest-app-name` checks if the name of the web application is
 specified within the manifest file.

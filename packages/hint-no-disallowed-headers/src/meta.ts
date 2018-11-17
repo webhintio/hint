@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.security,
         description: 'Disallow certain HTTP response headers',
-        name: 'Disallow certain HTTP headers'
+        name: 'Disallowed HTTP headers'
     },
     id: 'no-disallowed-headers',
     schema: [{

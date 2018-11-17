@@ -1,4 +1,4 @@
-# Check for broken links (`broken-links`)
+# No broken links (`broken-links`)
 
 This hint checks and reports if any links in your page are broken.
 This includes anchor tag `href` value, image `src` value,

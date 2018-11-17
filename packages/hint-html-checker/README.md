@@ -1,4 +1,4 @@
-# Nu HTML Test (`html-checker`)
+# Nu HTML test (`html-checker`)
 
 `html-checker` validates the markup of a website against the
 [Nu HTML checker][nu html checker].

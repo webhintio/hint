@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.interoperability,
         description: 'Require highest available document mode',
-        name: 'Require highest available document mode'
+        name: 'Highest document mode'
     },
     id: 'highest-available-document-mode',
     schema: [{

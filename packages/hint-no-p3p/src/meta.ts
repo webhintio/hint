@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.interoperability,
         description: `Don't use P3P related headers or meta tags`,
-        name: 'Disallow `P3P` headers'
+        name: 'No `P3P` headers'
     },
     id: 'no-p3p',
     schema: [],

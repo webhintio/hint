@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.security,
         description: `Require 'Strict-Transport-Security' header`,
-        name: 'Require `Strict-Transport-Security` header'
+        name: 'Use `Strict-Transport-Security` header'
     },
     id: 'strict-transport-security',
     schema: [{

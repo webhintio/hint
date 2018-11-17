@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.performance,
         description: `Hint to check script is minified or not`,
-        name: 'JavaScript should be minified'
+        name: 'Minify JavaScript'
     },
     id: 'minified-js',
     schema: [{

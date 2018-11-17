@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.performance,
         description: `Hint to flag broken links in the page`,
-        name: 'Check for broken links'
+        name: 'No broken links'
     },
     id: 'no-broken-links',
     schema: [{

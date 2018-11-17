@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.interoperability,
         description: 'Require `<meta charset="utf-8">`',
-        name: 'Require charset meta tag'
+        name: 'Use charset `utf-8`'
     },
     id: 'meta-charset-utf-8',
     schema: [],

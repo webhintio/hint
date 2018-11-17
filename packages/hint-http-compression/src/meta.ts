@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.performance,
         description: 'Require resources to be served compressed',
-        name: 'Require resources to be served compressed'
+        name: 'Optimal compression'
     },
     id: 'http-compression',
     schema: [{

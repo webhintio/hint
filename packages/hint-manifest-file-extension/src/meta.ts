@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.pwa,
         description: 'Require `.webmanifest` as the file extension for the web app manifest file',
-        name: 'Correct web app manifest file extension'
+        name: 'Correct manifest extension'
     },
     id: 'manifest-file-extension',
     schema: [],

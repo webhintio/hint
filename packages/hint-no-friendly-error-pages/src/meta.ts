@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.interoperability,
         description: 'Disallow small error pages',
-        name: 'Disallow small error pages'
+        name: 'No small error pages'
     },
     id: 'no-friendly-error-pages',
     schema: [],

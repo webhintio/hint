@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.security,
         description: `Require 'X-Content-Type-Options' header`,
-        name: 'Require `X-Content-Type-Options` header'
+        name: 'Use `X-Content-Type-Options` header'
     },
     id: 'x-content-type-options',
     schema: [],

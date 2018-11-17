@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.development,
         description: '`typescript-config/is-valid` warns against providing an invalid TypeScript configuration file `tsconfig.json`',
-        name: 'TypeScript configuration is valid'
+        name: 'Valid TypeScript configuration'
     },
     id: 'typescript-config/is-valid',
     schema: [],

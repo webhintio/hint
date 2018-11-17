@@ -1,4 +1,4 @@
-# Validate `Set-Cookie` Header (`validate-set-cookie-header`)
+# Valid `Set-Cookie` header (`validate-set-cookie-header`)
 
 This hint validates the `set-cookie` header and confirms that
 the `Secure` and `HttpOnly` directives are defined when sent from

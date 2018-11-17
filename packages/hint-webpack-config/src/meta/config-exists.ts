@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.development,
         description: '`webpack-config/config-exists` warns against not having a webpack configuration file',
-        name: 'webpack configuration exists'
+        name: 'Has webpack configuration'
     },
     id: 'webpack-config/config-exists',
     schema: [],
