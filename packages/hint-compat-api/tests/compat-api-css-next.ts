@@ -26,7 +26,7 @@ const generateCSSConfig = (fileName: string) => {
  * https://webhint.io/docs/contributor-guide/how-to/test-hints/
  */
 
-const featureAddedBeforeTargetedBrowsers: Array<HintTest> = [
+const featureAddedBeforeTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added in versions earlier than the targeted browsers should pass.',
         serverConfig: generateCSSConfig('charset')
@@ -35,7 +35,7 @@ const featureAddedBeforeTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, featureAddedBeforeTargetedBrowsers, { browserslist: ['last 2 Chrome versions'], parsers: ['css']});
 
-const prefixedFeatureAddedBeforeTargetedBrowsers: Array<HintTest> = [
+const prefixedFeatureAddedBeforeTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added in versions earlier than the targeted browsers should pass.',
         serverConfig: generateCSSConfig('keyframes-prefix-current')
@@ -44,7 +44,7 @@ const prefixedFeatureAddedBeforeTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, prefixedFeatureAddedBeforeTargetedBrowsers, { browserslist: ['safari 4-6'], parsers: ['css']});
 
-const childFeatureAddedBeforeTargetedBrowsers: Array<HintTest> = [
+const childFeatureAddedBeforeTargetedBrowsers: HintTest[] = [
     {
         name: 'Child features that were added in versions earlier than the targeted browsers should pass.',
         serverConfig: generateCSSConfig('display-flex')
@@ -53,7 +53,7 @@ const childFeatureAddedBeforeTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, childFeatureAddedBeforeTargetedBrowsers, { browserslist: ['chrome 30'], parsers: ['css']});
 
-const prefixedChildFeatureAddedBeforeTargetedBrowsers: Array<HintTest> = [
+const prefixedChildFeatureAddedBeforeTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed child features that were added in versions earlier than the targeted browsers should pass.',
         serverConfig: generateCSSConfig('display-flex-prefix')
@@ -62,7 +62,7 @@ const prefixedChildFeatureAddedBeforeTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, prefixedChildFeatureAddedBeforeTargetedBrowsers, { browserslist: ['chrome 22'], parsers: ['css']});
 
-const featureAddedSameAsTargetedBrowsers: Array<HintTest> = [
+const featureAddedSameAsTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added the version of the targeted browser should pass.',
         serverConfig: generateCSSConfig('keyframes')
@@ -71,7 +71,7 @@ const featureAddedSameAsTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, featureAddedSameAsTargetedBrowsers, { browserslist: ['chrome 43'], parsers: ['css']});
 
-const childFeatureAddedSameAsTargetedBrowsers: Array<HintTest> = [
+const childFeatureAddedSameAsTargetedBrowsers: HintTest[] = [
     {
         name: 'Child features that were added the version of the targeted browser should pass.',
         serverConfig: generateCSSConfig('display-flex')
@@ -80,7 +80,7 @@ const childFeatureAddedSameAsTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, childFeatureAddedSameAsTargetedBrowsers, { browserslist: ['chrome 29'], parsers: ['css']});
 
-const childPrefixedFeatureAddedSameAsTargetedBrowsers: Array<HintTest> = [
+const childPrefixedFeatureAddedSameAsTargetedBrowsers: HintTest[] = [
     {
         name: 'Child prefixed features that were added the version of the targeted browser should pass.',
         serverConfig: generateCSSConfig('display-flex-prefix')
@@ -89,7 +89,7 @@ const childPrefixedFeatureAddedSameAsTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, childPrefixedFeatureAddedSameAsTargetedBrowsers, { browserslist: ['chrome 21'], parsers: ['css']});
 
-const featureAddedTrue: Array<HintTest> = [
+const featureAddedTrue: HintTest[] = [
     {
         name: 'Features that have version added as true should pass.',
         serverConfig: generateCSSConfig('keyframes')
@@ -98,7 +98,7 @@ const featureAddedTrue: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, featureAddedTrue, { browserslist: ['edge 13'], parsers: ['css']});
 
-const prefixedFeatureAddedTrue: Array<HintTest> = [
+const prefixedFeatureAddedTrue: HintTest[] = [
     {
         name: 'Prefixed features that have version added as true should pass.',
         serverConfig: generateCSSConfig('box-flex-prefix')
@@ -107,7 +107,7 @@ const prefixedFeatureAddedTrue: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, prefixedFeatureAddedTrue, { browserslist: ['chrome 32', 'chrome 63 - 65'], parsers: ['css']});
 
-const featureVersionAddedNull: Array<HintTest> = [
+const featureVersionAddedNull: HintTest[] = [
     {
         name: 'Features that have version added as null should pass.',
         serverConfig: generateCSSConfig('background-repeat')
@@ -116,7 +116,7 @@ const featureVersionAddedNull: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, featureVersionAddedNull, { browserslist: ['and_chr 69'], parsers: ['css']});
 
-const childFeatureVersionAddedNull: Array<HintTest> = [
+const childFeatureVersionAddedNull: HintTest[] = [
     {
         name: 'Features using child properties that have version added as null should pass.',
         serverConfig: generateCSSConfig('text-transform')
@@ -125,7 +125,7 @@ const childFeatureVersionAddedNull: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, childFeatureVersionAddedNull, { browserslist: ['chrome 65'], parsers: ['css']});
 
-const featureWithNoCompatInfo: Array<HintTest> = [
+const featureWithNoCompatInfo: HintTest[] = [
     {
         name: 'Features with no compatibility info should pass.',
         serverConfig: generateCSSConfig('justify-content')
@@ -140,7 +140,7 @@ hintRunner.testHint(hintPath, featureWithNoCompatInfo, { browserslist: ['chrome 
  * No errors are thrown when testing features
  * (like space-evenly of justify-content) nested three levels deep
  */
-const childOfFeatureWithNoCompatInfoAddedEarlierThan: Array<HintTest> = [
+const childOfFeatureWithNoCompatInfoAddedEarlierThan: HintTest[] = [
     {
         name: 'Child features with parents that have no compat info and were added in versions earlier than targeted browsers should pass.',
         serverConfig: generateCSSConfig('justify-content')
@@ -149,7 +149,7 @@ const childOfFeatureWithNoCompatInfoAddedEarlierThan: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedEarlierThan, { browserslist: ['chrome 65'], parsers: ['css']});
 
-const childOfFeatureWithNoCompatInfoAddedLaterThan: Array<HintTest> = [
+const childOfFeatureWithNoCompatInfoAddedLaterThan: HintTest[] = [
     {
         name: 'Child features with parents that have no compat info and were added in versions later than targeted browsers should pass.',
         serverConfig: generateCSSConfig('justify-content')
@@ -158,7 +158,7 @@ const childOfFeatureWithNoCompatInfoAddedLaterThan: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { browserslist: ['chrome 58'], parsers: ['css']});
 
-const featureVersionAddedFalse: Array<HintTest> = [
+const featureVersionAddedFalse: HintTest[] = [
     {
         name: 'Features that have version added as false should fail.',
         reports: [{ message: 'box-flex of CSS is not added on ie browser.', position: { column: 5, line: 2}}],
@@ -168,7 +168,7 @@ const featureVersionAddedFalse: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'], parsers: ['css']});
 
-const featureVersionAddedLaterThanTargetedBrowsers: Array<HintTest> = [
+const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added after the targeted browser should fail.',
         reports: [
@@ -182,7 +182,7 @@ const featureVersionAddedLaterThanTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 40'], parsers: ['css']});
 
-const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: Array<HintTest> = [
+const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
         reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browsers.', position: { column: 5, line: 3} }],
@@ -193,7 +193,7 @@ const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: Array<HintTest> = [
 hintRunner.testHint(hintPath, prefixedFeatureVersionAddedLaterThanTargetedBrowsers, { browserslist: ['opera 12'], parsers: ['css']});
 
 /*
- * const childFeatureAddedLaterThanTargetedBrowsers: Array<HintTest> = [
+ * const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {
  *         name: 'Child features that were added later than targeted browsers should fail.',
  *         reports: [{ message: 'flex is not added on chrome 26, chrome 27, chrome 28 browsers.' }],
@@ -205,7 +205,7 @@ hintRunner.testHint(hintPath, prefixedFeatureVersionAddedLaterThanTargetedBrowse
  */
 
 /*
- * const childPrefixedFeatureAddedLaterThanTargetedBrowsers: Array<HintTest> = [
+ * const childPrefixedFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {
  *         name: 'Child prefixed features that were added later than targeted browsers should fail.',
  *         reports: [{ message: 'flex prefixed with -webkit- is not added on chrome 17, chrome 18, chrome 19 browsers.' }],

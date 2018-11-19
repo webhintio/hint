@@ -26,7 +26,7 @@ const generateCSSConfig = (fileName: string) => {
  * https://webhint.io/docs/contributor-guide/how-to/test-hints/
  */
 
-const neverRemoved: Array<HintTest> = [
+const neverRemoved: HintTest[] = [
     {
         name: 'Features that were never removed should pass.',
         serverConfig: generateCSSConfig('charset')
@@ -35,7 +35,7 @@ const neverRemoved: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, neverRemoved, { browserslist: ['> 1%'], parsers: ['css']});
 
-const prefixedFeatureNeverRemoved: Array<HintTest> = [
+const prefixedFeatureNeverRemoved: HintTest[] = [
     {
         name: 'Prefixed features that were never removed should pass.',
         serverConfig: generateCSSConfig('box-lines-prefix-current')
@@ -44,7 +44,7 @@ const prefixedFeatureNeverRemoved: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, prefixedFeatureNeverRemoved, { browserslist: ['safari 3 - 9'], parsers: ['css']});
 
-const featureRemoved: Array<HintTest> = [
+const featureRemoved: HintTest[] = [
     {
         name: 'Features that were removed in versions before the targeted browsers should fail.',
         reports: [{ message: 'padding-box is not supported on firefox 52 browsers.', position: { column: 5, line: 2 }}],
@@ -54,7 +54,7 @@ const featureRemoved: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, featureRemoved, { browserslist: ['firefox 52'], parsers: ['css']});
 
-const prefixFeatureRemoved: Array<HintTest> = [
+const prefixFeatureRemoved: HintTest[] = [
     {
         name: 'Prefixed features that were removed in versions before the targeted browsers should fail.',
         reports: [{ message: 'box-lines prefixed with -webkit- is not supported on chrome 67, chrome 68, chrome 69 browsers.', position: { column: 5, line: 2 }}],
@@ -64,7 +64,7 @@ const prefixFeatureRemoved: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, prefixFeatureRemoved, { browserslist: ['chrome 65 - 69'], parsers: ['css']});
 
-const removedLaterThanTargetedBrowsers: Array<HintTest> = [
+const removedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version later to the targeted browsers should pass.',
         serverConfig: generateCSSConfig('keyframes')
@@ -73,7 +73,7 @@ const removedLaterThanTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, removedLaterThanTargetedBrowsers, { browserslist: ['opera 13-14'], parsers: ['css']});
 
-const removedInEarlierVersionsAndAddedLater: Array<HintTest> = [
+const removedInEarlierVersionsAndAddedLater: HintTest[] = [
     {
         name: 'Features removed and re-added to versions earlier than the targeted browsers should pass.',
         serverConfig: generateCSSConfig('animation-duration-prefix')
@@ -83,7 +83,7 @@ const removedInEarlierVersionsAndAddedLater: Array<HintTest> = [
 hintRunner.testHint(hintPath, removedInEarlierVersionsAndAddedLater, { browserslist: ['opera 32'], parsers: ['css']});
 
 
-const removedForBrowser: Array<HintTest> = [
+const removedForBrowser: HintTest[] = [
     {
         name: 'Features that were removed in a version equal to the targeted browser should fail.',
         reports: [
@@ -97,7 +97,7 @@ const removedForBrowser: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, removedForBrowser, { browserslist: ['opera 15'], parsers: ['css']});
 
-const removedForPrefixEqualToTargetedBrowsers: Array<HintTest> = [
+const removedForPrefixEqualToTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version equal to the targeted browser should fail.',
         reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 15 browsers.', position: { column: 1, line: 3 }}],
@@ -107,7 +107,7 @@ const removedForPrefixEqualToTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, removedForPrefixEqualToTargetedBrowsers, { browserslist: ['opera 15'], parsers: ['css']});
 
-const removedForPrefixEarlierThanTargetedBrowsers: Array<HintTest> = [
+const removedForPrefixEarlierThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version earlier than the targeted browser should fail.',
         reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 16, opera 17, opera 18, opera 19 browsers.', position: { column: 1, line: 3 }}],
@@ -117,7 +117,7 @@ const removedForPrefixEarlierThanTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, removedForPrefixEarlierThanTargetedBrowsers, { browserslist: ['opera 16-19'], parsers: ['css']});
 
-const addedForPrefixEqualToTargetedBrowsers: Array<HintTest> = [
+const addedForPrefixEqualToTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added in a version equal to the targeted browser should pass.',
         serverConfig: generateCSSConfig('keyframes-prefix-current')
@@ -126,7 +126,7 @@ const addedForPrefixEqualToTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, addedForPrefixEqualToTargetedBrowsers, { browserslist: ['opera 15'], parsers: ['css']});
 
-const addedForPrefixEarlierThanTargetedBrowsers: Array<HintTest> = [
+const addedForPrefixEarlierThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added in a version earlier to the targeted browser should pass.',
         serverConfig: generateCSSConfig('keyframes-prefix-current')
@@ -135,7 +135,7 @@ const addedForPrefixEarlierThanTargetedBrowsers: Array<HintTest> = [
 
 hintRunner.testHint(hintPath, addedForPrefixEarlierThanTargetedBrowsers, { browserslist: ['opera 16-19'], parsers: ['css']});
 
-const removedForFlags: Array<HintTest> = [
+const removedForFlags: HintTest[] = [
     {
         name: 'Features removed from versions requiring flags should pass.',
         serverConfig: generateCSSConfig('supports')
