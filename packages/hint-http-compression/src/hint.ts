@@ -21,6 +21,7 @@ import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protoc
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 
 import { CompressionCheckOptions } from './types';
+
 import meta from './meta';
 
 const decompressBrotli = promisify(brotli.decompress) as (buffer: Buffer) => Promise<Buffer>;
