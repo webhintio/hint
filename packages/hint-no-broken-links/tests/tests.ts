@@ -239,33 +239,12 @@ const tests: HintTest[] = [
         name: `This test should fail as the domain is not found for the preconnect link tag`,
         reports: [{ message: `Broken link found (domain not found).` }],
         serverConfig: generateHTMLPage('', bodyWithInvalidDomainPreconnectLinkTag)
-    }
-];
-
-const loopTestsjsdom = [
+    },
     {
         name: `This test should fail as it has a loop`,
         reports: [
             { message: `'http://localhost/1.mp4' could not be fetched using GET method (redirect loop detected).` },
             { message: `Broken link found (404 response).` }
-        ],
-        serverConfig: {
-            '/': { content: generateHTMLPage('', bodyWithBrokenVideo) },
-            '/1.mp4': {
-                content: '1.mp4',
-                status: 302
-            },
-            '/2.png': { status: 404 }
-        }
-    }
-];
-
-const loopTestsChrome = [
-    {
-        name: `This test should fail as it has a loop`,
-        reports: [
-            { message: `Broken link found (404 response).` },
-            { message: `'http://localhost/1.mp4' could not be fetched using GET method (redirect loop detected).` }
         ],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithBrokenVideo) },
@@ -289,5 +268,3 @@ const loopTestsChrome = [
 ];
 
 hintRunner.testHint(hintPath, tests);
-hintRunner.testHint(hintPath, loopTestsjsdom, { ignoredConnectors: ['chrome'] });
-hintRunner.testHint(hintPath, loopTestsChrome, { ignoredConnectors: ['jsdom'] });
