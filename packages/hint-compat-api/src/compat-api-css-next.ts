@@ -105,7 +105,7 @@ export default class implements IHint {
 
         if (notSupportedVersions.length > 0) {
             const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
-            const message = `${featureName} ${usedPrefix ? usedPrefix : ''}is not added on ${notSupportedVersions.join(', ')} browsers.`;
+            const message = `${featureName} ${usedPrefix ? usedPrefix : ''}is not added on ${notSupportedVersions.join(', ')} browser${notSupportedVersions.length > 1 ? 's' : ''}.`;
 
             this.compatCSS.reportError(featureName, message, location);
         }
