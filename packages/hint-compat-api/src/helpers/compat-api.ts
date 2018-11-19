@@ -49,6 +49,7 @@ export class CompatApi {
 
     private filterFeatureByBrowsers(featureValue: CompatStatement & MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection): CompatStatement | null {
         const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
+
         typedFeatures.__compat = featureValue.__compat;
 
         const isChildRequired = this.getFeaturesAndChildrenRequiredToTest(typedFeatures, featureValue, browsers);

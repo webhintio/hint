@@ -39,7 +39,7 @@ const testBrowsersDictionary = (): void => {
     const flatMdnBrowsers = Object.keys(mdnBrowsers);
 
     Object.entries(browserNamesToMDN).forEach(([browserListName, mdnBrowserName]) => {
-        if(!flatMdnBrowsers.find((flatMdnBrowser) => {
+        if (!flatMdnBrowsers.find((flatMdnBrowser) => {
             return flatMdnBrowser === mdnBrowserName;
         })) {
             throw new Error('Browserslist and MDN Browsers are not compatible.');

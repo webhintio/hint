@@ -172,9 +172,9 @@ const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added after the targeted browser should fail.',
         reports: [
-            { message: 'keyframes is not added on chrome 40 browsers.', position: { column: 1, line: 1}},
-            { message: 'keyframes is not added on chrome 40 browsers.', position: { column: 1, line: 7}},
-            { message: 'keyframes is not added on chrome 40 browsers.', position: { column: 1, line: 13}}
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 1, line: 1}},
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 1, line: 7}},
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 1, line: 13}}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -185,7 +185,7 @@ hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { br
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
-        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browsers.', position: { column: 5, line: 3} }],
+        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browser.', position: { column: 5, line: 3} }],
         serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];

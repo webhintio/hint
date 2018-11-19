@@ -47,7 +47,7 @@ hintRunner.testHint(hintPath, prefixedFeatureNeverRemoved, { browserslist: ['saf
 const featureRemoved: HintTest[] = [
     {
         name: 'Features that were removed in versions before the targeted browsers should fail.',
-        reports: [{ message: 'padding-box is not supported on firefox 52 browsers.', position: { column: 5, line: 2 }}],
+        reports: [{ message: 'padding-box is not supported on firefox 52 browser.', position: { column: 5, line: 2 }}],
         serverConfig: generateCSSConfig('box-sizing')
     }
 ];
@@ -87,9 +87,9 @@ const removedForBrowser: HintTest[] = [
     {
         name: 'Features that were removed in a version equal to the targeted browser should fail.',
         reports: [
-            { message: 'keyframes is not supported on opera 15 browsers.', position: { column: 1, line: 1 }},
-            { message: 'keyframes is not supported on opera 15 browsers.', position: { column: 1, line: 7 }},
-            { message: 'keyframes is not supported on opera 15 browsers.', position: { column: 1, line: 13 }}
+            { message: 'keyframes is not supported on opera 15 browser.', position: { column: 1, line: 1 }},
+            { message: 'keyframes is not supported on opera 15 browser.', position: { column: 1, line: 7 }},
+            { message: 'keyframes is not supported on opera 15 browser.', position: { column: 1, line: 13 }}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -100,7 +100,7 @@ hintRunner.testHint(hintPath, removedForBrowser, { browserslist: ['opera 15'], p
 const removedForPrefixEqualToTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version equal to the targeted browser should fail.',
-        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 15 browsers.', position: { column: 1, line: 3 }}],
+        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 15 browser.', position: { column: 1, line: 3 }}],
         serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
     }
 ];
