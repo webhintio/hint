@@ -9,7 +9,7 @@ import { IHint, HintMetadata, ProblemLocation } from 'hint/dist/src/lib/types';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { CompatApi, userBrowsers, CompatCSS } from './helpers';
 import { BrowserSupportCollection } from './types';
-import { SimpleSupportStatement } from './types-mdn.temp';
+import { SimpleSupportStatement, SupportStatement } from './types-mdn.temp';
 import { browserVersions } from './helpers/normalize-version';
 
 /*
@@ -17,6 +17,10 @@ import { browserVersions } from './helpers/normalize-version';
  * Public
  * ------------------------------------------------------------------------------
  */
+
+type UserPrefixes = {
+    [key: string]: boolean;
+};
 
 export default class implements IHint {
 
@@ -33,7 +37,7 @@ export default class implements IHint {
     private mdnBrowsersCollection: BrowserSupportCollection;
     private compatApi: CompatApi;
     private compatCSS: CompatCSS;
-    private userPrefixes: any = {};
+    private userPrefixes: UserPrefixes = {};
 
     public constructor(context: HintContext) {
         const isCheckingNotBroadlySupported = true;
@@ -56,7 +60,7 @@ export default class implements IHint {
         this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, this.mdnBrowsersCollection, styleParse);
     }
 
-    private testFeatureIsSupportedInBrowser(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation): void {
+    private testFeatureIsSupportedInBrowser(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: SupportStatement, featureName: string, prefix?: string, location?: ProblemLocation): void {
         if (!this.compatApi.isBrowserToSupportPartOfBrowsersCollection(browsersToSupport, browserToSupportName)) {
             return;
         }

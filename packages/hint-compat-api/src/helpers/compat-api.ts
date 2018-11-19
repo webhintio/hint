@@ -21,7 +21,7 @@ export class CompatApi {
         this.compatDataApi = this.filterCompatDataByBrowsers(browsers);
     }
 
-    private filterCompatDataByBrowsers(browsers: BrowserSupportCollection): any {
+    private filterCompatDataByBrowsers(browsers: BrowserSupportCollection): MDNTreeFilteredByBrowsers {
         const compatDataApi: MDNTreeFilteredByBrowsers = {};
 
         Object.entries(this.compatDataApi).forEach(([namespaceFeaturesKey, namespaceFeaturesValues]) => {
@@ -47,23 +47,20 @@ export class CompatApi {
         return namespaceFeatures;
     }
 
-    private filterFeatureByBrowsers(featureValue: any, browsers: BrowserSupportCollection): CompatStatement | null {
+    private filterFeatureByBrowsers(featureValue: CompatStatement & MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection): CompatStatement | null {
         const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
-
-        if (featureValue && featureValue.__compat) {
-            typedFeatures.__compat = featureValue.__compat;
-        }
+        typedFeatures.__compat = featureValue.__compat;
 
         const isChildRequired = this.getFeaturesAndChildrenRequiredToTest(typedFeatures, featureValue, browsers);
 
-        if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue as CompatStatement & MDNTreeFilteredByBrowsers, browsers)) {
+        if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue, browsers)) {
             return null;
         }
 
         return typedFeatures;
     }
 
-    private getFeaturesAndChildrenRequiredToTest(typedFeatures: CompatStatement & MDNTreeFilteredByBrowsers, featureValue: any, browsers: BrowserSupportCollection): boolean {
+    private getFeaturesAndChildrenRequiredToTest(typedFeatures: CompatStatement & MDNTreeFilteredByBrowsers, featureValue: CompatStatement & MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection): boolean {
         if (typeof featureValue === 'object' && Object.keys(featureValue).length > 1) {
             return Object.entries(featureValue as object).some(([childKey, childValue]) => {
 
