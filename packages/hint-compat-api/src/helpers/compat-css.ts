@@ -116,7 +116,7 @@ export class CompatCSS {
         return selectedStrategy as FeatureStrategy<ChildNode>;
     }
 
-    private testFeature (strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): void {
+    private testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): void {
         const strategyData = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
 
         if (!strategyData) {
@@ -145,7 +145,7 @@ export class CompatCSS {
         });
     }
 
-    public validateStrategy (strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): StrategyData | null {
+    public validateStrategy(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): StrategyData | null {
         let [prefix, featureName] = this.getPrefix(featureNameWithPrefix);
 
         const strategyContent: any = data[strategyName];
@@ -195,7 +195,7 @@ export class CompatCSS {
         return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
     }
 
-    public reportError (featureName: string, message: string, location?: ProblemLocation): void {
+    public reportError(featureName: string, message: string, location?: ProblemLocation): void {
         this.cachedFeatures.addError(featureName, this.hintResource, message, location);
         this.hintContext.report(this.hintResource, null, message, featureName, location);
     }
@@ -206,7 +206,7 @@ export class CompatCSS {
         }
     }
 
-    public wasBrowserSupportedInSometime (browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
+    public wasBrowserSupportedInSometime(browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
         return Object.entries(browsersToSupport).some(([browserName]) => {
             if (browserName !== browserToSupportName) {
                 return false;
@@ -214,5 +214,10 @@ export class CompatCSS {
 
             return true;
         });
+    }
+
+    public generateNotSupportedVersionsError(featureName: string, notSupportedVersions: string[], statusName: string, prefix?: string,): string {
+        const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
+        return `${featureName} ${usedPrefix ? usedPrefix : ''}is not ${statusName} on ${notSupportedVersions.join(', ')} browser${notSupportedVersions.length > 1 ? 's' : ''}.`;
     }
 }

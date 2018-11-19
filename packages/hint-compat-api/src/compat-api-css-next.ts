@@ -104,8 +104,7 @@ export default class implements IHint {
         const notSupportedVersions = this.getNotSupportedVersionByBrowsers(browsersToSupport, browserToSupportName, addedVersionNumber, featureName, prefix);
 
         if (notSupportedVersions.length > 0) {
-            const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
-            const message = `${featureName} ${usedPrefix ? usedPrefix : ''}is not added on ${notSupportedVersions.join(', ')} browser${notSupportedVersions.length > 1 ? 's' : ''}.`;
+            const message = this.compatCSS.generateNotSupportedVersionsError(featureName, notSupportedVersions, 'added', prefix);
 
             this.compatCSS.reportError(featureName, message, location);
         }
