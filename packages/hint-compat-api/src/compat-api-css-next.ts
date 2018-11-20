@@ -48,19 +48,19 @@ export default class implements IHint {
             this.testFeatureIsSupportedInBrowser(...params);
         });
 
-        context.on('parse::css::end', (styleParse: StyleParse) => {
-            this.onParseCSS(styleParse);
+        context.on('parse::css::end', async (styleParse: StyleParse) => {
+            await this.onParseCSS(styleParse);
         });
     }
 
-    private onParseCSS(styleParse: StyleParse): void {
+    private async onParseCSS(styleParse: StyleParse): Promise<void> {
         const { resource } = styleParse;
 
         this.compatCSS.setResource(resource);
-        this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, this.mdnBrowsersCollection, styleParse);
+        await this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, this.mdnBrowsersCollection, styleParse);
     }
 
-    private testFeatureIsSupportedInBrowser(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: SupportStatement, featureName: string, prefix?: string, location?: ProblemLocation): void {
+    private async testFeatureIsSupportedInBrowser(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: SupportStatement, featureName: string, prefix?: string, location?: ProblemLocation): Promise<void> {
         if (!this.compatApi.isBrowserToSupportPartOfBrowsersCollection(browsersToSupport, browserToSupportName)) {
             return;
         }
@@ -70,35 +70,35 @@ export default class implements IHint {
         if (!browserFeatureSupported) {
             const message = `${featureName} of CSS was never added on any of your browsers to support.`;
 
-            this.compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browsersToSupport, browserToSupportName, featureName, location);
+            await this.compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browsersToSupport, browserToSupportName, featureName, location);
 
             return;
         }
 
-        this.testAddedVersionByBrowsers(browsersToSupport, browserFeatureSupported, browserToSupportName, featureName, location, prefix);
+        await this.testAddedVersionByBrowsers(browsersToSupport, browserFeatureSupported, browserToSupportName, featureName, location, prefix);
     }
 
-    private testAddedVersionByBrowsers(browsersToSupport: BrowserSupportCollection, browserFeatureSupported: SimpleSupportStatement, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void {
+    private async testAddedVersionByBrowsers(browsersToSupport: BrowserSupportCollection, browserFeatureSupported: SimpleSupportStatement, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): Promise<void> {
         const addedVersion = browserFeatureSupported.version_added;
 
-        // If there added version is exactly true, always supported
+        // If `addedVersion` is true, it means the property has always been implemented
         if (addedVersion === true) {
             return;
         }
 
         // Not a common case, but if added version does not exist, was not added.
         if (!addedVersion) {
-            const message = `${featureName} of CSS is not added on ${browserToSupportName} browser.`;
+            const message = `${featureName} of CSS is not supported on ${browserToSupportName} browser.`;
 
-            this.compatCSS.reportError(featureName, message, location);
+            await this.compatCSS.reportError(featureName, message, location);
 
             return;
         }
 
-        this.testNotSupportedVersionsByBrowsers(browsersToSupport, addedVersion, browserToSupportName, featureName, location, prefix);
+        await this.testNotSupportedVersionsByBrowsers(browsersToSupport, addedVersion, browserToSupportName, featureName, location, prefix);
     }
 
-    private testNotSupportedVersionsByBrowsers(browsersToSupport: BrowserSupportCollection, addedVersion: string, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void {
+    private async testNotSupportedVersionsByBrowsers(browsersToSupport: BrowserSupportCollection, addedVersion: string, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): Promise<void> {
         const addedVersionNumber = browserVersions.normalize(addedVersion);
 
         const notSupportedVersions = this.getNotSupportedVersionByBrowsers(browsersToSupport, browserToSupportName, addedVersionNumber, featureName, prefix);
@@ -106,7 +106,7 @@ export default class implements IHint {
         if (notSupportedVersions.length > 0) {
             const message = this.compatCSS.generateNotSupportedVersionsError(featureName, notSupportedVersions, 'added', prefix);
 
-            this.compatCSS.reportError(featureName, message, location);
+            await this.compatCSS.reportError(featureName, message, location);
         }
     }
 

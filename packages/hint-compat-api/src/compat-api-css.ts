@@ -1,5 +1,5 @@
 /**
- * @fileoverview Hint to validate if the HTML, CSS and JS APIs of the project are deprecated or not broadly supported
+ * @fileoverview Hint to validate if the CSS features of the project are deprecated
  */
 
 import { Category } from 'hint/dist/src/lib/enums/category';
@@ -40,19 +40,19 @@ export default class implements IHint {
             this.testFeatureIsSupportedInBrowser(...params);
         });
 
-        context.on('parse::css::end', (styleParse: StyleParse) => {
-            this.onParseCSS(styleParse);
+        context.on('parse::css::end', async (styleParse: StyleParse) => {
+            await this.onParseCSS(styleParse);
         });
     }
 
-    private onParseCSS(styleParse: StyleParse): void {
+    private async onParseCSS(styleParse: StyleParse): Promise<void> {
         const { resource } = styleParse;
 
         this.compatCSS.setResource(resource);
-        this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, this.mdnBrowsersCollection, styleParse);
+        await this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, this.mdnBrowsersCollection, styleParse);
     }
 
-    private testFeatureIsSupportedInBrowser(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: SupportStatement, featureName: string, prefix?: string, location?: ProblemLocation): void {
+    private async testFeatureIsSupportedInBrowser(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: SupportStatement, featureName: string, prefix?: string, location?: ProblemLocation): Promise<void> {
         if (!this.compatApi.isBrowserToSupportPartOfBrowsersCollection(browsersToSupport, browserToSupportName)) {
             return;
         }
@@ -62,15 +62,15 @@ export default class implements IHint {
         if (!browserFeatureSupported) {
             const message = `${featureName} of CSS was never supported on any of your browsers to support.`;
 
-            this.compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browsersToSupport, browserToSupportName, featureName, location);
+            await this.compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browsersToSupport, browserToSupportName, featureName, location);
 
             return;
         }
 
-        this.testRemovedVersionByBrowsers(browsersToSupport, browserFeatureSupported, browserToSupportName, featureName, location, prefix);
+        await this.testRemovedVersionByBrowsers(browsersToSupport, browserFeatureSupported, browserToSupportName, featureName, location, prefix);
     }
 
-    private testRemovedVersionByBrowsers(browsersToSupport: BrowserSupportCollection, browserFeatureSupported: SimpleSupportStatement, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void {
+    private async testRemovedVersionByBrowsers(browsersToSupport: BrowserSupportCollection, browserFeatureSupported: SimpleSupportStatement, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): Promise<void> {
         const removedVersion = browserFeatureSupported.version_removed;
 
         // If there is no removed version, it is not deprecated.
@@ -82,15 +82,15 @@ export default class implements IHint {
         if (removedVersion === true) {
             const message = `${featureName} of CSS is not supported on ${browserToSupportName} browser.`;
 
-            this.compatCSS.reportError(featureName, message, location);
+            await this.compatCSS.reportError(featureName, message, location);
 
             return;
         }
 
-        this.testNotSupportedVersionsByBrowsers(browsersToSupport, removedVersion, browserToSupportName, featureName, location, prefix);
+        await this.testNotSupportedVersionsByBrowsers(browsersToSupport, removedVersion, browserToSupportName, featureName, location, prefix);
     }
 
-    private testNotSupportedVersionsByBrowsers(browsersToSupport: BrowserSupportCollection, removedVersion: string, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): void {
+    private async testNotSupportedVersionsByBrowsers(browsersToSupport: BrowserSupportCollection, removedVersion: string, browserToSupportName: string, featureName: string, location?: ProblemLocation, prefix?: string): Promise<void> {
         const removedVersionNumber = browserVersions.normalize(removedVersion);
 
         const notSupportedVersions = this.getNotSupportedVersionByBrowsers(browsersToSupport, browserToSupportName, removedVersionNumber);
@@ -98,7 +98,7 @@ export default class implements IHint {
         if (notSupportedVersions.length > 0) {
             const message = this.compatCSS.generateNotSupportedVersionsError(featureName, notSupportedVersions, 'supported', prefix);
 
-            this.compatCSS.reportError(featureName, message, location);
+            await this.compatCSS.reportError(featureName, message, location);
         }
     }
 
