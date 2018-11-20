@@ -7,7 +7,7 @@ import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
-import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection, CSSTestFunction, StrategyData } from '../types';
+import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection, CSSTestFunction, StrategyData, BrowserVersions } from '../types';
 import { CachedCompatFeatures } from './cached-compat-features';
 import { SupportBlock } from '../types-mdn.temp';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -216,8 +216,69 @@ export class CompatCSS {
         });
     }
 
-    public generateNotSupportedVersionsError(featureName: string, notSupportedVersions: string[], statusName: string, prefix?: string,): string {
+    public generateNotSupportedVersionsError(featureName: string, notSupportedVersions: string[], statusName: string, prefix?: string): string {
         const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
-        return `${featureName} ${usedPrefix ? usedPrefix : ''}is not ${statusName} on ${notSupportedVersions.join(', ')} browser${notSupportedVersions.length > 1 ? 's' : ''}.`;
+        const groupedNotSupportedVersions = this.groupNotSupportedVersions(notSupportedVersions);
+
+        return `${featureName} ${usedPrefix ? usedPrefix : ''}is not ${statusName} on ${groupedNotSupportedVersions.join(', ')} browser${notSupportedVersions.length > 1 ? 's' : ''}.`;
+    }
+
+    /**
+     * @method groupNotSupportedVersions
+     * Examples:
+     * [ 'chrome 66', 'chrome 69' ] into ['chrome 66, 69']
+     * [ 'chrome 67', 'chrome 68', 'chrome 69' ] into ['chrome 67-69']
+     * [ 'chrome 66', 'chrome 68', 'chrome 69' ] into ['chrome 66, 67-69']
+     *
+     */
+    private groupNotSupportedVersions(versions: string[]): string[] {
+        if (!versions) {
+            return [];
+        }
+
+        const browsers: BrowserVersions = {};
+        versions.forEach((browserAndVersion: string) => {
+            const [browser, version] = browserAndVersion.split(' ');
+
+            browsers[browser] = browsers[browser] || [];
+            browsers[browser].push(version);
+        });
+
+        const groupedVersions = Object.entries(browsers).map(([browser, versions]) => {
+            const sortedVersions = versions.sort();
+            let grouped = '';
+
+            let groupStarted = false;
+            sortedVersions.forEach((value, i) => {
+                const nextValue = sortedVersions[i + 1];
+
+                if (!groupStarted) {
+                    grouped += `${browser} ${value}`;
+                }
+
+                if (nextValue && Number(nextValue) - Number(value) > 1) {
+                    if (groupStarted) {
+                        groupStarted = false;
+                        grouped += value;
+                    }
+
+                    grouped += ', ';
+                }
+
+                if (!groupStarted && nextValue && Number(nextValue) - Number(value) === 1) {
+                    groupStarted = true;
+                    grouped += '-';
+                }
+
+                if (groupStarted && !nextValue) {
+                    groupStarted = false;
+                    grouped += value;
+                }
+            });
+
+            return grouped;
+        });
+
+        return groupedVersions;
     }
 }

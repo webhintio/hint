@@ -57,7 +57,7 @@ hintRunner.testHint(hintPath, featureRemoved, { browserslist: ['firefox 52'], pa
 const prefixFeatureRemoved: HintTest[] = [
     {
         name: 'Prefixed features that were removed in versions before the targeted browsers should fail.',
-        reports: [{ message: 'box-lines prefixed with -webkit- is not supported on chrome 67, chrome 68, chrome 69 browsers.', position: { column: 5, line: 2 }}],
+        reports: [{ message: 'box-lines prefixed with -webkit- is not supported on chrome 67-69 browsers.', position: { column: 5, line: 2 }}],
         serverConfig: generateCSSConfig('box-lines-prefix-current')
     }
 ];
@@ -110,12 +110,12 @@ hintRunner.testHint(hintPath, removedForPrefixEqualToTargetedBrowsers, { browser
 const removedForPrefixEarlierThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version earlier than the targeted browser should fail.',
-        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 16, opera 17, opera 18, opera 19 browsers.', position: { column: 1, line: 3 }}],
+        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 16, opera 18-19 browsers.', position: { column: 1, line: 3 }}],
         serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
     }
 ];
 
-hintRunner.testHint(hintPath, removedForPrefixEarlierThanTargetedBrowsers, { browserslist: ['opera 16-19'], parsers: ['css']});
+hintRunner.testHint(hintPath, removedForPrefixEarlierThanTargetedBrowsers, { browserslist: ['opera 18-19', 'opera 16',], parsers: ['css']});
 
 const addedForPrefixEqualToTargetedBrowsers: HintTest[] = [
     {
