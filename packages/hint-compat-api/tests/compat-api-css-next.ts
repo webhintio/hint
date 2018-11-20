@@ -161,7 +161,7 @@ hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { br
 const featureVersionAddedFalse: HintTest[] = [
     {
         name: 'Features that have version added as false should fail.',
-        reports: [{ message: 'box-flex of CSS is not added on ie browser.', position: { column: 5, line: 2}}],
+        reports: [{ message: 'box-flex of CSS is not supported on ie browser.', position: { column: 5, line: 2}}],
         serverConfig: generateCSSConfig('box-flex')
     }
 ];

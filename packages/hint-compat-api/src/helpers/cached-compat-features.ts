@@ -38,15 +38,15 @@ export class CachedCompatFeatures {
         });
     }
 
-    public showCachedErrors(featureName: string, context: HintContext, location?: ProblemLocation): void {
+    public async showCachedErrors(featureName: string, context: HintContext, location?: ProblemLocation): Promise<void> {
         const cachedErrors = this.cachedFeatures[featureName];
 
         if (!cachedErrors || cachedErrors.length < 1) {
             return;
         }
 
-        cachedErrors.forEach((cachedFeature: CachedFeature) => {
-            context.report(cachedFeature.resource, null, cachedFeature.message, featureName, location || cachedFeature.location);
+        await cachedErrors.forEach(async (cachedFeature: CachedFeature) => {
+            await context.report(cachedFeature.resource, null, cachedFeature.message, featureName, location || cachedFeature.location);
         });
     }
 }

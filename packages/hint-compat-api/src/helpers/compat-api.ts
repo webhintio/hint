@@ -92,7 +92,7 @@ export class CompatApi {
     public getSupportStatementFromInfo(browserFeatureSupported?: SupportStatement, prefix?: string): SimpleSupportStatement | null {
         let currentBrowserFeatureSupported = browserFeatureSupported;
 
-        // If we dont have information about the compatibility, ignore.
+        // If we don't have information about the compatibility, ignore.
         if (!currentBrowserFeatureSupported) {
             return null;
         }
@@ -101,7 +101,7 @@ export class CompatApi {
             return null;
         }
 
-        // Sometimes the API give an array but only the first seems relevant
+        // Sometimes the API returns an array but only the first seems relevant
         if (Array.isArray(currentBrowserFeatureSupported) && currentBrowserFeatureSupported.length > 0) {
             if (prefix) {
                 currentBrowserFeatureSupported = currentBrowserFeatureSupported.find((info) => {
@@ -178,7 +178,7 @@ export class CompatApi {
 
             const browserFeatureSupported = this.getWorstCaseSupportStatementFromInfo((typedFeatureValue.__compat.support as any)[browser]);
 
-            // If we dont have information about the compatibility, ignore.
+            // If we don't have information about the compatibility, ignore.
             if (!browserFeatureSupported) {
                 return false;
             }

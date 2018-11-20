@@ -47,12 +47,12 @@ export class CompatCSS {
         };
     }
 
-    public searchCSSFeatures(data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, parse: StyleParse): void {
-        parse.ast.walk((node: ChildNode) => {
+    public async searchCSSFeatures(data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, parse: StyleParse): Promise<void> {
+        await parse.ast.walk(async (node: ChildNode) => {
             const strategy = this.chooseStrategyToSearchCSSFeature(node);
             const location = this.getProblemLocationFromNode(node);
 
-            strategy.testFeature(node, data, browsers, location);
+            await strategy.testFeature(node, data, browsers, location);
         });
     }
 
@@ -116,7 +116,7 @@ export class CompatCSS {
         return selectedStrategy as FeatureStrategy<ChildNode>;
     }
 
-    private testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): void {
+    private async testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): Promise<void> {
         const strategyData = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
 
         if (!strategyData) {
@@ -126,7 +126,7 @@ export class CompatCSS {
         const { prefix, featureInfo, featureName } = strategyData;
 
         if (this.cachedFeatures.isCached(featureName)) {
-            this.cachedFeatures.showCachedErrors(featureName, this.hintContext, location);
+            await this.cachedFeatures.showCachedErrors(featureName, this.hintContext, location);
 
             return;
         }
@@ -195,14 +195,14 @@ export class CompatCSS {
         return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
     }
 
-    public reportError(featureName: string, message: string, location?: ProblemLocation): void {
+    public async reportError(featureName: string, message: string, location?: ProblemLocation): Promise<void> {
         this.cachedFeatures.addError(featureName, this.hintResource, message, location);
-        this.hintContext.report(this.hintResource, null, message, featureName, location);
+        await this.hintContext.report(this.hintResource, null, message, featureName, location);
     }
 
-    public reportIfThereIsNoInformationAboutCompatibility(message: string, browsersToSupport: BrowserSupportCollection, browserToSupportName: string, featureName: string, location?: ProblemLocation) {
+    public async reportIfThereIsNoInformationAboutCompatibility(message: string, browsersToSupport: BrowserSupportCollection, browserToSupportName: string, featureName: string, location?: ProblemLocation): Promise<void> {
         if (!this.wasBrowserSupportedInSometime(browsersToSupport, browserToSupportName) && Object.keys(browsersToSupport).includes(browserToSupportName)) {
-            this.reportError(featureName, message, location);
+            await this.reportError(featureName, message, location);
         }
     }
 
