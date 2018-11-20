@@ -1283,7 +1283,7 @@ append-transform@^1.0.0:
   dependencies:
     default-require-extensions "^2.0.0"
 
-applicationinsights@^1.0.6, applicationinsights@^1.0.7:
+applicationinsights@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.0.7.tgz#f8d5758b99e5c3e5b2877cfa120c2164a5cf675b"
   integrity sha512-h2v03PzxrsFe/kiPt1FTRKUjVXBln2ZqCCGByeeBbFt8nkyWHfLV6pBgRRRJjMQ0IZCnayzH0lPm4XeOCqugoQ==
@@ -8209,15 +8209,6 @@ postcss@^6.0.1, postcss@^6.0.23:
     chalk "^2.4.1"
     source-map "^0.6.1"
     supports-color "^5.4.0"
-
-postcss@^7.0.5:
-  version "7.0.5"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.5.tgz#70e6443e36a6d520b0fd4e7593fcca3635ee9f55"
-  integrity sha512-HBNpviAUFCKvEh7NZhw1e8MBPivRszIiUnhrJ+sBFVSYSqubrzwX3KG51mYgcRHX8j/cAgZJedONZcm5jTBdgQ==
-  dependencies:
-    chalk "^2.4.1"
-    source-map "^0.6.1"
-    supports-color "^5.5.0"
 
 postcss@^7.0.6:
   version "7.0.6"
