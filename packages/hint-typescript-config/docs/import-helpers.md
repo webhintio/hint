@@ -1,4 +1,4 @@
-# Enable import helpers in TypeScript configuration(`import-helpers`)
+# TypeScript import helpers (`import-helpers`)
 
 `typescript-config/import-helpers` checks if the property `importHelpers`
 is enabled in your TypeScript configuration file (i.e. `tsconfig.json`) and

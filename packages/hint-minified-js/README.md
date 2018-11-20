@@ -1,4 +1,4 @@
-# JavaScript should be minified (`minified-js`)
+# Minify JavaScript (`minified-js`)
 
 This hint checks whether JavaScript used by your web page is minified
 or not.

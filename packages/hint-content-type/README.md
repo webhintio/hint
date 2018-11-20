@@ -1,4 +1,4 @@
-# Require `Content-Type` HTTP response header with appropriate value (`content-type`)
+# Correct `Content-Type` header (`content-type`)
 
 `content-type` warns against not serving resources with the
 `Content-Type` HTTP response header with a value containing

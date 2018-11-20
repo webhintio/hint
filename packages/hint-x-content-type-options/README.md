@@ -1,4 +1,4 @@
-# Require `X-Content-Type-Options` HTTP response header (`x-content-type-options`)
+# Use `X-Content-Type-Options` header (`x-content-type-options`)
 
 `x-content-type-options` requires that all scripts and
 stylesheets are served with the `X-Content-Type-Options: nosniff`

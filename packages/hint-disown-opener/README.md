@@ -1,4 +1,4 @@
-# Require external links to disown opener (`disown-opener`)
+# External links disown opener (`disown-opener`)
 
 `disown-opener` checks if the `rel` attribute is specified with both
 the `noopener` and `noreferrer` values (or only `noopener` if all the

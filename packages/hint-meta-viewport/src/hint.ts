@@ -5,12 +5,12 @@
 
 import { parseMetaViewPortContent } from 'metaviewport-parser';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, TraverseEnd, HintMetadata } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, TraverseEnd } from 'hint/dist/src/lib/types';
 import { IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -20,15 +20,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class MetaViewportHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require viewport meta element'
-        },
-        id: 'meta-viewport',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

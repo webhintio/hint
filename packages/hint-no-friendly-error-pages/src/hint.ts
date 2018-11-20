@@ -12,12 +12,12 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { FetchEnd, NetworkData, TraverseEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, NetworkData, TraverseEnd, IHint } from 'hint/dist/src/lib/types';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -29,15 +29,7 @@ const debug = d(__filename);
 
 export default class NoFriendlyErrorPagesHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: 'Disallow small error pages'
-        },
-        id: 'no-friendly-error-pages',
-        schema: [],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

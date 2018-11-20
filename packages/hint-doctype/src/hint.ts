@@ -3,11 +3,11 @@
  */
 
 import * as os from 'os';
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, FetchEnd, ProblemLocation } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd, ProblemLocation } from 'hint/dist/src/lib/types';
 import { MatchInformation } from './types';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -17,15 +17,7 @@ import { MatchInformation } from './types';
 
 export default class implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: `This hint checks if the HTML is using the most modern DOCTYPE.`
-        },
-        id: 'doctype',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
         const correctLine = 0;

@@ -1,14 +1,14 @@
 /**
  * @fileoverview Warns against having the BOM character at the beginning of a text file
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { FetchEnd, IHint, NetworkData, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, IHint, NetworkData } from 'hint/dist/src/lib/types';
 import { asyncTry } from 'hint/dist/src/lib/utils/async-wrapper';
 import { isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
+
+import meta from './meta';
 
 
 const debug: debug.IDebugger = d(__filename);
@@ -21,15 +21,7 @@ const debug: debug.IDebugger = d(__filename);
 
 export default class implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: `Warns against using the BOM (byte-order marker) character at the beginning of a text based file`
-        },
-        id: 'no-bom',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

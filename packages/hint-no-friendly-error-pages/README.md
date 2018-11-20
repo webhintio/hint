@@ -1,4 +1,4 @@
-# Disallow small error pages (`no-friendly-error-pages`)
+# No small error pages (`no-friendly-error-pages`)
 
 `no-friendly-error-pages` warns against using custom error pages with
 byte size under a certain threshold.

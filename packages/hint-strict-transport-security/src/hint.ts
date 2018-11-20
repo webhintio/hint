@@ -4,12 +4,12 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { FetchEnd, IHint, NetworkData, HintMetadata } from 'hint/dist/src/lib/types';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { FetchEnd, IHint, NetworkData } from 'hint/dist/src/lib/types';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -21,20 +21,7 @@ const debug = d(__filename);
 
 export default class StrictTransportSecurityHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: `Require 'Strict-Transport-Security' header`
-        },
-        id: 'strict-transport-security',
-        schema: [{
-            properties: {
-                checkPreload: { type: 'boolean' },
-                minMaxAgeValue: { type: 'number' }
-            }
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

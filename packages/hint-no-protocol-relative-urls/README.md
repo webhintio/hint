@@ -1,4 +1,4 @@
-# Disallow protocol-relative URLs (`no-protocol-relative-urls`)
+# No protocol-relative URLs (`no-protocol-relative-urls`)
 
 `no-protocol-relative-urls` warns against using scheme-relative URLs
 (commonly known as protocol-relative URLs).

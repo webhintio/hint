@@ -1,4 +1,4 @@
-# Require a web app manifest file (`manifest-exists`)
+# Has web app manifest (`manifest-exists`)
 
 `manifest-exists` warns when a [web app manifest][spec]
 file is not provided.

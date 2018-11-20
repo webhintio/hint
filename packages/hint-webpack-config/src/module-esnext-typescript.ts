@@ -1,16 +1,16 @@
 /**
  * @fileoverview `webpack-config/module-esnext-typescript` warns against not having set the propety `compilerOptions.module` to `esnext` in typescript configuration file.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
 import { TypeScriptConfigEvents, TypeScriptConfigParse } from '@hint/parser-typescript-config';
 
 const debug: debug.IDebugger = d(__filename);
+
+import meta from './meta/module-esnext-typescript';
 
 /*
  * ------------------------------------------------------------------------------
@@ -19,15 +19,7 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class WebpackConfigModuleESNextTypescript implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`webpack-config/module-esnext-typescript` warns against not having set the propety `compilerOptions.module` to `esnext` in typescript configuration file'
-        },
-        id: 'webpack-config/module-esnext-typescript',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<WebpackConfigEvents & TypeScriptConfigEvents>) {
 

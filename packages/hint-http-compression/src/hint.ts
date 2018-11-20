@@ -11,18 +11,18 @@ import { promisify } from 'util';
 
 import * as brotli from 'iltorb';
 
-
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { FetchEnd, IAsyncHTMLElement, IHint, NetworkData, Response, HintMetadata, HttpHeaders } from 'hint/dist/src/lib/types';
+import { FetchEnd, IAsyncHTMLElement, IHint, NetworkData, Response, HttpHeaders } from 'hint/dist/src/lib/types';
 import { asyncTry } from 'hint/dist/src/lib/utils/async-wrapper';
 import { getFileExtension, isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 import isHTTP from 'hint/dist/src/lib/utils/network/is-http';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+
 import { CompressionCheckOptions } from './types';
+
+import meta from './meta';
 
 const decompressBrotli = promisify(brotli.decompress) as (buffer: Buffer) => Promise<Buffer>;
 const uaString = 'Mozilla/5.0 Gecko';
@@ -35,33 +35,7 @@ const uaString = 'Mozilla/5.0 Gecko';
 
 export default class HttpCompressionHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: 'Require resources to be served compressed'
-        },
-        id: 'http-compression',
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                options: {
-                    additionalProperties: false,
-                    minProperties: 1,
-                    properties: {
-                        brotli: { type: 'boolean' },
-                        gzip: { type: 'boolean' },
-                        zopfli: { type: 'boolean' }
-                    }
-                }
-            },
-            properties: {
-                html: { $ref: '#/definitions/options' },
-                resource: { $ref: '#/definitions/options' }
-            },
-            type: 'object'
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

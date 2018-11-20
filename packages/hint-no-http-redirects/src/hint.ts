@@ -2,12 +2,12 @@
  * @fileoverview Checks if there are unnecesary redirects when accessign resources
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 // The list of types depends on the events you want to capture.
-import { IHint, FetchEnd, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -17,28 +17,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class NoHttpRedirectHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Checks if there are unnecesary redirects when accessign resources`
-        },
-        id: 'no-http-redirects',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                'max-html-redirects': {
-                    minimum: 0,
-                    type: 'integer'
-                },
-                'max-resource-redirects': {
-                    minimum: 0,
-                    type: 'integer'
-                }
-            },
-            type: 'object'
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

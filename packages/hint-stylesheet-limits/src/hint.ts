@@ -2,10 +2,10 @@
  * @fileoverview Checks if CSS exceeds known stylesheet limits.
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, CanEvaluateScript } from 'hint/dist/src/lib/types';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { IHint, CanEvaluateScript } from 'hint/dist/src/lib/types';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -15,29 +15,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class StylesheetLimitsHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: `Checks if CSS exceeds known stylesheet limits.`
-        },
-        id: 'stylesheet-limits',
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                number: {
-                    minimum: 0,
-                    type: 'integer'
-                }
-            },
-            properties: {
-                maxImports: { $ref: '#/definitions/number' },
-                maxRules: { $ref: '#/definitions/number' },
-                maxSheets: { $ref: '#/definitions/number' }
-            },
-            type: ['object', 'null']
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

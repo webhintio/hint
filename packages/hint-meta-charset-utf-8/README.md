@@ -1,4 +1,4 @@
-# Require charset meta tag with the value of `utf-8` (`meta-charset-utf-8`)
+# Use charset `utf-8` (`meta-charset-utf-8`)
 
 `meta-charset-utf-8` checks if the page explicitly declares the
 character encoding as `utf-8` using a meta tag early in the document.

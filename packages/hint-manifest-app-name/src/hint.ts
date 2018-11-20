@@ -11,11 +11,11 @@
 
 import { ucs2 } from 'punycode';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { IHint, HintMetadata, IJSONLocationFunction } from 'hint/dist/src/lib/types';
+import { IHint, IJSONLocationFunction } from 'hint/dist/src/lib/types';
 import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -25,15 +25,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class ManifestAppNameHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.pwa,
-            description: 'Require web application name to be specified in the web app manifest file'
-        },
-        id: 'manifest-app-name',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<ManifestEvents>) {
 

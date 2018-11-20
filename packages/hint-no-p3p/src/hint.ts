@@ -4,13 +4,13 @@
 
 import { URL } from 'url';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { ElementFound, FetchEnd, IHint, HintMetadata, ScanStart } from 'hint/dist/src/lib/types';
+import { ElementFound, FetchEnd, IHint, ScanStart } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { getIncludedHeaders } from 'hint/dist/src/lib/utils/hint-helpers';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -22,15 +22,7 @@ const debug: debug.IDebugger = d(__filename);
 
 export default class NoP3pHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: `Don't use P3P related headers or meta tags`
-        },
-        id: 'no-p3p',
-        schema: [],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

@@ -11,11 +11,9 @@
 import { parse as bcp47 } from 'bcp47';
 import { get as parseColor, ColorDescriptor } from 'color-string';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import {
     IHint,
-    IJSONLocationFunction,
-    HintMetadata
+    IJSONLocationFunction
 } from 'hint/dist/src/lib/types';
 import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
@@ -27,7 +25,8 @@ import {
     ManifestParsed
 } from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ---------------------------------------------------------------------
@@ -37,15 +36,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class ManifestIsValidHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.pwa,
-            description: 'Require valid web app manifest'
-        },
-        id: 'manifest-is-valid',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<ManifestEvents>) {
 

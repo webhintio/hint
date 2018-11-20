@@ -1,4 +1,4 @@
-# Disallow non-standard file extension for the web app manifest file (`manifest-file-extension`)
+# Correct manifest extension (`manifest-file-extension`)
 
 `manifest-file-extension` warns against using non-standard file
 extensions for the [web app manifest][spec] file.

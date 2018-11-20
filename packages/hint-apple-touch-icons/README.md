@@ -1,4 +1,4 @@
-# Require an apple touch icon (`apple-touch-icons`)
+# Use Apple touch icon (`apple-touch-icons`)
 
 `apple-touch-icons` requires that a single `180×180px` PNG
 `apple-touch-icon` is used.

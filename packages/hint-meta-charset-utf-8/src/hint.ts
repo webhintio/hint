@@ -11,11 +11,11 @@
 
 import * as cheerio from 'cheerio';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, FetchEnd, HintMetadata, TraverseEnd } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, FetchEnd, TraverseEnd } from 'hint/dist/src/lib/types';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -25,15 +25,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class MetaCharsetUTF8Hint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require `<meta charset="utf-8">`'
-        },
-        id: 'meta-charset-utf-8',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
         let receivedDOM: CheerioStatic | undefined;

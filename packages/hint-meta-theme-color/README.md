@@ -1,4 +1,4 @@
-# Require a 'theme-color' meta tag with a valid value (`meta-theme-color`)
+# Valid `theme-color` (`meta-theme-color`)
 
 `meta-theme-color` hint checks if a single `theme-color` meta tag
 is specified in the `<head>` with a valid value supported by all user

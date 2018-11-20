@@ -9,12 +9,12 @@ import * as fs from 'fs-extra';
 import * as getImageData from 'image-size';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, FetchEnd, ScanEnd, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd, ScanEnd } from 'hint/dist/src/lib/types';
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import * as logger from 'hint/dist/src/lib/utils/logging';
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { cloudinaryResult } from './cloudinary-types';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -24,23 +24,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class ImageOptimizationCloudinaryHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Image optimization with cloudinary`
-        },
-        id: 'image-optimization-cloudinary',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                apiKey: { type: 'string' },
-                apiSecret: { type: 'string' },
-                cloudName: { type: 'string' },
-                threshold: { type: 'number' }
-            }
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

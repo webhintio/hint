@@ -1,4 +1,4 @@
-# Check if webpack configuration file exists (`config-exists`)
+# Has webpack configuration (`config-exists`)
 
 ## Why is this important?
 

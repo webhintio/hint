@@ -6,14 +6,14 @@
 import * as path from 'path';
 
 import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, ScanEnd } from 'hint/dist/src/lib/types';
+import { IHint, ScanEnd } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import loadPackage from 'hint/dist/src/lib/utils/packages/load-package';
 
 import { configChecker } from './helpers/config-checker';
+
+import meta from './meta/import-helpers';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -24,15 +24,7 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class TypeScriptConfigImportHelpers implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`typescript-config/import-helpers` checks if the property `importHelpers` is enabled in the TypeScript configuration file (i.e `tsconfig.json`) to reduce the output size.'
-        },
-        id: 'typescript-config/import-helpers',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const validate = configChecker('compilerOptions.importHelpers', true, 'The compiler option "importHelpers" should be enabled to reduce the output size.', context);

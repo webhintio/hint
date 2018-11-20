@@ -9,12 +9,12 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, TraverseEnd, HintMetadata, HttpHeaders } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, TraverseEnd, HttpHeaders } from 'hint/dist/src/lib/types';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import isLocalFile from 'hint/dist/src/lib/utils/network/is-local-file';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -24,19 +24,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class HighestAvailableDocumentModeHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require highest available document mode'
-        },
-        id: 'highest-available-document-mode',
-        schema: [{
-            additionalProperties: false,
-            properties: { requireMetaElement: { type: 'boolean' } },
-            type: ['object', 'null']
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

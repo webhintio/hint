@@ -1,4 +1,4 @@
-# Enable consistent casing in TypeScript configuration (`consistent-casing`)
+# TypeScript consistent casing (`consistent-casing`)
 
 `typescript-config/consistent-casing` checks if the property `forceConsistentCasingInFileNames`
 is enabled in your TypeScript configuration file (i.e. `tsconfig.json`).

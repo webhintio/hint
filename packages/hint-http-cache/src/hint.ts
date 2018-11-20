@@ -2,13 +2,13 @@
  * @fileoverview Checks if your cache-control header and asset strategy follows best practices
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
-import { IHint, FetchEnd, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -23,30 +23,7 @@ type ParsedDirectives = {
 
 export default class HttpCacheHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Checks if your cache-control header and asset strategy follows best practices`
-        },
-        id: 'http-cache',
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                'string-array': {
-                    items: { type: 'string' },
-                    minItems: 1,
-                    type: 'array',
-                    uniqueItems: true
-                }
-            },
-            properties: {
-                maxAgeResource: { type: 'number' },
-                maxAgeTarget: { type: 'number' },
-                revvingPatterns: { $ref: '#/definitions/string-array' }
-            }
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

@@ -1,4 +1,4 @@
-# SSL Server Test (`ssllabs`)
+# SSL server test (`ssllabs`)
 
 `ssllabs` does a deep analysis of the site's SSL configuration using
 [SSL Labs’ SSL Server Test][ssllabs].

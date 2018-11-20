@@ -11,15 +11,15 @@
 
 import { MediaType, parse } from 'content-type';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IHint, FetchEnd, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -31,19 +31,7 @@ const debug = d(__filename);
 
 export default class ContentTypeHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require `Content-Type` header with appropriate value'
-        },
-        id: 'content-type',
-        schema: [{
-            items: { type: 'string' },
-            type: ['object', 'null'],
-            uniqueItems: true
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

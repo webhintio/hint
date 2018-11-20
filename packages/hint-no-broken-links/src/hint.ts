@@ -4,20 +4,20 @@
  */
 
 import { URL } from 'url';
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import {
     IHint,
     ElementFound,
-    HintMetadata,
     IAsyncHTMLElement
 } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 import { IAsyncHTMLDocument, NetworkData, TraverseEnd } from 'hint/dist/src/lib/types';
 import { CoreOptions } from 'request';
+
+import meta from './meta';
+
 const debug: debug.IDebugger = d(__filename);
 
 /*
@@ -27,23 +27,7 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class NoBrokenLinksHint implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Hint to flag broken links in the page`
-        },
-        id: 'no-broken-links',
-        schema: [{
-            properties: {
-                method: {
-                    pattern: '^([hH][eE][aA][dD])|([gG][eE][tT])$',
-                    type: 'string'
-                }
-            },
-            type: 'object'
-        }],
-        scope: HintScope.site
-    };
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

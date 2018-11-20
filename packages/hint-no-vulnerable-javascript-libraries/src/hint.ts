@@ -8,10 +8,9 @@ import { promisify } from 'util';
 import { groupBy } from 'lodash';
 import * as semver from 'semver';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IHint, CanEvaluateScript, Severity, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, CanEvaluateScript, Severity } from 'hint/dist/src/lib/types';
 import { Library, Vulnerability } from './types';
 
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
@@ -20,7 +19,8 @@ import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -32,28 +32,7 @@ const debug = d(__filename);
 
 export default class NoVulnerableJavascriptLibrariesHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: `This hint checks if the site is running any vulnerable library using https://snyk.io database`
-        },
-        id: 'no-vulnerable-javascript-libraries',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                severity: {
-                    pattern: '^(low|medium|high)$',
-                    type: 'string'
-                }
-            },
-            type: 'object'
-        }],
-        /*
-         * Snyk can not analize a file itself, it needs a connector.
-         * TODO: Change to any once the local connector has jsdom.
-         */
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

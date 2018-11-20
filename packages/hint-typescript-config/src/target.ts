@@ -3,12 +3,12 @@
  * in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined
  * `browserslist` values.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 
 import { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript-config';
+
+import meta from './meta/target';
 
 /*
  * ------------------------------------------------------------------------------
@@ -30,15 +30,7 @@ type Browsers = {
 };
 
 export default class TypeScriptConfigTarget implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`typescript-config/target` warns against providing a `compilerOptions.target` in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined `browserslist` values.'
-        },
-        id: 'typescript-config/target',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const Targets: Map<string, string> = new Map([

@@ -1,4 +1,4 @@
-# Check if the TypeScript target is appropriate (`target`)
+# TypeScript target (`target`)
 
 `typescript-config/target` takes into account your `webhint`'s
 `browserslist` configuration and warns you if your `target`

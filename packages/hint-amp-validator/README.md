@@ -1,4 +1,4 @@
-# AMP HTML Validator (`amp-validator`)
+# AMP HTML validator (`amp-validator`)
 
 > AMP HTML is a way to build web pages that render with reliable and
 fast performance. It is our attempt at fixing what many perceive as

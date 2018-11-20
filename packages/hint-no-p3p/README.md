@@ -1,4 +1,4 @@
-# Disallow `P3P` headers (`no-p3p`)
+# No `P3P` headers (`no-p3p`)
 
 `no-p3p` disallows the use of `P3P` in any form (headers, `rel`
 attribute, and `well-known` location).

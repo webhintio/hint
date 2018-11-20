@@ -1,4 +1,4 @@
-# Warn if the byte-order mark (BOM) character is at beginning of a text file (`no-bom`)
+# No byte-order mark (`no-bom`)
 
 `no-bom` warns against having the byte-order mark (BOM) character
 at the beginning of a text file.

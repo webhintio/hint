@@ -1,13 +1,13 @@
 /**
  * @fileoverview `webpack-config/no-devtool-in-prod` warns against having set the propety `devtool` to `eval`.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
+
+import meta from './meta/no-devtool-in-prod';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -18,15 +18,7 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class WebpackConfigNoDevtoolInProd implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`webpack-config/no-devtool-in-prod` warns against having set the propety `devtool` to `eval`'
-        },
-        id: 'webpack-config/no-devtool-in-prod',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<WebpackConfigEvents>) {
 

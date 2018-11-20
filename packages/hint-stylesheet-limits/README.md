@@ -1,4 +1,4 @@
-# Avoid exceeding CSS stylesheet limits (`stylesheet-limits`)
+# Avoid CSS limits (`stylesheet-limits`)
 
 `stylesheet-limits` checks if CSS exceeds known stylesheet limits.
 

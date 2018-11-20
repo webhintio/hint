@@ -1,4 +1,4 @@
-# Require resources to be served compressed (`http-compression`)
+# Optimal compression (`http-compression`)
 
 `http-compression` warns against serving resources uncompressed
 or using an inappropriate encoding.
