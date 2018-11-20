@@ -22,5 +22,5 @@ export type StrategyData = {
 };
 
 export type BrowserVersions = {
-    [key: string]: string[]
+    [key: string]: string[];
 };

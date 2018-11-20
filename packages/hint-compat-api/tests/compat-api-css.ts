@@ -115,7 +115,7 @@ const removedForPrefixEarlierThanTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, removedForPrefixEarlierThanTargetedBrowsers, { browserslist: ['opera 18-19', 'opera 16',], parsers: ['css']});
+hintRunner.testHint(hintPath, removedForPrefixEarlierThanTargetedBrowsers, { browserslist: ['opera 18-19', 'opera 16'], parsers: ['css']});
 
 const addedForPrefixEqualToTargetedBrowsers: HintTest[] = [
     {

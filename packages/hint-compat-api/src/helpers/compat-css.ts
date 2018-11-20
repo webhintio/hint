@@ -231,13 +231,14 @@ export class CompatCSS {
      * [ 'chrome 66', 'chrome 68', 'chrome 69' ] into ['chrome 66, 67-69']
      *
      */
-    private groupNotSupportedVersions(versions: string[]): string[] {
-        if (!versions) {
+    private groupNotSupportedVersions(notSupportedVersions: string[]): string[] {
+        if (!notSupportedVersions) {
             return [];
         }
 
         const browsers: BrowserVersions = {};
-        versions.forEach((browserAndVersion: string) => {
+
+        notSupportedVersions.forEach((browserAndVersion: string) => {
             const [browser, version] = browserAndVersion.split(' ');
 
             browsers[browser] = browsers[browser] || [];
@@ -247,8 +248,8 @@ export class CompatCSS {
         const groupedVersions = Object.entries(browsers).map(([browser, versions]) => {
             const sortedVersions = versions.sort();
             let grouped = '';
-
             let groupStarted = false;
+
             sortedVersions.forEach((value, i) => {
                 const nextValue = sortedVersions[i + 1];
 
