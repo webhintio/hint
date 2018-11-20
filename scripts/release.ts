@@ -697,9 +697,20 @@ const updatePackageVersionNumberInOtherPackages = (ctx: TaskContext) => {
     for (const pkg of packages) {
 
         const packageJSONFilePath = `${pkg}/package.json`;
-        const packageJSONFileContent = require(`../../${packageJSONFilePath}`);
-        const dependencyName = ctx.packageName === 'hint' ? ctx.packageName : `@hint/${ctx.packageName}`;
+        let packageJSONFileContent: any;
 
+        /*
+         * If the package doesn't have a valid `package.json` file,
+         * skip to the next package.
+         */
+
+        try {
+            packageJSONFileContent = require(`../../${packageJSONFilePath}`);
+        } catch {
+            continue;
+        }
+
+        const dependencyName = ctx.packageName === 'hint' ? ctx.packageName : `@hint/${ctx.packageName}`;
         let packageJSONFileHasBeenUpdated = false;
 
         [
