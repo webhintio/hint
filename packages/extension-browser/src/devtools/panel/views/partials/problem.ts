@@ -1,6 +1,6 @@
 import { Problem } from 'hint/dist/src/lib/types/problems';
 
-import browser from '../../../../shared/browser';
+import { browser } from '../../../../shared/globals';
 import html from '../../../../shared/html-literal';
 
 import './problem.css';

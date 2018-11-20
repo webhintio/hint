@@ -10,7 +10,7 @@ import CSSParser from '@hint/parser-css';
 import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
-import browser from '../shared/browser';
+import { browser, location } from '../shared/globals';
 import { Config, Events } from '../shared/types';
 
 import WebExtensionConnector from './connector';

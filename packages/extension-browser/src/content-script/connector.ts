@@ -14,7 +14,7 @@ import {
 
 import { Events } from '../shared/types';
 import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-html';
-import browser from '../shared/browser';
+import { browser, document, location, window } from '../shared/globals';
 
 export default class WebExtensionConnector implements IConnector {
     private _document = new AsyncHTMLDocument(document);
@@ -126,6 +126,7 @@ export default class WebExtensionConnector implements IConnector {
         return responseHeaders;
     }
 
+    /* istanbul ignore next */
     public async fetchContent(target: string, headers?: any): Promise<NetworkData> {
         return await fetch(target, { headers }).then(async (response) => {
             const responseHeaders = this.mapResponseHeaders(response.headers);
@@ -165,12 +166,10 @@ export default class WebExtensionConnector implements IConnector {
         });
     }
 
-    /* istanbul ignore next */
     public evaluate(source: string): Promise<any> {
         return Promise.resolve(this._window.evaluate(source));
     }
 
-    /* istanbul ignore next */
     public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
         return this._document.querySelectorAll(selector);
     }
@@ -180,7 +179,6 @@ export default class WebExtensionConnector implements IConnector {
         return Promise.resolve();
     }
 
-    /* istanbul ignore next */
     public get dom(): IAsyncHTMLDocument {
         return this._document;
     }

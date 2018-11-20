@@ -1,6 +1,6 @@
 import { FetchEnd, FetchStart, Request, Response } from 'hint/dist/src/lib/types';
 import { Config, Details, Events } from './shared/types';
-import browser from './shared/browser';
+import { browser } from './shared/globals';
 import { mapHeaders } from './shared/headers';
 
 // Track data associated with all outstanding requests by `requestId`.
