@@ -20,3 +20,7 @@ export type StrategyData = {
     featureName: string;
     featureInfo: any;
 };
+
+export type BrowserVersions = {
+    [key: string]: string[];
+};

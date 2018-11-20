@@ -21,8 +21,8 @@ export class CompatApi {
         this.compatDataApi = this.filterCompatDataByBrowsers(browsers);
     }
 
-    private filterCompatDataByBrowsers(browsers: BrowserSupportCollection): any {
-        const compatDataApi = {} as MDNTreeFilteredByBrowsers;
+    private filterCompatDataByBrowsers(browsers: BrowserSupportCollection): MDNTreeFilteredByBrowsers {
+        const compatDataApi: MDNTreeFilteredByBrowsers = {};
 
         Object.entries(this.compatDataApi).forEach(([namespaceFeaturesKey, namespaceFeaturesValues]) => {
             compatDataApi[namespaceFeaturesKey] = this.filterNamespacesDataByBrowsers(browsers, namespaceFeaturesValues);
@@ -47,23 +47,21 @@ export class CompatApi {
         return namespaceFeatures;
     }
 
-    private filterFeatureByBrowsers(featureValue: any, browsers: BrowserSupportCollection): CompatStatement | null {
+    private filterFeatureByBrowsers(featureValue: CompatStatement & MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection): CompatStatement | null {
         const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
-        if (featureValue && featureValue.__compat) {
-            typedFeatures.__compat = featureValue.__compat;
-        }
+        typedFeatures.__compat = featureValue.__compat;
 
         const isChildRequired = this.getFeaturesAndChildrenRequiredToTest(typedFeatures, featureValue, browsers);
 
-        if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue as CompatStatement & MDNTreeFilteredByBrowsers, browsers)) {
+        if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue, browsers)) {
             return null;
         }
 
         return typedFeatures;
     }
 
-    private getFeaturesAndChildrenRequiredToTest(typedFeatures: CompatStatement & MDNTreeFilteredByBrowsers, featureValue: any, browsers: BrowserSupportCollection): boolean {
+    private getFeaturesAndChildrenRequiredToTest(typedFeatures: CompatStatement & MDNTreeFilteredByBrowsers, featureValue: CompatStatement & MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection): boolean {
         if (typeof featureValue === 'object' && Object.keys(featureValue).length > 1) {
             return Object.entries(featureValue as object).some(([childKey, childValue]) => {
 
@@ -80,16 +78,27 @@ export class CompatApi {
         return false;
     }
 
-    public getSupportStatementFromInfo(browserFeatureSupported?: SupportStatement, prefix?: string): SimpleSupportStatement | undefined {
+    /**
+     * @method getSupportStatementFromInfo
+     * Checks mdn compat data for support info on the targeted browsers.
+     * In it's simplest form, the data defaults to info provided in an object of the non-prefixed version of the feature.
+     * Sometimes though, it is an array. In this case, we get the info relevant to the user.
+     * Example:
+     * firefox: [{version_added: "29"}, {prefix: "-webkit-", version_added: 22}, {prefix: "-moz-", version_added: 20}]
+     * If the user wishes to target firefox browsers and has not used a prefix, the support statement returned will be {version_added: "29"}
+     * If the user has used a prefix and the prefix is "-webkit", the support statement returned will be {prefix: "-webkit-", version_added: 22}
+     * If the user has used a prefix and the prefix is "-moz", the support statement returned will be {prefix: "-webkit-", version_added: 20}
+     */
+    public getSupportStatementFromInfo(browserFeatureSupported?: SupportStatement, prefix?: string): SimpleSupportStatement | null {
         let currentBrowserFeatureSupported = browserFeatureSupported;
 
         // If we dont have information about the compatibility, ignore.
         if (!currentBrowserFeatureSupported) {
-            return currentBrowserFeatureSupported;
+            return null;
         }
 
         if (!Array.isArray(currentBrowserFeatureSupported) && currentBrowserFeatureSupported.prefix && currentBrowserFeatureSupported.prefix !== prefix) {
-            return undefined;
+            return null;
         }
 
         // Sometimes the API give an array but only the first seems relevant
@@ -109,10 +118,19 @@ export class CompatApi {
     }
 
     /* eslint-disable camelcase */
-    public getWorstCaseSupportStatementFromInfo(browserFeatureSupported: SupportStatement | undefined): SimpleSupportStatement | undefined {
+    /**
+     * @method getWorstCaseSupportStatementFromInfo
+     * {version_added: "43"} returns {version_added: "43", version_removed: undefined}
+     * {version_added: "12", version_removed: "15"} returns {version_added: "412", version_removed: "15"}
+     * [{version_added: "43"}, {prefix: "-webkit-", version_added: true}] is reduced to {version_added: "43", version_removed: undefined}
+     * [{version_added: "29"}, {prefix: "-webkit-", version_added: 21}] is reduced to {version_added: "29", version_removed: undefined}
+     * [{version_added: "12.1", "version_removed": "15"}, {prefix: "-o-", version_added: 12, version_removed: false}] is reduced to {version_added: "15", version_removed: 15}
+     * [{version_added: "12.1", "version_removed": "15"}, {prefix: "-webkit-", version_added: 12, version_removed: 13}] is reduced to {version_added: "15", version_removed: 13}
+     */
+    public getWorstCaseSupportStatementFromInfo(browserFeatureSupported: SupportStatement | null): SimpleSupportStatement | null {
         // If we don't have information about the compatibility, ignore.
         if (!browserFeatureSupported) {
-            return browserFeatureSupported;
+            return null;
         }
 
         // Take the smaller version_removed and bigger version_added
@@ -168,12 +186,25 @@ export class CompatApi {
             const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
 
             if (this.isCheckingNotBroadlySupported) {
-                if (addedVersion === false || addedVersion || (addedVersion && browserVersionsList[0] <= browserVersions.normalize(addedVersion))) {
+                // Boolean check
+                if (typeof addedVersion === 'boolean' && addedVersion === false) {
                     return true;
                 }
 
-            } else if (removedVersion || (removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion))) {
-                return true;
+                // Version check
+                if (typeof addedVersion !== 'boolean' && addedVersion && browserVersionsList[0] <= browserVersions.normalize(addedVersion)) {
+                    return true;
+                }
+            } else {
+                // Boolean check
+                if (typeof removedVersion === 'boolean' && removedVersion === true) {
+                    return true;
+                }
+
+                // Version check
+                if (typeof removedVersion !== 'boolean' && removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion)) {
+                    return true;
+                }
             }
 
             return false;

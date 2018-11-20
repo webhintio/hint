@@ -9,7 +9,7 @@ import { IHint, HintMetadata, ProblemLocation } from 'hint/dist/src/lib/types';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { CompatApi, userBrowsers, CompatCSS } from './helpers';
 import { BrowserSupportCollection } from './types';
-import { SimpleSupportStatement } from './types-mdn.temp';
+import { SimpleSupportStatement, SupportStatement } from './types-mdn.temp';
 import { browserVersions } from './helpers/normalize-version';
 
 /*
@@ -52,7 +52,7 @@ export default class implements IHint {
         this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, this.mdnBrowsersCollection, styleParse);
     }
 
-    private testFeatureIsSupportedInBrowser(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: any, featureName: string, prefix?: string, location?: ProblemLocation): void {
+    private testFeatureIsSupportedInBrowser(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, browserInfo: SupportStatement, featureName: string, prefix?: string, location?: ProblemLocation): void {
         if (!this.compatApi.isBrowserToSupportPartOfBrowsersCollection(browsersToSupport, browserToSupportName)) {
             return;
         }
@@ -96,8 +96,7 @@ export default class implements IHint {
         const notSupportedVersions = this.getNotSupportedVersionByBrowsers(browsersToSupport, browserToSupportName, removedVersionNumber);
 
         if (notSupportedVersions.length > 0) {
-            const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
-            const message = `${featureName} ${usedPrefix ? usedPrefix : ''}is not supported on ${notSupportedVersions.join(', ')} browsers.`;
+            const message = this.compatCSS.generateNotSupportedVersionsError(featureName, notSupportedVersions, 'supported', prefix);
 
             this.compatCSS.reportError(featureName, message, location);
         }

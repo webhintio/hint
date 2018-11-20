@@ -7,7 +7,7 @@ import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
-import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection, CSSTestFunction, StrategyData } from '../types';
+import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection, CSSTestFunction, StrategyData, BrowserVersions } from '../types';
 import { CachedCompatFeatures } from './cached-compat-features';
 import { SupportBlock } from '../types-mdn.temp';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -116,7 +116,7 @@ export class CompatCSS {
         return selectedStrategy as FeatureStrategy<ChildNode>;
     }
 
-    private testFeature (strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): void {
+    private testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): void {
         const strategyData = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
 
         if (!strategyData) {
@@ -126,7 +126,7 @@ export class CompatCSS {
         const { prefix, featureInfo, featureName } = strategyData;
 
         if (this.cachedFeatures.isCached(featureName)) {
-            this.cachedFeatures.showCachedErrors(featureName, this.hintContext);
+            this.cachedFeatures.showCachedErrors(featureName, this.hintContext, location);
 
             return;
         }
@@ -145,12 +145,13 @@ export class CompatCSS {
         });
     }
 
-    public validateStrategy (strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): StrategyData | null {
+    public validateStrategy(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): StrategyData | null {
         let [prefix, featureName] = this.getPrefix(featureNameWithPrefix);
 
         const strategyContent: any = data[strategyName];
 
         if (!strategyContent) {
+            // Review: Throw an error
             debug('Error: The strategy does not exist.');
 
             return null;
@@ -186,7 +187,26 @@ export class CompatCSS {
         };
     }
 
-    public wasBrowserSupportedInSometime (browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
+    private getPrefix(name: string): [string | undefined, string] {
+        const regexp = /-(moz|o|webkit|ms)-/gi;
+        const matched = name.match(regexp);
+        const prefix = matched && matched.length > 0 ? matched[0] : undefined;
+
+        return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
+    }
+
+    public reportError(featureName: string, message: string, location?: ProblemLocation): void {
+        this.cachedFeatures.addError(featureName, this.hintResource, message, location);
+        this.hintContext.report(this.hintResource, null, message, featureName, location);
+    }
+
+    public reportIfThereIsNoInformationAboutCompatibility(message: string, browsersToSupport: BrowserSupportCollection, browserToSupportName: string, featureName: string, location?: ProblemLocation) {
+        if (!this.wasBrowserSupportedInSometime(browsersToSupport, browserToSupportName) && Object.keys(browsersToSupport).includes(browserToSupportName)) {
+            this.reportError(featureName, message, location);
+        }
+    }
+
+    public wasBrowserSupportedInSometime(browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
         return Object.entries(browsersToSupport).some(([browserName]) => {
             if (browserName !== browserToSupportName) {
                 return false;
@@ -196,22 +216,70 @@ export class CompatCSS {
         });
     }
 
-    private getPrefix(name: string): [string | undefined, string] {
-        const regexp = new RegExp(`-(moz|o|webkit|ms)-`, 'gi');
-        const matched = name.match(regexp);
-        const prefix = matched && matched.length > 0 ? matched[0] : undefined;
+    public generateNotSupportedVersionsError(featureName: string, notSupportedVersions: string[], statusName: string, prefix?: string): string {
+        const usedPrefix = prefix ? `prefixed with ${prefix} ` : '';
+        const groupedNotSupportedVersions = this.groupNotSupportedVersions(notSupportedVersions);
 
-        return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
+        return `${featureName} ${usedPrefix ? usedPrefix : ''}is not ${statusName} on ${groupedNotSupportedVersions.join(', ')} browser${notSupportedVersions.length > 1 ? 's' : ''}.`;
     }
 
-    public reportError (featureName: string, message: string, location?: ProblemLocation): void {
-        this.cachedFeatures.addError(featureName, this.hintResource, message, location);
-        this.hintContext.report(this.hintResource, null, message, featureName, location);
-    }
-
-    public reportIfThereIsNoInformationAboutCompatibility(message: string, browsersToSupport: BrowserSupportCollection, browserToSupportName: string, featureName: string, location?: ProblemLocation) {
-        if (!this.wasBrowserSupportedInSometime(browsersToSupport, browserToSupportName) && Object.keys(browsersToSupport).includes(browserToSupportName)) {
-            this.reportError(featureName, message, location);
+    /**
+     * @method groupNotSupportedVersions
+     * Examples:
+     * [ 'chrome 66', 'chrome 69' ] into ['chrome 66, 69']
+     * [ 'chrome 67', 'chrome 68', 'chrome 69' ] into ['chrome 67-69']
+     * [ 'chrome 66', 'chrome 68', 'chrome 69' ] into ['chrome 66, 67-69']
+     *
+     */
+    private groupNotSupportedVersions(notSupportedVersions: string[]): string[] {
+        if (!notSupportedVersions) {
+            return [];
         }
+
+        const browsers: BrowserVersions = {};
+
+        notSupportedVersions.forEach((browserAndVersion: string) => {
+            const [browser, version] = browserAndVersion.split(' ');
+
+            browsers[browser] = browsers[browser] || [];
+            browsers[browser].push(version);
+        });
+
+        const groupedVersions = Object.entries(browsers).map(([browser, versions]) => {
+            const sortedVersions = versions.sort();
+            let grouped = '';
+            let groupStarted = false;
+
+            sortedVersions.forEach((value, i) => {
+                const nextValue = sortedVersions[i + 1];
+
+                if (!groupStarted) {
+                    grouped += `${browser} ${value}`;
+                }
+
+                if (nextValue && Number(nextValue) - Number(value) > 1) {
+                    if (groupStarted) {
+                        groupStarted = false;
+                        grouped += value;
+                    }
+
+                    grouped += ', ';
+                }
+
+                if (!groupStarted && nextValue && Number(nextValue) - Number(value) === 1) {
+                    groupStarted = true;
+                    grouped += '-';
+                }
+
+                if (groupStarted && !nextValue) {
+                    groupStarted = false;
+                    grouped += value;
+                }
+            });
+
+            return grouped;
+        });
+
+        return groupedVersions;
     }
 }
