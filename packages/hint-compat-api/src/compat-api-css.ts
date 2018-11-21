@@ -5,12 +5,14 @@
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, ProblemLocation } from 'hint/dist/src/lib/types';
+import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { CompatApi, userBrowsers, CompatCSS } from './helpers';
 import { BrowserSupportCollection } from './types';
 import { SimpleSupportStatement, SupportStatement } from './types-mdn.temp';
 import { browserVersions } from './helpers/normalize-version';
+
+import meta from './meta/compat-api-css';
 
 /*
  * ------------------------------------------------------------------------------
@@ -19,15 +21,7 @@ import { browserVersions } from './helpers/normalize-version';
  */
 
 export default class implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: `Hint to validate if the CSS features of the project are deprecated`
-        },
-        id: 'compat-api-css',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     private mdnBrowsersCollection: BrowserSupportCollection;
     private compatApi: CompatApi;
