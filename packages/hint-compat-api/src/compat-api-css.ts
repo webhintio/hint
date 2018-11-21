@@ -2,11 +2,9 @@
  * @fileoverview Hint to validate if the CSS features of the project are deprecated
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
-import { StyleParse } from '@hint/parser-css/dist/src/types';
+import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
 import { CompatApi, userBrowsers, CompatCSS } from './helpers';
 import { BrowserSupportCollection } from './types';
 import { SimpleSupportStatement, SupportStatement } from './types-mdn.temp';
@@ -27,14 +25,14 @@ export default class implements IHint {
     private compatApi: CompatApi;
     private compatCSS: CompatCSS;
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<StyleEvents>) {
         this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         this.compatApi = new CompatApi('css', this.mdnBrowsersCollection);
         this.compatCSS = new CompatCSS(context, (...params) => {
             this.testFeatureIsSupportedInBrowser(...params);
         });
 
-        context.on('parse::css::end', async (styleParse: StyleParse) => {
+        context.on('parse::end::css', async (styleParse: StyleParse) => {
             await this.onParseCSS(styleParse);
         });
     }

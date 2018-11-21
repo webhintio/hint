@@ -197,7 +197,7 @@ export class CompatCSS {
 
     public async reportError(featureName: string, message: string, location?: ProblemLocation): Promise<void> {
         this.cachedFeatures.addError(featureName, this.hintResource, message, location);
-        await this.hintContext.report(this.hintResource, null, message, featureName, location);
+        await this.hintContext.report(this.hintResource, message, { location });
     }
 
     public async reportIfThereIsNoInformationAboutCompatibility(message: string, browsersToSupport: BrowserSupportCollection, browserToSupportName: string, featureName: string, location?: ProblemLocation): Promise<void> {

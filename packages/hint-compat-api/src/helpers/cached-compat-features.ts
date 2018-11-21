@@ -38,7 +38,7 @@ export class CachedCompatFeatures {
         });
     }
 
-    public async showCachedErrors(featureName: string, context: HintContext, location?: ProblemLocation): Promise<void> {
+    public async showCachedErrors(featureName: string, context: HintContext, newLocation?: ProblemLocation): Promise<void> {
         const cachedErrors = this.cachedFeatures[featureName];
 
         if (!cachedErrors || cachedErrors.length < 1) {
@@ -46,7 +46,8 @@ export class CachedCompatFeatures {
         }
 
         await cachedErrors.forEach(async (cachedFeature: CachedFeature) => {
-            await context.report(cachedFeature.resource, null, cachedFeature.message, featureName, location || cachedFeature.location);
+            const location = newLocation || cachedFeature.location;
+            await context.report(cachedFeature.resource, cachedFeature.message, { location });
         });
     }
 }
