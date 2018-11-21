@@ -58,7 +58,7 @@ export default class WebExtensionConnector implements IConnector {
         };
 
         if (document.readyState === 'complete') {
-            onLoad();
+            setTimeout(onLoad, 0);
         } else {
             window.addEventListener('load', onLoad);
         }

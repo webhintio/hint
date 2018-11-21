@@ -1,4 +1,3 @@
-import { readFile } from 'fs';
 import { JSDOM } from 'jsdom';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
@@ -8,6 +7,8 @@ import { Category } from 'hint/dist/src/lib/enums/category';
 import { FetchEnd } from 'hint/dist/src/lib/types';
 
 import { Config, Events, Results } from '../src/shared/types';
+
+import { readFixture } from './utils/helpers';
 
 const base = '../src/content-script';
 const paths: { [name: string]: string } = {
@@ -36,18 +37,6 @@ const browser = {
 const sendMessage = (event: Events) => {
     listeners.forEach((listener) => {
         listener(event);
-    });
-};
-
-const readFixture = (name: string): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        readFile(`${__dirname}/fixtures/${name}`, 'utf-8', (err, contents) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(contents);
-            }
-        });
     });
 };
 
