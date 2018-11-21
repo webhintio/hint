@@ -47,6 +47,7 @@ export class CachedCompatFeatures {
 
         await cachedErrors.forEach(async (cachedFeature: CachedFeature) => {
             const location = newLocation || cachedFeature.location;
+
             await context.report(cachedFeature.resource, cachedFeature.message, { location });
         });
     }
