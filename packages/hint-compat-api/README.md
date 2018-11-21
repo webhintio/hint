@@ -1,15 +1,19 @@
-# compat-api (`@hint/hint-compat-api`)
+# Compatibility of CSS, HTML and JavaScript features (`compat-api`)
 
-description
+`compat api` contains hints to check if your CSS
+HTML and JavaScript have deprecated or not
+broadly supported features.
 
 ## Why is this important?
 
-Explain why this package is important for your users
+You need to know if all the properties that you are
+using in your files are compatible with the target
+browsers that you want to support.
 
 ## Hints
 
-* [compat-api/compat-api-css][compat-api-css]
-* [compat-api/compat-api-css-next][compat-api-css-next]
+* [compat-api-css][compat-api-css]
+* [compat-api-css-next][compat-api-css-next]
 
 ## How to use these hints?
 
@@ -19,33 +23,31 @@ To use it you will have to install it via `npm`:
 npm install @hint/hint-compat-api
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+Note: You can make `npm` install it as a `devDependency` using the
+`--save-dev` parameter, or to install it globally, you can use the
+`-g` parameter. For other options see [`npm`'s
+documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
-    "parsers": [...],
     "hints": {
-        "compat-api/compat-api-css": "error",
-        "compat-api/compat-api-css-next": "error"
+        "compat-api-css": "error",
+        "compat-api-css-next": "error",
+        ...
     },
+    "parsers": [...],
     ...
 }
 ```
 
 ## Further Reading
 
-What can the user read to know more about this subject?
-
 <!-- Link labels: -->
 
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
 [compat-api-css]: ./docs/compat-api-css.md
 [compat-api-css-next]: ./docs/compat-api-css-next.md
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
