@@ -3,13 +3,41 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-const eslint = { SourceCode() { } };
-const espree = { parse() { } };
-const element = { getAttribute() { }, outerHTML() { } };
+type Element = {
+    getAttribute: () => string | null;
+    outerHTML: () => Promise<string>;
+};
+
+type Eslint = {
+    SourceCode: () => {};
+};
+
+type Espree = {
+    parse: () => {};
+};
+
+const eslint: Eslint = {
+    SourceCode() {
+        return {};
+    }
+};
+const espree: Espree = {
+    parse() {
+        return {};
+    }
+};
+const element: Element = {
+    getAttribute() {
+        return null;
+    },
+    outerHTML() {
+        return Promise.resolve('');
+    }
+};
 
 proxyquire('../src/parser', {
     // eslint-disable-next-line
-    'eslint/lib/util/source-code': function(...args: any[]) {
+    'eslint/lib/util/source-code': function (...args: any[]) {
         return Reflect.construct(eslint.SourceCode, args, new.target);
     },
     espree

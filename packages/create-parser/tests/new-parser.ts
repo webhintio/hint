@@ -6,10 +6,18 @@ import * as InquirerTypes from 'inquirer';
 
 import * as handlebarsUtils from '../src/handlebars-utils';
 
+type NormalizeStringByDelimiter = {
+    default: () => string
+};
+
 const fsExtra = { copy() { } };
 const inquirer = { prompt() { } };
 const isOfficial = { default() { } };
-const normalizeStringByDelimiter = { default() { } };
+const normalizeStringByDelimiter: NormalizeStringByDelimiter = {
+    default() {
+        return '';
+    }
+};
 const readFileAsync = { default() { } };
 const writeFileAsync = { default() { } };
 
@@ -35,7 +43,7 @@ test.beforeEach((t) => {
     sinon.stub(writeFileAsync, 'default').resolves();
     sinon.stub(normalizeStringByDelimiter, 'default').returns('');
     sinon.stub(readFileAsync, 'default').resolves('');
-    sinon.stub(handlebarsUtils, 'compileTemplate').returns('');
+    sinon.stub(handlebarsUtils, 'compileTemplate').resolves('');
 
     t.context.fs = fsExtra;
     t.context.misc = {

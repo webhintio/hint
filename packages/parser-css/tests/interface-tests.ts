@@ -3,8 +3,28 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-const postcss = { parse() { } };
-const element = { getAttribute() { }, outerHTML() { } };
+type Element = {
+    getAttribute: () => string | null;
+    outerHTML: () => Promise<string>;
+};
+
+type Postcss = {
+    parse: () => {};
+};
+
+const postcss: Postcss = {
+    parse() {
+        return {};
+    }
+};
+const element: Element = {
+    getAttribute() {
+        return null;
+    },
+    outerHTML() {
+        return Promise.resolve('');
+    }
+};
 
 proxyquire('../src/parser', { postcss });
 

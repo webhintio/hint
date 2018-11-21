@@ -6,11 +6,15 @@ import test from 'ava';
 
 import * as handlebarsUtils from '../src/handlebars-utils';
 
+type FsExtra = {
+    copy: (orig: string, dest: string) => void;
+};
+
 const inquirer = { prompt() { } };
 const writeFileAsyncModule = { default() { } };
 const isOfficialModule = { default() { } };
 
-const fsExtra = { copy() { } };
+const fsExtra: FsExtra = { copy(orig: string, dest: string) { } };
 const mkdirp = (dir: string, callback: Function) => {
     callback();
 };
@@ -41,7 +45,7 @@ test.serial('It creates a hint if the option multiple hints is false', async (t)
 
     const fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
     const miscWriteFileAsyncStub = sandbox.stub(writeFileAsyncModule, 'default').resolves();
-    const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').returns('');
+    const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').resolves('');
 
     sandbox.stub(isOfficialModule, 'default').resolves(true);
     sandbox.stub(process, 'cwd').returns(root);
@@ -86,7 +90,7 @@ test.serial('It creates a package with multiple hints', async (t) => {
 
     const fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
     const miscWriteFileAsyncStub = sandbox.stub(writeFileAsyncModule, 'default').resolves();
-    const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').returns('');
+    const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').resolves('');
 
     sandbox.stub(isOfficialModule, 'default').resolves(false);
     sandbox.stub(process, 'cwd').returns(root);

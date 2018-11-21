@@ -5,11 +5,25 @@ import test from 'ava';
 
 import { NpmPackage } from 'hint/dist/src/lib/types';
 
+type Npm = {
+    getOfficialPackages: () => NpmPackage[] | null;
+    installPackages: () => boolean;
+};
+
+type ResourceLoader = {
+    getCoreResources: () => [] | null;
+    getInstalledResources: () => string[] | null;
+};
+
 const inquirer = { prompt() { } };
 const stubBrowserslistObject = { generateBrowserslistConfig() { } };
-const resourceLoader = {
-    getCoreResources() { },
-    getInstalledResources() { }
+const resourceLoader: ResourceLoader = {
+    getCoreResources() {
+        return null;
+    },
+    getInstalledResources() {
+        return null;
+    }
 };
 const child = { spawnSync() { } };
 const fs = {
@@ -21,9 +35,13 @@ const logger = {
     log() { }
 };
 
-const npm = {
-    getOfficialPackages() { },
-    installPackages() { }
+const npm: Npm = {
+    getOfficialPackages() {
+        return null;
+    },
+    installPackages() {
+        return false;
+    }
 };
 
 const promisifyObject = { promisify() { } };
