@@ -16,7 +16,7 @@ that are not supported by your targeted browsers, taking into account prefixes.
 
 The [box-flex](https://developer.mozilla.org/en-US/docs/Web/CSS/box-flex) was
 never added for any version of Internet Explorer. If Internet Explorer is
-being targeted, using the box-flex property will trigger the hint.
+being targeted, using the `box-flex` property will trigger the hint.
 
 ```css
 .example {
