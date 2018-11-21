@@ -10,6 +10,7 @@ class BrowserVersions {
     private charForPad = '0';
     private itemsInColum = 2; // Assuming that worst case is xx.xx.xx
     private itemsInColumns = 6;
+    public unit = 10000;
 
     /**
      * @method normalize

@@ -10,6 +10,7 @@ import { find } from 'lodash';
 import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection, CSSTestFunction, StrategyData, BrowserVersions } from '../types';
 import { CachedCompatFeatures } from './cached-compat-features';
 import { SupportBlock } from '../types-mdn.temp';
+import { browserVersions } from './normalize-version';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 const debug: debug.IDebugger = d(__filename);
@@ -252,12 +253,14 @@ export class CompatCSS {
 
             sortedVersions.forEach((value, i) => {
                 const nextValue = sortedVersions[i + 1];
+                const nNextValue = nextValue ? browserVersions.normalize(nextValue) : null;
+                const nValue = browserVersions.normalize(value);
 
                 if (!groupStarted) {
                     grouped += `${browser} ${value}`;
                 }
 
-                if (nextValue && Number(nextValue) - Number(value) > 1) {
+                if (nNextValue && nNextValue - nValue > browserVersions.unit) {
                     if (groupStarted) {
                         groupStarted = false;
                         grouped += value;
@@ -266,7 +269,7 @@ export class CompatCSS {
                     grouped += ', ';
                 }
 
-                if (!groupStarted && nextValue && Number(nextValue) - Number(value) === 1) {
+                if (!groupStarted && nNextValue && nNextValue - nValue <= browserVersions.unit) {
                     groupStarted = true;
                     grouped += '-';
                 }

@@ -45,10 +45,10 @@ export class CachedCompatFeatures {
             return;
         }
 
-        await cachedErrors.forEach(async (cachedFeature: CachedFeature) => {
+        for (const cachedFeature of cachedErrors) {
             const location = newLocation || cachedFeature.location;
 
             await context.report(cachedFeature.resource, cachedFeature.message, { location });
-        });
+        }
     }
 }

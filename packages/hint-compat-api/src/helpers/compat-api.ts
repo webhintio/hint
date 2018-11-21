@@ -212,12 +212,10 @@ export class CompatApi {
     }
 
     public isBrowserToSupportPartOfBrowsersCollection(browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
-        if (!Object.keys(browsersToSupport).some((browser) => {
+        const isBrowserInsideCollection = Object.keys(browsersToSupport).some((browser) => {
             return browser === browserToSupportName;
-        })) {
-            return false;
-        }
+        })
 
-        return true;
+        return isBrowserInsideCollection;
     }
 }
