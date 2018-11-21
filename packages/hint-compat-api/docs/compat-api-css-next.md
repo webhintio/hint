@@ -1,6 +1,7 @@
 # Check for CSS features that are not broadly supported
 
 ## What does the hint check?
+
 `compat-api-css-next` checks if the CSS features used are
 supported in the [targeted browsers][browser-context].
 
