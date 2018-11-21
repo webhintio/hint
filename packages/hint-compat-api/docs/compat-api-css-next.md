@@ -72,7 +72,7 @@ The [box-flex][box-flex] property
 was added with prefixes for Chrome, Firefox, Opera, and Safari.
 [MDN compat data][browser-compat] does not specify which versions
 they were added in, asserting that the property is supported with
-prefixes, regardless of version. If box-flex is used with prefixes,
+prefixes, regardless of version. If `box-flex` is used with prefixes,
 it should pass the hint for these browsers.
 
 ```css
