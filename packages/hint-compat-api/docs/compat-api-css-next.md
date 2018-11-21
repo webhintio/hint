@@ -35,7 +35,8 @@ will trigger the hint.
 }
 ```
 
-The at-rule [keyframes][keyframes] was added for versions of Chrome 43 and onwards. Using `@keyframes`
+The at-rule [keyframes][keyframes] was added for versions of
+Chrome 43 and onwards. Using `@keyframes`
 while targeting Chrome browsers of versions less than 43
 will trigger the hint.
 
@@ -60,6 +61,7 @@ versions less than 21 will trigger the hint.
 ```
 
 ### Examples that **pass** the hint
+
 The [charset][charset]
 at-rule was added from Chrome version 2. It should pass the hint for
 versions of Chrome from 2 onwards.
@@ -98,7 +100,8 @@ if there is no information available on when, or if, the feature was added.
 This hint throws errors for CSS features that are not supported in any of the
 [targeted browsers][targeted-browsers] listed.
 
-The targeted browsers can be defined in either the `.hintrc` or `package.json` file.
+The targeted browsers can be defined in either the `.hintrc` or
+`package.json` file.
 This property follows the same convention as [browserslist][browserslist].
 
 ```json

@@ -1,7 +1,8 @@
 # Check for Deprecated CSS features
 
 ## What does the hint check?
-`compat-api-css` checks if the CSS features used are deprecated in the [targeted browsers][browser-context].
+`compat-api-css` checks if the CSS features used are deprecated in the
+[targeted browsers][browser-context].
 
 ## Why is this important?
 
@@ -14,8 +15,9 @@ taking into account prefixes.
 
 ### Examples that **trigger** the hint
 
-The [box-lines](https://developer.mozilla.org/en-US/docs/Web/CSS/box-lines) property
-was added with the `-webkit-` prefix for Chrome and removed from versions of Chrome 67 and onwards.
+The [box-lines][box-lines] property
+was added with the `-webkit-` prefix for Chrome and removed from versions of
+Chrome 67 and onwards.
 Targeted Chrome browsers of versions 67 and up will trigger the hint.
 
 ```css
@@ -24,7 +26,7 @@ Targeted Chrome browsers of versions 67 and up will trigger the hint.
 }
 ```
 
-The `padding-box` value of the [box-sizing](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing)
+The `padding-box` value of the [box-sizing][box-sizing]
 property is deprecated and was removed in Firefox 50.
 Targeted Firefox browsers of versions 50 and up will trigger the hint.
 
@@ -34,7 +36,7 @@ Targeted Firefox browsers of versions 50 and up will trigger the hint.
 }
 ```
 
-The non-prefixed [keyframes](https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes)
+The non-prefixed [keyframes][keyframes]
 at-rule was removed from Opera 15. Targeted Opera browsers of versions 15
 and up will trigger the hint if the at-rule is used without the `-webkit-` prefix.
 
@@ -47,7 +49,7 @@ and up will trigger the hint if the at-rule is used without the `-webkit-` prefi
 ```
 
 ### Examples that **pass** the hint
-The [background](https://developer.mozilla.org/en-US/docs/Web/CSS/background) property was never
+The [background][background] property was never
 removed for any browser. It should always pass the hint.
 
 ```css
@@ -56,7 +58,7 @@ removed for any browser. It should always pass the hint.
 }
 ```
 
-The [box-lines](https://developer.mozilla.org/en-US/docs/Web/CSS/box-lines) property
+The [box-lines][box-lines] property
 was added with prefixes for Chrome, Opera and Safari. Although the prefixed property
 was removed for these browsers subsequently, using the property without a prefix will
 not trigger the hint since the non-prefixed version of `box-lines` was never added
@@ -70,9 +72,11 @@ and thus never deprecated.
 
 ## Can the hint be configured?
 
-This hint throws errors for CSS features that have been deprecated in any of the [targeted browsers](../../hint/docs/user-guide/configuring-webhint/browser-context.md) listed.
+This hint throws errors for CSS features that have been deprecated in any
+of the [targeted browsers][targeted-browsers] listed.
 
-The targeted browsers can be defined in either the `.hintrc` or `package.json` file. This property follows the same convention as [browserlist](https://github.com/browserslist/browserslist#readme).
+The targeted browsers can be defined in either the `.hintrc` or `package.json` file.
+This property follows the same convention as [browserslist][browserslist].
 
 ```json
 {
@@ -90,7 +94,12 @@ The targeted browsers can be defined in either the `.hintrc` or `package.json` f
 
 <!-- Link labels: -->
 
-[docmdn]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[background]: https://developer.mozilla.org/en-US/docs/Web/CSS/background
+[box-lines]: https://developer.mozilla.org/en-US/docs/Web/CSS/box-lines
+[box-sizing]: https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing
 [browser-compat]: https://github.com/mdn/browser-compat-data
 [browser-context]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
-
+[browserslist]: https://github.com/browserslist/browserslist#readme
+[docmdn]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[keyframes]: https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes
+[targeted-browsers]: ../../hint/docs/user-guide/configuring-webhint/browser-context.md
