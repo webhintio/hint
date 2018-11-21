@@ -69,7 +69,7 @@ versions of Chrome from 2 onwards.
 ```
 
 The [box-flex][box-flex] property
-was added with prefixes for Chrome, Firefox, Opera and Safari.
+was added with prefixes for Chrome, Firefox, Opera, and Safari.
 [MDN compat data][browser-compat] does not specify which versions
 they were added in, asserting that the property is supported with
 prefixes, regardless of version. If box-flex is used with prefixes,
