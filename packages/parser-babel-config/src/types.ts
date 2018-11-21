@@ -1,4 +1,4 @@
-import { Event, ErrorEvent } from 'hint/dist/src/lib/types/events';
+import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
 import { IJSONLocationFunction, ISchemaValidationError } from 'hint/dist/src/lib/types';
 
 export type BabelConfig = {
@@ -13,15 +13,15 @@ export type BabelConfig = {
     filename: string;
     filenameRelative: string;
     highlightCode: boolean;
-    ignore: Array<string> | string;
+    ignore: string[] | string;
     inputSourceMap: object;
     keepModuleIdExtensions: boolean;
     moduleId: string;
     moduleIds: string;
     moduleRoot: string;
-    only: Array<string> | string;
-    plugins: string | Array<string> | Array<object>;
-    presets: string | Array<string> | Array<object>;
+    only: string[] | string;
+    plugins: string | string[] | object[];
+    presets: string | string[] | object[];
     retainLines: boolean;
     sourceFileName: string;
     sourceMaps: string | boolean;
@@ -44,7 +44,16 @@ export type BabelConfigParsed = Event & {
     originalConfig: BabelConfig;
 };
 
-export type BabelConfigInvalidSchema = Event & {
-    errors: Array<ISchemaValidationError>;
-    prettifiedErrors: Array<string>;
+export type BabelConfigInvalidSchema = ErrorEvent & {
+    errors: ISchemaValidationError[];
+    prettifiedErrors: string[];
+};
+
+export type BabelConfigEvents = Events & {
+    'parse::end::babel-config': BabelConfigParsed;
+    'parse::error::babel-config::circular': ErrorEvent;
+    'parse::error::babel-config::extends': ErrorEvent;
+    'parse::error::babel-config::json': BabelConfigInvalidJSON;
+    'parse::error::babel-config::schema': BabelConfigInvalidSchema;
+    'parse::start::babel-config': BabelConfigParseStart;
 };

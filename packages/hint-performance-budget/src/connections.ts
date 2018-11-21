@@ -53,7 +53,7 @@ const parseConnection = (configText: string): NetworkConfig => {
 };
 
 /** Loads all the network configurations in the `connections.ini` file. */
-const getConnections = (): Array<NetworkConfig> => {
+const getConnections = (): NetworkConfig[] => {
     const configContent = readFile(`${__dirname}/connections.ini`);
 
     const configsText = configContent

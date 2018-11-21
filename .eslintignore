@@ -3,3 +3,4 @@ dist
 node_modules
 fixtures
 packages/hint-webpack-config/docs/is-valid.md
+*.d.ts

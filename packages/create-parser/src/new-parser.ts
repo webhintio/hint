@@ -28,7 +28,7 @@ type EventType = {
 type QuestionsType = {
     again: boolean;
     description: string;
-    eventsSelected: Array<EventType>;
+    eventsSelected: EventType[];
     name: string;
     isOfficial: boolean;
 };
@@ -69,7 +69,7 @@ const capitalize = (str: string): string => {
         return '';
     }
 
-    const splittedText: Array<string> = normalize(str, ' ').split(' ');
+    const splittedText: string[] = normalize(str, ' ').split(' ');
 
     const result = splittedText.reduce((total, text) => {
         /* istanbul ignore else */
@@ -88,8 +88,8 @@ class NewParser {
     public normalizedName: string;
     public capitalizedName: string;
     public description: hbs.SafeString;
-    public events: Array<ParserEventType> = [];
-    public eventTypes: Array<string>;
+    public events: ParserEventType[] = [];
+    public eventTypes: string[];
     public processDir: string;
     public destination: string;
     public packageMain: string;
@@ -142,7 +142,7 @@ class NewParser {
  * ------------------------------------------------------------------------------
  */
 const mkdirpAsync = promisify(mkdirp) as (dir: string) => Promise<void>;
-const eventList: Array<string> = Object.keys(events);
+const eventList: string[] = Object.keys(events);
 const TEMPLATE_PATH: string = './templates';
 const SHARED_TEMPLATE_PATH = './shared-templates';
 
@@ -269,7 +269,7 @@ const generateFiles = async (data: NewParser) => {
 export default async (): Promise<boolean> => {
 
     const results: QuestionsType = (await inquirer.prompt(questions()) as QuestionsType);
-    const eventsSelected: Array<EventType> = [];
+    const eventsSelected: EventType[] = [];
 
     results.isOfficial = await isOfficial();
 

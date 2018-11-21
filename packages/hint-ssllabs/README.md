@@ -1,4 +1,4 @@
-# SSL Server Test (`ssllabs`)
+# SSL server test (`ssllabs`)
 
 `ssllabs` does a deep analysis of the site's SSL configuration using
 [SSL Labs’ SSL Server Test][ssllabs].
@@ -127,7 +127,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [node-ssllabs usage]: https://github.com/keithws/node-ssllabs#advanced-usage
 [node-ssllabs]: https://github.com/keithws/node-ssllabs
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [ssl best practices]: https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices
 [ssllabs api]: https://www.ssllabs.com/projects/ssllabs-apis/
 [ssllabs methodology]: https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide#methodology-overview

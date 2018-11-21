@@ -1,7 +1,7 @@
 import { Problem, Severity } from 'hint/dist/src/lib/types';
 import { Category } from 'hint/dist/src/lib/enums/category';
 
-const codeframeproblems: Array<Problem> = [{
+const codeframeproblems: Problem[] = [{
     category: Category.other,
     hintId: 'random-hint',
     location: {
@@ -113,7 +113,7 @@ const codeframeproblems: Array<Problem> = [{
         </body></html>`
 }];
 
-const noproblems: Array<Problem> = [];
+const noproblems: Problem[] = [];
 
 export {
     codeframeproblems,

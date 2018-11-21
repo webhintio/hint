@@ -1,4 +1,4 @@
-# Warn if the byte-order mark (BOM) character is at beginning of a text file (`no-bom`)
+# No byte-order mark (`no-bom`)
 
 `no-bom` warns against having the byte-order mark (BOM) character
 at the beginning of a text file.
@@ -67,4 +67,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [bom]: https://en.wikipedia.org/wiki/Byte_order_mark
 [bom in html]: https://www.w3.org/International/questions/qa-byte-order-mark.en
 [bom problems]: https://www.w3.org/International/questions/qa-byte-order-mark.en#problems
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

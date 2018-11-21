@@ -105,7 +105,7 @@ The set of settings specific for them are:
 * `tabUrl (string)`: The URL to visit before the final target in case
   `useTabUrl` is `true`. `https://empty.webhint.io/` is the
   default value.
-* `flags? (Array<string>)`: Allows you to pass in additional Chrome
+* `flags? (string[])`: Allows you to pass in additional Chrome
   command line API flags. Useful if you would like to start your
   session in headless mode or with GPU disabled. Here's the full list
   of [available command line flags][cli flags].

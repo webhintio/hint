@@ -8,12 +8,13 @@ import { promisify } from 'util';
 
 import * as async from 'async';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, FetchEnd } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import { algorithms } from './types';
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 const everySeries = promisify(async.everySeries) as (arr: any, iterator: any) => Promise<any>;
@@ -24,32 +25,9 @@ const everySeries = promisify(async.everySeries) as (arr: any, iterator: any) =>
  * ------------------------------------------------------------------------------
  */
 
-// We don't do a `const enum` because of this: https://stackoverflow.com/questions/18111657/how-does-one-get-the-names-of-typescript-enum-entries#comment52596297_18112157
-enum algorithms {
-    sha256 = 1,
-    sha384 = 2,
-    sha512 = 3
-}
-
 export default class SRIHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: `Require scripts and link elements to use Subresource Integrity`
-        },
-        id: 'sri',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                baseline: {
-                    oneOf: [Object.keys(algorithms)],
-                    type: 'string'
-                }
-            }
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     private context: HintContext;
     private origin: string = '';
@@ -134,7 +112,9 @@ export default class SRIHint implements IHint {
         const crossorigin = normalizeString(element && element.getAttribute('crossorigin'));
 
         if (!crossorigin) {
-            await this.context.report(resource, element, `Cross-origin scripts need a "crossorigin" attribute to be eligible for integrity validation`);
+            const message = `Cross-origin scripts need a "crossorigin" attribute to be eligible for integrity validation`;
+
+            await this.context.report(resource, message, { element });
 
             return false;
         }
@@ -142,7 +122,9 @@ export default class SRIHint implements IHint {
         const validCrossorigin = crossorigin === 'anonymous' || crossorigin === 'use-credentials';
 
         if (!validCrossorigin) {
-            await this.context.report(resource, element, `Attribute "crossorigin" doesn't have a valid value, should "anonymous" or "use-credentials": crossorigin="${crossorigin}"`);
+            const message = `Attribute "crossorigin" doesn't have a valid value, should "anonymous" or "use-credentials": crossorigin="${crossorigin}"`;
+
+            await this.context.report(resource, message, { element });
         }
 
         return validCrossorigin;
@@ -155,7 +137,9 @@ export default class SRIHint implements IHint {
         const integrity = element && element.getAttribute('integrity');
 
         if (!integrity) {
-            await this.context.report(resource, element, `Resource ${resource} requested without the "integrity" attribute`);
+            const message = `Resource ${resource} requested without the "integrity" attribute`;
+
+            await this.context.report(resource, message, { element });
         }
 
         return !!integrity;
@@ -191,7 +175,9 @@ export default class SRIHint implements IHint {
 
             if (!isValid) {
                 // integrity must exist since we're iterating over integrityValues
-                await that.context.report(resource, element, `The format of the "integrity" attribute should be "sha(256|384|512)-HASH": ${integrity!.substr(0, 10)}…`);
+                const message = `The format of the "integrity" attribute should be "sha(256|384|512)-HASH": ${integrity!.substr(0, 10)}…`;
+
+                await that.context.report(resource, message, { element });
 
                 return false;
             }
@@ -213,7 +199,9 @@ export default class SRIHint implements IHint {
         const meetsBaseline = highestAlgorithmPriority >= baseline;
 
         if (!meetsBaseline) {
-            await this.context.report(resource, element, `The hash algorithm "${algorithms[highestAlgorithmPriority]}" doesn't meet the baseline "${this.baseline}"`);
+            const message = `The hash algorithm "${algorithms[highestAlgorithmPriority]}" doesn't meet the baseline "${this.baseline}"`;
+
+            await this.context.report(resource, message, { element });
         }
 
         return meetsBaseline;
@@ -231,7 +219,7 @@ export default class SRIHint implements IHint {
         const isSecure = protocol === 'https:';
 
         if (!isSecure) {
-            await this.context.report(resource, element, `The resource is not delivered via a secure context`);
+            await this.context.report(resource, `The resource is not delivered via a secure context`, { element });
         }
 
         return isSecure;
@@ -266,15 +254,17 @@ export default class SRIHint implements IHint {
         });
 
         if (!isOK) {
-            const hashes: Array<string> = [];
+            const hashes: string[] = [];
 
             calculatedHashes.forEach((value, key) => {
                 hashes.push(`sha${key}-${value}`);
             });
 
-            await this.context.report(resource, element, `The hash in the "integrity" attribute doesn't match the received payload.
+            const message = `The hash in the "integrity" attribute doesn't match the received payload.
 Expected: ${integrities.join(', ')}
-Actual:   ${hashes.join(', ')}`);
+Actual:   ${hashes.join(', ')}`;
+
+            await this.context.report(resource, message, { element });
         }
 
         return isOK;

@@ -11,11 +11,11 @@
 
 import * as cheerio from 'cheerio';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, FetchEnd, HintMetadata, TraverseEnd } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, FetchEnd, TraverseEnd } from 'hint/dist/src/lib/types';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -25,15 +25,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class MetaCharsetUTF8Hint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require `<meta charset="utf-8">`'
-        },
-        id: 'meta-charset-utf-8',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
         let receivedDOM: CheerioStatic | undefined;
@@ -44,7 +36,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getCharsetMetaElements = (elements: Array<IAsyncHTMLElement>): Array<IAsyncHTMLElement> => {
+        const getCharsetMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
             return elements.filter((element) => {
                 return (element.getAttribute('charset') !== null) ||
                     (element.getAttribute('http-equiv') !== null && normalizeString(element.getAttribute('http-equiv')) === 'content-type');
@@ -64,13 +56,11 @@ export default class MetaCharsetUTF8Hint implements IHint {
                 cheerio.load('');
         };
 
-        const validate = async (event: TraverseEnd) => {
+        const validate = async ({ resource }: TraverseEnd) => {
             if (!receivedDOM) {
                 // There was a problem loading the HTML or the target wasn't one so no need to analyze
                 return;
             }
-
-            const { resource }: { resource: string } = event;
 
             /*
              * There are 2 versions of the charset meta element:
@@ -86,10 +76,10 @@ export default class MetaCharsetUTF8Hint implements IHint {
              */
 
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const charsetMetaElements: Array<IAsyncHTMLElement> = getCharsetMetaElements(await pageDOM.querySelectorAll('meta'));
+            const charsetMetaElements: IAsyncHTMLElement[] = getCharsetMetaElements(await pageDOM.querySelectorAll('meta'));
 
             if (charsetMetaElements.length === 0) {
-                await context.report(resource, null, `'charset' meta element was not specified.`);
+                await context.report(resource, `'charset' meta element was not specified.`);
 
                 return;
             }
@@ -104,9 +94,9 @@ export default class MetaCharsetUTF8Hint implements IHint {
             // * `<meta charset="utf-8">`
 
             if (charsetMetaElement.getAttribute('http-equiv') !== null) {
-                await context.report(resource, charsetMetaElement, `'charset' meta element should be specified using shorter '<meta charset="utf-8">' form.`);
+                await context.report(resource, `'charset' meta element should be specified using shorter '<meta charset="utf-8">' form.`, { element: charsetMetaElement });
             } else if (normalizeString(charsetMetaElement.getAttribute('charset')) !== 'utf-8') {
-                await context.report(resource, charsetMetaElement, `'charset' meta element value should be 'utf-8', not '${charsetMetaElement.getAttribute('charset')}'.`);
+                await context.report(resource, `'charset' meta element value should be 'utf-8', not '${charsetMetaElement.getAttribute('charset')}'.`, { element: charsetMetaElement });
             }
 
             /*
@@ -129,15 +119,15 @@ export default class MetaCharsetUTF8Hint implements IHint {
                 charsetMetaElementsHTML !== firstMetaHTML ||
                 !(/^<head[^>]*>\s*<meta/).test(headElementContent)) {
 
-                await context.report(resource, charsetMetaElement, `'charset' meta element should be the first thing in '<head>'.`);
+                await context.report(resource, `'charset' meta element should be the first thing in '<head>'.`, { element: charsetMetaElement });
             }
 
             // * specified in the `<body>`.
 
-            const bodyMetaElements: Array<IAsyncHTMLElement> = getCharsetMetaElements(await pageDOM.querySelectorAll('body meta'));
+            const bodyMetaElements: IAsyncHTMLElement[] = getCharsetMetaElements(await pageDOM.querySelectorAll('body meta'));
 
             if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(charsetMetaElement)) {
-                await context.report(resource, charsetMetaElement, `'charset' meta element should be specified in the '<head>', not '<body>'.`);
+                await context.report(resource, `'charset' meta element should be specified in the '<head>', not '<body>'.`, { element: charsetMetaElement });
 
                 return;
             }
@@ -148,7 +138,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
                 const metaElements = charsetMetaElements.slice(1);
 
                 for (const metaElement of metaElements) {
-                    await context.report(resource, metaElement, `'charset' meta element is not needed as one was already specified.`);
+                    await context.report(resource, `'charset' meta element is not needed as one was already specified.`, { element: metaElement });
                 }
             }
 
@@ -158,7 +148,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
              * const xmlDeclaration = context.pageContent.match(/^\s*(<\?xml\s[^>]*encoding=.*\?>)/i);
              *
              * if (xmlDeclaration) {
-             *     await context.report(resource, null, `Unneeded XML declaration: '${xmlDeclaration[1]}'.`);
+             *     await context.report(resource, `Unneeded XML declaration: '${xmlDeclaration[1]}'.`);
              * }
              */
         };

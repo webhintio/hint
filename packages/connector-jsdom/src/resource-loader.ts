@@ -77,11 +77,11 @@ export default class CustomResourceLoader extends ResourceLoader {
                  * can be converted to `JSDOMAsyncHTMLElement`.
                  * Event is also emitted when status code in response is not 200.
                  */
-                await this._connector.server.emitAsync(`fetch::end::${type}`, fetchEndEvent);
+                await this._connector.server.emitAsync(`fetch::end::${type}` as 'fetch::end::*', fetchEndEvent);
 
                 return resolve(resourceNetworkData.response.body.rawContent);
             } catch (err) {
-                const hops: Array<string> = this._connector.request.getRedirects(err.uri);
+                const hops: string[] = this._connector.request.getRedirects(err.uri);
                 const fetchError: FetchError = {
                     element: element!,
                     error: err.error,

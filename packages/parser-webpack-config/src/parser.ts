@@ -7,12 +7,14 @@ import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
 import loadPackage from 'hint/dist/src/lib/utils/packages/load-package';
 
-import { WebpackConfigParse, WebpackConfigInvalidConfiguration } from './types';
+import { WebpackConfigEvents } from './types';
 
-export default class WebpackConfigParser extends Parser {
+export * from './types';
+
+export default class WebpackConfigParser extends Parser<WebpackConfigEvents> {
     private configFound: boolean = false;
 
-    public constructor(engine: Engine) {
+    public constructor(engine: Engine<WebpackConfigEvents>) {
         super(engine, 'webpack-config');
 
         engine.on('fetch::end::script', this.parseWebpack.bind(this));
@@ -21,7 +23,10 @@ export default class WebpackConfigParser extends Parser {
 
     private async parseEnd() {
         if (!this.configFound) {
-            await this.engine.emitAsync(`parse::${this.name}::error::not-found`, {});
+            await this.engine.emitAsync('parse::error::webpack-config::not-found', {
+                error: new Error('webpack.config.js was not found'),
+                resource: ''
+            });
         }
     }
 
@@ -49,31 +54,32 @@ export default class WebpackConfigParser extends Parser {
 
         this.configFound = true;
 
+        await this.engine.emitAsync(`parse::start::webpack-config`, { resource });
+
         try {
             const config: webpack.Configuration = await import(asPathString(getAsUri(resource)!)); // `getAsUri(resource)` should not be null as the resource has already been fetched.
 
             const version = this.getLocallyInstalledWebpack();
 
             if (!version) {
-                await this.engine.emitAsync(`parse::${this.name}::error::not-install`, {});
+                await this.engine.emitAsync('parse::error::webpack-config::not-install', {
+                    error: new Error('webpack is not installed'),
+                    resource
+                });
 
                 return;
             }
 
-            const event: WebpackConfigParse = {
+            await this.engine.emitAsync('parse::end::webpack-config', {
                 config,
                 resource,
                 version
-            };
-
-            await this.engine.emitAsync(`parse::${this.name}::end`, event);
+            });
         } catch (err) {
-            const errorEvent: WebpackConfigInvalidConfiguration = {
+            await this.engine.emitAsync('parse::error::webpack-config::configuration', {
                 error: err,
                 resource
-            };
-
-            await this.engine.emitAsync(`parse::${this.name}::error::configuration`, errorEvent);
+            });
         }
     }
 }

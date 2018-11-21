@@ -193,7 +193,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [keycdn-wpb]: https://www.keycdn.com/blog/web-performance-budget/
 [rtt]: https://hpbn.co/primer-on-latency-and-bandwidth/#speed-of-light-and-propagation-latency
 [slow-start phase]: https://hpbn.co/building-blocks-of-tcp/#slow-start
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [state of the internet]: https://www.akamai.com/us/en/multimedia/documents/state-of-the-internet/q1-2017-state-of-the-internet-connectivity-report.pdf
 [tcp handshake]: https://hpbn.co/building-blocks-of-tcp/#three-way-handshake
 [three-way handshake]: https://hpbn.co/building-blocks-of-tcp/#three-way-handshake

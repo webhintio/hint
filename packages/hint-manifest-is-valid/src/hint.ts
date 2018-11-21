@@ -11,23 +11,22 @@
 import { parse as bcp47 } from 'bcp47';
 import { get as parseColor, ColorDescriptor } from 'color-string';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import {
-    IAsyncHTMLElement,
     IHint,
-    IJSONLocationFunction,
-    HintMetadata
+    IJSONLocationFunction
 } from 'hint/dist/src/lib/types';
 import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import {
     Manifest,
+    ManifestEvents,
     ManifestInvalidJSON,
     ManifestInvalidSchema,
     ManifestParsed
-} from '@hint/parser-manifest/dist/src/types';
+} from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ---------------------------------------------------------------------
@@ -37,17 +36,9 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class ManifestIsValidHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.pwa,
-            description: 'Require valid web app manifest'
-        },
-        id: 'manifest-is-valid',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<ManifestEvents>) {
 
         const targetedBrowsers: string = context.targetedBrowsers.join();
 
@@ -80,7 +71,7 @@ export default class ManifestIsValidHint implements IHint {
                 color.model === 'hwb';
         };
 
-        const checkColors = async (resource: string, element: IAsyncHTMLElement | null, manifest: Manifest, getLocation: IJSONLocationFunction) => {
+        const checkColors = async (resource: string, manifest: Manifest, getLocation: IJSONLocationFunction) => {
             const colorProperties = [
                 'background_color',
                 'theme_color'
@@ -97,29 +88,38 @@ export default class ManifestIsValidHint implements IHint {
                 const color = parseColor(normalizedColorValue);
 
                 if (color === null) {
-                    await context.report(resource, element, `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`, undefined, getLocation(property) || undefined);
+                    const location = getLocation(property);
+                    const message = `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`;
+
+                    await context.report(resource, message, { location });
 
                     continue;
                 }
 
                 if (isNotSupportedColorValue(color, normalizedColorValue)) {
-                    await context.report(resource, element, `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`, undefined, getLocation(property) || undefined);
+                    const location = getLocation(property);
+                    const message = `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`;
+
+                    await context.report(resource, message, { location });
                 }
             }
         };
 
-        const checkLang = async (resource: string, element: IAsyncHTMLElement | null, manifest: Manifest, getLocation: IJSONLocationFunction) => {
+        const checkLang = async (resource: string, manifest: Manifest, getLocation: IJSONLocationFunction) => {
             const lang = manifest.lang;
 
             if (lang && !bcp47(lang)) {
-                await context.report(resource, element, `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`, undefined, getLocation('lang') || undefined);
+                const location = getLocation('lang');
+                const message = `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`;
+
+                await context.report(resource, message, { location });
             }
         };
 
         const handleInvalidJSON = async (manifestInvalidJSON: ManifestInvalidJSON) => {
-            const { resource, element } = manifestInvalidJSON;
+            const { resource } = manifestInvalidJSON;
 
-            await context.report(resource, element, `Web app manifest should contain valid JSON.`);
+            await context.report(resource, `Web app manifest should contain valid JSON.`);
         };
 
         const handleInvalidSchema = async (manifestInvalidSchemaEvent: ManifestInvalidSchema) => {
@@ -127,25 +127,24 @@ export default class ManifestIsValidHint implements IHint {
                 const error = manifestInvalidSchemaEvent.prettifiedErrors[i];
                 const location = manifestInvalidSchemaEvent.errors[i].location;
 
-                await context.report(manifestInvalidSchemaEvent.resource, manifestInvalidSchemaEvent.element, error, undefined, location);
+                await context.report(manifestInvalidSchemaEvent.resource, error, { location });
             }
         };
 
         const validateOtherProperties = async (manifestParsed: ManifestParsed) => {
             const {
-                element,
                 getLocation,
                 parsedContent: manifest,
                 resource
             } = manifestParsed;
 
             // Additional checks not covered by the schema.
-            await checkLang(resource, element, manifest, getLocation);
-            await checkColors(resource, element, manifest, getLocation);
+            await checkLang(resource, manifest, getLocation);
+            await checkColors(resource, manifest, getLocation);
         };
 
-        context.on('parse::manifest::end', validateOtherProperties);
-        context.on('parse::manifest::error::json', handleInvalidJSON);
-        context.on('parse::manifest::error::schema', handleInvalidSchema);
+        context.on('parse::end::manifest', validateOtherProperties);
+        context.on('parse::error::manifest::json', handleInvalidJSON);
+        context.on('parse::error::manifest::schema', handleInvalidSchema);
     }
 }

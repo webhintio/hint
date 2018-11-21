@@ -7,20 +7,40 @@
 import { URL } from 'url';
 
 import { Engine } from './engine';
-import { IAsyncHTMLElement, NetworkData, ProblemLocation, HintMetadata, Severity } from './types';
+import {
+    Events,
+    HintMetadata,
+    IAsyncHTMLElement,
+    NetworkData,
+    ProblemLocation,
+    Severity,
+    StringKeyOf
+} from './types';
 import { findInElement, findProblemLocation } from './utils/location-helpers';
 import { Category } from './enums/category';
 
+export type ReportOptions = {
+    /** The source code to display (defaults to the `outerHTML` of `element`). */
+    codeSnippet?: string;
+    /** The text within `element` where the issue was found (used to refine a `ProblemLocation`). */
+    content?: string;
+    /** The `IAsyncHTMLElement` where the issue was found (used to get a `ProblemLocation`). */
+    element?: IAsyncHTMLElement | null;
+    /** The `ProblemLocation` where the issue was found. */
+    location?: ProblemLocation | null;
+    /** The `Severity` to report the issue as (overrides default settings for a hint). */
+    severity?: Severity;
+};
 
 /** Acts as an abstraction layer between hints and the main hint object. */
-export class HintContext {
+export class HintContext<E extends Events = Events> {
     private id: string
-    private options: Array<any>
+    private options: any[]
     private meta: HintMetadata
     private severity: Severity
-    private engine: Engine
+    private engine: Engine<E>
 
-    public constructor(hintId: string, engine: Engine, severity: Severity, options: any, meta: HintMetadata) {
+    public constructor(hintId: string, engine: Engine<E>, severity: Severity, options: any, meta: HintMetadata) {
 
         this.id = hintId;
         this.options = options;
@@ -47,7 +67,7 @@ export class HintContext {
     }
 
     /** List of browsers to target as specified by the hint configuration. */
-    public get targetedBrowsers(): Array<string> {
+    public get targetedBrowsers(): string[] {
         return this.engine.targetedBrowsers;
     }
 
@@ -76,7 +96,7 @@ export class HintContext {
         return this.engine.fetchContent(target, headers);
     }
 
-    public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
         return this.engine.querySelectorAll(selector);
     }
 
@@ -91,8 +111,9 @@ export class HintContext {
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, element: IAsyncHTMLElement | null, message: string, content?: string, location?: ProblemLocation, severity?: Severity, codeSnippet?: string): Promise<void> {
-        let position: ProblemLocation | null = location || null;
+    public async report(resource: string, message: string, options: ReportOptions = {}): Promise<void> {
+        const { codeSnippet, content, element, severity } = options;
+        let position: ProblemLocation | null = options.location || null;
         let sourceCode: string | null = null;
 
         if (element) {
@@ -117,7 +138,7 @@ export class HintContext {
     }
 
     /** Subscribe an event in hint. */
-    public on(event: string, listener: Function) {
+    public on<K extends StringKeyOf<E>>(event: K, listener: (data: E[K], event: string) => void) {
         this.engine.onHintEvent(this.id, event, listener);
     }
 }

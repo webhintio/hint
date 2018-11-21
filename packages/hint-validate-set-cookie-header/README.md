@@ -1,4 +1,4 @@
-# Validate `Set-Cookie` Header (`validate-set-cookie-header`)
+# Valid `Set-Cookie` header (`validate-set-cookie-header`)
 
 This hint validates the `set-cookie` header and confirms that
 the `Secure` and `HttpOnly` directives are defined when sent from
@@ -206,5 +206,5 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [HTTP State Management Mechanism]:https://tools.ietf.org/html/rfc6265
 [proxy request]:https://en.wikipedia.org/wiki/HTTP_cookie#Cross-site_scripting:_proxy_request
 [set-cookie web doc]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [xss]:https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting

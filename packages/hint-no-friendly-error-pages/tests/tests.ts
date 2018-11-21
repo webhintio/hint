@@ -72,7 +72,7 @@ const testsForWhenHintDoesNotApply = [{
     }
 }];
 
-const tests: Array<HintTest> = [];
+const tests: HintTest[] = [];
 
 addTests(tests, statusCodesWith256Threshold, 256);
 addTests(tests, statusCodesWith512Threshold, 512);

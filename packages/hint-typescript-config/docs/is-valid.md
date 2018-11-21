@@ -1,4 +1,4 @@
-# TypeScript configuration is valid (`is-valid`)
+# Valid TypeScript configuration (`is-valid`)
 
 ## Why is this important?
 

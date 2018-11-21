@@ -72,5 +72,9 @@
         "packages/utils-tests-helpers/package.json"
       ]
     }
-  }
+  },
+  "ignore": [
+    "mime-db",
+    "proxyquire"
+  ]
 }

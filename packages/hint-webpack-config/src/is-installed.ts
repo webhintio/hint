@@ -1,11 +1,13 @@
 /**
  * @fileoverview `webpack-config/is-installed` warns against not having webpack installed.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
+
+import { WebpackConfigEvents } from '@hint/parser-webpack-config';
+
+import meta from './meta/is-installed';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -16,24 +18,16 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class WebpackConfigIsInstalled implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`webpack-config/is-installed` warns against not having webpack installed'
-        },
-        id: 'webpack-config/is-installed',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<WebpackConfigEvents>) {
 
         const notInstall = async () => {
-            debug(`parse::webpack-config::error::not-install received`);
+            debug(`parse::error::webpack-config::not-install received`);
 
-            await context.report('', null, 'webpack is not installed in your project.');
+            await context.report('', 'webpack is not installed in your project.');
         };
 
-        context.on('parse::webpack-config::error::not-install', notInstall);
+        context.on('parse::error::webpack-config::not-install', notInstall);
     }
 }

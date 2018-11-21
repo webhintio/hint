@@ -4,20 +4,20 @@
  */
 
 import { URL } from 'url';
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import {
     IHint,
     ElementFound,
-    HintMetadata,
     IAsyncHTMLElement
 } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 import { IAsyncHTMLDocument, NetworkData, TraverseEnd } from 'hint/dist/src/lib/types';
 import { CoreOptions } from 'request';
+
+import meta from './meta';
+
 const debug: debug.IDebugger = d(__filename);
 
 /*
@@ -27,23 +27,7 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class NoBrokenLinksHint implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Hint to flag broken links in the page`
-        },
-        id: 'no-broken-links',
-        schema: [{
-            properties: {
-                method: {
-                    pattern: '^([hH][eE][aA][dD])|([gG][eE][tT])$',
-                    type: 'string'
-                }
-            },
-            type: 'object'
-        }],
-        scope: HintScope.site
-    };
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
@@ -58,7 +42,7 @@ export default class NoBrokenLinksHint implements IHint {
         const fetchedURLs: any[] = [];
 
         /** Returns an array with all the URLs in the given `srcset` attribute or an empty string if none. */
-        const parseSrcSet = (srcset: string | null): Array<string> => {
+        const parseSrcSet = (srcset: string | null): string[] => {
             if (!srcset) {
                 return [];
             }
@@ -80,10 +64,20 @@ export default class NoBrokenLinksHint implements IHint {
             debug(`Error accessing {$absoluteURL}. ${JSON.stringify(error)}`);
 
             if (typeof error === 'string' && error.toLowerCase().includes('loop')) {
-                return context.report(url, element, error);
+                return context.report(url, error, { element });
             }
 
-            return context.report(url, element, 'Broken link found (domain not found).');
+            return context.report(url, 'Broken link found (domain not found).', { element });
+        };
+
+        const isDNSOnlyResourceHint = (element: IAsyncHTMLElement): boolean => {
+            if (element.nodeName !== 'LINK') {
+                return false;
+            }
+
+            const relAttribute = element.getAttribute('rel');
+
+            return (relAttribute === 'dns-prefetch' || relAttribute === 'preconnect');
         };
 
         /**
@@ -93,12 +87,18 @@ export default class NoBrokenLinksHint implements IHint {
          * so that duplicate requests will not be made if 2 links have the same href value
          */
         const handleSuccess = (networkData: NetworkData, url: string, element: IAsyncHTMLElement) => {
+            if (isDNSOnlyResourceHint(element)) {
+                return Promise.resolve();
+            }
+
             const statusIndex = brokenStatusCodes.indexOf(
                 networkData.response.statusCode
             );
 
             if (statusIndex > -1) {
-                return context.report(url, element, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                const message = `Broken link found (${brokenStatusCodes[statusIndex]} response).`;
+
+                return context.report(url, message, { element });
             }
 
             fetchedURLs.push({ status: networkData.response.statusCode, url });
@@ -130,9 +130,9 @@ export default class NoBrokenLinksHint implements IHint {
          */
         const collectElementSrcs = (traverseElement: ElementFound): void => {
             const { element } = traverseElement;
-            const simpleAttributes: Array<string> = ['src', 'poster', 'data', 'href'];
+            const simpleAttributes: string[] = ['src', 'poster', 'data', 'href'];
 
-            const urls: Array<string> = simpleAttributes.reduce((found: Array<string>, attribute: string) => {
+            const urls: string[] = simpleAttributes.reduce((found: string[], attribute: string) => {
                 const value: string | null = element.getAttribute(attribute);
 
                 if (value) {
@@ -142,7 +142,7 @@ export default class NoBrokenLinksHint implements IHint {
                 return found;
             }, []);
 
-            const srcset: Array<string> = parseSrcSet(element.getAttribute('srcset'));
+            const srcset: string[] = parseSrcSet(element.getAttribute('srcset'));
 
             if (srcset.length > 0) {
                 urls.push(...srcset);
@@ -161,13 +161,13 @@ export default class NoBrokenLinksHint implements IHint {
 
         const createResourceURL = async (resource: string) => {
             const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const baseTags: Array<IAsyncHTMLElement> = await pageDOM.querySelectorAll('base');
+            const baseTags: IAsyncHTMLElement[] = await pageDOM.querySelectorAll('base');
             const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
 
             return (hrefAttribute === null) ? new URL(resource) : new URL(hrefAttribute, new URL(resource));
         };
 
-        const createReports = (element: IAsyncHTMLElement, urls: Array<string>, resourceURL: URL): Array<Promise<void>> => {
+        const createReports = (element: IAsyncHTMLElement, urls: string[], resourceURL: URL): Promise<void>[] => {
             return urls.map((url) => {
                 let fullURL: string;
 
@@ -177,7 +177,7 @@ export default class NoBrokenLinksHint implements IHint {
                     // `url` is malformed, e.g.: just "http://`
                     debug(error);
 
-                    return context.report(url, null, `Broken link found (invalid URL).`);
+                    return context.report(url, `Broken link found (invalid URL).`);
                 }
 
                 /*
@@ -194,7 +194,7 @@ export default class NoBrokenLinksHint implements IHint {
                     const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
 
                     if (statusIndex > -1) {
-                        return context.report(fullURL, null, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                        return context.report(fullURL, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
                     }
                 } else {
                     // An element which was not present in the fetch end results
@@ -215,7 +215,7 @@ export default class NoBrokenLinksHint implements IHint {
         const validateCollectedURLs = async (event: TraverseEnd) => {
             const resourceURL = await createResourceURL(event.resource);
 
-            const reports: Array<Promise<void>> = collectedElementsWithURLs.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
+            const reports: Promise<void>[] = collectedElementsWithURLs.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
                 return [...accumulatedReports, ...createReports(element, urls, resourceURL)];
             }, []);
 

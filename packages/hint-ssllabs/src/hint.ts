@@ -13,12 +13,12 @@
 
 import { promisify } from 'util';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { FetchEnd, ScanEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
-import { Grades, SSLLabsEndpoint, SSLLabsEndpointDetail, SSLLabsOptions, SSLLabsResult } from './types';
+import { FetchEnd, ScanEnd, IHint } from 'hint/dist/src/lib/types';
+import { Grades, SSLLabsEndpoint, SSLLabsOptions, SSLLabsResult } from './types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -30,41 +30,7 @@ const debug = d(__filename);
 
 export default class SSLLabsHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: 'Strength of your SSL configuration'
-        },
-        id: 'ssllabs',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                grade: {
-                    pattern: '^(A\\+|A\\-|[A-F]|T|M)$',
-                    type: 'string'
-                },
-                ssllabs: {
-                    properties: {
-                        all: {
-                            pattern: '^(on|done)$',
-                            type: 'string'
-                        },
-                        fromCache: { type: 'boolean' },
-                        ignoreMismatch: { type: 'boolean' },
-                        maxAge: {
-                            minimum: 0,
-                            type: 'integer'
-                        },
-                        publish: { type: 'boolean' },
-                        startNew: { type: 'boolean' }
-                    },
-                    type: 'object'
-                }
-            },
-            type: 'object'
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
@@ -89,14 +55,12 @@ export default class SSLLabsHint implements IHint {
             scanOptions = Object.assign(scanOptions, userSslOptions);
         };
 
-        const verifyEndpoint = async (resource: string, endpoint: SSLLabsEndpoint) => {
-            const { grade, serverName = resource, details }: { grade: keyof typeof Grades, serverName: string, details: SSLLabsEndpointDetail } = endpoint;
-
+        const verifyEndpoint = async (resource: string, { grade, serverName = resource, details }: SSLLabsEndpoint) => {
             if (!grade && details.protocols.length === 0) {
                 const message = `'${resource}' does not support HTTPS.`;
 
                 debug(message);
-                await context.report(resource, null, message);
+                await context.report(resource, message);
 
                 return;
             }
@@ -108,7 +72,7 @@ export default class SSLLabsHint implements IHint {
                 const message: string = `${serverName}'s grade ${grade} does not meet the minimum ${minimumGrade} required.`;
 
                 debug(message);
-                await context.report(resource, null, message);
+                await context.report(resource, message);
             } else {
                 debug(`Grade ${grade} for ${resource} is ok.`);
             }
@@ -116,17 +80,15 @@ export default class SSLLabsHint implements IHint {
 
         const notifyError = async (resource: string, error: any) => {
             debug(`Error getting data for ${resource} %O`, error);
-            await context.report(resource, null, `Could not get results from SSL Labs for '${resource}'.`);
+            await context.report(resource, `Could not get results from SSL Labs for '${resource}'.`);
         };
 
-        const start = async (data: FetchEnd) => {
-            const { resource }: { resource: string } = data;
-
+        const start = async ({ resource }: FetchEnd) => {
             if (!resource.startsWith('https://')) {
                 const message: string = `'${resource}' does not support HTTPS.`;
 
                 debug(message);
-                await context.report(resource, null, message);
+                await context.report(resource, message);
 
                 return;
             }
@@ -144,9 +106,7 @@ export default class SSLLabsHint implements IHint {
                 });
         };
 
-        const end = async (data: ScanEnd) => {
-            const { resource }: { resource: string } = data;
-
+        const end = async ({ resource }: ScanEnd) => {
             if (!promise || failed) {
                 return;
             }
@@ -169,7 +129,7 @@ export default class SSLLabsHint implements IHint {
 There might be something wrong with SSL Labs servers.`;
 
                 debug(msg);
-                await context.report(resource, null, msg);
+                await context.report(resource, msg);
 
                 return;
             }

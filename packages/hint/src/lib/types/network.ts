@@ -28,7 +28,7 @@ export type Response = {
     /** The headers sent by the server. */
     headers: HttpHeaders;
     /** All the intermediate urls from the initial request until we got the response (if any). */
-    hops: Array<string>;
+    hops: string[];
     /** The media type of the response's body. */
     mediaType: string;
     /** The status code of the response. */

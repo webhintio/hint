@@ -4,14 +4,14 @@
 
 import * as URL from 'url';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
-import { IHint, HintMetadata, FetchEnd, Response, ElementFound } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd, Response, ElementFound } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -24,15 +24,7 @@ const debug: debug.IDebugger = d(__filename);
 export default class HttpsOnlyHint implements IHint {
     private targetIsServedOverHTTPS: boolean = false;
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: `Verifies if a website is using HTTPS and if it has mixed content.`
-        },
-        id: 'https-only',
-        schema: [],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
         let target: string;
@@ -44,7 +36,7 @@ export default class HttpsOnlyHint implements IHint {
             if (!isHTTPS(resource)) {
                 debug('HTTPS no detected');
 
-                await context.report(resource, null, 'Site should be served over HTTPS.');
+                await context.report(resource, 'Site should be served over HTTPS.');
 
                 return;
             }
@@ -56,7 +48,7 @@ export default class HttpsOnlyHint implements IHint {
             return;
         };
 
-        const reportInsecureHops = (response: Response): Array<Promise<void>> => {
+        const reportInsecureHops = (response: Response): Promise<void>[] => {
             const { hops } = response;
 
             return hops.map((hop) => {
@@ -65,7 +57,7 @@ export default class HttpsOnlyHint implements IHint {
                 if (fails) {
                     reportedUrls.add(hop);
 
-                    return context.report(hop, null, `Should not be redirected from HTTPS.`);
+                    return context.report(hop, `Should not be redirected from HTTPS.`);
                 }
 
                 return Promise.resolve();
@@ -93,12 +85,12 @@ export default class HttpsOnlyHint implements IHint {
             if (!reportedUrls.has(resource) && !isHTTPS(resource) && !isDataURI(resource)) {
                 reportedUrls.add(resource);
 
-                await context.report(resource, null, 'Should be served over HTTPS.');
+                await context.report(resource, 'Should be served over HTTPS.');
             }
         };
 
         /** Returns an array with all the URLs in the given `srcset` attribute or an empty string if none. */
-        const parseSrcSet = (srcset: string | null): Array<string> => {
+        const parseSrcSet = (srcset: string | null): string[] => {
             if (!srcset) {
                 return [];
             }
@@ -147,13 +139,13 @@ export default class HttpsOnlyHint implements IHint {
              *   https://developer.mozilla.org/en-US/docs/Web/HTML/Element/object
              */
 
-            const simpleAttributes: Array<string> = [
+            const simpleAttributes: string[] = [
                 'src',
                 'poster',
                 'data'
             ];
 
-            const urls: Array<string> = simpleAttributes.reduce((found: Array<string>, attribute: string) => {
+            const urls: string[] = simpleAttributes.reduce((found: string[], attribute: string) => {
                 const value: string | null = element.getAttribute(attribute);
 
                 if (value) {
@@ -163,19 +155,19 @@ export default class HttpsOnlyHint implements IHint {
                 return found;
             }, []);
 
-            const srcset: Array<string> = parseSrcSet(element.getAttribute('srcset'));
+            const srcset: string[] = parseSrcSet(element.getAttribute('srcset'));
 
             if (srcset.length > 0) {
                 urls.push(...srcset);
             }
 
-            const reports: Array<Promise<void>> = urls.map((url) => {
+            const reports: Promise<void>[] = urls.map((url) => {
                 const fullUrl = URL.resolve(resource, url);
 
                 if (!isHTTPS(fullUrl) && !isDataURI(fullUrl) && !reportedUrls.has(fullUrl)) {
                     reportedUrls.add(fullUrl);
 
-                    return context.report(fullUrl, null, 'Should be served over HTTPS.');
+                    return context.report(fullUrl, 'Should be served over HTTPS.');
                 }
 
                 return Promise.resolve();

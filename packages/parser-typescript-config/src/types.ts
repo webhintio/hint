@@ -1,4 +1,4 @@
-import { Event, ErrorEvent } from 'hint/dist/src/lib/types/events';
+import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
 import { IJSONLocationFunction, ISchemaValidationError } from 'hint/dist/src/lib/types';
 
 /** Valid values for the `JSX` compiler option. */
@@ -94,7 +94,7 @@ export enum TypeScriptNewLineEnum {
 
 /** Specify path mapping to be computed relative to baseUrl option. */
 export type TypeScriptPaths = {
-    [key: string]: Array<string>;
+    [key: string]: string[];
 };
 
 /** List of TypeScript language server plugins to load. */
@@ -157,13 +157,13 @@ export type TypeScriptCompilerOptions = {
     forceConsistentCasingInFileNames: boolean;
     baseUrl: string;
     paths: TypeScriptPaths;
-    plugins: Array<TypeScriptPlugin>;
-    rootDirs: Array<string>;
-    typeRoots: Array<string>;
-    types: Array<string>;
+    plugins: TypeScriptPlugin[];
+    rootDirs: string[];
+    typeRoots: string[];
+    types: string[];
     traceResolution: boolean;
     listEmittedFiles: boolean;
-    lib: Array<TypeScriptLibEnum>;
+    lib: TypeScriptLibEnum[];
     strictNullChecks: boolean;
     maxNodeModuleJsDepth: number;
     importHelpers: boolean;
@@ -180,8 +180,8 @@ export type TypeScriptCompilerOptions = {
 /** Auto type (.d.ts) acquisition options for this project.*/
 export type TypeScriptTypeAcquisition = {
     enable: boolean;
-    include: Array<string>;
-    exclude: Array<string>;
+    include: string[];
+    exclude: string[];
 };
 
 /** TypeScript Configuration */
@@ -189,9 +189,9 @@ export type TypeScriptConfig = {
     compilerOptions: TypeScriptCompilerOptions;
     compileOnSave: boolean;
     extends: string;
-    files: Array<string>;
-    include: Array<string>;
-    exclude: Array<string>;
+    files: string[];
+    include: string[];
+    exclude: string[];
     typeAcquisition: TypeScriptTypeAcquisition;
 };
 
@@ -199,9 +199,9 @@ export type TypeScriptConfig = {
 export type TypeScriptConfigInvalidJSON = ErrorEvent;
 
 /** Data type sent for JSON doesn't validate Schema event */
-export type TypeScriptConfigInvalidSchema = Event & {
-    errors: Array<ISchemaValidationError>;
-    prettifiedErrors: Array<string>;
+export type TypeScriptConfigInvalidSchema = ErrorEvent & {
+    errors: ISchemaValidationError[];
+    prettifiedErrors: string[];
 };
 
 /** Data type sent when the parse starts parsing */
@@ -215,4 +215,13 @@ export type TypeScriptConfigParse = Event & {
     getLocation: IJSONLocationFunction;
     /** The original TypeScript config */
     originalConfig: TypeScriptConfig;
+};
+
+export type TypeScriptConfigEvents = Events & {
+    'parse::end::typescript-config': TypeScriptConfigParse;
+    'parse::error::typescript-config::circular': ErrorEvent;
+    'parse::error::typescript-config::extends': ErrorEvent;
+    'parse::error::typescript-config::json': TypeScriptConfigInvalidJSON;
+    'parse::error::typescript-config::schema': TypeScriptConfigInvalidSchema;
+    'parse::start::typescript-config': TypeScriptConfigParseStart;
 };

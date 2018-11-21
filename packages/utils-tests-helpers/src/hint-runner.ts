@@ -60,7 +60,7 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
 };
 
 /** Validates that the results from the execution match the expected ones. */
-const validateResults = (t: GenericTestContext<Context<any>>, results: Array<Problem>, reports: Array<Report> | undefined) => {
+const validateResults = (t: GenericTestContext<Context<any>>, results: Problem[], reports: Report[] | undefined) => {
     const server = t.context.server || {};
 
     if (!reports) {
@@ -75,21 +75,43 @@ const validateResults = (t: GenericTestContext<Context<any>>, results: Array<Pro
         return t.fail(`Result count is ${results.length}, should be ${reports.length}`);
     }
 
-    return reports.forEach((report, index: number) => {
-        if (server.port) {
-            t.is(results[index].message, report.message.replace(localhostRegex, `$1://localhost:${server.port}/`), `Different message`);
-        } else {
-            t.is(results[index].message, report.message, `Different message`);
+    if (server.port) {
+        reports.forEach((report) => {
+            report.message = report.message.replace(localhostRegex, `$1://localhost:${server.port}/`);
+        });
+    }
+
+    const reportsCopy = reports.slice(0);
+
+    results.forEach((result) => {
+        const { message } = result;
+        let index = 0;
+
+        const found = reportsCopy.some((report, i) => {
+            index = i;
+
+            if(report.message !== result.message){
+                return false;
+            }
+
+            if(report.position && result.location) {
+                return report.position.column === result.location.column &&
+                       report.position.line === result.location.line;
+            }
+
+            return true;
+        });
+
+        if(found){
+            reportsCopy.splice(index, 1);
         }
-        if (report.position) {
-            t.is(results[index].location.column, report.position.column, `Different column`);
-            t.is(results[index].location.line, report.position.line, `Different line`);
-        }
+
+        t.true(found, `No reports match "${message}" or its location.`);
     });
 };
 
 /** Executes all the tests from `hintTests` in the hint whose id is `hintId` */
-export const testHint = (hintId: string, hintTests: Array<HintTest>, configs: { [key: string]: any } = {}) => {
+export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key: string]: any } = {}) => {
     /**
      * Because tests are executed asynchronously in ava, we need
      * a different server and hint object for each one
@@ -190,7 +212,7 @@ export const testHint = (hintId: string, hintTests: Array<HintTest>, configs: { 
     });
 };
 
-export const testLocalHint = (hintId: string, hintTests: Array<HintLocalTest>, configs: { [key: string]: any } = {}) => {
+export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], configs: { [key: string]: any } = {}) => {
     const Hint: IHintConstructor = resourceLoader.loadHint(hintId, []);
 
     if (Hint.meta.ignoredConnectors && Hint.meta.ignoredConnectors.includes('local')) {

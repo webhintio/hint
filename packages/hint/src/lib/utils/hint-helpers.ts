@@ -2,16 +2,16 @@ import { basename, dirname, resolve } from 'path';
 import findPackageRoot from './packages/find-package-root';
 
 /** Lower cases all the items of `list`. */
-export const toLowerCase = (list: Array<string>): Array<string> => {
+export const toLowerCase = (list: string[]): string[] => {
     return list.map((e) => {
         return e.toLowerCase();
     });
 };
 
 /** Returns a list of all the headers in `headerList` that are in `headers` sorted alphabetically. */
-export const getIncludedHeaders = (headers: object, headerList: Array<string> = []): Array<string> => {
-    const result: Array<string> = [];
-    const list: Array<string> = toLowerCase(headerList);
+export const getIncludedHeaders = (headers: object, headerList: string[] = []): string[] => {
+    const result: string[] = [];
+    const list: string[] = toLowerCase(headerList);
 
     for (const key of Object.keys(headers)) {
         const lowercaseKey: string = key.toLowerCase();
@@ -21,7 +21,7 @@ export const getIncludedHeaders = (headers: object, headerList: Array<string> = 
         }
     }
 
-    const shortedResult: Array<string> = result.sort();
+    const shortedResult: string[] = result.sort();
 
     return shortedResult;
 };
@@ -52,10 +52,10 @@ export const getHintPath = (name: string, multihint?: boolean): string => {
  * Items of the arrays are always lowercased as well as the result.
  * This function doesn't modify `originalArray`.
  */
-export const mergeIgnoreIncludeArrays = (originalArray: Array<string>, ignoreArray: Array<string> = [], includeArray: Array<string> = []): Array<string> => {
-    let result: Array<string> = toLowerCase(originalArray);
-    const include: Array<string> = toLowerCase(includeArray);
-    const ignore: Array<string> = toLowerCase(ignoreArray);
+export const mergeIgnoreIncludeArrays = (originalArray: string[], ignoreArray: string[] = [], includeArray: string[] = []): string[] => {
+    let result: string[] = toLowerCase(originalArray);
+    const include: string[] = toLowerCase(includeArray);
+    const ignore: string[] = toLowerCase(ignoreArray);
 
     // Add elements specified under 'include'.
     include.forEach((e: string) => {

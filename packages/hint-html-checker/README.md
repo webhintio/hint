@@ -1,4 +1,4 @@
-# Nu HTML Test (`html-checker`)
+# Nu HTML test (`html-checker`)
 
 `html-checker` validates the markup of a website against the
 [Nu HTML checker][nu html checker].
@@ -161,6 +161,6 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [html5 validator]: https://html5.validator.nu
 [nu html checker docs]: https://validator.w3.org/nu/about.html
 [nu html checker]: https://validator.github.io/validator/
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [validator interface]: https://github.com/validator/validator/wiki/Service-%C2%BB-HTTP-interface
 [w3 validator]: https://validator.w3.org/nu/

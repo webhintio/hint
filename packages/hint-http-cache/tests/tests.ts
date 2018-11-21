@@ -5,7 +5,7 @@ import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 
 const hintPath = getHintPath(__filename);
 
-const defaultTests: Array<HintTest> = [
+const defaultTests: HintTest[] = [
     {
         name: `Target with "Cache-Control: no-cache" passes`,
         serverConfig: {
@@ -427,7 +427,7 @@ const defaultTests: Array<HintTest> = [
         }
     }];
 
-const customRegexTests: Array<HintTest> = [
+const customRegexTests: HintTest[] = [
     {
         name: 'JS with long max-age, immutable and file revving fails custom regex',
         reports: [{ message: 'No configured patterns for cache busting match http://localhost/script.123.js. See docs to add a custom one.' }],

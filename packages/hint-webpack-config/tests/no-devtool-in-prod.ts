@@ -16,7 +16,7 @@ const loadPackage = {
 };
 
 const hintPath = getHintPath(__filename, true);
-const tests: Array<HintLocalTest> = [
+const tests: HintLocalTest[] = [
     {
         before() {
             loadPackage.default = () => {

@@ -8,7 +8,7 @@ const hintPath = getHintPath(__filename);
 
 const styles = readFile(`${__dirname}/fixtures/styles.css`);
 
-const defaultTestsHttp: Array<HintTest> = [
+const defaultTestsHttp: HintTest[] = [
     {
         name: `Page with a same-origin resource and SRI sha384 fails if content is delivered via http`,
         reports: [{ message: 'The resource is not delivered via a secure context' }],

@@ -1,4 +1,4 @@
-# Disallow non-standard file extension for the web app manifest file (`manifest-file-extension`)
+# Correct manifest extension (`manifest-file-extension`)
 
 `manifest-file-extension` warns against using non-standard file
 extensions for the [web app manifest][spec] file.
@@ -71,5 +71,5 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [file extension]: https://w3c.github.io/manifest/#media-type-registration
 [other configs]: https://github.com/jshttp/mime-db/blob/67a4d013c31e73c47b5d975062f0088aea6cd5cd/src/custom-types.json#L85-L92
 [server configs]: https://github.com/w3c/manifest/issues/346
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [spec]: https://www.w3.org/TR/appmanifest

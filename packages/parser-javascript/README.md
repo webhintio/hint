@@ -30,8 +30,15 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ## Events emitted
 
-This `parser` emits the event `parse::javascript`, of type
-`IScriptParse` which has the following information:
+This `parser` emits the following events:
+
+* `parse::start::javascript` of type `Event` which contains the following
+  information:
+
+  * `resource`: the resource we are going to parse.
+
+* `parse::end::javascript`, of type `ScriptParse` which contains the following
+  information:
 
 * `resource`: the parsed resource. If the JavaScript is in
   a `script tag` and not a file, the value will be `Internal
@@ -40,4 +47,4 @@ This `parser` emits the event `parse::javascript`, of type
 
 <!-- Link labels: -->
 
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

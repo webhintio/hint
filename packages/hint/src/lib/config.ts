@@ -66,7 +66,7 @@ const loadPackageJSONConfigFile = (filePath: string): UserConfig => {
  * Configurations for `extends` are applied left to right.
  *
  */
-const composeConfig = (userConfig: UserConfig) => {
+const composeConfig = (userConfig: UserConfig, parentConfig = '') => {
     /*
      * If an `extends` property is defined, it represents a configuration package to use as
      * a "parent". Load the configuration and merge recursively.
@@ -79,13 +79,13 @@ const composeConfig = (userConfig: UserConfig) => {
     }
 
     const configurations = userConfig.extends.map((config) => {
-        const loadedConfiguration = resourceLoader.loadConfiguration(config);
+        const loadedConfiguration = resourceLoader.loadConfiguration(config, [parentConfig]);
 
         if (!validateConfig(loadedConfiguration)) {
             throw new Error(`Configuration package "${config}" is not valid`);
         }
 
-        return composeConfig(loadedConfiguration);
+        return composeConfig(loadedConfiguration, config);
     });
 
     const finalConfig: UserConfig = mergeWith({}, ...configurations, userConfig, (objValue: any, srcValue: any) => {
@@ -120,7 +120,7 @@ const loadIgnoredUrls = (userConfig: UserConfig): Map<string, RegExp[]> => {
             hints.forEach((hint: string) => {
                 const hintName = hint === '*' ? 'all' : hint;
 
-                const urlsInHint: Array<RegExp> | undefined = ignoredUrls.get(hintName);
+                const urlsInHint: RegExp[] | undefined = ignoredUrls.get(hintName);
                 const urlRegex: RegExp = new RegExp(urlRegexString, 'i');
 
                 if (!urlsInHint) {
@@ -170,16 +170,16 @@ const updateConfigWithCommandLineValues = (config: UserConfig, actions?: CLIOpti
 };
 
 export class Configuration {
-    public readonly browserslist: Array<string>;
+    public readonly browserslist: string[];
     public readonly connector: ConnectorConfig | undefined;
-    public readonly formatters: Array<string> | undefined;
+    public readonly formatters: string[] | undefined;
     public readonly ignoredUrls: Map<string, RegExp[]>;
-    public readonly parsers: Array<string> | undefined;
+    public readonly parsers: string[] | undefined;
     public readonly hints: HintsConfigObject;
     public readonly hintsTimeout: number;
-    public readonly extends: Array<string> | undefined;
+    public readonly extends: string[] | undefined;
 
-    private constructor(userConfig: UserConfig, browsers: Array<string>, ignoredUrls: Map<string, RegExp[]>, hints: HintsConfigObject) {
+    private constructor(userConfig: UserConfig, browsers: string[], ignoredUrls: Map<string, RegExp[]>, hints: HintsConfigObject) {
         this.browserslist = browsers;
         this.formatters = userConfig.formatters;
         this.ignoredUrls = ignoredUrls;
@@ -218,7 +218,7 @@ export class Configuration {
      */
     public static loadBrowsersList(config: UserConfig) {
         const directory: string = process.cwd();
-        const files: Array<string> = CONFIG_FILES.reduce((total, configFile) => {
+        const files: string[] = CONFIG_FILES.reduce((total, configFile) => {
             const filename: string = path.join(directory, configFile);
 
             if (isFile(filename)) {

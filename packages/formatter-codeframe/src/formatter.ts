@@ -47,7 +47,7 @@ const safeTrim = (txt: string, charsToRemove: number): boolean => {
 };
 
 const codeFrame = (code: string, location: ProblemLocation) => {
-    const codeInLines: Array<string> = `\n${code}`.split('\n');
+    const codeInLines: string[] = `\n${code}`.split('\n');
     const whiteSpacesToRemove: number = countLeftWhiteSpaces(codeInLines[codeInLines.length - 1]);
     const line: number = typeof location.elementLine === 'number' ? location.elementLine : -1;
     const column: number = typeof location.elementColumn === 'number' ? location.elementColumn : -1;
@@ -124,19 +124,19 @@ export default class CodeframeFormatter implements IFormatter {
      * Format the problems grouped by `resource` name and sorted by line and column number,
      *  indicating where in the element there is an error.
      */
-    public format(messages: Array<Problem>) {
+    public format(messages: Problem[]) {
         debug('Formatting results');
 
         if (messages.length === 0) {
             return;
         }
 
-        const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'resource');
+        const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'resource');
         let totalErrors: number = 0;
         let totalWarnings: number = 0;
 
-        _.forEach(resources, (msgs: Array<Problem>, resource: string) => {
-            const sortedMessages: Array<Problem> = _.sortBy(msgs, ['location.line', 'location.column']);
+        _.forEach(resources, (msgs: Problem[], resource: string) => {
+            const sortedMessages: Problem[] = _.sortBy(msgs, ['location.line', 'location.column']);
             const resourceString = chalk.cyan(`${cutString(resource, 80)}`);
 
             _.forEach(sortedMessages, (msg: Problem) => {

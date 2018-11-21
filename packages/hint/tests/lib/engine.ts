@@ -134,7 +134,7 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't
         public constructor(context: HintContext) {
             FakeDisallowedHint.called = true;
 
-            context.on('fetch::end', () => { });
+            context.on('fetch::end::*', () => { });
         }
 
         public static readonly meta: HintMetadata = {
@@ -185,7 +185,7 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't
     t.true(FakeDisallowedHint.called);
     t.true(FakeManifestHint.called);
     t.true(t.context.eventemitter.prototype.on.calledTwice);
-    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end');
+    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end::*');
     t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
 
     t.context.eventemitter.prototype.on.restore();
@@ -197,7 +197,7 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ig
         public constructor(context: HintContext) {
             FakeDisallowedHint.called = true;
 
-            context.on('fetch::end', () => { });
+            context.on('fetch::end::*', () => { });
         }
 
         public static readonly meta: HintMetadata = {
@@ -487,7 +487,7 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
         parsers: []
     });
 
-    await engineObject.emitAsync('event', { resource: 'http://www.domain1.com/test' });
+    await engineObject.emitAsync('traverse::start', { resource: 'http://www.domain1.com/test' });
 
     t.false(t.context.eventemitter.prototype.emitAsync.called);
 
@@ -671,7 +671,7 @@ test.serial('formatter should return the formatter configured', (t) => {
     class FakeFormatter implements IFormatter {
         public constructor() { }
 
-        public format(problems: Array<Problem>) {
+        public format(problems: Problem[]) {
             console.log(problems);
         }
     }

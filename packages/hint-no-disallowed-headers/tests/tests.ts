@@ -11,13 +11,13 @@ const hintPath = getHintPath(__filename);
 const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></script>');
 const htmlPageWithManifest = generateHTMLPage('<link rel="manifest" href="test.webmanifest">');
 
-const generateErrorMessage = (values: Array<string>): string => {
+const generateErrorMessage = (values: string[]): string => {
     return `Response should not include disallowed ${prettyPrintArray(values)} ${values.length === 1 ? 'header' : 'headers'}.`;
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const testsForDefaults: Array<HintTest> = [
+const testsForDefaults: HintTest[] = [
     {
         name: `HTML page is served without any of the disallowed headers`,
         serverConfig: { '/': '' }
@@ -60,7 +60,7 @@ const testsForDefaults: Array<HintTest> = [
     }
 ];
 
-const testsForDifferentServerHeaderValues: Array<HintTest> = (() => {
+const testsForDifferentServerHeaderValues: HintTest[] = (() => {
 
     const allowedServerHeaderValues = [
         'amo-cookiemap',
@@ -124,7 +124,7 @@ const testsForDifferentServerHeaderValues: Array<HintTest> = (() => {
 
 })();
 
-const testsForIgnoreConfigs: Array<HintTest> = [
+const testsForIgnoreConfigs: HintTest[] = [
     {
         name: `HTML page is served with disallowed headers that are ignored because of configs`,
         serverConfig: {
@@ -138,7 +138,7 @@ const testsForIgnoreConfigs: Array<HintTest> = [
     }
 ];
 
-const testsForIncludeConfigs: Array<HintTest> = [
+const testsForIncludeConfigs: HintTest[] = [
     {
         name: `HTML page is served with disallowed headers that are enforced because of configs`,
         reports: [{ message: generateErrorMessage(['server', 'x-test-2']) }],
@@ -154,7 +154,7 @@ const testsForIncludeConfigs: Array<HintTest> = [
     }
 ];
 
-const testsForConfigs: Array<HintTest> = [
+const testsForConfigs: HintTest[] = [
     {
         name: `HTML page is served with disallowed headers that are both ignored and enforced because of configs`,
         reports: [{ message: generateErrorMessage(['x-powered-by', 'x-test-1']) }],

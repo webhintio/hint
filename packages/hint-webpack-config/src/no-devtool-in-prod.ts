@@ -1,13 +1,13 @@
 /**
  * @fileoverview `webpack-config/no-devtool-in-prod` warns against having set the propety `devtool` to `eval`.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-import { WebpackConfigParse } from '@hint/parser-webpack-config/dist/src/types';
+import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
+
+import meta from './meta/no-devtool-in-prod';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -18,28 +18,20 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class WebpackConfigNoDevtoolInProd implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`webpack-config/no-devtool-in-prod` warns against having set the propety `devtool` to `eval`'
-        },
-        id: 'webpack-config/no-devtool-in-prod',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<WebpackConfigEvents>) {
 
         const configReceived = async (webpackConfigEvent: WebpackConfigParse) => {
             const { config, resource } = webpackConfigEvent;
 
-            debug(`parse::webpack-config::end received`);
+            debug(`parse::end::webpack-config received`);
 
             if (config.devtool && config.devtool.toString().includes('eval')) {
-                await context.report(resource, null, `\`${config.devtool.toString()}\` not recommended for prodution`);
+                await context.report(resource, `\`${config.devtool.toString()}\` not recommended for prodution`);
             }
         };
 
-        context.on('parse::webpack-config::end', configReceived);
+        context.on('parse::end::webpack-config', configReceived);
     }
 }

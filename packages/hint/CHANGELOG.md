@@ -1,3 +1,53 @@
+# 4.0.3 (November 16, 2018)
+
+## Bug fixes / Improvements
+
+* [[`e56c6df5d1`](https://github.com/webhintio/hint/commit/e56c6df5d135c9f26ee7fcfef9e19ffd8534236b)] - Docs: Add Troubleshoot section (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1464`](https://github.com/webhintio/hint/issues/1464)).
+
+
+# 4.0.2 (November 9, 2018)
+
+## Bug fixes / Improvements
+
+* [[`5d1bf635a5`](https://github.com/webhintio/hint/commit/5d1bf635a51f4a8fce7096041dcd8bc061a9eeec)] - Fix: Find modules inside configurations (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1437`](https://github.com/webhintio/hint/issues/1437)).
+
+
+# 4.0.1 (November 5, 2018)
+
+## Bug fixes / Improvements
+
+* [[`fdec57602d`](https://github.com/webhintio/hint/commit/fdec57602d931e945a27b53ab2a58af05199279e)] - Fix: Update `configuration-web-recommended` to `v2.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
+# 4.0.0 (November 5, 2018)
+
+## Breaking Changes
+
+* [[`0e82bcad9b`](https://github.com/webhintio/hint/commit/0e82bcad9bd5fb3626bf68d94278b89d685b46c7)] - Breaking: Change `context.report` to take an `options` object (by [`Tony Ross`](https://github.com/antross) / see also: [`#1415`](https://github.com/webhintio/hint/issues/1415)).
+* [[`8499d5ca65`](https://github.com/webhintio/hint/commit/8499d5ca6519d859d81d5126cfd9886bee5d3091)] - Breaking: Rename `parse::*::end`, etc. to `parse::end::*` (by [`Tony Ross`](https://github.com/antross) / see also: [`#1397`](https://github.com/webhintio/hint/issues/1397)).
+* [[`d181168807`](https://github.com/webhintio/hint/commit/d18116880733897793628f0a8e829de941531d18)] - Breaking: Use typed event registration and dispatch (by [`Tony Ross`](https://github.com/antross) / see also: [`#123`](https://github.com/webhintio/hint/issues/123)).
+
+## Bug fixes / Improvements
+
+* [[`306a3829af`](https://github.com/webhintio/hint/commit/306a3829af9e268cee36eaf1bf3be745894b001e)] - Docs: Add `Create a custom shareable configuration` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1442`](https://github.com/webhintio/hint/issues/1442)).
+* [[`a64e60f6bc`](https://github.com/webhintio/hint/commit/a64e60f6bc60705d7e6b3a92d323d554bfbb105c)] - Fix: Make `target` optional for `formatter` calls (by [`Tony Ross`](https://github.com/antross)).
+
+
+# 3.4.14 (October 31, 2018)
+
+## Bug fixes / Improvements
+
+* [[`a88fc0963b`](https://github.com/webhintio/hint/commit/a88fc0963b93fe832f0f94e3a6d44b06749d25c2)] - Docs: Fix links to `parser`s (by [`Antón Molleda`](https://github.com/molant)).
+* [[`3c81bfb673`](https://github.com/webhintio/hint/commit/3c81bfb673dff06d518dcd829e9df793f33b342a)] - Docs: Update broken links (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1459`](https://github.com/webhintio/hint/issues/1459)).
+
+
+# 3.4.13 (October 25, 2018)
+
+## Bug fixes / Improvements
+
+* [[`b4cc570391`](https://github.com/webhintio/hint/commit/b4cc570391484ef189d0d28a2f9d0fa7d4339c6e)] - Docs: Update `Architecture` section (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1406`](https://github.com/webhintio/hint/issues/1406)).
+
+
 # 3.4.12 (October 24, 2018)
 
 ## Bug fixes / Improvements

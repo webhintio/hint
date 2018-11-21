@@ -72,7 +72,23 @@ const bodyWithInvalidUrl = `<div>
 <a href='http://'>About</a>
 </div>`;
 
-const tests: Array<HintTest> = [
+const bodyWithBrokenDnsPrefetchLinkTag = `<div>
+<link rel="dns-prefetch" href="http://localhost/404">
+</div>`;
+
+const bodyWithBrokenPreconnectLinkTag = `<div>
+<link rel="preconnect" href="http://localhost/404">
+</div>`;
+
+const bodyWithInvalidDomainDnsPrefetchLinkTag = `<div>
+<link rel="dns-prefetch" href="https://invalid.domain/">
+</div>`;
+
+const bodyWithInvalidDomainPreconnectLinkTag = `<div>
+<link rel="preconnect" href="https://invalid.domain/">
+</div>`;
+
+const tests: HintTest[] = [
     {
         name: `This test should pass as it has links with valid href value`,
         serverConfig: {
@@ -199,33 +215,36 @@ const tests: Array<HintTest> = [
         name: `Invalid URL triggers an error`,
         reports: [{ message: `Broken link found (invalid URL).` }],
         serverConfig: { '/': { content: generateHTMLPage('', bodyWithInvalidUrl) } }
-    }
-];
-
-const loopTestsjsdom = [
+    },
+    {
+        name: `This test should pass as the 404 error should be ignored for dns-prefetch link tags`,
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithBrokenDnsPrefetchLinkTag) },
+            '/404': { status: 404 }
+        }
+    },
+    {
+        name: `This test should pass as the 404 error should be ignored for preconnect link tags`,
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithBrokenPreconnectLinkTag) },
+            '/404': { status: 404 }
+        }
+    },
+    {
+        name: `This test should fail as the domain is not found for the dns-prefetch link tag`,
+        reports: [{ message: `Broken link found (domain not found).` }],
+        serverConfig: generateHTMLPage('', bodyWithInvalidDomainDnsPrefetchLinkTag)
+    },
+    {
+        name: `This test should fail as the domain is not found for the preconnect link tag`,
+        reports: [{ message: `Broken link found (domain not found).` }],
+        serverConfig: generateHTMLPage('', bodyWithInvalidDomainPreconnectLinkTag)
+    },
     {
         name: `This test should fail as it has a loop`,
         reports: [
             { message: `'http://localhost/1.mp4' could not be fetched using GET method (redirect loop detected).` },
             { message: `Broken link found (404 response).` }
-        ],
-        serverConfig: {
-            '/': { content: generateHTMLPage('', bodyWithBrokenVideo) },
-            '/1.mp4': {
-                content: '1.mp4',
-                status: 302
-            },
-            '/2.png': { status: 404 }
-        }
-    }
-];
-
-const loopTestsChrome = [
-    {
-        name: `This test should fail as it has a loop`,
-        reports: [
-            { message: `Broken link found (404 response).` },
-            { message: `'http://localhost/1.mp4' could not be fetched using GET method (redirect loop detected).` }
         ],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithBrokenVideo) },
@@ -249,5 +268,3 @@ const loopTestsChrome = [
 ];
 
 hintRunner.testHint(hintPath, tests);
-hintRunner.testHint(hintPath, loopTestsjsdom, { ignoredConnectors: ['chrome'] });
-hintRunner.testHint(hintPath, loopTestsChrome, { ignoredConnectors: ['jsdom'] });

@@ -1,25 +1,26 @@
 {
   "dependencies": {
-    "@hint/utils-connector-tools": "^1.0.8",
+    "@hint/utils-connector-tools": "^2.0.0",
     "abab": "^2.0.0",
     "chrome-remote-interface": "^0.26.1",
     "lodash": "^4.17.11"
   },
   "description": "hint debugging protocol common functionality",
   "devDependencies": {
-    "@types/lodash": "^4.14.117",
+    "@types/lodash": "^4.14.118",
+    "@types/node": "10.9.1",
     "chrome-remote-debug-protocol": "^1.2.20180422",
     "cpx": "^1.5.0",
-    "eslint": "^5.7.0",
+    "eslint": "^5.9.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-markdown": "^1.0.0-beta.7",
-    "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.4.12",
+    "eslint-plugin-markdown": "^1.0.0-rc.0",
+    "eslint-plugin-typescript": "0.13.0",
+    "hint": "^4.0.3",
     "markdownlint-cli": "^0.13.0",
     "npm-run-all": "^4.1.2",
     "rimraf": "^2.6.2",
-    "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^20.0.0"
+    "typescript": "^3.1.6",
+    "typescript-eslint-parser": "20.1.1"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -39,7 +40,7 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-debugging-protocol-common",
   "peerDependencies": {
-    "hint": "^3.4.12"
+    "hint": "^4.0.3"
   },
   "repository": "webhintio/hint",
   "scripts": {
@@ -56,5 +57,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.13"
+  "version": "2.0.0"
 }

@@ -5,7 +5,7 @@ import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
 const hintPath = getHintPath(__filename);
 
-const testsNoHTTPS: Array<HintTest> = [
+const testsNoHTTPS: HintTest[] = [
     {
         name: `HTML page serverd using HTTP`,
         reports: [{ message: 'Site should be served over HTTPS.' }],

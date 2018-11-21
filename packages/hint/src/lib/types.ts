@@ -16,7 +16,7 @@ export * from './types/parser';
 export * from './types/schema-validation-result';
 
 /**
- * The `Serverity` of a hint.
+ * The `Severity` of a hint.
  * Can be represented as a number: `0`, `1`, `2`
  * or as a severity string: `off`, `warning`, `error`
  */
@@ -26,7 +26,7 @@ export type HintSeverity = Severity | keyof typeof Severity;
  * The configuration of a hint. This could be:
  *
  * * A number to set the severity: `0`, `1`, `2`
- * * A string with the serverity: `off`, `warning`, `error`
+ * * A string with the severity: `off`, `warning`, `error`
  * * An array if it needs to be further configured whose
  *   first item is the severity (`number | string`)
  *
@@ -59,25 +59,25 @@ export type ConnectorConfig = {
 
 export type IgnoredUrl = {
     domain: string;
-    hints: Array<string>;
+    hints: string[];
 };
 
 export type UserConfig = {
     connector?: ConnectorConfig | string;
-    extends?: Array<string>;
-    parsers?: Array<string>;
-    hints?: HintsConfigObject | Array<[HintSeverity, HintConfig]>;
-    browserslist?: string | Array<string>;
+    extends?: string[];
+    parsers?: string[];
+    hints?: HintsConfigObject | [HintSeverity, HintConfig][];
+    browserslist?: string | string[];
     hintsTimeout?: number;
-    formatters?: Array<string>;
-    ignoredUrls?: Array<IgnoredUrl>;
+    formatters?: string[];
+    ignoredUrls?: IgnoredUrl[];
 };
 
 /** A resource required by hint: Connector, Formatter, Hint. */
 export type Resource = IConnectorConstructor | IFormatterConstructor | IHintConstructor;
 
 export type CLIOptions = {
-    _: Array<string>;
+    _: string[];
     config: string;
     debug: boolean;
     format: string;
@@ -121,8 +121,8 @@ export type NpmMaintainer = {
 export type NpmPackage = {
     date: Date;
     description: string;
-    keywords: Array<string>;
-    maintainers: Array<NpmMaintainer>;
+    keywords: string[];
+    maintainers: NpmMaintainer[];
     name: string;
     version: string;
 };
@@ -138,9 +138,15 @@ export type NpmSearchResults = {
 
 export type HintResources = {
     connector: IConnectorConstructor | null;
-    formatters: Array<IFormatterConstructor>;
-    incompatible: Array<string>;
-    missing: Array<string>;
-    parsers: Array<IParserConstructor>;
-    hints: Array<IHintConstructor>;
+    formatters: IFormatterConstructor[];
+    incompatible: string[];
+    missing: string[];
+    parsers: IParserConstructor[];
+    hints: IHintConstructor[];
 };
+
+/**
+ * Get just the `string` keys of `T` as `keyof T` can be `string | number | symbol`.
+ * https://github.com/Microsoft/TypeScript/issues/23724#issuecomment-384807714
+ */
+export type StringKeyOf<T> = Extract<keyof T, string>;

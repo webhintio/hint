@@ -9,14 +9,14 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
-import { IAsyncHTMLElement, FetchEnd, Response, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, Response, IHint } from 'hint/dist/src/lib/types';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -28,34 +28,11 @@ const debug = d(__filename);
 
 export default class NoHtmlOnlyHeadersHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: 'Disallow unneeded HTTP headers for non-HTML resources'
-        },
-        id: 'no-html-only-headers',
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                'string-array': {
-                    items: { type: 'string' },
-                    minItems: 1,
-                    type: 'array',
-                    uniqueItems: true
-                }
-            },
-            properties: {
-                ignore: { $ref: '#/definitions/string-array' },
-                include: { $ref: '#/definitions/string-array' }
-            },
-            type: ['object', 'null']
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
-        let unneededHeaders: Array<string> = [
+        let unneededHeaders: string[] = [
             'content-security-policy',
             'feature-policy',
             'x-content-security-policy',
@@ -113,9 +90,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             return false;
         };
 
-        const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
-
+        const validate = async ({ element, resource, response }: FetchEnd) => {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
@@ -125,11 +100,13 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             }
 
             if (!willBeTreatedAsHTML(response)) {
-                const headers: Array<string> = getIncludedHeaders(response.headers, unneededHeaders);
+                const headers: string[] = getIncludedHeaders(response.headers, unneededHeaders);
                 const numberOfHeaders: number = headers.length;
 
                 if (numberOfHeaders > 0) {
-                    await context.report(resource, element, `Response should not include unneeded ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`);
+                    const message = `Response should not include unneeded ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`;
+
+                    await context.report(resource, message, { element });
                 }
             }
         };

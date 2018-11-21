@@ -33,7 +33,7 @@ const generateIncorrectContentAttributeValueErrorMessage = (contentAttributeValu
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const testsForNonDocumentModeBrowsers: Array<HintTest> = [
+const testsForNonDocumentModeBrowsers: HintTest[] = [
     {
         name: `HTML page is served with 'X-UA-Compatible' header but the targeted browsers don't support document modes`,
         reports: [{ message: unneededHeaderErrorMessage }],
@@ -50,7 +50,7 @@ const testsForNonDocumentModeBrowsers: Array<HintTest> = [
     }
 ];
 
-const testsForHeaders: Array<HintTest> = [
+const testsForHeaders: HintTest[] = [
     {
         name: `HTML page is served without 'X-UA-Compatible' header`,
         reports: [{ message: noHeaderErrorMessage }],
@@ -77,7 +77,7 @@ const testsForHeaders: Array<HintTest> = [
     }
 ];
 
-const testsForRequireMetaElementConfig: Array<HintTest> = [
+const testsForRequireMetaElementConfig: HintTest[] = [
     {
         name: `'X-UA-Compatible' meta element is not specified`,
         reports: [{ message: metaElementIsNotSpecifiedErrorMessage }],

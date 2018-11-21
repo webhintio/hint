@@ -26,7 +26,7 @@ To use a `configuration`, you have to:
 
 3. You are done!
 
-The property `extends` is `Array<string>` so you can extend from
+The property `extends` is `string[]` so you can extend from
 multiple configuration packages:
 
 ```json

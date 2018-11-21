@@ -10,7 +10,7 @@ class HintEmptySchema implements IHint {
     public static readonly meta = { id: '', schema: [], scope: HintScope.site }
 
     public constructor(context: HintContext) {
-        context.on('event', () => { });
+        context.on('scan::start', () => { });
     }
 }
 
@@ -38,7 +38,7 @@ class HintWithSchema implements IHint {
     }
 
     public constructor(context: HintContext) {
-        context.on('event', () => { });
+        context.on('scan::start', () => { });
     }
 }
 

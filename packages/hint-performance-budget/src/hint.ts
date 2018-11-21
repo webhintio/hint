@@ -4,16 +4,16 @@
 
 import { URL } from 'url';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IHint, FetchEnd, ScanEnd, Response, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd, ScanEnd, Response } from 'hint/dist/src/lib/types';
 import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 
 import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';
 import * as Connections from './connections';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -37,33 +37,12 @@ const defaultConfig: PerfBudgetConfig = {
 
 export default class PerformanceBudgetHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed`
-        },
-        id: 'performance-budget',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                connectionType: {
-                    oneOf: [{ enum: Connections.ids }],
-                    type: 'string'
-                },
-                loadTime: {
-                    minimum: 1,
-                    type: 'number'
-                }
-            },
-            type: 'object'
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
         /** An array containing all the responses. */
-        const responses: Array<ResourceResponse> = [];
+        const responses: ResourceResponse[] = [];
         /** Set with all the different domains loaded by the site. */
         const uniqueDomains: Set<string> = new Set();
         /** Set with all the different HTTPS domains loaded by the site. */
@@ -247,7 +226,7 @@ export default class PerformanceBudgetHint implements IHint {
         };
 
         /** Calculates the transfer time in seconds for all the given responses with no TCP connection reuse.*/
-        const calculateTransferTimeWithSlowStart = (allResponses: Array<ResourceResponse>, config: NetworkConfig): number => {
+        const calculateTransferTimeWithSlowStart = (allResponses: ResourceResponse[], config: NetworkConfig): number => {
             const totalTime = allResponses.reduce((time, resource) => {
                 const transfertTime = calculateTransferTimeForResource(resource, config);
 
@@ -302,7 +281,7 @@ export default class PerformanceBudgetHint implements IHint {
             debug(`Ideal load time: ${loadTime}s`);
 
             if (typeof config.load === 'number' && loadTime > config.load) {
-                await context.report(resource, null, `To load all the resources on a ${config.id} network, it will take about ${loadTime.toFixed(1)}s in optimal conditions (that is ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s target).`);
+                await context.report(resource, `To load all the resources on a ${config.id} network, it will take about ${loadTime.toFixed(1)}s in optimal conditions (that is ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s target).`);
             }
         };
 

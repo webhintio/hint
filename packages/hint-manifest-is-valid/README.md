@@ -1,4 +1,4 @@
-# Require valid manifest (`manifest-is-valid`)
+# Valid manifest (`manifest-is-valid`)
 
 `manifest-is-valid` checks if the content of the web app manifest
 file is valid JSON, valid according to the specification, and the
@@ -153,5 +153,5 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [density issue]: https://github.com/w3c/manifest/issues/450
 [manifest spec]: https://w3c.github.io/manifest/
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
-[targeted browsers]: https://webhint.io/docs/user-guide/further-configuration/browser-context/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[targeted browsers]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/

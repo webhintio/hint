@@ -48,8 +48,8 @@ test('If the file contains an invalid json, it should fail', async (t) => {
 
     // 3 times, the previous call, the start and the expected call.
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::typescript-config::start');
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::typescript-config::error::json');
+    t.is(t.context.engine.emitAsync.args[1][0], 'parse::start::typescript-config');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::typescript-config::json');
     t.is(t.context.engine.emitAsync.args[2][1].error.message, 'Unexpected token i in JSON at position 0');
 
     sandbox.restore();
@@ -69,13 +69,13 @@ test('If the file contains a valid json with an invalid schema, it should fail',
 
     // 3 times, the previous call, the start and the expected call.
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::typescript-config::error::schema');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::typescript-config::schema');
     t.is(t.context.engine.emitAsync.args[2][1].errors[0].message, 'should NOT have additional properties');
 
     sandbox.restore();
 });
 
-test('If we receive a valid json with a valid name, it should emit the event parse::typescript-config::end', async (t) => {
+test('If we receive a valid json with a valid name, it should emit the event parse::end::typescript-config', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -113,14 +113,14 @@ test('If we receive a valid json with a valid name, it should emit the event par
 
     // 3 times, the previous call, the start and the parse.
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::typescript-config::end');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::end::typescript-config');
     t.deepEqual(t.context.engine.emitAsync.args[2][1].originalConfig, validJSON);
     t.deepEqual(t.context.engine.emitAsync.args[2][1].config, parsedJSON);
 
     sandbox.restore();
 });
 
-test('If we receive a valid json with an extends, it should emit the event parse::typescript-config::end with the right data', async (t) => {
+test('If we receive a valid json with an extends, it should emit the event parse::end::typescript-config with the right data', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -158,14 +158,14 @@ test('If we receive a valid json with an extends, it should emit the event parse
 
     // 3 times, the previous call, the start parse and the parse.
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::typescript-config::end');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::end::typescript-config');
     t.deepEqual(t.context.engine.emitAsync.args[2][1].originalConfig, validJSON);
     t.deepEqual(t.context.engine.emitAsync.args[2][1].config, parsedJSON);
 
     sandbox.restore();
 });
 
-test('If we receive a json with an extends with a loop, it should emit the event parse::typescript-config::error::circular', async (t) => {
+test('If we receive a json with an extends with a loop, it should emit the event parse::error::typescript-config::circular', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -181,12 +181,12 @@ test('If we receive a json with an extends with a loop, it should emit the event
 
     // 3 times, the previous call, the start and the parse error.
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::typescript-config::error::circular');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::typescript-config::circular');
 
     sandbox.restore();
 });
 
-test('If we receive a json with an extends with an invalid json, it should emit the event parse::typescript-config::error::extends', async (t) => {
+test('If we receive a json with an extends with an invalid json, it should emit the event parse::error::typescript-config::extends', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -202,7 +202,7 @@ test('If we receive a json with an extends with an invalid json, it should emit 
 
     // 3 times, the previous call, the start and the parse error.
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::typescript-config::error::extends');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::typescript-config::extends');
 
     sandbox.restore();
 });

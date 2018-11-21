@@ -9,7 +9,7 @@ const hintPath = getHintPath(__filename);
 const styles = readFile(`${__dirname}/fixtures/styles.css`);
 const scripts = readFile(`${__dirname}/fixtures/scripts.js`);
 
-const defaultTestsHttps: Array<HintTest> = [
+const defaultTestsHttps: HintTest[] = [
     {
         name: 'Page with no resources passes',
         serverConfig: generateHTMLPage()
@@ -202,7 +202,7 @@ Actual:   sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv
      */
 ];
 
-const configTestsHigh: Array<HintTest> = [
+const configTestsHigh: HintTest[] = [
     {
         name: `Page with a same-origin resource and SRI sha256 fails if baseline is 512`,
         reports: [{ message: `The hash algorithm "sha256" doesn't meet the baseline "sha512"` }],
@@ -228,7 +228,7 @@ const configTestsHigh: Array<HintTest> = [
     }
 ];
 
-const configTestsLow: Array<HintTest> = [
+const configTestsLow: HintTest[] = [
     {
         name: `Page with a same-origin resource and SRI sha256 passes if baseline is 256`,
         serverConfig: {

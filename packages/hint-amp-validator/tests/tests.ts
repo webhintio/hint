@@ -11,7 +11,7 @@ const validAMPHTML = readFile(`${__dirname}/fixtures/valid-amp.html`);
 const invalidAMPHTML = readFile(`${__dirname}/fixtures/invalid-amp.html`);
 const deprecateAMP = readFile(`${__dirname}/fixtures/deprecated-amp.html`);
 
-const defaultTests: Array<HintTest> = [
+const defaultTests: HintTest[] = [
     {
         name: 'Valid AMP HTML passes',
         serverConfig: validAMPHTML
@@ -46,7 +46,7 @@ const defaultTests: Array<HintTest> = [
     }
 ];
 
-const configuredTests: Array<HintTest> = [{
+const configuredTests: HintTest[] = [{
     name: 'Deprecated AMP attribute passes if errorsOnly is true',
     serverConfig: deprecateAMP
 }];

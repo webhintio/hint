@@ -100,7 +100,7 @@ const htmlCheckerMock = (response: any) => {
     mock('hint/dist/src/lib/utils/network/request-async', requestAsync);
 };
 
-const testsForDefaults: Array<HintTest> = [
+const testsForDefaults: HintTest[] = [
     {
         name: 'No reports if HTML checker returns no messages',
         serverUrl: exampleUrl,
@@ -134,7 +134,7 @@ const testsForDefaults: Array<HintTest> = [
     }
 ];
 
-const testsForIgnoreStringConfigs: Array<HintTest> = [
+const testsForIgnoreStringConfigs: HintTest[] = [
     {
         name: 'Ignore selected message(string) from the report',
         serverUrl: exampleUrl,
@@ -151,7 +151,7 @@ const testsForIgnoreStringConfigs: Array<HintTest> = [
     }
 ];
 
-const testsForIgnoreArrayConfigs: Array<HintTest> = [
+const testsForIgnoreArrayConfigs: HintTest[] = [
     {
         name: 'Ignore selected messages(array) from the report',
         serverUrl: exampleUrl,
@@ -161,7 +161,7 @@ const testsForIgnoreArrayConfigs: Array<HintTest> = [
     }
 ];
 
-const testsForValidatorConfig: Array<HintTest> = [
+const testsForValidatorConfig: HintTest[] = [
     {
         name: 'Use configed validator service other than the default',
         serverUrl: exampleUrl,
@@ -178,7 +178,7 @@ const testsForValidatorConfig: Array<HintTest> = [
     }
 ];
 
-const testsForDetailsConfig: Array<HintTest> = [
+const testsForDetailsConfig: HintTest[] = [
     {
         name: 'Configure to show complete list of errors/warnings',
         serverUrl: exampleUrl,
@@ -214,7 +214,7 @@ const testsForDetailsConfig: Array<HintTest> = [
     }
 ];
 
-const testsForErrors: Array<HintTest> = [
+const testsForErrors: HintTest[] = [
     {
         name: 'Reports error when not able to get result from the HTML Checker',
         serverUrl: exampleUrl,

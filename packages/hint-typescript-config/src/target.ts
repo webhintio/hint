@@ -3,12 +3,12 @@
  * in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined
  * `browserslist` values.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 
-import { TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript-config/dist/src/types';
+import { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript-config';
+
+import meta from './meta/target';
 
 /*
  * ------------------------------------------------------------------------------
@@ -30,17 +30,9 @@ type Browsers = {
 };
 
 export default class TypeScriptConfigTarget implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`typescript-config/target` warns against providing a `compilerOptions.target` in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined `browserslist` values.'
-        },
-        id: 'typescript-config/target',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const Targets: Map<string, string> = new Map([
             ['es3', 'es3'],
             ['es5', 'es5'],
@@ -149,7 +141,7 @@ export default class TypeScriptConfigTarget implements IHint {
         };
 
         /** Transforms a browserslist array into an object with the minimum versions of each one */
-        const toMiniumBrowser = (targetedBrowsers: Array<string>) => {
+        const toMiniumBrowser = (targetedBrowsers: string[]) => {
             const configuration = targetedBrowsers.reduce((config, browserVersion) => {
                 // The format in the array is "browser version". E.g.: "firefox 52"
                 const [browser, strVersion] = browserVersion.split(' ');
@@ -240,10 +232,13 @@ export default class TypeScriptConfigTarget implements IHint {
             const maxESVersion = getMaxVersion(minimumBrowsers);
 
             if (maxESVersion !== target) {
-                await context.report(resource, null, `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`, undefined, getLocation('compilerOptions.target') || undefined);
+                const message = `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`;
+                const location = getLocation('compilerOptions.target');
+
+                await context.report(resource, message, { location });
             }
         };
 
-        context.on('parse::typescript-config::end', validate);
+        context.on('parse::end::typescript-config', validate);
     }
 }

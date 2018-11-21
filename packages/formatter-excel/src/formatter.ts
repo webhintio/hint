@@ -34,12 +34,12 @@ const startRow = 5;
  */
 
 export default class ExcelFormatter implements IFormatter {
-    public async format(messages: Array<Problem>, target: string) {
+    public async format(messages: Problem[], target = '') {
         if (messages.length === 0) {
             return;
         }
 
-        const resources: _.Dictionary<Array<Problem>> = _.groupBy(messages, 'resource');
+        const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'resource');
         const workbook = new Excel.Workbook();
         const sortedResources = _.sortBy(Object.keys(resources));
 
@@ -89,8 +89,8 @@ export default class ExcelFormatter implements IFormatter {
         };
 
         /** Creates a new sheet with the report for the given resource. */
-        const processResource = (msgs: Array<Problem>, resource: string) => {
-            const sortedMessages: Array<Problem> = _.sortBy(msgs, 'hintId');
+        const processResource = (msgs: Problem[], resource: string) => {
+            const sortedMessages: Problem[] = _.sortBy(msgs, 'hintId');
             const name = getName(resource);
             const sheet = workbook.addWorksheet(name);
             let counter = startRow;
@@ -134,7 +134,7 @@ export default class ExcelFormatter implements IFormatter {
         };
 
         /** Creates the summary sheet with the list of resources with issues. */
-        const createSummary = (resourcesList: Array<string>, scannedUrl: string) => {
+        const createSummary = (resourcesList: string[], scannedUrl: string) => {
             const sheet = workbook.addWorksheet('summary');
             let counter = startRow;
 

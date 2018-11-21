@@ -8,12 +8,14 @@ import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
-import { BabelConfig, BabelConfigInvalidJSON, BabelConfigParsed, BabelConfigInvalidSchema, BabelConfigParseStart } from './types';
+import { BabelConfig, BabelConfigEvents } from './types';
 
-export default class BabelConfigParser extends Parser {
+export * from './types';
+
+export default class BabelConfigParser extends Parser<BabelConfigEvents> {
     private schema: any;
 
-    public constructor(engine: Engine) {
+    public constructor(engine: Engine<BabelConfigEvents>) {
         super(engine, 'babel-config');
         this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
@@ -29,13 +31,12 @@ export default class BabelConfigParser extends Parser {
         const valid = validationResult.valid;
 
         if (!valid) {
-            const event: BabelConfigInvalidSchema = {
+            await this.engine.emitAsync('parse::error::babel-config::schema', {
+                error: new Error('Invalid Babel configuration'),
                 errors: validationResult.errors,
                 prettifiedErrors: validationResult.prettifiedErrors,
                 resource
-            };
-
-            await this.engine.emitAsync(`parse::${this.name}::error::schema`, event);
+            });
         }
 
         return validationResult;
@@ -62,9 +63,7 @@ export default class BabelConfigParser extends Parser {
                 return;
             }
 
-            const parseStart: BabelConfigParseStart = { resource };
-
-            await this.engine.emitAsync(`parse::${this.name}::start`, parseStart);
+            await this.engine.emitAsync('parse::start::babel-config', { resource });
 
             // `result.scope('babel')` won't be null since `result.data.babel` was confirmed to exist above.
             result = isPackageJson ? result.scope('babel')! : result;
@@ -72,7 +71,7 @@ export default class BabelConfigParser extends Parser {
 
             const originalConfig: BabelConfig = cloneDeep(config);
 
-            const finalConfig = await this.finalConfig<BabelConfig, BabelConfigInvalidJSON>(config, resource);
+            const finalConfig = await this.finalConfig<BabelConfig>(config, resource);
 
             if (!finalConfig) {
                 return;
@@ -86,21 +85,17 @@ export default class BabelConfigParser extends Parser {
                 return;
             }
 
-            const event: BabelConfigParsed = {
+            await this.engine.emitAsync('parse::end::babel-config', {
                 config: validationResult.data,
                 getLocation: result.getLocation,
                 originalConfig,
                 resource
-            };
-
-            await this.engine.emitAsync(`parse::${this.name}::end`, event);
+            });
         } catch (err) {
-            const errorEvent: BabelConfigInvalidJSON = {
+            await this.engine.emitAsync('parse::error::babel-config::json', {
                 error: err,
                 resource
-            };
-
-            await this.engine.emitAsync(`parse::${this.name}::error::json`, errorEvent);
+            });
         }
     }
 }

@@ -61,7 +61,7 @@ export class Connector implements IConnector {
     /** The DOM abstraction on top of adapter. */
     private _dom: CDPAsyncHTMLDocument | undefined;
     /** A collection of requests with their initial data. */
-    private _pendingResponseReceived: Array<Function>;
+    private _pendingResponseReceived: Function[];
     /** List of all the tabs used by the connector. */
     private _tabs: any[] = [];
     /** The amount of time before an event is going to be timedout. */
@@ -110,9 +110,9 @@ export class Connector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    private async getElementFromParser(parts: Array<string>, dom: CDPAsyncHTMLDocument): Promise<AsyncHTMLElement | null> {
+    private async getElementFromParser(parts: string[], dom: CDPAsyncHTMLDocument): Promise<AsyncHTMLElement | null> {
         let basename: string | null = null;
-        let elements: Array<AsyncHTMLElement> = [];
+        let elements: AsyncHTMLElement[] = [];
 
         while (parts.length > 0) {
             basename = !basename ? parts.pop()! : `${parts.pop()}/${basename}`;
@@ -125,8 +125,15 @@ export class Connector implements IConnector {
              * returns the elements already escaped, but the real value
              * doesn't need to be escaped.
              */
-            const query: string = `[src$="${basename}" i],[href$="${basename}" i],[src$="${decodeURIComponent(basename)}" i],[href$="${decodeURIComponent(basename)}" i]`;
-            const newElements: Array<AsyncHTMLElement> = await dom.querySelectorAll(query);
+            let decodeBasename: string;
+
+            try {
+                decodeBasename = decodeURIComponent(basename);
+            } catch (e) {
+                decodeBasename = basename;
+            }
+            const query: string = `[src$="${basename}" i],[href$="${basename}" i],[src$="${decodeBasename}" i],[href$="${decodeBasename}" i]`;
+            const newElements: AsyncHTMLElement[] = await dom.querySelectorAll(query);
 
             if (newElements.length === 0) {
                 if (elements.length > 0) {
@@ -169,7 +176,7 @@ export class Connector implements IConnector {
          * to find the element. There is no need to validate if the URL
          * is valid or not.
          */
-        const parts: Array<string> = requestUrl.split('/');
+        const parts: string[] = requestUrl.split('/');
 
         /*
          * TODO: Check what happens with prefetch, etc.
@@ -204,7 +211,7 @@ export class Connector implements IConnector {
             this._headers = normalizeHeaders(params.request.headers)!;
         }
 
-        const eventName: string = this._href === requestUrl ? 'fetch::start::target' : 'fetch::start';
+        const eventName = this._href === requestUrl ? 'fetch::start::target' : 'fetch::start';
 
         await this._server.emitAsync(eventName, { resource: requestUrl });
     }
@@ -247,8 +254,8 @@ export class Connector implements IConnector {
         debug(`Error found loading ${resource}:\n%O`, params);
 
         const element: IAsyncHTMLElement | null = (await this.getElementFromRequest(params.requestId, this._dom));
-        const eventName: string = 'fetch::error';
-        const hops: Array<string> = requestResponse.hops;
+        const eventName = 'fetch::error';
+        const hops: string[] = requestResponse.hops;
 
         const event: FetchError = {
             element,
@@ -262,11 +269,10 @@ export class Connector implements IConnector {
 
     private async emitFetchEnd(requestResponse: RequestResponse, dom: CDPAsyncHTMLDocument | null) {
         const resourceUrl: string = requestResponse.finalUrl;
-        const hops: Array<string> = requestResponse.hops;
+        const hops: string[] = requestResponse.hops;
         const originalUrl: string = hops[0] || resourceUrl;
 
         let element = null;
-        let eventName: string = 'fetch::end';
         /*
          * `dom` should be `null` only if "fetch::end" is for the target
          * (and thus no `dom` is needed )
@@ -327,7 +333,7 @@ export class Connector implements IConnector {
             suffix = 'html';
         }
 
-        eventName = `${eventName}::${suffix}`;
+        const eventName = `fetch::end::${suffix}` as 'fetch::end::*';
 
 
         /** Event is also emitted when status code in response is not 200. */
@@ -383,7 +389,7 @@ export class Connector implements IConnector {
         await requestResponse.updateLoadingFinished(params);
 
         const resourceUrl: string = requestResponse.finalUrl;
-        const hops: Array<string> = requestResponse.hops;
+        const hops: string[] = requestResponse.hops;
         const originalUrl: string = hops[0] || resourceUrl;
 
         const isTarget: boolean = this._href === originalUrl;
@@ -413,13 +419,13 @@ export class Connector implements IConnector {
          *
          * 10: `HTML` with no children
          */
-        const ignoredNodeTypes: Array<number> = [10];
+        const ignoredNodeTypes: number[] = [10];
 
         if (ignoredNodeTypes.includes(element.nodeType)) {
             return;
         }
 
-        const eventName: string = `element::${element.nodeName.toLowerCase()}`;
+        const eventName = `element::${element.nodeName.toLowerCase()}` as 'element::*';
 
         // If we are traversing, we know `this._dom` exists already
         const wrappedElement: AsyncHTMLElement = new AsyncHTMLElement(element, this._dom!, this._client.DOM);
@@ -729,7 +735,7 @@ export class Connector implements IConnector {
              */
 
             if (this._options.overrideInvalidCert) {
-                Security.certificateError(({ eventId }: { eventId: number }) => {
+                Security.certificateError(({ eventId }: Crdp.Security.CertificateErrorEvent) => {
                     Security.handleCertificateError({
                         action: 'continue',
                         eventId
@@ -927,7 +933,7 @@ export class Connector implements IConnector {
         });
     }
 
-    public querySelectorAll(selector: string): Promise<Array<AsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<AsyncHTMLElement[]> {
         if (!this._dom) {
             return Promise.resolve([]);
         }

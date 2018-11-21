@@ -7,12 +7,14 @@ import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
-import { TypeScriptConfig, TypeScriptConfigInvalidJSON, TypeScriptConfigInvalidSchema, TypeScriptConfigParse, TypeScriptConfigParseStart } from './types';
+import { TypeScriptConfig, TypeScriptConfigEvents } from './types';
 
-export default class TypeScriptConfigParser extends Parser {
+export * from './types';
+
+export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvents> {
     private schema: any;
 
-    public constructor(engine: Engine) {
+    public constructor(engine: Engine<TypeScriptConfigEvents>) {
         super(engine, 'typescript-config');
 
         this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
@@ -26,13 +28,12 @@ export default class TypeScriptConfigParser extends Parser {
         const valid = validationResult.valid;
 
         if (!valid) {
-            const event: TypeScriptConfigInvalidSchema = {
+            await this.engine.emitAsync(`parse::error::typescript-config::schema`, {
+                error: new Error('Invalid TypeScript configuration'),
                 errors: validationResult.errors,
                 prettifiedErrors: validationResult.prettifiedErrors,
                 resource
-            };
-
-            await this.engine.emitAsync(`parse::${this.name}::error::schema`, event);
+            });
         }
 
         return validationResult;
@@ -56,9 +57,7 @@ export default class TypeScriptConfigParser extends Parser {
             return;
         }
 
-        const parseStart: TypeScriptConfigParseStart = { resource };
-
-        await this.engine.emitAsync(`parse::${this.name}::start`, parseStart);
+        await this.engine.emitAsync(`parse::start::typescript-config`, { resource });
 
         let result: IJSONResult;
 
@@ -67,7 +66,7 @@ export default class TypeScriptConfigParser extends Parser {
 
             const originalConfig = cloneDeep(result.data);
 
-            const config = await this.finalConfig<TypeScriptConfig, TypeScriptConfigInvalidJSON>(result.data, resource);
+            const config = await this.finalConfig<TypeScriptConfig>(result.data, resource);
 
             if (!config) {
                 return;
@@ -80,21 +79,17 @@ export default class TypeScriptConfigParser extends Parser {
                 return;
             }
 
-            const event: TypeScriptConfigParse = {
+            await this.engine.emitAsync(`parse::end::typescript-config`, {
                 config: validationResult.data,
                 getLocation: result.getLocation,
                 originalConfig,
                 resource
-            };
-
-            await this.engine.emitAsync(`parse::${this.name}::end`, event);
+            });
         } catch (err) {
-            const errorEvent: TypeScriptConfigInvalidJSON = {
+            await this.engine.emitAsync(`parse::error::typescript-config::json`, {
                 error: err,
                 resource
-            };
-
-            await this.engine.emitAsync(`parse::${this.name}::error::json`, errorEvent);
+            });
         }
     }
 }

@@ -49,7 +49,7 @@ successfully downloaded the web app manifest file.
 Event is of type [`FetchError`][fetcherror] and is emitted when the
 parser encounters a problem trying to fetch the web app manifest file.
 
-### `parse::manifest::end`
+### `parse::end::manifest`
 
 Event is emitted when the parser successfully completed parsing
 the web app manifest file.
@@ -57,14 +57,13 @@ the web app manifest file.
 **Format:**
 
 ```ts
-
 export type ManifestParsed = FetchEnd & {
     /** The content of manifest parsed */
     parsedContent: Manifest;
 };
 ```
 
-### `parse::manifest::error::json`
+### `parse::error::manifest::json`
 
 Event is emitted when the content of the web app manifest file
 is not valid JSON.
@@ -72,13 +71,13 @@ is not valid JSON.
 **Format:**
 
 ```ts
-export type ManifestInvalidJSON = FetchEnd & {
+export type ManifestInvalidJSON = ErrorEvent & {
     /** The parse JSON error. */
     error: Error;
 };
 ```
 
-### `parse::manifest::error::schema`
+### `parse::error::manifest::schema`
 
 Event is emitted when the content of the web app manifest file
 is not valid according to the schema.
@@ -86,11 +85,11 @@ is not valid according to the schema.
 **Format:**
 
 ```ts
-export type ManifestInvalidSchema = FetchEnd & {
+export type ManifestInvalidSchema = ErrorEvent & {
     /** The parse errors as returned by ajv. */
-    errors: Array<ajv.ErrorObject>;
+    errors: ajv.ErrorObject[];
     /** The errors in a more human readable format. */
-    prettifiedErrors: Array<string>;
+    prettifiedErrors: string[];
 };
 
 ```
@@ -101,7 +100,7 @@ If you need to import any type or enum defined in this parser, you just
 need to import them as follows:
 
 ```ts
-import { TypeOrEnumYouWantToUse } from '@hint/parser-manifest/dist/src/types';
+import { TypeOrEnumYouWantToUse } from '@hint/parser-manifest';
 ```
 
 <!-- Link labels: -->
@@ -109,5 +108,5 @@ import { TypeOrEnumYouWantToUse } from '@hint/parser-manifest/dist/src/types';
 [fetchend]: https://webhint.io/docs/contributor-guide/getting-started/events/#fetchend
 [fetcherror]: https://webhint.io/docs/contributor-guide/getting-started/events/#fetcherror
 [fetchstart]: https://webhint.io/docs/contributor-guide/getting-started/events/#fetchstart
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [manifest]: https://www.w3.org/TR/appmanifest/

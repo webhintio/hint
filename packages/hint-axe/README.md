@@ -1,4 +1,4 @@
-# Accessibility assessment with aXe (`axe`)
+# aXe accessibility check (`axe`)
 
 `aXe` is the accessibility engine for automated testing of HTML-based
 user interfaces. This hint performs the default accessibility tests
@@ -143,7 +143,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [axe docs]: https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#options-parameter
 [axe rules]: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 [axe.run]: https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#api-name-axerun
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [wai soc]: https://www.w3.org/WAI/bcase/soc
 [wai]: https://www.w3.org/WAI/intro/accessibility.php
 [wcag 2.0]: https://www.w3.org/TR/WCAG20/

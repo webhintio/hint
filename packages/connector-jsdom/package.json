@@ -7,33 +7,32 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-connector-tools": "^1.0.8",
-    "canvas-prebuilt": "^1.6.11",
-    "jsdom": "^12.2.0",
+    "@hint/utils-connector-tools": "^2.0.0",
+    "jsdom": "^13.0.0",
     "mutationobserver-shim": "^0.3.2",
-    "node-pre-gyp": "^0.11.0",
+    "node-pre-gyp": "^0.12.0",
     "whatwg-fetch": "^3.0.0"
   },
   "description": "hint connector for JSDOM",
   "devDependencies": {
-    "@hint/utils-create-server": "^1.0.3",
+    "@hint/utils-create-server": "^2.0.0",
     "@types/jsdom": "^12.2.0",
-    "@types/lodash": "^4.14.117",
+    "@types/lodash": "^4.14.118",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.7.0",
+    "eslint": "^5.9.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-markdown": "^1.0.0-beta.7",
-    "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.4.12",
+    "eslint-plugin-markdown": "^1.0.0-rc.0",
+    "eslint-plugin-typescript": "0.13.0",
+    "hint": "^4.0.3",
     "lodash": "^4.17.11",
     "markdownlint-cli": "^0.13.0",
     "npm-run-all": "^4.1.2",
     "nyc": "^13.1.0",
     "rimraf": "^2.6.2",
-    "sinon": "^7.0.0",
-    "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^20.0.0"
+    "sinon": "^7.1.1",
+    "typescript": "^3.1.6",
+    "typescript-eslint-parser": "20.1.1"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -60,8 +59,11 @@
   "nyc": {
     "extends": "../../.nycrc"
   },
+  "optionalDependencies": {
+    "canvas": "^2.0.1"
+  },
   "peerDependencies": {
-    "hint": "^3.4.12"
+    "hint": "^4.0.3"
   },
   "repository": "webhintio/hint",
   "scripts": {
@@ -78,5 +80,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.8"
+  "version": "2.0.0"
 }

@@ -1,0 +1,74 @@
+@import url('scrollbars.css');
+
+html {
+    --bg-color: #fff;
+    --bg-alt-color: #f2f2f2;
+    --bg-inverse-color: #4046dd;
+    --bg-inverse-alt-color: #999;
+    --border-color: #333;
+    --border-alt-color: #d7d7d7;
+    --link-color: #4700a3;
+    --shadow-color: #00000080;
+    --text-color: #000;
+    --text-highlight-color: #666;
+    --text-inverse-color: #fff;
+    --text-passed-color: #00864b;
+}
+
+html[data-theme='dark'] {
+    --bg-color: #000;
+    --bg-alt-color: #242424;
+    --bg-inverse-color: #4046dd;
+    --bg-inverse-alt-color: #333;
+    --border-color: #ccc;
+    --border-alt-color: #525252;
+    --link-color: #888cea;
+    --shadow-color: #ffffff80;
+    --text-color: #d5d5d5;
+    --text-highlight-color: #999;
+    --text-inverse-color: #fff;
+    --text-passed-color: #00ca71;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    font-family: "Segoe UI", Tahoma, sans-serif; /* Match default overrides in Chrome */
+    font-size: 12px; /* Match default overrides in Chrome */
+    margin: 0;
+}
+
+a[href] {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a[href]:hover {
+    text-decoration: underline;
+}
+
+input,
+select {
+    background-color: var(--bg-alt-color);
+    border: 1px solid var(--border-alt-color);
+    border-radius: 2px;
+    color: var(--text-color);
+}
+
+input:focus,
+select:focus {
+    background-color: var(--bg-color);
+    border-color: var(--text-color);
+}
+
+html[data-theme="dark"] input[type="checkbox"],
+html[data-theme="dark"] input[type="radio"] {
+    filter: invert(80%);
+}

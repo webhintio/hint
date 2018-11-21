@@ -9,12 +9,12 @@ import * as fs from 'fs-extra';
 import * as getImageData from 'image-size';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, FetchEnd, ScanEnd, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd, ScanEnd } from 'hint/dist/src/lib/types';
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import * as logger from 'hint/dist/src/lib/utils/logging';
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { cloudinaryResult } from './cloudinary-types';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -24,23 +24,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class ImageOptimizationCloudinaryHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Image optimization with cloudinary`
-        },
-        id: 'image-optimization-cloudinary',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                apiKey: { type: 'string' },
-                apiSecret: { type: 'string' },
-                cloudName: { type: 'string' },
-                threshold: { type: 'number' }
-            }
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
@@ -49,7 +33,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
          *when testing the hint and `import` doesn't work here.
          */
         const cloudinary = require('cloudinary');
-        let uploads: Array<Promise<cloudinaryResult | null>> = [];
+        let uploads: Promise<cloudinaryResult | null>[] = [];
         let configured = false;
         let sizeThreshold = 0;
 
@@ -144,7 +128,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
         /** Waits to gather the results of all the images and notifies if there is any possible savings. */
         const end = async (data: ScanEnd) => {
             if (!configured) {
-                await context.report('', null, `No valid configuration for Cloudinary found. Hint could not run.`);
+                await context.report('', `No valid configuration for Cloudinary found. Hint could not run.`);
 
                 return;
             }
@@ -170,12 +154,12 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
 
                 if (sizeDiff >= sizeThreshold) {
                     reported = true;
-                    await context.report(file.originalUrl, file.element, `'${cutString(file.originalUrl)}' could be around ${sizeDiff.toFixed(2)}kB (${percentageDiff}%) smaller.`);
+                    await context.report(file.originalUrl, `'${cutString(file.originalUrl)}' could be around ${sizeDiff.toFixed(2)}kB (${percentageDiff}%) smaller.`, { element: file.element });
                 }
             }
 
             if (!reported && totalSavings > sizeThreshold) {
-                await context.report('', null, `Total size savings optimizing the images on '${data.resource}' could be of around ${totalSavings.toFixed(0)}kB.`);
+                await context.report('', `Total size savings optimizing the images on '${data.resource}' could be of around ${totalSavings.toFixed(0)}kB.`);
             }
 
             // uploads needs to be cleaned at the end to work propertly with the local connector + watcher

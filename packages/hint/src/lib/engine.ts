@@ -17,7 +17,25 @@ import { remove } from 'lodash';
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-hints';
-import { HttpHeaders, IAsyncHTMLElement, IConnector, IFetchOptions, NetworkData, Event, Problem, ProblemLocation, IHint, HintConfig, Severity, IHintConstructor, IConnectorConstructor, Parser, IFormatter, HintResources } from './types';
+import {
+    Events,
+    HintConfig,
+    HintResources,
+    HttpHeaders,
+    IAsyncHTMLElement,
+    IConnector,
+    IConnectorConstructor,
+    IFetchOptions,
+    IFormatter,
+    IHint,
+    IHintConstructor,
+    NetworkData,
+    Parser,
+    Problem,
+    ProblemLocation,
+    Severity,
+    StringKeyOf
+} from './types';
 import * as logger from './utils/logging';
 import { HintContext } from './hint-context';
 import { HintScope } from './enums/hintscope';
@@ -32,15 +50,15 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-export class Engine extends EventEmitter {
+export class Engine<E extends Events = Events> extends EventEmitter {
     // TODO: review which ones need to be private or not
-    private parsers: Array<Parser>
+    private parsers: Parser[]
     private hints: Map<string, IHint>
     private connector: IConnector
-    private messages: Array<Problem>
-    private browserslist: Array<string> = [];
-    private ignoredUrls: Map<string, Array<RegExp>>;
-    private _formatters: Array<IFormatter>
+    private messages: Problem[]
+    private browserslist: string[] = [];
+    private ignoredUrls: Map<string, RegExp[]>;
+    private _formatters: IFormatter[]
     private _timeout: number = 60000;
 
     /** The DOM of the loaded page. */
@@ -59,12 +77,12 @@ export class Engine extends EventEmitter {
     }
 
     /** The list of targetted browsers. */
-    public get targetedBrowsers(): Array<string> {
+    public get targetedBrowsers(): string[] {
         return this.browserslist;
     }
 
     /** The list of configured formatters. */
-    public get formatters(): Array<IFormatter> {
+    public get formatters(): IFormatter[] {
         return this._formatters;
     }
 
@@ -73,7 +91,7 @@ export class Engine extends EventEmitter {
         return this._timeout;
     }
 
-    private isIgnored(urls: Array<RegExp>, resource: string): boolean {
+    private isIgnored(urls: RegExp[], resource: string): boolean {
         if (!urls) {
             return false;
         }
@@ -128,7 +146,7 @@ export class Engine extends EventEmitter {
          *
          * @param id The id of the hint
          */
-        const getHintConfig = (id: string): HintConfig | Array<HintConfig> => {
+        const getHintConfig = (id: string): HintConfig | HintConfig[] => {
             if (config.hints[id]) {
                 return config.hints[id];
             }
@@ -166,14 +184,14 @@ export class Engine extends EventEmitter {
             const id = Hint.meta.id;
 
             const ignoreHint = (HintCtor: IHintConstructor): boolean => {
-                const ignoredConnectors: Array<string> = HintCtor.meta.ignoredConnectors || [];
+                const ignoredConnectors: string[] = HintCtor.meta.ignoredConnectors || [];
 
                 return (connectorId === 'local' && HintCtor.meta.scope === HintScope.site) ||
                     (connectorId !== 'local' && HintCtor.meta.scope === HintScope.local) ||
                     ignoredConnectors.includes(connectorId || '');
             };
 
-            const hintOptions: HintConfig | Array<HintConfig> = getHintConfig(id);
+            const hintOptions: HintConfig | HintConfig[] = getHintConfig(id);
             const severity: Severity | null = getSeverity(hintOptions);
 
             if (ignoreHint(Hint)) {
@@ -191,20 +209,20 @@ export class Engine extends EventEmitter {
         });
     }
 
-    public onHintEvent(id: string, eventName: string, listener: Function) {
+    public onHintEvent<K extends StringKeyOf<E>>(id: string, eventName: K, listener: (data: E[K], event: string) => void) {
         const that = this;
 
-        const createEventHandler = (handler: Function, hintId: string) => {
+        const createEventHandler = (handler: (data: E[K], event: string) => void, hintId: string) => {
             /*
              * Using fake `this` parameter for typing: https://www.typescriptlang.org/docs/handbook/functions.html#this-parameters
              * `this.event` defined by eventemitter2: https://github.com/EventEmitter2/EventEmitter2#differences-non-breaking-compatible-with-existing-eventemitter
              */
-            return function (this: { event: string }, event: Event): Promise<any> | null {
+            return function (this: { event: string }, event: E[K]): Promise<any> | null {
                 const urlsIgnoredForAll = that.ignoredUrls.get('all') || [];
                 const urlsIgnoredForHint = that.ignoredUrls.get(hintId) || [];
                 const urlsIgnored = urlsIgnoredForHint.concat(urlsIgnoredForAll);
 
-                if (that.isIgnored(urlsIgnored, event.resource)) {
+                if (that.isIgnored(urlsIgnored, (event as any).resource)) {
                     return null;
                 }
 
@@ -237,7 +255,7 @@ export class Engine extends EventEmitter {
             };
         };
 
-        this.on(eventName, createEventHandler(listener, id));
+        this.on(eventName as any, createEventHandler(listener, id));
     }
 
     public fetchContent(target: string | url.URL, headers?: object): Promise<NetworkData> {
@@ -280,12 +298,12 @@ export class Engine extends EventEmitter {
         this.messages = [];
     }
 
-    public async notify() {
+    public async notify(this: Engine<Events>) {
         await this.emitAsync('print', this.messages);
     }
 
     /** Runs all the configured hints on a target */
-    public async executeOn(target: url.URL, options?: IFetchOptions): Promise<Array<Problem>> {
+    public async executeOn(target: url.URL, options?: IFetchOptions): Promise<Problem[]> {
 
         const start: number = Date.now();
 
@@ -298,17 +316,25 @@ export class Engine extends EventEmitter {
         return this.messages;
     }
 
-    public querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>> {
+    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
         return this.connector.querySelectorAll(selector);
     }
 
-    public emitAsync(event: string | Array<string>, ...values: Array<any>): Promise<Array<any>> {
+    public emit<K extends StringKeyOf<E>>(event: K, data: E[K]): boolean {
+        return super.emit(event, data);
+    }
+
+    public emitAsync<K extends StringKeyOf<E>>(event: K, data: E[K]): Promise<any[]> {
         const ignoredUrls = this.ignoredUrls.get('all') || [];
 
-        if (this.isIgnored(ignoredUrls, values[0].resource)) {
+        if (this.isIgnored(ignoredUrls, (data as any).resource)) {
             return Promise.resolve([]);
         }
 
-        return super.emitAsync(event, ...values);
+        return super.emitAsync(event, data);
+    }
+
+    public on<K extends StringKeyOf<E>>(event: K, listener: (data: E[K]) => void): this {
+        return super.on(event, listener);
     }
 }

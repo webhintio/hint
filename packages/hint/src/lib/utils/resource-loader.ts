@@ -58,7 +58,7 @@ const moduleNameRegex: RegExp = /[^']*'([^']*)'/g;
 const resources: Map<string, Resource> = new Map<string, Resource>();
 
 /** Cache of resources ids. */
-const resourceIds: Map<string, Array<string>> = new Map<string, Array<string>>();
+const resourceIds: Map<string, string[]> = new Map<string, string[]>();
 
 // If we are using bundling with webpack we need to "hide" all the requires
 
@@ -113,13 +113,13 @@ const isVersionValid = (resourcePath: string): boolean => {
  */
 
 /** Returns a list with the ids of all the core resources of the given `type`. */
-export const getCoreResources = (type: string): Array<string> => {
+export const getCoreResources = (type: string): string[] => {
     if (resourceIds.has(type)) {
         return resourceIds.get(type)!;
     }
 
-    const resourcesFiles: Array<string> = globby.sync(`dist/src/lib/${type}s/**/*.js`, { cwd: HINT_ROOT });
-    const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
+    const resourcesFiles: string[] = globby.sync(`dist/src/lib/${type}s/**/*.js`, { cwd: HINT_ROOT });
+    const ids: string[] = resourcesFiles.reduce((list: string[], resourceFile: string) => {
         const resourceName: string = path.basename(resourceFile, '.js');
 
         if (path.dirname(resourceFile).includes(resourceName)) {
@@ -148,16 +148,16 @@ const hasMultipleResources = (resource: any, type: ResourceType) => {
     }
 };
 
-export const getInstalledResources = (type: ResourceType): Array<string> => {
+export const getInstalledResources = (type: ResourceType): string[] => {
     const installedType = `installed-${type}`;
 
     if (resourceIds.has(installedType)) {
         return resourceIds.get(installedType)!;
     }
 
-    const resourcesFiles: Array<string> = globby.sync(`${NODE_MODULES_ROOT}/@hint/${type}-*/package.json`);
+    const resourcesFiles: string[] = globby.sync(`${NODE_MODULES_ROOT}/@hint/${type}-*/package.json`);
 
-    const ids: Array<string> = resourcesFiles.reduce((list: Array<string>, resourceFile: string) => {
+    const ids: string[] = resourcesFiles.reduce((list: string[], resourceFile: string) => {
         const resource = loadPackage(path.dirname(resourceFile));
         const packageName = JSON.parse(readFile(resourceFile)).name;
         const resourceName = packageName.substr(packageName.lastIndexOf('/') + 1).replace(`${type}-`, '');
@@ -270,8 +270,8 @@ const getResource = (source: string, type: ResourceType, name: string) => {
 /**
  * Looks inside the configurations looking for resources.
  */
-const generateConfigPathsToResources = (configurations: Array<string>, name: string, type: ResourceType) => {
-    return configurations.reduce((total: Array<string>, configuration: string) => {
+const generateConfigPathsToResources = (configurations: string[], name: string, type: ResourceType) => {
+    return configurations.reduce((total: string[], configuration: string) => {
         const basePackagePaths = ['@hint/configuration-', 'hint-configuration-'];
 
         let result = total;
@@ -308,7 +308,7 @@ const generateConfigPathsToResources = (configurations: Array<string>, name: str
  * 4. external hints
  *
  */
-export const loadResource = (name: string, type: ResourceType, configurations: Array<string> = [], verifyVersion = false) => {
+export const loadResource = (name: string, type: ResourceType, configurations: string[] = [], verifyVersion = false) => {
     debug(`Searching ${name}…`);
     const isSource = fs.existsSync(name); // eslint-disable-line no-sync
     const nameSplitted = name.split('/');
@@ -339,7 +339,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
      * has to be `hint-typescript-config/is-valid`.
      * But we need to load the package `typescript-config`.
      */
-    const sources: Array<string> = isSource ?
+    const sources: string[] = isSource ?
         [path.resolve(currentProcessDir, name)] : // If the name is direct path to the source we should only check that
         [
             `@hint/${type}-${packageName}`, // Officially supported package
@@ -413,9 +413,9 @@ export const loadResource = (name: string, type: ResourceType, configurations: A
     return resource;
 };
 
-const loadListOfResources = (list: Array<string> | Object = [], type: ResourceType, configurations: Array<string> = []): { incompatible: Array<string>, missing: Array<string>, resources: Array<any> } => {
-    const missing: Array<string> = [];
-    const incompatible: Array<string> = [];
+const loadListOfResources = (list: string[] | Object = [], type: ResourceType, configurations: string[] = []): { incompatible: string[]; missing: string[]; resources: any[] } => {
+    const missing: string[] = [];
+    const incompatible: string[] = [];
 
     // In the case of hints, we get an object with hintname/priority, not an array
     const items = Array.isArray(list) ?
@@ -447,12 +447,12 @@ const loadListOfResources = (list: Array<string> | Object = [], type: ResourceTy
     };
 };
 
-export const loadHint = (hintId: string, configurations?: Array<string>): IHintConstructor => {
+export const loadHint = (hintId: string, configurations?: string[]): IHintConstructor => {
     return loadResource(hintId, ResourceType.hint, configurations);
 };
 
-export const loadConfiguration = (configurationId: string) => {
-    return loadResource(configurationId, ResourceType.configuration);
+export const loadConfiguration = (configurationId: string, configurations?: string[]) => {
+    return loadResource(configurationId, ResourceType.configuration, configurations);
 };
 
 /** Returns all the resources from a `HintConfig` */

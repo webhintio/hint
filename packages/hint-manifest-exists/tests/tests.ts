@@ -15,7 +15,7 @@ const linkElementHasEmptyHrefAttributeErrorMessage= `'manifest' link element sho
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: `Manifest is not specified`,
         reports: [{ message: linkElementIsNotSpecifiedErrorMessage }],

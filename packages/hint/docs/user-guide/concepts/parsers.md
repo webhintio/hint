@@ -44,11 +44,57 @@ To use a parse you need to subscribe to the event(s) that the parser dispatches.
 Please check the details page of each parser to have more information about the
 events emitted by them.
 
+### Example: `javascript` parser
+
+To create a hint that understands JavaScript you will need to import the
+`ScriptEvents` object defining events emitted by the
+[`javascript parser`][@hint/parser-javascript], apply it to your
+`HintContext`, and register for the `parse::end::javascript` event.
+
+```typescript
+import { ScriptEvents } from `@hint/parser-javascript`;
+
+public constructor(context: HintContext<ScriptEvents>) {
+    ...
+    context.on('parse::end::javascript', (event) => {
+        ...
+    });
+}
+```
+
+In this example the `event` is of type `ScriptParse` which has the following
+information:
+
+* `resource`: the parsed resource. If the JavaScript is in a `script tag`
+  and not a file, the value will be `Internal javascript`.
+* `sourceCode`: a `eslint` `SourceCode` object.
+
+### Example: `css` and `javascript` parsers
+
+To create a hint that understands multiple resource types you will need to
+import the event definitions from all target `parser`s and apply each of them
+to your `HintContext` using a type intersection (`&`).
+
+```typescript
+import { StyleEvents } from `@hint/parser-css`;
+import { ScriptEvents } from `@hint/parser-javascript`;
+
+public constructor(context: HintContext<StyleEvents & ScriptEvents>) {
+    ...
+    context.on('parse::end::css', (styleParseEvent) => {
+        ...
+    });
+    context.on('parse::end::javascript', (scriptParseEvent) => {
+        ...
+    });
+}
+```
+
 <!-- Link labels: -->
 
 [@hint/parser-babel-config]: https://npmjs.com/package/@hint/parser-babel-config/
-[@hint/parser-css]: https://npmjs.com/packages/@hint/parser-css/
-[@hint/parser-javascript]: https://npmjs.com/packages/@hint/parser-javascript/
-[@hint/parser-html]: https://npmjs.com/packages/@hint/parser-html/
-[@hint/parser-manifest]: https://npmjs.com/packages/@hint/parser-manifest/
-[@hint/parser-typescript-config]:https://npmjs.com/packages/@hint/parser-typescript-config/
+[@hint/parser-css]: https://npmjs.com/package/@hint/parser-css/
+[@hint/parser-html]: https://npmjs.com/package/@hint/parser-html/
+[@hint/parser-javascript]: https://npmjs.com/package/@hint/parser-javascript/
+[@hint/parser-manifest]: https://npmjs.com/package/@hint/parser-manifest/
+[@hint/parser-typescript-config]:https://npmjs.com/package/@hint/parser-typescript-config/

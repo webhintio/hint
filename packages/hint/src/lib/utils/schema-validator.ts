@@ -32,8 +32,8 @@ enum ErrorKeyword {
     type = 'type'
 }
 
-const generateError = (type: string, action: ((error: ajv.ErrorObject, property: string, errors?: Array<ajv.ErrorObject>) => string)): ((error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>) => string | null) => {
-    return (error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>): string | null => {
+const generateError = (type: string, action: ((error: ajv.ErrorObject, property: string, errors?: ajv.ErrorObject[]) => string)): ((error: ajv.ErrorObject, errors?: ajv.ErrorObject[]) => string | null) => {
+    return (error: ajv.ErrorObject, errors?: ajv.ErrorObject[]): string | null => {
         if (error.keyword !== type) {
             return null;
         }
@@ -79,7 +79,7 @@ const generateTypeError = generateError(ErrorKeyword.type, (error: ajv.ErrorObje
 /**
  * Returns a readable error for 'anyOf' errors.
  */
-const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorObject, property: string, errors?: Array<ajv.ErrorObject>): string => {
+const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorObject, property: string, errors?: ajv.ErrorObject[]): string => {
     const otherErrors = without(errors, error);
 
     const results = otherErrors.map((otherError) => {
@@ -90,12 +90,12 @@ const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorOb
     return results.join(' or ');
 });
 
-const errorGenerators: Array<((error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>) => string | null)> = [generateAdditionalPropertiesError, generateEnumError, generatePatternError, generateTypeError, generateAnyOfError];
+const errorGenerators: Array<((error: ajv.ErrorObject, errors?: ajv.ErrorObject[]) => string | null)> = [generateAdditionalPropertiesError, generateEnumError, generatePatternError, generateTypeError, generateAnyOfError];
 
 /**
  * Returns a readable error message.
  */
-const generate = (error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>): string | null => {
+const generate = (error: ajv.ErrorObject, errors?: ajv.ErrorObject[]): string | null => {
     return errorGenerators.reduce((message, generator) => {
         const newErrorMessage: string | null = generator(error, errors);
 
@@ -108,10 +108,10 @@ const generate = (error: ajv.ErrorObject, errors?: Array<ajv.ErrorObject>): stri
 };
 
 
-const prettify = (errors: Array<ajv.ErrorObject>) => {
+const prettify = (errors: ajv.ErrorObject[]) => {
     const grouped = groupBy(errors, 'dataPath');
 
-    const result = reduce(grouped, (allMessages, groupErrors: Array<ajv.ErrorObject>) => {
+    const result = reduce(grouped, (allMessages, groupErrors: ajv.ErrorObject[]) => {
         groupErrors.forEach((error) => {
             allMessages.push(generate(error, groupErrors) || '');
         });
@@ -134,7 +134,7 @@ const errorWithLocation = (error: ajv.ErrorObject, getLocation: IJSONLocationFun
         path = path ? `${path}.${additionalProperty}` : additionalProperty;
     }
 
-    return { ...error, location: getLocation(path) || undefined };
+    return Object.assign(error, { location: getLocation(path) || undefined });
 };
 
 export const validate = (schema: object, json: object, getLocation?: IJSONLocationFunction): SchemaValidationResult => {

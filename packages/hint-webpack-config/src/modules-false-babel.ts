@@ -1,14 +1,14 @@
 /**
  * @fileoverview `webpack-config/modules-false-babel` warns against not having set the propety `modules` to `false` in presets in babel configuration file.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
-import { WebpackConfigParse } from '@hint/parser-webpack-config/dist/src/types';
-import { BabelConfigParsed } from '@hint/parser-babel-config/dist/src/types';
+import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
+import { BabelConfigEvents, BabelConfigParsed } from '@hint/parser-babel-config';
+
+import meta from './meta/modules-false-babel';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -19,42 +19,34 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class WebpackConfigModulesFalseBabel implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`webpack-config/modules-false-babel` warns against not having set the propety `modules` to `false` in presets in babel configuration file'
-        },
-        id: 'webpack-config/modules-false-babel',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<WebpackConfigEvents & BabelConfigEvents>) {
 
         let webpackEvent: WebpackConfigParse;
         let babelEvent: BabelConfigParsed;
 
         const webpackConfigReceived = (webpackConfigEvent: WebpackConfigParse) => {
-            debug(`parse::webpack-config::end received`);
+            debug(`parse::end::webpack-config received`);
 
             webpackEvent = webpackConfigEvent;
         };
 
         const babelConfigReceived = (babelConfigEvent: BabelConfigParsed) => {
-            debug(`parse::babel-config::end received`);
+            debug(`parse::end::babel-config received`);
 
             babelEvent = babelConfigEvent;
         };
 
         const validate = async () => {
             if (!webpackEvent) {
-                await context.report('', null, 'The parser webpack-config should be activated');
+                await context.report('', 'The parser webpack-config should be activated');
 
                 return;
             }
 
             if (!babelEvent) {
-                await context.report('', null, 'The parser babel-config should be activated');
+                await context.report('', 'The parser babel-config should be activated');
 
                 return;
             }
@@ -66,17 +58,17 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
                 return;
             }
 
-            const modulesFalse = (presets as Array<Array<any>>).filter((preset) => {
+            const modulesFalse = (presets as any[][]).filter((preset) => {
                 return preset.length > 1 && preset[1].modules === false;
             });
 
             if (modulesFalse.length === 0) {
-                await context.report(babelEvent.resource, null, 'Babel presets `modules` option should be `false`');
+                await context.report(babelEvent.resource, 'Babel presets `modules` option should be `false`');
             }
         };
 
-        context.on('parse::webpack-config::end', webpackConfigReceived);
-        context.on('parse::babel-config::end', babelConfigReceived);
+        context.on('parse::end::webpack-config', webpackConfigReceived);
+        context.on('parse::end::babel-config', babelConfigReceived);
         context.on('scan::end', validate);
     }
 }

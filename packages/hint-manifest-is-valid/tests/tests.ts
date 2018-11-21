@@ -17,7 +17,7 @@ const generateErrorMessage = (property: string, propertyValue: string, valueType
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const defaultTests: Array<HintTest> = [
+const defaultTests: HintTest[] = [
     {
         name: `Web app manifest is specified and its content is valid JSON`,
         serverConfig: {
@@ -65,7 +65,7 @@ const defaultTests: Array<HintTest> = [
     }
 ];
 
-const testsForThemeColor: Array<HintTest> = [
+const testsForThemeColor: HintTest[] = [
     {
         name: `Web app manifest is specified and the 'background_color' and 'theme_color' properties are valid`,
         serverConfig: {
@@ -96,7 +96,7 @@ const testsForThemeColor: Array<HintTest> = [
     }
 ];
 
-const testForThemeColorWithNoSupportForHexWithAlpha: Array<HintTest> = [
+const testForThemeColorWithNoSupportForHexWithAlpha: HintTest[] = [
     {
         name: `Web app manifest is specified and the 'background_color' and 'theme_color' properties are not supported because of the targeted browsers`,
         reports: [

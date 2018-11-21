@@ -1,4 +1,4 @@
-# Avoid HTTP redirects in requests (`no-http-redirects`)
+# Avoid HTTP redirects (`no-http-redirects`)
 
 `no-http-redirects` checks if there are any HTTP redirects in the page
 `webhint` is analyzing.
@@ -112,7 +112,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [MDN-Redirections]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections
 [pagespeed-insights]: https://developers.google.com/speed/docs/insights/mobile#adapting-to-high-latency-mobile-networks
 [rfc1035]: https://tools.ietf.org/html/rfc1035
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [tcp-connection-diagram]: https://www.eventhelix.com/RealtimeMantra/Networking/tcp/#.WgOQBkxFy2c
 [wikipedia-tcp-establishment]: https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_establishment
 [wikipedia-tcp]: https://en.wikipedia.org/wiki/Transmission_Control_Protocol

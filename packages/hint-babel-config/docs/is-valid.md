@@ -1,4 +1,4 @@
-# Babel configuration is valid (`is-valid`)
+# Valid Babel configuration (`is-valid`)
 
 ## Why is this important?
 

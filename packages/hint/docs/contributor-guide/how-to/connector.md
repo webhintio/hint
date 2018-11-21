@@ -74,7 +74,7 @@ export interface IConnector {
     /** Evaluates the given JavaScript `code` asynchronously in the target. */
     evaluate(code: string): Promise<any>;
     /** Finds all the nodes that match the given query. */
-    querySelectorAll(query: string): Promise<Array<IAsyncHTMLElement>>
+    querySelectorAll(query: string): Promise<IAsyncHTMLElement[]>
 }
 ```
 
@@ -108,7 +108,7 @@ export interface IAsyncHTMLElement {
 
 export interface IAsyncHTMLDocument {
     /** A wrapper around querySelectorAll that returns an Array of AsyncHTMLElements instead of a NodeList */
-    querySelectorAll(selector: string): Promise<Array<IAsyncHTMLElement>>
+    querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]>
     /** The HTML of the page as returned by document.children[0].outerHTML or similar */
     pageHTML(): Promise<string>;
 }

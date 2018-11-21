@@ -1,24 +1,24 @@
 {
   "dependencies": {
-    "@hint/connector-chrome": "^1.1.4",
-    "@hint/connector-jsdom": "^1.0.8",
-    "@hint/connector-local": "^1.1.2",
-    "@hint/utils-create-server": "^1.0.3",
+    "@hint/connector-chrome": "^2.0.0",
+    "@hint/connector-jsdom": "^2.0.0",
+    "@hint/connector-local": "^2.0.0",
+    "@hint/utils-create-server": "^2.0.0",
     "ava": "^0.25.0",
-    "hint": "^3.4.12"
+    "hint": "^4.0.3"
   },
   "description": "hint tests helpers",
   "devDependencies": {
     "cpx": "^1.5.0",
-    "eslint": "^5.7.0",
+    "eslint": "^5.9.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-markdown": "^1.0.0-beta.7",
-    "eslint-plugin-typescript": "^0.12.0",
+    "eslint-plugin-markdown": "^1.0.0-rc.0",
+    "eslint-plugin-typescript": "0.13.0",
     "markdownlint-cli": "^0.13.0",
     "npm-run-all": "^4.1.2",
     "rimraf": "^2.6.2",
-    "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^20.0.0"
+    "typescript": "^3.1.6",
+    "typescript-eslint-parser": "20.1.1"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -37,7 +37,7 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-tests-helpers",
   "peerDependencies": {
-    "hint": "^3.4.12"
+    "hint": "^4.0.3"
   },
   "repository": "webhintio/hint",
   "scripts": {
@@ -54,5 +54,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.1"
+  "version": "2.0.0"
 }

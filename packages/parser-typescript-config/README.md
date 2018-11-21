@@ -37,36 +37,36 @@ has a valid content.
 
 This `parser` emits the following events:
 
-* `parse::typescript-config::start`, of type `TypeScriptConfigParseStart`
+* `parse::start::typescript-config`, of type `TypeScriptConfigParseStart`
   which contains the following information:
 
   * `resource`: the resource we are going to parse.
 
-* `parse::typescript-config::end`, of type `TypeScriptConfigParse`
+* `parse::end::typescript-config`, of type `TypeScriptConfigParse`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `config`: an object with a valid configuration (`TypeScriptConfig`).
 
-* `parse::typescript-config::error::json`, of type `TypeScriptConfigInvalidJSON`
+* `parse::error::typescript-config::json`, of type `TypeScriptConfigInvalidJSON`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `parse::typescript-config::error::cicular`, of type `TypeScriptConfigInvalidJSON`
+* `parse::error::typescript-config::cicular`, of type `TypeScriptConfigInvalidJSON`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `parse::typescript-config::error::extends`, of type `TypeScriptConfigInvalidJSON`
+* `parse::error::typescript-config::extends`, of type `TypeScriptConfigInvalidJSON`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `error`: the error emited parsing the configuration file.
 
-* `parse::typescript-config::error::schema`, of type
+* `parse::error::typescript-config::schema`, of type
   `TypeScriptConfigInvalidSchema` which contains the following information:
 
   * `resource`: the parsed resource.
@@ -78,9 +78,9 @@ If you need to import any type or enum defined in this parser, you
 need to import them as follows:
 
 ```ts
-import { TypeOrEnumYouWantToUse } from '@hint/parser-typescript-config/dist/src/types';
+import { TypeOrEnumYouWantToUse } from '@hint/parser-typescript-config';
 ```
 
 <!-- Link labels: -->
 
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

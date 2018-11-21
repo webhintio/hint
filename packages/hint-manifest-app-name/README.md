@@ -1,4 +1,4 @@
-# Require manifest to specify the web site/app name (`manifest-app-name`)
+# Manifest has name (`manifest-app-name`)
 
 `manifest-app-name` checks if the name of the web application is
 specified within the manifest file.
@@ -157,5 +157,5 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [manifest spec]: https://w3c.github.io/manifest/
 [microsoft store]: https://www.windowscentral.com/first-batch-windows-10-progressive-web-apps-here
 [webhint issue]: https://github.com/webhintio/hint/issues/136
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [windows]: https://blogs.windows.com/msedgedev/2018/02/06/welcoming-progressive-web-apps-edge-windows-10/

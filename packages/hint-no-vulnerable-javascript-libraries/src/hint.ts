@@ -8,10 +8,9 @@ import { promisify } from 'util';
 import { groupBy } from 'lodash';
 import * as semver from 'semver';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IHint, CanEvaluateScript, Severity, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, CanEvaluateScript, Severity } from 'hint/dist/src/lib/types';
 import { Library, Vulnerability } from './types';
 
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
@@ -20,7 +19,8 @@ import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -32,28 +32,7 @@ const debug = d(__filename);
 
 export default class NoVulnerableJavascriptLibrariesHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: `This hint checks if the site is running any vulnerable library using https://snyk.io database`
-        },
-        id: 'no-vulnerable-javascript-libraries',
-        schema: [{
-            additionalProperties: false,
-            properties: {
-                severity: {
-                    pattern: '^(low|medium|high)$',
-                    type: 'string'
-                }
-            },
-            type: 'object'
-        }],
-        /*
-         * Snyk can not analize a file itself, it needs a connector.
-         * TODO: Change to any once the local connector has jsdom.
-         */
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
@@ -121,7 +100,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
         };
 
         /** If a used library has vulnerability that meets the minimum threshold, it gets reported.  */
-        const reportLibrary = async (library: Library, vulns: Array<Vulnerability>, resource: string) => {
+        const reportLibrary = async (library: Library, vulns: Vulnerability[], resource: string) => {
             let vulnerabilities = vulns;
 
 
@@ -159,7 +138,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 .join(', ');
 
             if (detail) {
-                await context.report(resource, null, `'${library.name}@${library.version}' has ${vulnerabilities.length} known ${vulnerabilities.length === 1 ? 'vulnerability' : 'vulnerabilities'} (${detail}). See '${link}' for more information.`);
+                await context.report(resource, `'${library.name}@${library.version}' has ${vulnerabilities.length} known ${vulnerabilities.length === 1 ? 'vulnerability' : 'vulnerabilities'} (${detail}). See '${link}' for more information.`);
             }
         };
 
@@ -171,19 +150,19 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
         };
 
         /** Given a list of libraries, reports the ones that have known vulnerabilities. */
-        const detectAndReportVulnerableLibraries = async (libraries: Array<Library>, resource: string) => {
+        const detectAndReportVulnerableLibraries = async (libraries: Library[], resource: string) => {
             // TODO: Check if snykDB is older than 24h and download if so. If not, or if itfails, use local version
             const snykDB = await loadSnyk();
 
             for (const lib of libraries) {
-                const snykInfo = snykDB.npm[lib.npmPkgName] as Array<Vulnerability>;
+                const snykInfo = snykDB.npm[lib.npmPkgName] as Vulnerability[];
 
                 // No npm package that snyk could check
                 if (!snykInfo) {
                     continue;
                 }
 
-                const vulnerabilities: Array<Vulnerability> = snykInfo.reduce((vulns, vuln) => {
+                const vulnerabilities: Vulnerability[] = snykInfo.reduce((vulns, vuln) => {
                     const version = removeTagsFromVersion(lib.version) /* istanbul ignore next */ || '';
 
                     try {
@@ -208,7 +187,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
             let detectedLibraries;
 
             try {
-                detectedLibraries = (await context.evaluate(script)) as Array<Library>;
+                detectedLibraries = (await context.evaluate(script)) as Library[];
             } catch (e) {
                 let message: string;
 
@@ -218,7 +197,9 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     message = `Error executing script: '${e.message}'`;
                 }
 
-                await context.report(resource, null, `${message}. Please try again later, or report an issue if this problem persists.`, undefined, undefined, Severity.warning);
+                message = `${message}. Please try again later, or report an issue if this problem persists.`;
+
+                await context.report(resource, message, { severity: Severity.warning });
                 debug('Error executing script', e);
 
                 return;

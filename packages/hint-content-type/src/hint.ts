@@ -11,15 +11,15 @@
 
 import { MediaType, parse } from 'content-type';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, Response, IHint, FetchEnd, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -31,19 +31,7 @@ const debug = d(__filename);
 
 export default class ContentTypeHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: 'Require `Content-Type` header with appropriate value'
-        },
-        id: 'content-type',
-        schema: [{
-            items: { type: 'string' },
-            type: ['object', 'null'],
-            uniqueItems: true
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
@@ -64,9 +52,7 @@ export default class ContentTypeHint implements IHint {
             return results && results[1];
         };
 
-        const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
-
+        const validate = async ({ element, resource, response }: FetchEnd) => {
             if (response.statusCode !== 200) {
                 debug(`Check does not apply to status code !== 200`);
 
@@ -85,7 +71,7 @@ export default class ContentTypeHint implements IHint {
             // Check if the `Content-Type` header was sent.
 
             if (contentTypeHeaderValue === null) {
-                await context.report(resource, element, `Response should include 'content-type' header.`);
+                await context.report(resource, `Response should include 'content-type' header.`, { element });
 
                 return;
             }
@@ -99,7 +85,7 @@ export default class ContentTypeHint implements IHint {
 
             if (userDefinedMediaType) {
                 if (normalizeString(userDefinedMediaType) !== contentTypeHeaderValue) {
-                    await context.report(resource, element, `'content-type' header value should be '${userDefinedMediaType}'.`);
+                    await context.report(resource, `'content-type' header value should be '${userDefinedMediaType}'.`, { element });
                 }
 
                 return;
@@ -116,7 +102,7 @@ export default class ContentTypeHint implements IHint {
 
                 contentType = parse(contentTypeHeaderValue);
             } catch (e) {
-                await context.report(resource, element, `'content-type' header value should be valid (${e.message}).`);
+                await context.report(resource, `'content-type' header value should be valid (${e.message}).`, { element });
 
                 return;
             }
@@ -145,21 +131,21 @@ export default class ContentTypeHint implements IHint {
             // * media type
 
             if (mediaType && (mediaType !== originalMediaType)) {
-                await context.report(resource, element, `'content-type' header media type value should be '${mediaType}', not '${originalMediaType}'.`);
+                await context.report(resource, `'content-type' header media type value should be '${mediaType}', not '${originalMediaType}'.`, { element });
             }
 
             // * charset value
 
             if (charset) {
                 if (!originalCharset || (charset !== originalCharset)) {
-                    await context.report(resource, element, `'content-type' header charset value should be '${charset}'${originalCharset ? `, not '${originalCharset}'` : ''}.`);
+                    await context.report(resource, `'content-type' header charset value should be '${charset}'${originalCharset ? `, not '${originalCharset}'` : ''}.`, { element });
                 }
             } else if (originalCharset &&
                 ![
                     'text/html',
                     'application/xhtml+xml'
                 ].includes(originalMediaType)) {
-                await context.report(resource, element, `'content-type' header value should not contain 'charset=${originalCharset}'.`);
+                await context.report(resource, `'content-type' header value should not contain 'charset=${originalCharset}'.`, { element });
             }
         };
 

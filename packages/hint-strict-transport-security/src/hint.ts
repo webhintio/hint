@@ -4,12 +4,12 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, Response, FetchEnd, IHint, NetworkData, HintMetadata } from 'hint/dist/src/lib/types';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { FetchEnd, IHint, NetworkData } from 'hint/dist/src/lib/types';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -21,20 +21,7 @@ const debug = d(__filename);
 
 export default class StrictTransportSecurityHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: `Require 'Strict-Transport-Security' header`
-        },
-        id: 'strict-transport-security',
-        schema: [{
-            properties: {
-                checkPreload: { type: 'boolean' },
-                minMaxAgeValue: { type: 'number' }
-            }
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
@@ -129,7 +116,7 @@ export default class StrictTransportSecurityHint implements IHint {
                 const message = `Error with getting preload status for ${resource}.`;
 
                 debug(message, err);
-                await context.report(resource, null, message);
+                await context.report(resource, message);
 
                 return issues;
             }
@@ -140,7 +127,7 @@ export default class StrictTransportSecurityHint implements IHint {
                 const message = `Error with getting preload status for ${resource}. There might be something wrong with the verification endpoint.`;
 
                 debug(message);
-                await context.report(resource, null, message);
+                await context.report(resource, message);
 
                 return issues;
             }
@@ -152,7 +139,7 @@ export default class StrictTransportSecurityHint implements IHint {
                     const message = `Error with getting preload eligibility for ${resource}.`;
 
                     debug(message, err);
-                    await context.report(resource, null, message);
+                    await context.report(resource, message);
                 }
 
                 debug(`Received preload eligibility for ${resource}.`);
@@ -161,9 +148,7 @@ export default class StrictTransportSecurityHint implements IHint {
             return issues;
         };
 
-        const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
-
+        const validate = async ({ element, resource, response }: FetchEnd) => {
             if (!isRegularProtocol(resource)) {
                 debug(`Check does not apply for non HTTP(s) URIs`);
 
@@ -174,7 +159,9 @@ export default class StrictTransportSecurityHint implements IHint {
             let parsedHeader;
 
             if (!isHTTPS(resource) && headerValue) {
-                await context.report(resource, element, `'strict-transport-security' header should't be specified in pages served over HTTP.`);
+                const message = `'strict-transport-security' header should't be specified in pages served over HTTP.`;
+
+                await context.report(resource, message, { element });
 
                 return;
             }
@@ -221,7 +208,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
             // Check if the header `Strict-Transport-Security` is sent for resources served over HTTPS.
             if (!headerValue) {
-                await context.report(resource, element, `'strict-transport-security' header was not specified`);
+                await context.report(resource, `'strict-transport-security' header was not specified`, { element });
 
                 return;
             }
@@ -229,7 +216,7 @@ export default class StrictTransportSecurityHint implements IHint {
             try {
                 parsedHeader = parse(headerValue);
             } catch (err) {
-                await context.report(resource, element, err.message);
+                await context.report(resource, err.message, { element });
 
                 return;
             }
@@ -240,7 +227,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
                 if (errors) {
                     for (const error of errors) {
-                        await context.report(resource, element, error.message);
+                        await context.report(resource, error.message, { element });
                     }
 
                     return;
@@ -251,14 +238,18 @@ export default class StrictTransportSecurityHint implements IHint {
 
             // Check if header `Strict-Transport-Security` contains `max-age` directive.
             if (!maxAge) {
-                await context.report(resource, element, `'strict-transport-security' header requires 'max-age' directive`);
+                const message = `'strict-transport-security' header requires 'max-age' directive`;
+
+                await context.report(resource, message, { element });
 
                 return;
             }
 
             // Check if the `max-age` value is smaller than the minimum of max-age defined
             if (isUnderAgeLimit(maxAge, minMaxAgeValue)) {
-                await context.report(resource, element, `'strict-transport-security' header 'max-age' value should be more than ${minMaxAgeValue}`);
+                const message = `'strict-transport-security' header 'max-age' value should be more than ${minMaxAgeValue}`;
+
+                await context.report(resource, message, { element });
 
                 return;
             }

@@ -1,4 +1,4 @@
-# Disallow small error pages (`no-friendly-error-pages`)
+# No small error pages (`no-friendly-error-pages`)
 
 `no-friendly-error-pages` warns against using custom error pages with
 byte size under a certain threshold.
@@ -163,4 +163,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [chromium issue]: https://bugs.chromium.org/p/chromium/issues/detail?id=36558
 [friendly error pages]: https://blogs.msdn.microsoft.com/ieinternals/2010/08/18/friendly-http-error-pages/
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

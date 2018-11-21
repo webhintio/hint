@@ -12,16 +12,16 @@
 
 import { URL } from 'url';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, ElementFound, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLElement, ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -33,19 +33,7 @@ const debug = d(__filename);
 
 export default class DisownOpenerHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: 'Require `noopener` (and `noreferrer`) on `a` and `area` element with target="_blank"'
-        },
-        id: 'disown-opener',
-        schema: [{
-            additionalProperties: false,
-            properties: { includeSameOriginURLs: { type: 'boolean' } },
-            type: ['object', 'null']
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
@@ -55,16 +43,18 @@ export default class DisownOpenerHint implements IHint {
             includeSameOriginURLs = (context.hintOptions && context.hintOptions.includeSameOriginURLs) || false;
         };
 
-        const checkForRelValues = async (resource: string, element: IAsyncHTMLElement, relValuesToCheckFor: Array<string>) => {
-            const relValues: Array<string> = normalizeString(element.getAttribute('rel'), '')!.split(' '); // `normalizeString` uses passed default ('') instead of null
+        const checkForRelValues = async (resource: string, element: IAsyncHTMLElement, relValuesToCheckFor: string[]) => {
+            const relValues: string[] = normalizeString(element.getAttribute('rel'), '')!.split(' '); // `normalizeString` uses passed default ('') instead of null
             const hrefValue: string = normalizeString(element.getAttribute('href')) || '';
 
-            const requiredValues: Array<string> = relValuesToCheckFor.filter((value) => {
+            const requiredValues: string[] = relValuesToCheckFor.filter((value) => {
                 return !relValues.includes(value);
             });
 
             if (requiredValues.length !== 0) {
-                await context.report(resource, element, `'${cutString(await element.outerHTML(), 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`, hrefValue);
+                const message = `'${cutString(await element.outerHTML(), 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`;
+
+                await context.report(resource, message, { content: hrefValue, element });
             }
         };
 
@@ -120,9 +110,7 @@ export default class DisownOpenerHint implements IHint {
             return false;
         };
 
-        const validate = async (data: ElementFound) => {
-            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
-
+        const validate = async ({ element, resource }: ElementFound) => {
             if (!hasTargetBlank(element) ||
                 !hasHrefValue(element) ||
                 !elementHrefHasRequiredProtocol(element) ||
@@ -137,7 +125,7 @@ export default class DisownOpenerHint implements IHint {
              */
 
             const targetedBrowsers: string = context.targetedBrowsers.join();
-            const relValuesToCheckFor: Array<string> = ['noopener'];
+            const relValuesToCheckFor: string[] = ['noopener'];
 
             /*
              * If no browsers were targeted, or `noopener`

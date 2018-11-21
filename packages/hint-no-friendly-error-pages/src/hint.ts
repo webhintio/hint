@@ -12,12 +12,12 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { FetchEnd, NetworkData, Response, TraverseEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, NetworkData, TraverseEnd, IHint } from 'hint/dist/src/lib/types';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -29,15 +29,7 @@ const debug = d(__filename);
 
 export default class NoFriendlyErrorPagesHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: 'Disallow small error pages'
-        },
-        id: 'no-friendly-error-pages',
-        schema: [],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
@@ -51,19 +43,17 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             return;
         }
 
-        const foundErrorPages: {[status: number]: {size: number, url: string}} = {};
+        const foundErrorPages: {[status: number]: {size: number; url: string}} = {};
 
         /*
          * Default thresholds:
          * https://blogs.msdn.microsoft.com/ieinternals/2010/08/18/friendly-http-error-pages/
          */
 
-        const statusCodesWith256Threshold: Array<number> = [403, 405, 410];
-        const statusCodesWith512Threshold: Array<number> = [400, 404, 406, 408, 409, 500, 501, 505];
+        const statusCodesWith256Threshold: number[] = [403, 405, 410];
+        const statusCodesWith512Threshold: number[] = [400, 404, 406, 408, 409, 500, 501, 505];
 
-        const checkForErrorPages = (fetchEnd: FetchEnd) => {
-            const { resource, response }: { resource: string, response: Response } = fetchEnd;
-
+        const checkForErrorPages = ({ resource, response }: FetchEnd) => {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
@@ -131,8 +121,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
 
         };
 
-        const validate = async (event: TraverseEnd) => {
-
+        const validate = async ({ resource: href }: TraverseEnd) => {
             /*
              * If no error responses were found, and more specifically,
              * if no 404 error response was found, try to generate one.
@@ -141,9 +130,6 @@ export default class NoFriendlyErrorPagesHint implements IHint {
              *  generate a 404 error response, other responses cannot
              *  be generated... so easily).
              */
-
-            const { resource: href }: { resource: string } = event;
-
             if (Object.keys(foundErrorPages).length === 0 || !foundErrorPages[404]) {
                 await tryToGenerateErrorPage(href);
             }
@@ -151,7 +137,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             for (const key of Object.keys(foundErrorPages)) {
                 const threshold = statusCodesWith512Threshold.includes(Number.parseInt(key)) ? 512 : 256;
 
-                await context.report(href, null, `Response with status code ${key} should have more than ${threshold} bytes.`);
+                await context.report(href, `Response with status code ${key} should have more than ${threshold} bytes.`);
             }
         };
 

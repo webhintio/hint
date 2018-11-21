@@ -9,15 +9,14 @@
  */
 
 import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
-import { IAsyncHTMLElement, FetchEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
-import { Response } from 'hint/dist/src/lib/types/network';
+
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -29,34 +28,11 @@ const debug = d(__filename);
 
 export default class NoDisallowedHeadersHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: 'Disallow certain HTTP response headers'
-        },
-        id: 'no-disallowed-headers',
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                'string-array': {
-                    items: { type: 'string' },
-                    minItems: 1,
-                    type: 'array',
-                    uniqueItems: true
-                }
-            },
-            properties: {
-                ignore: { $ref: '#/definitions/string-array' },
-                include: { $ref: '#/definitions/string-array' }
-            },
-            type: ['object', 'null']
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
-        let disallowedHeaders: Array<string> = [
+        let disallowedHeaders: string[] = [
             'public-key-pins',
             'public-key-pins-report-only',
             'x-aspnet-version',
@@ -123,9 +99,7 @@ export default class NoDisallowedHeadersHint implements IHint {
             });
         };
 
-        const validate = async (fetchEnd: FetchEnd) => {
-            const { element, response, resource }: { element: IAsyncHTMLElement | null, response: Response, resource: string } = fetchEnd;
-
+        const validate = async ({ element, response, resource }: FetchEnd) => {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
@@ -134,7 +108,7 @@ export default class NoDisallowedHeadersHint implements IHint {
                 return;
             }
 
-            const headers: Array<string> = getIncludedHeaders(response.headers, disallowedHeaders);
+            const headers: string[] = getIncludedHeaders(response.headers, disallowedHeaders);
             const numberOfHeaders: number = headers.length;
 
             /*
@@ -161,11 +135,15 @@ export default class NoDisallowedHeadersHint implements IHint {
                 serverHeaderValue &&
                 serverHeaderContainsTooMuchInformation(serverHeaderValue)
             ) {
-                await context.report(resource, element, `'server' header value should only contain the server name, not '${(response.headers as any).server}'.`);
+                const message = `'server' header value should only contain the server name, not '${(response.headers as any).server}'.`;
+
+                await context.report(resource, message, { element });
             }
 
             if (numberOfHeaders > 0) {
-                await context.report(resource, element, `Response should not include disallowed ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`);
+                const message = `Response should not include disallowed ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`;
+
+                await context.report(resource, message, { element });
             }
         };
 

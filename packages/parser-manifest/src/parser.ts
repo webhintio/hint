@@ -1,11 +1,8 @@
-import * as path from 'path';
 import { URL } from 'url';
 
 import {
     ElementFound,
     FetchEnd,
-    FetchError,
-    FetchStart,
     IJSONResult,
     NetworkData,
     Parser,
@@ -14,45 +11,36 @@ import {
 
 import isHTTP from 'hint/dist/src/lib/utils/network/is-http';
 import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 
-import {
-    ManifestInvalidJSON,
-    ManifestInvalidSchema,
-    ManifestParsed
-} from './types';
+import { ManifestEvents } from './types';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
+export * from './types';
+
+// Using `require` instead of `loadJSONFile` so this can be bundled with `extension-browser`.
+const schema = require('./schema.json');
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-export default class ManifestParser extends Parser {
+export default class ManifestParser extends Parser<ManifestEvents> {
 
     // Event names.
 
-    private fetchEndEventName: string = 'fetch::end::manifest';
-    private fetchErrorEventName: string = 'fetch::error::manifest';
-    private fetchStartEventName: string = 'fetch::start::manifest';
+    private readonly fetchEndEventName = 'fetch::end::manifest';
+    private readonly fetchErrorEventName = 'fetch::error::manifest';
+    private readonly fetchStartEventName = 'fetch::start::manifest';
 
-    /* eslint-disable no-invalid-this */
-    private parseEventPrefix: string = 'parse::manifest';
-    private parseEndEventName: string = `${this.parseEventPrefix}::end`;
-    private parseErrorSchemaEventName: string = `${this.parseEventPrefix}::error::schema`;
-    private parseJSONErrorEventName: string = `${this.parseEventPrefix}::error::json`;
-    /* eslint-enable no-invalid-this */
-
-    // Other.
-
-    private schema: any;
+    private readonly parseEndEventName = 'parse::end::manifest';
+    private readonly parseErrorSchemaEventName = 'parse::error::manifest::schema';
+    private readonly parseJSONErrorEventName = 'parse::error::manifest::json';
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public constructor(engine: Engine) {
+    public constructor(engine: Engine<ManifestEvents>) {
         super(engine, 'manifest');
-
-        this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
         engine.on('element::link', this.fetchManifest.bind(this));
         engine.on('fetch::end::manifest', this.validateManifest.bind(this));
@@ -91,9 +79,8 @@ export default class ManifestParser extends Parser {
         // Try to fetch the web app manifest.
 
         const manifestURL: string = (new URL(hrefValue, resource)).href;
-        const fetchStartEvent: FetchStart = { resource };
 
-        await this.engine.emitAsync(this.fetchStartEventName, fetchStartEvent);
+        await this.engine.emitAsync(this.fetchStartEventName, { resource });
 
         let manifestNetworkData: NetworkData | undefined;
         let error: Error | undefined;
@@ -117,32 +104,31 @@ export default class ManifestParser extends Parser {
         const statusCode: number | undefined = manifestNetworkData && manifestNetworkData.response.statusCode;
 
         if (!manifestNetworkData || error || statusCode !== 200) {
-            const fetchErrorEvent: FetchError = {
+
+            await this.engine.emitAsync(this.fetchErrorEventName, {
                 element,
                 error: error || new Error(`'${hrefValue}' could not be fetched (status code: ${statusCode}).`),
                 hops: (manifestNetworkData && manifestNetworkData.response.hops) || [manifestURL],
                 resource
-            };
-
-            await this.engine.emitAsync(this.fetchErrorEventName, fetchErrorEvent);
+            });
 
             return;
         }
 
         // If the web app manifest was fetch successfully.
 
-        const fetchEndEvent: FetchEnd = {
+        await this.engine.emitAsync(this.fetchEndEventName, {
             element,
             request: manifestNetworkData.request,
             resource,
             response: manifestNetworkData.response
-        };
-
-        await this.engine.emitAsync(this.fetchEndEventName, fetchEndEvent);
+        });
     }
 
     private async validateManifest (fetchEnd: FetchEnd) {
-        const { element, resource, response, request } = fetchEnd;
+        const { resource, response } = fetchEnd;
+
+        await this.engine.emitAsync(`parse::start::manifest`, { resource });
 
         let result: IJSONResult;
 
@@ -154,15 +140,11 @@ export default class ManifestParser extends Parser {
         try {
             result = parseJSON(response.body.content);
         } catch (e) {
-            const manifestInvalidJSONEvent: ManifestInvalidJSON = {
-                element,
-                error: e,
-                request,
-                resource,
-                response
-            };
 
-            await this.engine.emitAsync(this.parseJSONErrorEventName, manifestInvalidJSONEvent);
+            await this.engine.emitAsync(this.parseJSONErrorEventName, {
+                error: e,
+                resource
+            });
 
             return;
         }
@@ -172,19 +154,16 @@ export default class ManifestParser extends Parser {
          * is a valid acording to the schema.
          */
 
-        const validationResult: SchemaValidationResult = validate(this.schema, result.data, result.getLocation);
+        const validationResult: SchemaValidationResult = validate(schema, result.data, result.getLocation);
 
         if (!validationResult.valid) {
-            const manifestInvalidSchemaEvent: ManifestInvalidSchema = {
-                element,
+
+            await this.engine.emitAsync(this.parseErrorSchemaEventName, {
+                error: new Error('Invalid manifest'),
                 errors: validationResult.errors,
                 prettifiedErrors: validationResult.prettifiedErrors,
-                request,
-                resource,
-                response
-            };
-
-            await this.engine.emitAsync(this.parseErrorSchemaEventName, manifestInvalidSchemaEvent);
+                resource
+            });
 
             return;
         }
@@ -194,15 +173,10 @@ export default class ManifestParser extends Parser {
          * other useful information about the manifest.
          */
 
-        const manifestParserEvent: ManifestParsed = {
-            element,
+        await this.engine.emitAsync(this.parseEndEventName, {
             getLocation: result.getLocation,
             parsedContent: validationResult.data,
-            request,
-            resource,
-            response
-        };
-
-        await this.engine.emitAsync(this.parseEndEventName, manifestParserEvent);
+            resource
+        });
     }
 }

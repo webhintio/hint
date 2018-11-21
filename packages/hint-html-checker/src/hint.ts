@@ -12,11 +12,11 @@
 import { uniqBy } from 'lodash';
 import { OptionsWithUrl } from 'request';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation, Severity, HintMetadata, TraverseStart } from 'hint/dist/src/lib/types';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { IHint, ProblemLocation, Severity, TraverseStart } from 'hint/dist/src/lib/types';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -34,36 +34,12 @@ type CheckerData = {
 
 export default class HtmlCheckerHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: `Validate HTML using 'the Nu HTML checker'`
-        },
-        id: 'html-checker',
-        schema: [{
-            properties: {
-                details: { type: 'boolean' },
-                ignore: {
-                    anyOf: [
-                        {
-                            items: { type: 'string' },
-                            type: 'array'
-                        }, { type: 'string' }
-                    ]
-                },
-                validator: {
-                    pattern: '^(http|https)://',
-                    type: 'string'
-                }
-            }
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
         /** The promise that represents the scan by HTML checker. */
-        let htmlCheckerPromises: Array<CheckerData> = [];
+        let htmlCheckerPromises: CheckerData[] = [];
         /** Array of strings that needes to be ignored from the checker result. */
         let ignoredMessages: string[];
         /** The options to pass to the HTML checker. */
@@ -100,7 +76,7 @@ export default class HtmlCheckerHint implements IHint {
         };
 
         // Filter out ignored and redundant messages.
-        const filter = (messages: Array<HtmlError>): Array<HtmlError> => {
+        const filter = (messages: HtmlError[]): HtmlError[] => {
             const noIgnoredMesssages = messages.filter((message) => {
                 return !ignoredMessages.includes(message.message);
             });
@@ -121,13 +97,17 @@ export default class HtmlCheckerHint implements IHint {
                     line: messageItem.lastLine
                 };
 
-                return context.report(resource, null, messageItem.message, undefined, position, Severity[messageItem.subType], messageItem.extract);
+                return context.report(resource, messageItem.message, {
+                    codeSnippet: messageItem.extract,
+                    location: position,
+                    severity: Severity[messageItem.subType]
+                });
             };
         };
 
         const notifyError = async (resource: string, error: any) => {
             debug(`Error getting HTML checker result for ${resource}.`, error);
-            await context.report(resource, null, `Could not get results from HTML checker for '${resource}'. Error: '${error}'.`);
+            await context.report(resource, `Could not get results from HTML checker for '${resource}'. Error: '${error}'.`);
         };
 
         const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {
@@ -189,8 +169,8 @@ export default class HtmlCheckerHint implements IHint {
 
                 debug(`Received HTML checker results for ${resource}`);
 
-                const filteredMessages: Array<HtmlError> = filter(result.messages);
-                const reportPromises: Array<Promise<void>> = filteredMessages.map((messageItem: HtmlError): Promise<void> => {
+                const filteredMessages: HtmlError[] = filter(result.messages);
+                const reportPromises: Promise<void>[] = filteredMessages.map((messageItem: HtmlError): Promise<void> => {
                     return locateAndReportByResource(messageItem);
                 });
 

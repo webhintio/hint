@@ -1,4 +1,4 @@
-# Require external links to disown opener (`disown-opener`)
+# External links disown opener (`disown-opener`)
 
 `disown-opener` checks if the `rel` attribute is specified with both
 the `noopener` and `noreferrer` values (or only `noopener` if all the
@@ -220,6 +220,6 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [noreferrer chromium]: https://blog.chromium.org/2009/12/links-that-open-in-new-processes.html
 [performance problem]: https://jakearchibald.com/2016/performance-benefits-of-rel-noopener/
 [security problem]: https://mathiasbynens.github.io/rel-noopener/
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [tab nabbing]: http://www.azarask.in/blog/post/a-new-type-of-phishing-attack/
 [window.opener]: https://developer.mozilla.org/en-US/docs/Web/API/Window/opener

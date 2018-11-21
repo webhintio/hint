@@ -1,11 +1,13 @@
 /**
  * @fileoverview `webpack-config/config-exists` warns against not having a webpack configuration file.
  */
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
+
+import { WebpackConfigEvents } from '@hint/parser-webpack-config';
+
+import meta from './meta/config-exists';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -16,24 +18,16 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class WebpackConfigConfigExists implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.development,
-            description: '`webpack-config/config-exists` warns against not having a webpack configuration file'
-        },
-        id: 'webpack-config/config-exists',
-        schema: [],
-        scope: HintScope.local
-    }
+    public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<WebpackConfigEvents>) {
 
         const notFound = async () => {
-            debug(`parse::webpack-config::error::not-found received`);
+            debug(`parse::error::webpack-config::not-found received`);
 
-            await context.report('', null, 'webpack configuration file not found in your project.');
+            await context.report('', 'webpack configuration file not found in your project.');
         };
 
-        context.on('parse::webpack-config::error::not-found', notFound);
+        context.on('parse::error::webpack-config::not-found', notFound);
     }
 }

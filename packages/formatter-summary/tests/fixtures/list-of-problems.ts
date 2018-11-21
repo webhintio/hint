@@ -1,7 +1,7 @@
 import { Problem, Severity } from 'hint/dist/src/lib/types';
 import { Category } from 'hint/dist/src/lib/enums/category';
 
-const summaryProblems: Array<Problem> = [{
+const summaryProblems: Problem[] = [{
     category: Category.other,
     hintId: 'random-hint',
     location: {
@@ -68,7 +68,7 @@ const summaryProblems: Array<Problem> = [{
     </a>`
 }];
 
-const summarySameNumberOfErrors: Array<Problem> = [{
+const summarySameNumberOfErrors: Problem[] = [{
     category: Category.other,
     hintId: 'random-hint2',
     location: {
@@ -96,7 +96,7 @@ const summarySameNumberOfErrors: Array<Problem> = [{
 }];
 
 
-const summaryWarnings: Array<Problem> = [{
+const summaryWarnings: Problem[] = [{
     category: Category.other,
     hintId: 'random-hint',
     location: {
@@ -123,7 +123,7 @@ const summaryWarnings: Array<Problem> = [{
     sourceCode: ''
 }];
 
-const summaryErrorWarnings: Array<Problem> = [{
+const summaryErrorWarnings: Problem[] = [{
     category: Category.other,
     hintId: 'random-hint',
     location: {
@@ -150,7 +150,7 @@ const summaryErrorWarnings: Array<Problem> = [{
     sourceCode: ''
 }];
 
-const noproblems: Array<Problem> = [];
+const noproblems: Problem[] = [];
 
 export {
     noproblems,

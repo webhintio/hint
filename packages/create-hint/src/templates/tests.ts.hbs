@@ -11,7 +11,7 @@ const hintPath = getHintPath(__filename{{#if parentName}}, true{{/if}});
  * available in:
  * https://webhint.io/docs/contributor-guide/how-to/test-hints/
  */
-const tests: Array<HintTest> = [
+const tests: HintTest[] = [
     {
         name: 'This test should pass',
         serverConfig: generateHTMLPage()

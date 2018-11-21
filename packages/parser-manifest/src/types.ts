@@ -1,4 +1,4 @@
-import { FetchEnd, ISchemaValidationError, IJSONLocationFunction } from 'hint/dist/src/lib/types';
+import { FetchEnd, FetchError, FetchStart, ISchemaValidationError, IJSONLocationFunction, Event, ErrorEvent, Events } from 'hint/dist/src/lib/types';
 
 /* eslint-disable camelcase */
 
@@ -44,7 +44,7 @@ export type ManifestExternalApplicationResourceFingerprint = {
 
 export type ManifestExternalApplicationResources = {
     platform: ManifestPlatform;
-    fingerprints?: Array<ManifestExternalApplicationResourceFingerprint>;
+    fingerprints?: ManifestExternalApplicationResourceFingerprint[];
     id?: string;
     min_version?: string;
     url?: string;
@@ -114,7 +114,7 @@ export type Manifest = {
         'minimal-ui' |
         'standalon';
     iarc_rating_id?: string;
-    icons?: Array<ManifestImageResource>;
+    icons?: ManifestImageResource[];
     lang?: string;
     name?: string;
     orientation:
@@ -127,9 +127,9 @@ export type Manifest = {
         'portrait-primary' |
         'portrait-secondar';
     prefer_related_applications: boolean;
-    related_applications?: Array<ManifestExternalApplicationResources>;
+    related_applications?: ManifestExternalApplicationResources[];
     scope?: string;
-    screenshots?: Array<ManifestImageResource>;
+    screenshots?: ManifestImageResource[];
     serviceworker?: ServiceWorkerRegistrationObject;
     short_name?: string;
     start_url?: string;
@@ -142,21 +142,28 @@ export type Manifest = {
     [other: string]: any;
 };
 
-export type ManifestInvalidJSON = FetchEnd & {
-    /** The parse JSON error. */
-    error: Error;
-};
+export type ManifestInvalidJSON = ErrorEvent;
 
-export type ManifestInvalidSchema = FetchEnd & {
+export type ManifestInvalidSchema = ErrorEvent & {
     /** The parse errors as returned by ajv. */
-    errors: Array<ISchemaValidationError>;
+    errors: ISchemaValidationError[];
     /** The errors in a more human readable format. */
-    prettifiedErrors: Array<string>;
+    prettifiedErrors: string[];
 };
 
-export type ManifestParsed = FetchEnd & {
+export type ManifestParsed = Event & {
     /** Find the location of a path within the original JSON source */
     getLocation: IJSONLocationFunction;
     /** The content of manifest parsed */
     parsedContent: Manifest;
+};
+
+export type ManifestEvents = Events & {
+    'fetch::end::manifest': FetchEnd;
+    'fetch::error::manifest': FetchError;
+    'fetch::start::manifest': FetchStart;
+    'parse::end::manifest': ManifestParsed;
+    'parse::error::manifest::schema': ManifestInvalidSchema;
+    'parse::error::manifest::json': ManifestInvalidJSON;
+    'parse::start::manifest': Event;
 };

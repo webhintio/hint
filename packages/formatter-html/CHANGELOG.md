@@ -1,3 +1,30 @@
+# 2.0.0 (November 5, 2018)
+
+## Breaking Changes
+
+* [[`59e5b9ade4`](https://github.com/webhintio/hint/commit/59e5b9ade47698d9bae42106cd93606a451b5a56)] - Breaking: Update `hint` to `v4.0.0` [skip ci] (by [`Cătălin Mariș`](https://github.com/alrra)).
+* [[`d181168807`](https://github.com/webhintio/hint/commit/d18116880733897793628f0a8e829de941531d18)] - Breaking: Use typed event registration and dispatch (by [`Tony Ross`](https://github.com/antross) / see also: [`#123`](https://github.com/webhintio/hint/issues/123)).
+
+## Bug fixes / Improvements
+
+* [[`a64e60f6bc`](https://github.com/webhintio/hint/commit/a64e60f6bc60705d7e6b3a92d323d554bfbb105c)] - Fix: Make `target` optional for `formatter` calls (by [`Tony Ross`](https://github.com/antross)).
+
+
+# 1.1.2 (October 31, 2018)
+
+## Bug fixes / Improvements
+
+* [[`37e2dfbc68`](https://github.com/webhintio/hint/commit/37e2dfbc682fef9cf95d8a5f66f88427156abe12)] - Fix: Visual issue when a category doesn't have any issues (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1462`](https://github.com/webhintio/hint/issues/1462)).
+* [[`3c81bfb673`](https://github.com/webhintio/hint/commit/3c81bfb673dff06d518dcd829e9df793f33b342a)] - Docs: Update broken links (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1459`](https://github.com/webhintio/hint/issues/1459)).
+
+
+# 1.1.1 (October 25, 2018)
+
+## Bug fixes / Improvements
+
+* [[`a402a07a5f`](https://github.com/webhintio/hint/commit/a402a07a5f760c0a35186cd77c3420164ba56754)] - Fix: Error in HTML formatter script (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1448`](https://github.com/webhintio/hint/issues/1448)).
+
+
 # 1.1.0 (October 24, 2018)
 
 ## New features

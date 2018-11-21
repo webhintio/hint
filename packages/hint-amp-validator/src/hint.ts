@@ -4,11 +4,11 @@
 
 import * as amphtmlValidator from 'amphtml-validator';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IHint, HintMetadata, FetchEnd } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -19,24 +19,12 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 export default class AmpValidatorHint implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.performance,
-            description: `Require HTML page to be AMP valid.`
-        },
-        id: 'amp-validator',
-        schema: [{
-            additionalProperties: false,
-            properties: { 'errors-only': { type: 'boolean' } },
-            type: 'object'
-        }],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
         let validPromise: Promise<amphtmlValidator.Validator>;
         const errorsOnly = context.hintOptions && context.hintOptions['errors-only'] || false;
-        let events: Array<FetchEnd> = [];
+        let events: FetchEnd[] = [];
 
         const onFetchEndHTML = (fetchEnd: FetchEnd) => {
             const { response: { body: { content }, statusCode } } = fetchEnd;
@@ -80,7 +68,12 @@ export default class AmpValidatorHint implements IHint {
                     if (errorsOnly && error.severity !== 'ERROR') {
                         debug(`AMP error doesn't meet threshold for reporting`);
                     } else {
-                        await context.report(resource, null, message, '', { column: error.col, line: error.line });
+                        const location = {
+                            column: error.col,
+                            line: error.line
+                        };
+
+                        await context.report(resource, message, { location });
                     }
                 }
             }

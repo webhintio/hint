@@ -11,7 +11,7 @@ const loadPackage = require('hint/dist/src/lib/utils/packages/load-package');
 
 const hintPath = getHintPath(__filename, true);
 
-const tests: Array<HintLocalTest> = [
+const tests: HintLocalTest[] = [
     {
         after: (t: GenericTestContext<Context<any>>) => {
             t.context.sandbox.restore();

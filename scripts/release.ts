@@ -406,7 +406,7 @@ const prettyPrintCommit = async (commit: Commit): Promise<string> => {
     return `${result}.`;
 };
 
-const generateChangelogSection = async (title: string, tags: Array<string>, commits: Array<Commit>): Promise<string> => {
+const generateChangelogSection = async (title: string, tags: string[], commits: Commit[]): Promise<string> => {
     let result = '';
 
     for (const commit of commits) {
@@ -697,9 +697,20 @@ const updatePackageVersionNumberInOtherPackages = (ctx: TaskContext) => {
     for (const pkg of packages) {
 
         const packageJSONFilePath = `${pkg}/package.json`;
-        const packageJSONFileContent = require(`../../${packageJSONFilePath}`);
-        const dependencyName = ctx.packageName === 'hint' ? ctx.packageName : `@hint/${ctx.packageName}`;
+        let packageJSONFileContent: any;
 
+        /*
+         * If the package doesn't have a valid `package.json` file,
+         * skip to the next package.
+         */
+
+        try {
+            packageJSONFileContent = require(`../../${packageJSONFilePath}`);
+        } catch {
+            continue;
+        }
+
+        const dependencyName = ctx.packageName === 'hint' ? ctx.packageName : `@hint/${ctx.packageName}`;
         let packageJSONFileHasBeenUpdated = false;
 
         [
@@ -922,7 +933,8 @@ const main = async () => {
         ...shell.ls('-d', 'packages/formatter-*'),
         ...shell.ls('-d', 'packages/parser-!(html)'),
         ...shell.ls('-d', 'packages/hint-*'),
-        ...shell.ls('-d', 'packages/configuration-*')
+        ...shell.ls('-d', 'packages/configuration-!(development)'),
+        'packages/configuration-development'
     ].filter((name) => {
         return !exceptions.includes(name);
     });

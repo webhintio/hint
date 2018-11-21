@@ -1,4 +1,4 @@
-import { Event } from 'hint/dist/src/lib/types/events';
+import { Event, Events } from 'hint/dist/src/lib/types/events';
 import { IAsyncWindow } from 'hint/dist/src/lib/types/async-html';
 
 /** The object emitted by the `html` parser */
@@ -7,4 +7,9 @@ export type HTMLParse = Event & {
     html: string;
     /** An IAsyncWindow containing the IAsyncHTMLDocument generated from the HTML */
     window: IAsyncWindow;
+};
+
+export type HTMLEvents = Events & {
+    'parse::end::html': HTMLParse;
+    'parse::start::html': Event;
 };

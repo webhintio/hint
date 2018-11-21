@@ -16,7 +16,7 @@ export class RedirectManager {
      *  Known issues: it doesn't support multiple redirects to the same url. This shouldn't happen very
      * often in the same page
      */
-    public calculate(target: string): Array<string> {
+    public calculate(target: string): string[] {
         /*
          * To find the number of `hops` we look into the `redirects` `Map` which should look similar to:
          *
@@ -32,7 +32,7 @@ export class RedirectManager {
          * Because `hops` always contains the latest url, we `pop` to have the intermediate requests.
          */
         let targetUrl: string = target;
-        const hops: Array<string> = [targetUrl];
+        const hops: string[] = [targetUrl];
 
         while (this._redirects.has(targetUrl)) {
             targetUrl = this._redirects.get(targetUrl)!; // The `has` check above means this exists.

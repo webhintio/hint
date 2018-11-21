@@ -23,7 +23,7 @@ const unlock = promisify(lockfile.unlock);
 export class CDPLauncher extends Launcher {
     /** Indicates if the default profile should be used by Chrome or not */
     private userDataDir: string | boolean;
-    private chromeFlags: Array<string>;
+    private chromeFlags: string[];
 
     public constructor(options: LauncherOptions) {
         const flags = options && options.flags || ['--no-default-browser-check'];

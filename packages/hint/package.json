@@ -8,17 +8,17 @@
   },
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
-    "ajv": "^6.5.4",
-    "applicationinsights": "^1.0.6",
+    "ajv": "^6.5.5",
+    "applicationinsights": "^1.0.7",
     "async": "^2.6.1",
     "boxen": "^2.0.0",
-    "browserslist": "^4.3.3",
+    "browserslist": "^4.3.4",
     "caniuse-api": "^3.0.0",
     "chalk": "^2.4.1",
     "content-type": "^1.0.4",
     "debug": "^4.1.0",
     "eventemitter2": "^5.0.1",
-    "file-type": "^10.1.0",
+    "file-type": "^10.5.0",
     "file-url": "^2.0.2",
     "globby": "^8.0.1",
     "handlebars": "^4.0.11",
@@ -48,30 +48,31 @@
     "@types/handlebars": "^4.0.39",
     "@types/is-svg": "^3.0.0",
     "@types/jsdom": "^12.2.0",
-    "@types/lodash": "^4.14.117",
+    "@types/lodash": "^4.14.118",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
+    "@types/node": "10.9.1",
     "@types/ora": "^1.3.4",
-    "@types/request": "^2.0.13",
+    "@types/request": "^2.48.1",
     "@types/semver": "^5.4.0",
     "@types/sinon": "^5.0.5",
     "@types/strip-bom": "^3.0.0",
     "@types/strip-json-comments": "^0.0.30",
-    "@types/update-notifier": "^2.2.0",
+    "@types/update-notifier": "^2.5.0",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.7.0",
+    "eslint": "^5.9.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-markdown": "^1.0.0-beta.7",
-    "eslint-plugin-typescript": "^0.12.0",
+    "eslint-plugin-markdown": "^1.0.0-rc.0",
+    "eslint-plugin-typescript": "0.13.0",
     "markdownlint-cli": "^0.13.0",
     "npm-run-all": "^4.1.2",
     "nyc": "^13.1.0",
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
-    "sinon": "^7.0.0",
-    "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^20.0.0"
+    "sinon": "^7.1.1",
+    "typescript": "^3.1.6",
+    "typescript-eslint-parser": "20.1.1"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -82,12 +83,6 @@
     "dist/tests/helpers",
     "docs"
   ],
-  "greenkeeper": {
-    "ignore": [
-      "mime-db",
-      "proxyquire"
-    ]
-  },
   "homepage": "https://webhint.io/",
   "keywords": [
     "a11y",
@@ -109,7 +104,7 @@
     ]
   },
   "optionalDependencies": {
-    "@hint/configuration-web-recommended": "^2.0.0"
+    "@hint/configuration-web-recommended": "^3.0.0"
   },
   "repository": "https://github.com/webhintio/hint",
   "scripts": {
@@ -132,5 +127,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.4.12"
+  "version": "4.0.3"
 }

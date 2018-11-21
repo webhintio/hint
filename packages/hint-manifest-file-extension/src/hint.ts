@@ -9,12 +9,12 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { IAsyncHTMLElement, ElementFound, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import getFileExtension from 'hint/dist/src/lib/utils/fs/file-extension';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -24,28 +24,20 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class ManifestFileExtensionHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.pwa,
-            description: 'Require `.webmanifest` as the file extension for the web app manifest file'
-        },
-        id: 'manifest-file-extension',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
         const standardManifestFileExtension: string = 'webmanifest';
 
-        const validate = async (data: ElementFound) => {
-            const { element, resource }: { element: IAsyncHTMLElement, resource: string } = data;
-
+        const validate = async ({ element, resource }: ElementFound) => {
             if (normalizeString(element.getAttribute('rel')) === 'manifest') {
                 const fileExtension: string = getFileExtension(normalizeString(element.getAttribute('href')) || '');
 
                 if (fileExtension !== standardManifestFileExtension) {
-                    await context.report(resource, element, `Web app manifest should have the filename extension '${standardManifestFileExtension}'${fileExtension ? `, not '${fileExtension}'` : ''}.`, fileExtension);
+                    const message = `Web app manifest should have the filename extension '${standardManifestFileExtension}'${fileExtension ? `, not '${fileExtension}'` : ''}.`;
+
+                    await context.report(resource, message, { content: fileExtension, element });
                 }
             }
         };

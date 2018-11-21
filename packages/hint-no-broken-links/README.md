@@ -1,4 +1,4 @@
-# Check for broken links (`broken-links`)
+# No broken links (`broken-links`)
 
 This hint checks and reports if any links in your page are broken.
 This includes anchor tag `href` value, image `src` value,
@@ -66,6 +66,10 @@ the URLs.
 
 URLs which return 200 OK will pass this hint.
 
+URLs requested via `<link rel="dns-prefetch">` or `<link rel="preconnect">`
+[resource hints](https://www.w3.org/TR/resource-hints/#resource-hints) will
+pass this hint if the request succeeds, regardless of status code.
+
 ## How to use this hint?
 
 To use it you will have to install it via `npm`:
@@ -96,4 +100,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 <!-- Link labels: -->
 
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

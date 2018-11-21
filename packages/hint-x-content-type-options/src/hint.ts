@@ -9,13 +9,12 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, FetchEnd, Response, IHint, HintMetadata } from 'hint/dist/src/lib/types';
+import { IAsyncHTMLElement, FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import meta from './meta';
 
 const debug = d(__filename);
 
@@ -27,16 +26,7 @@ const debug = d(__filename);
 
 export default class XContentTypeOptionsHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.security,
-            description: `Require 'X-Content-Type-Options' header`
-        },
-        id: 'x-content-type-options',
-        schema: [],
-        scope: HintScope.site
-    }
-
+    public static readonly meta = meta;
     public constructor(context: HintContext) {
 
         const isHeaderRequired = (element: IAsyncHTMLElement | null): boolean => {
@@ -68,9 +58,7 @@ export default class XContentTypeOptionsHint implements IHint {
             return false;
         };
 
-        const validate = async (fetchEnd: FetchEnd) => {
-            const { element, resource, response }: { element: IAsyncHTMLElement | null, resource: string, response: Response } = fetchEnd;
-
+        const validate = async ({ element, resource, response }: FetchEnd) => {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
@@ -83,13 +71,13 @@ export default class XContentTypeOptionsHint implements IHint {
 
             if (isHeaderRequired(element)) {
                 if (headerValue === null) {
-                    await context.report(resource, element, `Response should include 'x-content-type-options' header.`);
+                    await context.report(resource, `Response should include 'x-content-type-options' header.`, { element });
 
                     return;
                 }
 
                 if (headerValue !== 'nosniff') {
-                    await context.report(resource, element, `'x-content-type-options' header value should be 'nosniff', not '${headerValue}'.`);
+                    await context.report(resource, `'x-content-type-options' header value should be 'nosniff', not '${headerValue}'.`, { element });
 
                     return;
                 }
@@ -98,7 +86,7 @@ export default class XContentTypeOptionsHint implements IHint {
             }
 
             if (headerValue) {
-                await context.report(resource, element, `Response should not include unneeded 'x-content-type-options' header.`);
+                await context.report(resource, `Response should not include unneeded 'x-content-type-options' header.`, { element });
             }
         };
 

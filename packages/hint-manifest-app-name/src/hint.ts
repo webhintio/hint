@@ -11,11 +11,11 @@
 
 import { ucs2 } from 'punycode';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { IHint, HintMetadata, IJSONLocationFunction } from 'hint/dist/src/lib/types';
-import { Manifest, ManifestParsed } from '@hint/parser-manifest/dist/src/types';
+import { IHint, IJSONLocationFunction } from 'hint/dist/src/lib/types';
+import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -25,33 +25,31 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class ManifestAppNameHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.pwa,
-            description: 'Require web application name to be specified in the web app manifest file'
-        },
-        id: 'manifest-app-name',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<ManifestEvents>) {
 
         const checkIfPropertyExists = async (resource: string, content: string | undefined, propertyName: string) => {
             if (typeof content === 'undefined') {
-                await context.report(resource, null, `Web app manifest should have '${propertyName}' property.`);
+                await context.report(resource, `Web app manifest should have '${propertyName}' property.`);
             }
         };
 
         const checkIfPropertyValueIsNotEmpty = async (resource: string, content: string | undefined, propertyName: string, getLocation: IJSONLocationFunction) => {
             if (typeof content === 'string' && (content.trim() === '')) {
-                await context.report(resource, null, `Web app manifest should have non-empty '${propertyName}' property value.`, undefined, getLocation(propertyName) || undefined);
+                const message = `Web app manifest should have non-empty '${propertyName}' property value.`;
+                const location = getLocation(propertyName);
+
+                await context.report(resource, message, { location });
             }
         };
 
         const checkIfPropertyValueIsUnderLimit = async (resource: string, content: string | undefined, propertyName: string, shortNameLengthLimit: number, getLocation: IJSONLocationFunction) => {
             if (content && (ucs2.decode(content).length > shortNameLengthLimit)) {
-                await context.report(resource, null, `Web app manifest should have '${propertyName}' property value under ${shortNameLengthLimit} characters.`, undefined, getLocation(propertyName) || undefined);
+                const message = `Web app manifest should have '${propertyName}' property value under ${shortNameLengthLimit} characters.`;
+                const location = getLocation(propertyName);
+
+                await context.report(resource, message, { location });
 
                 return false;
             }
@@ -59,9 +57,7 @@ export default class ManifestAppNameHint implements IHint {
             return true;
         };
 
-        const validate = async (manifestParsed: ManifestParsed) => {
-            const { getLocation, parsedContent: manifest, resource }: { getLocation: IJSONLocationFunction, parsedContent: Manifest, resource: string } = manifestParsed;
-
+        const validate = async ({ getLocation, parsedContent: manifest, resource }: ManifestParsed) => {
             const name = manifest.name;
 
             /*
@@ -119,6 +115,6 @@ export default class ManifestAppNameHint implements IHint {
             await checkIfPropertyValueIsUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit, getLocation);
         };
 
-        context.on('parse::manifest::end', validate);
+        context.on('parse::end::manifest', validate);
     }
 }

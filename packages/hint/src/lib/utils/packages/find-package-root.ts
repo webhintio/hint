@@ -10,7 +10,7 @@ import { resolve } from 'path';
  * `No package found`.
  */
 const findPackageRoot = (dirname: string = __dirname, fileToFind: string = 'package.json'): string => {
-    const content: Array<string> = readdir(dirname);
+    const content: string[] = readdir(dirname);
 
     if (content.includes(fileToFind)) {
         return dirname;

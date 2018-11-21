@@ -1,4 +1,4 @@
-# Require charset meta tag with the value of `utf-8` (`meta-charset-utf-8`)
+# Use charset `utf-8` (`meta-charset-utf-8`)
 
 `meta-charset-utf-8` checks if the page explicitly declares the
 character encoding as `utf-8` using a meta tag early in the document.
@@ -159,7 +159,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [html5 character encoding]: https://blog.whatwg.org/the-road-to-html-5-character-encoding
 [ie issue]: https://msdn.microsoft.com/en-us/library/dd565635.aspx
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [spec aliases]: https://encoding.spec.whatwg.org/#names-and-labels
 [utf8 example]: https://twitter.com/jacobrossi/status/591435377291866112
 [whatwg charset]: https://html.spec.whatwg.org/multipage/semantics.html#charset

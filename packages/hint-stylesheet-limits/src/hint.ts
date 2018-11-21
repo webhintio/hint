@@ -2,10 +2,10 @@
  * @fileoverview Checks if CSS exceeds known stylesheet limits.
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, HintMetadata, CanEvaluateScript } from 'hint/dist/src/lib/types';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { IHint, CanEvaluateScript } from 'hint/dist/src/lib/types';
+
+import meta from './meta';
 
 /*
  * ------------------------------------------------------------------------------
@@ -15,29 +15,7 @@ import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 
 export default class StylesheetLimitsHint implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.interoperability,
-            description: `Checks if CSS exceeds known stylesheet limits.`
-        },
-        id: 'stylesheet-limits',
-        schema: [{
-            additionalProperties: false,
-            definitions: {
-                number: {
-                    minimum: 0,
-                    type: 'integer'
-                }
-            },
-            properties: {
-                maxImports: { $ref: '#/definitions/number' },
-                maxRules: { $ref: '#/definitions/number' },
-                maxSheets: { $ref: '#/definitions/number' }
-            },
-            type: ['object', 'null']
-        }],
-        scope: HintScope.site
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 
@@ -158,15 +136,15 @@ export default class StylesheetLimitsHint implements IHint {
 
             // Only check `maxImports` if a limit has been specified
             if (hasImportLimit && results.imports >= maxImports) {
-                await context.report(event.resource, null, `Maximum of ${maxImports} nested imports reached (${results.imports})`);
+                await context.report(event.resource, `Maximum of ${maxImports} nested imports reached (${results.imports})`);
             }
 
             if (hasRuleLimit && results.rules >= maxRules) {
-                await context.report(event.resource, null, `Maximum of ${maxRules} CSS rules reached (${results.rules})`);
+                await context.report(event.resource, `Maximum of ${maxRules} CSS rules reached (${results.rules})`);
             }
 
             if (hasSheetLimit && results.sheets >= maxSheets) {
-                await context.report(event.resource, null, `Maximum of ${maxSheets} stylesheets reached (${results.sheets})`);
+                await context.report(event.resource, `Maximum of ${maxSheets} stylesheets reached (${results.sheets})`);
             }
         };
 

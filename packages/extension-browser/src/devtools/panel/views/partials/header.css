@@ -1,0 +1,25 @@
+.header {
+    align-items: center;
+    display: flex;
+    flex: none;
+    padding: 1rem;
+}
+
+.header__help {
+    flex: auto;
+    margin: 0 1rem;
+    width: 100%;
+}
+
+.header__actions {
+    margin: 0 1rem;
+}
+
+.header__analyze-button {
+    min-width: 10.5em;
+    white-space: nowrap;
+}
+
+.header__powered-by {
+    white-space: nowrap;
+}

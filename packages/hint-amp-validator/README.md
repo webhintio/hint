@@ -1,4 +1,4 @@
-# AMP HTML Validator (`amp-validator`)
+# AMP HTML validator (`amp-validator`)
 
 > AMP HTML is a way to build web pages that render with reliable and
 fast performance. It is our attempt at fixing what many perceive as
@@ -80,4 +80,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [amp]: https://www.ampproject.org/learn/overview/
 [amphtml-validator]: https://www.npmjs.com/package/amphtml-validator
 [ampproject]: https://github.com/ampproject/amphtml
-[hintrc]: https://webhint.io/docs/user-guide/further-configuration/hintrc-formats/
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
