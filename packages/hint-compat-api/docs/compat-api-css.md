@@ -1,6 +1,7 @@
 # Check for Deprecated CSS features
 
 ## What does the hint check?
+
 `compat-api-css` checks if the CSS features used are deprecated in the
 [targeted browsers][browser-context].
 
@@ -38,7 +39,8 @@ Targeted Firefox browsers of versions 50 and up will trigger the hint.
 
 The non-prefixed [keyframes][keyframes]
 at-rule was removed from Opera 15. Targeted Opera browsers of versions 15
-and up will trigger the hint if the at-rule is used without the `-webkit-` prefix.
+and up will trigger the hint if the at-rule is used without the `-webkit-`
+prefix.
 
 ```css
 @keyframes name {
@@ -49,6 +51,7 @@ and up will trigger the hint if the at-rule is used without the `-webkit-` prefi
 ```
 
 ### Examples that **pass** the hint
+
 The [background][background] property was never
 removed for any browser. It should always pass the hint.
 
@@ -59,10 +62,10 @@ removed for any browser. It should always pass the hint.
 ```
 
 The [box-lines][box-lines] property
-was added with prefixes for Chrome, Opera and Safari. Although the prefixed property
-was removed for these browsers subsequently, using the property without a prefix will
-not trigger the hint since the non-prefixed version of `box-lines` was never added
-and thus never deprecated.
+was added with prefixes for Chrome, Opera and Safari. Although
+the prefixed property was removed for these browsers subsequently, using
+the property without a prefix will not trigger the hint since the non-prefixed
+version of `box-lines` was never added and thus never deprecated.
 
 ```css
 .example {
@@ -75,7 +78,8 @@ and thus never deprecated.
 This hint throws errors for CSS features that have been deprecated in any
 of the [targeted browsers][targeted-browsers] listed.
 
-The targeted browsers can be defined in either the `.hintrc` or `package.json` file.
+The targeted browsers can be defined in either the `.hintrc` or
+`package.json` file.
 This property follows the same convention as [browserslist][browserslist].
 
 ```json
