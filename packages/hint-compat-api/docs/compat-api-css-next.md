@@ -1,6 +1,7 @@
 # Check for CSS features that are not broadly supported
 
 ## What does the hint check?
+
 `compat-api-css-next` checks if the CSS features used are
 supported in the [targeted browsers][browser-context].
 
@@ -15,7 +16,7 @@ that are not supported by your targeted browsers, taking into account prefixes.
 
 The [box-flex][box-flex] was
 never added for any version of Internet Explorer. If Internet Explorer is
-being targeted, using the box-flex property will trigger the hint.
+being targeted, using the `box-flex` property will trigger the hint.
 
 ```css
 .example {
