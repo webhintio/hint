@@ -214,7 +214,7 @@ export class CompatApi {
     public isBrowserToSupportPartOfBrowsersCollection(browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
         const isBrowserInsideCollection = Object.keys(browsersToSupport).some((browser) => {
             return browser === browserToSupportName;
-        })
+        });
 
         return isBrowserInsideCollection;
     }
