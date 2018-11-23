@@ -102,32 +102,23 @@ export default class implements IHint {
     }
 
     private getNotSupportedVersionByBrowsers(browsersToSupport: BrowserSupportCollection, browserToSupportName: string, addedVersionNumber: number, featureName: string, prefix?: string): string[] {
-        const notSupportedVersions: string[] = [];
+        const isBrowserDefined: boolean = !!browsersToSupport[browserToSupportName];
+        const isPrefixInUse: boolean = !prefix && this.checkUserUsedPrefixes(browserToSupportName, featureName);
+        const versions: number[] = isBrowserDefined && !isPrefixInUse ? browsersToSupport[browserToSupportName] : [];
 
-        Object.entries(browsersToSupport).forEach(([browserName, versions]) => {
-            if (browserName !== browserToSupportName) {
-                return;
-            }
+        return versions
+            .filter((version: number) => {
+                const isVersionGreaterThanAddedVersion: boolean = version >= addedVersionNumber;
 
-            // If user used prefixes we should not check for more errors
-            if (!prefix && this.checkUserUsedPrefixes(browserName, featureName)) {
-                return;
-            }
-
-            versions.forEach((version) => {
-                if (version >= addedVersionNumber) {
-                    if (prefix) {
-                        this.addUserUsedPrefixes(browserName, featureName);
-                    }
-
-                    return;
+                if (isVersionGreaterThanAddedVersion && prefix) {
+                    this.addUserUsedPrefixes(browserToSupportName, featureName);
                 }
 
-                notSupportedVersions.push(`${browserName} ${browserVersions.deNormalize(version)}`);
+                return !isVersionGreaterThanAddedVersion;
+            })
+            .map((version: number) => {
+                return `${browserToSupportName} ${browserVersions.deNormalize(version)}`;
             });
-        });
-
-        return notSupportedVersions;
     }
 
     private addUserUsedPrefixes(browserName: string, featureName: string): void {
