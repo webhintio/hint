@@ -20,7 +20,7 @@ You can also install it as a `devDependency` if you prefer not to
 have it globally (which is the team's preferred option).
 
 **NOTE**: If you run into any issues during the install process
-please check the [troubleshoot section](./troubleshoot/).
+please check the [troubleshoot section](./troubleshoot/summary.md).
 
 `webhint` needs a configuration file to know what `hint`s,
 `connector`s, etc. to use. By default it will look for a `.hintrc`
@@ -95,14 +95,13 @@ This configuration will be equivalent to the following `.hintrc`:
 Now that you have `webhint` up and running, it is time to learn a bit more
 about the different pieces:
 
-* [Hints](./concepts/hints/)
-* [Configurations](./concepts/configurations/)
-* [Connectors](./concepts/connectors/)
-* [Formatters](./concepts/formatters/)
-* [Parsers](./concepts/parsers/)
+* [Hints](./concepts/hints.md)
+* [Configurations](./concepts/configurations.md)
+* [Connectors](./concepts/connectors.md)
+* [Formatters](./concepts/formatters.md)
+* [Parsers](./concepts/parsers.md)
 
 <!-- Link labels: -->
 
 [nodejs]: https://nodejs.org/en/download/current/
-[npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
 [web recommended]: https://github.com/webhintio/hint/blob/master/packages/configuration-web-recommended/index.json

@@ -1,9 +1,9 @@
 # Hints
 
 A `hint` is a test that your website needs to pass. `webhint` comes with
-a few [built in ones](../hints/), but you can create your own or download
+a few [built in ones][hints], but you can create your own or download
 them from `npm`. You can read more about [how to create hints in the
-contributor guide](../../contributor-guide/hints/index.md).
+contributor guide][how to hint].
 
 ## Hint configuration
 
@@ -81,4 +81,9 @@ or
 ```
 
 You can check which hints accept this kind of configuration by
-visiting the [hints documentation](../hints/).
+visiting the [hints documentation][hints].
+
+<!-- Link labels: -->
+
+[hints]: ../hints/index.md
+[how to hint]: ../../contributor-guide/how-to/hint.md

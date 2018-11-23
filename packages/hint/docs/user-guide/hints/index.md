@@ -32,7 +32,7 @@
 
 ## Other
 
-* [`no-broken-links`](../../../../hint-no-broken-links)
+* [`no-broken-links`](../../../../hint-no-broken-links/README.md)
 
 ## Performance
 

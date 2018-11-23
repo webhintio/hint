@@ -66,11 +66,11 @@ Note: If you are running customs hints the buttons `Why is this important`
 and `How to solve it` will not work.
 
 If you want to implement your own `formatter`, visit the [contributor
-guide][contributor guide]
+guide][contributor guide].
 
 <!-- Link labels: -->
 
-[contributor guide]: ../../../contributor-guide/formatters/
+[contributor guide]: ../../contributor-guide/how-to/formatter.md
 [formatter-json]: https://npmjs.com/package/@hint/formatter-json
 [formatter-stylish]: https://npmjs.com/package/@hint/formatter-stylish
 [formatter-codeframe]: https://npmjs.com/package/@hint/formatter-codeframe
