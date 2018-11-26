@@ -3562,7 +3562,14 @@ eslint-plugin-markdown@^1.0.0-beta.7, eslint-plugin-markdown@^1.0.0-rc.0:
     remark-parse "^5.0.0"
     unified "^6.1.2"
 
-eslint-plugin-typescript@0.13.0, eslint-plugin-typescript@^0.13.0:
+eslint-plugin-typescript@0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.14.0.tgz#068549c3f4c7f3f85d88d398c29fa96bf500884c"
+  integrity sha512-2u1WnnDF2mkWWgU1lFQ2RjypUlmRoBEvQN02y9u+IL12mjWlkKFGEBnVsjs9Y8190bfPQCvWly1c2rYYUSOxWw==
+  dependencies:
+    requireindex "~1.1.0"
+
+eslint-plugin-typescript@^0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-typescript/-/eslint-plugin-typescript-0.13.0.tgz#07fa9a166dee1daff14716c70fb8fb7c6583d852"
   dependencies:

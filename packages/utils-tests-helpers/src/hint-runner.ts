@@ -64,15 +64,21 @@ const validateResults = (t: GenericTestContext<Context<any>>, results: Problem[]
     const server = t.context.server || {};
 
     if (!reports) {
-        return t.is(results.length, 0, `Received results is ${JSON.stringify(results, null, 2)}`);
+        t.is(results.length, 0, `Received results is ${JSON.stringify(results, null, 2)}`);
+
+        return;
     }
 
     if (results.length === 0) {
-        return t.fail(`No results found, should be ${reports.length}`);
+        t.fail(`No results found, should be ${reports.length}`);
+
+        return;
     }
 
     if (results.length !== reports.length) {
-        return t.fail(`Result count is ${results.length}, should be ${reports.length}`);
+        t.fail(`Result count is ${results.length}, should be ${reports.length}`);
+
+        return;
     }
 
     if (server.port) {
@@ -90,11 +96,11 @@ const validateResults = (t: GenericTestContext<Context<any>>, results: Problem[]
         const found = reportsCopy.some((report, i) => {
             index = i;
 
-            if(report.message !== result.message){
+            if (report.message !== result.message) {
                 return false;
             }
 
-            if(report.position && result.location) {
+            if (report.position && result.location) {
                 return report.position.column === result.location.column &&
                        report.position.line === result.location.line;
             }
@@ -102,7 +108,7 @@ const validateResults = (t: GenericTestContext<Context<any>>, results: Problem[]
             return true;
         });
 
-        if(found){
+        if (found) {
             reportsCopy.splice(index, 1);
         }
 

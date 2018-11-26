@@ -20,7 +20,7 @@
     "eslint": "^5.9.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-rc.0",
-    "eslint-plugin-typescript": "0.13.0",
+    "eslint-plugin-typescript": "0.14.0",
     "hint": "^4.0.3",
     "markdownlint-cli": "^0.13.0",
     "npm-link-check": "^3.0.0",
