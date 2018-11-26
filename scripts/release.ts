@@ -671,6 +671,13 @@ const updateSnykSnapshot = async () => {
     );
 };
 
+const updateAmpValidator = async () => {
+    await downloadFile(
+        'https://cdn.ampproject.org/v0/validator.js',
+        path.normalize('packages/hint-amp-validator/src/validator')
+    );
+};
+
 const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx: TaskContext) => {
 
     const semverIncrement = semver.diff(ctx.packageVersion!, ctx.newPackageVersion!);
@@ -756,6 +763,10 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent: any) =>
 
     if (packageName === 'hint-performance-budget') {
         tasks.push(newTask('Update `connections.ini`', updateConnectivityIni));
+    }
+
+    if (packageName === 'hint-amp-validator') {
+        tasks.push(newTask('Update `validator.js`', updateAmpValidator));
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

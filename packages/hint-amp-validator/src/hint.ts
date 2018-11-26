@@ -2,6 +2,8 @@
  * @fileoverview Validates if the HTML of a page is AMP valid
  */
 
+import * as path from 'path';
+
 import * as amphtmlValidator from 'amphtml-validator';
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
@@ -38,7 +40,7 @@ export default class AmpValidatorHint implements IHint {
              * to work with the local connector.
              */
             events.push(fetchEnd);
-            validPromise = amphtmlValidator.getInstance();
+            validPromise = amphtmlValidator.getInstance(path.join(__dirname, 'validator'));
         };
 
         const onScanEnd = async () => {
@@ -65,6 +67,7 @@ export default class AmpValidatorHint implements IHint {
                      * We ignore errors that are not 'ERROR'
                      * if user has configured the hint like that.
                      */
+                    /* istanbul ignore if */
                     if (errorsOnly && error.severity !== 'ERROR') {
                         debug(`AMP error doesn't meet threshold for reporting`);
                     } else {
