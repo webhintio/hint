@@ -9,20 +9,12 @@ import delay from 'hint/dist/src/lib/utils/misc/delay';
 import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 
-type IsFile = {
-    default: (filePath: string) => boolean;
-};
-
-type Chokidar = {
-    watch: () => Stream;
-};
-
-const chokidar: Chokidar = {
-    watch() {
+const chokidar = {
+    watch(): Stream {
         return new Stream();
     }
 };
-const isFile: IsFile = {
+const isFile = {
     default(filePath: string): boolean {
         return false;
     }

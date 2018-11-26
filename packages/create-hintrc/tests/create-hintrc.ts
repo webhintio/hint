@@ -5,23 +5,13 @@ import test from 'ava';
 
 import { NpmPackage } from 'hint/dist/src/lib/types';
 
-type Npm = {
-    getOfficialPackages: () => NpmPackage[] | null;
-    installPackages: () => boolean;
-};
-
-type ResourceLoader = {
-    getCoreResources: () => [] | null;
-    getInstalledResources: () => string[] | null;
-};
-
 const inquirer = { prompt() { } };
 const stubBrowserslistObject = { generateBrowserslistConfig() { } };
-const resourceLoader: ResourceLoader = {
-    getCoreResources() {
+const resourceLoader = {
+    getCoreResources(): [] | null {
         return null;
     },
-    getInstalledResources() {
+    getInstalledResources(): string[] | null {
         return null;
     }
 };
@@ -35,11 +25,11 @@ const logger = {
     log() { }
 };
 
-const npm: Npm = {
-    getOfficialPackages() {
+const npm = {
+    getOfficialPackages(): NpmPackage[] | null {
         return null;
     },
-    installPackages() {
+    installPackages(): boolean {
         return false;
     }
 };

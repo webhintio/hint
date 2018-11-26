@@ -6,15 +6,11 @@ import * as InquirerTypes from 'inquirer';
 
 import * as handlebarsUtils from '../src/handlebars-utils';
 
-type NormalizeStringByDelimiter = {
-    default: () => string
-};
-
 const fsExtra = { copy() { } };
 const inquirer = { prompt() { } };
 const isOfficial = { default() { } };
-const normalizeStringByDelimiter: NormalizeStringByDelimiter = {
-    default() {
+const normalizeStringByDelimiter = {
+    default(): string {
         return '';
     }
 };

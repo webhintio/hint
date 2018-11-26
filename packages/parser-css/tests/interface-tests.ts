@@ -3,25 +3,16 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-type Element = {
-    getAttribute: () => string | null;
-    outerHTML: () => Promise<string>;
-};
-
-type Postcss = {
-    parse: () => {};
-};
-
-const postcss: Postcss = {
+const postcss = {
     parse() {
         return {};
     }
 };
-const element: Element = {
-    getAttribute() {
+const element = {
+    getAttribute(): string | null {
         return null;
     },
-    outerHTML() {
+    outerHTML(): Promise<string> {
         return Promise.resolve('');
     }
 };

@@ -5,25 +5,16 @@ import { Rule, Declaration } from 'postcss';
 import * as CSSParser from '../src/parser';
 import { StyleParse } from '../src/types';
 
-type Element = {
-    getAttribute: () => string | null;
-    outerHTML: () => Promise<string>;
-};
-
-type Postcss = {
-    parse: () => {};
-};
-
-const postcss: Postcss = {
+const postcss = {
     parse() {
         return {};
     }
 };
-const element: Element = {
-    getAttribute() {
+const element = {
+    getAttribute(): string | null {
         return null;
     },
-    outerHTML() {
+    outerHTML(): Promise<string> {
         return Promise.resolve('');
     }
 };

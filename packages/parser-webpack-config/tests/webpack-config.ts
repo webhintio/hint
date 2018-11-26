@@ -4,15 +4,7 @@ import { EventEmitter2 } from 'eventemitter2';
 import * as path from 'path';
 import * as proxyquire from 'proxyquire';
 
-type Package = {
-    version: string;
-};
-
-type LoadPackage = {
-    default: () => Package;
-};
-
-const loadPackage: LoadPackage = {
+const loadPackage = {
     default() {
         return { version: '' };
     }

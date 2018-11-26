@@ -3,34 +3,21 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-type Element = {
-    getAttribute: () => string | null;
-    outerHTML: () => Promise<string>;
-};
-
-type Eslint = {
-    SourceCode: () => {};
-};
-
-type Espree = {
-    parse: () => {};
-};
-
-const eslint: Eslint = {
+const eslint = {
     SourceCode() {
         return {};
     }
 };
-const espree: Espree = {
+const espree = {
     parse() {
         return {};
     }
 };
-const element: Element = {
-    getAttribute() {
+const element = {
+    getAttribute(): string | null {
         return null;
     },
-    outerHTML() {
+    outerHTML(): Promise<string> {
         return Promise.resolve('');
     }
 };

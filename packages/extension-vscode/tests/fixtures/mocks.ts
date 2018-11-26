@@ -6,40 +6,6 @@ import {
 } from 'vscode-languageserver';
 import { Problem } from 'hint/dist/src/lib/types';
 
-type Access = {
-    error: () => Error | null;
-}
-
-type MessageResult = {
-    title: string;
-};
-
-type MockWindow = {
-    showErrorMessage: () => MessageResult;
-    showInformationMessage: () => MessageResult;
-    showWarningMessage: () => MessageResult;
-};
-
-type Connection = {
-    listen: () => void;
-    onDidChangeWatchedFiles: (fn: typeof fileWatcher) => void;
-    onInitialize: (fn: typeof initializer) => void;
-    sendDiagnostics: () => void;
-    sendNotification: () => void;
-    window: MockWindow;
-}
-
-type Documents = {
-    all: () => TextDocument[];
-    listen: () => void;
-    onDidChangeContent: (fn: typeof contentWatcher) => void;
-}
-
-type EngineMock = {
-    clear: () => void;
-    executeOn: () => Partial<Problem>[];
-}
-
 export const child = {
     on(event: string, listener: () => void) {
         if (event === 'exit') {
@@ -59,8 +25,8 @@ export const child_process = {
     }
 };
 
-export const access: Access = {
-    error() {
+export const access = {
+    error(): Error | null {
         return new Error('ENOENT');
     }
 };
@@ -73,9 +39,9 @@ export const fs = {
     }
 };
 
-export const engine: EngineMock = {
+export const engine = {
     clear() { },
-    executeOn() {
+    executeOn(): Partial<Problem>[] {
         return [];
     }
 };
@@ -99,7 +65,7 @@ export const loadResources = () => { };
 export let fileWatcher: () => any;
 export let initializer: (params: Partial<InitializeParams>) => Promise<InitializeResult>;
 
-export const connection: Connection = {
+export const connection = {
     listen() { },
     onDidChangeWatchedFiles(fn: typeof fileWatcher) {
         fileWatcher = fn;
@@ -151,8 +117,8 @@ export const document = {
 
 export let contentWatcher: (change: Partial<TextDocumentChangeEvent>) => any;
 
-export const documents: Documents = {
-    all() {
+export const documents = {
+    all(): TextDocument[] {
         return [];
     },
     listen() { },

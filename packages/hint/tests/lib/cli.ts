@@ -4,30 +4,13 @@ import * as sinon from 'sinon';
 import anyTest, { AssertContext, Context, RegisterContextual } from 'ava';
 import { NotifyOptions, UpdateInfo } from 'update-notifier';
 
-type Notifier = {
-    notify: (customMessage?: NotifyOptions) => any;
-    update: UpdateInfo | null;
-};
-
-type Logger = {
-    error: (text: string) => any;
-};
-
-type HintPackage = {
-    version: string;
-};
-
-type LoadHintPackage = {
-    default: () => HintPackage;
-};
-
-const loadHintPackage: LoadHintPackage = {
+const loadHintPackage = {
     default() {
         return { version: '' };
     }
 };
 
-const logger: Logger = { error(text: string) { } };
+const logger = { error(text: string): any { } };
 
 type ConfigTestContext = {
     notifyStub: sinon.SinonStub<[(NotifyOptions | undefined)?]>;
@@ -37,9 +20,9 @@ type ConfigTestContext = {
 
 type TestContext = Context<ConfigTestContext> & AssertContext;
 
-const notifier: Notifier = {
+const notifier = {
     notify(customMessage?: NotifyOptions) { },
-    update: {} as UpdateInfo
+    update: {} as UpdateInfo | null
 };
 
 const updateNotifier = () => {
@@ -58,10 +41,10 @@ proxyquire('../../src/lib/cli', {
 });
 
 test.beforeEach((t: TestContext) => {
-    const notifyStub = sinon.stub<Notifier, 'notify'>(notifier, 'notify');
+    const notifyStub = sinon.stub(notifier, 'notify');
 
     notifyStub.resolves();
-    t.context.errorStub = sinon.spy<Logger, 'error'>(logger, 'error');
+    t.context.errorStub = sinon.spy(logger, 'error');
     t.context.notifyStub = notifyStub;
 });
 

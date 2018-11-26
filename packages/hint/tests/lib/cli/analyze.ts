@@ -32,24 +32,6 @@ type ValidateHintsConfigResult = {
     invalid: any[];
 };
 
-type Configuration = {
-    fromConfig: (config: UserConfig | null) => {};
-    getFilenameForDirectory: () => string | null;
-    loadConfigFile: () => {};
-    validateHintsConfig: () => ValidateHintsConfigResult | null;
-};
-
-type Config = {
-    Configuration: Configuration;
-};
-
-type Spinner = {
-    fail: () => void;
-    start: () => void;
-    succeed: () => void;
-    text: string;
-};
-
 type AskQuestion = {
     default: () => any;
 };
@@ -80,24 +62,24 @@ const logger: Logger = {
     log(text: string) { }
 };
 
-const config: Config = {
+const config = {
     Configuration: {
         fromConfig(config: UserConfig | null) {
             return {};
         },
-        getFilenameForDirectory() {
+        getFilenameForDirectory(): string | null {
             return '';
         },
         loadConfigFile() {
             return {};
         },
-        validateHintsConfig() {
+        validateHintsConfig(): ValidateHintsConfigResult | null {
             return null;
         }
     }
 };
 
-const spinner: Spinner = {
+const spinner = {
     fail() { },
     start() { },
     succeed() { },
