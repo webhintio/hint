@@ -143,3 +143,38 @@ const removedForFlags: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['android 4-4.6'], parsers: ['css']});
+
+const prefixedFeaturesThatBecameStandardButStillAreValid: HintTest[] = [
+    'backface-visibility-prefix',
+    'animation-prefix',
+    'transform-prefix'
+].map((featureName: string) => {
+    return {
+        name: 'Prefixed feature that became standard before the targeted browser but prefix still is accepted should pass.',
+        serverConfig: generateCSSConfig(featureName)
+    };
+});
+
+hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardButStillAreValid, { browserslist: ['firefox 15 - 16'], parsers: ['css']});
+
+const prefixedFeatureThatBecameStandardAfterTarget: HintTest[] = [
+    {
+        name: 'Prefixed features that became standard after the targeted browser should pass.',
+        serverConfig: generateCSSConfig('background-size-prefix')
+    }
+];
+
+hintRunner.testHint(hintPath, prefixedFeatureThatBecameStandardAfterTarget, { browserslist: ['firefox 3.6'], parsers: ['css']});
+
+const prefixedFeaturesThatBecameStandardAndPrefixWasDeprecated: HintTest[] = [
+    {
+        name: 'Prefixed features that became deprecated before the targeted browser should fail.',
+        reports: [
+            { message: 'background-size prefixed with -moz- is not supported on firefox 4 browser.', position: { column: 5, line: 2 }},
+            { message: 'background-size prefixed with -moz- is not supported on firefox 4 browser.', position: { column: 5, line: 3 }}
+        ],
+        serverConfig: generateCSSConfig('background-size-prefix')
+    }
+];
+
+hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndPrefixWasDeprecated, { browserslist: ['firefox 3.6 - 4'], parsers: ['css']});

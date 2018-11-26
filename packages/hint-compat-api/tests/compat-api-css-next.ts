@@ -192,6 +192,24 @@ const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
 
 hintRunner.testHint(hintPath, prefixedFeatureVersionAddedLaterThanTargetedBrowsers, { browserslist: ['opera 12'], parsers: ['css']});
 
+const prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedBeforeTarget: HintTest[] = [
+    {
+        name: 'Prefixed features that became standard before the targeted browser but prefix was deprecated should pass.',
+        serverConfig: generateCSSConfig('background-size-prefix')
+    }
+];
+
+hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedBeforeTarget, { browserslist: ['firefox 3.6 - 4'], parsers: ['css']});
+
+const prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget: HintTest[] = [
+    {
+        name: 'Prefixed features that became standard after the targeted browser but prefix was deprecated should pass.',
+        serverConfig: generateCSSConfig('background-size-prefix')
+    }
+];
+
+hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget, { browserslist: ['firefox 4'], parsers: ['css']});
+
 /*
  * const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {
