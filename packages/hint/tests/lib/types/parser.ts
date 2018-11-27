@@ -5,13 +5,31 @@ import { EventEmitter2 } from 'eventemitter2';
 
 import { Engine } from '../../../src/lib/engine';
 
-const asPathString = { default() { } };
+const asPathString = {
+    default(): string {
+        return '';
+    }
+};
 const asUri = { getAsUri() { } };
 const path = {
-    dirname() { },
-    resolve() { }
+    dirname(): string {
+        return '';
+    },
+    resolve(): string {
+        return '';
+    }
 };
-const loadJSONFileModule = { default() { } };
+
+type FileModule = {
+    extends: string | null;
+    name: string;
+};
+
+const loadJSONFileModule = {
+    default(): FileModule | null {
+        return null;
+    }
+};
 
 proxyquire('../../../src/lib/types/parser', {
     '../utils/fs/load-json-file': loadJSONFileModule,
@@ -20,7 +38,7 @@ proxyquire('../../../src/lib/types/parser', {
     path
 });
 
-import { ExtendableConfiguration, Parser} from '../../../src/lib/types/parser';
+import { ExtendableConfiguration, Parser } from '../../../src/lib/types/parser';
 
 interface ITestConfig extends ExtendableConfiguration {
     name?: string;

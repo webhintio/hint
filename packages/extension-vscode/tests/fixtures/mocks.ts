@@ -4,6 +4,7 @@ import {
     TextDocument,
     TextDocumentChangeEvent
 } from 'vscode-languageserver';
+import { Problem } from 'hint/dist/src/lib/types';
 
 export const child = {
     on(event: string, listener: () => void) {
@@ -13,8 +14,8 @@ export const child = {
             }, 0);
         }
     },
-    stderr: { pipe() { }},
-    stdout: { pipe() { }}
+    stderr: { pipe() { } },
+    stdout: { pipe() { } }
 };
 
 // eslint-disable-next-line
@@ -25,13 +26,13 @@ export const child_process = {
 };
 
 export const access = {
-    error() {
+    error(): Error | null {
         return new Error('ENOENT');
     }
 };
 
 export const fs = {
-    access(path: string, callback: (err: NodeJS.ErrnoException) => void) {
+    access(path: string, callback: (err: Error | null) => void) {
         setTimeout(() => {
             callback(access.error());
         }, 0);
@@ -40,7 +41,7 @@ export const fs = {
 
 export const engine = {
     clear() { },
-    executeOn() {
+    executeOn(): Partial<Problem>[] {
         return [];
     }
 };
@@ -75,9 +76,15 @@ export const connection = {
     sendDiagnostics() { },
     sendNotification() { },
     window: {
-        showErrorMessage() { },
-        showInformationMessage() { },
-        showWarningMessage() { }
+        showErrorMessage() {
+            return { title: '' }
+        },
+        showInformationMessage() {
+            return { title: '' }
+        },
+        showWarningMessage() {
+            return { title: '' }
+        }
     }
 };
 
@@ -97,7 +104,7 @@ export const Files = {
     }
 };
 
-export const ProposedFeatures = { all: { } };
+export const ProposedFeatures = { all: {} };
 
 export const document = {
     getText() {
@@ -111,7 +118,7 @@ export const document = {
 export let contentWatcher: (change: Partial<TextDocumentChangeEvent>) => any;
 
 export const documents = {
-    all() {
+    all(): TextDocument[] {
         return [];
     },
     listen() { },

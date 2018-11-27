@@ -3,13 +3,28 @@ import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-const eslint = { SourceCode() { } };
-const espree = { parse() { } };
-const element = { getAttribute() { }, outerHTML() { } };
+const eslint = {
+    SourceCode() {
+        return {};
+    }
+};
+const espree = {
+    parse() {
+        return {};
+    }
+};
+const element = {
+    getAttribute(): string | null {
+        return null;
+    },
+    outerHTML(): Promise<string> {
+        return Promise.resolve('');
+    }
+};
 
 proxyquire('../src/parser', {
     // eslint-disable-next-line
-    'eslint/lib/util/source-code': function(...args: any[]) {
+    'eslint/lib/util/source-code': function (...args: any[]) {
         return Reflect.construct(eslint.SourceCode, args, new.target);
     },
     espree

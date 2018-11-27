@@ -9,7 +9,11 @@ import * as handlebarsUtils from '../src/handlebars-utils';
 const fsExtra = { copy() { } };
 const inquirer = { prompt() { } };
 const isOfficial = { default() { } };
-const normalizeStringByDelimiter = { default() { } };
+const normalizeStringByDelimiter = {
+    default(): string {
+        return '';
+    }
+};
 const readFileAsync = { default() { } };
 const writeFileAsync = { default() { } };
 
@@ -35,7 +39,7 @@ test.beforeEach((t) => {
     sinon.stub(writeFileAsync, 'default').resolves();
     sinon.stub(normalizeStringByDelimiter, 'default').returns('');
     sinon.stub(readFileAsync, 'default').resolves('');
-    sinon.stub(handlebarsUtils, 'compileTemplate').returns('');
+    sinon.stub(handlebarsUtils, 'compileTemplate').resolves('');
 
     t.context.fs = fsExtra;
     t.context.misc = {

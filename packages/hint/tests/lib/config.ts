@@ -1,21 +1,41 @@
 import * as path from 'path';
 
-import test from 'ava';
+import { ConnectorConfig, CLIOptions, IHint, HintsConfigObject, HintMetadata, UserConfig } from '../../src/lib/types';
+import anyTest, { AssertContext, Context, RegisterContextual } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { ConnectorConfig, CLIOptions, IHint, HintsConfigObject, HintMetadata, UserConfig } from '../../src/lib/types';
+type ResourceLoader = {
+    loadConfiguration: () => string;
+    loadHint: () => IHint | null;
+};
+
+type ConfigTestContext = {
+    config: any;
+    os: { homedir: () => string };
+    resourceLoader: ResourceLoader;
+    sandbox: sinon.SinonSandbox;
+};
+
+type TestContext = Context<ConfigTestContext> & AssertContext;
+
+const test = anyTest as RegisterContextual<ConfigTestContext>;
+
 import { HintScope } from '../../src/lib/enums/hintscope';
 import readFileAsync from '../../src/lib/utils/fs/read-file-async';
 
-test.beforeEach(async (t) => {
+test.beforeEach(async (t: TestContext) => {
     delete require.cache[require.resolve('os')];
     delete require.cache[require.resolve('../../src/lib/config')];
 
     const os = await import('os');
-    const resourceLoader = {
-        loadConfiguration() { },
-        loadHint() { }
+    const resourceLoader: ResourceLoader = {
+        loadConfiguration() {
+            return '';
+        },
+        loadHint() {
+            return null;
+        }
     };
 
     proxyquire('../../src/lib/config', {
@@ -29,16 +49,16 @@ test.beforeEach(async (t) => {
     t.context.sandbox = sinon.createSandbox();
 });
 
-test.afterEach((t) => {
+test.afterEach((t: TestContext) => {
     t.context.sandbox.restore();
 });
 
-test('if there is no configuration file anywhere, it should call os.homedir and return null', (t) => {
+test('if there is no configuration file anywhere, it should call os.homedir and return null', (t: TestContext) => {
     const dir = path.resolve('./fixtures/getFileNameForDirectoryEmpty');
     const { config, os, sandbox } = t.context;
 
     // We return the same dir so it doesn't look in the users homedir
-    const stub = (sandbox as sinon.SinonSandbox)
+    const stub = sandbox
         .stub(os, 'homedir')
         .returns(dir);
 
@@ -48,14 +68,14 @@ test('if there is no configuration file anywhere, it should call os.homedir and 
     t.is(stub.callCount, 1, `os.homedir() wasn't called to get the users homedir`);
 });
 
-test('if there is configuration file, it should return the path to the file', (t) => {
+test('if there is configuration file, it should return the path to the file', (t: TestContext) => {
     const { config } = t.context;
     const result = config.Configuration.getFilenameForDirectory(path.join(__dirname, './fixtures/getFilenameForDirectory'));
 
     t.true(result.includes('.hintrc'));
 });
 
-test('if.hintConfig.fromFilePath is called with a non valid file extension, it should return an exception', (t) => {
+test('if.hintConfig.fromFilePath is called with a non valid file extension, it should return an exception', (t: TestContext) => {
     const { config } = t.context;
     const error = t.throws(() => {
         config.Configuration.fromFilePath(path.join(__dirname, './fixtures/notvalid/notvalid.css'), null);
@@ -64,7 +84,7 @@ test('if.hintConfig.fromFilePath is called with a non valid file extension, it s
     t.is(error.message, `Couldn't find a configuration file`);
 });
 
-test(`if package.json doesn't have a hint configuration, it should return an exception`, (t) => {
+test(`if package.json doesn't have a hint configuration, it should return an exception`, (t: TestContext) => {
     const { config } = t.context;
     const error = t.throws(() => {
         config.Configuration.fromFilePath(path.join(__dirname, './fixtures/notvalid/package.json'), null);
@@ -73,7 +93,7 @@ test(`if package.json doesn't have a hint configuration, it should return an exc
     t.is(error.message, `Couldn't find a configuration file`);
 });
 
-test(`if package.json is an invalid JSON, it should return an exception`, (t) => {
+test(`if package.json is an invalid JSON, it should return an exception`, (t: TestContext) => {
     const { config } = t.context;
     const error = t.throws(() => {
         config.Configuration.fromFilePath(path.join(__dirname, './fixtures/exception/package.json'), null);
@@ -82,7 +102,7 @@ test(`if package.json is an invalid JSON, it should return an exception`, (t) =>
     t.true(error.message.startsWith('Cannot read config file: '));
 });
 
-test(`if the config file doesn't have an extension, it should be parsed as JSON file`, (t) => {
+test(`if the config file doesn't have an extension, it should be parsed as JSON file`, (t: TestContext) => {
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedHint implements IHint {
@@ -106,7 +126,7 @@ test(`if the config file doesn't have an extension, it should be parsed as JSON 
     t.is(configuration.hints['disallowed-headers'], 'warning');
 });
 
-test(`if the config file is JavaScript, it should return the configuration part`, (t) => {
+test(`if the config file is JavaScript, it should return the configuration part`, (t: TestContext) => {
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedHint implements IHint {
@@ -130,7 +150,7 @@ test(`if the config file is JavaScript, it should return the configuration part`
     t.is(configuration.hints['disallowed-headers'], 'warning');
 });
 
-test(`if package.json contains a valid hint configuration, it should return it`, (t) => {
+test(`if package.json contains a valid hint configuration, it should return it`, (t: TestContext) => {
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedHint implements IHint {
@@ -154,7 +174,7 @@ test(`if package.json contains a valid hint configuration, it should return it`,
     t.is(configuration.hints['disallowed-headers'][0], 'warning');
 });
 
-test(`if package.json contains the property "ignoredUrls", it shold return them`, (t) => {
+test(`if package.json contains the property "ignoredUrls", it shold return them`, (t: TestContext) => {
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedHint implements IHint {
@@ -180,7 +200,7 @@ test(`if package.json contains the property "ignoredUrls", it shold return them`
     t.is(configuration.ignoredUrls.get('disallowed-headers').length, 1);
 });
 
-test.serial(`if the configuration file contains an extends property, it should combine the configurations`, async (t) => {
+test.serial(`if the configuration file contains an extends property, it should combine the configurations`, async (t: TestContext) => {
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedHint implements IHint {
@@ -211,7 +231,7 @@ test.serial(`if the configuration file contains an extends property, it should c
 });
 
 
-test(`if the configuration file contains an invalid extends property, returns an exception`, async (t) => {
+test(`if the configuration file contains an invalid extends property, returns an exception`, async (t: TestContext) => {
     const { config, resourceLoader, sandbox } = t.context;
     const exts = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/notvalid/package.json'))).hintConfig;
 
@@ -225,7 +245,7 @@ test(`if the configuration file contains an invalid extends property, returns an
 
 });
 
-test.serial(`if a Hint has an invalid configuration, it should tell which ones are invalid`, (t) => {
+test.serial(`if a Hint has an invalid configuration, it should tell which ones are invalid`, (t: TestContext) => {
     const { config, resourceLoader, sandbox } = t.context;
 
     class FakeDisallowedHint implements IHint {
@@ -260,7 +280,7 @@ test.serial(`if a Hint has an invalid configuration, it should tell which ones a
     t.is(invalid.length, 1);
 });
 
-test('If formatter is specified as CLI argument, fromConfig method will use that to build.hintConfig', (t) => {
+test('If formatter is specified as CLI argument, fromConfig method will use that to build.hintConfig', (t: TestContext) => {
     const { config } = t.context;
     const userConfig = {
         connector: { name: 'chrome' },
@@ -277,7 +297,7 @@ test('If formatter is specified as CLI argument, fromConfig method will use that
     t.is(result.connector.name, 'chrome');
 });
 
-test('If formatter is not specified as CLI argument, fromConfig method will use the formatter specified in the userConfig object as it is to build.hintConfig', (t) => {
+test('If formatter is not specified as CLI argument, fromConfig method will use the formatter specified in the userConfig object as it is to build.hintConfig', (t: TestContext) => {
     const { config } = t.context;
     const userConfig = {
         connector: { name: 'chrome' },
@@ -293,7 +313,7 @@ test('If formatter is not specified as CLI argument, fromConfig method will use 
     t.is(result.formatters[1], 'excel');
 });
 
-test('If hints option is specified as CLI argument, fromConfig method will use that to build.hintConfig', (t) => {
+test('If hints option is specified as CLI argument, fromConfig method will use that to build.hintConfig', (t: TestContext) => {
     const { config } = t.context;
     const userConfig = {
         connector: { name: 'chrome' },
@@ -310,7 +330,7 @@ test('If hints option is specified as CLI argument, fromConfig method will use t
     t.is(result.formatters[0], 'summary');
 });
 
-test('If hints option is not specified as CLI argument, fromConfig method will use the hints specified in the userConfig object as it is to build.hintConfig', (t) => {
+test('If hints option is not specified as CLI argument, fromConfig method will use the hints specified in the userConfig object as it is to build.hintConfig', (t: TestContext) => {
     const { config } = t.context;
     const userConfig = {
         connector: { name: 'chrome' },
@@ -324,7 +344,7 @@ test('If hints option is not specified as CLI argument, fromConfig method will u
     t.is(result.hints.hasOwnProperty('apple-touch-icons'), true);
 });
 
-test('If both hints and formatters options are specified as CLI arguments, fromConfig method will use that to build.hintConfig', (t) => {
+test('If both hints and formatters options are specified as CLI arguments, fromConfig method will use that to build.hintConfig', (t: TestContext) => {
     const { config } = t.context;
     const userConfig = {
         connector: { name: 'chrome' },

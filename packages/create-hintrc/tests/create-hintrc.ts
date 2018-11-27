@@ -8,8 +8,12 @@ import { NpmPackage } from 'hint/dist/src/lib/types';
 const inquirer = { prompt() { } };
 const stubBrowserslistObject = { generateBrowserslistConfig() { } };
 const resourceLoader = {
-    getCoreResources() { },
-    getInstalledResources() { }
+    getCoreResources(): [] | null {
+        return null;
+    },
+    getInstalledResources(): string[] | null {
+        return null;
+    }
 };
 const child = { spawnSync() { } };
 const fs = {
@@ -22,8 +26,12 @@ const logger = {
 };
 
 const npm = {
-    getOfficialPackages() { },
-    installPackages() { }
+    getOfficialPackages(): NpmPackage[] | null {
+        return null;
+    },
+    installPackages(): boolean {
+        return false;
+    }
 };
 
 const promisifyObject = { promisify() { } };
