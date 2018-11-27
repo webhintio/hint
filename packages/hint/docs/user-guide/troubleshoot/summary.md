@@ -67,6 +67,7 @@ globally.
 [homebrew]: https://brew.sh/
 [new issue]: https://github.com/webhintio/hint/issues/new
 [npm change default directory]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-2-change-npms-default-directory-to-another-directory
+[npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
 [nvm]: https://github.com/creationix/nvm
 [optional canvas]: https://github.com/webhintio/hint/commit/47d51aeaa187351267f7b4cabd3f075de49d043d
 [permission issue]: https://github.com/webhintio/hint/issues/308

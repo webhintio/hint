@@ -153,7 +153,7 @@ engine.executeOn(url, {content: '{{your content}}'});
 ## Differences among connectors
 
 Connectors are expected to implement at least some basic functionality
-(see [how to develop a connector](../../contributor-guide/connectors/index.md))
+(see [how to develop a connector][how to connector])
 but expose more events or have some extra functionality. The following
 document details the known differences or issues among the official
 connectors.
@@ -183,5 +183,6 @@ connectors.
 
 [cdp]: https://chromedevtools.github.io/devtools-protocol/
 [eda]: https://github.com/Microsoft/edge-diagnostics-adapter
+[how to connector]: ../../contributor-guide/how-to/connector.md
 [jsdom]: https://github.com/tmpvar/jsdom
 [wsl-interop]: https://msdn.microsoft.com/en-us/commandline/wsl/release_notes#build-14951
