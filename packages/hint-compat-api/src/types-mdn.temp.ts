@@ -30,7 +30,7 @@ type BrowserNames =
  * is only one of them, the array must be omitted.
  */
 export type SupportStatement = SimpleSupportStatement | SimpleSupportStatement[];
-type VersionValue = string | boolean | null;
+export type VersionValue = string | boolean | null | undefined;
 
 /**
  * The `simple_support_statement` object is the core object containing the compatibility information for a browser.
