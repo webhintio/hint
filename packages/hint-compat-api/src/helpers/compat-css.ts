@@ -7,7 +7,7 @@ import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
-import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection, CSSTestFunction, StrategyData, BrowserVersions } from '../types';
+import { FeatureStrategy, MDNTreeFilteredByBrowsers, BrowserSupportCollection, CSSTestFunction, BrowserVersions, FeatureInfo, BrowserInfo } from '../types';
 import { CachedCompatFeatures } from './cached-compat-features';
 import { SupportBlock } from '../types-mdn.temp';
 import { browserVersions } from './normalize-version';
@@ -142,11 +142,14 @@ export class CompatCSS {
                 return;
             }
 
-            this.testFunction(browsersToSupport, browserToSupportName, browserInfo, featureName, prefix, location);
+            const info: BrowserInfo = { browserInfo, browsersToSupport, browserToSupportName };
+            const feature: FeatureInfo = { featureInfo: null, featureName, location, prefix };
+
+            this.testFunction(info, feature);
         });
     }
 
-    public validateStrategy(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): StrategyData | null {
+    public validateStrategy(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): FeatureInfo | null {
         let [prefix, featureName] = this.getPrefix(featureNameWithPrefix);
 
         const strategyContent: any = data[strategyName];
