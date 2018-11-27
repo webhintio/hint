@@ -60,22 +60,27 @@ export default abstract class BaseCompatApiCSS implements IHint {
         const browserFeatureSupported = this.compatApi.getSupportStatementFromInfo(browserInfo, prefix);
 
         if (browserFeatureSupported) {
-            const version = this.getFeatureVersionValueToAnalyze(browserFeatureSupported);
-
-            if (this.isVersionValueTestable(version)) {
-                if (this.isVersionValueSupported(version)) {
-                    await this.testNotSupportedVersionsByBrowsers(browsersToSupport, version as string, browserToSupportName, featureName, location, prefix);
-                } else {
-                    const message = `${featureName} of CSS is not supported on ${browserToSupportName} browser.`;
-
-                    await this.compatCSS.reportError(featureName, message, location);
-                }
-            }
-
+            this.testVersionByBrowsers(browsersToSupport, browserFeatureSupported, browserToSupportName, browserInfo, featureName, prefix, location);
         } else {
             const message = `${featureName} of CSS was never supported on any of your browsers to support.`;
 
             await this.compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browsersToSupport, browserToSupportName, featureName, location);
+        }
+    }
+
+    private async testVersionByBrowsers(browsersToSupport: BrowserSupportCollection, browserFeatureSupported: SimpleSupportStatement, browserToSupportName: string, browserInfo: SupportStatement, featureName: string, prefix?: string, location?: ProblemLocation) {
+        const version = this.getFeatureVersionValueToAnalyze(browserFeatureSupported);
+
+        if (!this.isVersionValueTestable(version)) {
+            return;
+        }
+
+        if (this.isVersionValueSupported(version)) {
+            await this.testNotSupportedVersionsByBrowsers(browsersToSupport, version as string, browserToSupportName, featureName, location, prefix);
+        } else {
+            const message = `${featureName} of CSS is not supported on ${browserToSupportName} browser.`;
+
+            await this.compatCSS.reportError(featureName, message, location);
         }
     }
 
