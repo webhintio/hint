@@ -36,9 +36,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         this.statusName = statusName;
         this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         this.compatApi = new CompatApi('css', this.mdnBrowsersCollection, isCheckingNotBroadlySupported);
-        this.compatCSS = new CompatCSS(context, (...params) => {
-            this.testFeatureIsSupportedInBrowser(...params);
-        });
+        this.compatCSS = new CompatCSS(context, this.testFeatureIsSupportedInBrowser.bind(this));
 
         context.on('parse::end::css', async (styleParse: StyleParse) => {
             await this.onParseCSS(styleParse);
