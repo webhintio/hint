@@ -25,19 +25,21 @@ export default abstract class BaseCompatApiCSS implements IHint {
     private mdnBrowsersCollection: BrowserSupportCollection;
     private compatApi: CompatApi;
     private compatCSS: CompatCSS;
+    private statusName: CSSFeatureStatus;
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue;
     abstract isVersionFeatureSupported(version: VersionValue): boolean;
     abstract isVersionTestable(version: VersionValue): boolean;
     abstract isSupportedVersion(currentVersion: number, version: number): boolean;
 
-    public constructor(context: HintContext<StyleEvents>, private statusName: CSSFeatureStatus, isCheckingNotBroadlySupported?: boolean) {
+    public constructor(context: HintContext<StyleEvents>, statusName: CSSFeatureStatus, isCheckingNotBroadlySupported?: boolean) {
+        this.statusName = statusName;
         this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         this.compatApi = new CompatApi('css', this.mdnBrowsersCollection, isCheckingNotBroadlySupported);
         this.compatCSS = new CompatCSS(context, (...params) => {
             this.testFeatureIsSupportedInBrowser(...params);
         });
-        
+
         context.on('parse::end::css', async (styleParse: StyleParse) => {
             await this.onParseCSS(styleParse);
         });
@@ -95,10 +97,14 @@ export default abstract class BaseCompatApiCSS implements IHint {
         const isBrowserDefined: boolean = !!browsersToSupport[browserToSupportName];
         const versions: number[] = isBrowserDefined ? browsersToSupport[browserToSupportName] : [];
 
-        return versions.filter((version: number) => !this.isSupportedVersion(currentVersion, version));
+        return versions.filter((version: number) => {
+            return !this.isSupportedVersion(currentVersion, version);
+        });
     }
 
     private formatNotSupportedVersions(browserName: string, versions: number[]): string[] {
-        return versions.map((version: number) => `${browserName} ${browserVersions.deNormalize(version)}`);
+        return versions.map((version: number) => {
+            return `${browserName} ${browserVersions.deNormalize(version)}`;
+        });
     }
 }

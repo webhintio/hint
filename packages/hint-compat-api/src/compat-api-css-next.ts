@@ -15,9 +15,11 @@ import { CSSFeatureStatus } from './enums';
  * ------------------------------------------------------------------------------
  */
 
-/* type UserPrefixes = {
-    [key: string]: boolean;
-}; */
+/*
+ * type UserPrefixes = {
+ *    [key: string]: boolean;
+ * };
+ */
 
 export default class extends BaseCompatApiCSS {
     /* private userPrefixes: UserPrefixes = {}; */
@@ -42,13 +44,13 @@ export default class extends BaseCompatApiCSS {
     public isSupportedVersion(currentVersion: number, version: number) {
         return version >= currentVersion;
     }
-
-    // FIXME: This is not checking anything
-/*     private addUserUsedPrefixes(browserName: string, featureName: string): void {
-        this.userPrefixes[browserName + featureName] = true;
-    }
-
-    private checkUserUsedPrefixes (browserName: string, featureName: string): boolean {
-        return this.userPrefixes[browserName + featureName];
-    } */
+/*
+ * private addUserUsedPrefixes(browserName: string, featureName: string): void {
+ *    this.userPrefixes[browserName + featureName] = true;
+ * }
+ *
+ * private checkUserUsedPrefixes (browserName: string, featureName: string): boolean {
+ *    return this.userPrefixes[browserName + featureName];
+ * }
+ */
 }
