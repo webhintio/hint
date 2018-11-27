@@ -1,5 +1,5 @@
 export enum CSSFeatureStatus {
-    REMOVED = 'removed',
-    ADDED = 'added',
-    SUPPORTED = 'supported'
+    Added = 'added',
+    Removed = 'removed',
+    Supported = 'supported'
 }

@@ -25,15 +25,14 @@ export default abstract class BaseCompatApiCSS implements IHint {
     private mdnBrowsersCollection: BrowserSupportCollection;
     private compatApi: CompatApi;
     private compatCSS: CompatCSS;
-    private statusName: CSSFeatureStatus;
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue;
     abstract isVersionValueSupported(version: VersionValue): boolean;
     abstract isVersionValueTestable(version: VersionValue): boolean;
     abstract isSupportedVersion(currentVersion: number, version: number): boolean;
+    abstract getStatusNameValue(): CSSFeatureStatus;
 
-    public constructor(context: HintContext<StyleEvents>, statusName: CSSFeatureStatus, isCheckingNotBroadlySupported?: boolean) {
-        this.statusName = statusName;
+    public constructor(context: HintContext<StyleEvents>, isCheckingNotBroadlySupported: boolean) {
         this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         this.compatApi = new CompatApi('css', this.mdnBrowsersCollection, isCheckingNotBroadlySupported);
         this.compatCSS = new CompatCSS(context, this.testFeatureIsSupportedInBrowser.bind(this));
@@ -90,8 +89,9 @@ export default abstract class BaseCompatApiCSS implements IHint {
             return;
         }
 
+        const statusName = this.getStatusNameValue();
         const formattedNotSupportedVersions: string[] = this.formatNotSupportedVersions(browser.browserToSupportName, notSupportedVersions);
-        const message = this.compatCSS.generateNotSupportedVersionsError(feature.featureName, formattedNotSupportedVersions, this.statusName, feature.prefix);
+        const message = this.compatCSS.generateNotSupportedVersionsError(feature.featureName, formattedNotSupportedVersions, statusName, feature.prefix);
 
         await this.compatCSS.reportError(feature.featureName, message, feature.location);
     }

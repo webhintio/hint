@@ -17,7 +17,7 @@ import { CSSFeatureStatus } from './enums';
 
 export default class extends BaseCompatApiCSS {
     public constructor(context: HintContext<StyleEvents>) {
-        super(context, CSSFeatureStatus.SUPPORTED);
+        super(context, false);
     }
 
     public getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue {
@@ -36,5 +36,9 @@ export default class extends BaseCompatApiCSS {
 
     public isSupportedVersion(currentVersion: number, version: number) {
         return version < currentVersion;
+    }
+
+    public getStatusNameValue(): CSSFeatureStatus {
+        return CSSFeatureStatus.Supported;
     }
 }

@@ -24,7 +24,7 @@ import { CSSFeatureStatus } from './enums';
 export default class extends BaseCompatApiCSS {
     /* private userPrefixes: UserPrefixes = {}; */
     public constructor(context: HintContext<StyleEvents>) {
-        super(context, CSSFeatureStatus.ADDED, true);
+        super(context, true);
     }
 
     public getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue {
@@ -43,6 +43,10 @@ export default class extends BaseCompatApiCSS {
 
     public isSupportedVersion(currentVersion: number, version: number) {
         return version >= currentVersion;
+    }
+
+    public getStatusNameValue(): CSSFeatureStatus {
+        return CSSFeatureStatus.Added;
     }
 /*
  * private addUserUsedPrefixes(browserName: string, featureName: string): void {
