@@ -31,12 +31,12 @@ export default class extends BaseCompatApiCSS {
         return browserFeatureSupported.version_added;
     }
 
-    public isVersionTestable(version: VersionValue): boolean {
+    public isVersionValueTestable(version: VersionValue): boolean {
         // If `addedVersion` is true, it means the property has always been implemented
         return version !== true;
     }
 
-    public isVersionFeatureSupported(version: VersionValue): boolean {
+    public isVersionValueSupported(version: VersionValue): boolean {
         // Not a common case, but if added version does not exist, was not added.
         return !!version;
     }

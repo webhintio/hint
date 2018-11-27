@@ -28,8 +28,8 @@ export default abstract class BaseCompatApiCSS implements IHint {
     private statusName: CSSFeatureStatus;
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue;
-    abstract isVersionFeatureSupported(version: VersionValue): boolean;
-    abstract isVersionTestable(version: VersionValue): boolean;
+    abstract isVersionValueSupported(version: VersionValue): boolean;
+    abstract isVersionValueTestable(version: VersionValue): boolean;
     abstract isSupportedVersion(currentVersion: number, version: number): boolean;
 
     public constructor(context: HintContext<StyleEvents>, statusName: CSSFeatureStatus, isCheckingNotBroadlySupported?: boolean) {
@@ -62,8 +62,8 @@ export default abstract class BaseCompatApiCSS implements IHint {
         if (browserFeatureSupported) {
             const version = this.getFeatureVersionValueToAnalyze(browserFeatureSupported);
 
-            if (this.isVersionTestable(version)) {
-                if (this.isVersionFeatureSupported(version)) {
+            if (this.isVersionValueTestable(version)) {
+                if (this.isVersionValueSupported(version)) {
                     await this.testNotSupportedVersionsByBrowsers(browsersToSupport, version as string, browserToSupportName, featureName, location, prefix);
                 } else {
                     const message = `${featureName} of CSS is not supported on ${browserToSupportName} browser.`;

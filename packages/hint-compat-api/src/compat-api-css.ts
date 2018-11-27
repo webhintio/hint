@@ -24,12 +24,12 @@ export default class extends BaseCompatApiCSS {
         return browserFeatureSupported.version_removed;
     }
 
-    public isVersionTestable(version: VersionValue): boolean {
+    public isVersionValueTestable(version: VersionValue): boolean {
         // If there is no removed version, it is not deprecated.
         return !!version;
     }
 
-    public isVersionFeatureSupported(version: VersionValue): boolean {
+    public isVersionValueSupported(version: VersionValue): boolean {
         // Not a common case, but if removed version is exactly true, is always deprecated.
         return version !== true;
     }
