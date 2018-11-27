@@ -6,7 +6,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
 import { CompatApi, userBrowsers, CompatCSS } from './helpers';
-import { BrowserSupportCollection, FeatureInfo, BrowserInfo } from './types';
+import { BrowserSupportCollection, FeatureInfo, BrowsersInfo } from './types';
 import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 
 import meta from './meta/compat-api-css';
@@ -27,9 +27,9 @@ export default abstract class BaseCompatApiCSS implements IHint {
     private compatCSS: CompatCSS;
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue;
+    abstract isSupportedVersion(currentVersion: number, version: number): boolean;
     abstract isVersionValueSupported(version: VersionValue): boolean;
     abstract isVersionValueTestable(version: VersionValue): boolean;
-    abstract isSupportedVersion(currentVersion: number, version: number): boolean;
     abstract getStatusNameValue(): CSSFeatureStatus;
 
     public constructor(context: HintContext<StyleEvents>, isCheckingNotBroadlySupported: boolean) {
@@ -49,7 +49,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         await this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, this.mdnBrowsersCollection, styleParse);
     }
 
-    private async testFeatureIsSupportedInBrowser(browser: BrowserInfo, feature: FeatureInfo): Promise<void> {
+    private async testFeatureIsSupportedInBrowser(browser: BrowsersInfo, feature: FeatureInfo): Promise<void> {
         if (!this.compatApi.isBrowserToSupportPartOfBrowsersCollection(browser.browsersToSupport, browser.browserToSupportName)) {
             return;
         }
@@ -65,7 +65,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         }
     }
 
-    private async testVersionByBrowsers(browser: BrowserInfo, browserFeatureSupported: SimpleSupportStatement, feature: FeatureInfo) {
+    private async testVersionByBrowsers(browser: BrowsersInfo, browserFeatureSupported: SimpleSupportStatement, feature: FeatureInfo) {
         const version = this.getFeatureVersionValueToAnalyze(browserFeatureSupported);
 
         if (!this.isVersionValueTestable(version)) {
@@ -81,7 +81,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         }
     }
 
-    protected async testNotSupportedVersionsByBrowsers(browser: BrowserInfo, feature: FeatureInfo, version: string): Promise<void> {
+    protected async testNotSupportedVersionsByBrowsers(browser: BrowsersInfo, feature: FeatureInfo, version: string): Promise<void> {
         const versionNumber = browserVersions.normalize(version);
         const notSupportedVersions: number[] = this.getNotSupportedVersions(browser, versionNumber);
 
@@ -96,7 +96,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         await this.compatCSS.reportError(feature.featureName, message, feature.location);
     }
 
-    private getNotSupportedVersions(browser: BrowserInfo, currentVersion: number): number[] {
+    private getNotSupportedVersions(browser: BrowsersInfo, currentVersion: number): number[] {
         const isBrowserDefined: boolean = !!browser.browsersToSupport[browser.browserToSupportName];
         const versions: number[] = isBrowserDefined ? browser.browsersToSupport[browser.browserToSupportName] : [];
 

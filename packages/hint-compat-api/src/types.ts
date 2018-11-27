@@ -13,7 +13,7 @@ export type FeatureStrategy<T extends ChildNode> = {
     testFeature: (node: T, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, location?: ProblemLocation) => void;
 };
 
-export type CSSTestFunction = (browser: BrowserInfo, feature: FeatureInfo) => void;
+export type CSSTestFunction = (browser: BrowsersInfo, feature: FeatureInfo) => void;
 
 export type BrowserVersions = {
     [key: string]: string[];
@@ -26,7 +26,7 @@ export type FeatureInfo = {
     location?: ProblemLocation;
 };
 
-export type BrowserInfo = {
+export type BrowsersInfo = {
     browsersToSupport: BrowserSupportCollection;
     browserToSupportName: string;
     browserInfo: SupportStatement;
