@@ -92,8 +92,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
     }
 
     private getNotSupportedVersions(browser: BrowsersInfo, currentVersion: number): number[] {
-        const isBrowserDefined: boolean = !!browser.browsersToSupport[browser.browserToSupportName];
-        const versions: number[] = isBrowserDefined ? browser.browsersToSupport[browser.browserToSupportName] : [];
+        const versions: number[] = browser.browsersToSupport[browser.browserToSupportName] || [];
 
         return versions.filter((version: number) => {
             return !this.isSupportedVersion(currentVersion, version);
