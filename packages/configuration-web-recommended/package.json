@@ -23,7 +23,7 @@
     "@hint/hint-no-http-redirects": "^2.1.0",
     "@hint/hint-no-protocol-relative-urls": "^2.1.0",
     "@hint/hint-no-vulnerable-javascript-libraries": "^2.2.0",
-    "@hint/hint-sri": "^2.0.0",
+    "@hint/hint-sri": "^2.1.0",
     "@hint/hint-ssllabs": "^2.0.0",
     "@hint/hint-strict-transport-security": "^2.0.0",
     "@hint/hint-stylesheet-limits": "^2.0.0",
