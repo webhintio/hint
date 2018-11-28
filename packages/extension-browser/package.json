@@ -11,7 +11,7 @@
     "@hint/hint-axe": "^2.1.0",
     "@hint/hint-content-type": "^2.1.0",
     "@hint/hint-disown-opener": "^2.1.0",
-    "@hint/hint-highest-available-document-mode": "^2.0.0",
+    "@hint/hint-highest-available-document-mode": "^2.1.0",
     "@hint/hint-http-cache": "^2.0.0",
     "@hint/hint-manifest-app-name": "^2.0.0",
     "@hint/hint-manifest-file-extension": "^2.0.0",
