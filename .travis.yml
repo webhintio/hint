@@ -168,9 +168,13 @@ script:
       # have to run any actual tests.
       #
       # (For more information see: `before_install` step)
+      #
+      # Also launch using xvfb-run to support tests which
+      # require a GUI (e.g. extension-browser/tests/end-to-end).
+      # https://docs.travis-ci.com/user/gui-and-headless-browsers/#using-xvfb-to-run-tests-that-require-a-gui
 
       if [ -f '.ci-run-tests' ]; then
-        yarn test --batch-size $PACKAGE_BATCH_SIZE \
+        xvfb-run yarn test --batch-size $PACKAGE_BATCH_SIZE \
                   --batch-number $PACKAGE_BATCH_NUMBER
       fi
 
