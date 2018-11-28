@@ -11,9 +11,15 @@ import { Config, Events, Results } from '../src/shared/types';
 import { readFixture } from './utils/helpers';
 
 const base = '../src/content-script';
+
+/**
+ * Modules to provide stubbed globals to.
+ * Declared in reverse dependency order so the lowest dependency gets
+ * overridden with stubbed globals before modules which depend on it.
+ */
 const paths: { [name: string]: string } = {
     'web-async-html': `${base}/web-async-html`,
-    connector: `${base}/connector`, // eslint-disable-line
+    connector: `${base}/connector`, // eslint-disable-line sort-keys
     formatter: `${base}/formatter`,
     webhint: `${base}/webhint`
 };
@@ -104,7 +110,7 @@ const stubContext = (url: string, html: string) => {
     });
 };
 
-test.beforeEach((t) => {
+test.beforeEach(() => {
     listeners = new Set();
 
     Object.keys(paths).forEach((name) => {
