@@ -56,7 +56,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         } else {
             const message = `${feature.featureName} of CSS was never supported on any of your browsers to support.`;
 
-            await this.compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browser.browsersToSupport, browser.browserToSupportName, feature.featureName, feature.location);
+            await this.compatCSS.reportIfThereIsNoInformationAboutCompatibility(browser, feature, message);
         }
     }
 
@@ -72,7 +72,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         } else {
             const message = `${feature.featureName} of CSS is not supported on ${browser.browserToSupportName} browser.`;
 
-            await this.compatCSS.reportError(feature.featureName, message, feature.location);
+            await this.compatCSS.reportError(feature, message);
         }
     }
 
@@ -88,7 +88,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         const formattedNotSupportedVersions: string[] = this.formatNotSupportedVersions(browser.browserToSupportName, notSupportedVersions);
         const message = this.compatCSS.generateNotSupportedVersionsError(feature.featureName, formattedNotSupportedVersions, statusName, feature.prefix);
 
-        await this.compatCSS.reportError(feature.featureName, message, feature.location);
+        await this.compatCSS.reportError(feature, message);
     }
 
     private getNotSupportedVersions(browser: BrowsersInfo, currentVersion: number): number[] {

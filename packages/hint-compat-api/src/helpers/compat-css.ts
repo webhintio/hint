@@ -124,16 +124,15 @@ export class CompatCSS {
             return;
         }
 
-        const { prefix, featureInfo, featureName } = strategyData;
-
-        if (this.cachedFeatures.isCached(featureName)) {
-            await this.cachedFeatures.showCachedErrors(featureName, this.hintContext, location);
+        if (this.cachedFeatures.isCached(featureNameWithPrefix)) {
+            await this.cachedFeatures.showCachedErrors(featureNameWithPrefix, this.hintContext, location);
 
             return;
         }
 
-        this.cachedFeatures.add(featureName);
+        this.cachedFeatures.add(featureNameWithPrefix);
 
+        const { prefix, featureInfo, featureName } = strategyData;
         // Check for each browser the support block
         const supportBlock: SupportBlock = featureInfo.support;
 
@@ -143,7 +142,7 @@ export class CompatCSS {
             }
 
             const info: BrowsersInfo = { browserInfo, browsersToSupport, browserToSupportName };
-            const feature: FeatureInfo = { featureInfo: null, featureName, location, prefix };
+            const feature: FeatureInfo = { featureInfo: null, featureName, featureNameWithPrefix, location, prefix };
 
             this.testFunction(info, feature);
         });
@@ -187,6 +186,7 @@ export class CompatCSS {
         return {
             featureInfo,
             featureName,
+            featureNameWithPrefix,
             prefix
         };
     }
@@ -199,14 +199,18 @@ export class CompatCSS {
         return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
     }
 
-    public async reportError(featureName: string, message: string, location?: ProblemLocation): Promise<void> {
-        this.cachedFeatures.addError(featureName, this.hintResource, message, location);
+    public async reportError(feature: FeatureInfo, message: string): Promise<void> {
+        const { featureNameWithPrefix, location } = feature;
+
+        this.cachedFeatures.addError(featureNameWithPrefix, this.hintResource, message, location);
         await this.hintContext.report(this.hintResource, message, { location });
     }
 
-    public async reportIfThereIsNoInformationAboutCompatibility(message: string, browsersToSupport: BrowserSupportCollection, browserToSupportName: string, featureName: string, location?: ProblemLocation): Promise<void> {
+    public async reportIfThereIsNoInformationAboutCompatibility(browser: BrowsersInfo, feature: FeatureInfo, message: string): Promise<void> {
+        const { browsersToSupport, browserToSupportName } = browser;
+
         if (!this.wasBrowserSupportedInSometime(browsersToSupport, browserToSupportName) && Object.keys(browsersToSupport).includes(browserToSupportName)) {
-            await this.reportError(featureName, message, location);
+            await this.reportError(feature, message);
         }
     }
 
