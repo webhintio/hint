@@ -9,7 +9,6 @@ import { CompatApi, userBrowsers, CompatCSS } from './helpers';
 import { BrowserSupportCollection, FeatureInfo, BrowsersInfo } from './types';
 import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 
-import meta from './meta/compat-api-css';
 import { browserVersions } from './helpers/normalize-version';
 import { CSSFeatureStatus } from './enums';
 
@@ -20,8 +19,6 @@ import { CSSFeatureStatus } from './enums';
  */
 
 export default abstract class BaseCompatApiCSS implements IHint {
-    public static readonly meta = meta;
-
     private mdnBrowsersCollection: BrowserSupportCollection;
     private compatApi: CompatApi;
     private compatCSS: CompatCSS;

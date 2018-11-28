@@ -6,6 +6,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 
+import meta from './meta/compat-api-css-next';
 import BaseCompatApiCSS from './compat-api-css-base';
 import { CSSFeatureStatus } from './enums';
 
@@ -22,6 +23,8 @@ import { CSSFeatureStatus } from './enums';
  */
 
 export default class extends BaseCompatApiCSS {
+    public static readonly meta = meta;
+
     /* private userPrefixes: UserPrefixes = {}; */
     public constructor(context: HintContext<StyleEvents>) {
         super(context, true);
