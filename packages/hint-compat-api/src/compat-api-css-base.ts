@@ -54,7 +54,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         const browserFeatureSupported = this.compatApi.getSupportStatementFromInfo(browser.browserInfo, feature.prefix);
 
         if (browserFeatureSupported) {
-            await this.testVersionByBrowsers(browser, browserFeatureSupported, feature);
+            await this.testVersionByBrowsers(browser, feature, browserFeatureSupported);
         } else {
             const message = `${feature.featureName} of CSS was never supported on any of your browsers to support.`;
 
@@ -62,7 +62,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         }
     }
 
-    private async testVersionByBrowsers(browser: BrowsersInfo, browserFeatureSupported: SimpleSupportStatement, feature: FeatureInfo) {
+    private async testVersionByBrowsers(browser: BrowsersInfo, feature: FeatureInfo, browserFeatureSupported: SimpleSupportStatement) {
         const version = this.getFeatureVersionValueToAnalyze(browserFeatureSupported);
 
         if (!this.isVersionValueTestable(version)) {
