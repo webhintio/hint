@@ -54,7 +54,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
         const browserFeatureSupported = this.compatApi.getSupportStatementFromInfo(browser.browserInfo, feature.prefix);
 
         if (browserFeatureSupported) {
-            this.testVersionByBrowsers(browser, browserFeatureSupported, feature);
+            await this.testVersionByBrowsers(browser, browserFeatureSupported, feature);
         } else {
             const message = `${feature.featureName} of CSS was never supported on any of your browsers to support.`;
 
