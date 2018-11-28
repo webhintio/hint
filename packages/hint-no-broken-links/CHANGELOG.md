@@ -1,3 +1,14 @@
+# 2.1.0 (November 27, 2018)
+
+## Bug fixes / Improvements
+
+* [[`dbd769aadf`](https://github.com/webhintio/hint/commit/dbd769aadf469936a53cf0f0b03c8abc7f8b67da)] - Fix: Ignore status codes for dns-prefetch and preconnect links (by [`Christoph Guttandin`](https://github.com/chrisguttandin)).
+
+## New features
+
+* [[`d40a0abad0`](https://github.com/webhintio/hint/commit/d40a0abad01c750174fbb5e41a6168feae5d4fea)] - New: Allow hint metadata to be imported separately (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 2.0.0 (November 5, 2018)
 
 ## Breaking Changes
