@@ -51,7 +51,7 @@
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
     "test": "npm run test-only",
     "test-only": "npm run build",
-    "test-release": "npm run lint && npm run clean && npm run build:assets && tsc && npm run test-only",
+    "test-release": "npm run lint && npm run clean && npm run build:assets && tsc",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
