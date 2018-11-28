@@ -9,8 +9,16 @@ import delay from 'hint/dist/src/lib/utils/misc/delay';
 import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 
-const chokidar = { watch() { } };
-const isFile = { default() { } };
+const chokidar = {
+    watch(): Stream {
+        return new Stream();
+    }
+};
+const isFile = {
+    default(filePath: string): boolean {
+        return false;
+    }
+};
 
 mock('hint/dist/src/lib/utils/fs/is-file', isFile);
 mock('chokidar', chokidar);
@@ -26,7 +34,6 @@ test.beforeEach((t) => {
         notify() { },
         on() { }
     };
-    t.context.isFile = isFile;
 });
 
 test.after(() => {
@@ -38,7 +45,7 @@ test.serial(`If target is a file, it should emit 'fetch::start::target' event`, 
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.isFile, 'default').returns(true);
+    sandbox.stub(isFile, 'default').returns(true);
     sandbox.spy(t.context.engine, 'emitAsync');
 
     const connector = new LocalConnector(t.context.engine as any, {});
@@ -60,7 +67,7 @@ test.serial(`If target is a html file, it should emit 'fetch::end::html' event i
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.isFile, 'default').returns(true);
+    sandbox.stub(isFile, 'default').returns(true);
     sandbox.spy(t.context.engine, 'emitAsync');
 
     const connector = new LocalConnector(t.context.engine as any, {});
@@ -82,7 +89,7 @@ test.serial(`If target is a file (text), 'content' is setted`, async (t) => {
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.isFile, 'default').returns(true);
+    sandbox.stub(isFile, 'default').returns(true);
     sandbox.spy(t.context.engine, 'emitAsync');
 
     const connector = new LocalConnector(t.context.engine as any, {});
@@ -106,7 +113,7 @@ test.serial(`If content is passed, it is used instead of the file`, async (t) =>
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.isFile, 'default').returns(true);
+    sandbox.stub(isFile, 'default').returns(true);
     sandbox.spy(t.context.engine, 'emitAsync');
 
     const connector = new LocalConnector(t.context.engine as any, {});
@@ -128,7 +135,7 @@ test.serial(`If target is a file (image), 'content' is empty`, async (t) => {
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.isFile, 'default').returns(true);
+    sandbox.stub(isFile, 'default').returns(true);
     sandbox.spy(t.context.engine, 'emitAsync');
 
     const connector = new LocalConnector(t.context.engine as any, {});
@@ -150,7 +157,7 @@ test.serial(`If target is an image, 'content' is empty`, async (t) => {
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.isFile, 'default').returns(true);
+    sandbox.stub(isFile, 'default').returns(true);
     sandbox.spy(t.context.engine, 'emitAsync');
 
     const connector = new LocalConnector(t.context.engine as any, {});
@@ -172,7 +179,7 @@ test.serial(`If target is a directory, shouldn't emit the event 'fetch::start::t
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.isFile, 'default').returns(false);
+    sandbox.stub(isFile, 'default').returns(false);
     sandbox.spy(t.context.engine, 'emitAsync');
 
     const connector = new LocalConnector(t.context.engine as any, {});
@@ -203,7 +210,7 @@ test.serial(`If target is a directory, passed content should be ignored`, async 
 
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(t.context.isFile, 'default').returns(false);
+    sandbox.stub(isFile, 'default').returns(false);
     sandbox.spy(t.context.engine, 'emitAsync');
 
     const connector = new LocalConnector(t.context.engine as any, {});
@@ -239,7 +246,7 @@ test.serial(`If watch is true, it should watch the right files`, async (t) => {
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.isFile, 'default').returns(false);
+    sandbox.stub(isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -288,7 +295,7 @@ test.serial(`If watch is true, it should use the .gitignore`, async (t) => {
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.isFile, 'default').returns(false);
+    sandbox.stub(isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -329,7 +336,7 @@ test.serial(`When the watcher is ready, it should emit the scan::end event`, asy
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.isFile, 'default').returns(false);
+    sandbox.stub(isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -373,7 +380,7 @@ test.serial(`When the watcher detects a new file, it should emit the fetch::end:
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.isFile, 'default').returns(false);
+    sandbox.stub(isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -420,7 +427,7 @@ test.serial(`When the watcher detects a change in a file, it should emit the fet
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.isFile, 'default').returns(false);
+    sandbox.stub(isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -467,7 +474,7 @@ test.serial(`When the watcher detects that a file was removed, it should emit th
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.isFile, 'default').returns(false);
+    sandbox.stub(isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -513,7 +520,7 @@ test.serial(`When the watcher get an error, it should throw an error`, async (t)
 
     (stream as any).close = () => { };
 
-    sandbox.stub(t.context.isFile, 'default').returns(false);
+    sandbox.stub(isFile, 'default').returns(false);
     sandbox.stub(process, 'cwd').returns(directory);
     sandbox.spy(t.context.engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);

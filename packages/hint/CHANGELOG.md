@@ -1,3 +1,14 @@
+# 4.1.0 (November 27, 2018)
+
+## Bug fixes / Improvements
+
+* [[`7f0d8994cb`](https://github.com/webhintio/hint/commit/7f0d8994cb9ee6ead9c98e256efdeb067a861970)] - Docs: Update internal links to `.md` files (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`d40a0abad0`](https://github.com/webhintio/hint/commit/d40a0abad01c750174fbb5e41a6168feae5d4fea)] - New: Allow hint metadata to be imported separately (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 4.0.3 (November 16, 2018)
 
 ## Bug fixes / Improvements

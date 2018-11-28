@@ -8,16 +8,32 @@ import readFile from '../../../src/lib/utils/fs/read-file';
 
 const npmRegistryFetch = { json() { } };
 
-const child = { spawn() { } };
+const child = {
+    spawn(): EventEmitter | null {
+        return null;
+    }
+};
 const logger = {
     error() { },
     log() { }
 };
 
-const findPackageRootModule = { default() { } };
-const loadJSONFileModule = { default() { } };
+const findPackageRootModule = {
+    default(): string {
+        return '';
+    }
+};
+const loadJSONFileModule = {
+    default(): string {
+        return '';
+    }
+};
 
-const fs = { existsSync() { } };
+const fs = {
+    existsSync(): boolean {
+        return true;
+    }
+};
 
 const devDependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dev-package.json`));
 const dependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dep-package.json`));

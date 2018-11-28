@@ -1,3 +1,10 @@
+# 2.1.0 (November 27, 2018)
+
+## New features
+
+* [[`d40a0abad0`](https://github.com/webhintio/hint/commit/d40a0abad01c750174fbb5e41a6168feae5d4fea)] - New: Allow hint metadata to be imported separately (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 2.0.0 (November 5, 2018)
 
 ## Breaking Changes

@@ -626,7 +626,7 @@ const npmRunBuildForRelease = async (ctx: TaskContext) => {
 };
 
 const npmRunTests = async (ctx: TaskContext) => {
-    await exec(`cd ${ctx.packagePath} && npm run test`);
+    await exec(`cd ${ctx.packagePath} && npm run test-release`);
 };
 
 const npmUpdateVersion = async (ctx: TaskContext) => {
@@ -668,6 +668,13 @@ const updateSnykSnapshot = async () => {
     await downloadFile(
         'https://snyk.io/partners/api/v2/vulndb/clientside.json',
         path.normalize('packages/hint-no-vulnerable-javascript-libraries/src/snyk-snapshot.json')
+    );
+};
+
+const updateAmpValidator = async () => {
+    await downloadFile(
+        'https://cdn.ampproject.org/v0/validator.js',
+        path.normalize('packages/hint-amp-validator/src/validator')
     );
 };
 
@@ -756,6 +763,10 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent: any) =>
 
     if (packageName === 'hint-performance-budget') {
         tasks.push(newTask('Update `connections.ini`', updateConnectivityIni));
+    }
+
+    if (packageName === 'hint-amp-validator') {
+        tasks.push(newTask('Update `validator.js`', updateAmpValidator));
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

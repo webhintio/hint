@@ -1,3 +1,11 @@
+# 2.2.0 (November 27, 2018)
+
+## New features
+
+* [[`73e3a43ca9`](https://github.com/webhintio/hint/commit/73e3a43ca9b50f76297b3501bd41d229ab7f6374)] - Update: `snyk-snapshot.json`.
+* [[`d40a0abad0`](https://github.com/webhintio/hint/commit/d40a0abad01c750174fbb5e41a6168feae5d4fea)] - New: Allow hint metadata to be imported separately (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 2.1.0 (November 9, 2018)
 
 ## New features

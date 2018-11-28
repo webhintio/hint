@@ -1,3 +1,10 @@
+# 2.0.1 (November 27, 2018)
+
+## Bug fixes / Improvements
+
+* [[`009db779bc`](https://github.com/webhintio/hint/commit/009db779bc4a8e7b8ba413deb5f6b21590b294f0)] - Fix: Add types to tests (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1517`](https://github.com/webhintio/hint/issues/1517)).
+
+
 # 2.0.0 (November 5, 2018)
 
 ## Breaking Changes

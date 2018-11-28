@@ -1,3 +1,15 @@
+# 2.1.0 (November 27, 2018)
+
+## Bug fixes / Improvements
+
+* [[`970f3860bf`](https://github.com/webhintio/hint/commit/970f3860bfe4e87a22838e0e0afe113e86ca0d66)] - Fix: Automatically update `validator.js` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1441`](https://github.com/webhintio/hint/issues/1441)).
+
+## New features
+
+* [[`386785ea7d`](https://github.com/webhintio/hint/commit/386785ea7d1604311232911c6847c3a6f700e0ca)] - Update: `validator`.
+* [[`d40a0abad0`](https://github.com/webhintio/hint/commit/d40a0abad01c750174fbb5e41a6168feae5d4fea)] - New: Allow hint metadata to be imported separately (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 2.0.0 (November 5, 2018)
 
 ## Breaking Changes

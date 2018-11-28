@@ -4,19 +4,48 @@ import test from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
-const misc = { getHintPackage() { } };
+const misc = {
+    getHintPackage(): string {
+        return '';
+    }
+};
 
-const applicationinsightsClient = {
+type ApplicationinsightsClient = {
+    trackEvent: () => void;
+    trackException: () => void;
+};
+
+type ApplicationInsights = {
+    defaultClient: ApplicationinsightsClient;
+};
+
+type ApplicationInsightsExtended = ApplicationInsights & {
+    setAutoCollectDependencies: () => ApplicationInsights;
+    setAutoCollectExceptions: () => ApplicationInsights;
+    setAutoCollectPerformance: () => ApplicationInsights;
+    setAutoCollectRequests: () => ApplicationInsights;
+    setAutoDependencyCorrelation: () => ApplicationInsights;
+    setInternalLogging: () => ApplicationInsights;
+    setup: () => ApplicationInsights;
+    setUseDiskRetryCaching: () => ApplicationInsights;
+    start: () => ApplicationinsightsClient;
+};
+
+const applicationinsightsClient: ApplicationinsightsClient = {
     trackEvent() { },
     trackException() { }
 };
 
 const configStore = {
-    get() { },
-    set() { }
+    get(): boolean {
+        return false;
+    },
+    set(): boolean {
+        return false;
+    }
 };
 
-const applicationinsights = {
+const applicationinsights: ApplicationInsightsExtended = {
     defaultClient: applicationinsightsClient,
     setAutoCollectDependencies() {
         return applicationinsights;
@@ -43,7 +72,7 @@ const applicationinsights = {
         return applicationinsights;
     },
     start() {
-        return applicationinsights;
+        return applicationinsightsClient;
     }
 };
 

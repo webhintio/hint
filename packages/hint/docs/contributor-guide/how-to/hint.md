@@ -67,13 +67,12 @@ export default class MyNewHint implements IHint {
 
         context.on('element', validateElement);
         context.on('fetch::end::*', validateFetchEnd);
-        // As many events as you need, you can see the
-        // list of events [here](../connectors/events.md).
+        // As many events as you need
     }
 }
 ```
 
-Hints are executed via [events](../connectors/events.md). There are several
+Hints are executed via [events][events]. There are several
 events exposed by the connectors. The way to indicate which ones the hint cares
 about is via the method `create`. This method returns an objects whose keys
 are the names of the events and the values the event handlers:
@@ -147,6 +146,7 @@ The hint can access the custom configuration via `context.hintOptions`.
 <!-- Link labels: -->
 
 [custom hint]: ../guides/create-custom-hint.md
+[events]: ../getting-started/events.md
 [json schema]: http://json-schema.org/
 [new issue]: https://github.com/webhintio/hint/issues/new
 [npx issue]: https://github.com/npm/npm/issues/17869

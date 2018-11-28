@@ -1,3 +1,14 @@
+# 2.0.2 (November 27, 2018)
+
+Fix broken release
+
+# 2.0.1 (November 27, 2018)
+
+## Bug fixes / Improvements
+
+* [[`f379c826fd`](https://github.com/webhintio/hint/commit/f379c826fd396d85cd76feb175abb40a783422bd)] - Fix: Try to match a report regardless of the order (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1511`](https://github.com/webhintio/hint/issues/1511)).
+
+
 # 2.0.0 (November 5, 2018)
 
 ## Breaking Changes

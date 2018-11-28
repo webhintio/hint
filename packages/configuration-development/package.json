@@ -1,23 +1,23 @@
 {
   "dependencies": {
     "@hint/configuration-progressive-web-apps": "^2.0.0",
-    "@hint/connector-local": "^2.0.0",
+    "@hint/connector-local": "^2.0.1",
     "@hint/formatter-html": "^2.0.0",
     "@hint/formatter-summary": "^2.0.0",
-    "@hint/hint-axe": "^2.0.0",
-    "@hint/hint-babel-config": "^2.0.0",
-    "@hint/hint-disown-opener": "^2.0.0",
-    "@hint/hint-highest-available-document-mode": "^2.0.0",
-    "@hint/hint-meta-charset-utf-8": "^2.0.0",
-    "@hint/hint-meta-viewport": "^2.0.0",
-    "@hint/hint-no-bom": "^2.0.0",
-    "@hint/hint-no-protocol-relative-urls": "^2.0.0",
+    "@hint/hint-axe": "^2.1.0",
+    "@hint/hint-babel-config": "^2.1.0",
+    "@hint/hint-disown-opener": "^2.1.0",
+    "@hint/hint-highest-available-document-mode": "^2.1.0",
+    "@hint/hint-meta-charset-utf-8": "^2.1.0",
+    "@hint/hint-meta-viewport": "^2.1.0",
+    "@hint/hint-no-bom": "^2.1.0",
+    "@hint/hint-no-protocol-relative-urls": "^2.1.0",
     "@hint/hint-typescript-config": "^2.0.0",
     "@hint/hint-webpack-config": "^2.0.0",
     "@hint/parser-babel-config": "^2.0.0",
     "@hint/parser-html": "^2.0.1",
     "@hint/parser-typescript-config": "^2.0.0",
-    "@hint/parser-webpack-config": "^2.0.0"
+    "@hint/parser-webpack-config": "^2.0.1"
   },
   "description": "webhint's recommended hints configuration for development",
   "engines": {
@@ -38,7 +38,7 @@
   "main": "index.json",
   "name": "@hint/configuration-development",
   "peerDependencies": {
-    "hint": "^4.0.3"
+    "hint": "^4.1.0"
   },
   "repository": "webhintio/hint",
   "version": "3.0.0"
