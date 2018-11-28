@@ -25,7 +25,7 @@
     "@hint/hint-no-vulnerable-javascript-libraries": "^2.2.0",
     "@hint/hint-sri": "^2.1.0",
     "@hint/hint-ssllabs": "^2.1.0",
-    "@hint/hint-strict-transport-security": "^2.0.0",
+    "@hint/hint-strict-transport-security": "^2.1.0",
     "@hint/hint-stylesheet-limits": "^2.0.0",
     "@hint/hint-validate-set-cookie-header": "^2.0.0",
     "@hint/hint-x-content-type-options": "^2.0.0",
