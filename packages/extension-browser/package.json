@@ -22,7 +22,7 @@
     "@hint/hint-no-disallowed-headers": "^2.1.0",
     "@hint/hint-no-html-only-headers": "^2.1.0",
     "@hint/hint-no-http-redirects": "^2.1.0",
-    "@hint/hint-no-protocol-relative-urls": "^2.0.0",
+    "@hint/hint-no-protocol-relative-urls": "^2.1.0",
     "@hint/hint-sri": "^2.0.0",
     "@hint/hint-stylesheet-limits": "^2.0.0",
     "@hint/hint-validate-set-cookie-header": "^2.0.0",
