@@ -69,6 +69,7 @@
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
+    "test-release": "npm run lint && npm run clean && npm run build:assets && tsc && npm run test-only",
     "update-vscode": "node ./node_modules/vscode/bin/install",
     "vscode:prepublish": "npm run update-vscode && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",

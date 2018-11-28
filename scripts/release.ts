@@ -626,7 +626,7 @@ const npmRunBuildForRelease = async (ctx: TaskContext) => {
 };
 
 const npmRunTests = async (ctx: TaskContext) => {
-    await exec(`cd ${ctx.packagePath} && npm run test`);
+    await exec(`cd ${ctx.packagePath} && npm run test-release`);
 };
 
 const npmUpdateVersion = async (ctx: TaskContext) => {
