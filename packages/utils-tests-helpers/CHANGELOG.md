@@ -1,3 +1,7 @@
+# 2.0.2 (November 27, 2018)
+
+Fix broken release
+
 # 2.0.1 (November 27, 2018)
 
 ## Bug fixes / Improvements
