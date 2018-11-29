@@ -75,7 +75,7 @@ Wait a few seconds and you will get something similar to the following:
 ![Example output for the summary formatter](images/summary-output.png)
 
 It might take a few minutes to get some of the results. Some of the
-hints (e.g.: [`SSL Labs`](./hints/hint-ssllabs.md)) can take a few minutes
+hints (e.g.: [`SSL Labs`][ssl labs]) can take a few minutes
 to report the results.
 
 ### Default configuration
@@ -105,3 +105,4 @@ about the different pieces:
 
 [nodejs]: https://nodejs.org/en/download/current/
 [web recommended]: https://github.com/webhintio/hint/blob/master/packages/configuration-web-recommended/index.json
+[ssl labs]: https://webhint.io/docs/user-guide/hints/hint-ssllabs/
