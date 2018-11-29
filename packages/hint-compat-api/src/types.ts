@@ -20,9 +20,9 @@ export type BrowserVersions = {
 };
 
 export type FeatureInfo = {
-    featureName: string;
-    featureInfo: any;
-    prefix?: string | undefined;
+    info: any;
+    name: string;
+    prefix?: string;
     location?: ProblemLocation;
 };
 

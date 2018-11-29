@@ -24,7 +24,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
     private compatCSS: CompatCSS;
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue;
-    abstract isSupportedVersion(currentVersion: number, version: number): boolean;
+    abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
     abstract isVersionValueSupported(version: VersionValue): boolean;
     abstract isVersionValueTestable(version: VersionValue): boolean;
     abstract getStatusNameValue(): CSSFeatureStatus;
@@ -54,9 +54,9 @@ export default abstract class BaseCompatApiCSS implements IHint {
         if (browserFeatureSupported) {
             await this.testVersionByBrowsers(browser, feature, browserFeatureSupported);
         } else {
-            const message = `${feature.featureName} of CSS was never supported on any of your browsers to support.`;
+            const message = `${feature.name} of CSS was never supported on any of your browsers to support.`;
 
-            await this.compatCSS.reportIfThereIsNoInformationAboutCompatibility(message, browser.browsersToSupport, browser.browserToSupportName, feature.featureName, feature.location);
+            await this.compatCSS.reportIfThereIsNoInformationAboutCompatibility(browser, feature, message);
         }
     }
 
@@ -70,15 +70,14 @@ export default abstract class BaseCompatApiCSS implements IHint {
         if (this.isVersionValueSupported(version)) {
             await this.testNotSupportedVersionsByBrowsers(browser, feature, version as string);
         } else {
-            const message = `${feature.featureName} of CSS is not supported on ${browser.browserToSupportName} browser.`;
+            const message = `${feature.name} of CSS is not supported on ${browser.browserToSupportName} browser.`;
 
-            await this.compatCSS.reportError(feature.featureName, message, feature.location);
+            await this.compatCSS.reportError(feature, message);
         }
     }
 
     protected async testNotSupportedVersionsByBrowsers(browser: BrowsersInfo, feature: FeatureInfo, version: string): Promise<void> {
-        const versionNumber = browserVersions.normalize(version);
-        const notSupportedVersions: number[] = this.getNotSupportedVersions(browser, versionNumber);
+        const notSupportedVersions: number[] = this.getNotSupportedVersions(browser, feature, version);
 
         if (notSupportedVersions.length === 0) {
             return;
@@ -86,16 +85,17 @@ export default abstract class BaseCompatApiCSS implements IHint {
 
         const statusName = this.getStatusNameValue();
         const formattedNotSupportedVersions: string[] = this.formatNotSupportedVersions(browser.browserToSupportName, notSupportedVersions);
-        const message = this.compatCSS.generateNotSupportedVersionsError(feature.featureName, formattedNotSupportedVersions, statusName, feature.prefix);
+        const message = this.compatCSS.generateNotSupportedVersionsError(feature.name, formattedNotSupportedVersions, statusName, feature.prefix);
 
-        await this.compatCSS.reportError(feature.featureName, message, feature.location);
+        await this.compatCSS.reportError(feature, message);
     }
 
-    private getNotSupportedVersions(browser: BrowsersInfo, currentVersion: number): number[] {
+    private getNotSupportedVersions(browser: BrowsersInfo, feature: FeatureInfo, version: string): number[] {
+        const currentVersion = browserVersions.normalize(version);
         const versions: number[] = browser.browsersToSupport[browser.browserToSupportName] || [];
 
         return versions.filter((version: number) => {
-            return !this.isSupportedVersion(currentVersion, version);
+            return !this.isSupportedVersion(browser, feature, currentVersion, version);
         });
     }
 

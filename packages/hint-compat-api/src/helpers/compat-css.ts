@@ -118,24 +118,26 @@ export class CompatCSS {
     }
 
     private async testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, browsersToSupport: BrowserSupportCollection, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): Promise<void> {
-        const strategyData = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
+        const featureData = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
 
-        if (!strategyData) {
+        if (!featureData) {
             return;
         }
 
-        const { prefix, featureInfo, featureName } = strategyData;
+        featureData.location = location;
 
-        if (this.cachedFeatures.isCached(featureName)) {
-            await this.cachedFeatures.showCachedErrors(featureName, this.hintContext, location);
+        const localFeatureNameWithPrefix: string = this.getFeatureNameWithPrefix(featureData);
+
+        if (this.cachedFeatures.isCached(localFeatureNameWithPrefix)) {
+            await this.cachedFeatures.showCachedErrors(localFeatureNameWithPrefix, this.hintContext, location);
 
             return;
         }
 
-        this.cachedFeatures.add(featureName);
+        this.cachedFeatures.add(localFeatureNameWithPrefix);
 
         // Check for each browser the support block
-        const supportBlock: SupportBlock = featureInfo.support;
+        const supportBlock: SupportBlock = featureData.info.support;
 
         Object.entries(supportBlock).forEach(([browserToSupportName, browserInfo]) => {
             if (!this.testFunction) {
@@ -143,9 +145,8 @@ export class CompatCSS {
             }
 
             const info: BrowsersInfo = { browserInfo, browsersToSupport, browserToSupportName };
-            const feature: FeatureInfo = { featureInfo: null, featureName, location, prefix };
 
-            this.testFunction(info, feature);
+            this.testFunction(info, featureData);
         });
     }
 
@@ -184,11 +185,7 @@ export class CompatCSS {
             return null;
         }
 
-        return {
-            featureInfo,
-            featureName,
-            prefix
-        };
+        return { info: featureInfo, name: featureName, prefix };
     }
 
     private getPrefix(name: string): [string | undefined, string] {
@@ -199,14 +196,19 @@ export class CompatCSS {
         return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
     }
 
-    public async reportError(featureName: string, message: string, location?: ProblemLocation): Promise<void> {
-        this.cachedFeatures.addError(featureName, this.hintResource, message, location);
+    public async reportError(feature: FeatureInfo, message: string): Promise<void> {
+        const { location } = feature;
+        const featureNameWithPrefix: string = this.getFeatureNameWithPrefix(feature);
+
+        this.cachedFeatures.addError(featureNameWithPrefix, this.hintResource, message, location);
         await this.hintContext.report(this.hintResource, message, { location });
     }
 
-    public async reportIfThereIsNoInformationAboutCompatibility(message: string, browsersToSupport: BrowserSupportCollection, browserToSupportName: string, featureName: string, location?: ProblemLocation): Promise<void> {
+    public async reportIfThereIsNoInformationAboutCompatibility(browser: BrowsersInfo, feature: FeatureInfo, message: string): Promise<void> {
+        const { browsersToSupport, browserToSupportName } = browser;
+
         if (!this.wasBrowserSupportedInSometime(browsersToSupport, browserToSupportName) && Object.keys(browsersToSupport).includes(browserToSupportName)) {
-            await this.reportError(featureName, message, location);
+            await this.reportError(feature, message);
         }
     }
 
@@ -287,5 +289,11 @@ export class CompatCSS {
         });
 
         return groupedVersions;
+    }
+
+    private getFeatureNameWithPrefix(feature: FeatureInfo): string {
+        const separator: string = feature.prefix ? ' ' : '';
+
+        return feature.prefix + separator + feature.name;
     }
 }

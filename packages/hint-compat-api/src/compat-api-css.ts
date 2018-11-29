@@ -9,6 +9,7 @@ import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 import meta from './meta/compat-api-css';
 import BaseCompatApiCSS from './compat-api-css-base';
 import { CSSFeatureStatus } from './enums';
+import { FeatureInfo, BrowsersInfo } from './types';
 
 /*
  * ------------------------------------------------------------------------------
@@ -37,7 +38,7 @@ export default class extends BaseCompatApiCSS {
         return version !== true;
     }
 
-    public isSupportedVersion(currentVersion: number, version: number) {
+    public isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number) {
         return version < currentVersion;
     }
 

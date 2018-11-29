@@ -169,10 +169,7 @@ hintRunner.testHint(hintPath, prefixedFeatureThatBecameStandardAfterTarget, { br
 const prefixedFeaturesThatBecameStandardAndPrefixWasDeprecated: HintTest[] = [
     {
         name: 'Prefixed features that became deprecated before the targeted browser should fail.',
-        reports: [
-            { message: 'background-size prefixed with -moz- is not supported on firefox 4 browser.', position: { column: 5, line: 2 }},
-            { message: 'background-size prefixed with -moz- is not supported on firefox 4 browser.', position: { column: 5, line: 3 }}
-        ],
+        reports: [{ message: 'background-size prefixed with -moz- is not supported on firefox 4 browser.', position: { column: 5, line: 2 }}],
         serverConfig: generateCSSConfig('background-size-prefix')
     }
 ];
