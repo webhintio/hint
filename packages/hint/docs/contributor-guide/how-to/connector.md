@@ -135,8 +135,8 @@ following tests:
 [jsdom]: https://github.com/jsdom/jsdom
 [events]: ../getting-started/events.md
 [events scanstart]: ../getting-started/events.md#scanstart
-[events fetchstart]: ../getting-started/events.md#fetchstart
-[events fetcherror]: ../getting-started/events.md#fetcherror
+[events fetchstart]: ../getting-started/events.md#fetchstartresource-type
+[events fetcherror]: ../getting-started/events.md#fetcherrorresource-type
 [events fetchend]: ../getting-started/events.md#fetchendresource-type
 [events traversestart]: ../getting-started/events.md#traversestart
 [events element]: ../getting-started/events.md#elementelement-type

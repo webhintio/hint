@@ -40,7 +40,7 @@ their signature, and the `interface` they implement. The exception is the
 * [`traverse::end`](#traverseend)
 * [`traverse::start`](#traversestart)
 * [`traverse::up`](#traverseup)
-* [`can-evaluate::script`](#canevaluatescript)
+* [`can-evaluate::script`](#can-evaluatescript)
 
 For additional events emitted by specific `parser`s (e.g. `parse::end::css`),
 see [`parsers`][parsers].
@@ -212,7 +212,7 @@ type TraverseUp {
 }
 ```
 
-## `can-evaluate`
+## `can-evaluate::script`
 
 Event is emitted **when** the `connector` is ready to evaluate
 scripts.

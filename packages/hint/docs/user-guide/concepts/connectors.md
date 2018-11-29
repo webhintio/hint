@@ -34,7 +34,7 @@ The current supported connectors are:
   [`edge-diagnostics-adapter`][eda]. You will need to run Windows 10
   Creators Update or later to use it. This connector will only be
   installed if you are running on it. There are some known issues so
-  please check the [Edge issues](#edge-issues) section below.
+  please check the [Edge issues](#edge) section below.
 * `local`: This connector will analyze the files specified (a file
   or a directory).
 
@@ -85,7 +85,7 @@ Depending on the `connector`, other configurations may be available.
 
 <!-- markdownlint-disable MD033 -->
 
-### remote-debugging-connector configuration <a name="rdc-config"></a>
+### remote-debugging-connector configuration
 
 <!-- markdownlint-enable MD033 -->
 
@@ -160,7 +160,7 @@ connectors.
 
 <!-- markdownlint-disable MD033 -->
 
-### Edge<a name="edge-issues"></a>
+### Edge
 
 <!-- markdownlint-enable MD033 -->
 
