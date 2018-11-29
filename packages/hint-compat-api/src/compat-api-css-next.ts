@@ -63,10 +63,10 @@ export default class extends BaseCompatApiCSS {
             return;
         }
 
-        this.userPrefixes[browserName + feature.featureName] = true;
+        this.userPrefixes[browserName + feature.name] = true;
     }
 
     private isPrefixAlreadyInUse (browserName: string, feature: FeatureInfo): boolean {
-        return !feature.prefix && !!this.userPrefixes[browserName + feature.featureName];
+        return !feature.prefix && !!this.userPrefixes[browserName + feature.name];
     }
 }

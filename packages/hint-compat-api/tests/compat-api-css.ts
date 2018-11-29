@@ -47,13 +47,12 @@ hintRunner.testHint(hintPath, prefixedFeatureNeverRemoved, { browserslist: ['saf
 const featureRemoved: HintTest[] = [
     {
         name: 'Features that were removed in versions before the targeted browsers should fail.',
-        reports: [{ message: 'opacity prefixed with -moz- is not supported on firefox 60 browser.', position: { column: 5, line: 2 }}],
-        serverConfig: generateCSSConfig('opacity-prefix')
+        reports: [{ message: 'padding-box is not supported on firefox 52 browser.', position: { column: 5, line: 2 }}],
+        serverConfig: generateCSSConfig('box-sizing')
     }
 ];
 
-
-hintRunner.testHint(hintPath, featureRemoved, { browserslist: ['firefox 60'], parsers: ['css']});
+hintRunner.testHint(hintPath, featureRemoved, { browserslist: ['firefox 52'], parsers: ['css']});
 
 const prefixFeatureRemoved: HintTest[] = [
     {
