@@ -8,7 +8,7 @@ import { FetchEnd } from 'hint/dist/src/lib/types';
 
 import { Config, Events, Results } from '../src/shared/types';
 
-import { readFixture } from './helpers/read-fixture';
+import { readFixture } from './helpers/fixtures';
 
 const base = '../src/content-script';
 
@@ -79,10 +79,12 @@ const stubEvents = (config: Config, onReady: () => void): Promise<Results> => {
     return new Promise((resolve) => {
         browser.runtime.sendMessage = (event: Events) => {
             if (event.requestConfig) {
-                sendMessage({ enable: config });
+                setTimeout(() => {
+                    sendMessage({ enable: config });
+                }, 0);
             }
             if (event.ready) {
-                onReady();
+                setTimeout(onReady, 0);
             }
             if (event.results) {
                 resolve(event.results);

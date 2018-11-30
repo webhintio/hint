@@ -6,7 +6,7 @@ import { createServer } from '@hint/utils-create-server';
 
 import { Events, Results } from '../src/shared/types';
 
-import { readFixture } from './helpers/read-fixture';
+import { readFixture } from './helpers/fixtures';
 
 const pathToExtension = `${__dirname}/../bundle`;
 
@@ -42,15 +42,7 @@ const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
     return await bgTarget.page();
 };
 
-test.serial('It runs end-to-end', async (t) => {
-    if (isCI) {
-        /*
-         * TODO: Get this working in CI (at least for Linux).
-         * https://docs.travis-ci.com/user/gui-and-headless-browsers/#using-xvfb-to-run-tests-that-require-a-gui
-         */
-        return;
-    }
-
+test.serial('It runs end-to-end in a page', async (t) => {
     const server = createServer();
 
     server.configure(await readFixture('missing-lang.html'));
@@ -59,33 +51,39 @@ test.serial('It runs end-to-end', async (t) => {
 
     const url = `http://localhost:${server.port}/`;
 
-    const browser = await launch({
-        args: [
-            `--disable-extensions-except=${pathToExtension}`,
-            `--load-extension=${pathToExtension}`
-        ],
-        headless: false
-    });
+    const browser = await launch();
+    const page = (await browser.pages())[0];
 
-    const pages = await browser.pages();
-    const backgroundPage = await findBackgroundScriptPage(browser);
+    await page.goto(url);
 
-    await pages[0].goto(url);
-
-    await new Promise((resolve) => {
-        setTimeout(resolve, 500);
-    });
-
-    const results: Results = await backgroundPage.evaluate(() => {
+    const resultsPromise: Promise<Results> = page.evaluate(() => {
         return new Promise<Results>((resolve) => {
-            chrome.runtime.onMessage.addListener((message: Events) => {
-                if (message.results) {
-                    resolve(message.results);
+            let onMessage: ((events: Events) => void) = () => {};
+
+            window.chrome = {
+                runtime: {
+                    onMessage: {
+                        addListener: (fn: () => void) => {
+                            onMessage = fn;
+                        },
+                        removeListener: () => {}
+                    },
+                    sendMessage: (event: Events) => {
+                        if (event.requestConfig) {
+                            onMessage({ enable: {} });
+                        }
+                        if (event.results) {
+                            resolve(event.results);
+                        }
+                    }
                 }
-            });
-            chrome.tabs.executeScript({ code: `chrome.runtime.sendMessage({enable: {}})` });
+            } as any;
         });
     });
+
+    await page.addScriptTag({ path: `${__dirname}/../bundle/content-script/webhint.js` });
+
+    const results = await resultsPromise;
 
     t.true(results.categories.length > 0, 'Returned results');
     t.true(results.categories.some((category) => {
@@ -99,3 +97,59 @@ test.serial('It runs end-to-end', async (t) => {
     await browser.close();
     server.stop();
 });
+
+/*
+ * TODO: Get this working in CI (at least for Linux).
+ * https://docs.travis-ci.com/user/gui-and-headless-browsers/#using-xvfb-to-run-tests-that-require-a-gui
+ */
+if (!isCI) {
+    test.serial('It runs end-to-end as an extension', async (t) => {
+        const server = createServer();
+
+        server.configure(await readFixture('missing-lang.html'));
+
+        await server.start();
+
+        const url = `http://localhost:${server.port}/`;
+
+        const browser = await launch({
+            args: [
+                `--disable-extensions-except=${pathToExtension}`,
+                `--load-extension=${pathToExtension}`
+            ],
+            headless: false
+        });
+
+        const pages = await browser.pages();
+        const backgroundPage = await findBackgroundScriptPage(browser);
+
+        await pages[0].goto(url);
+
+        await new Promise((resolve) => {
+            setTimeout(resolve, 500);
+        });
+
+        const results: Results = await backgroundPage.evaluate(() => {
+            return new Promise<Results>((resolve) => {
+                chrome.runtime.onMessage.addListener((message: Events) => {
+                    if (message.results) {
+                        resolve(message.results);
+                    }
+                });
+                chrome.tabs.executeScript({ code: `chrome.runtime.sendMessage({enable: {}})` });
+            });
+        });
+
+        t.true(results.categories.length > 0, 'Returned results');
+        t.true(results.categories.some((category) => {
+            return category.hints.some((hint) => {
+                return hint.problems.some((problem) => {
+                    return problem.message === '<html> element must have a lang attribute';
+                });
+            });
+        }), 'Reported missing `lang` attribute');
+
+        await browser.close();
+        server.stop();
+    });
+}
