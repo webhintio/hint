@@ -163,8 +163,8 @@ test('It reloads the target when enabled.', async (t) => {
     onMessage({ enable: {} }, { tab: { id: tabId } } as any, () => {});
 
     t.true(reloadSpy.calledOnce, 'reload was called');
-    t.is(reloadSpy.firstCall.args[0], tabId, 'reload was called for the correct tab');
-    t.true(reloadSpy.firstCall.args[1].bypassCache, 'reload was called with bypassCache');
+    t.is(reloadSpy.firstCall.args[0] as any, tabId, 'reload was called for the correct tab');
+    t.true((reloadSpy.firstCall.args as any)[1].bypassCache, 'reload was called with bypassCache');
 
     sandbox.restore();
 });
@@ -446,7 +446,7 @@ test('It forwards results to the devtools panel.', async (t) => {
     onMessage({ results }, { tab: { id: tabId } } as any, () => {});
 
     t.true(postMessageSpy.calledOnce, 'postMessage was called on correct port');
-    t.is(postMessageSpy.firstCall.args[0].results, results, 'postMessage was called with correct results');
+    t.is((postMessageSpy.firstCall.args[0] as any).results, results, 'postMessage was called with correct results');
 
     sandbox.restore();
 });

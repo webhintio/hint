@@ -6,7 +6,7 @@ import { createServer } from '@hint/utils-create-server';
 
 import { Events, Results } from '../src/shared/types';
 
-import { readFixture } from './utils/helpers';
+import { readFixture } from './helpers/read-fixture';
 
 const pathToExtension = `${__dirname}/../bundle`;
 

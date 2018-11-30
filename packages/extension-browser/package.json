@@ -2,7 +2,7 @@
   "ava": {
     "failFast": false,
     "files": [
-      "dist/tests/*.js"
+      "dist/tests/**/*.js"
     ],
     "timeout": "1m"
   },

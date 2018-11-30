@@ -8,7 +8,7 @@ import { FetchEnd } from 'hint/dist/src/lib/types';
 
 import { Config, Events, Results } from '../src/shared/types';
 
-import { readFixture } from './utils/helpers';
+import { readFixture } from './helpers/read-fixture';
 
 const base = '../src/content-script';
 
@@ -172,6 +172,7 @@ test.serial('It configures categories', async (t) => {
     const results = await resultsPromise;
 
     t.is(results.categories.length, 1, 'Restricted to one category');
+    t.is(results.categories[0].name, Category.accessibility, 'Category is accessibility');
 });
 
 test.serial('It analyzes external resources', async (t) => {
