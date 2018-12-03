@@ -1,3 +1,14 @@
+# 2.1.0 (November 28, 2018)
+
+## Bug fixes / Improvements
+
+* [[`009db779bc`](https://github.com/webhintio/hint/commit/009db779bc4a8e7b8ba413deb5f6b21590b294f0)] - Fix: Add types to tests (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1517`](https://github.com/webhintio/hint/issues/1517)).
+
+## New features
+
+* [[`d40a0abad0`](https://github.com/webhintio/hint/commit/d40a0abad01c750174fbb5e41a6168feae5d4fea)] - New: Allow hint metadata to be imported separately (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 2.0.0 (November 5, 2018)
 
 ## Breaking Changes

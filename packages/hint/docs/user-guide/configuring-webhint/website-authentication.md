@@ -18,4 +18,4 @@ There are a couple things to take into account:
 
 <!-- Link labels: -->
 
-[chrome configuration]: ../concepts/connectors.md#rdc-config
+[chrome configuration]: ../concepts/connectors.md#remote-debugging-connector-configuration

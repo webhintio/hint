@@ -186,7 +186,7 @@ push instead:
 git push -f origin fix-1234
 ```
 
-### Step 7: Send the pull request
+### Step 7: Submit the pull request
 
 Now you’re ready to send the pull request. Go to your `webhint` fork
 and then follow the [GitHub documentation][github pr docs] on how to
