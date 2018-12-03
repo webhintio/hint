@@ -84,7 +84,7 @@ test('It reloads the target when enabled.', async (t) => {
     const { browser } = globals;
     const tabId = 5;
 
-    const reloadSpy = sandbox.stub(browser.tabs, 'reload');
+    const reloadSpy = sandbox.spy(browser.tabs, 'reload');
     const onMessagePromise = awaitListener(sandbox, browser.runtime.onMessage);
 
     loadBackgroundScript(globals);
@@ -141,7 +141,7 @@ test('It retries injecting the content script if it fails.', async (t) => {
         }, 0);
     }) as any;
 
-    const executeScriptSpy = sandbox.stub(browser.tabs, 'executeScript');
+    const executeScriptSpy = sandbox.spy(browser.tabs, 'executeScript');
     const injectContentScript = prepareContentScriptInjection(sandbox, browser);
 
     loadBackgroundScript(globals);
@@ -423,7 +423,7 @@ test('It starts/stops when browser action is clicked.', async (t) => {
     const tabId = 2;
 
     const onClickedPromise = awaitListener(sandbox, browser.browserAction.onClicked);
-    const onReloadSpy = sandbox.stub(browser.tabs, 'reload');
+    const onReloadSpy = sandbox.spy(browser.tabs, 'reload');
 
     loadBackgroundScript(globals);
 
