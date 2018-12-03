@@ -5,5 +5,8 @@
     "MD026": {
         "punctuation": ".,;:!"
     },
-    "MD029": false
+    "MD029": false,
+    "MD033": {
+        "allowed_elements": ["br", "details", "summary"]
+    }
 }

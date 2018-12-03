@@ -17,8 +17,8 @@
     {{{dependencyVersion "eslint-plugin-typescript" "^0.12.0"}}},
     {{{dependencyVersion "eventemitter2" "^5.0.1"}}},
     {{{dependencyVersion "proxyquire" "2.0.0"}}},
-    {{{dependencyVersion "sinon" "^6.0.1"}}},
-    {{{dependencyVersion "markdownlint-cli" "^0.10.0"}}},
+    {{{dependencyVersion "sinon" "^6.0.1"}}},{{#unless official}}
+    {{{dependencyVersion "markdownlint-cli" "^0.13.0"}}},{{/unless}}
     {{{dependencyVersion "npm-link-check" "^2.0.0"}}},
     {{{dependencyVersion "npm-run-all" "^4.1.2"}}},
     {{{dependencyVersion "nyc" "^12.0.2"}}},
@@ -74,9 +74,10 @@
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",{{#if official}}
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",{{else}}
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",{{/if}}
-    "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:md": "node ../../scripts/lint-markdown.js",{{else}}
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",
+    "lint:md": "markdownlint --ignore CHANGELOG.md *.md",{{/if}}
     "test": "npm run lint && npm run build && nyc ava",{{#if official}}
     "test-only": "nyc ava",{{/if}}
     "init": "npm install && npm run build",
