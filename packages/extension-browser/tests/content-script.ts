@@ -129,8 +129,8 @@ test.serial('It requests a configuration', (t) => {
 
     require(paths.webhint);
 
-    t.true(spy.calledOnce, 'sendMessage was called');
-    t.true(spy.args[0][0].requestConfig, 'Configuration was requested');
+    t.true(spy.calledOnce);
+    t.true(spy.args[0][0].requestConfig);
 
     sandbox.restore();
 });
@@ -149,14 +149,14 @@ test.serial('It analyzes a page', async (t) => {
 
     const results = await resultsPromise;
 
-    t.true(results.categories.length > 0, 'Returned results');
+    t.not(results.categories.length, 0);
     t.true(results.categories.some((category) => {
         return category.hints.some((hint) => {
             return hint.problems.some((problem) => {
                 return problem.message === '<html> element must have a lang attribute';
             });
         });
-    }), 'Reported missing `lang` attribute');
+    }), 'Missing `lang` attribute was not reported');
 });
 
 test.serial('It configures categories', async (t) => {
@@ -173,8 +173,8 @@ test.serial('It configures categories', async (t) => {
 
     const results = await resultsPromise;
 
-    t.is(results.categories.length, 1, 'Restricted to one category');
-    t.is(results.categories[0].name, Category.accessibility, 'Category is accessibility');
+    t.is(results.categories.length, 1);
+    t.is(results.categories[0].name, Category.accessibility);
 });
 
 test.serial('It analyzes external resources', async (t) => {
@@ -193,14 +193,14 @@ test.serial('It analyzes external resources', async (t) => {
 
     const results = await resultsPromise;
 
-    t.true(results.categories.length > 0, 'Returned results');
+    t.not(results.categories.length, 0);
     t.true(results.categories.some((category) => {
         return category.hints.some((hint) => {
             return hint.problems.some((problem) => {
                 return problem.resource === analyticsURL;
             });
         });
-    }), 'Reported an issue in an external resource');
+    }), 'Issue in external resource was not reported');
 });
 
 test.serial('It configures ignored urls', async (t) => {
@@ -219,12 +219,12 @@ test.serial('It configures ignored urls', async (t) => {
 
     const results = await resultsPromise;
 
-    t.true(results.categories.length > 0, 'Returned results');
+    t.not(results.categories.length, 0);
     t.true(results.categories.every((category) => {
         return category.hints.every((hint) => {
             return hint.problems.every((problem) => {
                 return problem.resource !== analyticsURL;
             });
         });
-    }), 'Issues in external resource were ignored');
+    }), 'Issues in external resource were not ignored');
 });

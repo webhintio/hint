@@ -85,14 +85,14 @@ test.serial('It runs end-to-end in a page', async (t) => {
 
     const results = await resultsPromise;
 
-    t.true(results.categories.length > 0, 'Returned results');
+    t.not(results.categories.length, 0);
     t.true(results.categories.some((category) => {
         return category.hints.some((hint) => {
             return hint.problems.some((problem) => {
                 return problem.message === '<html> element must have a lang attribute';
             });
         });
-    }), 'Reported missing `lang` attribute');
+    }), 'Missing `lang` attribute was not reported');
 
     await browser.close();
     server.stop();
@@ -140,14 +140,14 @@ if (!isCI) {
             });
         });
 
-        t.true(results.categories.length > 0, 'Returned results');
+        t.not(results.categories.length, 0);
         t.true(results.categories.some((category) => {
             return category.hints.some((hint) => {
                 return hint.problems.some((problem) => {
                     return problem.message === '<html> element must have a lang attribute';
                 });
             });
-        }), 'Reported missing `lang` attribute');
+        }), 'Missing `lang` attribute was not reported');
 
         await browser.close();
         server.stop();

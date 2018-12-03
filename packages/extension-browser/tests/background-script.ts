@@ -73,7 +73,7 @@ test('It registers for messages.', async (t) => {
 
     const onMessage = await onMessagePromise;
 
-    t.true(typeof onMessage === 'function', 'Background script provided a listener');
+    t.true(typeof onMessage === 'function', 'Background script did not provide a listener');
 
     sandbox.restore();
 });
@@ -94,9 +94,9 @@ test('It reloads the target when enabled.', async (t) => {
     // Simulate receiving `Events.enable` from the devtools panel.
     onMessage({ enable: {} }, { tab: { id: tabId } } as any, () => {});
 
-    t.true(reloadSpy.calledOnce, 'reload was called');
-    t.is(reloadSpy.firstCall.args[0] as any, tabId, 'reload was called for the correct tab');
-    t.true((reloadSpy.firstCall.args as any)[1].bypassCache, 'reload was called with bypassCache');
+    t.true(reloadSpy.calledOnce);
+    t.is(reloadSpy.firstCall.args[0] as any, tabId);
+    t.true((reloadSpy.firstCall.args as any)[1].bypassCache);
 
     sandbox.restore();
 });
@@ -114,10 +114,10 @@ test('It injects the content script when enabled.', async (t) => {
 
     await injectContentScript(tabId);
 
-    t.true(executeScriptSpy.calledOnce, 'executeScript was called');
-    t.is(executeScriptSpy.firstCall.args[0], tabId, 'script was injected into the correct tab');
-    t.is(executeScriptSpy.firstCall.args[1].file, 'content-script/webhint.js', 'correct script was injected');
-    t.is(executeScriptSpy.firstCall.args[1].runAt, 'document_start', 'script was injected before document start');
+    t.true(executeScriptSpy.calledOnce);
+    t.is(executeScriptSpy.firstCall.args[0], tabId);
+    t.is(executeScriptSpy.firstCall.args[1].file, 'content-script/webhint.js');
+    t.is(executeScriptSpy.firstCall.args[1].runAt, 'document_start');
 
     sandbox.restore();
 });
@@ -148,10 +148,10 @@ test('It retries injecting the content script if it fails.', async (t) => {
 
     await injectContentScript(tabId);
 
-    t.true(executeScriptSpy.calledOnce, 'executeScript was called');
-    t.is(executeScriptSpy.firstCall.args[0], tabId, 'script was injected into the correct tab');
-    t.is(executeScriptSpy.firstCall.args[1].file, 'content-script/webhint.js', 'correct script was injected');
-    t.is(executeScriptSpy.firstCall.args[1].runAt, 'document_start', 'script was injected before document start');
+    t.true(executeScriptSpy.calledOnce);
+    t.is(executeScriptSpy.firstCall.args[0], tabId);
+    t.is(executeScriptSpy.firstCall.args[1].file, 'content-script/webhint.js');
+    t.is(executeScriptSpy.firstCall.args[1].runAt, 'document_start');
 
     sandbox.restore();
 });
@@ -180,9 +180,9 @@ test('It passes provided configuration to the content script.', async (t) => {
     // Simulate receiving `Events.requestConfig` from the content script.
     onMessage({ requestConfig: true}, { tab: { id: tabId } } as any, () => {});
 
-    t.true(sendMessageSpy.calledOnce, 'sendMessage was called');
-    t.is(sendMessageSpy.firstCall.args[0], tabId, 'sendMessage was called for the correct tab');
-    t.is(sendMessageSpy.firstCall.args[1].enable, config, 'sendMessage was called with correct config');
+    t.true(sendMessageSpy.calledOnce);
+    t.is(sendMessageSpy.firstCall.args[0], tabId);
+    t.is(sendMessageSpy.firstCall.args[1].enable, config);
 
     sandbox.restore();
 });
@@ -267,16 +267,16 @@ test('It generates `fetch::*` events from the `webRequest` events.', async (t) =
     // Simulate receiving `Events.fetchStart` from `webRequest`.
     onSendHeaders(sendHeadersDetails as any);
 
-    t.true(sendMessageSpy.calledOnce, 'sendMessage was called once');
-    t.is(sendMessageSpy.firstCall.args[0], tabId, 'first sendMessage was called for the correct tab');
-    t.deepEqual(sendMessageSpy.firstCall.args[1].fetchStart, fetchStart, 'first sendMessage was called with expected fetchStart');
+    t.true(sendMessageSpy.calledOnce, 'sendMessage was not called for `fetchStart`');
+    t.is(sendMessageSpy.firstCall.args[0], tabId);
+    t.deepEqual(sendMessageSpy.firstCall.args[1].fetchStart, fetchStart);
 
     // Simulate receiving `Events.fetchEnd` from `webRequest`.
     await onCompleted(completedDetails as any);
 
-    t.true(sendMessageSpy.calledTwice, 'sendMessage was called twice');
-    t.is(sendMessageSpy.secondCall.args[0], tabId, 'second sendMessage was called for the correct tab');
-    t.deepEqual(sendMessageSpy.secondCall.args[1].fetchEnd, fetchEnd, 'second sendMessage was called with expected fetchEnd');
+    t.true(sendMessageSpy.calledTwice, 'sendMessage was not called for `fetchEnd`');
+    t.is(sendMessageSpy.secondCall.args[0], tabId);
+    t.deepEqual(sendMessageSpy.secondCall.args[1].fetchEnd, fetchEnd);
 
     sandbox.restore();
 });
@@ -308,11 +308,11 @@ test('It forwards `fetch::*` events from the devtools panel.', async (t) => {
     // Simulate receiving `Events.fetchEnd` from the devtools panel.
     onMessage({ fetchEnd, tabId }, {} as any, () => {});
 
-    t.true(sendMessageSpy.calledTwice, 'sendMessage was called twice');
-    t.is(sendMessageSpy.firstCall.args[0], tabId, 'first sendMessage was called for the correct tab');
-    t.is(sendMessageSpy.firstCall.args[1].fetchStart, fetchStart, 'first sendMessage was called with fetchStart');
-    t.is(sendMessageSpy.secondCall.args[0], tabId, 'second sendMessage was called for the correct tab');
-    t.is(sendMessageSpy.secondCall.args[1].fetchEnd, fetchEnd, 'second sendMessage was called with fetchEnd');
+    t.true(sendMessageSpy.calledTwice);
+    t.is(sendMessageSpy.firstCall.args[0], tabId);
+    t.is(sendMessageSpy.firstCall.args[1].fetchStart, fetchStart);
+    t.is(sendMessageSpy.secondCall.args[0], tabId);
+    t.is(sendMessageSpy.secondCall.args[1].fetchEnd, fetchEnd);
 
     sandbox.restore();
 });
@@ -337,14 +337,14 @@ test('It sends queued events in response to `ready`.', async (t) => {
     // Simulate receiving `Events.fetchStart` from the devtools panel.
     onMessage({ fetchStart, tabId }, {} as any, () => {});
 
-    t.true(sendMessageSpy.notCalled, 'sendMessage has not been called yet');
+    t.true(sendMessageSpy.notCalled, 'Events were not queued');
 
     // Simulate receiving `Events.ready` to trigger receiving queued events.
     onMessage({ ready: true }, { tab: { id: tabId } } as any, () => {});
 
-    t.true(sendMessageSpy.calledOnce, 'sendMessage was called');
-    t.is(sendMessageSpy.firstCall.args[0], tabId, 'sendMessage was called for the correct tab');
-    t.is(sendMessageSpy.firstCall.args[1].fetchStart, fetchStart, 'sendMessage was called with correct event');
+    t.true(sendMessageSpy.calledOnce, 'Queued events were not sent');
+    t.is(sendMessageSpy.firstCall.args[0], tabId);
+    t.is(sendMessageSpy.firstCall.args[1].fetchStart, fetchStart);
 
     sandbox.restore();
 });
@@ -377,8 +377,8 @@ test('It forwards results to the devtools panel.', async (t) => {
     // Simulate receiving `Events.results` from the content script.
     onMessage({ results }, { tab: { id: tabId } } as any, () => {});
 
-    t.true(postMessageSpy.calledOnce, 'postMessage was called on correct port');
-    t.is((postMessageSpy.firstCall.args[0] as any).results, results, 'postMessage was called with correct results');
+    t.true(postMessageSpy.calledOnce);
+    t.is((postMessageSpy.firstCall.args[0] as any).results, results);
 
     sandbox.restore();
 });
@@ -411,7 +411,7 @@ test('It ignores results without a devtools panel.', async (t) => {
     // Simulate receiving `Events.results` from the content script.
     onMessage({ results }, { tab: { id: tabId } } as any, () => {});
 
-    t.true(postMessageSpy.notCalled, 'postMessage was not called');
+    t.true(postMessageSpy.notCalled);
 
     sandbox.restore();
 });
@@ -432,12 +432,12 @@ test('It starts/stops when browser action is clicked.', async (t) => {
     // Simulate clicking the browser action to enable.
     onClicked({ id: tabId } as any);
 
-    t.true(onReloadSpy.calledOnce, 'Tab was reloaded when enabled');
+    t.true(onReloadSpy.calledOnce, 'Tab did not reload as expected when enabled');
 
     // Simulate clicking the browser action again to disable.
     onClicked({ id: tabId } as any);
 
-    t.true(onReloadSpy.calledOnce, 'Tab was NOT reloaded when disabled');
+    t.true(onReloadSpy.calledOnce, 'Tab unexpectedly reloaded when disabled');
 
     sandbox.restore();
 });

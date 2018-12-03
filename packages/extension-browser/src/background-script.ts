@@ -3,6 +3,9 @@ import { Config, Details, Events } from './shared/types';
 import { browser, fetch } from './shared/globals';
 import { mapHeaders } from './shared/headers';
 
+/** Represents a generic handler for `webRequest` events. */
+type WebRequestHandler = (details: Details) => Promise<void>;
+
 // Track data associated with all outstanding requests by `requestId`.
 const requests = new Map<string, Details[]>();
 
@@ -215,8 +218,8 @@ const webRequestEvents = [
     'onCompleted'
 ];
 
-const webRequestHandlers = webRequestEvents.map((event) => {
-    return async (details: Details) => {
+const webRequestHandlers = webRequestEvents.map((event): WebRequestHandler => {
+    return async (details: Details): Promise<void> => {
         await queueDetails(event, details);
     };
 });
