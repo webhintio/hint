@@ -35,6 +35,7 @@
         { "path": "../hint-x-content-type-options" },
         { "path": "../parser-css" },
         { "path": "../parser-javascript" },
-        { "path": "../parser-manifest" }
+        { "path": "../parser-manifest" },
+        { "path": "../utils-create-server" }
     ]
 }

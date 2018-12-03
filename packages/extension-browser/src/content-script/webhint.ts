@@ -1,6 +1,7 @@
 require('util.promisify/shim')(); // Needed for `promisify` to work when bundled.
 
 import browserslist = require('browserslist'); // `require` used because `browserslist` exports a function.
+import { URL } from 'url';
 
 import { Engine } from 'hint';
 import { Configuration } from 'hint/dist/src/lib/config';
@@ -10,7 +11,7 @@ import CSSParser from '@hint/parser-css';
 import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
-import browser from '../shared/browser';
+import { browser, location } from '../shared/globals';
 import { Config, Events } from '../shared/types';
 
 import WebExtensionConnector from './connector';

@@ -1,6 +1,6 @@
 import escapeRegExp = require('lodash/escapeRegExp');
 
-import browser from '../../../../shared/browser';
+import { browser } from '../../../../shared/globals';
 import { Config } from '../../../../shared/types';
 
 import configurationHtmlView from './configuration.html';

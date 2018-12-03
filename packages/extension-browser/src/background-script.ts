@@ -1,7 +1,10 @@
 import { FetchEnd, FetchStart, Request, Response } from 'hint/dist/src/lib/types';
 import { Config, Details, Events } from './shared/types';
-import browser from './shared/browser';
+import { browser, fetch } from './shared/globals';
 import { mapHeaders } from './shared/headers';
+
+/** Represents a generic handler for `webRequest` events. */
+type WebRequestHandler = (details: Details) => Promise<void>;
 
 // Track data associated with all outstanding requests by `requestId`.
 const requests = new Map<string, Details[]>();
@@ -176,7 +179,7 @@ const saveResponseContent = (requestId: string): void => {
 };
 
 /** Queue a `webRequest` event by `requestId`, flushing after `onCompleted`. */
-const queueDetails = (event: string, details: Details) => {
+const queueDetails = async (event: string, details: Details) => {
     if (!requests.has(details.requestId)) {
         requests.set(details.requestId, []);
 
@@ -200,7 +203,7 @@ const queueDetails = (event: string, details: Details) => {
         requests.delete(details.requestId);
 
         // Trigger a `fetch::end::*` on `onCompleted` for a `requestId`.
-        sendFetchEnd(parts);
+        await sendFetchEnd(parts);
     }
 };
 
@@ -215,9 +218,9 @@ const webRequestEvents = [
     'onCompleted'
 ];
 
-const webRequestHandlers = webRequestEvents.map((event) => {
-    return (details: Details) => {
-        queueDetails(event, details);
+const webRequestHandlers = webRequestEvents.map((event): WebRequestHandler => {
+    return async (details: Details): Promise<void> => {
+        await queueDetails(event, details);
     };
 });
 
@@ -276,6 +279,7 @@ browser.runtime.onConnect.addListener((port) => {
 browser.runtime.onMessage.addListener((message: Events, sender) => {
     const tabId = sender.tab && sender.tab.id || message.tabId;
 
+    /* istanbul ignore if */
     // Aid debugging by ensuring a tabId is always found.
     if (!tabId) {
         throw new Error(`Message received without a tabId: ${JSON.stringify(message)}`);
