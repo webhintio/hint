@@ -161,7 +161,7 @@ hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { br
 const featureVersionAddedFalse: HintTest[] = [
     {
         name: 'Features that have version added as false should fail.',
-        reports: [{ message: 'box-flex of CSS is not supported on ie browser.', position: { column: 5, line: 2}}],
+        reports: [{ message: 'box-flex of CSS is not supported on ie browser.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-flex')
     }
 ];
@@ -172,9 +172,9 @@ const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added after the targeted browser should fail.',
         reports: [
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 1, line: 1}},
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 1, line: 7}},
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 1, line: 13}}
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 0}},
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 6}},
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 12}}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -185,7 +185,7 @@ hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { br
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
-        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browser.', position: { column: 5, line: 3} }],
+        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browser.', position: { column: 4, line: 2} }],
         serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];

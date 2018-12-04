@@ -43,8 +43,8 @@ export class CompatCSS {
         }
 
         return {
-            column: start.column,
-            line: start.line
+            column: start.column - 1,
+            line: start.line - 1
         };
     }
 
