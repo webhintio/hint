@@ -2,7 +2,7 @@
   "dependencies": {
     "@hint/utils-connector-tools": "^2.0.0",
     "abab": "^2.0.0",
-    "chrome-remote-interface": "^0.26.1",
+    "chrome-remote-interface": "^0.27.0",
     "lodash": "^4.17.11"
   },
   "description": "hint debugging protocol common functionality",
