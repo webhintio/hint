@@ -515,7 +515,6 @@ Content-Type: image/svg+xml
 
 ## How to configure the server to pass this hint
 
-<!-- markdownlint-disable MD033 -->
 <details><summary>How to configure Apache</summary>
 
 Apache can be configured to conditionally (based on media type)
@@ -972,13 +971,11 @@ For the complete set of configurations, not just for this rule,
 see the [IIS server configuration related documentation][iis config].
 
 If you prefer to let IIS compress your assets using Brotli, you can
-use the [`IIS compression scheme providers`][iss compression]. However,
+use the [`IIS compression scheme providers`][iis compression]. However,
 make sure to read [how to enable multiple compression schemes][multiple
 compression schemes] and the priority limitations in some versions.
 
 </details>
-
-<!-- markdownlint-enable MD033 -->
 
 ## Can the hint be configured?
 

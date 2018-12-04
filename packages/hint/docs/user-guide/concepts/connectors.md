@@ -29,12 +29,7 @@ The current supported connectors are:
 
 * `jsdom`: Your website will be loaded using [`jsdom`][jsdom].
 * `chrome`: Your website will be loaded using Chrome and the Chrome
-  Debugging Protocol. This is one of the `remote-debugging-connector`s
-* `edge`: Your website will be loaded using Edge via the
-  [`edge-diagnostics-adapter`][eda]. You will need to run Windows 10
-  Creators Update or later to use it. This connector will only be
-  installed if you are running on it. There are some known issues so
-  please check the [Edge issues](#edge) section below.
+  Debugging Protocol. This is one of the `remote-debugging-connector`s.
 * `local`: This connector will analyze the files specified (a file
   or a directory).
 
@@ -83,11 +78,7 @@ Depending on the `connector`, other configurations may be available.
 }
 ```
 
-<!-- markdownlint-disable MD033 -->
-
 ### remote-debugging-connector configuration
-
-<!-- markdownlint-enable MD033 -->
 
 There are some `connector`s built on top of the [Chrome DevTools
 Protocol][cdp]. `chrome` and `edge` are some of these `connector`s.
@@ -158,11 +149,7 @@ but expose more events or have some extra functionality. The following
 document details the known differences or issues among the official
 connectors.
 
-<!-- markdownlint-disable MD033 -->
-
 ### Edge
-
-<!-- markdownlint-enable MD033 -->
 
 * You need administrator privileges to run `webhint` on Edge. You
   should be automatically prompted when running it.
@@ -182,6 +169,7 @@ connectors.
 <!-- Link labels: -->
 
 [cdp]: https://chromedevtools.github.io/devtools-protocol/
+[cli flags]: https://github.com/GoogleChrome/chrome-launcher/blob/master/docs/chrome-flags-for-tools.md
 [eda]: https://github.com/Microsoft/edge-diagnostics-adapter
 [how to connector]: ../../contributor-guide/how-to/connector.md
 [jsdom]: https://github.com/tmpvar/jsdom
