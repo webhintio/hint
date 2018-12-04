@@ -10,9 +10,7 @@ const generateHTMLConfig = (fileName: string) => {
     const path = 'fixtures/html';
     const htmlFile = readFile(`${__dirname}/${path}/${fileName}.html`);
 
-    return {
-        '/': generateHTMLPage(htmlFile)
-    };
+    return {'/': generateHTMLPage(htmlFile)};
 };
 
 /*
