@@ -14,6 +14,9 @@ export type FeatureStrategy<T extends ChildNode> = {
 };
 
 export type TestFeatureFunction = (feature: FeatureInfo, supportBlock: SupportBlock) => void;
+export type HTMLTestFunction = (browser: BrowsersInfo, feature: FeatureInfo) => void;
+
+// FIXME: Maybe just TestFunction since it should be independant
 
 export type BrowserVersions = {
     [key: string]: string[];
