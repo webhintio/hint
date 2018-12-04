@@ -7,6 +7,8 @@ about: Suggest a new hint for webhint
 
 Hi there 👋
 
+We're excited for your ideas about new things to test and make the web
+even better!
 Before opening a new issue please make sure to search in the existing
 ones (even closed!) as they might contain information about workarounds,
 resolution, or progress updates.

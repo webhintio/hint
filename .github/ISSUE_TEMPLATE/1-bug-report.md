@@ -6,7 +6,7 @@ about: Report a bug in webhint
 
 Hi there 👋
 
-We are sorry you've found an issue in our project. Before
+Thanks for taking the time to make webhint better! Before
 opening a new issue please make sure to search in the existing
 ones (even closed!) as they might contain information about
 workarounds, resolution, or progress updates.
@@ -17,14 +17,14 @@ workarounds, resolution, or progress updates.
 
 ## Description
 
-<!-- ✍️ What were you doing? -->
+<!-- ✍️ What were you doing? How do we repro your issue? -->
 
 ## Environment
 
 * __`hint` version:__ <!-- ✍️ Run `hint -v` -->
 * __`Node.js` version:__ <!-- ✍️ Run `node -v` -->
-* __`npm` version:__ <!-- ✍️ Run `npm -v ` -->
-* __URL for which webhint failed:__
+* __`OS`:__ <!-- ✍️ -->
+* __URL for which webhint failed:__ <!-- ✍️ -->
 
 ## `webhint` configuration
 
@@ -32,12 +32,11 @@ workarounds, resolution, or progress updates.
 <summary>webhint’s configuration</summary>
 
 ```js
-<!-- Paste the content of your`.hintrc` here -->
+<!-- Paste the content of your `.hintrc` here -->
 
 ```
 
 </details>
-
 
 ## Debug output
 

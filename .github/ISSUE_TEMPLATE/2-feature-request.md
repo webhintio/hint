@@ -7,6 +7,7 @@ about: Suggest a feature for webhint
 
 Hi there 👋
 
+We're excited for your ideas about how to make webhint even better!
 Before opening a new issue please make sure to search in the existing
 ones (even closed!) as they might contain information about workarounds,
 resolution, or progress updates.

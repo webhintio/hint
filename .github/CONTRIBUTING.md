@@ -5,15 +5,15 @@ contribution process easy and effective for everyone involved.
 
 ## Contributing code
 
-Before doing any major changes, there are a few things you should do:
+Before doing any major changes, there are a couple things you should do:
 
 1. Open an issue to discuss and potentially help if the team agrees
    the changes will be for the best.
-1. Familiarize yourself with the architecture and concepts by reading
+1. Familiarize yourself with the architecture and concepts by reading the
    [contributor guide][contributor guide] and the projects
    [pull request process][pr process].
 
-We thank you for following this tips!
+We thank you for following these tips!
 
 ## Code of Conduct
 
