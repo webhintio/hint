@@ -18,7 +18,7 @@ import { browser, document, location, window } from '../shared/globals';
 
 export default class WebExtensionConnector implements IConnector {
     private _document = new AsyncHTMLDocument(document);
-    private _window = new AsyncWindow(this._document);
+    private _window = new AsyncWindow(this._document); // eslint-disable-line
     private _engine: Engine;
     private _options: ConnectorOptionsConfig;
 
