@@ -82,5 +82,3 @@ const elementVersionAddedNull: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, elementVersionAddedNull, { browserslist: ['and_chr 69'], parsers: ['css']});
-
-
