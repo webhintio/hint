@@ -130,7 +130,7 @@ const globalAttributeRemovedLaterThanTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttributeRemovedLaterThanTargetedBrowser, { browserslist: ['firefox_android 55'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttributeRemovedLaterThanTargetedBrowser, { browserslist: ['and_ff 55'], parsers: ['html']});
 
 const globalAttributeRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
@@ -150,4 +150,4 @@ const globalAttributeRemovedEarlierThanTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['firefox_android 57'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['and_ff 57'], parsers: ['html']});
