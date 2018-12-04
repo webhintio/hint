@@ -6,7 +6,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 
-import meta from './meta/compat-api-css';
+import meta from './meta/css';
 import BaseCompatApiCSS from './compat-api-css-base';
 import { CSSFeatureStatus } from './enums';
 import { FeatureInfo, BrowsersInfo } from './types';
