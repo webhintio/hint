@@ -12,6 +12,7 @@ Before doing any major changes, there are a couple things you should do:
 1. Familiarize yourself with the architecture and concepts by reading the
    [contributor guide][contributor guide] and the projects
    [pull request process][pr process].
+1. Sign our [Contributor License Agreement][cla]
 
 We thank you for following these tips!
 
@@ -21,12 +22,8 @@ This project adheres to the [JS Foundation Code of
 Conduct](https://js.foundation/community/code-of-conduct). We kindly
 request that you read over our code of conduct before contributing.
 
-## Contributing Code
-
-Please sign our [Contributor License Agreement](https://cla.js.foundation/webhintio/hint)
-and read the [Pull Request Guidelines](https://webhint.io/docs/contributor-guide/getting-started/pull-requests/).
-
 <!-- Link labels -->
 
+[cla]: https://cla.js.foundation/webhintio/hint
 [contributor guide]: https://webhint.io/docs/contributor-guide/
 [pr process]: https://webhint.io/docs/contributor-guide/getting-started/pull-requests/
