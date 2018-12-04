@@ -45,5 +45,5 @@ Note `vsce` saves your login information so only `npm install` and
 <!-- Link labels: -->
 
 [publishing]: https://code.visualstudio.com/docs/extensions/publish-extension
-[webhint org]: https://webhint.visualstudio.com/
+[webhint org]: https://dev.azure.com/webhint/webhint
 [token]: https://code.visualstudio.com/docs/extensions/publish-extension#_get-a-personal-access-token
