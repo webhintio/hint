@@ -21,7 +21,7 @@ export default class extends BaseCompatApiCSS {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<StyleEvents>) {
-        super(context, false);
+        super(context, CSSFeatureStatus.Supported, false);
     }
 
     public getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue {
@@ -40,9 +40,5 @@ export default class extends BaseCompatApiCSS {
 
     public isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number) {
         return version < currentVersion;
-    }
-
-    public getStatusNameValue(): CSSFeatureStatus {
-        return CSSFeatureStatus.Supported;
     }
 }

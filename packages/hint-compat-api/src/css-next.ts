@@ -27,7 +27,7 @@ export default class extends BaseCompatApiCSS {
 
     private userPrefixes: UserPrefixes = {};
     public constructor(context: HintContext<StyleEvents>) {
-        super(context, true);
+        super(context, CSSFeatureStatus.Added, true);
     }
 
     public getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue {
@@ -56,10 +56,6 @@ export default class extends BaseCompatApiCSS {
         }
 
         return isVersionGreaterOrEqualThanCurrentVersion || this.isPrefixAlreadyInUse(browser.browserToSupportName, feature);
-    }
-
-    public getStatusNameValue(): CSSFeatureStatus {
-        return CSSFeatureStatus.Added;
     }
 
     private addUserUsedPrefixes(browserName: string, feature: FeatureInfo): void {

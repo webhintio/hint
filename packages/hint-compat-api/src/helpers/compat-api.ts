@@ -6,7 +6,7 @@
 const bcd: CompatData = require('mdn-browser-compat-data');
 
 import { browserVersions } from './normalize-version';
-import { BrowserSupportCollection, MDNTreeFilteredByBrowsers } from '../types';
+import { BrowserSupportCollection, MDNTreeFilteredByBrowsers, BrowserVersions } from '../types';
 import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, Identifier } from '../types-mdn.temp'; // Temporal
 
 type CompatNamespace = 'css' | 'javascript' | 'html';
@@ -211,11 +211,69 @@ export class CompatApi {
         });
     }
 
-    public isBrowserToSupportPartOfBrowsersCollection(browsersToSupport: BrowserSupportCollection, browserToSupportName: string): boolean {
-        const isBrowserInsideCollection = Object.keys(browsersToSupport).some((browser) => {
-            return browser === browserToSupportName;
+    /**
+     * @method groupNotSupportedVersions
+     * Examples:
+     * [ 'chrome 66', 'chrome 69' ] into ['chrome 66, 69']
+     * [ 'chrome 67', 'chrome 68', 'chrome 69' ] into ['chrome 67-69']
+     * [ 'chrome 66', 'chrome 68', 'chrome 69' ] into ['chrome 66, 67-69']
+     *
+     */
+    public groupNotSupportedVersions(notSupportedVersions: string[]): string[] {
+        if (!notSupportedVersions) {
+            return [];
+        }
+
+        const browsers: BrowserVersions = {};
+
+        notSupportedVersions.forEach((browserAndVersion: string) => {
+            const [browser, version] = browserAndVersion.split(' ');
+
+            browsers[browser] = browsers[browser] || [];
+            browsers[browser].push(version);
         });
 
-        return isBrowserInsideCollection;
+        const groupedVersions = Object.entries(browsers).map(([browser, versions]) => {
+            const sortedVersions = versions.sort();
+            let grouped = '';
+            let groupStarted = false;
+
+            sortedVersions.forEach((value, i) => {
+                const nextValue = sortedVersions[i + 1];
+                const nNextValue = nextValue ? browserVersions.normalize(nextValue) : null;
+                const nValue = browserVersions.normalize(value);
+
+                if (!groupStarted) {
+                    grouped += `${browser} ${value}`;
+                }
+
+                if (nNextValue && nNextValue - nValue > browserVersions.unit) {
+                    if (groupStarted) {
+                        groupStarted = false;
+                        grouped += value;
+                    }
+
+                    grouped += ', ';
+                }
+
+                if (!groupStarted && nNextValue && nNextValue - nValue <= browserVersions.unit) {
+                    groupStarted = true;
+                    grouped += '-';
+                }
+
+                if (groupStarted && !nextValue) {
+                    groupStarted = false;
+                    grouped += value;
+                }
+            });
+
+            return grouped;
+        });
+
+        return groupedVersions;
+    }
+
+    public isBrowserIncludedInCollection(collection: BrowserSupportCollection, browserName: string): boolean {
+        return collection.hasOwnProperty(browserName);
     }
 }
