@@ -1030,7 +1030,7 @@ use the following configuration in the [`.hintrc`][hintrc]:
 }
 ```
 
-Note: You can also use the [`ignoredUrls`](../index.md#hint-configuration)
+Note: You can also use the [`ignoredUrls`][hint configuration]
 property from the `.hintrc` file to exclude domains you don’t control
 (e.g.: CDNs) from these checks.
 
@@ -1096,3 +1096,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [iis config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [multiple compression schemes]: https://docs.microsoft.com/en-us/iis/extensions/iis-compression/using-iis-compression#enabling-multiple-compression-schemes
 [urlcompression]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/urlcompression
+[hint configuration]: https://webhint.io/docs/user-guide/concepts/hints/#hint-configuration
