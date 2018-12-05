@@ -38,24 +38,6 @@ const elementAttrNeverRemoved: HintTest[] = [
 
 hintRunner.testHint(hintPath, elementAttrNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
 
-const globalAttributeNeverRemoved: HintTest[] = [
-    {
-        name: 'Global attributes that were never removed should pass.',
-        serverConfig: generateHTMLConfig('global-attr-class')
-    }
-];
-
-hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
-
-const inputTypeNeverRemoved: HintTest[] = [
-    {
-        name: 'Input types that were never removed should pass.',
-        serverConfig: generateHTMLConfig('input-button')
-    }
-];
-
-hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
-
 const removedForFlags: HintTest[] = [
     {
         name: 'Elements removed from versions requiring flags should pass.',
@@ -77,22 +59,32 @@ hintRunner.testHint(hintPath, elementRemovedVersionLaterThanTargetedBrowser, { b
 const elementRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
         name: 'Elements that were removed the version of the targeted browser should fail.',
-        reports: [{ message: 'blink is not supported on firefox 22 browser.'}],
+        reports: [{ message: 'blink element is not supported on firefox 22 browser.'}],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
 
 hintRunner.testHint(hintPath, elementRemovedVersionOfTargetedBrowser, { browserslist: ['firefox 22'], parsers: ['html']});
 
-const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
+const elementRemovedVersionEarlierThanMultipleTargetedBrowser: HintTest[] = [
     {
         name: 'Elements that were removed in a version before the targeted browser should fail.',
-        reports: [{ message: 'blink is not supported on firefox 24-26 browsers.'}],
+        reports: [{ message: 'blink element is not supported on firefox 24-26 browsers.'}],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
 
-hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 24 - 26'], parsers: ['html']});
+hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanMultipleTargetedBrowser, { browserslist: ['firefox 24 - 26'], parsers: ['html']});
+
+const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
+    {
+        name: 'Elements that were removed in a version before the targeted browsers should fail with one error.',
+        reports: [{ message: 'blink element is not supported on opera 16, firefox 23 browsers.'}],
+        serverConfig: generateHTMLConfig('blink')
+    }
+];
+
+hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 23', 'opera 16'], parsers: ['html']});
 
 const elementAttrRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     {
@@ -106,7 +98,7 @@ hintRunner.testHint(hintPath, elementAttrRemovedVersionLaterThanTargetedBrowser,
 const elementAttrRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
         name: 'Element attributes that were removed the version of the targeted browser should fail.',
-        reports: [{ message: 'scoped is not supported on firefox 55 browser.'}],
+        reports: [{ message: 'scoped attribute of the style element is not supported on firefox 55 browser.'}],
         serverConfig: generateHTMLConfig('style-scoped')
     }
 ];
@@ -116,12 +108,24 @@ hintRunner.testHint(hintPath, elementAttrRemovedVersionOfTargetedBrowser, { brow
 const elementAttrRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     {
         name: 'Element attributes that were removed in a version before the targeted browser should fail.',
-        reports: [{ message: 'scoped is not supported on firefox 56 browser.'}],
+        reports: [{ message: 'scoped attribute of the style element is not supported on firefox 56 browser.'}],
         serverConfig: generateHTMLConfig('style-scoped')
     }
 ];
 
 hintRunner.testHint(hintPath, elementAttrRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 56'], parsers: ['html']});
+
+/*
+ * GLOBAL ATTRIBUTES
+ */
+const globalAttributeNeverRemoved: HintTest[] = [
+    {
+        name: 'Global attributes that were never removed should pass.',
+        serverConfig: generateHTMLConfig('global-attr-class')
+    }
+];
+
+hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
 
 const globalAttributeRemovedLaterThanTargetedBrowser: HintTest[] = [
     {
@@ -135,7 +139,7 @@ hintRunner.testHint(hintPath, globalAttributeRemovedLaterThanTargetedBrowser, { 
 const globalAttributeRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
         name: 'Global attributes that were removed the version of the targeted browser should fail',
-        reports: [{ message: 'contextmenu is not supported on firefox_android 56 browser.'}],
+        reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 56 browser.'}],
         serverConfig: generateHTMLConfig('global-attr-contextmenu')
     }
 ];
@@ -145,9 +149,22 @@ hintRunner.testHint(hintPath, globalAttributeRemovedVersionOfTargetedBrowser, { 
 const globalAttributeRemovedEarlierThanTargetedBrowser: HintTest[] = [
     {
         name: 'Global attributes that were removed before the targeted browsers should fail',
-        reports: [{ message: 'contextmenu is not supported on firefox_android 57 browser.'}],
+        reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 57 browser.'}],
         serverConfig: generateHTMLConfig('global-attr-contextmenu')
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['firefox_android 57'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['and_ff 57'], parsers: ['html']});
+
+/*
+ * INPUT TYPES
+ * Presently there are no input types that have been removed.
+ */
+const inputTypeNeverRemoved: HintTest[] = [
+    {
+        name: 'Input types that were never removed should pass.',
+        serverConfig: generateHTMLConfig('input-button')
+    }
+];
+
+hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
