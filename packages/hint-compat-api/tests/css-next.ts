@@ -210,6 +210,16 @@ const prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget: HintTe
 
 hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget, { browserslist: ['firefox 4'], parsers: ['css']});
 
+const mixedFeaturedCompatibility: HintTest[] = [
+    {
+        name: 'Features with mixed compatibility (version added null vs false) for different browsers should only throw errors for browsers in which the feature has never been added (false).',
+        reports: [{ message: 'box-lines of CSS is not supported on firefox browser.', position: { column: 4, line: 1 } }],
+        serverConfig: generateCSSConfig('box-lines')
+    }
+];
+
+hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['firefox 63', 'edge 18'], parsers: ['css']});
+
 /*
  * const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {

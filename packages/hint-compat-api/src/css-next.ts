@@ -35,8 +35,12 @@ export default class extends BaseCompatApiCSS {
     }
 
     public isVersionValueTestable(version: VersionValue): boolean {
-        // If `addedVersion` is true, it means the property has always been implemented
-        return version !== true;
+        /**
+         * NOTE:
+         * If `addedVersion` is true, it means the property has always been implemented
+         * If `addedVersion` is null, it means the status is not clear so we are not checking it
+         */
+        return version !== true && version !== null;
     }
 
     public isVersionValueSupported(version: VersionValue): boolean {
