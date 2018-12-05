@@ -10,9 +10,7 @@ const generateHTMLConfig = (fileName: string) => {
     const path = 'fixtures/html';
     const htmlFile = readFile(`${__dirname}/${path}/${fileName}.html`);
 
-    return {
-        '/': generateHTMLPage(htmlFile)
-    };
+    return { '/': generateHTMLPage(htmlFile) };
 };
 
 /*
@@ -25,7 +23,7 @@ const generateHTMLConfig = (fileName: string) => {
 const elementNeverRemoved: HintTest[] = [
     {
         name: 'Elements that were never removed should pass.',
-        serverConfig: generateHTMLConfig('test')
+        serverConfig: generateHTMLConfig('div')
     }
 ];
 

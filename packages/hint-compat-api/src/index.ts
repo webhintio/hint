@@ -11,5 +11,5 @@ module.exports = {
     'compat-api-css': compatApiCss,
     'compat-api-css-next': compatApiCssNext,
     'compat-api-html': compatApiHtml,
-    'compat-api-html-next': compatApiHtmlNext,
+    'compat-api-html-next': compatApiHtmlNext
 };
