@@ -121,7 +121,7 @@ hintRunner.testHint(hintPath, elementAttrRemovedVersionEarlierThanTargetedBrowse
 const globalAttributeNeverRemoved: HintTest[] = [
     {
         name: 'Global attributes that were never removed should pass.',
-        serverConfig: generateHTMLConfig('global-attr-class')
+        serverConfig: generateHTMLConfig('div')
     }
 ];
 
