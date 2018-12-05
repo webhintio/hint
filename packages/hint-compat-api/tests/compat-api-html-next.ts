@@ -20,14 +20,6 @@ const generateHTMLConfig = (fileName: string) => {
  * https://webhint.io/docs/contributor-guide/how-to/test-hints/
  */
 
-const elementAddedEarlierThanTargetedBrowsers: HintTest[] = [
-    {
-        name: 'Elements that were added in versions earlier than the targeted browsers should pass.',
-        serverConfig: generateHTMLConfig('div')
-    }
-];
-
-hintRunner.testHint(hintPath, elementAddedEarlierThanTargetedBrowsers, { browserslist: ['> 1%'], parsers: ['html']});
 
 const elementAddedAlwaysTrue: HintTest[] = [
     {
@@ -46,24 +38,6 @@ const elementAttrAddedAlwaysTrue: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, elementAttrAddedAlwaysTrue, { browserslist: ['> 1%'], parsers: ['html']});
-
-const elementAttrAddedVersionOfTargetedBrowsers: HintTest[] = [
-    {
-        name: 'Element attributes that were added in the version of the targeted browser should pass.',
-        serverConfig: generateHTMLConfig('video')
-    }
-];
-
-hintRunner.testHint(hintPath, elementAttrAddedVersionOfTargetedBrowsers, { browserslist: ['ie 9'], parsers: ['html']});
-
-const elementAttrAddedEarlierThanTargetedBrowsers: HintTest[] = [
-    {
-        name: 'Element attributes that were added in versions earlier than the targeted browsers should pass.',
-        serverConfig: generateHTMLConfig('video')
-    }
-];
-
-hintRunner.testHint(hintPath, elementAttrAddedEarlierThanTargetedBrowsers, { browserslist: ['ie 10'], parsers: ['html']});
 
 const elementVersionAddedNull: HintTest[] = [
     {
@@ -124,7 +98,7 @@ hintRunner.testHint(hintPath, elementAddedInVersionBeforeTargetedBrowserVersion,
 
 const elementAddedVersionOfTargetedBrowser: HintTest[] = [
     {
-        name: 'Elements that were added in the version of the targeted browser should pass.',
+        name: 'Elements that were added the version of the targeted browser should pass.',
         serverConfig: generateHTMLConfig('video')
     }
 ];
