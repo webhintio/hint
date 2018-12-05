@@ -16,7 +16,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 const debug: debug.IDebugger = d(__filename);
 
 export class CompatCSS {
-    private testFunction: CSSTestFunction | undefined;
+    private testFunction: CSSTestFunction;
     private cachedFeatures: CachedCompatFeatures;
     private hintContext: HintContext;
     private hintResource: string = 'unknown';
@@ -140,10 +140,6 @@ export class CompatCSS {
         const supportBlock: SupportBlock = featureData.info.support;
 
         Object.entries(supportBlock).forEach(([browserToSupportName, browserInfo]) => {
-            if (!this.testFunction) {
-                return;
-            }
-
             const info: BrowsersInfo = { browserInfo, browsersToSupport, browserToSupportName };
 
             this.testFunction(info, featureData);

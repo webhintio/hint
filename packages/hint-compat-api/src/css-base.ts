@@ -1,7 +1,3 @@
-/**
- * @fileoverview Hint to validate if the CSS features of the project are deprecated
- */
-
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
@@ -11,12 +7,6 @@ import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 
 import { browserVersions } from './helpers/normalize-version';
 import { CSSFeatureStatus } from './enums';
-
-/*
- * ------------------------------------------------------------------------------
- * Public
- * ------------------------------------------------------------------------------
- */
 
 export default abstract class BaseCompatApiCSS implements IHint {
     private mdnBrowsersCollection: BrowserSupportCollection;
