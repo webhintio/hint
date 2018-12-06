@@ -54,17 +54,6 @@ export const stubGlobals = (dom?: JSDOM): Globals => {
                 executeScript: () => {},
                 reload: () => {},
                 sendMessage: () => {}
-            },
-            webRequest: {
-                filterResponseData: () => {},
-                onAuthRequired: stubEvent(),
-                onBeforeRedirect: stubEvent(),
-                onBeforeRequest: stubEvent(),
-                onBeforeSendHeaders: stubEvent(),
-                onCompleted: stubEvent(),
-                onHeadersReceived: stubEvent(),
-                onResponseStarted: stubEvent(),
-                onSendHeaders: stubEvent()
             }
         },
         document: dom ? dom.window.document : null,

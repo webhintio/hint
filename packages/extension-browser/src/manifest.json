@@ -2,13 +2,7 @@
     "author": "webhint",
     "background": {
         "scripts": ["background-script.js"],
-        "persistent": true
-    },
-    "browser_action": {
-        "default_icon": {
-            "180": "icon.png"
-        },
-        "default_title": "Run webhint"
+        "persistent": false
     },
     "icons": {
         "180": "icon.png"
@@ -18,9 +12,7 @@
     "manifest_version": 2,
     "name": "webhint",
     "permissions": [
-        "<all_urls>",
-        "webRequest",
-        "webRequestBlocking"
+        "<all_urls>"
     ],
     "version": "1.0"
 }
