@@ -202,8 +202,8 @@ export class CompatCSS {
     }
 
     private getFeatureNameWithPrefix(feature: FeatureInfo): string {
-        const separator: string = feature.prefix ? ' ' : '';
+        const prefix: string = feature.prefix ? `${feature.prefix}` : '';
 
-        return feature.prefix + separator + feature.name;
+        return prefix + feature.name;
     }
 }
