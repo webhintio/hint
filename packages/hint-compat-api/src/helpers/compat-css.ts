@@ -195,12 +195,6 @@ export class CompatCSS {
         await this.hintContext.report(this.hintResource, message, { location });
     }
 
-    public async reportIfThereIsNoInformationAboutCompatibility(feature: FeatureInfo): Promise<void> {
-        const message = `${feature.name} of CSS was never supported on any of your browsers to support.`;
-
-        await this.reportError(feature, message);
-    }
-
     private getFeatureNameWithPrefix(feature: FeatureInfo): string {
         const prefix: string = feature.prefix ? `${feature.prefix}` : '';
 
