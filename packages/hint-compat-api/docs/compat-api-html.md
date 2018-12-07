@@ -15,15 +15,15 @@ are using HTML elements and attributes that have been deprecated.
 
 ### Examples that **trigger** the hint
 
-The [blink][blink] element is deprecated was removed in Firefox 22.
-Targeted Firefox browsers of versions 22 and up will trigger the hint.
+The [blink][blink] element is deprecated and was removed in Firefox 22.
+Targeting Firefox browsers of versions 22 and up will trigger the hint.
 
 ```html
 <blink>Why would somebody use this?</blink>
 ```
 
 The `scoped` attribute of the [style][style] element is deprecated
-and was removed in Firefox 55. Targeted Firefox browsers of versions
+and was removed in Firefox 55. Targeting Firefox browsers of versions
 55 and up will trigger the hint.
 
 ```html
@@ -33,7 +33,7 @@ and was removed in Firefox 55. Targeted Firefox browsers of versions
 ```
 
 The global attribute [contextmenu][contextmenu] was removed
-from Firefox Android 56. Targeted Firefox Android browsers
+from Firefox Android 56. Targeting Firefox Android browsers
 of versions 56 and up will trigger the hint.
 
 ```html

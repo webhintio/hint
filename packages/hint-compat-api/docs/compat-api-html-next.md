@@ -30,8 +30,26 @@ The [video][video] element and its `autoplay` attribute was added for versions o
 Internet Explorer 9 and onwards. Targeting versions of Internet Explorer
 below version 9 will trigger the hint for the element and its attribute.
 
+
+
 ```html
 <video autoplay></video>
+```
+
+The [input type][input-type] [`color`][input-type-color] was not added for any version of Internet Explorer. Targeting any version of Internet Explorer
+will trigger the hint for this input type.
+
+```html
+<input type="color">
+```
+ 
+The [global attribute][global-attr] `class` was added for versions of Firefox 32 and onwards.
+Targeting versions of Firefox below version 32 till trigger the hint for
+the attribute.
+
+```html
+<div class="foobar"></div>
+<p class="foobar"></p>
 ```
 
 ### Examples that **pass** the hint
@@ -41,6 +59,14 @@ It will pass the hint regardless of whatever the targeted browsers are.
 
 ```html
 <div></div>
+```
+
+The [global attribute][global-attr] `class` has been added for all versions of all browsers except Firefox and Firefox Android. Targeted browsers that are not
+Firefox will pass the hint regardless of their version.
+
+```html
+<div class="container"></div>
+<p class="about"></p>
 ```
 
 The `alt` attribute of the [img][img] element has been added for all versions
@@ -88,6 +114,9 @@ This property follows the same convention as [browserslist][browserslist].
 [img]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img
 [video]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
 [div]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
+[input-type-color]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
+[input-type]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+[global-attr]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes
 [docmdn]: https://developer.mozilla.org/en-US/docs/Web/HTML
 [browser-compat]: https://github.com/mdn/browser-compat-data
 [browser-context]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
