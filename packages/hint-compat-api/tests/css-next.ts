@@ -168,6 +168,26 @@ const featureVersionAddedFalse: HintTest[] = [
 
 hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'], parsers: ['css']});
 
+const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
+    {
+        name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
+        reports: [{ message: 'box-lines of CSS was never supported on firefox 62, firefox_android 56 browsers.', position: { column: 5, line: 2}}],
+        serverConfig: generateCSSConfig('box-lines')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'firefox 62', 'and_ff 56'], parsers: ['css']});
+
+const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
+    {
+        name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
+        reports: [{ message: 'box-lines of CSS was never supported on any of your browsers to support.', position: { column: 5, line: 2}}],
+        serverConfig: generateCSSConfig('box-lines')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56'], parsers: ['css']});
+
 const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added after the targeted browser should fail.',
