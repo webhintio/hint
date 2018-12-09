@@ -1,7 +1,8 @@
 ---
 name: "📚 Docs issue"
 about: Report an issue in webhint's documentation
-
+title: "[Docs Bug] Bug description"
+labels: "area:documentation, type:bug"
 ---
 <!--
 

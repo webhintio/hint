@@ -1,7 +1,8 @@
 ---
 name: "\U0001F4A1Hint request"
 about: Suggest a new hint for webhint
-
+title: "[Hint] Hint title"
+labels: "area:hint"
 ---
 <!--
 

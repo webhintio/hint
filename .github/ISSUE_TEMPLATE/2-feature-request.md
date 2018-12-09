@@ -1,7 +1,8 @@
 ---
 name: "\U0001F680Feature request"
 about: Suggest a feature for webhint
-
+title: "[Feature] Feature description"
+labels: "type:new-feature"
 ---
 <!--
 
