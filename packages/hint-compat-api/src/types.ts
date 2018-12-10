@@ -30,3 +30,9 @@ export type BrowsersInfo = {
     browserToSupportName: string;
     browserInfo: SupportStatement;
 };
+
+export type SupportStatementResult = {
+    groupedBrowserSupport: {[browserName: string]: string[]};
+    browsersToSupportCount: number;
+    notSupportedBrowsersCount: number;
+};

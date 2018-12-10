@@ -8,34 +8,38 @@ const bcd: CompatData = require('mdn-browser-compat-data');
 import { browserVersions } from './normalize-version';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers, BrowserVersions } from '../types';
 import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, Identifier } from '../types-mdn.temp'; // Temporal
+import { userBrowsers } from './get-user-browsers';
+import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 type CompatNamespace = 'css' | 'javascript' | 'html';
 
 export class CompatApi {
     public compatDataApi: MDNTreeFilteredByBrowsers;
-    private isCheckingNotBroadlySupported = false;
+    private readonly isCheckingNotBroadlySupported: boolean;
+    private readonly mdnBrowsersCollection: BrowserSupportCollection;
 
-    public constructor(namespaceName: CompatNamespace, browsers: BrowserSupportCollection, isCheckingNotBroadlySupported = false) {
+    public constructor(namespaceName: CompatNamespace, context: HintContext, isCheckingNotBroadlySupported = false) {
+        this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         this.isCheckingNotBroadlySupported = isCheckingNotBroadlySupported;
         this.compatDataApi = bcd[namespaceName];
-        this.compatDataApi = this.filterCompatDataByBrowsers(browsers);
+        this.compatDataApi = this.filterCompatDataByBrowsers();
     }
 
-    private filterCompatDataByBrowsers(browsers: BrowserSupportCollection): MDNTreeFilteredByBrowsers {
+    private filterCompatDataByBrowsers(): MDNTreeFilteredByBrowsers {
         const compatDataApi: MDNTreeFilteredByBrowsers = {};
 
         Object.entries(this.compatDataApi).forEach(([namespaceFeaturesKey, namespaceFeaturesValues]) => {
-            compatDataApi[namespaceFeaturesKey] = this.filterNamespacesDataByBrowsers(browsers, namespaceFeaturesValues);
+            compatDataApi[namespaceFeaturesKey] = this.filterNamespacesDataByBrowsers(namespaceFeaturesValues);
         });
 
         return compatDataApi;
     }
 
-    private filterNamespacesDataByBrowsers(browsers: BrowserSupportCollection, namespaceFeaturesValues?: CompatStatement): CompatStatement & Identifier {
+    private filterNamespacesDataByBrowsers(namespaceFeaturesValues?: CompatStatement): CompatStatement & Identifier {
         const namespaceFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
         Object.entries(namespaceFeaturesValues as object).forEach(([featureKey, featureValue]) => {
-            const filteredFeature = this.filterFeatureByBrowsers(featureValue, browsers);
+            const filteredFeature = this.filterFeatureByBrowsers(featureValue);
 
             if (!filteredFeature) {
                 return;
@@ -47,25 +51,25 @@ export class CompatApi {
         return namespaceFeatures;
     }
 
-    private filterFeatureByBrowsers(featureValue: CompatStatement & MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection): CompatStatement | null {
+    private filterFeatureByBrowsers(featureValue: CompatStatement & MDNTreeFilteredByBrowsers): CompatStatement | null {
         const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
         typedFeatures.__compat = featureValue.__compat;
 
-        const isChildRequired = this.getFeaturesAndChildrenRequiredToTest(typedFeatures, featureValue, browsers);
+        const isChildRequired = this.getFeaturesAndChildrenRequiredToTest(typedFeatures, featureValue);
 
-        if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue, browsers)) {
+        if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue)) {
             return null;
         }
 
         return typedFeatures;
     }
 
-    private getFeaturesAndChildrenRequiredToTest(typedFeatures: CompatStatement & MDNTreeFilteredByBrowsers, featureValue: CompatStatement & MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection): boolean {
+    private getFeaturesAndChildrenRequiredToTest(typedFeatures: CompatStatement & MDNTreeFilteredByBrowsers, featureValue: CompatStatement & MDNTreeFilteredByBrowsers): boolean {
         if (typeof featureValue === 'object' && Object.keys(featureValue).length > 1) {
             return Object.entries(featureValue as object).some(([childKey, childValue]) => {
 
-                if (!this.isFeatureRequiredToTest(childValue as CompatStatement & MDNTreeFilteredByBrowsers, browsers)) {
+                if (!this.isFeatureRequiredToTest(childValue as CompatStatement & MDNTreeFilteredByBrowsers)) {
                     return false;
                 }
 
@@ -170,8 +174,8 @@ export class CompatApi {
     }
     /* eslint-enable camelcase */
 
-    private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection): boolean {
-        return Object.entries(browsers).some(([browser, browserVersionsList]): boolean => {
+    private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers): boolean {
+        return Object.entries(this.mdnBrowsersCollection).some(([browser, browserVersionsList]): boolean => {
             if (!typedFeatureValue.__compat || !typedFeatureValue.__compat.support) {
                 return false;
             }
@@ -273,7 +277,11 @@ export class CompatApi {
         return groupedVersions;
     }
 
-    public isBrowserIncludedInCollection(collection: BrowserSupportCollection, browserName: string): boolean {
-        return collection.hasOwnProperty(browserName);
+    public isBrowserIncludedInCollection(browserName: string): boolean {
+        return this.mdnBrowsersCollection.hasOwnProperty(browserName);
+    }
+
+    public getBrowserVersions(browserName: string): number[] {
+        return this.mdnBrowsersCollection[browserName] || [];
     }
 }

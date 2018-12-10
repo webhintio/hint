@@ -1,16 +1,15 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
-import { CompatApi, userBrowsers, CompatCSS } from './helpers';
-import { BrowserSupportCollection, FeatureInfo, BrowsersInfo } from './types';
+import { CompatApi, CompatCSS } from './helpers';
+import { FeatureInfo, BrowsersInfo, SupportStatementResult } from './types';
 import { SimpleSupportStatement, VersionValue, SupportBlock, SupportStatement } from './types-mdn.temp';
 
 import { browserVersions } from './helpers/normalize-version';
 import { CSSFeatureStatus } from './enums';
 
 export default abstract class BaseCompatApiCSS implements IHint {
-    private mdnBrowsersCollection: BrowserSupportCollection;
-    private statusName: CSSFeatureStatus;
+    private readonly statusName: CSSFeatureStatus;
     private compatApi: CompatApi;
     private compatCSS: CompatCSS;
 
@@ -20,8 +19,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
     abstract isVersionValueTestable(version: VersionValue): boolean;
 
     public constructor(context: HintContext<StyleEvents>, statusName: CSSFeatureStatus, isCheckingNotBroadlySupported: boolean) {
-        this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
-        this.compatApi = new CompatApi('css', this.mdnBrowsersCollection, isCheckingNotBroadlySupported);
+        this.compatApi = new CompatApi('css', context, isCheckingNotBroadlySupported);
         this.compatCSS = new CompatCSS(context, this.testFeatureIsSupported.bind(this));
         this.statusName = statusName;
 
@@ -35,30 +33,46 @@ export default abstract class BaseCompatApiCSS implements IHint {
         await this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, styleParse);
     }
 
-    private testFeatureIsSupported(feature: FeatureInfo, supportBlock: SupportBlock): void {
-        Object.entries(supportBlock)
-            .filter(([browserName, _]) => {
-                return this.compatApi.isBrowserIncludedInCollection(this.mdnBrowsersCollection, browserName);
-            })
-            .map(([browserToSupportName, browserInfo]) => {
-                return this.getErrorMessage(feature, browserToSupportName, browserInfo);
-            })
-            .filter(this.hasErrorMessage)
-            .forEach(async(message: string | null) => {
-                await this.compatCSS.reportError(feature, message as string);
-            });
+    private async testFeatureIsSupported(feature: FeatureInfo, supportBlock: SupportBlock): Promise<void> {
+        const browsersToSupport = Object.entries(supportBlock).filter(([browserName, _]: [string, SupportStatement]): boolean => {
+            return this.compatApi.isBrowserIncludedInCollection(browserName);
+        });
+
+        const groupedSupportByBrowser = browsersToSupport.reduce((group, browserInfo, _, a1) => {
+            return this.groupSupportStatementByBrowser(feature, group, browserInfo);
+        }, {});
+
+        const supportStatementResult: SupportStatementResult = {
+            browsersToSupportCount: browsersToSupport.length,
+            groupedBrowserSupport: groupedSupportByBrowser,
+            notSupportedBrowsersCount: Object.keys(groupedSupportByBrowser).length
+        };
+
+        const hasImcompatibleBrowsers: boolean = supportStatementResult.notSupportedBrowsersCount > 0;
+
+        if (!hasImcompatibleBrowsers) {
+            return;
+        }
+
+        const message: string = this.generateReportErrorMessage(feature, supportStatementResult);
+
+        await this.compatCSS.reportError(feature, message);
     }
 
-    private getErrorMessage(feature: FeatureInfo, browserToSupportName: string, browserInfo: SupportStatement): string | null {
-        const browserFeature = this.compatApi.getSupportStatementFromInfo(browserInfo, feature.prefix);
-        const info: BrowsersInfo = { browserInfo, browserToSupportName };
+    private groupSupportStatementByBrowser(feature: FeatureInfo, group: { [browserName: string]: string[] }, browserInfo: [string, SupportStatement]) {
+        const [browserName, supportStatement] = browserInfo;
+        const browserFeature = this.compatApi.getSupportStatementFromInfo(supportStatement, feature.prefix);
+        const info: BrowsersInfo = { browserInfo: supportStatement, browserToSupportName: browserName };
+        const versions = browserFeature && this.getNotSupportedBrowser(info, feature, browserFeature);
 
-        return browserFeature ?
-            this.getNotSupportedMessage(info, feature, browserFeature) :
-            this.getNotCompatibilityInformationMessage(feature);
+        if (versions) {
+            return { ...group, [browserName]: versions };
+        }
+
+        return group;
     }
 
-    private getNotSupportedMessage(browser: BrowsersInfo, feature: FeatureInfo, browserFeatureSupported: SimpleSupportStatement): string | null {
+    private getNotSupportedBrowser(browser: BrowsersInfo, feature: FeatureInfo, browserFeatureSupported: SimpleSupportStatement): string[] | null {
         const version = this.getFeatureVersionValueToAnalyze(browserFeatureSupported);
 
         if (!this.isVersionValueTestable(version)) {
@@ -66,25 +80,22 @@ export default abstract class BaseCompatApiCSS implements IHint {
         }
 
         return this.isVersionValueSupported(version) ?
-            this.getNotSupportedVersionBrowserMessage(browser, feature, version as string) :
-            this.getNotSupportedBrowserMessage(feature, browser);
+            this.getNotSupportedBrowserVersions(browser, feature, version as string) : [];
     }
 
-    private getNotSupportedVersionBrowserMessage(browser: BrowsersInfo, feature: FeatureInfo, version: string): string | null {
+    private getNotSupportedBrowserVersions(browser: BrowsersInfo, feature: FeatureInfo, version: string): string[] | null {
         const notSupportedVersions: number[] = this.getNotSupportedVersions(browser, feature, version);
 
         if (notSupportedVersions.length === 0) {
             return null;
         }
 
-        const formattedNotSupportedVersions: string[] = this.formatNotSupportedVersions(browser.browserToSupportName, notSupportedVersions);
-
-        return this.getNotSupportedVersionsError(feature, formattedNotSupportedVersions, this.statusName);
+        return this.formatNotSupportedVersions(browser.browserToSupportName, notSupportedVersions);
     }
 
     private getNotSupportedVersions(browser: BrowsersInfo, feature: FeatureInfo, version: string): number[] {
+        const versions: number[] = this.compatApi.getBrowserVersions(browser.browserToSupportName);
         const currentVersion = browserVersions.normalize(version);
-        const versions: number[] = this.mdnBrowsersCollection[browser.browserToSupportName] || [];
 
         return versions.filter((version: number) => {
             return !this.isSupportedVersion(browser, feature, currentVersion, version);
@@ -97,22 +108,53 @@ export default abstract class BaseCompatApiCSS implements IHint {
         });
     }
 
-    private getNotCompatibilityInformationMessage(feature: FeatureInfo): string {
+    private generateReportErrorMessage(feature: FeatureInfo, supportStatementResult: SupportStatementResult): string {
+        const { groupedBrowserSupport, browsersToSupportCount, notSupportedBrowsersCount } = supportStatementResult;
+
+        if (notSupportedBrowsersCount > 1 && notSupportedBrowsersCount === browsersToSupportCount) {
+            return this.getNotSupportedBrowserMessage(feature);
+        } else if (notSupportedBrowsersCount === 1) {
+            const browserName = Object.keys(groupedBrowserSupport)[0];
+            const versions = groupedBrowserSupport[browserName];
+
+            if (versions.length > 0) {
+                return this.getContextFeatureMessage(feature, groupedBrowserSupport);
+            }
+        }
+
+        return this.getNotSupportedFeatureMessage(feature, groupedBrowserSupport);
+    }
+
+    private getNotSupportedBrowserMessage(feature: FeatureInfo): string {
         return `${feature.name} of CSS was never supported on any of your browsers to support.`;
     }
 
-    private getNotSupportedBrowserMessage(feature: FeatureInfo, browser: BrowsersInfo): string {
-        return `${feature.name} of CSS is not supported on ${browser.browserToSupportName} browser.`;
+    private getContextFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}): string {
+        return this.getFeatureMessage(feature, groupedBrowserSupport, `is not ${this.statusName} on`);
     }
 
-    private getNotSupportedVersionsError(feature: FeatureInfo, notSupportedVersions: string[], statusName: string): string {
-        const groupedNotSupportedVersions: string[] = this.compatApi.groupNotSupportedVersions(notSupportedVersions);
+    private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}): string {
+        return this.getFeatureMessage(feature, groupedBrowserSupport, 'of CSS is not supported on');
+    }
+
+    private getFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, message: string): string {
+        const flattenedBrowserInfo = this.stringifyBrowserInfo(groupedBrowserSupport);
         const usedPrefix = feature.prefix ? `prefixed with ${feature.prefix} ` : '';
 
-        return `${feature.name} ${usedPrefix ? usedPrefix : ''}is not ${statusName} on ${groupedNotSupportedVersions.join(', ')} browser${notSupportedVersions.length > 1 ? 's' : ''}.`;
+        return `${feature.name} ${usedPrefix ? usedPrefix : ''}${message} ${flattenedBrowserInfo} browser${this.isPluralMessage(flattenedBrowserInfo) ? 's' : ''}.`;
     }
 
-    private hasErrorMessage(message: string | null) {
-        return !!message;
+    private isPluralMessage(message: string) {
+        return message.includes(',') || message.includes('-');
+    }
+
+    private stringifyBrowserInfo(groupedSupportByBrowser: {[browserName: string]: string[]}, skipBrowserVerions: boolean = false) {
+        return Object.entries(groupedSupportByBrowser)
+            .map(([browserName, browserVersions]: [string, string[]]) => {
+                return browserVersions.length === 0 || skipBrowserVerions ?
+                    [browserName] :
+                    this.compatApi.groupNotSupportedVersions(browserVersions);
+            })
+            .join(', ');
     }
 }

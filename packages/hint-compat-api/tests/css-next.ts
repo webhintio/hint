@@ -171,7 +171,7 @@ hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'
 const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
     {
         name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
-        reports: [{ message: 'box-lines of CSS was never supported on firefox 62, firefox_android 56 browsers.', position: { column: 5, line: 2}}],
+        reports: [{ message: 'box-lines of CSS is not supported on firefox, firefox_android browsers.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];
@@ -181,7 +181,7 @@ hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBr
 const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
     {
         name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
-        reports: [{ message: 'box-lines of CSS was never supported on any of your browsers to support.', position: { column: 5, line: 2}}],
+        reports: [{ message: 'box-lines of CSS was never supported on any of your browsers to support.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];
