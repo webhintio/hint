@@ -1,4 +1,4 @@
-# Excel formatter (`@hint/formatter-excel`)
+# Excel (`@hint/formatter-excel`)
 
 The `excel` formatter outputs the results in an Excel file (`xlsx`),
 each resource in its sheet:

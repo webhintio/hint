@@ -1,4 +1,4 @@
-# Babel config parser (`@hint/parser-babel-config`)
+# Babel config (`@hint/parser-babel-config`)
 
 The `babel-config` parser allows the user to analyze the Babel
 configuration in their projects.

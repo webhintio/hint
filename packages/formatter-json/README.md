@@ -1,4 +1,4 @@
-# JSON formatter (`@hint/formatter-json`)
+# JSON (`@hint/formatter-json`)
 
 The `json` formatter does a `JSON.stringify()` of the results. Output is not
 very user friendly, but it can be useful when using it as input for

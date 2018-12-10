@@ -1,4 +1,4 @@
-# webpack config parser (`@hint/parser-webpack-config`)
+# webpack config (`@hint/parser-webpack-config`)
 
 The `webpack-config` parser allows the user to analyze the webpack
 configuration in their projects.

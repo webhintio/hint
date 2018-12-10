@@ -1,4 +1,4 @@
-# Chrome connector (`@hint/connector-chrome`)
+# Chrome (`@hint/connector-chrome`)
 
 A connector to use Google Chrome via the [chrome debugging
 protocol][cdp] in `webhint`.

@@ -1,4 +1,4 @@
-# TypeScript config parser (`@hint/parser-typescript-config`)
+# TypeScript config (`@hint/parser-typescript-config`)
 
 The `typescript-config` parser allows the user to analyze the
 TypeScript configuration in their projects.

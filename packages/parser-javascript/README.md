@@ -1,4 +1,4 @@
-# JavaScript parser (`@hint/parser-javascript`)
+# JavaScript (`@hint/parser-javascript`)
 
 The `javascript` parser is built on top of `ESLint` so hints can
 analyze `JavaScript` files.

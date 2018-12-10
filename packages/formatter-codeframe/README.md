@@ -1,4 +1,4 @@
-# Codeframe formatter (`@hint/formatter-codeframe`)
+# Codeframe (`@hint/formatter-codeframe`)
 
 The `codeframe` formatter shows the results in table format indicating
 the resource, line and column as well as the part of the code where the
