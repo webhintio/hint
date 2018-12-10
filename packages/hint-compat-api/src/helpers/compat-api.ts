@@ -3,7 +3,7 @@
  */
 
 // Waiting for this PR https://github.com/mdn/browser-compat-data/pull/3004
-const bcd: CompatData = require('mdn-browser-compat-data');
+const mdnAPI: CompatData = require('mdn-browser-compat-data');
 
 import { browserVersions } from './normalize-version';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers, BrowserVersions } from '../types';
@@ -21,14 +21,14 @@ export class CompatApi {
     public constructor(namespaceName: CompatNamespace, context: HintContext, isCheckingNotBroadlySupported = false) {
         this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
         this.isCheckingNotBroadlySupported = isCheckingNotBroadlySupported;
-        this.compatDataApi = bcd[namespaceName];
-        this.compatDataApi = this.filterCompatDataByBrowsers();
+        this.compatDataApi = this.filterCompatDataByBrowsers(mdnAPI[namespaceName]);
     }
 
-    private filterCompatDataByBrowsers(): MDNTreeFilteredByBrowsers {
+    private filterCompatDataByBrowsers(namespaceFeature: {[namespaceFeaturesKey: string]: CompatStatement | undefined}): MDNTreeFilteredByBrowsers {
         const compatDataApi: MDNTreeFilteredByBrowsers = {};
 
-        Object.entries(this.compatDataApi).forEach(([namespaceFeaturesKey, namespaceFeaturesValues]) => {
+
+        Object.entries(namespaceFeature).forEach(([namespaceFeaturesKey, namespaceFeaturesValues]) => {
             compatDataApi[namespaceFeaturesKey] = this.filterNamespacesDataByBrowsers(namespaceFeaturesValues);
         });
 
