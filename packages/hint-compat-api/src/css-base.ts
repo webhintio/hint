@@ -34,11 +34,11 @@ export default abstract class BaseCompatApiCSS implements IHint {
     }
 
     private async testFeatureIsSupported(feature: FeatureInfo, supportBlock: SupportBlock): Promise<void> {
-        const browsersToSupport = Object.entries(supportBlock).filter(([browserName, _]: [string, SupportStatement]): boolean => {
+        const browsersToSupport = Object.entries(supportBlock).filter(([browserName]: [string, SupportStatement]): boolean => {
             return this.compatApi.isBrowserIncludedInCollection(browserName);
         });
 
-        const groupedSupportByBrowser = browsersToSupport.reduce((group, browserInfo, _, a1) => {
+        const groupedSupportByBrowser = browsersToSupport.reduce((group, browserInfo) => {
             return this.groupSupportStatementByBrowser(feature, group, browserInfo);
         }, {});
 
