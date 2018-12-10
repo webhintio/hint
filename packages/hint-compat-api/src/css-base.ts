@@ -138,13 +138,13 @@ export default abstract class BaseCompatApiCSS implements IHint {
     }
 
     private getFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, message: string): string {
-        const flattenedBrowserInfo = this.stringifyBrowserInfo(groupedBrowserSupport);
+        const stringifiedBrowserInfo = this.stringifyBrowserInfo(groupedBrowserSupport);
         const usedPrefix = feature.prefix ? `prefixed with ${feature.prefix} ` : '';
 
-        return `${feature.name} ${usedPrefix ? usedPrefix : ''}${message} ${flattenedBrowserInfo} browser${this.isPluralMessage(flattenedBrowserInfo) ? 's' : ''}.`;
+        return `${feature.name} ${usedPrefix ? usedPrefix : ''}${message} ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
     }
 
-    private isPluralMessage(message: string) {
+    private hasMultipleBrowsers(message: string) {
         return message.includes(',') || message.includes('-');
     }
 
