@@ -115,6 +115,26 @@ const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
 
 hintRunner.testHint(hintPath, elementAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['ie 8'], parsers: ['html']});
 
+const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
+    {
+        name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
+        reports: [{ message: 'element element is not supported on edge, firefox_android browsers.', position: { column: 1, line: 1}}],
+        serverConfig: generateHTMLConfig('element')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'chrome 45', 'and_ff 56'], parsers: ['html']});
+
+const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
+    {
+        name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
+        reports: [{ message: 'element element was never supported on any of your browsers to support.', position: { column: 1, line: 1}}],
+        serverConfig: generateHTMLConfig('element')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56', 'ie 11'], parsers: ['html']});
+
 /*
  * GLOBAL ATTRIBUTES
  */
