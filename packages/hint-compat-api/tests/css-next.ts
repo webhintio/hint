@@ -161,7 +161,7 @@ hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { br
 const featureVersionAddedFalse: HintTest[] = [
     {
         name: 'Features that have version added as false should fail.',
-        reports: [{ message: 'box-flex of CSS is not supported on ie browser.', position: { column: 4, line: 1}}],
+        reports: [{ message: 'box-flex is not supported on ie browser.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-flex')
     }
 ];
@@ -171,7 +171,7 @@ hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'
 const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
     {
         name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
-        reports: [{ message: 'box-lines of CSS is not supported on firefox, firefox_android browsers.', position: { column: 4, line: 1}}],
+        reports: [{ message: 'box-lines is not supported on firefox, firefox_android browsers.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];
@@ -181,7 +181,7 @@ hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBr
 const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
     {
         name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
-        reports: [{ message: 'box-lines of CSS was never supported on any of your browsers to support.', position: { column: 4, line: 1}}],
+        reports: [{ message: 'box-lines was never supported on any of your browsers to support.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];
@@ -233,7 +233,7 @@ hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDepre
 const mixedFeaturedCompatibility: HintTest[] = [
     {
         name: 'Features with mixed compatibility (version added null vs false) for different browsers should only throw errors for browsers in which the feature has never been added (false).',
-        reports: [{ message: 'box-lines of CSS is not supported on firefox browser.', position: { column: 4, line: 1 } }],
+        reports: [{ message: 'box-lines is not supported on firefox browser.', position: { column: 4, line: 1 } }],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];

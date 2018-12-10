@@ -118,7 +118,7 @@ export default abstract class BaseCompatApiCSS implements IHint {
             const versions = groupedBrowserSupport[browserName];
 
             if (versions.length > 0) {
-                return this.getContextFeatureMessage(feature, groupedBrowserSupport);
+                return this.getNotSupportedFeatureMessage(feature, groupedBrowserSupport, this.statusName);
             }
         }
 
@@ -126,22 +126,14 @@ export default abstract class BaseCompatApiCSS implements IHint {
     }
 
     private getNotSupportedBrowserMessage(feature: FeatureInfo): string {
-        return `${feature.name} of CSS was never supported on any of your browsers to support.`;
+        return `${feature.name} was never supported on any of your browsers to support.`;
     }
 
-    private getContextFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}): string {
-        return this.getFeatureMessage(feature, groupedBrowserSupport, `is not ${this.statusName} on`);
-    }
-
-    private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}): string {
-        return this.getFeatureMessage(feature, groupedBrowserSupport, 'of CSS is not supported on');
-    }
-
-    private getFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, message: string): string {
+    private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, action: CSSFeatureStatus = CSSFeatureStatus.Supported): string {
         const stringifiedBrowserInfo = this.stringifyBrowserInfo(groupedBrowserSupport);
         const usedPrefix = feature.prefix ? `prefixed with ${feature.prefix} ` : '';
 
-        return `${feature.name} ${usedPrefix ? usedPrefix : ''}${message} ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
+        return `${feature.name} ${usedPrefix ? usedPrefix : ''}is not ${action} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
     }
 
     private hasMultipleBrowsers(message: string) {
