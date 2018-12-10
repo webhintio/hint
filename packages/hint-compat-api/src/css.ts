@@ -7,7 +7,7 @@ import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 
 import meta from './meta/css';
-import BaseCompatApiCSS from './compat-api-css-base';
+import BaseCompatApiCSS from './css-base';
 import { CSSFeatureStatus } from './enums';
 import { FeatureInfo, BrowsersInfo } from './types';
 
@@ -21,7 +21,7 @@ export default class extends BaseCompatApiCSS {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<StyleEvents>) {
-        super(context, false);
+        super(context, CSSFeatureStatus.Supported, false);
     }
 
     public getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue {
@@ -40,9 +40,5 @@ export default class extends BaseCompatApiCSS {
 
     public isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number) {
         return version < currentVersion;
-    }
-
-    public getStatusNameValue(): CSSFeatureStatus {
-        return CSSFeatureStatus.Supported;
     }
 }
