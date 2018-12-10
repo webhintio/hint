@@ -39,7 +39,7 @@ export class CompatApi {
         const namespaceFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
         Object.entries(namespaceFeaturesValues as object).forEach(([featureKey, featureValue]) => {
-            const filteredFeature = this.filterFeatureByBrowsers(featureValue);
+            const filteredFeature = this.getFeatureByBrowsers(featureValue);
 
             if (!filteredFeature) {
                 return;
@@ -51,7 +51,7 @@ export class CompatApi {
         return namespaceFeatures;
     }
 
-    private filterFeatureByBrowsers(featureValue: CompatStatement & MDNTreeFilteredByBrowsers): CompatStatement | null {
+    private getFeatureByBrowsers(featureValue: CompatStatement & MDNTreeFilteredByBrowsers): CompatStatement | null {
         const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
         typedFeatures.__compat = featureValue.__compat;
