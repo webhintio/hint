@@ -27,8 +27,8 @@ export type FeatureInfo = {
 };
 
 export type BrowsersInfo = {
-    browserToSupportName: string;
-    browserInfo: SupportStatement;
+    name: string;
+    supportStatement: SupportStatement;
 };
 
 export type SupportStatementResult = {

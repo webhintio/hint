@@ -62,8 +62,8 @@ export default abstract class BaseCompatApiCSS implements IHint {
     private groupSupportStatementByBrowser(feature: FeatureInfo, group: { [browserName: string]: string[] }, browserInfo: [string, SupportStatement]) {
         const [browserName, supportStatement] = browserInfo;
         const browserFeature = this.compatApi.getSupportStatementFromInfo(supportStatement, feature.prefix);
-        const info: BrowsersInfo = { browserInfo: supportStatement, browserToSupportName: browserName };
-        const versions = browserFeature && this.getNotSupportedBrowser(info, feature, browserFeature);
+        const browser: BrowsersInfo = { name: browserName, supportStatement };
+        const versions = browserFeature && this.getNotSupportedBrowser(browser, feature, browserFeature);
 
         if (!versions) {
             return group;
@@ -90,11 +90,11 @@ export default abstract class BaseCompatApiCSS implements IHint {
             return null;
         }
 
-        return this.formatNotSupportedVersions(browser.browserToSupportName, notSupportedVersions);
+        return this.formatNotSupportedVersions(browser.name, notSupportedVersions);
     }
 
     private getNotSupportedVersions(browser: BrowsersInfo, feature: FeatureInfo, version: string): number[] {
-        const versions = this.compatApi.getBrowserVersions(browser.browserToSupportName);
+        const versions = this.compatApi.getBrowserVersions(browser.name);
         const currentVersion = browserVersions.normalize(version);
 
         return versions.filter((version: number) => {

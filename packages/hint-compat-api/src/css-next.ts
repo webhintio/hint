@@ -52,10 +52,10 @@ export default class extends BaseCompatApiCSS {
         const isVersionGreaterOrEqualThanCurrentVersion = version >= currentVersion;
 
         if (isVersionGreaterOrEqualThanCurrentVersion) {
-            this.addUserUsedPrefixes(browser.browserToSupportName, feature);
+            this.addUserUsedPrefixes(browser.name, feature);
         }
 
-        return isVersionGreaterOrEqualThanCurrentVersion || this.isPrefixAlreadyInUse(browser.browserToSupportName, feature);
+        return isVersionGreaterOrEqualThanCurrentVersion || this.isPrefixAlreadyInUse(browser.name, feature);
     }
 
     private addUserUsedPrefixes(browserName: string, feature: FeatureInfo): void {
