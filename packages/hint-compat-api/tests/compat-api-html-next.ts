@@ -108,7 +108,7 @@ hintRunner.testHint(hintPath, elementAddedVersionOfTargetedBrowser, { browsersli
 const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
         name: 'Elements added in version after targeted browser should fail.',
-        reports: [{ message: 'video element is not supported in ie 8 browser.', position: { column: 6, line: 1}}],
+        reports: [{ message: 'video element is not supported on ie 8 browser.', position: { column: 6, line: 1}}],
         serverConfig: generateHTMLConfig('video')
     }
 ];
@@ -178,7 +178,7 @@ hintRunner.testHint(hintPath, globalAttrAddedVersionOfTargetedBrowser, { browser
 const globalAttrAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
         name: 'Global attributes added in version after targeted browser should fail.',
-        reports: [{ message: 'global attribute class is not supported in firefox 31 browser.', position: { column: 6, line: 1}}],
+        reports: [{ message: 'global attribute class is not supported on firefox 31 browser.', position: { column: 6, line: 1}}],
         serverConfig: generateHTMLConfig('div')
     }
 ];
