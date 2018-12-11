@@ -6,13 +6,7 @@ import { BrowserSupportCollection, FeatureInfo, BrowsersInfo } from './types';
 import { SimpleSupportStatement, SupportBlock, SupportStatement } from './types-mdn.temp';
 import { browserVersions } from './helpers/normalize-version';
 
-/*
- * ------------------------------------------------------------------------------
- * Public
- * ------------------------------------------------------------------------------
- */
-
-export default abstract class BaseCompatApiHTML implements IHint {
+export default abstract class BaseHTMLHint implements IHint {
     private mdnBrowsersCollection: BrowserSupportCollection;
     private compatApi: CompatApi;
     private compatHTML: CompatHTML;
@@ -33,26 +27,24 @@ export default abstract class BaseCompatApiHTML implements IHint {
     }
 
     private async testFeatureIsSupported(feature: FeatureInfo, supportBlock: SupportBlock): Promise<void> {
+        await Object.entries(supportBlock)
+            .filter(([browserName]: [string, SupportStatement]): boolean => {
+                return this.compatApi.isBrowserIncludedInCollection(browserName);
+            })
+            .forEach(async([browserName, supportStatement]) => {
+                const browser: BrowsersInfo = {
+                    name: browserName,
+                    supportStatement
+                };
 
-        Object.entries(supportBlock)
-        .filter(([browserName]: [string, SupportStatement]): boolean => {
-            return this.compatApi.isBrowserIncludedInCollection(browserName);
-        })
-        .forEach(async([browserName, supportStatement]) => {
+                const browserFeatureSupported = this.compatApi.getSupportStatementFromInfo(browser.supportStatement);
 
-            const browser: BrowsersInfo = {
-                name: browserName,
-                supportStatement
-            };
-
-            const browserFeatureSupported = this.compatApi.getSupportStatementFromInfo(browser.supportStatement);
-    
-            if (browserFeatureSupported) {
-                await this.testVersionByBrowsers(browser, feature, browserFeatureSupported);
-            } else {
-                await this.compatHTML.reportEmptyCompatibilityInfo(feature);
-            }
-        });
+                if (browserFeatureSupported) {
+                    await this.testVersionByBrowsers(browser, feature, browserFeatureSupported);
+                } else {
+                    await this.compatHTML.reportEmptyCompatibilityInfo(feature);
+                }
+            });
     }
 
     private async testVersionByBrowsers(browser: BrowsersInfo, feature: FeatureInfo, browserFeatureSupported: SimpleSupportStatement) {

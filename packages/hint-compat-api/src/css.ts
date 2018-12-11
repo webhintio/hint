@@ -7,7 +7,7 @@ import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 
 import meta from './meta/css';
-import BaseCompatApiCSS from './css-base';
+import BaseCCSHint from './css-base';
 import { CSSFeatureStatus } from './enums';
 import { FeatureInfo, BrowsersInfo } from './types';
 
@@ -17,7 +17,7 @@ import { FeatureInfo, BrowsersInfo } from './types';
  * ------------------------------------------------------------------------------
  */
 
-export default class extends BaseCompatApiCSS {
+export default class CCSHint extends BaseCCSHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<StyleEvents>) {

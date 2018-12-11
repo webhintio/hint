@@ -8,7 +8,7 @@ import { SimpleSupportStatement, VersionValue, SupportBlock, SupportStatement } 
 import { browserVersions } from './helpers/normalize-version';
 import { CSSFeatureStatus } from './enums';
 
-export default abstract class BaseCompatApiCSS implements IHint {
+export default abstract class BaseCCSHint implements IHint {
     private readonly statusName: CSSFeatureStatus;
     private compatApi: CompatApi;
     private compatCSS: CompatCSS;
