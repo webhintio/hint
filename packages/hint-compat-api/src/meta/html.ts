@@ -8,7 +8,7 @@ const meta: HintMetadata = {
         description: '`compat-api-html` validates if the HTML features of the project are deprecated',
         name: 'Compatibility HTML deprecated features'
     },
-    id: 'compat-api-html',
+    id: 'compat-api/html',
     schema: [],
     scope: HintScope.any
 };

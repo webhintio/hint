@@ -4,8 +4,8 @@
 
 import * as compatApiCss from './css';
 import * as compatApiCssNext from './css-next';
-import * as compatApiHtml from './compat-api-html';
-import * as compatApiHtmlNext from './compat-api-html-next';
+import * as compatApiHtml from './html';
+import * as compatApiHtmlNext from './html-next';
 
 module.exports = {
     css: compatApiCss,
