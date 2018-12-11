@@ -48,9 +48,9 @@ export default abstract class BaseCompatApiCSS implements IHint {
             notSupportedBrowsersCount: Object.keys(groupedSupportByBrowser).length
         };
 
-        const hasImcompatibleBrowsers = supportStatementResult.notSupportedBrowsersCount > 0;
+        const hasIncompatibleBrowsers = supportStatementResult.notSupportedBrowsersCount > 0;
 
-        if (!hasImcompatibleBrowsers) {
+        if (!hasIncompatibleBrowsers) {
             return;
         }
 
