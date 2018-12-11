@@ -1,5 +1,5 @@
 import { ChildNode } from 'postcss';
-import { Identifier, SupportStatement } from './types-mdn.temp'; // Temporal
+import { Identifier, SupportStatement, SupportBlock } from './types-mdn.temp'; // Temporal
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 
 export type MDNTreeFilteredByBrowsers = Identifier;
@@ -10,15 +10,10 @@ export type BrowserSupportCollection = {
 
 export type FeatureStrategy<T extends ChildNode> = {
     check: (node: T | ChildNode) => boolean;
-    testFeature: (node: T, data: MDNTreeFilteredByBrowsers, browsers: BrowserSupportCollection, location?: ProblemLocation) => void;
+    testFeature: (node: T, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation) => void;
 };
 
-export type CSSTestFunction = (browser: BrowsersInfo, feature: FeatureInfo) => void;
-export type HTMLTestFunction = (browser: BrowsersInfo, feature: FeatureInfo) => void;
-
-/**
- * FIXME: Maybe just TestFunction since it should be independant
- */
+export type TestFeatureFunction = (feature: FeatureInfo, supportBlock: SupportBlock) => void;
 
 export type BrowserVersions = {
     [key: string]: string[];
@@ -32,7 +27,12 @@ export type FeatureInfo = {
 };
 
 export type BrowsersInfo = {
-    browsersToSupport: BrowserSupportCollection;
-    browserToSupportName: string;
-    browserInfo: SupportStatement;
+    name: string;
+    supportStatement: SupportStatement;
+};
+
+export type SupportStatementResult = {
+    groupedBrowserSupport: {[browserName: string]: string[]};
+    browsersToSupportCount: number;
+    notSupportedBrowsersCount: number;
 };
