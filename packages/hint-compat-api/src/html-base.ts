@@ -3,24 +3,18 @@ import { IHint } from 'hint/dist/src/lib/types';
 import { HTMLParse, HTMLEvents } from '@hint/parser-html/dist/src/types';
 import { CompatApi, userBrowsers, CompatHTML } from './helpers';
 import { BrowserSupportCollection, FeatureInfo, BrowsersInfo } from './types';
-import { SimpleSupportStatement } from './types-mdn.temp';
+import { SimpleSupportStatement, SupportBlock, SupportStatement } from './types-mdn.temp';
 import { browserVersions } from './helpers/normalize-version';
 
-/*
- * ------------------------------------------------------------------------------
- * Public
- * ------------------------------------------------------------------------------
- */
-
-export default abstract class BaseCompatApiHTML implements IHint {
+export default abstract class BaseHTMLHint implements IHint {
     private mdnBrowsersCollection: BrowserSupportCollection;
     private compatApi: CompatApi;
     private compatHTML: CompatHTML;
 
     public constructor(context: HintContext<HTMLEvents>, isCheckingNotBroadlySupported: boolean) {
         this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
-        this.compatApi = new CompatApi('html', this.mdnBrowsersCollection, isCheckingNotBroadlySupported);
-        this.compatHTML = new CompatHTML(context, this.testFeatureIsSupportedInBrowser.bind(this));
+        this.compatApi = new CompatApi('html', context, isCheckingNotBroadlySupported);
+        this.compatHTML = new CompatHTML(context, this.testFeatureIsSupported.bind(this));
 
         context.on('parse::end::html', this.onParseHTML.bind(this));
     }
@@ -32,18 +26,25 @@ export default abstract class BaseCompatApiHTML implements IHint {
         await this.compatHTML.searchHTMLFeatures(this.compatApi.compatDataApi, this.mdnBrowsersCollection);
     }
 
-    private async testFeatureIsSupportedInBrowser(browser: BrowsersInfo, feature: FeatureInfo): Promise<void> {
-        if (!this.compatApi.isBrowserToSupportPartOfBrowsersCollection(browser.browsersToSupport, browser.browserToSupportName)) {
-            return;
-        }
+    private async testFeatureIsSupported(feature: FeatureInfo, supportBlock: SupportBlock): Promise<void> {
+        await Object.entries(supportBlock)
+            .filter(([browserName]: [string, SupportStatement]): boolean => {
+                return this.compatApi.isBrowserIncludedInCollection(browserName);
+            })
+            .forEach(async([browserName, supportStatement]) => {
+                const browser: BrowsersInfo = {
+                    name: browserName,
+                    supportStatement
+                };
 
-        const browserFeatureSupported = this.compatApi.getSupportStatementFromInfo(browser.browserInfo);
+                const browserFeatureSupported = this.compatApi.getSupportStatementFromInfo(browser.supportStatement);
 
-        if (browserFeatureSupported) {
-            await this.testVersionByBrowsers(browser, feature, browserFeatureSupported);
-        } else {
-            await this.compatHTML.reportEmptyCompatibilityInfo(feature);
-        }
+                if (browserFeatureSupported) {
+                    await this.testVersionByBrowsers(browser, feature, browserFeatureSupported);
+                } else {
+                    await this.compatHTML.reportEmptyCompatibilityInfo(feature);
+                }
+            });
     }
 
     private async testVersionByBrowsers(browser: BrowsersInfo, feature: FeatureInfo, browserFeatureSupported: SimpleSupportStatement) {
@@ -66,7 +67,7 @@ export default abstract class BaseCompatApiHTML implements IHint {
             return;
         }
 
-        const formattedNotSupportedVersions: string[] = this.formatNotSupportedVersions(browser.browserToSupportName, notSupportedVersions);
+        const formattedNotSupportedVersions: string[] = this.formatNotSupportedVersions(browser.name, notSupportedVersions);
 
         await this.compatHTML.reportNotSupportedVersionFeature(feature, formattedNotSupportedVersions, 'supported');
     }
@@ -79,7 +80,7 @@ export default abstract class BaseCompatApiHTML implements IHint {
 
     private getNotSupportedVersions(browser: BrowsersInfo, feature: FeatureInfo, version: string): number[] {
         const currentVersion = browserVersions.normalize(version);
-        const versions: number[] = browser.browsersToSupport[browser.browserToSupportName] || [];
+        const versions: number[] = this.compatApi.getBrowserVersions(browser.name);
 
         return versions.filter((version: number) => {
             return version >= currentVersion;

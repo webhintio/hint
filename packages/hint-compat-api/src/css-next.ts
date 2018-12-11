@@ -7,7 +7,7 @@ import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 
 import meta from './meta/css-next';
-import BaseCompatApiCSS from './css-base';
+import BaseCCSHint from './css-base';
 import { CSSFeatureStatus } from './enums';
 import { FeatureInfo, BrowsersInfo } from './types';
 
@@ -22,7 +22,7 @@ type UserPrefixes = {
     [key: string]: boolean;
 };
 
-export default class extends BaseCompatApiCSS {
+export default class CCSNextHint extends BaseCCSHint {
     public static readonly meta = meta;
 
     private userPrefixes: UserPrefixes = {};
