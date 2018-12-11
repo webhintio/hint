@@ -78,13 +78,13 @@ hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanMultipleTargetedBr
 
 const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     {
-        name: 'Elements that were removed in a version before the targeted browsers should fail with one error.',
-        reports: [{ message: 'blink element is not supported on opera 16, firefox 23 browsers.'}],
+        name: 'Elements that were removed in a version before mulitple targeted browsers should fail with one error.',
+        reports: [{ message: 'blink element is not supported on opera 16, firefox 23-24 browsers.'}],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
 
-hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 23', 'opera 16'], parsers: ['html']});
+hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 23 - 24', 'opera 16'], parsers: ['html']});
 
 const elementAttrRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     {
