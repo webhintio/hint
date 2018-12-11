@@ -6,8 +6,8 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 
-import meta from './meta/compat-api-css-next';
-import BaseCompatApiCSS from './compat-api-css-base';
+import meta from './meta/css-next';
+import BaseCompatApiCSS from './css-base';
 import { CSSFeatureStatus } from './enums';
 import { FeatureInfo, BrowsersInfo } from './types';
 
@@ -27,7 +27,7 @@ export default class extends BaseCompatApiCSS {
 
     private userPrefixes: UserPrefixes = {};
     public constructor(context: HintContext<StyleEvents>) {
-        super(context, true);
+        super(context, CSSFeatureStatus.Added, true);
     }
 
     public getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue {
@@ -35,8 +35,12 @@ export default class extends BaseCompatApiCSS {
     }
 
     public isVersionValueTestable(version: VersionValue): boolean {
-        // If `addedVersion` is true, it means the property has always been implemented
-        return version !== true;
+        /**
+         * NOTE:
+         * If `addedVersion` is true, it means the property has always been implemented
+         * If `addedVersion` is null, it means the status is not clear so we are not checking it
+         */
+        return version !== true && version !== null;
     }
 
     public isVersionValueSupported(version: VersionValue): boolean {
@@ -48,14 +52,10 @@ export default class extends BaseCompatApiCSS {
         const isVersionGreaterOrEqualThanCurrentVersion = version >= currentVersion;
 
         if (isVersionGreaterOrEqualThanCurrentVersion) {
-            this.addUserUsedPrefixes(browser.browserToSupportName, feature);
+            this.addUserUsedPrefixes(browser.name, feature);
         }
 
-        return isVersionGreaterOrEqualThanCurrentVersion || this.isPrefixAlreadyInUse(browser.browserToSupportName, feature);
-    }
-
-    public getStatusNameValue(): CSSFeatureStatus {
-        return CSSFeatureStatus.Added;
+        return isVersionGreaterOrEqualThanCurrentVersion || this.isPrefixAlreadyInUse(browser.name, feature);
     }
 
     private addUserUsedPrefixes(browserName: string, feature: FeatureInfo): void {

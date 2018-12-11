@@ -161,20 +161,40 @@ hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { br
 const featureVersionAddedFalse: HintTest[] = [
     {
         name: 'Features that have version added as false should fail.',
-        reports: [{ message: 'box-flex of CSS is not supported on ie browser.', position: { column: 5, line: 2}}],
+        reports: [{ message: 'box-flex is not supported on ie browser.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-flex')
     }
 ];
 
 hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'], parsers: ['css']});
 
+const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
+    {
+        name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
+        reports: [{ message: 'box-lines is not supported on firefox, firefox_android browsers.', position: { column: 4, line: 1}}],
+        serverConfig: generateCSSConfig('box-lines')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'firefox 62', 'and_ff 56'], parsers: ['css']});
+
+const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
+    {
+        name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
+        reports: [{ message: 'box-lines was never supported on any of your browsers to support.', position: { column: 4, line: 1}}],
+        serverConfig: generateCSSConfig('box-lines')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56'], parsers: ['css']});
+
 const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added after the targeted browser should fail.',
         reports: [
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 1, line: 1}},
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 1, line: 7}},
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 1, line: 13}}
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 0}},
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 6}},
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 12}}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -185,7 +205,7 @@ hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { br
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
-        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browser.', position: { column: 5, line: 3} }],
+        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browser.', position: { column: 4, line: 2} }],
         serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];
@@ -209,6 +229,16 @@ const prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget: HintTe
 ];
 
 hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget, { browserslist: ['firefox 4'], parsers: ['css']});
+
+const mixedFeaturedCompatibility: HintTest[] = [
+    {
+        name: 'Features with mixed compatibility (version added null vs false) for different browsers should only throw errors for browsers in which the feature has never been added (false).',
+        reports: [{ message: 'box-lines is not supported on firefox browser.', position: { column: 4, line: 1 } }],
+        serverConfig: generateCSSConfig('box-lines')
+    }
+];
+
+hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['firefox 63', 'edge 18'], parsers: ['css']});
 
 /*
  * const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [

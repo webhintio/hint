@@ -2,7 +2,7 @@
  * @fileoverview Helper that contains all the logic related with HTML compat api, to use in different modules.
  */
 
-import { MDNTreeFilteredByBrowsers, BrowserSupportCollection, HTMLTestFunction, BrowsersInfo, FeatureInfo, BrowserVersions } from '../types';
+import { MDNTreeFilteredByBrowsers, BrowserSupportCollection, TestFeatureFunction, BrowsersInfo, FeatureInfo, BrowserVersions } from '../types';
 import { HintContext, ReportOptions } from 'hint/dist/src/lib/hint-context';
 import { ElementFound, IAsyncHTMLElement, /* IAsyncNamedNodeMap, AsyncHTMLAttribute, */ ProblemLocation } from 'hint/dist/src/lib/types';
 import { SupportBlock } from '../types-mdn.temp';
@@ -11,11 +11,11 @@ import { CachedCompatFeatures } from './cached-compat-features';
 
 export class CompatHTML {
     private cachedFeatures: CachedCompatFeatures;
-    private testFunction: HTMLTestFunction;
+    private testFunction: TestFeatureFunction;
     private hintContext: HintContext;
     private hintResource: string = 'unknown';
 
-    public constructor(hintContext: HintContext, testFunction: HTMLTestFunction) {
+    public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
         if (!testFunction) {
             throw new Error('You must set test function before test a feature.');
         }
@@ -49,21 +49,13 @@ export class CompatHTML {
 
         const supportBlock: SupportBlock = this.getSupportBlock(element, data);
 
-        await Object.entries(supportBlock).forEach(async ([browserToSupportName, browserInfo]) => {
-            const info: BrowsersInfo = {
-                browserInfo,
-                browsersToSupport,
-                browserToSupportName
-            };
+        const feature: FeatureInfo = {
+            info: supportBlock,
+            location: location || undefined,
+            name: element.nodeName
+        };
 
-            const feature: FeatureInfo = {
-                info: supportBlock,
-                location: location || undefined,
-                name: element.nodeName
-            };
-
-            await this.testFunction(info, feature);
-        });
+        await this.testFunction(feature, supportBlock);
     }
 
     private getSupportBlock(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers): SupportBlock {
@@ -109,7 +101,7 @@ export class CompatHTML {
     }
 
     public async reportNotSupportedFeature(browser: BrowsersInfo, feature: FeatureInfo): Promise<void> {
-        const message = `${feature.name} of HTML is not supported on ${browser.browserToSupportName} browser.`;
+        const message = `${feature.name} of HTML is not supported on ${browser.name} browser.`;
 
         await this.reportError(message);
     }

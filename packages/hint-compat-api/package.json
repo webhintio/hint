@@ -8,7 +8,7 @@
   },
   "description": "hint to validate if the HTML, CSS, and JavaScript APIs of the project are deprecated or not broadly supported",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^1.0.0",
+    "@hint/utils-tests-helpers": "^2.0.2",
     "@types/debug": "0.0.31",
     "@types/node": "8.0.14",
     "ava": "^0.25.0",
@@ -16,7 +16,7 @@
     "eslint": "^5.7.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-typescript": "^0.12.0",
-    "hint": "^3.4.10",
+    "hint": "^4.1.0",
     "markdownlint-cli": "^0.13.0",
     "mdn-browser-compat-data": "0.0.54",
     "npm-link-check": "^2.0.0",
@@ -46,13 +46,13 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^3.4.10"
+    "hint": "^4.1.0"
   },
   "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc -b --inlineSourceMap false --removeComments true",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
