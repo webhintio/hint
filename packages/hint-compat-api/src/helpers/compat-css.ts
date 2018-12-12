@@ -187,6 +187,7 @@ export class CompatCSS {
         return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
     }
 
+    // DUPLICATED
     public async reportError(feature: FeatureInfo, message: string): Promise<void> {
         const { location } = feature;
         const featureNameWithPrefix: string = this.getFeatureNameWithPrefix(feature);

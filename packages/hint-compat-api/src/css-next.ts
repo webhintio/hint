@@ -9,7 +9,7 @@ import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 import meta from './meta/css-next';
 import BaseCCSHint from './css-base';
 import { CSSFeatureStatus } from './enums';
-import { FeatureInfo, BrowsersInfo } from './types';
+import { FeatureInfo, BrowsersInfo, UserPrefixes } from './types';
 
 /*
  * ------------------------------------------------------------------------------
@@ -17,15 +17,11 @@ import { FeatureInfo, BrowsersInfo } from './types';
  * ------------------------------------------------------------------------------
  */
 
-
-type UserPrefixes = {
-    [key: string]: boolean;
-};
-
 export default class CCSNextHint extends BaseCCSHint {
     public static readonly meta = meta;
 
     private userPrefixes: UserPrefixes = {};
+
     public constructor(context: HintContext<StyleEvents>) {
         super(context, CSSFeatureStatus.Added, true);
     }
