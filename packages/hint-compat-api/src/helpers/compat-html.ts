@@ -33,8 +33,15 @@ export class CompatHTML {
         await this.walk(async (elementFound: ElementFound) => {
             const { element } = elementFound;
             const location = element.getLocation();
+            /*
+             * WORKAROUND: Element listener is being fired twice. The second
+             * time the location is not defined so we use this "flag" to
+             * discard the second iteration.
+             */
 
-            await this.testElement(element, data, location);
+            if (location) {
+                await this.testElement(element, data, location);
+            }
         });
     }
 
