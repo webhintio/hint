@@ -59,7 +59,7 @@ hintRunner.testHint(hintPath, elementRemovedVersionLaterThanTargetedBrowser, { b
 const elementRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
         name: 'Elements that were removed the version of the targeted browser should fail.',
-        reports: [{ message: 'blink element is not supported on firefox 22 browser.'}],
+        reports: [{ message: 'blink element is not supported on firefox 22 browser.' }],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -78,14 +78,15 @@ hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanMultipleTargetedBr
 
 const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     {
-        name: 'Elements that were removed in a version before mulitple targeted browsers should fail with one error.',
-        reports: [{ message: 'blink element is not supported on opera 16, firefox 23-24 browsers.'}],
+        name: 'Elements that were removed in a version before the targeted browsers should fail with one error.',
+        reports: [{ message: 'blink element is not supported on any of your browsers to support.' }],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
 
 hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 23 - 24', 'opera 16'], parsers: ['html']});
 
+/*
 const elementAttrRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     {
         name: 'Element attributes that were removed in a version later than the targeted browser should pass.',
@@ -114,11 +115,11 @@ const elementAttrRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, elementAttrRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 56'], parsers: ['html']});
-
+ */
 /*
  * GLOBAL ATTRIBUTES
  */
-const globalAttributeNeverRemoved: HintTest[] = [
+/* const globalAttributeNeverRemoved: HintTest[] = [
     {
         name: 'Global attributes that were never removed should pass.',
         serverConfig: generateHTMLConfig('div')
@@ -154,17 +155,17 @@ const globalAttributeRemovedEarlierThanTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['and_ff 57'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['and_ff 57'], parsers: ['html']}); */
 
 /*
  * INPUT TYPES
  * Presently there are no input types that have been removed.
  */
-const inputTypeNeverRemoved: HintTest[] = [
+/* const inputTypeNeverRemoved: HintTest[] = [
     {
         name: 'Input types that were never removed should pass.',
         serverConfig: generateHTMLConfig('input-button')
     }
 ];
 
-hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
+hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']}); */

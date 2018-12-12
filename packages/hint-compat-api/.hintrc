@@ -1,0 +1,18 @@
+{
+    "connector": {
+        "name": "chrome",
+        "options": {
+            "waitFor": 1000
+        }
+    },
+    "formatters": [
+        "css",
+        "html",
+        "summary"
+    ],
+    "parsers": ["html"],
+    "hintsTimeout": 120000,
+    "hints": {
+        "compat-api/html": "warning"
+    }
+}

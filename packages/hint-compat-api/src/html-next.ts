@@ -1,15 +1,15 @@
 /**
- * @fileoverview Hint to validate if the CSS features of the project are not broadly supported
+ * @fileoverview Hint to validate if the HTML features of the project are not broadly supported
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { StyleEvents } from '@hint/parser-css/dist/src/types';
-import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
+import { HTMLEvents } from '../../parser-html/dist/src/types';
 
-import meta from './meta/css-next';
-import BaseCCSHint from './css-base';
+import BaseHTMLHint from './html-base';
+import meta from './meta/html-next';
 import { CSSFeatureStatus } from './enums';
-import { FeatureInfo, BrowsersInfo, UserPrefixes } from './types';
+import { VersionValue, SimpleSupportStatement } from './types-mdn.temp';
+import { BrowsersInfo, FeatureInfo, UserPrefixes } from './types';
 
 /*
  * ------------------------------------------------------------------------------
@@ -17,12 +17,12 @@ import { FeatureInfo, BrowsersInfo, UserPrefixes } from './types';
  * ------------------------------------------------------------------------------
  */
 
-export default class CCSNextHint extends BaseCCSHint {
+export default class BaseHTMLNextHint extends BaseHTMLHint {
     public static readonly meta = meta;
 
     private userPrefixes: UserPrefixes = {};
 
-    public constructor(context: HintContext<StyleEvents>) {
+    public constructor(context: HintContext<HTMLEvents>) {
         super(context, CSSFeatureStatus.Added, true);
     }
 

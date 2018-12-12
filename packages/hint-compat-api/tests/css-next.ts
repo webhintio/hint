@@ -134,7 +134,6 @@ const featureWithNoCompatInfo: HintTest[] = [
 
 hintRunner.testHint(hintPath, featureWithNoCompatInfo, { browserslist: ['chrome 65'], parsers: ['css']});
 
-
 /*
  * Currently the hint goes two levels deep
  * No errors are thrown when testing features
@@ -192,9 +191,9 @@ const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added after the targeted browser should fail.',
         reports: [
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 0}},
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 6}},
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 12}}
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 0 }},
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 6 }},
+            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 12 }}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -205,7 +204,7 @@ hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { br
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
-        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browser.', position: { column: 4, line: 2} }],
+        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browser.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];
@@ -233,7 +232,7 @@ hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDepre
 const mixedFeaturedCompatibility: HintTest[] = [
     {
         name: 'Features with mixed compatibility (version added null vs false) for different browsers should only throw errors for browsers in which the feature has never been added (false).',
-        reports: [{ message: 'box-lines is not supported on firefox browser.', position: { column: 4, line: 1 } }],
+        reports: [{ message: 'box-lines is not supported on firefox browser.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];

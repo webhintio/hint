@@ -1,36 +1,35 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
-import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
-import { CompatApi, CompatCSS } from './helpers';
+import { HTMLParse, HTMLEvents } from '@hint/parser-html/dist/src/types';
+import { CompatApi, CompatHTML } from './helpers';
 import { FeatureInfo, BrowsersInfo, SupportStatementResult } from './types';
-import { SimpleSupportStatement, VersionValue, SupportBlock, SupportStatement } from './types-mdn.temp';
-
+import { SimpleSupportStatement, SupportBlock, SupportStatement, VersionValue } from './types-mdn.temp';
 import { browserVersions } from './helpers/normalize-version';
 import { CSSFeatureStatus } from './enums';
 
-export default abstract class BaseCCSHint implements IHint {
+export default abstract class BaseHTMLHint implements IHint {
     private readonly statusName: CSSFeatureStatus;
     private compatApi: CompatApi;
-    private compatCSS: CompatCSS;
+    private compatHTML: CompatHTML;
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue;
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
     abstract isVersionValueSupported(version: VersionValue): boolean;
     abstract isVersionValueTestable(version: VersionValue): boolean;
 
-    public constructor(context: HintContext<StyleEvents>, statusName: CSSFeatureStatus, isCheckingNotBroadlySupported: boolean) {
-        this.compatApi = new CompatApi('css', context, isCheckingNotBroadlySupported);
-        this.compatCSS = new CompatCSS(context, this.testFeatureIsSupported.bind(this));
+    public constructor(context: HintContext<HTMLEvents>, statusName: CSSFeatureStatus, isCheckingNotBroadlySupported: boolean) {
+        this.compatApi = new CompatApi('html', context, isCheckingNotBroadlySupported);
+        this.compatHTML = new CompatHTML(context, this.testFeatureIsSupported.bind(this));
         this.statusName = statusName;
 
-        context.on('parse::end::css', this.onParseCSS.bind(this));
+        context.on('parse::end::html', this.onParseHTML.bind(this));
     }
 
-    private async onParseCSS(styleParse: StyleParse): Promise<void> {
-        const { resource } = styleParse;
+    private async onParseHTML(htmlParse: HTMLParse): Promise<void> {
+        const { resource } = htmlParse;
 
-        this.compatCSS.setResource(resource);
-        await this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, styleParse);
+        this.compatHTML.setResource(resource);
+        await this.compatHTML.searchHTMLFeatures(this.compatApi.compatDataApi, htmlParse);
     }
 
     private async testFeatureIsSupported(feature: FeatureInfo, supportBlock: SupportBlock): Promise<void> {
@@ -56,7 +55,7 @@ export default abstract class BaseCCSHint implements IHint {
 
         const message = this.generateReportErrorMessage(feature, supportStatementResult);
 
-        await this.compatCSS.reportError(feature, message);
+        await this.compatHTML.reportError(feature, message);
     }
 
     private groupSupportStatementByBrowser(feature: FeatureInfo, group: { [browserName: string]: string[] }, browserInfo: [string, SupportStatement]) {
@@ -126,14 +125,13 @@ export default abstract class BaseCCSHint implements IHint {
     }
 
     private getNotSupportedBrowserMessage(feature: FeatureInfo): string {
-        return `${feature.name} was never supported on any of your browsers to support.`;
+        return `${feature.name.toLowerCase()} element is not supported on any of your browsers to support.`;
     }
 
     private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, action: CSSFeatureStatus = CSSFeatureStatus.Supported): string {
         const stringifiedBrowserInfo = this.stringifyBrowserInfo(groupedBrowserSupport);
-        const usedPrefix = feature.prefix ? `prefixed with ${feature.prefix} ` : '';
 
-        return `${feature.name} ${usedPrefix ? usedPrefix : ''}is not ${action} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
+        return `${feature.name.toLowerCase()} element is not ${action} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
     }
 
     private hasMultipleBrowsers(message: string) {
