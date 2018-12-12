@@ -2,53 +2,25 @@
  * @fileoverview Helper to cache features, if we have tested a concrete feature in concrete scenario we are no going to check again.
  */
 
-import { ProblemLocation } from 'hint/dist/src/lib/types';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-
-type CachedFeature = {
-    featureName: string;
-    resource: string;
-    message: string;
-    location?: ProblemLocation;
-};
-
-type CachedFeatures = {
-    [key: string]: CachedFeature[];
-};
+import { FeatureInfo } from '../types';
 
 export class CachedCompatFeatures {
-    private cachedFeatures: CachedFeatures = {};
+    private cachedFeatures: Map<string, FeatureInfo> = new Map();
 
-    public add(featureName: string): void {
-        this.cachedFeatures[featureName] = [];
+    public add(feature: FeatureInfo): void {
+        const key = this.getFeatureKey(feature);
+        this.cachedFeatures.set(key, feature);
     }
 
-    public isCached(featureName: string): boolean {
-        return !!this.cachedFeatures[featureName];
+    public has(feature: FeatureInfo): boolean {
+        const key = this.getFeatureKey(feature);
+        return this.cachedFeatures.has(key);
     }
 
-    public addError(featureName: string, resource: string, message: string, location?: ProblemLocation) {
-        this.cachedFeatures[featureName] = this.cachedFeatures[featureName] || [];
+    private getFeatureKey(feature: FeatureInfo) {
+        const prefix = feature.prefix || '';
+        const location = feature.location ? feature.location.column + '-' + feature.location.line : '';
 
-        this.cachedFeatures[featureName].push({
-            featureName,
-            location,
-            message,
-            resource
-        });
-    }
-
-    public async showCachedErrors(featureName: string, context: HintContext, newLocation?: ProblemLocation): Promise<void> {
-        const cachedErrors = this.cachedFeatures[featureName];
-
-        if (!cachedErrors || cachedErrors.length < 1) {
-            return;
-        }
-
-        for (const cachedFeature of cachedErrors) {
-            const location = newLocation || cachedFeature.location;
-
-            await context.report(cachedFeature.resource, cachedFeature.message, { location });
-        }
+        return prefix + feature.name + location;
     }
 }

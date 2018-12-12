@@ -39,14 +39,6 @@ export class CompatHTML {
     }
 
     private async testElement(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation | null): Promise<void> {
-        if (this.cachedFeatures.isCached(element.nodeName)) {
-            await this.cachedFeatures.showCachedErrors(element.nodeName, this.hintContext, location || undefined);
-
-            return;
-        }
-
-        this.cachedFeatures.add(element.nodeName);
-
         const supportBlock: SupportBlock = this.getSupportBlock(element, data);
 
         const feature: FeatureInfo = {
@@ -54,6 +46,12 @@ export class CompatHTML {
             location: location || undefined,
             name: element.nodeName
         };
+
+        if (this.cachedFeatures.has(feature)) {
+            return;
+        }
+
+        this.cachedFeatures.add(feature);
 
         await this.testFunction(feature, supportBlock);
     }
@@ -83,15 +81,7 @@ export class CompatHTML {
     // DUPLICATED
     public async reportError(feature: FeatureInfo, message: string): Promise<void> {
         const { location } = feature;
-        const featureNameWithPrefix: string = this.getFeatureNameWithPrefix(feature);
 
-        this.cachedFeatures.addError(featureNameWithPrefix, this.hintResource, message, location);
         await this.hintContext.report(this.hintResource, message, { location });
-    }
-
-    private getFeatureNameWithPrefix(feature: FeatureInfo): string {
-        const prefix: string = feature.prefix ? `${feature.prefix}` : '';
-
-        return prefix + feature.name;
     }
 }

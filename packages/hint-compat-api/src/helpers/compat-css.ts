@@ -125,15 +125,11 @@ export class CompatCSS {
 
         featureData.location = location;
 
-        const localFeatureNameWithPrefix: string = this.getFeatureNameWithPrefix(featureData);
-
-        if (this.cachedFeatures.isCached(localFeatureNameWithPrefix)) {
-            await this.cachedFeatures.showCachedErrors(localFeatureNameWithPrefix, this.hintContext, location);
-
+        if (this.cachedFeatures.has(featureData)) {
             return;
         }
 
-        this.cachedFeatures.add(localFeatureNameWithPrefix);
+        this.cachedFeatures.add(featureData);
 
         // Check for each browser the support block
         const supportBlock: SupportBlock = featureData.info.support;
@@ -190,15 +186,7 @@ export class CompatCSS {
     // DUPLICATED
     public async reportError(feature: FeatureInfo, message: string): Promise<void> {
         const { location } = feature;
-        const featureNameWithPrefix: string = this.getFeatureNameWithPrefix(feature);
 
-        this.cachedFeatures.addError(featureNameWithPrefix, this.hintResource, message, location);
         await this.hintContext.report(this.hintResource, message, { location });
-    }
-
-    private getFeatureNameWithPrefix(feature: FeatureInfo): string {
-        const prefix: string = feature.prefix ? `${feature.prefix}` : '';
-
-        return prefix + feature.name;
     }
 }
