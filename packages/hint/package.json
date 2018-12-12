@@ -127,5 +127,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.0"
+  "version": "4.1.1"
 }
