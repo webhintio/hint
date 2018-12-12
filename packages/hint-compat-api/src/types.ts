@@ -36,3 +36,7 @@ export type SupportStatementResult = {
     browsersToSupportCount: number;
     notSupportedBrowsersCount: number;
 };
+
+export type UserPrefixes = {
+    [key: string]: boolean;
+};
