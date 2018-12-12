@@ -55,7 +55,6 @@ export default abstract class BaseHTMLHint implements IHint {
 
         const message = this.generateReportErrorMessage(feature, supportStatementResult);
 
-        console.log('Feature ', feature.name, message);
         await this.compatHTML.reportError(feature, message);
     }
 

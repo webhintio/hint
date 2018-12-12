@@ -82,7 +82,6 @@ const removedInEarlierVersionsAndAddedLater: HintTest[] = [
 
 hintRunner.testHint(hintPath, removedInEarlierVersionsAndAddedLater, { browserslist: ['opera 32'], parsers: ['css']});
 
-
 const removedForBrowser: HintTest[] = [
     {
         name: 'Features that were removed in a version equal to the targeted browser should fail.',

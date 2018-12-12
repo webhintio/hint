@@ -9,18 +9,24 @@ export class CachedCompatFeatures {
 
     public add(feature: FeatureInfo): void {
         const key = this.getFeatureKey(feature);
+
         this.cachedFeatures.set(key, feature);
     }
 
     public has(feature: FeatureInfo): boolean {
         const key = this.getFeatureKey(feature);
+
         return this.cachedFeatures.has(key);
     }
 
     private getFeatureKey(feature: FeatureInfo) {
-        const prefix = feature.prefix || '';
-        const location = feature.location ? feature.location.column + '-' + feature.location.line : '';
+        const featureName = feature.prefix ?
+            feature.prefix + feature.name :
+            feature.name;
 
-        return prefix + feature.name + location;
+        const location = feature.location ?
+            feature.location.column.toString() + feature.location.line.toString() : '';
+
+        return featureName + location;
     }
 }
