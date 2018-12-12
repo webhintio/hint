@@ -1,0 +1,6 @@
+.example {
+    -webkit-hyphens: auto; /* Saf 5.1+ */
+    -moz-hyphens: auto; /* Fx 6.0+ */
+    -ms-hyphens: auto; /* IE 10+ */
+    hyphens: auto; /* None yet */
+}
