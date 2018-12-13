@@ -1,4 +1,4 @@
-# HTML formatter (`@hint/formatter-html`)
+# HTML (`@hint/formatter-html`)
 
 The `html` formatter outputs the result in a HTML file.
 

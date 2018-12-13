@@ -1,6 +1,6 @@
-# Manifest parser (`@hint/parser-manifest`)
+# Manifest (`@hint/parser-manifest`)
 
-`parser-manifest` detects if a [web app manifest file][manifest] was
+The `manifest` parser detects if a [web app manifest file][manifest] was
 specified, and if so, it will try to fetch it, parse and check if its
 content is valid.
 

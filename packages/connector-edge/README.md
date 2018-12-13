@@ -1,4 +1,4 @@
-# Edge connector (`@hint/connector-edge`)
+# Microsoft Edge (`@hint/connector-edge`)
 
 A connector to use Microsoft Edge via the [edge diagnostics
 adapter][eda] in `webhint`.
