@@ -8,30 +8,15 @@ import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
 import { FeatureStrategy, MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
-import { CachedCompatFeatures } from './cached-compat-features';
 import { SupportBlock } from '../types-mdn.temp';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { CompatBase } from './compat-base';
 
 const debug: debug.IDebugger = d(__filename);
 
-export class CompatCSS {
-    private testFunction: TestFeatureFunction;
-    private cachedFeatures: CachedCompatFeatures;
-    private hintContext: HintContext;
-    private hintResource: string = 'unknown';
-
+export class CompatCSS extends CompatBase {
     public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
-        if (!testFunction) {
-            throw new Error('You must set test function before test a feature.');
-        }
-
-        this.testFunction = testFunction;
-        this.hintContext = hintContext;
-        this.cachedFeatures = new CachedCompatFeatures();
-    }
-
-    public setResource(hintResource: string): void {
-        this.hintResource = hintResource;
+        super(hintContext, testFunction);
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
@@ -47,7 +32,7 @@ export class CompatCSS {
         };
     }
 
-    public async searchCSSFeatures(data: MDNTreeFilteredByBrowsers, parse: StyleParse): Promise<void> {
+    public async searchFeatures(data: MDNTreeFilteredByBrowsers, parse: StyleParse): Promise<void> {
         await parse.ast.walk(async (node: ChildNode) => {
             const strategy = this.chooseStrategyToSearchCSSFeature(node);
             const location = this.getProblemLocationFromNode(node);
@@ -117,24 +102,22 @@ export class CompatCSS {
     }
 
     private async testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): Promise<void> {
-        const featureData = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
+        const feature = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
 
-        if (!featureData) {
+        if (!feature) {
             return;
         }
 
-        featureData.location = location;
+        feature.location = location;
 
-        if (this.cachedFeatures.has(featureData)) {
+        if (this.isFeatureAlreadyInUse(feature)) {
             return;
         }
-
-        this.cachedFeatures.add(featureData);
 
         // Check for each browser the support block
-        const supportBlock: SupportBlock = featureData.info.support;
+        const supportBlock: SupportBlock = feature.supportBlock;
 
-        await this.testFunction(featureData, supportBlock);
+        await this.testFunction(feature, supportBlock);
     }
 
     public validateStrategy(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): FeatureInfo | null {
@@ -172,7 +155,7 @@ export class CompatCSS {
             return null;
         }
 
-        return { info: featureInfo, name: featureName, prefix };
+        return { name: featureName, prefix, supportBlock: featureInfo.support };
     }
 
     private getPrefix(name: string): [string | undefined, string] {
@@ -181,12 +164,5 @@ export class CompatCSS {
         const prefix = matched && matched.length > 0 ? matched[0] : undefined;
 
         return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
-    }
-
-    // DUPLICATED
-    public async reportError(feature: FeatureInfo, message: string): Promise<void> {
-        const { location } = feature;
-
-        await this.hintContext.report(this.hintResource, message, { location });
     }
 }

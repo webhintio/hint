@@ -29,7 +29,7 @@ export default abstract class BaseHTMLHint implements IHint {
         const { resource } = htmlParse;
 
         this.compatHTML.setResource(resource);
-        await this.compatHTML.searchHTMLFeatures(this.compatApi.compatDataApi, htmlParse);
+        await this.compatHTML.searchFeatures(this.compatApi.compatDataApi, htmlParse);
     }
 
     private async testFeatureIsSupported(feature: FeatureInfo, supportBlock: SupportBlock): Promise<void> {

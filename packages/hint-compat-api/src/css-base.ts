@@ -30,7 +30,7 @@ export default abstract class BaseCCSHint implements IHint {
         const { resource } = styleParse;
 
         this.compatCSS.setResource(resource);
-        await this.compatCSS.searchCSSFeatures(this.compatApi.compatDataApi, styleParse);
+        await this.compatCSS.searchFeatures(this.compatApi.compatDataApi, styleParse);
     }
 
     private async testFeatureIsSupported(feature: FeatureInfo, supportBlock: SupportBlock): Promise<void> {
