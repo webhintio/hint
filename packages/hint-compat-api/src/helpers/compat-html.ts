@@ -4,7 +4,7 @@
 
 import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { ElementFound, IAsyncHTMLElement, ProblemLocation } from 'hint/dist/src/lib/types';
+import { ElementFound, IAsyncHTMLElement, ProblemLocation, AsyncHTMLAttribute, IAsyncNamedNodeMap } from 'hint/dist/src/lib/types';
 import { SupportBlock } from '../types-mdn.temp';
 import { CachedCompatFeatures } from './cached-compat-features';
 import { HTMLParse } from '../../../parser-html/dist/src/types';
@@ -39,19 +39,44 @@ export class CompatHTML {
              * discard the second iteration.
              */
 
-            if (location) {
-                await this.testElement(element, data, location);
+            if (!location) {
+                return;
             }
+
+            await this.testElement(element, data, location);
+            await this.testGlobalAttributes(element, data, location);
         });
     }
 
     private async testElement(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation | null): Promise<void> {
-        const supportBlock: SupportBlock = this.getSupportBlock(element, data);
+        const name = element.nodeName.toLowerCase();
+        const elements = data.elements;
+        const displayableName = `${name} element`;
+
+        await this.testFeature(name, displayableName, elements, location);
+    }
+
+    private async testGlobalAttributes(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation | null): Promise<void> {
+        const namedNodeMap: IAsyncNamedNodeMap = element.attributes;
+
+        for (let index = 0; index < namedNodeMap.length; index++) {
+            const attribute: AsyncHTMLAttribute = namedNodeMap[index];
+            const globalAttributes = data.global_attributes;
+            const name = attribute.name;
+            const displayableName = `global attribute ${name}`;
+
+            await this.testFeature(name, displayableName, globalAttributes, location);
+        }
+    }
+
+    private async testFeature(featureName: string, displayableName: string, collection: any, location: ProblemLocation | null) {
+        const supportBlock: SupportBlock = this.getSupportBlock(collection, featureName);
 
         const feature: FeatureInfo = {
+            displayableName,
             info: supportBlock,
             location: location || undefined,
-            name: element.nodeName
+            name: featureName
         };
 
         if (this.cachedFeatures.has(feature)) {
@@ -63,10 +88,7 @@ export class CompatHTML {
         await this.testFunction(feature, supportBlock);
     }
 
-    private getSupportBlock(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers): SupportBlock {
-        const tagName: string = element.nodeName.toLowerCase();
-        const elements: any = data.elements;
-
+    private getSupportBlock(collection: any, featureName: string, subfeatureName?: string): SupportBlock {
         try {
             /**
              * // NOTE:
@@ -75,7 +97,7 @@ export class CompatHTML {
              * - If feature does not have compat data, we ignore it.
              */
 
-            return elements[tagName].__compat.support;
+            return collection[featureName].__compat.support;
         } catch (error) {
             return {} as SupportBlock;
         }
