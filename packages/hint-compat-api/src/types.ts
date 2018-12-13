@@ -24,7 +24,7 @@ export type BrowserVersions = {
 };
 
 export type FeatureInfo = {
-    info: any;
+    supportBlock: SupportBlock;
     name: string;
     prefix?: string;
     location?: ProblemLocation;

@@ -5,31 +5,17 @@
 import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ElementFound, IAsyncHTMLElement, ProblemLocation, AsyncHTMLAttribute, IAsyncNamedNodeMap } from 'hint/dist/src/lib/types';
-import { SupportBlock } from '../types-mdn.temp';
-import { CachedCompatFeatures } from './cached-compat-features';
+import { SupportBlock, Identifier, CompatStatement } from '../types-mdn.temp';
 import { HTMLParse } from '../../../parser-html/dist/src/types';
+import { get } from 'lodash';
+import { CompatBase } from './compat-base';
 
-export class CompatHTML {
-    private cachedFeatures: CachedCompatFeatures;
-    private testFunction: TestFeatureFunction;
-    private hintContext: HintContext;
-    private hintResource: string = 'unknown';
-
+export class CompatHTML extends CompatBase {
     public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
-        if (!testFunction) {
-            throw new Error('You must set test function before test a feature.');
-        }
-
-        this.cachedFeatures = new CachedCompatFeatures();
-        this.testFunction = testFunction;
-        this.hintContext = hintContext;
+        super(hintContext, testFunction);
     }
 
-    public setResource(hintResource: string): void {
-        this.hintResource = hintResource;
-    }
-
-    public async searchHTMLFeatures(data: MDNTreeFilteredByBrowsers, parser: HTMLParse): Promise<void> {
+    public async searchFeatures(data: MDNTreeFilteredByBrowsers, parser: HTMLParse): Promise<void> {
         await this.walk(async (elementFound: ElementFound) => {
             const { element } = elementFound;
             const location = element.getLocation();
@@ -48,7 +34,7 @@ export class CompatHTML {
         });
     }
 
-    private async testElement(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation | null): Promise<void> {
+    private async testElement(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
         const name = element.nodeName.toLowerCase();
         const elements = data.elements;
         const displayableName = `${name} element`;
@@ -56,7 +42,7 @@ export class CompatHTML {
         await this.testFeature(name, displayableName, elements, location);
     }
 
-    private async testGlobalAttributes(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation | null): Promise<void> {
+    private async testGlobalAttributes(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
         const namedNodeMap: IAsyncNamedNodeMap = element.attributes;
 
         for (let index = 0; index < namedNodeMap.length; index++) {
@@ -69,26 +55,24 @@ export class CompatHTML {
         }
     }
 
-    private async testFeature(featureName: string, displayableName: string, collection: any, location: ProblemLocation | null) {
-        const supportBlock: SupportBlock = this.getSupportBlock(collection, featureName);
+    private async testFeature(name: string, displayableName: string, collection: any, location: ProblemLocation) {
+        const supportBlock: SupportBlock = this.getSupportBlock(collection, name);
 
         const feature: FeatureInfo = {
             displayableName,
-            info: supportBlock,
-            location: location || undefined,
-            name: featureName
+            location,
+            name,
+            supportBlock
         };
 
-        if (this.cachedFeatures.has(feature)) {
+        if (this.isFeatureAlreadyInUse(feature)) {
             return;
         }
-
-        this.cachedFeatures.add(feature);
 
         await this.testFunction(feature, supportBlock);
     }
 
-    private getSupportBlock(collection: any, featureName: string, subfeatureName?: string): SupportBlock {
+    private getSupportBlock(collection: CompatStatement | undefined, featureName: string, subfeatureName?: string): SupportBlock {
         try {
             /**
              * // NOTE:
@@ -97,7 +81,17 @@ export class CompatHTML {
              * - If feature does not have compat data, we ignore it.
              */
 
-            return collection[featureName].__compat.support;
+            const accessor = subfeatureName ?
+                [featureName, subfeatureName] :
+                [featureName];
+
+            const feature: Identifier = get(collection, accessor);
+
+            if (!feature || !feature.__compat) {
+                throw new Error('Missing compatibility information');
+            }
+
+            return feature.__compat.support;
         } catch (error) {
             return {} as SupportBlock;
         }
@@ -105,12 +99,5 @@ export class CompatHTML {
 
     private async walk(callback: (element: ElementFound) => any): Promise<void> {
         await this.hintContext.on('element::*', callback.bind(this));
-    }
-
-    // DUPLICATED
-    public async reportError(feature: FeatureInfo, message: string): Promise<void> {
-        const { location } = feature;
-
-        await this.hintContext.report(this.hintResource, message, { location });
     }
 }
