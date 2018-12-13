@@ -11,12 +11,6 @@ The extension is still in beta, please check the
 [troubleshooting section][troubleshoot] and if you cannot find an
 answer [open an issue in GitHub][issue github].
 
-## Prerequisites
-
-This extension requires a local install of `webhint` to run.
-
-Run `npm install hint --save-dev` to add `webhint` to your project.
-
 ## Configuration
 
 This extension uses your local `.hintrc` file to configure `webhint`.
