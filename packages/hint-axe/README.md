@@ -74,7 +74,7 @@ Run only a specified set of rules:
     "hints": {
         "axe": ["error", {
             "runOnly": {
-                "type": "hint",
+                "type": "rule",
                 "values": ["ruleId1", "ruleId2", "ruleId3" ]
             }
         }],
@@ -91,8 +91,8 @@ Run all enabled rules except for a list of rules:
     "connector": {...},
     "formatters": [...],
     "hints": {
-        "axe": ["error",{
-            "hints": {
+        "axe": ["error", {
+            "rules": {
                 "color-contrast": { "enabled": false },
                 "valid-lang": { "enabled": false }
             }
