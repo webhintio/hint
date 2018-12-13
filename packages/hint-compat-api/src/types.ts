@@ -28,6 +28,7 @@ export type FeatureInfo = {
     name: string;
     prefix?: string;
     location?: ProblemLocation;
+    displayableName?: string;
 };
 
 export type BrowsersInfo = {

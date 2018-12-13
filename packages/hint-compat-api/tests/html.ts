@@ -119,7 +119,7 @@ hintRunner.testHint(hintPath, elementAttrRemovedVersionEarlierThanTargetedBrowse
 /*
  * GLOBAL ATTRIBUTES
  */
-/* const globalAttributeNeverRemoved: HintTest[] = [
+const globalAttributeNeverRemoved: HintTest[] = [
     {
         name: 'Global attributes that were never removed should pass.',
         serverConfig: generateHTMLConfig('div')
@@ -128,6 +128,15 @@ hintRunner.testHint(hintPath, elementAttrRemovedVersionEarlierThanTargetedBrowse
 
 hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
 
+/*
+ * FIXME: Browserlist doesn't have the whole list of browsers, 
+ * so for firefox android is always returning the 63th version.
+ * This is a problem because the test only make sense for the 
+ * contextmenu attribute.
+ * https://github.com/mdn/browser-compat-data/blob/master/html/global_attributes.json
+ */
+
+/*
 const globalAttributeRemovedLaterThanTargetedBrowser: HintTest[] = [
     {
         name: 'Global attributes that were removed after the targeted browsers should pass',
@@ -155,7 +164,8 @@ const globalAttributeRemovedEarlierThanTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['and_ff 57'], parsers: ['html']}); */
+hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['and_ff 57'], parsers: ['html']});
+*/
 
 /*
  * INPUT TYPES
@@ -168,4 +178,5 @@ hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, 
     }
 ];
 
-hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']}); */
+hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
+*/

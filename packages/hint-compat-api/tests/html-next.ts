@@ -137,7 +137,7 @@ hintRunner.testHint(hintPath, elementAttrVersionAddedFalse, { browserslist: ['ie
 /*
  * GLOBAL ATTRIBUTES
  */
-/* const globalAttrVersionAddedNull: HintTest[] = [
+const globalAttrVersionAddedNull: HintTest[] = [
     {
         name: 'Global attributes that have version added as null should pass.',
         serverConfig: generateHTMLConfig('global-attr-autocapitalize')
@@ -149,12 +149,12 @@ hintRunner.testHint(hintPath, globalAttrVersionAddedNull, { browserslist: ['last
 const globalAttrVersionAddedFalse: HintTest[] = [
     {
         name: 'Global attributes that have version added as false should fail.',
-        reports: [{ message: 'global attribute dropzone is not supported on edge, firefox, ie browsers.', position: { column: 6, line: 1 }}],
+        reports: [{ message: 'global attribute dropzone is not supported on edge, firefox, ie browsers.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('global-attr-dropzone')
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrVersionAddedFalse, { browserslist: ['last 2 edge versions', 'last 2 firefox versions', 'last 2 ie versions'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttrVersionAddedFalse, { browserslist: ['last 2 edge versions', 'last 2 firefox versions', 'last 2 ie versions', 'Chrome 60'], parsers: ['html']});
 
 const globalAttrAddedInVersionBeforeTargetedBrowserVersion: HintTest[] = [
     {
@@ -177,13 +177,13 @@ hintRunner.testHint(hintPath, globalAttrAddedVersionOfTargetedBrowser, { browser
 const globalAttrAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
         name: 'Global attributes added in version after targeted browser should fail.',
-        reports: [{ message: 'global attribute class is not supported on firefox 31 browser.', position: { column: 6, line: 1 }}],
+        reports: [{ message: 'global attribute class is not added on firefox 31 browser.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('div')
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['firefox 34'], parsers: ['html']});
- */
+hintRunner.testHint(hintPath, globalAttrAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['firefox 31'], parsers: ['html']}); 
+
 /*
  * INPUT TYPES
  * Presently there are no input types that have been removed.
