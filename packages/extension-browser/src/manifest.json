@@ -12,7 +12,8 @@
     "manifest_version": 2,
     "name": "webhint",
     "permissions": [
-        "<all_urls>"
+        "<all_urls>",
+        "webNavigation"
     ],
     "version": "1.0"
 }

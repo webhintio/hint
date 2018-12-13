@@ -47,9 +47,25 @@ const injectContentScript = (tabId: number, retries = 0) => {
 /** Turn on request tracking for the specified tab. */
 const enable = (tabId: number) => {
     readyTabs.delete(tabId);
-    browser.tabs.reload(tabId, { bypassCache: true }, () => {
-        injectContentScript(tabId);
-    });
+    let timeout = 0;
+
+    // Wait until the page is committed to being rendered before injecting the content script.
+    const onCommitted = (details: chrome.webNavigation.WebNavigationTransitionCallbackDetails) => {
+        if (details.tabId === tabId && details.frameId === 0) {
+            browser.webNavigation.onCommitted.removeListener(onCommitted);
+            clearTimeout(timeout);
+            injectContentScript(tabId);
+        }
+    };
+
+    browser.webNavigation.onCommitted.addListener(onCommitted);
+
+    // Failsafe to ensure we don't leave a `webNavigation` listener active if the reload fails.
+    timeout = setTimeout(() => {
+        browser.webNavigation.onCommitted.removeListener(onCommitted);
+    }, 10000) as any;
+
+    browser.tabs.reload(tabId, { bypassCache: true });
 };
 
 // Watch for new connections from devtools panels.

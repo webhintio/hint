@@ -54,7 +54,8 @@ export const stubGlobals = (dom?: JSDOM): Globals => {
                 executeScript: () => {},
                 reload: () => {},
                 sendMessage: () => {}
-            }
+            },
+            webNavigation: { onCommitted: stubEvent() }
         },
         document: dom ? dom.window.document : null,
         eval: dom ? dom.window.eval : null,

@@ -32,16 +32,8 @@ const loadBackgroundScript = (globals: Globals) => {
  * Note: Returned method must be called *after* loading the background script.
  */
 const prepareContentScriptInjection = (sandbox: SinonSandbox, browser: typeof chrome) => {
+    const onCommittedPromise = awaitListener(sandbox, browser.webNavigation.onCommitted);
     const onMessagePromise = awaitListener(sandbox, browser.runtime.onMessage);
-
-    const reloadPromise = new Promise((resolve) => {
-        browser.tabs.reload = ((id: number, opts: any, fn: Function) => {
-            setTimeout(() => {
-                fn();
-                resolve();
-            }, 0);
-        }) as any;
-    });
 
     return async (tabId: number): Promise<void> => {
 
@@ -50,7 +42,10 @@ const prepareContentScriptInjection = (sandbox: SinonSandbox, browser: typeof ch
         // Simulate receiving `Events.enable` from the devtools panel.
         onMessage({ enable: {} }, { tab: { id: tabId } } as any, () => {});
 
-        await reloadPromise;
+        const onCommitted = await onCommittedPromise;
+
+        // Simulate receiving `browser.webNavigation.onCommitted` to trigger content script injection.
+        onCommitted({ frameId: 0, tabId } as any);
     };
 };
 
