@@ -1,23 +1,33 @@
+import * as fs from 'fs';
 import * as path from 'path';
+import { promisify } from 'util';
 
 import { cloneDeep } from 'lodash';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { FetchEnd, IJSONResult, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
+import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
+import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 
 import { TypeScriptConfig, TypeScriptConfigEvents } from './types';
 
 export * from './types';
 
+const debug = d(__filename);
+const oneDay = 3600000 * 24;
+
 export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvents> {
     private schema: any;
+    private schemaUpdated: boolean = false;
+    private schemaPath: string = path.join(__dirname, 'schema.json');
 
     public constructor(engine: Engine<TypeScriptConfigEvents>) {
         super(engine, 'typescript-config');
 
-        this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
+        this.schema = loadJSONFile(this.schemaPath);
 
         engine.on('fetch::end::*', this.parseTypeScript.bind(this));
     }
@@ -37,6 +47,54 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
         }
 
         return validationResult;
+    }
+
+    private compilerOptionsExists(schema: any) {
+        return schema.definitions &&
+            schema.definitions.compilerOptionsDefinition &&
+            schema.definitions.compilerOptionsDefinition.properties &&
+            schema.definitions.compilerOptionsDefinition.properties.compilerOptions;
+    }
+
+    private typeAcquisitionExists(schema: any) {
+        return schema.definitions &&
+            schema.definitions.typeAcquisitionDefinition &&
+            schema.definitions.typeAcquisitionDefinition.properties &&
+            schema.definitions.typeAcquisitionDefinition.properties.typeAcquisition;
+    }
+
+    private async updateSchema() {
+        let schemaStat: fs.Stats;
+        const now = Date.now();
+
+        try {
+            schemaStat = await promisify(fs.stat)(this.schemaPath);
+
+            const modified = new Date(schemaStat.mtime).getTime();
+
+            if (now - modified > oneDay) {
+                debug('TypeScript Schema is older than 24h.');
+                debug('Updating TypeScript Schema');
+                const res = JSON.parse(await requestAsync('http://json.schemastore.org/tsconfig'));
+
+                if (this.compilerOptionsExists(res)) {
+                    res.definitions.compilerOptionsDefinition.properties.compilerOptions.additionalProperties = false;
+                }
+
+                if (this.typeAcquisitionExists(res)) {
+                    res.definitions.typeAcquisitionDefinition.properties.typeAcquisition.additionalProperties = false;
+                }
+
+                this.schema = res;
+
+                await writeFileAsync(this.schemaPath, JSON.stringify(res, null, 2));
+            }
+        } catch (e) {
+            debug(e);
+            debug(`Error loading typescript schema`);
+        }
+
+        this.schemaUpdated = true;
     }
 
     private async parseTypeScript(fetchEnd: FetchEnd) {
@@ -62,6 +120,10 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
         let result: IJSONResult;
 
         try {
+            if (!this.schemaUpdated) {
+                await this.updateSchema();
+            }
+
             result = parseJSON(fetchEnd.response.body.content);
 
             const originalConfig = cloneDeep(result.data);

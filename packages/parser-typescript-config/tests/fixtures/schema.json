@@ -55,10 +55,13 @@
     "compilerOptionsDefinition": {
       "properties": {
         "compilerOptions": {
-          "additionalProperties": false,
           "type": "object",
           "description": "Instructs the TypeScript compiler how to compile .ts files.",
           "properties": {
+            "newProperty": {
+                "description": "New property description",
+                "type": "string"
+            },
             "charset": {
               "description": "The character set of the input files.",
               "type": "string"
@@ -469,7 +472,6 @@
     "typeAcquisitionDefinition": {
       "properties": {
         "typeAcquisition": {
-          "additionalProperties": false,
           "type": "object",
           "description": "Auto type (.d.ts) acquisition options for this project. Requires TypeScript version 2.1 or later.",
           "properties": {
