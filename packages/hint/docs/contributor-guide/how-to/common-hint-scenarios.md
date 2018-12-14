@@ -9,7 +9,7 @@ documented here, please [open an issue][new issue] so we can help you.
 Users can tell `webhint` what browsers are important for them via a
 [`browserslist` property added in `.hintrc`][browserconfiguration] or in
 the `package.json` file. Hints can access this list (and modify their feedback)
-via the property `content.targetedBrowsers`.
+via the property `context.targetedBrowsers`.
 
 You can have access to the list, and thus modify
 the feedback of your hint, via the property `context.targetedBrowsers`.
