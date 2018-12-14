@@ -19,11 +19,13 @@ export type BrowserVersions = {
     [key: string]: string[];
 };
 
+// eslint-disable: no-use-before-define, typescript/no-use-before-define
 export type FeatureInfo = {
-    info: any;
     name: string;
     prefix?: string;
     location?: ProblemLocation;
+    displayableName?: string;
+    subFeature?: FeatureInfo;
 };
 
 export type BrowsersInfo = {
@@ -35,4 +37,8 @@ export type SupportStatementResult = {
     groupedBrowserSupport: {[browserName: string]: string[]};
     browsersToSupportCount: number;
     notSupportedBrowsersCount: number;
+};
+
+export type UserPrefixes = {
+    [key: string]: boolean;
 };

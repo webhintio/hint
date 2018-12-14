@@ -1,14 +1,14 @@
 /**
- * @fileoverview Hint to validate if the CSS features of the project are deprecated
+ * @fileoverview Hint to validate if the HTML features of the project are deprecated
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { StyleEvents } from '@hint/parser-css/dist/src/types';
-import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
+import { HTMLEvents } from '../../parser-html/dist/src/types';
 
-import meta from './meta/css';
-import BaseCCSHint from './css-base';
+import BaseHTMLHint from './html-base';
+import meta from './meta/html';
 import { CSSFeatureStatus } from './enums';
+import { SimpleSupportStatement, VersionValue } from './types-mdn.temp';
 import { FeatureInfo, BrowsersInfo } from './types';
 
 /*
@@ -17,10 +17,10 @@ import { FeatureInfo, BrowsersInfo } from './types';
  * ------------------------------------------------------------------------------
  */
 
-export default class CCSHint extends BaseCCSHint {
+export default class HTMLHint extends BaseHTMLHint {
     public static readonly meta = meta;
 
-    public constructor(context: HintContext<StyleEvents>) {
+    public constructor(context: HintContext<HTMLEvents>) {
         super(context, CSSFeatureStatus.Supported, false);
     }
 

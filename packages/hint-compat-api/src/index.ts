@@ -2,10 +2,16 @@
  * @fileoverview description
  */
 
-import * as compatApiCss from './css';
-import * as compatApiCssNext from './css-next';
+import * as CCSHint from './css';
+import * as CCSNextHint from './css-next';
+import * as HTMLHint from './html';
+import * as HTMLNextHint from './html-next';
+
+/* eslint-disable quote-props */
 
 module.exports = {
-    css: compatApiCss,
-    'css-next': compatApiCssNext
+    'css': CCSHint,
+    'css-next': CCSNextHint,
+    'html': HTMLHint,
+    'html-next': HTMLNextHint
 };

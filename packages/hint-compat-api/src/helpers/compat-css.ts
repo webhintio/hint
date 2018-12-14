@@ -8,30 +8,15 @@ import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
 import { FeatureStrategy, MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
-import { CachedCompatFeatures } from './cached-compat-features';
-import { SupportBlock } from '../types-mdn.temp';
+import { SupportBlock, CompatStatement } from '../types-mdn.temp';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { CompatBase } from './compat-base';
 
 const debug: debug.IDebugger = d(__filename);
 
-export class CompatCSS {
-    private testFunction: TestFeatureFunction;
-    private cachedFeatures: CachedCompatFeatures;
-    private hintContext: HintContext;
-    private hintResource: string = 'unknown';
-
+export class CompatCSS extends CompatBase {
     public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
-        if (!testFunction) {
-            throw new Error('You must set test function before test a feature.');
-        }
-
-        this.testFunction = testFunction;
-        this.hintContext = hintContext;
-        this.cachedFeatures = new CachedCompatFeatures();
-    }
-
-    public setResource(hintResource: string): void {
-        this.hintResource = hintResource;
+        super(hintContext, testFunction);
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
@@ -47,7 +32,7 @@ export class CompatCSS {
         };
     }
 
-    public async searchCSSFeatures(data: MDNTreeFilteredByBrowsers, parse: StyleParse): Promise<void> {
+    public async searchFeatures(data: MDNTreeFilteredByBrowsers, parse: StyleParse): Promise<void> {
         await parse.ast.walk(async (node: ChildNode) => {
             const strategy = this.chooseStrategyToSearchCSSFeature(node);
             const location = this.getProblemLocationFromNode(node);
@@ -116,67 +101,34 @@ export class CompatCSS {
         return selectedStrategy as FeatureStrategy<ChildNode>;
     }
 
-    private async testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): Promise<void> {
-        const featureData = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
-
-        if (!featureData) {
-            return;
-        }
-
-        featureData.location = location;
-
-        const localFeatureNameWithPrefix: string = this.getFeatureNameWithPrefix(featureData);
-
-        if (this.cachedFeatures.isCached(localFeatureNameWithPrefix)) {
-            await this.cachedFeatures.showCachedErrors(localFeatureNameWithPrefix, this.hintContext, location);
-
-            return;
-        }
-
-        this.cachedFeatures.add(localFeatureNameWithPrefix);
-
-        // Check for each browser the support block
-        const supportBlock: SupportBlock = featureData.info.support;
-
-        await this.testFunction(featureData, supportBlock);
-    }
-
-    public validateStrategy(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): FeatureInfo | null {
-        let [prefix, featureName] = this.getPrefix(featureNameWithPrefix);
-
-        const strategyContent: any = data[strategyName];
+    private async testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation, subfeatureNameWithPrefix?: string): Promise<void> {
+        const strategyContent: CompatStatement | undefined = data[strategyName];
 
         if (!strategyContent) {
             // Review: Throw an error
             debug('Error: The strategy does not exist.');
 
-            return null;
+            return;
         }
 
-        let feature = strategyContent[featureName];
+        const [prefix, name] = this.getPrefix(featureNameWithPrefix);
+        const feature: FeatureInfo = { displayableName: name, location, name, prefix };
 
-        // If feature is not in the filtered by browser data, that means that is always supported.
-        if (!feature) {
-            return null;
+        if (subfeatureNameWithPrefix) {
+            const [prefix, name] = this.getPrefix(subfeatureNameWithPrefix);
+
+            feature.subFeature = { name, prefix };
+            feature.displayableName = name;
         }
 
-        if (optionalChildrenNameWithPrefix) {
-            [prefix, featureName] = this.getPrefix(optionalChildrenNameWithPrefix);
-            feature = feature[featureName];
-
-            if (!feature) {
-                return null;
-            }
+        if (this.isFeatureAlreadyInUse(feature)) {
+            return;
         }
 
-        // If feature does not have compat data, we ignore it.
-        const featureInfo = feature.__compat;
+        // Check for each browser the support block
+        const supportBlock: SupportBlock = this.getSupportBlock(strategyContent, feature);
 
-        if (!featureInfo || !featureInfo.support) {
-            return null;
-        }
-
-        return { info: featureInfo, name: featureName, prefix };
+        await this.testFunction(feature, supportBlock);
     }
 
     private getPrefix(name: string): [string | undefined, string] {
@@ -185,19 +137,5 @@ export class CompatCSS {
         const prefix = matched && matched.length > 0 ? matched[0] : undefined;
 
         return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
-    }
-
-    public async reportError(feature: FeatureInfo, message: string): Promise<void> {
-        const { location } = feature;
-        const featureNameWithPrefix: string = this.getFeatureNameWithPrefix(feature);
-
-        this.cachedFeatures.addError(featureNameWithPrefix, this.hintResource, message, location);
-        await this.hintContext.report(this.hintResource, message, { location });
-    }
-
-    private getFeatureNameWithPrefix(feature: FeatureInfo): string {
-        const prefix: string = feature.prefix ? `${feature.prefix}` : '';
-
-        return prefix + feature.name;
     }
 }
