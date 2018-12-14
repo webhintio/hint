@@ -1,4 +1,4 @@
-# CSS parser (`@hint/parser-css`)
+# CSS (`@hint/parser-css`)
 
 The `CSS` parser is built on top of [PostCSS][postcss] so hints can
 analyze `CSS` files.

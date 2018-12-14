@@ -1,3 +1,5 @@
+import { document } from './globals';
+
 const basePrefix = '__html';
 const pathAttr = 'data-path';
 

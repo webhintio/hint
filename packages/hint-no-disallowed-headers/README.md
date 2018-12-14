@@ -82,7 +82,6 @@ HTTP/... 200 OK
 
 ## How to configure the server to pass this hint
 
-<!-- markdownlint-disable MD033 -->
 <details><summary>How to configure Apache</summary>
 
 If the headers are sent, in most cases, to make Apache stop sending
@@ -214,8 +213,6 @@ The above snippet will use a [`URL rewrite`][url rewrite] rule to
 remove the `Server` header from any request that contains it.
 
 </details>
-
-<!-- markdownlint-enable MD033 -->
 
 ## Can the hint be configured?
 

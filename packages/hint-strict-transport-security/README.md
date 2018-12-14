@@ -117,7 +117,6 @@ HTTP/... 200 OK
 
 ## How to configure the server to pass this hint
 
-<!-- markdownlint-disable MD033 -->
 <details><summary>How to configure Apache</summary>
 
 Apache can be configured to serve resources with the
@@ -178,8 +177,6 @@ For the complete set of configurations, not just for this rule,
 see the [IIS server configuration related documentation][iis config].
 
 </details>
-
-<!-- markdownlint-enable MD033 -->
 
 ## Can the hint be configured?
 

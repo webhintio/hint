@@ -12,7 +12,7 @@ need to be sure that your configuration is the best for your needs.
 
 * [typescript-config/import-helpers][import-helpers]
 * [typescript-config/is-valid][is-valid]
-* [typescript-config/no-comment][no-comment]
+* [typescript-config/no-comments][no-comments]
 * [typescript-config/strict][strict]
 * [typescript-config/target][target]
 
@@ -54,7 +54,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 [import-helpers]: ./docs/import-helpers.md
 [is-valid]: ./docs/is-valid.md
-[no-comment]: ./docs/no-comment.md
+[no-comments]: ./docs/no-comments.md
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [strict]: ./docs/strict.md
 [target]: ./docs/target.md

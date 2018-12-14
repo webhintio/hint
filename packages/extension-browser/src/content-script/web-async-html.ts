@@ -5,6 +5,8 @@ import {
     IAsyncWindow
 } from 'hint/src/lib/types';
 
+import { eval } from '../shared/globals';
+
 export class AsyncHTMLElement implements IAsyncHTMLElement {
     public ownerDocument: IAsyncHTMLDocument;
 
@@ -50,13 +52,7 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
     }
 
     public pageHTML(): Promise<string> {
-        if (this._pageHTML) {
-            return Promise.resolve(this._pageHTML);
-        }
-
-        const root = this._document.documentElement;
-
-        return Promise.resolve(root ? root.outerHTML : '');
+        return Promise.resolve(this._pageHTML);
     }
 
     public setPageHTML(pageHTML: string) {

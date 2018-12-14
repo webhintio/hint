@@ -13,13 +13,13 @@ charset for the response as, among other:
 
 * [resources served with the wrong media type may be blocked][blocked
   resources] (see also: [`X-Content-Type-Options`
-  hint](../hint-x-content-type-options)), or the official [media type
+  hint][x content type options]), or the official [media type
   may be required][required media type]
 
 * not sending the appropriate `charset`, where appropriate, may
   [prevent things from being rendered correctly][incorrect rendering]
   thus creating a bad user experience (see also:
-  [`meta-charset-utf-8` hint](../hint-meta-charset-utf-8))
+  [`meta-charset-utf-8` hint][meta charset hint])
 
 ## What does the hint check?
 
@@ -419,7 +419,7 @@ In the [`.hintrc`][hintrc] file:
 }
 ```
 
-Note: You can also use the [`ignoredUrls`](../index.md#rule-configuration)
+Note: You can also use the [`ignoredUrls`][hint configuration]
 property from the `.hintrc` file to exclude domains you don’t control
 (e.g.: CDNs) from these checks.
 
@@ -482,3 +482,6 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [iis config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [mime.types iis]: https://support.microsoft.com/en-us/help/936496/description-of-the-default-settings-for-the-mimemap-property-and-for-t
 [mimeMap]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/staticcontent/mimemap
+[x content type options]: https://webhint.io/docs/user-guide/hints/hint-x-content-type-options/
+[meta charset hint]: https://webhint.io/docs/user-guide/hints/hint-meta-charset-utf-8/
+[hint configuration]: https://webhint.io/docs/user-guide/concepts/hints/#hint-configuration

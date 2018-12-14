@@ -1,4 +1,4 @@
-# JSDOM connector (`@hint/connector-jsdom`)
+# jsdom (`@hint/connector-jsdom`)
 
 A connector to use [jsdom][jsdom] in `webhint`.
 

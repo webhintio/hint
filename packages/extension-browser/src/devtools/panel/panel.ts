@@ -1,4 +1,4 @@
-import browser from '../../shared/browser';
+import { browser, document } from '../../shared/globals';
 import { mapHeaders } from '../../shared/headers';
 import { Config, Events } from '../../shared/types';
 
