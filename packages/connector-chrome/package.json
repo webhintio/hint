@@ -14,7 +14,7 @@
   },
   "description": "hint connector for Google Chrome",
   "devDependencies": {
-    "@hint/utils-create-server": "^2.0.0",
+    "@hint/utils-create-server": "^2.0.1",
     "@types/is-ci": "^1.1.0",
     "@types/lockfile": "^1.0.0",
     "@types/lodash": "^4.14.118",
