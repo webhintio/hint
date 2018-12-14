@@ -2,7 +2,7 @@
 
 `disown-opener` checks if the `rel` attribute is specified with both
 the `noopener` and `noreferrer` values (or only `noopener` if all the
-[targeted browsers](../index.md#browser-configuration) support it) on
+[targeted browsers][browser configuration] support it) on
 `a` and `area` elements that have `target="_blank"` and link to other
 origins.
 
@@ -46,7 +46,7 @@ Notes:
   so to ensure that things work as expected in as many
   browsers as possible, by default, the hint requires both the
   `noopener` and `noreferrer` values to be specified. However,
-  if all the [targeted browsers](../index.md#browser-configuration)
+  if all the [targeted browsers][browser configuration]
   support `noopener`, only `noopener` will be required.
 
 * The reason why the hint does not check the same origin links by
@@ -172,7 +172,7 @@ In the [`.hintrc`][hintrc] file:
 ```
 
 Also, note that this hint takes into consideration the [targeted
-browsers](../index.md#browser-configuration), and if all of them
+browsers][browser configuration], and if all of them
 support the `noopener` value, the hint won’t require the `noreferrer`
 value.
 
@@ -223,3 +223,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [tab nabbing]: http://www.azarask.in/blog/post/a-new-type-of-phishing-attack/
 [window.opener]: https://developer.mozilla.org/en-US/docs/Web/API/Window/opener
+[browser configuration]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/

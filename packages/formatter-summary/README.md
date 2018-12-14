@@ -1,4 +1,4 @@
-# Summary formatter (`@hint/formatter-summary`)
+# Summary (`@hint/formatter-summary`)
 
 The `summary` formatter prints the results of a site analysis in
 a table with how many errors or warnings a hint has found:

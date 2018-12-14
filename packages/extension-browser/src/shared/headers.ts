@@ -2,6 +2,7 @@ import { HttpHeaders } from 'hint/dist/src/lib/types';
 
 /** Convert `webRequest` or `devtools.network` headers to `hint` headers. */
 export const mapHeaders = (webRequestHeaders: { name: string; value?: string }[]): HttpHeaders => {
+    /* istanbul ignore if */
     if (!webRequestHeaders) {
         return {};
     }

@@ -1,4 +1,4 @@
-# HTML parser (`@hint/parser-html`)
+# HTML (`@hint/parser-html`)
 
 The `HTML` parser is built on top of [`jsdom`][jsdom] so hints can
 analyze `HTML` files.

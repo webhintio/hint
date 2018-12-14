@@ -1,7 +1,7 @@
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { FormatterOptions, HintResources, IFormatter, IHintConstructor, Problem, Severity } from 'hint/dist/src/lib/types';
 
-import browser from '../shared/browser';
+import { browser } from '../shared/globals';
 import { CategoryResults, HintResults } from '../shared/types';
 
 export default class WebExtensionFormatter implements IFormatter {

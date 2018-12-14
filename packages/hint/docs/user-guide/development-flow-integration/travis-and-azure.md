@@ -413,7 +413,7 @@ The following is a functional `.travis.yml` that does the following:
 **NOTE**: This will not change the status of your build if `webhint`
 fails in staging. To achieve that you will have to combine all the
 stages after `script` into `script`
-([webhint.io's `.travis.yml`][webhintiotravis] does that).
+([webhint.io's `.travis.yml`][webhintio travis] does that).
 
 <!-- markdownlint-disable MD013 -->
 

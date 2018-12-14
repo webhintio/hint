@@ -84,7 +84,6 @@ X-XSS-Protection: 1; mode=block
 
 ## How to configure the server to pass this hint
 
-<!-- markdownlint-disable MD033 -->
 <details><summary>How to configure Apache</summary>
 
 Apache can be configured to remove headers using the [`Header`
@@ -202,8 +201,6 @@ For the complete set of configurations, not just for this rule,
 see the [IIS server configuration related documentation][iis config].
 
 </details>
-
-<!-- markdownlint-enable MD033 -->
 
 ## Can the hint be configured?
 

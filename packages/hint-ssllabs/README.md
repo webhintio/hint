@@ -120,7 +120,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 ## Further Reading
 
 * [SSL and TLS Deployment Best Practices][ssl best practices]
-* [SSL Pulse](https://www.trustworthyinternet.org/ssl-pulse/)
+* [SSL Pulse](https://www.ssllabs.com/ssl-pulse/)
 * [SSL Labs Research wiki](https://github.com/ssllabs/research/wiki)
 
 <!-- Link labels: -->

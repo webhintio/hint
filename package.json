@@ -16,12 +16,12 @@
     "listr": "^0.14.2",
     "listr-input": "^0.1.2",
     "loop": "^3.0.6",
-    "markdownlint-cli": "^0.13.0",
+    "markdownlint": "^0.11.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.2",
     "shelljs": "^0.8.3",
     "typescript": "^3.1.6",
-    "typescript-eslint-parser": "20.1.1",
+    "typescript-eslint-parser": "21.0.2",
     "yargs": "^12.0.5"
   },
   "engines": {
@@ -56,7 +56,7 @@
     "clean:packages": "rimraf \"packages/!(connector-edge|extension-vscode)/{dist,node_modules,npm-shrinkwrap.json,package-lock.json,yarn.lock}\"",
     "clean:root": "rimraf dist",
     "lint": "npm-run-all lint:*",
-    "lint:md": "markdownlint *.md",
+    "lint:md": "node scripts/lint-markdown",
     "lint:packages": "loop \"yarn lint\" --cwd packages --exclude configuration-development,configuration-progressive-web-apps,configuration-web-recommended",
     "lint:scripts": "eslint scripts .travis --cache --ext js --ext ts --report-unused-disable-directives",
     "pre-release": "npm run clean:packages && npm run build:scripts && npm run release -- --prerelease",

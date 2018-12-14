@@ -29,7 +29,7 @@ export default abstract class BaseHTMLHint implements IHint {
         const { resource } = htmlParse;
 
         this.compatHTML.setResource(resource);
-        await this.compatHTML.searchHTMLFeatures(this.compatApi.compatDataApi, htmlParse);
+        await this.compatHTML.searchFeatures(this.compatApi.compatDataApi, htmlParse);
     }
 
     private async testFeatureIsSupported(feature: FeatureInfo, supportBlock: SupportBlock): Promise<void> {
@@ -125,13 +125,13 @@ export default abstract class BaseHTMLHint implements IHint {
     }
 
     private getNotSupportedBrowserMessage(feature: FeatureInfo): string {
-        return `${feature.name.toLowerCase()} element is not supported on any of your browsers to support.`;
+        return `${feature.displayableName} is not supported on any of your browsers to support.`;
     }
 
     private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, action: CSSFeatureStatus = CSSFeatureStatus.Supported): string {
         const stringifiedBrowserInfo = this.stringifyBrowserInfo(groupedBrowserSupport);
 
-        return `${feature.name.toLowerCase()} element is not ${action} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
+        return `${feature.displayableName} is not ${action} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
     }
 
     private hasMultipleBrowsers(message: string) {

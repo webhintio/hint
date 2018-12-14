@@ -219,7 +219,7 @@ If versions of Safari for iOS 9+ are targeted:
 ## Can the hint be configured?
 
 This hint takes into consideration the [targeted
-browsers](../index.md#browser-configuration), and if no
+browsers][browser configuration], and if no
 versions of Safari for iOS < 9 are included, it will not
 require `initial-scale=1`.
 
@@ -277,3 +277,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [spec]: https://drafts.csswg.org/css-device-adapt/#viewport-meta
 [tap delay]: https://developers.google.com/web/updates/2013/12/300ms-tap-delay-gone-away
 [viewport meta tag on mdn]: https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag
+[browser configuration]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/

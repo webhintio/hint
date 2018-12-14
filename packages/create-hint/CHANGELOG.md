@@ -1,3 +1,11 @@
+# 2.0.2 (December 12, 2018)
+
+## Bug fixes / Improvements
+
+* [[`1fb8024b57`](https://github.com/webhintio/hint/commit/1fb8024b57f94552303258ab31b11d8d6de8a415)] - Docs: Fix some links (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`c412f9aa7b`](https://github.com/webhintio/hint/commit/c412f9aa7ba99eb7ef6c20b7c496d629530f3ecf)] - Docs: Fix reference links and remove `markdownlint-cli` dependency (#1566) (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 2.0.1 (November 27, 2018)
 
 ## Bug fixes / Improvements

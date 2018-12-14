@@ -1,4 +1,4 @@
-# Stylish formatter (`@hint/formatter-stylish`)
+# Stylish (`@hint/formatter-stylish`)
 
 The `stylish` formatter prints the results in table format indicating
 the resource, line, and column:
