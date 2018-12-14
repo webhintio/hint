@@ -19,12 +19,13 @@ export type BrowserVersions = {
     [key: string]: string[];
 };
 
+// eslint-disable: no-use-before-define, typescript/no-use-before-define
 export type FeatureInfo = {
-    supportBlock: SupportBlock;
     name: string;
     prefix?: string;
     location?: ProblemLocation;
     displayableName?: string;
+    subFeature?: FeatureInfo;
 };
 
 export type BrowsersInfo = {
