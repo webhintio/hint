@@ -57,7 +57,7 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
                 return;
             }
 
-            if (typescriptEvent.config.compilerOptions && typescriptEvent.config.compilerOptions.module !== 'esnext') {
+            if (typescriptEvent.config.compilerOptions && (typescriptEvent.config.compilerOptions.module as any).toLowerCase() !== 'esnext') {
                 await context.report(typescriptEvent.resource, 'TypeScript `compilerOptions.module` option should be `esnext`');
             }
         };

@@ -63,35 +63,58 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
             schema.definitions.typeAcquisitionDefinition.properties.typeAcquisition;
     }
 
-    private async updateSchema() {
-        let schemaStat: fs.Stats;
-        const now = Date.now();
+    private async getFileStat(file: string): Promise<fs.Stats | null> {
+        let stats: fs.Stats | null = null;
 
         try {
-            schemaStat = await promisify(fs.stat)(this.schemaPath);
-
-            const modified = new Date(schemaStat.mtime).getTime();
-
-            if (now - modified > oneDay) {
-                debug('TypeScript Schema is older than 24h.');
-                debug('Updating TypeScript Schema');
-                const res = JSON.parse(await requestAsync('http://json.schemastore.org/tsconfig'));
-
-                if (this.compilerOptionsExists(res)) {
-                    res.definitions.compilerOptionsDefinition.properties.compilerOptions.additionalProperties = false;
-                }
-
-                if (this.typeAcquisitionExists(res)) {
-                    res.definitions.typeAcquisitionDefinition.properties.typeAcquisition.additionalProperties = false;
-                }
-
-                this.schema = res;
-
-                await writeFileAsync(this.schemaPath, JSON.stringify(res, null, 2));
-            }
+            stats = await promisify(fs.stat)(file);
         } catch (e) {
+            debug('Error getting the schema file stats');
             debug(e);
-            debug(`Error loading typescript schema`);
+        }
+
+        return stats;
+    }
+
+    private async downloadSchema(): Promise<any> {
+        let schema: any = null;
+
+        try {
+            schema = JSON.parse(await requestAsync('http://json.schemastore.org/tsconfig'));
+
+        } catch (e) {
+            debug('Error downloading the schema file');
+            debug(e);
+        }
+
+        return schema;
+    }
+
+    private async updateSchema(): Promise<void> {
+        const now = Date.now();
+
+        const schemaStat: fs.Stats | null = await this.getFileStat(this.schemaPath);
+
+        const modified: number = schemaStat ? new Date(schemaStat.mtime).getTime() : Date.now();
+
+        if (!schemaStat || (now - modified > oneDay)) {
+            debug('TypeScript Schema is older than 24h.');
+            debug('Updating TypeScript Schema');
+
+            const schema = await this.downloadSchema();
+
+            if (this.compilerOptionsExists(schema)) {
+                schema.definitions.compilerOptionsDefinition.properties.compilerOptions.additionalProperties = false;
+            }
+
+            if (this.typeAcquisitionExists(schema)) {
+                schema.definitions.typeAcquisitionDefinition.properties.typeAcquisition.additionalProperties = false;
+            }
+
+            this.schema = schema;
+
+            await writeFileAsync(this.schemaPath, JSON.stringify(schema, null, 2));
+
         }
 
         this.schemaUpdated = true;
@@ -111,7 +134,7 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
          * tsconfigimproved.json
          * anythingelse.json
          */
-        if (!fileName.match(/^tsconfig\.([^.]*\.)?json/gi)) {
+        if (!fileName.match(/^tsconfig\.([^.]*\.)?json$/gi)) {
             return;
         }
 
