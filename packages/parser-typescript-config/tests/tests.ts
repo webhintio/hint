@@ -68,7 +68,7 @@ test(`If the resource doesn't match the regex, nothing should happen`, async (t)
     sandbox.restore();
 });
 
-test.serial('If the file contains an invalid json, it should fail', async (t) => {
+test('If the file contains an invalid json, it should fail', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -89,7 +89,7 @@ test.serial('If the file contains an invalid json, it should fail', async (t) =>
     sandbox.restore();
 });
 
-test.serial('If the file contains a valid json with an invalid schema, it should fail', async (t) => {
+test('If the file contains a valid json with an invalid schema, it should fail', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -109,7 +109,7 @@ test.serial('If the file contains a valid json with an invalid schema, it should
     sandbox.restore();
 });
 
-test.serial('If we receive a valid json with a valid name, it should emit the event parse::end::typescript-config', async (t) => {
+test('If we receive a valid json with a valid name, it should emit the event parse::end::typescript-config', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -155,7 +155,7 @@ test.serial('If we receive a valid json with a valid name, it should emit the ev
     sandbox.restore();
 });
 
-test.serial('If we receive a valid json with an extends, it should emit the event parse::end::typescript-config with the right data', async (t) => {
+test('If we receive a valid json with an extends, it should emit the event parse::end::typescript-config with the right data', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -201,7 +201,7 @@ test.serial('If we receive a valid json with an extends, it should emit the even
     sandbox.restore();
 });
 
-test.serial('If we receive a json with an extends with a loop, it should emit the event parse::error::typescript-config::circular', async (t) => {
+test('If we receive a json with an extends with a loop, it should emit the event parse::error::typescript-config::circular', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
@@ -222,7 +222,7 @@ test.serial('If we receive a json with an extends with a loop, it should emit th
     sandbox.restore();
 });
 
-test.serial('If we receive a json with an extends with an invalid json, it should emit the event parse::error::typescript-config::extends', async (t) => {
+test('If we receive a json with an extends with an invalid json, it should emit the event parse::error::typescript-config::extends', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.spy(t.context.engine, 'emitAsync');
