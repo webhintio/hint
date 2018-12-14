@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-connector-tools": "^2.0.0",
+    "@hint/utils-connector-tools": "^2.0.1",
     "jsdom": "^13.0.0",
     "mutationobserver-shim": "^0.3.2",
     "node-pre-gyp": "^0.12.0",
