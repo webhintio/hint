@@ -5,9 +5,8 @@
 import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ElementFound, IAsyncHTMLElement, ProblemLocation, AsyncHTMLAttribute, IAsyncNamedNodeMap } from 'hint/dist/src/lib/types';
-import { SupportBlock, Identifier, CompatStatement } from '../types-mdn.temp';
+import { SupportBlock, CompatStatement } from '../types-mdn.temp';
 import { HTMLParse } from '../../../parser-html/dist/src/types';
-import { get } from 'lodash';
 import { CompatBase } from './compat-base';
 
 export class CompatHTML extends CompatBase {
@@ -30,71 +29,68 @@ export class CompatHTML extends CompatBase {
             }
 
             await this.testElement(element, data, location);
-            await this.testGlobalAttributes(element, data, location);
+            await this.testAttributes(element, data, location);
         });
     }
 
     private async testElement(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
-        const name = element.nodeName.toLowerCase();
         const elements = data.elements;
-        const displayableName = `${name} element`;
+        const elementName = element.nodeName.toLowerCase();
 
-        await this.testFeature(name, displayableName, elements, location);
+        const feature: FeatureInfo = {
+            displayableName: `${elementName} element`,
+            location,
+            name: elementName
+        };
+
+        await this.testFeature(elements, feature);
     }
 
-    private async testGlobalAttributes(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
+    private async testAttributes(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
         const namedNodeMap: IAsyncNamedNodeMap = element.attributes;
 
         for (let index = 0; index < namedNodeMap.length; index++) {
             const attribute: AsyncHTMLAttribute = namedNodeMap[index];
-            const globalAttributes = data.global_attributes;
-            const name = attribute.name;
-            const displayableName = `global attribute ${name}`;
 
-            await this.testFeature(name, displayableName, globalAttributes, location);
+            await this.testGlobalAttributes(element, attribute, data, location);
+            await this.testElementAttributes(element, attribute, data, location);
         }
     }
 
-    private async testFeature(name: string, displayableName: string, collection: any, location: ProblemLocation) {
-        const supportBlock: SupportBlock = this.getSupportBlock(collection, name);
+    private async testGlobalAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
+        const globalAttributes = data.global_attributes;
+        const attributeName = attribute.name;
 
         const feature: FeatureInfo = {
-            displayableName,
+            displayableName: `global attribute ${attributeName}`,
             location,
-            name,
-            supportBlock
+            name: attributeName
         };
 
+        await this.testFeature(globalAttributes, feature);
+    }
+
+    private async testElementAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
+        const elements = data.elements;
+        const elementName = element.nodeName.toLowerCase();
+
+        const feature: FeatureInfo = {
+            displayableName: `${elementName} element`,
+            location,
+            name: elementName
+        };
+
+        await this.testFeature(elements, feature);
+    }
+
+    private async testFeature(collection: CompatStatement | undefined, feature: FeatureInfo) {
         if (this.isFeatureAlreadyInUse(feature)) {
             return;
         }
 
+        const supportBlock: SupportBlock = this.getSupportBlock(collection, feature);
+
         await this.testFunction(feature, supportBlock);
-    }
-
-    private getSupportBlock(collection: CompatStatement | undefined, featureName: string, subfeatureName?: string): SupportBlock {
-        try {
-            /**
-             * // NOTE:
-             * - If feature is not in the filtered by browser data,
-             *   that means that is always supported.
-             * - If feature does not have compat data, we ignore it.
-             */
-
-            const accessor = subfeatureName ?
-                [featureName, subfeatureName] :
-                [featureName];
-
-            const feature: Identifier = get(collection, accessor);
-
-            if (!feature || !feature.__compat) {
-                throw new Error('Missing compatibility information');
-            }
-
-            return feature.__compat.support;
-        } catch (error) {
-            return {} as SupportBlock;
-        }
     }
 
     private async walk(callback: (element: ElementFound) => any): Promise<void> {

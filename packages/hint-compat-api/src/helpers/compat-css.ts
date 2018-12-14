@@ -8,7 +8,7 @@ import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
 import { FeatureStrategy, MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
-import { SupportBlock } from '../types-mdn.temp';
+import { SupportBlock, CompatStatement } from '../types-mdn.temp';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { CompatBase } from './compat-base';
 
@@ -101,61 +101,34 @@ export class CompatCSS extends CompatBase {
         return selectedStrategy as FeatureStrategy<ChildNode>;
     }
 
-    private async testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): Promise<void> {
-        const feature = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
+    private async testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation, subfeatureNameWithPrefix?: string): Promise<void> {
+        const strategyContent: CompatStatement | undefined = data[strategyName];
 
-        if (!feature) {
+        if (!strategyContent) {
+            // Review: Throw an error
+            debug('Error: The strategy does not exist.');
+
             return;
         }
 
-        feature.location = location;
+        const [prefix, name] = this.getPrefix(featureNameWithPrefix);
+        const feature: FeatureInfo = { displayableName: name, location, name, prefix };
+
+        if (subfeatureNameWithPrefix) {
+            const [prefix, name] = this.getPrefix(subfeatureNameWithPrefix);
+
+            feature.subFeature = { name, prefix };
+            feature.displayableName = name;
+        }
 
         if (this.isFeatureAlreadyInUse(feature)) {
             return;
         }
 
         // Check for each browser the support block
-        const supportBlock: SupportBlock = feature.supportBlock;
+        const supportBlock: SupportBlock = this.getSupportBlock(strategyContent, feature);
 
         await this.testFunction(feature, supportBlock);
-    }
-
-    public validateStrategy(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): FeatureInfo | null {
-        let [prefix, featureName] = this.getPrefix(featureNameWithPrefix);
-
-        const strategyContent: any = data[strategyName];
-
-        if (!strategyContent) {
-            // Review: Throw an error
-            debug('Error: The strategy does not exist.');
-
-            return null;
-        }
-
-        let feature = strategyContent[featureName];
-
-        // If feature is not in the filtered by browser data, that means that is always supported.
-        if (!feature) {
-            return null;
-        }
-
-        if (optionalChildrenNameWithPrefix) {
-            [prefix, featureName] = this.getPrefix(optionalChildrenNameWithPrefix);
-            feature = feature[featureName];
-
-            if (!feature) {
-                return null;
-            }
-        }
-
-        // If feature does not have compat data, we ignore it.
-        const featureInfo = feature.__compat;
-
-        if (!featureInfo || !featureInfo.support) {
-            return null;
-        }
-
-        return { name: featureName, prefix, supportBlock: featureInfo.support };
     }
 
     private getPrefix(name: string): [string | undefined, string] {
