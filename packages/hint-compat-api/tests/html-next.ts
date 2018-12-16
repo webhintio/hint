@@ -19,7 +19,7 @@ const generateHTMLConfig = (fileName: string) => {
  * available in:
  * https://webhint.io/docs/contributor-guide/how-to/test-hints/
  */
-
+ 
 const elementAddedAlwaysTrue: HintTest[] = [
     {
         name: 'Elements that have added as true should pass.',
@@ -140,11 +140,11 @@ hintRunner.testHint(hintPath, elementAttrVersionAddedFalse, { browserslist: ['ie
 const globalAttrVersionAddedNull: HintTest[] = [
     {
         name: 'Global attributes that have version added as null should pass.',
-        serverConfig: generateHTMLConfig('global-attr-autocapitalize')
+        serverConfig: generateHTMLConfig('global-attr-autofocus')
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrVersionAddedNull, { browserslist: ['last 2 chrome versions'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttrVersionAddedNull, { browserslist: ['last 2 and_chr versions'], parsers: ['html']});
 
 const globalAttrVersionAddedFalse: HintTest[] = [
     {
