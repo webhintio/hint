@@ -104,16 +104,14 @@ export class CompatApi {
 
         // Sometimes the API returns an array but only the first seems relevant
         if (Array.isArray(currentBrowserFeatureSupported) && currentBrowserFeatureSupported.length > 0) {
-            if (prefix) {
-                currentBrowserFeatureSupported = currentBrowserFeatureSupported.find((info) => {
-                    return info.prefix === prefix;
-                });
-            } else {
-                currentBrowserFeatureSupported = currentBrowserFeatureSupported.find((info) => {
-                    return !info.prefix;
+            currentBrowserFeatureSupported = currentBrowserFeatureSupported
+                .filter((info) => {
+                    return !info.flags;
+                })
+                .find((info) => {
+                    return prefix ? info.prefix === prefix : !info.prefix;
                 });
             }
-        }
 
         return currentBrowserFeatureSupported as SimpleSupportStatement;
     }
