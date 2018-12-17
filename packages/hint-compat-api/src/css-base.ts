@@ -111,6 +111,7 @@ export default abstract class BaseCCSHint implements IHint {
 
     private generateReportErrorMessage(feature: FeatureInfo, supportStatementResult: SupportStatementResult): string {
         const { groupedBrowserSupport, browsersToSupportCount, notSupportedBrowsersCount } = supportStatementResult;
+        let needContextMessage = false;
 
         if (notSupportedBrowsersCount > 1 && notSupportedBrowsersCount === browsersToSupportCount) {
             return this.getNotSupportedBrowserMessage(feature);
@@ -118,21 +119,20 @@ export default abstract class BaseCCSHint implements IHint {
             const browserName = Object.keys(groupedBrowserSupport)[0];
             const versions = groupedBrowserSupport[browserName];
 
-            if (versions.length > 0) {
-                return this.getNotSupportedFeatureMessage(feature, groupedBrowserSupport, this.statusName);
-            }
+            needContextMessage = versions.length > 0;
         }
 
-        return this.getNotSupportedFeatureMessage(feature, groupedBrowserSupport);
+        return this.getNotSupportedFeatureMessage(feature, groupedBrowserSupport, needContextMessage);
     }
 
     private getNotSupportedBrowserMessage(feature: FeatureInfo): string {
         return `${feature.displayableName} is not supported on any of your browsers to support.`;
     }
 
-    private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, action: CSSFeatureStatus = CSSFeatureStatus.Supported): string {
+    private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, needContextMessage: boolean): string {
         const stringifiedBrowserInfo = this.stringifyBrowserInfo(groupedBrowserSupport);
         const usedPrefix = feature.prefix ? `prefixed with ${feature.prefix} ` : '';
+        const action = needContextMessage ? this.statusName : CSSFeatureStatus.Supported;
 
         return `${feature.displayableName} ${usedPrefix ? usedPrefix : ''}is not ${action} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
     }
