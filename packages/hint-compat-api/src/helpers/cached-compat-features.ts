@@ -20,12 +20,12 @@ export class CachedCompatFeatures {
     }
 
     private getFeatureKey(feature: FeatureInfo) {
-        const featureName = feature.prefix ?
-            feature.prefix + feature.name :
-            feature.name;
+        const { prefix, name } = feature.subFeature || feature;
+        const featureName = prefix ? prefix + name : name;
 
         const location = feature.location ?
-            feature.location.column.toString() + feature.location.line.toString() : '';
+            feature.location.column.toString() +
+                feature.location.line.toString() : '';
 
         return featureName + location;
     }

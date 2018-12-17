@@ -15,16 +15,21 @@ export type FeatureStrategy<T extends ChildNode> = {
 
 export type TestFeatureFunction = (feature: FeatureInfo, supportBlock: SupportBlock) => void;
 
+/**
+ * FIXME: Maybe just TestFunction since it should be independant
+ */
+
 export type BrowserVersions = {
     [key: string]: string[];
 };
 
+// eslint-disable: no-use-before-define, typescript/no-use-before-define
 export type FeatureInfo = {
-    supportBlock: SupportBlock;
     name: string;
     prefix?: string;
     location?: ProblemLocation;
     displayableName?: string;
+    subFeature?: FeatureInfo;
 };
 
 export type BrowsersInfo = {
