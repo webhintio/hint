@@ -29,7 +29,7 @@ const tests: TestWithBrowserInfo[] = [
         browserslist: ['Edge 15', 'Chrome 63'],
         name: 'Configuration with "compilerOptions.target = es3" and modern browsers should fail',
         path: paths.es3,
-        reports: [{ message: `Based on your browser configuration your "compilerOptions.target" should be "es2016". Current one is "es3"` }]
+        reports: [{ message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "ES3"` }]
     },
     {
         browserslist: ['IE 9', 'Edge 15', 'Chrome 63'],
@@ -45,13 +45,13 @@ const tests: TestWithBrowserInfo[] = [
         browserslist: ['IE 8', 'Edge 15', 'Chrome 63'],
         name: 'Configuration with "compilerOptions.target = es2016" and old browsers should fail',
         path: paths.es2016,
-        reports: [{ message: `Based on your browser configuration your "compilerOptions.target" should be "es3". Current one is "es2016"` }]
+        reports: [{ message: `Based on your browser configuration your "compilerOptions.target" should be "ES3". Current one is "ES2016"` }]
     },
     {
         browserslist: ['Edge 15', 'Chrome 63'],
         name: 'Configuration with "compilerOptions.target = esnext" and not very old browsers should fail',
         path: paths.esnext,
-        reports: [{ message: `Based on your browser configuration your "compilerOptions.target" should be "es2016". Current one is "esnext"` }]
+        reports: [{ message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "Latest"` }]
     },
     {
         browserslist: ['IE 8', 'Edge 15', 'Chrome 63'],
@@ -60,9 +60,9 @@ const tests: TestWithBrowserInfo[] = [
     },
     {
         browserslist: ['Edge 15', 'Chrome 63'],
-        name: 'Configuration with no "compilerOptions.target" and modern browsers should pass',
+        name: `Configuration with no "compilerOptions.target" and modern browsers shouldn't pass`,
         path: paths['no-target'],
-        reports: [{ message: `Based on your browser configuration your "compilerOptions.target" should be "es2016". Current one is "es3"` }]
+        reports: [{ message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "ES3"` }]
     }
 ];
 
