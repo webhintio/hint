@@ -52,34 +52,31 @@ export class CompatApi {
     }
 
     private getFeatureByBrowsers(featureValue: CompatStatement & MDNTreeFilteredByBrowsers): CompatStatement | null {
-        const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
+        const childrenFeatures = this.getFeaturesAndChildrenRequiredToTest(featureValue);
+        const hasChildrenFeatures = Object.keys(childrenFeatures).length > 0;
+        const typedFeatures = { ...childrenFeatures, __compat: featureValue.__compat } as CompatStatement & MDNTreeFilteredByBrowsers;
 
-        typedFeatures.__compat = featureValue.__compat;
-
-        const isChildRequired = this.getFeaturesAndChildrenRequiredToTest(typedFeatures, featureValue);
-
-        if (!isChildRequired && !this.isFeatureRequiredToTest(featureValue)) {
+        if (!hasChildrenFeatures && !this.isFeatureRequiredToTest(featureValue)) {
             return null;
         }
 
         return typedFeatures;
     }
 
-    private getFeaturesAndChildrenRequiredToTest(typedFeatures: CompatStatement & MDNTreeFilteredByBrowsers, featureValue: CompatStatement & MDNTreeFilteredByBrowsers): boolean {
-        if (typeof featureValue === 'object' && Object.keys(featureValue).length > 1) {
-            return Object.entries(featureValue as object).some(([childKey, childValue]) => {
+    private getFeaturesAndChildrenRequiredToTest(featureValue: CompatStatement & MDNTreeFilteredByBrowsers): CompatStatement {
+        const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
-                if (!this.isFeatureRequiredToTest(childValue as CompatStatement & MDNTreeFilteredByBrowsers)) {
-                    return false;
-                }
-
+        if (typeof featureValue === 'object' && Object.keys(featureValue).length) {
+            Object.entries(featureValue as object)
+                .filter(([_, childValue]) => {
+                    return this.isFeatureRequiredToTest(childValue);
+                })
+                .forEach(([childKey, childValue]) => {
                 typedFeatures[childKey] = childValue;
-
-                return true;
             });
         }
 
-        return false;
+        return typedFeatures;
     }
 
     /**
