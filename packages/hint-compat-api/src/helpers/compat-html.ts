@@ -9,6 +9,9 @@ import { SupportBlock, CompatStatement } from '../types-mdn.temp';
 import { HTMLParse } from '../../../parser-html/dist/src/types';
 import { CompatBase } from './compat-base';
 
+const INPUT_TAG = 'input';
+const TYPE_ATTR = 'type';
+
 export class CompatHTML extends CompatBase {
     public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
         super(hintContext, testFunction);
@@ -73,11 +76,19 @@ export class CompatHTML extends CompatBase {
     private async testElementAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
         const elements = data.elements;
         const elementName = element.nodeName.toLowerCase();
+        const subFeature: FeatureInfo = { name: attribute.name };
+        let displayableName = `${attribute.name} attribute of the ${elementName} element`;
+
+        if (elementName === INPUT_TAG && attribute.name === TYPE_ATTR) {
+            displayableName = `${INPUT_TAG} ${TYPE_ATTR} ${attribute.value}`;
+            subFeature.name = `${elementName}-${attribute.value}`;
+        }
 
         const feature: FeatureInfo = {
-            displayableName: `${elementName} element`,
+            displayableName,
             location,
-            name: elementName
+            name: elementName,
+            subFeature
         };
 
         await this.testFeature(elements, feature);
