@@ -5,12 +5,9 @@
 import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ElementFound, IAsyncHTMLElement, ProblemLocation, AsyncHTMLAttribute, IAsyncNamedNodeMap } from 'hint/dist/src/lib/types';
-import { SupportBlock, CompatStatement } from '../types-mdn.temp';
+import { CompatStatement } from '../types-mdn.temp';
 import { HTMLParse } from '../../../parser-html/dist/src/types';
 import { CompatBase } from './compat-base';
-
-const INPUT_TAG = 'input';
-const TYPE_ATTR = 'type';
 
 export class CompatHTML extends CompatBase {
     public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
@@ -74,6 +71,8 @@ export class CompatHTML extends CompatBase {
     }
 
     private async testElementAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
+        const INPUT_TAG = 'input';
+        const TYPE_ATTR = 'type';
         const elements = data.elements;
         const elementName = element.nodeName.toLowerCase();
         const subFeature: FeatureInfo = { name: attribute.name };
@@ -99,9 +98,7 @@ export class CompatHTML extends CompatBase {
             return;
         }
 
-        const supportBlock: SupportBlock = this.getSupportBlock(collection, feature);
-
-        await this.testFunction(feature, supportBlock);
+        await this.testFunction(feature, collection);
     }
 
     private async walk(callback: (element: ElementFound) => any): Promise<void> {

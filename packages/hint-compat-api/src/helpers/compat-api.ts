@@ -6,20 +6,18 @@
 const mdnAPI: CompatData = require('mdn-browser-compat-data');
 
 import { browserVersions } from './normalize-version';
-import { BrowserSupportCollection, MDNTreeFilteredByBrowsers, BrowserVersions } from '../types';
-import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, Identifier } from '../types-mdn.temp'; // Temporal
-import { userBrowsers } from './get-user-browsers';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { BrowserSupportCollection, MDNTreeFilteredByBrowsers, BrowserVersions, FeatureInfo } from '../types';
+import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, Identifier, SupportBlock } from '../types-mdn.temp'; // Temporal
+import { CompatNamespace } from '../enums';
+import { get } from 'lodash';
 
-type CompatNamespace = 'css' | 'javascript' | 'html';
-
-export class CompatApi {
+export class CompatAPI {
     public compatDataApi: MDNTreeFilteredByBrowsers;
     private readonly isCheckingNotBroadlySupported: boolean;
     private readonly mdnBrowsersCollection: BrowserSupportCollection;
 
-    public constructor(namespaceName: CompatNamespace, context: HintContext, isCheckingNotBroadlySupported = false) {
-        this.mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
+    public constructor(namespaceName: CompatNamespace, mdnBrowsersCollection: BrowserSupportCollection, isCheckingNotBroadlySupported = false) {
+        this.mdnBrowsersCollection = mdnBrowsersCollection;
         this.isCheckingNotBroadlySupported = isCheckingNotBroadlySupported;
         this.compatDataApi = this.filterCompatDataByBrowsers(mdnAPI[namespaceName]);
     }
@@ -278,5 +276,30 @@ export class CompatApi {
 
     public getBrowserVersions(browserName: string): number[] {
         return this.mdnBrowsersCollection[browserName] || [];
+    }
+
+    public getSupportBlock(collection: CompatStatement | undefined, feature: FeatureInfo): SupportBlock {
+        try {
+            /**
+             * // NOTE:
+             * - If feature is not in the filtered by browser data,
+             *   that means that is always supported.
+             * - If feature does not have compat data, we ignore it.
+             */
+
+            const accessor = feature.subFeature ?
+                [feature.name, feature.subFeature.name] :
+                [feature.name];
+
+            const identifier: Identifier = get(collection, accessor);
+
+            if (!identifier || !identifier.__compat) {
+                throw new Error('Missing compatibility information');
+            }
+
+            return identifier.__compat.support;
+        } catch (error) {
+            return {} as SupportBlock;
+        }
     }
 }

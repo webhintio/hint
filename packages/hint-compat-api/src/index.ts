@@ -2,16 +2,16 @@
  * @fileoverview description
  */
 
-import * as CCSHint from './css';
+import * as CCSDeprecatedHint from './css';
 import * as CCSNextHint from './css-next';
-import * as HTMLHint from './html';
+import * as HTMLDeprecatedHint from './html';
 import * as HTMLNextHint from './html-next';
 
 /* eslint-disable quote-props */
 
 module.exports = {
-    'css': CCSHint,
+    'css': CCSDeprecatedHint,
     'css-next': CCSNextHint,
-    'html': HTMLHint,
+    'html': HTMLDeprecatedHint,
     'html-next': HTMLNextHint
 };

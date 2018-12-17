@@ -8,7 +8,7 @@ import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
 import { FeatureStrategy, MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
-import { SupportBlock, CompatStatement } from '../types-mdn.temp';
+import { CompatStatement } from '../types-mdn.temp';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { CompatBase } from './compat-base';
 
@@ -102,9 +102,9 @@ export class CompatCSS extends CompatBase {
     }
 
     private async testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation, subfeatureNameWithPrefix?: string): Promise<void> {
-        const strategyContent: CompatStatement | undefined = data[strategyName];
+        const collection: CompatStatement | undefined = data[strategyName];
 
-        if (!strategyContent) {
+        if (!collection) {
             // Review: Throw an error
             debug('Error: The strategy does not exist.');
 
@@ -125,10 +125,7 @@ export class CompatCSS extends CompatBase {
             return;
         }
 
-        // Check for each browser the support block
-        const supportBlock: SupportBlock = this.getSupportBlock(strategyContent, feature);
-
-        await this.testFunction(feature, supportBlock);
+        await this.testFunction(feature, collection);
     }
 
     private getPrefix(name: string): [string | undefined, string] {

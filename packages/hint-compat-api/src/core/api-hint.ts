@@ -1,39 +1,55 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
-import { CompatApi, CompatCSS } from './helpers';
-import { FeatureInfo, BrowsersInfo, SupportStatementResult } from './types';
-import { SimpleSupportStatement, VersionValue, SupportBlock, SupportStatement } from './types-mdn.temp';
+import { CompatAPI, CompatCSS, CompatHTML, userBrowsers } from '../helpers';
+import { FeatureInfo, BrowsersInfo, SupportStatementResult, MDNTreeFilteredByBrowsers } from '../types';
+import { SimpleSupportStatement, VersionValue, SupportBlock, SupportStatement, CompatStatement } from '../types-mdn.temp';
 
-import { browserVersions } from './helpers/normalize-version';
-import { CSSFeatureStatus } from './enums';
+import { browserVersions } from '../helpers/normalize-version';
+import { HTMLParse, HTMLEvents } from '../../../parser-html/dist/src/types';
+import { CompatNamespace } from '../enums';
 
-export default abstract class BaseCCSHint implements IHint {
-    private readonly statusName: CSSFeatureStatus;
-    private compatApi: CompatApi;
-    private compatCSS: CompatCSS;
+export interface ICompatLibrary {
+    setResource(resource: string): void;
+    searchFeatures(collection: MDNTreeFilteredByBrowsers, parse: HTMLParse | StyleParse): void;
+    reportError(feature: FeatureInfo, message: string): Promise<void>;
+}
+
+const libraries: {[key: string]: any} = {
+    css: CompatCSS,
+    html: CompatHTML
+};
+
+export abstract class APIHint implements IHint {
+    private compatApi: CompatAPI;
+    private compatLibrary: ICompatLibrary;
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue;
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
     abstract isVersionValueSupported(version: VersionValue): boolean;
     abstract isVersionValueTestable(version: VersionValue): boolean;
+    abstract getContextualMessage(needContextMessage: boolean): string;
 
-    public constructor(context: HintContext<StyleEvents>, statusName: CSSFeatureStatus, isCheckingNotBroadlySupported: boolean) {
-        this.compatApi = new CompatApi('css', context, isCheckingNotBroadlySupported);
-        this.compatCSS = new CompatCSS(context, this.testFeatureIsSupported.bind(this));
-        this.statusName = statusName;
+    public constructor(namespaceName: CompatNamespace, context: HintContext<StyleEvents | HTMLEvents>, isCheckingNotBroadlySupported: boolean) {
+        const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
 
-        context.on('parse::end::css', this.onParseCSS.bind(this));
+        this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
+        this.compatLibrary = new libraries[namespaceName](context, this.testFeatureIsSupported.bind(this));
+
+        context.on(`parse::end::${namespaceName}` as any, this.onParse.bind(this));
     }
 
-    private async onParseCSS(styleParse: StyleParse): Promise<void> {
-        const { resource } = styleParse;
+    private async onParse(parse: StyleParse | HTMLParse): Promise<void> {
+        const { resource } = parse;
 
-        this.compatCSS.setResource(resource);
-        await this.compatCSS.searchFeatures(this.compatApi.compatDataApi, styleParse);
+        this.compatLibrary.setResource(resource);
+        await this.compatLibrary.searchFeatures(this.compatApi.compatDataApi, parse);
     }
 
-    private async testFeatureIsSupported(feature: FeatureInfo, supportBlock: SupportBlock): Promise<void> {
+    private async testFeatureIsSupported(feature: FeatureInfo, collection: CompatStatement | undefined): Promise<void> {
+        // Check for each browser the support block
+        const supportBlock: SupportBlock = this.compatApi.getSupportBlock(collection, feature);
+
         const browsersToSupport = Object.entries(supportBlock).filter(([browserName]: [string, SupportStatement]): boolean => {
             return this.compatApi.isBrowserIncludedInCollection(browserName);
         });
@@ -56,7 +72,7 @@ export default abstract class BaseCCSHint implements IHint {
 
         const message = this.generateReportErrorMessage(feature, supportStatementResult);
 
-        await this.compatCSS.reportError(feature, message);
+        await this.compatLibrary.reportError(feature, message);
     }
 
     private groupSupportStatementByBrowser(feature: FeatureInfo, group: { [browserName: string]: string[] }, browserInfo: [string, SupportStatement]) {
@@ -132,16 +148,16 @@ export default abstract class BaseCCSHint implements IHint {
     private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, needContextMessage: boolean): string {
         const stringifiedBrowserInfo = this.stringifyBrowserInfo(groupedBrowserSupport);
         const usedPrefix = feature.prefix ? `prefixed with ${feature.prefix} ` : '';
-        const action = needContextMessage ? this.statusName : CSSFeatureStatus.Supported;
+        const contextualMessage = this.getContextualMessage(needContextMessage);
 
-        return `${feature.displayableName} ${usedPrefix ? usedPrefix : ''}is not ${action} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
+        return `${feature.displayableName} ${usedPrefix ? usedPrefix : ''}is not ${contextualMessage} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
     }
 
-    private hasMultipleBrowsers(message: string) {
+    protected hasMultipleBrowsers(message: string) {
         return message.includes(',') || message.includes('-');
     }
 
-    private stringifyBrowserInfo(groupedSupportByBrowser: {[browserName: string]: string[]}, skipBrowserVerions: boolean = false) {
+    protected stringifyBrowserInfo(groupedSupportByBrowser: {[browserName: string]: string[]}, skipBrowserVerions: boolean = false) {
         return Object.entries(groupedSupportByBrowser)
             .map(([browserName, browserVersions]: [string, string[]]) => {
                 return browserVersions.length === 0 || skipBrowserVerions ?

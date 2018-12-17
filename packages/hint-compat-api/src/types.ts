@@ -1,5 +1,5 @@
 import { ChildNode } from 'postcss';
-import { Identifier, SupportStatement, SupportBlock } from './types-mdn.temp'; // Temporal
+import { Identifier, SupportStatement, CompatStatement } from './types-mdn.temp'; // Temporal
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 
 export type MDNTreeFilteredByBrowsers = Identifier;
@@ -13,7 +13,7 @@ export type FeatureStrategy<T extends ChildNode> = {
     testFeature: (node: T, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation) => void;
 };
 
-export type TestFeatureFunction = (feature: FeatureInfo, supportBlock: SupportBlock) => void;
+export type TestFeatureFunction = (feature: FeatureInfo, collection: CompatStatement | undefined) => void;
 
 export type BrowserVersions = {
     [key: string]: string[];
