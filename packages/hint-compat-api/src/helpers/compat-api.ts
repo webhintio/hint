@@ -72,8 +72,8 @@ export class CompatApi {
                     return this.isFeatureRequiredToTest(childValue);
                 })
                 .forEach(([childKey, childValue]) => {
-                typedFeatures[childKey] = childValue;
-            });
+                    typedFeatures[childKey] = childValue;
+                });
         }
 
         return typedFeatures;
@@ -111,7 +111,7 @@ export class CompatApi {
                 .find((info) => {
                     return prefix ? info.prefix === prefix : !info.prefix;
                 });
-            }
+        }
 
         return currentBrowserFeatureSupported as SimpleSupportStatement;
     }
