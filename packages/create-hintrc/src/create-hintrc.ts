@@ -22,7 +22,7 @@ import { getInstalledResources, getCoreResources } from 'hint/dist/src/lib/utils
 import { ResourceType } from 'hint/dist/src/lib/enums/resourcetype';
 import { generateBrowserslistConfig } from './browserslist';
 import { getOfficialPackages, installPackages } from 'hint/dist/src/lib/utils/npm';
-import { trackEvent } from 'hint/dist/src/lib/utils/appinsights';
+import { sendPendingData, trackEvent } from 'hint/dist/src/lib/utils/appinsights';
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
@@ -205,6 +205,7 @@ export default async (): Promise<boolean> => {
     }
 
     trackEvent('new-hintrc', result.config);
+    await sendPendingData();
 
     return true;
 };

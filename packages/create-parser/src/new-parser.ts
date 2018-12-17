@@ -10,7 +10,7 @@ import isOfficial from 'hint/dist/src/lib/utils/packages/is-official';
 import normalize from 'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter';
 import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 import { escapeSafeString, compileTemplate } from './handlebars-utils';
-import { trackEvent } from 'hint/dist/src/lib/utils/appinsights';
+import { sendPendingData, trackEvent } from 'hint/dist/src/lib/utils/appinsights';
 
 /*
  * ------------------------------------------------------------------------------
@@ -330,6 +330,7 @@ New parser created in ${parserData.destination}
     }
 
     trackEvent('new-parser');
+    await sendPendingData();
 
     return true;
 };
