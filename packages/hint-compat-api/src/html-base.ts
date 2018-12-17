@@ -59,16 +59,17 @@ export default abstract class BaseHTMLHint implements IHint {
     }
 
     private groupSupportStatementByBrowser(feature: FeatureInfo, group: { [browserName: string]: string[] }, browserInfo: [string, SupportStatement]) {
-        const [browserName, supportStatement] = browserInfo;
-        const browserFeature = this.compatApi.getSupportStatementFromInfo(supportStatement, feature.prefix);
-        const browser: BrowsersInfo = { name: browserName, supportStatement };
+        const [name, supportStatement] = browserInfo;
+        const browser: BrowsersInfo = { name, supportStatement };
+        const prefix = feature.subFeature ? feature.subFeature.prefix : feature.prefix;
+        const browserFeature = this.compatApi.getSupportStatementFromInfo(supportStatement, prefix);
         const versions = browserFeature && this.getNotSupportedBrowser(browser, feature, browserFeature);
 
         if (!versions) {
             return group;
         }
 
-        return { ...group, [browserName]: versions };
+        return { ...group, [name]: versions };
     }
 
     private getNotSupportedBrowser(browser: BrowsersInfo, feature: FeatureInfo, browserFeatureSupported: SimpleSupportStatement): string[] | null {
@@ -130,8 +131,9 @@ export default abstract class BaseHTMLHint implements IHint {
 
     private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, action: CSSFeatureStatus = CSSFeatureStatus.Supported): string {
         const stringifiedBrowserInfo = this.stringifyBrowserInfo(groupedBrowserSupport);
+        const usedPrefix = feature.prefix ? `prefixed with ${feature.prefix} ` : '';
 
-        return `${feature.displayableName} is not ${action} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
+        return `${feature.displayableName} ${usedPrefix ? usedPrefix : ''}is not ${action} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
     }
 
     private hasMultipleBrowsers(message: string) {

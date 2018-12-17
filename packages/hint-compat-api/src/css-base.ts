@@ -127,7 +127,7 @@ export default abstract class BaseCCSHint implements IHint {
     }
 
     private getNotSupportedBrowserMessage(feature: FeatureInfo): string {
-        return `${feature.displayableName} was never supported on any of your browsers to support.`;
+        return `${feature.displayableName} is not supported on any of your browsers to support.`;
     }
 
     private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, action: CSSFeatureStatus = CSSFeatureStatus.Supported): string {
