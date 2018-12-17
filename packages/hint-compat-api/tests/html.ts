@@ -86,7 +86,6 @@ const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
 
 hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 23', 'opera 16'], parsers: ['html']});
 
-/*
 const elementAttrRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     {
         name: 'Element attributes that were removed in a version later than the targeted browser should pass.',
@@ -115,7 +114,7 @@ const elementAttrRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, elementAttrRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 56'], parsers: ['html']});
- */
+
 /*
  * GLOBAL ATTRIBUTES
  */
@@ -129,49 +128,49 @@ const globalAttributeNeverRemoved: HintTest[] = [
 hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
 
 /*
- * FIXME: Browserlist doesn't have the whole list of browsers, 
+ * FIXME: Browserlist doesn't have the whole list of browsers,
  * so for firefox android is always returning the 63th version.
- * This is a problem because the test only make sense for the 
+ * This is a problem because the test only make sense for the
  * contextmenu attribute.
  * https://github.com/mdn/browser-compat-data/blob/master/html/global_attributes.json
  */
 
 /*
-const globalAttributeRemovedLaterThanTargetedBrowser: HintTest[] = [
-    {
-        name: 'Global attributes that were removed after the targeted browsers should pass',
-        serverConfig: generateHTMLConfig('global-attr-contextmenu')
-    }
-];
-
-hintRunner.testHint(hintPath, globalAttributeRemovedLaterThanTargetedBrowser, { browserslist: ['and_ff 55'], parsers: ['html']});
-
-const globalAttributeRemovedVersionOfTargetedBrowser: HintTest[] = [
-    {
-        name: 'Global attributes that were removed the version of the targeted browser should fail',
-        reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 56 browser.'}],
-        serverConfig: generateHTMLConfig('global-attr-contextmenu')
-    }
-];
-
-hintRunner.testHint(hintPath, globalAttributeRemovedVersionOfTargetedBrowser, { browserslist: ['and_ff 56'], parsers: ['html']});
-
-const globalAttributeRemovedEarlierThanTargetedBrowser: HintTest[] = [
-    {
-        name: 'Global attributes that were removed before the targeted browsers should fail',
-        reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 57 browser.'}],
-        serverConfig: generateHTMLConfig('global-attr-contextmenu')
-    }
-];
-
-hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['and_ff 57'], parsers: ['html']});
-*/
+ * const globalAttributeRemovedLaterThanTargetedBrowser: HintTest[] = [
+ *     {
+ *         name: 'Global attributes that were removed after the targeted browsers should pass',
+ *         serverConfig: generateHTMLConfig('global-attr-contextmenu')
+ *     }
+ * ];
+ *
+ * hintRunner.testHint(hintPath, globalAttributeRemovedLaterThanTargetedBrowser, { browserslist: ['and_ff 55'], parsers: ['html']});
+ *
+ * const globalAttributeRemovedVersionOfTargetedBrowser: HintTest[] = [
+ *     {
+ *         name: 'Global attributes that were removed the version of the targeted browser should fail',
+ *         reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 56 browser.'}],
+ *         serverConfig: generateHTMLConfig('global-attr-contextmenu')
+ *     }
+ * ];
+ *
+ * hintRunner.testHint(hintPath, globalAttributeRemovedVersionOfTargetedBrowser, { browserslist: ['and_ff 56'], parsers: ['html']});
+ *
+ * const globalAttributeRemovedEarlierThanTargetedBrowser: HintTest[] = [
+ *     {
+ *         name: 'Global attributes that were removed before the targeted browsers should fail',
+ *         reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 57 browser.'}],
+ *         serverConfig: generateHTMLConfig('global-attr-contextmenu')
+ *     }
+ * ];
+ *
+ * hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['and_ff 57'], parsers: ['html']});
+ */
 
 /*
  * INPUT TYPES
  * Presently there are no input types that have been removed.
  */
-/* const inputTypeNeverRemoved: HintTest[] = [
+const inputTypeNeverRemoved: HintTest[] = [
     {
         name: 'Input types that were never removed should pass.',
         serverConfig: generateHTMLConfig('input-button')
@@ -179,4 +178,3 @@ hintRunner.testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, 
 ];
 
 hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
-*/

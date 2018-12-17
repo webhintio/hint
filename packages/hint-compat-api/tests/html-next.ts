@@ -19,7 +19,7 @@ const generateHTMLConfig = (fileName: string) => {
  * available in:
  * https://webhint.io/docs/contributor-guide/how-to/test-hints/
  */
- 
+
 const elementAddedAlwaysTrue: HintTest[] = [
     {
         name: 'Elements that have added as true should pass.',
@@ -88,7 +88,10 @@ hintRunner.testHint(hintPath, elementAddedVersionOfTargetedBrowser, { browsersli
 const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
         name: 'Elements added in version after targeted browser should fail.',
-        reports: [{ message: 'video element is not added on ie 8 browser.', position: { column: 9, line: 3 }}],
+        reports: [
+            { message: 'video element is not added on ie 8 browser.', position: { column: 9, line: 3 }},
+            { message: 'autoplay attribute of the video element is not added on ie 8 browser.', position: { column: 9, line: 3 }}
+        ],
         serverConfig: generateHTMLConfig('video')
     }
 ];
@@ -115,7 +118,7 @@ const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
 
 hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56', 'ie 11'], parsers: ['html']});
 
-/* const elementAttrVersionAddedNull: HintTest[] = [
+const elementAttrVersionAddedNull: HintTest[] = [
     {
         name: 'Element attributes that have version added as null should pass.',
         serverConfig: generateHTMLConfig('img-onerror')
@@ -127,13 +130,13 @@ hintRunner.testHint(hintPath, elementAttrVersionAddedNull, { browserslist: ['las
 const elementAttrVersionAddedFalse: HintTest[] = [
     {
         name: 'Element attributes that have version added as false should fail.',
-        reports: [{ message: 'srcset attribute of the img element is not supported on ie browser.', position: { column: 6, line: 1 }}],
+        reports: [{ message: 'srcset attribute of the img element is not supported on ie browser.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('img-srcset')
     }
 ];
 
 hintRunner.testHint(hintPath, elementAttrVersionAddedFalse, { browserslist: ['ie 9'], parsers: ['html']});
- */
+
 /*
  * GLOBAL ATTRIBUTES
  */
@@ -182,13 +185,13 @@ const globalAttrAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['firefox 31'], parsers: ['html']}); 
+hintRunner.testHint(hintPath, globalAttrAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['firefox 31'], parsers: ['html']});
 
 /*
  * INPUT TYPES
  * Presently there are no input types that have been removed.
  */
-/* const inputTypeVersionAddedNull: HintTest[] = [
+const inputTypeVersionAddedNull: HintTest[] = [
     {
         name: 'Input types that have version added as null should pass.',
         serverConfig: generateHTMLConfig('input-color')
@@ -200,7 +203,7 @@ hintRunner.testHint(hintPath, inputTypeVersionAddedNull, { browserslist: ['last 
 const inputTypeVersionAddedFalse: HintTest[] = [
     {
         name: 'Input types that have version added as false should fail.',
-        reports: [{ message: 'input type color is not supported on ie browser.', position: { column: 14, line: 1 }}],
+        reports: [{ message: 'input type color is not supported on ie browser.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('input-color')
     }
 ];
@@ -210,10 +213,9 @@ hintRunner.testHint(hintPath, inputTypeVersionAddedFalse, { browserslist: ['ie 9
 const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
     {
         name: 'Input types added in a version after the targeted browsers should fail.',
-        reports: [{ message: 'input type color is not supported on chrome 19, firefox 28 browsers.', position: { column: 14, line: 1 }}],
+        reports: [{ message: 'input type color is not supported on chrome 19, firefox 28 browsers.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('input-color')
     }
 ];
 
-hintRunner.testHint(hintPath, inputTypeVersionAddedAfterTargetedBrowsers, { browserslist: ['chrome 19', 'firefox 28'], parsers: ['html']});
- */
+hintRunner.testHint(hintPath, inputTypeVersionAddedAfterTargetedBrowsers, { browserslist: ['chrome 19', 'firefox 28', 'edge 15'], parsers: ['html']});
