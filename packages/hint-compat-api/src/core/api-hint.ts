@@ -15,7 +15,7 @@ export interface ICompatLibrary {
     reportError(feature: FeatureInfo, message: string): Promise<void>;
 }
 
-const libraries: {[key: string]: any} = {
+const classesMapping: {[key: string]: any} = {
     css: CompatCSS,
     html: CompatHTML
 };
@@ -34,7 +34,7 @@ export abstract class APIHint implements IHint {
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
 
         this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
-        this.compatLibrary = new libraries[namespaceName](context, this.testFeatureIsSupported.bind(this));
+        this.compatLibrary = new classesMapping[namespaceName](context, this.testFeatureIsSupported.bind(this));
 
         context.on(`parse::end::${namespaceName}` as any, this.onParse.bind(this));
     }
@@ -142,7 +142,7 @@ export abstract class APIHint implements IHint {
     }
 
     private getNotSupportedBrowserMessage(feature: FeatureInfo): string {
-        return `${feature.displayableName} is not supported on any of your browsers to support.`;
+        return `${feature.displayableName} is not supported on any of your target browsers.`;
     }
 
     private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, needContextMessage: boolean): string {

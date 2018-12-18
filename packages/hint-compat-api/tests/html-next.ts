@@ -111,7 +111,7 @@ hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBr
 const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
     {
         name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
-        reports: [{ message: 'element element is not supported on any of your browsers to support.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'element element is not supported on any of your target browsers.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('element')
     }
 ];

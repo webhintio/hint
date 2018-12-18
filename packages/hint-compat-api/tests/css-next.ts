@@ -180,7 +180,7 @@ hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBr
 const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
     {
         name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
-        reports: [{ message: 'box-lines is not supported on any of your browsers to support.', position: { column: 4, line: 1}}],
+        reports: [{ message: 'box-lines is not supported on any of your target browsers.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];

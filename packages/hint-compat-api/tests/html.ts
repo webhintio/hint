@@ -79,7 +79,7 @@ hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanMultipleTargetedBr
 const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     {
         name: 'Elements that were removed in a version before the targeted browsers should fail with one error.',
-        reports: [{ message: 'blink element is not supported on any of your browsers to support.' }],
+        reports: [{ message: 'blink element is not supported on any of your target browsers.' }],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
