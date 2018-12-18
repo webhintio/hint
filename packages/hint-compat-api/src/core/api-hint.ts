@@ -26,16 +26,10 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
 
         this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
-        this.compatLibrary = new classesMapping[namespaceName](context, this.testFeatureIsSupported.bind(this));
 
-        context.on(`parse::end::${namespaceName}` as any, this.onParse.bind(this));
-    }
+        const MDNDataFilteredByBrowser = this.compatApi.compatDataApi;
 
-    private async onParse(parse: K): Promise<void> {
-        const { resource } = parse;
-
-        this.compatLibrary.setResource(resource);
-        await this.compatLibrary.searchFeatures(this.compatApi.compatDataApi, parse);
+        this.compatLibrary = new classesMapping[namespaceName](context, MDNDataFilteredByBrowser, this.testFeatureIsSupported.bind(this));
     }
 
     private async testFeatureIsSupported(feature: FeatureInfo, collection: CompatStatement | undefined): Promise<void> {

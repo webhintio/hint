@@ -6,15 +6,17 @@ import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ElementFound, IAsyncHTMLElement, ProblemLocation, AsyncHTMLAttribute, IAsyncNamedNodeMap } from 'hint/dist/src/lib/types';
 import { CompatStatement } from '../types-mdn.temp';
-import { HTMLParse } from '@hint/parser-html/dist/src/types';
+import { HTMLParse, HTMLEvents } from '@hint/parser-html/dist/src/types';
 import { CompatBase } from './compat-base';
 
-export class CompatHTML extends CompatBase<HTMLParse> {
-    public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
-        super(hintContext, testFunction);
+export class CompatHTML extends CompatBase<HTMLEvents, HTMLParse> {
+    public constructor(hintContext: HintContext<HTMLEvents>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
+        super(hintContext, MDNData, testFunction);
+
+        hintContext.on('parse::end::html', this.onParse.bind(this));
     }
 
-    public async searchFeatures(data: MDNTreeFilteredByBrowsers, parser: HTMLParse): Promise<void> {
+    public async searchFeatures(parser: HTMLParse): Promise<void> {
         await this.walk(async (elementFound: ElementFound) => {
             const { element } = elementFound;
             const location = element.getLocation();
@@ -28,13 +30,13 @@ export class CompatHTML extends CompatBase<HTMLParse> {
                 return;
             }
 
-            await this.testElement(element, data, location);
-            await this.testAttributes(element, data, location);
+            await this.testElement(element, location);
+            await this.testAttributes(element, location);
         });
     }
 
-    private async testElement(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
-        const elements = data.elements;
+    private async testElement(element: IAsyncHTMLElement, location: ProblemLocation): Promise<void> {
+        const elements = this.MDNData.elements;
         const elementName = element.nodeName.toLowerCase();
 
         const feature: FeatureInfo = {
@@ -46,19 +48,19 @@ export class CompatHTML extends CompatBase<HTMLParse> {
         await this.testFeature(elements, feature);
     }
 
-    private async testAttributes(element: IAsyncHTMLElement, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
+    private async testAttributes(element: IAsyncHTMLElement, location: ProblemLocation): Promise<void> {
         const namedNodeMap: IAsyncNamedNodeMap = element.attributes;
 
         for (let index = 0; index < namedNodeMap.length; index++) {
             const attribute: AsyncHTMLAttribute = namedNodeMap[index];
 
-            await this.testGlobalAttributes(element, attribute, data, location);
-            await this.testElementAttributes(element, attribute, data, location);
+            await this.testGlobalAttributes(element, attribute, location);
+            await this.testElementAttributes(element, attribute, location);
         }
     }
 
-    private async testGlobalAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
-        const globalAttributes = data.global_attributes;
+    private async testGlobalAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, location: ProblemLocation): Promise<void> {
+        const globalAttributes = this.MDNData.global_attributes;
         const attributeName = attribute.name;
 
         const feature: FeatureInfo = {
@@ -70,10 +72,10 @@ export class CompatHTML extends CompatBase<HTMLParse> {
         await this.testFeature(globalAttributes, feature);
     }
 
-    private async testElementAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, data: MDNTreeFilteredByBrowsers, location: ProblemLocation): Promise<void> {
+    private async testElementAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, location: ProblemLocation): Promise<void> {
         const INPUT_TAG = 'input';
         const TYPE_ATTR = 'type';
-        const elements = data.elements;
+        const elements = this.MDNData.elements;
         const elementName = element.nodeName.toLowerCase();
         const subFeature: FeatureInfo = { name: attribute.name };
         let displayableName = `${attribute.name} attribute of the ${elementName} element`;

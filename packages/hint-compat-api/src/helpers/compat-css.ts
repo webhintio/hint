@@ -4,20 +4,22 @@
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { StyleParse } from '@hint/parser-css/dist/src/types';
+import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
 
-import { FeatureStrategy, MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
+import { FeatureStrategy, TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, ICompatLibrary } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
 import { CompatBase } from './compat-base';
 
 const debug: debug.IDebugger = d(__filename);
 
-export class CompatCSS extends CompatBase<StyleParse> {
-    public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
-        super(hintContext, testFunction);
+export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements ICompatLibrary<StyleParse> {
+    public constructor(hintContext: HintContext<StyleEvents>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
+        super(hintContext, MDNData, testFunction);
+
+        hintContext.on('parse::end::css', this.onParse.bind(this));
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
@@ -33,12 +35,12 @@ export class CompatCSS extends CompatBase<StyleParse> {
         };
     }
 
-    public async searchFeatures(data: MDNTreeFilteredByBrowsers, parse: StyleParse): Promise<void> {
+    public async searchFeatures(parse: StyleParse): Promise<void> {
         await parse.ast.walk(async (node: ChildNode) => {
             const strategy = this.chooseStrategyToSearchCSSFeature(node);
             const location = this.getProblemLocationFromNode(node);
 
-            await strategy.testFeature(node, data, location);
+            await strategy.testFeature(node, location);
         });
     }
 
@@ -48,8 +50,8 @@ export class CompatCSS extends CompatBase<StyleParse> {
                 return node.type === 'atrule';
             },
 
-            testFeature: (node: AtRule, data, location) => {
-                this.testFeature('at-rules', node.name, data, location);
+            testFeature: (node: AtRule, location) => {
+                this.testFeature('at-rules', node.name, location);
             }
         };
 
@@ -58,8 +60,8 @@ export class CompatCSS extends CompatBase<StyleParse> {
                 return node.type === 'rule';
             },
 
-            testFeature: (node: Rule, data, location) => {
-                this.testFeature('selectors', node.selector, data, location);
+            testFeature: (node: Rule, location) => {
+                this.testFeature('selectors', node.selector, location);
             }
         };
 
@@ -68,9 +70,9 @@ export class CompatCSS extends CompatBase<StyleParse> {
                 return node.type === 'decl';
             },
 
-            testFeature: (node: Declaration, data, location) => {
-                this.testFeature('properties', node.prop, data, location);
-                this.testFeature('properties', node.prop, data, location, node.value);
+            testFeature: (node: Declaration, location) => {
+                this.testFeature('properties', node.prop, location);
+                this.testFeature('properties', node.prop, location, node.value);
             }
         };
 
@@ -102,8 +104,8 @@ export class CompatCSS extends CompatBase<StyleParse> {
         return selectedStrategy as FeatureStrategy<ChildNode>;
     }
 
-    private async testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation, subfeatureNameWithPrefix?: string): Promise<void> {
-        const collection: CompatStatement | undefined = data[strategyName];
+    private async testFeature(strategyName: string, featureNameWithPrefix: string, location?: ProblemLocation, subfeatureNameWithPrefix?: string): Promise<void> {
+        const collection: CompatStatement | undefined = this.MDNData[strategyName];
 
         if (!collection) {
             // Review: Throw an error

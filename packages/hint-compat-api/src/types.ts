@@ -10,7 +10,7 @@ export type BrowserSupportCollection = {
 
 export type FeatureStrategy<T extends ChildNode> = {
     check: (node: T | ChildNode) => boolean;
-    testFeature: (node: T, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation) => void;
+    testFeature: (node: T, location?: ProblemLocation) => void;
 };
 
 export type TestFeatureFunction = (feature: FeatureInfo, collection: CompatStatement | undefined) => void;
@@ -45,6 +45,6 @@ export type UserPrefixes = {
 
 export interface ICompatLibrary<T extends Event> {
     setResource(resource: string): void;
-    searchFeatures(collection: MDNTreeFilteredByBrowsers, parse: T): void;
+    searchFeatures(parse: T): void;
     reportError(feature: FeatureInfo, message: string): Promise<void>;
 }

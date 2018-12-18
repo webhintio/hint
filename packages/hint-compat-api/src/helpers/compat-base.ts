@@ -1,17 +1,19 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import { CachedCompatFeatures } from './cached-compat-features';
-import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
+import { TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers } from '../types';
+import { Events, Event } from 'hint/dist/src/lib/types';
 
-export abstract class CompatBase<T> {
+export abstract class CompatBase<T extends Events, K extends Event> {
     protected testFunction: TestFeatureFunction;
-    protected hintContext: HintContext;
+    protected hintContext: HintContext<T>;
     protected hintResource: string = 'unknown';
+    protected MDNData: MDNTreeFilteredByBrowsers;
     private cachedFeatures: CachedCompatFeatures;
 
-    public abstract async searchFeatures(data: MDNTreeFilteredByBrowsers, parser: T): Promise<void>
+    public abstract async searchFeatures(parser: K): Promise<void>
 
-    public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
+    public constructor(hintContext: HintContext<T>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
         if (!testFunction) {
             throw new Error('You must set a test function before testing a feature.');
         }
@@ -19,6 +21,14 @@ export abstract class CompatBase<T> {
         this.cachedFeatures = new CachedCompatFeatures();
         this.testFunction = testFunction;
         this.hintContext = hintContext;
+        this.MDNData = MDNData;
+    }
+
+    protected async onParse(parse: K): Promise<void> {
+        const { resource } = parse;
+
+        this.setResource(resource);
+        await this.searchFeatures(parse);
     }
 
     public setResource(hintResource: string): void {
