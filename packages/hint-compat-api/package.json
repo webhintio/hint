@@ -24,6 +24,7 @@
     "npm-link-check": "^2.0.0",
     "npm-run-all": "^4.1.2",
     "nyc": "^13.1.0",
+    "postcss": "^7.0.6",
     "rimraf": "^2.6.2",
     "typescript": "^3.0.3",
     "typescript-eslint-parser": "^20.0.0"
