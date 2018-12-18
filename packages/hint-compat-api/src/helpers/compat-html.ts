@@ -6,7 +6,7 @@ import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ElementFound, IAsyncHTMLElement, ProblemLocation, AsyncHTMLAttribute, IAsyncNamedNodeMap } from 'hint/dist/src/lib/types';
 import { CompatStatement } from '../types-mdn.temp';
-import { HTMLParse } from '../../../parser-html/dist/src/types';
+import { HTMLParse } from '@hint/parser-html/dist/src/types';
 import { CompatBase } from './compat-base';
 
 export class CompatHTML extends CompatBase {

@@ -6,7 +6,7 @@ import meta from '../meta/css-next';
 import { APIHint } from './api-hint';
 import { CSSFeatureStatus, CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo, UserPrefixes } from '../types';
-import { HTMLEvents } from '../../../parser-html/dist/src/types';
+import { HTMLEvents } from '@hint/parser-html/dist/src/types';
 
 export class NextAPIHint extends APIHint {
     public static readonly meta = meta;

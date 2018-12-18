@@ -1,8 +1,9 @@
-import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HTMLParse } from '../../../parser-html/dist/src/types';
-import { StyleParse } from '../../../parser-css/dist/src/types';
+import { HTMLParse } from '@hint/parser-html/dist/src/types';
+import { StyleParse } from '@hint/parser-css/dist/src/types';
+
 import { CachedCompatFeatures } from './cached-compat-features';
+import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 
 export abstract class CompatBase {
     protected testFunction: TestFeatureFunction;

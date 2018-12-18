@@ -1,12 +1,12 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
+
 import { CompatAPI, CompatCSS, CompatHTML, userBrowsers } from '../helpers';
 import { FeatureInfo, BrowsersInfo, SupportStatementResult, MDNTreeFilteredByBrowsers } from '../types';
 import { SimpleSupportStatement, VersionValue, SupportBlock, SupportStatement, CompatStatement } from '../types-mdn.temp';
-
 import { browserVersions } from '../helpers/normalize-version';
-import { HTMLParse, HTMLEvents } from '../../../parser-html/dist/src/types';
+import { HTMLParse, HTMLEvents } from '@hint/parser-html/dist/src/types';
 import { CompatNamespace } from '../enums';
 
 export interface ICompatLibrary {

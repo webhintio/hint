@@ -3,7 +3,7 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HTMLEvents } from '../../parser-html/dist/src/types';
+import { HTMLEvents } from '@hint/parser-html/dist/src/types';
 
 import { DeprecatedAPIHint } from './core/deprecated-hint';
 import { CompatNamespace } from './enums';

@@ -6,7 +6,7 @@ import meta from '../meta/css';
 import { APIHint } from './api-hint';
 import { CSSFeatureStatus, CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo } from '../types';
-import { HTMLEvents } from '../../../parser-html/dist/src/types';
+import { HTMLEvents } from '@hint/parser-html/dist/src/types';
 
 export class DeprecatedAPIHint extends APIHint {
     public static readonly meta = meta;
