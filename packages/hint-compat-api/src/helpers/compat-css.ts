@@ -2,19 +2,20 @@
  * @fileoverview Helper that contains all the logic related with CSS compat api, to use in different modules.
  */
 
+import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { StyleParse } from '@hint/parser-css/dist/src/types';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
+
 import { FeatureStrategy, MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { CompatBase } from './compat-base';
 
 const debug: debug.IDebugger = d(__filename);
 
-export class CompatCSS extends CompatBase {
+export class CompatCSS extends CompatBase<StyleParse> {
     public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
         super(hintContext, testFunction);
     }

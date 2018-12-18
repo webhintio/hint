@@ -1,28 +1,20 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
-import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
+import { IHint, Events, Event } from 'hint/dist/src/lib/types';
 
 import { CompatAPI, CompatCSS, CompatHTML, userBrowsers } from '../helpers';
-import { FeatureInfo, BrowsersInfo, SupportStatementResult, MDNTreeFilteredByBrowsers } from '../types';
+import { FeatureInfo, BrowsersInfo, SupportStatementResult, ICompatLibrary } from '../types';
 import { SimpleSupportStatement, VersionValue, SupportBlock, SupportStatement, CompatStatement } from '../types-mdn.temp';
 import { browserVersions } from '../helpers/normalize-version';
-import { HTMLParse, HTMLEvents } from '@hint/parser-html/dist/src/types';
 import { CompatNamespace } from '../enums';
-
-export interface ICompatLibrary {
-    setResource(resource: string): void;
-    searchFeatures(collection: MDNTreeFilteredByBrowsers, parse: HTMLParse | StyleParse): void;
-    reportError(feature: FeatureInfo, message: string): Promise<void>;
-}
 
 const classesMapping: {[key: string]: any} = {
     css: CompatCSS,
     html: CompatHTML
 };
 
-export abstract class APIHint implements IHint {
+export abstract class APIHint<T extends Events, K extends Event> implements IHint {
     private compatApi: CompatAPI;
-    private compatLibrary: ICompatLibrary;
+    private compatLibrary: ICompatLibrary<K>;
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue;
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
@@ -30,7 +22,7 @@ export abstract class APIHint implements IHint {
     abstract isVersionValueTestable(version: VersionValue): boolean;
     abstract getContextualMessage(needContextMessage: boolean): string;
 
-    public constructor(namespaceName: CompatNamespace, context: HintContext<StyleEvents | HTMLEvents>, isCheckingNotBroadlySupported: boolean) {
+    public constructor(namespaceName: CompatNamespace, context: HintContext<T>, isCheckingNotBroadlySupported: boolean) {
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
 
         this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
@@ -39,7 +31,7 @@ export abstract class APIHint implements IHint {
         context.on(`parse::end::${namespaceName}` as any, this.onParse.bind(this));
     }
 
-    private async onParse(parse: StyleParse | HTMLParse): Promise<void> {
+    private async onParse(parse: K): Promise<void> {
         const { resource } = parse;
 
         this.compatLibrary.setResource(resource);

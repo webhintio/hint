@@ -3,11 +3,11 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { StyleEvents } from '@hint/parser-css/dist/src/types';
 
-import { DeprecatedAPIHint } from './core/deprecated-hint';
-import { CompatNamespace } from './enums';
 import meta from './meta/css';
+import { CompatNamespace } from './enums';
+import { DeprecatedAPIHint } from './core/deprecated-hint';
+import { StyleEvents, StyleParse } from '@hint/parser-css/dist/src/types';
 
 /*
  * ------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ import meta from './meta/css';
  * ------------------------------------------------------------------------------
  */
 
-export default class CSSDeprecatedAPIHint extends DeprecatedAPIHint {
+export default class CSSDeprecatedAPIHint extends DeprecatedAPIHint<StyleEvents, StyleParse> {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<StyleEvents>) {

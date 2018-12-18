@@ -9,7 +9,7 @@ import { CompatStatement } from '../types-mdn.temp';
 import { HTMLParse } from '@hint/parser-html/dist/src/types';
 import { CompatBase } from './compat-base';
 
-export class CompatHTML extends CompatBase {
+export class CompatHTML extends CompatBase<HTMLParse> {
     public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
         super(hintContext, testFunction);
     }

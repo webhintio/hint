@@ -1,17 +1,15 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HTMLParse } from '@hint/parser-html/dist/src/types';
-import { StyleParse } from '@hint/parser-css/dist/src/types';
 
 import { CachedCompatFeatures } from './cached-compat-features';
 import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 
-export abstract class CompatBase {
+export abstract class CompatBase<T> {
     protected testFunction: TestFeatureFunction;
     protected hintContext: HintContext;
     protected hintResource: string = 'unknown';
     private cachedFeatures: CachedCompatFeatures;
 
-    public abstract async searchFeatures(data: MDNTreeFilteredByBrowsers, parser: StyleParse | HTMLParse): Promise<void>
+    public abstract async searchFeatures(data: MDNTreeFilteredByBrowsers, parser: T): Promise<void>
 
     public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
         if (!testFunction) {

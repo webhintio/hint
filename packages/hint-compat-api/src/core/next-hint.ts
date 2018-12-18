@@ -1,19 +1,18 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { SimpleSupportStatement, VersionValue } from '../types-mdn.temp';
 
 import meta from '../meta/css-next';
 import { APIHint } from './api-hint';
 import { CSSFeatureStatus, CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo, UserPrefixes } from '../types';
-import { HTMLEvents } from '@hint/parser-html/dist/src/types';
+import { Events, Event } from 'hint/dist/src/lib/types';
 
-export class NextAPIHint extends APIHint {
+export class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K> {
     public static readonly meta = meta;
 
     private userPrefixes: UserPrefixes = {};
 
-    public constructor(namespaceName: CompatNamespace, context: HintContext<StyleEvents | HTMLEvents>) {
+    public constructor(namespaceName: CompatNamespace, context: HintContext<T>) {
         super(namespaceName, context, true);
     }
 

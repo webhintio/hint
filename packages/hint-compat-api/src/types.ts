@@ -1,6 +1,6 @@
 import { ChildNode } from 'postcss';
 import { Identifier, SupportStatement, CompatStatement } from './types-mdn.temp'; // Temporal
-import { ProblemLocation } from 'hint/dist/src/lib/types';
+import { ProblemLocation, Event } from 'hint/dist/src/lib/types';
 
 export type MDNTreeFilteredByBrowsers = Identifier;
 
@@ -42,3 +42,9 @@ export type SupportStatementResult = {
 export type UserPrefixes = {
     [key: string]: boolean;
 };
+
+export interface ICompatLibrary<T extends Event> {
+    setResource(resource: string): void;
+    searchFeatures(collection: MDNTreeFilteredByBrowsers, parse: T): void;
+    reportError(feature: FeatureInfo, message: string): Promise<void>;
+}
