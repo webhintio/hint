@@ -1,7 +1,5 @@
 import * as path from 'path';
 
-import { cloneDeep } from 'lodash';
-
 import { FetchEnd, IJSONResult, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint';
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
@@ -32,7 +30,7 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
 
         if (!valid) {
             await this.engine.emitAsync('parse::error::package-json::schema', {
-                error: new Error('Invalid Babel configuration'),
+                error: new Error('Invalid package.json configuration'),
                 errors: validationResult.errors,
                 prettifiedErrors: validationResult.prettifiedErrors,
                 resource
@@ -51,8 +49,6 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
             return;
         }
 
-        let config: any;
-
         try {
             const response = fetchEnd.response;
             // When using local connector to read local files, 'content' is empty.
@@ -60,17 +56,7 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
 
             await this.engine.emitAsync('parse::start::package-json', { resource });
 
-            config = result.data;
-
-            const originalConfig: any = cloneDeep(config);
-
-            const finalConfig = await this.finalConfig<any>(config, resource);
-
-            if (!finalConfig) {
-                return;
-            }
-
-            config = finalConfig;
+            let config : any = result.data;
 
             const validationResult: SchemaValidationResult = await this.validateSchema(config, resource, result);
 
@@ -81,7 +67,6 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
             await this.engine.emitAsync('parse::end::package-json', {
                 config: validationResult.data,
                 getLocation: result.getLocation,
-                originalConfig,
                 resource
             });
         } catch (err) {
