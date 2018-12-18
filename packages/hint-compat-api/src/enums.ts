@@ -6,6 +6,6 @@ export enum CSSFeatureStatus {
 
 export enum CompatNamespace {
     CSS = 'css',
-    Javascript = 'javascript',
+    JavaScript = 'javascript',
     HTML = 'html'
 }
