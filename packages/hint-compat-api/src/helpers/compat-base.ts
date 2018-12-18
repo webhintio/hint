@@ -28,16 +28,15 @@ export abstract class CompatBase<T> {
     public async reportError(feature: FeatureInfo, message: string): Promise<void> {
         const { location } = feature;
 
-        await this.hintContext.report(this.hintResource, message, { location });
-    }
-
-    public isFeatureAlreadyInUse(feature: FeatureInfo): boolean {
         if (this.cachedFeatures.has(feature)) {
-            return true;
+            return;
         }
 
         this.cachedFeatures.add(feature);
+        await this.hintContext.report(this.hintResource, message, { location });
+    }
 
-        return false;
+    public isFeatureAlreadyReported(feature: FeatureInfo): boolean {
+        return this.cachedFeatures.has(feature);
     }
 }

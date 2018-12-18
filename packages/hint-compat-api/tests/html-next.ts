@@ -88,10 +88,7 @@ hintRunner.testHint(hintPath, elementAddedVersionOfTargetedBrowser, { browsersli
 const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
         name: 'Elements added in version after targeted browser should fail.',
-        reports: [
-            { message: 'video element is not added on ie 8 browser.', position: { column: 9, line: 3 }},
-            { message: 'autoplay attribute of the video element is not added on ie 8 browser.', position: { column: 9, line: 3 }}
-        ],
+        reports: [{ message: 'video element is not added on ie 8 browser.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('video')
     }
 ];

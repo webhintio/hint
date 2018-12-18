@@ -122,7 +122,7 @@ export class CompatCSS extends CompatBase<StyleParse> {
             feature.displayableName = name;
         }
 
-        if (this.isFeatureAlreadyInUse(feature)) {
+        if (this.isFeatureAlreadyReported(feature)) {
             return;
         }
 

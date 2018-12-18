@@ -239,6 +239,20 @@ const mixedFeaturedCompatibility: HintTest[] = [
 
 hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['firefox 63', 'edge 18'], parsers: ['css']});
 
+const notSupportedFeaturesShouldNotSeparatelyLog: HintTest[] = [
+    {
+        name: 'Features not supported should not separately log the feature and value.',
+        reports: [
+            { message: 'appearance prefixed with -webkit- is not supported on ie browser.', position: { column: 4, line: 1 }},
+            { message: 'appearance prefixed with -moz- is not supported on ie browser.', position: { column: 4, line: 2 }},
+            { message: 'appearance is not supported on ie browser.', position: { column: 4, line: 3 }}
+        ],
+        serverConfig: generateCSSConfig('appearance')
+    }
+];
+
+hintRunner.testHint(hintPath, notSupportedFeaturesShouldNotSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
+
 /*
  * const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {

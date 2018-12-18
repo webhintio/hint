@@ -94,7 +94,7 @@ export class CompatHTML extends CompatBase<HTMLParse> {
     }
 
     private async testFeature(collection: CompatStatement | undefined, feature: FeatureInfo) {
-        if (this.isFeatureAlreadyInUse(feature)) {
+        if (this.isFeatureAlreadyReported(feature)) {
             return;
         }
 
