@@ -4,7 +4,7 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 
 const meta: HintMetadata = {
     docs: {
-        category: Category.development,
+        category: Category.interoperability,
         description: '`compat-api-css` validates if the CSS features of the project are deprecated',
         name: 'Compatibility CSS deprecated features'
     },

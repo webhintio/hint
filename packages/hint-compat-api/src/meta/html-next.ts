@@ -4,7 +4,7 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 
 const meta: HintMetadata = {
     docs: {
-        category: Category.development,
+        category: Category.interoperability,
         description: '`compat-api-html` validates if the HTML features of the project are not broadly supported',
         name: 'Compatibility HTML not broadly supported features'
     },
