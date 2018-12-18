@@ -22,6 +22,11 @@ export abstract class CompatBase<T extends Events, K extends Event> {
         this.testFunction = testFunction;
         this.hintContext = hintContext;
         this.MDNData = MDNData;
+
+        // Clear feature cache between scans. Contexts like extension-vscode scan multiple times.
+        (this.hintContext as HintContext<Events>).on('scan::end', () => {
+            this.cachedFeatures = new CachedCompatFeatures();
+        });
     }
 
     protected async onParse(parse: K): Promise<void> {
