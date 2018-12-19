@@ -30,8 +30,6 @@ The [video][video] element and its `autoplay` attribute was added for versions o
 Internet Explorer 9 and onwards. Targeting versions of Internet Explorer
 below version 9 will trigger the hint for the element and its attribute.
 
-
-
 ```html
 <video autoplay></video>
 ```
@@ -108,7 +106,6 @@ This property follows the same convention as [browserslist][browserslist].
 * [Browser Compat Data (MDN)][browser-compat]
 
 <!-- Link labels: -->
-
 
 [blink]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blink
 [img]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img
