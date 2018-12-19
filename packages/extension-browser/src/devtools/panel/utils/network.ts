@@ -63,10 +63,12 @@ const waitForFullEntry = (entry: Entry, retries = 5): Promise<Entry> => {
 const getContent = (entry: chrome.devtools.network.Request | Entry): Promise<string> => {
     return new Promise((resolve) => {
         if ('getContent' in entry) {
+            // If the first attempt, we can get the content directly (Chrome).
             entry.getContent((content) => {
                 resolve(content);
             });
         } else {
+            // If a retry, we need to look on the response (Firefox; not populated by Chrome).
             resolve(entry.response.content.text);
         }
     });
@@ -115,7 +117,7 @@ const generateFetchEnd = async (entry: chrome.devtools.network.Request) => {
                     headers: mapHeaders(fullEntry.response.headers),
                     hops: requestHops,
                     mediaType: '', // Set by `content-script/connector`.
-                    statusCode: fullEntry.response.status || 200, // Firefox returns `0`.
+                    statusCode: fullEntry.response.status,
                     url
                 }
             }
