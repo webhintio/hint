@@ -6,7 +6,6 @@ import { EventEmitter2 } from 'eventemitter2';
 import test from 'ava';
 
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
-// import readFile from 'hint/dist/src/lib/utils/fs/read-file';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 
 import PackageJsonParser from '../src/parser';
@@ -120,14 +119,14 @@ test(`If package.json contains an invalid schema, it should emit the 'parse::err
     sandbox.restore();
 });
 
-test(`If 'package.json' contains an invalid property, it should emit the 'parse::error::package-json::schema' event`, async (t) => {
+test(`If 'package.json' contains a non standard property, it should still emit the event parse::end::package-json`, async (t) => {
     const sandbox = sinon.createSandbox();
     const invalidSchemaContent = `{
         "name": "app",
-        "version":  1.0,
-        "scripts": [
-          "echo \"Error: no test specified\" && exit 1",
-        ],
+        "foo":  "1.0.0",
+        "scripts": {
+          "test": "echo \"Error: no test specified\" && exit 1",
+        },
         "dependencies": {
           "extend": "3.0.2"
         },
@@ -144,9 +143,9 @@ test(`If 'package.json' contains an invalid property, it should emit the 'parse:
         response: { body: { content: invalidSchemaContent } }
     });
 
-    // 3 times, the previous call, the start parse and the error
+    // 3 times, the previous call, the start parse and the end
     t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::package-json::schema');
+    t.is(t.context.engine.emitAsync.args[2][0], 'parse::end::package-json');
 
     sandbox.restore();
 });
