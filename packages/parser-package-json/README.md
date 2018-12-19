@@ -1,17 +1,17 @@
-# Babel config (`@hint/parser-babel-config`)
+# package.json config (`@hint/parser-package-json`)
 
-The `babel-config` parser allows the user to analyze the Babel
+The `package-json` parser allows the user to analyze the package-json
 configuration in their projects.
 
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @hint/parser-babel-config
+npm install @hint/parser-package-json
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the
 `--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
+`-g` parameter. For other options see [the `npm`
 documentation](https://docs.npmjs.com/cli/install).
 
 And then activate it via the [`.hintrc`][hintrc] configuration file:
@@ -23,49 +23,36 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
     "hints": {
         ...
     },
-    "parsers": ["babel-config"],
+    "parsers": ["package-json"],
     ...
 }
 ```
 
-This parser detects if a `.babelrc` configuration file is present,
-or if the Babel configuration is specified in `package.json`, and
-validates the Babel configuration against the schema.
+This parser detects if a `package.json` file is present in the project and
+validates its configuration against the the `package.json` schema.
 
 ## Events emitted
 
 This `parser` emits the following events:
 
-* `parse::start::babel-config`, of type `BabelConfigParseStart`
+* `parse::start::package-json`, of type `PackageJsonParseStart`
   which contains the following information:
 
   * `resource`: the resource we are going to parse.
 
-* `parse::end::babel-config`, of type `BabelConfigParse`
+* `parse::end::package-json`, of type `PackageJsonParsed`
   which contains the following information:
 
   * `resource`: the parsed resource.
   * `config`: an object with a valid configuration.
 
-* `parse::error::babel-config::json`, of type `BabelConfigInvalidJSON`
+* `parse::error::package-json::json`, of type `PackageJsonInvalidJSON`
   which contains the following information:
 
   * `resource`: the parsed resource.
-  * `error`: the error emited parsing the configuration file.
+  * `error`: the error emited parsing the package.json.
 
-* `parse::error::babel-config::circular`, of type `BabelConfigInvalidJSON`
-  which contains the following information:
-
-  * `resource`: the parsed resource.
-  * `error`: the error emited parsing the configuration file.
-
-* `parse::error::babel-config::extends`, of type `BabelConfigInvalidJSON`
-  which contains the following information:
-
-  * `resource`: the parsed resource.
-  * `error`: the error emited parsing the configuration file.
-
-* `parse::error::babel-config::schema`, of type `BabelConfigInvalidSchema`
+* `parse::error::package-json::schema`, of type `PackageJsonInvalidSchema`
   which contains the following information:
 
   * `resource`: the parsed resource.
@@ -77,7 +64,7 @@ If you need to import any type or enum defined in this parser,
 you need to import them as follows:
 
 ```ts
-import { TypeOrEnumYouWantToUse } from '@hint/parser-babel-config';
+import { TypeOrEnumYouWantToUse } from '@hint/parser-package-json';
 ```
 
 <!-- Link labels: -->
