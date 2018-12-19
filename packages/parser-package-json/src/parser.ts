@@ -58,6 +58,7 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
 
             if (!validationResult.valid) {
                 await this.emitInvalidPackageJson(validationResult, resource);
+
                 return;
             }
 
