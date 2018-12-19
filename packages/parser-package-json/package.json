@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "description": "webhint parser to analyze babel config",
+  "description": "webhint parser to analyze the package.json file",
   "dependencies": {
     "lodash": "^4.17.11"
   },
@@ -35,13 +35,13 @@
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
-    "babel-config",
+    "package-json",
     "webhint",
     "webhint-parser"
   ],
   "license": "Apache-2.0",
   "main": "dist/src/parser.js",
-  "name": "@hint/parser-babel-config",
+  "name": "@hint/parser-package-json",
   "nyc": {
     "extends": "../../.nycrc"
   },
