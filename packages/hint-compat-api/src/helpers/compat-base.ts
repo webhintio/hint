@@ -1,8 +1,8 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { Events, Event } from 'hint/dist/src/lib/types';
 
 import { CachedCompatFeatures } from './cached-compat-features';
 import { TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers } from '../types';
-import { Events, Event } from 'hint/dist/src/lib/types';
 
 export abstract class CompatBase<T extends Events, K extends Event> {
     protected testFunction: TestFeatureFunction;

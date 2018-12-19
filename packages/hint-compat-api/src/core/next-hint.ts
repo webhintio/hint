@@ -1,11 +1,11 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { SimpleSupportStatement, VersionValue } from '../types-mdn.temp';
+import { Events, Event } from 'hint/dist/src/lib/types';
 
 import meta from '../meta/css-next';
 import { APIHint } from './api-hint';
 import { CSSFeatureStatus, CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo, UserPrefixes } from '../types';
-import { Events, Event } from 'hint/dist/src/lib/types';
+import { SimpleSupportStatement, VersionValue } from '../types-mdn.temp';
 
 export class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K> {
     public static readonly meta = meta;

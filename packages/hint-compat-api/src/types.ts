@@ -1,6 +1,7 @@
 import { ChildNode } from 'postcss';
-import { Identifier, SupportStatement, CompatStatement } from './types-mdn.temp'; // Temporal
 import { ProblemLocation, Event } from 'hint/dist/src/lib/types';
+
+import { Identifier, SupportStatement, CompatStatement } from './types-mdn.temp'; // Temporal
 
 export type MDNTreeFilteredByBrowsers = Identifier;
 

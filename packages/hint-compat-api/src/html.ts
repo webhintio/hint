@@ -3,11 +3,11 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { HTMLEvents, HTMLParse } from '@hint/parser-html/dist/src/types';
 
 import meta from './meta/html';
 import { CompatNamespace } from './enums';
 import { DeprecatedAPIHint } from './core/deprecated-hint';
-import { HTMLEvents, HTMLParse } from '@hint/parser-html/dist/src/types';
 
 /*
  * ------------------------------------------------------------------------------

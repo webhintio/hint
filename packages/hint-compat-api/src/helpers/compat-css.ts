@@ -2,12 +2,12 @@
  * @fileoverview Helper that contains all the logic related with CSS compat api, to use in different modules.
  */
 
+import { find } from 'lodash';
+import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
-import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
-import { find } from 'lodash';
+import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
 
 import { FeatureStrategy, TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, ICompatLibrary } from '../types';
 import { CompatStatement } from '../types-mdn.temp';

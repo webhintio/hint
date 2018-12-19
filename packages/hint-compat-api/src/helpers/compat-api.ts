@@ -5,11 +5,12 @@
 // Waiting for this PR https://github.com/mdn/browser-compat-data/pull/3004
 const mdnAPI: CompatData = require('mdn-browser-compat-data');
 
+import { get } from 'lodash';
+
+import { CompatNamespace } from '../enums';
 import { browserVersions } from './normalize-version';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers, BrowserVersions, FeatureInfo } from '../types';
 import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, Identifier, SupportBlock } from '../types-mdn.temp'; // Temporal
-import { CompatNamespace } from '../enums';
-import { get } from 'lodash';
 
 export class CompatAPI {
     public compatDataApi: MDNTreeFilteredByBrowsers;

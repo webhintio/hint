@@ -1,12 +1,12 @@
 /**
  * @fileoverview Helper that contains all the logic related with HTML compat api, to use in different modules.
  */
-
-import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
+import { HTMLParse, HTMLEvents } from '@hint/parser-html/dist/src/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ElementFound, IAsyncHTMLElement, ProblemLocation, AsyncHTMLAttribute, IAsyncNamedNodeMap } from 'hint/dist/src/lib/types';
+
+import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
-import { HTMLParse, HTMLEvents } from '@hint/parser-html/dist/src/types';
 import { CompatBase } from './compat-base';
 
 export class CompatHTML extends CompatBase<HTMLEvents, HTMLParse> {

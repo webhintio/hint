@@ -3,8 +3,8 @@
  */
 
 import { BrowserSupportCollection } from '../types';
-import { convertBrowserSupportCollectionToMDN } from '.';
 import { browserVersions } from './normalize-version';
+import { convertBrowserSupportCollectionToMDN } from './convert-browser-names';
 
 class UserBrowsers {
     public convert(targetedBrowsers: string[]): BrowserSupportCollection {
