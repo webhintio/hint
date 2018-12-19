@@ -23,21 +23,17 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
         engine.on('fetch::end::json', this.parsePackageJson.bind(this));
     }
 
-    private async validateSchema(config: any, resource: string, result: IJSONResult): Promise<SchemaValidationResult> {
-        const validationResult = validate(this.schema, config, result.getLocation);
+    private validateSchema(config: any, resource: string, result: IJSONResult): SchemaValidationResult {
+        return validate(this.schema, config, result.getLocation);
+    }
 
-        const valid = validationResult.valid;
-
-        if (!valid) {
-            await this.engine.emitAsync('parse::error::package-json::schema', {
-                error: new Error('Invalid package.json configuration'),
-                errors: validationResult.errors,
-                prettifiedErrors: validationResult.prettifiedErrors,
-                resource
-            });
-        }
-
-        return validationResult;
+    private async emitInvalidPackageJson (validationResult: SchemaValidationResult, resource: string): Promise<void> {
+        await this.engine.emitAsync('parse::error::package-json::schema', {
+            error: new Error('Invalid package.json configuration'),
+            errors: validationResult.errors,
+            prettifiedErrors: validationResult.prettifiedErrors,
+            resource
+        });
     }
 
     private async parsePackageJson(fetchEnd: FetchEnd) {
@@ -52,15 +48,16 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
         try {
             const response = fetchEnd.response;
             // When using local connector to read local files, 'content' is empty.
-            let result = parseJSON(response.body.content);
+            const result = parseJSON(response.body.content);
 
             await this.engine.emitAsync('parse::start::package-json', { resource });
 
-            let config : any = result.data;
+            const config = result.data;
 
             const validationResult: SchemaValidationResult = await this.validateSchema(config, resource, result);
 
             if (!validationResult.valid) {
+                await this.emitInvalidPackageJson(validationResult, resource);
                 return;
             }
 
