@@ -19,7 +19,6 @@ export type BrowserVersions = {
     [key: string]: string[];
 };
 
-// eslint-disable: no-use-before-define, typescript/no-use-before-define
 export type FeatureInfo = {
     name: string;
     prefix?: string;
