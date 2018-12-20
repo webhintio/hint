@@ -48,6 +48,7 @@
   "peerDependencies": {
     "hint": "^4.1.0"
   },
+  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
@@ -66,5 +67,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.0.0"
+  "version": "1.0.0"
 }

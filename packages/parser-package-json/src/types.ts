@@ -1,5 +1,8 @@
 import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
 import { IJSONLocationFunction, ISchemaValidationError } from 'hint/dist/src/lib/types';
+import {IJsonSchemaForNpmPackageJsonFiles} from './schema';
+
+export type IJsonSchemaForNpmPackageJsonFiles = IJsonSchemaForNpmPackageJsonFiles;
 
 export type PackageJsonInvalidJSON = ErrorEvent;
 
@@ -9,7 +12,7 @@ export type PackageJsonParseStart = Event;
 /** The object emitted by the `package-json` parser */
 export type PackageJsonParsed = Event & {
     /** The package json parsed */
-    config: any;
+    config: IJsonSchemaForNpmPackageJsonFiles;
     /** Find the location of a path within the original JSON source */
     getLocation: IJSONLocationFunction;
 };

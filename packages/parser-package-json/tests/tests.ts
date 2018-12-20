@@ -129,13 +129,15 @@ test.serial(`If the file contains an invalid json, it should emit an error relat
     t.is(t.context.engine.emitAsync.args[1][0], 'parse::error::package-json::json');
 });
 
-test.serial(`If 'package.json' contains a non standard property, it should still emit the event parse::end::package-json`, async (t) => {
+test.serial(`If 'package.json' contains a custom property (e.g. 'browserslist'), it should still emit the event parse::end::package-json`, async (t) => {
     const nonStandardJSON = `{
         "name": "app",
-        "foo":  "1.0.0",
         "scripts": {
           "test": "echo "Error: no test specified" && exit 1",
         },
+        "browserslist": [
+            "last 1 version",
+          ]
         "dependencies": {
           "extend": "3.0.2"
         },

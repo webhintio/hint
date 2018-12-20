@@ -6,24 +6,23 @@ import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
-import { PackageJsonEvents } from './types';
+import { PackageJsonEvents, IJsonSchemaForNpmPackageJsonFiles } from './types';
 
 export * from './types';
 
 export default class PackageJsonParser extends Parser<PackageJsonEvents> {
-    private schema: any;
+    private schema: IJsonSchemaForNpmPackageJsonFiles;
 
     public constructor(engine: Engine<PackageJsonEvents>) {
         super(engine, 'package-json');
+        // JSON Schema from http://json.schemastore.org/package
         this.schema = loadJSONFile(path.join(__dirname, 'schema.json'));
 
-        /**
-         * package.json => type: 'json' (file type from extention).
-         */
+        // package.json => type: 'json' (file type from extention).
         engine.on('fetch::end::json', this.parsePackageJson.bind(this));
     }
 
-    private validateSchema(config: any, resource: string, result: IJSONResult): SchemaValidationResult {
+    private validateSchema(config: IJsonSchemaForNpmPackageJsonFiles, resource: string, result: IJSONResult): SchemaValidationResult {
         return validate(this.schema, config, result.getLocation);
     }
 
@@ -47,12 +46,11 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
 
         try {
             const response = fetchEnd.response;
-            // When using local connector to read local files, 'content' is empty.
             const result = parseJSON(response.body.content);
 
             await this.engine.emitAsync('parse::start::package-json', { resource });
 
-            const config = result.data;
+            const config: IJsonSchemaForNpmPackageJsonFiles = result.data;
 
             const validationResult: SchemaValidationResult = await this.validateSchema(config, resource, result);
 
