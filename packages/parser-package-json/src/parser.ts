@@ -6,7 +6,8 @@ import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
-import { PackageJsonEvents, IJsonSchemaForNpmPackageJsonFiles } from './types';
+import { PackageJsonEvents } from './types';
+import {IJsonSchemaForNpmPackageJsonFiles} from './schema';
 
 export * from './types';
 

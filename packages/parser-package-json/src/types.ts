@@ -2,8 +2,6 @@ import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
 import { IJSONLocationFunction, ISchemaValidationError } from 'hint/dist/src/lib/types';
 import {IJsonSchemaForNpmPackageJsonFiles} from './schema';
 
-export type IJsonSchemaForNpmPackageJsonFiles = IJsonSchemaForNpmPackageJsonFiles;
-
 export type PackageJsonInvalidJSON = ErrorEvent;
 
 /** Data type sent when the parse starts parsing */
