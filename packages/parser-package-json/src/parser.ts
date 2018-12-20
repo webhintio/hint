@@ -7,7 +7,7 @@ import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 import { PackageJsonEvents } from './types';
-import {IJsonSchemaForNpmPackageJsonFiles} from './schema';
+import { IJsonSchemaForNpmPackageJsonFiles } from './schema';
 
 export * from './types';
 
