@@ -56,7 +56,7 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
     }
 
     public setPageHTML(pageHTML: string) {
-        this._pageHTML = pageHTML;
+        this._pageHTML = pageHTML || /* istanbul ignore next */ '';
     }
 
     public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
