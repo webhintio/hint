@@ -3,7 +3,7 @@ import { Events, Event } from 'hint/dist/src/lib/types';
 
 import meta from '../meta/css-next';
 import { APIHint } from './api-hint';
-import { CSSFeatureStatus, CompatNamespace } from '../enums';
+import { CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo, UserPrefixes } from '../types';
 import { SimpleSupportStatement, VersionValue } from '../types-mdn.temp';
 
@@ -56,7 +56,11 @@ export class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K
         return !feature.prefix && !!this.userPrefixes[browserName + feature.name];
     }
 
-    public getContextualMessage(needContextMessage: boolean) {
-        return needContextMessage ? CSSFeatureStatus.Added : CSSFeatureStatus.Supported;
+    public getNotSupportedBrowserMessage(feature: FeatureInfo): string {
+        return `${feature.displayableName} was not added on any of your target browsers.`;
+    }
+
+    public getNotSupportedFeatureMessage(featureName: string, browserList: string): string {
+        return `${featureName} was not added on ${browserList}.`;
     }
 }

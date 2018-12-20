@@ -3,7 +3,7 @@ import { Events, Event } from 'hint/dist/src/lib/types';
 
 import meta from '../meta/css';
 import { APIHint } from './api-hint';
-import { CSSFeatureStatus, CompatNamespace } from '../enums';
+import { CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo } from '../types';
 import { SimpleSupportStatement, VersionValue } from '../types-mdn.temp';
 
@@ -32,7 +32,11 @@ export class DeprecatedAPIHint<T extends Events, K extends Event> extends APIHin
         return version < currentVersion;
     }
 
-    public getContextualMessage() {
-        return CSSFeatureStatus.Supported;
+    public getNotSupportedBrowserMessage(feature: FeatureInfo): string {
+        return `${feature.displayableName} is not supported on any of your target browsers.`;
+    }
+
+    public getNotSupportedFeatureMessage(featureName: string, browserList: string): string {
+        return `${featureName} is not supported on ${browserList}.`;
     }
 }

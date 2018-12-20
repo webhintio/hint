@@ -160,7 +160,7 @@ hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { br
 const featureVersionAddedFalse: HintTest[] = [
     {
         name: 'Features that have version added as false should fail.',
-        reports: [{ message: 'box-flex is not supported on ie.', position: { column: 4, line: 1}}],
+        reports: [{ message: 'box-flex was not added on ie.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-flex')
     }
 ];
@@ -170,7 +170,7 @@ hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'
 const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
     {
         name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
-        reports: [{ message: 'box-lines is not supported on firefox, firefox_android.', position: { column: 4, line: 1}}],
+        reports: [{ message: 'box-lines was not added on firefox, firefox_android.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];
@@ -180,7 +180,7 @@ hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBr
 const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
     {
         name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
-        reports: [{ message: 'box-lines is not supported on any of your target browsers.', position: { column: 4, line: 1}}],
+        reports: [{ message: 'box-lines was not added on any of your target browsers.', position: { column: 4, line: 1}}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];
@@ -191,9 +191,9 @@ const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added after the targeted browser should fail.',
         reports: [
-            { message: 'keyframes is not added on chrome 40.', position: { column: 0, line: 0 }},
-            { message: 'keyframes is not added on chrome 40.', position: { column: 0, line: 6 }},
-            { message: 'keyframes is not added on chrome 40.', position: { column: 0, line: 12 }}
+            { message: 'keyframes was not added on chrome 40.', position: { column: 0, line: 0 }},
+            { message: 'keyframes was not added on chrome 40.', position: { column: 0, line: 6 }},
+            { message: 'keyframes was not added on chrome 40.', position: { column: 0, line: 12 }}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -204,7 +204,7 @@ hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { br
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
-        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'animation-duration prefixed with -webkit- was not added on opera 12.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];
@@ -232,7 +232,7 @@ hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDepre
 const mixedFeaturedCompatibility: HintTest[] = [
     {
         name: 'Features with mixed compatibility (version added null vs false) for different browsers should only throw errors for browsers in which the feature has never been added (false).',
-        reports: [{ message: 'box-lines is not supported on firefox.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'box-lines was not added on firefox.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];
@@ -243,9 +243,9 @@ const notSupportedFeaturesShouldNotSeparatelyLog: HintTest[] = [
     {
         name: 'Features not supported should not separately log the feature and value.',
         reports: [
-            { message: 'appearance prefixed with -webkit- is not supported on ie.', position: { column: 4, line: 1 }},
-            { message: 'appearance prefixed with -moz- is not supported on ie.', position: { column: 4, line: 2 }},
-            { message: 'appearance is not supported on ie.', position: { column: 4, line: 3 }}
+            { message: 'appearance prefixed with -webkit- was not added on ie.', position: { column: 4, line: 1 }},
+            { message: 'appearance prefixed with -moz- was not added on ie.', position: { column: 4, line: 2 }},
+            { message: 'appearance was not added on ie.', position: { column: 4, line: 3 }}
         ],
         serverConfig: generateCSSConfig('appearance')
     }
@@ -257,7 +257,7 @@ hintRunner.testHint(hintPath, notSupportedFeaturesShouldNotSeparatelyLog, { brow
  * const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {
  *         name: 'Child features that were added later than targeted browsers should fail.',
- *         reports: [{ message: 'flex is not added on chrome 26, chrome 27, chrome 28.' }],
+ *         reports: [{ message: 'flex was not added on chrome 26, chrome 27, chrome 28.' }],
  *         serverConfig: generateCSSConfig('display-flex')
  *     }
  * ];
@@ -269,7 +269,7 @@ hintRunner.testHint(hintPath, notSupportedFeaturesShouldNotSeparatelyLog, { brow
  * const childPrefixedFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {
  *         name: 'Child prefixed features that were added later than targeted browsers should fail.',
- *         reports: [{ message: 'flex prefixed with -webkit- is not added on chrome 17, chrome 18, chrome 19.' }],
+ *         reports: [{ message: 'flex prefixed with -webkit- was not added on chrome 17, chrome 18, chrome 19.' }],
  *         serverConfig: generateCSSConfig('display-flex-prefix')
  *     }
  * ];

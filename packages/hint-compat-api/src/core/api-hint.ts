@@ -20,7 +20,8 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
     abstract isVersionValueSupported(version: VersionValue): boolean;
     abstract isVersionValueTestable(version: VersionValue): boolean;
-    abstract getContextualMessage(needContextMessage: boolean): string;
+    abstract getNotSupportedBrowserMessage(feature: FeatureInfo): string;
+    abstract getNotSupportedFeatureMessage(featureName: string, browserList: string): string;
 
     public constructor(namespaceName: CompatNamespace, context: HintContext<T>, isCheckingNotBroadlySupported: boolean) {
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
@@ -113,32 +114,19 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
 
     private generateReportErrorMessage(feature: FeatureInfo, supportStatementResult: SupportStatementResult): string {
         const { groupedBrowserSupport, browsersToSupportCount, notSupportedBrowsersCount } = supportStatementResult;
-        let needContextMessage = false;
+        const isNotSupportedInAnyTargetBrowser = notSupportedBrowsersCount > 1 && notSupportedBrowsersCount === browsersToSupportCount;
 
-        if (notSupportedBrowsersCount > 1 && notSupportedBrowsersCount === browsersToSupportCount) {
-            return this.getNotSupportedBrowserMessage(feature);
-        } else if (notSupportedBrowsersCount === 1) {
-            const browserName = Object.keys(groupedBrowserSupport)[0];
-            const versions = groupedBrowserSupport[browserName];
-
-            needContextMessage = versions.length > 0;
-        }
-
-        return this.getNotSupportedFeatureMessage(feature, groupedBrowserSupport, needContextMessage);
+        return isNotSupportedInAnyTargetBrowser ?
+            this.getNotSupportedBrowserMessage(feature) :
+            this.getNotSupportedMessage(feature, groupedBrowserSupport);
     }
 
-    private getNotSupportedBrowserMessage(feature: FeatureInfo): string {
-        return `${feature.displayableName} is not supported on any of your target browsers.`;
-    }
-
-    private getNotSupportedFeatureMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}, needContextMessage: boolean): string {
+    private getNotSupportedMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}): string {
         const stringifiedBrowserInfo = this.stringifyBrowserInfo(groupedBrowserSupport);
-        const usedPrefix = feature.prefix ? `prefixed with ${feature.prefix} ` : '';
-        const contextualMessage = this.getContextualMessage(needContextMessage);
+        const usedPrefix = feature.prefix ? ` prefixed with ${feature.prefix}` : '';
 
-        return `${feature.displayableName} ${usedPrefix ? usedPrefix : ''}is not ${contextualMessage} on ${stringifiedBrowserInfo}.`;
+        return this.getNotSupportedFeatureMessage(feature.displayableName + usedPrefix, stringifiedBrowserInfo);
     }
-
 
     private stringifyBrowserInfo(groupedSupportByBrowser: {[browserName: string]: string[]}, skipBrowserVerions: boolean = false) {
         return Object.entries(groupedSupportByBrowser)
