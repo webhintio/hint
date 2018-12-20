@@ -671,6 +671,13 @@ const updateSnykSnapshot = async () => {
     );
 };
 
+const updateTypeScriptSchema = async () => {
+    await downloadFile(
+        'http://json.schemastore.org/tsconfig',
+        path.normalize('packages/parser-typescript-config/src/schema.json')
+    );
+};
+
 const updateAmpValidator = async () => {
     await downloadFile(
         'https://cdn.ampproject.org/v0/validator.js',
@@ -759,6 +766,10 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent: any) =>
 
     if (packageName === 'hint-no-vulnerable-javascript-libraries') {
         tasks.push(newTask('Update `snyk-snapshot.json`', updateSnykSnapshot));
+    }
+
+    if (packageName === 'parser-typescript-config') {
+        tasks.push(newTask('Update `schema.json`', updateTypeScriptSchema));
     }
 
     if (packageName === 'hint-performance-budget') {
