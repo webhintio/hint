@@ -136,14 +136,11 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         const usedPrefix = feature.prefix ? `prefixed with ${feature.prefix} ` : '';
         const contextualMessage = this.getContextualMessage(needContextMessage);
 
-        return `${feature.displayableName} ${usedPrefix ? usedPrefix : ''}is not ${contextualMessage} on ${stringifiedBrowserInfo} browser${this.hasMultipleBrowsers(stringifiedBrowserInfo) ? 's' : ''}.`;
+        return `${feature.displayableName} ${usedPrefix ? usedPrefix : ''}is not ${contextualMessage} on ${stringifiedBrowserInfo}.`;
     }
 
-    protected hasMultipleBrowsers(message: string) {
-        return message.includes(',') || message.includes('-');
-    }
 
-    protected stringifyBrowserInfo(groupedSupportByBrowser: {[browserName: string]: string[]}, skipBrowserVerions: boolean = false) {
+    private stringifyBrowserInfo(groupedSupportByBrowser: {[browserName: string]: string[]}, skipBrowserVerions: boolean = false) {
         return Object.entries(groupedSupportByBrowser)
             .map(([browserName, browserVersions]: [string, string[]]) => {
                 return browserVersions.length === 0 || skipBrowserVerions ?

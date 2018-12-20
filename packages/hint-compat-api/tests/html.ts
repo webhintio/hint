@@ -59,7 +59,7 @@ hintRunner.testHint(hintPath, elementRemovedVersionLaterThanTargetedBrowser, { b
 const elementRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
         name: 'Elements that were removed the version of the targeted browser should fail.',
-        reports: [{ message: 'blink element is not supported on firefox 22 browser.' }],
+        reports: [{ message: 'blink element is not supported on firefox 22.' }],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -69,7 +69,7 @@ hintRunner.testHint(hintPath, elementRemovedVersionOfTargetedBrowser, { browsers
 const elementRemovedVersionEarlierThanMultipleTargetedBrowser: HintTest[] = [
     {
         name: 'Elements that were removed in a version before the targeted browser should fail.',
-        reports: [{ message: 'blink element is not supported on firefox 24-26 browsers.'}],
+        reports: [{ message: 'blink element is not supported on firefox 24-26.'}],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -98,7 +98,7 @@ hintRunner.testHint(hintPath, elementAttrRemovedVersionLaterThanTargetedBrowser,
 const elementAttrRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
         name: 'Element attributes that were removed the version of the targeted browser should fail.',
-        reports: [{ message: 'scoped attribute of the style element is not supported on firefox 55 browser.'}],
+        reports: [{ message: 'scoped attribute of the style element is not supported on firefox 55.'}],
         serverConfig: generateHTMLConfig('style-scoped')
     }
 ];
@@ -108,7 +108,7 @@ hintRunner.testHint(hintPath, elementAttrRemovedVersionOfTargetedBrowser, { brow
 const elementAttrRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     {
         name: 'Element attributes that were removed in a version before the targeted browser should fail.',
-        reports: [{ message: 'scoped attribute of the style element is not supported on firefox 56 browser.'}],
+        reports: [{ message: 'scoped attribute of the style element is not supported on firefox 56.'}],
         serverConfig: generateHTMLConfig('style-scoped')
     }
 ];
@@ -148,7 +148,7 @@ hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1
  * const globalAttributeRemovedVersionOfTargetedBrowser: HintTest[] = [
  *     {
  *         name: 'Global attributes that were removed the version of the targeted browser should fail',
- *         reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 56 browser.'}],
+ *         reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 56.'}],
  *         serverConfig: generateHTMLConfig('global-attr-contextmenu')
  *     }
  * ];
@@ -158,7 +158,7 @@ hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1
  * const globalAttributeRemovedEarlierThanTargetedBrowser: HintTest[] = [
  *     {
  *         name: 'Global attributes that were removed before the targeted browsers should fail',
- *         reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 57 browser.'}],
+ *         reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 57.'}],
  *         serverConfig: generateHTMLConfig('global-attr-contextmenu')
  *     }
  * ];

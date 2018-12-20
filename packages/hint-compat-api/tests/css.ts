@@ -47,7 +47,7 @@ hintRunner.testHint(hintPath, prefixedFeatureNeverRemoved, { browserslist: ['saf
 const featureRemoved: HintTest[] = [
     {
         name: 'Features that were removed in versions before the targeted browsers should fail.',
-        reports: [{ message: 'padding-box is not supported on firefox 52 browser.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'padding-box is not supported on firefox 52.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('box-sizing')
     }
 ];
@@ -57,7 +57,7 @@ hintRunner.testHint(hintPath, featureRemoved, { browserslist: ['firefox 52'], pa
 const prefixFeatureRemoved: HintTest[] = [
     {
         name: 'Prefixed features that were removed in versions before the targeted browsers should fail.',
-        reports: [{ message: 'box-lines prefixed with -webkit- is not supported on chrome 67-69 browsers.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'box-lines prefixed with -webkit- is not supported on chrome 67-69.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('box-lines-prefix-current')
     }
 ];
@@ -86,9 +86,9 @@ const removedForBrowser: HintTest[] = [
     {
         name: 'Features that were removed in a version equal to the targeted browser should fail.',
         reports: [
-            { message: 'keyframes is not supported on opera 15 browser.', position: { column: 0, line: 0 }},
-            { message: 'keyframes is not supported on opera 15 browser.', position: { column: 0, line: 6 }},
-            { message: 'keyframes is not supported on opera 15 browser.', position: { column: 0, line: 12 }}
+            { message: 'keyframes is not supported on opera 15.', position: { column: 0, line: 0 }},
+            { message: 'keyframes is not supported on opera 15.', position: { column: 0, line: 6 }},
+            { message: 'keyframes is not supported on opera 15.', position: { column: 0, line: 12 }}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -99,7 +99,7 @@ hintRunner.testHint(hintPath, removedForBrowser, { browserslist: ['opera 15'], p
 const removedForPrefixEqualToTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version equal to the targeted browser should fail.',
-        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 15 browser.', position: { column: 0, line: 2 }}],
+        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 15.', position: { column: 0, line: 2 }}],
         serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
     }
 ];
@@ -109,7 +109,7 @@ hintRunner.testHint(hintPath, removedForPrefixEqualToTargetedBrowsers, { browser
 const removedForPrefixEarlierThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version earlier than the targeted browser should fail.',
-        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 16, opera 18-19 browsers.', position: { column: 0, line: 2 }}],
+        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 16, opera 18-19.', position: { column: 0, line: 2 }}],
         serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
     }
 ];
@@ -168,7 +168,7 @@ hintRunner.testHint(hintPath, prefixedFeatureThatBecameStandardAfterTarget, { br
 const prefixedFeaturesThatBecameStandardAndPrefixWasDeprecated: HintTest[] = [
     {
         name: 'Prefixed features that became deprecated before the targeted browser should fail.',
-        reports: [{ message: 'background-size prefixed with -moz- is not supported on firefox 4 browser.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'background-size prefixed with -moz- is not supported on firefox 4.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('background-size-prefix')
     }
 ];
