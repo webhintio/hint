@@ -43,10 +43,6 @@ export abstract class CompatBase<T extends Events, K extends Event> {
     public async reportError(feature: FeatureInfo, message: string): Promise<void> {
         const { location } = feature;
 
-        if (this.cachedFeatures.has(feature)) {
-            return;
-        }
-
         this.cachedFeatures.add(feature);
         await this.hintContext.report(this.hintResource, message, { location });
     }
