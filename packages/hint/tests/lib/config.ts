@@ -53,6 +53,14 @@ test.afterEach((t: TestContext) => {
     t.context.sandbox.restore();
 });
 
+test('if .hintrc has a browserslist property defining the targeted browsers, those browsers should be returned', async (t: TestContext) => {
+    const { config } = t.context;
+    const ext = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/browserslist/.hintrc'))).hintConfig;
+    const result = config.Configuration.loadBrowsersList(ext);
+
+    t.true(result.includes('.hintrc'));
+});
+
 test('if there is no configuration file anywhere, it should call os.homedir and return null', (t: TestContext) => {
     const dir = path.resolve('./fixtures/getFileNameForDirectoryEmpty');
     const { config, os, sandbox } = t.context;

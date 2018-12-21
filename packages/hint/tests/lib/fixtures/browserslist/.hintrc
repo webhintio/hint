@@ -1,0 +1,13 @@
+{
+    "connector": {
+        "name": "chrome",
+        "options": {
+            "waitFor": 1000
+        }
+    },
+    "formatters": ["json"],
+    "hints": {
+        "disallowed-headers": "warning",
+    },
+    "browserslist": ["chrome 53"]
+}
