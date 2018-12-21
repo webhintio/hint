@@ -49,23 +49,12 @@ hintRunner.testHint(hintPath, elementVersionAddedNull, { browserslist: ['and_chr
 
 const elementVersionAddedFalse: HintTest[] = [
     {
-        name: 'Elements that have version added as false should fail.',
-        reports: [{ message: 'blink element was not added on chrome.', position: { column: 9, line: 3 }}],
+        name: 'Elements that have version added as false should not fail.',
         serverConfig: generateHTMLConfig('blink')
     }
 ];
 
 hintRunner.testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2 Chrome versions'], parsers: ['html']});
-
-const elementVersionAddedFalseForMultipleBrowsers: HintTest[] = [
-    {
-        name: 'Elements that have version added as false for multiple browsers should fail with one error.',
-        reports: [{ message: 'blink element was not added on chrome, edge, ie.', position: { column: 9, line: 3 }}],
-        serverConfig: generateHTMLConfig('blink')
-    }
-];
-
-hintRunner.testHint(hintPath, elementVersionAddedFalseForMultipleBrowsers, { browserslist: ['chrome 43', 'last 2 Edge versions', 'last 2 ie versions', 'opera 12'], parsers: ['html']});
 
 const elementAddedInVersionBeforeTargetedBrowserVersion: HintTest[] = [
     {
@@ -95,26 +84,6 @@ const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
 
 hintRunner.testHint(hintPath, elementAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['ie 8'], parsers: ['html']});
 
-const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
-    {
-        name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
-        reports: [{ message: 'element element was not added on edge, firefox_android.', position: { column: 9, line: 3 }}],
-        serverConfig: generateHTMLConfig('element')
-    }
-];
-
-hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'chrome 45', 'and_ff 56'], parsers: ['html']});
-
-const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
-    {
-        name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
-        reports: [{ message: 'element element was not added on any of your target browsers.', position: { column: 9, line: 3 }}],
-        serverConfig: generateHTMLConfig('element')
-    }
-];
-
-hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56', 'ie 11'], parsers: ['html']});
-
 const elementAttrVersionAddedNull: HintTest[] = [
     {
         name: 'Element attributes that have version added as null should pass.',
@@ -123,16 +92,6 @@ const elementAttrVersionAddedNull: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, elementAttrVersionAddedNull, { browserslist: ['last 2 Edge versions'], parsers: ['html']});
-
-const elementAttrVersionAddedFalse: HintTest[] = [
-    {
-        name: 'Element attributes that have version added as false should fail.',
-        reports: [{ message: 'srcset attribute of the img element was not added on ie.', position: { column: 9, line: 3 }}],
-        serverConfig: generateHTMLConfig('img-srcset')
-    }
-];
-
-hintRunner.testHint(hintPath, elementAttrVersionAddedFalse, { browserslist: ['ie 9'], parsers: ['html']});
 
 /*
  * GLOBAL ATTRIBUTES
@@ -148,8 +107,7 @@ hintRunner.testHint(hintPath, globalAttrVersionAddedNull, { browserslist: ['last
 
 const globalAttrVersionAddedFalse: HintTest[] = [
     {
-        name: 'Global attributes that have version added as false should fail.',
-        reports: [{ message: 'global attribute dropzone was not added on edge, firefox, ie.', position: { column: 9, line: 3 }}],
+        name: 'Global attributes that have version added as false should not fail.',
         serverConfig: generateHTMLConfig('global-attr-dropzone')
     }
 ];
@@ -196,16 +154,6 @@ const inputTypeVersionAddedNull: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, inputTypeVersionAddedNull, { browserslist: ['last 2 and_chr versions'], parsers: ['html']});
-
-const inputTypeVersionAddedFalse: HintTest[] = [
-    {
-        name: 'Input types that have version added as false should fail.',
-        reports: [{ message: 'input type color was not added on ie.', position: { column: 9, line: 3 }}],
-        serverConfig: generateHTMLConfig('input-color')
-    }
-];
-
-hintRunner.testHint(hintPath, inputTypeVersionAddedFalse, { browserslist: ['ie 9'], parsers: ['html']});
 
 const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
     {

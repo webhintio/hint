@@ -169,12 +169,14 @@ export class CompatAPI {
     /* eslint-enable camelcase */
 
     private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers): boolean {
-        return Object.entries(this.mdnBrowsersCollection).some(([browser, browserVersionsList]): boolean => {
-            if (!typedFeatureValue.__compat || !typedFeatureValue.__compat.support) {
-                return false;
-            }
+        if (!typedFeatureValue.__compat || !typedFeatureValue.__compat.support) {
+            return false;
+        }
 
-            const browserFeatureSupported = this.getWorstCaseSupportStatementFromInfo((typedFeatureValue.__compat.support as any)[browser]);
+        const supportStatement: SupportBlock = typedFeatureValue.__compat.support;
+
+        return Object.entries(this.mdnBrowsersCollection).some(([browser, browserVersionsList]: [string, number[]]): boolean => {
+            const browserFeatureSupported = this.getWorstCaseSupportStatementFromInfo((supportStatement as any)[browser]);
 
             // If we don't have information about the compatibility, ignore.
             if (!browserFeatureSupported) {
@@ -184,16 +186,16 @@ export class CompatAPI {
             const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
 
             if (this.isCheckingNotBroadlySupported) {
-                // Boolean check
-                if (typeof addedVersion === 'boolean' && addedVersion === false) {
-                    return true;
-                }
-
                 // Version check
                 if (typeof addedVersion !== 'boolean' && addedVersion && browserVersionsList[0] <= browserVersions.normalize(addedVersion)) {
                     return true;
                 }
             } else {
+                // Boolean check
+                if (typeof addedVersion === 'boolean' && addedVersion === false) {
+                    return true;
+                }
+
                 // Boolean check
                 if (typeof removedVersion === 'boolean' && removedVersion === true) {
                     return true;

@@ -86,6 +86,56 @@ const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
 
 hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 23', 'opera 16'], parsers: ['html']});
 
+const elementVersionAddedFalse: HintTest[] = [
+    {
+        name: 'Elements that have version added as false should fail.',
+        reports: [{ message: 'blink element is not supported on chrome.', position: { column: 9, line: 3 }}],
+        serverConfig: generateHTMLConfig('blink')
+    }
+];
+
+hintRunner.testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2 Chrome versions'], parsers: ['html']});
+
+const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
+    {
+        name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
+        reports: [{ message: 'element element is not supported on any of your target browsers.', position: { column: 9, line: 3 }}],
+        serverConfig: generateHTMLConfig('element')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56', 'ie 11'], parsers: ['html']});
+
+const elementVersionAddedFalseForMultipleBrowsers: HintTest[] = [
+    {
+        name: 'Elements that have version added as false for multiple browsers should fail with one error.',
+        reports: [{ message: 'blink element is not supported on chrome, edge, ie.', position: { column: 9, line: 3 }}],
+        serverConfig: generateHTMLConfig('blink')
+    }
+];
+
+hintRunner.testHint(hintPath, elementVersionAddedFalseForMultipleBrowsers, { browserslist: ['chrome 43', 'last 2 Edge versions', 'last 2 ie versions', 'opera 12'], parsers: ['html']});
+
+const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
+    {
+        name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
+        reports: [{ message: 'element element is not supported on edge, firefox_android.', position: { column: 9, line: 3 }}],
+        serverConfig: generateHTMLConfig('element')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'chrome 45', 'and_ff 56'], parsers: ['html']});
+
+const elementAttrVersionAddedFalse: HintTest[] = [
+    {
+        name: 'Element attributes that have version added as false should fail.',
+        reports: [{ message: 'srcset attribute of the img element is not supported on ie.', position: { column: 9, line: 3 }}],
+        serverConfig: generateHTMLConfig('img-srcset')
+    }
+];
+
+hintRunner.testHint(hintPath, elementAttrVersionAddedFalse, { browserslist: ['ie 9'], parsers: ['html']});
+
 const elementAttrRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     {
         name: 'Element attributes that were removed in a version later than the targeted browser should pass.',
@@ -126,6 +176,16 @@ const globalAttributeNeverRemoved: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
+
+const globalAttrVersionAddedFalse: HintTest[] = [
+    {
+        name: 'Global attributes that have version added as false should fail.',
+        reports: [{ message: 'global attribute dropzone is not supported on edge, firefox, ie.', position: { column: 9, line: 3 }}],
+        serverConfig: generateHTMLConfig('global-attr-dropzone')
+    }
+];
+
+hintRunner.testHint(hintPath, globalAttrVersionAddedFalse, { browserslist: ['last 2 edge versions', 'last 2 firefox versions', 'last 2 ie versions', 'Chrome 60'], parsers: ['html']});
 
 /*
  * FIXME: Browserlist doesn't have the whole list of browsers,
@@ -178,3 +238,13 @@ const inputTypeNeverRemoved: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], parsers: ['html']});
+
+const inputTypeVersionAddedFalse: HintTest[] = [
+    {
+        name: 'Input types that have version added as false should fail.',
+        reports: [{ message: 'input type color is not supported on ie.', position: { column: 9, line: 3 }}],
+        serverConfig: generateHTMLConfig('input-color')
+    }
+];
+
+hintRunner.testHint(hintPath, inputTypeVersionAddedFalse, { browserslist: ['ie 9'], parsers: ['html']});

@@ -15,6 +15,10 @@ export class DeprecatedAPIHint<T extends Events, K extends Event> extends APIHin
     }
 
     public getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue {
+        if (browserFeatureSupported.version_added === false) {
+            return true;
+        }
+
         return browserFeatureSupported.version_removed;
     }
 
