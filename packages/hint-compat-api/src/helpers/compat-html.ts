@@ -19,16 +19,7 @@ export class CompatHTML extends CompatBase<HTMLEvents, HTMLParse> {
     public async searchFeatures(parser: HTMLParse): Promise<void> {
         await this.walk(async (elementFound: ElementFound) => {
             const { element } = elementFound;
-            const location = element.getLocation();
-            /*
-             * WORKAROUND: Element listener is being fired twice. The second
-             * time the location is not defined so we use this "flag" to
-             * discard the second iteration.
-             */
-
-            if (!location) {
-                return;
-            }
+            const location = element.getLocation() || {} as ProblemLocation;
 
             await this.testElement(element, location);
             await this.testAttributes(element, location);
