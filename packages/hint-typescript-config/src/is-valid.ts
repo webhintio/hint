@@ -35,15 +35,14 @@ export default class TypeScriptConfigIsValid implements IHint {
         };
 
         const invalidSchema = async (fetchEnd: TypeScriptConfigInvalidSchema) => {
-            const { errors, prettifiedErrors, resource } = fetchEnd;
+            const { prettifiedErrors, resource } = fetchEnd;
 
             debug(`parse::error::typescript-config::schema received`);
 
-            for (let i = 0; i < errors.length; i++) {
+            for (let i = 0; i < prettifiedErrors.length; i++) {
                 const message = prettifiedErrors[i];
-                const location = errors[i].location;
 
-                await context.report(resource, message, { location });
+                await context.report(resource, message);
             }
         };
 

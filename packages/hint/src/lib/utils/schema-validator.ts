@@ -3,7 +3,8 @@ import {
     cloneDeep,
     groupBy,
     reduce,
-    without
+    without,
+    Dictionary
 } from 'lodash';
 
 import { IJSONLocationFunction, ISchemaValidationError, SchemaValidationResult } from '../types';
@@ -28,8 +29,11 @@ enum ErrorKeyword {
     additionalProperties = 'additionalProperties',
     anyOf = 'anyOf',
     enum = 'enum',
+    oneOf = 'oneOf',
     pattern = 'pattern',
-    type = 'type'
+    required = 'required',
+    type = 'type',
+    uniqueItems = 'uniqueItems'
 }
 
 const generateError = (type: string, action: ((error: ajv.ErrorObject, property: string, errors?: ajv.ErrorObject[]) => string)): ((error: ajv.ErrorObject, errors?: ajv.ErrorObject[]) => string | null) => {
@@ -50,7 +54,7 @@ const generateError = (type: string, action: ((error: ajv.ErrorObject, property:
 const generateAdditionalPropertiesError = generateError(ErrorKeyword.additionalProperties, (error: ajv.ErrorObject, property: string): string => {
     const additionalProperty = (error.params as ajv.AdditionalPropertiesParams).additionalProperty;
 
-    return `${property ? `'${property}' ` : ''}${property ? error.message : `${error.message && error.message[0].toLocaleUpperCase()}${error.message && error.message.substr(1)}`}. Additional property found '${additionalProperty}'.`;
+    return `${property ? `${property}` : 'root'} ${property ? error.message : `${error.message}`}. Additional property found '${additionalProperty}'.`;
 });
 
 /**
@@ -59,38 +63,62 @@ const generateAdditionalPropertiesError = generateError(ErrorKeyword.additionalP
 const generateEnumError = generateError(ErrorKeyword.enum, (error: ajv.ErrorObject, property: string): string => {
     const allowedValues = (error.params as ajv.EnumParams).allowedValues;
 
-    return `'${property}' ${error.message} '${allowedValues.join(', ')}'. Value found '${error.data}'`;
+    return `${property} ${error.message} '${allowedValues.join(', ')}'. Value found '${error.data}'`;
 });
 
 /**
  * Returns a readable error for 'pattern' errors.
  */
 const generatePatternError = generateError(ErrorKeyword.pattern, (error: ajv.ErrorObject, property: string) => {
-    return `'${property}' ${error.message && error.message.replace(/"/g, '\'')}. Value found '${error.data}'`;
+    return `${property} ${error.message && error.message.replace(/"/g, '\'')}. Value found '${error.data}'`;
 });
 
 /**
  * Returns a readable error for 'type' errors.
  */
 const generateTypeError = generateError(ErrorKeyword.type, (error: ajv.ErrorObject, property: string) => {
-    return `'${property}' ${error.message && error.message.replace(/"/g, '\'')}.`;
+    return `${property} should be '${(error.params as ajv.TypeParams).type}'.`;
 });
 
-/**
- * Returns a readable error for 'anyOf' errors.
- */
-const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorObject, property: string, errors?: ajv.ErrorObject[]): string => {
-    const otherErrors = without(errors, error);
-
-    const results = otherErrors.map((otherError) => {
-        // eslint-disable-next-line typescript/no-use-before-define, no-use-before-define
-        return generate(otherError);
-    });
-
-    return results.join(' or ');
+const generateUniqueItemError = generateError(ErrorKeyword.uniqueItems, (error: ajv.ErrorObject, property: string) => {
+    return `${property} ${error.message && error.message.replace(/"/g, '\'')}.`;
 });
 
-const errorGenerators: Array<((error: ajv.ErrorObject, errors?: ajv.ErrorObject[]) => string | null)> = [generateAdditionalPropertiesError, generateEnumError, generatePatternError, generateTypeError, generateAnyOfError];
+const getRequiredProperty = (error: ajv.ErrorObject): string => {
+    return `'${(error.params as ajv.RequiredParams).missingProperty}'`;
+};
+
+const getTypeProperty = (error: ajv.ErrorObject): string => {
+    return `'${(error.params as ajv.TypeParams).type}'`;
+};
+
+const getEnumValues = (error: ajv.ErrorObject): string => {
+    return `'${(error.params as ajv.EnumParams).allowedValues.join(', ')}'`;
+};
+
+const generateAnyOfMessageRequired = (errrors: ajv.ErrorObject[]): string => {
+    return `should have required properties ${errrors.map(getRequiredProperty).join(' or ')}`;
+};
+
+const generateAnyOfMessageType = (errors: ajv.ErrorObject[]): string => {
+    return `should be ${errors.map(getTypeProperty).join(' or ')}.`;
+};
+
+const generateAnyOfMessageEnum = (errors: ajv.ErrorObject[]): string => {
+    return `should be equal to one of the allowed values ${errors.map(getEnumValues).join(' or ')}. Value found '${JSON.stringify(errors[0].data)}'.`;
+};
+
+type GenerateAnyOfMessage = {
+    [index: string]: (errors: ajv.ErrorObject[]) => string;
+};
+
+const generateAnyOfMessage: GenerateAnyOfMessage = {
+    [ErrorKeyword.required]: generateAnyOfMessageRequired,
+    [ErrorKeyword.type]: generateAnyOfMessageType,
+    [ErrorKeyword.enum]: generateAnyOfMessageEnum
+};
+
+const errorGenerators: Array<((error: ajv.ErrorObject, errors?: ajv.ErrorObject[]) => string | null)> = [generateAdditionalPropertiesError, generateEnumError, generatePatternError, generateTypeError, generateUniqueItemError];
 
 /**
  * Returns a readable error message.
@@ -107,16 +135,94 @@ const generate = (error: ajv.ErrorObject, errors?: ajv.ErrorObject[]): string | 
     }, error.message || '');
 };
 
+/**
+ * Returns a readable error for 'anyOf' and 'oneOf' errors.
+ */
+const generateAnyOfError = (error: ajv.ErrorObject, errors?: ajv.ErrorObject[]): string => {
+    const otherErrors = without(errors, error);
+    const grouped = groupBy(otherErrors, 'keyword');
 
-const prettify = (errors: ajv.ErrorObject[]) => {
-    const grouped = groupBy(errors, 'dataPath');
+    const results = reduce(grouped, (allMessages, groupedErrors, keyword) => {
+        const dataPath = error.dataPath;
 
-    const result = reduce(grouped, (allMessages, groupErrors: ajv.ErrorObject[]) => {
-        groupErrors.forEach((error) => {
-            allMessages.push(generate(error, groupErrors) || '');
+        const messageGenerator = generateAnyOfMessage[keyword];
+
+        if (messageGenerator) {
+            allMessages.push(`${dataPath ? dataPath.substr(1) : 'root'} ${messageGenerator(groupedErrors)}`);
+
+            return allMessages;
+        }
+
+        groupedErrors.forEach((error) => {
+            const errorGenerated = generate(error, groupedErrors) || '';
+
+            if (errorGenerated) {
+                allMessages.push(`${errorGenerated}`);
+            }
         });
 
         return allMessages;
+    }, [] as string[]);
+
+    return results.join(' Or ');
+};
+
+const generateErrorsMessage = (errors: ajv.ErrorObject[]): string[] => {
+    const grouped = groupBy(errors, 'keyword');
+
+    const result = reduce(grouped, (allMessages, groupedErrors, keyword) => {
+        if (keyword === ErrorKeyword.required) {
+            const dataPath = groupedErrors[0].dataPath;
+
+            allMessages.push(`${dataPath ? dataPath.substr(1) : 'root'} should have required properties ${groupedErrors.map(getRequiredProperty).join(' and ')}`);
+
+            return allMessages;
+        }
+
+        groupedErrors.forEach((error) => {
+            allMessages.push(generate(error, groupedErrors) || '');
+        });
+
+        return allMessages;
+    }, [] as string[]);
+
+    return result;
+};
+
+const prettify = (errors: ajv.ErrorObject[]) => {
+    const grouped: Dictionary<ajv.ErrorObject[]> = groupBy(errors, 'dataPath');
+
+    const result = reduce(grouped, (allMessages, groupErrors: ajv.ErrorObject[]) => {
+        let errors = groupErrors;
+
+        const anyOf = groupErrors.find((error) => {
+            return error.keyword === ErrorKeyword.anyOf || error.keyword === ErrorKeyword.oneOf;
+        });
+
+        if (anyOf) {
+            const anyOfErrors = groupErrors.filter((error) => {
+                return error.schemaPath.includes(anyOf.schemaPath) || anyOf.schema.some((schema: any) => {
+                    return error.schemaPath.includes(schema.$ref);
+                });
+            });
+
+            errors = without(groupErrors, ...anyOfErrors);
+
+            allMessages.push(generateAnyOfError(anyOf, anyOfErrors));
+
+
+            if (errors.length === 0) {
+                return allMessages;
+            }
+        }
+
+        /*
+         * If there is no 'anyOf' error, then join with 'and' the rest of the messages.
+         * if they have the same keyword.
+         */
+        return allMessages.concat(generateErrorsMessage(errors));
+
+        // return allMessages;
     }, [] as string[]);
 
     return result;

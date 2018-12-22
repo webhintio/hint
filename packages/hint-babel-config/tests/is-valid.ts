@@ -14,7 +14,7 @@ const tests: HintLocalTest[] = [
     {
         name: `Invalid .babelrc configuration should fail`,
         path: path.join(__dirname, 'fixtures', 'invalid-schema', '.babelrc'),
-        reports: [{ message: `'moduleId' should be string.` }]
+        reports: [{ message: `moduleId should be 'string'.` }]
     },
     {
         name: `Invalid json file should fail`,
@@ -32,17 +32,17 @@ const tests: HintLocalTest[] = [
     {
         name: `If package.json contains invalid "babel" property, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-invalid-babel-package-json', 'package.json'),
-        reports: [{ message: `'moduleId' should be string.` }]
+        reports: [{ message: `moduleId should be 'string'.` }]
     },
     {
         name: `If .babelrc contains an additional property, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-additional-property', '.babelrc'),
-        reports: [{ message: `Should NOT have additional properties. Additional property found 'additional'.` }]
+        reports: [{ message: `root should NOT have additional properties. Additional property found 'additional'.` }]
     },
     {
         name: `If .babelrc contains an invalid value, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-invalid-enum-property', '.babelrc'),
-        reports: [{ message: `'sourceMaps' should be equal to one of the allowed values 'both, inline, true, false'. Value found 'invalidValue'` }]
+        reports: [{ message: `sourceMaps should be equal to one of the allowed values 'both, inline, true, false'. Value found 'invalidValue'` }]
     },
     {
         name: 'If .babelrc contains a circular reference, it should fail',
