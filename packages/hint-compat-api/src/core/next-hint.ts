@@ -55,12 +55,4 @@ export class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K
     private isPrefixAlreadyInUse (browserName: string, feature: FeatureInfo): boolean {
         return !feature.prefix && !!this.userPrefixes[browserName + feature.name];
     }
-
-    public getNotSupportedBrowserMessage(feature: FeatureInfo): string {
-        return `${feature.displayableName} was not added on any of your target browsers.`;
-    }
-
-    public getNotSupportedFeatureMessage(featureName: string, browserList: string): string {
-        return `${featureName} was not added on ${browserList}.`;
-    }
 }

@@ -35,12 +35,4 @@ export class DeprecatedAPIHint<T extends Events, K extends Event> extends APIHin
     public isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number) {
         return version < currentVersion;
     }
-
-    public getNotSupportedBrowserMessage(feature: FeatureInfo): string {
-        return `${feature.displayableName} is not supported on any of your target browsers.`;
-    }
-
-    public getNotSupportedFeatureMessage(featureName: string, browserList: string): string {
-        return `${featureName} is not supported on ${browserList}.`;
-    }
 }

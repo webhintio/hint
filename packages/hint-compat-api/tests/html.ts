@@ -59,7 +59,7 @@ hintRunner.testHint(hintPath, elementRemovedVersionLaterThanTargetedBrowser, { b
 const elementRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
         name: 'Elements that were removed the version of the targeted browser should fail.',
-        reports: [{ message: 'blink element is not supported on firefox 22.' }],
+        reports: [{ message: 'blink element is not supported by firefox 22.' }],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -69,7 +69,7 @@ hintRunner.testHint(hintPath, elementRemovedVersionOfTargetedBrowser, { browsers
 const elementRemovedVersionEarlierThanMultipleTargetedBrowser: HintTest[] = [
     {
         name: 'Elements that were removed in a version before the targeted browser should fail.',
-        reports: [{ message: 'blink element is not supported on firefox 24-26.'}],
+        reports: [{ message: 'blink element is not supported by firefox 24-26.'}],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -79,7 +79,7 @@ hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanMultipleTargetedBr
 const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     {
         name: 'Elements that were removed in a version before the targeted browsers should fail with one error.',
-        reports: [{ message: 'blink element is not supported on any of your target browsers.' }],
+        reports: [{ message: 'blink element is not supported by any of your target browsers.' }],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -89,7 +89,7 @@ hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, {
 const elementVersionAddedFalse: HintTest[] = [
     {
         name: 'Elements that have version added as false should fail.',
-        reports: [{ message: 'blink element is not supported on chrome.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'blink element is not supported by chrome.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -99,7 +99,7 @@ hintRunner.testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2
 const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
     {
         name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
-        reports: [{ message: 'element element is not supported on any of your target browsers.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'element element is not supported by any of your target browsers.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('element')
     }
 ];
@@ -109,7 +109,7 @@ hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { 
 const elementVersionAddedFalseForMultipleBrowsers: HintTest[] = [
     {
         name: 'Elements that have version added as false for multiple browsers should fail with one error.',
-        reports: [{ message: 'blink element is not supported on chrome, edge, ie.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'blink element is not supported by chrome, edge, ie.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -119,7 +119,7 @@ hintRunner.testHint(hintPath, elementVersionAddedFalseForMultipleBrowsers, { bro
 const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
     {
         name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
-        reports: [{ message: 'element element is not supported on edge, firefox_android.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'element element is not supported by edge, firefox_android.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('element')
     }
 ];
@@ -129,7 +129,7 @@ hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBr
 const elementAttrVersionAddedFalse: HintTest[] = [
     {
         name: 'Element attributes that have version added as false should fail.',
-        reports: [{ message: 'srcset attribute of the img element is not supported on ie.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'srcset attribute of the img element is not supported by ie.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('img-srcset')
     }
 ];
@@ -148,7 +148,7 @@ hintRunner.testHint(hintPath, elementAttrRemovedVersionLaterThanTargetedBrowser,
 const elementAttrRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
         name: 'Element attributes that were removed the version of the targeted browser should fail.',
-        reports: [{ message: 'scoped attribute of the style element is not supported on firefox 55.'}],
+        reports: [{ message: 'scoped attribute of the style element is not supported by firefox 55.'}],
         serverConfig: generateHTMLConfig('style-scoped')
     }
 ];
@@ -158,7 +158,7 @@ hintRunner.testHint(hintPath, elementAttrRemovedVersionOfTargetedBrowser, { brow
 const elementAttrRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     {
         name: 'Element attributes that were removed in a version before the targeted browser should fail.',
-        reports: [{ message: 'scoped attribute of the style element is not supported on firefox 56.'}],
+        reports: [{ message: 'scoped attribute of the style element is not supported by firefox 56.'}],
         serverConfig: generateHTMLConfig('style-scoped')
     }
 ];
@@ -180,7 +180,7 @@ hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1
 const globalAttrVersionAddedFalse: HintTest[] = [
     {
         name: 'Global attributes that have version added as false should fail.',
-        reports: [{ message: 'global attribute dropzone is not supported on edge, firefox, ie.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'global attribute dropzone is not supported by edge, firefox, ie.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('global-attr-dropzone')
     }
 ];
@@ -208,7 +208,7 @@ hintRunner.testHint(hintPath, globalAttrVersionAddedFalse, { browserslist: ['las
  * const globalAttributeRemovedVersionOfTargetedBrowser: HintTest[] = [
  *     {
  *         name: 'Global attributes that were removed the version of the targeted browser should fail',
- *         reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 56.'}],
+ *         reports: [{ message: 'global attribute contextmenu is not supported by firefox_android 56.'}],
  *         serverConfig: generateHTMLConfig('global-attr-contextmenu')
  *     }
  * ];
@@ -218,7 +218,7 @@ hintRunner.testHint(hintPath, globalAttrVersionAddedFalse, { browserslist: ['las
  * const globalAttributeRemovedEarlierThanTargetedBrowser: HintTest[] = [
  *     {
  *         name: 'Global attributes that were removed before the targeted browsers should fail',
- *         reports: [{ message: 'global attribute contextmenu is not supported on firefox_android 57.'}],
+ *         reports: [{ message: 'global attribute contextmenu is not supported by firefox_android 57.'}],
  *         serverConfig: generateHTMLConfig('global-attr-contextmenu')
  *     }
  * ];
@@ -242,7 +242,7 @@ hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], p
 const inputTypeVersionAddedFalse: HintTest[] = [
     {
         name: 'Input types that have version added as false should fail.',
-        reports: [{ message: 'input type color is not supported on ie.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'input type color is not supported by ie.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('input-color')
     }
 ];

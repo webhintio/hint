@@ -77,7 +77,7 @@ hintRunner.testHint(hintPath, elementAddedVersionOfTargetedBrowser, { browsersli
 const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
         name: 'Elements added in version after targeted browser should fail.',
-        reports: [{ message: 'video element was not added on ie 8.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'video element is not supported by ie 8.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('video')
     }
 ];
@@ -135,7 +135,7 @@ hintRunner.testHint(hintPath, globalAttrAddedVersionOfTargetedBrowser, { browser
 const globalAttrAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
         name: 'Global attributes added in version after targeted browser should fail.',
-        reports: [{ message: 'global attribute class was not added on firefox 31.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'global attribute class is not supported by firefox 31.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('div')
     }
 ];
@@ -158,7 +158,7 @@ hintRunner.testHint(hintPath, inputTypeVersionAddedNull, { browserslist: ['last 
 const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
     {
         name: 'Input types added in a version after the targeted browsers should fail.',
-        reports: [{ message: 'input type color was not added on chrome 19, firefox 28.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'input type color is not supported by chrome 19, firefox 28.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('input-color')
     }
 ];

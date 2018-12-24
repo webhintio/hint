@@ -20,8 +20,6 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
     abstract isVersionValueSupported(version: VersionValue): boolean;
     abstract isVersionValueTestable(version: VersionValue): boolean;
-    abstract getNotSupportedBrowserMessage(feature: FeatureInfo): string;
-    abstract getNotSupportedFeatureMessage(featureName: string, browserList: string): string;
 
     public constructor(namespaceName: CompatNamespace, context: HintContext<T>, isCheckingNotBroadlySupported: boolean) {
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
@@ -136,5 +134,13 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
                     this.compatApi.groupNotSupportedVersions(browserVersions);
             })
             .join(', ');
+    }
+
+    private getNotSupportedBrowserMessage(feature: FeatureInfo): string {
+        return `${feature.displayableName} is not supported by any of your target browsers.`;
+    }
+
+    private getNotSupportedFeatureMessage(featureName: string, browserList: string): string {
+        return `${featureName} is not supported by ${browserList}.`;
     }
 }

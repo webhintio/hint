@@ -170,9 +170,9 @@ const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added after the targeted browser should fail.',
         reports: [
-            { message: 'keyframes was not added on chrome 40.', position: { column: 0, line: 0 }},
-            { message: 'keyframes was not added on chrome 40.', position: { column: 0, line: 6 }},
-            { message: 'keyframes was not added on chrome 40.', position: { column: 0, line: 12 }}
+            { message: 'keyframes is not supported by chrome 40.', position: { column: 0, line: 0 }},
+            { message: 'keyframes is not supported by chrome 40.', position: { column: 0, line: 6 }},
+            { message: 'keyframes is not supported by chrome 40.', position: { column: 0, line: 12 }}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -183,7 +183,7 @@ hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { br
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
-        reports: [{ message: 'animation-duration prefixed with -webkit- was not added on opera 12.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'animation-duration prefixed with -webkit- is not supported by opera 12.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];
@@ -212,7 +212,7 @@ hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDepre
  * const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {
  *         name: 'Child features that were added later than targeted browsers should fail.',
- *         reports: [{ message: 'flex was not added on chrome 26, chrome 27, chrome 28.' }],
+ *         reports: [{ message: 'flex is not supported by chrome 26, chrome 27, chrome 28.' }],
  *         serverConfig: generateCSSConfig('display-flex')
  *     }
  * ];
@@ -224,7 +224,7 @@ hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDepre
  * const childPrefixedFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {
  *         name: 'Child prefixed features that were added later than targeted browsers should fail.',
- *         reports: [{ message: 'flex prefixed with -webkit- was not added on chrome 17, chrome 18, chrome 19.' }],
+ *         reports: [{ message: 'flex prefixed with -webkit- is not supported by chrome 17, chrome 18, chrome 19.' }],
  *         serverConfig: generateCSSConfig('display-flex-prefix')
  *     }
  * ];
