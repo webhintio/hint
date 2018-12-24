@@ -1,0 +1,11 @@
+{
+    "name": "app",
+    "version": "1.0.0",
+    "browserslist": ["chrome 45"],
+    "hintConfig": {
+      "connector": {
+          "name": "connectorName"
+      },
+      "browserslist": ["chrome 45"]
+    }
+  }

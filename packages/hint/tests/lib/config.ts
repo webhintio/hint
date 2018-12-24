@@ -1,6 +1,13 @@
 import * as path from 'path';
 
-import { ConnectorConfig, CLIOptions, IHint, HintsConfigObject, HintMetadata, UserConfig } from '../../src/lib/types';
+import { 
+    ConnectorConfig,
+    CLIOptions,
+    IHint,
+    HintsConfigObject,
+    HintMetadata,
+    UserConfig
+} from '../../src/lib/types';
 import anyTest, { AssertContext, Context, RegisterContextual } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
@@ -53,12 +60,46 @@ test.afterEach((t: TestContext) => {
     t.context.sandbox.restore();
 });
 
+test.serial('if both .hintrc and package.json has a browserslist property, an error should be thrown', async (t: TestContext) => {
+    const { config, sandbox } = t.context;
+
+    sandbox
+     .stub(process, 'cwd')
+     .returns(path.join(__dirname + '/fixtures/browserslist-env-multiple'));
+
+    const error = t.throws(() => {
+        config.Configuration.loadBrowsersList();
+    });
+
+
+    t.is(error.message, `conflicting browserslist property declared in multiple files`);
+});
+
+test.serial('if package.json has a browserslist property in its primary scope and in .hintConfig, an error should be thrown', async (t: TestContext) => {
+    const { config, sandbox } = t.context;
+
+    sandbox
+     .stub(process, 'cwd')
+     .returns(path.join(__dirname + '/fixtures/browserslist-package-json-multiple'));
+
+    const error = t.throws(() => {
+        config.Configuration.loadBrowsersList();
+    });
+
+    t.is(error.message, `conflicting browserslist property declared in multiple files`);
+});
+
 test('if .hintrc has a browserslist property defining the targeted browsers, those browsers should be returned', async (t: TestContext) => {
     const { config } = t.context;
-    const ext = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/browserslist/.hintrc'))).hintConfig;
-    const result = config.Configuration.loadBrowsersList(ext);
 
-    t.true(result.includes('.hintrc'));
+    const data = await readFileAsync(path.join(__dirname, './fixtures/browserslist-true/.hintrc'))
+    
+    const json = await JSON.parse(data);
+
+    const result = config.Configuration.loadBrowsersList(json);
+
+    t.is(result.length, 1);
+    t.is(result[0], "chrome 53");
 });
 
 test('if there is no configuration file anywhere, it should call os.homedir and return null', (t: TestContext) => {

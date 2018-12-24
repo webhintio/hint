@@ -7,7 +7,6 @@
     },
     "formatters": ["json"],
     "hints": {
-        "disallowed-headers": "warning",
-    },
-    "browserslist": ["chrome 53"]
+        "disallowed-headers": "warning"
+    }
 }
