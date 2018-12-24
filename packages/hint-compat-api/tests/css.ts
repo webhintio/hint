@@ -141,7 +141,7 @@ const removedForFlags: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['android 4-4.6'], parsers: ['css']});
+hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['firefox 18'], parsers: ['css']});
 
 const prefixedFeaturesThatBecameStandardButStillAreValid: HintTest[] = [
     'backface-visibility-prefix',

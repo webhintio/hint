@@ -41,11 +41,21 @@ hintRunner.testHint(hintPath, elementAttrNeverRemoved, { browserslist: ['> 1%'],
 const removedForFlags: HintTest[] = [
     {
         name: 'Elements removed from versions requiring flags should pass.',
+        serverConfig: generateHTMLConfig('picture')
+    }
+];
+
+hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['firefox 34'], parsers: ['html']});
+
+const onlySupportedByFlags: HintTest[] = [
+    {
+        name: 'Elements only supported by flags should fail.',
+        reports: [{ message: 'shadow element is not supported by firefox 60.', position: { column: 9, line: 3 }}],
         serverConfig: generateHTMLConfig('shadow')
     }
 ];
 
-hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['firefox 60'], parsers: ['css']});
+hintRunner.testHint(hintPath, onlySupportedByFlags, { browserslist: ['firefox 60'], parsers: ['html']});
 
 const elementRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     {
