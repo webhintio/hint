@@ -29,7 +29,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 ```
 
 This parser detects if a `package.json` file is present in the project and
-validates its configuration against the the `package.json` schema.
+validates its configuration against the `package.json` schema.
 
 ## Events emitted
 
@@ -45,6 +45,7 @@ This `parser` emits the following events:
 
   * `resource`: the parsed resource.
   * `config`: an object with a valid configuration.
+  * `getLocation`: method yeilding the resource's problem location.
 
 * `parse::error::package-json::json`, of type `PackageJsonInvalidJSON`
   which contains the following information:
@@ -56,7 +57,9 @@ This `parser` emits the following events:
   which contains the following information:
 
   * `resource`: the parsed resource.
+  * `error`: the error message.
   * `errors`: all the errors that the schama validator returns.
+  * `prettifiedErrors`: the errors formatted in a way that is easy to understand.
 
 ## Types
 
