@@ -1,8 +1,8 @@
 # Browser configuration
 
 `webhint` allows you to define what browsers are relevant to your
-scenario by adding the property `browserslist` to your `.hintrc`
-file, or in the `package.json` file. This property follows the same
+scenario by adding the property `browserslist` to either your project's `.hintrc`
+file, or its `package.json` file. This property follows the same
 convention as [`browserslist`][browserslist]:
 
 ```json
