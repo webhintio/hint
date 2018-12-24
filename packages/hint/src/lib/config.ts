@@ -29,6 +29,7 @@ import { validateConfig } from './config/config-validator';
 import normalizeHints from './config/normalize-hints';
 import { validate as validateHint, getSeverity } from './config/config-hints';
 import * as resourceLoader from './utils/resource-loader';
+// import { any } from 'async';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -216,7 +217,7 @@ export class Configuration {
      * Generates the list of browsers to target using the `browserslist` property
      * of the `hint` configuration or `package.json` or uses the default one
      */
-    public static loadBrowsersList(config: UserConfig) {
+    public static loadBrowsersList(config: UserConfig = {}) {
         const directory: string = process.cwd();
         const files: string[] = CONFIG_FILES.reduce((total, configFile) => {
             const filename: string = path.join(directory, configFile);
@@ -229,20 +230,28 @@ export class Configuration {
         }, [] as string[]);
 
         if (!config.browserslist) {
-            for (let i = 0; i < files.length; i++) {
-                const file: string = files[i];
-                const tmpConfig: UserConfig | null = Configuration.loadConfigFile(file);
+            //for every file path, load the config, including the config in the hintConfig prop in package.json, if the user has defined one.
+            const configs: (UserConfig|null)[] = files.map(file => Configuration.loadConfigFile(file));
+            //load the entire package.json config seperately 
+            
+            const packageJsonFile = files.find(file => {
+                return path.basename(file) === 'package.json'
+            });
 
-                if (tmpConfig && tmpConfig.browserslist) {
-                    config.browserslist = tmpConfig.browserslist;
-                    break;
-                }
+            if (packageJsonFile) {
+                const packageJsonConfig = loadJSONFile(packageJsonFile);
+                configs.push(packageJsonConfig);
+            }
 
-                if (file.endsWith('package.json')) {
-                    const packagejson = loadJSONFile(file);
+            const configsWithBrowserslist = configs.filter(config => config && config.browserslist);
+            
+            if (configsWithBrowserslist.length > 1) {
+                throw new Error('conflicting browserslist property declared in multiple files')
+            }
 
-                    config.browserslist = packagejson.browserslist;
-                }
+            const tmpConfig = configsWithBrowserslist[0];
+            if (tmpConfig) {
+                config.browserslist = tmpConfig.browserslist;
             }
         }
 
@@ -255,7 +264,7 @@ export class Configuration {
 
     /**
      * Loads a configuration file regardless of the source. Inspects the file path
-     * to determine the correctly way to load the config file.
+     * to determine the correct way to load the config file.
      */
     public static loadConfigFile(filePath: string): UserConfig | null {
         let config: UserConfig | null;
