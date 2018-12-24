@@ -1,26 +1,28 @@
 /**
  * @fileoverview Helper that contains all the logic related with HTML compat api, to use in different modules.
  */
-import { HTMLParse, HTMLEvents } from '@hint/parser-html/dist/src/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { ElementFound, IAsyncHTMLElement, ProblemLocation, AsyncHTMLAttribute, IAsyncNamedNodeMap } from 'hint/dist/src/lib/types';
+import { ElementFound, IAsyncHTMLElement, ProblemLocation, AsyncHTMLAttribute, IAsyncNamedNodeMap, Events, Event } from 'hint/dist/src/lib/types';
 
 import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
 import { CompatBase } from './compat-base';
 
-export class CompatHTML extends CompatBase<HTMLEvents, HTMLParse> {
-    public constructor(hintContext: HintContext<HTMLEvents>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
+const DEFAULT_LOCATION: ProblemLocation = { column: 0, line: 0 };
+
+export class CompatHTML extends CompatBase<Events, Event> {
+    public constructor(hintContext: HintContext<Events>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
         super(hintContext, MDNData, testFunction);
 
-        hintContext.on('parse::end::html', this.onParse.bind(this));
+        this.searchFeatures();
     }
 
-    public async searchFeatures(parser: HTMLParse): Promise<void> {
+    public async searchFeatures(): Promise<void> {
         await this.walk(async (elementFound: ElementFound) => {
-            const { element } = elementFound;
-            const location = element.getLocation() || {} as ProblemLocation;
+            const { element, resource } = elementFound;
+            const location = element.getLocation() || DEFAULT_LOCATION;
 
+            this.setResource(resource);
             await this.testElement(element, location);
             await this.testAttributes(element, location);
         });

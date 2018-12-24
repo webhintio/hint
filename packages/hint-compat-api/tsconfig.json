@@ -15,7 +15,6 @@
     "references": [
         { "path": "../hint" },
         { "path": "../parser-css" },
-        { "path": "../parser-html" },
         { "path": "../utils-tests-helpers" }
     ]
 }

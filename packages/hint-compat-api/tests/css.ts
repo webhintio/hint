@@ -215,7 +215,6 @@ const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
 
 hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56'], parsers: ['css']});
 
-
 const notSupportedFeaturesShouldNotSeparatelyLog: HintTest[] = [
     {
         name: 'Features not supported should not separately log the feature and value.',

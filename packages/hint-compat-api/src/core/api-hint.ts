@@ -126,10 +126,10 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         return this.getNotSupportedFeatureMessage(feature.displayableName + usedPrefix, stringifiedBrowserInfo);
     }
 
-    private stringifyBrowserInfo(groupedSupportByBrowser: {[browserName: string]: string[]}, skipBrowserVerions: boolean = false) {
+    private stringifyBrowserInfo(groupedSupportByBrowser: { [browserName: string]: string[] }) {
         return Object.entries(groupedSupportByBrowser)
             .map(([browserName, browserVersions]: [string, string[]]) => {
-                return browserVersions.length === 0 || skipBrowserVerions ?
+                return browserVersions.length === 0 ?
                     [browserName] :
                     this.compatApi.groupNotSupportedVersions(browserVersions);
             })

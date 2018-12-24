@@ -27,7 +27,7 @@ const elementAddedAlwaysTrue: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAddedAlwaysTrue, { browserslist: ['last 2 Edge versions'], parsers: ['html']});
+hintRunner.testHint(hintPath, elementAddedAlwaysTrue, { browserslist: ['last 2 Edge versions'] });
 
 const elementAttrAddedAlwaysTrue: HintTest[] = [
     {
@@ -36,7 +36,7 @@ const elementAttrAddedAlwaysTrue: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAttrAddedAlwaysTrue, { browserslist: ['> 1%'], parsers: ['html']});
+hintRunner.testHint(hintPath, elementAttrAddedAlwaysTrue, { browserslist: ['> 1%'] });
 
 const elementVersionAddedNull: HintTest[] = [
     {
@@ -45,7 +45,7 @@ const elementVersionAddedNull: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementVersionAddedNull, { browserslist: ['and_chr 69'], parsers: ['html']});
+hintRunner.testHint(hintPath, elementVersionAddedNull, { browserslist: ['and_chr 69'] });
 
 const elementVersionAddedFalse: HintTest[] = [
     {
@@ -54,7 +54,7 @@ const elementVersionAddedFalse: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2 Chrome versions'], parsers: ['html']});
+hintRunner.testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2 Chrome versions'] });
 
 const elementAddedInVersionBeforeTargetedBrowserVersion: HintTest[] = [
     {
@@ -63,7 +63,7 @@ const elementAddedInVersionBeforeTargetedBrowserVersion: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAddedInVersionBeforeTargetedBrowserVersion, { browserslist: ['ie 10'], parsers: ['html']});
+hintRunner.testHint(hintPath, elementAddedInVersionBeforeTargetedBrowserVersion, { browserslist: ['ie 10'] });
 
 const elementAddedVersionOfTargetedBrowser: HintTest[] = [
     {
@@ -72,7 +72,7 @@ const elementAddedVersionOfTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAddedVersionOfTargetedBrowser, { browserslist: ['ie 9'], parsers: ['html']});
+hintRunner.testHint(hintPath, elementAddedVersionOfTargetedBrowser, { browserslist: ['ie 9'] });
 
 const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
@@ -82,7 +82,7 @@ const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['ie 8'], parsers: ['html']});
+hintRunner.testHint(hintPath, elementAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['ie 8'] });
 
 const elementAttrVersionAddedNull: HintTest[] = [
     {
@@ -91,7 +91,7 @@ const elementAttrVersionAddedNull: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAttrVersionAddedNull, { browserslist: ['last 2 Edge versions'], parsers: ['html']});
+hintRunner.testHint(hintPath, elementAttrVersionAddedNull, { browserslist: ['last 2 Edge versions'] });
 
 /*
  * GLOBAL ATTRIBUTES
@@ -103,7 +103,7 @@ const globalAttrVersionAddedNull: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrVersionAddedNull, { browserslist: ['last 2 and_chr versions'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttrVersionAddedNull, { browserslist: ['last 2 and_chr versions'] });
 
 const globalAttrVersionAddedFalse: HintTest[] = [
     {
@@ -112,7 +112,7 @@ const globalAttrVersionAddedFalse: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrVersionAddedFalse, { browserslist: ['last 2 edge versions', 'last 2 firefox versions', 'last 2 ie versions', 'Chrome 60'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttrVersionAddedFalse, { browserslist: ['last 2 edge versions', 'last 2 firefox versions', 'last 2 ie versions', 'Chrome 60'] });
 
 const globalAttrAddedInVersionBeforeTargetedBrowserVersion: HintTest[] = [
     {
@@ -121,7 +121,7 @@ const globalAttrAddedInVersionBeforeTargetedBrowserVersion: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrAddedInVersionBeforeTargetedBrowserVersion, { browserslist: ['firefox 34'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttrAddedInVersionBeforeTargetedBrowserVersion, { browserslist: ['firefox 34'] });
 
 const globalAttrAddedVersionOfTargetedBrowser: HintTest[] = [
     {
@@ -130,7 +130,7 @@ const globalAttrAddedVersionOfTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrAddedVersionOfTargetedBrowser, { browserslist: ['firefox 34'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttrAddedVersionOfTargetedBrowser, { browserslist: ['firefox 34'] });
 
 const globalAttrAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
@@ -140,7 +140,7 @@ const globalAttrAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['firefox 31'], parsers: ['html']});
+hintRunner.testHint(hintPath, globalAttrAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['firefox 31'] });
 
 /*
  * INPUT TYPES
@@ -153,7 +153,7 @@ const inputTypeVersionAddedNull: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, inputTypeVersionAddedNull, { browserslist: ['last 2 and_chr versions'], parsers: ['html']});
+hintRunner.testHint(hintPath, inputTypeVersionAddedNull, { browserslist: ['last 2 and_chr versions'] });
 
 const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
     {
@@ -163,4 +163,4 @@ const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, inputTypeVersionAddedAfterTargetedBrowsers, { browserslist: ['chrome 19', 'firefox 28', 'edge 15'], parsers: ['html']});
+hintRunner.testHint(hintPath, inputTypeVersionAddedAfterTargetedBrowsers, { browserslist: ['chrome 19', 'firefox 28', 'edge 15'] });

@@ -22,6 +22,14 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements IC
         hintContext.on('parse::end::css', this.onParse.bind(this));
     }
 
+    private async onParse(parse: StyleParse): Promise<void> {
+        const { resource } = parse;
+
+        this.setResource(resource);
+
+        await this.searchFeatures(parse);
+    }
+
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
         const start = node.source.start;
 

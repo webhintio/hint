@@ -3,7 +3,7 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HTMLEvents, HTMLParse } from '@hint/parser-html/dist/src/types';
+import { Events, Event } from 'hint/dist/src/lib/types';
 
 import meta from './meta/html-next';
 import { CompatNamespace } from './enums';
@@ -15,10 +15,10 @@ import { NextAPIHint } from './core/next-hint';
  * ------------------------------------------------------------------------------
  */
 
-export default class HTMLNextAPIHint extends NextAPIHint<HTMLEvents, HTMLParse> {
+export default class HTMLNextAPIHint extends NextAPIHint<Events, Event> {
     public static readonly meta = meta;
 
-    public constructor(context: HintContext<HTMLEvents>) {
+    public constructor(context: HintContext<Events>) {
         super(CompatNamespace.HTML, context);
     }
 }

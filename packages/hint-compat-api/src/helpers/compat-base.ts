@@ -11,7 +11,7 @@ export abstract class CompatBase<T extends Events, K extends Event> {
     protected MDNData: MDNTreeFilteredByBrowsers;
     private cachedFeatures: CachedCompatFeatures;
 
-    public abstract async searchFeatures(parser: K): Promise<void>
+    public abstract async searchFeatures(parser?: K): Promise<void>
 
     public constructor(hintContext: HintContext<T>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
         if (!testFunction) {
@@ -27,13 +27,6 @@ export abstract class CompatBase<T extends Events, K extends Event> {
         (this.hintContext as HintContext<Events>).on('scan::end', () => {
             this.cachedFeatures = new CachedCompatFeatures();
         });
-    }
-
-    protected async onParse(parse: K): Promise<void> {
-        const { resource } = parse;
-
-        this.setResource(resource);
-        await this.searchFeatures(parse);
     }
 
     public setResource(hintResource: string): void {

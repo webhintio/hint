@@ -3,7 +3,7 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HTMLEvents, HTMLParse } from '@hint/parser-html/dist/src/types';
+import { Events, Event } from 'hint/dist/src/lib/types';
 
 import meta from './meta/html';
 import { CompatNamespace } from './enums';
@@ -15,10 +15,10 @@ import { DeprecatedAPIHint } from './core/deprecated-hint';
  * ------------------------------------------------------------------------------
  */
 
-export default class HTMLDeprecatedAPIHint extends DeprecatedAPIHint<HTMLEvents, HTMLParse> {
+export default class HTMLDeprecatedAPIHint extends DeprecatedAPIHint<Events, Event> {
     public static readonly meta = meta;
 
-    public constructor(context: HintContext<HTMLEvents>) {
+    public constructor(context: HintContext<Events>) {
         super(CompatNamespace.HTML, context);
     }
 }
