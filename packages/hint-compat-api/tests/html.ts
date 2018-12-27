@@ -10,7 +10,7 @@ const generateHTMLConfig = (fileName: string) => {
     const path = 'fixtures/html';
     const htmlFile = readFile(`${__dirname}/${path}/${fileName}.html`);
 
-    return { '/': generateHTMLPage(htmlFile) };
+    return { '/': generateHTMLPage(undefined, htmlFile) };
 };
 
 /*
@@ -50,7 +50,7 @@ hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['firefox 34'] })
 const onlySupportedByFlags: HintTest[] = [
     {
         name: 'Elements only supported by flags should fail.',
-        reports: [{ message: 'shadow element is not supported by firefox 60.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'shadow element is not supported by firefox 60.', position: { column: 9, line: 5 }}],
         serverConfig: generateHTMLConfig('shadow')
     }
 ];
@@ -99,7 +99,7 @@ hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, {
 const elementVersionAddedFalse: HintTest[] = [
     {
         name: 'Elements that have version added as false should fail.',
-        reports: [{ message: 'blink element is not supported by chrome.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'blink element is not supported by chrome.', position: { column: 9, line: 5 }}],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -109,7 +109,7 @@ hintRunner.testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2
 const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
     {
         name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
-        reports: [{ message: 'element element is not supported by any of your target browsers.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'element element is not supported by any of your target browsers.', position: { column: 9, line: 5 }}],
         serverConfig: generateHTMLConfig('element')
     }
 ];
@@ -119,7 +119,7 @@ hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { 
 const elementVersionAddedFalseForMultipleBrowsers: HintTest[] = [
     {
         name: 'Elements that have version added as false for multiple browsers should fail with one error.',
-        reports: [{ message: 'blink element is not supported by chrome, edge, ie.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'blink element is not supported by chrome, edge, ie.', position: { column: 9, line: 5 }}],
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -129,7 +129,7 @@ hintRunner.testHint(hintPath, elementVersionAddedFalseForMultipleBrowsers, { bro
 const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
     {
         name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
-        reports: [{ message: 'element element is not supported by edge, firefox_android.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'element element is not supported by edge, firefox_android.', position: { column: 9, line: 5 }}],
         serverConfig: generateHTMLConfig('element')
     }
 ];
@@ -139,7 +139,7 @@ hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBr
 const elementAttrVersionAddedFalse: HintTest[] = [
     {
         name: 'Element attributes that have version added as false should fail.',
-        reports: [{ message: 'srcset attribute of the img element is not supported by ie.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'srcset attribute of the img element is not supported by ie.', position: { column: 9, line: 5 }}],
         serverConfig: generateHTMLConfig('img-srcset')
     }
 ];
@@ -190,7 +190,7 @@ hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1
 const globalAttrVersionAddedFalse: HintTest[] = [
     {
         name: 'Global attributes that have version added as false should fail.',
-        reports: [{ message: 'global attribute dropzone is not supported by edge, firefox, ie.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'global attribute dropzone is not supported by edge, firefox, ie.', position: { column: 9, line: 5 }}],
         serverConfig: generateHTMLConfig('global-attr-dropzone')
     }
 ];
@@ -252,7 +252,7 @@ hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'] })
 const inputTypeVersionAddedFalse: HintTest[] = [
     {
         name: 'Input types that have version added as false should fail.',
-        reports: [{ message: 'input type color is not supported by ie.', position: { column: 9, line: 3 }}],
+        reports: [{ message: 'input type color is not supported by ie.', position: { column: 9, line: 5 }}],
         serverConfig: generateHTMLConfig('input-color')
     }
 ];

@@ -8,8 +8,6 @@ import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../
 import { CompatStatement } from '../types-mdn.temp';
 import { CompatBase } from './compat-base';
 
-const DEFAULT_LOCATION: ProblemLocation = { column: 0, line: 0 };
-
 export class CompatHTML extends CompatBase<Events, Event> {
     public constructor(hintContext: HintContext<Events>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
         super(hintContext, MDNData, testFunction);
@@ -20,7 +18,7 @@ export class CompatHTML extends CompatBase<Events, Event> {
     public async searchFeatures(): Promise<void> {
         await this.walk(async (elementFound: ElementFound) => {
             const { element, resource } = elementFound;
-            const location = element.getLocation() || DEFAULT_LOCATION;
+            const location = await this.hintContext.findProblemLocation(element);
 
             this.setResource(resource);
             await this.testElement(element, location);
