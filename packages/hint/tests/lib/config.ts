@@ -65,28 +65,55 @@ test.serial('if both .hintrc and package.json has a browserslist property, an er
 
     sandbox
      .stub(process, 'cwd')
-     .returns(path.join(__dirname + '/fixtures/browserslist-env-multiple'));
+     .returns(path.join(__dirname + '/fixtures/browserslist-package-json-hintrc'));
 
     const error = t.throws(() => {
         config.Configuration.loadBrowsersList();
     });
 
 
-    t.is(error.message, `conflicting browserslist property declared in multiple files`);
+    t.is(error.message, 'Conflicting browserslist property declared in .hintrc and package.json.');
 });
 
-test.serial('if package.json has a browserslist property in its primary scope and in .hintConfig, an error should be thrown', async (t: TestContext) => {
+test.serial('if package.json has a browserslist property and a hintConfig with a browserlist property, an error should be thrown', async (t: TestContext) => {
     const { config, sandbox } = t.context;
 
     sandbox
      .stub(process, 'cwd')
-     .returns(path.join(__dirname + '/fixtures/browserslist-package-json-multiple'));
+     .returns(path.join(__dirname + '/fixtures/browserslist-package-json-hintconfig'));
 
     const error = t.throws(() => {
         config.Configuration.loadBrowsersList();
     });
 
-    t.is(error.message, `conflicting browserslist property declared in multiple files`);
+    t.is(error.message, 'Conflicting browserslist property declared in package.json and hintConfig.');
+});
+
+test.serial('if the browserslist property is declared multiple files, an error should be thrown', async (t: TestContext) => {
+    const { config, sandbox } = t.context;
+
+    sandbox
+     .stub(process, 'cwd')
+     .returns(path.join(__dirname + '/fixtures/browserslist-multiple'));
+
+    const error = t.throws(() => {
+        config.Configuration.loadBrowsersList();
+    });
+
+    t.is(error.message, 'Conflicting browserslist property declared in .hintrc, .hintrc.json and package.json.');
+});
+
+test.serial('if .hintrc has a browserslist property defining the targeted browsers, those browsers should be returned', async (t: TestContext) => {
+    const { config, sandbox } = t.context;
+
+    sandbox
+     .stub(process, 'cwd')
+     .returns(path.join(__dirname + '/fixtures/browserslist-valid-env'));
+
+    const result = config.Configuration.loadBrowsersList();
+
+    t.is(result.length, 1);
+    t.is(result[0], "firefox 23");
 });
 
 test('if .hintrc has a browserslist property defining the targeted browsers, those browsers should be returned', async (t: TestContext) => {

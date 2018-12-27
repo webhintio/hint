@@ -73,6 +73,14 @@ export type UserConfig = {
     ignoredUrls?: IgnoredUrl[];
 };
 
+export type PossibleConfigs = {
+    hintrc? : UserConfig;
+    hintrcJs?: UserConfig;
+    hintrcJson?: UserConfig;
+    packageJson?: UserConfig;
+    hintConfig?: UserConfig;
+};
+
 /** A resource required by hint: Connector, Formatter, Hint. */
 export type Resource = IConnectorConstructor | IFormatterConstructor | IHintConstructor;
 

@@ -29,7 +29,7 @@ import { validateConfig } from './config/config-validator';
 import normalizeHints from './config/normalize-hints';
 import { validate as validateHint, getSeverity } from './config/config-hints';
 import * as resourceLoader from './utils/resource-loader';
-// import { any } from 'async';
+import { fileNamesToObjectProperties, objectPropertiesToFileNames, ConfigFile } from './utils/misc/file-names-to-object-properties';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -39,7 +39,7 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-const CONFIG_FILES = [
+const CONFIG_FILES: ConfigFile[] = [
     '.hintrc',
     '.hintrc.js',
     '.hintrc.json',
@@ -230,28 +230,61 @@ export class Configuration {
         }, [] as string[]);
 
         if (!config.browserslist) {
-            //for every file path, load the config, including the config in the hintConfig prop in package.json, if the user has defined one.
-            const configs: (UserConfig|null)[] = files.map(file => Configuration.loadConfigFile(file));
-            //load the entire package.json config seperately 
-            
-            const packageJsonFile = files.find(file => {
-                return path.basename(file) === 'package.json'
-            });
 
-            if (packageJsonFile) {
-                const packageJsonConfig = loadJSONFile(packageJsonFile);
-                configs.push(packageJsonConfig);
+            const configs: any = files.reduce((configs: any, file: string): any => {
+
+                const basename = path.basename(file);
+
+                const objectProperty = fileNamesToObjectProperties(basename);
+
+                if (!objectProperty) {
+                    throw new Error(`unrecognised file name ${basename}`);
+                }
+
+                if (basename === 'package.json') {
+
+                    const packageJson = loadJSONFile(file);
+
+                    const hintConfig = Configuration.loadConfigFile(file);
+
+                    if (packageJson && packageJson.browserslist) {
+                        configs[objectProperty] = packageJson.browserslist;
+                    }
+                    if (hintConfig && hintConfig.browserslist) {
+                        configs.hintConfig = hintConfig.browserslist;
+                    }
+
+                    return configs;
+                }
+
+                const config = Configuration.loadConfigFile(file);
+
+                if (config && config.browserslist) {
+                    configs[objectProperty] = config.browserslist;
+                }
+
+                return configs;
+            }, {});
+
+            const configKeys = Object.keys(configs);
+
+            if (configKeys.length > 1) {
+                const fileNames = configKeys.map((key) => {
+                    return objectPropertiesToFileNames(key);
+                });
+
+                const fileNamesJoined = fileNames.length > 2 ?
+                    `${fileNames.slice(0, fileNames.length - 1).join(', ')} and ${fileNames[fileNames.length - 1]}`:
+                    fileNames.join(' and ');
+
+                throw new Error(`Conflicting browserslist property declared in ${fileNamesJoined}.`);
             }
 
-            const configsWithBrowserslist = configs.filter(config => config && config.browserslist);
-            
-            if (configsWithBrowserslist.length > 1) {
-                throw new Error('conflicting browserslist property declared in multiple files')
-            }
+            const fileName = Object.keys(configs)[0];
+            const tmpConfig = configs[fileName];
 
-            const tmpConfig = configsWithBrowserslist[0];
             if (tmpConfig) {
-                config.browserslist = tmpConfig.browserslist;
+                config.browserslist = tmpConfig;
             }
         }
 
