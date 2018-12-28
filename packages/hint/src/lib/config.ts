@@ -285,7 +285,7 @@ export class Configuration {
             const fileName = Object.keys(configs)[0];
             const tmpConfig = configs[fileName];
 
-            if (tmpConfig) {
+            if (fileName !== 'packageJson' && tmpConfig) {
                 config.browserslist = tmpConfig;
             }
         }
