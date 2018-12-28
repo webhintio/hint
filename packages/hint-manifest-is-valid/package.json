@@ -17,7 +17,7 @@
     "@types/color-string": "^1.5.0",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.9.0",
+    "eslint": "^5.11.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-rc.0",
     "eslint-plugin-typescript": "0.14.0",
