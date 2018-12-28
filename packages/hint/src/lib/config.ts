@@ -20,7 +20,9 @@ import * as path from 'path';
 import browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
 import { mergeWith } from 'lodash';
 
-import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject, HintSeverity } from './types';
+import { UserConfig, 
+    ConfigFiles, 
+    IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject, HintSeverity } from './types';
 import { debug as d } from './utils/debug';
 import isFile from './utils/fs/is-file';
 import loadJSFile from './utils/fs/load-js-file';
@@ -231,14 +233,14 @@ export class Configuration {
 
         if (!config.browserslist) {
 
-            const configs: any = files.reduce((configs: any, file: string): any => {
+            const configs: ConfigFiles = files.reduce((configs: ConfigFiles, file: string): any => {
 
                 const basename = path.basename(file);
 
                 const objectProperty = fileNamesToObjectProperties(basename);
 
                 if (!objectProperty) {
-                    throw new Error(`unrecognised file name ${basename}`);
+                    throw new Error(`unrecognised config file '${basename}'`);
                 }
 
                 if (basename === 'package.json') {
@@ -247,7 +249,7 @@ export class Configuration {
 
                     const hintConfig = Configuration.loadConfigFile(file);
 
-                    if (packageJson && packageJson.browserslist) {
+                    if (packageJson.browserslist) {
                         configs[objectProperty] = packageJson.browserslist;
                     }
                     if (hintConfig && hintConfig.browserslist) {

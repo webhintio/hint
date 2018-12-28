@@ -1,16 +1,10 @@
 import * as path from 'path';
 
-import { 
-    ConnectorConfig,
-    CLIOptions,
-    IHint,
-    HintsConfigObject,
-    HintMetadata,
-    UserConfig
-} from '../../src/lib/types';
+import {  ConnectorConfig, CLIOptions, IHint, HintsConfigObject, HintMetadata, UserConfig } from '../../src/lib/types';
 import anyTest, { AssertContext, Context, RegisterContextual } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
+const { isEqual } = require('lodash');
 
 type ResourceLoader = {
     loadConfiguration: () => string;
@@ -89,7 +83,7 @@ test.serial('if package.json has a browserslist property and a hintConfig with a
     t.is(error.message, 'Conflicting browserslist property declared in package.json and hintConfig.');
 });
 
-test.serial('if the browserslist property is declared multiple files, an error should be thrown', async (t: TestContext) => {
+test.serial('if the browserslist property is declared in multiple files, an error should be thrown', async (t: TestContext) => {
     const { config, sandbox } = t.context;
 
     sandbox
@@ -108,7 +102,7 @@ test.serial('if .hintrc has a browserslist property defining the targeted browse
 
     sandbox
      .stub(process, 'cwd')
-     .returns(path.join(__dirname + '/fixtures/browserslist-valid-env'));
+     .returns(path.join(__dirname + '/fixtures/browserslist-valid-hintrc'));
 
     const result = config.Configuration.loadBrowsersList();
 
@@ -116,17 +110,30 @@ test.serial('if .hintrc has a browserslist property defining the targeted browse
     t.is(result[0], "firefox 23");
 });
 
-test('if .hintrc has a browserslist property defining the targeted browsers, those browsers should be returned', async (t: TestContext) => {
-    const { config } = t.context;
+test.serial('if package.json has a browserslist property defining the targeted browsers, those browsers should be returned', async (t: TestContext) => {
+    const { config, sandbox } = t.context;
 
-    const data = await readFileAsync(path.join(__dirname, './fixtures/browserslist-true/.hintrc'))
-    
-    const json = await JSON.parse(data);
+    sandbox
+     .stub(process, 'cwd')
+     .returns(path.join(__dirname + '/fixtures/browserslist-valid-package-json'));
 
-    const result = config.Configuration.loadBrowsersList(json);
+    const result = config.Configuration.loadBrowsersList();
 
-    t.is(result.length, 1);
-    t.is(result[0], "chrome 53");
+    t.is(result.length, 2);
+    t.true(isEqual(result, ['chrome 45', 'firefox 23']));
+});
+
+test.serial('if the project has no browsers defined in any of its config files, the browserslist default should be returned', async (t: TestContext) => {
+    const browserslist = require('browserslist'); 
+
+    const { config, sandbox } = t.context;
+    sandbox
+     .stub(process, 'cwd')
+     .returns(path.join(__dirname + '/fixtures/browserslist-no-configs'));
+
+    const result = config.Configuration.loadBrowsersList();
+
+    t.true(isEqual(result,  browserslist()));
 });
 
 test('if there is no configuration file anywhere, it should call os.homedir and return null', (t: TestContext) => {
