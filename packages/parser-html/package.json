@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "jsdom": "^13.0.0"
+    "jsdom": "^13.1.0"
   },
   "description": "webhint parser needed to analyze HTML files",
   "devDependencies": {
@@ -25,7 +25,7 @@
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
     "sinon": "^7.1.1",
-    "typescript": "^3.1.6",
+    "typescript": "^3.2.2",
     "typescript-eslint-parser": "21.0.2"
   },
   "engines": {

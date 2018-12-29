@@ -8,7 +8,7 @@
   },
   "description": "webhint parser for web app manifest files",
   "devDependencies": {
-    "ajv": "^6.5.5",
+    "ajv": "^6.6.2",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.11.1",
@@ -22,7 +22,7 @@
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.2",
     "sinon": "^7.1.1",
-    "typescript": "^3.1.6",
+    "typescript": "^3.2.2",
     "typescript-eslint-parser": "21.0.2"
   },
   "engines": {

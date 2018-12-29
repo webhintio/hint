@@ -57,7 +57,7 @@
     "rimraf": "^2.6.2",
     "sinon": "^7.0.0",
     "style-loader": "^0.23.1",
-    "typescript": "^3.0.3",
+    "typescript": "^3.2.2",
     "typescript-eslint-parser": "^21.0.2",
     "util.promisify": "^1.0.0",
     "webpack": "^4.28.2",
