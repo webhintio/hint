@@ -164,3 +164,13 @@ const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, inputTypeVersionAddedAfterTargetedBrowsers, { browserslist: ['chrome 19', 'firefox 28', 'edge 15'] });
+
+const mixedFeaturedCompatibility: HintTest[] = [
+    {
+        name: 'Features with mixed compatibility (not supported for specific version and never supported) for different browsers should only throw errors for browsers in which the feature is not still supported.',
+        reports: [{ message: 'integrity attribute of the link element is not supported by samsunginternet_android 4, webview_android 4.', position: { column: 9, line: 5 }}],
+        serverConfig: generateHTMLConfig('link-integrity')
+    }
+];
+
+hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['firefox 28', 'edge 15', 'ie 10', 'safari 11', 'ios_saf 11', 'samsung 4', 'android 4'] });

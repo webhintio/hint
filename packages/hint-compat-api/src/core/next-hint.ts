@@ -23,10 +23,11 @@ export class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K
     public isVersionValueTestable(version: VersionValue): boolean {
         /**
          * NOTE:
-         * If `addedVersion` is true, it means the property has always been implemented
-         * If `addedVersion` is null, it means the status is not clear so we are not checking it
+         * If version_added is true, it means the property has always been implemented
+         * If version_added is false, it means the property was never implemented and managed in the deprecated hint
+         * If version_added is null, it means the status is not clear so we are not checking it
          */
-        return version !== true && version !== null;
+        return typeof version !== 'boolean' && version !== null;
     }
 
     public isVersionValueSupported(version: VersionValue): boolean {

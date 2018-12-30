@@ -183,26 +183,26 @@ export class CompatAPI {
                 return false;
             }
 
-            const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
+            const { version_added, version_removed } = browserFeatureSupported;
 
             if (this.isCheckingNotBroadlySupported) {
                 // Version check
-                if (typeof addedVersion !== 'boolean' && addedVersion && browserVersionsList[0] <= browserVersions.normalize(addedVersion)) {
+                if (typeof version_added !== 'boolean' && version_added && browserVersionsList[0] <= browserVersions.normalize(version_added)) {
                     return true;
                 }
             } else {
                 // Boolean check
-                if (typeof addedVersion === 'boolean' && addedVersion === false) {
+                if (typeof version_added === 'boolean' && version_added === false) {
                     return true;
                 }
 
                 // Boolean check
-                if (typeof removedVersion === 'boolean' && removedVersion === true) {
+                if (typeof version_removed === 'boolean' && version_removed === true) {
                     return true;
                 }
 
                 // Version check
-                if (typeof removedVersion !== 'boolean' && removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion)) {
+                if (typeof version_removed !== 'boolean' && version_removed && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(version_removed)) {
                     return true;
                 }
             }
