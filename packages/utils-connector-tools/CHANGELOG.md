@@ -1,3 +1,10 @@
+# 2.0.2 (December 31, 2018)
+
+## Bug fixes / Improvements
+
+* [[`a3edf9c4f2`](https://github.com/webhintio/hint/commit/a3edf9c4f2017a6f1a8b2a1a05996a454a33956f)] - Fix: Paths to `hint` types (by [`Cătălin Mariș`](https://github.com/alrra)).
+
+
 # 2.0.1 (December 14, 2018)
 
 ## Bug fixes / Improvements
