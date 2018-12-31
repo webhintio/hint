@@ -1,3 +1,10 @@
+# 2.0.3 (December 31, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c8883f49d3`](https://github.com/webhintio/hint/commit/c8883f49d3a9f782e52a87ca9e7a2bc9d17e0557)] - Fix: Exit script and avoid `EventEmitter` leak warning on macOS (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1405`](https://github.com/webhintio/hint/issues/1405)).
+
+
 # 2.0.2 (December 14, 2018)
 
 ## Bug fixes / Improvements
