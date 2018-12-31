@@ -3,7 +3,7 @@ import {
     IAsyncHTMLDocument,
     IAsyncNamedNodeMap,
     IAsyncWindow
-} from 'hint/src/lib/types';
+} from 'hint/dist/src/lib/types';
 
 import { eval } from '../shared/globals';
 
