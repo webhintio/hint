@@ -16,8 +16,8 @@
   "description": "hint connector for JSDOM",
   "devDependencies": {
     "@hint/utils-create-server": "^2.0.1",
-    "@types/jsdom": "^12.2.0",
-    "@types/lodash": "^4.14.118",
+    "@types/jsdom": "^12.2.1",
+    "@types/lodash": "^4.14.119",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.11.1",
