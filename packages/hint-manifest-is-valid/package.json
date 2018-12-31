@@ -13,7 +13,7 @@
   "description": "hint that that checks if the web app manifest file is valid",
   "devDependencies": {
     "@hint/parser-manifest": "^2.0.0",
-    "@hint/utils-tests-helpers": "^2.0.2",
+    "@hint/utils-tests-helpers": "^2.0.3",
     "@types/color-string": "^1.5.0",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",

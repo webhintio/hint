@@ -9,7 +9,7 @@
   "description": "hint that that checks if a web app manifest file was specified and it exists",
   "devDependencies": {
     "@hint/parser-manifest": "^2.0.0",
-    "@hint/utils-tests-helpers": "^2.0.2",
+    "@hint/utils-tests-helpers": "^2.0.3",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
     "eslint": "^5.11.1",

@@ -9,7 +9,7 @@
   "description": "hint that that checks if the JavaScript used by the web page is minified",
   "devDependencies": {
     "@hint/parser-javascript": "^2.0.2",
-    "@hint/utils-tests-helpers": "^2.0.2",
+    "@hint/utils-tests-helpers": "^2.0.3",
     "@types/debug": "0.0.31",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
