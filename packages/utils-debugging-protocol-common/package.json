@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@hint/utils-connector-tools": "^2.0.1",
+    "@hint/utils-connector-tools": "^2.0.2",
     "abab": "^2.0.0",
     "chrome-remote-interface": "^0.27.0",
     "lodash": "^4.17.11"

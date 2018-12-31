@@ -8,7 +8,7 @@
   },
   "description": "Verify that all links and resources the page uses are available online.",
   "dependencies": {
-    "@hint/utils-connector-tools": "^2.0.1"
+    "@hint/utils-connector-tools": "^2.0.2"
   },
   "devDependencies": {
     "@hint/utils-tests-helpers": "^2.0.2",
