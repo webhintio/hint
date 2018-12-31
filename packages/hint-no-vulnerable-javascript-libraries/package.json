@@ -21,7 +21,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-rc.0",
     "eslint-plugin-typescript": "0.14.0",
-    "hint": "^4.1.0",
+    "hint": "^4.1.2",
     "jquery": "2.1.4",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
     "moment": "2.23.0",
@@ -59,7 +59,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^4.1.0"
+    "hint": "^4.1.2"
   },
   "repository": "webhintio/hint",
   "scripts": {

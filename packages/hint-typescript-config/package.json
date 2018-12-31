@@ -16,7 +16,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0-rc.0",
     "eslint-plugin-typescript": "0.14.0",
-    "hint": "^4.1.0",
+    "hint": "^4.1.2",
     "npm-link-check": "^3.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^13.1.0",
@@ -46,7 +46,7 @@
   },
   "peerDependencies": {
     "@hint/parser-typescript-config": "^2.0.0",
-    "hint": "^4.1.0"
+    "hint": "^4.1.2"
   },
   "repository": "webhintio/hint",
   "scripts": {
