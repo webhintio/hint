@@ -38,6 +38,16 @@ const elementAttrAddedAlwaysTrue: HintTest[] = [
 
 hintRunner.testHint(hintPath, elementAttrAddedAlwaysTrue, { browserslist: ['> 1%'] });
 
+const elementAttrVersionAddedFalse: HintTest[] = [
+    {
+        name: 'Element attributes that have version added as false and not deprecated should fail.',
+        reports: [{ message: 'srcset attribute of the img element is not supported by ie.', position: { column: 9, line: 5 }}],
+        serverConfig: generateHTMLConfig('img-srcset')
+    }
+];
+
+hintRunner.testHint(hintPath, elementAttrVersionAddedFalse, { browserslist: ['ie 9'] });
+
 const elementVersionAddedNull: HintTest[] = [
     {
         name: 'Elements that have version added as null should pass.',
@@ -49,7 +59,7 @@ hintRunner.testHint(hintPath, elementVersionAddedNull, { browserslist: ['and_chr
 
 const elementVersionAddedFalse: HintTest[] = [
     {
-        name: 'Elements that have version added as false should not fail.',
+        name: 'Elements that have version added as false and deprecated should not fail',
         serverConfig: generateHTMLConfig('blink')
     }
 ];
@@ -107,7 +117,8 @@ hintRunner.testHint(hintPath, globalAttrVersionAddedNull, { browserslist: ['last
 
 const globalAttrVersionAddedFalse: HintTest[] = [
     {
-        name: 'Global attributes that have version added as false should not fail.',
+        name: 'Global attributes that have version added as false and not deprecated should fail.',
+        reports: [{ message: 'global attribute dropzone is not supported by edge, firefox, ie.', position: { column: 9, line: 5 }}],
         serverConfig: generateHTMLConfig('global-attr-dropzone')
     }
 ];
@@ -155,6 +166,16 @@ const inputTypeVersionAddedNull: HintTest[] = [
 
 hintRunner.testHint(hintPath, inputTypeVersionAddedNull, { browserslist: ['last 2 and_chr versions'] });
 
+const inputTypeVersionAddedFalse: HintTest[] = [
+    {
+        name: 'Input types that have version added as false and not deprecated should fail.',
+        reports: [{ message: 'input type color is not supported by ie.', position: { column: 9, line: 5 }}],
+        serverConfig: generateHTMLConfig('input-color')
+    }
+];
+
+hintRunner.testHint(hintPath, inputTypeVersionAddedFalse, { browserslist: ['ie 9'] });
+
 const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
     {
         name: 'Input types added in a version after the targeted browsers should fail.',
@@ -167,8 +188,8 @@ hintRunner.testHint(hintPath, inputTypeVersionAddedAfterTargetedBrowsers, { brow
 
 const mixedFeaturedCompatibility: HintTest[] = [
     {
-        name: 'Features with mixed compatibility (not supported for specific version and never supported) for different browsers should only throw errors for browsers in which the feature is not still supported.',
-        reports: [{ message: 'integrity attribute of the link element is not supported by samsunginternet_android 4, webview_android 4.', position: { column: 9, line: 5 }}],
+        name: 'Features with mixed compatibility (not supported for specific version and never supported) and not deprecated should throw errors for browsers in which the feature is not supported.',
+        reports: [{ message: 'integrity attribute of the link element is not supported by edge, ie, safari, safari_ios, samsunginternet_android 4, webview_android 4.', position: { column: 9, line: 5 }}],
         serverConfig: generateHTMLConfig('link-integrity')
     }
 ];

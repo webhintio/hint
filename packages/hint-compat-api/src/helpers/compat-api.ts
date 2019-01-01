@@ -173,10 +173,10 @@ export class CompatAPI {
             return false;
         }
 
-        const supportStatement: SupportBlock = typedFeatureValue.__compat.support;
+        const { support, status } = typedFeatureValue.__compat;
 
         return Object.entries(this.mdnBrowsersCollection).some(([browser, browserVersionsList]: [string, number[]]): boolean => {
-            const browserFeatureSupported = this.getWorstCaseSupportStatementFromInfo((supportStatement as any)[browser]);
+            const browserFeatureSupported = this.getWorstCaseSupportStatementFromInfo((support as any)[browser]);
 
             // If we don't have information about the compatibility, ignore.
             if (!browserFeatureSupported) {
@@ -184,15 +184,21 @@ export class CompatAPI {
             }
 
             const { version_added, version_removed } = browserFeatureSupported;
+            const isDeprecated = status && status.deprecated
 
             if (this.isCheckingNotBroadlySupported) {
+                if (typeof version_added === 'boolean' && version_added === false && !isDeprecated) {
+                    return true;
+                }
+
                 // Version check
                 if (typeof version_added !== 'boolean' && version_added && browserVersionsList[0] <= browserVersions.normalize(version_added)) {
                     return true;
                 }
             } else {
                 // Boolean check
-                if (typeof version_added === 'boolean' && version_added === false) {
+
+                if (typeof version_added === 'boolean' && version_added === false && isDeprecated) {
                     return true;
                 }
 

@@ -136,16 +136,6 @@ const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
 
 hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'chrome 45', 'and_ff 56'] });
 
-const elementAttrVersionAddedFalse: HintTest[] = [
-    {
-        name: 'Element attributes that have version added as false should fail.',
-        reports: [{ message: 'srcset attribute of the img element is not supported by ie.', position: { column: 9, line: 5 }}],
-        serverConfig: generateHTMLConfig('img-srcset')
-    }
-];
-
-hintRunner.testHint(hintPath, elementAttrVersionAddedFalse, { browserslist: ['ie 9'] });
-
 const elementAttrRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     {
         name: 'Element attributes that were removed in a version later than the targeted browser should pass.',
@@ -249,12 +239,11 @@ const inputTypeNeverRemoved: HintTest[] = [
 
 hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'] });
 
-const inputTypeVersionAddedFalse: HintTest[] = [
+const mixedFeaturedCompatibility: HintTest[] = [
     {
-        name: 'Input types that have version added as false should fail.',
-        reports: [{ message: 'input type color is not supported by ie.', position: { column: 9, line: 5 }}],
-        serverConfig: generateHTMLConfig('input-color')
+        name: 'Features with mixed compatibility (version added null vs false) but deprecated should pass.',
+        serverConfig: generateHTMLConfig('link-integrity')
     }
 ];
 
-hintRunner.testHint(hintPath, inputTypeVersionAddedFalse, { browserslist: ['ie 9'] });
+hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['edge 15', 'ie 10', 'safari 11', 'ios_saf 11', 'samsung 4', 'android 4'] });
