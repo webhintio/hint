@@ -1,11 +1,11 @@
 {
   "dependencies": {
-    "@hint/connector-chrome": "^2.0.0",
-    "@hint/connector-jsdom": "^2.0.0",
-    "@hint/connector-local": "^2.0.1",
-    "@hint/formatter-html": "^2.0.0",
-    "@hint/formatter-stylish": "^2.0.0",
-    "@hint/formatter-summary": "^2.0.0",
+    "@hint/connector-chrome": "^2.0.1",
+    "@hint/connector-jsdom": "^2.0.1",
+    "@hint/connector-local": "^2.0.2",
+    "@hint/formatter-html": "^2.0.1",
+    "@hint/formatter-stylish": "^2.0.1",
+    "@hint/formatter-summary": "^2.0.1",
     "@hint/hint-axe": "^2.1.0",
     "@hint/hint-content-type": "^2.1.0",
     "@hint/hint-disown-opener": "^2.1.0",
@@ -29,7 +29,7 @@
     "@hint/hint-stylesheet-limits": "^2.1.0",
     "@hint/hint-validate-set-cookie-header": "^2.1.0",
     "@hint/hint-x-content-type-options": "^2.1.0",
-    "@hint/parser-html": "^2.0.1"
+    "@hint/parser-html": "^2.0.2"
   },
   "description": "webhint's recommended hints configuration for live websites",
   "engines": {
@@ -54,7 +54,7 @@
   "main": "index.json",
   "name": "@hint/configuration-web-recommended",
   "peerDependencies": {
-    "hint": "^4.1.0"
+    "hint": "^4.1.2"
   },
   "repository": "webhintio/hint",
   "version": "3.0.0"

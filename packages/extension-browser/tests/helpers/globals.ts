@@ -55,17 +55,7 @@ export const stubGlobals = (dom?: JSDOM): Globals => {
                 reload: () => {},
                 sendMessage: () => {}
             },
-            webRequest: {
-                filterResponseData: () => {},
-                onAuthRequired: stubEvent(),
-                onBeforeRedirect: stubEvent(),
-                onBeforeRequest: stubEvent(),
-                onBeforeSendHeaders: stubEvent(),
-                onCompleted: stubEvent(),
-                onHeadersReceived: stubEvent(),
-                onResponseStarted: stubEvent(),
-                onSendHeaders: stubEvent()
-            }
+            webNavigation: { onCommitted: stubEvent() }
         },
         document: dom ? dom.window.document : null,
         eval: dom ? dom.window.eval : null,

@@ -1,4 +1,3 @@
-import { EOL } from 'os';
 import * as path from 'path';
 
 import { argv } from 'yargs';
@@ -540,7 +539,8 @@ const getReleaseNotes = (changelogFilePath: string): string => {
      * ...
      */
 
-    const regex = new RegExp(`#.*${EOL}${EOL}([\\s\\S]*?)${EOL}${EOL}${EOL}`);
+    const eol = '\\r?\\n';
+    const regex = new RegExp(`#.*${eol}${eol}([\\s\\S]*?)${eol}${eol}${eol}`);
 
     return regex.exec(shell.cat(changelogFilePath))![1];
 };
@@ -671,6 +671,13 @@ const updateSnykSnapshot = async () => {
     );
 };
 
+const updateTypeScriptSchema = async () => {
+    await downloadFile(
+        'http://json.schemastore.org/tsconfig',
+        path.normalize('packages/parser-typescript-config/src/schema.json')
+    );
+};
+
 const updateAmpValidator = async () => {
     await downloadFile(
         'https://cdn.ampproject.org/v0/validator.js',
@@ -759,6 +766,10 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent: any) =>
 
     if (packageName === 'hint-no-vulnerable-javascript-libraries') {
         tasks.push(newTask('Update `snyk-snapshot.json`', updateSnykSnapshot));
+    }
+
+    if (packageName === 'parser-typescript-config') {
+        tasks.push(newTask('Update `schema.json`', updateTypeScriptSchema));
     }
 
     if (packageName === 'hint-performance-budget') {

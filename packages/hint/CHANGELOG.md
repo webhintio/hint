@@ -1,3 +1,11 @@
+# 4.1.2 (December 31, 2018)
+
+## Bug fixes / Improvements
+
+* [[`c412f9aa7b`](https://github.com/webhintio/hint/commit/c412f9aa7ba99eb7ef6c20b7c496d629530f3ecf)] - Docs: Fix reference links and remove `markdownlint-cli` dependency (#1566) (by [`Antón Molleda`](https://github.com/molant)).
+* [[`f72dbccc86`](https://github.com/webhintio/hint/commit/f72dbccc868b0840d93a50fd2b4bc3e19a702b76)] - Docs: Fix some links (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 4.1.1 (December 12, 2018)
 
 ## Bug fixes / Improvements
