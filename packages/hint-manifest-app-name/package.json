@@ -11,7 +11,7 @@
   },
   "description": "hint for best practices related to the web app manifest's name and short_name members",
   "devDependencies": {
-    "@hint/parser-manifest": "^2.0.0",
+    "@hint/parser-manifest": "^2.0.1",
     "@hint/utils-tests-helpers": "^2.0.3",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
@@ -48,7 +48,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-manifest": "^2.0.0",
+    "@hint/parser-manifest": "^2.0.1",
     "hint": "^4.1.2"
   },
   "repository": "webhintio/hint",
