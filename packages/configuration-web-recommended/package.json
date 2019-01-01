@@ -4,7 +4,7 @@
     "@hint/connector-jsdom": "^2.0.1",
     "@hint/connector-local": "^2.0.2",
     "@hint/formatter-html": "^2.0.1",
-    "@hint/formatter-stylish": "^2.0.0",
+    "@hint/formatter-stylish": "^2.0.1",
     "@hint/formatter-summary": "^2.0.0",
     "@hint/hint-axe": "^2.1.0",
     "@hint/hint-content-type": "^2.1.0",
