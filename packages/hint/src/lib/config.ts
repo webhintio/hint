@@ -40,11 +40,16 @@ const debug: debug.IDebugger = d(__filename);
  */
 
 const CONFIG_FILES: ConfigFile[] = [
-    '.hintrc',
-    '.hintrc.js',
-    '.hintrc.json',
-    'package.json'
+    ConfigFile.Hint,
+    ConfigFile.HintJs,
+    ConfigFile.HintJson,
+    ConfigFile.PackageJson,
+    ConfigFile.HintConfig
 ];
+
+export type IConfigFile = {
+    [k: string]: string | string[] | undefined;
+}
 
 /** Loads a configuration from a package.json file. */
 const loadPackageJSONConfigFile = (filePath: string): UserConfig => {
@@ -252,7 +257,7 @@ export class Configuration {
     }
 
     private static groupHintConfigs(configs: ConfigFiles, file: string): ConfigFiles {
-        const basename = path.basename(file);
+        const basename = path.basename(file) as ConfigFile;
 
         if (!basename) {
             throw new Error(`unrecognised config file '${basename}'`);
@@ -260,7 +265,7 @@ export class Configuration {
 
         const hintConfig = Configuration.loadConfigFile(file);
 
-        if (basename === 'package.json') {
+        if (basename === ConfigFile.PackageJson) {
 
             const packageJson = loadJSONFile(file);
 
@@ -284,9 +289,7 @@ export class Configuration {
 
     private static browserslistConfigError (configKeys: string[]): void {
 
-        const fileNamesJoined = configKeys.length > 2 ?
-            `${configKeys.slice(0, configKeys.length - 1).join(', ')} and ${configKeys[configKeys.length - 1]}`:
-            configKeys.join(' and ');
+        const fileNamesJoined = `${configKeys.slice(0, configKeys.length - 1).join(', ')} and ${configKeys[configKeys.length - 1]}`;
 
         throw new Error(`Conflicting browserslist property declared in ${fileNamesJoined}.`);
     }
@@ -301,7 +304,7 @@ export class Configuration {
         switch (path.extname(filePath)) {
             case '':
             case '.json':
-                if (path.basename(filePath) === 'package.json') {
+                if (path.basename(filePath) === ConfigFile.PackageJson) {
                     config = loadPackageJSONConfigFile(filePath);
                 } else {
                     config = loadJSONFile(filePath);
