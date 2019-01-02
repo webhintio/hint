@@ -11,7 +11,7 @@
     "@hint/hint-meta-charset-utf-8": "^2.1.1",
     "@hint/hint-meta-viewport": "^2.1.1",
     "@hint/hint-no-bom": "^2.1.1",
-    "@hint/hint-no-protocol-relative-urls": "^2.1.0",
+    "@hint/hint-no-protocol-relative-urls": "^2.1.1",
     "@hint/hint-typescript-config": "^2.1.0",
     "@hint/hint-webpack-config": "^2.1.0",
     "@hint/parser-babel-config": "^2.0.1",
