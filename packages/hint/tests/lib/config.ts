@@ -127,7 +127,7 @@ test.serial('if package.json has a browserslist property defining the targeted b
 test.serial('if the project has no browsers defined in any of its config files, the browserslist default should be returned', (t: TestContext) => {
     const browserslist = require('browserslist');
     const { config, sandbox } = t.context;
-    
+
     sandbox
         .stub(process, 'cwd')
         .returns(path.join(__dirname, './fixtures/browserslist-no-configs'));
