@@ -1,3 +1,11 @@
+# 2.1.1 (January 2, 2019)
+
+## Bug fixes / Improvements
+
+* [[`e1c8c4037a`](https://github.com/webhintio/hint/commit/e1c8c4037ab45a7403ab33c70b61e265446bd632)] - Docs: Use "rules" not "hints" in aXe configuration (by [`Tony Ross`](https://github.com/antross)).
+* [[`c412f9aa7b`](https://github.com/webhintio/hint/commit/c412f9aa7ba99eb7ef6c20b7c496d629530f3ecf)] - Docs: Fix reference links and remove `markdownlint-cli` dependency (#1566) (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 2.1.0 (November 27, 2018)
 
 ## New features
