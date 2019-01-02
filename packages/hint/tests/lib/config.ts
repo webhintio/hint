@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import {  ConnectorConfig, CLIOptions, IHint, HintsConfigObject, HintMetadata, UserConfig } from '../../src/lib/types';
+import { ConnectorConfig, CLIOptions, IHint, HintsConfigObject, HintMetadata, UserConfig } from '../../src/lib/types';
 import anyTest, { AssertContext, Context, RegisterContextual } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
@@ -54,12 +54,12 @@ test.afterEach((t: TestContext) => {
     t.context.sandbox.restore();
 });
 
-test.serial('if both .hintrc and package.json has a browserslist property, an error should be thrown', async (t: TestContext) => {
+test.serial('if both .hintrc and package.json has a browserslist property, an error should be thrown', (t: TestContext) => {
     const { config, sandbox } = t.context;
 
     sandbox
-     .stub(process, 'cwd')
-     .returns(path.join(__dirname + '/fixtures/browserslist-package-json-hintrc'));
+        .stub(process, 'cwd')
+        .returns(path.join(__dirname, './fixtures/browserslist-package-json-hintrc'));
 
     const error = t.throws(() => {
         config.Configuration.loadBrowsersList();
@@ -69,12 +69,12 @@ test.serial('if both .hintrc and package.json has a browserslist property, an er
     t.is(error.message, 'Conflicting browserslist property declared in .hintrc and package.json.');
 });
 
-test.serial('if package.json has a browserslist property and a hintConfig with a browserlist property, an error should be thrown', async (t: TestContext) => {
+test.serial('if package.json has a browserslist property and a hintConfig with a browserlist property, an error should be thrown', (t: TestContext) => {
     const { config, sandbox } = t.context;
 
     sandbox
-     .stub(process, 'cwd')
-     .returns(path.join(__dirname + '/fixtures/browserslist-package-json-hintconfig'));
+        .stub(process, 'cwd')
+        .returns(path.join(__dirname, './fixtures/browserslist-package-json-hintconfig'));
 
     const error = t.throws(() => {
         config.Configuration.loadBrowsersList();
@@ -83,12 +83,12 @@ test.serial('if package.json has a browserslist property and a hintConfig with a
     t.is(error.message, 'Conflicting browserslist property declared in package.json and hintConfig.');
 });
 
-test.serial('if the browserslist property is declared in multiple files, an error should be thrown', async (t: TestContext) => {
+test.serial('if the browserslist property is declared in multiple files, an error should be thrown', (t: TestContext) => {
     const { config, sandbox } = t.context;
 
     sandbox
-     .stub(process, 'cwd')
-     .returns(path.join(__dirname + '/fixtures/browserslist-multiple'));
+        .stub(process, 'cwd')
+        .returns(path.join(__dirname, './fixtures/browserslist-multiple'));
 
     const error = t.throws(() => {
         config.Configuration.loadBrowsersList();
@@ -97,43 +97,45 @@ test.serial('if the browserslist property is declared in multiple files, an erro
     t.is(error.message, 'Conflicting browserslist property declared in .hintrc, .hintrc.json and package.json.');
 });
 
-test.serial('if .hintrc has a browserslist property defining the targeted browsers, those browsers should be returned', async (t: TestContext) => {
+test.serial('if .hintrc has a browserslist property defining the targeted browsers, those browsers should be returned', (t: TestContext) => {
     const { config, sandbox } = t.context;
 
     sandbox
-     .stub(process, 'cwd')
-     .returns(path.join(__dirname + '/fixtures/browserslist-valid-hintrc'));
+        .stub(process, 'cwd')
+        .returns(path.join(__dirname, './fixtures/browserslist-valid-hintrc'));
 
     const result = config.Configuration.loadBrowsersList();
 
     t.is(result.length, 1);
-    t.is(result[0], "firefox 23");
+    t.is(result[0], 'firefox 23');
 });
 
 test.serial('if package.json has a browserslist property defining the targeted browsers, those browsers should be returned', async (t: TestContext) => {
     const { config, sandbox } = t.context;
+    const jsonConfig = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/browserslist-valid-package-json/package.json')));
 
     sandbox
-     .stub(process, 'cwd')
-     .returns(path.join(__dirname + '/fixtures/browserslist-valid-package-json'));
+        .stub(process, 'cwd')
+        .returns(path.join(__dirname, './fixtures/browserslist-valid-package-json'));
 
     const result = config.Configuration.loadBrowsersList();
 
     t.is(result.length, 2);
-    t.true(isEqual(result, ['chrome 45', 'firefox 23']));
+    t.true(isEqual(result, jsonConfig.browserslist));
 });
 
-test.serial('if the project has no browsers defined in any of its config files, the browserslist default should be returned', async (t: TestContext) => {
-    const browserslist = require('browserslist'); 
+test.serial('if the project has no browsers defined in any of its config files, the browserslist default should be returned', (t: TestContext) => {
+    const browserslist = require('browserslist');
 
     const { config, sandbox } = t.context;
+
     sandbox
-     .stub(process, 'cwd')
-     .returns(path.join(__dirname + '/fixtures/browserslist-no-configs'));
+        .stub(process, 'cwd')
+        .returns(path.join(__dirname, './fixtures/browserslist-no-configs'));
 
     const result = config.Configuration.loadBrowsersList();
 
-    t.true(isEqual(result,  browserslist()));
+    t.true(isEqual(result, browserslist()));
 });
 
 test('if there is no configuration file anywhere, it should call os.homedir and return null', (t: TestContext) => {

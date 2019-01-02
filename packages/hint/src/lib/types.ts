@@ -79,7 +79,7 @@ export type ConfigFiles = {
     hintrcJson?: string | string[];
     packageJson?: string | string[];
     hintConfig?: string | string[];
-    [k: string] : string | string[] | undefined;
+    [k: string]: string | string[] | undefined;
 };
 
 /** A resource required by hint: Connector, Formatter, Hint. */

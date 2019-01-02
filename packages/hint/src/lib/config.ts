@@ -20,9 +20,7 @@ import * as path from 'path';
 import browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
 import { mergeWith } from 'lodash';
 
-import { UserConfig, 
-    ConfigFiles, 
-    IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject, HintSeverity } from './types';
+import { UserConfig, ConfigFiles, IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject, HintSeverity } from './types';
 import { debug as d } from './utils/debug';
 import isFile from './utils/fs/is-file';
 import loadJSFile from './utils/fs/load-js-file';
@@ -31,7 +29,7 @@ import { validateConfig } from './config/config-validator';
 import normalizeHints from './config/normalize-hints';
 import { validate as validateHint, getSeverity } from './config/config-hints';
 import * as resourceLoader from './utils/resource-loader';
-import { fileNamesToObjectProperties, objectPropertiesToFileNames, ConfigFile } from './utils/misc/file-names-to-object-properties';
+import { ConfigFile } from './types/config-basename';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -237,9 +235,7 @@ export class Configuration {
 
                 const basename = path.basename(file);
 
-                const objectProperty = fileNamesToObjectProperties(basename);
-
-                if (!objectProperty) {
+                if (!basename) {
                     throw new Error(`unrecognised config file '${basename}'`);
                 }
 
@@ -250,7 +246,7 @@ export class Configuration {
                     const hintConfig = Configuration.loadConfigFile(file);
 
                     if (packageJson.browserslist) {
-                        configs[objectProperty] = packageJson.browserslist;
+                        configs[basename] = packageJson.browserslist;
                     }
                     if (hintConfig && hintConfig.browserslist) {
                         configs.hintConfig = hintConfig.browserslist;
@@ -262,7 +258,7 @@ export class Configuration {
                 const config = Configuration.loadConfigFile(file);
 
                 if (config && config.browserslist) {
-                    configs[objectProperty] = config.browserslist;
+                    configs[basename] = config.browserslist;
                 }
 
                 return configs;
@@ -271,18 +267,10 @@ export class Configuration {
             const configKeys = Object.keys(configs);
 
             if (configKeys.length > 1) {
-                const fileNames = configKeys.map((key) => {
-                    return objectPropertiesToFileNames(key);
-                });
-
-                const fileNamesJoined = fileNames.length > 2 ?
-                    `${fileNames.slice(0, fileNames.length - 1).join(', ')} and ${fileNames[fileNames.length - 1]}`:
-                    fileNames.join(' and ');
-
-                throw new Error(`Conflicting browserslist property declared in ${fileNamesJoined}.`);
+                Configuration.browserslistConfigError(configKeys);
             }
 
-            const fileName = Object.keys(configs)[0];
+            const fileName = configKeys[0];
             const tmpConfig = configs[fileName];
 
             if (fileName !== 'packageJson' && tmpConfig) {
@@ -295,6 +283,15 @@ export class Configuration {
         }
 
         return browserslist(config.browserslist);
+    }
+
+    public static browserslistConfigError (configKeys: string[]): void {
+
+        const fileNamesJoined = configKeys.length > 2 ?
+            `${configKeys.slice(0, configKeys.length - 1).join(', ')} and ${configKeys[configKeys.length - 1]}`:
+            configKeys.join(' and ');
+
+        throw new Error(`Conflicting browserslist property declared in ${fileNamesJoined}.`);
     }
 
     /**
