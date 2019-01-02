@@ -5,12 +5,12 @@
 import { FeatureInfo } from '../types';
 
 export class CachedCompatFeatures {
-    private cachedFeatures: Map<string, FeatureInfo> = new Map();
+    private cachedFeatures = new Set<string>();
 
     public add(feature: FeatureInfo): void {
         const key = this.getFeatureKey(feature);
 
-        this.cachedFeatures.set(key, feature);
+        this.cachedFeatures.add(key);
     }
 
     public has(feature: FeatureInfo): boolean {

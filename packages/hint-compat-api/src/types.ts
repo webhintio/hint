@@ -39,10 +39,6 @@ export type SupportStatementResult = {
     notSupportedBrowsersCount: number;
 };
 
-export type UserPrefixes = {
-    [key: string]: boolean;
-};
-
 export interface ICompatLibrary<T extends Event> {
     setResource(resource: string): void;
     searchFeatures(parse: T): void;

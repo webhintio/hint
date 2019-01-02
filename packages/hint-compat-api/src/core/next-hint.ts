@@ -4,13 +4,13 @@ import { Events, Event } from 'hint/dist/src/lib/types';
 import meta from '../meta/css-next';
 import { APIHint } from './api-hint';
 import { CompatNamespace } from '../enums';
-import { FeatureInfo, BrowsersInfo, UserPrefixes } from '../types';
+import { FeatureInfo, BrowsersInfo } from '../types';
 import { SimpleSupportStatement, VersionValue } from '../types-mdn.temp';
 
 export class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K> {
     public static readonly meta = meta;
 
-    private userPrefixes: UserPrefixes = {};
+    private userPrefixes = new Set<string>();
 
     public constructor(namespaceName: CompatNamespace, context: HintContext<T>) {
         super(namespaceName, context, true);
@@ -49,10 +49,10 @@ export class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K
             return;
         }
 
-        this.userPrefixes[browserName + feature.name] = true;
+        this.userPrefixes.add(browserName + feature.name);
     }
 
     private isPrefixAlreadyInUse (browserName: string, feature: FeatureInfo): boolean {
-        return !feature.prefix && !!this.userPrefixes[browserName + feature.name];
+        return !feature.prefix && this.userPrefixes.has(browserName + feature.name);
     }
 }
