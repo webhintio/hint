@@ -6,7 +6,7 @@
     "@hint/formatter-summary": "^2.0.1",
     "@hint/hint-apple-touch-icons": "^2.1.1",
     "@hint/hint-manifest-app-name": "^2.1.0",
-    "@hint/hint-manifest-exists": "^2.1.0",
+    "@hint/hint-manifest-exists": "^2.1.1",
     "@hint/hint-manifest-file-extension": "^2.1.0",
     "@hint/hint-manifest-is-valid": "^2.1.0",
     "@hint/parser-manifest": "^2.0.1"
