@@ -183,32 +183,30 @@ export class CompatAPI {
                 return false;
             }
 
-            const { version_added, version_removed } = browserFeatureSupported;
-            const isDeprecated = status && status.deprecated
+            const { version_added: addedVersion, version_removed: removedVersion } = browserFeatureSupported;
+            const isFeatureDeprecated = status && status.deprecated;
 
             if (this.isCheckingNotBroadlySupported) {
-                if (typeof version_added === 'boolean' && version_added === false && !isDeprecated) {
+                if (typeof addedVersion === 'boolean' && addedVersion === false && !isFeatureDeprecated) {
                     return true;
                 }
 
                 // Version check
-                if (typeof version_added !== 'boolean' && version_added && browserVersionsList[0] <= browserVersions.normalize(version_added)) {
+                if (typeof addedVersion !== 'boolean' && addedVersion && browserVersionsList[0] <= browserVersions.normalize(addedVersion)) {
                     return true;
                 }
             } else {
-                // Boolean check
-
-                if (typeof version_added === 'boolean' && version_added === false && isDeprecated) {
+                if (typeof addedVersion === 'boolean' && addedVersion === false && isFeatureDeprecated) {
                     return true;
                 }
 
                 // Boolean check
-                if (typeof version_removed === 'boolean' && version_removed === true) {
+                if (typeof removedVersion === 'boolean' && removedVersion === true) {
                     return true;
                 }
 
                 // Version check
-                if (typeof version_removed !== 'boolean' && version_removed && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(version_removed)) {
+                if (typeof removedVersion !== 'boolean' && removedVersion && browserVersionsList[browserVersionsList.length - 1] >= browserVersions.normalize(removedVersion)) {
                     return true;
                 }
             }
