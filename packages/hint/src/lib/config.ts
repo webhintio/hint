@@ -231,50 +231,16 @@ export class Configuration {
 
         if (!config.browserslist) {
 
-            const configs: ConfigFiles = files.reduce((configs: ConfigFiles, file: string): any => {
-
-                const basename = path.basename(file);
-
-                if (!basename) {
-                    throw new Error(`unrecognised config file '${basename}'`);
-                }
-
-                if (basename === 'package.json') {
-
-                    const packageJson = loadJSONFile(file);
-
-                    const hintConfig = Configuration.loadConfigFile(file);
-
-                    if (packageJson.browserslist) {
-                        configs[basename] = packageJson.browserslist;
-                    }
-                    if (hintConfig && hintConfig.browserslist) {
-                        configs.hintConfig = hintConfig.browserslist;
-                    }
-
-                    return configs;
-                }
-
-                const config = Configuration.loadConfigFile(file);
-
-                if (config && config.browserslist) {
-                    configs[basename] = config.browserslist;
-                }
-
-                return configs;
-            }, {});
+            const configs: ConfigFiles = files.reduce(Configuration.groupHintConfigs, {});
 
             const configKeys = Object.keys(configs);
 
-            if (configKeys.length > 1) {
-                Configuration.browserslistConfigError(configKeys);
+            if (configKeys.length === 1) {
+                config.browserslist = Object.values(configs)[0];
             }
 
-            const fileName = configKeys[0];
-            const tmpConfig = configs[fileName];
-
-            if (fileName !== 'packageJson' && tmpConfig) {
-                config.browserslist = tmpConfig;
+            if (configKeys.length > 1) {
+                Configuration.browserslistConfigError(configKeys);
             }
         }
 
@@ -285,7 +251,38 @@ export class Configuration {
         return browserslist(config.browserslist);
     }
 
-    public static browserslistConfigError (configKeys: string[]): void {
+    private static groupHintConfigs(configs: ConfigFiles, file: string): ConfigFiles {
+        const basename = path.basename(file);
+
+        if (!basename) {
+            throw new Error(`unrecognised config file '${basename}'`);
+        }
+
+        const hintConfig = Configuration.loadConfigFile(file);
+
+        if (basename === 'package.json') {
+
+            const packageJson = loadJSONFile(file);
+
+            if (packageJson.browserslist) {
+                configs[basename] = packageJson.browserslist;
+            }
+
+            if (hintConfig && hintConfig.browserslist) {
+                configs.hintConfig = hintConfig.browserslist;
+            }
+
+            return configs;
+        }
+
+        if (hintConfig && hintConfig.browserslist) {
+            configs[basename] = hintConfig.browserslist;
+        }
+
+        return configs;
+    }
+
+    private static browserslistConfigError (configKeys: string[]): void {
 
         const fileNamesJoined = configKeys.length > 2 ?
             `${configKeys.slice(0, configKeys.length - 1).join(', ')} and ${configKeys[configKeys.length - 1]}`:

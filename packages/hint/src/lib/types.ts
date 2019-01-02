@@ -74,11 +74,11 @@ export type UserConfig = {
 };
 
 export type ConfigFiles = {
-    hintrc? : string | string[];
-    hintrcJs?: string | string[];
-    hintrcJson?: string | string[];
-    packageJson?: string | string[];
-    hintConfig?: string | string[];
+    '.hintrc'? : string | string[];
+    '.hintrc.js'?: string | string[];
+    'hintrc.json'?: string | string[];
+    'package.json'?: string | string[];
+    'hintConfig'?: string | string[];
     [k: string]: string | string[] | undefined;
 };
 

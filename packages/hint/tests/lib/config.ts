@@ -54,80 +54,81 @@ test.afterEach((t: TestContext) => {
     t.context.sandbox.restore();
 });
 
-test.serial('if both .hintrc and package.json has a browserslist property, an error should be thrown', (t: TestContext) => {
-    const { config, sandbox } = t.context;
+// test.serial('if both .hintrc and package.json has a browserslist property, an error should be thrown', (t: TestContext) => {
+//     const { config, sandbox } = t.context;
 
-    sandbox
-        .stub(process, 'cwd')
-        .returns(path.join(__dirname, './fixtures/browserslist-package-json-hintrc'));
+//     sandbox
+//         .stub(process, 'cwd')
+//         .returns(path.join(__dirname, './fixtures/browserslist-package-json-hintrc'));
 
-    const error = t.throws(() => {
-        config.Configuration.loadBrowsersList();
-    });
+//     const error = t.throws(() => {
+//         config.Configuration.loadBrowsersList();
+//     });
 
 
-    t.is(error.message, 'Conflicting browserslist property declared in .hintrc and package.json.');
-});
+//     t.is(error.message, 'Conflicting browserslist property declared in .hintrc and package.json.');
+// });
 
-test.serial('if package.json has a browserslist property and a hintConfig with a browserlist property, an error should be thrown', (t: TestContext) => {
-    const { config, sandbox } = t.context;
+// test.serial('if package.json has a browserslist property and a hintConfig with a browserlist property, an error should be thrown', (t: TestContext) => {
+//     const { config, sandbox } = t.context;
 
-    sandbox
-        .stub(process, 'cwd')
-        .returns(path.join(__dirname, './fixtures/browserslist-package-json-hintconfig'));
+//     sandbox
+//         .stub(process, 'cwd')
+//         .returns(path.join(__dirname, './fixtures/browserslist-package-json-hintconfig'));
 
-    const error = t.throws(() => {
-        config.Configuration.loadBrowsersList();
-    });
+//     const error = t.throws(() => {
+//         config.Configuration.loadBrowsersList();
+//     });
 
-    t.is(error.message, 'Conflicting browserslist property declared in package.json and hintConfig.');
-});
+//     t.is(error.message, 'Conflicting browserslist property declared in package.json and hintConfig.');
+// });
 
-test.serial('if the browserslist property is declared in multiple files, an error should be thrown', (t: TestContext) => {
-    const { config, sandbox } = t.context;
+// test.serial('if the browserslist property is declared in multiple files, an error should be thrown', (t: TestContext) => {
+//     const { config, sandbox } = t.context;
 
-    sandbox
-        .stub(process, 'cwd')
-        .returns(path.join(__dirname, './fixtures/browserslist-multiple'));
+//     sandbox
+//         .stub(process, 'cwd')
+//         .returns(path.join(__dirname, './fixtures/browserslist-multiple'));
 
-    const error = t.throws(() => {
-        config.Configuration.loadBrowsersList();
-    });
+//     const error = t.throws(() => {
+//         config.Configuration.loadBrowsersList();
+//     });
 
-    t.is(error.message, 'Conflicting browserslist property declared in .hintrc, .hintrc.json and package.json.');
-});
+//     t.is(error.message, 'Conflicting browserslist property declared in .hintrc, .hintrc.json and package.json.');
+// });
 
-test.serial('if .hintrc has a browserslist property defining the targeted browsers, those browsers should be returned', (t: TestContext) => {
-    const { config, sandbox } = t.context;
+// test.serial('if .hintrc has a browserslist property defining the targeted browsers, those browsers should be returned', (t: TestContext) => {
+//     const { config, sandbox } = t.context;
 
-    sandbox
-        .stub(process, 'cwd')
-        .returns(path.join(__dirname, './fixtures/browserslist-valid-hintrc'));
+//     sandbox
+//         .stub(process, 'cwd')
+//         .returns(path.join(__dirname, './fixtures/browserslist-valid-hintrc'));
 
-    const result = config.Configuration.loadBrowsersList();
+//     const result = config.Configuration.loadBrowsersList();
 
-    t.is(result.length, 1);
-    t.is(result[0], 'firefox 23');
-});
+//     t.is(result.length, 1);
+//     t.is(result[0], 'firefox 23');
+// });
 
-test.serial('if package.json has a browserslist property defining the targeted browsers, those browsers should be returned', async (t: TestContext) => {
-    const { config, sandbox } = t.context;
-    const jsonConfig = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/browserslist-valid-package-json/package.json')));
+// test.serial('if package.json has a browserslist property defining the targeted browsers, those browsers should be returned', async (t: TestContext) => {
+//     const { config, sandbox } = t.context;
+//     const jsonConfig = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/browserslist-valid-package-json/package.json')));
 
-    sandbox
-        .stub(process, 'cwd')
-        .returns(path.join(__dirname, './fixtures/browserslist-valid-package-json'));
+//     sandbox
+//         .stub(process, 'cwd')
+//         .returns(path.join(__dirname, './fixtures/browserslist-valid-package-json'));
 
-    const result = config.Configuration.loadBrowsersList();
+//     const result = config.Configuration.loadBrowsersList();
 
-    t.is(result.length, 2);
-    t.true(isEqual(result, jsonConfig.browserslist));
-});
+//     t.is(result.length, 2);
+//     t.true(isEqual(result, jsonConfig.browserslist));
+// });
 
 test.serial('if the project has no browsers defined in any of its config files, the browserslist default should be returned', (t: TestContext) => {
-    const browserslist = require('browserslist');
-
+    const browserslist = require('browserslist');    
     const { config, sandbox } = t.context;
+    
+    // const spied = sandbox.spy(config.Configuration, 'callBrowserslist');
 
     sandbox
         .stub(process, 'cwd')
@@ -136,6 +137,8 @@ test.serial('if the project has no browsers defined in any of its config files, 
     const result = config.Configuration.loadBrowsersList();
 
     t.true(isEqual(result, browserslist()));
+    // t.true(spied.calledWith('asdasda'));
+    // console.log(spiedFn.calledWith(['cc'] as any[]))
 });
 
 test('if there is no configuration file anywhere, it should call os.homedir and return null', (t: TestContext) => {
