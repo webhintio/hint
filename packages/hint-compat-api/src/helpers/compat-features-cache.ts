@@ -4,7 +4,7 @@
 
 import { FeatureInfo } from '../types';
 
-export class CachedCompatFeatures {
+export class CompatFeaturesCache {
     private cachedFeatures = new Set<string>();
 
     public add(feature: FeatureInfo): void {

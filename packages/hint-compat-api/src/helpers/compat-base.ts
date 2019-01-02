@@ -1,7 +1,7 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { Events, Event } from 'hint/dist/src/lib/types';
 
-import { CachedCompatFeatures } from './cached-compat-features';
+import { CompatFeaturesCache } from './compat-features-cache';
 import { TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers } from '../types';
 
 export abstract class CompatBase<T extends Events, K extends Event> {
@@ -9,7 +9,7 @@ export abstract class CompatBase<T extends Events, K extends Event> {
     protected hintContext: HintContext<T>;
     protected hintResource: string = 'unknown';
     protected MDNData: MDNTreeFilteredByBrowsers;
-    private cachedFeatures: CachedCompatFeatures;
+    private cachedFeatures: CompatFeaturesCache;
 
     public abstract async searchFeatures(parser?: K): Promise<void>
 
@@ -18,14 +18,14 @@ export abstract class CompatBase<T extends Events, K extends Event> {
             throw new Error('You must set a test function before testing a feature.');
         }
 
-        this.cachedFeatures = new CachedCompatFeatures();
+        this.cachedFeatures = new CompatFeaturesCache();
         this.testFunction = testFunction;
         this.hintContext = hintContext;
         this.MDNData = MDNData;
 
         // Clear feature cache between scans. Contexts like extension-vscode scan multiple times.
         (this.hintContext as HintContext<Events>).on('scan::end', () => {
-            this.cachedFeatures = new CachedCompatFeatures();
+            this.cachedFeatures = new CompatFeaturesCache();
         });
     }
 
