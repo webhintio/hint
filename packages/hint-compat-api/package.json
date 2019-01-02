@@ -58,11 +58,11 @@
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
-    "lint:md": "markdownlint --ignore CHANGELOG.md *.md",
+    "lint:md": "node ../../scripts/lint-markdown.js",
     "test": "npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
-    "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "test-release": "npm run lint && npm run clean && npm run build:assets && tsc && npm run test-only",
     "watch:assets": "npm run build:assets -- -w --no-initial",
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
