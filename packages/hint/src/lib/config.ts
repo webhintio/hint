@@ -47,10 +47,6 @@ const CONFIG_FILES: ConfigFile[] = [
     ConfigFile.HintConfig
 ];
 
-export type IConfigFile = {
-    [k: string]: string | string[] | undefined;
-}
-
 /** Loads a configuration from a package.json file. */
 const loadPackageJSONConfigFile = (filePath: string): UserConfig => {
 

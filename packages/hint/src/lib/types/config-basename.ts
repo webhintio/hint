@@ -4,4 +4,4 @@ export enum ConfigFile {
     HintJson = '.hintrc.json',
     PackageJson = 'package.json',
     HintConfig = 'hintConfig'
-} 
+}
