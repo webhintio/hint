@@ -74,10 +74,10 @@ export type UserConfig = {
 };
 
 export type BrowsersListConfigs = {
-    '.hintrc'? : string | string[];
-    '.hintrc.js'? : string | string[];
-    '.hintrc.json'? : string | string[];
-    'package.json'? : string | string[];
+    ['.hintrc']? : string | string[];
+    ['.hintrc.js']? : string | string[];
+    ['.hintrc.json']? : string | string[];
+    ['package.json']? : string | string[];
     hintConfig? : string | string[];
     [k: string]: string | string[] | undefined;
 };
