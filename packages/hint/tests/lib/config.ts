@@ -62,7 +62,7 @@ test.serial('if both .hintrc and package.json has a browserslist property, an er
         .returns(path.join(__dirname, './fixtures/browserslist-package-json-hintrc'));
 
     const error = t.throws(() => {
-        config.Configuration.loadBrowsersList();
+        config.Configuration.loadBrowsersList({});
     });
 
 
@@ -77,7 +77,7 @@ test.serial('if package.json has a browserslist property and a hintConfig with a
         .returns(path.join(__dirname, './fixtures/browserslist-package-json-hintconfig'));
 
     const error = t.throws(() => {
-        config.Configuration.loadBrowsersList();
+        config.Configuration.loadBrowsersList({});
     });
 
     t.is(error.message, 'Conflicting browserslist property declared in package.json and hintConfig.');
@@ -91,7 +91,7 @@ test.serial('if the browserslist property is declared in multiple files, an erro
         .returns(path.join(__dirname, './fixtures/browserslist-multiple'));
 
     const error = t.throws(() => {
-        config.Configuration.loadBrowsersList();
+        config.Configuration.loadBrowsersList({});
     });
 
     t.is(error.message, 'Conflicting browserslist property declared in .hintrc, .hintrc.json and package.json.');
@@ -104,7 +104,7 @@ test.serial('if .hintrc has a browserslist property defining the targeted browse
         .stub(process, 'cwd')
         .returns(path.join(__dirname, './fixtures/browserslist-valid-hintrc'));
 
-    const result = config.Configuration.loadBrowsersList();
+    const result = config.Configuration.loadBrowsersList({});
 
     t.is(result.length, 1);
     t.is(result[0], 'firefox 23');
@@ -118,7 +118,7 @@ test.serial('if package.json has a browserslist property defining the targeted b
         .stub(process, 'cwd')
         .returns(path.join(__dirname, './fixtures/browserslist-valid-package-json'));
 
-    const result = config.Configuration.loadBrowsersList();
+    const result = config.Configuration.loadBrowsersList({});
 
     t.is(result.length, 2);
     t.true(isEqual(result, jsonConfig.browserslist));
@@ -132,7 +132,7 @@ test.serial('if the project has no browsers defined in any of its config files, 
         .stub(process, 'cwd')
         .returns(path.join(__dirname, './fixtures/browserslist-no-configs'));
 
-    const result = config.Configuration.loadBrowsersList();
+    const result = config.Configuration.loadBrowsersList({});
 
     t.true(isEqual(result, browserslist()));
 });

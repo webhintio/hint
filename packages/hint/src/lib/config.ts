@@ -20,7 +20,7 @@ import * as path from 'path';
 import browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
 import { mergeWith } from 'lodash';
 
-import { UserConfig, ConfigFiles, IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject, HintSeverity } from './types';
+import { UserConfig, BrowsersListConfigs, IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject, HintSeverity } from './types';
 import { debug as d } from './utils/debug';
 import isFile from './utils/fs/is-file';
 import loadJSFile from './utils/fs/load-js-file';
@@ -43,8 +43,7 @@ const CONFIG_FILES: ConfigFile[] = [
     ConfigFile.Hint,
     ConfigFile.HintJs,
     ConfigFile.HintJson,
-    ConfigFile.PackageJson,
-    ConfigFile.HintConfig
+    ConfigFile.PackageJson
 ];
 
 /** Loads a configuration from a package.json file. */
@@ -218,7 +217,7 @@ export class Configuration {
      * Generates the list of browsers to target using the `browserslist` property
      * of the `hint` configuration or `package.json` or uses the default one
      */
-    public static loadBrowsersList(config: UserConfig = {}) {
+    public static loadBrowsersList(config: UserConfig) {
         const directory: string = process.cwd();
         const files: string[] = CONFIG_FILES.reduce((total, configFile) => {
             const filename: string = path.join(directory, configFile);
@@ -230,9 +229,9 @@ export class Configuration {
             return total;
         }, [] as string[]);
 
-        if (!config.browserslist) {
+        if (!config || !config.browserslist) {
 
-            const configs: ConfigFiles = files.reduce(Configuration.groupHintConfigs, {});
+            const configs: BrowsersListConfigs = files.reduce(Configuration.groupHintConfigs, {});
 
             const configKeys = Object.keys(configs);
 
@@ -252,14 +251,10 @@ export class Configuration {
         return browserslist(config.browserslist);
     }
 
-    private static groupHintConfigs(configs: ConfigFiles, file: string): ConfigFiles {
-        const basename = path.basename(file) as ConfigFile;
+    private static groupHintConfigs(configs: BrowsersListConfigs, file: string): BrowsersListConfigs {
+        const basename = path.basename(file);
 
-        if (!basename) {
-            throw new Error(`unrecognised config file '${basename}'`);
-        }
-
-        const hintConfig = Configuration.loadConfigFile(file);
+        const fileConfig = Configuration.loadConfigFile(file);
 
         if (basename === ConfigFile.PackageJson) {
 
@@ -269,15 +264,15 @@ export class Configuration {
                 configs[basename] = packageJson.browserslist;
             }
 
-            if (hintConfig && hintConfig.browserslist) {
-                configs.hintConfig = hintConfig.browserslist;
+            if (fileConfig && fileConfig.browserslist) {
+                configs.hintConfig = fileConfig.browserslist;
             }
 
             return configs;
         }
 
-        if (hintConfig && hintConfig.browserslist) {
-            configs[basename] = hintConfig.browserslist;
+        if (fileConfig && fileConfig.browserslist) {
+            configs[basename] = fileConfig.browserslist;
         }
 
         return configs;
