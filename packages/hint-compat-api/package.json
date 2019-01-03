@@ -8,6 +8,7 @@
   },
   "description": "hint to validate if the HTML, CSS, and JavaScript APIs of the project are deprecated or not broadly supported",
   "devDependencies": {
+    "@hint/parser-css": "^2.0.3",
     "@hint/utils-tests-helpers": "^2.0.3",
     "@types/debug": "0.0.31",
     "@types/node": "8.0.14",
@@ -47,6 +48,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
+    "@hint/parser-css": "^2.0.3",
     "hint": "^4.1.2"
   },
   "private": true,
@@ -68,5 +70,8 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "dependencies": {
+    "@hint/parser-css": "^2.0.3"
+  }
 }
