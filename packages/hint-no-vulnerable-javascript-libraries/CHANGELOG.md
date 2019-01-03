@@ -1,3 +1,14 @@
+# 2.3.0 (January 2, 2019)
+
+## Bug fixes / Improvements
+
+* [[`c412f9aa7b`](https://github.com/webhintio/hint/commit/c412f9aa7ba99eb7ef6c20b7c496d629530f3ecf)] - Docs: Fix reference links and remove `markdownlint-cli` dependency (#1566) (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`3bdcbf0b6a`](https://github.com/webhintio/hint/commit/3bdcbf0b6a4565dc99465ade47e232841e7e56a9)] - Update: `snyk-snapshot.json`.
+
+
 # 2.2.0 (November 27, 2018)
 
 ## New features

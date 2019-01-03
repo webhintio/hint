@@ -29,14 +29,6 @@ const tests: HintLocalTest[] = [
         }]
     },
     {
-        name: 'If schema has additional properties, it should fail',
-        path: path.join(__dirname, 'fixtures', 'invalidschemaadditional'),
-        reports: [{
-            message: `'compilerOptions' should NOT have additional properties. Additional property found 'invalidProperty'.`,
-            position: { column: 9, line: 15 }
-        }]
-    },
-    {
         name: 'If schema has an invalid pattern, it should fail',
         path: path.join(__dirname, 'fixtures', 'invalidschemapattern'),
         reports: [

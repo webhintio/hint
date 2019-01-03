@@ -1,3 +1,12 @@
+# 2.1.1 (January 2, 2019)
+
+## Bug fixes / Improvements
+
+* [[`1ebd8a9a58`](https://github.com/webhintio/hint/commit/1ebd8a9a584151d2ee62641b7b1ce1d40099bd00)] - Fix: Update tsconfig schema (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1487`](https://github.com/webhintio/hint/issues/1487)).
+* [[`1fb8024b57`](https://github.com/webhintio/hint/commit/1fb8024b57f94552303258ab31b11d8d6de8a415)] - Docs: Fix some links (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`c412f9aa7b`](https://github.com/webhintio/hint/commit/c412f9aa7ba99eb7ef6c20b7c496d629530f3ecf)] - Docs: Fix reference links and remove `markdownlint-cli` dependency (#1566) (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 2.1.0 (November 28, 2018)
 
 ## Bug fixes / Improvements

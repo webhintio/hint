@@ -98,13 +98,13 @@ test('If the file contains a valid json with an invalid schema, it should fail',
 
     await t.context.engine.emitAsync('fetch::end::json', {
         resource: 'tsconfig.improved.json',
-        response: { body: { content: '{"compilerOptions": { "invalidProperty": "invalid value" }}' } }
+        response: { body: { content: `{ "compilerOptions": { "strict": 5 } }` } }
     });
 
     // 3 times, the previous call, the start and the expected call.
     t.is(t.context.engine.emitAsync.callCount, 3);
     t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::typescript-config::schema');
-    t.is(t.context.engine.emitAsync.args[2][1].errors[0].message, 'should NOT have additional properties');
+    t.is(t.context.engine.emitAsync.args[2][1].errors[0].message, 'should be boolean');
 
     sandbox.restore();
 });
