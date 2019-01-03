@@ -16,6 +16,7 @@ export class DeprecatedAPIHint<T extends Events, K extends Event> extends APIHin
 
     public getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue {
         if (browserFeatureSupported.version_added === false) {
+            // NOTE: We are handling never implemented feature as removed
             return true;
         }
 
