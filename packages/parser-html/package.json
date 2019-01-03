@@ -12,7 +12,7 @@
   "description": "webhint parser needed to analyze HTML files",
   "devDependencies": {
     "@types/jsdom": "^12.2.1",
-    "ava": "^0.25.0",
+    "ava": "^1.0.1",
     "cpx": "^1.5.0",
     "eslint": "^5.11.1",
     "eslint-plugin-markdown": "^1.0.0",
