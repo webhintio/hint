@@ -272,7 +272,7 @@ export class Configuration {
         }
 
         if (fileConfig && fileConfig.browserslist) {
-            configs[basename] = fileConfig.browserslist;
+            configs[basename as ConfigFile] = fileConfig.browserslist;
         }
 
         return configs;

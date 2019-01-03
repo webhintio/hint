@@ -3,6 +3,7 @@ import { IConnectorConstructor } from './types/connector';
 import { IParserConstructor } from './types/parser';
 import { IHintConstructor } from './types/hints';
 import { Severity } from './types/problems';
+import { ConfigFile } from './types/config-basename';
 
 export * from './types/async-html';
 export * from './types/connector';
@@ -74,12 +75,7 @@ export type UserConfig = {
 };
 
 export type BrowsersListConfigs = {
-    ['.hintrc']? : string | string[];
-    ['.hintrc.js']? : string | string[];
-    ['.hintrc.json']? : string | string[];
-    ['package.json']? : string | string[];
-    hintConfig? : string | string[];
-    [k: string]: string | string[] | undefined;
+    [key in ConfigFile | 'hintConfig']?: string | string[];
 };
 
 /** A resource required by hint: Connector, Formatter, Hint. */
