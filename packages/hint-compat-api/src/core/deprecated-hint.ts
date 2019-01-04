@@ -5,7 +5,7 @@ import meta from '../meta/css';
 import { APIHint } from './api-hint';
 import { CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo } from '../types';
-import { SimpleSupportStatement, VersionValue } from '../types-mdn.temp';
+import { SimpleSupportStatement, VersionValue, StatusBlock } from '../types-mdn.temp';
 
 export class DeprecatedAPIHint<T extends Events, K extends Event> extends APIHint<T, K> {
     public static readonly meta = meta;
@@ -14,13 +14,13 @@ export class DeprecatedAPIHint<T extends Events, K extends Event> extends APIHin
         super(namespaceName, context, false);
     }
 
-    public getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue {
-        if (browserFeatureSupported.version_added === false) {
+    public getFeatureVersionValueToAnalyze(browserFeatureSupport: SimpleSupportStatement, status: StatusBlock): VersionValue {
+        if (browserFeatureSupport.version_added === false && status && status.deprecated) {
             // NOTE: We are handling never implemented feature as removed
             return true;
         }
 
-        return browserFeatureSupported.version_removed;
+        return browserFeatureSupport.version_removed;
     }
 
     public isVersionValueTestable(version: VersionValue): boolean {

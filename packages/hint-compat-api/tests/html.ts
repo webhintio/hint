@@ -177,16 +177,6 @@ const globalAttributeNeverRemoved: HintTest[] = [
 
 hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1%'] });
 
-const globalAttrVersionAddedFalse: HintTest[] = [
-    {
-        name: 'Global attributes that have version added as false should fail.',
-        reports: [{ message: 'global attribute dropzone is not supported by edge, firefox, ie.', position: { column: 9, line: 5 }}],
-        serverConfig: generateHTMLConfig('global-attr-dropzone')
-    }
-];
-
-hintRunner.testHint(hintPath, globalAttrVersionAddedFalse, { browserslist: ['last 2 edge versions', 'last 2 firefox versions', 'last 2 ie versions', 'Chrome 60'] });
-
 /*
  * FIXME: Browserlist doesn't have the whole list of browsers,
  * so for firefox android is always returning the 63th version.

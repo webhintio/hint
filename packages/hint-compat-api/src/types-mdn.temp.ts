@@ -174,7 +174,7 @@ export interface CompatStatement {
    * Is it a functionality that is standard? Is it stable?
    * Has it been deprecated and shouldn't be used anymore?
    */
-  status?: StatusBlock;
+  status: StatusBlock;
 }
 
 export interface SupportBlock extends Partial<Record<BrowserNames, SupportStatement>> {
@@ -183,7 +183,7 @@ export interface SupportBlock extends Partial<Record<BrowserNames, SupportStatem
 /**
  * The status property contains information about stability of the feature.
  */
-interface StatusBlock {
+export interface StatusBlock {
   /**
    * `boolean` value that indicates this functionality is
    * intended to be an addition to the Web platform. Some features are added to

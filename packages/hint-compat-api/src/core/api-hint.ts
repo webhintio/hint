@@ -3,7 +3,7 @@ import { IHint, Events, Event } from 'hint/dist/src/lib/types';
 
 import { CompatAPI, CompatCSS, CompatHTML, userBrowsers } from '../helpers';
 import { FeatureInfo, BrowsersInfo, SupportStatementResult, ICompatLibrary } from '../types';
-import { SimpleSupportStatement, VersionValue, SupportBlock, SupportStatement, CompatStatement } from '../types-mdn.temp';
+import { SimpleSupportStatement, VersionValue, SupportStatement, CompatStatement, StatusBlock } from '../types-mdn.temp';
 import { browserVersions } from '../helpers/normalize-version';
 import { CompatNamespace } from '../enums';
 
@@ -16,7 +16,7 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
     private compatApi: CompatAPI;
     private compatLibrary: ICompatLibrary<K>;
 
-    abstract getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue;
+    abstract getFeatureVersionValueToAnalyze(browserFeatureSupport: SimpleSupportStatement, status: StatusBlock): VersionValue;
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
     abstract isVersionValueSupported(version: VersionValue): boolean;
     abstract isVersionValueTestable(version: VersionValue): boolean;
@@ -33,14 +33,14 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
 
     private async testFeatureIsSupported(feature: FeatureInfo, collection: CompatStatement | undefined): Promise<void> {
         // Check for each browser the support block
-        const supportBlock: SupportBlock = this.compatApi.getSupportBlock(collection, feature);
+        const { support, status } = this.compatApi.getFeatureCompatStatement(collection, feature);
 
-        const browsersToSupport = Object.entries(supportBlock).filter(([browserName]: [string, SupportStatement]): boolean => {
+        const browsersToSupport = Object.entries(support).filter(([browserName]: [string, SupportStatement]): boolean => {
             return this.compatApi.isBrowserIncludedInCollection(browserName);
         });
 
         const groupedSupportByBrowser = browsersToSupport.reduce((group, browserInfo) => {
-            return this.groupSupportStatementByBrowser(feature, group, browserInfo);
+            return this.groupSupportStatementByBrowser(feature, status, group, browserInfo);
         }, {});
 
         const supportStatementResult: SupportStatementResult = {
@@ -60,12 +60,12 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         await this.compatLibrary.reportError(feature, message);
     }
 
-    private groupSupportStatementByBrowser(feature: FeatureInfo, group: { [browserName: string]: string[] }, browserInfo: [string, SupportStatement]) {
+    private groupSupportStatementByBrowser(feature: FeatureInfo, status: StatusBlock, group: { [browserName: string]: string[] }, browserInfo: [string, SupportStatement]) {
         const [name, supportStatement] = browserInfo;
         const browser: BrowsersInfo = { name, supportStatement };
         const prefix = feature.subFeature ? feature.subFeature.prefix : feature.prefix;
         const browserFeature = this.compatApi.getSupportStatementFromInfo(supportStatement, prefix);
-        const versions = browserFeature && this.getNotSupportedBrowser(browser, feature, browserFeature);
+        const versions = browserFeature && this.getNotSupportedBrowser(browser, feature, browserFeature, status);
 
         if (!versions) {
             return group;
@@ -74,8 +74,8 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         return { ...group, [name]: versions };
     }
 
-    private getNotSupportedBrowser(browser: BrowsersInfo, feature: FeatureInfo, browserFeatureSupported: SimpleSupportStatement): string[] | null {
-        const version = this.getFeatureVersionValueToAnalyze(browserFeatureSupported);
+    private getNotSupportedBrowser(browser: BrowsersInfo, feature: FeatureInfo, browserFeatureSupport: SimpleSupportStatement, status: StatusBlock): string[] | null {
+        const version = this.getFeatureVersionValueToAnalyze(browserFeatureSupport, status);
 
         if (!this.isVersionValueTestable(version)) {
             return null;

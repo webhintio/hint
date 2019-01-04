@@ -214,3 +214,12 @@ const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56'], parsers: ['css']});
+
+const notSupportedAndNotDeprecatedFeature: HintTest[] = [
+    {
+        name: 'Features not supported and not deprecated should pass',
+        serverConfig: generateCSSConfig('cursor')
+    }
+];
+
+hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, { browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'], parsers: ['css']});

@@ -10,7 +10,7 @@ import { get } from 'lodash';
 import { CompatNamespace } from '../enums';
 import { browserVersions } from './normalize-version';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers, BrowserVersions, FeatureInfo } from '../types';
-import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, Identifier, SupportBlock } from '../types-mdn.temp'; // Temporal
+import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, Identifier } from '../types-mdn.temp'; // Temporal
 
 export class CompatAPI {
     public compatDataApi: MDNTreeFilteredByBrowsers;
@@ -285,7 +285,7 @@ export class CompatAPI {
         return this.mdnBrowsersCollection[browserName] || [];
     }
 
-    public getSupportBlock(collection: CompatStatement | undefined, feature: FeatureInfo): SupportBlock {
+    public getFeatureCompatStatement(collection: CompatStatement | undefined, feature: FeatureInfo): CompatStatement {
         try {
             /**
              * // NOTE:
@@ -300,13 +300,13 @@ export class CompatAPI {
 
             const identifier: Identifier = get(collection, accessor);
 
-            if (!identifier || !identifier.__compat) {
+            if (!identifier || !identifier.__compat || !identifier.__compat.support) {
                 throw new Error('Missing compatibility information');
             }
 
-            return identifier.__compat.support;
+            return identifier.__compat;
         } catch (error) {
-            return {} as SupportBlock;
+            return { status: {}, support: {} } as CompatStatement;
         }
     }
 }

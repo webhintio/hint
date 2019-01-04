@@ -245,3 +245,13 @@ const notSupportedFeaturesShouldNotSeparatelyLog: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, notSupportedFeaturesShouldNotSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
+
+const notSupportedAndNotDeprecatedFeature: HintTest[] = [
+    {
+        name: 'Features not supported and not deprecated should fail.',
+        reports: [{ message: 'cursor is not supported by webview_android.', position: { column: 4, line: 1 }}],
+        serverConfig: generateCSSConfig('cursor')
+    }
+];
+
+hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, { browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'], parsers: ['css']});

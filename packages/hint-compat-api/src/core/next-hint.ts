@@ -16,8 +16,8 @@ export class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K
         super(namespaceName, context, true);
     }
 
-    public getFeatureVersionValueToAnalyze(browserFeatureSupported: SimpleSupportStatement): VersionValue {
-        return browserFeatureSupported.version_added;
+    public getFeatureVersionValueToAnalyze(browserFeatureSupport: SimpleSupportStatement): VersionValue {
+        return browserFeatureSupport.version_added;
     }
 
     public isVersionValueTestable(version: VersionValue): boolean {
