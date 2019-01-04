@@ -2,8 +2,8 @@
 
 ## What does the hint check?
 
-`compat-api-html` checks if the HTML elements and attributes used are deprecated in the
-[targeted browsers][browser-context].
+`compat-api-html` checks if the HTML elements and attributes used are
+deprecated in the [targeted browsers][browser-context].
 
 ## Why is this important?
 
@@ -23,8 +23,8 @@ Targeting Firefox browsers of versions 22 and up will trigger the hint.
 ```
 
 The `scoped` attribute of the [style][style] element is deprecated
-and was removed in Firefox 55. Targeting Firefox browsers of versions
-55 and up will trigger the hint.
+and was removed in Firefox 55. Targeting Firefox versions 55 and up
+will trigger the hint.
 
 ```html
 <style scoped>
@@ -32,9 +32,9 @@ and was removed in Firefox 55. Targeting Firefox browsers of versions
 </style>
 ```
 
-The global attribute [contextmenu][contextmenu] was removed
-from Firefox Android 56. Targeting Firefox Android browsers
-of versions 56 and up will trigger the hint.
+The global attribute [contextmenu][contextmenu] was removed from Firefox 56
+for Android. Targeting Firefox for Android browsers of versions 56 and up
+will trigger the hint.
 
 ```html
 <body contextmenu="share"></body>
@@ -42,7 +42,7 @@ of versions 56 and up will trigger the hint.
 
 ### Examples that **pass** the hint
 
-The [div][div] element was never removed for any browser.
+The [div][div] element was never removed by any browser.
 It should always pass the hint.
 
 ```html

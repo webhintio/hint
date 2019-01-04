@@ -7,7 +7,10 @@ supported in the [targeted browsers][browser-context].
 
 ## Why is this important?
 
-New HTML elements and attributes are being implemented all the time. It's tricky knowing when an element or attribute has become standard among all browsers. This hint will check if you are using elements or attributes that are not supported by your targeted browsers.
+New HTML elements and attributes are being implemented all the time.
+It's tricky knowing when an element or attribute has become standard
+among all browsers. This hint will check if you are using elements or
+attributes that are not supported by your targeted browsers.
 
 ### Examples that **trigger** the hint
 
@@ -26,24 +29,25 @@ Internet Explorer browsers of any version will trigger the hint.
 <img srcset="foo.jpg, bar.jpg">
 ```
 
-The [video][video] element and its `autoplay` attribute was added for versions of
-Internet Explorer 9 and onwards. Targeting versions of Internet Explorer
+The [video][video] element and its `autoplay` attribute was added for versions
+of Internet Explorer 9 and onwards. Targeting versions of Internet Explorer
 below version 9 will trigger the hint for the element and its attribute.
 
 ```html
 <video autoplay></video>
 ```
 
-The [input type][input-type] [`color`][input-type-color] was not added for any version of Internet Explorer. Targeting any version of Internet Explorer
+The [input type][input-type] [`color`][input-type-color] was not added for any
+version of Internet Explorer. Targeting any version of Internet Explorer
 will trigger the hint for this input type.
 
 ```html
 <input type="color">
 ```
- 
-The [global attribute][global-attr] `class` was added for versions of Firefox 32 and onwards.
-Targeting versions of Firefox below version 32 till trigger the hint for
-the attribute.
+
+The [global attribute][global-attr] `class` was added for versions of Firefox
+32 and onwards. Targeting versions of Firefox below version 32 till trigger
+the hint for the attribute.
 
 ```html
 <div class="foobar"></div>
@@ -59,8 +63,9 @@ It will pass the hint regardless of whatever the targeted browsers are.
 <div></div>
 ```
 
-The [global attribute][global-attr] `class` has been added for all versions of all browsers except Firefox and Firefox Android. Targeted browsers that are not
-Firefox will pass the hint regardless of their version.
+The [global attribute][global-attr] `class` has been added for all versions of
+all browsers except Firefox and Firefox for Android. Targeted browsers that are
+not Firefox will pass the hint regardless of their version.
 
 ```html
 <div class="container"></div>
@@ -68,15 +73,16 @@ Firefox will pass the hint regardless of their version.
 ```
 
 The `alt` attribute of the [img][img] element has been added for all versions
-of all browsers. It will pass the hint regardless of whatever the targeted browsers are.
+of all browsers. It will pass the hint regardless of whatever the targeted
+browsers are.
 
 ```html
 <img alt="mountains">
 ```
 
-The [video][video] element and its `autoplay` attribute was added for versions of
-Internet Explorer 9 and onwards. Versions of Internet Explorer
-from version 9 onwards will pass the hint.
+The [video][video] element and its `autoplay` attribute was added for versions
+of Internet Explorer 9 and onwards. Versions of Internet Explorer from version
+9 onwards will pass the hint.
 
 ```html
 <video autoplay></video>
