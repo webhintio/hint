@@ -66,13 +66,11 @@ export class CompatAPI {
         const typedFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
         if (typeof featureValue === 'object' && Object.keys(featureValue).length) {
-            Object.entries(featureValue as object)
-                .filter(([_, childValue]) => {
-                    return this.isFeatureRequiredToTest(childValue);
-                })
-                .forEach(([childKey, childValue]) => {
+            Object.entries(featureValue as object).forEach(([childKey, childValue]) => {
+                if (this.isFeatureRequiredToTest(childValue)) {
                     typedFeatures[childKey] = childValue;
-                });
+                }
+            });
         }
 
         return typedFeatures;
@@ -103,13 +101,13 @@ export class CompatAPI {
 
         // Sometimes the API returns an array but only the first seems relevant
         if (Array.isArray(currentBrowserFeatureSupported) && currentBrowserFeatureSupported.length > 0) {
-            currentBrowserFeatureSupported = currentBrowserFeatureSupported
-                .filter((info) => {
-                    return !info.flags;
-                })
-                .find((info) => {
-                    return prefix ? info.prefix === prefix : !info.prefix;
-                });
+            currentBrowserFeatureSupported = currentBrowserFeatureSupported.find((info) => {
+                if (info.flags) {
+                    return false;
+                }
+
+                return prefix ? info.prefix === prefix : !info.prefix;
+            });
         }
 
         return currentBrowserFeatureSupported as SimpleSupportStatement;
