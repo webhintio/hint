@@ -121,13 +121,17 @@
                     "hints": {
                         "type": "array",
                         "items": {
-                            "type": "string",
-                            "uniqueItems": true
-                        }
+                            "type": "string"
+                        },
+                        "uniqueItems": true
                     }
                 },
-                "uniqueItems": true
-            }
+                "required": [
+                    "domain",
+                    "hints"
+                ]
+            },
+            "uniqueItems": true
         }
     },
     "anyOf": [
