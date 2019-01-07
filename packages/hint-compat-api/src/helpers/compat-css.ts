@@ -2,36 +2,32 @@
  * @fileoverview Helper that contains all the logic related with CSS compat api, to use in different modules.
  */
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { StyleParse } from '@hint/parser-css/dist/src/types';
-import { ProblemLocation } from 'hint/dist/src/lib/types';
-import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { find } from 'lodash';
-import { FeatureStrategy, MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
-import { CachedCompatFeatures } from './cached-compat-features';
-import { SupportBlock } from '../types-mdn.temp';
+import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { ProblemLocation } from 'hint/dist/src/lib/types';
+import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
+
+import { FeatureStrategy, TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, ICompatLibrary } from '../types';
+import { CompatStatement } from '../types-mdn.temp';
+import { CompatBase } from './compat-base';
 
 const debug: debug.IDebugger = d(__filename);
 
-export class CompatCSS {
-    private testFunction: TestFeatureFunction;
-    private cachedFeatures: CachedCompatFeatures;
-    private hintContext: HintContext;
-    private hintResource: string = 'unknown';
+export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements ICompatLibrary<StyleParse> {
+    public constructor(hintContext: HintContext<StyleEvents>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
+        super(hintContext, MDNData, testFunction);
 
-    public constructor(hintContext: HintContext, testFunction: TestFeatureFunction) {
-        if (!testFunction) {
-            throw new Error('You must set test function before test a feature.');
-        }
-
-        this.testFunction = testFunction;
-        this.hintContext = hintContext;
-        this.cachedFeatures = new CachedCompatFeatures();
+        hintContext.on('parse::end::css', this.onParse.bind(this));
     }
 
-    public setResource(hintResource: string): void {
-        this.hintResource = hintResource;
+    private async onParse(parse: StyleParse): Promise<void> {
+        const { resource } = parse;
+
+        this.setResource(resource);
+
+        await this.searchFeatures(parse);
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
@@ -47,12 +43,12 @@ export class CompatCSS {
         };
     }
 
-    public async searchCSSFeatures(data: MDNTreeFilteredByBrowsers, parse: StyleParse): Promise<void> {
+    public async searchFeatures(parse: StyleParse): Promise<void> {
         await parse.ast.walk(async (node: ChildNode) => {
             const strategy = this.chooseStrategyToSearchCSSFeature(node);
             const location = this.getProblemLocationFromNode(node);
 
-            await strategy.testFeature(node, data, location);
+            await strategy.testFeature(node, location);
         });
     }
 
@@ -62,8 +58,8 @@ export class CompatCSS {
                 return node.type === 'atrule';
             },
 
-            testFeature: (node: AtRule, data, location) => {
-                this.testFeature('at-rules', node.name, data, location);
+            testFeature: (node: AtRule, location) => {
+                this.testFeature('at-rules', node.name, location);
             }
         };
 
@@ -72,8 +68,8 @@ export class CompatCSS {
                 return node.type === 'rule';
             },
 
-            testFeature: (node: Rule, data, location) => {
-                this.testFeature('selectors', node.selector, data, location);
+            testFeature: (node: Rule, location) => {
+                this.testFeature('selectors', node.selector, location);
             }
         };
 
@@ -82,9 +78,9 @@ export class CompatCSS {
                 return node.type === 'decl';
             },
 
-            testFeature: (node: Declaration, data, location) => {
-                this.testFeature('properties', node.prop, data, location);
-                this.testFeature('properties', node.prop, data, location, node.value);
+            testFeature: (node: Declaration, location) => {
+                this.testFeature('properties', node.prop, location);
+                this.testFeature('properties', node.prop, location, node.value);
             }
         };
 
@@ -116,67 +112,31 @@ export class CompatCSS {
         return selectedStrategy as FeatureStrategy<ChildNode>;
     }
 
-    private async testFeature(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation, optionalChildrenNameWithPrefix?: string): Promise<void> {
-        const featureData = this.validateStrategy(strategyName, featureNameWithPrefix, data, optionalChildrenNameWithPrefix);
+    private async testFeature(strategyName: string, featureNameWithPrefix: string, location?: ProblemLocation, subfeatureNameWithPrefix?: string): Promise<void> {
+        const collection: CompatStatement | undefined = this.MDNData[strategyName];
 
-        if (!featureData) {
-            return;
-        }
-
-        featureData.location = location;
-
-        const localFeatureNameWithPrefix: string = this.getFeatureNameWithPrefix(featureData);
-
-        if (this.cachedFeatures.isCached(localFeatureNameWithPrefix)) {
-            await this.cachedFeatures.showCachedErrors(localFeatureNameWithPrefix, this.hintContext, location);
-
-            return;
-        }
-
-        this.cachedFeatures.add(localFeatureNameWithPrefix);
-
-        // Check for each browser the support block
-        const supportBlock: SupportBlock = featureData.info.support;
-
-        await this.testFunction(featureData, supportBlock);
-    }
-
-    public validateStrategy(strategyName: string, featureNameWithPrefix: string, data: MDNTreeFilteredByBrowsers, optionalChildrenNameWithPrefix?: string): FeatureInfo | null {
-        let [prefix, featureName] = this.getPrefix(featureNameWithPrefix);
-
-        const strategyContent: any = data[strategyName];
-
-        if (!strategyContent) {
+        if (!collection) {
             // Review: Throw an error
             debug('Error: The strategy does not exist.');
 
-            return null;
+            return;
         }
 
-        let feature = strategyContent[featureName];
+        const [prefix, name] = this.getPrefix(featureNameWithPrefix);
+        const feature: FeatureInfo = { displayableName: name, location, name, prefix };
 
-        // If feature is not in the filtered by browser data, that means that is always supported.
-        if (!feature) {
-            return null;
+        if (subfeatureNameWithPrefix) {
+            const [prefix, name] = this.getPrefix(subfeatureNameWithPrefix);
+
+            feature.subFeature = { name, prefix };
+            feature.displayableName = name;
         }
 
-        if (optionalChildrenNameWithPrefix) {
-            [prefix, featureName] = this.getPrefix(optionalChildrenNameWithPrefix);
-            feature = feature[featureName];
-
-            if (!feature) {
-                return null;
-            }
+        if (this.isFeatureAlreadyReported(feature)) {
+            return;
         }
 
-        // If feature does not have compat data, we ignore it.
-        const featureInfo = feature.__compat;
-
-        if (!featureInfo || !featureInfo.support) {
-            return null;
-        }
-
-        return { info: featureInfo, name: featureName, prefix };
+        await this.testFunction(feature, collection);
     }
 
     private getPrefix(name: string): [string | undefined, string] {
@@ -185,19 +145,5 @@ export class CompatCSS {
         const prefix = matched && matched.length > 0 ? matched[0] : undefined;
 
         return prefix ? [prefix, name.replace(prefix, '')] : [prefix, name];
-    }
-
-    public async reportError(feature: FeatureInfo, message: string): Promise<void> {
-        const { location } = feature;
-        const featureNameWithPrefix: string = this.getFeatureNameWithPrefix(feature);
-
-        this.cachedFeatures.addError(featureNameWithPrefix, this.hintResource, message, location);
-        await this.hintContext.report(this.hintResource, message, { location });
-    }
-
-    private getFeatureNameWithPrefix(feature: FeatureInfo): string {
-        const prefix: string = feature.prefix ? `${feature.prefix}` : '';
-
-        return prefix + feature.name;
     }
 }

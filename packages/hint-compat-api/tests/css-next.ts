@@ -1,7 +1,7 @@
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 import readFile from 'hint/dist/src/lib/utils/fs/read-file';
+import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
 const hintPath = getHintPath(__filename, true);
@@ -134,7 +134,6 @@ const featureWithNoCompatInfo: HintTest[] = [
 
 hintRunner.testHint(hintPath, featureWithNoCompatInfo, { browserslist: ['chrome 65'], parsers: ['css']});
 
-
 /*
  * Currently the hint goes two levels deep
  * No errors are thrown when testing features
@@ -160,41 +159,20 @@ hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { br
 
 const featureVersionAddedFalse: HintTest[] = [
     {
-        name: 'Features that have version added as false should fail.',
-        reports: [{ message: 'box-flex is not supported on ie browser.', position: { column: 4, line: 1}}],
+        name: 'Features that have version added as false should not fail.',
         serverConfig: generateCSSConfig('box-flex')
     }
 ];
 
 hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'], parsers: ['css']});
 
-const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
-    {
-        name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
-        reports: [{ message: 'box-lines is not supported on firefox, firefox_android browsers.', position: { column: 4, line: 1}}],
-        serverConfig: generateCSSConfig('box-lines')
-    }
-];
-
-hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'firefox 62', 'and_ff 56'], parsers: ['css']});
-
-const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
-    {
-        name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
-        reports: [{ message: 'box-lines was never supported on any of your browsers to support.', position: { column: 4, line: 1}}],
-        serverConfig: generateCSSConfig('box-lines')
-    }
-];
-
-hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56'], parsers: ['css']});
-
 const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added after the targeted browser should fail.',
         reports: [
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 0}},
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 6}},
-            { message: 'keyframes is not added on chrome 40 browser.', position: { column: 0, line: 12}}
+            { message: 'keyframes is not supported by chrome 40.', position: { column: 0, line: 0 }},
+            { message: 'keyframes is not supported by chrome 40.', position: { column: 0, line: 6 }},
+            { message: 'keyframes is not supported by chrome 40.', position: { column: 0, line: 12 }}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -205,7 +183,7 @@ hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { br
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
-        reports: [{ message: 'animation-duration prefixed with -webkit- is not added on opera 12 browser.', position: { column: 4, line: 2} }],
+        reports: [{ message: 'animation-duration prefixed with -webkit- is not supported by opera 12.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];
@@ -230,21 +208,11 @@ const prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget: HintTe
 
 hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget, { browserslist: ['firefox 4'], parsers: ['css']});
 
-const mixedFeaturedCompatibility: HintTest[] = [
-    {
-        name: 'Features with mixed compatibility (version added null vs false) for different browsers should only throw errors for browsers in which the feature has never been added (false).',
-        reports: [{ message: 'box-lines is not supported on firefox browser.', position: { column: 4, line: 1 } }],
-        serverConfig: generateCSSConfig('box-lines')
-    }
-];
-
-hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['firefox 63', 'edge 18'], parsers: ['css']});
-
 /*
  * const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {
  *         name: 'Child features that were added later than targeted browsers should fail.',
- *         reports: [{ message: 'flex is not added on chrome 26, chrome 27, chrome 28 browsers.' }],
+ *         reports: [{ message: 'flex is not supported by chrome 26, chrome 27, chrome 28.' }],
  *         serverConfig: generateCSSConfig('display-flex')
  *     }
  * ];
@@ -256,10 +224,34 @@ hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['fire
  * const childPrefixedFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
  *     {
  *         name: 'Child prefixed features that were added later than targeted browsers should fail.',
- *         reports: [{ message: 'flex prefixed with -webkit- is not added on chrome 17, chrome 18, chrome 19 browsers.' }],
+ *         reports: [{ message: 'flex prefixed with -webkit- is not supported by chrome 17, chrome 18, chrome 19.' }],
  *         serverConfig: generateCSSConfig('display-flex-prefix')
  *     }
  * ];
  *
  * hintRunner.testHint(hintPath, childPrefixedFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 17 - 19'], parsers: ['css']});
  */
+
+const notSupportedFeaturesShouldNotSeparatelyLog: HintTest[] = [
+    {
+        name: 'Features not supported and not deprecated should not separately log the feature and value.',
+        reports: [
+            { message: 'appearance prefixed with -webkit- is not supported by ie.', position: { column: 4, line: 1 }},
+            { message: 'appearance prefixed with -moz- is not supported by ie.', position: { column: 4, line: 2 }},
+            { message: 'appearance is not supported by ie.', position: { column: 4, line: 3 }}
+        ],
+        serverConfig: generateCSSConfig('appearance')
+    }
+];
+
+hintRunner.testHint(hintPath, notSupportedFeaturesShouldNotSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
+
+const notSupportedAndNotDeprecatedFeature: HintTest[] = [
+    {
+        name: 'Features not supported and not deprecated should fail.',
+        reports: [{ message: 'cursor is not supported by webview_android.', position: { column: 4, line: 1 }}],
+        serverConfig: generateCSSConfig('cursor')
+    }
+];
+
+hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, { browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'], parsers: ['css']});

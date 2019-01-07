@@ -1,7 +1,7 @@
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
 import readFile from 'hint/dist/src/lib/utils/fs/read-file';
+import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
 const hintPath = getHintPath(__filename, true);
@@ -28,12 +28,12 @@ const generateCSSConfig = (fileName: string) => {
 
 const neverRemoved: HintTest[] = [
     {
-        name: 'Features that were never removed should pass.',
+        name: 'Features that were added and never removed should pass.',
         serverConfig: generateCSSConfig('charset')
     }
 ];
 
-hintRunner.testHint(hintPath, neverRemoved, { browserslist: ['> 1%'], parsers: ['css']});
+hintRunner.testHint(hintPath, neverRemoved, { browserslist: ['last 2 Chrome versions', 'last 2 Firefox versions', 'last 2 Safari versions'], parsers: ['css']});
 
 const prefixedFeatureNeverRemoved: HintTest[] = [
     {
@@ -47,7 +47,7 @@ hintRunner.testHint(hintPath, prefixedFeatureNeverRemoved, { browserslist: ['saf
 const featureRemoved: HintTest[] = [
     {
         name: 'Features that were removed in versions before the targeted browsers should fail.',
-        reports: [{ message: 'padding-box is not supported on firefox 52 browser.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'padding-box is not supported by firefox 52.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('box-sizing')
     }
 ];
@@ -57,7 +57,7 @@ hintRunner.testHint(hintPath, featureRemoved, { browserslist: ['firefox 52'], pa
 const prefixFeatureRemoved: HintTest[] = [
     {
         name: 'Prefixed features that were removed in versions before the targeted browsers should fail.',
-        reports: [{ message: 'box-lines prefixed with -webkit- is not supported on chrome 67-69 browsers.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'box-lines prefixed with -webkit- is not supported by chrome 67-69.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('box-lines-prefix-current')
     }
 ];
@@ -82,14 +82,13 @@ const removedInEarlierVersionsAndAddedLater: HintTest[] = [
 
 hintRunner.testHint(hintPath, removedInEarlierVersionsAndAddedLater, { browserslist: ['opera 32'], parsers: ['css']});
 
-
 const removedForBrowser: HintTest[] = [
     {
         name: 'Features that were removed in a version equal to the targeted browser should fail.',
         reports: [
-            { message: 'keyframes is not supported on opera 15 browser.', position: { column: 0, line: 0 }},
-            { message: 'keyframes is not supported on opera 15 browser.', position: { column: 0, line: 6 }},
-            { message: 'keyframes is not supported on opera 15 browser.', position: { column: 0, line: 12 }}
+            { message: 'keyframes is not supported by opera 15.', position: { column: 0, line: 0 }},
+            { message: 'keyframes is not supported by opera 15.', position: { column: 0, line: 6 }},
+            { message: 'keyframes is not supported by opera 15.', position: { column: 0, line: 12 }}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -100,7 +99,7 @@ hintRunner.testHint(hintPath, removedForBrowser, { browserslist: ['opera 15'], p
 const removedForPrefixEqualToTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version equal to the targeted browser should fail.',
-        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 15 browser.', position: { column: 0, line: 2 }}],
+        reports: [{ message: 'keyframes prefixed with -o- is not supported by opera 15.', position: { column: 0, line: 2 }}],
         serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
     }
 ];
@@ -110,7 +109,7 @@ hintRunner.testHint(hintPath, removedForPrefixEqualToTargetedBrowsers, { browser
 const removedForPrefixEarlierThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version earlier than the targeted browser should fail.',
-        reports: [{ message: 'keyframes prefixed with -o- is not supported on opera 16, opera 18-19 browsers.', position: { column: 0, line: 2 }}],
+        reports: [{ message: 'keyframes prefixed with -o- is not supported by opera 16, opera 18-19.', position: { column: 0, line: 2 }}],
         serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
     }
 ];
@@ -142,7 +141,7 @@ const removedForFlags: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['android 4-4.6'], parsers: ['css']});
+hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['firefox 18'], parsers: ['css']});
 
 const prefixedFeaturesThatBecameStandardButStillAreValid: HintTest[] = [
     'backface-visibility-prefix',
@@ -169,9 +168,58 @@ hintRunner.testHint(hintPath, prefixedFeatureThatBecameStandardAfterTarget, { br
 const prefixedFeaturesThatBecameStandardAndPrefixWasDeprecated: HintTest[] = [
     {
         name: 'Prefixed features that became deprecated before the targeted browser should fail.',
-        reports: [{ message: 'background-size prefixed with -moz- is not supported on firefox 4 browser.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'background-size prefixed with -moz- is not supported by firefox 4.', position: { column: 4, line: 1 }}],
         serverConfig: generateCSSConfig('background-size-prefix')
     }
 ];
 
 hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndPrefixWasDeprecated, { browserslist: ['firefox 3.6 - 4'], parsers: ['css']});
+
+const featureVersionAddedFalse: HintTest[] = [
+    {
+        name: 'Features that have version added as false should fail.',
+        reports: [{ message: 'box-flex is not supported by ie.', position: { column: 4, line: 1}}],
+        serverConfig: generateCSSConfig('box-flex')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'], parsers: ['css']});
+
+const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
+    {
+        name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
+        reports: [{ message: 'box-lines is not supported by firefox, firefox_android.', position: { column: 4, line: 1}}],
+        serverConfig: generateCSSConfig('box-lines')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'firefox 62', 'and_ff 56'], parsers: ['css']});
+
+const mixedFeaturedCompatibility: HintTest[] = [
+    {
+        name: 'Features with mixed compatibility (version added null vs false) for different browsers should only throw errors for browsers in which the feature has never been added (false).',
+        reports: [{ message: 'box-lines is not supported by firefox.', position: { column: 4, line: 1 }}],
+        serverConfig: generateCSSConfig('box-lines')
+    }
+];
+
+hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['firefox 63', 'edge 18'], parsers: ['css']});
+
+const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
+    {
+        name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
+        reports: [{ message: 'box-lines is not supported by any of your target browsers.', position: { column: 4, line: 1}}],
+        serverConfig: generateCSSConfig('box-lines')
+    }
+];
+
+hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56'], parsers: ['css']});
+
+const notSupportedAndNotDeprecatedFeature: HintTest[] = [
+    {
+        name: 'Features not supported and not deprecated should pass',
+        serverConfig: generateCSSConfig('cursor')
+    }
+];
+
+hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, { browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'], parsers: ['css']});

@@ -1,6 +1,7 @@
 import { ChildNode } from 'postcss';
-import { Identifier, SupportStatement, SupportBlock } from './types-mdn.temp'; // Temporal
-import { ProblemLocation } from 'hint/dist/src/lib/types';
+import { ProblemLocation, Event } from 'hint/dist/src/lib/types';
+
+import { Identifier, SupportStatement, CompatStatement } from './types-mdn.temp'; // Temporal
 
 export type MDNTreeFilteredByBrowsers = Identifier;
 
@@ -10,20 +11,21 @@ export type BrowserSupportCollection = {
 
 export type FeatureStrategy<T extends ChildNode> = {
     check: (node: T | ChildNode) => boolean;
-    testFeature: (node: T, data: MDNTreeFilteredByBrowsers, location?: ProblemLocation) => void;
+    testFeature: (node: T, location?: ProblemLocation) => void;
 };
 
-export type TestFeatureFunction = (feature: FeatureInfo, supportBlock: SupportBlock) => void;
+export type TestFeatureFunction = (feature: FeatureInfo, collection: CompatStatement | undefined) => void;
 
 export type BrowserVersions = {
     [key: string]: string[];
 };
 
 export type FeatureInfo = {
-    info: any;
     name: string;
     prefix?: string;
     location?: ProblemLocation;
+    displayableName?: string;
+    subFeature?: FeatureInfo;
 };
 
 export type BrowsersInfo = {
@@ -32,7 +34,13 @@ export type BrowsersInfo = {
 };
 
 export type SupportStatementResult = {
-    groupedBrowserSupport: {[browserName: string]: string[]};
     browsersToSupportCount: number;
     notSupportedBrowsersCount: number;
+    notSupportedBrowsers: {[browserName: string]: string[]};
 };
+
+export interface ICompatLibrary<T extends Event> {
+    setResource(resource: string): void;
+    searchFeatures(parse: T): void;
+    reportError(feature: FeatureInfo, message: string): Promise<void>;
+}

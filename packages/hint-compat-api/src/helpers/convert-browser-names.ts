@@ -2,8 +2,9 @@
  * @fileoverview Helper that convert browser names from Browserlist to MDN Api.
  */
 
-import { BrowserSupportCollection } from '../types';
 const { browsers: mdnBrowsers } = require('mdn-browser-compat-data');
+
+import { BrowserSupportCollection } from '../types';
 
 type BrowsersDictionary = {
     [key: string]: string;

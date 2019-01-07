@@ -1,11 +1,11 @@
 /**
- * @fileoverview Hint to validate if the CSS features of the project are not broadly supported
+ * @fileoverview Hint to validate if the HTML features of the project are not broadly supported
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { StyleEvents, StyleParse } from '@hint/parser-css/dist/src/types';
+import { Events, Event } from 'hint/dist/src/lib/types';
 
-import meta from './meta/css-next';
+import meta from './meta/html-next';
 import { CompatNamespace } from './enums';
 import { NextAPIHint } from './core/next-hint';
 
@@ -15,10 +15,10 @@ import { NextAPIHint } from './core/next-hint';
  * ------------------------------------------------------------------------------
  */
 
-export default class CSSNextAPIHint extends NextAPIHint<StyleEvents, StyleParse> {
+export default class HTMLNextAPIHint extends NextAPIHint<Events, Event> {
     public static readonly meta = meta;
 
-    public constructor(context: HintContext<StyleEvents>) {
-        super(CompatNamespace.CSS, context);
+    public constructor(context: HintContext<Events>) {
+        super(CompatNamespace.HTML, context);
     }
 }

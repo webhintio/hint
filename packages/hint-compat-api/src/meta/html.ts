@@ -5,10 +5,10 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 const meta: HintMetadata = {
     docs: {
         category: Category.interoperability,
-        description: '`compat-api-css` validates if the CSS features of the project are deprecated',
-        name: 'Compatibility CSS deprecated features'
+        description: '`compat-api-html` validates if the HTML features of the project are deprecated',
+        name: 'Compatibility HTML deprecated features'
     },
-    id: 'compat-api/css',
+    id: 'compat-api/html',
     schema: [],
     scope: HintScope.any
 };
