@@ -25,13 +25,10 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
 
         this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
-
-        const MDNDataFilteredByBrowser = this.compatApi.compatDataApi;
-
-        this.compatLibrary = new classesMapping[namespaceName](context, MDNDataFilteredByBrowser, this.testFeatureIsSupported.bind(this));
+        this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeatureIsSupported.bind(this));
     }
 
-    private async testFeatureIsSupported(feature: FeatureInfo, collection: CompatStatement | undefined): Promise<void> {
+    private async testFeatureIsSupported(feature: FeatureInfo, collection: CompatStatement): Promise<void> {
         // Check for each browser the support block
         const { support, status } = this.compatApi.getFeatureCompatStatement(collection, feature);
 
@@ -39,13 +36,22 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
             return this.compatApi.isBrowserIncludedInCollection(browserName);
         });
 
-        const groupedSupportByBrowser = browsersToSupport.reduce((group, browserInfo) => {
-            return this.groupSupportStatementByBrowser(feature, status, group, browserInfo);
-        }, {});
+        const groupedSupportByBrowser: { [key: string]: string[] } = browsersToSupport
+            .reduce((group, browserSupportStatement) => {
+                const [name, supportStatement] = browserSupportStatement;
+                const browserInfo: BrowsersInfo = { name, supportStatement };
+                const browserSupport = this.getSupportStatementByBrowser(feature, status, browserInfo);
+
+                if (!browserSupport) {
+                    return group;
+                }
+
+                return { ...group, [name]: browserSupport };
+            }, {});
 
         const supportStatementResult: SupportStatementResult = {
             browsersToSupportCount: browsersToSupport.length,
-            groupedBrowserSupport: groupedSupportByBrowser,
+            notSupportedBrowsers: groupedSupportByBrowser,
             notSupportedBrowsersCount: Object.keys(groupedSupportByBrowser).length
         };
 
@@ -60,21 +66,22 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         await this.compatLibrary.reportError(feature, message);
     }
 
-    private groupSupportStatementByBrowser(feature: FeatureInfo, status: StatusBlock, group: { [browserName: string]: string[] }, browserInfo: [string, SupportStatement]) {
-        const [name, supportStatement] = browserInfo;
-        const browser: BrowsersInfo = { name, supportStatement };
+    private getSupportStatementByBrowser(feature: FeatureInfo, status: StatusBlock, browserInfo: BrowsersInfo): string[] | null {
         const prefix = feature.subFeature ? feature.subFeature.prefix : feature.prefix;
-        const browserFeature = this.compatApi.getSupportStatementFromInfo(supportStatement, prefix);
-        const versions = browserFeature && this.getNotSupportedBrowser(browser, feature, browserFeature, status);
+        const browserFeature = this.compatApi.getSupportStatementFromInfo(browserInfo.supportStatement, prefix);
 
-        if (!versions) {
-            return group;
-        }
-
-        return { ...group, [name]: versions };
+        return browserFeature && this.getBrowserSupport(browserInfo, feature, browserFeature, status);
     }
 
-    private getNotSupportedBrowser(browser: BrowsersInfo, feature: FeatureInfo, browserFeatureSupport: SimpleSupportStatement, status: StatusBlock): string[] | null {
+    /**
+     * @method getBrowserSupport
+     * Examples:
+     * This feature is supported. Output: null.
+     * This feature is not supported at all. Output: [].
+     * This feature is not supported by these browser versions. Output: ['chrome 67', 'chrome 68', 'chrome 69'].
+     */
+
+    private getBrowserSupport(browser: BrowsersInfo, feature: FeatureInfo, browserFeatureSupport: SimpleSupportStatement, status: StatusBlock): string[] | null {
         const version = this.getFeatureVersionValueToAnalyze(browserFeatureSupport, status);
 
         if (!this.isVersionValueTestable(version)) {
@@ -111,12 +118,12 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
     }
 
     private generateReportErrorMessage(feature: FeatureInfo, supportStatementResult: SupportStatementResult): string {
-        const { groupedBrowserSupport, browsersToSupportCount, notSupportedBrowsersCount } = supportStatementResult;
+        const { notSupportedBrowsers, browsersToSupportCount, notSupportedBrowsersCount } = supportStatementResult;
         const isNotSupportedInAnyTargetBrowser = notSupportedBrowsersCount > 1 && notSupportedBrowsersCount === browsersToSupportCount;
 
         return isNotSupportedInAnyTargetBrowser ?
             this.getNotSupportedBrowserMessage(feature) :
-            this.getNotSupportedMessage(feature, groupedBrowserSupport);
+            this.getNotSupportedMessage(feature, notSupportedBrowsers);
     }
 
     private getNotSupportedMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}): string {

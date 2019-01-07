@@ -34,9 +34,9 @@ export type BrowsersInfo = {
 };
 
 export type SupportStatementResult = {
-    groupedBrowserSupport: {[browserName: string]: string[]};
     browsersToSupportCount: number;
     notSupportedBrowsersCount: number;
+    notSupportedBrowsers: {[browserName: string]: string[]};
 };
 
 export interface ICompatLibrary<T extends Event> {
