@@ -69,8 +69,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0",
-  "dependencies": {
-    "@hint/parser-css": "^2.0.3"
-  }
+  "version": "1.0.0"
 }
