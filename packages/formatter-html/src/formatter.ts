@@ -128,6 +128,7 @@ export default class HTMLFormatter implements IFormatter {
                     .replace(/:/g, '-')
                     .replace(/\./g, '-')
                     .replace(/\//g, '-')
+                    .replace(/[?=]/g, '-query-')
                     .replace(/-$/, '');
                 const destDir = path.join(process.cwd(), 'hint-report', name);
                 const currentDir = path.join(__dirname);
