@@ -22,12 +22,48 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements IC
         hintContext.on('parse::end::css', this.onParse.bind(this));
     }
 
+    public async searchFeatures(parse: StyleParse): Promise<void> {
+        await parse.ast.walk(async (node: ChildNode) => {
+            const strategy = this.chooseStrategyToSearchCSSFeature(node);
+            const location = this.getProblemLocationFromNode(node);
+
+            await strategy.testFeature(node, location);
+        });
+    }
+
     private async onParse(parse: StyleParse): Promise<void> {
         const { resource } = parse;
 
         this.setResource(resource);
 
         await this.searchFeatures(parse);
+    }
+
+    private async testFeature(strategyName: string, featureNameWithPrefix: string, location?: ProblemLocation, subfeatureNameWithPrefix?: string): Promise<void> {
+        const collection: CompatStatement | undefined = this.MDNData[strategyName];
+
+        if (!collection) {
+            // Review: Throw an error
+            debug('Error: The strategy does not exist.');
+
+            return;
+        }
+
+        const [prefix, name] = this.getPrefix(featureNameWithPrefix);
+        const feature: FeatureInfo = { displayableName: name, location, name, prefix };
+
+        if (subfeatureNameWithPrefix) {
+            const [prefix, name] = this.getPrefix(subfeatureNameWithPrefix);
+
+            feature.subFeature = { name, prefix };
+            feature.displayableName = name;
+        }
+
+        if (this.isFeatureAlreadyReported(feature)) {
+            return;
+        }
+
+        await this.testFunction(feature, collection);
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
@@ -43,16 +79,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements IC
         };
     }
 
-    public async searchFeatures(parse: StyleParse): Promise<void> {
-        await parse.ast.walk(async (node: ChildNode) => {
-            const strategy = this.chooseStrategyToSearchCSSFeature(node);
-            const location = this.getProblemLocationFromNode(node);
-
-            await strategy.testFeature(node, location);
-        });
-    }
-
-    public chooseStrategyToSearchCSSFeature(childNode: ChildNode): FeatureStrategy<ChildNode> {
+    private chooseStrategyToSearchCSSFeature(childNode: ChildNode): FeatureStrategy<ChildNode> {
         const atStrategy: FeatureStrategy<AtRule> = {
             check: (node) => {
                 return node.type === 'atrule';
@@ -110,33 +137,6 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements IC
         }
 
         return selectedStrategy as FeatureStrategy<ChildNode>;
-    }
-
-    private async testFeature(strategyName: string, featureNameWithPrefix: string, location?: ProblemLocation, subfeatureNameWithPrefix?: string): Promise<void> {
-        const collection: CompatStatement | undefined = this.MDNData[strategyName];
-
-        if (!collection) {
-            // Review: Throw an error
-            debug('Error: The strategy does not exist.');
-
-            return;
-        }
-
-        const [prefix, name] = this.getPrefix(featureNameWithPrefix);
-        const feature: FeatureInfo = { displayableName: name, location, name, prefix };
-
-        if (subfeatureNameWithPrefix) {
-            const [prefix, name] = this.getPrefix(subfeatureNameWithPrefix);
-
-            feature.subFeature = { name, prefix };
-            feature.displayableName = name;
-        }
-
-        if (this.isFeatureAlreadyReported(feature)) {
-            return;
-        }
-
-        await this.testFunction(feature, collection);
     }
 
     private getPrefix(name: string): [string | undefined, string] {

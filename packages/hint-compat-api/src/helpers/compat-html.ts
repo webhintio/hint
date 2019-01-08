@@ -45,22 +45,9 @@ export class CompatHTML extends CompatBase<Events, Event> {
         for (let index = 0; index < namedNodeMap.length; index++) {
             const attribute: AsyncHTMLAttribute = namedNodeMap[index];
 
-            await this.testGlobalAttributes(element, attribute, location);
+            await this.testGlobalAttributes(attribute, location);
             await this.testElementAttributes(element, attribute, location);
         }
-    }
-
-    private async testGlobalAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, location: ProblemLocation): Promise<void> {
-        const globalAttributes = this.MDNData.global_attributes;
-        const attributeName = attribute.name;
-
-        const feature: FeatureInfo = {
-            displayableName: `global attribute ${attributeName}`,
-            location,
-            name: attributeName
-        };
-
-        await this.testFeature(globalAttributes, feature);
     }
 
     private async testElementAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, location: ProblemLocation): Promise<void> {
@@ -84,6 +71,19 @@ export class CompatHTML extends CompatBase<Events, Event> {
         };
 
         await this.testFeature(elements, feature);
+    }
+
+    private async testGlobalAttributes(attribute: AsyncHTMLAttribute, location: ProblemLocation): Promise<void> {
+        const globalAttributes = this.MDNData.global_attributes;
+        const attributeName = attribute.name;
+
+        const feature: FeatureInfo = {
+            displayableName: `global attribute ${attributeName}`,
+            location,
+            name: attributeName
+        };
+
+        await this.testFeature(globalAttributes, feature);
     }
 
     private async testFeature(collection: CompatStatement | undefined, feature: FeatureInfo) {
