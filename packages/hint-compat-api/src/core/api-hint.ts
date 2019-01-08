@@ -37,10 +37,9 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         });
 
         const groupedSupportByBrowser: { [key: string]: string[] } = browsersToSupport
-            .reduce((group, browserSupportStatement) => {
-                const [name, supportStatement] = browserSupportStatement;
+            .reduce((group, [name, supportStatement]) => {
                 const browserInfo: BrowsersInfo = { name, supportStatement };
-                const browserSupport = this.getSupportStatementByBrowser(feature, status, browserInfo);
+                const browserSupport = this.getSupportStatementByBrowser(browserInfo, feature, status);
 
                 if (!browserSupport) {
                     return group;
@@ -66,11 +65,15 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         await this.compatLibrary.reportError(feature, message);
     }
 
-    private getSupportStatementByBrowser(feature: FeatureInfo, status: StatusBlock, browserInfo: BrowsersInfo): string[] | null {
+    private getSupportStatementByBrowser(browser: BrowsersInfo, feature: FeatureInfo, status: StatusBlock): string[] | null {
         const prefix = feature.subFeature ? feature.subFeature.prefix : feature.prefix;
-        const browserFeature = this.compatApi.getSupportStatementFromInfo(browserInfo.supportStatement, prefix);
+        const browserFeature = this.compatApi.getSupportStatementFromInfo(browser.supportStatement, prefix);
 
-        return browserFeature && this.getBrowserSupport(browserInfo, feature, browserFeature, status);
+        if (!browserFeature) {
+            return null;
+        }
+
+        return this.getBrowserSupport(browser, feature, browserFeature, status);
     }
 
     /**
