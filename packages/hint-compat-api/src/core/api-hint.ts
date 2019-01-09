@@ -12,6 +12,8 @@ const classesMapping: {[key: string]: any} = {
     html: CompatHTML
 };
 
+const NOT_FOUND_INDEX = -1;
+
 export abstract class APIHint<T extends Events, K extends Event> implements IHint {
     private compatApi: CompatAPI;
     private compatLibrary: ICompatLibrary<K>;
@@ -155,15 +157,15 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
     }
 
     private async consumeReports(): Promise<void> {
-        const len = this.pendingReports.length;
-        let fallbackIndex = len;
+        const pendingReportsLength = this.pendingReports.length;
+        let fallbackIndex = pendingReportsLength;
 
-        for (let i = 0; i < len; i = fallbackIndex) {
+        for (let i = 0; i < pendingReportsLength; i = fallbackIndex) {
             const [feature, supportStatementResult] = this.pendingReports[i];
 
             fallbackIndex = this.getFallbackIndex(feature, i);
 
-            if (fallbackIndex !== -1) {
+            if (fallbackIndex !== NOT_FOUND_INDEX) {
                 continue;
             }
 
@@ -175,15 +177,13 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
     }
 
     private getFallbackIndex(feature: FeatureInfo, index: number): number {
-        const NOT_FOUND_INDEX = -1;
-
         if (!feature.prefix) {
             return NOT_FOUND_INDEX;
         }
 
-        const len = this.pendingReports.length;
+        const pendingReportsLength = this.pendingReports.length;
 
-        for (let i = index + 1; i < len; i++) {
+        for (let i = index + 1; i < pendingReportsLength; i++) {
             const [nextFeature] = this.pendingReports[i];
 
             if (feature.name !== nextFeature.name) {
