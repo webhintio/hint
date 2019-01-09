@@ -78,6 +78,8 @@ By participating in this project you agree to abide by its terms.
 
 The code is available under the [Apache 2.0 license][license].
 
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwebhintio%2Fhint.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwebhintio%2Fhint?ref=badge_large)
+
 <!-- Link labels: -->
 
 [coc]: https://js.foundation/community/code-of-conduct
@@ -88,6 +90,3 @@ The code is available under the [Apache 2.0 license][license].
 [npx]: https://github.com/zkat/npx
 [user guide]: https://webhint.io/docs/user-guide/
 [license]: LICENSE.txt
-
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwebhintio%2Fhint.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwebhintio%2Fhint?ref=badge_large)
