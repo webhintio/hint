@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "postcss": "^7.0.7"
+    "postcss": "^7.0.8"
   },
   "description": "webhint parser needed to analyze CSS files",
   "devDependencies": {

@@ -9,7 +9,7 @@
   "dependencies": {
     "cloudinary": "^1.13.2",
     "fs-extra": "^7.0.0",
-    "image-size": "^0.6.3"
+    "image-size": "^0.7.1"
   },
   "description": "hint that that checks using Cloudinary's API if images are optimized",
   "devDependencies": {

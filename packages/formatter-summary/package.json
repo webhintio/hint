@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "lodash": "^4.17.11",
     "log-symbols": "^2.2.0",
     "text-table": "^0.2.0"
