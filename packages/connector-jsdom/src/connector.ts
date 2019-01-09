@@ -79,24 +79,6 @@ export default class JSDOMConnector implements IConnector {
         this._timeout = server.timeout;
         this._resourceLoader = new CustomResourceLoader(this);
         this._subprocesses = new Set();
-
-        /*
-         * In case of a SIGTERM, close jsdom and all the subprocesses.
-         * This event doesn't work on windows, but windows automatically
-         * closes the subprocesses.
-         * https://nodejs.org/dist/latest-v10.x/docs/api/process.html#process_process_kill_pid_signal
-         */
-        process.on('SIGTERM', () => {
-            this.close();
-            process.exit(); // eslint-disable-line no-process-exit
-        });
-        /*
-         * In case of a SIGINT, close jsdom and all the subprocesses.
-         */
-        process.on('SIGINT', () => {
-            this.close();
-            process.exit(); // eslint-disable-line no-process-exit
-        });
     }
 
     /*
