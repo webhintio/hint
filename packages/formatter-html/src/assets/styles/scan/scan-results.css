@@ -531,6 +531,7 @@ a > .rule-tile:hover {
     font-size: 1.8rem;
     font-weight: 400;
     padding-left: 3rem;
+    list-style: none;
 }
 
 .rule-title::-webkit-details-marker {
