@@ -17,7 +17,6 @@
     "Linters"
   ],
   "dependencies": {
-    "vscode": "^1.1.22",
     "vscode-languageclient": "^5.1.1",
     "vscode-languageserver": "^5.0.3"
   },
@@ -37,7 +36,8 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.2.2",
     "typescript": "^3.2.2",
-    "typescript-eslint-parser": "21.0.2"
+    "typescript-eslint-parser": "21.0.2",
+    "vscode": "^1.1.22"
   },
   "displayName": "webhint",
   "engines": {
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.4"
+  "version": "1.0.5"
 }
