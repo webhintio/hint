@@ -242,6 +242,19 @@ const notSupportedPropertiesAndValuesShouldNotSeparatelyLog: HintTest[] = [
 
 hintRunner.testHint(hintPath, notSupportedPropertiesAndValuesShouldNotSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
 
+const notSupportedFeaturesWithoutFallbackShouldSeparatelyLog: HintTest[] = [
+    {
+        name: 'Features not supported and not deprecated should separately log vendor prefixes if fallback is not defined.',
+        reports: [
+            { message: 'appearance prefixed with -webkit- is not supported by ie.', position: { column: 4, line: 1 }},
+            { message: 'appearance prefixed with -moz- is not supported by ie.', position: { column: 4, line: 2 }}
+        ],
+        serverConfig: generateCSSConfig('appearance-only-prefixes')
+    }
+];
+
+hintRunner.testHint(hintPath, notSupportedFeaturesWithoutFallbackShouldSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
+
 const notSupportedAndNotDeprecatedFeature: HintTest[] = [
     {
         name: 'Features not supported and not deprecated should fail.',

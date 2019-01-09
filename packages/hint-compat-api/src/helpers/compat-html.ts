@@ -87,11 +87,7 @@ export class CompatHTML extends CompatBase<Events, Event> {
     }
 
     private async testFeature(collection: CompatStatement | undefined, feature: FeatureInfo) {
-        if (this.isFeatureAlreadyReported(feature)) {
-            return;
-        }
-
-        await this.testFunction(feature, collection);
+        await this.checkFeatureCompatibility(feature, collection);
     }
 
     private async walk(callback: (element: ElementFound) => any): Promise<void> {

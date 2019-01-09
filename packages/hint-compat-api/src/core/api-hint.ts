@@ -15,6 +15,7 @@ const classesMapping: {[key: string]: any} = {
 export abstract class APIHint<T extends Events, K extends Event> implements IHint {
     private compatApi: CompatAPI;
     private compatLibrary: ICompatLibrary<K>;
+    private pendingReports: [FeatureInfo, SupportStatementResult][] = [];
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupport: SimpleSupportStatement, status: StatusBlock): VersionValue;
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
@@ -25,10 +26,12 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
 
         this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
-        this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeatureIsSupported.bind(this));
+        this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeature.bind(this));
+
+        (context as HintContext<Events>).on('traverse::end', this.consumeReports.bind(this));
     }
 
-    private async testFeatureIsSupported(feature: FeatureInfo, collection: CompatStatement): Promise<void> {
+    private testFeature(feature: FeatureInfo, collection: CompatStatement): boolean {
         // Check for each browser the support block
         const { support, status } = this.compatApi.getFeatureCompatStatement(collection, feature);
 
@@ -36,17 +39,16 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
             return this.compatApi.isBrowserIncludedInCollection(browserName);
         });
 
-        const groupedSupportByBrowser: { [key: string]: string[] } = browsersToSupport
-            .reduce((group, [name, supportStatement]) => {
-                const browserInfo: BrowsersInfo = { name, supportStatement };
-                const browserSupport = this.getSupportStatementByBrowser(browserInfo, feature, status);
+        const groupedSupportByBrowser = browsersToSupport.reduce((group, [name, supportStatement]) => {
+            const browserInfo: BrowsersInfo = { name, supportStatement };
+            const browserSupport = this.getSupportStatementByBrowser(browserInfo, feature, status);
 
-                if (!browserSupport) {
-                    return group;
-                }
+            if (!browserSupport) {
+                return group;
+            }
 
-                return { ...group, [name]: browserSupport };
-            }, {});
+            return { ...group, [name]: browserSupport };
+        }, {});
 
         const supportStatementResult: SupportStatementResult = {
             browsersToSupportCount: browsersToSupport.length,
@@ -56,13 +58,11 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
 
         const hasIncompatibleBrowsers = supportStatementResult.notSupportedBrowsersCount > 0;
 
-        if (!hasIncompatibleBrowsers) {
-            return;
+        if (hasIncompatibleBrowsers) {
+            this.pendingReports.push([feature, supportStatementResult]);
         }
 
-        const message = this.generateReportErrorMessage(feature, supportStatementResult);
-
-        await this.compatLibrary.reportError(feature, message);
+        return !hasIncompatibleBrowsers;
     }
 
     private getSupportStatementByBrowser(browser: BrowsersInfo, feature: FeatureInfo, status: StatusBlock): string[] | null {
@@ -152,5 +152,47 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
 
     private getNotSupportedFeatureMessage(featureName: string, browserList: string): string {
         return `${featureName} is not supported by ${browserList}.`;
+    }
+
+    private async consumeReports(): Promise<void> {
+        const len = this.pendingReports.length;
+        let fallbackIndex = len;
+
+        for (let i = 0; i < len; i = fallbackIndex) {
+            const [feature, supportStatementResult] = this.pendingReports[i];
+
+            fallbackIndex = this.getFallbackIndex(feature, i);
+
+            if (fallbackIndex !== -1) {
+                continue;
+            }
+
+            const message = this.generateReportErrorMessage(feature, supportStatementResult);
+
+            await this.compatLibrary.reportError(feature, message);
+            fallbackIndex = i + 1;
+        }
+    }
+
+    private getFallbackIndex(feature: FeatureInfo, index: number): number {
+        const NOT_FOUND_INDEX = -1;
+
+        if (!feature.prefix) {
+            return NOT_FOUND_INDEX;
+        }
+
+        const len = this.pendingReports.length;
+
+        for (let i = index + 1; i < len; i++) {
+            const [nextFeature] = this.pendingReports[i];
+
+            if (feature.name !== nextFeature.name) {
+                return NOT_FOUND_INDEX;
+            } else if (!nextFeature.prefix) {
+                return i;
+            }
+        }
+
+        return NOT_FOUND_INDEX;
     }
 }

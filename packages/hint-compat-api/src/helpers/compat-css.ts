@@ -59,11 +59,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements IC
             feature.displayableName = name;
         }
 
-        if (this.isFeatureAlreadyReported(feature)) {
-            return;
-        }
-
-        await this.testFunction(feature, collection);
+        await this.checkFeatureCompatibility(feature, collection);
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
