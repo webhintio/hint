@@ -1,3 +1,15 @@
+# 4.2.0 (January 10, 2019)
+
+## Bug fixes / Improvements
+
+* [[`39b5c18b4b`](https://github.com/webhintio/hint/commit/39b5c18b4b8b3ec150aac0a221a0a1072c730210)] - Fix: JSON schema issue with `ignoredUrls` (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`ccb6731bb2`](https://github.com/webhintio/hint/commit/ccb6731bb2ed548360b7cba57a3b020de64b20b8)] - Docs: Clarify browserslist configuration precedence (by [`Tony Ross`](https://github.com/antross) / see also: [`#1611`](https://github.com/webhintio/hint/issues/1611)).
+
+## New features
+
+* [[`4516544660`](https://github.com/webhintio/hint/commit/4516544660ad534e3bd19e3ea186b9fa9edd97c1)] - New: Deprecate unused `Configuration` methods (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 4.1.2 (December 31, 2018)
 
 ## Bug fixes / Improvements
