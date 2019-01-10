@@ -961,15 +961,15 @@ const main = async () => {
         return !exceptions.includes(name);
     });
 
-    const tasks: Task[] = [];
+    const tasks: Task[][] = [];
 
     for (const pkg of packages) {
-        tasks.push({
+        tasks.push([{
             task: () => {
                 return getTasks(pkg);
             },
             title: `${pkg}`
-        });
+        }]);
     }
 
     /*
@@ -979,25 +979,25 @@ const main = async () => {
 
     if (isPrerelease) {
         tasks.push(
-            newTask('Commit changes.', gitCommitPrerelease),
-            newTask(`Push changes upstream.`, gitPush)
+            [newTask('Commit changes.', gitCommitPrerelease)],
+            [newTask(`Push changes upstream.`, gitPush)]
         );
     }
 
-    tasks.push(newTask('Update `yarn.lock`', updateYarnLockFile));
+    tasks.push([newTask('Update `yarn.lock`', updateYarnLockFile)]);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    await new Listr(tasks).run()
-        .catch(async (err) => {
-            console.error(typeof err === 'object' ? JSON.stringify(err, null, 4) : err);
+    for (const task of tasks) {
+        await new Listr(task).run()
+            .catch(async (err: any) => {
+                console.error(typeof err === 'object' ? JSON.stringify(err, null, 4) : err);
 
-            // Try to revert things to their previous state.
-
-            await gitReset();
-            await gitDeleteTag(err.context.packageNewTag);
-            await removePackageFiles();
-        });
+                await gitReset();
+                await gitDeleteTag(err.context.packageNewTag);
+                await removePackageFiles();
+            });
+    }
 
     if (!isPrerelease) {
         await deleteGitHubToken();
