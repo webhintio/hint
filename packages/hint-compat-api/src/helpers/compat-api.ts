@@ -14,10 +14,13 @@ import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, 
 
 export class CompatAPI {
     public compatDataApi: MDNTreeFilteredByBrowsers;
+
+    public readonly excludedFeatures: string[];
     private readonly isCheckingNotBroadlySupported: boolean;
     private readonly mdnBrowsersCollection: BrowserSupportCollection;
 
-    public constructor(namespaceName: CompatNamespace, mdnBrowsersCollection: BrowserSupportCollection, isCheckingNotBroadlySupported = false) {
+    public constructor(namespaceName: CompatNamespace, mdnBrowsersCollection: BrowserSupportCollection, isCheckingNotBroadlySupported: boolean = false, excludeFeatures: string[]) {
+        this.excludedFeatures = excludeFeatures;
         this.mdnBrowsersCollection = mdnBrowsersCollection;
         this.isCheckingNotBroadlySupported = isCheckingNotBroadlySupported;
         this.compatDataApi = this.filterCompatDataByBrowsers(mdnAPI[namespaceName]);
@@ -25,7 +28,6 @@ export class CompatAPI {
 
     private filterCompatDataByBrowsers(namespaceFeature: {[namespaceFeaturesKey: string]: CompatStatement | undefined}): MDNTreeFilteredByBrowsers {
         const compatDataApi: MDNTreeFilteredByBrowsers = {};
-
 
         Object.entries(namespaceFeature).forEach(([namespaceFeaturesKey, namespaceFeaturesValues]) => {
             compatDataApi[namespaceFeaturesKey] = this.filterNamespacesDataByBrowsers(namespaceFeaturesValues);
@@ -38,6 +40,10 @@ export class CompatAPI {
         const namespaceFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
         Object.entries(namespaceFeaturesValues as object).forEach(([featureKey, featureValue]) => {
+            if (this.isExcludedFeature(featureKey)) {
+                return;
+            }
+
             const filteredFeature = this.getFeatureByBrowsers(featureValue);
 
             if (!filteredFeature) {
@@ -209,6 +215,10 @@ export class CompatAPI {
 
             return false;
         });
+    }
+
+    private isExcludedFeature(featureName: string): boolean {
+        return this.excludedFeatures.includes(featureName);
     }
 
     /**

@@ -233,3 +233,60 @@ const notSupportedFeaturesShouldNotSeparatelyLog: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, notSupportedFeaturesShouldNotSeparatelyLog, { browserslist: ['ie 10'], parsers: ['css']});
+
+/*
+ * IGNORE HINT OPTION
+ */
+
+const defaultIgnoredFeaturesShouldNotFail: HintTest[] = [
+    {
+        name: 'Features included in the ignored HintOptions should pass.',
+        serverConfig: generateCSSConfig('ime-mode')
+    }
+];
+
+hintRunner.testHint(hintPath, defaultIgnoredFeaturesShouldNotFail, {
+    browserslist: ['chrome 65'],
+    parsers: ['css']
+});
+
+const ignoredHintOptionsFeaturesShouldNotFail: HintTest[] = [
+    {
+        name: 'Features included in the default ignored list should pass.',
+        serverConfig: generateCSSConfig('box-flex')
+    }
+];
+
+hintRunner.testHint(hintPath, ignoredHintOptionsFeaturesShouldNotFail, {
+    browserslist: ['ie 11'],
+    hintOptions: { ignore: ['box-flex'] },
+    parsers: ['css']
+});
+
+const enabledDefaultIgnoredFeaturesShouldFail: HintTest[] = [
+    {
+        name: 'Features included in the ignored HintOptions should fail.',
+        reports: [{ message: 'ime-mode is not supported by chrome.', position: { column: 4, line: 1}}],
+        serverConfig: generateCSSConfig('ime-mode')
+    }
+];
+
+hintRunner.testHint(hintPath, enabledDefaultIgnoredFeaturesShouldFail, {
+    browserslist: ['chrome 65'],
+    hintOptions: { enable: ['ime-mode'] },
+    parsers: ['css']
+});
+
+const enabledIgnoredHintOptionsFeaturesShouldFail: HintTest[] = [
+    {
+        name: 'Features included in the default ignored list should fail.',
+        reports: [{ message: 'box-flex is not supported by ie.', position: { column: 4, line: 1}}],
+        serverConfig: generateCSSConfig('box-flex')
+    }
+];
+
+hintRunner.testHint(hintPath, enabledIgnoredHintOptionsFeaturesShouldFail, {
+    browserslist: ['ie 11'],
+    hintOptions: { enable: ['box-flex'], ignore: ['box-flex'] },
+    parsers: ['css']
+});

@@ -14,6 +14,11 @@ const classesMapping: {[key: string]: any} = {
 
 const NOT_FOUND_INDEX = -1;
 
+const DEFAULT_HINT_OPTIONS = {
+    enable: [],
+    ignore: ['ime-mode'] // Built-in list of ignored features
+};
+
 export abstract class APIHint<T extends Events, K extends Event> implements IHint {
     private compatApi: CompatAPI;
     private compatLibrary: ICompatLibrary<K>;
@@ -26,8 +31,9 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
 
     public constructor(namespaceName: CompatNamespace, context: HintContext<T>, isCheckingNotBroadlySupported: boolean) {
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
+        const hintOptions = this.prepareHintOptions(context.hintOptions);
 
-        this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
+        this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported, hintOptions.ignore);
         this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeature.bind(this));
 
         (context as HintContext<Events>).on('traverse::end', this.consumeReports.bind(this));
@@ -194,5 +200,17 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         }
 
         return NOT_FOUND_INDEX;
+    }
+
+    private prepareHintOptions(options: any): any {
+        const mergedOptions = Object.assign({}, DEFAULT_HINT_OPTIONS, options);
+
+        if (mergedOptions.enable.length > 0) {
+            mergedOptions.ignore = mergedOptions.ignore.filter((featureName: string) => {
+                return !mergedOptions.enable.includes(featureName);
+            });
+        }
+
+        return mergedOptions;
     }
 }
