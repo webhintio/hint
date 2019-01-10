@@ -241,6 +241,10 @@ const extractDataFromCommit = async (sha: string): Promise<Commit> => {
     };
 };
 
+const gitHasUncommittedChanges = async (): Promise<boolean> => {
+    return (await exec('git status -s')).stdout !== '';
+};
+
 const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false) => {
     // Add all changes to the staging aread.
     await exec(`git add packages yarn.lock`);
@@ -249,7 +253,7 @@ const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false) 
      * If there aren't any changes in the staging area,
      * skip the following.
      */
-    if (!(await exec('git status --porcelain')).stdout) {
+    if (!await gitHasUncommittedChanges()) {
 
         return;
     }
@@ -563,6 +567,10 @@ const gitFetchTags = async () => {
     await exec('git fetch --tags');
 };
 
+const gitGetCurrentBranch = async (): Promise<string> => {
+    return (await exec(`git symbolic-ref --short HEAD`)).stdout;
+};
+
 const gitGetLastTaggedRelease = async (ctx: TaskContext) => {
     ctx.packageLastTag = (await exec(`git describe --tags --abbrev=0 --match "${ctx.packageName}-v*"`)).stdout;
 };
@@ -646,6 +654,57 @@ const npmUpdateVersionForPrerelease = (ctx: TaskContext) => {
     ctx.newPackageVersion = newPrereleaseVersion;
 
     updateFile(`${ctx.packageJSONFilePath}`, `${JSON.stringify(ctx.packageJSONFileContent, null, 2)}\n`);
+};
+
+const releaseScriptCanBeRun = async (): Promise<boolean> => {
+
+    // Check if on `master`.
+
+    if (await gitGetCurrentBranch() !== 'master') {
+        console.error('Release cannot be run as the branch is not `master`.');
+
+        return false;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Check if there are uncommited changes.
+
+    if (await gitHasUncommittedChanges()) {
+        console.error('Release cannot be run as there are uncommitted changes.');
+
+        return false;
+    }
+
+    const remoteForMaster = (await exec(`git config --get branch.master.remote`)).stdout;
+
+    // Check if no remote was found for `master`.
+
+    if (!remoteForMaster) {
+        console.error('Release cannot be run as no remote was found for `master`.');
+
+        return false;
+    }
+
+    // Check if the remote for `master` is not set to the main repository.
+
+    /*
+     * The following regex checks if the remote URL is either:
+     *
+     *   * git@github.com:webhintio/hint.git
+     *   * https://github.com/webhintio/hint.git
+     */
+
+    const remoteRegex = new RegExp('^(https://|git@)github.com[:/]webhintio/hint.git$', 'i');
+    const remoteURLForMaster = (await exec(`git config --get remote.${remoteForMaster}.url`)).stdout;
+
+    if (!remoteRegex.test(remoteURLForMaster)) {
+        console.error('Release cannot be run as the remote for `master` does not point to the official webhint repository.');
+
+        return false;
+    }
+
+    return true;
 };
 
 const updateChangelog = (ctx: TaskContext) => {
@@ -916,6 +975,10 @@ const getTasks = (packagePath: string) => {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 const main = async () => {
+
+    if (!await releaseScriptCanBeRun()) {
+        return;
+    }
 
     const isPrerelease = argv.prerelease;
 
