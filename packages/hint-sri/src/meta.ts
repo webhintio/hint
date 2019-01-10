@@ -2,7 +2,7 @@ import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintMetadata } from 'hint/dist/src/lib/types';
 
-import { algorithms } from './types';
+import { Algorithms, OriginCriteria } from './types';
 
 const meta: HintMetadata = {
     docs: {
@@ -15,7 +15,11 @@ const meta: HintMetadata = {
         additionalProperties: false,
         properties: {
             baseline: {
-                oneOf: [Object.keys(algorithms)],
+                oneOf: [Object.keys(Algorithms)],
+                type: 'string'
+            },
+            originCriteria: {
+                oneOf: [Object.keys(OriginCriteria)],
                 type: 'string'
             }
         }

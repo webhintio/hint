@@ -48,19 +48,6 @@ This hint checks that a website correctly uses SRI, more specifically:
 
 ### Examples that **trigger** the hint
 
-Same-origin resource with no `integrity`:
-
-```html
-<link rel="stylesheet" href="/style.css">
-```
-
-Same-origin resource with hash function less secure than `sha384`:
-
-```html
-<script src="/script.js" integrity="sha256-validHashHere">
-</script>
-```
-
 Cross-origin resource with no `crossorigin` attribute:
 
 ```html
@@ -87,19 +74,18 @@ Cross-origin resource loaded over `HTTP`:
 </script>
 ```
 
-### Examples that **pass** the hint
-
-Same-origin resource with `sha384` or better:
+Same-origin resource with no `integrity` and `originCriteria` set to `all`:
 
 ```html
-<script src="/script.js" integrity="sha384-validHashHere">
-</script>
+<link rel="stylesheet" href="/style.css">
 ```
 
-Same-origin resource with multiple hashes and `sha384` is one of them:
+### Examples that **pass** the hint
+
+Cross-origin resource with multiple hashes and `sha384` is one of them:
 
 ```html
-<script src="/script.js"
+<script src="https://example.com/script.js"
   integrity="sha256-validHashHere
              sha384-validHashHere">
 </script>
@@ -116,7 +102,12 @@ Cross-origin resource with valid `crossorigin` attribute:
 
 ## Can the hint be configured?
 
-Yes, by default the baseline algorithm is `sha384` but you can
+Yes, you can define the baseline algorithm and the origin of the resources
+to analyze.
+
+### Baseline algorithm
+
+By default the baseline algorithm is `sha384` but you can
 change it to `sha256`, or `sha512` by specifying that in the
 [`.hintrc`][hintrc] file:
 
@@ -136,6 +127,31 @@ change it to `sha256`, or `sha512` by specifying that in the
 
 The above will validate that the `integrity` of all scripts and
 styles use `sha512`.
+
+### Origin criteria
+
+By default, this hint will analyze only resources with a different origin.
+To change this behavior you will have to set the `originCriteria` property
+to one of the following:
+
+* `all`: All resources will be analyzed
+* `crossOrigin`: Only cross-origin resources will be analyzed
+
+The following will analyze all the resources:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "hints": {
+        "sri": ["warning", {
+            "originCriteria": "all"
+        }],
+        ...
+    },
+    ...
+}
+```
 
 ## How to use this hint?
 
