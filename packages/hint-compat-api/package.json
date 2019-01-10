@@ -17,7 +17,7 @@
     "eslint": "^5.12.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "^0.14.0",
-    "hint": "^4.1.2",
+    "hint": "^4.2.0",
     "markdownlint-cli": "^0.13.0",
     "mdn-browser-compat-data": "0.0.61",
     "npm-link-check": "^3.0.0",
@@ -49,7 +49,7 @@
   },
   "peerDependencies": {
     "@hint/parser-css": "^2.0.3",
-    "hint": "^4.1.2"
+    "hint": "^4.2.0"
   },
   "repository": "webhintio/hint",
   "scripts": {
