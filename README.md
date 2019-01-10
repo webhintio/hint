@@ -3,6 +3,7 @@
 [![Travis CI build status](https://travis-ci.org/webhintio/hint.svg?branch=master)](https://travis-ci.org/webhintio/hint)
 [![Greenkeeper status](https://badges.greenkeeper.io/webhintio/hint.svg)](https://greenkeeper.io/)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/webhintio/Lobby)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwebhintio%2Fhint.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwebhintio%2Fhint?ref=badge_shield)
 
 ## Quick start user guide
 
@@ -76,6 +77,8 @@ By participating in this project you agree to abide by its terms.
 ## License
 
 The code is available under the [Apache 2.0 license][license].
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwebhintio%2Fhint.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwebhintio%2Fhint?ref=badge_large)
 
 <!-- Link labels: -->
 
