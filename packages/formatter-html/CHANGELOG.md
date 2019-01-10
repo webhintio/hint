@@ -1,3 +1,11 @@
+# 2.0.2 (January 10, 2019)
+
+## Bug fixes / Improvements
+
+* [[`5e02927b32`](https://github.com/webhintio/hint/commit/5e02927b3262f25d948e6f9f0ea1c940c7c5f3c0)] - Fix: Visual error in Firefox (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1648`](https://github.com/webhintio/hint/issues/1648)).
+* [[`04718ece44`](https://github.com/webhintio/hint/commit/04718ece443a846a9a816a5ee587cb6107a4528d)] - Fix: Replace query parameters in file name with `-query-`.
+
+
 # 2.0.1 (December 31, 2018)
 
 ## Bug fixes / Improvements
