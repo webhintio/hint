@@ -13,7 +13,7 @@ import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 
-import { algorithms } from './types';
+import { Algorithms, OriginCriteria } from './types';
 import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
@@ -31,7 +31,8 @@ export default class SRIHint implements IHint {
 
     private context: HintContext;
     private origin: string = '';
-    private baseline: keyof typeof algorithms = 'sha384';
+    private baseline: keyof typeof Algorithms = 'sha384';
+    private originCriteria: keyof typeof OriginCriteria = 'crossOrigin';
 
     /**
      * Returns the hash of the content for the given `sha` strengh in a format
@@ -130,13 +131,20 @@ export default class SRIHint implements IHint {
         return validCrossorigin;
     }
 
-    /** Checks if the element that triggered the download has the `integrity` attribute. */
+    /**
+     * Checks if the element that triggered the download has the `integrity`
+     * attribute if required based on the selected origin criteria.
+     */
     private async hasIntegrityAttribute(evt: FetchEnd): Promise<boolean> {
         debug('has integrity attribute?');
         const { element, resource } = evt;
         const integrity = element && element.getAttribute('integrity');
+        const resourceOrigin: string = new URL(resource).origin;
+        const integrityRequired =
+            OriginCriteria[this.originCriteria] === OriginCriteria.all ||
+            this.origin !== resourceOrigin;
 
-        if (!integrity) {
+        if (integrityRequired && !integrity) {
             const message = `Resource ${resource} requested without the "integrity" attribute`;
 
             await this.context.report(resource, message, { element });
@@ -183,8 +191,8 @@ export default class SRIHint implements IHint {
             }
 
             // results won't be null since isValid must be true to get here.
-            const algorithm = `sha${results![1]}` as keyof typeof algorithms;
-            const algorithmPriority = algorithms[algorithm];
+            const algorithm = `sha${results![1]}` as keyof typeof Algorithms;
+            const algorithmPriority = Algorithms[algorithm];
 
             highestAlgorithmPriority = Math.max(algorithmPriority, highestAlgorithmPriority);
 
@@ -195,11 +203,11 @@ export default class SRIHint implements IHint {
             return false;
         }
 
-        const baseline = algorithms[this.baseline];
+        const baseline = Algorithms[this.baseline];
         const meetsBaseline = highestAlgorithmPriority >= baseline;
 
         if (!meetsBaseline) {
-            const message = `The hash algorithm "${algorithms[highestAlgorithmPriority]}" doesn't meet the baseline "${this.baseline}"`;
+            const message = `The hash algorithm "${Algorithms[highestAlgorithmPriority]}" doesn't meet the baseline "${this.baseline}"`;
 
             await this.context.report(resource, message, { element });
         }
@@ -301,9 +309,11 @@ Actual:   ${hashes.join(', ')}`;
 
     public constructor(context: HintContext) {
         this.context = context;
-        this.baseline = context.hintOptions ?
-            context.hintOptions.baseline :
-            this.baseline;
+
+        if (context.hintOptions) {
+            this.baseline = context.hintOptions.baseline || this.baseline;
+            this.originCriteria = context.hintOptions.originCriteria || this.originCriteria;
+        }
 
         context.on('fetch::end::script', this.validateResource.bind(this));
         context.on('fetch::end::css', this.validateResource.bind(this));

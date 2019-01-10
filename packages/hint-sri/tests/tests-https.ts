@@ -9,7 +9,21 @@ const hintPath = getHintPath(__filename);
 const styles = readFile(`${__dirname}/fixtures/styles.css`);
 const scripts = readFile(`${__dirname}/fixtures/scripts.js`);
 
-const defaultTestsHttps: HintTest[] = [
+const defaults: HintTest[] = [
+    {
+        name: 'Page with no resources passes',
+        serverConfig: generateHTMLPage()
+    },
+    {
+        name: `Page with a same-origin resource and no SRI passes`,
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css">'),
+            '/styles.css': styles
+        }
+    }
+];
+
+const configOriginAllTestsHttps: HintTest[] = [
     {
         name: 'Page with no resources passes',
         serverConfig: generateHTMLPage()
@@ -252,12 +266,23 @@ const configTestsLow: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, defaultTestsHttps, { https: true });
+
+hintRunner.testHint(hintPath, defaults, { https: true });
+hintRunner.testHint(hintPath, configOriginAllTestsHttps, {
+    hintOptions: { originCriteria: 'all' },
+    https: true
+});
 hintRunner.testHint(hintPath, configTestsHigh, {
-    hintOptions: { baseline: 'sha512' },
+    hintOptions: {
+        baseline: 'sha512',
+        originCriteria: 'all'
+    },
     https: true
 });
 hintRunner.testHint(hintPath, configTestsLow, {
-    hintOptions: { baseline: 'sha256' },
+    hintOptions: {
+        baseline: 'sha256',
+        originCriteria: 'all'
+    },
     https: true
 });
