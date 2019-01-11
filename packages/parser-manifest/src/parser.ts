@@ -45,6 +45,11 @@ export default class ManifestParser extends Parser<ManifestEvents> {
 
         engine.on('element::link', this.fetchManifest.bind(this));
         engine.on('fetch::end::manifest', this.validateManifest.bind(this));
+        engine.on('scan::end', this.onScanEnd.bind(this));
+    }
+
+    private onScanEnd() {
+        this.parsed = false;
     }
 
     private async fetchManifest(elementFound: ElementFound) {
@@ -110,7 +115,7 @@ export default class ManifestParser extends Parser<ManifestEvents> {
                 element,
                 error: error || new Error(`'${hrefValue}' could not be fetched (status code: ${statusCode}).`),
                 hops: (manifestNetworkData && manifestNetworkData.response.hops) || [manifestURL],
-                resource
+                resource: manifestURL
             });
 
             return;
@@ -121,7 +126,7 @@ export default class ManifestParser extends Parser<ManifestEvents> {
         await this.engine.emitAsync(this.fetchEndEventName, {
             element,
             request: manifestNetworkData.request,
-            resource,
+            resource: manifestURL,
             response: manifestNetworkData.response
         });
     }
