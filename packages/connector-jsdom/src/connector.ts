@@ -370,11 +370,11 @@ export default class JSDOMConnector implements IConnector {
     private killProcess(runner: ChildProcess) {
         try {
             runner.kill('SIGKILL');
-
-            this._subprocesses.delete(runner);
         } catch (err) {
             /* istanbul ignore next */
             debug('Error closing evaluate process');
+        } finally {
+            this._subprocesses.delete(runner);
         }
     }
 
@@ -382,8 +382,6 @@ export default class JSDOMConnector implements IConnector {
         this._subprocesses.forEach((subprocess) => {
             this.killProcess(subprocess);
         });
-
-        this._subprocesses.clear();
     }
 
     public evaluate(source: string): Promise<any> {
