@@ -25,6 +25,8 @@ export default class ButtonTypeHint implements IHint {
         const validateElement = async (elementFound: ElementFound) => {
 
             const { resource } = elementFound;
+            const allowedTypes = ['submit', 'reset', 'button'];
+
 
             debug(`Validating hint button-type`);
 
@@ -33,6 +35,8 @@ export default class ButtonTypeHint implements IHint {
 
             if (elementType === null || elementType === '') {
                 await context.report(resource, 'Button type attribute has not been set', { element });
+            } else if (!allowedTypes.includes(elementType.toLowerCase())) {
+                await context.report(resource, `Invalid button type: ${elementType}`, { element });
             }
         };
 
