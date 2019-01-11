@@ -174,6 +174,9 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
             await this.compatLibrary.reportError(feature, message);
             fallbackIndex = i + 1;
         }
+
+        // NOTE: Clean pending reports after being consumed
+        this.pendingReports = [];
     }
 
     private getFallbackIndex(feature: FeatureInfo, index: number): number {
