@@ -335,6 +335,17 @@ export class Connector implements IConnector {
 
         const eventName = `fetch::end::${suffix}` as 'fetch::end::*';
 
+        /*
+         * New versions of chrome are fetching the manifest
+         * automatically, so to prevent emit the event `fetch::end::manifest`
+         * twice, we need to ignore the event here.
+         * The manifest is already captured and processed by
+         * `parser-manifest` when the element is detected in the DOM.
+         */
+        if (suffix === 'manifest') {
+            return;
+        }
+
 
         /** Event is also emitted when status code in response is not 200. */
         await this._server.emitAsync(eventName, data);
