@@ -26,6 +26,7 @@ const schema = require('./schema.json');
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 export default class ManifestParser extends Parser<ManifestEvents> {
+    private parsed: boolean = false;
 
     // Event names.
 
@@ -46,7 +47,7 @@ export default class ManifestParser extends Parser<ManifestEvents> {
         engine.on('fetch::end::manifest', this.validateManifest.bind(this));
     }
 
-    private async fetchManifest (elementFound: ElementFound) {
+    private async fetchManifest(elementFound: ElementFound) {
         const { element, resource } = elementFound;
 
         /*
@@ -125,7 +126,16 @@ export default class ManifestParser extends Parser<ManifestEvents> {
         });
     }
 
-    private async validateManifest (fetchEnd: FetchEnd) {
+    private async validateManifest(fetchEnd: FetchEnd) {
+        /*
+         * Chrome fetch the manifest automatically so we need to
+         * ensure that the validation is done just once.
+         */
+        if (this.parsed) {
+            return;
+        }
+
+        this.parsed = true;
         const { resource, response } = fetchEnd;
 
         await this.engine.emitAsync(`parse::start::manifest`, { resource });
