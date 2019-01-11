@@ -259,7 +259,7 @@ const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false) 
     }
 
     // Otherwise commit the changes.
-    await exec(`git commit -m "${commitMessage}${skipCI ? ' [skip ci]' : ''}"`);
+    await exec(`git commit -m "${commitMessage}${skipCI ? ' [skip ci] ***NO_CI***' : ''}"`);
 };
 
 const gitCommitBuildChanges = async (ctx: TaskContext) => {
