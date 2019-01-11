@@ -36,7 +36,7 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported, hintOptions.ignore);
         this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeature.bind(this));
 
-        (context as HintContext<Events>).on('traverse::end', this.consumeReports.bind(this));
+        (context as HintContext<Events>).on('scan::end', this.consumeReports.bind(this));
     }
 
     private testFeature(feature: FeatureInfo, collection: CompatStatement): boolean {
@@ -180,6 +180,9 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
             await this.compatLibrary.reportError(feature, message);
             fallbackIndex = i + 1;
         }
+
+        // NOTE: Clean pending reports after being consumed
+        this.pendingReports = [];
     }
 
     private getFallbackIndex(feature: FeatureInfo, index: number): number {
