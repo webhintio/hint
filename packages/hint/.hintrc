@@ -15,6 +15,7 @@
         "amp-validator": "off",
         "apple-touch-icons": "warning",
         "axe": "warning",
+        "button-type": "warning",
         "content-type": "warning",
         "disown-opener": "warning",
         "highest-available-document-mode": "warning",
@@ -44,7 +45,6 @@
         "strict-transport-security": "warning",
         "stylesheet-limits": "warning",
         "validate-set-cookie-header": "warning",
-        "x-content-type-options": "warning",
-        "button-type": "warning"
+        "x-content-type-options": "warning"
     }
 }

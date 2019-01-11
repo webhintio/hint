@@ -1,14 +1,14 @@
 # button-type (`@hint/hint-button-type`)
 
-Check if button has type attribute set
+`button-type` checks if all buttons have a `type` attribute set.
 
 ## Why is this important?
 
-The default type for button is "submit" (not type="button" as one might expect).
+The default type for `<button>` is `submit` (not `type="button"` as one might expect).
 This can lead to surprising keyboard behavior within a form.
 
 The best way to avoid unexpected surprises is to always explicitly
-set a type on buttons.
+set a type on `<button>`s.
 
 ## What does the hint check?
 
@@ -59,8 +59,9 @@ configuration file:
 
 What can the user read to know more about this subject?
 
-More reading on this topic [here](http://lea.verou.me/2018/05/never-forget-typebutton-on-generated-buttons/).
+* [Never forget type="button" on generated buttons!][generated-buttons] by Lea Verou.
 
 <!-- Link labels: -->
 
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[generated-buttons]: https://lea.verou.me/2018/05/never-forget-typebutton-on-generated-buttons/
