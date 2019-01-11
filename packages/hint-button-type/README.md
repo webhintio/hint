@@ -4,9 +4,11 @@ Check if button has type attribute set
 
 ## Why is this important?
 
-The default type for <button> is "submit" (not type="button" as one might expect). This can lead to surprising keyboard behavior within a form. 
+The default type for button is "submit" (not type="button" as one might expect).
+This can lead to surprising keyboard behavior within a form.
 
-The best way to avoid unexpected surprises is to always explicitly set a type on <button>s.
+The best way to avoid unexpected surprises is to always explicitly
+set a type on buttons.
 
 ## What does the hint check?
 
@@ -14,14 +16,16 @@ This hint checks whether the type attribute of a button is explicitly set.
 
 ### Examples that **trigger** the hint
 
-```
+```html
 <button></button>
 ```
 
 ### Examples that **pass** the hint
 
+```html
 <button type="submit"></button>
 <button type="button"></button>
+```
 
 ## How to use this hint?
 
@@ -55,8 +59,8 @@ configuration file:
 
 What can the user read to know more about this subject?
 
+More reading on this topic [here](http://lea.verou.me/2018/05/never-forget-typebutton-on-generated-buttons/).
+
 <!-- Link labels: -->
 
-
-[http://lea.verou.me/2018/05/never-forget-typebutton-on-generated-buttons/](http://lea.verou.me/2018/05/never-forget-typebutton-on-generated-buttons/)
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
