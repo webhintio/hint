@@ -263,4 +263,24 @@ const notSupportedAndNotDeprecatedFeature: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, { browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'], parsers: ['css']});
+hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, {
+    browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'],
+    hintOptions: { enable: ['cursor'] },
+    parsers: ['css']
+});
+
+/*
+ * IGNORE HINT OPTION
+ */
+
+const defaultIgnoredFeaturesShouldNotFail: HintTest[] = [
+    {
+        name: 'Features included in the ignored HintOptions should pass.',
+        serverConfig: generateCSSConfig('cursor')
+    }
+];
+
+hintRunner.testHint(hintPath, defaultIgnoredFeaturesShouldNotFail, {
+    browserslist: ['android 4.4.3-4.4.4'],
+    parsers: ['css']
+});

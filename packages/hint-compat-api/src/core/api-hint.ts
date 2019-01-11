@@ -14,11 +14,6 @@ const classesMapping: {[key: string]: any} = {
 
 const NOT_FOUND_INDEX = -1;
 
-const DEFAULT_HINT_OPTIONS = {
-    enable: [],
-    ignore: ['ime-mode'] // Built-in list of ignored features
-};
-
 export abstract class APIHint<T extends Events, K extends Event> implements IHint {
     private compatApi: CompatAPI;
     private compatLibrary: ICompatLibrary<K>;
@@ -28,6 +23,7 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
     abstract isVersionValueSupported(version: VersionValue): boolean;
     abstract isVersionValueTestable(version: VersionValue): boolean;
+    abstract getDefaultHintOptions(): any;
 
     public constructor(namespaceName: CompatNamespace, context: HintContext<T>, isCheckingNotBroadlySupported: boolean) {
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
@@ -206,9 +202,10 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
     }
 
     private prepareHintOptions(options: any): any {
-        const mergedOptions = Object.assign({}, DEFAULT_HINT_OPTIONS, options);
+        const defaultHintOptions = this.getDefaultHintOptions();
+        const mergedOptions = Object.assign({}, defaultHintOptions, options);
 
-        if (mergedOptions.enable.length > 0) {
+        if (Array.isArray(mergedOptions.enable) && mergedOptions.enable.length > 0) {
             mergedOptions.ignore = mergedOptions.ignore.filter((featureName: string) => {
                 return !mergedOptions.enable.includes(featureName);
             });

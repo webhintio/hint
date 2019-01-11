@@ -238,18 +238,6 @@ hintRunner.testHint(hintPath, notSupportedFeaturesShouldNotSeparatelyLog, { brow
  * IGNORE HINT OPTION
  */
 
-const defaultIgnoredFeaturesShouldNotFail: HintTest[] = [
-    {
-        name: 'Features included in the ignored HintOptions should pass.',
-        serverConfig: generateCSSConfig('ime-mode')
-    }
-];
-
-hintRunner.testHint(hintPath, defaultIgnoredFeaturesShouldNotFail, {
-    browserslist: ['chrome 65'],
-    parsers: ['css']
-});
-
 const ignoredHintOptionsFeaturesShouldNotFail: HintTest[] = [
     {
         name: 'Features included in the default ignored list should pass.',

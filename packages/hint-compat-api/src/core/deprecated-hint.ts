@@ -7,8 +7,10 @@ import { CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo } from '../types';
 import { SimpleSupportStatement, VersionValue, StatusBlock } from '../types-mdn.temp';
 
-export class DeprecatedAPIHint<T extends Events, K extends Event> extends APIHint<T, K> {
+export abstract class DeprecatedAPIHint<T extends Events, K extends Event> extends APIHint<T, K> {
     public static readonly meta = meta;
+
+    abstract getDefaultHintOptions(): any;
 
     public constructor(namespaceName: CompatNamespace, context: HintContext<T>) {
         super(namespaceName, context, false);

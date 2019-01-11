@@ -8,6 +8,7 @@ import { StyleEvents, StyleParse } from '@hint/parser-css/dist/src/types';
 import meta from './meta/css';
 import { CompatNamespace } from './enums';
 import { DeprecatedAPIHint } from './core/deprecated-hint';
+import { DEFAULT_CSS_IGNORE } from './helpers';
 
 /*
  * ------------------------------------------------------------------------------
@@ -20,5 +21,9 @@ export default class CSSDeprecatedAPIHint extends DeprecatedAPIHint<StyleEvents,
 
     public constructor(context: HintContext<StyleEvents>) {
         super(CompatNamespace.CSS, context);
+    }
+
+    public getDefaultHintOptions(): any {
+        return { ignore: DEFAULT_CSS_IGNORE };
     }
 }
