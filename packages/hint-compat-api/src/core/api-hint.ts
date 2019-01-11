@@ -30,7 +30,7 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
         this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeature.bind(this));
 
-        (context as HintContext<Events>).on('traverse::end', this.consumeReports.bind(this));
+        (context as HintContext<Events>).on('scan::end', this.consumeReports.bind(this));
     }
 
     private testFeature(feature: FeatureInfo, collection: CompatStatement): boolean {
