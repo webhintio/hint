@@ -6,6 +6,22 @@
 # * Cron jobs to do a full analysis
 jobs:
 
+# Changes in master
+- template: azure-pipelines/master.yml
+  parameters:
+    name: Linux_master
+    vmImage: 'ubuntu 16.04'
+
+- template: azure-pipelines/master.yml
+  parameters:
+    name: macOS_master
+    vmImage: 'macOS-10.13'
+
+- template: azure-pipelines/master.yml
+  parameters:
+    name: Windows_master
+    vmImage: 'vs2017-win2016'
+
 # Generic PRs
 - template: azure-pipelines/prs.yml
   parameters:
