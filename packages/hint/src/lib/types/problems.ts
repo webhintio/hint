@@ -9,9 +9,9 @@ export enum Severity {
 
 /** The location of a Problem in the code */
 export type ProblemLocation = {
-    /** The column number where a Problem is */
+    /** The zero-based column number where a Problem is */
     column: number;
-    /** The line number where a Problem is */
+    /** The zero-based line number where a Problem is */
     line: number;
     /** The column number relative to the element where a Problem is */
     elementColumn?: number;

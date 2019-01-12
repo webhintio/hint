@@ -29,14 +29,14 @@ export default class BabelConfigIsValidHint implements IHint {
         };
 
         const invalidSchema = async (fetchEnd: BabelConfigInvalidSchema) => {
-            const { prettifiedErrors, resource } = fetchEnd;
+            const { groupedErrors, resource } = fetchEnd;
 
             debug(`parse::error::babel-config::schema received`);
 
-            for (let i = 0; i < prettifiedErrors.length; i++) {
-                const message = prettifiedErrors[i];
+            for (let i = 0; i < groupedErrors.length; i++) {
+                const groupedError = groupedErrors[i];
 
-                await context.report(resource, message);
+                await context.report(resource, groupedError.message, { location: groupedError.location });
             }
         };
 

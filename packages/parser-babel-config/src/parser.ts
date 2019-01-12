@@ -34,6 +34,7 @@ export default class BabelConfigParser extends Parser<BabelConfigEvents> {
             await this.engine.emitAsync('parse::error::babel-config::schema', {
                 error: new Error('Invalid Babel configuration'),
                 errors: validationResult.errors,
+                groupedErrors: validationResult.groupedErrors,
                 prettifiedErrors: validationResult.prettifiedErrors,
                 resource
             });

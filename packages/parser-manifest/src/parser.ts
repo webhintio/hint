@@ -161,6 +161,7 @@ export default class ManifestParser extends Parser<ManifestEvents> {
             await this.engine.emitAsync(this.parseErrorSchemaEventName, {
                 error: new Error('Invalid manifest'),
                 errors: validationResult.errors,
+                groupedErrors: validationResult.groupedErrors,
                 prettifiedErrors: validationResult.prettifiedErrors,
                 resource
             });

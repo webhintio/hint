@@ -36,9 +36,27 @@ const defaultTests: HintTest[] = [
     {
         name: `Web app manifest is specified and its content does not validate agains the schema`,
         reports: [
-            { message: `root should NOT have additional properties. Additional property found 'additionalProperty'.` },
-            { message: `icons[0] should NOT have additional properties. Additional property found 'density'.` },
-            { message: `name should be 'string'.` }
+            {
+                message: `root should NOT have additional properties. Additional property found 'additionalProperty'.`,
+                position: {
+                    column: 2,
+                    line: 0
+                }
+            },
+            {
+                message: `icons[0] should NOT have additional properties. Additional property found 'density'.`,
+                position: {
+                    column: 63,
+                    line: 0
+                }
+            },
+            {
+                message: `name should be 'string'.`,
+                position: {
+                    column: 110,
+                    line: 0
+                }
+            }
         ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
