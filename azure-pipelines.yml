@@ -1,21 +1,23 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-# Build NodeJS Express app using Azure Pipelines
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript?view=vsts
+# These are the different types of jobs run by Azure Pipelines:
+#
+# * Generic PRs
+# * Changes in master
+# * Dependabot PRs
+# * Cron jobs to do a full analysis
 jobs:
-- template: azure-pipelines/workers.yml
+
+# Generic PRs
+- template: azure-pipelines/prs.yml
   parameters:
-    name: Linux
+    name: Linux_PR
     vmImage: 'ubuntu 16.04'
 
-- template: azure-pipelines/workers.yml
+- template: azure-pipelines/prs.yml
   parameters:
-    name: macOS
+    name: macOS_PR
     vmImage: 'macOS-10.13'
 
-- template: azure-pipelines/workers.yml
+- template: azure-pipelines/prs.yml
   parameters:
-    name: Windows
+    name: Windows_PR
     vmImage: 'vs2017-win2016'
