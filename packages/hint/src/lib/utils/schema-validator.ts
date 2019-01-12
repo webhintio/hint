@@ -193,7 +193,7 @@ const generateErrorsMessage = (errors: ajv.ErrorObject[]): string[] => {
         if (keyword === ErrorKeyword.required) {
             const dataPath = groupedErrors[0].dataPath;
 
-            allMessages.push(`${dataPath ? dataPath.substr(1) : 'root'} should have required properties ${groupedErrors.map(getRequiredProperty).join(' and ')}`);
+            allMessages.push(`${dataPath ? dataPath.substr(1) : 'root'} should have required ${groupedErrors.length === 1 ? 'property' : 'properties'} ${groupedErrors.map(getRequiredProperty).join(' and ')}`);
 
             return allMessages;
         }
