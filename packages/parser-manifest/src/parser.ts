@@ -26,7 +26,6 @@ const schema = require('./schema.json');
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 export default class ManifestParser extends Parser<ManifestEvents> {
-
     // Event names.
 
     private readonly fetchEndEventName = 'fetch::end::manifest';
@@ -46,7 +45,7 @@ export default class ManifestParser extends Parser<ManifestEvents> {
         engine.on('fetch::end::manifest', this.validateManifest.bind(this));
     }
 
-    private async fetchManifest (elementFound: ElementFound) {
+    private async fetchManifest(elementFound: ElementFound) {
         const { element, resource } = elementFound;
 
         /*
@@ -109,7 +108,7 @@ export default class ManifestParser extends Parser<ManifestEvents> {
                 element,
                 error: error || new Error(`'${hrefValue}' could not be fetched (status code: ${statusCode}).`),
                 hops: (manifestNetworkData && manifestNetworkData.response.hops) || [manifestURL],
-                resource
+                resource: manifestURL
             });
 
             return;
@@ -120,12 +119,12 @@ export default class ManifestParser extends Parser<ManifestEvents> {
         await this.engine.emitAsync(this.fetchEndEventName, {
             element,
             request: manifestNetworkData.request,
-            resource,
+            resource: manifestURL,
             response: manifestNetworkData.response
         });
     }
 
-    private async validateManifest (fetchEnd: FetchEnd) {
+    private async validateManifest(fetchEnd: FetchEnd) {
         const { resource, response } = fetchEnd;
 
         await this.engine.emitAsync(`parse::start::manifest`, { resource });
