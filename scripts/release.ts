@@ -516,15 +516,41 @@ const getVersionNumber = (ctx: TaskContext) => {
     ctx.newPackageVersion = ctx.packageJSONFileContent.version;
 };
 
+const shouldTriggerRelease = (commits: Commit[] = []): boolean => {
+
+    /*
+     * Some tags, even though they are user-facing will only trigger
+     * a release if there are seen with other user-facing tags.
+     *
+     * (e.g.: `Docs`, see: https://github.com/webhintio/hint/issues/1510)
+     */
+
+    const tagsThatTriggerRelease = [
+        'Breaking',
+        'Fix',
+        'New',
+        'Update'
+    ];
+
+    for (const commit of commits) {
+        if (tagsThatTriggerRelease.includes(commit.tag)) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
 const getReleaseData = async (ctx: TaskContext) => {
+    if (!ctx.isPrerelease &&
+        !shouldTriggerRelease(ctx.commitSHAsSinceLastRelease)) {
+        ctx.skipRemainingTasks = true;
+    }
+
     ({
         semverIncrement: ctx.packageSemverIncrement,
         releaseNotes: ctx.packageReleaseNotes
     } = await getChangelogData(ctx.commitSHAsSinceLastRelease));
-
-    if (!ctx.isPrerelease && !ctx.packageReleaseNotes) {
-        ctx.skipRemainingTasks = true;
-    }
 };
 
 const getReleaseNotes = (changelogFilePath: string): string => {
