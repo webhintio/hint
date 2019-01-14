@@ -1,5 +1,4 @@
 import html from '../../../../shared/html-literal';
-import { Config } from '../../../../shared/types';
 
 import headerView from '../partials/header';
 
@@ -8,18 +7,26 @@ import './configuration.css';
 
 type Props = {
     categories: string[];
-    onAnalyzeClick: (config: Config) => void;
+    onAnalyzeClick: () => void;
+    onBrowsersListChange: () => void;
+    onResourcesChange: () => void;
     onRestoreClick: () => void;
 };
 
 /* eslint-disable */
-export default function view({ categories, onAnalyzeClick, onRestoreClick }: Props) {
+export default function view({ categories, onAnalyzeClick, onBrowsersListChange, onResourcesChange, onRestoreClick }: Props) {
+    const onSubmit = (event: Event) => {
+        event.preventDefault();
+        onAnalyzeClick();
+    };
+
     return html`
-        ${headerView({ analyzeText: 'Analyze website', onAnalyzeClick })}
-        <section class="configuration page">
+        <form class="configuration page" onsubmit=${onSubmit}>
+            ${headerView({ analyzeText: 'Analyze website' })}
             <h1 class="page__header">
                 Configuration
             </h1>
+            <button type="button" class="page__button configuration__restore-button" onclick=${onRestoreClick}>Restore defaults</button>
             <section class="configuration__section">
                 <h1 class="configuration__header">
                     Categories:
@@ -36,13 +43,13 @@ export default function view({ categories, onAnalyzeClick, onRestoreClick }: Pro
                     Your target browsers:
                 </h1>
                 <label class="configuration__label">
-                    <input type="checkbox" name="recommended-browsers" checked />
+                    <input type="checkbox" name="recommended-browsers" checked oninput="${onBrowsersListChange}" />
                     Recommended settings
                     <div class="configuration__example">&gt; 0.5%, last 2 versions, Firefox ESR, not dead</div>
                 </label>
                 <label class="configuration__label">
-                    <input type="checkbox" name="custom-browsers" />
-                    <input type="text" name="custom-browsers-list" placeholder="&gt; 1% in US, IE 10" />
+                    <input type="checkbox" name="custom-browsers" oninput="${onBrowsersListChange}" />
+                    <input type="text" class="configuration__input" name="custom-browsers-list" placeholder="&gt; 1% in US, IE 10" oninput="${onBrowsersListChange}" />
                     <div class="configuration__example">
                         <a href="https://github.com/browserslist/browserslist#full-list" target="_blank">
                             See query instructions
@@ -55,16 +62,16 @@ export default function view({ categories, onAnalyzeClick, onRestoreClick }: Pro
                     Ignored resources:
                 </h1>
                 <label class="configuration__label">
-                    <input type="radio" name="resources" value="none" checked />
+                    <input type="radio" name="resources" value="none" checked oninput="${onResourcesChange}" />
                     None
                 </label>
                 <label class="configuration__label">
-                    <input type="radio" name="resources" value="third-party" />
+                    <input type="radio" name="resources" value="third-party" oninput="${onResourcesChange}" />
                     Different origin
                 </label>
                 <label class="configuration__label">
-                    <input type="radio" name="resources" value="custom" />
-                    <input type="text" name="custom-resources" placeholder="google-analytics\.com" />
+                    <input type="radio" name="resources" value="custom" oninput="${onResourcesChange}" />
+                    <input type="text" class="configuration__input" name="custom-resources" placeholder="google-analytics\.com" oninput="${onResourcesChange}" />
                     <div class="configuration__example">
                         <a href="https://webhint.io/docs/user-guide/configuring-webhint/ignoring-domains/" target="_blank">
                             See expression instructions
@@ -72,7 +79,6 @@ export default function view({ categories, onAnalyzeClick, onRestoreClick }: Pro
                     </div>
                 </label>
             </section>
-            <button type="button" class="page__button configuration__restore-button" onclick=${onRestoreClick}>Restore defaults</button>
-        </section>
+        </form>
     `;
 }

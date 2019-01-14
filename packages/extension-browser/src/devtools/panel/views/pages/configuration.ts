@@ -1,4 +1,5 @@
 import escapeRegExp = require('lodash/escapeRegExp');
+import browserslist = require('browserslist');
 
 import { browser } from '../../../../shared/globals';
 import { Config } from '../../../../shared/types';
@@ -25,16 +26,24 @@ const categories = [
 ];
 
 export default function view({ onAnalyzeClick }: Props) {
+    /* eslint-disable no-use-before-define, typescript/no-use-before-define */
     const fragment = configurationHtmlView({
         categories,
         onAnalyzeClick: async () => {
-            saveConfiguration(); // eslint-disable-line
-            onAnalyzeClick(await getConfiguration()); // eslint-disable-line
+            saveConfiguration();
+            onAnalyzeClick(await getConfiguration());
+        },
+        onBrowsersListChange: () => {
+            validateCustomBrowsersList();
+        },
+        onResourcesChange: () => {
+            validateIgnoredUrls();
         },
         onRestoreClick: () => {
-            resetConfiguration(); // eslint-disable-line
+            resetConfiguration();
         }
     });
+    /* eslint-enable no-use-before-define, typescript/no-use-before-define */
 
     const configRoot = fragment.querySelector('.configuration')!;
 
@@ -44,6 +53,25 @@ export default function view({ onAnalyzeClick }: Props) {
 
     const findAllInputs = (s: string): HTMLInputElement[] => {
         return Array.from(configRoot.querySelectorAll(s));
+    };
+
+    const validityTimeouts = new Map<HTMLInputElement, NodeJS.Timeout>();
+
+    /** Assign a custom validity to the provided input and display the status. */
+    const updateValidationStatus = (input: HTMLInputElement, error = '') => {
+        // Cancel any previously scheduled validity reports for this input.
+        clearTimeout(validityTimeouts.get(input)!);
+
+        // Immediately clear validity to avoid spamming the user during input.
+        input.setCustomValidity('');
+        input.reportValidity();
+
+        // Then wait a bit before reporting the actual validity.
+        validityTimeouts.set(input, setTimeout(() => {
+            validityTimeouts.delete(input);
+            input.setCustomValidity(error);
+            input.reportValidity();
+        }, 500));
     };
 
     /** Extract selected browsers from the form and convert to the `Config` format. */
@@ -59,6 +87,20 @@ export default function view({ onAnalyzeClick }: Props) {
         }
 
         return browsersQuery.join(', ');
+    };
+
+    /** Check if a user's custom `browserslist` query is valid, notifying them if it is not. */
+    const validateCustomBrowsersList = () => {
+        let error = '';
+
+        try {
+            browserslist(getBrowsersList());
+        } catch (e) {
+            // Report errors, stripping messages about "old" browserslist since the user won't have control over that.
+            error = e.message.replace(' Maybe you are using old Browserslist or made typo in query.', '');
+        }
+
+        updateValidationStatus(findInput('[name="custom-browsers-list"]'), error);
     };
 
     /** Extract selected categories from the form and convert to the `Config` format. */
@@ -91,6 +133,19 @@ export default function view({ onAnalyzeClick }: Props) {
             default:
                 throw new Error(`Unrecognized resource filter: '${type}'`);
         }
+    };
+
+    /** Check if a user's custom `browserslist` query is valid, notifying them if it is not. */
+    const validateIgnoredUrls = async () => {
+        let error = '';
+
+        try {
+            new RegExp(await getIgnoredUrls()); // eslint-disable-line no-new
+        } catch (e) {
+            error = e.message;
+        }
+
+        updateValidationStatus(findInput('[name="custom-resources"]'), error);
     };
 
     /** Extract all user provided configuration from the form as a `Config` object. */
@@ -136,6 +191,10 @@ export default function view({ onAnalyzeClick }: Props) {
             // Existing configuration is malformed, ignoring.
             console.warn(`Ignoring malformed configuration: ${configStr}`);
         }
+
+        // Ensure previously saved lists of custom browsers and ignored URLs are validated on load.
+        validateCustomBrowsersList();
+        validateIgnoredUrls();
     };
 
     const resetConfiguration = () => {
