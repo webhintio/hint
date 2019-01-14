@@ -44,7 +44,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-   "hint": "^4.1.2"
+    "hint": "^4.1.2"
   },
   "private": true,
   "repository": "webhintio/hint",
