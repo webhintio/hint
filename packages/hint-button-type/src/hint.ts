@@ -1,5 +1,5 @@
 /**
- * @fileoverview Check if button has type attribute set
+ * @fileoverview Check if button has type attribute set.
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
