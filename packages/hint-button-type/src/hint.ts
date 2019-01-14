@@ -27,7 +27,6 @@ export default class ButtonTypeHint implements IHint {
             const { resource } = elementFound;
             const allowedTypes = ['submit', 'reset', 'button'];
 
-
             debug(`Validating hint button-type`);
 
             const element = elementFound.element;
