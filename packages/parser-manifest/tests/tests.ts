@@ -233,9 +233,9 @@ test(`'${parseJSONErrorEventName}' event is emitted when manifest content is not
 
 test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is not valid because of an additional property`, async (t) => {
     const expectedPrettifiedErrors = [
-        `root should NOT have additional properties. Additional property found 'additionalProperty'.`,
-        `root should NOT have additional properties. Additional property found 'unknown_proprietary_extension'.`,
-        `icons[0] should NOT have additional properties. Additional property found 'density'.`
+        `'root' should NOT have additional properties. Additional property found 'additionalProperty'.`,
+        `'root' should NOT have additional properties. Additional property found 'unknown_proprietary_extension'.`,
+        `'icons[0]' should NOT have additional properties. Additional property found 'density'.`
     ];
 
     /* eslint-disable camelcase */
@@ -268,15 +268,15 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
 
 test(`'${parseErrorSchemaEventName}' event includes location information`, async (t) => {
     const expectedLocations: {[message: string]: ProblemLocation } = {
-        'icons[0] should NOT have additional properties. Additional property found \'density\'.': {
+        [`'icons[0]' should NOT have additional properties. Additional property found 'density'.`]: {
             column: 9,
             line: 4
         },
-        'root should NOT have additional properties. Additional property found \'additionalProperty\'.': {
+        [`'root' should NOT have additional properties. Additional property found 'additionalProperty'.`]: {
             column: 5,
             line: 1
         },
-        'root should NOT have additional properties. Additional property found \'unknown_proprietary_extension\'.': {
+        [`'root' should NOT have additional properties. Additional property found 'unknown_proprietary_extension'.`]: {
             column: 5,
             line: 7
         }
