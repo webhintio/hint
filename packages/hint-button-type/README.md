@@ -12,7 +12,7 @@ set a type on `<button>`s.
 
 ## What does the hint check?
 
-This hint checks whether the type attribute of a button is explicitly set.
+This hint checks whether the `type` attribute of a `<button>` is explicitly set.
 
 ### Examples that **trigger** the hint
 
