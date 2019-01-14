@@ -54,7 +54,7 @@ const generateError = (type: string, action: ((error: ajv.ErrorObject, property:
  * Returns a readable error for 'required' errors.
  */
 const generateRequiredError = generateError(ErrorKeyword.required, (error: ajv.ErrorObject, property: string) => {
-    return `${property ? property : 'root'} ${error.message}`;
+    return `'${property ? property : 'root'}' ${error.message}`;
 });
 
 /**
@@ -63,7 +63,7 @@ const generateRequiredError = generateError(ErrorKeyword.required, (error: ajv.E
 const generateAdditionalPropertiesError = generateError(ErrorKeyword.additionalProperties, (error: ajv.ErrorObject, property: string): string => {
     const additionalProperty = (error.params as ajv.AdditionalPropertiesParams).additionalProperty;
 
-    return `${property ? property : 'root'} ${property ? error.message : `${error.message}`}. Additional property found '${additionalProperty}'.`;
+    return `'${property ? property : 'root'}' ${property ? error.message : `${error.message}`}. Additional property found '${additionalProperty}'.`;
 });
 
 /**
@@ -72,21 +72,21 @@ const generateAdditionalPropertiesError = generateError(ErrorKeyword.additionalP
 const generateEnumError = generateError(ErrorKeyword.enum, (error: ajv.ErrorObject, property: string): string => {
     const allowedValues = (error.params as ajv.EnumParams).allowedValues;
 
-    return `${property} ${error.message} '${allowedValues.join(', ')}'. Value found '${error.data}'`;
+    return `'${property}' ${error.message} '${allowedValues.join(', ')}'. Value found '${error.data}'`;
 });
 
 /**
  * Returns a readable error for 'pattern' errors.
  */
 const generatePatternError = generateError(ErrorKeyword.pattern, (error: ajv.ErrorObject, property: string) => {
-    return `${property} ${error.message && error.message.replace(/"/g, '\'')}. Value found '${error.data}'`;
+    return `'${property}' ${error.message && error.message.replace(/"/g, '\'')}. Value found '${error.data}'`;
 });
 
 /**
  * Returns a readable error for 'type' errors.
  */
 const generateTypeError = generateError(ErrorKeyword.type, (error: ajv.ErrorObject, property: string) => {
-    return `${property} should be '${(error.params as ajv.TypeParams).type}'.`;
+    return `'${property}' should be '${(error.params as ajv.TypeParams).type}'.`;
 });
 
 const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorObject, property: string, errors?: ajv.ErrorObject[]): string => {
@@ -100,7 +100,7 @@ const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorOb
 });
 
 const generateUniqueItemError = generateError(ErrorKeyword.uniqueItems, (error: ajv.ErrorObject, property: string) => {
-    return `${property} ${error.message && error.message.replace(/"/g, '\'')}.`;
+    return `'${property}' ${error.message && error.message.replace(/"/g, '\'')}.`;
 });
 
 const getRequiredProperty = (error: ajv.ErrorObject): string => {
@@ -156,6 +156,7 @@ const generate = (error: ajv.ErrorObject, errors?: ajv.ErrorObject[]): string | 
 
 /**
  * Returns a readable error for 'anyOf' and 'oneOf' errors.
+ * e.g.: 'root' should have required properties 'connector' or 'extends'
  */
 const generateAnyOfGroupedError = (error: ajv.ErrorObject, errors?: ajv.ErrorObject[]): string => {
     const otherErrors = without(errors, error);
@@ -167,7 +168,7 @@ const generateAnyOfGroupedError = (error: ajv.ErrorObject, errors?: ajv.ErrorObj
         const messageGenerator = generateAnyOfMessage[keyword];
 
         if (messageGenerator) {
-            allMessages.push(`${dataPath ? dataPath.substr(1) : 'root'} ${messageGenerator(groupedErrors)}`);
+            allMessages.push(`'${dataPath ? dataPath.substr(1) : 'root'}' ${messageGenerator(groupedErrors)}`);
 
             return allMessages;
         }
@@ -193,7 +194,7 @@ const generateErrorsMessage = (errors: ajv.ErrorObject[]): string[] => {
         if (keyword === ErrorKeyword.required) {
             const dataPath = groupedErrors[0].dataPath;
 
-            allMessages.push(`${dataPath ? dataPath.substr(1) : 'root'} should have required ${groupedErrors.length === 1 ? 'property' : 'properties'} ${groupedErrors.map(getRequiredProperty).join(' and ')}`);
+            allMessages.push(`'${dataPath ? dataPath.substr(1) : 'root'}' should have required ${groupedErrors.length === 1 ? 'property' : 'properties'} ${groupedErrors.map(getRequiredProperty).join(' and ')}`);
 
             return allMessages;
         }
@@ -208,6 +209,21 @@ const generateErrorsMessage = (errors: ajv.ErrorObject[]): string[] => {
     return result;
 };
 
+/**
+ * Group messages with the same data path.
+ * e.g.:
+ * * Input (only messages):
+ * *   - should be equal to one of the allowed values (dataPath: ".hints['amp-validator']")
+ * *   - should be number (dataPath: ".hints['amp-validator'])"
+ * *   - should be equal to one of the allowed values (dataPath: ".hints['amp-validator']")
+ * *   - should have required property 'connector' (dataPath: "")
+ * *   - should have required property 'extends' (dataPath: "")
+ * *   - should match some schema in anyOf (dataPath: "")
+ *
+ * * Output (only messages):
+ * *   - 'hints['amp-validator']' should be equal to one of the allowed values 'off, warning, error' or '0, 1, 2'. Value found '"notvalid"'. Or 'hints['amp-validator']' should be 'number'.
+ * *   - 'root' should have required properties 'connector' or 'extends'
+ */
 const groupMessages = (errors: ISchemaValidationError[]): GroupedError[] => {
     const grouped: Dictionary<ajv.ErrorObject[]> = groupBy(errors, 'dataPath');
 
@@ -247,7 +263,7 @@ const groupMessages = (errors: ISchemaValidationError[]): GroupedError[] => {
                 return `column${error.location.column}row${error.location.column}`;
             }
 
-            return `-`;
+            return '-';
         });
 
         forEach(groupedByLocation, (group) => {
