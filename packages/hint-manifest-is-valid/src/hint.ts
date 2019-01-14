@@ -123,9 +123,9 @@ export default class ManifestIsValidHint implements IHint {
         };
 
         const handleInvalidSchema = async (manifestInvalidSchemaEvent: ManifestInvalidSchema) => {
-            for (let i = 0; i < manifestInvalidSchemaEvent.prettifiedErrors.length; i++) {
-                const error = manifestInvalidSchemaEvent.prettifiedErrors[i];
-                const location = manifestInvalidSchemaEvent.errors[i].location;
+            for (let i = 0; i < manifestInvalidSchemaEvent.groupedErrors.length; i++) {
+                const error = manifestInvalidSchemaEvent.groupedErrors[i].message;
+                const location = manifestInvalidSchemaEvent.groupedErrors[i].location;
 
                 await context.report(manifestInvalidSchemaEvent.resource, error, { location });
             }

@@ -114,7 +114,7 @@ class JSONResult implements IJSONResult {
             .replace(/^\./, '')
 
             // Ignore trailing `]` from `foo[1]`
-            .replace(']', '')
+            .replace(/]/g, '')
 
             // Break items on `.` or `[`
             .split(/[[.]/)

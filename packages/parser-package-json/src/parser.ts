@@ -31,6 +31,7 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
         await this.engine.emitAsync('parse::error::package-json::schema', {
             error: new Error('Invalid package.json configuration'),
             errors: validationResult.errors,
+            groupedErrors: validationResult.groupedErrors,
             prettifiedErrors: validationResult.prettifiedErrors,
             resource
         });

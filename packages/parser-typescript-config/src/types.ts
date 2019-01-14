@@ -1,5 +1,5 @@
 import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
-import { IJSONLocationFunction, ISchemaValidationError } from 'hint/dist/src/lib/types';
+import { IJSONLocationFunction, ISchemaValidationError, GroupedError } from 'hint/dist/src/lib/types';
 import * as TypeScript from 'typescript';
 
 /** TypeScript Configuration */
@@ -19,6 +19,7 @@ export type TypeScriptConfigInvalidJSON = ErrorEvent;
 /** Data type sent for JSON doesn't validate Schema event */
 export type TypeScriptConfigInvalidSchema = ErrorEvent & {
     errors: ISchemaValidationError[];
+    groupedErrors: GroupedError[];
     prettifiedErrors: string[];
 };
 
