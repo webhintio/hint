@@ -18,7 +18,7 @@
     "@hint/hint-meta-viewport": "^3.0.0",
     "@hint/hint-no-bom": "^3.0.0",
     "@hint/hint-no-disallowed-headers": "^2.1.1",
-    "@hint/hint-no-friendly-error-pages": "^2.1.1",
+    "@hint/hint-no-friendly-error-pages": "^3.0.0",
     "@hint/hint-no-html-only-headers": "^2.1.1",
     "@hint/hint-no-http-redirects": "^2.1.1",
     "@hint/hint-no-protocol-relative-urls": "^2.1.1",
