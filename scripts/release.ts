@@ -1092,14 +1092,24 @@ const main = async () => {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     for (const task of tasks) {
-        await new Listr(task).run()
+        const skipRemainingTasks = await new Listr(task)
+            .run()
+            .then((ctx) => {
+                return ctx.skipRemainingTasks;
+            })
             .catch(async (err: any) => {
                 console.error(typeof err === 'object' ? JSON.stringify(err, null, 4) : err);
 
                 await gitReset();
                 await gitDeleteTag(err.context.packageNewTag);
                 await removePackageFiles();
+
+                return true;
             });
+
+        if (!skipRemainingTasks) {
+            break;
+        }
     }
 
     if (!isPrerelease) {
