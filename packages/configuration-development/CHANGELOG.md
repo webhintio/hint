@@ -1,3 +1,14 @@
+# 4.0.0 (January 15, 2019)
+
+## Breaking Changes
+
+* [[`8fe23d9cc3`](https://github.com/webhintio/hint/commit/8fe23d9cc325ed204fca98089776c7ba687675a7)] - Breaking: Update `configuration-progressive-web-apps` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`7a1a0dba81`](https://github.com/webhintio/hint/commit/7a1a0dba8129aeb21bcf306c52d9a512aee1e30a)] - Breaking: Update `hint-no-bom` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`305a2182d1`](https://github.com/webhintio/hint/commit/305a2182d14cf30e2c14e1cf5dec08384d2cc2bf)] - Breaking: Update `hint-meta-viewport` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`10cdfd7477`](https://github.com/webhintio/hint/commit/10cdfd7477c80f5890b8419f46983eedeb5f0cca)] - Breaking: Update `hint-meta-charset-utf-8` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`c22d832941`](https://github.com/webhintio/hint/commit/c22d83294156a0770f2bed5ea54666aac1fd1ffc)] - Breaking: Update `hint-highest-available-document-mode` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 3.0.0 (November 5, 2018)
 
 ## Breaking Changes
