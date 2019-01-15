@@ -1,3 +1,10 @@
+# 2.0.2 (January 15, 2019)
+
+## Bug fixes / Improvements
+
+* [[`a19fe95a35`](https://github.com/webhintio/hint/commit/a19fe95a35c6a44411d1f24c06dbbd6b782a7904)] - Fix: Manifest parser runs twice (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 2.0.1 (December 31, 2018)
 
 ## Bug fixes / Improvements
