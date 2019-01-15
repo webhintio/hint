@@ -1,3 +1,14 @@
+# 4.3.0 (January 15, 2019)
+
+## Bug fixes / Improvements
+
+* [[`e90f410556`](https://github.com/webhintio/hint/commit/e90f410556c817012e7667c8f4f0e27b14d91bd2)] - Fix: Improve feedback when config is invalid (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1526`](https://github.com/webhintio/hint/issues/1526)).
+
+## New features
+
+* [[`5e898c84fd`](https://github.com/webhintio/hint/commit/5e898c84fd8f7a3cda152c57eea9b0dc683dfceb)] - New: Add `Compatibility` category (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 4.2.0 (January 10, 2019)
 
 ## Bug fixes / Improvements
