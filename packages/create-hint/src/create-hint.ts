@@ -312,7 +312,7 @@ const copyFiles = async (origin: string, destination: string) => {
 };
 
 /** Copies and processes the required files for a hint package (multi or not). */
-const generateHintFiles = async (destination: string, data: any) => {
+const generateHintFiles = async (destination: string, data: HintPackage) => {
     const commonFiles = [
         {
             destination: join(destination, 'src', `index.ts`),
@@ -342,6 +342,14 @@ const generateHintFiles = async (destination: string, data: any) => {
         destination: join(destination, 'src'),
         path: join(__dirname, TEMPLATE_PATH, 'hint.ts.hbs')
     };
+    const metaIndexFile = {
+        destination: join(destination, 'src'),
+        path: join(__dirname, TEMPLATE_PATH, 'meta-index.ts.hbs')
+    };
+    const metaFile = {
+        destination: join(destination, 'src'),
+        path: join(__dirname, TEMPLATE_PATH, 'meta.ts.hbs')
+    };
     const testFile = {
         destination: join(destination, 'tests'),
         path: join(__dirname, TEMPLATE_PATH, 'tests.ts.hbs')
@@ -360,22 +368,35 @@ const generateHintFiles = async (destination: string, data: any) => {
         await writeFileAsync(dest, fileContent);
     }
 
+    // For packages with multiple hints, we need to create an "index" meta file.
+    if (data.isMulti) {
+        const metaIndexContent = await compileTemplate(metaIndexFile.path, data);
+        // e.g.: hint-ssllabs/src/meta.ts
+        const metaIndexPath = join(metaIndexFile.destination, 'meta.ts');
+
+        await mkdirpAsync(dirname(metaIndexPath));
+        await writeFileAsync(metaIndexPath, metaIndexContent);
+    }
+
     for (const hint of data.hints) {
-        const [hintContent, testContent] = await Promise.all([compileTemplate(hintFile.path, hint), compileTemplate(testFile.path, hint)]);
+        const [hintContent, testContent, metaContent] = await Promise.all([compileTemplate(hintFile.path, hint), compileTemplate(testFile.path, hint), compileTemplate(metaFile.path, hint)]);
 
         // e.g.: hint-ssllabs/src/ssllabs.ts
         const hintPath = join(hintFile.destination, `${hint.normalizedName}.ts`);
         // e.g.: hint-ssllabs/tests/ssllabs.ts
         const testPath = join(testFile.destination, `${hint.normalizedName}.ts`);
-        // e.g.: hint-typescript-config/docs/is-valid.ts
-        const docPath = join(docFile.destination, `${hint.normalizedName}.md`);
+        // e.g.: hint-ssllabs/src/meta/is-valid.ts or hint-ssllabs/src/meta.ts
+        const metaPath = data.isMulti ? join(metaFile.destination, 'meta', `${hint.normalizedName}.ts`) : join(metaFile.destination, 'meta.ts');
 
-        await Promise.all([mkdirpAsync(dirname(hintPath)), mkdirpAsync(dirname(testPath))]);
+        await Promise.all([mkdirpAsync(dirname(hintPath)), mkdirpAsync(dirname(testPath)), mkdirpAsync(dirname(metaPath))]);
 
-        await Promise.all([writeFileAsync(hintPath, hintContent), writeFileAsync(testPath, testContent)]);
+        await Promise.all([writeFileAsync(hintPath, hintContent), writeFileAsync(testPath, testContent), writeFileAsync(metaPath, metaContent)]);
 
         if (data.isMulti) {
             const docContent = await compileTemplate(docFile.path, hint);
+
+            // e.g.: hint-typescript-config/docs/is-valid.ts
+            const docPath = join(docFile.destination, `${hint.normalizedName}.md`);
 
             await mkdirpAsync(dirname(docPath));
             await writeFileAsync(docPath, docContent);
