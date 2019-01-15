@@ -29,7 +29,7 @@
     "@hint/hint-x-content-type-options": "^2.1.1",
     "@hint/parser-css": "^2.0.3",
     "@hint/parser-javascript": "^2.0.3",
-    "@hint/parser-manifest": "^2.0.1",
+    "@hint/parser-manifest": "^2.0.2",
     "@hint/utils-create-server": "^2.0.1",
     "@types/chrome": "^0.0.77",
     "@types/har-format": "^1.2.3",
