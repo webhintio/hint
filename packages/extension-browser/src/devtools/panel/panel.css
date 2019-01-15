@@ -7,6 +7,7 @@ html {
     --bg-inverse-alt-color: #999;
     --border-color: #333;
     --border-alt-color: #d7d7d7;
+    --invalid-outline-color: red;
     --link-color: #4700a3;
     --shadow-color: #00000080;
     --text-color: #000;
@@ -38,8 +39,6 @@ body {
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    display: flex;
-    flex-direction: column;
     font-family: "Segoe UI", Tahoma, sans-serif; /* Match default overrides in Chrome */
     font-size: 12px; /* Match default overrides in Chrome */
     margin: 0;

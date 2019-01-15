@@ -40,6 +40,34 @@ const hints: IHintConstructor[] = [
     require('@hint/hint-x-content-type-options').default
 ];
 
+/** Use the provided `browserslist` query if valid; `defaults` otherwise. */
+const determineBrowserslist = (list?: string) => {
+    if (list) {
+        try {
+            return browserslist(list);
+        } catch (e) {
+            console.warn(e, `Falling back to 'defaults'.`);
+        }
+    }
+
+    return browserslist('defaults');
+};
+
+/** Build a `RegExp` to ignore all hints on the specified URLs (if provided). */
+const determineIgnoredUrls = (ignoredUrls?: string) => {
+    const map = new Map<string, RegExp[]>();
+
+    if (ignoredUrls) {
+        try {
+            map.set('all', [new RegExp(ignoredUrls, 'i')]);
+        } catch (e) {
+            console.warn(e, 'Falling back to include all URLs.');
+        }
+    }
+
+    return map;
+};
+
 const main = async (userConfig: Config) => {
     const enabledHints: IHintConstructor[] = [];
 
@@ -56,24 +84,14 @@ const main = async (userConfig: Config) => {
         return o;
     }, {} as HintsConfigObject);
 
-    const ignoredUrls = (() => {
-        const map = new Map<string, RegExp[]>();
-
-        if (userConfig.ignoredUrls) {
-            map.set('all', [new RegExp(userConfig.ignoredUrls, 'i')]);
-        }
-
-        return map;
-    })();
-
     const config: Configuration = {
-        browserslist: browserslist(userConfig.browserslist || 'defaults'),
+        browserslist: determineBrowserslist(userConfig.browserslist),
         connector: { name: 'web-extension', options: { } },
         extends: undefined,
         formatters: ['web-extension'],
         hints: hintsConfig,
         hintsTimeout: 10000,
-        ignoredUrls,
+        ignoredUrls: determineIgnoredUrls(userConfig.ignoredUrls),
         parsers: ['javascript', 'manifest']
     };
 

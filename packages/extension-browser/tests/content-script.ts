@@ -228,3 +228,37 @@ test.serial('It configures ignored urls', async (t) => {
         });
     }), 'Issues in external resource were not ignored');
 });
+
+test.serial('It handles invalid ignored urls', async (t) => {
+    const url = 'http://localhost/';
+    const html = await readFixture('missing-lang.html');
+
+    const resultsPromise = stubEvents({ ignoredUrls: '(foo' }, () => {
+        sendFetch(url, html);
+    });
+
+    stubContext(url, html);
+
+    require(paths.webhint);
+
+    const results = await resultsPromise;
+
+    t.not(results.categories.length, 0);
+});
+
+test.serial('It handles invalid browserslist queries', async (t) => {
+    const url = 'http://localhost/';
+    const html = await readFixture('missing-lang.html');
+
+    const resultsPromise = stubEvents({ browserslist: 'foo' }, () => {
+        sendFetch(url, html);
+    });
+
+    stubContext(url, html);
+
+    require(paths.webhint);
+
+    const results = await resultsPromise;
+
+    t.not(results.categories.length, 0);
+});

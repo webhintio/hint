@@ -6,18 +6,16 @@ import './header.css';
 type Props = {
     analyzeDisabled?: boolean;
     analyzeText: string;
-    onAnalyzeClick?: Function;
 };
 
-export default function view({ analyzeDisabled, analyzeText, onAnalyzeClick }: Props) {
+export default function view({ analyzeDisabled, analyzeText }: Props) {
     return html`
         <header class="header">
             <div class="header__actions">
                 <button
-                    type="button"
+                    type="submit"
                     class="page__button page__button--primary header__analyze-button"
                     ${analyzeDisabled ? 'disabled' : ''}
-                    onclick=${onAnalyzeClick}
                 >
                     ${analyzeText}
                 </button>

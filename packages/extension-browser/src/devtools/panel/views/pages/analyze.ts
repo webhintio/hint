@@ -9,10 +9,14 @@ type Props = {
     onCancelClick: Function;
 };
 
+const onSubmit = (event: Event) => {
+    event.preventDefault();
+};
+
 export default function view({ onCancelClick }: Props) {
     return html`
-        ${headerView({analyzeDisabled: true, analyzeText: 'Analyze website'})}
-        <section class="analyze page">
+        <form class="analyze page" onsubmit=${onSubmit}>
+            ${headerView({analyzeDisabled: true, analyzeText: 'Analyze website'})}
             <h1 class="page__header">
                 Analyzing...
             </h1>
@@ -21,6 +25,6 @@ export default function view({ onCancelClick }: Props) {
                     Cancel analysis
                 </button>
             </section>
-        </section>
+        </form>
     `;
 }
