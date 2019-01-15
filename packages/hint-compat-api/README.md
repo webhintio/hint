@@ -1,14 +1,12 @@
 # Compatibility of CSS, HTML and JavaScript features (`compat-api`)
 
-`compat api` contains hints to check if your CSS
-HTML and JavaScript have deprecated or not
-broadly supported features.
+`compat api` contains hints to check if your CSS HTML and JavaScript
+have deprecated or not broadly supported features.
 
 ## Why is this important?
 
-You need to know if all the properties that you are
-using in your files are compatible with the target
-browsers that you want to support.
+You need to know if all the properties that you are using in your files
+are compatible with the target browsers that you want to support.
 
 ## Hints
 
@@ -25,8 +23,7 @@ npm install @hint/hint-compat-api
 
 Note: You can make `npm` install it as a `devDependency` using the
 `--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
+`-g` parameter. For other options see [`npm`'s documentation][npm docs].
 
 And then activate it via the [`.hintrc`][hintrc] configuration file:
 
@@ -44,10 +41,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 }
 ```
 
-## Further Reading
-
 <!-- Link labels: -->
 
 [compat-api-css]: ./docs/compat-api-css.md
 [compat-api-css-next]: ./docs/compat-api-css-next.md
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[npm docs]: https://docs.npmjs.com/cli/install
