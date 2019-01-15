@@ -194,4 +194,7 @@ const mixedFeaturedCompatibility: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['firefox 28', 'edge 15', 'ie 10', 'safari 11', 'ios_saf 11', 'samsung 4', 'android 4'] });
+hintRunner.testHint(hintPath, mixedFeaturedCompatibility, {
+    browserslist: ['firefox 28', 'edge 15', 'ie 10', 'safari 11', 'ios_saf 11', 'samsung 4', 'android 4'],
+    hintOptions: { enable: ['integrity'] }
+});
