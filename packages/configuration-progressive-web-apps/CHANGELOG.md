@@ -1,3 +1,10 @@
+# 3.0.0 (January 15, 2019)
+
+## Breaking Changes
+
+* [[`e10fa769bb`](https://github.com/webhintio/hint/commit/e10fa769bb83201ddc0e6b507f7099693737ced8)] - Breaking: Update `hint-manifest-is-valid` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 2.0.0 (November 5, 2018)
 
 ## Breaking Changes
