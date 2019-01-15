@@ -4,7 +4,7 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 
 const meta: HintMetadata = {
     docs: {
-        category: Category.interoperability,
+        category: Category.compatibility,
         description: `Checks if CSS exceeds known stylesheet limits.`,
         name: 'Avoid CSS limits'
     },

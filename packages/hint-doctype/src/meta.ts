@@ -4,7 +4,7 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 
 const meta: HintMetadata = {
     docs: {
-        category: Category.interoperability,
+        category: Category.compatibility,
         description: `This hint checks if the HTML is using the most modern DOCTYPE.`,
         name: 'Modern DOCTYPE'
     },

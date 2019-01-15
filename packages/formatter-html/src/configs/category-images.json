@@ -1,6 +1,6 @@
 {
     "accessibility": "/images/scan/accessibility.svg",
-    "interoperability": "/images/scan/interoperability.svg",
+    "compatibility": "/images/scan/compatibility.svg",
     "performance": "/images/scan/performance.svg",
     "pwa": "/images/scan/pwa.svg",
     "security": "/images/scan/security.svg",

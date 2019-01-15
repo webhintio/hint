@@ -19,7 +19,7 @@ const configKey = 'config';
 // TODO: Read from packaged hint metadata.
 const categories = [
     'Accessibility',
-    'Interoperability',
+    'Compatibility',
     'PWA',
     'Performance',
     'Security'

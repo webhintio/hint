@@ -106,9 +106,9 @@ export interface SimpleSupportStatement {
   }[];
   /**
    * A `boolean` value indicating whether or not the implementation of the sub-feature follows
-   * the current specification closely enough to not create major interoperability problems.
+   * the current specification closely enough to not create major compatibility problems.
    *
-   * It defaults to `false` (no interoperability problem expected).
+   * It defaults to `false` (no compatibility problem expected).
    *
    * If set to `true`, it is recommended to add a note indicating how it diverges from
    * the standard (implements an old version of the standard, for example).

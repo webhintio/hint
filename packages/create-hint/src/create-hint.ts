@@ -254,7 +254,7 @@ export const questions = (type: QuestionsType) => {
     },
     {
         choices: categories,
-        default: Category.interoperability,
+        default: Category.compatibility,
         message: 'Please select the category of this new hint:',
         name: 'category',
         type: 'list',

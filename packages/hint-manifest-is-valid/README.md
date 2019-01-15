@@ -12,7 +12,7 @@ properties.
 
 Also, providing property values that are only supported by certain
 user agents for which the [specification][manifest spec] does not
-define a fallback, can lead to interoperability issues.
+define a fallback, can lead to compatibility issues.
 
 ## What does the hint check?
 
