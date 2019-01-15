@@ -164,7 +164,7 @@ import * as eslint from 'eslint';
 export default class ScriptSemiColonHint implements IHint {
     public static readonly meta: HintMetadata = {
         docs: {
-            category: Category.interoperability,
+            category: Category.compatibility,
             description: `Check if your scripts use semicolon`
         },
         id: 'script-semicolon',
