@@ -1,3 +1,10 @@
+# 3.0.0 (January 15, 2019)
+
+## Breaking Changes
+
+* [[`690ca34631`](https://github.com/webhintio/hint/commit/690ca3463188169da32c2f5f7959ca014117765c)] - Breaking: Rename `Interoperability` with `Compatibility` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1507`](https://github.com/webhintio/hint/issues/1507)).
+
+
 # 2.0.3 (December 31, 2018)
 
 ## Bug fixes / Improvements
