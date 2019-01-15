@@ -2,7 +2,7 @@
 
 * [Accessibility (a11y)](#accessibility)
 * [Development](#development)
-* [Interoperability](#interoperability)
+* [Compatibility](#compatibility)
 * [Other](#other)
 * [Performance](#performance)
 * [PWAs](#pwas)
@@ -18,7 +18,7 @@
 * [`typescript-config`](../../../../hint-typescript-config/README.md)
 * [`webpack-config`](../../../../hint-webpack-config/README.md)
 
-## Interoperability
+## Compatibility
 
 * [`content-type`](../../../../hint-content-type/README.md)
 * [`highest-available-document-mode`](../../../../hint-highest-available-document-mode/README.md)

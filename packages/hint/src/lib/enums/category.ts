@@ -1,7 +1,8 @@
 export enum Category {
     accessibility = 'accessibility',
     development = 'development',
-    interoperability = 'interoperability',
+    compatibility = 'compatibility',
+    interoperability = 'interoperability', // Deprecated, to be removed in the next major release
     other = 'other',
     pwa = 'pwa',
     performance = 'performance',
