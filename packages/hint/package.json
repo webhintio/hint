@@ -8,11 +8,11 @@
   },
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
-    "ajv": "^6.6.2",
+    "ajv": "^6.7.0",
     "applicationinsights": "^1.0.8",
     "async": "^2.6.1",
     "boxen": "^2.1.0",
-    "browserslist": "^4.3.7",
+    "browserslist": "^4.4.0",
     "caniuse-api": "^3.0.0",
     "chalk": "^2.4.2",
     "content-type": "^1.0.4",
