@@ -4,6 +4,7 @@ import { argv } from 'yargs';
 import * as inquirer from 'inquirer';
 import * as Listr from 'listr';
 import * as listrInput from 'listr-input';
+import * as pRetry from 'p-retry';
 import { promisify } from 'util';
 import * as req from 'request';
 import * as shell from 'shelljs';
@@ -102,6 +103,19 @@ const exec = (cmd: string): Promise<ExecResult> => {
 
             return reject(result);
         });
+    });
+};
+
+const execWithRetry = (cmd: string, retries: number = 2): Promise<ExecResult> => {
+    const fn = () => {
+        return exec(cmd);
+    };
+
+    return pRetry(fn, {
+        onFailedAttempt: (error) => {
+            console.error(`Failed executing "${cmd}". Retries left: ${(error as any).retriesLeft}.`);
+        },
+        retries
     });
 };
 
@@ -660,7 +674,7 @@ const npmRunBuildForRelease = async (ctx: TaskContext) => {
 };
 
 const npmRunTests = async (ctx: TaskContext) => {
-    await exec(`cd ${ctx.packagePath} && npm run test-release`);
+    await execWithRetry(`cd ${ctx.packagePath} && npm run test-release`);
 };
 
 const npmUpdateVersion = async (ctx: TaskContext) => {
