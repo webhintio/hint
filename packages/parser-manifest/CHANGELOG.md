@@ -1,3 +1,11 @@
+# 2.0.2 (January 15, 2019)
+
+## Bug fixes / Improvements
+
+* [[`a19fe95a35`](https://github.com/webhintio/hint/commit/a19fe95a35c6a44411d1f24c06dbbd6b782a7904)] - Fix: Manifest parser runs twice (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`e90f410556`](https://github.com/webhintio/hint/commit/e90f410556c817012e7667c8f4f0e27b14d91bd2)] - Fix: Improve feedback when config is invalid (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1526`](https://github.com/webhintio/hint/issues/1526)).
+
+
 # 2.0.1 (December 31, 2018)
 
 ## Bug fixes / Improvements
