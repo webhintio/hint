@@ -1,3 +1,20 @@
+# 4.0.0 (January 15, 2019)
+
+## Breaking Changes
+
+* [[`e1f10ecd16`](https://github.com/webhintio/hint/commit/e1f10ecd168da3dcfc5ca510f7993638d8eec56c)] - Breaking: Update `hint-stylesheet-limits` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`755b1f060e`](https://github.com/webhintio/hint/commit/755b1f060e756dddee2f0240c5ed9b2c00c40a0a)] - Breaking: Update `hint-sri` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`fcc61636fa`](https://github.com/webhintio/hint/commit/fcc61636faf7f3bad40cf4af9c72022249b18387)] - Breaking: Update `hint-no-friendly-error-pages` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`7a1a0dba81`](https://github.com/webhintio/hint/commit/7a1a0dba8129aeb21bcf306c52d9a512aee1e30a)] - Breaking: Update `hint-no-bom` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`305a2182d1`](https://github.com/webhintio/hint/commit/305a2182d14cf30e2c14e1cf5dec08384d2cc2bf)] - Breaking: Update `hint-meta-viewport` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`10cdfd7477`](https://github.com/webhintio/hint/commit/10cdfd7477c80f5890b8419f46983eedeb5f0cca)] - Breaking: Update `hint-meta-charset-utf-8` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`6bc1065333`](https://github.com/webhintio/hint/commit/6bc1065333506f81b0eddd7dfc22e58025592d43)] - Breaking: Update `hint-http-compression` to `v4.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`fe941545ff`](https://github.com/webhintio/hint/commit/fe941545ffe991718a183473bc3cae103b8dccd2)] - Breaking: Update `hint-html-checker` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`c22d832941`](https://github.com/webhintio/hint/commit/c22d83294156a0770f2bed5ea54666aac1fd1ffc)] - Breaking: Update `hint-highest-available-document-mode` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`9152f3330e`](https://github.com/webhintio/hint/commit/9152f3330e4210db4d5314fa3c58fcf619de5b08)] - Breaking: Update `hint-content-type` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`690ca34631`](https://github.com/webhintio/hint/commit/690ca3463188169da32c2f5f7959ca014117765c)] - Breaking: Rename `Interoperability` with `Compatibility` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1507`](https://github.com/webhintio/hint/issues/1507)).
+
+
 # 3.0.0 (November 5, 2018)
 
 ## Breaking Changes
