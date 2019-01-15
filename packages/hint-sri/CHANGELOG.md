@@ -1,3 +1,10 @@
+# 3.0.0 (January 15, 2019)
+
+## Breaking Changes
+
+* [[`114c7b918d`](https://github.com/webhintio/hint/commit/114c7b918dd7ed7d2fb8f74a38819ad9f8a516a3)] - Breaking: Validate only cross-origin resources (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1622`](https://github.com/webhintio/hint/issues/1622)).
+
+
 # 2.1.1 (January 2, 2019)
 
 ## Bug fixes / Improvements
