@@ -52,7 +52,7 @@ resources:
   [only over HTTPS (as proxies misinterpret unknown encodings)][brotli
   over https].
 
-  As a rule, for best performance and interoperability, resources
+  As a rule, for best performance and compatibility, resources
   should be served compressed with Zopfli over insecure HTTP, and
   Brotli when sending over HTTPS with a fallback to Zopfli if HTTPS
   is not supported.
