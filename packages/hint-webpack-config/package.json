@@ -9,7 +9,7 @@
   "description": "hint thats to check the webpack configuration.",
   "devDependencies": {
     "@hint/parser-babel-config": "^2.0.2",
-    "@hint/parser-typescript-config": "^2.1.0",
+    "@hint/parser-typescript-config": "^2.1.1",
     "@hint/parser-webpack-config": "^2.0.2",
     "@hint/utils-tests-helpers": "^2.0.3",
     "ava": "^0.25.0",
@@ -47,7 +47,7 @@
   },
   "peerDependencies": {
     "@hint/parser-babel-config": "^2.0.2",
-    "@hint/parser-typescript-config": "^2.1.0",
+    "@hint/parser-typescript-config": "^2.1.1",
     "@hint/parser-webpack-config": "^2.0.2",
     "hint": "^4.3.0"
   },
