@@ -12,12 +12,11 @@ const classesMapping: {[key: string]: any} = {
     html: CompatHTML
 };
 
-const NOT_FOUND_INDEX = -1;
-
 export abstract class APIHint<T extends Events, K extends Event> implements IHint {
     private compatApi: CompatAPI;
     private compatLibrary: ICompatLibrary<K>;
     private pendingReports: [FeatureInfo, SupportStatementResult][] = [];
+    private reports: [FeatureInfo, SupportStatementResult][] = [];
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupport: SimpleSupportStatement, status: StatusBlock): VersionValue;
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
@@ -30,10 +29,19 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
         this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeature.bind(this));
 
-        (context as HintContext<Events>).on('scan::end', this.consumeReports.bind(this));
+        (context as HintContext<Events>).on('scan::end', () => {
+            this.generateReports();
+            this.consumeReports();
+        });
     }
 
     private testFeature(feature: FeatureInfo, collection: CompatStatement): boolean {
+        if (this.mustPackPendingReports(feature) && this.pendingReports.length > 0) {
+            this.generateReports();
+
+            return false;
+        }
+
         // Check for each browser the support block
         const { support, status } = this.compatApi.getFeatureCompatStatement(collection, feature);
 
@@ -156,46 +164,41 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         return `${featureName} is not supported by ${browserList}.`;
     }
 
-    private async consumeReports(): Promise<void> {
-        const pendingReportsLength = this.pendingReports.length;
-        let fallbackIndex = pendingReportsLength;
+    private generateReports(): void {
+        const reports = this.pendingReports.filter(([feature]) => {
+            return !this.hasFallback(feature);
+        });
 
-        for (let i = 0; i < pendingReportsLength; i = fallbackIndex) {
-            const [feature, supportStatementResult] = this.pendingReports[i];
+        this.reports = this.reports.concat(reports);
 
-            fallbackIndex = this.getFallbackIndex(feature, i);
-
-            if (fallbackIndex !== NOT_FOUND_INDEX) {
-                continue;
-            }
-
-            const message = this.generateReportErrorMessage(feature, supportStatementResult);
-
-            await this.compatLibrary.reportError(feature, message);
-            fallbackIndex = i + 1;
-        }
-
-        // NOTE: Clean pending reports after being consumed
         this.pendingReports = [];
     }
 
-    private getFallbackIndex(feature: FeatureInfo, index: number): number {
+    private async consumeReports(): Promise<void> {
+        while (this.reports.length > 0) {
+            const [feature, supportStatementResult] = this.reports.shift() as [FeatureInfo, SupportStatementResult];
+            const message = this.generateReportErrorMessage(feature, supportStatementResult);
+
+            await this.compatLibrary.reportError(feature, message);
+        }
+    }
+
+    private hasFallback(feature: FeatureInfo): boolean {
         if (!feature.prefix) {
-            return NOT_FOUND_INDEX;
+            return false;
         }
 
-        const pendingReportsLength = this.pendingReports.length;
-
-        for (let i = index + 1; i < pendingReportsLength; i++) {
-            const [nextFeature] = this.pendingReports[i];
-
-            if (feature.name !== nextFeature.name) {
-                return NOT_FOUND_INDEX;
-            } else if (!nextFeature.prefix) {
-                return i;
+        return this.pendingReports.some(([nextFeature]) => {
+            if (nextFeature === feature) {
+                return false;
             }
-        }
 
-        return NOT_FOUND_INDEX;
+            return !nextFeature.prefix &&
+                nextFeature.name === feature.name;
+        });
+    }
+
+    private mustPackPendingReports(feature: FeatureInfo) {
+        return feature.name.startsWith('.');
     }
 }
