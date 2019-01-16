@@ -14,20 +14,20 @@ const button = {
 
 const tests: HintTest[] = [
     {
-        name: 'This test should pass',
+        name: 'Button with "submit" as attribute "type" passes',
         serverConfig: generateHTMLPage('', button.buttonWithSubmitType)
     },
     {
-        name: 'This test should pass',
+        name: 'Button with a valid attribute "type" passes',
         serverConfig: generateHTMLPage('', button.buttonWithButtonType)
     },
     {
-        name: `This test should fail`,
+        name: `Button without an attribute "type" fails`,
         reports: [{ message: `Button type attribute has not been set` }],
         serverConfig: generateHTMLPage('', button.buttonWithoutType)
     },
     {
-        name: `This test should fail`,
+        name: `Button with an invalid attribute "type" fails`,
         reports: [{ message: `Invalid button type: random` }],
         serverConfig: generateHTMLPage('', button.buttonWithInvalidButtonType)
     }

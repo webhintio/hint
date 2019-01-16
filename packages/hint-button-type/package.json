@@ -8,7 +8,7 @@
   },
   "description": "Check if button has type attribute set",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^1.0.0",
+    "@hint/utils-tests-helpers": "^2.0.3",
     "@types/debug": "0.0.31",
     "@types/node": "10.9.1",
     "ava": "^0.25.0",
