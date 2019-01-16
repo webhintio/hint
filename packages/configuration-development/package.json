@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@hint/configuration-progressive-web-apps": "^3.0.0",
+    "@hint/configuration-progressive-web-apps": "^4.0.0",
     "@hint/connector-local": "^2.0.2",
     "@hint/formatter-html": "^3.0.0",
     "@hint/formatter-summary": "^2.0.1",
