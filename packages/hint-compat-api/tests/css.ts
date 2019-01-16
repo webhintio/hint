@@ -240,7 +240,7 @@ hintRunner.testHint(hintPath, notSupportedFeaturesShouldNotSeparatelyLog, { brow
 
 const ignoredHintOptionsFeaturesShouldNotFail: HintTest[] = [
     {
-        name: 'Features included in the default ignored list should pass.',
+        name: 'Ignored features in HintOptions should pass.',
         serverConfig: generateCSSConfig('box-flex')
     }
 ];

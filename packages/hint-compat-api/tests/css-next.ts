@@ -275,7 +275,7 @@ hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, {
 
 const defaultIgnoredFeaturesShouldNotFail: HintTest[] = [
     {
-        name: 'Features included in the ignored HintOptions should pass.',
+        name: 'Ignored features by default should pass.',
         serverConfig: generateCSSConfig('cursor')
     }
 ];
