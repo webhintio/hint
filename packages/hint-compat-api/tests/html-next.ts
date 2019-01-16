@@ -186,6 +186,10 @@ const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
 
 hintRunner.testHint(hintPath, inputTypeVersionAddedAfterTargetedBrowsers, { browserslist: ['chrome 19', 'firefox 28', 'edge 15'] });
 
+/*
+ * IGNORE HINT OPTION
+ */
+
 const mixedFeaturedCompatibility: HintTest[] = [
     {
         name: 'Features with mixed compatibility (not supported for specific version and never supported) and not deprecated should throw errors for browsers in which the feature is not supported.',
@@ -198,3 +202,12 @@ hintRunner.testHint(hintPath, mixedFeaturedCompatibility, {
     browserslist: ['firefox 28', 'edge 15', 'ie 10', 'safari 11', 'ios_saf 11', 'samsung 4', 'android 4'],
     hintOptions: { enable: ['integrity'] }
 });
+
+const defaultIgnoredFeaturesShould: HintTest[] = ['link-integrity', 'script-integrity'].map((filename: string) => {
+    return {
+        name: 'Ignored features by default should pass.',
+        serverConfig: generateHTMLConfig(filename)
+    };
+});
+
+hintRunner.testHint(hintPath, defaultIgnoredFeaturesShould, { browserslist: ['ie 10'] });
