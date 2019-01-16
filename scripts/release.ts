@@ -1094,9 +1094,6 @@ const main = async () => {
     for (const task of tasks) {
         const skipRemainingTasks = await new Listr(task)
             .run()
-            .then((ctx) => {
-                return ctx.skipRemainingTasks;
-            })
             .catch(async (err: any) => {
                 console.error(typeof err === 'object' ? JSON.stringify(err, null, 4) : err);
 
@@ -1107,7 +1104,7 @@ const main = async () => {
                 return true;
             });
 
-        if (skipRemainingTasks) {
+        if (skipRemainingTasks === true) {
             break;
         }
     }
