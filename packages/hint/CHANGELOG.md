@@ -1,3 +1,10 @@
+# 4.3.1 (January 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`6b01be9287`](https://github.com/webhintio/hint/commit/6b01be9287179e9bcda02f65f6e4c0475f47f249)] - Fix: Update `configuration-web-recommended` to `v5.0.0` (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 4.3.0 (January 15, 2019)
 
 ## Bug fixes / Improvements
