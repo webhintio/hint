@@ -1107,7 +1107,7 @@ const main = async () => {
                 return true;
             });
 
-        if (!skipRemainingTasks) {
+        if (skipRemainingTasks) {
             break;
         }
     }
